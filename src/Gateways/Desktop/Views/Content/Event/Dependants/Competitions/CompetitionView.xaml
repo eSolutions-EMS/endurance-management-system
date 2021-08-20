@@ -1,0 +1,68 @@
+﻿<UserControl x:Class="EnduranceJudge.Gateways.Desktop.Views.Content.Event.Dependants.Competitions.CompetitionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:strings="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+
+    <StackPanel Style="{StaticResource Form}">
+        <TextBox Style="{StaticResource Input-Id}"
+                 Text="{Binding Id}" />
+
+        <DockPanel Style="{StaticResource Form-Item}">
+            <Label Style="{StaticResource Label-Primary}"
+                   Target="{Binding ElementName=Name}"
+                   Content="{x:Static strings:DesktopStrings.NameLabel}"/>
+
+            <TextBox Style="{StaticResource Input}"
+                     Text="{Binding Name}"
+                     Name="Name" />
+        </DockPanel>
+        <DockPanel Style="{StaticResource Form-Item}">
+            <Label Style="{StaticResource Label-Primary}"
+                   Target="{Binding ElementName=Type}"
+                   Content="{x:Static strings:DesktopStrings.TypeLabel}" />
+
+            <ComboBox Style="{StaticResource Combo-Box}"
+                      ItemsSource="{Binding TypeItems}"
+                      SelectedValue="{Binding Type}"
+                      SelectedIndex="{Binding Type}"
+                      Name="Type" />
+        </DockPanel>
+        <StackPanel Style="{StaticResource Form-List}">
+
+            <Label Style="{StaticResource Label-Primary}"
+                   Target="{Binding ElementName=NavigateToCreatePhase}"
+                   Content="{x:Static strings:DesktopStrings.PhasesLabel}" />
+
+            <Button Style="{StaticResource Button}"
+                    Command="{Binding NavigateToCreatePhase}"
+                    Content="{x:Static strings:DesktopStrings.AddButtonText}"
+                    Name="NavigateToCreatePhase"/>
+
+            <ListBox Style="{StaticResource List}"
+                     ItemsSource="{Binding PhaseItems}" />
+        </StackPanel>
+        <StackPanel Style="{StaticResource Form-List}">
+
+            <Label Style="{StaticResource Label-Primary}"
+                   Target="{Binding ElementName=NavigateToCreateParticipant}"
+                   Content="{x:Static strings:DesktopStrings.ParticipantsLabel}" />
+
+            <Button Style="{StaticResource Button}"
+                    Command="{Binding NavigateToCreateParticipant}"
+                    Content="{x:Static strings:DesktopStrings.AddButtonText}"
+                    Name="NavigateToCreateParticipant"/>
+
+            <ListBox Style="{StaticResource List}"
+                     ItemsSource="{Binding ParticipantItems}" />
+        </StackPanel>
+        <DockPanel Style="{StaticResource Form-Item}">
+
+            <Button Style="{StaticResource Button}"
+                    Command="{Binding NavigateBack}"
+                    Content="{x:Static strings:DesktopStrings.BackButtonText}" />
+        </DockPanel>
+    </StackPanel>
+
+</UserControl>

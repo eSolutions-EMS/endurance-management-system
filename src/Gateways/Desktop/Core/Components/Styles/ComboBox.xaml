@@ -1,0 +1,9 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style x:Key="Combo-Box" TargetType="ComboBox">
+        <Setter Property="DisplayMemberPath" Value="Name" />
+        <Setter Property="SelectedValuePath" Value="Id" />
+    </Style>
+
+</ResourceDictionary>

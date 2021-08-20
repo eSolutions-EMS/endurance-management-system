@@ -1,0 +1,96 @@
+﻿<UserControl x:Class="EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Horses.HorseView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:strings="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+
+     <StackPanel Style="{StaticResource Form}">
+        <TextBox Style="{StaticResource Input-Id}"
+                 Text="{Binding Id}" />
+
+        <DockPanel Style="{StaticResource Form-Item}">
+            <Label Style="{StaticResource Label-Primary}"
+                   Target="{Binding ElementName=FeiId}"
+                   Content="{x:Static strings:DesktopStrings.FeiIdLabel}" />
+
+            <TextBox Style="{StaticResource Input}"
+                     Text="{Binding FeiId}"
+                     Name="FeiId" />
+        </DockPanel>
+
+        <DockPanel Style="{StaticResource Form-Item}">
+            <Label Style="{StaticResource Label-Primary}"
+                   Target="{Binding ElementName=Name}"
+                   Content="{x:Static strings:DesktopStrings.NameLabel}" />
+
+            <TextBox Style="{StaticResource Input}"
+                     Text="{Binding Name}"
+                     Name="Name" />
+        </DockPanel>
+
+        <DockPanel Style="{StaticResource Form-Item}">
+            <Label Style="{StaticResource Label-Primary}"
+                   Target="{Binding ElementName=IsStallion}"
+                   Content="{x:Static strings:DesktopStrings.IsStallionLabel}" />
+
+            <ComboBox Style="{StaticResource Combo-Box}"
+                      ItemsSource="{Binding BoolItems}"
+                      SelectedValue="{Binding IsStallionValue}"
+                      SelectedIndex="{Binding IsStallionValue}"
+                      Name="IsStallion" />
+        </DockPanel>
+
+        <DockPanel Style="{StaticResource Form-Item}">
+            <Label Style="{StaticResource Label-Primary}"
+                   Target="{Binding ElementName=Breed}"
+                   Content="{x:Static strings:DesktopStrings.BreedLabel}" />
+
+            <TextBox Style="{StaticResource Input}"
+                     Text="{Binding Breed}"
+                     Name="Breed" />
+        </DockPanel>
+
+        <DockPanel Style="{StaticResource Form-Item}">
+            <Label Style="{StaticResource Label-Primary}"
+                   Target="{Binding ElementName=TrainerFeiId}"
+                   Content="{x:Static strings:DesktopStrings.TrainerFeiId}" />
+
+            <TextBox Style="{StaticResource Input}"
+                     Text="{Binding TrainerFeiId}"
+                     Name="TrainerFeiId" />
+        </DockPanel>
+
+        <DockPanel Style="{StaticResource Form-Item}">
+            <Label Style="{StaticResource Label-Primary}"
+                   Target="{Binding ElementName=TrainerFirstName}"
+                   Content="{x:Static strings:DesktopStrings.TrainerFirstNameLabel}" />
+
+            <TextBox Style="{StaticResource Input}"
+                     Text="{Binding TrainerFirstName}"
+                     Name="TrainerFirstName" />
+        </DockPanel>
+
+        <DockPanel Style="{StaticResource Form-Item}">
+
+            <Label Style="{StaticResource Label-Primary}"
+                   Target="{Binding ElementName=TrainerLastName}"
+                   Content="{x:Static strings:DesktopStrings.TrainerLastNameLabel}" />
+
+            <TextBox Style="{StaticResource Input}"
+                     Text="{Binding TrainerLastName}"
+                     Name="TrainerLastName" />
+        </DockPanel>
+
+        <DockPanel Style="{StaticResource Form-Item}">
+
+            <Button Style="{StaticResource Button}"
+                    Command="{Binding NavigateBack}"
+                    Content="{x:Static strings:DesktopStrings.BackButtonText}" />
+
+            <Button Style="{StaticResource Button}"
+                    Command="{Binding Submit}"
+                    Content="{x:Static strings:DesktopStrings.SaveButtonText}" />
+        </DockPanel>
+    </StackPanel>
+</UserControl>

@@ -1,0 +1,24 @@
+﻿<Window x:Class="EnduranceJudge.Gateways.Desktop.Views.ShellWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:prism="http://prismlibrary.com/"
+        xmlns:desktop="clr-namespace:EnduranceJudge.Gateways.Desktop"
+        Title="ShellWindow">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="1*"></RowDefinition>
+            <RowDefinition Height="9*"></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <ContentControl prism:RegionManager.RegionName="{x:Static desktop:Regions.Navigation}"
+                        Grid.Row="0"/>
+
+        <ContentControl prism:RegionManager.RegionName="{x:Static desktop:Regions.SubNavigation}"
+                        Grid.Row="1"/>
+
+        <ContentControl prism:RegionManager.RegionName="{x:Static desktop:Regions.Content}"
+                        Grid.Row="2"/>
+    </Grid>
+</Window>

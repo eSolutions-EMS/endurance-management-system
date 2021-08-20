@@ -1,0 +1,77 @@
+﻿<UserControl x:Class="EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Athletes.AthleteView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:strings="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+
+     <StackPanel Style="{StaticResource Form}">
+        <TextBox Style="{StaticResource Input-Id}"
+                 Text="{Binding Id}" />
+
+        <DockPanel Style="{StaticResource Form-Item}">
+
+            <Label Style="{StaticResource Label-Primary}"
+                   Target="{Binding ElementName=FeiId}"
+                   Content="{x:Static strings:DesktopStrings.FeiIdLabel}" />
+
+            <TextBox Style="{StaticResource Input}"
+                     Text="{Binding FeiId}"
+                     Name="FeiId" />
+        </DockPanel>
+        <DockPanel Style="{StaticResource Form-Item}">
+
+            <Label Style="{StaticResource Label-Primary}"
+                   Target="{Binding ElementName=FirstName}"
+                   Content="{x:Static strings:DesktopStrings.FirstNameLabel}" />
+
+            <TextBox Style="{StaticResource Input}"
+                     Text="{Binding FirstName}"
+                     Name="FirstName" />
+        </DockPanel>
+        <DockPanel Style="{StaticResource Form-Item}">
+
+            <Label Style="{StaticResource Label-Primary}"
+                   Target="{Binding ElementName=LastName}"
+                   Content="{x:Static strings:DesktopStrings.LastNameLabel}" />
+
+            <TextBox Style="{StaticResource Input}"
+                     Text="{Binding LastName}"
+                     Name="LastName" />
+        </DockPanel>
+        <DockPanel Style="{StaticResource Form-Item}">
+
+            <Label Style="{StaticResource Label-Primary}"
+                   Target="{Binding ElementName=CountryItems}"
+                   Content="{x:Static strings:DesktopStrings.CountryLabel}" />
+
+            <ComboBox Style="{StaticResource Combo-Box}"
+                      ItemsSource="{Binding CountryItems}"
+                      SelectedValue="{Binding CountryIsoCode}"
+                      SelectedValuePath="IsoCode"
+                      Name="CountryItems" />
+        </DockPanel>
+        <DockPanel Style="{StaticResource Form-Item}">
+
+            <Label Style="{StaticResource Label-Primary}"
+                   Target="{Binding ElementName=CategoryId}"
+                   Content="{x:Static strings:DesktopStrings.CategoryLabel}" />
+
+            <ComboBox Style="{StaticResource Combo-Box}"
+                      ItemsSource="{Binding CategoryItems}"
+                      SelectedValue="{Binding CategoryId}"
+                      SelectedValuePath="Id"
+                      Name="CategoryId" />
+        </DockPanel>
+        <DockPanel Style="{StaticResource Form-Item}">
+
+            <Button Style="{StaticResource Button}"
+                    Command="{Binding NavigateBack}"
+                    Content="{x:Static strings:DesktopStrings.BackButtonText}" />
+
+            <Button Style="{StaticResource Button}"
+                    Command="{Binding Submit}"
+                    Content="{x:Static strings:DesktopStrings.SaveButtonText}" />
+        </DockPanel>
+    </StackPanel>
+</UserControl>

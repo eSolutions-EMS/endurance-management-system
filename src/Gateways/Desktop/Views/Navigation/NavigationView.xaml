@@ -1,0 +1,40 @@
+<UserControl x:Class="EnduranceJudge.Gateways.Desktop.Views.Navigation.NavigationView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mvvm="http://prismlibrary.com/"
+             xmlns:strings="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization"
+             mvvm:ViewModelLocator.AutoWireViewModel="True">
+
+    <StackPanel>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch">
+            <Button Style="{StaticResource Button}"
+                    Command="{Binding NavigateToImport}"
+                    Content="{x:Static strings:DesktopStrings.ImportPageButtonText}" />
+
+            <Button Style="{StaticResource Button}"
+                    Command="{Binding NavigateToEvent}"
+                    Content="{x:Static strings:DesktopStrings.EventPageButtonText}" />
+
+            <Button>::</Button>
+
+            <Button Style="{StaticResource Button}"
+                    Command="{Binding NavigateToUpdateEvent}">UpdateEvent</Button>
+
+            <Button Style="{StaticResource Button}"
+                    Command="{Binding NavigateToPrintExample}">Print example</Button>
+
+            <Button Style="{StaticResource Button}"
+                    Command="{Binding NavigateToEventList}">Events list</Button>
+        </StackPanel>
+        <DockPanel Style="{StaticResource Strip-Error}"
+                   Visibility="{Binding NotificationVisibility}">
+
+            <Button Style="{StaticResource Button}"
+                Command="{Binding CloseNotification}">Close</Button>
+
+            <!--TODO: Extract converter from NotificationSeverity-->
+            <TextBlock Style="{StaticResource Text-Error}"
+                       Text="{Binding NotificationMessage}"/>
+        </DockPanel>
+    </StackPanel>
+</UserControl>

@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# SA1135: Using directives should be qualified
+dotnet_diagnostic.SA1135.severity = none

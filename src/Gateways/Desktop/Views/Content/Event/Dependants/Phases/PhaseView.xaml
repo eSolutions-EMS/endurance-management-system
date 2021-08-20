@@ -1,0 +1,56 @@
+﻿<UserControl x:Class="EnduranceJudge.Gateways.Desktop.Views.Content.Event.Dependants.Phases.PhaseView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:strings="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+
+    <StackPanel Style="{StaticResource Form}">
+        <TextBox Style="{StaticResource Input-Id}"
+                 Text="{Binding Id}" />
+
+        <DockPanel Style="{StaticResource Form-Item}">
+            <Label Style="{StaticResource Label-Primary}"
+                   Target="{Binding ElementName=LengthInKm}"
+                   Content="{x:Static strings:DesktopStrings.LengthInKmLabel}" />
+
+            <TextBox Style="{StaticResource Input}"
+                     Text="{Binding LengthInKm}"
+                     Name="LengthInKm" />
+        </DockPanel>
+
+        <DockPanel Style="{StaticResource Form-Item}">
+            <Label Style="{StaticResource Label-Primary}"
+                   Target="{Binding ElementName=IsFinal}"
+                   Content="{x:Static strings:DesktopStrings.IsFinalLabel}" />
+
+            <ComboBox Style="{StaticResource Combo-Box}"
+                      ItemsSource="{Binding BoolItems}"
+                      SelectedValue="{Binding IsFinalValue}"
+                      SelectedIndex="{Binding IsFinalValue}"
+                      Name="IsFinal" />
+        </DockPanel>
+
+        <StackPanel Style="{StaticResource Form-List}">
+
+            <Label Style="{StaticResource Label-Primary}"
+                   Target="{Binding ElementName=NavigateToCreatePhaseForCategory}"
+                   Content="{x:Static strings:DesktopStrings.PhasesForCategoryLabel}" />
+
+            <Button Style="{StaticResource Button}"
+                    Command="{Binding NavigateToCreatePhaseForCategory}"
+                    Content="{x:Static strings:DesktopStrings.AddButtonText}"
+                    Name="NavigateToCreatePhaseForCategory"/>
+
+            <ListBox Style="{StaticResource List}"
+                     ItemsSource="{Binding PhaseForCategoryItems}" />
+        </StackPanel>
+
+        <DockPanel Style="{StaticResource Form-Item}">
+
+            <Button Style="{StaticResource Button}"
+                    Command="{Binding NavigateBack}"
+                    Content="{x:Static strings:DesktopStrings.BackButtonText}" />
+        </DockPanel>
+    </StackPanel>
+</UserControl>
