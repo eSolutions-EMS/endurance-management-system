@@ -9,9 +9,11 @@ using EnduranceJudge.Gateways.Desktop.Views.Content.Event.Dependants.Competition
 using EnduranceJudge.Gateways.Desktop.Views.Content.Event.Dependants.Personnel;
 using MediatR;
 using Prism.Commands;
+using Prism.Regions;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.EnduranceEvents
@@ -33,6 +35,15 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.EnduranceEve
         private string selectedCountryIsoCode;
 
         public Visibility CountryVisibility { get; private set; } = Visibility.Hidden;
+
+        public override void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            base.OnNavigatedTo(navigationContext);
+            if (!this.Countries.Any())
+            {
+                this.LoadCountries();
+            }
+        }
 
         public string Name
         {
@@ -62,6 +73,12 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.EnduranceEve
         {
             var listItem = new ListItemViewModel(this.Id, this.Name, command);
             return listItem;
+        }
+
+        private async Task LoadCountries()
+        {
+            var countries = await this.Application.Execute(new GetCountriesList());
+            this.Countries.AddRange(countries);
         }
 
         public DelegateCommand NavigateToPersonnel { get; private set; }
