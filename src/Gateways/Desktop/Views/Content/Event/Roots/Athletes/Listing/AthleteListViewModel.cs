@@ -5,7 +5,7 @@ using EnduranceJudge.Gateways.Desktop.Services;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Athletes.Listing
 {
-    public class AthleteListViewModel : ListViewModelBase<GetAthletesList, AthleteView>
+    public class AthleteListViewModel : SearchableListViewModelBase<GetAthletesList, AthleteView>
     {
         public AthleteListViewModel(IApplicationService application, INavigationService navigation)
             : base(application, navigation)

@@ -1,7 +1,7 @@
 using EnduranceJudge.Application;
 using EnduranceJudge.Application.Core;
 using EnduranceJudge.Core;
-using EnduranceJudge.Gateways.Desktop.Core.DI;
+using EnduranceJudge.Gateways.Desktop.Core.Objects;
 using EnduranceJudge.Core.Services;
 using EnduranceJudge.Domain;
 using EnduranceJudge.Gateways.Persistence;

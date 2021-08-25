@@ -7,6 +7,8 @@
         public const string SaveButtonText = "_Save";
         public const string CreateButtonText = "_Create";
         public const string UpdateButtonText = "_Update";
+        public const string SearchButtonText = "_Search";
+        public const string ClearButtonText = "_Clear";
         public const string AddButtonText = "_Add";
         public const string BackButtonText = "_Back";
         public const string BoolTrueValue = "Yes";

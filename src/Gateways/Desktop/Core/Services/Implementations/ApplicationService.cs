@@ -1,6 +1,6 @@
 ﻿using EnduranceJudge.Application.Core.Exceptions;
 using EnduranceJudge.Domain.Core.Exceptions;
-using EnduranceJudge.Gateways.Desktop.Core.Events;
+using EnduranceJudge.Gateways.Desktop.Core.Objects;
 using MediatR;
 using Prism.Events;
 using System;
