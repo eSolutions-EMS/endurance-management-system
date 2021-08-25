@@ -26,6 +26,8 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Athletes
         public AthleteViewModel(IApplicationService application, INavigationService navigation)
             : base(application, navigation)
         {
+            this.CategoryId = (int)Category.Adults;
+            this.CountryIsoCode = "BUL";
         }
 
         public ObservableCollection<ComboBoxItemViewModel> CategoryItems { get; }
