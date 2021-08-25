@@ -12,8 +12,10 @@ using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
 using EnduranceJudge.Gateways.Desktop.Services;
 using MediatR;
 using Prism.Commands;
+using Prism.Regions;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Athletes
 {
@@ -43,6 +45,12 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Athletes
         private string countryIsoCode;
         private int categoryId;
 
+        public override void OnNavigatedTo(NavigationContext navigationContext)
+        {
+            base.OnNavigatedTo(navigationContext);
+            this.LoadCountries();
+        }
+
         public string FeiId
         {
             get => this.feiId;
@@ -67,6 +75,12 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Athletes
         {
             get => this.categoryId;
             set => this.SetProperty(ref this.categoryId, value);
+        }
+
+        private async Task LoadCountries()
+        {
+            var countries = await this.Application.Execute(new GetCountriesList());
+            this.CountryItems.AddRange(countries);
         }
 
         public Category Category => (Category)this.CategoryId;
