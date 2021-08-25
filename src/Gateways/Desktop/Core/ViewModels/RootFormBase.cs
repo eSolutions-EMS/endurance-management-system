@@ -1,5 +1,5 @@
 ﻿using EnduranceJudge.Core.Mappings;
-using EnduranceJudge.Gateways.Desktop.Core.Commands;
+using EnduranceJudge.Gateways.Desktop.Core.Objects;
 using EnduranceJudge.Gateways.Desktop.Core.Extensions;
 using EnduranceJudge.Gateways.Desktop.Core.Services;
 using EnduranceJudge.Gateways.Desktop.Services;

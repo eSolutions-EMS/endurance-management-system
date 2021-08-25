@@ -2,7 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Prism.Ioc;
 using System;
 
-namespace EnduranceJudge.Gateways.Desktop.Core.DI
+namespace EnduranceJudge.Gateways.Desktop.Core.Objects
 {
     internal class DesktopContainerAdapter
     {

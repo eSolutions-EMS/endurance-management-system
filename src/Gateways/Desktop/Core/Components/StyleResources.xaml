@@ -10,6 +10,7 @@
         <ResourceDictionary Source="Styles/StackPanel.xaml" />
         <ResourceDictionary Source="Styles/ListBox.xaml" />
         <ResourceDictionary Source="Styles/ComboBox.xaml" />
+        <ResourceDictionary Source="Styles/ListView.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

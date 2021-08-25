@@ -26,7 +26,7 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
         protected INavigationService Navigation { get; }
         protected IApplicationService Application { get; }
 
-        public ObservableCollection<ListItemViewModel> ListItems { get; }
+        public ObservableCollection<ListItemViewModel> ListItems { get; protected init; }
             = new (Enumerable.Empty<ListItemViewModel>());
 
         public DelegateCommand ChangeToCreate { get; }

@@ -5,7 +5,7 @@ using EnduranceJudge.Gateways.Desktop.Services;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Horses.Listing
 {
-    public class HorseListViewModel : ListViewModelBase<GetHorseList, HorseView>
+    public class HorseListViewModel : SearchableListViewModelBase<GetHorseList, HorseView>
     {
         public HorseListViewModel(IApplicationService application, INavigationService navigation)
             : base(application, navigation)

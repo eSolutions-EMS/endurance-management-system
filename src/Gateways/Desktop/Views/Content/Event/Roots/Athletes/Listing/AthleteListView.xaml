@@ -5,12 +5,25 @@
              xmlns:strings="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization"
              prism:ViewModelLocator.AutoWireViewModel="True">
 
-    <StackPanel Style="{StaticResource Wrapper}">
+    <ListView Style="{StaticResource List-Wrapper}">
         <Button Style="{StaticResource Button}"
                 Command="{Binding ChangeToCreate}"
                 Content="{x:Static strings:DesktopStrings.CreateButtonText}" />
 
+        <DockPanel Style="{StaticResource Form-Item}">
+            <Button Style="{StaticResource Button}"
+                    Command="{Binding ClearSearch}"
+                    Content="{x:Static strings:DesktopStrings.ClearButtonText}" />
+
+            <Button Style="{StaticResource Button}"
+                    Command="{Binding Search}"
+                    Content="{x:Static strings:DesktopStrings.SearchButtonText}" />
+
+            <TextBox Style="{StaticResource Input}"
+                     Text="{Binding SearchValue}" />
+        </DockPanel>
+
         <ListBox Style="{StaticResource List}"
                  ItemsSource="{Binding ListItems}" />
-    </StackPanel>
+    </ListView>
 </UserControl>

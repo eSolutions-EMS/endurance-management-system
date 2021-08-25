@@ -2,7 +2,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace EnduranceJudge.Gateways.Desktop.Core.Commands
+namespace EnduranceJudge.Gateways.Desktop.Core.Objects
 {
     public class AsyncCommand : DelegateCommand
     {

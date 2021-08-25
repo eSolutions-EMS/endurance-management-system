@@ -10,6 +10,19 @@
                 Command="{Binding ChangeToCreate}"
                 Content="{x:Static strings:DesktopStrings.CreateButtonText}" />
 
+        <DockPanel Style="{StaticResource Form-Item}">
+            <Button Style="{StaticResource Button}"
+                    Command="{Binding ClearSearch}"
+                    Content="{x:Static strings:DesktopStrings.ClearButtonText}" />
+
+            <Button Style="{StaticResource Button}"
+                    Command="{Binding Search}"
+                    Content="{x:Static strings:DesktopStrings.SearchButtonText}" />
+
+            <TextBox Style="{StaticResource Input}"
+                     Text="{Binding SearchValue}" />
+        </DockPanel>
+
         <ListBox Style="{StaticResource List}"
                  ItemsSource="{Binding ListItems}" />
     </StackPanel>
