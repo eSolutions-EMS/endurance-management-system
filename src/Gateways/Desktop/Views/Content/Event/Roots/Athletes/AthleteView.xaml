@@ -8,17 +8,6 @@
      <StackPanel Style="{StaticResource Form}">
         <TextBox Style="{StaticResource Input-Id}"
                  Text="{Binding Id}" />
-
-        <DockPanel Style="{StaticResource Form-Item}">
-
-            <Label Style="{StaticResource Label-Primary}"
-                   Target="{Binding ElementName=FeiId}"
-                   Content="{x:Static strings:DesktopStrings.FeiIdLabel}" />
-
-            <TextBox Style="{StaticResource Input}"
-                     Text="{Binding FeiId}"
-                     Name="FeiId" />
-        </DockPanel>
         <DockPanel Style="{StaticResource Form-Item}">
 
             <Label Style="{StaticResource Label-Primary}"
@@ -72,6 +61,16 @@
             <Button Style="{StaticResource Button}"
                     Command="{Binding Submit}"
                     Content="{x:Static strings:DesktopStrings.SaveButtonText}" />
+        </DockPanel>
+        <DockPanel Style="{StaticResource Form-Item}">
+
+            <Label Style="{StaticResource Label-Primary}"
+                   Target="{Binding ElementName=FeiId}"
+                   Content="{x:Static strings:DesktopStrings.FeiIdLabel}" />
+
+            <TextBox Style="{StaticResource Input}"
+                     Text="{Binding FeiId}"
+                     Name="FeiId" />
         </DockPanel>
     </StackPanel>
 </UserControl>
