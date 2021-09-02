@@ -6,6 +6,9 @@
              prism:ViewModelLocator.AutoWireViewModel="True">
 
     <ListView Style="{StaticResource List-Wrapper}">
+        <TextBlock Style="{StaticResource Text-Heading}"
+               Text="{x:Static strings:DesktopStrings.AthletesListTitle}" />
+
         <Button Style="{StaticResource Button}"
                 Command="{Binding ChangeToCreate}"
                 Content="{x:Static strings:DesktopStrings.CreateButtonText}" />

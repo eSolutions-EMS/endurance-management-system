@@ -10,6 +10,9 @@
         <TextBox Style="{StaticResource Input-Id}"
                  Text="{Binding Id}" />
 
+        <TextBlock Style="{StaticResource Text-Heading}"
+                   Text="{x:Static strings:DesktopStrings.EnduranceEventTitle}" />
+
         <DockPanel Style="{StaticResource Form-Item}">
 
             <Label Style="{StaticResource Label-Primary}"

@@ -7,6 +7,9 @@
 
     <StackPanel Style="{StaticResource Form}">
 
+        <TextBlock Style="{StaticResource Text-Heading}"
+                   Text="{x:Static strings:DesktopStrings.ParticipantTitle}" />
+
         <DockPanel Style="{StaticResource Form-Item}">
             <Label Style="{StaticResource Label-Primary}"
                    Target="{Binding ElementName=RfId}"

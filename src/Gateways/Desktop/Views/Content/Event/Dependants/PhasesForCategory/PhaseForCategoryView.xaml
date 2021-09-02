@@ -9,6 +9,9 @@
         <TextBox Style="{StaticResource Input-Id}"
                  Text="{Binding Id}" />
 
+        <TextBlock Style="{StaticResource Text-Heading}"
+                   Text="{x:Static strings:DesktopStrings.PhaseForCategoryTitle}" />
+
         <DockPanel Style="{StaticResource Form-Item}">
             <Label Style="{StaticResource Label-Primary}"
                    Target="{Binding ElementName=CategoryId}"

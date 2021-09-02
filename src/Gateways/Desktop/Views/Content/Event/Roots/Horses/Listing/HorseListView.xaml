@@ -6,6 +6,9 @@
              prism:ViewModelLocator.AutoWireViewModel="True">
 
     <StackPanel Style="{StaticResource Wrapper}">
+        <TextBlock Style="{StaticResource Text-Heading}"
+               Text="{x:Static strings:DesktopStrings.HorsesListTitle}" />
+
         <Button Style="{StaticResource Button}"
                 Command="{Binding ChangeToCreate}"
                 Content="{x:Static strings:DesktopStrings.CreateButtonText}" />
