@@ -9,30 +9,17 @@
     <ScrollViewer VerticalScrollBarVisibility="Auto"
                   CanContentScroll="True"
                   PreviewMouseWheel="HandleScroll">
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1*" />
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="3*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="3*"/>
-                <RowDefinition Height="1*"/>
-            </Grid.RowDefinitions>
+        <StackPanel>
 
             <TextBox Style="{StaticResource Input-Id}"
                      Text="{Binding Id}" />
 
-            <DockPanel Style="{StaticResource Form-Item}"
-                       Grid.Row="0">
+            <DockPanel Style="{StaticResource Form-Item}">
                 <TextBlock Style="{StaticResource Text-Heading}"
                            Text="{x:Static strings:DesktopStrings.EnduranceEventTitle}" />
             </DockPanel>
 
-            <DockPanel Style="{StaticResource Form-Item}"
-                       Grid.Row="1">
+            <DockPanel Style="{StaticResource Form-Item}">
                 <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=Name}"
                        Content="{x:Static strings:DesktopStrings.NameLabel}" />
@@ -41,8 +28,7 @@
                          Text="{Binding Name}"
                          Name="Name" />
             </DockPanel>
-            <DockPanel Style="{StaticResource Form-Item}"
-                       Grid.Row="2">
+            <DockPanel Style="{StaticResource Form-Item}">
 
                 <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=PopulatedPlace}"
@@ -52,8 +38,7 @@
                          Text="{Binding PopulatedPlace}"
                          Name="PopulatedPlace" />
             </DockPanel>
-            <DockPanel Style="{StaticResource Form-Item}"
-                       Grid.Row="3">
+            <DockPanel Style="{StaticResource Form-Item}">
 
                 <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=Countries}"
@@ -65,8 +50,7 @@
                           SelectedValuePath="IsoCode"
                           Name="Countries" />
             </DockPanel>
-            <DockPanel Style="{StaticResource Form-Item}"
-                       Grid.Row="4">
+            <DockPanel Style="{StaticResource Form-Item}">
                 <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=AddPersonnel}"
                        Content="{x:Static strings:DesktopStrings.PersonnelLabel}" />
@@ -76,8 +60,7 @@
                         Content="{x:Static strings:DesktopStrings.AddButtonText}"
                         Name="AddPersonnel" />
             </DockPanel>
-            <DockPanel Style="{StaticResource Form-Item}"
-                       Grid.Row="5">
+            <DockPanel Style="{StaticResource Form-Item}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto"
                               CanContentScroll="True"
                               PreviewMouseWheel="HandleScroll">
@@ -85,8 +68,7 @@
                              ItemsSource="{Binding PersonnelItems}" />
                 </ScrollViewer>
             </DockPanel>
-            <DockPanel Style="{StaticResource Form-Item}"
-                       Grid.Row="6">
+            <DockPanel Style="{StaticResource Form-Item}">
                 <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=NavigateToCompetition}"
                        Content="{x:Static strings:DesktopStrings.CompetitionsLabel}" />
@@ -96,8 +78,7 @@
                         Content="{x:Static strings:DesktopStrings.AddButtonText}"
                         Name="NavigateToCompetition" />
             </DockPanel>
-            <DockPanel Style="{StaticResource Form-Item}"
-                       Grid.Row="7">
+            <DockPanel Style="{StaticResource Form-Item}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto"
                               CanContentScroll="True"
                               PreviewMouseWheel="HandleScroll">
@@ -105,8 +86,7 @@
                              ItemsSource="{Binding CompetitionItems}" />
                 </ScrollViewer>
             </DockPanel>
-            <DockPanel Style="{StaticResource Form-Item}"
-                       Grid.Row="8">
+            <DockPanel Style="{StaticResource Form-Item}">
 
                 <Button Style="{StaticResource Button}"
                         Command="{Binding NavigateBack}"
@@ -116,6 +96,6 @@
                         Command="{Binding Submit}"
                         Content="{x:Static strings:DesktopStrings.SaveButtonText}" />
             </DockPanel>
-        </Grid>
+        </StackPanel>
     </ScrollViewer>
 </UserControl>
