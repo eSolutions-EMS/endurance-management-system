@@ -12,8 +12,8 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.NavigationStrip
         public EventNavigationStripViewModel(INavigationService navigation)
         {
             this.ChangeToEventsList = new DelegateCommand(navigation.ChangeTo<EnduranceEventListView>);
-            this.ChangeToAthletesList = new DelegateCommand(navigation.ChangeTo<AthleteListView>);
-            this.ChangeToHorseList = new DelegateCommand(navigation.ChangeTo<HorseListView>);
+            this.ChangeToAthletesList = new DelegateCommand(navigation.ChangeTo<AthleteScrollableView>);
+            this.ChangeToHorseList = new DelegateCommand(navigation.ChangeTo<HorseScrollableView>);
         }
 
         public DelegateCommand ChangeToEventsList { get; }

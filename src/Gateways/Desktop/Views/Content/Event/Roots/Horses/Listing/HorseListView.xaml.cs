@@ -5,23 +5,23 @@ using System.Windows.Input;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Horses.Listing
 {
-    public partial class HorseListView : UserControl, IView
+    public partial class HorseScrollableView : UserControl, IScrollableView
     {
         private readonly IMouseInputService mouseInput;
 
-        public HorseListView()
+        public HorseScrollableView()
         {
+            InitializeComponent();
         }
 
-        public HorseListView(IMouseInputService mouseInput)
+        public HorseScrollableView(IMouseInputService mouseInput) : this()
         {
             this.mouseInput = mouseInput;
-            InitializeComponent();
         }
 
         public string RegionName { get; } = Regions.Content;
 
-        private void HandleScroll(object sender, MouseWheelEventArgs mouseEvent)
+        public void HandleScroll(object sender, MouseWheelEventArgs mouseEvent)
         {
             this.mouseInput.HandleScroll(sender, mouseEvent);
         }
