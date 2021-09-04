@@ -13,17 +13,10 @@ namespace EnduranceJudge.Gateways.Desktop.Services
         void ChangeTo<T>()
             where T : IView;
 
-        void ChangeTo<T>(int id)
-            where T : IView;
+        void ChangeTo<T>(int entityId);
 
-        void ChangeTo<TView>(Action<object> action)
-            where TView : IView;
+        void ChangeTo<T>(params NavigationParameter[] parameters);
 
-        void ChangeTo(Type viewType, Action<object> action);
-
-        void ChangeTo<TView>(object data, Action<object> action)
-            where TView : IView;
-
-        void ChangeTo(Type viewType, object data, Action<object> action);
+        void ChangeTo(Type view, params NavigationParameter[] parameters);
     }
 }

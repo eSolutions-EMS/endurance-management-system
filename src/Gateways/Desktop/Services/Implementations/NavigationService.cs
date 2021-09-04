@@ -28,32 +28,29 @@ namespace EnduranceJudge.Gateways.Desktop.Services.Implementations
 
         public void ChangeTo<T>() where T : IView
         {
-            this.ChangeTo(Regions.Content, typeof(T));
+            this.ChangeTo(Regions.Content, typeof(T), null);
         }
 
-        public void ChangeTo<T>(int id) where T : IView
+        public void ChangeTo<T>(int entityId)
         {
-            this.ChangeTo(Regions.Content, typeof(T), id);
+            var parameter = new NavigationParameter(DesktopConstants.EntityIdParameter, entityId);
+            this.ChangeTo(typeof(T), parameter);
         }
 
-        public void ChangeTo<TView>(Action<object> action) where TView : IView
+        public void ChangeTo<T>(params NavigationParameter[] parameters)
         {
-            this.ChangeTo(typeof(TView), action);
+            this.ChangeTo(typeof(T), parameters);
         }
 
-        public void ChangeTo(Type viewType, Action<object> action)
+        public void ChangeTo(Type view, params NavigationParameter[] parameters)
         {
-            this.ChangeTo(Regions.Content, viewType, action);
-        }
+            var navigationParameters = new NavigationParameters();
+            foreach (var (key, value) in parameters)
+            {
+                navigationParameters.Add(key, value);
+            }
 
-        public void ChangeTo<TView>(object data, Action<object> action) where TView : IView
-        {
-            this.ChangeTo(typeof(TView), data, action);
-        }
-
-        public void ChangeTo(Type viewType, object data, Action<object> action)
-        {
-            this.ChangeTo(Regions.Content, viewType, data, action);
+            this.ChangeTo(Regions.Content, view, navigationParameters);
         }
     }
 }

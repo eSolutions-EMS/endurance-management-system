@@ -192,12 +192,18 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
 
         private Action NavigateToDependantCreateDelegate(Type viewType, Action<object> action)
         {
-            return () => this.Navigation.ChangeTo(viewType, action);
+            return () => this.Navigation.ChangeTo(
+                viewType,
+                new NavigationParameter(DesktopConstants.DependantIdParameter, Guid.NewGuid()),
+                new NavigationParameter(DesktopConstants.SubmitActionParameter, action));
         }
 
         private Action NavigateToDependantUpdateDelegate(Type viewType, object data, Action<object> action)
         {
-            return () => this.Navigation.ChangeTo(viewType, data, action);
+            return () => this.Navigation.ChangeTo(
+                viewType,
+                new NavigationParameter(DesktopConstants.DataParameter, data),
+                new NavigationParameter(DesktopConstants.SubmitActionParameter, action));
         }
     }
 }

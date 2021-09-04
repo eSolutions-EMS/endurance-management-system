@@ -10,6 +10,7 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
     public abstract class DependantFormBase : ShardableFormBase
     {
         private Action<object> submitAction;
+        private Guid? dependantId;
 
         protected DependantFormBase(IApplicationService application, INavigationService navigation) : base(navigation)
         {
@@ -26,6 +27,11 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
 
         public override bool IsNavigationTarget(NavigationContext navigationContext)
         {
+            var dependantId = navigationContext.GetDependantId();
+            if (dependantId != null)
+            {
+                return this.dependantId == dependantId;
+            }
             var data = navigationContext.GetData();
             if (data != null)
             {
@@ -37,6 +43,11 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
 
         public override void OnNavigatedTo(NavigationContext navigationContext)
         {
+            var dependantId = navigationContext.GetDependantId();
+            if (this.dependantId == null && dependantId != null)
+            {
+                this.dependantId = dependantId;
+            }
             var data = navigationContext.GetData();
             if (this.Id == default && data != null)
             {
