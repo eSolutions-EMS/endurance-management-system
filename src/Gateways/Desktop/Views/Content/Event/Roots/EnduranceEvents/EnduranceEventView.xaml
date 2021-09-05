@@ -14,10 +14,9 @@
             <TextBox Style="{StaticResource Input-Id}"
                      Text="{Binding Id}" />
 
-            <DockPanel Style="{StaticResource Form-Item}">
-                <TextBlock Style="{StaticResource Text-Heading}"
-                           Text="{x:Static strings:DesktopStrings.EnduranceEventTitle}" />
-            </DockPanel>
+            <TextBlock Style="{StaticResource Text-Heading}"
+                       Text="{x:Static strings:DesktopStrings.EnduranceEventTitle}" />
+
             <DockPanel Style="{StaticResource Form-Item}">
                 <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=Name}"

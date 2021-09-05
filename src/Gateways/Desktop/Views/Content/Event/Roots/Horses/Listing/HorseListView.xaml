@@ -13,11 +13,9 @@
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
 
-        <DockPanel Style="{StaticResource Form-Item}"
-                   Grid.Row="0">
-            <TextBlock Style="{StaticResource Text-Heading}"
-                       Text="{x:Static strings:DesktopStrings.HorsesListTitle}" />
-        </DockPanel>
+        <TextBlock Style="{StaticResource Text-Heading}"
+                   Text="{x:Static strings:DesktopStrings.HorsesListTitle}"
+                   Grid.Row="0" />
 
         <DockPanel Style="{StaticResource Form-Item}"
                    Grid.Row="1">
