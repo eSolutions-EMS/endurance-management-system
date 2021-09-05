@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace EnduranceJudge.Gateways.Desktop.Core.Services.Implementations
 {
-    public abstract class NavigationServiceBase
+    public abstract class   NavigationServiceBase
     {
         private static readonly Type ViewType = typeof(IView);
 

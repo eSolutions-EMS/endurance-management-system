@@ -1,4 +1,5 @@
 ﻿using EnduranceJudge.Core.Models;
+using EnduranceJudge.Core.Utilities;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
@@ -8,13 +9,17 @@ namespace EnduranceJudge.Gateways.Desktop.Core
 {
     public abstract class ViewModelBase : BindableBase, INavigationAware, IObject
     {
+        private readonly int objectUniqueCode;
+
         protected ViewModelBase()
         {
             this.ObjectId = Guid.NewGuid();
+            this.objectUniqueCode = ObjectUtilities.GetUniqueObjectCode(this);
         }
 
+        public Guid ObjectId { get; }
+
         protected IRegionNavigationJournal Journal { get; private set; }
-        protected NavigationContext NavigationContext { get; private set; }
 
         public DelegateCommand NavigateForward => new DelegateCommand(this.NavigateForwardAction);
         public DelegateCommand NavigateBack => new DelegateCommand(this.NavigateBackAction);
@@ -22,7 +27,6 @@ namespace EnduranceJudge.Gateways.Desktop.Core
         public virtual void OnNavigatedTo(NavigationContext navigationContext)
         {
             this.Journal = navigationContext.NavigationService.Journal;
-            this.NavigationContext = navigationContext;
         }
 
         public virtual bool IsNavigationTarget(NavigationContext navigationContext)
@@ -42,53 +46,20 @@ namespace EnduranceJudge.Gateways.Desktop.Core
             this.Journal?.GoBack();
         }
 
-        public Guid ObjectId { get; }
-
-        public bool ObjectEquals(IObject other)
-            => this.ObjectId == other.ObjectId;
-
-        public virtual bool Equals(IObject other)
-        {
-            if (ReferenceEquals(null, other))
-            {
-                return false;
-            }
-
-            if (ReferenceEquals(this, other))
-            {
-                return true;
-            }
-
-            if (other.GetType() != this.GetType())
-            {
-                return false;
-            }
-
-            return this.ObjectId.Equals(other.ObjectId);
-        }
 
         public override bool Equals(object other)
         {
-            if (ReferenceEquals(null, other))
-            {
-                return false;
-            }
+            return this.Equals(other as IObject);
+        }
 
-            if (ReferenceEquals(this, other))
-            {
-                return true;
-            }
-
-            if (other.GetType() != this.GetType())
-            {
-                return false;
-            }
-
-            return this.Equals((IObject)other);
+        public bool Equals(IObject other)
+        {
+            return ObjectUtilities.IsEqual(this, other);
         }
 
         public override int GetHashCode()
-            => (this.GetType().ToString() + this.ObjectId).GetHashCode();
-
+        {
+            return this.objectUniqueCode;
+        }
     }
 }
