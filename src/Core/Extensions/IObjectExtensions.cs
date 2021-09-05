@@ -52,7 +52,10 @@ namespace EnduranceJudge.Core.Extensions
             if (collection.Contains(model))
             {
                 var item = collection.First(x => x.Equals(model));
-                item.MapFrom(model);
+                if (!ReferenceEquals(item, model))
+                {
+                    item.MapFrom(model);
+                }
 
                 return;
             }

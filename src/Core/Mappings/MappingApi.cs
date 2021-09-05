@@ -57,13 +57,10 @@ namespace EnduranceJudge.Core.Mappings
         {
             ValidateConfiguration();
 
-            // if (destination is IObject objectDestination && source is IObject objectSource)
-            // {
-            //     if (objectDestination.ObjectEquals(objectSource))
-            //     {
-            //         return destination;
-            //     }
-            // }
+            if (ReferenceEquals(source, destination))
+            {
+                throw new InvalidOperationException($"Source and destination are reference-equal objects: {source}");
+            }
 
             return Mapper.Map(source, destination);
         }
@@ -72,13 +69,10 @@ namespace EnduranceJudge.Core.Mappings
         {
             ValidateConfiguration();
 
-            // if (destination is IObject objectDestination && source is IObject objectSource)
-            // {
-            //     if (objectDestination.ObjectEquals(objectSource))
-            //     {
-            //         return destination;
-            //     }
-            // }
+            if (ReferenceEquals(source, destination))
+            {
+                throw new InvalidOperationException($"Source and destination are reference-equal objects: {source}");
+            }
 
             return Mapper.Map(source, destination);
         }

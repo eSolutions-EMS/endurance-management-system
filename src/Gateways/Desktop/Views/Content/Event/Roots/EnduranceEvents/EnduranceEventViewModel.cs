@@ -36,9 +36,9 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.EnduranceEve
 
         public Visibility CountryVisibility { get; private set; } = Visibility.Hidden;
 
-        public override void OnNavigatedTo(NavigationContext navigationContext)
+        public override void OnNavigatedTo(NavigationContext context)
         {
-            base.OnNavigatedTo(navigationContext);
+            base.OnNavigatedTo(context);
             if (!this.Countries.Any())
             {
                 this.LoadCountries();

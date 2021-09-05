@@ -24,12 +24,12 @@ namespace EnduranceJudge.Gateways.Desktop.Core
         public DelegateCommand NavigateForward => new DelegateCommand(this.NavigateForwardAction);
         public DelegateCommand NavigateBack => new DelegateCommand(this.NavigateBackAction);
 
-        public virtual void OnNavigatedTo(NavigationContext navigationContext)
+        public virtual void OnNavigatedTo(NavigationContext context)
         {
-            this.Journal = navigationContext.NavigationService.Journal;
+            this.Journal = context.NavigationService.Journal;
         }
 
-        public virtual bool IsNavigationTarget(NavigationContext navigationContext)
+        public virtual bool IsNavigationTarget(NavigationContext context)
             => true;
 
         public virtual void OnNavigatedFrom(NavigationContext navigationContext)

@@ -53,6 +53,7 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
 
         public override int GetHashCode()
         {
+            // Do not snapshot this as Id can change (not readonly).
             return (base.GetHashCode().ToString() + this.Id).GetHashCode();
         }
     }

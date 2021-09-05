@@ -47,9 +47,9 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Athletes
         private string countryIsoCode;
         private int categoryId;
 
-        public override void OnNavigatedTo(NavigationContext navigationContext)
+        public override void OnNavigatedTo(NavigationContext context)
         {
-            base.OnNavigatedTo(navigationContext);
+            base.OnNavigatedTo(context);
             this.LoadCountries();
         }
 

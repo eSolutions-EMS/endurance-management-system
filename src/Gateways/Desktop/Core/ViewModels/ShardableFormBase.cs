@@ -29,9 +29,9 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
             }
         }
 
-        public override void OnNavigatedTo(NavigationContext navigationContext)
+        public override void OnNavigatedTo(NavigationContext context)
         {
-            base.OnNavigatedTo(navigationContext);
+            base.OnNavigatedTo(context);
 
             foreach (var (key, shard) in this.shards)
             {
@@ -194,7 +194,7 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
         {
             return () => this.Navigation.ChangeTo(
                 viewType,
-                new NavigationParameter(DesktopConstants.DependantIdParameter, Guid.NewGuid()),
+                new NavigationParameter(DesktopConstants.NewDependantParameter, Guid.NewGuid()),
                 new NavigationParameter(DesktopConstants.SubmitActionParameter, action));
         }
 
