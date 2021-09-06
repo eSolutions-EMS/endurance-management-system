@@ -11,5 +11,5 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Athletes.Lis
             : base(application, navigation)
         {
         }
-    }
+    2
 }
