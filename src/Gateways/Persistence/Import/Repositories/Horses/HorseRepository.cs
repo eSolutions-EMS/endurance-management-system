@@ -18,12 +18,12 @@ namespace EnduranceJudge.Gateways.Persistence.Import.Repositories.Horses
         {
         }
 
-        public async Task Create(IEnumerable<Horse> domainModels, CancellationToken cancellationToken)
+        public async Task Create(IEnumerable<Horse> domainModels, CancellationToken token)
         {
             var entities = domainModels.MapEnumerable<HorseEntity>();
 
             this.DataStore.AddRange(entities);
-            await this.DataStore.SaveChangesAsync(cancellationToken);
+            await this.Persist(token);
         }
     }
 }

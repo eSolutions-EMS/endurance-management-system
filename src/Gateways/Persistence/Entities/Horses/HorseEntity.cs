@@ -25,6 +25,6 @@ namespace EnduranceJudge.Gateways.Persistence.Entities.Horses
 
         [JsonIgnore]
         public ParticipantEntity Participant { get; set; }
-        public int ParticipantId { get; set; }
+        public int? ParticipantId { get; set; }
     }
 }

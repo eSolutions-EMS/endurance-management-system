@@ -5,8 +5,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using EnduranceJudge.Core.Models;
-using System.Runtime.CompilerServices;
 
 namespace EnduranceJudge.Core.Mappings
 {
@@ -59,12 +57,9 @@ namespace EnduranceJudge.Core.Mappings
         {
             ValidateConfiguration();
 
-            if (destination is IObject objectDestination && source is IObject objectSource)
+            if (ReferenceEquals(source, destination))
             {
-                if (objectDestination.ObjectEquals(objectSource))
-                {
-                    return destination;
-                }
+                throw new InvalidOperationException($"Source and destination are reference-equal objects: {source}");
             }
 
             return Mapper.Map(source, destination);
@@ -74,12 +69,9 @@ namespace EnduranceJudge.Core.Mappings
         {
             ValidateConfiguration();
 
-            if (destination is IObject objectDestination && source is IObject objectSource)
+            if (ReferenceEquals(source, destination))
             {
-                if (objectDestination.ObjectEquals(objectSource))
-                {
-                    return destination;
-                }
+                throw new InvalidOperationException($"Source and destination are reference-equal objects: {source}");
             }
 
             return Mapper.Map(source, destination);

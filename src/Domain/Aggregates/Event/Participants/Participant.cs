@@ -12,7 +12,7 @@ namespace EnduranceJudge.Domain.Aggregates.Event.Participants
         public Participant(IParticipantState data) : base(data.Id)
             => this.Validate(() =>
             {
-                this.RfId = data.RfId.IsRequired(nameof(data.RfId));
+                this.RfId = data.RfId;
                 this.Number = data.Number.IsRequired(nameof(data.Number));
                 this.MaxAverageSpeedInKmPh = data.MaxAverageSpeedInKmPh;
                 this.HorseId = data.HorseId.IsRequired(nameof(data.HorseId));

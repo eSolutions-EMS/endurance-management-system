@@ -41,9 +41,6 @@ namespace EnduranceJudge.Gateways.Persistence.Entities.Competitions
             profile.CreateMap<CompetitionEntity, Competition>()
                 .ForMember(c => c.Participants, opt => opt.MapFrom(ce => ce.ParticipantsInCompetitions));
 
-            profile.CreateMap<CompetitionEntity, ImportCompetition>()
-                .ForMember(c => c.Participants, opt => opt.MapFrom(ce => ce.ParticipantsInCompetitions));
-
             profile.CreateMap<CompetitionEntity, ListItemModel>()
                 .ForMember(x => x.Name, opt => opt.MapFrom(y => y.Type.ToString()));
 

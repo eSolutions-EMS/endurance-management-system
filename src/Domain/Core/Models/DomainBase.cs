@@ -34,11 +34,6 @@ namespace EnduranceJudge.Domain.Core.Models
         internal void Throw(string message)
             => Thrower.Throw<TException>(message);
 
-        public override bool Equals(IObject other)
-        {
-            return this.IsEqual(other);
-        }
-
         public override bool Equals(object other)
         {
             return this.IsEqual(other);
@@ -46,6 +41,10 @@ namespace EnduranceJudge.Domain.Core.Models
 
         public bool Equals(IIdentifiable identifiable)
         {
+            if (identifiable == null)
+            {
+                return false;
+            }
             if (this.Id != default &&  identifiable.Id != default)
             {
                 return this.Id == identifiable.Id;
@@ -63,7 +62,6 @@ namespace EnduranceJudge.Domain.Core.Models
             {
                 return false;
             }
-
             if (this.GetType() != domainModel.GetType())
             {
                 return false;

@@ -37,6 +37,8 @@
         public const string HorsesButtonText = "Horses";
 
         // ------ Endurance Event
+        public const string EnduranceEventTitle = "Endurance Event";
+        public const string EnduranceEventListTitle = "Endurance Events";
         public const string NameLabel = "_Name";
         public const string PopulatedPlaceLabel = "_Populated Place";
         public const string CountryLabel = "Country";
@@ -53,12 +55,15 @@
         public const string PersonnelLabel = "P_ersonnel";
 
         // ------ Competition
+        public const string CompetitionTitle = "Competition";
         public const string TypeLabel = "_Type";
 
         // ------ Personnel
+        public const string PersonnelTitle = "Personnel";
         public const string RoleLabel = "_Role";
 
         // ------ Phase
+        public const string PhaseTitle = "Phase";
         public const string PhaseListItemDisplayTemplate = "{0}km - Is Final: {1}";
         public const string LengthInKmLabel = "Length in Km";
         public const string IsFinalLabel = "Is Final Phase";
@@ -66,6 +71,7 @@
         public const string ParticipantsLabel = "Participants";
 
         // ------ Participant
+        public const string ParticipantTitle = "ParticipantTitle";
         public const string RfIdLabel = "_RFID Number";
         public const string NumberLabel = "_Number";
         public const string MaxAverageSpeedInKmPhLabel = "_Maximum Average Speed In Kilometers";
@@ -78,15 +84,22 @@
         public const string PhasesForCategoryLabel = "_Phases for Categories";
 
         // ------ Athlete
+        public const string AthleteTitle = "Athlete";
+        public const string AthletesListTitle = "Athletes";
         public const string FeiIdLabel = "Fei ID";
         public const string FirstNameLabel = "First Name";
         public const string LastNameLabel = "Last Name";
 
-        // ------ Athlete
+        // ------ Horse
+        public const string HorseTitle = "Horse";
+        public const string HorsesListTitle = "Horses";
         public const string BreedLabel = "Breed";
         public const string TrainerFeiId = "Trainer FEI ID";
         public const string TrainerFirstNameLabel = "Trainer First Name";
         public const string TrainerLastNameLabel = "Trainer Last Name";
         public const string IsStallionLabel = "Is Stallion";
+
+        // ------ PhaseForCategory
+        public const string PhaseForCategoryTitle = "Phase For Category";
     }
 }

@@ -1,61 +1,33 @@
-﻿using Newtonsoft.Json;
+﻿using EnduranceJudge.Core.Utilities;
 using System;
 
 namespace EnduranceJudge.Core.Models
 {
     public abstract class ObjectBase : IObject
     {
+        private readonly int objectUniqueCode;
+
         protected ObjectBase()
         {
             this.ObjectId = Guid.NewGuid();
+            this.objectUniqueCode = ObjectUtilities.GetUniqueObjectCode(this);
         }
 
-        [JsonIgnore]
         public Guid ObjectId { get; }
 
-
-        // TODO: Should be able to completely replace this
-        // With ReferenceEquals and greatly simplify the
-        // Equals inheritance chain
-        public bool ObjectEquals(IObject other)
-            => this.ObjectId == other.ObjectId;
-
-        public virtual bool Equals(IObject other)
+        public bool Equals(IObject? other)
         {
-            return this.IsEqual(other);
+            return ObjectUtilities.IsEqual(this, other);
         }
 
         public override bool Equals(object? other)
         {
-            if (other is not IObject obj)
-            {
-                return false;
-            }
-
-            return this.IsEqual(obj);
+            return this.Equals(other as IObject);
         }
 
         public override int GetHashCode()
-            => (this.GetType().ToString() + this.ObjectId).GetHashCode();
-
-        private bool IsEqual(IObject other)
         {
-            if (ReferenceEquals(null, other))
-            {
-                return false;
-            }
-
-            if (ReferenceEquals(this, other))
-            {
-                return true;
-            }
-
-            if (other.GetType() != this.GetType())
-            {
-                return false;
-            }
-
-            return this.ObjectId.Equals(other.ObjectId);
+            return this.objectUniqueCode;
         }
     }
 }

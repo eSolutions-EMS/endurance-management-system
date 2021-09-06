@@ -61,7 +61,7 @@ namespace EnduranceJudge.Gateways.Persistence.Core
             return entity.Map<T>();
         }
 
-        private async Task<TEntityModel> InnerSave(TDomainModel domain, CancellationToken cancellationToken)
+        private async Task<TEntityModel> InnerSave(TDomainModel domain, CancellationToken token)
         {
             var entity = await this.DataStore.FindAsync<TEntityModel>(domain.Id);
             if (entity == null)
@@ -75,10 +75,15 @@ namespace EnduranceJudge.Gateways.Persistence.Core
                 this.DataStore.Update(entity);
             }
 
-            await this.DataStore.SaveChangesAsync(cancellationToken);
-            await this.workFileUpdater.Snapshot();
+            await this.Persist(token);
 
             return entity;
+        }
+
+        protected async Task Persist(CancellationToken token)
+        {
+            await this.DataStore.SaveChangesAsync(token);
+            await this.workFileUpdater.Snapshot();
         }
     }
 }

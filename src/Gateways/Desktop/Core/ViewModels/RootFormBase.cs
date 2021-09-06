@@ -34,27 +34,27 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
             await this.Application.Execute(command);
         }
 
-        public override bool IsNavigationTarget(NavigationContext navigationContext)
+        public override bool IsNavigationTarget(NavigationContext context)
         {
             if (this.IsCreateForm)
             {
                 return true;
             }
 
-            var id = navigationContext.GetId();
+            var id = context.GetId();
 
             return this.Id == id;
         }
 
-        public override void OnNavigatedTo(NavigationContext navigationContext)
+        public override void OnNavigatedTo(NavigationContext context)
         {
-            var id = navigationContext.GetId();
+            var id = context.GetId();
             if (id.HasValue && this.Id == default)
             {
                 this.Load(id.Value);
             }
 
-            base.OnNavigatedTo(navigationContext);
+            base.OnNavigatedTo(context);
         }
 
         private async Task Load(int id)

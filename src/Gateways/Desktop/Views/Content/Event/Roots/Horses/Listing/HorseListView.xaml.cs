@@ -1,15 +1,29 @@
 ﻿using EnduranceJudge.Gateways.Desktop.Core;
+using EnduranceJudge.Gateways.Desktop.Core.Services;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Horses.Listing
 {
-    public partial class HorseListView : UserControl, IView
+    public partial class HorseScrollableView : UserControl, IScrollableView
     {
-        public HorseListView()
+        private readonly IMouseInputService mouseInput;
+
+        public HorseScrollableView()
         {
             InitializeComponent();
         }
 
+        public HorseScrollableView(IMouseInputService mouseInput) : this()
+        {
+            this.mouseInput = mouseInput;
+        }
+
         public string RegionName { get; } = Regions.Content;
+
+        public void HandleScroll(object sender, MouseWheelEventArgs mouseEvent)
+        {
+            this.mouseInput.HandleScroll(sender, mouseEvent);
+        }
     }
 }

@@ -41,5 +41,16 @@ namespace EnduranceJudge.Gateways.Desktop.Core.Extensions
 
             return action;
         }
+
+        public static Guid? GetDependantId(this NavigationContext context)
+        {
+            var isNew = context.Parameters.TryGetValue<Guid>(DesktopConstants.NewDependantParameter, out var id);
+            if (!isNew)
+            {
+                return null;
+            }
+
+            return id;
+        }
     }
 }

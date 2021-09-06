@@ -10,7 +10,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Dependants.Phases
         public void AddFromMaps(IProfileExpression profile)
         {
             profile.CreateMap<PhaseDependantModel, PhaseViewModel>()
-                .ForMember(x => x.IsFinalValue, opt => opt.ConvertUsing(new BoolToIntConverter()));
+                .ForMember(x => x.IsFinalValue, opt => opt.ConvertUsing(new BoolToIntConverter(), y => y.IsFinal));
         }
 
         public void AddToMaps(IProfileExpression profile)

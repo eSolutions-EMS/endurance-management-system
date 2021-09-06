@@ -31,10 +31,9 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
 
         public DelegateCommand ChangeToCreate { get; }
 
-        public override void OnNavigatedTo(Prism.Regions.NavigationContext navigationContext)
+        public override void OnNavigatedTo(Prism.Regions.NavigationContext context)
         {
-            base.OnNavigatedTo(navigationContext);
-            base.OnNavigatedTo(navigationContext);
+            base.OnNavigatedTo(context);
 
             this.LoadEvents();
         }

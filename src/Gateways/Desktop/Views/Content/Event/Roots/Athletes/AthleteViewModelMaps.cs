@@ -10,7 +10,6 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Athletes
         public void AddFromMaps(IProfileExpression profile)
         {
             profile.CreateMap<AthleteRootModel, AthleteViewModel>()
-                .MapMember(x => x.CountryItems, y => y.Countries)
                 .MapMember(x => x.CategoryId, y => (int)y.Category);
         }
 

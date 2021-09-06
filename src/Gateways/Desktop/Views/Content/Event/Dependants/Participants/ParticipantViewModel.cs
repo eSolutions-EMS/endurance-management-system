@@ -86,9 +86,9 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Dependants.Partici
             return listItem;
         }
 
-        public override void OnNavigatedTo(NavigationContext navigationContext)
+        public override void OnNavigatedTo(NavigationContext context)
         {
-            base.OnNavigatedTo(navigationContext);
+            base.OnNavigatedTo(context);
 
             this.LoadCompetitors();
 

@@ -25,10 +25,14 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
             set => this.SetProperty(ref this.id, value);
         }
 
-        public List<ComboBoxItemViewModel> BoolItems { get; set; }
+        public List<ComboBoxItemViewModel> BoolItems { get; }
 
         public bool Equals(IIdentifiable identifiable)
         {
+            if (identifiable == null)
+            {
+                return false;
+            }
             if (this.Id != default &&  identifiable.Id != default)
             {
                 return this.Id == identifiable.Id;
@@ -47,19 +51,10 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
             return base.Equals(other);
         }
 
-        public override bool Equals(IObject other)
-        {
-            if (this.Equals(other as IIdentifiable))
-            {
-                return true;
-            }
-
-            return base.Equals(other);
-        }
-
         public override int GetHashCode()
         {
-            return base.GetHashCode() + this.Id;
+            // Do not snapshot this as Id can change (not readonly).
+            return (base.GetHashCode().ToString() + this.Id).GetHashCode();
         }
     }
 }

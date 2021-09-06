@@ -29,9 +29,9 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
             }
         }
 
-        public override void OnNavigatedTo(NavigationContext navigationContext)
+        public override void OnNavigatedTo(NavigationContext context)
         {
-            base.OnNavigatedTo(navigationContext);
+            base.OnNavigatedTo(context);
 
             foreach (var (key, shard) in this.shards)
             {
@@ -192,12 +192,18 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
 
         private Action NavigateToDependantCreateDelegate(Type viewType, Action<object> action)
         {
-            return () => this.Navigation.ChangeTo(viewType, action);
+            return () => this.Navigation.ChangeTo(
+                viewType,
+                new NavigationParameter(DesktopConstants.NewDependantParameter, Guid.NewGuid()),
+                new NavigationParameter(DesktopConstants.SubmitActionParameter, action));
         }
 
         private Action NavigateToDependantUpdateDelegate(Type viewType, object data, Action<object> action)
         {
-            return () => this.Navigation.ChangeTo(viewType, data, action);
+            return () => this.Navigation.ChangeTo(
+                viewType,
+                new NavigationParameter(DesktopConstants.DataParameter, data),
+                new NavigationParameter(DesktopConstants.SubmitActionParameter, action));
         }
     }
 }
