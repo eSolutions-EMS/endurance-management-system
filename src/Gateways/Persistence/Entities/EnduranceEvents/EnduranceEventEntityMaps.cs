@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EnduranceJudge.Application.Events.Queries.GetEvent;
 using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Domain.Aggregates.Event.EnduranceEvents;
 
@@ -14,6 +15,7 @@ namespace EnduranceJudge.Gateways.Persistence.Entities.EnduranceEvents
 
         public void AddToMaps(IProfileExpression profile)
         {
+            profile.CreateMap<EnduranceEventEntity, EnduranceEventRootModel>();
         }
     }
 }

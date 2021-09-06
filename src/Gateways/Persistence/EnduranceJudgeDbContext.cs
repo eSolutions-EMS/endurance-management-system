@@ -81,20 +81,20 @@ namespace EnduranceJudge.Gateways.Persistence
                 .WithOne(pic => pic.Competition)
                 .HasForeignKey(pic => pic.CompetitionId);
 
-            builder.Entity<ParticipantEntity>()
-                .HasOne(p => p.Horse)
-                .WithOne(h => h.Participant)
-                .HasForeignKey<HorseEntity>(h => h.ParticipantId);
+            builder.Entity<HorseEntity>()
+                .HasOne(p => p.Participant)
+                .WithOne(h => h.Horse)
+                .HasForeignKey<ParticipantEntity>(h => h.HorseId);
 
             builder.Entity<ParticipantEntity>()
                 .HasMany(p => p.ParticipantsInCompetitions)
                 .WithOne(pic => pic.Participant)
                 .HasForeignKey(pic => pic.ParticipantId);
 
-            builder.Entity<ParticipantEntity>()
-                .HasOne(p => p.Athlete)
-                .WithOne(a => a.Participant)
-                .HasForeignKey<AthleteEntity>(a => a.ParticipantId);
+            builder.Entity<AthleteEntity>()
+                .HasOne(a => a.Participant)
+                .WithOne(p => p.Athlete)
+                .HasForeignKey<ParticipantEntity>(p => p.AthleteId);
 
             builder.Entity<AthleteEntity>()
                 .HasOne(a => a.Country)

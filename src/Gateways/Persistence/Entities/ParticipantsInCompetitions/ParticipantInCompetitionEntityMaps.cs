@@ -30,14 +30,7 @@ namespace EnduranceJudge.Gateways.Persistence.Entities.ParticipantsInCompetition
                 .ForMember(p => p.Id, opt => opt.MapFrom(pic => pic.ParticipantId))
                 .ForMember(p => p.Number, opt => opt.MapFrom(pic => pic.Participant.Number))
                 .ForMember(p => p.MaxAverageSpeedInKmPh, opt => opt.MapFrom(pic => pic.Participant.MaxAverageSpeedInKmPh))
-                .ForMember(p => p.RfId, opt => opt.MapFrom(pic => pic.Participant.RfId))
-                .ForMember(p => p.AthleteId, opt => opt.MapFrom(pic => pic.Participant.Athlete.Id))
-                .ForMember(p => p.HorseId, opt => opt.MapFrom(pic => pic.Participant.Horse.Id));
-
-            profile.CreateMap<ParticipantInCompetition, ImportParticipant>()
-                .ForMember(p => p.Id, opt => opt.MapFrom(pic => pic.ParticipantId))
-                .ForMember(p => p.Athlete, opt => opt.MapFrom(pic => pic.Participant.Athlete))
-                .ForMember(p => p.Horse, opt => opt.MapFrom(pic => pic.Participant.Horse));
+                .ForMember(p => p.RfId, opt => opt.MapFrom(pic => pic.Participant.RfId));
         }
     }
 }
