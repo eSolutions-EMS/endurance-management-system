@@ -3,7 +3,7 @@ using EnduranceJudge.Application.Events.Queries.GetAthletesList;
 using EnduranceJudge.Application.Events.Queries.GetHorseList;
 using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Core.Models;
-using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ComboBoxItem;
+using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem;
 using EnduranceJudge.Gateways.Desktop.Core.Services;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
@@ -35,8 +35,8 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Dependants.Partici
                 this.ToggleIsAverageSpeedInKmPhVisibilityAction);
         }
 
-        public ObservableCollection<ComboBoxItemViewModel> HorseItems { get; } = new();
-        public ObservableCollection<ComboBoxItemViewModel> AthleteItems { get; } = new();
+        public ObservableCollection<SimpleListItemViewModel> HorseItems { get; } = new();
+        public ObservableCollection<SimpleListItemViewModel> AthleteItems { get; } = new();
 
         private string rfId;
         public string RfId
@@ -148,8 +148,8 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Dependants.Partici
             var horses = await this.application.Execute(new GetHorseList());
             var athletes = await this.application.Execute(new GetAthletesList());
 
-            var horseItems = horses.Select(x => new ComboBoxItemViewModel(x));
-            var athleteItems = athletes.Select(x => new ComboBoxItemViewModel(x));
+            var horseItems = horses.Select(x => new SimpleListItemViewModel(x));
+            var athleteItems = athletes.Select(x => new SimpleListItemViewModel(x));
 
             this.HorseItems.AddRange(horseItems);
             this.AthleteItems.AddRange(athleteItems);

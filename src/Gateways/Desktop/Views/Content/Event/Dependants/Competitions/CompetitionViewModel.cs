@@ -1,7 +1,7 @@
 ﻿using EnduranceJudge.Application.Events.Common;
 using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Domain.Enums;
-using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ComboBoxItem;
+using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem;
 using EnduranceJudge.Gateways.Desktop.Core.Services;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
@@ -29,7 +29,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Dependants.Competi
             this.LoadTypes();
         }
 
-        public ObservableCollection<ComboBoxItemViewModel> TypeItems { get; private set; }
+        public ObservableCollection<SimpleListItemViewModel> TypeItems { get; private set; }
 
         private int type;
         public int Type
@@ -47,8 +47,8 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Dependants.Competi
 
         private void LoadTypes()
         {
-            var typeViewModels = ComboBoxItemViewModel.FromEnum<CompetitionType>();
-            this.TypeItems = new ObservableCollection<ComboBoxItemViewModel>(typeViewModels);
+            var typeViewModels = SimpleListItemViewModel.FromEnum<CompetitionType>();
+            this.TypeItems = new ObservableCollection<SimpleListItemViewModel>(typeViewModels);
         }
 
         protected override ListItemViewModel ToListItem(DelegateCommand command)

@@ -1,7 +1,7 @@
 ﻿using EnduranceJudge.Application.Events.Common;
 using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Domain.Enums;
-using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ComboBoxItem;
+using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem;
 using EnduranceJudge.Gateways.Desktop.Core.Services;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
@@ -24,7 +24,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Dependants.Personn
             this.LoadRoles();
         }
 
-        public ObservableCollection<ComboBoxItemViewModel> RoleItems { get; private set; }
+        public ObservableCollection<SimpleListItemViewModel> RoleItems { get; private set; }
 
         private string name;
         public string Name
@@ -42,8 +42,8 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Dependants.Personn
 
         private void LoadRoles()
         {
-            var roles = ComboBoxItemViewModel.FromEnum<PersonnelRole>();
-            this.RoleItems = new ObservableCollection<ComboBoxItemViewModel>(roles);
+            var roles = SimpleListItemViewModel.FromEnum<PersonnelRole>();
+            this.RoleItems = new ObservableCollection<SimpleListItemViewModel>(roles);
         }
 
         protected override ListItemViewModel ToListItem(DelegateCommand command)

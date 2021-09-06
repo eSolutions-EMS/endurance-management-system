@@ -1,0 +1,13 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:getEvent="clr-namespace:EnduranceJudge.Application.Events.Queries.GetEvent;assembly=EnduranceJudge.Application">
+
+    <DataTemplate DataType="{x:Type getEvent:EnduranceEventRootModel}">
+        <StackPanel Orientation="Horizontal">
+            <TextBlock>One</TextBlock>
+            <TextBlock>Two</TextBlock>
+            <TextBlock>Three</TextBlock>
+        </StackPanel>
+    </DataTemplate>
+
+</ResourceDictionary>

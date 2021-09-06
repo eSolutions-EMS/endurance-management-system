@@ -1,7 +1,7 @@
 ﻿using EnduranceJudge.Core.Models;
 using EnduranceJudge.Domain.Aggregates.Event.PhasesForCategory;
 using EnduranceJudge.Domain.Enums;
-using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ComboBoxItem;
+using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem;
 using EnduranceJudge.Gateways.Desktop.Core.Services;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
@@ -24,8 +24,8 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Dependants.PhasesF
         {
         }
 
-        public ObservableCollection<ComboBoxItemViewModel> CategoryItems { get; }
-            = new(ComboBoxItemViewModel.FromEnum<Category>());
+        public ObservableCollection<SimpleListItemViewModel> CategoryItems { get; }
+            = new(SimpleListItemViewModel.FromEnum<Category>());
 
         private int maxRecoveryTimeInMinutes;
         public int MaxRecoveryTimeInMinutes

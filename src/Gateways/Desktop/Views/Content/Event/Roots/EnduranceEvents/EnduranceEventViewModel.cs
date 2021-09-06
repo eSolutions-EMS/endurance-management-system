@@ -1,6 +1,7 @@
 ﻿using EnduranceJudge.Application.Events.Commands.EnduranceEvents;
 using EnduranceJudge.Application.Events.Queries.GetCountriesList;
 using EnduranceJudge.Application.Events.Queries.GetEvent;
+using EnduranceJudge.Core.Models;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem;
 using EnduranceJudge.Gateways.Desktop.Core.Services;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
@@ -20,7 +21,8 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.EnduranceEve
 {
     public class EnduranceEventViewModel : RootFormBase<SaveEnduranceEvent, EnduranceEventRootModel>,
         ICompetitionsShard<CompetitionView>,
-        IPersonnelShard<PersonnelView>
+        IPersonnelShard<PersonnelView>,
+        IListable
     {
         protected EnduranceEventViewModel(IApplicationService application, INavigationService navigation)
             : base(application, navigation)

@@ -5,7 +5,7 @@ using EnduranceJudge.Application.Events.Queries.GetCountriesList;
 using EnduranceJudge.Core.Models;
 using EnduranceJudge.Domain.Enums;
 using EnduranceJudge.Domain.States;
-using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ComboBoxItem;
+using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem;
 using EnduranceJudge.Gateways.Desktop.Core.Services;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
@@ -30,8 +30,8 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Athletes
             this.CountryIsoCode = "BUL";
         }
 
-        public ObservableCollection<ComboBoxItemViewModel> CategoryItems { get; }
-            = new(ComboBoxItemViewModel.FromEnum<Category>());
+        public ObservableCollection<SimpleListItemViewModel> CategoryItems { get; }
+            = new(SimpleListItemViewModel.FromEnum<Category>());
         public ObservableCollection<CountryListModel> CountryItems { get; }
             = new(Enumerable.Empty<CountryListModel>());
 

@@ -4,14 +4,18 @@
                     xmlns:strings="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization">
 
     <DataTemplate DataType="{x:Type local:ListItemViewModel}">
-        <DockPanel Style="{StaticResource List-Item}">
-            <Button Style="{StaticResource Button}"
-                    Content="{x:Static strings:DesktopStrings.UpdateButtonText}"
-                    Command="{Binding Command}"
-                    CommandParameter="{Binding Id}" />
+        <StackPanel>
+            <DockPanel Style="{StaticResource List-Item}">
+                <Button Style="{StaticResource Button}"
+                        Content="{x:Static strings:DesktopStrings.UpdateButtonText}"
+                        Command="{Binding Command}"
+                        CommandParameter="{Binding Id}" />
 
-            <TextBlock Style="{StaticResource Text-Paragraph}"
-                       Text="{Binding Name}" />
-        </DockPanel>
+                <TextBlock Style="{StaticResource Text-Paragraph}"
+                           Text="{Binding Name}" />
+            </DockPanel>
+
+            <ContentPresenter Content="{Binding Content}" />
+        </StackPanel>
     </DataTemplate>
 </ResourceDictionary>
