@@ -1,4 +1,4 @@
-﻿using EnduranceJudge.Core.Models;
+﻿using EnduranceJudge.Application.Events.Common;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem;
 using EnduranceJudge.Gateways.Desktop.Core.Services;
 using EnduranceJudge.Gateways.Desktop.Services;
@@ -11,10 +11,9 @@ using System.Threading.Tasks;
 
 namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
 {
-    public abstract class ListViewModelBase<TApplicationCommand, TListModel, TView> : ViewModelBase
-        where TApplicationCommand : IRequest<IEnumerable<TListModel>>, new()
+    public abstract class ListViewModelBase<TApplicationCommand, TView> : ViewModelBase
+        where TApplicationCommand : IRequest<IEnumerable<ListItemModel>>, new()
         where TView : IView
-        where TListModel : IListable
     {
         protected ListViewModelBase(IApplicationService application, INavigationService navigation)
         {
@@ -51,10 +50,10 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
             this.ListItems.AddRange(viewModels);
         }
 
-        private ListItemViewModel ToViewModel(TListModel listable)
+        private ListItemViewModel ToViewModel(ListItemModel listable)
         {
             var command = new DelegateCommand<int?>(this.ChangeToUpdateAction);
-            return new ListItemViewModel(listable.Id, listable.Name, listable, command);
+            return new ListItemViewModel(listable.Id, listable.Name, command);
         }
 
         protected virtual void ChangeToCreateAction()

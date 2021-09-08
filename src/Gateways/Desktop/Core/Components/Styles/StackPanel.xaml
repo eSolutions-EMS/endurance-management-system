@@ -7,11 +7,11 @@
     <Style x:Key="Form" TargetType="StackPanel" BasedOn="{StaticResource Wrapper}">
     </Style>
 
-    <Style x:Key="Navigation" TargetType="StackPanel" BasedOn="{StaticResource Wrapper}">
+    <Style x:Key="List-Horizontal" TargetType="StackPanel" BasedOn="{StaticResource Wrapper}">
         <Setter Property="Orientation" Value="Horizontal" />
     </Style>
 
-    <Style x:Key="Form-List" BasedOn="{StaticResource Wrapper}" TargetType="StackPanel">
+    <Style x:Key="List-Vertical" BasedOn="{StaticResource Wrapper}" TargetType="StackPanel">
         <Setter Property="Orientation" Value="Vertical"></Setter>
     </Style>
 

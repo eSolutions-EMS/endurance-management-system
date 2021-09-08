@@ -15,7 +15,7 @@
             <TextBlock Style="{StaticResource Text-Heading}"
                        Text="{x:Static strings:DesktopStrings.CompetitionTitle}" />
 
-            <DockPanel Style="{StaticResource Form-Item}">
+            <DockPanel Style="{StaticResource Stretch-Last}">
                 <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=Name}"
                        Content="{x:Static strings:DesktopStrings.NameLabel}"/>
@@ -24,7 +24,7 @@
                          Text="{Binding Name}"
                          Name="Name" />
             </DockPanel>
-            <DockPanel Style="{StaticResource Form-Item}">
+            <DockPanel Style="{StaticResource Stretch-Last}">
                 <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=Type}"
                        Content="{x:Static strings:DesktopStrings.TypeLabel}" />
@@ -35,7 +35,7 @@
                           SelectedIndex="{Binding Type}"
                           Name="Type" />
             </DockPanel>
-            <StackPanel Style="{StaticResource Form-List}">
+            <StackPanel Style="{StaticResource List-Vertical}">
 
                 <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=NavigateToCreatePhase}"
@@ -49,7 +49,7 @@
                 <ListBox Style="{StaticResource List}"
                          ItemsSource="{Binding PhaseItems}" />
             </StackPanel>
-            <StackPanel Style="{StaticResource Form-List}">
+            <StackPanel Style="{StaticResource List-Vertical}">
 
                 <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=NavigateToCreateParticipant}"
@@ -63,7 +63,7 @@
                 <ListBox Style="{StaticResource List}"
                          ItemsSource="{Binding ParticipantItems}" />
             </StackPanel>
-            <DockPanel Style="{StaticResource Form-Item}">
+            <DockPanel Style="{StaticResource Stretch-Last}">
 
                 <Button Style="{StaticResource Button}"
                         Command="{Binding NavigateBack}"

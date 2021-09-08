@@ -17,7 +17,7 @@
             <TextBlock Style="{StaticResource Text-Heading}"
                        Text="{x:Static strings:DesktopStrings.EnduranceEventTitle}" />
 
-            <DockPanel Style="{StaticResource Form-Item}">
+            <DockPanel Style="{StaticResource Stretch-Last}">
                 <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=Name}"
                        Content="{x:Static strings:DesktopStrings.NameLabel}" />
@@ -26,7 +26,7 @@
                          Text="{Binding Name}"
                          Name="Name" />
             </DockPanel>
-            <DockPanel Style="{StaticResource Form-Item}">
+            <DockPanel Style="{StaticResource Stretch-Last}">
 
                 <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=PopulatedPlace}"
@@ -36,7 +36,7 @@
                          Text="{Binding PopulatedPlace}"
                          Name="PopulatedPlace" />
             </DockPanel>
-            <DockPanel Style="{StaticResource Form-Item}">
+            <DockPanel Style="{StaticResource Stretch-Last}">
 
                 <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=Countries}"
@@ -48,7 +48,7 @@
                           SelectedValuePath="IsoCode"
                           Name="Countries" />
             </DockPanel>
-            <DockPanel Style="{StaticResource Form-Item}">
+            <DockPanel Style="{StaticResource Stretch-Last}">
                 <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=AddPersonnel}"
                        Content="{x:Static strings:DesktopStrings.PersonnelLabel}" />
@@ -58,15 +58,11 @@
                         Content="{x:Static strings:DesktopStrings.AddButtonText}"
                         Name="AddPersonnel" />
             </DockPanel>
-            <DockPanel Style="{StaticResource Form-Item}">
-                <ScrollViewer VerticalScrollBarVisibility="Auto"
-                              CanContentScroll="True"
-                              PreviewMouseWheel="HandleScroll">
-                    <ListBox Style="{StaticResource List}"
-                             ItemsSource="{Binding PersonnelItems}" />
-                </ScrollViewer>
+            <DockPanel Style="{StaticResource Stretch-Last}">
+                <ListBox Style="{StaticResource List}"
+                         ItemsSource="{Binding PersonnelItems}" />
             </DockPanel>
-            <DockPanel Style="{StaticResource Form-Item}">
+            <DockPanel Style="{StaticResource Stretch-Last}">
                 <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=NavigateToCompetition}"
                        Content="{x:Static strings:DesktopStrings.CompetitionsLabel}" />
@@ -76,15 +72,11 @@
                         Content="{x:Static strings:DesktopStrings.AddButtonText}"
                         Name="NavigateToCompetition" />
             </DockPanel>
-            <DockPanel Style="{StaticResource Form-Item}">
-                <ScrollViewer VerticalScrollBarVisibility="Auto"
-                              CanContentScroll="True"
-                              PreviewMouseWheel="HandleScroll">
-                    <ListBox Style="{StaticResource List}"
-                             ItemsSource="{Binding CompetitionItems}" />
-                </ScrollViewer>
+            <DockPanel Style="{StaticResource Stretch-Last}">
+                <ListBox Style="{StaticResource List}"
+                         ItemsSource="{Binding CompetitionItems}" />
             </DockPanel>
-            <DockPanel Style="{StaticResource Form-Item}">
+            <DockPanel Style="{StaticResource Stretch-Last}">
 
                 <Button Style="{StaticResource Button}"
                         Command="{Binding NavigateBack}"

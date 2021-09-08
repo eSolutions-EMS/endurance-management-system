@@ -15,7 +15,7 @@
             <TextBlock Style="{StaticResource Text-Heading}"
                        Text="{x:Static strings:DesktopStrings.PhaseTitle}" />
 
-            <DockPanel Style="{StaticResource Form-Item}">
+            <DockPanel Style="{StaticResource Stretch-Last}">
                 <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=LengthInKm}"
                        Content="{x:Static strings:DesktopStrings.LengthInKmLabel}" />
@@ -25,7 +25,7 @@
                          Name="LengthInKm" />
             </DockPanel>
 
-            <DockPanel Style="{StaticResource Form-Item}">
+            <DockPanel Style="{StaticResource Stretch-Last}">
                 <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=IsFinal}"
                        Content="{x:Static strings:DesktopStrings.IsFinalLabel}" />
@@ -37,7 +37,7 @@
                           Name="IsFinal" />
             </DockPanel>
 
-            <StackPanel Style="{StaticResource Form-List}">
+            <StackPanel Style="{StaticResource List-Vertical}">
 
                 <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=NavigateToCreatePhaseForCategory}"
@@ -52,7 +52,7 @@
                          ItemsSource="{Binding PhaseForCategoryItems}" />
             </StackPanel>
 
-            <DockPanel Style="{StaticResource Form-Item}">
+            <DockPanel Style="{StaticResource Stretch-Last}">
 
                 <Button Style="{StaticResource Button}"
                         Command="{Binding NavigateBack}"

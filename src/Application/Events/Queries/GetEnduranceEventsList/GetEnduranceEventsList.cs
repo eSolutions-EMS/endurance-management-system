@@ -9,10 +9,10 @@ using System.Collections.Generic;
 
 namespace EnduranceJudge.Application.Events.Queries.GetEnduranceEventsList
 {
-    public class GetEnduranceEventsList : IRequest<IEnumerable<EnduranceEventRootModel>>
+    public class GetEnduranceEventsList : IRequest<IEnumerable<ListItemModel>>
     {
         public class GetEnduranceEventsListHandler
-            : GetAllHandler<GetEnduranceEventsList, EnduranceEventRootModel, EnduranceEvent>
+            : GetAllHandler<GetEnduranceEventsList, ListItemModel, EnduranceEvent>
         {
             public GetEnduranceEventsListHandler(IQueriesBase<EnduranceEvent> queries) : base(queries)
             {

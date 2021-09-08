@@ -3,10 +3,9 @@
                     xmlns:getEvent="clr-namespace:EnduranceJudge.Application.Events.Queries.GetEvent;assembly=EnduranceJudge.Application">
 
     <DataTemplate DataType="{x:Type getEvent:EnduranceEventRootModel}">
-        <StackPanel Orientation="Horizontal">
-            <TextBlock>One</TextBlock>
-            <TextBlock>Two</TextBlock>
-            <TextBlock>Three</TextBlock>
+        <StackPanel>
+            <ListBox Style="{StaticResource List}"
+                     ItemsSource="{Binding Competitions}" />
         </StackPanel>
     </DataTemplate>
 

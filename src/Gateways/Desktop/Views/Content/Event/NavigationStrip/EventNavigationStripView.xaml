@@ -5,7 +5,7 @@
              xmlns:strings="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization"
              prism:ViewModelLocator.AutoWireViewModel="True">
 
-    <StackPanel Style="{StaticResource Navigation}">
+    <StackPanel Style="{StaticResource List-Horizontal}">
         <Button Style="{StaticResource Button}"
                 Command="{Binding ChangeToEventsList}"
                 Content="{x:Static strings:DesktopStrings.EnduranceEventButtonText}" />

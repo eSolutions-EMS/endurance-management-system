@@ -11,6 +11,7 @@ using EnduranceJudge.Gateways.Desktop.Views.Content.Event.Dependants.Phases;
 using Prism.Commands;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Dependants.Competitions
 {
@@ -30,6 +31,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Dependants.Competi
         }
 
         public ObservableCollection<SimpleListItemViewModel> TypeItems { get; private set; }
+        public int PhaseCount => this.Phases.Count;
 
         private int type;
         public int Type

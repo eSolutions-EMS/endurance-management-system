@@ -9,7 +9,7 @@ using System.Collections.ObjectModel;
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.EnduranceEvents.Listing
 {
     public class EnduranceEventListViewModel :
-        ListViewModelBase<GetEnduranceEventsList, EnduranceEventRootModel, EnduranceEventView>
+        ListViewModelBase<GetEnduranceEventsList, EnduranceEventView>
     {
         public EnduranceEventListViewModel(IApplicationService application, INavigationService navigation)
             : base (application, navigation)

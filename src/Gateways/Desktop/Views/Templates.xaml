@@ -3,6 +3,8 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Content/Event/Roots/EnduranceEvents/Listing/EnduranceEventListItemTemplate.xaml" />
+        <ResourceDictionary Source="Content/Event/Dependants/Competitions/Listing/CompetitionListItemTemplate.xaml" />
+        <ResourceDictionary Source="Content/Event/Dependants/Phases/Listing/PhaseListItemTemplate.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

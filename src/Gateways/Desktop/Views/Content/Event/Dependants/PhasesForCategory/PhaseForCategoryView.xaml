@@ -16,7 +16,7 @@
             <TextBlock Style="{StaticResource Text-Heading}"
                        Text="{x:Static strings:DesktopStrings.PhaseForCategoryTitle}" />
 
-            <DockPanel Style="{StaticResource Form-Item}">
+            <DockPanel Style="{StaticResource Stretch-Last}">
                 <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=CategoryId}"
                        Content="{x:Static strings:DesktopStrings.CategoryLabel}" />
@@ -28,7 +28,7 @@
                           Name="Category" />
             </DockPanel>
 
-            <DockPanel Style="{StaticResource Form-Item}">
+            <DockPanel Style="{StaticResource Stretch-Last}">
                 <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=MaxRecoveryTimeInMinutes}"
                        Content="{x:Static strings:DesktopStrings.MaxRecoveryTimeInMinutesLabel}" />
@@ -38,7 +38,7 @@
                          Name="MaxRecoveryTimeInMinutes" />
             </DockPanel>
 
-            <DockPanel Style="{StaticResource Form-Item}">
+            <DockPanel Style="{StaticResource Stretch-Last}">
                 <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=RestTimeInMinutes}"
                        Content="{x:Static strings:DesktopStrings.RestTimeInMinutesLabel}" />
@@ -48,7 +48,7 @@
                          Name="RestTimeInMinutes" />
             </DockPanel>
 
-            <DockPanel Style="{StaticResource Form-Item}">
+            <DockPanel Style="{StaticResource Stretch-Last}">
 
                 <Button Style="{StaticResource Button}"
                         Command="{Binding NavigateBack}"

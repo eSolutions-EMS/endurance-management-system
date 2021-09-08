@@ -7,7 +7,7 @@
              HorizontalContentAlignment="Stretch">
 
     <StackPanel Background="Aqua">
-        <DockPanel Style="{StaticResource Form-Item}">
+        <DockPanel Style="{StaticResource Stretch-Last}">
 
             <Button Style="{StaticResource Button-Form-Item}"
                     Command="{Binding OpenFolderDialog}"
@@ -19,7 +19,7 @@
                      IsReadOnly="True"/>
         </DockPanel>
 
-        <DockPanel Style="{StaticResource Form-Item}"
+        <DockPanel Style="{StaticResource Stretch-Last}"
                    Visibility="{Binding ImportVisibility}">
 
             <Button Style="{StaticResource Button}"

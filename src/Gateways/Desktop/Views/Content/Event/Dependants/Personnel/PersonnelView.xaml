@@ -15,7 +15,7 @@
             <TextBlock Style="{StaticResource Text-Heading}"
                        Text="{x:Static strings:DesktopStrings.PersonnelTitle}" />
 
-            <DockPanel Style="{StaticResource Form-Item}">
+            <DockPanel Style="{StaticResource Stretch-Last}">
                 <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=Name}"
                        Content="{x:Static strings:DesktopStrings.NameLabel}" />
@@ -24,7 +24,7 @@
                          Text="{Binding Name}"
                          Name="Name" />
             </DockPanel>
-            <DockPanel Style="{StaticResource Form-Item}">
+            <DockPanel Style="{StaticResource Stretch-Last}">
                 <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=Role}"
                        Content="{x:Static strings:DesktopStrings.RoleLabel}" />
@@ -35,7 +35,7 @@
                           SelectedIndex="{Binding Role}"
                           Name="Role" />
             </DockPanel>
-            <DockPanel Style="{StaticResource Form-Item}">
+            <DockPanel Style="{StaticResource Stretch-Last}">
 
                 <Button Style="{StaticResource Button}"
                         Command="{Binding NavigateBack}"

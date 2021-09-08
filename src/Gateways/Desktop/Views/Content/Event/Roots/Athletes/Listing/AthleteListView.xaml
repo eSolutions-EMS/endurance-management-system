@@ -16,14 +16,14 @@
         <TextBlock Style="{StaticResource Text-Heading}"
                    Text="{x:Static strings:DesktopStrings.AthletesListTitle}" />
 
-        <DockPanel Style="{StaticResource Form-Item}"
+        <DockPanel Style="{StaticResource Stretch-Last}"
                    Grid.Row="1">
             <Button Style="{StaticResource Button}"
                     Command="{Binding ChangeToCreate}"
                     Content="{x:Static strings:DesktopStrings.CreateButtonText}" />
         </DockPanel>
 
-        <DockPanel Style="{StaticResource Form-Item}"
+        <DockPanel Style="{StaticResource Stretch-Last}"
                    Grid.Row="2">
             <Button Style="{StaticResource Button}"
                     Command="{Binding ClearSearch}"
@@ -37,7 +37,7 @@
                      Text="{Binding SearchValue}" />
         </DockPanel>
 
-        <DockPanel Style="{StaticResource Form-Item}"
+        <DockPanel Style="{StaticResource Stretch-Last}"
                    Grid.Row="3">
             <ScrollViewer VerticalScrollBarVisibility="Auto"
                           CanContentScroll="True"

@@ -13,7 +13,7 @@
             <TextBlock Style="{StaticResource Text-Heading}"
                        Text="{x:Static strings:DesktopStrings.ParticipantTitle}" />
 
-            <DockPanel Style="{StaticResource Form-Item}">
+            <DockPanel Style="{StaticResource Stretch-Last}">
                 <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=RfId}"
                        Content="{x:Static strings:DesktopStrings.RfIdLabel}" />
@@ -23,7 +23,7 @@
                          Name="RfId" />
             </DockPanel>
 
-            <DockPanel Style="{StaticResource Form-Item}">
+            <DockPanel Style="{StaticResource Stretch-Last}">
                 <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=Number}"
                        Content="{x:Static strings:DesktopStrings.NumberLabel}" />
@@ -33,7 +33,7 @@
                          Name="Number" />
             </DockPanel>
 
-            <DockPanel Style="{StaticResource Form-Item}">
+            <DockPanel Style="{StaticResource Stretch-Last}">
                 <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=ToggleIsAverageSpeedInKmPhVisibility}"
                        Content="{x:Static strings:DesktopStrings.MaxAverageSpeedInKmPhVisibilityLabel}" />
@@ -48,7 +48,7 @@
                 </CheckBox>
             </DockPanel>
 
-            <DockPanel Style="{StaticResource Form-Item}" Visibility="{Binding MaxAverageSpeedInKmPhVisibility}">
+            <DockPanel Style="{StaticResource Stretch-Last}" Visibility="{Binding MaxAverageSpeedInKmPhVisibility}">
                 <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=MaxAverageSpeedInKmPh}"
                        Content="{x:Static strings:DesktopStrings.MaxAverageSpeedInKmPhLabel}" />
@@ -58,7 +58,7 @@
                          Name="MaxAverageSpeedInKmPh" />
             </DockPanel>
 
-            <DockPanel Style="{StaticResource Form-Item}">
+            <DockPanel Style="{StaticResource Stretch-Last}">
                 <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=Athlete}"
                        Content="{x:Static strings:DesktopStrings.AthleteLabel}" />
@@ -70,7 +70,7 @@
                           Name="Athlete" />
             </DockPanel>
 
-            <DockPanel Style="{StaticResource Form-Item}">
+            <DockPanel Style="{StaticResource Stretch-Last}">
                 <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=Horse}"
                        Content="{x:Static strings:DesktopStrings.HorseLabel}" />
@@ -82,7 +82,7 @@
                           Name="Horse" />
             </DockPanel>
 
-            <DockPanel Style="{StaticResource Form-Item}">
+            <DockPanel Style="{StaticResource Stretch-Last}">
 
                 <Button Style="{StaticResource Button}"
                         Command="{Binding NavigateBack}"
