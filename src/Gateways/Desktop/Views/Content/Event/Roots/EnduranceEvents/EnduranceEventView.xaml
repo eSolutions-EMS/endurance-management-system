@@ -60,7 +60,7 @@
             </DockPanel>
             <DockPanel Style="{StaticResource Stretch-Last}">
                 <ListBox Style="{StaticResource List}"
-                         ItemsSource="{Binding PersonnelItems}" />
+                         ItemsSource="{Binding Personnel}" />
             </DockPanel>
             <DockPanel Style="{StaticResource Stretch-Last}">
                 <Label Style="{StaticResource Label-Primary}"
@@ -74,7 +74,7 @@
             </DockPanel>
             <DockPanel Style="{StaticResource Stretch-Last}">
                 <ListBox Style="{StaticResource List}"
-                         ItemsSource="{Binding CompetitionItems}" />
+                         ItemsSource="{Binding Competitions}" />
             </DockPanel>
             <DockPanel Style="{StaticResource Stretch-Last}">
 

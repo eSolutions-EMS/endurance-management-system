@@ -17,10 +17,9 @@ namespace EnduranceJudge.Gateways.Desktop.Core
             this.objectUniqueCode = ObjectUtilities.GetUniqueObjectCode(this);
         }
 
-        public Guid ObjectId { get; }
-
         protected IRegionNavigationJournal Journal { get; private set; }
 
+        public Guid ObjectId { get; }
         public DelegateCommand NavigateForward => new DelegateCommand(this.NavigateForwardAction);
         public DelegateCommand NavigateBack => new DelegateCommand(this.NavigateBackAction);
 
@@ -28,10 +27,10 @@ namespace EnduranceJudge.Gateways.Desktop.Core
         {
             this.Journal = context.NavigationService.Journal;
         }
-
         public virtual bool IsNavigationTarget(NavigationContext context)
-            => true;
-
+        {
+            return true;
+        }
         public virtual void OnNavigatedFrom(NavigationContext navigationContext)
         {
         }
@@ -40,7 +39,6 @@ namespace EnduranceJudge.Gateways.Desktop.Core
         {
             this.Journal?.GoForward();
         }
-
         protected virtual void NavigateBackAction()
         {
             this.Journal?.GoBack();
@@ -51,12 +49,10 @@ namespace EnduranceJudge.Gateways.Desktop.Core
         {
             return this.Equals(other as IObject);
         }
-
         public bool Equals(IObject other)
         {
             return ObjectUtilities.IsEqual(this, other);
         }
-
         public override int GetHashCode()
         {
             return this.objectUniqueCode;

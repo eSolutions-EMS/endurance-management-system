@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:strings="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization"
+             xmlns:horses="clr-namespace:EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Horses"
              prism:ViewModelLocator.AutoWireViewModel="True">
 
      <StackPanel Style="{StaticResource Form}">

@@ -3,7 +3,6 @@
 
     <Style x:Key="Strip" TargetType="DockPanel">
         <Setter Property="LastChildFill" Value="True"></Setter>
-        <Setter Property="Background" Value="Brown"></Setter>
     </Style>
 
     <Style x:Key="Stretch-Last" TargetType="DockPanel" BasedOn="{StaticResource Strip}">

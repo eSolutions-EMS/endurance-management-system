@@ -8,6 +8,7 @@
     <ScrollViewer VerticalScrollBarVisibility="Auto"
                   CanContentScroll="True"
                   PreviewMouseWheel="HandleScroll">
+
         <StackPanel Style="{StaticResource Form}">
             <TextBox Style="{StaticResource Input-Id}"
                      Text="{Binding Id}" />
@@ -49,7 +50,7 @@
                         Name="NavigateToCreatePhaseForCategory" />
 
                 <ListBox Style="{StaticResource List}"
-                         ItemsSource="{Binding PhaseForCategoryItems}" />
+                         ItemsSource="{Binding PhasesForCategories}" />
             </StackPanel>
 
             <DockPanel Style="{StaticResource Stretch-Last}">

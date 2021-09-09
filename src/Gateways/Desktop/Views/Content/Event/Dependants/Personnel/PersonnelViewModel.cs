@@ -2,55 +2,40 @@
 using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Domain.Enums;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
-using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem;
-using EnduranceJudge.Gateways.Desktop.Core.Services;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
-using EnduranceJudge.Gateways.Desktop.Services;
-using Prism.Commands;
 using System.Collections.ObjectModel;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Dependants.Personnel
 {
-    public class PersonnelViewModel : DependantFormBase, IMap<PersonnelDependantModel>
+    public class PersonnelViewModel : DependantFormBase<PersonnelView>, IMap<PersonnelDependantModel>
     {
-        private PersonnelViewModel() : base(null, null)
-        {
-            this.LoadRoles();
-        }
-
-        public PersonnelViewModel(IApplicationService application, INavigationService navigation)
-            : base(application, navigation)
-        {
-            this.LoadRoles();
-        }
-
         public ObservableCollection<SimpleListItemViewModel> RoleItems { get; private set; }
 
         private string name;
+        private int role;
+
         public string Name
         {
             get => this.name;
             set => this.SetProperty(ref this.name, value);
         }
-
-        private int role;
         public int Role
         {
             get => this.role;
             set => this.SetProperty(ref this.role, value);
         }
 
+        public string RoleName => this.RoleItems[this.Role].Name;
+
+        protected override void Initialize()
+        {
+            this.LoadRoles();
+        }
+
         private void LoadRoles()
         {
             var roles = SimpleListItemViewModel.FromEnum<PersonnelRole>();
             this.RoleItems = new ObservableCollection<SimpleListItemViewModel>(roles);
-        }
-
-        protected override ListItemViewModel ToListItem(DelegateCommand command)
-        {
-            var displayValue = $"{(PersonnelRole)this.Role} - {this.Name}";
-            var listItem = new ListItemViewModel(this.Id, displayValue, command);
-            return listItem;
         }
     }
 }

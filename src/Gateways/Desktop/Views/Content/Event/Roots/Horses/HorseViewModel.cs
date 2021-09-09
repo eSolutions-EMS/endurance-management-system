@@ -3,28 +3,19 @@ using EnduranceJudge.Application.Events.Models;
 using EnduranceJudge.Application.Events.Queries.GetHorse;
 using EnduranceJudge.Core.Models;
 using EnduranceJudge.Domain.Aggregates.Common.Horses;
-using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem;
 using EnduranceJudge.Gateways.Desktop.Core.Services;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
 using EnduranceJudge.Gateways.Desktop.Services;
-using MediatR;
-using Prism.Commands;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Horses
 {
-    public class HorseViewModel : RootFormBase<UpdateHorse, HorseRootModel>,
+    public class HorseViewModel : RootFormBase<GetHorse, UpdateHorse, HorseRootModel, HorseView>,
         IHorseState,
         IListable
     {
-        public HorseViewModel(IApplicationService application, INavigationService navigation)
-            : base(application, navigation)
+        private HorseViewModel(IApplicationService application) : base(application)
         {
         }
-
-        protected override ListItemViewModel ToListItem(DelegateCommand command)
-            => new(this, command);
-        protected override IRequest<HorseRootModel> LoadCommand(int id)
-            => new GetHorse { Id = id };
 
         private int isStallionValue;
         private string feiId;

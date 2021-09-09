@@ -1,0 +1,10 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:horses="clr-namespace:EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Horses">
+
+    <DataTemplate DataType="{x:Type horses:HorseViewModel}">
+        <TextBlock Style="{StaticResource Text-Paragraph}"
+                   Text="{Binding Name}" />
+    </DataTemplate>
+
+</ResourceDictionary>

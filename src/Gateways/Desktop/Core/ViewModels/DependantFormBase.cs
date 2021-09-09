@@ -1,28 +1,25 @@
 ﻿using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Gateways.Desktop.Core.Extensions;
-using EnduranceJudge.Gateways.Desktop.Core.Services;
-using EnduranceJudge.Gateways.Desktop.Services;
 using Prism.Regions;
 using System;
 
 namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
 {
-    public abstract class DependantFormBase : ShardableFormBase, IDependantForm
+    public abstract class DependantFormBase<TView> : ShardableFormBase<TView>, IDependantForm
+        where TView : IView
     {
-        private Action<object> submitAction;
+        private bool isBackingUp = false;
 
-        protected DependantFormBase(IApplicationService application, INavigationService navigation) : base(navigation)
+        protected DependantFormBase()
         {
-            this.Application = application;
             this.DependantId = Guid.NewGuid();
         }
 
         public Guid? DependantId { get; private set; }
-        protected IApplicationService Application { get; }
 
         protected override void NavigateBackAction()
         {
-            this.submitAction(this);
+            this.isBackingUp = true;
             base.NavigateBackAction();
         }
 
@@ -50,14 +47,22 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
                 this.MapFrom(data);
             }
 
-            this.submitAction = context.GetSubmitAction();
             base.OnNavigatedTo(context);
+        }
+
+        public override void OnNavigatedFrom(NavigationContext navigationContext)
+        {
+            if (this.isBackingUp)
+            {
+                navigationContext.Parameters.Add(DesktopConstants.DependantDataParameter, this);
+            }
+            this.isBackingUp = false;
+            base.OnNavigatedFrom(navigationContext);
         }
 
         private bool IsNewDependant(NavigationContext context)
         {
-            var id = context.GetDependantId();
-            return id.HasValue;
+            return context.HasDependantId();
         }
 
         private bool IsExistingDependantWithoutViewInstance(NavigationContext context)

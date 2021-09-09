@@ -8,6 +8,7 @@
     <ScrollViewer VerticalScrollBarVisibility="Auto"
                   CanContentScroll="True"
                   PreviewMouseWheel="HandleScroll">
+
         <StackPanel Style="{StaticResource Form}">
 
             <TextBlock Style="{StaticResource Text-Heading}"

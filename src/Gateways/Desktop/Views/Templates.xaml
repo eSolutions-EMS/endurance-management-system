@@ -3,8 +3,13 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Content/Event/Roots/EnduranceEvents/Listing/EnduranceEventListItemTemplate.xaml" />
+        <ResourceDictionary Source="Content/Event/Roots/Horses/Configuration/HorseTemplate.xaml" />
+        <ResourceDictionary Source="Content/Event/Roots/Athletes/Configuration/AthleteTemplate.xaml" />
         <ResourceDictionary Source="Content/Event/Dependants/Competitions/Listing/CompetitionListItemTemplate.xaml" />
+        <ResourceDictionary Source="Content/Event/Dependants/Personnel/Listing/PersonnelTemplate.xaml" />
         <ResourceDictionary Source="Content/Event/Dependants/Phases/Listing/PhaseListItemTemplate.xaml" />
+        <ResourceDictionary Source="Content/Event/Dependants/PhasesForCategory/Configuration/PhaseForCategoryTemplate.xaml" />
+        <ResourceDictionary Source="Content/Event/Dependants/Participants/Configuration/ParticipantTemplate.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

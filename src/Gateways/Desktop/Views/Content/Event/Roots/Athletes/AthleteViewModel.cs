@@ -6,12 +6,8 @@ using EnduranceJudge.Core.Models;
 using EnduranceJudge.Domain.Enums;
 using EnduranceJudge.Domain.States;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
-using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem;
 using EnduranceJudge.Gateways.Desktop.Core.Services;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
-using EnduranceJudge.Gateways.Desktop.Services;
-using MediatR;
-using Prism.Commands;
 using Prism.Regions;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -19,12 +15,11 @@ using System.Threading.Tasks;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Athletes
 {
-    public class AthleteViewModel : RootFormBase<UpdateAthlete, AthleteRootModel>,
+    public class AthleteViewModel : RootFormBase<GetAthlete, UpdateAthlete, AthleteRootModel, AthleteView>,
         IAthleteState,
         IListable
     {
-        public AthleteViewModel(IApplicationService application, INavigationService navigation)
-            : base(application, navigation)
+        private AthleteViewModel(IApplicationService application) : base(application)
         {
             this.CategoryId = (int)Category.Adults;
             this.CountryIsoCode = "BUL";
@@ -34,12 +29,6 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Athletes
             = new(SimpleListItemViewModel.FromEnum<Category>());
         public ObservableCollection<CountryListModel> CountryItems { get; }
             = new(Enumerable.Empty<CountryListModel>());
-
-        protected override ListItemViewModel ToListItem(DelegateCommand command)
-            => new(this, command);
-
-        protected override IRequest<AthleteRootModel> LoadCommand(int id)
-            => new GetAthlete { Id = id };
 
         private string feiId;
         private string firstName;

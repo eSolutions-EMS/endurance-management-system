@@ -23,9 +23,9 @@ namespace EnduranceJudge.Gateways.Desktop
         }
 
         public const string EntityIdParameter = "Id";
-        public const string DataParameter = "Data";
-        public const string SubmitActionParameter = "SubmitAction";
-        public const string NewDependantParameter = "NewDependantId";
+        public const string FormDataParameter = "FormData";
+        public const string DependantDataParameter = "DependantData";
+        public const string NewDependantId = "DependantId";
 
         public static class Types
         {

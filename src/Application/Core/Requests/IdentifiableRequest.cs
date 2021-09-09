@@ -11,7 +11,7 @@ namespace EnduranceJudge.Application.Core.Requests
     {
     }
 
-    public abstract class IdentifiableRequestBase : IReIdentifiable
+    public abstract class IdentifiableRequestBase : IIdentifiable
     {
         public bool Equals(IIdentifiable identifiable)
         {
@@ -33,6 +33,6 @@ namespace EnduranceJudge.Application.Core.Requests
             return false;
         }
 
-        public int Id { get; set; }
+        public int Id { get; init; }
     }
 }

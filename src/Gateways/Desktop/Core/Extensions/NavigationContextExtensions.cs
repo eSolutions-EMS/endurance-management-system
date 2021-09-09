@@ -1,5 +1,4 @@
-﻿using EnduranceJudge.Core.Models;
-using Prism.Regions;
+﻿using Prism.Regions;
 using System;
 
 namespace EnduranceJudge.Gateways.Desktop.Core.Extensions
@@ -19,7 +18,7 @@ namespace EnduranceJudge.Gateways.Desktop.Core.Extensions
 
         public static object GetData(this NavigationContext context)
         {
-            var hasData = context.Parameters.TryGetValue<object>(DesktopConstants.DataParameter, out var data);
+            var hasData = context.Parameters.TryGetValue<object>(DesktopConstants.FormDataParameter, out var data);
             if (!hasData)
             {
                 return null;
@@ -28,29 +27,26 @@ namespace EnduranceJudge.Gateways.Desktop.Core.Extensions
             return data;
         }
 
-        public static Action<object> GetSubmitAction(this NavigationContext context)
+        public static bool HasDependantId(this NavigationContext context)
         {
-            var hasData = context.Parameters.TryGetValue<Action<object>>(
-                DesktopConstants.SubmitActionParameter,
-                out var action);
-
-            if (!hasData)
-            {
-                return null;
-            }
-
-            return action;
+            return context.Parameters.ContainsKey(DesktopConstants.NewDependantId);
         }
 
-        public static Guid? GetDependantId(this NavigationContext context)
+        public static Guid GetDependantId(this NavigationContext context)
         {
-            var isNew = context.Parameters.TryGetValue<Guid>(DesktopConstants.NewDependantParameter, out var id);
-            if (!isNew)
-            {
-                return null;
-            }
-
+            var id = context.Parameters.GetValue<Guid>(DesktopConstants.NewDependantId);
             return id;
+        }
+
+        public static bool HasDependant(this NavigationContext context)
+        {
+            return context.Parameters.ContainsKey(DesktopConstants.DependantDataParameter);
+        }
+
+        public static T GetDependant<T>(this NavigationContext context)
+        {
+            context.Parameters.TryGetValue<T>(DesktopConstants.DependantDataParameter, out var dependant);
+            return dependant;
         }
     }
 }
