@@ -6,8 +6,8 @@ using EnduranceJudge.Gateways.Desktop.Core.Extensions;
 using EnduranceJudge.Gateways.Desktop.Core.Services;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
 using EnduranceJudge.Gateways.Desktop.Services;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Event.Dependants.Competitions;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Event.Dependants.Personnel;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Competitions;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Personnel;
 using Prism.Commands;
 using Prism.Regions;
 using System.Collections.ObjectModel;
@@ -22,8 +22,8 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.EnduranceEve
     {
         private EnduranceEventViewModel(IApplicationService application)  : base(application)
         {
-            this.NavigateToCompetition = new DelegateCommand(this.NavigateToDependantCreate<CompetitionView>);
-            this.NavigateToPersonnel = new DelegateCommand(this.NavigateToDependantCreate<PersonnelView>);
+            this.NavigateToCompetition = new DelegateCommand(this.NavigateToNewChild<CompetitionView>);
+            this.NavigateToPersonnel = new DelegateCommand(this.NavigateToNewChild<PersonnelView>);
         }
 
         public DelegateCommand NavigateToPersonnel { get; }
@@ -72,12 +72,12 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.EnduranceEve
 
         protected override void HandleChildren(NavigationContext context)
         {
-            var personnel = context.GetDependant<PersonnelViewModel>();
+            var personnel = context.GetChild<PersonnelViewModel>();
             if (personnel != null)
             {
                 this.Personnel.AddOrUpdateObject(personnel);
             }
-            var competition = context.GetDependant<CompetitionViewModel>();
+            var competition = context.GetChild<CompetitionViewModel>();
             if (competition != null)
             {
                 this.Competitions.AddOrUpdateObject(competition);

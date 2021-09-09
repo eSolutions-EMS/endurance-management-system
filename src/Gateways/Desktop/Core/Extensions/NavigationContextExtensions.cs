@@ -27,26 +27,26 @@ namespace EnduranceJudge.Gateways.Desktop.Core.Extensions
             return data;
         }
 
-        public static bool HasDependantId(this NavigationContext context)
+        public static bool HasChildId(this NavigationContext context)
         {
-            return context.Parameters.ContainsKey(DesktopConstants.NewDependantId);
+            return context.Parameters.ContainsKey(DesktopConstants.NewChildId);
         }
 
-        public static Guid GetDependantId(this NavigationContext context)
+        public static Guid GetChildId(this NavigationContext context)
         {
-            var id = context.Parameters.GetValue<Guid>(DesktopConstants.NewDependantId);
+            var id = context.Parameters.GetValue<Guid>(DesktopConstants.NewChildId);
             return id;
         }
 
-        public static bool HasDependant(this NavigationContext context)
+        public static bool HasChild(this NavigationContext context)
         {
-            return context.Parameters.ContainsKey(DesktopConstants.DependantDataParameter);
+            return context.Parameters.ContainsKey(DesktopConstants.ChildDataParameter);
         }
 
-        public static T GetDependant<T>(this NavigationContext context)
+        public static T GetChild<T>(this NavigationContext context)
         {
-            context.Parameters.TryGetValue<T>(DesktopConstants.DependantDataParameter, out var dependant);
-            return dependant;
+            context.Parameters.TryGetValue<T>(DesktopConstants.ChildDataParameter, out var child);
+            return child;
         }
     }
 }

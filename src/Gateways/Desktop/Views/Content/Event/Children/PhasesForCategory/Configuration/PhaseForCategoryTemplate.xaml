@@ -1,0 +1,16 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:phasesForCategory="clr-namespace:EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.PhasesForCategory">
+    <DataTemplate DataType="{x:Type phasesForCategory:PhaseForCategoryViewModel}">
+        <StackPanel Style="{StaticResource List-Horizontal}">
+            <TextBlock Style="{StaticResource Text-Paragraph}"
+                       Text="{Binding CategoryName}"/>
+
+            <TextBlock Style="{StaticResource Text-Paragraph}"
+                       Text="{Binding MaxRecoveryTimeInMinutes}"/>
+
+            <TextBlock Style="{StaticResource Text-Paragraph}"
+                       Text="{Binding RestTimeInMinutes}"/>
+        </StackPanel>
+    </DataTemplate>
+</ResourceDictionary>

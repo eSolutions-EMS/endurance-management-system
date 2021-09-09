@@ -24,14 +24,14 @@ namespace EnduranceJudge.Gateways.Desktop
 
         public const string EntityIdParameter = "Id";
         public const string FormDataParameter = "FormData";
-        public const string DependantDataParameter = "DependantData";
-        public const string NewDependantId = "DependantId";
+        public const string ChildDataParameter = "ChildData";
+        public const string NewChildId = "ChildId";
 
         public static class Types
         {
             public static readonly Type DelegateCommand = typeof(DelegateCommand);
             public static readonly Type ObservableListItems = typeof(ObservableCollection<ListItemViewModel>);
-            public static readonly Type PrincipalForm = typeof(IPrincipalForm);
+            public static readonly Type PrincipalForm = typeof(IParentForm);
         }
     }
 

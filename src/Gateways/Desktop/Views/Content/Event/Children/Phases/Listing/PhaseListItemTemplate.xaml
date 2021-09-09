@@ -1,0 +1,22 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:phases="clr-namespace:EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Phases"
+                    xmlns:localization="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization">
+
+    <DataTemplate DataType="{x:Type phases:PhaseViewModel}">
+        <DockPanel Style="{StaticResource Stretch-Last}">
+            <Button Style="{StaticResource Button}"
+                    Command="{Binding NavigateToUpdate}"
+                    Content="{x:Static localization:DesktopStrings.UpdateButtonText}" />
+
+            <StackPanel Style="{StaticResource List-Horizontal}">
+                <TextBlock Style="{StaticResource Text-Paragraph}"
+                           Text="{Binding LengthInKm}" />
+
+                <TextBlock Style="{StaticResource Text-Paragraph}"
+                           Text="{Binding IsFinal}" />
+            </StackPanel>
+        </DockPanel>
+    </DataTemplate>
+
+</ResourceDictionary>
