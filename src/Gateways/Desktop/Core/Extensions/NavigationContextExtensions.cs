@@ -29,12 +29,12 @@ namespace EnduranceJudge.Gateways.Desktop.Core.Extensions
 
         public static bool HasChildId(this NavigationContext context)
         {
-            return context.Parameters.ContainsKey(DesktopConstants.NewChildId);
+            return context.Parameters.ContainsKey(DesktopConstants.NewChildIdParameter);
         }
 
         public static Guid GetChildId(this NavigationContext context)
         {
-            var id = context.Parameters.GetValue<Guid>(DesktopConstants.NewChildId);
+            var id = context.Parameters.GetValue<Guid>(DesktopConstants.NewChildIdParameter);
             return id;
         }
 
@@ -47,6 +47,12 @@ namespace EnduranceJudge.Gateways.Desktop.Core.Extensions
         {
             context.Parameters.TryGetValue<T>(DesktopConstants.ChildDataParameter, out var child);
             return child;
+        }
+
+        public static bool IsUpdateOnly(this NavigationContext context)
+        {
+            var isUpdateOnly = context.Parameters.ContainsKey(DesktopConstants.UpdateOnlyParameter);
+            return isUpdateOnly;
         }
     }
 }

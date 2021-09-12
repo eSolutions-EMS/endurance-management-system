@@ -51,16 +51,31 @@ namespace EnduranceJudge.Core.Extensions
 
             if (collection.Contains(model))
             {
-                var item = collection.First(x => x.Equals(model));
-                if (!ReferenceEquals(item, model))
-                {
-                    item.MapFrom(model);
-                }
-
+                collection.UpdateObject(model);
                 return;
             }
 
             collection.Add(model);
+        }
+
+        public static void UpdateObject<T>(this ICollection<T> collection, T model)
+            where T : IObject
+        {
+            if (model == null)
+            {
+                throw new CoreException(CannotAddNullItemTemplate);
+            }
+
+            if (!collection.Contains(model))
+            {
+                return;
+            }
+
+            var item = collection.First(x => x.Equals(model));
+            if (!ReferenceEquals(item, model))
+            {
+                item.MapFrom(model);
+            }
         }
     }
 }

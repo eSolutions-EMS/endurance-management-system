@@ -13,8 +13,15 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Competiti
 {
     public class CompetitionViewModel : ChildFormBase<CompetitionView>
     {
-        public DelegateCommand NavigateToCreatePhase { get; private set; }
-        public DelegateCommand NavigateToCreateParticipant { get; private set; }
+        public CompetitionViewModel()
+        {
+            this.LoadTypes();
+            this.NavigateToCreatePhase = new DelegateCommand(this.NavigateToNewChild<PhaseView>);
+            this.NavigateToCreateParticipant = new DelegateCommand(this.NavigateToNewChild<ParticipantView>);
+        }
+
+        public DelegateCommand NavigateToCreatePhase { get; }
+        public DelegateCommand NavigateToCreateParticipant { get; }
         public ObservableCollection<SimpleListItemViewModel> TypeItems { get; private set; }
         public ObservableCollection<PhaseViewModel> Phases { get; } = new();
         public ObservableCollection<ParticipantViewModel> Participants { get; } = new();
@@ -35,25 +42,12 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Competiti
             set => this.SetProperty(ref this.name, value);
         }
 
-        protected override void Initialize()
+        public override void HandleChildren(NavigationContext context)
         {
-            this.LoadTypes();
-            this.NavigateToCreatePhase = new DelegateCommand(this.NavigateToNewChild<PhaseView>);
-            this.NavigateToCreateParticipant = new DelegateCommand(this.NavigateToNewChild<ParticipantView>);
-        }
+            this.AddOrUpdateChild(context, this.Phases);
+            this.AddOrUpdateChild(context, this.Participants);
 
-        protected override void HandleChildren(NavigationContext context)
-        {
-            var phase = context.GetChild<PhaseViewModel>();
-            if (phase != null)
-            {
-                this.Phases.AddOrUpdateObject(phase);
-            }
-            var participant = context.GetChild<ParticipantViewModel>();
-            if (participant != null)
-            {
-                this.Participants.AddOrUpdateObject(participant);
-            }
+            this.UpdateGrandChild(context, this.Phases);
         }
 
         private void LoadTypes()

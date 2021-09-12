@@ -1,6 +1,4 @@
-﻿using EnduranceJudge.Core.Extensions;
-using EnduranceJudge.Gateways.Desktop.Core.Extensions;
-using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
+﻿using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.PhasesForCategory;
 using Prism.Commands;
 using Prism.Regions;
@@ -35,13 +33,9 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Phases
             set => this.SetProperty(ref this.lengthInKm, value);
         }
 
-        protected override void HandleChildren(NavigationContext context)
+        public override void HandleChildren(NavigationContext context)
         {
-            var phaseForCategory = context.GetChild<PhaseForCategoryViewModel>();
-            if (phaseForCategory != null)
-            {
-                this.PhasesForCategories.AddOrUpdateObject(phaseForCategory);
-            }
+            this.AddOrUpdateChild(context, this.PhasesForCategories);
         }
     }
 }

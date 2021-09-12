@@ -17,7 +17,6 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
             this.BoolItems = SimpleListItemViewModel.FromBool();
             this.NavigateToUpdate = new DelegateCommand(
                 () => Navigation.ChangeTo<TView>(new NavigationParameter(DesktopConstants.FormDataParameter, this)));
-            this.Initialize();
         }
 
         protected INavigationService Navigation { get; }
@@ -30,9 +29,6 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
         {
             get => this.id;
             init => this.SetProperty(ref this.id, value);
-        }
-        protected virtual void Initialize()
-        {
         }
 
         public bool Equals(IIdentifiable identifiable)

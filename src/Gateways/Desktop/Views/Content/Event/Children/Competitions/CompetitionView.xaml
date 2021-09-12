@@ -10,6 +10,7 @@
                   PreviewMouseWheel="HandleScroll">
 
         <StackPanel Style="{StaticResource Form}">
+
             <TextBox Style="{StaticResource Input-Id}"
                      Text="{Binding Id}" />
 

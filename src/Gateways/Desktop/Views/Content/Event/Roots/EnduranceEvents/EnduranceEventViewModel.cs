@@ -70,18 +70,12 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.EnduranceEve
             this.Countries.AddRange(countries);
         }
 
-        protected override void HandleChildren(NavigationContext context)
+        public override void HandleChildren(NavigationContext context)
         {
-            var personnel = context.GetChild<PersonnelViewModel>();
-            if (personnel != null)
-            {
-                this.Personnel.AddOrUpdateObject(personnel);
-            }
-            var competition = context.GetChild<CompetitionViewModel>();
-            if (competition != null)
-            {
-                this.Competitions.AddOrUpdateObject(competition);
-            }
+            this.AddOrUpdateChild(context, this.Personnel);
+            this.AddOrUpdateChild(context, this.Competitions);
+
+            this.UpdateGrandChild(context, this.Competitions);
         }
     }
 }

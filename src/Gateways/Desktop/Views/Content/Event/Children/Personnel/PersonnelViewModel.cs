@@ -9,6 +9,11 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Personnel
 {
     public class PersonnelViewModel : ChildFormBase<PersonnelView>, IMap<PersonnelDependantModel>
     {
+        public PersonnelViewModel()
+        {
+            this.LoadRoles();
+        }
+
         public ObservableCollection<SimpleListItemViewModel> RoleItems { get; private set; }
 
         private string name;
@@ -26,11 +31,6 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Personnel
         }
 
         public string RoleName => this.RoleItems[this.Role].Name;
-
-        protected override void Initialize()
-        {
-            this.LoadRoles();
-        }
 
         private void LoadRoles()
         {
