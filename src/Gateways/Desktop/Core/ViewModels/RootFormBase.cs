@@ -1,8 +1,8 @@
 ﻿using EnduranceJudge.Core.Mappings;
+using EnduranceJudge.Core.Models;
 using EnduranceJudge.Gateways.Desktop.Core.Objects;
 using EnduranceJudge.Gateways.Desktop.Core.Extensions;
 using EnduranceJudge.Gateways.Desktop.Core.Services;
-using EnduranceJudge.Gateways.Desktop.Services;
 using MediatR;
 using Prism.Commands;
 using Prism.Regions;
@@ -10,15 +10,16 @@ using System.Threading.Tasks;
 
 namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
 {
-    public abstract class RootFormBase<TCommand, TUpdateModel> : ShardableFormBase,
+    public abstract class RootFormBase<TQuery, TCommand, TUpdateModel, TView> : ParentFormBase<TView>,
         IMapTo<TCommand>,
         IMapFrom<TUpdateModel>
         where TCommand : IRequest
+        where TQuery : IRequest<TUpdateModel>, IIdentifiable, new()
+        where TView : IView
     {
-        protected RootFormBase(IApplicationService application, INavigationService navigation) : base(navigation)
+        protected RootFormBase(IApplicationService application)
         {
             this.Application = application;
-
             this.Submit = new AsyncCommand(this.SubmitAction);
         }
 
@@ -30,8 +31,8 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
         protected virtual async Task SubmitAction()
         {
             var command = this.Map<TCommand>();
-
             await this.Application.Execute(command);
+            this.NavigateBackAction();
         }
 
         public override bool IsNavigationTarget(NavigationContext context)
@@ -42,7 +43,6 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
             }
 
             var id = context.GetId();
-
             return this.Id == id;
         }
 
@@ -53,7 +53,6 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
             {
                 this.Load(id.Value);
             }
-
             base.OnNavigatedTo(context);
         }
 
@@ -64,13 +63,12 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
                 return;
             }
 
-            var command = this.LoadCommand(id);
-
+            var command = new TQuery
+            {
+                Id = id,
+            };
             var enduranceEvent = await this.Application.Execute(command);
-
             this.MapFrom(enduranceEvent);
         }
-
-        protected abstract IRequest<TUpdateModel> LoadCommand(int id);
     }
 }

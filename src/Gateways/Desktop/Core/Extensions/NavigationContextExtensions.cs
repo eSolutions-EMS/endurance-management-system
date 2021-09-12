@@ -1,5 +1,4 @@
-﻿using EnduranceJudge.Core.Models;
-using Prism.Regions;
+﻿using Prism.Regions;
 using System;
 
 namespace EnduranceJudge.Gateways.Desktop.Core.Extensions
@@ -19,7 +18,7 @@ namespace EnduranceJudge.Gateways.Desktop.Core.Extensions
 
         public static object GetData(this NavigationContext context)
         {
-            var hasData = context.Parameters.TryGetValue<object>(DesktopConstants.DataParameter, out var data);
+            var hasData = context.Parameters.TryGetValue<object>(DesktopConstants.FormDataParameter, out var data);
             if (!hasData)
             {
                 return null;
@@ -28,29 +27,32 @@ namespace EnduranceJudge.Gateways.Desktop.Core.Extensions
             return data;
         }
 
-        public static Action<object> GetSubmitAction(this NavigationContext context)
+        public static bool HasChildId(this NavigationContext context)
         {
-            var hasData = context.Parameters.TryGetValue<Action<object>>(
-                DesktopConstants.SubmitActionParameter,
-                out var action);
-
-            if (!hasData)
-            {
-                return null;
-            }
-
-            return action;
+            return context.Parameters.ContainsKey(DesktopConstants.NewChildIdParameter);
         }
 
-        public static Guid? GetDependantId(this NavigationContext context)
+        public static Guid GetChildId(this NavigationContext context)
         {
-            var isNew = context.Parameters.TryGetValue<Guid>(DesktopConstants.NewDependantParameter, out var id);
-            if (!isNew)
-            {
-                return null;
-            }
-
+            var id = context.Parameters.GetValue<Guid>(DesktopConstants.NewChildIdParameter);
             return id;
+        }
+
+        public static bool HasChild(this NavigationContext context)
+        {
+            return context.Parameters.ContainsKey(DesktopConstants.ChildDataParameter);
+        }
+
+        public static T GetChild<T>(this NavigationContext context)
+        {
+            context.Parameters.TryGetValue<T>(DesktopConstants.ChildDataParameter, out var child);
+            return child;
+        }
+
+        public static bool IsUpdateOnly(this NavigationContext context)
+        {
+            var isUpdateOnly = context.Parameters.ContainsKey(DesktopConstants.UpdateOnlyParameter);
+            return isUpdateOnly;
         }
     }
 }

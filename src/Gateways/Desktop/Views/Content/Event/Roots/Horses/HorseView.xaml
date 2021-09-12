@@ -3,16 +3,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:strings="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization"
+             xmlns:horses="clr-namespace:EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Horses"
              prism:ViewModelLocator.AutoWireViewModel="True">
 
      <StackPanel Style="{StaticResource Form}">
-         <TextBlock Style="{StaticResource Text-Heading}"
+         <TextBlock Style="{StaticResource Text-H1}"
                     Text="{x:Static strings:DesktopStrings.HorseTitle}" />
 
         <TextBox Style="{StaticResource Input-Id}"
                  Text="{Binding Id}" />
 
-        <DockPanel Style="{StaticResource Form-Item}">
+        <DockPanel Style="{StaticResource Stretch-Last}">
             <Label Style="{StaticResource Label-Primary}"
                    Target="{Binding ElementName=FeiId}"
                    Content="{x:Static strings:DesktopStrings.FeiIdLabel}" />
@@ -22,7 +23,7 @@
                      Name="FeiId" />
         </DockPanel>
 
-        <DockPanel Style="{StaticResource Form-Item}">
+        <DockPanel Style="{StaticResource Stretch-Last}">
             <Label Style="{StaticResource Label-Primary}"
                    Target="{Binding ElementName=Name}"
                    Content="{x:Static strings:DesktopStrings.NameLabel}" />
@@ -32,7 +33,7 @@
                      Name="Name" />
         </DockPanel>
 
-        <DockPanel Style="{StaticResource Form-Item}">
+        <DockPanel Style="{StaticResource Stretch-Last}">
             <Label Style="{StaticResource Label-Primary}"
                    Target="{Binding ElementName=IsStallion}"
                    Content="{x:Static strings:DesktopStrings.IsStallionLabel}" />
@@ -44,7 +45,7 @@
                       Name="IsStallion" />
         </DockPanel>
 
-        <DockPanel Style="{StaticResource Form-Item}">
+        <DockPanel Style="{StaticResource Stretch-Last}">
             <Label Style="{StaticResource Label-Primary}"
                    Target="{Binding ElementName=Breed}"
                    Content="{x:Static strings:DesktopStrings.BreedLabel}" />
@@ -54,7 +55,7 @@
                      Name="Breed" />
         </DockPanel>
 
-        <DockPanel Style="{StaticResource Form-Item}">
+        <DockPanel Style="{StaticResource Stretch-Last}">
             <Label Style="{StaticResource Label-Primary}"
                    Target="{Binding ElementName=TrainerFeiId}"
                    Content="{x:Static strings:DesktopStrings.TrainerFeiId}" />
@@ -64,7 +65,7 @@
                      Name="TrainerFeiId" />
         </DockPanel>
 
-        <DockPanel Style="{StaticResource Form-Item}">
+        <DockPanel Style="{StaticResource Stretch-Last}">
             <Label Style="{StaticResource Label-Primary}"
                    Target="{Binding ElementName=TrainerFirstName}"
                    Content="{x:Static strings:DesktopStrings.TrainerFirstNameLabel}" />
@@ -74,7 +75,7 @@
                      Name="TrainerFirstName" />
         </DockPanel>
 
-        <DockPanel Style="{StaticResource Form-Item}">
+        <DockPanel Style="{StaticResource Stretch-Last}">
 
             <Label Style="{StaticResource Label-Primary}"
                    Target="{Binding ElementName=TrainerLastName}"
@@ -85,7 +86,7 @@
                      Name="TrainerLastName" />
         </DockPanel>
 
-        <DockPanel Style="{StaticResource Form-Item}">
+        <DockPanel Style="{StaticResource Stretch-Last}">
 
             <Button Style="{StaticResource Button}"
                     Command="{Binding NavigateBack}"

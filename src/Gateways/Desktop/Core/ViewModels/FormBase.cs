@@ -1,31 +1,35 @@
 ﻿using EnduranceJudge.Core.Models;
-using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ComboBoxItem;
-using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem;
+using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
+using EnduranceJudge.Gateways.Desktop.Core.Services;
 using EnduranceJudge.Gateways.Desktop.Services;
+using Microsoft.Extensions.DependencyInjection;
 using Prism.Commands;
 using System.Collections.Generic;
 
 namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
 {
-    public abstract class FormBase : ViewModelBase, IIdentifiable
+    public abstract class FormBase<TView> : ViewModelBase, IIdentifiable
+        where TView : IView
     {
-        protected FormBase(INavigationService navigation)
+        protected FormBase()
         {
-            this.Navigation = navigation;
-            this.BoolItems = ComboBoxItemViewModel.FromBool();
+            this.Navigation = StaticProvider.GetService<INavigationService>();
+            this.BoolItems = SimpleListItemViewModel.FromBool();
+            this.NavigateToUpdate = new DelegateCommand(
+                () => Navigation.ChangeTo<TView>(new NavigationParameter(DesktopConstants.FormDataParameter, this)));
         }
 
         protected INavigationService Navigation { get; }
-        protected abstract ListItemViewModel ToListItem(DelegateCommand command);
 
-        private int id;
+        public DelegateCommand NavigateToUpdate { get; }
+        public List<SimpleListItemViewModel> BoolItems { get; }
+        private readonly int id;
+
         public int Id
         {
             get => this.id;
-            set => this.SetProperty(ref this.id, value);
+            init => this.SetProperty(ref this.id, value);
         }
-
-        public List<ComboBoxItemViewModel> BoolItems { get; }
 
         public bool Equals(IIdentifiable identifiable)
         {

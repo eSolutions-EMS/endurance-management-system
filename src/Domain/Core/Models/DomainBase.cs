@@ -17,7 +17,7 @@ namespace EnduranceJudge.Domain.Core.Models
             this.Id = id;
         }
 
-        public int Id { get; private set; }
+        public int Id { get; init; }
 
         internal void Validate(Action action)
         {

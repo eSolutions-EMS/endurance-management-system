@@ -7,9 +7,9 @@
              HorizontalContentAlignment="Stretch">
 
     <StackPanel Background="Aqua">
-        <DockPanel Style="{StaticResource Form-Item}">
+        <DockPanel Style="{StaticResource Stretch-Last}">
 
-            <Button Style="{StaticResource Button-Form-Item}"
+            <Button Style="{StaticResource Button}"
                     Command="{Binding OpenFolderDialog}"
                     Name="Select_WorkDirectory"
                     Content="{x:Static strings:DesktopStrings.SelectWorkDirectoryButtonText}" />
@@ -19,7 +19,7 @@
                      IsReadOnly="True"/>
         </DockPanel>
 
-        <DockPanel Style="{StaticResource Form-Item}"
+        <DockPanel Style="{StaticResource Stretch-Last}"
                    Visibility="{Binding ImportVisibility}">
 
             <Button Style="{StaticResource Button}"

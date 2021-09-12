@@ -1,5 +1,4 @@
 ﻿using EnduranceJudge.Application.Events.Common;
-using EnduranceJudge.Core.Models;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem;
 using EnduranceJudge.Gateways.Desktop.Core.Services;
 using EnduranceJudge.Gateways.Desktop.Services;
@@ -51,7 +50,7 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
             this.ListItems.AddRange(viewModels);
         }
 
-        private ListItemViewModel ToViewModel(IListable listable)
+        private ListItemViewModel ToViewModel(ListItemModel listable)
         {
             var command = new DelegateCommand<int?>(this.ChangeToUpdateAction);
             return new ListItemViewModel(listable.Id, listable.Name, command);
