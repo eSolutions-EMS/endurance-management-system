@@ -1,11 +1,8 @@
 ﻿using EnduranceJudge.Application.Events.Commands.EnduranceEvents;
 using EnduranceJudge.Application.Events.Queries.GetCountriesList;
 using EnduranceJudge.Application.Events.Queries.GetEvent;
-using EnduranceJudge.Core.Extensions;
-using EnduranceJudge.Gateways.Desktop.Core.Extensions;
 using EnduranceJudge.Gateways.Desktop.Core.Services;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
-using EnduranceJudge.Gateways.Desktop.Services;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Competitions;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Personnel;
 using Prism.Commands;

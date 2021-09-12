@@ -4,13 +4,13 @@
     {
         // ------
         // Common
-        public const string SaveButtonText = "_Save";
-        public const string CreateButtonText = "_Create";
-        public const string UpdateButtonText = "_Update";
-        public const string SearchButtonText = "_Search";
-        public const string ClearButtonText = "_Clear";
-        public const string AddButtonText = "_Add";
-        public const string BackButtonText = "_Back";
+        public const string SaveButtonText = "Save";
+        public const string CreateButtonText = "Create";
+        public const string UpdateButtonText = "Update";
+        public const string SearchButtonText = "Search";
+        public const string ClearButtonText = "Clear";
+        public const string AddButtonText = "Add";
+        public const string BackButtonText = "Back";
         public const string BoolTrueValue = "Yes";
         public const string BoolFalseValue = "No";
 
@@ -23,6 +23,7 @@
         public const string UPDATE_COMPETITION_TEXT = "Update Competition";
         public const string UPDATE_PHASE_TEXT = "Update Phase";
         public const string UPDATE_PHASE_FOR_CATEGORY_TEXT = "Update Category";
+        public const string CREATE_COMPETITION_TEXT = "Create Competition";
 
         // -------
         // Regions
@@ -49,8 +50,8 @@
         // ------ Endurance Event
         public const string EnduranceEventTitle = "Endurance Event";
         public const string EnduranceEventListTitle = "Endurance Events";
-        public const string NameLabel = "_Name";
-        public const string PopulatedPlaceLabel = "_Populated Place";
+        public const string NameLabel = "Name";
+        public const string PopulatedPlaceLabel = "Populated Place";
         public const string CountryLabel = "Country";
         public const string PresidentGroundJuryLabel = "President Ground Jury";
         public const string PresidentVetCommissionLabel = "President Vet Commission";
@@ -62,15 +63,15 @@
         public const string MembersOfVetCommitteeLabel = "Members of Vet Committee";
         public const string StewardsLabel = "Stewards";
         public const string CompetitionsLabel = "Competitions";
-        public const string PersonnelLabel = "P_ersonnel";
+        public const string PersonnelLabel = "Personnel";
 
         // ------ Competition
         public const string CompetitionTitle = "Competition";
-        public const string TypeLabel = "_Type";
+        public const string TypeLabel = "Type";
 
         // ------ Personnel
         public const string PersonnelTitle = "Personnel";
-        public const string RoleLabel = "_Role";
+        public const string RoleLabel = "Role";
 
         // ------ Phase
         public const string PhaseTitle = "Phase";
@@ -82,16 +83,16 @@
 
         // ------ Participant
         public const string ParticipantTitle = "ParticipantTitle";
-        public const string RfIdLabel = "_RFID Number";
-        public const string NumberLabel = "_Number";
-        public const string MaxAverageSpeedInKmPhLabel = "_Maximum Average Speed In Kilometers";
-        public const string MaxAverageSpeedInKmPhVisibilityLabel = "_Has Average Speed Limit";
-        public const string AthleteLabel = "_Athlete";
-        public const string HorseLabel = "_Horse";
-        public const string CategoryLabel = "_Category";
-        public const string MaxRecoveryTimeInMinutesLabel = "_Max Recovery Time In Minutes";
-        public const string RestTimeInMinutesLabel = "_Rest Time In Minutes";
-        public const string PhasesForCategoryLabel = "_Phases for Categories";
+        public const string RfIdLabel = "RFID Number";
+        public const string NumberLabel = "Number";
+        public const string MaxAverageSpeedInKmPhLabel = "Maximum Average Speed In Kilometers";
+        public const string MaxAverageSpeedInKmPhVisibilityLabel = "Has Average Speed Limit";
+        public const string AthleteLabel = "Athlete";
+        public const string HorseLabel = "Horse";
+        public const string CategoryLabel = "Category";
+        public const string MaxRecoveryTimeInMinutesLabel = "Max Recovery Time In Minutes";
+        public const string RestTimeInMinutesLabel = "Rest Time In Minutes";
+        public const string PhasesForCategoryLabel = "Phases for Categories";
 
         // ------ Athlete
         public const string AthleteTitle = "Athlete";
