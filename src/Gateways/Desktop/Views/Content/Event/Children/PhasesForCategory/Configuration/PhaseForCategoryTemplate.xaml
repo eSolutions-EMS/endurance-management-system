@@ -1,0 +1,37 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:phasesForCategory="clr-namespace:EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.PhasesForCategory"
+                    xmlns:localization="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization">
+
+    <DataTemplate DataType="{x:Type phasesForCategory:PhaseForCategoryViewModel}">
+        <StackPanel Style="{StaticResource List-Horizontal}">
+
+            <Button Style="{StaticResource Button-Update}"
+                    Command="{Binding NavigateToUpdate}"
+                    Content="{x:Static localization:DesktopStrings.UPDATE_PHASE_FOR_CATEGORY_TEXT}" />
+
+            <TextBlock Style="{StaticResource Interval}"></TextBlock>
+
+            <TextBlock Style="{StaticResource Text}"
+                       Text="{Binding CategoryName}"/>
+
+            <TextBlock Style="{StaticResource Interval}"></TextBlock>
+
+            <TextBlock Style="{StaticResource Text}">
+                <Run Text="{x:Static localization:DesktopStrings.RecoveryInMinutesText}" />
+                <Run Text=": " />
+                <Run Text="{Binding MaxRecoveryTimeInMinutes}" />
+            </TextBlock>
+
+            <TextBlock Style="{StaticResource Interval}"></TextBlock>
+
+            <TextBlock Style="{StaticResource Text}">
+                <Run Text="{x:Static localization:DesktopStrings.RestInMinutesText}" />
+                <Run Text=": " />
+                <Run Text="{Binding RestTimeInMinutes}" />
+            </TextBlock>
+
+        </StackPanel>
+    </DataTemplate>
+
+</ResourceDictionary>

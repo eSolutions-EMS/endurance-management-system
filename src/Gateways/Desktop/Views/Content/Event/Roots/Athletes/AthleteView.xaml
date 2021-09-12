@@ -3,16 +3,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:strings="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization"
+             xmlns:athletes="clr-namespace:EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Athletes"
              prism:ViewModelLocator.AutoWireViewModel="True">
 
      <StackPanel Style="{StaticResource Form}">
         <TextBox Style="{StaticResource Input-Id}"
                   Text="{Binding Id}" />
 
-        <TextBlock Style="{StaticResource Text-Heading}"
+        <TextBlock Style="{StaticResource Text-H1}"
                    Text="{x:Static strings:DesktopStrings.AthleteTitle}" />
 
-        <DockPanel Style="{StaticResource Form-Item}">
+        <DockPanel Style="{StaticResource Stretch-Last}">
 
              <Label Style="{StaticResource Label-Primary}"
                     Target="{Binding ElementName=FeiId}"
@@ -22,7 +23,7 @@
                       Text="{Binding FeiId}"
                       Name="FeiId" />
         </DockPanel>
-        <DockPanel Style="{StaticResource Form-Item}">
+        <DockPanel Style="{StaticResource Stretch-Last}">
 
             <Label Style="{StaticResource Label-Primary}"
                    Target="{Binding ElementName=FirstName}"
@@ -32,7 +33,7 @@
                      Text="{Binding FirstName}"
                      Name="FirstName" />
         </DockPanel>
-        <DockPanel Style="{StaticResource Form-Item}">
+        <DockPanel Style="{StaticResource Stretch-Last}">
 
             <Label Style="{StaticResource Label-Primary}"
                    Target="{Binding ElementName=LastName}"
@@ -42,7 +43,7 @@
                      Text="{Binding LastName}"
                      Name="LastName" />
         </DockPanel>
-        <DockPanel Style="{StaticResource Form-Item}">
+        <DockPanel Style="{StaticResource Stretch-Last}">
 
             <Label Style="{StaticResource Label-Primary}"
                    Target="{Binding ElementName=CountryItems}"
@@ -54,7 +55,7 @@
                       SelectedValuePath="IsoCode"
                       Name="CountryItems" />
         </DockPanel>
-        <DockPanel Style="{StaticResource Form-Item}">
+        <DockPanel Style="{StaticResource Stretch-Last}">
 
             <Label Style="{StaticResource Label-Primary}"
                    Target="{Binding ElementName=CategoryId}"
@@ -66,7 +67,7 @@
                       SelectedValuePath="Id"
                       Name="CategoryId" />
         </DockPanel>
-        <DockPanel Style="{StaticResource Form-Item}">
+        <DockPanel Style="{StaticResource Stretch-Last}">
 
             <Button Style="{StaticResource Button}"
                     Command="{Binding NavigateBack}"

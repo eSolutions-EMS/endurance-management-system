@@ -3,6 +3,7 @@ using EnduranceJudge.Core.Utilities;
 using EnduranceJudge.Gateways.Desktop.Startup;
 using EnduranceJudge.Gateways.Desktop.Views;
 using EnduranceJudge.Gateways.Desktop.Core;
+using EnduranceJudge.Gateways.Desktop.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Prism.DryIoc;
 using Prism.Ioc;
@@ -41,6 +42,7 @@ namespace EnduranceJudge.Gateways.Desktop
         private void InitializeApplication()
         {
             var aspNetProvider = this.Container.Resolve<IServiceProvider>();
+            StaticProvider.Provider = aspNetProvider;
             var initializers = aspNetProvider.GetServices<IInitializerInterface>();
 
             foreach (var initializer in initializers.OrderBy(x => x.RunningOrder))

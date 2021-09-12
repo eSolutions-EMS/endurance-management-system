@@ -1,0 +1,15 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Content/Event/Roots/EnduranceEvents/Listing/EnduranceEventTemplate.xaml" />
+        <ResourceDictionary Source="Content/Event/Roots/Horses/Configuration/HorseTemplate.xaml" />
+        <ResourceDictionary Source="Content/Event/Roots/Athletes/Configuration/AthleteTemplate.xaml" />
+        <ResourceDictionary Source="Content/Event/Children/Competitions/Listing/CompetitionTemplate.xaml" />
+        <ResourceDictionary Source="Content/Event/Children/Personnel/Listing/PersonnelTemplate.xaml" />
+        <ResourceDictionary Source="Content/Event/Children/Phases/Listing/PhaseTemplate.xaml" />
+        <ResourceDictionary Source="Content/Event/Children/PhasesForCategory/Configuration/PhaseForCategoryTemplate.xaml" />
+        <ResourceDictionary Source="Content/Event/Children/Participants/Configuration/ParticipantTemplate.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+</ResourceDictionary>

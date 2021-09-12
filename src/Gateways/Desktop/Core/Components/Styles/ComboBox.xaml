@@ -4,6 +4,7 @@
     <Style x:Key="Combo-Box" TargetType="ComboBox">
         <Setter Property="DisplayMemberPath" Value="Name" />
         <Setter Property="SelectedValuePath" Value="Id" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
     </Style>
 
 </ResourceDictionary>

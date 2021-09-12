@@ -10,7 +10,8 @@ using System.Collections.Generic;
 
 namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
 {
-    public abstract class SearchableListViewModelBase<TCommand, TView> : ListViewModelBase<TCommand, TView>
+    public abstract class SearchableListViewModelBase<TCommand, TView>
+        : ListViewModelBase<TCommand, TView>
         where TCommand : IRequest<IEnumerable<ListItemModel>>, new()
         where TView : IView
     {

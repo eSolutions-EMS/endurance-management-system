@@ -1,0 +1,15 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:athletes="clr-namespace:EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Athletes">
+
+    <DataTemplate DataType="{x:Type athletes:AthleteViewModel}">
+        <StackPanel Style="{StaticResource List-Horizontal}">
+            <TextBlock Style="{StaticResource Text}"
+                       Text="{Binding FirstName}" />
+
+            <TextBlock Style="{StaticResource Text}"
+                       Text="{Binding LastName}" />
+        </StackPanel>
+    </DataTemplate>
+
+</ResourceDictionary>
