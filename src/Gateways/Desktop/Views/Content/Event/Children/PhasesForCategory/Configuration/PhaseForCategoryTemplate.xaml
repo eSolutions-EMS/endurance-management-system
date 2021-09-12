@@ -7,7 +7,8 @@
         <StackPanel Style="{StaticResource List-Horizontal}">
 
             <Button Style="{StaticResource Button-Update}"
-                    Command="{Binding NavigateToUpdate}" />
+                    Command="{Binding NavigateToUpdate}"
+                    Content="{x:Static localization:DesktopStrings.UPDATE_PHASE_FOR_CATEGORY_TEXT}" />
 
             <TextBlock Style="{StaticResource Interval}"></TextBlock>
 

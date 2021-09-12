@@ -22,7 +22,9 @@
             <DockPanel Style="{StaticResource Stretch-Last}">
 
                 <Button Style="{StaticResource Button-Update}"
-                        Command="{Binding NavigateToUpdate}" />
+                        Command="{Binding NavigateToUpdate}"
+                        Content="{x:Static localization:DesktopStrings.UPDATE_PHASE_TEXT}" />
+
 
                 <TextBlock Style="{StaticResource Interval}"></TextBlock>
 

@@ -14,7 +14,7 @@
 
                 <Button Style="{StaticResource Button}"
                         Command="{Binding NavigateToUpdate}"
-                        Content="{x:Static localization:DesktopStrings.UpdateButtonText}" />
+                        Content="{x:Static localization:DesktopStrings.UPDATE_COMPETITION_TEXT}" />
 
                 <TextBlock Style="{StaticResource Interval}"></TextBlock>
                 <TextBlock Style="{StaticResource Text}"

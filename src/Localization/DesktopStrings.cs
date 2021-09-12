@@ -20,6 +20,9 @@
         public const string IsFinalText = "Final";
         public const string PhasesText = "Phases";
         public const string CategoriesText = "Categories";
+        public const string UPDATE_COMPETITION_TEXT = "Update Competition";
+        public const string UPDATE_PHASE_TEXT = "Update Phase";
+        public const string UPDATE_PHASE_FOR_CATEGORY_TEXT = "Update Category";
 
         // -------
         // Regions
