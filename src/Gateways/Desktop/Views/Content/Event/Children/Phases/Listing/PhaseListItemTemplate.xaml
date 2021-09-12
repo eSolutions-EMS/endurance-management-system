@@ -14,12 +14,8 @@
                 </TextBlock>
 
                 <TextBlock Style="{StaticResource Interval}"></TextBlock>
-                <TextBlock Style="{StaticResource Text-Bold}">
-                    <Run Text="{x:Static localization:DesktopStrings.IsFinalText}" />
-                    <Run Text=": " />
-                    <Run Text="{Binding IsFinal, Mode=OneWay}" />
-                </TextBlock>
-
+                <TextBlock Style="{StaticResource Text-Bold}"
+                           Text="{Binding IsFinalText, Mode=OneWay}" />
             </StackPanel>
 
             <TextBlock Style="{StaticResource Interval}"></TextBlock>

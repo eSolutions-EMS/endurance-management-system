@@ -1,5 +1,6 @@
 ﻿using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.PhasesForCategory;
+using EnduranceJudge.Localization;
 using Prism.Commands;
 using Prism.Regions;
 using System.Collections.ObjectModel;
@@ -17,15 +18,26 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Phases
         public DelegateCommand NavigateToCreatePhaseForCategory { get; }
         public ObservableCollection<PhaseForCategoryViewModel> PhasesForCategories { get; } = new();
 
+        private string isFinalText;
         private int isFinalValue;
         private int lengthInKm;
 
-        public bool IsFinal => this.isFinalValue != 0;
+        public string IsFinalText
+        {
+            get => this.isFinalText;
+            set => this.SetProperty (ref this.isFinalText, value);
+        }
 
         public int IsFinalValue
         {
             get => this.isFinalValue;
-            set => this.SetProperty(ref this.isFinalValue, value);
+            set
+            {
+                this.SetProperty(ref this.isFinalValue, value);
+                this.IsFinalText = value == 1
+                    ? DesktopStrings.IsFinalText
+                    : string.Empty;
+            }
         }
         public int LengthInKm
         {
