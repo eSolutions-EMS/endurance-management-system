@@ -9,7 +9,7 @@
     <StackPanel Background="Aqua">
         <DockPanel Style="{StaticResource Stretch-Last}">
 
-            <Button Style="{StaticResource Button-Form-Item}"
+            <Button Style="{StaticResource Button}"
                     Command="{Binding OpenFolderDialog}"
                     Name="Select_WorkDirectory"
                     Content="{x:Static strings:DesktopStrings.SelectWorkDirectoryButtonText}" />

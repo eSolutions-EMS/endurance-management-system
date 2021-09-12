@@ -13,7 +13,7 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <TextBlock Style="{StaticResource Text-Heading}"
+        <TextBlock Style="{StaticResource Text-H1}"
                    Text="{x:Static strings:DesktopStrings.AthletesListTitle}" />
 
         <DockPanel Style="{StaticResource Stretch-Last}"

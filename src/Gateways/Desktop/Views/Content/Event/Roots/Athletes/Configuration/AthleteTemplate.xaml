@@ -4,10 +4,10 @@
 
     <DataTemplate DataType="{x:Type athletes:AthleteViewModel}">
         <StackPanel Style="{StaticResource List-Horizontal}">
-            <TextBlock Style="{StaticResource Text-Paragraph}"
+            <TextBlock Style="{StaticResource Text}"
                        Text="{Binding FirstName}" />
 
-            <TextBlock Style="{StaticResource Text-Paragraph}"
+            <TextBlock Style="{StaticResource Text}"
                        Text="{Binding LastName}" />
         </StackPanel>
     </DataTemplate>

@@ -7,7 +7,7 @@
              prism:ViewModelLocator.AutoWireViewModel="True">
 
      <StackPanel Style="{StaticResource Form}">
-         <TextBlock Style="{StaticResource Text-Heading}"
+         <TextBlock Style="{StaticResource Text-H1}"
                     Text="{x:Static strings:DesktopStrings.HorseTitle}" />
 
         <TextBox Style="{StaticResource Input-Id}"

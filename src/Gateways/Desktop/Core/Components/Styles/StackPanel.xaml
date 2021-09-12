@@ -9,6 +9,7 @@
 
     <Style x:Key="List-Horizontal" TargetType="StackPanel" BasedOn="{StaticResource Wrapper}">
         <Setter Property="Orientation" Value="Horizontal" />
+        <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
 
     <Style x:Key="List-Vertical" BasedOn="{StaticResource Wrapper}" TargetType="StackPanel">

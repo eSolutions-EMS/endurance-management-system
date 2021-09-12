@@ -14,6 +14,13 @@
         public const string BoolTrueValue = "Yes";
         public const string BoolFalseValue = "No";
 
+        public const string RestInMinutesText = "Rest (minutes)";
+        public const string RecoveryInMinutesText = "Recovery (minutes)";
+        public const string LengthInKmText = "Length (km)";
+        public const string IsFinalText = "Final";
+        public const string PhasesText = "Phases";
+        public const string CategoriesText = "Categories";
+
         // -------
         // Regions
 
@@ -101,5 +108,6 @@
 
         // ------ PhaseForCategory
         public const string PhaseForCategoryTitle = "Phase For Category";
+
     }
 }

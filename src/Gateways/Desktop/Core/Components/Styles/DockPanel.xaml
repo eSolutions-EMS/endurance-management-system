@@ -6,6 +6,7 @@
     </Style>
 
     <Style x:Key="Stretch-Last" TargetType="DockPanel" BasedOn="{StaticResource Strip}">
+        <Setter Property="VerticalAlignment" Value="Center"></Setter>
     </Style>
 
     <Style x:Key="Strip-Error" TargetType="DockPanel" BasedOn="{StaticResource Strip}">

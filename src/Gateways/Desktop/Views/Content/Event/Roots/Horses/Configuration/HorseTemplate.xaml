@@ -3,7 +3,7 @@
                     xmlns:horses="clr-namespace:EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Horses">
 
     <DataTemplate DataType="{x:Type horses:HorseViewModel}">
-        <TextBlock Style="{StaticResource Text-Paragraph}"
+        <TextBlock Style="{StaticResource Text}"
                    Text="{Binding Name}" />
     </DataTemplate>
 

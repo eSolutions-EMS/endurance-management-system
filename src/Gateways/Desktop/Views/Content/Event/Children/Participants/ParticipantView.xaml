@@ -11,7 +11,7 @@
 
         <StackPanel Style="{StaticResource Form}">
 
-            <TextBlock Style="{StaticResource Text-Heading}"
+            <TextBlock Style="{StaticResource Text-H1}"
                        Text="{x:Static strings:DesktopStrings.ParticipantTitle}" />
 
             <DockPanel Style="{StaticResource Stretch-Last}">

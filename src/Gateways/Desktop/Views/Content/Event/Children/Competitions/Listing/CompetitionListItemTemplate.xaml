@@ -4,21 +4,28 @@
                     xmlns:localization="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization">
 
     <DataTemplate DataType="{x:Type competitions:CompetitionViewModel}">
-        <DockPanel Style="{StaticResource Stretch-Last}">
-            <Button Style="{StaticResource Button}"
-                    Command="{Binding NavigateToUpdate}"
-                    Content="{x:Static localization:DesktopStrings.UpdateButtonText}" />
+        <StackPanel Style="{StaticResource List-Vertical}">
 
-            <StackPanel Style="{StaticResource List-Vertical}">
-                <TextBlock Style="{StaticResource Text-Paragraph}"
-                           Text="{Binding Name}" />
+            <TextBlock Style="{StaticResource Text-H3}"
+                       Text="{Binding Name}" />
 
-                <DockPanel Style="{StaticResource Stretch-Last}">
-                    <ListBox Style="{StaticResource List}"
+            <TextBlock Style="{StaticResource Interval}"></TextBlock>
+            <DockPanel Style="{StaticResource Stretch-Last}">
+
+                <Button Style="{StaticResource Button}"
+                        Command="{Binding NavigateToUpdate}"
+                        Content="{x:Static localization:DesktopStrings.UpdateButtonText}" />
+
+                <TextBlock Style="{StaticResource Interval}"></TextBlock>
+                <TextBlock Style="{StaticResource Text}"
+                           Text="{x:Static localization:DesktopStrings.PhasesText}" />
+
+                <TextBlock Style="{StaticResource Interval}"></TextBlock>
+                <ListBox Style="{StaticResource List}"
                              ItemsSource="{Binding Phases}" />
-                </DockPanel>
-            </StackPanel>
-        </DockPanel>
+            </DockPanel>
+
+        </StackPanel>
     </DataTemplate>
 
 </ResourceDictionary>

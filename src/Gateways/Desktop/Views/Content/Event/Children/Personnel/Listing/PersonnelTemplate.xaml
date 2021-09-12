@@ -4,10 +4,10 @@
 
     <DataTemplate DataType="{x:Type personnel:PersonnelViewModel}">
         <StackPanel Style="{StaticResource List-Horizontal}">
-            <TextBlock Style="{StaticResource Text-Paragraph}"
+            <TextBlock Style="{StaticResource Text}"
                        Text="{Binding RoleName}" />
 
-            <TextBlock Style="{StaticResource Text-Paragraph}"
+            <TextBlock Style="{StaticResource Text}"
                        Text="{Binding Name}" />
         </StackPanel>
     </DataTemplate>

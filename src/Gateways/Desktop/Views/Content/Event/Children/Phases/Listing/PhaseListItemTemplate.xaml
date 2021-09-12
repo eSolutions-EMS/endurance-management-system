@@ -4,19 +4,41 @@
                     xmlns:localization="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization">
 
     <DataTemplate DataType="{x:Type phases:PhaseViewModel}">
-        <DockPanel Style="{StaticResource Stretch-Last}">
-            <Button Style="{StaticResource Button}"
-                    Command="{Binding NavigateToUpdate}"
-                    Content="{x:Static localization:DesktopStrings.UpdateButtonText}" />
-
+        <StackPanel Style="{StaticResource List-Vertical}">
             <StackPanel Style="{StaticResource List-Horizontal}">
-                <TextBlock Style="{StaticResource Text-Paragraph}"
-                           Text="{Binding LengthInKm}" />
 
-                <TextBlock Style="{StaticResource Text-Paragraph}"
-                           Text="{Binding IsFinal}" />
+                <TextBlock Style="{StaticResource Text-Bold}">
+                    <Run Text="{x:Static localization:DesktopStrings.LengthInKmText}" />
+                    <Run Text=": " />
+                    <Run Text="{Binding LengthInKm}" />
+                </TextBlock>
+
+                <TextBlock Style="{StaticResource Interval}"></TextBlock>
+                <TextBlock Style="{StaticResource Text-Bold}">
+                    <Run Text="{x:Static localization:DesktopStrings.IsFinalText}" />
+                    <Run Text=": " />
+                    <Run Text="{Binding IsFinal, Mode=OneWay}" />
+                </TextBlock>
+
             </StackPanel>
-        </DockPanel>
+
+            <TextBlock Style="{StaticResource Interval}"></TextBlock>
+            <DockPanel Style="{StaticResource Stretch-Last}">
+
+                <Button Style="{StaticResource Button-Update}"
+                        Command="{Binding NavigateToUpdate}" />
+
+                <TextBlock Style="{StaticResource Interval}"></TextBlock>
+
+                <TextBlock Style="{StaticResource Text}"
+                           Text="{x:Static localization:DesktopStrings.CategoriesText}" />
+
+                <TextBlock Style="{StaticResource Interval}"></TextBlock>
+
+                <ListBox Style="{StaticResource List}"
+                         ItemsSource="{Binding PhasesForCategories}"/>
+            </DockPanel>
+        </StackPanel>
     </DataTemplate>
 
 </ResourceDictionary>

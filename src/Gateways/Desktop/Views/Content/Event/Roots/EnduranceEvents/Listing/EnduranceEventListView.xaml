@@ -6,7 +6,7 @@
              prism:ViewModelLocator.AutoWireViewModel="True">
 
     <StackPanel Style="{StaticResource Wrapper}">
-        <TextBlock Style="{StaticResource Text-Heading}"
+        <TextBlock Style="{StaticResource Text-H1}"
                    Text="{x:Static strings:DesktopStrings.EnduranceEventListTitle}" />
 
         <Button Style="{StaticResource Button}"

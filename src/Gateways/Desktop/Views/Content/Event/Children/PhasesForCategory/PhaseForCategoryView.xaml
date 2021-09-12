@@ -13,7 +13,7 @@
             <TextBox Style="{StaticResource Input-Id}"
                      Text="{Binding Id}" />
 
-            <TextBlock Style="{StaticResource Text-Heading}"
+            <TextBlock Style="{StaticResource Text-H1}"
                        Text="{x:Static strings:DesktopStrings.PhaseForCategoryTitle}" />
 
             <DockPanel Style="{StaticResource Stretch-Last}">
