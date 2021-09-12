@@ -4,9 +4,14 @@
 
     <DataTemplate DataType="{x:Type personnel:PersonnelViewModel}">
         <StackPanel Style="{StaticResource List-Horizontal}">
+            <Button Style="{StaticResource Button-Update}"
+                    Command="{Binding NavigateToUpdate}" />
+
+            <TextBlock Style="{StaticResource Interval}" />
             <TextBlock Style="{StaticResource Text}"
                        Text="{Binding RoleName}" />
 
+            <TextBlock Style="{StaticResource Interval}" />
             <TextBlock Style="{StaticResource Text}"
                        Text="{Binding Name}" />
         </StackPanel>
