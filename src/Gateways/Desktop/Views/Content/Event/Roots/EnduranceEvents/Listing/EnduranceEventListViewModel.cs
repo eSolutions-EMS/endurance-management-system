@@ -11,6 +11,10 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.EnduranceEve
     public class EnduranceEventListViewModel :
         ListViewModelBase<GetEnduranceEventsList, EnduranceEventView>
     {
+        public EnduranceEventListViewModel() : base(null, null)
+        {
+        }
+
         public EnduranceEventListViewModel(IApplicationService application, INavigationService navigation)
             : base (application, navigation)
         {

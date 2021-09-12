@@ -32,6 +32,7 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
         {
             var command = this.Map<TCommand>();
             await this.Application.Execute(command);
+            this.NavigateBackAction();
         }
 
         public override bool IsNavigationTarget(NavigationContext context)
