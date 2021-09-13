@@ -28,28 +28,34 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Import
             this.OpenImportFileDialog = new AsyncCommand(this.OpenImportFileDialogAction);
         }
 
+        public DelegateCommand OpenFolderDialog { get; }
+        public DelegateCommand OpenImportFileDialog { get; }
+
         private string workDirectoryPath;
+        private string importFilePath;
+        private Visibility workDirectoryVisibility = Visibility.Visible;
+        private Visibility importFilePathVisibility = Visibility.Hidden;
+
         public string WorkDirectoryPath
         {
             get => this.workDirectoryPath;
             private set => this.SetProperty(ref this.workDirectoryPath, value);
         }
-
-        private Visibility importVisibility = Visibility.Hidden;
-        public Visibility ImportVisibility
+        public Visibility WorkDirectoryVisibility
         {
-            get => this.importVisibility;
-            set => this.SetProperty(ref this.importVisibility, value);
+            get => this.workDirectoryVisibility;
+            set => this.SetProperty(ref this.workDirectoryVisibility, value);
         }
-        private string importFilePath;
         public string ImportFilePath
         {
             get => this.importFilePath;
             set => this.SetProperty(ref this.importFilePath, value);
         }
-
-        public DelegateCommand OpenFolderDialog { get; }
-        public DelegateCommand OpenImportFileDialog { get; }
+        public Visibility ImportFilePathVisibility
+        {
+            get => this.importFilePathVisibility;
+            set => this.SetProperty(ref this.importFilePathVisibility, value);
+        }
 
         private async Task OpenFolderDialogAction()
         {
@@ -58,20 +64,17 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Import
             {
                 return;
             }
-
             this.WorkDirectoryPath = selectedPath;
-
             var selectWorkFileRequest = new SelectWorkFile
             {
                 DirectoryPath = selectedPath,
             };
 
+            this.WorkDirectoryVisibility = Visibility.Hidden;
+            this.ImportFilePathVisibility = Visibility.Visible;
+
             var isNewFileCreated = await this.application.Execute(selectWorkFileRequest);
-            if (isNewFileCreated)
-            {
-                this.ImportVisibility = Visibility.Visible;
-            }
-            else
+            if (!isNewFileCreated)
             {
                 this.Redirect();
             }
@@ -86,14 +89,11 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Import
             }
 
             this.ImportFilePath = path;
-
             var importFromFileRequest = new ImportFromFile
             {
                 FilePath = path,
             };
-
             await this.application.Execute(importFromFileRequest);
-
             this.Redirect();
         }
 

@@ -11,7 +11,8 @@
         <SelfContained>true</SelfContained>
         <PublishTrimmed>true</PublishTrimmed>
         <PublishSingleFile>true</PublishSingleFile>
-<!--        <PublishReadyToRun>true</PublishReadyToRun>-->
+        <PublishReadyToRun>true</PublishReadyToRun>
+        <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
     </PropertyGroup>
     
     <ItemGroup>
