@@ -113,5 +113,8 @@
         // ------ PhaseForCategory
         public const string PhaseForCategoryTitle = "Phase For Category";
 
+        // ---- Manager Page
+
+        public const string PARTICIPANTS = "Participants";
     }
 }

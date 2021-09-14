@@ -23,11 +23,11 @@ namespace EnduranceJudge.Application.Events.Commands.EnduranceEvents
         public class SaveEnduranceEventHandler : Handler<SaveEnduranceEvent>
         {
             private readonly IEnduranceEventFactory enduranceEventFactory;
-            private readonly ICommandsBase<EnduranceEvent> eventCommands;
+            private readonly ICommands<EnduranceEvent> eventCommands;
 
             public SaveEnduranceEventHandler(
                 IEnduranceEventFactory enduranceEventFactory,
-                ICommandsBase<EnduranceEvent> eventCommands)
+                ICommands<EnduranceEvent> eventCommands)
             {
                 this.enduranceEventFactory = enduranceEventFactory;
                 this.eventCommands = eventCommands;

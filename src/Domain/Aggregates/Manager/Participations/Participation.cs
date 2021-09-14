@@ -10,7 +10,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participations
 {
     public class Participation : DomainBase<ManagerParticipationException>
     {
-        private const string AlreadyStartedMessage = "has already started";
+        private const string ALREADY_STARTED_MESSAGE = "has already started";
 
         private readonly IReadOnlyList<CompetitionDto> competitions;
         private readonly List<ParticipationInCompetition> participationsInCompetitions = new();
@@ -36,7 +36,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participations
         private void Start()
             => this.Validate(() =>
             {
-                this.participationsInCompetitions.IsEmpty(AlreadyStartedMessage);
+                this.participationsInCompetitions.IsEmpty(ALREADY_STARTED_MESSAGE);
 
                 foreach (var participationInCompetition in this.competitions
                     .Select(competition => new ParticipationInCompetition(competition, this.maxAverageSpeedInKpH)))
@@ -58,6 +58,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participations
         }
         public void CompleteSuccessful()
         {
+            //TODO: If HasExceededSpeedRestrictions ...
             this.Update(participation => participation.CompleteSuccessful());
         }
         public void CompleteUnsuccessful(string code)

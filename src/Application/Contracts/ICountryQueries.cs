@@ -3,7 +3,7 @@ using EnduranceJudge.Domain.Aggregates.Common.Countries;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace EnduranceJudge.Application.Contracts.Countries
+namespace EnduranceJudge.Application.Contracts
 {
     public interface ICountryQueries : IService
     {

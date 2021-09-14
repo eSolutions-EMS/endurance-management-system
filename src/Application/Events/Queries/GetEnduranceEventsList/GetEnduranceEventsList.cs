@@ -14,7 +14,7 @@ namespace EnduranceJudge.Application.Events.Queries.GetEnduranceEventsList
         public class GetEnduranceEventsListHandler
             : GetAllHandler<GetEnduranceEventsList, ListItemModel, EnduranceEvent>
         {
-            public GetEnduranceEventsListHandler(IQueriesBase<EnduranceEvent> queries) : base(queries)
+            public GetEnduranceEventsListHandler(IQueries<EnduranceEvent> queries) : base(queries)
             {
             }
         }

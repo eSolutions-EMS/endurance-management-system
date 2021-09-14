@@ -1,4 +1,4 @@
-﻿using EnduranceJudge.Application.Contracts.Countries;
+﻿using EnduranceJudge.Application.Contracts;
 using EnduranceJudge.Application.Core.Contracts;
 using EnduranceJudge.Application.Core.Handlers;
 using EnduranceJudge.Application.Core.Requests;
@@ -16,7 +16,7 @@ namespace EnduranceJudge.Application.Events.Queries.GetEvent
         {
             private readonly ICountryQueries countryQueries;
 
-            public GetEnduranceEventHandler(IQueriesBase<EnduranceEvent> query, ICountryQueries countryQueries)
+            public GetEnduranceEventHandler(IQueries<EnduranceEvent> query, ICountryQueries countryQueries)
                 : base(query)
             {
                 this.countryQueries = countryQueries;

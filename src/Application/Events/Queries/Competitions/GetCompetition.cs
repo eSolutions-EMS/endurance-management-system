@@ -13,7 +13,7 @@ namespace EnduranceJudge.Application.Events.Queries.Competitions
 
         public class GetCompetitionHandler : GetOneHandler<GetCompetition, CompetitionForUpdateModel, Competition>
         {
-            public GetCompetitionHandler(IQueriesBase<Competition> query) : base(query)
+            public GetCompetitionHandler(IQueries<Competition> query) : base(query)
             {
             }
         }

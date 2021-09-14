@@ -1,4 +1,4 @@
-﻿using EnduranceJudge.Application.Contracts.Countries;
+﻿using EnduranceJudge.Application.Contracts;
 using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Domain.Aggregates.Common.Countries;
 using Microsoft.EntityFrameworkCore;
@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace EnduranceJudge.Gateways.Persistence.Contracts.Repositories.Countries
+namespace EnduranceJudge.Gateways.Persistence.Contracts.Repositories
 {
     public class CountryRepository : ICountryQueries
     {

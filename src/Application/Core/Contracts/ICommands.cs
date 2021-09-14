@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace EnduranceJudge.Application.Core.Contracts
 {
-    public interface ICommandsBase<TDomainModel> : IQueriesBase<TDomainModel>
+    public interface ICommands<TDomainModel> : IQueries<TDomainModel>
         where TDomainModel : IDomainModel
     {
         Task Save(TDomainModel domainModel, CancellationToken cancellationToken);

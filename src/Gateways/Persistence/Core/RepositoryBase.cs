@@ -10,20 +10,19 @@ using System.Threading.Tasks;
 
 namespace EnduranceJudge.Gateways.Persistence.Core
 {
-    public class RepositoryBase<TDataStore, TEntityModel, TDomainModel> : ICommandsBase<TDomainModel>
+    public class Repository<TEntityModel, TDomainModel> : ICommands<TDomainModel>
         where TDomainModel : class, IDomainModel
-        where TDataStore : IDataStore
         where TEntityModel : EntityBase
     {
         private readonly IWorkFileUpdater workFileUpdater;
 
-        public RepositoryBase(TDataStore dataStore, IWorkFileUpdater workFileUpdater)
+        public Repository(EnduranceJudgeDbContext dbContext, IWorkFileUpdater workFileUpdater)
         {
             this.workFileUpdater = workFileUpdater;
-            this.DataStore = dataStore;
+            this.DbContext = dbContext;
         }
 
-        protected TDataStore DataStore { get; }
+        protected EnduranceJudgeDbContext DbContext { get; }
 
         public virtual async Task<TDomainModel> Find(int id)
         {
@@ -33,7 +32,7 @@ namespace EnduranceJudge.Gateways.Persistence.Core
 
         public virtual async Task<TModel> Find<TModel>(int id)
         {
-            var model = await this.DataStore
+            var model = await this.DbContext
                 .Set<TEntityModel>()
                 .Where(x => x.Id == id)
                 .MapQueryable<TModel>()
@@ -43,7 +42,7 @@ namespace EnduranceJudge.Gateways.Persistence.Core
 
         public virtual async Task<IList<TModel>> All<TModel>()
         {
-            var list = await this.DataStore
+            var list = await this.DbContext
                 .Set<TEntityModel>()
                 .MapQueryable<TModel>()
                 .ToListAsync();
@@ -63,16 +62,16 @@ namespace EnduranceJudge.Gateways.Persistence.Core
 
         private async Task<TEntityModel> InnerSave(TDomainModel domain, CancellationToken token)
         {
-            var entity = await this.DataStore.FindAsync<TEntityModel>(domain.Id);
+            var entity = await this.DbContext.FindAsync<TEntityModel>(domain.Id);
             if (entity == null)
             {
                 entity = domain.Map<TEntityModel>();
-                this.DataStore.Add(entity);
+                this.DbContext.Add(entity);
             }
             else
             {
                 entity.MapFrom(domain);
-                this.DataStore.Update(entity);
+                this.DbContext.Update(entity);
             }
 
             await this.Persist(token);
@@ -82,7 +81,7 @@ namespace EnduranceJudge.Gateways.Persistence.Core
 
         protected async Task Persist(CancellationToken token)
         {
-            await this.DataStore.SaveChangesAsync(token);
+            await this.DbContext.SaveChangesAsync(token);
             await this.workFileUpdater.Snapshot();
         }
     }
