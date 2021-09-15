@@ -19,7 +19,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Athletes.Lis
             this.mouseInput = mouseInput;
         }
 
-        public string RegionName { get; } = Regions.Content;
+        public string RegionName { get; } = Regions.CONTENT_RIGHT;
 
         public void HandleScroll(object sender, MouseWheelEventArgs mouseEvent)
         {

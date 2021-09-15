@@ -3,11 +3,26 @@
                     xmlns:localization="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization">
 
     <Style x:Key="Button" TargetType="Button">
-        <Setter Property="Height" Value="30px"></Setter>
+        <Setter Property="Height" Value="30px" />
+        <Setter Property="Padding" Value="5px 0" />
+        <Setter Property="BorderThickness" Value="0" />
     </Style>
 
     <Style x:Key="Button-Update" TargetType="Button" BasedOn="{StaticResource Button}">
         <Setter Property="Content" Value="{x:Static localization:DesktopStrings.UpdateButtonText}" />
+    </Style>
+
+    <Style x:Key="Button-Header" TargetType="Button" BasedOn="{StaticResource Button}">
+        <Setter Property="MinWidth" Value="150px" />
+        <Setter Property="FontSize" Value="16px" />
+    </Style>
+
+    <Style x:Key="Button-Header-Vertical" TargetType="Button" BasedOn="{StaticResource Button-Header}">
+        <Setter Property="Margin" Value="0 0 0 5px" />
+    </Style>
+
+    <Style x:Key="Button-Header-Horizontal" TargetType="Button" BasedOn="{StaticResource Button-Header}">
+        <Setter Property="Margin" Value="0 0 5px 0" />
     </Style>
 
 </ResourceDictionary>

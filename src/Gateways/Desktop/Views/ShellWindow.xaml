@@ -7,18 +7,62 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="1*"></RowDefinition>
-            <RowDefinition Height="1*"></RowDefinition>
-            <RowDefinition Height="9*"></RowDefinition>
+            <RowDefinition Height="1*" MinHeight="50px"></RowDefinition>
+            <RowDefinition Height="15*"></RowDefinition>
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10*" MinWidth="100px"></ColumnDefinition>
+            <ColumnDefinition Width="2*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
 
-        <ContentControl prism:RegionManager.RegionName="{x:Static desktop:Regions.Navigation}"
-                        Grid.Row="0"/>
+        <ContentControl prism:RegionManager.RegionName="{x:Static desktop:Regions.HEADER_RIGHT}"
+                        Grid.Row="0" Grid.Column="1">
+            <ContentControl.Template>
+                <ControlTemplate TargetType="ContentControl">
+                    <Border Style="{StaticResource Navigation-Background}">
+                        <Grid Style="{StaticResource Region}">
+                            <ContentPresenter Content="{TemplateBinding Content}" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </ContentControl.Template>
+        </ContentControl>
+        <ContentControl prism:RegionManager.RegionName="{x:Static desktop:Regions.HEADER_LEFT}"
+                        Grid.Row="0" Grid.Column="0">
+            <ContentControl.Template>
+                <ControlTemplate TargetType="ContentControl">
+                    <Border Style="{StaticResource Navigation-Background}">
+                        <Grid Style="{StaticResource Region}">
+                            <ContentPresenter Content="{TemplateBinding Content}" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </ContentControl.Template>
+        </ContentControl>
 
-        <ContentControl prism:RegionManager.RegionName="{x:Static desktop:Regions.SubNavigation}"
-                        Grid.Row="1"/>
-
-        <ContentControl prism:RegionManager.RegionName="{x:Static desktop:Regions.Content}"
-                        Grid.Row="2"/>
+        <ContentControl prism:RegionManager.RegionName="{x:Static desktop:Regions.CONTENT_LEFT}"
+                        Grid.Row="1" Grid.Column="1">
+            <ContentControl.Template>
+                <ControlTemplate TargetType="ContentControl">
+                    <Border Style="{StaticResource Navigation-Background}">
+                        <Grid Style="{StaticResource Region}">
+                            <ContentPresenter Content="{TemplateBinding Content}" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </ContentControl.Template>
+        </ContentControl>
+        <ContentControl prism:RegionManager.RegionName="{x:Static desktop:Regions.CONTENT_RIGHT}"
+                        Grid.Row="1" Grid.Column="0">
+            <ContentControl.Template>
+                <ControlTemplate TargetType="ContentControl">
+                    <Border Style="{StaticResource Background}">
+                        <Grid Style="{StaticResource Region}">
+                            <ContentPresenter Content="{TemplateBinding Content}" />
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </ContentControl.Template>
+        </ContentControl>
     </Grid>
 </Window>

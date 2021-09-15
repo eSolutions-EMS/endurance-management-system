@@ -6,7 +6,7 @@
              prism:ViewModelLocator.AutoWireViewModel="True"
              HorizontalContentAlignment="Stretch">
 
-    <StackPanel Background="Aqua">
+    <StackPanel Style="{StaticResource List-Vertical}">
         <DockPanel Style="{StaticResource Stretch-Last}"
                    Visibility="{Binding WorkDirectoryVisibility}">
 

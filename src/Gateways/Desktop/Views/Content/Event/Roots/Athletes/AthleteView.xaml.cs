@@ -10,6 +10,6 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Athletes
             InitializeComponent();
         }
 
-        public string RegionName { get; } = Regions.Content;
+        public string RegionName { get; } = Regions.CONTENT_RIGHT;
     }
 }
