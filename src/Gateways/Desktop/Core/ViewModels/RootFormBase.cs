@@ -2,7 +2,7 @@
 using EnduranceJudge.Core.Models;
 using EnduranceJudge.Gateways.Desktop.Core.Objects;
 using EnduranceJudge.Gateways.Desktop.Core.Extensions;
-using EnduranceJudge.Gateways.Desktop.Core.Services;
+using EnduranceJudge.Gateways.Desktop.Core.Static;
 using MediatR;
 using Prism.Commands;
 using Prism.Regions;

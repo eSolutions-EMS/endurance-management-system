@@ -53,7 +53,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Navigation
         private void Subscribe()
         {
             this.eventAggregator
-                .GetEvent<ValidationErrorEvent>()
+                .GetEvent<ErrorEvent>()
                 .Subscribe(this.SubscribeToValidationErrors);
         }
 

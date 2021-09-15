@@ -9,11 +9,11 @@
         <Setter Property="VerticalAlignment" Value="Center"></Setter>
     </Style>
 
-    <Style x:Key="Strip-Error" TargetType="DockPanel" BasedOn="{StaticResource Strip}">
-        <Setter Property="Background" Value="DarkRed"></Setter>
+    <Style x:Key="List-Item" TargetType="DockPanel" BasedOn="{StaticResource Strip}">
     </Style>
 
-    <Style x:Key="List-Item" TargetType="DockPanel" BasedOn="{StaticResource Strip}">
+    <Style x:Key="Dock-Error" TargetType="DockPanel">
+        <Setter Property="HorizontalAlignment" Value="Center" />
     </Style>
 
 </ResourceDictionary>

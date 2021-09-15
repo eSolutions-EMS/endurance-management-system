@@ -6,10 +6,15 @@
         <Setter Property="Height" Value="30px" />
         <Setter Property="Padding" Value="5px 0" />
         <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="MaxWidth" Value="300px" />
     </Style>
 
     <Style x:Key="Button-Update" TargetType="Button" BasedOn="{StaticResource Button}">
         <Setter Property="Content" Value="{x:Static localization:DesktopStrings.UpdateButtonText}" />
+    </Style>
+
+    <Style x:Key="Button-Back" TargetType="Button" BasedOn="{StaticResource Button}">
+        <Setter Property="Content" Value="{x:Static localization:DesktopStrings.BackButtonText}" />
     </Style>
 
     <Style x:Key="Button-Header" TargetType="Button" BasedOn="{StaticResource Button}">

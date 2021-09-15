@@ -17,18 +17,18 @@ namespace EnduranceJudge.Gateways.Desktop.Services.Implementations
         public void NavigateToImport()
         {
             this.ChangeTo<ImportView>();
-            this.ClearRegion(Regions.CONTENT_LEFT);
+            this.ClearRegion(Regions.CONTENT_RIGHT);
         }
 
         public void NavigateToEvent()
         {
             this.ChangeTo<EnduranceEventListView>();
-            this.ChangeTo<EventNavigationStripView>(Regions.CONTENT_LEFT);
+            this.ChangeTo<EventNavigationStripView>(Regions.CONTENT_RIGHT);
         }
 
         public void ChangeTo<T>() where T : IView
         {
-            this.ChangeTo(Regions.CONTENT_RIGHT, typeof(T), null);
+            this.ChangeTo(Regions.CONTENT_LEFT, typeof(T), null);
         }
 
         public void ChangeTo<T>(int entityId)
@@ -50,7 +50,7 @@ namespace EnduranceJudge.Gateways.Desktop.Services.Implementations
                 navigationParameters.Add(key, value);
             }
 
-            this.ChangeTo(Regions.CONTENT_RIGHT, view, navigationParameters);
+            this.ChangeTo(Regions.CONTENT_LEFT, view, navigationParameters);
         }
     }
 }

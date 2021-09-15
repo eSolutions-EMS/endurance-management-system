@@ -16,4 +16,8 @@
         <Setter Property="Orientation" Value="Vertical" />
     </Style>
 
+    <Style x:Key="List-Vertical-Centered"  TargetType="StackPanel" BasedOn="{StaticResource List-Vertical}">
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
 </ResourceDictionary>

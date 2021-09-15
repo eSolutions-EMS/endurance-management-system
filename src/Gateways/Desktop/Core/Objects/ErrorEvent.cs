@@ -2,7 +2,7 @@
 
 namespace EnduranceJudge.Gateways.Desktop.Core.Objects
 {
-    public class ValidationErrorEvent : PubSubEvent<string>
+    public class ErrorEvent : PubSubEvent<string>
     {
     }
 }

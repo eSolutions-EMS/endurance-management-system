@@ -19,7 +19,7 @@
                         Grid.Row="0" Grid.Column="1">
             <ContentControl.Template>
                 <ControlTemplate TargetType="ContentControl">
-                    <Border Style="{StaticResource Navigation-Background}">
+                    <Border Style="{StaticResource Background-Navigation}">
                         <Grid Style="{StaticResource Region}">
                             <ContentPresenter Content="{TemplateBinding Content}" />
                         </Grid>
@@ -31,7 +31,7 @@
                         Grid.Row="0" Grid.Column="0">
             <ContentControl.Template>
                 <ControlTemplate TargetType="ContentControl">
-                    <Border Style="{StaticResource Navigation-Background}">
+                    <Border Style="{StaticResource Background-Navigation}">
                         <Grid Style="{StaticResource Region}">
                             <ContentPresenter Content="{TemplateBinding Content}" />
                         </Grid>
@@ -41,10 +41,10 @@
         </ContentControl>
 
         <ContentControl prism:RegionManager.RegionName="{x:Static desktop:Regions.CONTENT_LEFT}"
-                        Grid.Row="1" Grid.Column="1">
+                        Grid.Row="1" Grid.Column="0">
             <ContentControl.Template>
                 <ControlTemplate TargetType="ContentControl">
-                    <Border Style="{StaticResource Navigation-Background}">
+                    <Border Style="{StaticResource Background}">
                         <Grid Style="{StaticResource Region}">
                             <ContentPresenter Content="{TemplateBinding Content}" />
                         </Grid>
@@ -53,10 +53,10 @@
             </ContentControl.Template>
         </ContentControl>
         <ContentControl prism:RegionManager.RegionName="{x:Static desktop:Regions.CONTENT_RIGHT}"
-                        Grid.Row="1" Grid.Column="0">
+                        Grid.Row="1" Grid.Column="1">
             <ContentControl.Template>
                 <ControlTemplate TargetType="ContentControl">
-                    <Border Style="{StaticResource Background}">
+                    <Border Style="{StaticResource Background-Navigation}">
                         <Grid Style="{StaticResource Region}">
                             <ContentPresenter Content="{TemplateBinding Content}" />
                         </Grid>

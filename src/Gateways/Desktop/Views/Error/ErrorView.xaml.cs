@@ -1,11 +1,11 @@
 ﻿using EnduranceJudge.Gateways.Desktop.Core;
 using System.Windows.Controls;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.EnduranceEvents.Listing
+namespace EnduranceJudge.Gateways.Desktop.Views.Error
 {
-    public partial class EnduranceEventListView : UserControl, IView
+    public partial class ErrorView : UserControl, IView
     {
-        public EnduranceEventListView()
+        public ErrorView()
         {
             InitializeComponent();
         }

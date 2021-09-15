@@ -21,11 +21,12 @@ namespace EnduranceJudge.Gateways.Desktop
             }
         }
 
-        public const string EntityIdParameter = "Id";
-        public const string FormDataParameter = "FormData";
-        public const string ChildDataParameter = "ChildData";
-        public const string NewChildIdParameter = "ChildId";
-        public const string UpdateOnlyParameter = "UpdateOnly";
+        public const string EntityIdParameter = "Parameter0";
+        public const string FormDataParameter = "Parameter1";
+        public const string ChildDataParameter = "Parameter2";
+        public const string NewChildIdParameter = "Parameter3";
+        public const string UpdateOnlyParameter = "Parameter4";
+        public const string MESSAGE_PARAMETER = "Parameter5";
 
         public static class Types
         {
@@ -36,9 +37,9 @@ namespace EnduranceJudge.Gateways.Desktop
 
     public static class Regions
     {
-        public const string HEADER_RIGHT = "Region1";
-        public const string HEADER_LEFT = "Region2";
+        public const string HEADER_RIGHT = "Region0";
+        public const string HEADER_LEFT = "Region1";
+        public const string CONTENT_RIGHT = "Region2";
         public const string CONTENT_LEFT = "Region3";
-        public const string CONTENT_RIGHT = "Region4";
     }
 }

@@ -10,6 +10,6 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.NavigationStrip
             InitializeComponent();
         }
 
-        public string RegionName { get; } = Regions.CONTENT_LEFT;
+        public string RegionName { get; } = Regions.CONTENT_RIGHT;
     }
 }

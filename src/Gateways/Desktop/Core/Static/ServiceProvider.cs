@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 
-namespace EnduranceJudge.Gateways.Desktop.Core.Services
+namespace EnduranceJudge.Gateways.Desktop.Core.Static
 {
-    public static class StaticProvider
+    public static class ServiceProvider
     {
         private static IServiceProvider _provider;
 
@@ -12,12 +12,14 @@ namespace EnduranceJudge.Gateways.Desktop.Core.Services
             _provider = provider;
         }
 
-        public static IServiceProvider Provider
+        public static void Initialize(IServiceProvider provider)
         {
-            set
+            if (_provider != null)
             {
-                _provider = value;
+                throw new InvalidOperationException("ServiceProvider is already initialized");
             }
+            _provider = provider;
+
         }
 
         public static T GetService<T>()

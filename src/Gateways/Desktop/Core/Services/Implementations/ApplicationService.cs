@@ -1,6 +1,7 @@
 ﻿using EnduranceJudge.Application.Core.Exceptions;
 using EnduranceJudge.Domain.Core.Exceptions;
 using EnduranceJudge.Gateways.Desktop.Core.Objects;
+using EnduranceJudge.Gateways.Desktop.Core.Static;
 using MediatR;
 using Prism.Events;
 using System;
@@ -27,17 +28,18 @@ namespace EnduranceJudge.Gateways.Desktop.Core.Services.Implementations
             }
             catch (DomainException exception)
             {
-                this.Publish<ValidationErrorEvent>(exception.Message);
+                this.Publish<ErrorEvent>(exception.Message);
                 throw;
             }
             catch (AppException exception)
             {
-                this.Publish<ValidationErrorEvent>(exception.Message);
+                this.Publish<ErrorEvent>(exception.Message);
                 throw;
             }
             catch (Exception exception)
             {
-                this.Publish<ValidationErrorEvent>(exception.InnerException?.Message ?? exception.Message);
+                exception = GetInnermostException(exception);
+                this.Publish<ErrorEvent>(exception.ToString());
                 throw;
             }
         }
@@ -48,6 +50,16 @@ namespace EnduranceJudge.Gateways.Desktop.Core.Services.Implementations
             this.eventAggregator
                 .GetEvent<T>()
                 .Publish(message);
+        }
+
+        private static Exception GetInnermostException(Exception exception)
+        {
+            if (exception.InnerException != null)
+            {
+                return GetInnermostException(exception.InnerException);
+            }
+
+            return exception;
         }
     }
 }
