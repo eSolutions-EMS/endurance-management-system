@@ -5,15 +5,20 @@
         <Setter Property="LastChildFill" Value="True"></Setter>
     </Style>
 
-    <Style x:Key="Stretch-Last" TargetType="DockPanel" BasedOn="{StaticResource Strip}">
+    <Style x:Key="Stretch-Last" TargetType="DockPanel">
         <Setter Property="VerticalAlignment" Value="Center"></Setter>
     </Style>
 
-    <Style x:Key="List-Item" TargetType="DockPanel" BasedOn="{StaticResource Strip}">
+    <Style x:Key="List-Item" TargetType="DockPanel">
+        <Setter Property="VerticalAlignment" Value="Center"></Setter>
     </Style>
 
     <Style x:Key="Dock-Error" TargetType="DockPanel">
         <Setter Property="HorizontalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="Dock-Vertical" TargetType="DockPanel">
+        <Setter Property="HorizontalAlignment" Value="Left" />
     </Style>
 
 </ResourceDictionary>

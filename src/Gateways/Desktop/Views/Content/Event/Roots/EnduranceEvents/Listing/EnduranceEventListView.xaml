@@ -9,9 +9,9 @@
         <TextBlock Style="{StaticResource Text-H1}"
                    Text="{x:Static strings:DesktopStrings.EnduranceEventListTitle}" />
 
-        <Button Style="{StaticResource Button}"
+        <Button Style="{StaticResource Button-Big-Vertical}"
                 Command="{Binding ChangeToCreate}"
-                Content="{x:Static strings:DesktopStrings.CreateButtonText}" />
+                Content="{x:Static strings:DesktopStrings.CREATE_BUTTON}" />
 
         <ListBox Style="{StaticResource List}"
                  ItemsSource="{Binding EnduranceEvents}" />

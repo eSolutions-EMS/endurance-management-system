@@ -3,7 +3,8 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:prism="http://prismlibrary.com/"
         xmlns:desktop="clr-namespace:EnduranceJudge.Gateways.Desktop"
-        Title="ShellWindow">
+        Title="ShellWindow"
+        WindowState="Maximized">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -19,7 +20,7 @@
                         Grid.Row="0" Grid.Column="1">
             <ContentControl.Template>
                 <ControlTemplate TargetType="ContentControl">
-                    <Border Style="{StaticResource Background-Navigation}">
+                    <Border Style="{StaticResource Wrapper-Navigation}">
                         <Grid Style="{StaticResource Region}">
                             <ContentPresenter Content="{TemplateBinding Content}" />
                         </Grid>
@@ -31,7 +32,7 @@
                         Grid.Row="0" Grid.Column="0">
             <ContentControl.Template>
                 <ControlTemplate TargetType="ContentControl">
-                    <Border Style="{StaticResource Background-Navigation}">
+                    <Border Style="{StaticResource Wrapper-Navigation}">
                         <Grid Style="{StaticResource Region}">
                             <ContentPresenter Content="{TemplateBinding Content}" />
                         </Grid>
@@ -44,7 +45,7 @@
                         Grid.Row="1" Grid.Column="0">
             <ContentControl.Template>
                 <ControlTemplate TargetType="ContentControl">
-                    <Border Style="{StaticResource Background}">
+                    <Border Style="{StaticResource Border-Wrapper}">
                         <Grid Style="{StaticResource Region}">
                             <ContentPresenter Content="{TemplateBinding Content}" />
                         </Grid>
@@ -56,7 +57,7 @@
                         Grid.Row="1" Grid.Column="1">
             <ContentControl.Template>
                 <ControlTemplate TargetType="ContentControl">
-                    <Border Style="{StaticResource Background-Navigation}">
+                    <Border Style="{StaticResource Wrapper-Navigation}">
                         <Grid Style="{StaticResource Region}">
                             <ContentPresenter Content="{TemplateBinding Content}" />
                         </Grid>

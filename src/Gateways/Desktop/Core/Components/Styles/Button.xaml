@@ -4,30 +4,56 @@
 
     <Style x:Key="Button" TargetType="Button">
         <Setter Property="Height" Value="30px" />
-        <Setter Property="Padding" Value="5px 0" />
+        <Setter Property="Padding" Value="10px 0" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="MaxWidth" Value="300px" />
-    </Style>
-
-    <Style x:Key="Button-Update" TargetType="Button" BasedOn="{StaticResource Button}">
-        <Setter Property="Content" Value="{x:Static localization:DesktopStrings.UpdateButtonText}" />
+        <Setter Property="HorizontalAlignment" Value="Left" />
     </Style>
 
     <Style x:Key="Button-Back" TargetType="Button" BasedOn="{StaticResource Button}">
         <Setter Property="Content" Value="{x:Static localization:DesktopStrings.BackButtonText}" />
     </Style>
 
-    <Style x:Key="Button-Header" TargetType="Button" BasedOn="{StaticResource Button}">
+    <Style x:Key="Button-Vertical" TargetType="Button" BasedOn="{StaticResource Button}">
+        <Setter Property="Margin" Value="0 0 0 5px" />
+    </Style>
+
+    <Style x:Key="Button-Horizontal" TargetType="Button" BasedOn="{StaticResource Button}">
+        <Setter Property="Margin" Value="0 0 5px 0" />
+    </Style>
+
+    <Style x:Key="Button-Big-Vertical" TargetType="Button" BasedOn="{StaticResource Button-Vertical}">
         <Setter Property="MinWidth" Value="150px" />
         <Setter Property="FontSize" Value="16px" />
     </Style>
 
-    <Style x:Key="Button-Header-Vertical" TargetType="Button" BasedOn="{StaticResource Button-Header}">
-        <Setter Property="Margin" Value="0 0 0 5px" />
+    <Style x:Key="Button-Big-Horizontal" TargetType="Button" BasedOn="{StaticResource Button-Horizontal}">
+        <Setter Property="MinWidth" Value="150px" />
+        <Setter Property="FontSize" Value="16px" />
     </Style>
 
-    <Style x:Key="Button-Header-Horizontal" TargetType="Button" BasedOn="{StaticResource Button-Header}">
-        <Setter Property="Margin" Value="0 0 5px 0" />
+    <Style x:Key="Button-Header-Horizontal" TargetType="Button" BasedOn="{StaticResource Button-Big-Horizontal}">
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="Button-Header-Vertical" TargetType="Button" BasedOn="{StaticResource Button-Big-Vertical}">
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="Button-Create" TargetType="Button" BasedOn="{StaticResource Button-Big-Vertical}">
+        <Setter Property="Content" Value="{x:Static localization:DesktopStrings.CREATE_BUTTON}" />
+    </Style>
+
+    <Style x:Key="Button-Form" TargetType="Button" BasedOn="{StaticResource Button-Vertical}">
+        <Setter Property="Width" Value="150px" />
+    </Style>
+
+    <Style x:Key="Button-Form-Create" TargetType="Button" BasedOn="{StaticResource Button-Form}">
+        <Setter Property="Content" Value="{x:Static localization:DesktopStrings.CREATE_BUTTON}" />
+    </Style>
+
+    <Style x:Key="Button-Form-Update" TargetType="Button" BasedOn="{StaticResource Button-Form}">
+        <Setter Property="Content" Value="{x:Static localization:DesktopStrings.UPDATE_BUTTON}" />
     </Style>
 
 </ResourceDictionary>

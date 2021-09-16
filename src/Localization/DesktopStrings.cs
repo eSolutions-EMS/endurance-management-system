@@ -5,25 +5,23 @@
         // ------
         // Common
         public const string SaveButtonText = "Save";
-        public const string CreateButtonText = "Create";
-        public const string UpdateButtonText = "Update";
+        public const string UPDATE_BUTTON = "Update";
         public const string SearchButtonText = "Search";
         public const string ClearButtonText = "Clear";
-        public const string AddButtonText = "Add";
+        public const string CREATE_BUTTON = "Create";
         public const string BackButtonText = "Back";
         public const string BoolTrueValue = "Yes";
         public const string BoolFalseValue = "No";
 
-        public const string RestInMinutesText = "Rest (minutes)";
-        public const string RecoveryInMinutesText = "Recovery (minutes)";
+        public const string RestInMinutesText = "Rest (min)";
+        public const string RecoveryInMinutesText = "Recovery (min)";
         public const string LengthInKmText = "Length (km)";
         public const string IsFinalText = "Final";
-        public const string PhasesText = "Phases";
-        public const string CategoriesText = "Categories";
-        public const string UPDATE_COMPETITION_TEXT = "Update Competition";
+        public const string PHASES = "Phases";
+        public const string CATEGORIES = "Categories";
+        public const string UPDATE_COMPETITION = "Update Competition";
         public const string UPDATE_PHASE_TEXT = "Update Phase";
         public const string UPDATE_PHASE_FOR_CATEGORY_TEXT = "Update Category";
-        public const string CREATE_COMPETITION_TEXT = "Create Competition";
 
         // -------
         // Regions

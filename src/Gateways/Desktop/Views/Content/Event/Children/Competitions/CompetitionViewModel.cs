@@ -25,14 +25,22 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Competiti
         public ObservableCollection<ParticipantViewModel> Participants { get; } = new();
 
         private int type;
+        private string typeString;
         private string name;
 
-        public int PhaseCount => this.Phases.Count;
-
+        public string TypeString
+        {
+            get => this.typeString;
+            set => this.SetProperty(ref this.typeString, value);
+        }
         public int Type
         {
             get => this.type;
-            set => this.SetProperty(ref this.type, value);
+            set
+            {
+                this.SetProperty(ref this.type, value);
+                this.TypeString = ((CompetitionType)this.type).ToString();
+            }
         }
         public string Name
         {

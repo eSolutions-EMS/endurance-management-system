@@ -46,7 +46,7 @@
 
                 <Button Style="{StaticResource Button}"
                         Command="{Binding NavigateToCreatePhaseForCategory}"
-                        Content="{x:Static strings:DesktopStrings.AddButtonText}"
+                        Content="{x:Static strings:DesktopStrings.CREATE_BUTTON}"
                         Name="NavigateToCreatePhaseForCategory" />
 
                 <ListBox Style="{StaticResource List}"

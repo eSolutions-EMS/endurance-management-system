@@ -1,5 +1,4 @@
-﻿using EnduranceJudge.Core.Models;
-using Prism.Commands;
+﻿using Prism.Commands;
 
 namespace EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem
 {
