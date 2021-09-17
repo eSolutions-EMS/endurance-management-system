@@ -1,5 +1,6 @@
 ﻿using EnduranceJudge.Domain.Aggregates.Event.Competitions;
 using EnduranceJudge.Domain.Enums;
+using EnduranceJudge.Domain.States;
 using System.Collections.Generic;
 
 namespace EnduranceJudge.Application.Events.Common

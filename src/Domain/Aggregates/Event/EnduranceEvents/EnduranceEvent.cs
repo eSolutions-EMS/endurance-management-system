@@ -1,10 +1,10 @@
 using EnduranceJudge.Core.Extensions;
-using EnduranceJudge.Domain.Aggregates.Common.Countries;
 using EnduranceJudge.Domain.Aggregates.Event.Competitions;
 using EnduranceJudge.Domain.Aggregates.Event.Personnels;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.Core.Validation;
 using EnduranceJudge.Domain.Enums;
+using EnduranceJudge.Domain.States;
 using System.Collections.Generic;
 using System.Linq;
 

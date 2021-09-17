@@ -1,7 +1,7 @@
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.Enums;
 
-namespace EnduranceJudge.Domain.Aggregates.Event.Personnels
+namespace EnduranceJudge.Domain.States
 {
     public interface IPersonnelState : IDomainModelState
     {

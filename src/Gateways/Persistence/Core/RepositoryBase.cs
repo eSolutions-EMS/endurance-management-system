@@ -62,7 +62,7 @@ namespace EnduranceJudge.Gateways.Persistence.Core
 
         private async Task<TEntityModel> InnerSave(TDomainModel domain, CancellationToken token)
         {
-            var entity = await this.DbContext.FindAsync<TEntityModel>(domain.Id);
+            var entity = await this.DbContext.FindAsync<TEntityModel>(new object[] { domain.Id }, token);
             if (entity == null)
             {
                 entity = domain.Map<TEntityModel>();

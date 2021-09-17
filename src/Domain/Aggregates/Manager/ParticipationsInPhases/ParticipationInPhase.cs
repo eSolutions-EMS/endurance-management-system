@@ -3,6 +3,7 @@ using EnduranceJudge.Domain.Validation;
 using EnduranceJudge.Domain.Aggregates.Manager.DTOs;
 using EnduranceJudge.Domain.Aggregates.Manager.ResultsInPhases;
 using EnduranceJudge.Domain.Core.Models;
+using EnduranceJudge.Domain.States;
 using System;
 
 namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInPhases

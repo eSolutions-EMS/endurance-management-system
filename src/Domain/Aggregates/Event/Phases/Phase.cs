@@ -2,6 +2,7 @@ using EnduranceJudge.Core.Extensions;
 using EnduranceJudge.Domain.Core.Validation;
 using EnduranceJudge.Domain.Aggregates.Event.PhasesForCategory;
 using EnduranceJudge.Domain.Core.Models;
+using EnduranceJudge.Domain.States;
 using System.Collections.Generic;
 using System.Linq;
 

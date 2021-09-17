@@ -3,6 +3,7 @@ using EnduranceJudge.Application.Core.Handlers;
 using EnduranceJudge.Application.Core.Requests;
 using EnduranceJudge.Domain.Aggregates.Event.Competitions;
 using EnduranceJudge.Domain.Enums;
+using EnduranceJudge.Domain.States;
 
 namespace EnduranceJudge.Application.Events.Queries.Competitions
 {

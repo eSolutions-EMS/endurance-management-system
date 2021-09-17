@@ -1,7 +1,7 @@
 using EnduranceJudge.Domain.Core.Models;
 using System;
 
-namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInPhases
+namespace EnduranceJudge.Domain.States
 {
     public interface IParticipationInPhaseState : IDomainModelState
     {

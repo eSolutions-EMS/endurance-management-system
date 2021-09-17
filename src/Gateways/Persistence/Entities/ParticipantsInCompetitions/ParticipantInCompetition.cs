@@ -2,6 +2,8 @@
 using EnduranceJudge.Gateways.Persistence.Entities.Competitions;
 using EnduranceJudge.Gateways.Persistence.Entities.Participants;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 
 namespace EnduranceJudge.Gateways.Persistence.Entities.ParticipantsInCompetitions
 {
@@ -14,5 +16,7 @@ namespace EnduranceJudge.Gateways.Persistence.Entities.ParticipantsInCompetition
         [JsonIgnore]
         public CompetitionEntity Competition { get; set; }
         public int CompetitionId { get; set; }
+
+        public override IEnumerable<Type> DomainTypes => null;
     }
 }

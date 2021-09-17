@@ -1,6 +1,6 @@
 using EnduranceJudge.Domain.Core.Models;
 
-namespace EnduranceJudge.Domain.Aggregates.Event.Phases
+namespace EnduranceJudge.Domain.States
 {
     public interface IPhaseState : IDomainModelState
     {

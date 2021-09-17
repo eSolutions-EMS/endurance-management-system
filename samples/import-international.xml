@@ -4,6 +4,9 @@
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
 	xmlns="http://www.fei.org/Entry">
 	<Generated Date="2020-11-06T08-18-55+00:00" Software="FEI Entry System" SoftwareVersion="1.0" Organization="FEI" />
+    <title>some title</title>
+    <indrustry>software</indrustry>
+    <body><html></html></body>
 	<ShowEntries>
 		<Show FEIID="2020_CH-Balk_0001" TypeCode="CH-C/R" Type="Continental/Regional Championships" StartDate="2020-09-30" EndDate="2020-10-02" TimeStamp="1603843200">
 			<Venue Name="Ruse" CountryNOC="BUL" Country="Bulgaria" />

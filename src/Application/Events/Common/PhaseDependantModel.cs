@@ -1,4 +1,4 @@
-﻿using EnduranceJudge.Domain.Aggregates.Event.Phases;
+﻿using EnduranceJudge.Domain.States;
 using System.Collections.Generic;
 
 namespace EnduranceJudge.Application.Events.Common

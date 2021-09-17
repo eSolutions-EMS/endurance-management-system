@@ -1,6 +1,7 @@
 using EnduranceJudge.Domain.Aggregates.Event.Phases;
 using EnduranceJudge.Domain.Aggregates.Event.PhasesForCategory;
 using EnduranceJudge.Domain.Enums;
+using EnduranceJudge.Domain.States;
 
 namespace EnduranceJudge.Domain.Aggregates.Manager.DTOs
 {

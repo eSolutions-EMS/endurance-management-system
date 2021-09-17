@@ -17,7 +17,7 @@ using EnduranceJudge.Gateways.Persistence.Entities.Competitions;
 using EnduranceJudge.Gateways.Persistence.Entities.EnduranceEvents;
 using EnduranceJudge.Gateways.Persistence.Entities.Horses;
 using EnduranceJudge.Gateways.Persistence.Entities.Participants;
-using EnduranceJudge.Gateways.Persistence.Entities.Personnel;
+using EnduranceJudge.Gateways.Persistence.Entities.Personnels;
 using EnduranceJudge.Gateways.Persistence.Entities.Phases;
 using EnduranceJudge.Gateways.Persistence.Entities.PhasesForCategories;
 using Microsoft.Extensions.DependencyInjection;

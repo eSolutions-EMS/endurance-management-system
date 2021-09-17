@@ -6,6 +6,8 @@ using EnduranceJudge.Domain.Aggregates.Common.Horses;
 using EnduranceJudge.Gateways.Persistence.Core;
 using EnduranceJudge.Gateways.Persistence.Entities.Participants;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 
 namespace EnduranceJudge.Gateways.Persistence.Entities.Horses
 {
@@ -15,6 +17,8 @@ namespace EnduranceJudge.Gateways.Persistence.Entities.Horses
         IMapTo<HorseRootModel>,
         IMapTo<ListItemModel>
     {
+        private static readonly Type Domain = typeof(Horse);
+
         public string FeiId { get; set; }
         public string Name { get; set; }
         public bool IsStallion { get; set; }
@@ -26,5 +30,7 @@ namespace EnduranceJudge.Gateways.Persistence.Entities.Horses
         [JsonIgnore]
         public ParticipantEntity Participant { get; set; }
         public int? ParticipantId { get; set; }
+
+        public override IEnumerable<Type> DomainTypes { get; } = new[] { Domain };
     }
 }
