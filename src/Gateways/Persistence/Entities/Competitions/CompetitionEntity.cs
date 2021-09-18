@@ -27,7 +27,7 @@ namespace EnduranceJudge.Gateways.Persistence.Entities.Competitions
         public IList<PhaseEntity> Phases { get; set; }
 
         [JsonIgnore]
-        public IList<ParticipantInCompetition> ParticipantsInCompetitions { get; set; }
+        public IList<ParticipantInCompetitionEntity> ParticipantsInCompetitions { get; set; }
 
         public override IEnumerable<Type> DomainTypes { get; } = new[] { ImportType, EventType, RankingType };
     }

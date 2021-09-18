@@ -1,5 +1,4 @@
 using EnduranceJudge.Domain.Core.Validation;
-using EnduranceJudge.Domain.Aggregates.Manager.DTOs;
 using EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInCompetitions;
 using EnduranceJudge.Domain.Core.Models;
 using System;
@@ -8,20 +7,14 @@ using System.Linq;
 
 namespace EnduranceJudge.Domain.Aggregates.Manager.Participations
 {
-    public class Participation : DomainBase<ManagerParticipationException>
+    public class Participation : DomainBase<ManagerParticipationException>, IAggregateRoot
     {
         private const string ALREADY_STARTED_MESSAGE = "has already started";
 
-        private readonly IReadOnlyList<CompetitionDto> competitions;
-        private readonly List<ParticipationInCompetition> participationsInCompetitions = new();
-        private readonly int? maxAverageSpeedInKpH;
+        private List<ParticipationInCompetition> participationsInCompetitions = new();
 
-        internal Participation(IReadOnlyList<CompetitionDto> competitions, int? maxAverageSpeedInKpH)
+        private Participation()
         {
-            this.maxAverageSpeedInKpH = maxAverageSpeedInKpH;
-            this.competitions = competitions;
-
-            this.Validate(this.Start);
         }
 
         public bool HasExceededSpeedRestriction
@@ -31,17 +24,19 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participations
             => this.participationsInCompetitions.All(participation => participation.IsComplete);
 
         public IReadOnlyList<ParticipationInCompetition> ParticipationsInCompetitions
-            => this.participationsInCompetitions.AsReadOnly();
+        {
+            get => this.participationsInCompetitions.AsReadOnly();
+            set => this.participationsInCompetitions = value.ToList();
+        }
 
-        private void Start()
+        public void Start()
             => this.Validate(() =>
             {
                 this.participationsInCompetitions.IsEmpty(ALREADY_STARTED_MESSAGE);
 
-                foreach (var participationInCompetition in this.competitions
-                    .Select(competition => new ParticipationInCompetition(competition, this.maxAverageSpeedInKpH)))
+                foreach (var participation in this.ParticipationsInCompetitions)
                 {
-                    this.participationsInCompetitions.Add(participationInCompetition);
+                    participation.StartPhase();
                 }
             });
         public void Arrive(DateTime time)

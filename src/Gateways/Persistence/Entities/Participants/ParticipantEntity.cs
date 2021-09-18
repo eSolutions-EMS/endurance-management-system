@@ -13,7 +13,7 @@ namespace EnduranceJudge.Gateways.Persistence.Entities.Participants
     {
         private static readonly Type ImportDomain = typeof(Domain.Aggregates.Import.Participants.Participant);
         private static readonly Type EventDomain = typeof(Domain.Aggregates.Event.Participants.Participant);
-        private static readonly Type ManagerDomain = typeof(Domain.Aggregates.Manager.Participants.Participant);
+        private static readonly Type ManagerDomain = typeof(Domain.Aggregates.Manager.Participations.Participation);
 
         public string RfId { get; set; }
         public int Number { get; set; }
@@ -28,7 +28,7 @@ namespace EnduranceJudge.Gateways.Persistence.Entities.Participants
         public int AthleteId { get; set; }
 
         [JsonIgnore]
-        public ICollection<ParticipantInCompetition> ParticipantsInCompetitions { get; set; }
+        public ICollection<ParticipantInCompetitionEntity> ParticipantsInCompetitions { get; set; }
 
         public override IEnumerable<Type> DomainTypes { get; } = new[] { ImportDomain, EventDomain, ManagerDomain };
     }

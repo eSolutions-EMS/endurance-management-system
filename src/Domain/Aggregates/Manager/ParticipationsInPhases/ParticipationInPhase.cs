@@ -13,13 +13,16 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInPhases
         private static readonly string ArrivalTimeIsNullMessage = $"cannot complete: ArrivalTime cannot be null.";
         private static readonly string InspectionTimeIsNullMessage = $"cannot complete: InspectionTime cannot be null";
 
+        private ParticipationInPhase()
+        {
+        }
+
         internal ParticipationInPhase(PhaseDto phase, DateTime startTime)
             => this.Validate(() =>
             {
                 this.StartTime = startTime
                     .IsRequired(nameof(startTime))
                     .HasDatePassed();
-
                 this.Phase = phase.IsRequired(nameof(phase));
             });
 
@@ -29,13 +32,10 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInPhases
         public DateTime? ReInspectionTime { get; private set; }
 
         public PhaseDto Phase { get; private set; }
+        public ResultInPhase ResultInPhase { get; private set; }
 
-        public TimeSpan? LoopSpan
-            => this.ArrivalTime - this.StartTime;
-
-        public TimeSpan? PhaseSpan
-            => this.ArrivalTime - this.InspectionTime;
-
+        public TimeSpan? LoopSpan => this.ArrivalTime - this.StartTime;
+        public TimeSpan? PhaseSpan => this.ArrivalTime - this.InspectionTime;
         public double? AverageSpeedForLoopInKpH
         {
             get
@@ -44,7 +44,6 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInPhases
                 {
                     return null;
                 }
-
                 return this.GetAverageSpeed(this.LoopSpan.Value);
             }
         }
@@ -56,45 +55,29 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInPhases
                 {
                     return null;
                 }
-
                 return this.GetAverageSpeed(this.PhaseSpan.Value);
             }
         }
-
-        private double GetAverageSpeed(TimeSpan timeSpan)
-        {
-            var phaseLengthInKm = this.Phase.LengthInKm;
-            var totalHours = timeSpan.TotalHours;
-
-            return  phaseLengthInKm / totalHours;
-        }
-
-        public bool IsComplete
-            => this.ResultInPhase != null;
+        public bool IsComplete => this.ResultInPhase != null;
 
         internal void Arrive(DateTime time)
         {
             this.ArrivalTime = time.IsRequired(nameof(time));
         }
-
         internal void Inspect(DateTime time)
         {
             this.InspectionTime = time.IsRequired(nameof(time));
         }
-
         internal void ReInspect(DateTime time)
         {
             this.ReInspectionTime = time.IsRequired(nameof(time));
         }
-
-        public ResultInPhase ResultInPhase { get; private set; }
 
         internal void CompleteSuccessful()
         {
             var successfulResult = new ResultInPhase();
             this.Complete(successfulResult);
         }
-
         internal void CompleteUnsuccessful(string code)
         {
             var unsuccessfulResult = new ResultInPhase(code);
@@ -108,5 +91,12 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInPhases
                 this.InspectionTime.IsNotDefault(InspectionTimeIsNullMessage);
                 this.ResultInPhase = result.IsRequired(nameof(result));
             });
+
+        private double GetAverageSpeed(TimeSpan timeSpan)
+        {
+            var phaseLengthInKm = this.Phase.LengthInKm;
+            var totalHours = timeSpan.TotalHours;
+            return  phaseLengthInKm / totalHours;
+        }
     }
 }

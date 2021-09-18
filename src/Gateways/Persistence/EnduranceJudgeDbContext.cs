@@ -8,9 +8,11 @@ using EnduranceJudge.Gateways.Persistence.Entities.EnduranceEvents;
 using EnduranceJudge.Gateways.Persistence.Entities.Horses;
 using EnduranceJudge.Gateways.Persistence.Entities.Participants;
 using EnduranceJudge.Gateways.Persistence.Entities.ParticipantsInCompetitions;
+using EnduranceJudge.Gateways.Persistence.Entities.ParticipationsInPhases;
 using EnduranceJudge.Gateways.Persistence.Entities.Personnels;
 using EnduranceJudge.Gateways.Persistence.Entities.Phases;
 using EnduranceJudge.Gateways.Persistence.Entities.PhasesForCategories;
+using EnduranceJudge.Gateways.Persistence.Entities.ResultsInPhases;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using System;
 
@@ -36,7 +38,7 @@ namespace EnduranceJudge.Gateways.Persistence
         public DbSet<AthleteEntity> Athletes { get; set; }
         public DbSet<HorseEntity> Horses { get; set; }
         public DbSet<ParticipantEntity> Participants { get; set; }
-        public DbSet<ParticipantInCompetition> ParticipantsInCompetitions { get; set; }
+        public DbSet<ParticipantInCompetitionEntity> ParticipantsInCompetitions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -94,6 +96,21 @@ namespace EnduranceJudge.Gateways.Persistence
 
             builder.Entity<CountryEntity>()
                 .HasKey(x => x.IsoCode);
+
+            builder.Entity<ParticipationInPhaseEntity>()
+                .HasOne(p => p.ParticipationInCompetition)
+                .WithMany(pic => pic.ParticipationsInPhases)
+                .HasForeignKey(p => p.ParticipationInCompetitionId);
+
+            builder.Entity<ParticipationInPhaseEntity>()
+                .HasOne(p => p.Phase)
+                .WithMany(pic => pic.ParticipationsInPhases)
+                .HasForeignKey(p => p.PhaseId);
+
+            builder.Entity<ResultInPhaseEntity>()
+                .HasOne(r => r.ParticipationInPhase)
+                .WithOne(p => p.ResultInPhase)
+                .HasForeignKey<ParticipationInPhaseEntity>(r => r.ResultInPhaseId);
 
             base.OnModelCreating(builder);
         }

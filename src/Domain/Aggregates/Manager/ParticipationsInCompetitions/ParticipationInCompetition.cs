@@ -1,5 +1,4 @@
 using EnduranceJudge.Domain.Core.Validation;
-using EnduranceJudge.Domain.Core;
 using EnduranceJudge.Domain.Aggregates.Manager.DTOs;
 using EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInPhases;
 using EnduranceJudge.Domain.Core.Models;
@@ -11,36 +10,29 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInCompetitions
 {
     public class ParticipationInCompetition : DomainBase<ParticipationInCompetitionException>
     {
-        private const string EmptyPhasesCollection = "cannot start - Phases collection is empty";
-        private const string NextPhaseIsNullMessage = "cannot start - there is no Next Phase.";
-        private const string CurrentPhaseIsNullMessage = "cannot complete - no current phase.";
+        private const string NEXT_PHASE_IS_NULL_MESSAGE = "cannot start - there is no Next Phase.";
+        private const string CURRENT_PHASE_IS_NULL_MESSAGE = "cannot complete - no current phase.";
 
-        private readonly CompetitionDto competition;
-        private readonly int? maxAverageSpeedInKpH;
+        private List<ParticipationInPhase> participationsInPhases = new();
 
-        internal ParticipationInCompetition(CompetitionDto competition, int? maxAverageSpeedInKpH)
+        private ParticipationInCompetition()
         {
-            this.Validate(() =>
-            {
-                competition.Phases.IsNotEmpty(EmptyPhasesCollection);
-            });
-
-            this.maxAverageSpeedInKpH = maxAverageSpeedInKpH;
-            this.competition = competition;
-
-            this.StartPhase();
         }
 
+        public CompetitionDto Competition { get; private set; }
+        public Category Category { get; private set; }
+        public int? MaxAverageSpeedInKpH { get; private set; }
+        public IReadOnlyList<ParticipationInPhase> ParticipationsInPhases
+        {
+            get => this.participationsInPhases.AsReadOnly();
+            private set => this.participationsInPhases = value.ToList();
+        }
 
-        public bool IsComplete
-            => this.competition.Phases.Count == this.participationsInPhases.Count;
-
-        public CompetitionType CompetitionType
-            => this.competition.Type;
-
-        public bool HasExceededSpeedRestriction
-            => this.AverageSpeedInKpH > this.maxAverageSpeedInKpH;
-
+        public ParticipationInPhase CurrentPhase
+            => this.participationsInPhases.SingleOrDefault(participation => !participation.IsComplete);
+        public bool IsComplete => this.Competition.Phases.Count == this.participationsInPhases.Count;
+        public CompetitionType CompetitionType => this.Competition.Type;
+        public bool HasExceededSpeedRestriction => this.AverageSpeedInKpH > this.MaxAverageSpeedInKpH;
         public double? AverageSpeedInKpH
         {
             get
@@ -65,27 +57,19 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInCompetitions
             }
         }
 
-        private List<ParticipationInPhase> participationsInPhases = new();
-        public IReadOnlyList<ParticipationInPhase> ParticipationInPhases
-        {
-            get => this.participationsInPhases.AsReadOnly();
-            private set => this.participationsInPhases = value.ToList();
-        }
-        public ParticipationInPhase CurrentPhase
-            => this.participationsInPhases.SingleOrDefault(participation => !participation.IsComplete);
-        private void StartPhase()
+        internal void StartPhase()
             => this.Validate(() =>
             {
-                var nextPhase = this.competition.Phases
+                var nextPhase = this.Competition.Phases
                     .OrderBy(x => x.OrderBy)
                     .Skip(this.participationsInPhases.Count)
                     .FirstOrDefault()
-                    .IsNotDefault(NextPhaseIsNullMessage);
+                    .IsNotDefault(NEXT_PHASE_IS_NULL_MESSAGE);
 
-                var restTime = this.CurrentPhase?.Phase.RestTimeInMinutes;
+                var restTime = this.CurrentPhase?.Phase[this.Category].RestTimeInMinutes;
                 var nextStartTime = this.CurrentPhase?.ReInspectionTime?.AddMinutes(restTime!.Value)
                     ?? this.CurrentPhase?.InspectionTime?.AddMinutes(restTime!.Value)
-                    ?? this.competition.StartTime;
+                    ?? this.Competition.StartTime;
 
                 var participation = new ParticipationInPhase(nextPhase, nextStartTime);
                 this.participationsInPhases.Add(participation);
@@ -94,7 +78,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInCompetitions
             => this.Validate(() =>
             {
                 this.CurrentPhase
-                    .IsNotDefault(CurrentPhaseIsNullMessage)
+                    .IsNotDefault(CURRENT_PHASE_IS_NULL_MESSAGE)
                     .CompleteSuccessful();
 
                 this.StartPhase();
@@ -103,10 +87,11 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInCompetitions
             => this.Validate(() =>
             {
                 this.CurrentPhase
-                    .IsNotDefault(CurrentPhaseIsNullMessage)
+                    .IsNotDefault(CURRENT_PHASE_IS_NULL_MESSAGE)
                     .CompleteUnsuccessful(code);
 
                 this.StartPhase();
             });
+
     }
 }
