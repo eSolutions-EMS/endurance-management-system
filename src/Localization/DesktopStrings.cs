@@ -75,6 +75,7 @@
         public const string PhaseTitle = "Phase";
         public const string PhaseListItemDisplayTemplate = "{0}km - Is Final: {1}";
         public const string LengthInKmLabel = "Length in Km";
+        public const string ORDER_LABEL = "Order";
         public const string IsFinalLabel = "Is Final Phase";
         public const string PhasesLabel = "Phases";
         public const string ParticipantsLabel = "Participants";

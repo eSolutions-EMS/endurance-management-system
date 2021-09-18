@@ -10,6 +10,8 @@ namespace EnduranceJudge.Domain.Aggregates.Event.Phases
 {
     public class Phase : DomainBase<PhaseException>, IPhaseState
     {
+        private List<PhaseForCategory> phasesForCategories = new();
+
         private Phase()
         {
         }
@@ -18,14 +20,14 @@ namespace EnduranceJudge.Domain.Aggregates.Event.Phases
             => this.Validate(() =>
             {
                 this.IsFinal = data.IsFinal;
+                this.OrderBy = data.OrderBy.IsRequired(nameof(data.OrderBy));
                 this.LengthInKm = data.LengthInKm.IsRequired(nameof(data.LengthInKm));
             });
 
         public bool IsFinal { get; private set; }
+        public int OrderBy { get; private set; }
         public int LengthInKm { get; private set; }
 
-
-        private List<PhaseForCategory> phasesForCategories = new();
         public IReadOnlyList<PhaseForCategory> PhasesForCategories
         {
             get => this.phasesForCategories.AsReadOnly();

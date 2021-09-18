@@ -18,6 +18,16 @@
 
             <DockPanel Style="{StaticResource Stretch-Last}">
                 <Label Style="{StaticResource Label-Primary}"
+                       Target="{Binding ElementName=OrderBy}"
+                       Content="{x:Static strings:DesktopStrings.ORDER_LABEL}" />
+
+                <TextBox Style="{StaticResource Input}"
+                         Text="{Binding OrderBy}"
+                         Name="OrderBy" />
+            </DockPanel>
+
+            <DockPanel Style="{StaticResource Stretch-Last}">
+                <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=LengthInKm}"
                        Content="{x:Static strings:DesktopStrings.LengthInKmLabel}" />
 
