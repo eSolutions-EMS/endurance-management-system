@@ -1,4 +1,5 @@
-﻿using EnduranceJudge.Gateways.Persistence.Core;
+﻿using EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInCompetitions;
+using EnduranceJudge.Gateways.Persistence.Core;
 using EnduranceJudge.Gateways.Persistence.Entities.Competitions;
 using EnduranceJudge.Gateways.Persistence.Entities.Participants;
 using EnduranceJudge.Gateways.Persistence.Entities.ParticipationsInPhases;
@@ -19,7 +20,8 @@ namespace EnduranceJudge.Gateways.Persistence.Entities.ParticipantsInCompetition
         public int CompetitionId { get; set; }
         [JsonIgnore]
         public IList<ParticipationInPhaseEntity> ParticipationsInPhases { get; set; }
+            = new List<ParticipationInPhaseEntity>();
 
-        public override IEnumerable<Type> DomainTypes => null;
+        public override IEnumerable<Type> DomainTypes => new[] { typeof(ParticipationInCompetition) };
     }
 }

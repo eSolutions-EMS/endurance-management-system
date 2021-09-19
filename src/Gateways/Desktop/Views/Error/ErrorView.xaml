@@ -5,24 +5,22 @@
              xmlns:strings="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization"
              mvvm:ViewModelLocator.AutoWireViewModel="True">
 
-        <Border Style="{StaticResource Wrapper-Error}">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*" />
-                    <RowDefinition MinHeight="50px" />
-                </Grid.RowDefinitions>
+    <Border Style="{StaticResource Wrapper-Error}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="60px" />
+            </Grid.RowDefinitions>
 
-                <ScrollViewer VerticalScrollBarVisibility="Auto"
-                              HorizontalScrollBarVisibility="Auto"
-                              HorizontalAlignment="Center"
-                              Grid.Row="0">
-                    <TextBlock Style="{StaticResource Text-Error}"
-                               Text="{Binding Message}"/>
-                </ScrollViewer>
+            <ScrollViewer Style="{StaticResource Scroll}" HorizontalAlignment="Center"
+                          Grid.Row="0">
+                <TextBlock Style="{StaticResource Text-Error}"
+                           Text="{Binding Message}"/>
+            </ScrollViewer>
 
-                <Button Style="{StaticResource Button-Back}" Width="200px"
-                        Command="{Binding NavigateBack}"
-                        Grid.Row="1" />
-            </Grid>
-        </Border>
+            <Button Style="{StaticResource Button-Back}" Width="200px" HorizontalAlignment="Center" Margin="5px"
+                    Command="{Binding NavigateBack}"
+                    Grid.Row="1" />
+        </Grid>
+    </Border>
 </UserControl>

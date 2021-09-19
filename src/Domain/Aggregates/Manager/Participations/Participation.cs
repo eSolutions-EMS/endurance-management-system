@@ -17,16 +17,16 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participations
         {
         }
 
+        public string Number { get; private set; }
         public bool HasExceededSpeedRestriction
             => this.participationsInCompetitions.All(participation => participation.HasExceededSpeedRestriction);
-
         public bool IsComplete
             => this.participationsInCompetitions.All(participation => participation.IsComplete);
 
         public IReadOnlyList<ParticipationInCompetition> ParticipationsInCompetitions
         {
             get => this.participationsInCompetitions.AsReadOnly();
-            set => this.participationsInCompetitions = value.ToList();
+            private set => this.participationsInCompetitions = value.ToList();
         }
 
         public void Start()
@@ -46,17 +46,19 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participations
         public void Inspect(DateTime time)
         {
             this.Update(participation => participation.CurrentPhase.Inspect(time));
+            // TODO If successful -> CompleteSuccessful
         }
         public void ReInspect(DateTime time)
         {
             this.Update(participation => participation.CurrentPhase.ReInspect(time));
+            // TODO if unsuccessful -> CompleteUnsuccessful
         }
-        public void CompleteSuccessful()
+        private void CompleteSuccessful()
         {
             //TODO: If HasExceededSpeedRestrictions ...
             this.Update(participation => participation.CompleteSuccessful());
         }
-        public void CompleteUnsuccessful(string code)
+        private void CompleteUnsuccessful(string code)
         {
             this.Update(participation => participation.CompleteUnsuccessful(code));
         }

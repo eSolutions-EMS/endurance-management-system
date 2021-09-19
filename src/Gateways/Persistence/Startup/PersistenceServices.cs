@@ -1,8 +1,13 @@
 ﻿using AutoMapper;
 using AutoMapper.EquivalencyExpression;
+using EnduranceJudge.Application.Contracts;
 using EnduranceJudge.Application.Core.Contracts;
+using EnduranceJudge.Application.Import.Contracts;
 using EnduranceJudge.Core.Utilities;
+using EnduranceJudge.Domain.Aggregates.Common.Horses;
+using EnduranceJudge.Gateways.Persistence.Contracts.Repositories;
 using EnduranceJudge.Gateways.Persistence.Core;
+using EnduranceJudge.Gateways.Persistence.Entities.Horses;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -72,7 +77,9 @@ namespace EnduranceJudge.Gateways.Persistence.Startup
                 }
             }
 
-            return services;
+            return services
+                .AddTransient<IHorseCommands, HorseRepository>()
+                .AddTransient<ICountryQueries, CountryRepository>();
         }
 
         private static (Type queries, Type commands, Type repository) CreateTypes(Type entityType, Type domainType)

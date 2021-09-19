@@ -18,6 +18,7 @@ namespace EnduranceJudge.Gateways.Persistence.Entities.Competitions
 
         public CompetitionType Type { get; set; }
         public string Name { get; set; }
+        public DateTime StartTime { get; set; }
 
         [JsonIgnore]
         public EnduranceEventEntity EnduranceEvent { get; set; }

@@ -43,7 +43,7 @@
 
     <Style x:Key="Text-Error" TargetType="TextBlock" BasedOn="{StaticResource Text}">
         <Setter Property="Foreground" Value="White" />
-        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="10px" />
     </Style>
 
 </ResourceDictionary>

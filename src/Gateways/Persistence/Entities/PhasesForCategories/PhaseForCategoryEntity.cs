@@ -15,7 +15,7 @@ namespace EnduranceJudge.Gateways.Persistence.Entities.PhasesForCategories
     public class PhaseForCategoryEntity : EntityBase, IPhaseForCategoryState,
         IMap<PhaseForCategory>,
         IMapTo<PhaseForCategoryDependantModel>,
-        IMapTo<PhaseDto>
+        IMapTo<PhaseForCategoryDto>
     {
         private static readonly Type Domain = typeof(PhaseForCategory);
 

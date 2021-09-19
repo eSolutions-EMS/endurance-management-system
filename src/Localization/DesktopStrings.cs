@@ -29,7 +29,7 @@
         // -- Navigation
         public const string ImportPageButtonText = "Import";
         public const string EventPageButtonText = "Event";
-        public const string ManagerPageButtonText = "Manager";
+        public const string MANAGER_PAGE_BUTTON_TEXT = "Manager";
         public const string RankingPageButtonText = "Ranking";
 
         // -- Content
@@ -49,6 +49,7 @@
         public const string EnduranceEventTitle = "Endurance Event";
         public const string EnduranceEventListTitle = "Endurance Events";
         public const string NameLabel = "Name";
+        public const string START_TIME = "Start Time";
         public const string PopulatedPlaceLabel = "Populated Place";
         public const string CountryLabel = "Country";
         public const string PresidentGroundJuryLabel = "President Ground Jury";
@@ -113,7 +114,14 @@
         public const string PhaseForCategoryTitle = "Phase For Category";
 
         // ---- Manager Page
-
-        public const string PARTICIPANTS = "Participants";
+        public const string PARTICIPATIONS = "Participations";
+        public const string PARTICIPATION = "Participation";
+        public const string NUMBER = "Number";
+        public const string HAS_EXCEEDED_SPEED_RESTRICTIONS = "Has Exceeded Speed";
+        public const string IS_COMPLETE = "Is complete";
+        public const string START = "Start";
+        public const string ARRIVE = "Arrive";
+        public const string INSPECT = "Inspect";
+        public const string RE_INSPECT = "ReINspect";
     }
 }

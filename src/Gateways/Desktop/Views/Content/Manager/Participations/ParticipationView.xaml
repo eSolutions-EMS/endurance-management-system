@@ -1,0 +1,90 @@
+﻿<UserControl x:Class="EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participations.ParticipationView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:strings="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+
+    <Grid Style="{StaticResource Grid}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="250px" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Style="{StaticResource Text-H1}"
+                   Text="{x:Static strings:DesktopStrings.PARTICIPATION}"
+                   Grid.Row="0" Grid.Column="1" />
+
+        <Border Style="{StaticResource Border-Vertical}"
+                Grid.Row="1" Grid.Column="0">
+            <TextBlock Style="{StaticResource Text-Label}"
+                       Text="{x:Static strings:DesktopStrings.NUMBER}"/>
+        </Border>
+        <Border Style="{StaticResource Border-Vertical}"
+                Grid.Row="1" Grid.Column="1">
+            <TextBox Style="{StaticResource Readonly}"
+                     Text="{Binding Number, Mode=OneWay}" />
+        </Border>
+
+        <Border Style="{StaticResource Border-Vertical}"
+                Grid.Row="2" Grid.Column="0">
+            <TextBlock Style="{StaticResource Text-Label}"
+                       Text="{x:Static strings:DesktopStrings.HAS_EXCEEDED_SPEED_RESTRICTIONS}"/>
+        </Border>
+        <Border Style="{StaticResource Border-Vertical}"
+                Grid.Row="2" Grid.Column="1">
+            <TextBox Style="{StaticResource Readonly}"
+                     Text="{Binding HasExceededSpeedRestrictions, Mode=OneWay}" />
+        </Border>
+
+        <Border Style="{StaticResource Border-Vertical}"
+                Grid.Row="3" Grid.Column="0">
+            <TextBlock Style="{StaticResource Text-Label}"
+                       Text="{x:Static strings:DesktopStrings.IS_COMPLETE}"/>
+        </Border>
+        <Border Style="{StaticResource Border-Vertical}"
+                Grid.Row="3" Grid.Column="1">
+            <TextBox Style="{StaticResource Readonly}"
+                     Text="{Binding IsComplete, Mode=OneWay}" />
+        </Border>
+
+        <Border Style="{StaticResource Border-Vertical}"
+                Grid.Row="4" Grid.Column="0">
+            <TextBlock Style="{StaticResource Text-Label}"
+                       Text="{x:Static strings:DesktopStrings.PHASES}" />
+        </Border>
+        <Border Style="{StaticResource Border-Vertical}"
+                Grid.Row="4" Grid.Column="1">
+            <StackPanel Style="{StaticResource List-Horizontal}">
+                <Border Style="{StaticResource Border-Vertical}">
+                    <StackPanel Style="{StaticResource List-Vertical}">
+
+                        <Button Style="{StaticResource Button-Form}"
+                                Command="{Binding Start}"
+                                Content="{x:Static strings:DesktopStrings.START}" />
+
+                        <Button Style="{StaticResource Button-Form}"
+                                Command="{Binding Arrive}"
+                                Content="{x:Static strings:DesktopStrings.ARRIVE}" />
+
+                        <Button Style="{StaticResource Button-Form}"
+                                Command="{Binding Inspect}"
+                                Content="{x:Static strings:DesktopStrings.INSPECT}" />
+
+                        <Button Style="{StaticResource Button-Form}"
+                                Command="{Binding ReInspect}"
+                                Content="{x:Static strings:DesktopStrings.RE_INSPECT}" />
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </Border>
+
+    </Grid>
+</UserControl>

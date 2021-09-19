@@ -15,6 +15,10 @@
                     Content="{x:Static strings:DesktopStrings.EventPageButtonText}" />
 
             <Button Style="{StaticResource Button-Header-Horizontal}"
+                    Command="{Binding NavigateToManager}"
+                    Content="{x:Static strings:DesktopStrings.MANAGER_PAGE_BUTTON_TEXT}" />
+
+            <Button Style="{StaticResource Button-Header-Horizontal}"
                     Command="{Binding NavigateToPrintExample}">Print example</Button>
         </StackPanel>
 </UserControl>

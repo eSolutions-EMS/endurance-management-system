@@ -4,6 +4,7 @@ using EnduranceJudge.Application.Core.Requests;
 using EnduranceJudge.Domain.Aggregates.Event.Competitions;
 using EnduranceJudge.Domain.Enums;
 using EnduranceJudge.Domain.States;
+using System;
 
 namespace EnduranceJudge.Application.Events.Queries.Competitions
 {
@@ -11,6 +12,7 @@ namespace EnduranceJudge.Application.Events.Queries.Competitions
     {
         public CompetitionType Type { get; }
         public string Name { get; }
+        public DateTime StartTime { get; }
 
         public class GetCompetitionHandler : GetOneHandler<GetCompetition, CompetitionForUpdateModel, Competition>
         {

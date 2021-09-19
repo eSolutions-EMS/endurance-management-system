@@ -1,4 +1,6 @@
-﻿using EnduranceJudge.Domain.States;
+﻿using EnduranceJudge.Core.Mappings;
+using EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInPhases;
+using EnduranceJudge.Domain.States;
 using EnduranceJudge.Gateways.Persistence.Core;
 using EnduranceJudge.Gateways.Persistence.Entities.ParticipantsInCompetitions;
 using EnduranceJudge.Gateways.Persistence.Entities.Phases;
@@ -9,9 +11,10 @@ using System.Text.Json.Serialization;
 
 namespace EnduranceJudge.Gateways.Persistence.Entities.ParticipationsInPhases
 {
-    public class ParticipationInPhaseEntity : EntityBase, IParticipationInPhaseState
+    public class ParticipationInPhaseEntity : EntityBase, IParticipationInPhaseState,
+        IMap<ParticipationInPhase>
     {
-        private static readonly Type ManagerDomain = typeof(ParticipationInPhaseEntity);
+        private static readonly Type ManagerDomain = typeof(ParticipationInPhase);
 
         public DateTime StartTime { get; set; }
         public DateTime? ArrivalTime { get; set; }

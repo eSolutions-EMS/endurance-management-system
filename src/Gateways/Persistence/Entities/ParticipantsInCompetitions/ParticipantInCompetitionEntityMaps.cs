@@ -3,7 +3,6 @@ using EnduranceJudge.Core.Extensions;
 using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Domain.Aggregates.Event.Participants;
 using EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInCompetitions;
-using ImportParticipant = EnduranceJudge.Domain.Aggregates.Import.Participants.Participant;
 
 namespace EnduranceJudge.Gateways.Persistence.Entities.ParticipantsInCompetitions
 {
@@ -18,7 +17,7 @@ namespace EnduranceJudge.Gateways.Persistence.Entities.ParticipantsInCompetition
                 .ForMember(pic => pic.ParticipantId, opt => opt.MapFrom(p => p.Id))
                 .ForMember(pic => pic.Participant, opt => opt.MapFrom(p => p));
 
-            profile.CreateMap<ImportParticipant, ParticipantInCompetitionEntity>()
+            profile.CreateMap<Domain.Aggregates.Import.Participants.Participant, ParticipantInCompetitionEntity>()
                 .ForMember(pic => pic.Id, opt => opt.Ignore())
                 .ForMember(pic => pic.Competition, opt => opt.Ignore())
                 .ForMember(pic => pic.CompetitionId, opt => opt.Ignore())
@@ -26,7 +25,8 @@ namespace EnduranceJudge.Gateways.Persistence.Entities.ParticipantsInCompetition
                 .ForMember(pic => pic.Participant, opt => opt.MapFrom(p => p));
 
             profile.CreateMap<ParticipationInCompetition, ParticipantInCompetitionEntity>()
-                .ForMember(d => d.Competition, opt => opt.Ignore());
+                .ForMember(d => d.Competition, opt => opt.Ignore())
+                .MapMember(d => d.ParticipationsInPhases, s => s.ParticipationsInPhases);
         }
 
         public void AddToMaps(IProfileExpression profile)
@@ -36,10 +36,11 @@ namespace EnduranceJudge.Gateways.Persistence.Entities.ParticipantsInCompetition
                 .ForMember(p => p.Number, opt => opt.MapFrom(pic => pic.Participant.Number))
                 .ForMember(p => p.MaxAverageSpeedInKmPh, opt => opt.MapFrom(pic => pic.Participant.MaxAverageSpeedInKmPh))
                 .ForMember(p => p.RfId, opt => opt.MapFrom(pic => pic.Participant.RfId));
-
             profile.CreateMap<ParticipantInCompetitionEntity, ParticipationInCompetition>()
                 .MapMember(d => d.Category, s => s.Participant.Athlete.Category)
-                .MapMember(d => d.MaxAverageSpeedInKpH, s => s.Participant.MaxAverageSpeedInKmPh);
+                .MapMember(d => d.MaxAverageSpeedInKpH, s => s.Participant.MaxAverageSpeedInKmPh)
+                .MapMember(d => d.ParticipationsInPhases, s => s.ParticipationsInPhases)
+                .ForMember(d => d.CompetitionType, opt => opt.Ignore());
         }
     }
 }

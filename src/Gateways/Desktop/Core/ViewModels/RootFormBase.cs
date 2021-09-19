@@ -56,7 +56,7 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
             base.OnNavigatedTo(context);
         }
 
-        private async Task Load(int id)
+        protected virtual async Task Load(int id)
         {
             if (this.Id != default)
             {
@@ -67,8 +67,8 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
             {
                 Id = id,
             };
-            var enduranceEvent = await this.Application.Execute(command);
-            this.MapFrom(enduranceEvent);
+            var model = await this.Application.Execute(command);
+            this.MapFrom(model);
         }
     }
 }

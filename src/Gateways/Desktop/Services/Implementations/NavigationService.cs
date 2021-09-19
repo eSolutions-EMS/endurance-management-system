@@ -3,6 +3,8 @@ using EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.EnduranceEvents.
 using EnduranceJudge.Gateways.Desktop.Views.Content.Event.NavigationStrip;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Import;
 using EnduranceJudge.Gateways.Desktop.Core.Services.Implementations;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participations;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participations.Listing;
 using Prism.Regions;
 using System;
 
@@ -24,6 +26,12 @@ namespace EnduranceJudge.Gateways.Desktop.Services.Implementations
         {
             this.ChangeTo<EnduranceEventListView>();
             this.ChangeTo<EventNavigationStripView>(Regions.CONTENT_RIGHT);
+       }
+
+        public void NavigateToManager()
+        {
+            this.ChangeTo<ParticipationView>();
+            this.ChangeTo<ParticipationListView>(Regions.CONTENT_RIGHT);
         }
 
         public void ChangeTo<T>() where T : IView

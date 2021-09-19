@@ -10,4 +10,8 @@
         <Setter Property="Visibility" Value="Hidden" />
     </Style>
 
+    <Style x:Key="Readonly" TargetType="TextBox" BasedOn="{StaticResource Input}">
+        <Setter Property="IsReadOnly" Value="True" />
+    </Style>
+
 </ResourceDictionary>

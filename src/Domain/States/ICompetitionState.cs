@@ -1,5 +1,6 @@
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.Enums;
+using System;
 
 namespace EnduranceJudge.Domain.States
 {
@@ -7,5 +8,6 @@ namespace EnduranceJudge.Domain.States
     {
         CompetitionType Type { get; }
         string Name { get; }
+        DateTime StartTime { get; }
     }
 }

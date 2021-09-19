@@ -30,7 +30,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInCompetitions
 
         public ParticipationInPhase CurrentPhase
             => this.participationsInPhases.SingleOrDefault(participation => !participation.IsComplete);
-        public bool IsComplete => this.Competition.Phases.Count == this.participationsInPhases.Count;
+        public bool IsComplete => this.Competition.Phases.Count == this.participationsInPhases.Count();
         public CompetitionType CompetitionType => this.Competition.Type;
         public bool HasExceededSpeedRestriction => this.AverageSpeedInKpH > this.MaxAverageSpeedInKpH;
         public double? AverageSpeedInKpH
@@ -51,7 +51,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInCompetitions
                     : completedPhases.Select(x => x.AverageSpeedForLoopInKpH!.Value);
 
                 var averageSpeedSum = averageSpeedInPhases.Aggregate(0d, (sum, average) => sum + average);
-                var phasesCount = this.participationsInPhases.Count;
+                var phasesCount = this.participationsInPhases.Count();
 
                 return averageSpeedSum / phasesCount;
             }
@@ -62,7 +62,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInCompetitions
             {
                 var nextPhase = this.Competition.Phases
                     .OrderBy(x => x.OrderBy)
-                    .Skip(this.participationsInPhases.Count)
+                    .Skip(this.participationsInPhases.Count())
                     .FirstOrDefault()
                     .IsNotDefault(NEXT_PHASE_IS_NULL_MESSAGE);
 
