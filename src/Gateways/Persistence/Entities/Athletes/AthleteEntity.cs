@@ -22,7 +22,6 @@ namespace EnduranceJudge.Gateways.Persistence.Entities.Athletes
 
         [JsonIgnore]
         public ParticipantEntity Participant { get; set; }
-        public int ParticipantId { get; set; }
 
         [JsonIgnore]
         public CountryEntity Country { get; set; }

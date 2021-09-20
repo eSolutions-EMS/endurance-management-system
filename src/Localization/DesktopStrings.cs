@@ -123,5 +123,7 @@
         public const string ARRIVE = "Arrive";
         public const string INSPECT = "Inspect";
         public const string RE_INSPECT = "ReINspect";
+        public const string COMPLETE_SUCCESSFUL = "Complete Successful";
+        public const string COMPLETE_UNSUCCESSFUL = "Complete Unsuccessful";
     }
 }

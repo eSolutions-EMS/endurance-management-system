@@ -43,8 +43,8 @@
 
                 <ComboBox Style="{StaticResource Combo-Box}"
                           ItemsSource="{Binding TypeItems}"
-                          SelectedValue="{Binding Type}"
-                          SelectedIndex="{Binding Type}"
+                          SelectedValue="{Binding TypeValue}"
+                          SelectedIndex="{Binding TypeValue}"
                           Name="Type" />
             </DockPanel>
 

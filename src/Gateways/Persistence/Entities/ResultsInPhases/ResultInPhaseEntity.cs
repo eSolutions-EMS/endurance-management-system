@@ -5,7 +5,7 @@ using EnduranceJudge.Gateways.Persistence.Core;
 using EnduranceJudge.Gateways.Persistence.Entities.ParticipationsInPhases;
 using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace EnduranceJudge.Gateways.Persistence.Entities.ResultsInPhases
 {
@@ -19,7 +19,6 @@ namespace EnduranceJudge.Gateways.Persistence.Entities.ResultsInPhases
 
         [JsonIgnore]
         public ParticipationInPhaseEntity ParticipationInPhase { get; set; }
-        public int ParticipationInPhaseId { get; set; }
 
         public override IEnumerable<Type> DomainTypes { get; } = new[] { ManagerDomain };
     }

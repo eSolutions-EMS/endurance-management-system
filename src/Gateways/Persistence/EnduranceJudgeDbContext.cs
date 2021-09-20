@@ -39,6 +39,8 @@ namespace EnduranceJudge.Gateways.Persistence
         public DbSet<HorseEntity> Horses { get; set; }
         public DbSet<ParticipantEntity> Participants { get; set; }
         public DbSet<ParticipantInCompetitionEntity> ParticipantsInCompetitions { get; set; }
+        public DbSet<ParticipationInPhaseEntity> ParticipationsInPhases { get; set; }
+        public DbSet<ResultInPhaseEntity> ResultsInPhases { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -97,10 +99,10 @@ namespace EnduranceJudge.Gateways.Persistence
             builder.Entity<CountryEntity>()
                 .HasKey(x => x.IsoCode);
 
-            builder.Entity<ParticipationInPhaseEntity>()
-                .HasOne(p => p.ParticipationInCompetition)
-                .WithMany(pic => pic.ParticipationsInPhases)
-                .HasForeignKey(p => p.ParticipationInCompetitionId);
+            builder.Entity<ParticipantInCompetitionEntity>()
+                .HasMany(pip => pip.ParticipationsInPhases)
+                .WithOne(pic => pic.ParticipationInCompetition)
+                .HasForeignKey(pip => pip.ParticipationInCompetitionId);
 
             builder.Entity<ParticipationInPhaseEntity>()
                 .HasOne(p => p.Phase)
@@ -110,7 +112,7 @@ namespace EnduranceJudge.Gateways.Persistence
             builder.Entity<ResultInPhaseEntity>()
                 .HasOne(r => r.ParticipationInPhase)
                 .WithOne(p => p.ResultInPhase)
-                .HasForeignKey<ParticipationInPhaseEntity>(r => r.ResultInPhaseId);
+                .HasForeignKey<ParticipationInPhaseEntity>(p => p.ResultInPhaseId);
 
             base.OnModelCreating(builder);
         }

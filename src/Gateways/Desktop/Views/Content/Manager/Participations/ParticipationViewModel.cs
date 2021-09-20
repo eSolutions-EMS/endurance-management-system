@@ -21,15 +21,19 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participations
             this.Arrive = new DelegateCommand(this.ArriveAction);
             this.Inspect = new DelegateCommand(this.InspectAction);
             this.ReInspect = new DelegateCommand(this.ReInspectAction);
+            this.CompleteSuccessful = new DelegateCommand(this.CompleteSuccessfulAction);
+            this.CompleteUnsuccessful = new DelegateCommand(this.CompleteUnsuccessfulAction);
         }
 
         public DelegateCommand Start { get; }
         public DelegateCommand Arrive { get; }
         public DelegateCommand Inspect { get; }
         public DelegateCommand ReInspect { get; }
+        public DelegateCommand CompleteSuccessful { get; }
+        public DelegateCommand CompleteUnsuccessful { get; }
 
         private string number;
-        private bool hasExceededSpeedRestrictions;
+        private bool hasExceededSpeedRestriction;
         private bool isComplete;
 
         public string Number
@@ -37,10 +41,10 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participations
             get => this.number;
             set => this.SetProperty(ref this.number, value);
         }
-        public bool HasExceededSpeedRestrictions
+        public bool HasExceededSpeedRestriction
         {
-            get => this.hasExceededSpeedRestrictions;
-            set => this.SetProperty(ref this.hasExceededSpeedRestrictions, value);
+            get => this.hasExceededSpeedRestriction;
+            set => this.SetProperty(ref this.hasExceededSpeedRestriction, value);
         }
         public bool IsComplete
         {
@@ -66,6 +70,18 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participations
         private void ReInspectAction()
         {
             this.participation.ReInspect(DateTime.Now);
+            this.Update();
+        }
+        private void CompleteSuccessfulAction()
+        {
+            this.participation.CompleteSuccessful();
+            this.IsComplete = this.participation.IsComplete;
+            this.Update();
+        }
+        private void CompleteUnsuccessfulAction()
+        {
+            this.participation.CompleteUnsuccessful("code");
+            this.IsComplete = this.participation.IsComplete;
             this.Update();
         }
 

@@ -7,12 +7,11 @@ using EnduranceJudge.Gateways.Persistence.Entities.Phases;
 using EnduranceJudge.Gateways.Persistence.Entities.ResultsInPhases;
 using System;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace EnduranceJudge.Gateways.Persistence.Entities.ParticipationsInPhases
 {
-    public class ParticipationInPhaseEntity : EntityBase, IParticipationInPhaseState,
-        IMap<ParticipationInPhase>
+    public class ParticipationInPhaseEntity : EntityBase, IParticipationInPhaseState
     {
         private static readonly Type ManagerDomain = typeof(ParticipationInPhase);
 
@@ -26,7 +25,7 @@ namespace EnduranceJudge.Gateways.Persistence.Entities.ParticipationsInPhases
         public int ParticipationInCompetitionId { get; set; }
         [JsonIgnore]
         public ResultInPhaseEntity ResultInPhase { get; set; }
-        public int ResultInPhaseId { get; set; }
+        public int? ResultInPhaseId { get; set; }
         [JsonIgnore]
         public PhaseEntity Phase { get; set; }
         public int PhaseId { get; set; }

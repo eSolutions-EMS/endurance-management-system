@@ -22,6 +22,8 @@ namespace EnduranceJudge.Domain.Aggregates.Event.Competitions
             {
                 this.Type = state.Type.IsRequired(nameof(state.Type));
                 this.Name = state.Name.IsRequired(nameof(state.Name));
+                // TODO: fix
+                this.StartTime = DateTime.Now;
             });
 
         public CompetitionType Type { get; private set; }

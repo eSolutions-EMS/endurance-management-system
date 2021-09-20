@@ -22,7 +22,7 @@ namespace EnduranceJudge.Gateways.Persistence.Entities.Phases
 
         public int LengthInKm { get; set; }
         public bool IsFinal { get; set; }
-        public int OrderBy { get; }
+        public int OrderBy { get; set; }
 
         [JsonIgnore]
         public CompetitionEntity Competition { get; set; }

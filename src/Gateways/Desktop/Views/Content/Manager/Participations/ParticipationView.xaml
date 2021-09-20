@@ -41,7 +41,7 @@
         <Border Style="{StaticResource Border-Vertical}"
                 Grid.Row="2" Grid.Column="1">
             <TextBox Style="{StaticResource Readonly}"
-                     Text="{Binding HasExceededSpeedRestrictions, Mode=OneWay}" />
+                     Text="{Binding HasExceededSpeedRestriction, Mode=OneWay}" />
         </Border>
 
         <Border Style="{StaticResource Border-Vertical}"
@@ -81,6 +81,14 @@
                         <Button Style="{StaticResource Button-Form}"
                                 Command="{Binding ReInspect}"
                                 Content="{x:Static strings:DesktopStrings.RE_INSPECT}" />
+
+                        <Button Style="{StaticResource Button-Form}"
+                                Command="{Binding CompleteSuccessful}"
+                                Content="{x:Static strings:DesktopStrings.COMPLETE_SUCCESSFUL}" />
+
+                        <Button Style="{StaticResource Button-Form}"
+                                Command="{Binding CompleteUnsuccessful}"
+                                Content="{x:Static strings:DesktopStrings.COMPLETE_UNSUCCESSFUL}" />
                     </StackPanel>
                 </Border>
             </StackPanel>

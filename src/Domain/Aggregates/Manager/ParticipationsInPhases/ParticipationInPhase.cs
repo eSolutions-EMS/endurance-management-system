@@ -5,6 +5,7 @@ using EnduranceJudge.Domain.Aggregates.Manager.ResultsInPhases;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.States;
 using System;
+using System.Collections.Generic;
 
 namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInPhases
 {
@@ -18,29 +19,36 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInPhases
         }
 
         internal ParticipationInPhase(PhaseDto phase, DateTime startTime)
-            => this.Validate(() =>
+        {
+            this.Validate(() =>
             {
                 this.StartTime = startTime
                     .IsRequired(nameof(startTime))
                     .HasDatePassed();
-                this.Phase = phase.IsRequired(nameof(phase));
+
+                phase.IsRequired(nameof(phase));
             });
+            this.LengthInKm = phase.LengthInKm;
+            this.PhasesForCategories = phase.PhasesForCategories;
+        }
 
         public DateTime StartTime { get; private set; }
         public DateTime? ArrivalTime { get; private set; }
         public DateTime? InspectionTime { get; private set; }
         public DateTime? ReInspectionTime { get; private set; }
-
-        public PhaseDto Phase { get; private set; }
         public ResultInPhase ResultInPhase { get; private set; }
 
+        public int OrderBy { get; private init; }
+        public int LengthInKm { get; private init; }
+        public IEnumerable<PhaseForCategoryDto> PhasesForCategories { get; private init; }
+
         public TimeSpan? LoopSpan => this.ArrivalTime - this.StartTime;
-        public TimeSpan? PhaseSpan => this.ArrivalTime - this.InspectionTime;
+        public TimeSpan? PhaseSpan => (this.ReInspectionTime ?? this.InspectionTime) - this.StartTime;
         public double? AverageSpeedForLoopInKpH
         {
             get
             {
-                if (this.Phase == null || this.LoopSpan == null)
+                if (this.LoopSpan == null)
                 {
                     return null;
                 }
@@ -51,7 +59,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInPhases
         {
             get
             {
-                if (this.Phase == null || this.PhaseSpan == null)
+                if (this.PhaseSpan == null)
                 {
                     return null;
                 }
@@ -91,10 +99,9 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInPhases
                 this.InspectionTime.IsNotDefault(InspectionTimeIsNullMessage);
                 this.ResultInPhase = result.IsRequired(nameof(result));
             });
-
         private double GetAverageSpeed(TimeSpan timeSpan)
         {
-            var phaseLengthInKm = this.Phase.LengthInKm;
+            var phaseLengthInKm = this.LengthInKm;
             var totalHours = timeSpan.TotalHours;
             return  phaseLengthInKm / totalHours;
         }

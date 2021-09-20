@@ -39,8 +39,9 @@ namespace EnduranceJudge.Gateways.Persistence.Entities.ParticipantsInCompetition
             profile.CreateMap<ParticipantInCompetitionEntity, ParticipationInCompetition>()
                 .MapMember(d => d.Category, s => s.Participant.Athlete.Category)
                 .MapMember(d => d.MaxAverageSpeedInKpH, s => s.Participant.MaxAverageSpeedInKmPh)
-                .MapMember(d => d.ParticipationsInPhases, s => s.ParticipationsInPhases)
-                .ForMember(d => d.CompetitionType, opt => opt.Ignore());
+                .ForMember(d => d.Type, opt => opt.MapFrom(y => y.Competition.Type))
+                .ForMember(d => d.Phases, opt => opt.MapFrom(y => y.Competition.Phases))
+                .ForMember(d => d.StartTime, opt => opt.MapFrom(y => y.Competition.StartTime));
         }
     }
 }

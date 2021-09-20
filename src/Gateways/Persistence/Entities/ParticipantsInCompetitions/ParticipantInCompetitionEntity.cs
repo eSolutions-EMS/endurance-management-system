@@ -20,7 +20,6 @@ namespace EnduranceJudge.Gateways.Persistence.Entities.ParticipantsInCompetition
         public int CompetitionId { get; set; }
         [JsonIgnore]
         public IList<ParticipationInPhaseEntity> ParticipationsInPhases { get; set; }
-            = new List<ParticipationInPhaseEntity>();
 
         public override IEnumerable<Type> DomainTypes => new[] { typeof(ParticipationInCompetition) };
     }
