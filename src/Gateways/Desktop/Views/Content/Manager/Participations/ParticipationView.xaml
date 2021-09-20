@@ -63,7 +63,16 @@
         <Border Style="{StaticResource Border-Vertical}"
                 Grid.Row="4" Grid.Column="1">
             <StackPanel Style="{StaticResource List-Horizontal}">
-                <Border Style="{StaticResource Border-Vertical}">
+                <ListBox Style="{StaticResource ListBox-Horizontal}"
+                         ItemsSource="{Binding ParticipationsInPhases}">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel IsItemsHost="True" />
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                </ListBox>
+
+                <Border Style="{StaticResource Border-Horizontal}">
                     <StackPanel Style="{StaticResource List-Vertical}">
 
                         <Button Style="{StaticResource Button-Form}"
@@ -93,6 +102,5 @@
                 </Border>
             </StackPanel>
         </Border>
-
     </Grid>
 </UserControl>

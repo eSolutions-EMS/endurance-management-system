@@ -125,5 +125,13 @@
         public const string RE_INSPECT = "ReINspect";
         public const string COMPLETE_SUCCESSFUL = "Complete Successful";
         public const string COMPLETE_UNSUCCESSFUL = "Complete Unsuccessful";
+        public const string ARRIVAL = "Arrival";
+        public const string INSPECTION = "Inspection";
+        public const string RE_INSPECTION = "ReInspection";
+        public const string KM = "km";
+        public const string LOOP_SPAN = "Loop span";
+        public const string PHASE_SPAN = "Phase span";
+        public const string AVERAGE_SPEED_FOR_LOOP = "Average (loop)";
+        public const string AVERAGE_SPEED_FOR_PHASE = "Average (phase)";
     }
 }

@@ -39,6 +39,7 @@
 
     <Style x:Key="Text-Label" TargetType="TextBlock" BasedOn="{StaticResource Text-H3}">
         <Setter Property="Padding" Value="5px" />
+        <Setter Property="VerticalAlignment" Value="Top" />
     </Style>
 
     <Style x:Key="Text-Error" TargetType="TextBlock" BasedOn="{StaticResource Text}">

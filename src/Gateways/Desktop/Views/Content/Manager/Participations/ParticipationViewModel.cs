@@ -4,8 +4,11 @@ using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Domain.Aggregates.Manager.Participations;
 using EnduranceJudge.Gateways.Desktop.Core.Static;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Manager.ParticipationsInPhases;
 using Prism.Commands;
 using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participations
@@ -35,6 +38,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participations
         private string number;
         private bool hasExceededSpeedRestriction;
         private bool isComplete;
+        public ObservableCollection<ParticipationInPhaseViewModel> ParticipationsInPhases { get; private set; } = new();
 
         public string Number
         {
