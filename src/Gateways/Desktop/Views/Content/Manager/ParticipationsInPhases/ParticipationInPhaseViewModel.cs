@@ -13,7 +13,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager.ParticipationsIn
         private DateTime? arrivalTime;
         private DateTime? inspectionTime;
         private DateTime? reInspectionTime;
-        private int lengthInKm;
+        private int phaseLengthInKm;
         private TimeSpan? loopSpan;
         private TimeSpan? phaseSpan;
         private double? averageSpeedForLoopInKpH;
@@ -40,10 +40,10 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager.ParticipationsIn
             get => this.reInspectionTime;
             private set => this.SetProperty(ref this.reInspectionTime, value);
         }
-        public int LengthInKm
+        public int PhaseLengthInKm
         {
-            get => this.lengthInKm;
-            private set => this.SetProperty(ref this.lengthInKm, value);
+            get => this.phaseLengthInKm;
+            private set => this.SetProperty(ref this.phaseLengthInKm, value);
         }
 
         public TimeSpan? LoopSpan

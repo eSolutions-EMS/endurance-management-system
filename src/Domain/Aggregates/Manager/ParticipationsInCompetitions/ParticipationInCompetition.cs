@@ -36,7 +36,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInCompetitions
         {
             get => this.participationsInPhases.AsReadOnly();
             private init => this.participationsInPhases = value
-                .OrderBy(x => x.OrderBy)
+                .OrderBy(x => x.PhaseOrderBy)
                 .ToList();
         }
 

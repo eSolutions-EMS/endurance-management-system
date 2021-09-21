@@ -14,9 +14,7 @@ namespace EnduranceJudge.Gateways.Persistence.Entities.ParticipationsInPhases
         public void AddToMaps(IProfileExpression profile)
         {
             profile.CreateMap<ParticipationInPhaseEntity, ParticipationInPhase>()
-                .ForMember(x => x.PhasesForCategories, opt => opt.MapFrom(y => y.Phase.PhasesForCategories))
-                .ForMember(x => x.OrderBy, opt => opt.MapFrom(y => y.Phase.OrderBy))
-                .ForMember(x => x.LengthInKm, opt => opt.MapFrom(y => y.Phase.LengthInKm));
+                .ForMember(x => x.PhasesForCategories, opt => opt.MapFrom(y => y.Phase.PhasesForCategories));
         }
     }
 }

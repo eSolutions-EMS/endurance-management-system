@@ -28,7 +28,9 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInPhases
 
                 phase.IsRequired(nameof(phase));
             });
-            this.LengthInKm = phase.LengthInKm;
+            this.PhaseId = phase.Id;
+            this.PhaseOrderBy = phase.OrderBy;
+            this.PhaseLengthInKm = phase.LengthInKm;
             this.PhasesForCategories = phase.PhasesForCategories;
         }
 
@@ -38,8 +40,9 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInPhases
         public DateTime? ReInspectionTime { get; private set; }
         public ResultInPhase ResultInPhase { get; private set; }
 
-        public int OrderBy { get; private init; }
-        public int LengthInKm { get; private init; }
+        public int PhaseId { get; private init; }
+        public int PhaseOrderBy { get; private init; }
+        public int PhaseLengthInKm { get; private init; }
         public IEnumerable<PhaseForCategoryDto> PhasesForCategories { get; private init; }
 
         public TimeSpan? LoopSpan => this.ArrivalTime - this.StartTime;
@@ -67,41 +70,79 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInPhases
             }
         }
         public bool IsComplete => this.ResultInPhase != null;
+        public bool CanArrive
+            => !this.IsComplete
+                && !this.ArrivalTime.HasValue;
+        public bool CanInspect
+            => !this.IsComplete
+                && this.ArrivalTime.HasValue
+                && !this.InspectionTime.HasValue;
+        public bool CanReInspect
+            => !this.IsComplete
+                && this.InspectionTime.HasValue
+                && !this.ReInspectionTime.HasValue;
+        public bool CanComplete
+            => !this.IsComplete
+                && (this.ReInspectionTime.HasValue || this.InspectionTime.HasValue);
 
         internal void Arrive(DateTime time)
-        {
-            this.ArrivalTime = time.IsRequired(nameof(time));
-        }
+            => this.Validate(() =>
+            {
+                if (!this.CanArrive)
+                {
+                    // TODO: Validations
+                    return;
+                }
+                this.ArrivalTime = time.IsRequired(nameof(time));
+            });
         internal void Inspect(DateTime time)
-        {
-            this.InspectionTime = time.IsRequired(nameof(time));
-        }
+            => this.Validate(() =>
+            {
+                if (!this.CanInspect)
+                {
+                    // TODO: Validations
+                    return;
+                }
+                this.InspectionTime = time.IsRequired(nameof(time));
+            });
         internal void ReInspect(DateTime time)
-        {
-            this.ReInspectionTime = time.IsRequired(nameof(time));
-        }
-
+            => this.Validate(() =>
+            {
+                if (!this.CanReInspect)
+                {
+                    // TODO: Validations
+                    return;
+                }
+                this.ReInspectionTime = time.IsRequired(nameof(time));
+            });
         internal void CompleteSuccessful()
         {
-            var successfulResult = new ResultInPhase();
-            this.Complete(successfulResult);
+            this.Complete();
         }
         internal void CompleteUnsuccessful(string code)
         {
-            var unsuccessfulResult = new ResultInPhase(code);
-            this.Complete(unsuccessfulResult);
+            this.Complete(code);
         }
 
-        private void Complete(ResultInPhase result)
+        private void Complete(string code = null)
             => this.Validate(() =>
             {
+                if (!this.CanComplete)
+                {
+                    // TODO: Validations
+                    return;
+                }
                 this.ArrivalTime.IsNotDefault(ArrivalTimeIsNullMessage);
                 this.InspectionTime.IsNotDefault(InspectionTimeIsNullMessage);
-                this.ResultInPhase = result.IsRequired(nameof(result));
+
+                this.ResultInPhase = code == null
+                    ? new ResultInPhase()
+                    : new ResultInPhase(code);
             });
+
         private double GetAverageSpeed(TimeSpan timeSpan)
         {
-            var phaseLengthInKm = this.LengthInKm;
+            var phaseLengthInKm = this.PhaseLengthInKm;
             var totalHours = timeSpan.TotalHours;
             return  phaseLengthInKm / totalHours;
         }

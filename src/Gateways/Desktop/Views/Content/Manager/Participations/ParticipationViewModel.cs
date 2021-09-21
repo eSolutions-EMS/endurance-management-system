@@ -7,9 +7,9 @@ using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Manager.ParticipationsInPhases;
 using Prism.Commands;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participations
 {
@@ -59,34 +59,72 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participations
         private void StartAction()
         {
             this.participation.Start();
+            this.MapFrom(this.participation);
             this.Update();
         }
         private void ArriveAction()
         {
             this.participation.Arrive(DateTime.Now);
+            this.MapFrom(this.participation);
             this.Update();
         }
         private void InspectAction()
         {
             this.participation.Inspect(DateTime.Now);
+            this.MapFrom(this.participation);
             this.Update();
         }
         private void ReInspectAction()
         {
             this.participation.ReInspect(DateTime.Now);
+            this.MapFrom(this.participation);
             this.Update();
         }
         private void CompleteSuccessfulAction()
         {
             this.participation.CompleteSuccessful();
-            this.IsComplete = this.participation.IsComplete;
+            this.MapFrom(this.participation);
             this.Update();
         }
         private void CompleteUnsuccessfulAction()
         {
             this.participation.CompleteUnsuccessful("code");
-            this.IsComplete = this.participation.IsComplete;
+            this.MapFrom(this.participation);
             this.Update();
+        }
+
+        private Visibility startVisibility = Visibility.Collapsed;
+        public Visibility StartVisibility
+        {
+            get => this.startVisibility;
+            private set => this.SetProperty(ref this.startVisibility, value);
+        }
+
+        private Visibility arriveVisibility = Visibility.Collapsed;
+        public Visibility ArriveVisibility
+        {
+            get => this.arriveVisibility;
+            private set => this.SetProperty(ref this.arriveVisibility, value);
+        }
+
+        private Visibility inspectVisibility = Visibility.Collapsed;
+        public Visibility InspectVisibility
+        {
+            get => this.inspectVisibility;
+            private set => this.SetProperty(ref this.inspectVisibility, value);
+        }
+        private Visibility reInspectVisibility = Visibility.Collapsed;
+        public Visibility ReInspectVisibility
+        {
+            get => this.reInspectVisibility;
+            private set => this.SetProperty(ref this.reInspectVisibility, value);
+        }
+
+        private Visibility completeVisibility = Visibility.Collapsed;
+        public Visibility CompleteVisibility
+        {
+            get => this.completeVisibility;
+            private set => this.SetProperty(ref this.completeVisibility, value);
         }
 
         protected override async Task Load(int id)

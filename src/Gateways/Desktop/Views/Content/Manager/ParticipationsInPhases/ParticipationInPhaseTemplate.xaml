@@ -7,117 +7,53 @@
     <DataTemplate DataType="{x:Type local:ParticipationInPhaseViewModel}">
         <Border Style="{StaticResource Border-Horizontal}">
             <StackPanel Style="{StaticResource List-Vertical}">
-
                 <Border Style="{StaticResource Border-Vertical}"
                         Grid.Row="0" Grid.Column="1">
-                    <TextBlock Style="{StaticResource Text-H2}"
-                               Text="{Binding LengthInKm, Mode=OneWay}" />
+                    <TextBlock Style="{StaticResource Text-H2}">
+                        <Run Text="{Binding PhaseLengthInKm, Mode=OneWay}" />
+                        <Run Text="{x:Static localization:DesktopStrings.KM}" />
+                    </TextBlock>
                 </Border>
-
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="150px" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                    </Grid.RowDefinitions>
-
-                    <Border Style="{StaticResource Border-Vertical}"
-                            Grid.Row="0" Grid.Column="0">
-                        <TextBlock Style="{StaticResource Text-Label}"
-                                   Text="{x:Static localization:DesktopStrings.START}"/>
-                    </Border>
-                    <Border Style="{StaticResource Border-Vertical}"
-                            Grid.Row="0" Grid.Column="1">
-                        <TextBlock Style="{StaticResource Text}"
-                                   Text="{Binding StartTime, Mode=OneWay}" />
-                    </Border>
-
-                    <Border Style="{StaticResource Border-Vertical}"
-                            Grid.Row="1" Grid.Column="0">
-                        <TextBlock Style="{StaticResource Text-Label}"
-                                   Text="{x:Static localization:DesktopStrings.ARRIVE}"/>
-                    </Border>
-                    <Border Style="{StaticResource Border-Vertical}"
-                            Grid.Row="1" Grid.Column="1">
-                        <TextBlock Style="{StaticResource Text}"
-                                   Text="{Binding ArrivalTime, Mode=OneWay}" />
-                    </Border>
-
-                    <Border Style="{StaticResource Border-Vertical}"
-                            Grid.Row="2" Grid.Column="0">
-                        <TextBlock Style="{StaticResource Text-Label}"
-                                   Text="{x:Static localization:DesktopStrings.INSPECTION}"/>
-                    </Border>
-                    <Border Style="{StaticResource Border-Vertical}"
-                            Grid.Row="2" Grid.Column="1">
-                        <TextBlock Style="{StaticResource Text}"
-                                   Text="{Binding InspectionTime, Mode=OneWay}" />
-                    </Border>
-
-                    <Border Style="{StaticResource Border-Vertical}"
-                            Grid.Row="3" Grid.Column="0">
-                        <TextBlock Style="{StaticResource Text-Label}"
-                                   Text="{x:Static localization:DesktopStrings.RE_INSPECTION}"/>
-                    </Border>
-                    <Border Style="{StaticResource Border-Vertical}"
-                            Grid.Row="3" Grid.Column="1">
-                        <TextBlock Style="{StaticResource Text}"
-                                   Text="{Binding ReInspectionTime, Mode=OneWay}" />
-                    </Border>
-
-                    <Border Style="{StaticResource Border-Vertical}"
-                            Grid.Row="4" Grid.Column="0">
-                        <TextBlock Style="{StaticResource Text-Label}"
-                                   Text="{x:Static localization:DesktopStrings.LOOP_SPAN}"/>
-                    </Border>
-                    <Border Style="{StaticResource Border-Vertical}"
-                            Grid.Row="4" Grid.Column="1">
-                        <TextBlock Style="{StaticResource Text}"
-                                   Text="{Binding LoopSpan, Mode=OneWay}"/>
-                    </Border>
-
-                    <Border Style="{StaticResource Border-Vertical}"
-                            Grid.Row="5" Grid.Column="0">
-                        <TextBlock Style="{StaticResource Text-Label}"
-                                   Text="{x:Static localization:DesktopStrings.PHASE_SPAN}"/>
-                    </Border>
-                    <Border Style="{StaticResource Border-Vertical}"
-                            Grid.Row="5" Grid.Column="1">
-                        <TextBlock Style="{StaticResource Text}"
-                                   Text="{Binding PhaseSpan, Mode=OneWay}"/>
-                    </Border>
-
-                    <Border Style="{StaticResource Border-Vertical}"
-                            Grid.Row="6" Grid.Column="0">
-                        <TextBlock Style="{StaticResource Text-Label}"
-                                   Text="{x:Static localization:DesktopStrings.AVERAGE_SPEED_FOR_LOOP}"/>
-                    </Border>
-                    <Border Style="{StaticResource Border-Vertical}"
-                            Grid.Row="6" Grid.Column="1">
-                        <TextBlock Style="{StaticResource Text}"
-                                   Text="{Binding AverageSpeedForLoopInKpH, Mode=OneWay}"/>
-                    </Border>
-
-                    <Border Style="{StaticResource Border-Vertical}"
-                            Grid.Row="7" Grid.Column="0">
-                        <TextBlock Style="{StaticResource Text-Label}"
-                                   Text="{x:Static localization:DesktopStrings.AVERAGE_SPEED_FOR_PHASE}"/>
-                    </Border>
-                    <Border Style="{StaticResource Border-Vertical}"
-                            Grid.Row="7" Grid.Column="1">
-                        <TextBlock Style="{StaticResource Text}"
-                                   Text="{Binding AverageSpeedForPhaseInKpH, Mode=OneWay}"/>
-                    </Border>
-                </Grid>
+                <Border Style="{StaticResource Border-Vertical}"
+                        Grid.Row="0" Grid.Column="1">
+                    <TextBlock Style="{StaticResource Text}"
+                               Text="{Binding StartTime, Mode=OneWay}" />
+                </Border>
+                <Border Style="{StaticResource Border-Vertical}"
+                        Grid.Row="1" Grid.Column="1">
+                    <TextBlock Style="{StaticResource Text}"
+                               Text="{Binding ArrivalTime, Mode=OneWay}" />
+                </Border>
+                <Border Style="{StaticResource Border-Vertical}"
+                        Grid.Row="2" Grid.Column="1">
+                    <TextBlock Style="{StaticResource Text}"
+                               Text="{Binding InspectionTime, Mode=OneWay}" />
+                </Border>
+                <Border Style="{StaticResource Border-Vertical}"
+                        Grid.Row="3" Grid.Column="1">
+                    <TextBlock Style="{StaticResource Text}"
+                               Text="{Binding ReInspectionTime, Mode=OneWay}" />
+                </Border>
+                <Border Style="{StaticResource Border-Vertical}"
+                        Grid.Row="4" Grid.Column="1">
+                    <TextBlock Style="{StaticResource Text}"
+                               Text="{Binding LoopSpan, Mode=OneWay}"/>
+                </Border>
+                <Border Style="{StaticResource Border-Vertical}"
+                        Grid.Row="5" Grid.Column="1">
+                    <TextBlock Style="{StaticResource Text}"
+                               Text="{Binding PhaseSpan, Mode=OneWay}"/>
+                </Border>
+                <Border Style="{StaticResource Border-Vertical}"
+                        Grid.Row="6" Grid.Column="1">
+                    <TextBlock Style="{StaticResource Text}"
+                               Text="{Binding AverageSpeedForLoopInKpH, Mode=OneWay}"/>
+                </Border>
+                <Border Style="{StaticResource Border-Vertical}"
+                        Grid.Row="7" Grid.Column="1">
+                    <TextBlock Style="{StaticResource Text}"
+                               Text="{Binding AverageSpeedForPhaseInKpH, Mode=OneWay}"/>
+                </Border>
             </StackPanel>
         </Border>
     </DataTemplate>

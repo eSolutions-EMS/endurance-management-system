@@ -133,5 +133,6 @@
         public const string PHASE_SPAN = "Phase span";
         public const string AVERAGE_SPEED_FOR_LOOP = "Average (loop)";
         public const string AVERAGE_SPEED_FOR_PHASE = "Average (phase)";
+        public const string LENGTH_IN_KM = "Length";
     }
 }
