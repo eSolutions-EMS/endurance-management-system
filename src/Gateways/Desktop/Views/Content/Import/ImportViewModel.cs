@@ -2,9 +2,10 @@
 using EnduranceJudge.Application.Import.WorkFile;
 using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Core.Objects;
-using EnduranceJudge.Gateways.Desktop.Core.Services;
+using EnduranceJudge.Gateways.Desktop.Core.Static;
 using EnduranceJudge.Gateways.Desktop.Services;
 using Prism.Commands;
+using System;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -12,15 +13,18 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Import
 {
     public class ImportViewModel : ViewModelBase
     {
+        private readonly IServiceProvider provider;
         private readonly IExplorerService explorer;
         private readonly INavigationService navigation;
         private readonly IApplicationService application;
 
         public ImportViewModel(
+            IServiceProvider provider,
             IExplorerService explorer,
             INavigationService navigation,
             IApplicationService application)
         {
+            this.provider = provider;
             this.explorer = explorer;
             this.navigation = navigation;
             this.application = application;

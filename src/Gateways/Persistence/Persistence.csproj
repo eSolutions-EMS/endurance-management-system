@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>EnduranceJudge.Gateways.Persistence</RootNamespace>
     <AssemblyName>EnduranceJudge.Gateways.Persistence</AssemblyName>
+    <TargetFramework>net5.0-windows</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Collection.EntityFrameworkCore" Version="7.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.10" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.9" />
   </ItemGroup>
 

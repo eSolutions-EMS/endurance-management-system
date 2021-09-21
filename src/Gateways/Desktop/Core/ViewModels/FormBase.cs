@@ -1,10 +1,11 @@
 ﻿using EnduranceJudge.Core.Models;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
-using EnduranceJudge.Gateways.Desktop.Core.Services;
+using EnduranceJudge.Gateways.Desktop.Core.Static;
 using EnduranceJudge.Gateways.Desktop.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Prism.Commands;
 using System.Collections.Generic;
+using ServiceProvider = EnduranceJudge.Gateways.Desktop.Core.Static.ServiceProvider;
 
 namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
 {
@@ -13,7 +14,7 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
     {
         protected FormBase()
         {
-            this.Navigation = StaticProvider.GetService<INavigationService>();
+            this.Navigation = ServiceProvider.GetService<INavigationService>();
             this.BoolItems = SimpleListItemViewModel.FromBool();
             this.NavigateToUpdate = new DelegateCommand(
                 () => Navigation.ChangeTo<TView>(new NavigationParameter(DesktopConstants.FormDataParameter, this)));

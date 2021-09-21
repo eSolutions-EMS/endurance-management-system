@@ -3,12 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:strings="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              prism:ViewModelLocator.AutoWireViewModel="True">
 
     <ScrollViewer VerticalScrollBarVisibility="Auto"
                   CanContentScroll="True"
                   PreviewMouseWheel="HandleScroll">
-
         <StackPanel Style="{StaticResource Form}">
 
             <TextBox Style="{StaticResource Input-Id}"
@@ -26,6 +26,16 @@
                          Text="{Binding Name}"
                          Name="Name" />
             </DockPanel>
+
+            <DockPanel Style="{StaticResource Stretch-Last}">
+                <Label Style="{StaticResource Label-Primary}"
+                       Target="{Binding ElementName=StartTime}"
+                       Content="{x:Static strings:DesktopStrings.START_TIME}" />
+
+                <xctk:TimePicker Style="{StaticResource Time}"
+                                 Value="{Binding StartTime}" />
+            </DockPanel>
+
             <DockPanel Style="{StaticResource Stretch-Last}">
                 <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=Type}"
@@ -33,10 +43,11 @@
 
                 <ComboBox Style="{StaticResource Combo-Box}"
                           ItemsSource="{Binding TypeItems}"
-                          SelectedValue="{Binding Type}"
-                          SelectedIndex="{Binding Type}"
+                          SelectedValue="{Binding TypeValue}"
+                          SelectedIndex="{Binding TypeValue}"
                           Name="Type" />
             </DockPanel>
+
             <StackPanel Style="{StaticResource List-Vertical}">
 
                 <Label Style="{StaticResource Label-Primary}"
@@ -45,12 +56,13 @@
 
                 <Button Style="{StaticResource Button}"
                         Command="{Binding NavigateToCreatePhase}"
-                        Content="{x:Static strings:DesktopStrings.AddButtonText}"
+                        Content="{x:Static strings:DesktopStrings.CREATE_BUTTON}"
                         Name="NavigateToCreatePhase"/>
 
                 <ListBox Style="{StaticResource List}"
                          ItemsSource="{Binding Phases}" />
             </StackPanel>
+
             <StackPanel Style="{StaticResource List-Vertical}">
 
                 <Label Style="{StaticResource Label-Primary}"
@@ -59,12 +71,13 @@
 
                 <Button Style="{StaticResource Button}"
                         Command="{Binding NavigateToCreateParticipant}"
-                        Content="{x:Static strings:DesktopStrings.AddButtonText}"
+                        Content="{x:Static strings:DesktopStrings.CREATE_BUTTON}"
                         Name="NavigateToCreateParticipant"/>
 
                 <ListBox Style="{StaticResource List}"
                          ItemsSource="{Binding Participants}" />
             </StackPanel>
+
             <DockPanel Style="{StaticResource Stretch-Last}">
 
                 <Button Style="{StaticResource Button}"

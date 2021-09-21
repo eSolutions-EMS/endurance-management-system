@@ -20,7 +20,7 @@ namespace EnduranceJudge.Application.Events.Queries.GetHorseList
 
         public class GetHorseListHandler : GetAllHandler<GetHorseList, ListItemModel, Horse>
         {
-            public GetHorseListHandler(IQueriesBase<Horse> queries) : base(queries)
+            public GetHorseListHandler(IQueries<Horse> queries) : base(queries)
             {
             }
         }

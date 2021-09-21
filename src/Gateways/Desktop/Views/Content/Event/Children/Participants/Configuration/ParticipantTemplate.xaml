@@ -7,7 +7,7 @@
         <DockPanel Style="{StaticResource Stretch-Last}">
             <Button Style="{StaticResource Button}"
                     Command="{Binding NavigateToUpdate}"
-                    Content="{x:Static localization:DesktopStrings.UpdateButtonText}" />
+                    Content="{x:Static localization:DesktopStrings.UPDATE_BUTTON}" />
 
             <ContentPresenter Content="{Binding Name}" />
         </DockPanel>

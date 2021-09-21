@@ -11,7 +11,7 @@ namespace EnduranceJudge.Application.Events.Queries.CompetitionsList
     {
         public class GetCompetitionsListHandler : GetAllHandler<GetCompetitionsList, ListItemModel, Competition>
         {
-            public GetCompetitionsListHandler(IQueriesBase<Competition> queries) : base(queries)
+            public GetCompetitionsListHandler(IQueries<Competition> queries) : base(queries)
             {
             }
         }

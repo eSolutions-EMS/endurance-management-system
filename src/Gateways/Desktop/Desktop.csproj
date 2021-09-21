@@ -9,7 +9,7 @@
         <RuntimeIdentifier>win-x64</RuntimeIdentifier>
         <UseWPF>true</UseWPF>
         <SelfContained>true</SelfContained>
-        <PublishTrimmed>true</PublishTrimmed>
+        <PublishTrimmed>false</PublishTrimmed>
         <PublishSingleFile>true</PublishSingleFile>
         <PublishReadyToRun>true</PublishReadyToRun>
         <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
@@ -24,6 +24,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="Extended.Wpf.Toolkit" Version="4.1.0" />
         <PackageReference Include="Microsoft-WindowsAPICodePack-Shell" Version="1.1.4" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
         <PackageReference Include="Prism.DryIoc" Version="8.0.0.1909" />

@@ -3,7 +3,7 @@ using EnduranceJudge.Core.Utilities;
 using EnduranceJudge.Gateways.Desktop.Startup;
 using EnduranceJudge.Gateways.Desktop.Views;
 using EnduranceJudge.Gateways.Desktop.Core;
-using EnduranceJudge.Gateways.Desktop.Core.Services;
+using EnduranceJudge.Gateways.Desktop.Core.Static;
 using Microsoft.Extensions.DependencyInjection;
 using Prism.DryIoc;
 using Prism.Ioc;
@@ -13,6 +13,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
+using ServiceProvider = EnduranceJudge.Gateways.Desktop.Core.Static.ServiceProvider;
 
 namespace EnduranceJudge.Gateways.Desktop
 {
@@ -42,9 +43,9 @@ namespace EnduranceJudge.Gateways.Desktop
         private void InitializeApplication()
         {
             var aspNetProvider = this.Container.Resolve<IServiceProvider>();
-            StaticProvider.Provider = aspNetProvider;
-            var initializers = aspNetProvider.GetServices<IInitializerInterface>();
+            InitializeStaticServices(aspNetProvider);
 
+            var initializers = aspNetProvider.GetServices<IInitializerInterface>();
             foreach (var initializer in initializers.OrderBy(x => x.RunningOrder))
             {
                 initializer.Run(aspNetProvider);
@@ -70,6 +71,12 @@ namespace EnduranceJudge.Gateways.Desktop
 
                 return viewModelType;
             });
+        }
+
+        private static void InitializeStaticServices(IServiceProvider provider)
+        {
+            ServiceProvider.Initialize(provider);
+            ErrorHandler.Initialize();
         }
     }
 }

@@ -1,5 +1,5 @@
-﻿using EnduranceJudge.Domain.Aggregates.Event.Personnels;
-using EnduranceJudge.Domain.Enums;
+﻿using EnduranceJudge.Domain.Enums;
+using EnduranceJudge.Domain.States;
 
 namespace EnduranceJudge.Application.Events.Common
 {

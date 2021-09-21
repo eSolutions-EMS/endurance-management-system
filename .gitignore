@@ -351,3 +351,5 @@ MigrationBackup/
 
 # JebBrains tools
 .idea
+
+files/*

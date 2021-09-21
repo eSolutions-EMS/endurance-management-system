@@ -1,47 +1,54 @@
-using EnduranceJudge.Domain.Core.Validation;
-using EnduranceJudge.Domain.Aggregates.Manager.DTOs;
 using EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInCompetitions;
+using EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInPhases;
 using EnduranceJudge.Domain.Core.Models;
+using EnduranceJudge.Domain.Core.Validation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace EnduranceJudge.Domain.Aggregates.Manager.Participations
 {
-    public class Participation : DomainBase<ManagerParticipationException>
+    public class Participation : DomainBase<ManagerParticipationException>, IAggregateRoot
     {
-        private const string AlreadyStartedMessage = "has already started";
+        private const string ALREADY_STARTED_MESSAGE = "has already started";
 
-        private readonly IReadOnlyList<CompetitionDto> competitions;
-        private readonly List<ParticipationInCompetition> participationsInCompetitions = new();
-        private readonly int? maxAverageSpeedInKpH;
+        private List<ParticipationInCompetition> participationsInCompetitions = new();
 
-        internal Participation(IReadOnlyList<CompetitionDto> competitions, int? maxAverageSpeedInKpH)
+        private Participation()
         {
-            this.maxAverageSpeedInKpH = maxAverageSpeedInKpH;
-            this.competitions = competitions;
-
-            this.Validate(this.Start);
         }
 
+        public string Number { get; private set; }
+        public IReadOnlyList<ParticipationInCompetition> ParticipationsInCompetitions
+        {
+            get => this.participationsInCompetitions.AsReadOnly();
+            private set => this.participationsInCompetitions = value.ToList();
+        }
+
+
+        public bool CanStart
+            => !this.IsComplete
+                && this.ParticipationsInCompetitions.All(x => !x.ParticipationsInPhases.Any());
+        public bool CanArrive => !this.IsComplete && this.AnyParticipationInPhase(pip => pip.CanArrive);
+        public bool CanInspect => !this.IsComplete && this.AnyParticipationInPhase(pip => pip.CanInspect);
+        public bool CanReInspect => !this.IsComplete && this.AnyParticipationInPhase(pip => pip.CanReInspect);
+        public bool CanComplete => !this.IsComplete && this.AnyParticipationInPhase(pip => pip.CanComplete);
         public bool HasExceededSpeedRestriction
             => this.participationsInCompetitions.All(participation => participation.HasExceededSpeedRestriction);
+        public bool IsComplete => this.participationsInCompetitions.All(participation => !participation.IsNotComplete);
 
-        public bool IsComplete
-            => this.participationsInCompetitions.All(participation => participation.IsComplete);
-
-        public IReadOnlyList<ParticipationInCompetition> ParticipationsInCompetitions
-            => this.participationsInCompetitions.AsReadOnly();
-
-        private void Start()
+        public void Start()
             => this.Validate(() =>
             {
-                this.participationsInCompetitions.IsEmpty(AlreadyStartedMessage);
-
-                foreach (var participationInCompetition in this.competitions
-                    .Select(competition => new ParticipationInCompetition(competition, this.maxAverageSpeedInKpH)))
+                if (!this.CanStart)
                 {
-                    this.participationsInCompetitions.Add(participationInCompetition);
+                    return;
+                    // TODO: AddValidation to these checks;
+                }
+
+                foreach (var participation in this.ParticipationsInCompetitions)
+                {
+                    participation.StartPhase();
                 }
             });
         public void Arrive(DateTime time)
@@ -58,6 +65,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participations
         }
         public void CompleteSuccessful()
         {
+            //TODO: If HasExceededSpeedRestrictions ...
             this.Update(participation => participation.CompleteSuccessful());
         }
         public void CompleteUnsuccessful(string code)
@@ -68,10 +76,16 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participations
         private void Update(Action<ParticipationInCompetition> action)
         {
             foreach (var participation in this.participationsInCompetitions
-                .Where(competition => !competition.IsComplete))
+                .Where(competition => competition.IsNotComplete))
             {
                 action(participation);
             }
+        }
+
+        private bool AnyParticipationInPhase(Func<ParticipationInPhase, bool> predicate)
+        {
+            return this.ParticipationsInCompetitions.Any(pic =>
+                pic.ParticipationsInPhases.Any(predicate));
         }
     }
 }

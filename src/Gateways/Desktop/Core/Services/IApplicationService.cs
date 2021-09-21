@@ -2,7 +2,7 @@
 using MediatR;
 using System.Threading.Tasks;
 
-namespace EnduranceJudge.Gateways.Desktop.Core.Services
+namespace EnduranceJudge.Gateways.Desktop.Core.Static
 {
     public interface IApplicationService : IService
     {

@@ -6,26 +6,25 @@
     xmlns:strings="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization"
     prism:ViewModelLocator.AutoWireViewModel="True">
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto"
-                  CanContentScroll="True"
+    <ScrollViewer Style="{StaticResource Scroll}"
                   PreviewMouseWheel="HandleScroll">
 
-        <Grid>
+        <Grid Style="{StaticResource Grid}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="150px"></ColumnDefinition>
-                <ColumnDefinition Width="*"></ColumnDefinition>
+                <ColumnDefinition Width="150px" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
-                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <TextBox Style="{StaticResource Input-Id}"
@@ -34,70 +33,97 @@
 
             <TextBlock Style="{StaticResource Text-H1}"
                        Text="{x:Static strings:DesktopStrings.EnduranceEventTitle}"
-                       Grid.Row="0" Grid.Column="1"/>
+                       Grid.Row="1" Grid.Column="1" />
 
-            <TextBlock Style="{StaticResource Text-Label}"
-                       Text ="{x:Static strings:DesktopStrings.NameLabel}"
-                       Grid.Row="2" Grid.Column="0" />
-            <TextBox Style="{StaticResource Input}"
-                     Text="{Binding Name}"
-                     Grid.Row="2" Grid.Column="1" />
+            <Border Style="{StaticResource Border-Vertical}"
+                    Grid.Row="2" Grid.Column="0">
+                <TextBlock Style="{StaticResource Text-Label}"
+                           Text ="{x:Static strings:DesktopStrings.NameLabel}" />
+            </Border>
+            <Border Style="{StaticResource Border-Vertical}"
+                    Grid.Row="2" Grid.Column="1">
+                <TextBox Style="{StaticResource Input}"
+                         Text="{Binding Name}" />
+            </Border>
 
-            <TextBlock Style="{StaticResource Text-Label}"
-                       Text ="{x:Static strings:DesktopStrings.PopulatedPlaceLabel}"
-                       Grid.Row="3" Grid.Column="0" />
-            <TextBox Style="{StaticResource Input}"
-                     Text="{Binding PopulatedPlace}"
-                     Grid.Row="3" Grid.Column="1" />
+            <Border Style="{StaticResource Border-Vertical}"
+                    Grid.Row="2" Grid.Column="1">
+            </Border>
 
-            <TextBlock Style="{StaticResource Text-Label}"
-                       Text="{x:Static strings:DesktopStrings.CountryLabel}"
-                       Grid.Row="4" Grid.Column="0" />
-            <ComboBox Style="{StaticResource Combo-Box}"
-                      ItemsSource="{Binding Countries}"
-                      SelectedValue="{Binding SelectedCountryIsoCode}"
-                      SelectedValuePath="IsoCode"
-                      Grid.Row="4" Grid.Column="1" />
+            <Border Style="{StaticResource Border-Vertical}"
+                    Grid.Row="3" Grid.Column="0" >
+                <TextBlock Style="{StaticResource Text-Label}"
+                           Text ="{x:Static strings:DesktopStrings.PopulatedPlaceLabel}"/>
+            </Border>
+            <Border Style="{StaticResource Border-Vertical}"
+                    Grid.Row="3" Grid.Column="1" >
+                <TextBox Style="{StaticResource Input}"
+                         Text="{Binding PopulatedPlace}"/>
+            </Border>
 
-            <TextBlock Style="{StaticResource Text-Label}"
-                       Text ="{x:Static strings:DesktopStrings.PersonnelLabel}"
-                       Grid.Row="5" Grid.Column="0" />
-            <Button Style="{StaticResource Button}"
-                    Command="{Binding NavigateToPersonnel}"
-                    Content="{x:Static strings:DesktopStrings.AddButtonText}"
-                    Grid.Row="5" Grid.Column="1" />
+            <Border Style="{StaticResource Border-Vertical}"
+                    Grid.Row="4" Grid.Column="0" >
+                <TextBlock Style="{StaticResource Text-Label}"
+                           Text="{x:Static strings:DesktopStrings.CountryLabel}" />
+            </Border>
+            <Border Style="{StaticResource Border-Vertical}"
+                    Grid.Row="4" Grid.Column="1" >
+                <ComboBox Style="{StaticResource Combo-Box}"
+                          ItemsSource="{Binding Countries}"
+                          SelectedValue="{Binding SelectedCountryIsoCode}"
+                          SelectedValuePath="IsoCode"/>
+            </Border>
 
-            <DockPanel Style="{StaticResource Stretch-Last}"
-                       Grid.Row="6" Grid.Column="1" >
+            <Border Style="{StaticResource Border-Vertical}"
+                    Grid.Row="5" Grid.Column="0">
+                <TextBlock Style="{StaticResource Text-Label}"
+                           Text ="{x:Static strings:DesktopStrings.PersonnelLabel}" />
+            </Border>
+            <Border Style="{StaticResource Border-Vertical}"
+                    Grid.Row="5" Grid.Column="1">
+                <Button Style="{StaticResource Button-Form-Create}"
+                        Command="{Binding NavigateToPersonnel}" />
+            </Border>
 
-                <ListBox Style="{StaticResource List}"
-                         ItemsSource="{Binding Personnel}" />
-            </DockPanel>
+            <Border Style="{StaticResource Border-Vertical}"
+                    Grid.Row="6" Grid.Column="1" >
+                <DockPanel Style="{StaticResource Stretch-Last}">
+                    <ListBox Style="{StaticResource List}"
+                             ItemsSource="{Binding Personnel}" />
+                </DockPanel>
+            </Border>
 
-            <TextBlock Style="{StaticResource Text-Label}"
-                       Text ="{x:Static strings:DesktopStrings.CompetitionsLabel}"
-                       Grid.Row="7" Grid.Column="0" />
-            <Button Style="{StaticResource Button}"
-                    Command="{Binding NavigateToCompetition}"
-                    Content="{x:Static strings:DesktopStrings.CREATE_COMPETITION_TEXT}"
-                    Grid.Row="7" Grid.Column="1"/>
+            <Border Style="{StaticResource Border-Vertical}"
+                    Grid.Row="7" Grid.Column="0" >
+                <TextBlock Style="{StaticResource Text-Label}"
+                           Text ="{x:Static strings:DesktopStrings.CompetitionsLabel}" />
+            </Border>
+            <Border Style="{StaticResource Border-Vertical}"
+                    Grid.Row="7" Grid.Column="1">
+                <Button Style="{StaticResource Button-Form-Create}"
+                        Command="{Binding NavigateToCompetition}" />
+            </Border>
 
-            <DockPanel Style="{StaticResource Stretch-Last}"
-                       Grid.Row="8" Grid.Column="1">
+            <Border Style="{StaticResource Border-Vertical}"
+                    Grid.Row="8" Grid.Column="1">
+                <DockPanel Style="{StaticResource Stretch-Last}">
+                    <ListBox Style="{StaticResource List}"
+                             ItemsSource="{Binding Competitions}" />
+                </DockPanel>
+            </Border>
 
-                <ListBox Style="{StaticResource List}"
-                         ItemsSource="{Binding Competitions}" />
-            </DockPanel>
-
-            <Button Style="{StaticResource Button}"
-                    Command="{Binding NavigateBack}"
-                    Content="{x:Static strings:DesktopStrings.BackButtonText}"
-                    Grid.Row="9" Grid.Column="0" />
-
-            <Button Style="{StaticResource Button}"
-                    Command="{Binding Submit}"
-                    Content="{x:Static strings:DesktopStrings.SaveButtonText}"
-                    Grid.Row="9" Grid.Column="1" />
+            <Border Style="{StaticResource Wrapper-Form-Buttons}"
+                    Grid.Row="9" Grid.Column="0">
+                <Button Style="{StaticResource Button-Big-Horizontal}"
+                        Command="{Binding NavigateBack}"
+                        Content="{x:Static strings:DesktopStrings.BackButtonText}" />
+            </Border>
+            <Border Style="{StaticResource Wrapper-Form-Buttons}"
+                    Grid.Row="9" Grid.Column="1">
+                <Button Style="{StaticResource Button-Big-Horizontal}"
+                        Command="{Binding Submit}"
+                        Content="{x:Static strings:DesktopStrings.SaveButtonText}" />
+            </Border>
         </Grid>
     </ScrollViewer>
 </UserControl>

@@ -18,6 +18,16 @@
 
             <DockPanel Style="{StaticResource Stretch-Last}">
                 <Label Style="{StaticResource Label-Primary}"
+                       Target="{Binding ElementName=OrderBy}"
+                       Content="{x:Static strings:DesktopStrings.ORDER_LABEL}" />
+
+                <TextBox Style="{StaticResource Input}"
+                         Text="{Binding OrderBy}"
+                         Name="OrderBy" />
+            </DockPanel>
+
+            <DockPanel Style="{StaticResource Stretch-Last}">
+                <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=LengthInKm}"
                        Content="{x:Static strings:DesktopStrings.LengthInKmLabel}" />
 
@@ -46,7 +56,7 @@
 
                 <Button Style="{StaticResource Button}"
                         Command="{Binding NavigateToCreatePhaseForCategory}"
-                        Content="{x:Static strings:DesktopStrings.AddButtonText}"
+                        Content="{x:Static strings:DesktopStrings.CREATE_BUTTON}"
                         Name="NavigateToCreatePhaseForCategory" />
 
                 <ListBox Style="{StaticResource List}"

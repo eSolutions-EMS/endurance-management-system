@@ -7,13 +7,14 @@ namespace EnduranceJudge.Domain.Aggregates.Ranking.Competitions
 {
     public class Competition : DomainBase<RankingCompetitionException>
     {
-        public Competition()
+        private List<Participation> participations = new();
+
+        private Competition()
         {
         }
 
         public int LengthInKilometers { get; private set; }
 
-        private List<Participation> participations = new();
         public IReadOnlyList<Participation> Participations
         {
             get => this.participations.AsReadOnly();

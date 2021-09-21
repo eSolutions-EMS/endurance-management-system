@@ -11,13 +11,13 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Competiti
         public void AddFromMaps(IProfileExpression profile)
         {
             profile.CreateMap<CompetitionViewModel, CompetitionDependantModel>()
-                .MapMember(x => x.Type, y => (CompetitionType)y.Type);
+                .MapMember(x => x.Type, y => (CompetitionType)y.TypeValue);
         }
 
         public void AddToMaps(IProfileExpression profile)
         {
             profile.CreateMap<CompetitionDependantModel, CompetitionViewModel>()
-                .MapMember(x => x.Type, y => (int)y.Type);
+                .MapMember(x => x.TypeValue, y => (int)y.Type);
         }
     }
 }

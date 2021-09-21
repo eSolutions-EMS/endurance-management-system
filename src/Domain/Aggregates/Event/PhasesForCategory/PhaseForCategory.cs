@@ -1,6 +1,7 @@
 using EnduranceJudge.Domain.Core.Validation;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.Enums;
+using EnduranceJudge.Domain.States;
 
 namespace EnduranceJudge.Domain.Aggregates.Event.PhasesForCategory
 {
