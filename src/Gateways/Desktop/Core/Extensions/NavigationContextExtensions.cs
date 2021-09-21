@@ -54,5 +54,11 @@ namespace EnduranceJudge.Gateways.Desktop.Core.Extensions
             var isUpdateOnly = context.Parameters.ContainsKey(DesktopConstants.UpdateOnlyParameter);
             return isUpdateOnly;
         }
+
+        public static string GetMessage(this NavigationContext context)
+        {
+            context.Parameters.TryGetValue<string>(DesktopConstants.MESSAGE_PARAMETER, out var message);
+            return message;
+        }
     }
 }

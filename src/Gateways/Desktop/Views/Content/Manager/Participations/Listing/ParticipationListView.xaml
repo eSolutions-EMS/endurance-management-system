@@ -1,0 +1,46 @@
+﻿<UserControl x:Class="EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participations.Listing.ParticipationListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:strings="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <TextBlock Style="{StaticResource Text-H1}"
+                   Text="{x:Static strings:DesktopStrings.PARTICIPATIONS}"
+                   Grid.Row="0" />
+
+        <Button Style="{StaticResource Button-Big-Vertical}"
+                Command="{Binding ChangeToCreate}"
+                Content="{x:Static strings:DesktopStrings.CREATE_BUTTON}"
+                Grid.Row="1" />
+
+        <TextBox Style="{StaticResource Input}"
+                 Text="{Binding SearchValue}"
+                 Grid.Row="2" />
+
+        <DockPanel Style="{StaticResource Stretch-Last}"
+                   Grid.Row="3">
+            <Button Style="{StaticResource Button}"
+                    Command="{Binding ClearSearch}"
+                    Content="{x:Static strings:DesktopStrings.ClearButtonText}" />
+
+            <Button Style="{StaticResource Button}"
+                    Command="{Binding Search}"
+                    Content="{x:Static strings:DesktopStrings.SearchButtonText}" />
+        </DockPanel>
+        <ScrollViewer Style="{StaticResource Scroll}"
+                      PreviewMouseWheel="HandleScroll"
+                      Grid.Row="4">
+            <ListBox Style="{StaticResource List}"
+                     ItemsSource="{Binding ListItems}" />
+        </ScrollViewer>
+    </Grid>
+</UserControl>

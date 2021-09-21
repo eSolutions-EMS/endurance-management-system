@@ -1,4 +1,4 @@
-﻿using EnduranceJudge.Domain.Aggregates.Event.Participants;
+﻿using EnduranceJudge.Domain.States;
 
 namespace EnduranceJudge.Application.Events.Common
 {

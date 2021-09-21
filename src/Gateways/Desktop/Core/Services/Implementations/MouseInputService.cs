@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using EnduranceJudge.Gateways.Desktop.Core.Static;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace EnduranceJudge.Gateways.Desktop.Core.Services.Implementations

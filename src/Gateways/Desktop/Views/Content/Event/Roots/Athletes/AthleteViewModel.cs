@@ -6,7 +6,7 @@ using EnduranceJudge.Core.Models;
 using EnduranceJudge.Domain.Enums;
 using EnduranceJudge.Domain.States;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
-using EnduranceJudge.Gateways.Desktop.Core.Services;
+using EnduranceJudge.Gateways.Desktop.Core.Static;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
 using Prism.Regions;
 using System.Collections.ObjectModel;

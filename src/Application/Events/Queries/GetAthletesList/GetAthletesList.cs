@@ -12,7 +12,7 @@ namespace EnduranceJudge.Application.Events.Queries.GetAthletesList
     {
         public class GetAthletesHandler : GetAllHandler<GetAthletesList, ListItemModel, Athlete>
         {
-            public GetAthletesHandler(IQueriesBase<Athlete> queries) : base(queries)
+            public GetAthletesHandler(IQueries<Athlete> queries) : base(queries)
             {
             }
         }

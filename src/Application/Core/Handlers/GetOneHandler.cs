@@ -10,9 +10,9 @@ namespace EnduranceJudge.Application.Core.Handlers
         where TRequest : IdentifiableRequest<TResponse>
         where TDomainModel : IDomainModel
     {
-        private readonly IQueriesBase<TDomainModel> query;
+        private readonly IQueries<TDomainModel> query;
 
-        public GetOneHandler(IQueriesBase<TDomainModel> query)
+        public GetOneHandler(IQueries<TDomainModel> query)
         {
             this.query = query;
         }

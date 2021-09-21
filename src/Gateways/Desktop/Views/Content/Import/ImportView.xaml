@@ -6,12 +6,12 @@
              prism:ViewModelLocator.AutoWireViewModel="True"
              HorizontalContentAlignment="Stretch">
 
-    <StackPanel Background="Aqua">
-        <DockPanel Style="{StaticResource Stretch-Last}">
+    <StackPanel Style="{StaticResource List-Vertical}">
+        <DockPanel Style="{StaticResource Stretch-Last}"
+                   Visibility="{Binding WorkDirectoryVisibility}">
 
             <Button Style="{StaticResource Button}"
                     Command="{Binding OpenFolderDialog}"
-                    Name="Select_WorkDirectory"
                     Content="{x:Static strings:DesktopStrings.SelectWorkDirectoryButtonText}" />
 
             <TextBox Style="{StaticResource Input}"
@@ -20,11 +20,10 @@
         </DockPanel>
 
         <DockPanel Style="{StaticResource Stretch-Last}"
-                   Visibility="{Binding ImportVisibility}">
+                   Visibility="{Binding ImportFilePathVisibility}">
 
             <Button Style="{StaticResource Button}"
                     Command="{Binding OpenImportFileDialog}"
-                    Name="Select_ImportFile"
                     Content="{x:Static strings:DesktopStrings.SelectImportFileButtonText}" />
 
             <TextBox Style="{StaticResource Input}"

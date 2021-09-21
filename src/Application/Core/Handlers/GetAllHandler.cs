@@ -8,20 +8,20 @@ using System.Threading.Tasks;
 
 namespace EnduranceJudge.Application.Core.Handlers
 {
-    public class GetAllHandler<TRequest, TResponse, TDomainModel> : Handler<TRequest, IEnumerable<TResponse>>
-        where TRequest : IRequest<IEnumerable<TResponse>>
+    public class GetAllHandler<TRequest, TResponseModel, TDomainModel> : Handler<TRequest, IEnumerable<TResponseModel>>
+        where TRequest : IRequest<IEnumerable<TResponseModel>>
         where TDomainModel : IDomainModel
     {
-        private readonly IQueriesBase<TDomainModel> queries;
+        private readonly IQueries<TDomainModel> queries;
 
-        public GetAllHandler(IQueriesBase<TDomainModel> queries)
+        public GetAllHandler(IQueries<TDomainModel> queries)
         {
             this.queries = queries;
         }
 
-        public override async Task<IEnumerable<TResponse>> Handle(TRequest request, CancellationToken token)
+        public override async Task<IEnumerable<TResponseModel>> Handle(TRequest request, CancellationToken token)
         {
-            var result = await this.queries.All<TResponse>();
+            var result = await this.queries.All<TResponseModel>();
             return result;
         }
     }

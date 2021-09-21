@@ -20,7 +20,7 @@
                    Grid.Row="1">
             <Button Style="{StaticResource Button}"
                     Command="{Binding ChangeToCreate}"
-                    Content="{x:Static strings:DesktopStrings.CreateButtonText}" />
+                    Content="{x:Static strings:DesktopStrings.CREATE_BUTTON}" />
         </DockPanel>
 
         <DockPanel Style="{StaticResource Stretch-Last}"

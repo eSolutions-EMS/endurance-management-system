@@ -1,10 +1,11 @@
-using EnduranceJudge.Domain.Aggregates.Event.Competitions;
 using EnduranceJudge.Domain.Enums;
+using EnduranceJudge.Domain.States;
 using EnduranceJudge.Gateways.Persistence.Core;
 using EnduranceJudge.Gateways.Persistence.Entities.EnduranceEvents;
 using EnduranceJudge.Gateways.Persistence.Entities.ParticipantsInCompetitions;
 using EnduranceJudge.Gateways.Persistence.Entities.Phases;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 
 namespace EnduranceJudge.Gateways.Persistence.Entities.Competitions
@@ -13,6 +14,7 @@ namespace EnduranceJudge.Gateways.Persistence.Entities.Competitions
     {
         public CompetitionType Type { get; set; }
         public string Name { get; set; }
+        public DateTime StartTime { get; set; }
 
         [JsonIgnore]
         public EnduranceEventEntity EnduranceEvent { get; set; }
@@ -22,6 +24,6 @@ namespace EnduranceJudge.Gateways.Persistence.Entities.Competitions
         public IList<PhaseEntity> Phases { get; set; }
 
         [JsonIgnore]
-        public IList<ParticipantInCompetition> ParticipantsInCompetitions { get; set; }
+        public IList<ParticipantInCompetitionEntity> ParticipantsInCompetitions { get; set; }
     }
 }

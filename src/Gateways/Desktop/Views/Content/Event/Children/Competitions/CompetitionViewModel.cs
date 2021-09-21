@@ -1,15 +1,17 @@
 ﻿using EnduranceJudge.Domain.Enums;
+using EnduranceJudge.Domain.States;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Participants;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Phases;
 using Prism.Commands;
 using Prism.Regions;
+using System;
 using System.Collections.ObjectModel;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Competitions
 {
-    public class CompetitionViewModel : ChildFormBase<CompetitionView>
+    public class CompetitionViewModel : ChildFormBase<CompetitionView>, ICompetitionState
     {
         public CompetitionViewModel()
         {
@@ -24,20 +26,35 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Competiti
         public ObservableCollection<PhaseViewModel> Phases { get; } = new();
         public ObservableCollection<ParticipantViewModel> Participants { get; } = new();
 
-        private int type;
+        private int typeValue;
+        private string typeString;
         private string name;
+        private DateTime startTime;
+        public CompetitionType Type => (CompetitionType)this.TypeValue;
 
-        public int PhaseCount => this.Phases.Count;
-
-        public int Type
+        public string TypeString
         {
-            get => this.type;
-            set => this.SetProperty(ref this.type, value);
+            get => this.typeString;
+            set => this.SetProperty(ref this.typeString, value);
+        }
+        public int TypeValue
+        {
+            get => this.typeValue;
+            set
+            {
+                this.SetProperty(ref this.typeValue, value);
+                this.TypeString = ((CompetitionType)this.typeValue).ToString();
+            }
         }
         public string Name
         {
             get => this.name;
             set => this.SetProperty(ref this.name, value);
+        }
+        public DateTime StartTime
+        {
+            get => this.startTime;
+            set => this.SetProperty(ref this.startTime, value);
         }
 
         public override void HandleChildren(NavigationContext context)

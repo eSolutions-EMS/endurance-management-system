@@ -1,5 +1,5 @@
 ﻿using EnduranceJudge.Gateways.Desktop.Core;
-using EnduranceJudge.Gateways.Desktop.Core.Services;
+using EnduranceJudge.Gateways.Desktop.Core.Static;
 using System.Net;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -20,7 +20,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Personnel
             this.mouseInput = mouseInput;
         }
 
-        public string RegionName { get; } = Regions.Content;
+        public string RegionName { get; } = Regions.CONTENT_LEFT;
         public void HandleScroll(object sender, MouseWheelEventArgs mouseEvent)
         {
             this.mouseInput.HandleScroll(sender, mouseEvent);

@@ -5,16 +5,16 @@
              xmlns:strings="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization"
              prism:ViewModelLocator.AutoWireViewModel="True">
 
-    <StackPanel Style="{StaticResource List-Horizontal}">
-        <Button Style="{StaticResource Button}"
+    <StackPanel Style="{StaticResource List-Vertical}">
+        <Button Style="{StaticResource Button-Header-Vertical}"
                 Command="{Binding ChangeToEventsList}"
                 Content="{x:Static strings:DesktopStrings.EnduranceEventButtonText}" />
 
-        <Button Style="{StaticResource Button}"
+        <Button Style="{StaticResource Button-Header-Vertical}"
                 Command="{Binding ChangeToAthletesList}"
                 Content="{x:Static strings:DesktopStrings.AthletesButtonText}" />
 
-        <Button Style="{StaticResource Button}"
+        <Button Style="{StaticResource Button-Header-Vertical}"
                 Command="{Binding ChangeToHorseList}"
                 Content="{x:Static strings:DesktopStrings.HorsesButtonText}" />
     </StackPanel>

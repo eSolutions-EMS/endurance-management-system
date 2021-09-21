@@ -1,13 +1,12 @@
-﻿using EnduranceJudge.Domain.Aggregates.Event.PhasesForCategory;
-using EnduranceJudge.Domain.Enums;
+﻿using EnduranceJudge.Domain.Enums;
+using EnduranceJudge.Domain.States;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
 using System.Collections.ObjectModel;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.PhasesForCategory
 {
-    public class PhaseForCategoryViewModel : ChildFormBase<PhaseForCategoryView>,
-        IPhaseForCategoryState
+    public class PhaseForCategoryViewModel : ChildFormBase<PhaseForCategoryView>, IPhaseForCategoryState
     {
         public ObservableCollection<SimpleListItemViewModel> CategoryItems { get; }
             = new(SimpleListItemViewModel.FromEnum<Category>());

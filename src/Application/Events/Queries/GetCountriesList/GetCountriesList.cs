@@ -1,4 +1,4 @@
-﻿using EnduranceJudge.Application.Contracts.Countries;
+﻿using EnduranceJudge.Application.Contracts;
 using EnduranceJudge.Application.Core.Handlers;
 using MediatR;
 using System.Collections.Generic;

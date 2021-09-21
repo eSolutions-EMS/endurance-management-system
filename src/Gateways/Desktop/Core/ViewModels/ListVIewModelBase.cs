@@ -1,6 +1,6 @@
 ﻿using EnduranceJudge.Application.Events.Common;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem;
-using EnduranceJudge.Gateways.Desktop.Core.Services;
+using EnduranceJudge.Gateways.Desktop.Core.Static;
 using EnduranceJudge.Gateways.Desktop.Services;
 using MediatR;
 using Prism.Commands;
@@ -11,8 +11,8 @@ using System.Threading.Tasks;
 
 namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
 {
-    public abstract class ListViewModelBase<TApplicationCommand, TView> : ViewModelBase
-        where TApplicationCommand : IRequest<IEnumerable<ListItemModel>>, new()
+    public abstract class ListViewModelBase<TQuery, TView> : ViewModelBase
+        where TQuery : IRequest<IEnumerable<ListItemModel>>, new()
         where TView : IView
     {
         protected ListViewModelBase(IApplicationService application, INavigationService navigation)
@@ -39,7 +39,7 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
 
         private async Task LoadEvents()
         {
-            var getEventsList = new TApplicationCommand();
+            var getEventsList = new TQuery();
             var eventsList = await this.Application.Execute(getEventsList);
 
             var viewModels = eventsList

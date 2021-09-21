@@ -1,8 +1,10 @@
-﻿using EnduranceJudge.Application.Core.Exceptions;
+﻿using EnduranceJudge.Application.Core.Contracts;
+using EnduranceJudge.Application.Core.Exceptions;
 using EnduranceJudge.Application.Core.Handlers;
 using EnduranceJudge.Application.Import.Contracts;
 using EnduranceJudge.Application.Import.ImportFromFile.Services;
 using EnduranceJudge.Core.Services;
+using EnduranceJudge.Domain.Aggregates.Import.EnduranceEvents;
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,14 +22,14 @@ namespace EnduranceJudge.Application.Import.ImportFromFile
             private readonly IHorseCommands horseCommands;
             private readonly INationalImportService nationalImport;
             private readonly IInternationalImportService internationalImport;
-            private readonly IEnduranceEventCommands enduranceEventCommands;
+            private readonly ICommands<EnduranceEvent> enduranceEventCommands;
             private readonly IFileService file;
 
             public ImportFromFileHandler(
                 IHorseCommands horseCommands,
                 INationalImportService nationalImport,
                 IInternationalImportService internationalImport,
-                IEnduranceEventCommands enduranceEventCommands,
+                ICommands<EnduranceEvent> enduranceEventCommands,
                 IFileService file)
             {
                 this.horseCommands = horseCommands;

@@ -10,7 +10,7 @@ namespace EnduranceJudge.Application.Events.Queries.GetAthlete
     {
         public class GetAthleteHandler : GetOneHandler<GetAthlete, AthleteRootModel, Athlete>
         {
-            public GetAthleteHandler(IQueriesBase<Athlete> query) : base(query)
+            public GetAthleteHandler(IQueries<Athlete> query) : base(query)
             {
             }
         }

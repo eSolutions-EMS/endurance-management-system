@@ -1,4 +1,5 @@
-﻿using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
+﻿using EnduranceJudge.Domain.States;
+using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.PhasesForCategory;
 using EnduranceJudge.Localization;
 using Prism.Commands;
@@ -7,7 +8,7 @@ using System.Collections.ObjectModel;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Phases
 {
-    public class PhaseViewModel : ChildFormBase<PhaseView>
+    public class PhaseViewModel : ChildFormBase<PhaseView>, IPhaseState
     {
         private PhaseViewModel()
         {
@@ -21,6 +22,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Phases
         private string isFinalText;
         private int isFinalValue;
         private int lengthInKm;
+        private int orderBy;
 
         public string IsFinalText
         {
@@ -44,10 +46,17 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Phases
             get => this.lengthInKm;
             set => this.SetProperty(ref this.lengthInKm, value);
         }
+        public int OrderBy
+        {
+            get => this.orderBy;
+            set => this.SetProperty(ref this.orderBy, value);
+        }
 
         public override void HandleChildren(NavigationContext context)
         {
             this.AddOrUpdateChild(context, this.PhasesForCategories);
         }
+
+        public bool IsFinal => this.IsFinalValue == 1;
     }
 }

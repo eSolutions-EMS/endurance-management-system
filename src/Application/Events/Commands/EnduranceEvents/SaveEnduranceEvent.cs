@@ -4,6 +4,7 @@ using EnduranceJudge.Application.Events.Common;
 using EnduranceJudge.Application.Events.Factories;
 using EnduranceJudge.Application.Events.Queries.GetEvent;
 using EnduranceJudge.Domain.Aggregates.Event.EnduranceEvents;
+using EnduranceJudge.Domain.States;
 using MediatR;
 using System.Collections.Generic;
 using System.Threading;
@@ -23,11 +24,11 @@ namespace EnduranceJudge.Application.Events.Commands.EnduranceEvents
         public class SaveEnduranceEventHandler : Handler<SaveEnduranceEvent>
         {
             private readonly IEnduranceEventFactory enduranceEventFactory;
-            private readonly ICommandsBase<EnduranceEvent> eventCommands;
+            private readonly ICommands<EnduranceEvent> eventCommands;
 
             public SaveEnduranceEventHandler(
                 IEnduranceEventFactory enduranceEventFactory,
-                ICommandsBase<EnduranceEvent> eventCommands)
+                ICommands<EnduranceEvent> eventCommands)
             {
                 this.enduranceEventFactory = enduranceEventFactory;
                 this.eventCommands = eventCommands;

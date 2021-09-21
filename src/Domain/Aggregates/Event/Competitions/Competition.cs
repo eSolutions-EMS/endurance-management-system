@@ -4,6 +4,8 @@ using EnduranceJudge.Domain.Aggregates.Event.Participants;
 using EnduranceJudge.Domain.Aggregates.Event.Phases;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.Enums;
+using EnduranceJudge.Domain.States;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -20,10 +22,13 @@ namespace EnduranceJudge.Domain.Aggregates.Event.Competitions
             {
                 this.Type = state.Type.IsRequired(nameof(state.Type));
                 this.Name = state.Name.IsRequired(nameof(state.Name));
+                // TODO: fix
+                this.StartTime = DateTime.Now;
             });
 
         public CompetitionType Type { get; private set; }
         public string Name { get; private set; }
+        public DateTime StartTime { get; private set; }
 
         private List<Phase> phases = new();
         public IReadOnlyList<Phase> Phases

@@ -1,5 +1,6 @@
 using EnduranceJudge.Domain.Core.Validation;
 using EnduranceJudge.Domain.Core.Models;
+using EnduranceJudge.Domain.States;
 
 namespace EnduranceJudge.Domain.Aggregates.Event.Participants
 {

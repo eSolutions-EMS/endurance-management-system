@@ -87,5 +87,14 @@ namespace EnduranceJudge.Core.Utilities
             var types = type.GetGenericArguments();
             return types;
         }
+
+        public static IEnumerable<Type> GetExportedTypes(Assembly? assembly = null)
+        {
+            assembly = assembly ?? Assembly.GetExecutingAssembly();
+            var exportedTypes = assembly
+                .GetExportedTypes()
+                .Where(x => !x.IsInterface && !x.IsAbstract);
+            return exportedTypes;
+        }
     }
 }

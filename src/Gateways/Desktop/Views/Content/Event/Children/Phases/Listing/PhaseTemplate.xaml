@@ -5,37 +5,34 @@
 
     <DataTemplate DataType="{x:Type phases:PhaseViewModel}">
         <StackPanel Style="{StaticResource List-Vertical}">
-            <StackPanel Style="{StaticResource List-Horizontal}">
 
-                <TextBlock Style="{StaticResource Text-Bold}">
-                    <Run Text="{x:Static localization:DesktopStrings.LengthInKmText}" />
-                    <Run Text=": " />
-                    <Run Text="{Binding LengthInKm}" />
-                </TextBlock>
+            <Border Style="{StaticResource Border-Vertical}">
+                <DockPanel Style="{StaticResource Stretch-Last}">
+                    <TextBlock Style="{StaticResource Text}">
+                        <Run Text="{x:Static localization:DesktopStrings.LengthInKmText}" />
+                        <Run Text=":" />
+                        <Run Style="{StaticResource Run-Bold}" Text="{Binding LengthInKm}" />
+                    </TextBlock>
 
-                <TextBlock Style="{StaticResource Interval}"></TextBlock>
-                <TextBlock Style="{StaticResource Text-Bold}"
-                           Text="{Binding IsFinalText, Mode=OneWay}" />
-            </StackPanel>
+                    <TextBlock Style="{StaticResource Text-Bold}"
+                               Text="{Binding IsFinalText, Mode=OneWay}" />
 
-            <TextBlock Style="{StaticResource Interval}"></TextBlock>
-            <DockPanel Style="{StaticResource Stretch-Last}">
+                    <Button Style="{StaticResource Button-Form-Update}" HorizontalAlignment="Right"
+                            Command="{Binding NavigateToUpdate}"
+                            Content="{x:Static localization:DesktopStrings.UPDATE_PHASE_TEXT}" />
+                </DockPanel>
+            </Border>
 
-                <Button Style="{StaticResource Button-Update}"
-                        Command="{Binding NavigateToUpdate}"
-                        Content="{x:Static localization:DesktopStrings.UPDATE_PHASE_TEXT}" />
-
-
-                <TextBlock Style="{StaticResource Interval}"></TextBlock>
-
+            <Border Style="{StaticResource Border-Vertical}">
                 <TextBlock Style="{StaticResource Text}"
-                           Text="{x:Static localization:DesktopStrings.CategoriesText}" />
+                           Text="{x:Static localization:DesktopStrings.CATEGORIES}" />
+            </Border>
 
-                <TextBlock Style="{StaticResource Interval}"></TextBlock>
-
+            <Border Style="{StaticResource Border-Vertical}">
                 <ListBox Style="{StaticResource List}"
                          ItemsSource="{Binding PhasesForCategories}"/>
-            </DockPanel>
+            </Border>
+
         </StackPanel>
     </DataTemplate>
 

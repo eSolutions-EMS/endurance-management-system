@@ -4,34 +4,30 @@
                     xmlns:localization="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization">
 
     <DataTemplate DataType="{x:Type phasesForCategory:PhaseForCategoryViewModel}">
-        <StackPanel Style="{StaticResource List-Horizontal}">
+        <Border Style="{StaticResource Border-Vertical}">
+            <DockPanel Style="{StaticResource Stretch-Last}">
 
-            <Button Style="{StaticResource Button-Update}"
-                    Command="{Binding NavigateToUpdate}"
-                    Content="{x:Static localization:DesktopStrings.UPDATE_PHASE_FOR_CATEGORY_TEXT}" />
+                <TextBlock Style="{StaticResource Text-Bold}"
+                           Text="{Binding CategoryName}"/>
 
-            <TextBlock Style="{StaticResource Interval}"></TextBlock>
+                <TextBlock Style="{StaticResource Text}">
+                    <Run Text="{x:Static localization:DesktopStrings.RecoveryInMinutesText}" />
+                    <Run Text=":" />
+                    <Run Style="{StaticResource Run-Bold}" Text="{Binding MaxRecoveryTimeInMinutes}" />
+                </TextBlock>
 
-            <TextBlock Style="{StaticResource Text}"
-                       Text="{Binding CategoryName}"/>
+                <TextBlock Style="{StaticResource Text}">
+                    <Run Text="{x:Static localization:DesktopStrings.RestInMinutesText}" />
+                    <Run Text=":" />
+                    <Run Style="{StaticResource Run-Bold}" Text="{Binding RestTimeInMinutes}" />
+                </TextBlock>
 
-            <TextBlock Style="{StaticResource Interval}"></TextBlock>
+                <Button Style="{StaticResource Button-Form-Update}" HorizontalAlignment="Right"
+                        Command="{Binding NavigateToUpdate}"
+                        Content="{x:Static localization:DesktopStrings.UPDATE_PHASE_FOR_CATEGORY_TEXT}" />
 
-            <TextBlock Style="{StaticResource Text}">
-                <Run Text="{x:Static localization:DesktopStrings.RecoveryInMinutesText}" />
-                <Run Text=": " />
-                <Run Text="{Binding MaxRecoveryTimeInMinutes}" />
-            </TextBlock>
-
-            <TextBlock Style="{StaticResource Interval}"></TextBlock>
-
-            <TextBlock Style="{StaticResource Text}">
-                <Run Text="{x:Static localization:DesktopStrings.RestInMinutesText}" />
-                <Run Text=": " />
-                <Run Text="{Binding RestTimeInMinutes}" />
-            </TextBlock>
-
-        </StackPanel>
+            </DockPanel>
+        </Border>
     </DataTemplate>
 
 </ResourceDictionary>

@@ -3,6 +3,8 @@ using EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.EnduranceEvents.
 using EnduranceJudge.Gateways.Desktop.Views.Content.Event.NavigationStrip;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Import;
 using EnduranceJudge.Gateways.Desktop.Core.Services.Implementations;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participations;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participations.Listing;
 using Prism.Regions;
 using System;
 
@@ -17,18 +19,24 @@ namespace EnduranceJudge.Gateways.Desktop.Services.Implementations
         public void NavigateToImport()
         {
             this.ChangeTo<ImportView>();
-            this.ClearRegion(Regions.SubNavigation);
+            this.ClearRegion(Regions.CONTENT_RIGHT);
         }
 
         public void NavigateToEvent()
         {
             this.ChangeTo<EnduranceEventListView>();
-            this.ChangeTo<EventNavigationStripView>(Regions.SubNavigation);
+            this.ChangeTo<EventNavigationStripView>(Regions.CONTENT_RIGHT);
+       }
+
+        public void NavigateToManager()
+        {
+            this.ChangeTo<ParticipationView>();
+            this.ChangeTo<ParticipationListView>(Regions.CONTENT_RIGHT);
         }
 
         public void ChangeTo<T>() where T : IView
         {
-            this.ChangeTo(Regions.Content, typeof(T), null);
+            this.ChangeTo(Regions.CONTENT_LEFT, typeof(T), null);
         }
 
         public void ChangeTo<T>(int entityId)
@@ -50,7 +58,7 @@ namespace EnduranceJudge.Gateways.Desktop.Services.Implementations
                 navigationParameters.Add(key, value);
             }
 
-            this.ChangeTo(Regions.Content, view, navigationParameters);
+            this.ChangeTo(Regions.CONTENT_LEFT, view, navigationParameters);
         }
     }
 }

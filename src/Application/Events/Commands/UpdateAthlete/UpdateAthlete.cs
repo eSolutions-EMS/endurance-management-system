@@ -1,8 +1,8 @@
-﻿using EnduranceJudge.Application.Contracts.Athletes;
+﻿using EnduranceJudge.Application.Core.Contracts;
 using EnduranceJudge.Application.Core.Handlers;
-using EnduranceJudge.Application.Events.Factories;
 using EnduranceJudge.Application.Events.Models;
 using EnduranceJudge.Application.Factories;
+using EnduranceJudge.Domain.Aggregates.Common.Athletes;
 using EnduranceJudge.Domain.Enums;
 using EnduranceJudge.Domain.States;
 using MediatR;
@@ -22,10 +22,10 @@ namespace EnduranceJudge.Application.Events.Commands.UpdateAthlete
 
         public class UpdateAthleteHandler : Handler<UpdateAthlete>
         {
-            private readonly IAthleteCommands athleteCommands;
+            private readonly ICommands<Athlete> athleteCommands;
             private readonly IAthleteFactory athleteFactory;
 
-            public UpdateAthleteHandler(IAthleteCommands athleteCommands, IAthleteFactory athleteFactory)
+            public UpdateAthleteHandler(ICommands<Athlete> athleteCommands, IAthleteFactory athleteFactory)
             {
                 this.athleteCommands = athleteCommands;
                 this.athleteFactory = athleteFactory;

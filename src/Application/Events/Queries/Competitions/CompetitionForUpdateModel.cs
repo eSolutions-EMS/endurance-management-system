@@ -1,5 +1,6 @@
-﻿using EnduranceJudge.Domain.Aggregates.Event.Competitions;
-using EnduranceJudge.Domain.Enums;
+﻿using EnduranceJudge.Domain.Enums;
+using EnduranceJudge.Domain.States;
+using System;
 
 namespace EnduranceJudge.Application.Events.Queries.Competitions
 {
@@ -8,5 +9,6 @@ namespace EnduranceJudge.Application.Events.Queries.Competitions
         public int Id { get; private set; }
         public CompetitionType Type { get; private set; }
         public string Name { get; private set; }
+        public DateTime StartTime { get; private set; }
     }
 }
