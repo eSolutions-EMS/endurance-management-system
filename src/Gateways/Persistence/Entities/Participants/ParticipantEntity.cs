@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 namespace EnduranceJudge.Gateways.Persistence.Entities.Participants
 {
-    public class ParticipantEntity : EntityBase, IParticipantState
+    public class ParticipantEntity : AggregateRootEntityBase, IParticipantState
     {
         private static readonly Type ImportDomain = typeof(Domain.Aggregates.Import.Participants.Participant);
         private static readonly Type EventDomain = typeof(Domain.Aggregates.Event.Participants.Participant);

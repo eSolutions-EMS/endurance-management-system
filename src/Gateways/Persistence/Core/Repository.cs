@@ -1,6 +1,5 @@
 using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Application.Core.Contracts;
-using EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInCompetitions;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Gateways.Persistence.Contracts.WorkFile;
 using Microsoft.EntityFrameworkCore;
@@ -43,11 +42,6 @@ namespace EnduranceJudge.Gateways.Persistence.Core
 
         public virtual async Task<IList<TModel>> All<TModel>()
         {
-            var wot = await this.DbContext
-                .ParticipantsInCompetitions
-                .MapQueryable<ParticipationInCompetition>()
-                .ToListAsync();
-
             var list = await this.DbContext
                 .Set<TEntityModel>()
                 .MapQueryable<TModel>()

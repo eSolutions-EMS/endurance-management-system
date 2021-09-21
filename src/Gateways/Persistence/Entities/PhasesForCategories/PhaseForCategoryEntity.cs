@@ -7,8 +7,6 @@ using EnduranceJudge.Domain.States;
 using EnduranceJudge.Gateways.Persistence.Core;
 using EnduranceJudge.Gateways.Persistence.Entities.Phases;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
 
 namespace EnduranceJudge.Gateways.Persistence.Entities.PhasesForCategories
 {
@@ -17,8 +15,6 @@ namespace EnduranceJudge.Gateways.Persistence.Entities.PhasesForCategories
         IMapTo<PhaseForCategoryDependantModel>,
         IMapTo<PhaseForCategoryDto>
     {
-        private static readonly Type Domain = typeof(PhaseForCategory);
-
         public int MaxRecoveryTimeInMinutes { get; set; }
         public int RestTimeInMinutes { get; set; }
         public Category Category { get; set; }
@@ -26,7 +22,5 @@ namespace EnduranceJudge.Gateways.Persistence.Entities.PhasesForCategories
         [JsonIgnore]
         public PhaseEntity Phase { get; set; }
         public int PhaseId { get; set; }
-
-        public override IEnumerable<Type> DomainTypes { get; } = new[] { Domain };
     }
 }

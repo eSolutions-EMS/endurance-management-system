@@ -11,7 +11,7 @@ using System.Collections.Generic;
 
 namespace EnduranceJudge.Gateways.Persistence.Entities.Horses
 {
-    public class HorseEntity : EntityBase, IHorseState,
+    public class HorseEntity : AggregateRootEntityBase, IHorseState,
         IMap<Horse>,
         IMapTo<HorseModel>,
         IMapTo<HorseRootModel>,

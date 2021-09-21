@@ -12,10 +12,6 @@ namespace EnduranceJudge.Gateways.Persistence.Entities.Competitions
 {
     public class CompetitionEntity : EntityBase, ICompetitionState
     {
-        private static readonly Type ImportType = typeof(Domain.Aggregates.Import.Competitions.Competition);
-        private static readonly Type EventType = typeof(Domain.Aggregates.Event.Competitions.Competition);
-        private static readonly Type RankingType = typeof(Domain.Aggregates.Ranking.Competitions.Competition);
-
         public CompetitionType Type { get; set; }
         public string Name { get; set; }
         public DateTime StartTime { get; set; }
@@ -29,7 +25,5 @@ namespace EnduranceJudge.Gateways.Persistence.Entities.Competitions
 
         [JsonIgnore]
         public IList<ParticipantInCompetitionEntity> ParticipantsInCompetitions { get; set; }
-
-        public override IEnumerable<Type> DomainTypes { get; } = new[] { ImportType, EventType, RankingType };
     }
 }

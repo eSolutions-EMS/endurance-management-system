@@ -8,7 +8,6 @@ using EnduranceJudge.Gateways.Persistence.Entities.Competitions;
 using EnduranceJudge.Gateways.Persistence.Entities.ParticipationsInPhases;
 using EnduranceJudge.Gateways.Persistence.Entities.PhasesForCategories;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 
 namespace EnduranceJudge.Gateways.Persistence.Entities.Phases
@@ -18,8 +17,6 @@ namespace EnduranceJudge.Gateways.Persistence.Entities.Phases
         IMapTo<PhaseDependantModel>,
         IMapTo<PhaseDto>
     {
-        private static readonly Type Domain = typeof(Phase);
-
         public int LengthInKm { get; set; }
         public bool IsFinal { get; set; }
         public int OrderBy { get; set; }
@@ -31,7 +28,5 @@ namespace EnduranceJudge.Gateways.Persistence.Entities.Phases
         public IList<PhaseForCategoryEntity> PhasesForCategories { get; set; }
         [JsonIgnore]
         public IList<ParticipationInPhaseEntity> ParticipationsInPhases { get; set; }
-
-        public override IEnumerable<Type> DomainTypes { get; } = new[] { Domain };
     }
 }

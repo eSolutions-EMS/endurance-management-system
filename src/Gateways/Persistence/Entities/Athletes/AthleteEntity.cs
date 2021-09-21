@@ -10,7 +10,7 @@ using System.Collections.Generic;
 
 namespace EnduranceJudge.Gateways.Persistence.Entities.Athletes
 {
-    public class AthleteEntity : EntityBase, IAthleteState
+    public class AthleteEntity : AggregateRootEntityBase, IAthleteState
     {
         private static readonly Type AthleteType = typeof(Athlete);
 

@@ -18,7 +18,7 @@ namespace EnduranceJudge.Gateways.Persistence.Startup
 {
     public static class PersistenceServices
     {
-        private static readonly Type EntityBaseType = typeof(EntityBase);
+        private static readonly Type AggregateRootEntityBaseType = typeof(AggregateRootEntityBase);
         private static readonly Type IQueriesType = typeof(IQueries<>);
         private static readonly Type ICommandsType = typeof(ICommands<>);
         private static readonly Type RepositoryType = typeof(Repository<,>);
@@ -55,12 +55,12 @@ namespace EnduranceJudge.Gateways.Persistence.Startup
         {
             var entityTypes = ReflectionUtilities
                 .GetExportedTypes(typeof(PersistenceServices).Assembly)
-                .Where(EntityBaseType.IsAssignableFrom)
+                .Where(AggregateRootEntityBaseType.IsAssignableFrom)
                 .ToList();
 
             foreach (var entityType in entityTypes)
             {
-                var entity = Activator.CreateInstance(entityType) as EntityBase;
+                var entity = Activator.CreateInstance(entityType) as AggregateRootEntityBase;
                 var domainTypes = entity!.DomainTypes;
                 if (domainTypes == null)
                 {
