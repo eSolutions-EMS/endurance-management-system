@@ -134,5 +134,7 @@
         public const string AVERAGE_SPEED_FOR_LOOP = "Average (loop)";
         public const string AVERAGE_SPEED_FOR_PHASE = "Average (phase)";
         public const string LENGTH_IN_KM = "Length";
+        public const string HOURS_SYMBOL = "h";
+        public const string KM_PER_HOUR = "km/h";
     }
 }

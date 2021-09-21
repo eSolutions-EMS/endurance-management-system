@@ -59,37 +59,31 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participations
         private void StartAction()
         {
             this.participation.Start();
-            this.MapFrom(this.participation);
             this.Update();
         }
         private void ArriveAction()
         {
             this.participation.Arrive(DateTime.Now);
-            this.MapFrom(this.participation);
             this.Update();
         }
         private void InspectAction()
         {
             this.participation.Inspect(DateTime.Now);
-            this.MapFrom(this.participation);
             this.Update();
         }
         private void ReInspectAction()
         {
             this.participation.ReInspect(DateTime.Now);
-            this.MapFrom(this.participation);
             this.Update();
         }
         private void CompleteSuccessfulAction()
         {
             this.participation.CompleteSuccessful();
-            this.MapFrom(this.participation);
             this.Update();
         }
         private void CompleteUnsuccessfulAction()
         {
             this.participation.CompleteUnsuccessful("code");
-            this.MapFrom(this.participation);
             this.Update();
         }
 
@@ -144,6 +138,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participations
 
         private async Task Update()
         {
+            this.MapFrom(this.participation);
             var update = new UpdateParticipation(this.participation);
             await this.Application.Execute(update);
         }
