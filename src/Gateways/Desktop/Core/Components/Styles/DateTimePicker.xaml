@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit">
 
-    <Style x:Key="Time" TargetType="xctk:TimePicker">
+    <Style x:Key="DateTime" TargetType="xctk:DateTimePicker">
         <Setter Property="AllowSpin" Value="True" />
         <Setter Property="HorizontalAlignment" Value="Left" />
         <Setter Property="Padding" Value="5px 0 0 0" />

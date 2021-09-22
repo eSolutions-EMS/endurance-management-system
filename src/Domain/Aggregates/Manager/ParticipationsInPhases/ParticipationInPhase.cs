@@ -24,7 +24,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInPhases
             {
                 this.StartTime = startTime
                     .IsRequired(nameof(startTime))
-                    .HasDatePassed();
+                    .IsFutureDate();
 
                 phase.IsRequired(nameof(phase));
             });

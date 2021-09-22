@@ -32,7 +32,7 @@
                        Target="{Binding ElementName=StartTime}"
                        Content="{x:Static strings:DesktopStrings.START_TIME}" />
 
-                <xctk:TimePicker Style="{StaticResource Time}"
+                <xctk:DateTimePicker Style="{StaticResource DateTime}"
                                  Value="{Binding StartTime}" />
             </DockPanel>
 
