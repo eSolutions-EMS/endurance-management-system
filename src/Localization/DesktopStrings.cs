@@ -30,7 +30,7 @@
         public const string ImportPageButtonText = "Import";
         public const string EventPageButtonText = "Event";
         public const string MANAGER_PAGE_BUTTON_TEXT = "Manager";
-        public const string RankingPageButtonText = "Ranking";
+        public const string RANKING = "Ranking";
 
         // -- Content
 

@@ -5,6 +5,7 @@ using EnduranceJudge.Gateways.Desktop.Views.Content.Import;
 using EnduranceJudge.Gateways.Desktop.Core.Services.Implementations;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participations;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participations.Listing;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Rankings;
 using Prism.Regions;
 using System;
 
@@ -32,6 +33,11 @@ namespace EnduranceJudge.Gateways.Desktop.Services.Implementations
         {
             this.ChangeTo<ParticipationView>();
             this.ChangeTo<ParticipationListView>(Regions.CONTENT_RIGHT);
+        }
+        public void NavigateToRanking()
+        {
+            this.ChangeTo<RankingView>();
+            this.ClearRegion(Regions.CONTENT_RIGHT);
         }
 
         public void ChangeTo<T>() where T : IView

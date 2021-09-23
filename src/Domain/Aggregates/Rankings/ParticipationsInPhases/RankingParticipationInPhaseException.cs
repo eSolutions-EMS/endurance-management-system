@@ -1,6 +1,6 @@
 using EnduranceJudge.Domain.Core.Exceptions;
 
-namespace EnduranceJudge.Domain.Aggregates.Ranking.ParticipationsInPhases
+namespace EnduranceJudge.Domain.Aggregates.Rankings.ParticipationsInPhases
 {
     public class RankingParticipationInPhaseException : DomainException
     {

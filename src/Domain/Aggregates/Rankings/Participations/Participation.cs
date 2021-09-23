@@ -1,16 +1,16 @@
 using EnduranceJudge.Domain.Core.Validation;
-using EnduranceJudge.Domain.Aggregates.Ranking.ParticipationsInPhases;
+using EnduranceJudge.Domain.Aggregates.Rankings.ParticipationsInPhases;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EnduranceJudge.Domain.Aggregates.Ranking.Participations
+namespace EnduranceJudge.Domain.Aggregates.Rankings.Participations
 {
     public class Participation : DomainBase<RankingParticipationException>
     {
-        private const string NotRankedMessage = "cannot be classified as they are not qualified for ranking.";
+        private const string NOT_RANKED_MESSAGE = "cannot be classified as they are not qualified for ranking.";
 
         internal Participation()
         {
@@ -19,16 +19,18 @@ namespace EnduranceJudge.Domain.Aggregates.Ranking.Participations
         public Category Category { get; private set; }
         public IReadOnlyList<ParticipationInPhase> ParticipationsInPhases { get; private set; }
 
-        public bool IsRanked
-            => this.ParticipationsInPhases.All(participation => participation.Result.IsRanked);
+        public bool IsNotComplete
+            => this.ParticipationsInPhases.Any(pip => pip.IsNotComplete);
+        public bool IsQualified
+            => this.ParticipationsInPhases.All(participation => participation.ResultInPhase.IsRanked);
 
         public DateTime FinalTime
         {
             get
             {
-                this.IsRanked.IsNotDefault(NotRankedMessage);
+                this.IsQualified.IsNotDefault(NOT_RANKED_MESSAGE);
 
-                var finalPhase = this.ParticipationsInPhases.Single(participation => participation.Phase.IsFinalPhase);
+                var finalPhase = this.ParticipationsInPhases.Single(participation => participation.Phase.IsFinal);
                 return finalPhase.ArrivalTime;
             }
         }
@@ -37,7 +39,7 @@ namespace EnduranceJudge.Domain.Aggregates.Ranking.Participations
         {
             get
             {
-                this.IsRanked.IsNotDefault(NotRankedMessage);
+                this.IsQualified.IsNotDefault(NOT_RANKED_MESSAGE);
 
                 var recoverySum = this.ParticipationsInPhases.Aggregate(
                     TimeSpan.Zero,

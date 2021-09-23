@@ -1,4 +1,4 @@
-﻿    using EnduranceJudge.Core.Models;
+﻿using EnduranceJudge.Core.Models;
 using EnduranceJudge.Core.Utilities;
 using Prism.Commands;
 using Prism.Mvvm;
@@ -43,7 +43,6 @@ namespace EnduranceJudge.Gateways.Desktop.Core
         {
             this.Journal?.GoBack();
         }
-
 
         public override bool Equals(object other)
         {
