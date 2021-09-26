@@ -5,7 +5,7 @@ using EnduranceJudge.Gateways.Desktop.Views.Content.Import;
 using EnduranceJudge.Gateways.Desktop.Core.Services.Implementations;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participations;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participations.Listing;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Rankings;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.Categorizations.Listing;
 using Prism.Regions;
 using System;
 
@@ -36,8 +36,8 @@ namespace EnduranceJudge.Gateways.Desktop.Services.Implementations
         }
         public void NavigateToRanking()
         {
-            this.ChangeTo<RankingView>();
-            this.ClearRegion(Regions.CONTENT_RIGHT);
+            this.ChangeTo<CategorizationListView>(Regions.CONTENT_RIGHT);
+            this.ClearRegion(Regions.CONTENT_LEFT);
         }
 
         public void ChangeTo<T>() where T : IView

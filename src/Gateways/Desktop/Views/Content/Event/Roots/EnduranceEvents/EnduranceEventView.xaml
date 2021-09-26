@@ -88,7 +88,7 @@
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="6" Grid.Column="1" >
                 <DockPanel Style="{StaticResource Stretch-Last}">
-                    <ListBox Style="{StaticResource List}"
+                    <ListBox Style="{StaticResource ListBox-Vertical}"
                              ItemsSource="{Binding Personnel}" />
                 </DockPanel>
             </Border>
@@ -96,7 +96,7 @@
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="7" Grid.Column="0" >
                 <TextBlock Style="{StaticResource Text-Label}"
-                           Text ="{x:Static strings:DesktopStrings.CompetitionsLabel}" />
+                           Text ="{x:Static strings:DesktopStrings.COMPETITIONS}" />
             </Border>
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="7" Grid.Column="1">
@@ -107,7 +107,7 @@
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="8" Grid.Column="1">
                 <DockPanel Style="{StaticResource Stretch-Last}">
-                    <ListBox Style="{StaticResource List}"
+                    <ListBox Style="{StaticResource ListBox-Vertical}"
                              ItemsSource="{Binding Competitions}" />
                 </DockPanel>
             </Border>

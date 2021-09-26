@@ -16,8 +16,12 @@ namespace EnduranceJudge.Domain.Aggregates.Rankings.Participations
         {
         }
 
-        public Category Category { get; private set; }
-        public IReadOnlyList<ParticipationInPhase> ParticipationsInPhases { get; private set; }
+        public int Number { get; private init; }
+        public string AthleteFirstName { get; private init; }
+        public string AthleteLastName { get; private init; }
+        public string HorseName { get; private init; }
+        public Category Category { get; private init; }
+        public IReadOnlyList<ParticipationInPhase> ParticipationsInPhases { get; private init; }
 
         public bool IsNotComplete
             => this.ParticipationsInPhases.Any(pip => pip.IsNotComplete);

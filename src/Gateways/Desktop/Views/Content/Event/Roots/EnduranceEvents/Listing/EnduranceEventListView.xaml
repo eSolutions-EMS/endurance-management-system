@@ -13,7 +13,7 @@
                 Command="{Binding ChangeToCreate}"
                 Content="{x:Static strings:DesktopStrings.CREATE_BUTTON}" />
 
-        <ListBox Style="{StaticResource List}"
+        <ListBox Style="{StaticResource ListBox-Vertical}"
                  ItemsSource="{Binding EnduranceEvents}" />
     </StackPanel>
 </UserControl>

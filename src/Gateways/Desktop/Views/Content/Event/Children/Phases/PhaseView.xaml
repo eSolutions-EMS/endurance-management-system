@@ -59,7 +59,7 @@
                         Content="{x:Static strings:DesktopStrings.CREATE_BUTTON}"
                         Name="NavigateToCreatePhaseForCategory" />
 
-                <ListBox Style="{StaticResource List}"
+                <ListBox Style="{StaticResource ListBox-Vertical}"
                          ItemsSource="{Binding PhasesForCategories}" />
             </StackPanel>
 

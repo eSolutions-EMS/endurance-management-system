@@ -1,11 +1,11 @@
 ﻿using EnduranceJudge.Gateways.Desktop.Core;
 using System.Windows.Controls;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings
+namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.Categorizations
 {
-    public partial class RankingView : UserControl, IView
+    public partial class CategorizationView : UserControl, IView
     {
-        public RankingView()
+        public CategorizationView()
         {
             InitializeComponent();
         }

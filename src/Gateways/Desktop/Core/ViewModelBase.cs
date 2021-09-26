@@ -29,7 +29,7 @@ namespace EnduranceJudge.Gateways.Desktop.Core
         }
         public virtual bool IsNavigationTarget(NavigationContext context)
         {
-            return true;
+            return false;
         }
         public virtual void OnNavigatedFrom(NavigationContext navigationContext)
         {

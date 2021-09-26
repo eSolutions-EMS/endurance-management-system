@@ -3,7 +3,7 @@
                     xmlns:personnel="clr-namespace:EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Personnel">
 
     <DataTemplate DataType="{x:Type personnel:PersonnelViewModel}">
-        <DockPanel Style="{StaticResource List-Item}">
+        <DockPanel Style="{StaticResource Dock-Horizontal}">
             <TextBlock Style="{StaticResource Text}"
                        Text="{Binding RoleName}" />
 
