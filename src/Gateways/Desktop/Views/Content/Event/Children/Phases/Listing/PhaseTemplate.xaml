@@ -29,7 +29,7 @@
             </Border>
 
             <Border Style="{StaticResource Border-Vertical}">
-                <ListBox Style="{StaticResource List}"
+                <ListBox Style="{StaticResource ListBox-Vertical}"
                          ItemsSource="{Binding PhasesForCategories}"/>
             </Border>
 

@@ -44,7 +44,7 @@
                           CanContentScroll="True"
                           PreviewMouseWheel="HandleScroll">
 
-                <ListBox Style="{StaticResource List}"
+                <ListBox Style="{StaticResource ListBox-Vertical}"
                          ItemsSource="{Binding ListItems}" />
             </ScrollViewer>
         </DockPanel>

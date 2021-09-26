@@ -1,10 +1,10 @@
 using EnduranceJudge.Domain.Core.Validation;
 using EnduranceJudge.Domain.Aggregates.Manager.ResultsInPhases;
-using EnduranceJudge.Domain.Aggregates.Ranking.DTOs;
+using EnduranceJudge.Domain.Aggregates.Rankings.DTOs;
 using EnduranceJudge.Domain.Core.Models;
 using System;
 
-namespace EnduranceJudge.Domain.Aggregates.Ranking.ParticipationsInPhases
+namespace EnduranceJudge.Domain.Aggregates.Rankings.ParticipationsInPhases
 {
     public class ParticipationInPhase : DomainBase<RankingParticipationInPhaseException>
     {
@@ -12,10 +12,10 @@ namespace EnduranceJudge.Domain.Aggregates.Ranking.ParticipationsInPhases
         {
         }
 
-        public DateTime ArrivalTime { get; }
-        public DateTime InspectionTime { get; }
-        public DateTime? ReInspectionTime { get; }
-        public ResultInPhase Result { get; private set; }
+        public DateTime ArrivalTime { get; private set; }
+        public DateTime InspectionTime { get; private set; }
+        public DateTime? ReInspectionTime { get; private set; }
+        public ResultInPhase ResultInPhase { get; private set; }
         public PhaseForRanking Phase { get; private set; }
 
         public TimeSpan RecoverySpan
@@ -32,5 +32,6 @@ namespace EnduranceJudge.Domain.Aggregates.Ranking.ParticipationsInPhases
                 return this.ArrivalTime - inspectionTime;
             }
         }
+        public bool IsNotComplete => this.ResultInPhase == null;
     }
 }

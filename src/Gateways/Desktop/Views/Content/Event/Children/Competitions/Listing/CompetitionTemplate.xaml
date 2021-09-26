@@ -7,7 +7,7 @@
         <StackPanel Style="{StaticResource List-Vertical}">
 
             <Border Style="{StaticResource Border-Vertical}">
-                <DockPanel Style="{StaticResource List-Item}">
+                <DockPanel Style="{StaticResource Dock-Horizontal}">
                     <TextBlock Style="{StaticResource Text-Bold}"
                                Text="{Binding Name}"/>
 
@@ -26,7 +26,7 @@
             </Border>
 
             <Border Style="{StaticResource Border-Vertical}">
-                <ListBox Style="{StaticResource List}"
+                <ListBox Style="{StaticResource ListBox-Vertical}"
                          ItemsSource="{Binding Phases}" />
             </Border>
 

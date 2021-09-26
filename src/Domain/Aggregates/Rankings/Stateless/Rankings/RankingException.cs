@@ -1,6 +1,6 @@
 using EnduranceJudge.Domain.Core.Exceptions;
 
-namespace EnduranceJudge.Domain.Aggregates.Ranking.Rankings
+namespace EnduranceJudge.Domain.Aggregates.Rankings.Stateless.Rankings
 {
     public class RankingException : DomainException
     {

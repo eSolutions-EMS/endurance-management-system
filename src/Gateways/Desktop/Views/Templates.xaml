@@ -11,6 +11,7 @@
         <ResourceDictionary Source="Content/Event/Children/PhasesForCategory/Configuration/PhaseForCategoryTemplate.xaml" />
         <ResourceDictionary Source="Content/Event/Children/Participants/Configuration/ParticipantTemplate.xaml" />
         <ResourceDictionary Source="Content/Manager/ParticipationsInPhases/ParticipationInPhaseTemplate.xaml" />
+        <ResourceDictionary Source="Content/Rankings/Categorizations/ParticipationTemplate.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

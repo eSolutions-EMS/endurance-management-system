@@ -30,7 +30,7 @@
         public const string ImportPageButtonText = "Import";
         public const string EventPageButtonText = "Event";
         public const string MANAGER_PAGE_BUTTON_TEXT = "Manager";
-        public const string RankingPageButtonText = "Ranking";
+        public const string RANKING = "Ranking";
 
         // -- Content
 
@@ -61,7 +61,7 @@
         public const string MembersOfJudgeCommitteeLabel = "Members of Judge Committee";
         public const string MembersOfVetCommitteeLabel = "Members of Vet Committee";
         public const string StewardsLabel = "Stewards";
-        public const string CompetitionsLabel = "Competitions";
+        public const string COMPETITIONS = "Competitions";
         public const string PersonnelLabel = "Personnel";
 
         // ------ Competition
@@ -136,5 +136,10 @@
         public const string LENGTH_IN_KM = "Length";
         public const string HOURS_SYMBOL = "h";
         public const string KM_PER_HOUR = "km/h";
+        public const string KIDS = "Kids";
+        public const string ADULTS = "Adults";
+        public const string LENGTH = "Lenght";
+        public const string RANK_LIST = "Ranklist";
+        public const string CATEGORY = "Category";
     }
 }

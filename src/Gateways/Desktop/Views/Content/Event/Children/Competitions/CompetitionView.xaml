@@ -59,7 +59,7 @@
                         Content="{x:Static strings:DesktopStrings.CREATE_BUTTON}"
                         Name="NavigateToCreatePhase"/>
 
-                <ListBox Style="{StaticResource List}"
+                <ListBox Style="{StaticResource ListBox-Vertical}"
                          ItemsSource="{Binding Phases}" />
             </StackPanel>
 
@@ -74,7 +74,7 @@
                         Content="{x:Static strings:DesktopStrings.CREATE_BUTTON}"
                         Name="NavigateToCreateParticipant"/>
 
-                <ListBox Style="{StaticResource List}"
+                <ListBox Style="{StaticResource ListBox-Vertical}"
                          ItemsSource="{Binding Participants}" />
             </StackPanel>
 

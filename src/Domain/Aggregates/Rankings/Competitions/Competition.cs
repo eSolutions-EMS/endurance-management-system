@@ -1,11 +1,11 @@
-using EnduranceJudge.Domain.Aggregates.Ranking.Participations;
+using EnduranceJudge.Domain.Aggregates.Rankings.Participations;
 using EnduranceJudge.Domain.Core.Models;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EnduranceJudge.Domain.Aggregates.Ranking.Competitions
+namespace EnduranceJudge.Domain.Aggregates.Rankings.Competitions
 {
-    public class Competition : DomainBase<RankingCompetitionException>
+    public class Competition : DomainBase<RankingCompetitionException>, IAggregateRoot
     {
         private List<Participation> participations = new();
 
@@ -13,7 +13,8 @@ namespace EnduranceJudge.Domain.Aggregates.Ranking.Competitions
         {
         }
 
-        public int LengthInKilometers { get; private set; }
+        public int TotalLengthInKm => this.PhaseLengthsInKm.Aggregate(0, (total, value) => total + value);
+        public int[] PhaseLengthsInKm { get; private init; }
 
         public IReadOnlyList<Participation> Participations
         {
