@@ -5,7 +5,7 @@
     <Style x:Key="DateTime" TargetType="xctk:DateTimePicker">
         <Setter Property="AllowSpin" Value="True" />
         <Setter Property="HorizontalAlignment" Value="Left" />
-        <Setter Property="Padding" Value="5px 0 0 0" />
+        <Setter Property="Padding" Value="5px 0 10px 0" />
     </Style>
 
 </ResourceDictionary>
