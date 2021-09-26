@@ -3,7 +3,7 @@ using EnduranceJudge.Application.Events.Common;
 using EnduranceJudge.Core.Extensions;
 using EnduranceJudge.Core.Mappings;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.PhasesForCategory
+namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.PhasesForCategory.Configuration
 {
     public class PhaseForCategoryMaps : ICustomMapConfiguration
     {
