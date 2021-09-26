@@ -6,7 +6,7 @@
              xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              prism:ViewModelLocator.AutoWireViewModel="True">
 
-    <ScrollViewer Style="{StaticResource Scroll}"
+    <ScrollViewer Style="{StaticResource Scroll-Wrapper}"
                   PreviewMouseWheel="HandleScroll">
 
         <Grid Style="{StaticResource Grid}">

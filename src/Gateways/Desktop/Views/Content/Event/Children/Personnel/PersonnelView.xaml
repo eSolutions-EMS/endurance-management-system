@@ -5,7 +5,7 @@
              xmlns:strings="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization"
              prism:ViewModelLocator.AutoWireViewModel="True">
 
-    <ScrollViewer Style="{StaticResource Scroll}"
+    <ScrollViewer Style="{StaticResource Scroll-Wrapper}"
                   PreviewMouseWheel="HandleScroll">
         <Grid Style="{StaticResource Grid}">
             <Grid.ColumnDefinitions>

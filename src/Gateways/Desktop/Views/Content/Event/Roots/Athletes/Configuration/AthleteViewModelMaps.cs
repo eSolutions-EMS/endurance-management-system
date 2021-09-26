@@ -3,7 +3,7 @@ using EnduranceJudge.Application.Events.Models;
 using EnduranceJudge.Core.Extensions;
 using EnduranceJudge.Core.Mappings;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Athletes
+namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Athletes.Configuration
 {
     public class AthleteViewModelMaps : ICustomMapConfiguration
     {
