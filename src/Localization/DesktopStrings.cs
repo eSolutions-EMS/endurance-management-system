@@ -85,8 +85,8 @@
         public const string ParticipantTitle = "ParticipantTitle";
         public const string RfIdLabel = "RFID Number";
         public const string NumberLabel = "Number";
-        public const string MaxAverageSpeedInKmPhLabel = "Maximum Average Speed In Kilometers";
-        public const string MaxAverageSpeedInKmPhVisibilityLabel = "Has Average Speed Limit";
+        public const string MAX_AVERAGE_SPEED_IN_KMH = "Max Average Speed (km/h)";
+        public const string HAS_AVERAGE_SPEED_LIMIT = "Has Average Speed Limit";
         public const string AthleteLabel = "Athlete";
         public const string HorseLabel = "Horse";
         public const string CategoryLabel = "Category";

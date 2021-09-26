@@ -44,8 +44,9 @@
         <Setter Property="Content" Value="{x:Static localization:DesktopStrings.CREATE_BUTTON}" />
     </Style>
 
-    <Style x:Key="Button-Form" TargetType="Button" BasedOn="{StaticResource Button-Vertical}">
+    <Style x:Key="Button-Form" TargetType="Button" BasedOn="{StaticResource Button}">
         <Setter Property="Width" Value="150px" />
+        <Setter Property="Margin" Value="5px 5px" />
     </Style>
 
     <Style x:Key="Button-Form-Create" TargetType="Button" BasedOn="{StaticResource Button-Form}">

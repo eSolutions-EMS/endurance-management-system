@@ -11,7 +11,7 @@
 
         <Grid Style="{StaticResource Grid}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="150px" />
+                <ColumnDefinition Width="250px" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
