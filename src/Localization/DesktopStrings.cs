@@ -4,12 +4,12 @@
     {
         // ------
         // Common
-        public const string SaveButtonText = "Save";
+        public const string SAVE = "Save";
         public const string UPDATE_BUTTON = "Update";
         public const string SearchButtonText = "Search";
         public const string ClearButtonText = "Clear";
         public const string CREATE_BUTTON = "Create";
-        public const string BackButtonText = "Back";
+        public const string BACK = "Back";
         public const string BoolTrueValue = "Yes";
         public const string BoolFalseValue = "No";
 

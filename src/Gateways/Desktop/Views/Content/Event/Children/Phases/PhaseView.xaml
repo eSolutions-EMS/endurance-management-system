@@ -67,7 +67,7 @@
 
                 <Button Style="{StaticResource Button}"
                         Command="{Binding NavigateBack}"
-                        Content="{x:Static strings:DesktopStrings.BackButtonText}" />
+                        Content="{x:Static strings:DesktopStrings.BACK}" />
             </DockPanel>
         </StackPanel>
     </ScrollViewer>
