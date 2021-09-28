@@ -8,7 +8,7 @@ namespace EnduranceJudge.Application.Factories
     {
         Horse Create(HorseSportShowEntriesHorse horse);
 
-        Horse Create(HorseForNationalImportModel horse);
+        Horse Create(string feiId, string name, string breed, string club);
 
         Horse Create(IHorseState data);
     }

@@ -22,6 +22,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Horses
         private string feiId;
         private string name;
         private string breed;
+        private string club;
         private string trainerFeiId;
         private string trainerFirstName;
         private string trainerLastName;
@@ -35,6 +36,11 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Horses
         {
             get => this.name;
             set => this.SetProperty(ref this.name, value);
+        }
+        public string Club
+        {
+            get => this.club;
+            set => this.SetProperty(ref this.club, value);
         }
         public int IsStallionValue
         {

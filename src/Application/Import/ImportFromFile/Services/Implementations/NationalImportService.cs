@@ -31,14 +31,15 @@ namespace EnduranceJudge.Application.Import.ImportFromFile.Services.Implementati
                 return null;
             }
 
-            var row = ExcelMaps.ImportNational.FirstEntryRow;
-            var result = new List<HorseForNationalImportModel>();
+            var row = ExcelMaps.ImportNational.FIRST_ENTRY_ROW;
+            var horses = new List<Horse>();
 
             while(true)
             {
-                var name = sheet.Cells[row, ExcelMaps.ImportNational.NameColumn].Text;
-                var breed = sheet.Cells[row, ExcelMaps.ImportNational.BreedColumn].Text;
-                var feiId = sheet.Cells[row, ExcelMaps.ImportNational.FeiIdColumn].Text;
+                var name = sheet.Cells[row, ExcelMaps.ImportNational.NAME_COLUMN].Text;
+                var breed = sheet.Cells[row, ExcelMaps.ImportNational.BREED_COLUMN].Text;
+                var feiId = sheet.Cells[row, ExcelMaps.ImportNational.FEI_ID_COLUMN].Text;
+                var club = sheet.Cells[row, ExcelMaps.ImportNational.CLUB_COLUMN].Text;
 
                 if (string.IsNullOrWhiteSpace(name)
                     && string.IsNullOrWhiteSpace(breed)
@@ -47,13 +48,11 @@ namespace EnduranceJudge.Application.Import.ImportFromFile.Services.Implementati
                     break;
                 }
 
-                var horse = new HorseForNationalImportModel(feiId, name, breed);
-                result.Add(horse);
+                var horse = this.horseFactory.Create(feiId, name, breed, club);
+                horses.Add(horse);
 
                 row++;
             }
-
-            var horses = result.Select(this.horseFactory.Create);
 
             return horses;
         }

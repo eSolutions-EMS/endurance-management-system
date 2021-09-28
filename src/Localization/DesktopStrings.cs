@@ -110,6 +110,7 @@
         public const string TrainerFirstNameLabel = "Trainer First Name";
         public const string TrainerLastNameLabel = "Trainer Last Name";
         public const string IsStallionLabel = "Is Stallion";
+        public const string CLUB = "Club";
 
         // ------ PhaseForCategory
         public const string PhaseForCategoryTitle = "Phase For Category";
