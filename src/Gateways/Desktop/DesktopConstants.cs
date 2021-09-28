@@ -23,7 +23,7 @@ namespace EnduranceJudge.Gateways.Desktop
 
         public const string EntityIdParameter = "Parameter0";
         public const string DataParameter = "Parameter1";
-        public const string ChildDataParameter = "Parameter2";
+        public const string CHILD_DATA_PARAMETER = "Parameter2";
         public const string NewChildIdParameter = "Parameter3";
         public const string UPDATE_PARAMETER = "Parameter4";
         public const string REMOVE_PARAMETER = "Parameter6";

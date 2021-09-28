@@ -14,7 +14,7 @@
                     <TextBlock Style="{StaticResource Text-Bold}"
                                Text="{Binding TypeString}" />
 
-                    <Button Style="{StaticResource Button-Form-Update}" HorizontalAlignment="Right"
+                    <Button Style="{StaticResource Button-Form}" HorizontalAlignment="Right"
                             Command="{Binding NavigateToUpdate}"
                             Content="{x:Static localization:DesktopStrings.UPDATE_COMPETITION}" />
                 </DockPanel>

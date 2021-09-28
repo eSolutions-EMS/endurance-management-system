@@ -60,6 +60,7 @@ namespace EnduranceJudge.Gateways.Persistence.Core
             var entity = await this.InnerSave(domain, token);
             return entity.Map<T>();
         }
+
         public async Task Remove(int id, CancellationToken token)
         {
             var entity = await this.DbContext

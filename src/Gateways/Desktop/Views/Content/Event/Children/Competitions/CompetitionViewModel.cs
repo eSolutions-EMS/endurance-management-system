@@ -1,23 +1,31 @@
 ﻿using EnduranceJudge.Domain.Enums;
 using EnduranceJudge.Domain.States;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
+using EnduranceJudge.Gateways.Desktop.Core.Static;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
+using EnduranceJudge.Gateways.Desktop.Events;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Participants;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Phases;
 using Prism.Commands;
+using Prism.Events;
 using Prism.Regions;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Competitions
 {
     public class CompetitionViewModel : ChildFormBase<CompetitionView>, ICompetitionState
     {
+        private readonly IEventAggregator eventAggregator;
+
         public CompetitionViewModel()
         {
             this.LoadTypes();
             this.NavigateToCreatePhase = new DelegateCommand(this.NavigateToNewChild<PhaseView>);
             this.NavigateToCreateParticipant = new DelegateCommand(this.NavigateToNewChild<ParticipantView>);
+            this.eventAggregator = ServiceProvider.GetService<IEventAggregator>();
+            this.HandleRemoved();
         }
 
         public DelegateCommand NavigateToCreatePhase { get; }
@@ -69,6 +77,33 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Competiti
         {
             var typeViewModels = SimpleListItemViewModel.FromEnum<CompetitionType>();
             this.TypeItems = new ObservableCollection<SimpleListItemViewModel>(typeViewModels);
+        }
+
+        private void HandleRemoved()
+        {
+            this.eventAggregator
+                .GetEvent<AthleteRemovedEvent>()
+                .Subscribe(this.HandleRemovedAthlete);
+            this.eventAggregator
+                .GetEvent<HorseRemovedEvent>()
+                .Subscribe(this.HandleRemovedHorse);
+        }
+
+        private void HandleRemovedHorse(int horseId)
+        {
+            var participant = this.Participants.FirstOrDefault(p => p.HorseId == horseId);
+            if (participant != null)
+            {
+                this.Participants.Remove(participant);
+            }
+        }
+        private void HandleRemovedAthlete(int athleteId)
+        {
+            var participant = this.Participants.FirstOrDefault(p => p.AthleteId == athleteId);
+            if (participant != null)
+            {
+                this.Participants.Remove(participant);
+            }
         }
     }
 }

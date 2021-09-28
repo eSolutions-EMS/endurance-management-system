@@ -1,7 +1,9 @@
 ﻿using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Gateways.Desktop.Core.Extensions;
+using Prism.Commands;
 using Prism.Regions;
 using System;
+using System.Security.Cryptography;
 
 namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
 {
@@ -9,11 +11,15 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
         where TView : IView
     {
         private bool isBackingUp;
+        private bool isRemoving;
 
         protected ChildFormBase()
         {
             this.ChildId = Guid.NewGuid();
+            this.Remove = new DelegateCommand(this.RemoveAction);
         }
+
+        public DelegateCommand Remove { get; }
 
         public Guid? ChildId { get; private set; }
 
@@ -52,11 +58,16 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
 
         public override void OnNavigatedFrom(NavigationContext navigationContext)
         {
+            if (this.isRemoving)
+            {
+                navigationContext.Parameters.Add(DesktopConstants.REMOVE_PARAMETER, string.Empty);
+                this.isRemoving = false;
+            }
             if (this.isBackingUp)
             {
-                navigationContext.Parameters.Add(DesktopConstants.ChildDataParameter, this);
+                navigationContext.Parameters.Add(DesktopConstants.CHILD_DATA_PARAMETER, this);
+                this.isBackingUp = false;
             }
-            this.isBackingUp = false;
             base.OnNavigatedFrom(navigationContext);
         }
 
@@ -69,6 +80,12 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
         {
             var data = context.GetData();
             return !this.Equals(data);
+        }
+
+        private void RemoveAction()
+        {
+            this.isRemoving = true;
+            this.NavigateBackAction();
         }
 
         public override int GetHashCode()

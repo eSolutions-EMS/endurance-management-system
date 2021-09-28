@@ -40,12 +40,12 @@ namespace EnduranceJudge.Gateways.Desktop.Core.Extensions
 
         public static bool HasChild(this NavigationContext context)
         {
-            return context.Parameters.ContainsKey(DesktopConstants.ChildDataParameter);
+            return context.Parameters.ContainsKey(DesktopConstants.CHILD_DATA_PARAMETER);
         }
 
         public static T GetChild<T>(this NavigationContext context)
         {
-            context.Parameters.TryGetValue<T>(DesktopConstants.ChildDataParameter, out var child);
+            context.Parameters.TryGetValue<T>(DesktopConstants.CHILD_DATA_PARAMETER, out var child);
             return child;
         }
 

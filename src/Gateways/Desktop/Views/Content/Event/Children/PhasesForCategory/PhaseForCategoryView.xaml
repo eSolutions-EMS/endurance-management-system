@@ -18,10 +18,6 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <Border Style="{StaticResource Border-Vertical}"
@@ -80,6 +76,13 @@
                     Grid.Row="4" Grid.Column="0">
                 <Button Style="{StaticResource Button-Form-Back}"
                         Command="{Binding NavigateBack}" />
+            </Border>
+            <Border Style="{StaticResource Border-Vertical}"
+                    Grid.Row="4" Grid.Column="1">
+                <DockPanel Style="{StaticResource Dock-Horizontal}">
+                    <Button Style="{StaticResource Button-Form-Remove}" HorizontalAlignment="Right"
+                            Command="{Binding Remove}" />
+                </DockPanel>
             </Border>
         </Grid>
     </ScrollViewer>
