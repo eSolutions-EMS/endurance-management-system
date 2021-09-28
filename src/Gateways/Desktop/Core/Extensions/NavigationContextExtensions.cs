@@ -49,10 +49,16 @@ namespace EnduranceJudge.Gateways.Desktop.Core.Extensions
             return child;
         }
 
-        public static bool IsUpdateOnly(this NavigationContext context)
+        public static bool IsUpdate(this NavigationContext context)
         {
-            var isUpdateOnly = context.Parameters.ContainsKey(DesktopConstants.UpdateOnlyParameter);
-            return isUpdateOnly;
+            var isUpdate = context.Parameters.ContainsKey(DesktopConstants.UPDATE_PARAMETER);
+            return isUpdate;
+        }
+
+        public static bool IsRemove(this NavigationContext context)
+        {
+            var isRemove = context.Parameters.ContainsKey(DesktopConstants.REMOVE_PARAMETER);
+            return isRemove;
         }
 
         public static string GetMessage(this NavigationContext context)

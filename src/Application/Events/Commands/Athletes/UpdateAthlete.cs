@@ -9,7 +9,7 @@ using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace EnduranceJudge.Application.Events.Commands.UpdateAthlete
+namespace EnduranceJudge.Application.Events.Commands.Athletes
 {
     public class UpdateAthlete : IRequest, IAthleteState
     {

@@ -1,4 +1,5 @@
 ﻿using EnduranceJudge.Application.Events.Commands;
+using EnduranceJudge.Application.Events.Commands.Horses;
 using EnduranceJudge.Application.Events.Models;
 using EnduranceJudge.Application.Events.Queries.GetHorse;
 using EnduranceJudge.Core.Models;

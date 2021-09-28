@@ -6,7 +6,7 @@ using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace EnduranceJudge.Application.Events.Commands
+namespace EnduranceJudge.Application.Events.Commands.Horses
 {
     public class UpdateHorse : IRequest, IHorseState
     {

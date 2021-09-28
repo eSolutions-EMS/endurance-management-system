@@ -19,15 +19,18 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
             }
         }
 
-        public virtual void HandleChildren(NavigationContext context)
-        {
-        }
-
         public void UpdateGrandChild<T>(NavigationContext context, ObservableCollection<T> children)
             where T : IParentForm, IObject
         {
-            context.Parameters.Add(DesktopConstants.UpdateOnlyParameter, true);
-            children.HandleChildren(context);
+            context.Parameters.Add(DesktopConstants.UPDATE_PARAMETER, true);
+            foreach (var parent in children)
+            {
+                parent.HandleChildren(context);
+            }
+        }
+
+        public virtual void HandleChildren(NavigationContext context)
+        {
         }
 
         protected void AddOrUpdateChild<T>(NavigationContext context, ObservableCollection<T> parents)
@@ -36,7 +39,11 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
             var child = context.GetChild<T>();
             if (child != null)
             {
-                if (context.IsUpdateOnly())
+                if (context.IsRemove())
+                {
+                    parents.RemoveObject(child);
+                }
+                else if (context.IsUpdate())
                 {
                     parents.UpdateObject(child);
                 }

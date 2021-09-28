@@ -3,6 +3,7 @@ using EnduranceJudge.Application.Core.Contracts;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Gateways.Persistence.Contracts.WorkFile;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -49,15 +50,32 @@ namespace EnduranceJudge.Gateways.Persistence.Core
             return list;
         }
 
-        public async Task Save(TDomainModel domainModel, CancellationToken cancellationToken)
+        public async Task Save(TDomainModel domain, CancellationToken token)
         {
-            await this.InnerSave(domainModel, cancellationToken);
+            await this.InnerSave(domain, token);
         }
 
-        public async Task<T> Save<T>(TDomainModel domainModel, CancellationToken cancellationToken)
+        public async Task<T> Save<T>(TDomainModel domain, CancellationToken token)
         {
-            var entity = await this.InnerSave(domainModel, cancellationToken);
+            var entity = await this.InnerSave(domain, token);
             return entity.Map<T>();
+        }
+        public async Task Remove(int id, CancellationToken token)
+        {
+            var entity = await this.DbContext
+                .Set<TEntityModel>()
+                .FirstOrDefaultAsync(x => x.Id == id, token);
+
+            if (entity == null)
+            {
+                throw new InvalidOperationException("Cannot delete Entity with Id '{id}' is null.");
+            }
+
+            this.DbContext
+                .Set<TEntityModel>()
+                .Remove(entity);
+
+            await this.Persist(token);
         }
 
         private async Task<TEntityModel> InnerSave(TDomainModel domain, CancellationToken token)

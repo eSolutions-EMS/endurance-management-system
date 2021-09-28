@@ -7,8 +7,10 @@ namespace EnduranceJudge.Application.Core.Contracts
     public interface ICommands<TDomainModel> : IQueries<TDomainModel>
         where TDomainModel : IDomainModel
     {
-        Task Save(TDomainModel domainModel, CancellationToken cancellationToken);
+        Task Save(TDomainModel domain, CancellationToken token);
 
-        Task<T> Save<T>(TDomainModel domainModel, CancellationToken cancellationToken);
+        Task<T> Save<T>(TDomainModel domain, CancellationToken token);
+
+        Task Remove(int id, CancellationToken token);
     }
 }

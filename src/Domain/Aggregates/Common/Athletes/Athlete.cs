@@ -6,7 +6,7 @@ using System;
 
 namespace EnduranceJudge.Domain.Aggregates.Common.Athletes
 {
-    public class Athlete : DomainBase<RiderException>, IAthleteState
+    public class Athlete : DomainBase<RiderException>, IAthleteState, IAggregateRoot
     {
         private const int AdultAgeInYears = 18;
 
