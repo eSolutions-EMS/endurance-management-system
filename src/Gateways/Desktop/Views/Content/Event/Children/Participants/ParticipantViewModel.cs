@@ -2,6 +2,7 @@
 using EnduranceJudge.Application.Events.Queries.GetAthletesList;
 using EnduranceJudge.Application.Events.Queries.GetHorseList;
 using EnduranceJudge.Core.Mappings;
+using EnduranceJudge.Domain.Aggregates.Event.Participants;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
 using EnduranceJudge.Gateways.Desktop.Core.Static;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
@@ -35,6 +36,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Participa
         private string rfId;
         public int number;
         public int? maxAverageSpeedInKmPh;
+        private Visibility maxAverageSpeedInKmPhVisibility = Visibility.Hidden;
         private int horseId;
         private int athleteId;
         private int categoryId;
@@ -95,17 +97,17 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Participa
         private void ShowMaxAverageSpeedInKmPh()
         {
             this.MaxAverageSpeedInKmPhVisibility = Visibility.Visible;
+            this.MaxAverageSpeedInKmPh = Participant.DEFAULT_MAX_AVERAGE_SPEED;
         }
         private void HideMaxAverageSpeedInKmPh()
         {
             this.MaxAverageSpeedInKmPhVisibility = Visibility.Hidden;
             this.MaxAverageSpeedInKmPh = default;
         }
-        private Visibility maxAverageSpeedInKmPhPhVisibility = Visibility.Hidden;
         public Visibility MaxAverageSpeedInKmPhVisibility
         {
-            get => this.maxAverageSpeedInKmPhPhVisibility;
-            set => this.SetProperty(ref this.maxAverageSpeedInKmPhPhVisibility, value);
+            get => this.maxAverageSpeedInKmPhVisibility;
+            set => this.SetProperty(ref this.maxAverageSpeedInKmPhVisibility, value);
         }
 
         private string defaultName;
