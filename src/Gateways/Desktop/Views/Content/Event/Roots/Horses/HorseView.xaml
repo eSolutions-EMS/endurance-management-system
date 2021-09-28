@@ -132,6 +132,5 @@
             <Button Style="{StaticResource Button-Form-Save}"
                     Command="{Binding Submit}" />
         </Border>
-
     </Grid>
 </UserControl>
