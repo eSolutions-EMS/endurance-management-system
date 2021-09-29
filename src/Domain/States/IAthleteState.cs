@@ -8,6 +8,7 @@ namespace EnduranceJudge.Domain.States
         public string FeiId { get; }
         public string FirstName { get; }
         public string LastName { get; }
+        public string Club { get; }
         public string CountryIsoCode { get; }
         public Category Category { get; }
     }

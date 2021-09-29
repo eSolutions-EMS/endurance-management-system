@@ -33,6 +33,7 @@ namespace EnduranceJudge.Domain.Aggregates.Common.Athletes
         public string FeiId { get; private set; }
         public string FirstName { get; private set; }
         public string LastName { get; private set; }
+        public string Club { get; private set; }
         public Category Category { get; private set; }
         public string CountryIsoCode { get; private set; }
 

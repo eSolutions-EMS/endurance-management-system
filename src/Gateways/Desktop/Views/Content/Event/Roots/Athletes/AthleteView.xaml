@@ -18,6 +18,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <TextBox Style="{StaticResource Input-Id}"
@@ -65,10 +66,21 @@
         <Border Style="{StaticResource Border-Vertical}"
                 Grid.Row="4" Grid.Column="0">
             <TextBlock Style="{StaticResource Text-Bold}"
-                   Text="{x:Static strings:DesktopStrings.CountryLabel}" />
+                   Text="{x:Static strings:DesktopStrings.CLUB}" />
         </Border>
         <Border Style="{StaticResource Border-Vertical}"
                 Grid.Row="4" Grid.Column="1">
+            <TextBox Style="{StaticResource Input}"
+                     Text="{Binding Club}" />
+        </Border>
+
+        <Border Style="{StaticResource Border-Vertical}"
+                Grid.Row="5" Grid.Column="0">
+            <TextBlock Style="{StaticResource Text-Bold}"
+                   Text="{x:Static strings:DesktopStrings.CountryLabel}" />
+        </Border>
+        <Border Style="{StaticResource Border-Vertical}"
+                Grid.Row="5" Grid.Column="1">
             <ComboBox Style="{StaticResource Combo-Box}"
                       ItemsSource="{Binding CountryItems}"
                       SelectedValue="{Binding CountryIsoCode}"
@@ -76,25 +88,25 @@
         </Border>
 
         <Border Style="{StaticResource Border-Vertical}"
-                Grid.Row="5" Grid.Column="0">
+                Grid.Row="6" Grid.Column="0">
             <TextBlock Style="{StaticResource Text-Bold}"
                    Text="{x:Static strings:DesktopStrings.CategoryLabel}" />
         </Border>
         <Border Style="{StaticResource Border-Vertical}"
-                Grid.Row="5" Grid.Column="1">
+                Grid.Row="6" Grid.Column="1">
             <ComboBox Style="{StaticResource Combo-Box}"
                       ItemsSource="{Binding CategoryItems}"
                       SelectedValue="{Binding CategoryId}" />
         </Border>
 
         <Border Style="{StaticResource Border-Vertical}"
-                Grid.Row="6" Grid.Column="0">
+                Grid.Row="7" Grid.Column="0">
             <Button Style="{StaticResource Button-Form-Back}"
                     Command="{Binding NavigateBack}" />
 
         </Border>
         <Border Style="{StaticResource Border-Vertical}"
-                Grid.Row="6" Grid.Column="1">
+                Grid.Row="7" Grid.Column="1">
             <Button Style="{StaticResource Button-Form-Save}"
                     Command="{Binding Submit}" />
         </Border>

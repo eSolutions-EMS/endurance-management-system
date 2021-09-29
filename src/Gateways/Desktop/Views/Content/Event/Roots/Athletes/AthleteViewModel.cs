@@ -1,4 +1,4 @@
-﻿using EnduranceJudge.Application.Events.Commands.Athletes;
+﻿ using EnduranceJudge.Application.Events.Commands.Athletes;
 using EnduranceJudge.Application.Events.Models;
 using EnduranceJudge.Application.Events.Queries.GetAthlete;
 using EnduranceJudge.Application.Events.Queries.GetCountriesList;
@@ -35,6 +35,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Athletes
         private string lastName;
         private string countryIsoCode;
         private int categoryId;
+        private string club;
 
         public override void OnNavigatedTo(NavigationContext context)
         {
@@ -66,6 +67,11 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Athletes
         {
             get => this.categoryId;
             set => this.SetProperty(ref this.categoryId, value);
+        }
+        public string Club
+        {
+            get => this.club;
+            set => this.SetProperty(ref this.club, value);
         }
 
         private async Task LoadCountries()
