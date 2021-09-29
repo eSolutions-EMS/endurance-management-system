@@ -11,6 +11,7 @@ namespace EnduranceJudge.Gateways.Desktop
     {
         public const string True = "True";
         public const string False = "False";
+        public const string COMPOSITE_NAME_FORMAT = "{0} - {1}";
 
         public static Assembly[] Assemblies
         {

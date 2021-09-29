@@ -2,7 +2,7 @@
 using EnduranceJudge.Application.Events.Queries.GetHorseList;
 using EnduranceJudge.Gateways.Desktop.Core.Static;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
-using EnduranceJudge.Gateways.Desktop.Events;
+using EnduranceJudge.Gateways.Desktop.Events.Horses;
 using EnduranceJudge.Gateways.Desktop.Services;
 using Prism.Events;
 

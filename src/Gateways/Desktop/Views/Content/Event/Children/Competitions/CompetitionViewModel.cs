@@ -1,9 +1,12 @@
-﻿using EnduranceJudge.Domain.Enums;
+﻿using EnduranceJudge.Core.Mappings;
+using EnduranceJudge.Domain.Aggregates.Common.Horses;
+using EnduranceJudge.Domain.Enums;
 using EnduranceJudge.Domain.States;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
 using EnduranceJudge.Gateways.Desktop.Core.Static;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
-using EnduranceJudge.Gateways.Desktop.Events;
+using EnduranceJudge.Gateways.Desktop.Events.Athletes;
+using EnduranceJudge.Gateways.Desktop.Events.Horses;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Participants;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Phases;
 using Prism.Commands;
@@ -25,7 +28,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Competiti
             this.NavigateToCreatePhase = new DelegateCommand(this.NavigateToNewChild<PhaseView>);
             this.NavigateToCreateParticipant = new DelegateCommand(this.NavigateToNewChild<ParticipantView>);
             this.eventAggregator = ServiceProvider.GetService<IEventAggregator>();
-            this.HandleRemoved();
+            this.ListenForCompetitorChange();
         }
 
         public DelegateCommand NavigateToCreatePhase { get; }
@@ -79,14 +82,20 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Competiti
             this.TypeItems = new ObservableCollection<SimpleListItemViewModel>(typeViewModels);
         }
 
-        private void HandleRemoved()
+        private void ListenForCompetitorChange()
         {
             this.eventAggregator
                 .GetEvent<AthleteRemovedEvent>()
                 .Subscribe(this.HandleRemovedAthlete);
             this.eventAggregator
+                .GetEvent<AthleteUpdatedEvent>()
+                .Subscribe(this.HandleUpdatedAthlete);
+            this.eventAggregator
                 .GetEvent<HorseRemovedEvent>()
                 .Subscribe(this.HandleRemovedHorse);
+            this.eventAggregator
+                .GetEvent<HorseUpdatedEvent>()
+                .Subscribe(this.HandleUpdatedHorse);
         }
 
         private void HandleRemovedHorse(int horseId)
@@ -103,6 +112,27 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Competiti
             if (participant != null)
             {
                 this.Participants.Remove(participant);
+            }
+        }
+        private void HandleUpdatedAthlete(IAthleteState athlete)
+        {
+            var participant = this.Participants.FirstOrDefault(p => p.HorseId == athlete.Id);
+            if (participant != null)
+            {
+                participant.AthleteId = athlete.Id;
+                participant.AthleteName = string.Format(
+                    DesktopConstants.COMPOSITE_NAME_FORMAT,
+                    athlete.FirstName,
+                    athlete.LastName);
+            }
+        }
+        private void HandleUpdatedHorse(IHorseState horse)
+        {
+            var participant = this.Participants.FirstOrDefault(p => p.HorseId == horse.Id);
+            if (participant != null)
+            {
+                participant.HorseId = horse.Id;
+                participant.HorseName = horse.Name;
             }
         }
     }

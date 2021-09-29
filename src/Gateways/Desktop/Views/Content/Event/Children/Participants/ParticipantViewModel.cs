@@ -40,6 +40,9 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Participa
         private int horseId;
         private int athleteId;
         private int categoryId;
+        private string name;
+        private string horseName;
+        private string athleteName;
 
         public string RfId
         {
@@ -70,6 +73,29 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Participa
         {
             get => this.categoryId;
             set => this.SetProperty(ref this.categoryId, value);
+        }
+        public string HorseName
+        {
+            get => this.horseName;
+            set
+            {
+                this.SetProperty(ref this.horseName, value);
+                this.Name = this.FormatName();
+            }
+        }
+        public string AthleteName
+        {
+            get => this.athleteName;
+            set
+            {
+                this.SetProperty(ref this.athleteName, value);
+                this.Name = this.FormatName();
+            }
+        }
+        public string Name
+        {
+            get => this.name;
+            private set => this.SetProperty(ref this.name, value);
         }
 
         public override void OnNavigatedTo(NavigationContext context)
@@ -110,22 +136,6 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Participa
             set => this.SetProperty(ref this.maxAverageSpeedInKmPhVisibility, value);
         }
 
-        private string defaultName;
-        public string Name
-        {
-            get
-            {
-                var athlete = this.AthleteItems.FirstOrDefault(x => x.Id == this.AthleteId);
-                var horse = this.HorseItems.FirstOrDefault(x => x.Id == this.HorseId);
-                if (athlete != null && horse != null)
-                {
-                    return $"{athlete.Name} - {horse.Name}";
-                }
-                return this.defaultName;
-            }
-            set => this.defaultName = value;
-        }
-
         private async Task LoadCompetitors()
         {
             var horses = await this.application.Execute(new GetHorseList());
@@ -136,6 +146,11 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Participa
 
             this.HorseItems.AddRange(horseItems);
             this.AthleteItems.AddRange(athleteItems);
+        }
+
+        private string FormatName()
+        {
+            return string.Format(DesktopConstants.COMPOSITE_NAME_FORMAT, this.AthleteName, this.horseName);
         }
     }
 }

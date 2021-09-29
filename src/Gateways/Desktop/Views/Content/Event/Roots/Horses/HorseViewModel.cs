@@ -1,12 +1,13 @@
-﻿using EnduranceJudge.Application.Events.Commands;
-using EnduranceJudge.Application.Events.Commands.Horses;
+﻿using EnduranceJudge.Application.Events.Commands.Horses;
 using EnduranceJudge.Application.Events.Models;
 using EnduranceJudge.Application.Events.Queries.GetHorse;
 using EnduranceJudge.Core.Models;
 using EnduranceJudge.Domain.Aggregates.Common.Horses;
 using EnduranceJudge.Gateways.Desktop.Core.Static;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
-using EnduranceJudge.Gateways.Desktop.Services;
+using EnduranceJudge.Gateways.Desktop.Events.Horses;
+using Prism.Events;
+using System.Threading.Tasks;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Horses
 {
@@ -14,8 +15,11 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Horses
         IHorseState,
         IListable
     {
-        private HorseViewModel(IApplicationService application) : base(application)
+        private readonly IEventAggregator eventAggregator;
+
+        private HorseViewModel(IApplicationService application, IEventAggregator eventAggregator) : base(application)
         {
+            this.eventAggregator = eventAggregator;
         }
 
         private int isStallionValue;
@@ -69,5 +73,13 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Horses
         }
 
         public bool IsStallion => this.isStallionValue != 0;
+
+        protected override async Task SubmitAction()
+        {
+            await base.SubmitAction();
+            this.eventAggregator
+                .GetEvent<HorseUpdatedEvent>()
+                .Publish(this);
+        }
     }
 }

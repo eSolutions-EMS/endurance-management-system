@@ -8,7 +8,9 @@ using EnduranceJudge.Domain.States;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
 using EnduranceJudge.Gateways.Desktop.Core.Static;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
-using Prism.Regions;
+ using EnduranceJudge.Gateways.Desktop.Events.Athletes;
+ using Prism.Events;
+ using Prism.Regions;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,8 +21,10 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Athletes
         IAthleteState,
         IListable
     {
-        private AthleteViewModel(IApplicationService application) : base(application)
+        private readonly IEventAggregator eventAggregator;
+        private AthleteViewModel(IApplicationService application, IEventAggregator eventAggregator) : base(application)
         {
+            this.eventAggregator = eventAggregator;
             this.CategoryId = (int)Category.Adults;
             this.CountryIsoCode = "BUL";
         }
@@ -82,5 +86,13 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Athletes
 
         public Category Category => (Category)this.CategoryId;
         public string Name => $"{this.FirstName} {this.LastName}";
+
+        protected override async Task SubmitAction()
+        {
+            await base.SubmitAction();
+            this.eventAggregator
+                .GetEvent<AthleteUpdatedEvent>()
+                .Publish(this);
+        }
     }
 }
