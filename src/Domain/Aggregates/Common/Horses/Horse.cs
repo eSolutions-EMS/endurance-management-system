@@ -12,9 +12,9 @@ namespace EnduranceJudge.Domain.Aggregates.Common.Horses
         public Horse(string feiId, string name, string breed, string club): base(default)
         => this.Validate(() =>
         {
-            this.FeiId = feiId.IsRequired(nameof(feiId));
             this.Name = name.IsRequired(nameof(name));
             this.Breed = breed.IsRequired(nameof(breed));
+            this.FeiId = feiId;
             this.Club = club;
         });
 
@@ -29,13 +29,13 @@ namespace EnduranceJudge.Domain.Aggregates.Common.Horses
             string trainerLastName) : base(id)
             => this.Validate(() =>
             {
-                this.FeiId = feiId.IsRequired(nameof(feiId));
                 this.Name = name.IsRequired(nameof(name));
                 this.Breed = breed.IsRequired(nameof(breed));
-                this.TrainerFeiId = trainerFeiId.IsRequired(nameof(trainerFeiId));
-                this.TrainerFirstName = trainerFirstName.IsRequired(nameof(trainerFirstName));
-                this.TrainerLastName = trainerLastName.IsRequired(nameof(trainerLastName));
                 this.IsStallion = isStallion;
+                this.FeiId = feiId;
+                this.TrainerFeiId = trainerFeiId;
+                this.TrainerFirstName = trainerFirstName;
+                this.TrainerLastName = trainerLastName;
             });
 
         public string FeiId { get; private set; }
