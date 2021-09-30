@@ -15,6 +15,7 @@ using Prism.Regions;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Competitions
 {
@@ -27,10 +28,12 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Competiti
             this.LoadTypes();
             this.NavigateToCreatePhase = new DelegateCommand(this.NavigateToNewChild<PhaseView>);
             this.NavigateToCreateParticipant = new DelegateCommand(this.NavigateToNewChild<ParticipantView>);
+            this.Toggle = new DelegateCommand(this.ToggleAction);
             this.eventAggregator = ServiceProvider.GetService<IEventAggregator>();
             this.ListenForCompetitorChange();
         }
 
+        public DelegateCommand Toggle { get; }
         public DelegateCommand NavigateToCreatePhase { get; }
         public DelegateCommand NavigateToCreateParticipant { get; }
         public ObservableCollection<SimpleListItemViewModel> TypeItems { get; private set; }
@@ -42,6 +45,8 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Competiti
         private string name;
         private DateTime startTime = DateTime.Today;
         public CompetitionType Type => (CompetitionType)this.TypeValue;
+        private string toggleText = "Expand";
+        private Visibility toggleVisibility = Visibility.Collapsed;
 
         public string TypeString
         {
@@ -67,6 +72,16 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Competiti
             get => this.startTime;
             set => this.SetProperty(ref this.startTime, value);
         }
+        public string ToggleText
+        {
+            get => this.toggleText;
+            set => this.SetProperty(ref this.toggleText, value);
+        }
+        public Visibility ToggleVisibility
+        {
+            get => this.toggleVisibility;
+            private set => this.SetProperty(ref this.toggleVisibility, value);
+        }
 
         public override void HandleChildren(NavigationContext context)
         {
@@ -80,6 +95,20 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Competiti
         {
             var typeViewModels = SimpleListItemViewModel.FromEnum<CompetitionType>();
             this.TypeItems = new ObservableCollection<SimpleListItemViewModel>(typeViewModels);
+        }
+
+        private void ToggleAction()
+        {
+            if (this.ToggleVisibility == Visibility.Collapsed)
+            {
+                this.ToggleVisibility = Visibility.Visible;
+                this.ToggleText = "Collapse";
+            }
+            else
+            {
+                this.ToggleVisibility = Visibility.Collapsed;
+                this.ToggleText = "Expand";
+            }
         }
 
         private void ListenForCompetitorChange()
