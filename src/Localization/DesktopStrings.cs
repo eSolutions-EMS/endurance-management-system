@@ -6,6 +6,7 @@
         // Common
         public const string SAVE = "Save";
         public const string UPDATE_BUTTON = "Update";
+        public const string REMOVE = "Remove";
         public const string SearchButtonText = "Search";
         public const string ClearButtonText = "Clear";
         public const string CREATE_BUTTON = "Create";
@@ -109,6 +110,7 @@
         public const string TrainerFirstNameLabel = "Trainer First Name";
         public const string TrainerLastNameLabel = "Trainer Last Name";
         public const string IsStallionLabel = "Is Stallion";
+        public const string CLUB = "Club";
 
         // ------ PhaseForCategory
         public const string PhaseForCategoryTitle = "Phase For Category";

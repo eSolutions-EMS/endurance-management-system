@@ -6,12 +6,11 @@ namespace EnduranceJudge.Domain.Aggregates.Event.Participants
 {
     public class Participant : DomainBase<ParticipantException>, IParticipantState
     {
-        private Participant() : base(default)
-        {
-        }
+        public const int DEFAULT_MAX_AVERAGE_SPEED = 16;
 
         public Participant(IParticipantState data) : base(data.Id)
-            => this.Validate(() =>
+        {
+            this.Validate(() =>
             {
                 this.RfId = data.RfId;
                 this.Number = data.Number.IsRequired(nameof(data.Number));
@@ -19,6 +18,7 @@ namespace EnduranceJudge.Domain.Aggregates.Event.Participants
                 this.HorseId = data.HorseId.IsRequired(nameof(data.HorseId));
                 this.AthleteId = data.AthleteId.IsRequired(nameof(data.AthleteId));
             });
+        }
 
         public string RfId { get; private set; }
         public int Number { get; private set; }

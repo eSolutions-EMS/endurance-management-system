@@ -12,6 +12,7 @@ namespace EnduranceJudge.Application.Events.Queries.GetHorseList
         public int Id { get; set; }
         public string FeiId { get; set; }
         public string Name { get; set; }
+        public string Club { get; set; }
         public bool IsStallion { get; set; }
         public string Breed { get; set; }
         public string TrainerFeiId { get; set; }

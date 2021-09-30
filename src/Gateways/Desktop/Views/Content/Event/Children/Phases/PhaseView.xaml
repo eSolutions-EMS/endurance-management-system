@@ -99,6 +99,13 @@
                 <Button Style="{StaticResource Button-Form-Back}"
                         Command="{Binding NavigateBack}" />
             </Border>
+            <Border Style="{StaticResource Border-Vertical}"
+                    Grid.Row="6" Grid.Column="1">
+                <DockPanel Style="{StaticResource Dock-Horizontal}">
+                    <Button Style="{StaticResource Button-Form-Remove}" HorizontalAlignment="Right"
+                            Command="{Binding Remove}" />
+                </DockPanel>
+            </Border>
         </Grid>
     </ScrollViewer>
 </UserControl>

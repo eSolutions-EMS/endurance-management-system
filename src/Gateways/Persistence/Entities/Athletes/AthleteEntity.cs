@@ -17,6 +17,7 @@ namespace EnduranceJudge.Gateways.Persistence.Entities.Athletes
         public string FeiId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string Club { get; set; }
         public string Gender { get; set; }
         public Category Category { get; set; }
 

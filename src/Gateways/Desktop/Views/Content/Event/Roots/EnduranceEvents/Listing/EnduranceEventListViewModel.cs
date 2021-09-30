@@ -1,5 +1,5 @@
-﻿using EnduranceJudge.Application.Events.Queries.GetEnduranceEventsList;
-using EnduranceJudge.Application.Events.Queries.GetEvent;
+﻿using EnduranceJudge.Application.Events.Commands.EnduranceEvents;
+using EnduranceJudge.Application.Events.Queries.GetEnduranceEventsList;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem;
 using EnduranceJudge.Gateways.Desktop.Core.Static;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
@@ -9,7 +9,7 @@ using System.Collections.ObjectModel;
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.EnduranceEvents.Listing
 {
     public class EnduranceEventListViewModel :
-        ListViewModelBase<GetEnduranceEventsList, EnduranceEventView>
+        ListViewModelBase<GetEnduranceEventsList, RemoveEnduranceEvent, EnduranceEventView>
     {
         public EnduranceEventListViewModel() : base(null, null)
         {

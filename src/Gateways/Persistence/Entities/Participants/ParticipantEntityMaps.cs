@@ -38,7 +38,7 @@ namespace EnduranceJudge.Gateways.Persistence.Entities.Participants
                 .MapMember(x => x.CategoryId, y => (int)y.Athlete.Category)
                 .MapMember(x => x.HorseId, y => y.Horse.Id)
                 .MapMember(x => x.AthleteId, y => y.Athlete.Id)
-                .MapMember(x => x.Name, y => $"{y.Athlete.FirstName} {y.Athlete.LastName} - {y.Horse.Name}");
+                .MapMember(x => x.AthleteName, y => $"{y.Athlete.FirstName} {y.Athlete.LastName}");
             profile.CreateMap<ParticipantEntity, ListItemModel>()
                 .MapMember(x => x.Name, y => y.Number);
 

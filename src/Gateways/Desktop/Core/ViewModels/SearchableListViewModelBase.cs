@@ -1,4 +1,5 @@
-﻿using EnduranceJudge.Application.Events.Common;
+﻿using EnduranceJudge.Application.Core.Requests;
+using EnduranceJudge.Application.Events.Common;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem;
 using EnduranceJudge.Gateways.Desktop.Core.Objects;
 using EnduranceJudge.Gateways.Desktop.Core.Static;
@@ -10,8 +11,10 @@ using System.Collections.Generic;
 
 namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
 {
-    public abstract class SearchableListViewModelBase<TQuery, TView> : ListViewModelBase<TQuery, TView>
-        where TQuery : IRequest<IEnumerable<ListItemModel>>, new()
+    public abstract class SearchableListViewModelBase<TListQuery, TRemoveCommand, TView>
+        : ListViewModelBase<TListQuery, TRemoveCommand, TView>
+        where TListQuery : IRequest<IEnumerable<ListItemModel>>, new()
+        where TRemoveCommand : IdentifiableRequest, new()
         where TView : IView
     {
         protected SearchableListViewModelBase(IApplicationService application, INavigationService navigation)

@@ -65,4 +65,8 @@
         <Setter Property="Content" Value="{x:Static localization:DesktopStrings.UPDATE_BUTTON}" />
     </Style>
 
+    <Style x:Key="Button-Form-Remove" TargetType="Button" BasedOn="{StaticResource Button-Form}">
+        <Setter Property="Content" Value="{x:Static localization:DesktopStrings.REMOVE}" />
+    </Style>
+
 </ResourceDictionary>

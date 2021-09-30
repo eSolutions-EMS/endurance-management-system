@@ -25,9 +25,9 @@ namespace EnduranceJudge.Application.Factories.Implementations
             return horse;
         }
 
-        public Horse Create(HorseForNationalImportModel data)
+        public Horse Create(string feiId, string name, string breed, string club)
         {
-            var horse = new Horse(data.FeiId, name: data.Name, breed: data.Breed);
+            var horse = new Horse(feiId, name, breed, club);
             return horse;
         }
 

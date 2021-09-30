@@ -11,6 +11,7 @@ namespace EnduranceJudge.Gateways.Desktop
     {
         public const string True = "True";
         public const string False = "False";
+        public const string COMPOSITE_NAME_FORMAT = "{0} - {1}";
 
         public static Assembly[] Assemblies
         {
@@ -23,9 +24,10 @@ namespace EnduranceJudge.Gateways.Desktop
 
         public const string EntityIdParameter = "Parameter0";
         public const string DataParameter = "Parameter1";
-        public const string ChildDataParameter = "Parameter2";
+        public const string CHILD_DATA_PARAMETER = "Parameter2";
         public const string NewChildIdParameter = "Parameter3";
-        public const string UpdateOnlyParameter = "Parameter4";
+        public const string UPDATE_PARAMETER = "Parameter4";
+        public const string REMOVE_PARAMETER = "Parameter6";
         public const string MESSAGE_PARAMETER = "Parameter5";
 
         public static class Types

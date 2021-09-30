@@ -1,4 +1,5 @@
-﻿using EnduranceJudge.Application.Events.Common;
+﻿using EnduranceJudge.Application.Core.Requests;
+using EnduranceJudge.Application.Events.Common;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem;
 using EnduranceJudge.Gateways.Desktop.Core.Static;
 using EnduranceJudge.Gateways.Desktop.Services;
@@ -11,8 +12,9 @@ using System.Threading.Tasks;
 
 namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
 {
-    public abstract class ListViewModelBase<TQuery, TView> : ViewModelBase
-        where TQuery : IRequest<IEnumerable<ListItemModel>>, new()
+    public abstract class ListViewModelBase<TListQuery, TRemoveCommand, TView> : ViewModelBase
+        where TListQuery : IRequest<IEnumerable<ListItemModel>>, new()
+        where TRemoveCommand : IdentifiableRequest,  new()
         where TView : IView
     {
         protected ListViewModelBase(IApplicationService application, INavigationService navigation)
@@ -39,7 +41,7 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
 
         private async Task LoadEvents()
         {
-            var getEventsList = new TQuery();
+            var getEventsList = new TListQuery();
             var eventsList = await this.Application.Execute(getEventsList);
 
             var viewModels = eventsList
@@ -52,8 +54,9 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
 
         private ListItemViewModel ToViewModel(ListItemModel listable)
         {
-            var command = new DelegateCommand<int?>(this.ChangeToUpdateAction);
-            return new ListItemViewModel(listable.Id, listable.Name, command);
+            var update = new DelegateCommand<int?>(this.ChangeToUpdateAction);
+            var remove = new DelegateCommand<int?>(this.RemoveAction);
+            return new ListItemViewModel(listable.Id, listable.Name, update, remove);
         }
 
         protected virtual void ChangeToCreateAction()
@@ -63,7 +66,18 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
 
         protected virtual void ChangeToUpdateAction(int? id)
         {
-            this.Navigation.ChangeTo<TView>(id.Value);
+            this.Navigation.ChangeTo<TView>(id!.Value);
+        }
+
+        protected virtual void RemoveAction(int? id)
+        {
+            var remove = new TRemoveCommand
+            {
+                Id = id!.Value,
+            };
+            this.Application.Execute(remove);
+            var item = this.ListItems.FirstOrDefault(i => i.Id == id!.Value);
+            this.ListItems.Remove(item);
         }
     }
 }

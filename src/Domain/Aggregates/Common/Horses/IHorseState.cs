@@ -6,6 +6,7 @@ namespace EnduranceJudge.Domain.Aggregates.Common.Horses
     {
         string FeiId { get; }
         string Name { get; }
+        string Club { get; }
         bool IsStallion { get; }
         string Breed { get; }
         string TrainerFeiId { get; }

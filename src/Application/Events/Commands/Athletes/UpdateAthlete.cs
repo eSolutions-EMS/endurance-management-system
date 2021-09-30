@@ -9,7 +9,7 @@ using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace EnduranceJudge.Application.Events.Commands.UpdateAthlete
+namespace EnduranceJudge.Application.Events.Commands.Athletes
 {
     public class UpdateAthlete : IRequest, IAthleteState
     {
@@ -17,6 +17,7 @@ namespace EnduranceJudge.Application.Events.Commands.UpdateAthlete
         public string FeiId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string Club { get; set; }
         public Category Category { get; set; }
         public string CountryIsoCode { get; set; }
 
