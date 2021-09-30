@@ -9,6 +9,8 @@
             public const string CannotRemoveItemIsNotFoundTemplate = "cannot remove '{0}' - it is not found.";
             public const string CannotAddNullItemTemplate = "cannot add 'null' to a collection.";
             public const string CannotAddItemExistsTemplate = "cannot add '{0}' because entity with Id '{1}' already exists.";
+            public const string INVALID_FUTURE_DATE_TEMPLATE = "Date '{0}' is not future date.";
+
 
             public static class Ranking
             {
