@@ -5,7 +5,7 @@ using EnduranceJudge.Domain.Aggregates.Manager.Participations;
 using MediatR;
 using System.Collections.Generic;
 
-namespace EnduranceJudge.Application.Actions.Manager.Queries.GetParticipationList
+namespace EnduranceJudge.Application.Actions.Manager.Queries.Participations
 {
     public class GetParticipationList : IRequest<IEnumerable<ListItemModel>>
     {

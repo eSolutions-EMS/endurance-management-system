@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:localization="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              prism:ViewModelLocator.AutoWireViewModel="True">
 
     <Grid Style="{StaticResource Grid}">
@@ -71,35 +72,23 @@
                 <Border Style="{StaticResource Border-Vertical}">
                     <StackPanel Style="{StaticResource List-Horizontal}">
 
-                        <Button Style="{StaticResource Button-Horizontal}"
-                                Visibility="{Binding StartVisibility}"
-                                Command="{Binding Start}"
-                                Content="{x:Static localization:DesktopStrings.START}" />
+                        <Border Style="{StaticResource Border-Horizontal}" Width="60px">
+                            <TextBox Style="{StaticResource Input}"
+                                     Text="{Binding Number}" />
+                        </Border>
 
-                        <Button Style="{StaticResource Button-Horizontal}"
-                                Visibility="{Binding ArriveVisibility}"
-                                Command="{Binding Arrive}"
-                                Content="{x:Static localization:DesktopStrings.ARRIVE}" />
+                        <Border Style="{StaticResource Border-Horizontal}" Width="150px">
+                            <xctk:TimePicker Value="{Binding InputTime}"
+                                             Format="Custom"
+                                             FormatString="HH:mm:ss" />
+                        </Border>
 
-                        <Button Style="{StaticResource Button-Horizontal}"
-                                Visibility="{Binding InspectVisibility}"
-                                Command="{Binding Inspect}"
-                                Content="{x:Static localization:DesktopStrings.INSPECT}" />
+                        <Border Style="{StaticResource Border-Horizontal}">
+                            <Button Style="{StaticResource Button-Horizontal}"
+                                    Command="{Binding Update}"
+                                    Content="{x:Static localization:DesktopStrings.UPDATE}" />
+                        </Border>
 
-                        <Button Style="{StaticResource Button-Horizontal}"
-                                Visibility="{Binding ReInspectVisibility}"
-                                Command="{Binding ReInspect}"
-                                Content="{x:Static localization:DesktopStrings.RE_INSPECT}" />
-
-                        <Button Style="{StaticResource Button-Horizontal}"
-                                Visibility="{Binding CompleteVisibility}"
-                                Command="{Binding CompleteSuccessful}"
-                                Content="{x:Static localization:DesktopStrings.COMPLETE_SUCCESSFUL}" />
-
-                        <Button Style="{StaticResource Button-Horizontal}"
-                                Visibility="{Binding CompleteVisibility}"
-                                Command="{Binding CompleteUnsuccessful}"
-                                Content="{x:Static localization:DesktopStrings.COMPLETE_UNSUCCESSFUL}" />
                     </StackPanel>
                 </Border>
 

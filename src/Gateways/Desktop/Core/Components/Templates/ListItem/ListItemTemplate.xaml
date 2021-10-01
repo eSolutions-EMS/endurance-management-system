@@ -16,7 +16,7 @@
                            Text="{Binding Name}" />
 
                 <Button Style="{StaticResource Button}" HorizontalAlignment="Right"
-                        Content="{x:Static strings:DesktopStrings.UPDATE_BUTTON}"
+                        Content="{x:Static strings:DesktopStrings.UPDATE}"
                         Command="{Binding Action}"
                         CommandParameter="{Binding Id}" />
             </DockPanel>

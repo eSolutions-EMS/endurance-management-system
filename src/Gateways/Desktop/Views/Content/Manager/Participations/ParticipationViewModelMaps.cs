@@ -16,22 +16,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participations
                     d => d.ParticipationsInPhases,
                     opt => opt.MapFrom(s => s.ParticipationsInCompetitions
                         .FirstOrDefault()
-                        .ParticipationsInPhases))
-                .ForMember(
-                    d => d.StartVisibility,
-                    opt => opt.ConvertUsing(new BoolToVisibilityConverter(), s => s.CanStart))
-                .ForMember(
-                    d => d.ArriveVisibility,
-                    opt => opt.ConvertUsing(new BoolToVisibilityConverter(), s => s.CanArrive))
-                .ForMember(
-                    d => d.InspectVisibility,
-                    opt => opt.ConvertUsing(new BoolToVisibilityConverter(), s => s.CanInspect))
-                .ForMember(
-                    d => d.ReInspectVisibility,
-                    opt => opt.ConvertUsing(new BoolToVisibilityConverter(), s => s.CanReInspect))
-                .ForMember(
-                    d => d.CompleteVisibility,
-                    opt => opt.ConvertUsing(new BoolToVisibilityConverter(), s => s.CanComplete));
+                        .ParticipationsInPhases));
         }
 
         public void AddToMaps(IProfileExpression profile)

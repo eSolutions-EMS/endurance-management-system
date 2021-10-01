@@ -1,150 +1,87 @@
 ﻿using EnduranceJudge.Application.Actions.Manager.Commands.UpdateParticipation;
-using EnduranceJudge.Application.Actions.Manager.Queries.GetParticipation;
+using EnduranceJudge.Application.Actions.Manager.Queries.Participations;
 using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Domain.Aggregates.Manager.Participations;
+using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Core.Static;
-using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
 using EnduranceJudge.Gateways.Desktop.Services;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Manager.ParticipationsInPhases;
 using Prism.Commands;
+using Prism.Regions;
 using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using System.Windows;
+using static EnduranceJudge.Localization.Strings.Desktop;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participations
 {
-    public class ParticipationViewModel
-        : RootFormBase<GetParticipation, UpdateParticipation, Participation, ParticipationView>
+    public class ParticipationViewModel : ViewModelBase
     {
+        private readonly IApplicationService application;
         private readonly IDomainHandler domainHandler;
-        private Participation participation;
+        // private Participation participation;
 
         public ParticipationViewModel(IApplicationService application, IDomainHandler domainHandler)
-            : base(application)
         {
+            this.application = application;
             this.domainHandler = domainHandler;
-            this.Start = new DelegateCommand(this.StartAction);
-            this.Arrive = new DelegateCommand(this.ArriveAction);
-            this.Inspect = new DelegateCommand(this.InspectAction);
-            this.ReInspect = new DelegateCommand(this.ReInspectAction);
-            this.CompleteSuccessful = new DelegateCommand(this.CompleteSuccessfulAction);
-            this.CompleteUnsuccessful = new DelegateCommand(this.CompleteUnsuccessfulAction);
+            this.Update = new DelegateCommand(this.UpdateAction);
         }
 
-        public DelegateCommand Start { get; }
-        public DelegateCommand Arrive { get; }
-        public DelegateCommand Inspect { get; }
-        public DelegateCommand ReInspect { get; }
-        public DelegateCommand CompleteSuccessful { get; }
-        public DelegateCommand CompleteUnsuccessful { get; }
+        public DelegateCommand Update { get; }
 
-        private string number;
-        private bool hasExceededSpeedRestriction;
-        private bool isComplete;
-        public ObservableCollection<ParticipationInPhaseViewModel> ParticipationsInPhases { get; private set; } = new();
+        private int number;
+        private DateTime inputTime = DateTime.Today;
 
-        public string Number
+        public ObservableCollection<ParticipationInPhaseViewModel> ParticipationsInPhases { get; } = new();
+
+        private void UpdateAction()
+        {
+            var query = new GetParticipation
+            {
+                Number = this.Number,
+            };
+
+            var participation = this.application.Execute(query).Result;
+            if (participation == null)
+            {
+                this.ValidationError(PARTICIPANT_NOT_FOUND);
+                return;
+            }
+            if (participation.IsComplete)
+            {
+                this.ValidationError(PARTICIPANT_HAS_COMPLETED_THE_PHASE);
+                return;
+            }
+
+            this.Act(participation, x => x.UpdateProgress(this.inputTime));
+        }
+
+
+        private async Task Act(Participation participation, Action<Participation> update)
+        {
+            this.domainHandler.Handle(() => update(participation));
+
+            var command = new UpdateParticipation(participation);
+            await this.application.Execute(command);
+
+            this.MapFrom(participation);
+        }
+
+        public int Number
         {
             get => this.number;
             set => this.SetProperty(ref this.number, value);
         }
-        public bool HasExceededSpeedRestriction
+        public DateTime InputTime
         {
-            get => this.hasExceededSpeedRestriction;
-            set => this.SetProperty(ref this.hasExceededSpeedRestriction, value);
-        }
-        public bool IsComplete
-        {
-            get => this.isComplete;
-            set => this.SetProperty(ref this.isComplete, value);
-        }
-
-        private void StartAction()
-        {
-            this.domainHandler.Handle(() => this.participation.Start());
-            this.Update();
-        }
-        private void ArriveAction()
-        {
-            this.domainHandler.Handle(() => this.participation.Arrive(DateTime.Now));
-            this.Update();
-        }
-        private void InspectAction()
-        {
-            this.domainHandler.Handle(() => this.participation.Inspect(DateTime.Now));
-            this.Update();
-        }
-        private void ReInspectAction()
-        {
-            this.domainHandler.Handle(() => this.participation.ReInspect(DateTime.Now));
-            this.Update();
-        }
-        private void CompleteSuccessfulAction()
-        {
-            this.domainHandler.Handle(() => this.participation.CompleteSuccessful());
-            this.Update();
-        }
-        private void CompleteUnsuccessfulAction()
-        {
-            this.domainHandler.Handle(() => this.participation.CompleteUnsuccessful("code"));
-            this.Update();
-        }
-
-        private Visibility startVisibility = Visibility.Collapsed;
-        public Visibility StartVisibility
-        {
-            get => this.startVisibility;
-            private set => this.SetProperty(ref this.startVisibility, value);
-        }
-
-        private Visibility arriveVisibility = Visibility.Collapsed;
-        public Visibility ArriveVisibility
-        {
-            get => this.arriveVisibility;
-            private set => this.SetProperty(ref this.arriveVisibility, value);
-        }
-
-        private Visibility inspectVisibility = Visibility.Collapsed;
-        public Visibility InspectVisibility
-        {
-            get => this.inspectVisibility;
-            private set => this.SetProperty(ref this.inspectVisibility, value);
-        }
-        private Visibility reInspectVisibility = Visibility.Collapsed;
-        public Visibility ReInspectVisibility
-        {
-            get => this.reInspectVisibility;
-            private set => this.SetProperty(ref this.reInspectVisibility, value);
-        }
-
-        private Visibility completeVisibility = Visibility.Collapsed;
-        public Visibility CompleteVisibility
-        {
-            get => this.completeVisibility;
-            private set => this.SetProperty(ref this.completeVisibility, value);
-        }
-
-        protected override async Task Load(int id)
-        {
-            if (this.Id != default)
+            get => this.inputTime;
+            set
             {
-                return;
+                var timeOfDay = value.TimeOfDay;
+                var now = this.inputTime.Date.Add(timeOfDay);
+                this.SetProperty(ref this.inputTime, now);
             }
-
-            var query = new GetParticipation
-            {
-                Id = id,
-            };
-            this.participation = await this.Application.Execute(query);
-            this.MapFrom(this.participation);
-        }
-
-        private async Task Update()
-        {
-            this.MapFrom(this.participation);
-            var update = new UpdateParticipation(this.participation);
-            await this.Application.Execute(update);
         }
     }
 }

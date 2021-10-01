@@ -1,4 +1,4 @@
-﻿using EnduranceJudge.Application.Actions.Manager.Queries.GetParticipationList;
+﻿using EnduranceJudge.Application.Actions.Manager.Queries.Participations;
 using EnduranceJudge.Application.Core.Requests;
 using EnduranceJudge.Gateways.Desktop.Core.Static;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;

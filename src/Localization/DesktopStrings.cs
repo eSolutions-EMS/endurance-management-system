@@ -5,7 +5,7 @@
         // ------
         // Common
         public const string SAVE = "Save";
-        public const string UPDATE_BUTTON = "Update";
+        public const string UPDATE = "Update";
         public const string REMOVE = "Remove";
         public const string SearchButtonText = "Search";
         public const string ClearButtonText = "Clear";

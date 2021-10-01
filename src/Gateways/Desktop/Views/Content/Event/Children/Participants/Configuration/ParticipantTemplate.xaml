@@ -11,7 +11,7 @@
 
             <Button Style="{StaticResource Button}" HorizontalAlignment="Right"
                     Command="{Binding NavigateToUpdate}"
-                    Content="{x:Static localization:DesktopStrings.UPDATE_BUTTON}" />
+                    Content="{x:Static localization:DesktopStrings.UPDATE}" />
         </DockPanel>
     </DataTemplate>
 

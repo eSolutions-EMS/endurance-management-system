@@ -10,8 +10,6 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participations
 {
     public class Participation : DomainBase<ManagerParticipationException>, IAggregateRoot
     {
-        private const string ALREADY_STARTED_MESSAGE = "has already started";
-
         private List<ParticipationInCompetition> participationsInCompetitions = new();
 
         private Participation()
@@ -26,6 +24,9 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participations
         }
 
 
+        public DateTime StartTime => this.ParticipationsInCompetitions
+            .First()
+            .StartTime;
         public bool CanStart
             => !this.IsComplete
                 && this.ParticipationsInCompetitions.All(x => !x.ParticipationsInPhases.Any());
@@ -51,15 +52,31 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participations
                     participation.StartPhase();
                 }
             });
-        public void Arrive(DateTime time)
+        public void UpdateProgress(DateTime time)
+            => this.Validate(() =>
+            {
+                if (this.CanArrive)
+                {
+                    this.Arrive(time);
+                }
+                else if (this.CanInspect)
+                {
+                    this.Inspect(time);
+                }
+                else if (this.CanReInspect)
+                {
+                    this.ReInspect(time);
+                }
+            });
+        internal void Arrive(DateTime time)
         {
             this.Update(participation => participation.CurrentPhase.Arrive(time));
         }
-        public void Inspect(DateTime time)
+        internal void Inspect(DateTime time)
         {
             this.Update(participation => participation.CurrentPhase.Inspect(time));
         }
-        public void ReInspect(DateTime time)
+        internal void ReInspect(DateTime time)
         {
             this.Update(participation => participation.CurrentPhase.ReInspect(time));
         }

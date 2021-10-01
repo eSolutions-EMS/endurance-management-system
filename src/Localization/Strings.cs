@@ -21,6 +21,15 @@
         public static class Application
         {
             public const string UnsupportedImportFileTemplate =  "Unsupported file. Please use '{0}' or '{1}'.";
+            public const string COMPETITIONS_WITH_DIFFERENT_START_TIMES =
+                "Invalid configuration. Competitions have different starttimes.";
+            public const string NO_COMPETITIONS = "There are no competitions";
+        }
+
+        public static class Desktop
+        {
+            public const string PARTICIPANT_NOT_FOUND = "Participant not found.";
+            public const string PARTICIPANT_HAS_COMPLETED_THE_PHASE = "Participant has completed the phase.";
         }
     }
 }

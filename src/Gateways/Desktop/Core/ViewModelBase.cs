@@ -1,9 +1,13 @@
 ﻿using EnduranceJudge.Core.Models;
 using EnduranceJudge.Core.Utilities;
+using EnduranceJudge.Gateways.Desktop.Core.Objects;
+using EnduranceJudge.Gateways.Desktop.Core.Static;
 using Prism.Commands;
+using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
 using System;
+using System.Windows.Controls;
 
 namespace EnduranceJudge.Gateways.Desktop.Core
 {
@@ -13,10 +17,12 @@ namespace EnduranceJudge.Gateways.Desktop.Core
 
         protected ViewModelBase()
         {
+            this.EventAggregator = ServiceProvider.GetService<IEventAggregator>();
             this.ObjectId = Guid.NewGuid();
             this.objectUniqueCode = ObjectUtilities.GetUniqueObjectCode(this);
         }
 
+        protected IEventAggregator EventAggregator { get; }
         protected IRegionNavigationJournal Journal { get; private set; }
 
         public Guid ObjectId { get; }
@@ -42,6 +48,13 @@ namespace EnduranceJudge.Gateways.Desktop.Core
         protected virtual void NavigateBackAction()
         {
             this.Journal?.GoBack();
+        }
+
+        protected virtual void ValidationError(string message)
+        {
+            this.EventAggregator
+                .GetEvent<ErrorEvent>()
+                .Publish(message);
         }
 
         public override bool Equals(object other)

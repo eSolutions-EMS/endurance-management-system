@@ -26,7 +26,6 @@ namespace EnduranceJudge.Domain.Aggregates.Event.EnduranceEvents
 
         public string Name { get; private set; }
         public string PopulatedPlace { get; private set; }
-
         public string CountryIsoCode { get; private set; }
 
         public Personnel PresidentGroundJury
