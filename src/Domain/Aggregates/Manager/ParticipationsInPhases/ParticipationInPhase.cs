@@ -22,10 +22,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInPhases
         {
             this.Validate(() =>
             {
-                this.StartTime = startTime
-                    .IsRequired(nameof(startTime))
-                    .IsFutureDate();
-
+                this.StartTime = startTime.IsRequired(nameof(startTime));
                 phase.IsRequired(nameof(phase));
             });
             this.PhaseId = phase.Id;

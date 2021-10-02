@@ -117,7 +117,7 @@
 
         // ---- Manager Page
         public const string PARTICIPATIONS = "Participations";
-        public const string PARTICIPATION = "Participation";
+        public const string MANAGER = "Manager";
         public const string NUMBER = "Number";
         public const string HAS_EXCEEDED_SPEED_RESTRICTIONS = "Has Exceeded Speed";
         public const string IS_COMPLETE = "Is complete";
@@ -143,5 +143,6 @@
         public const string LENGTH = "Lenght";
         public const string RANK_LIST = "Ranklist";
         public const string CATEGORY = "Category";
+        public const string START_PARTICIPATIONS = "START PARTICIPATIONS";
     }
 }

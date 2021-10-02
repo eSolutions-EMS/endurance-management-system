@@ -7,7 +7,6 @@ using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
 using System;
-using System.Windows.Controls;
 
 namespace EnduranceJudge.Gateways.Desktop.Core
 {

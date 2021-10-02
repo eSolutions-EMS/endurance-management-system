@@ -41,6 +41,11 @@ namespace EnduranceJudge.Gateways.Persistence.Core
             return model;
         }
 
+        public Task<IList<TDomainModel>> All()
+        {
+            return this.All<TDomainModel>();
+        }
+
         public virtual async Task<IList<TModel>> All<TModel>()
         {
             var list = await this.DbContext
@@ -76,6 +81,25 @@ namespace EnduranceJudge.Gateways.Persistence.Core
                 .Set<TEntityModel>()
                 .Remove(entity);
 
+            await this.Persist(token);
+        }
+
+        public async Task Update(IEnumerable<TDomainModel> models, CancellationToken token)
+        {
+            var ids = models.Select(x => x.Id);
+            var entities = await this.DbContext
+                .Set<TEntityModel>()
+                .Where(x => ids.Contains(x.Id))
+                .ToListAsync(token);
+
+            foreach (var id in ids)
+            {
+                var entity = entities.First(x => x.Id == id);
+                var domain = models.First(x => x.Id == id);
+                entity.MapFrom(domain);
+            }
+
+            this.DbContext.UpdateRange(entities);
             await this.Persist(token);
         }
 

@@ -8,9 +8,8 @@ namespace EnduranceJudge.Application.Core.Contracts
         where TDomainModel : IDomainModel
     {
         Task<TDomainModel> Find(int id);
-
         Task<TModel> Find<TModel>(int id);
-
+        Task<IList<TDomainModel>> All();
         Task<IList<TModel>> All<TModel>();
     }
 }

@@ -1,11 +1,11 @@
 ﻿using EnduranceJudge.Gateways.Desktop.Core;
 using System.Windows.Controls;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participations
+namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager
 {
-    public partial class ParticipationView : UserControl, IView
+    public partial class ManagerView : UserControl, IView
     {
-        public ParticipationView()
+        public ManagerView()
         {
             InitializeComponent();
         }

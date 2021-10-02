@@ -12,6 +12,7 @@
         <ResourceDictionary Source="Content/Event/Children/Participants/Configuration/ParticipantTemplate.xaml" />
         <ResourceDictionary Source="Content/Event/Children/Personnel/Configuration/PersonnelTemplate.xaml" />
         <ResourceDictionary Source="Content/Manager/ParticipationsInPhases/ParticipationInPhaseTemplate.xaml" />
+        <ResourceDictionary Source="Content/Manager/Participations/ParticipationTemplate.xaml" />
         <ResourceDictionary Source="Content/Rankings/Categorizations/ParticipationTemplate.xaml" />
     </ResourceDictionary.MergedDictionaries>
 

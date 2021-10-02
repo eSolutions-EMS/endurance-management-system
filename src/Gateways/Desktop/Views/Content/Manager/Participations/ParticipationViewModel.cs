@@ -1,87 +1,49 @@
-﻿using EnduranceJudge.Application.Actions.Manager.Commands.UpdateParticipation;
-using EnduranceJudge.Application.Actions.Manager.Queries.Participations;
-using EnduranceJudge.Core.Mappings;
+﻿using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Domain.Aggregates.Manager.Participations;
 using EnduranceJudge.Gateways.Desktop.Core;
-using EnduranceJudge.Gateways.Desktop.Core.Static;
-using EnduranceJudge.Gateways.Desktop.Services;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Manager.ParticipationsInPhases;
-using Prism.Commands;
-using Prism.Regions;
-using System;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
-using static EnduranceJudge.Localization.Strings.Desktop;
+using System.Linq;
+using System.Windows;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participations
 {
     public class ParticipationViewModel : ViewModelBase
     {
-        private readonly IApplicationService application;
-        private readonly IDomainHandler domainHandler;
-        // private Participation participation;
-
-        public ParticipationViewModel(IApplicationService application, IDomainHandler domainHandler)
+        public ParticipationViewModel(int number, Participation participation)
         {
-            this.application = application;
-            this.domainHandler = domainHandler;
-            this.Update = new DelegateCommand(this.UpdateAction);
+            this.number = number;
+            this.Participation = participation;
+            this.UpdatePhases(participation);
         }
-
-        public DelegateCommand Update { get; }
 
         private int number;
-        private DateTime inputTime = DateTime.Today;
-
+        private Visibility visibility = Visibility.Visible;
         public ObservableCollection<ParticipationInPhaseViewModel> ParticipationsInPhases { get; } = new();
+        public ObservableCollection<int> PhaseLengths { get; } = new();
 
-        private void UpdateAction()
-        {
-            var query = new GetParticipation
-            {
-                Number = this.Number,
-            };
-
-            var participation = this.application.Execute(query).Result;
-            if (participation == null)
-            {
-                this.ValidationError(PARTICIPANT_NOT_FOUND);
-                return;
-            }
-            if (participation.IsComplete)
-            {
-                this.ValidationError(PARTICIPANT_HAS_COMPLETED_THE_PHASE);
-                return;
-            }
-
-            this.Act(participation, x => x.UpdateProgress(this.inputTime));
-        }
-
-
-        private async Task Act(Participation participation, Action<Participation> update)
-        {
-            this.domainHandler.Handle(() => update(participation));
-
-            var command = new UpdateParticipation(participation);
-            await this.application.Execute(command);
-
-            this.MapFrom(participation);
-        }
-
+        public Participation Participation { get; }
         public int Number
         {
             get => this.number;
-            set => this.SetProperty(ref this.number, value);
+            private set => this.SetProperty(ref this.number, value);
         }
-        public DateTime InputTime
+        public Visibility Visibility
         {
-            get => this.inputTime;
-            set
-            {
-                var timeOfDay = value.TimeOfDay;
-                var now = this.inputTime.Date.Add(timeOfDay);
-                this.SetProperty(ref this.inputTime, now);
-            }
+            get => this.visibility;
+            set => this.SetProperty(ref this.visibility, value);
+        }
+
+        private void UpdatePhases(Participation participation)
+        {
+            var participationInCompetition = participation.ParticipationsInCompetitions[0];
+            var lengths = participationInCompetition.Phases.Select(x => x.LengthInKm);
+            var viewModels = participationInCompetition
+                .ParticipationsInPhases
+                .MapEnumerable<ParticipationInPhaseViewModel>();
+
+            this.ParticipationsInPhases.AddRange(viewModels);
+            this.PhaseLengths.AddRange(lengths);
         }
     }
 }

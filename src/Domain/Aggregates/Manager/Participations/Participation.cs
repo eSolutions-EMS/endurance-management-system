@@ -1,10 +1,11 @@
+using EnduranceJudge.Domain.Aggregates.Event.Participants;
 using EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInCompetitions;
 using EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInPhases;
 using EnduranceJudge.Domain.Core.Models;
-using EnduranceJudge.Domain.Core.Validation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static EnduranceJudge.Localization.Strings.Domain;
 
 namespace EnduranceJudge.Domain.Aggregates.Manager.Participations
 {
@@ -23,11 +24,10 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participations
             private set => this.participationsInCompetitions = value.ToList();
         }
 
-
         public DateTime StartTime => this.ParticipationsInCompetitions
             .First()
             .StartTime;
-        public bool CanStart
+        public bool HasNotStarted
             => !this.IsComplete
                 && this.ParticipationsInCompetitions.All(x => !x.ParticipationsInPhases.Any());
         public bool CanArrive => !this.IsComplete && this.AnyParticipationInPhase(pip => pip.CanArrive);
@@ -41,7 +41,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participations
         public void Start()
             => this.Validate(() =>
             {
-                if (!this.CanStart)
+                if (!this.HasNotStarted)
                 {
                     return;
                     // TODO: AddValidation to these checks;
@@ -55,6 +55,13 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participations
         public void UpdateProgress(DateTime time)
             => this.Validate(() =>
             {
+                if (this.HasNotStarted)
+                {
+                    throw new ParticipantException
+                    {
+                        DomainMessage = PARTICIPATION_HAS_NOT_STARTED,
+                    };
+                }
                 if (this.CanArrive)
                 {
                     this.Arrive(time);

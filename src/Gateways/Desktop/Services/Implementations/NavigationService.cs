@@ -3,7 +3,7 @@ using EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.EnduranceEvents.
 using EnduranceJudge.Gateways.Desktop.Views.Content.Event.NavigationStrip;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Import;
 using EnduranceJudge.Gateways.Desktop.Core.Services.Implementations;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participations;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Manager;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participations.Listing;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.Categorizations.Listing;
 using Prism.Regions;
@@ -31,7 +31,7 @@ namespace EnduranceJudge.Gateways.Desktop.Services.Implementations
 
         public void NavigateToManager()
         {
-            this.ChangeTo<ParticipationView>();
+            this.ChangeTo<ManagerView>();
             this.ChangeTo<ParticipationListView>(Regions.CONTENT_RIGHT);
         }
         public void NavigateToRanking()

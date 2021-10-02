@@ -7,7 +7,7 @@ using EnduranceJudge.Gateways.Desktop.Services;
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participations.Listing
 {
     public class ParticipationListViewModel
-        : SearchableListViewModelBase<GetParticipationList, UnusedCommend, ParticipationView>
+        : SearchableListViewModelBase<GetParticipationList, UnusedCommend, ManagerView>
     {
         public ParticipationListViewModel(IApplicationService application, INavigationService navigation)
             : base(application, navigation)

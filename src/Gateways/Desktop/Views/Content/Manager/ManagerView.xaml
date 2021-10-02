@@ -1,0 +1,63 @@
+﻿<UserControl x:Class="EnduranceJudge.Gateways.Desktop.Views.Content.Manager.ManagerView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:localization="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization"
+             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+
+    <Grid Style="{StaticResource Grid}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <TextBlock Style="{StaticResource Text-H1}"
+                   Text="{x:Static localization:DesktopStrings.MANAGER}"
+                   Grid.Row="0"/>
+
+        <Border Style="{StaticResource Border-Vertical}"
+                Grid.Row="1">
+            <StackPanel Style="{StaticResource List-Vertical}">
+
+                <Border Style="{StaticResource Border-Vertical}" Visibility="{Binding StartVisibility}">
+                    <Button Style="{StaticResource Button-Big-Vertical}"
+                            Command="{Binding Start}"
+                            Content="{x:Static localization:DesktopStrings.START_PARTICIPATIONS}" />
+                </Border>
+
+                <Border Style="{StaticResource Border-Vertical}">
+                    <StackPanel Style="{StaticResource List-Horizontal}">
+
+                        <Border Style="{StaticResource Border-Horizontal}" Width="60px">
+                            <TextBox Style="{StaticResource Input}"
+                                     Text="{Binding InputNumber}" />
+                        </Border>
+
+                        <Border Style="{StaticResource Border-Horizontal}" Width="150px">
+                            <xctk:TimePicker Value="{Binding InputTime}"
+                                             Format="Custom"
+                                             FormatString="HH:mm:ss" />
+                        </Border>
+
+                        <Border Style="{StaticResource Border-Horizontal}">
+                            <Button Style="{StaticResource Button-Horizontal}"
+                                    Command="{Binding Update}"
+                                    Content="{x:Static localization:DesktopStrings.UPDATE}" />
+                        </Border>
+
+                    </StackPanel>
+                </Border>
+
+                <Border Style="{StaticResource Border-Vertical}">
+                    <ListBox Style="{StaticResource ListBox-Vertical}"
+                             ItemsSource="{Binding Participations}" />
+                </Border>
+            </StackPanel>
+        </Border>
+    </Grid>
+</UserControl>
