@@ -144,5 +144,7 @@
         public const string RANK_LIST = "Ranklist";
         public const string CATEGORY = "Category";
         public const string START_PARTICIPATIONS = "START PARTICIPATIONS";
+        public const string COMPLETE_UNSUCCESSFULLY = "Disqualify";
+        public const string COMPLETE = "Complete";
     }
 }

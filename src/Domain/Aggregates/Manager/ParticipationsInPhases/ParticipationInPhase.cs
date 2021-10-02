@@ -111,27 +111,14 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInPhases
             });
         internal void CompleteSuccessful()
         {
-            this.Complete();
+            this.ArrivalTime.IsNotDefault(ArrivalTimeIsNullMessage);
+            this.InspectionTime.IsNotDefault(InspectionTimeIsNullMessage);
+            this.ResultInPhase = new ResultInPhase();
         }
         internal void CompleteUnsuccessful(string code)
         {
-            this.Complete(code);
+            this.ResultInPhase = new ResultInPhase(code);
         }
-
-        private void Complete(string code = null)
-            => this.Validate(() =>
-            {
-                if (!this.CanComplete)
-                {
-                    return;
-                }
-                this.ArrivalTime.IsNotDefault(ArrivalTimeIsNullMessage);
-                this.InspectionTime.IsNotDefault(InspectionTimeIsNullMessage);
-
-                this.ResultInPhase = code == null
-                    ? new ResultInPhase()
-                    : new ResultInPhase(code);
-            });
 
         private double GetAverageSpeed(TimeSpan timeSpan)
         {

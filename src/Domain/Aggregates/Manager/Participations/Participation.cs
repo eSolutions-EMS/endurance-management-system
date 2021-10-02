@@ -1,11 +1,10 @@
-using EnduranceJudge.Domain.Aggregates.Event.Participants;
 using EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInCompetitions;
 using EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInPhases;
 using EnduranceJudge.Domain.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static EnduranceJudge.Localization.Strings.Domain;
+using static EnduranceJudge.Localization.Strings.Domain.Manager.Participation;
 
 namespace EnduranceJudge.Domain.Aggregates.Manager.Participations
 {
@@ -34,8 +33,6 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participations
         public bool CanInspect => !this.IsComplete && this.AnyParticipationInPhase(pip => pip.CanInspect);
         public bool CanReInspect => !this.IsComplete && this.AnyParticipationInPhase(pip => pip.CanReInspect);
         public bool CanComplete => !this.IsComplete && this.AnyParticipationInPhase(pip => pip.CanComplete);
-        public bool HasExceededSpeedRestriction
-            => this.participationsInCompetitions.All(participation => participation.HasExceededSpeedRestriction);
         public bool IsComplete => this.participationsInCompetitions.All(participation => !participation.IsNotComplete);
 
         public void Start()
@@ -44,7 +41,6 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participations
                 if (!this.HasNotStarted)
                 {
                     return;
-                    // TODO: AddValidation to these checks;
                 }
 
                 foreach (var participation in this.ParticipationsInCompetitions)
@@ -53,28 +49,31 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participations
                 }
             });
         public void UpdateProgress(DateTime time)
-            => this.Validate(() =>
+        => this.Validate(() =>
+        {
+            if (this.HasNotStarted)
             {
-                if (this.HasNotStarted)
-                {
-                    throw new ParticipantException
-                    {
-                        DomainMessage = PARTICIPATION_HAS_NOT_STARTED,
-                    };
-                }
-                if (this.CanArrive)
-                {
-                    this.Arrive(time);
-                }
-                else if (this.CanInspect)
-                {
-                    this.Inspect(time);
-                }
-                else if (this.CanReInspect)
-                {
-                    this.ReInspect(time);
-                }
-            });
+                this.Throw(HAS_NOT_STARTED);
+            }
+            if (this.CanComplete)
+            {
+                this.Throw(CAN_ONLY_BE_COMPLETED);
+            }
+
+            if (this.CanArrive)
+            {
+                this.Arrive(time);
+            }
+            else if (this.CanInspect)
+            {
+                this.Inspect(time);
+            }
+            else if (this.CanReInspect)
+            {
+                this.ReInspect(time);
+            }
+        });
+
         internal void Arrive(DateTime time)
         {
             this.Update(participation => participation.CurrentPhase.Arrive(time));
@@ -89,11 +88,18 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participations
         }
         public void CompleteSuccessful()
         {
-            //TODO: If HasExceededSpeedRestrictions ...
+            if (!this.CanComplete)
+            {
+                this.Throw(CANNOT_BE_COMPLETED);
+            }
             this.Update(participation => participation.CompleteSuccessful());
         }
         public void CompleteUnsuccessful(string code)
         {
+            if (!this.CanComplete)
+            {
+                this.Throw(CANNOT_BE_COMPLETED);
+            }
             this.Update(participation => participation.CompleteUnsuccessful(code));
         }
 

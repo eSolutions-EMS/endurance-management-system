@@ -11,9 +11,6 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInCompetitions
 {
     public class ParticipationInCompetition : DomainBase<ParticipationInCompetitionException>
     {
-        private const string NEXT_PHASE_IS_NULL_MESSAGE = "cannot start - there is no Next Phase.";
-        private const string CURRENT_PHASE_IS_NULL_MESSAGE = "cannot complete - no current phase.";
-
         private readonly List<ParticipationInPhase> participationsInPhases = new();
         private readonly List<PhaseDto> phases = new();
 
@@ -75,8 +72,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInCompetitions
             {
                 var nextPhase = this.Phases
                     .Skip(this.participationsInPhases.Count)
-                    .FirstOrDefault()
-                    .IsNotDefault(NEXT_PHASE_IS_NULL_MESSAGE);
+                    .First();
 
                 DateTime startTime;
                 if (this.ParticipationsInPhases.Any())
@@ -100,23 +96,23 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInCompetitions
         internal void CompleteSuccessful()
             => this.Validate(() =>
             {
-                this.CurrentPhase
-                    .IsNotDefault(CURRENT_PHASE_IS_NULL_MESSAGE)
-                    .CompleteSuccessful();
-
-                if (this.IsNotComplete)
+                if (this.HasExceededSpeedRestriction)
                 {
-                    this.StartPhase();
+                    this.CompleteUnsuccessful("speedyGonzalez");
+                }
+                else
+                {
+                    this.CurrentPhase.CompleteSuccessful();
+                    if (this.IsNotComplete)
+                    {
+                        this.StartPhase();
+                    }
                 }
             });
         internal void CompleteUnsuccessful(string code)
             => this.Validate(() =>
             {
-                this.CurrentPhase
-                    .IsNotDefault(CURRENT_PHASE_IS_NULL_MESSAGE)
-                    .CompleteUnsuccessful(code);
-
-                this.StartPhase();
+                this.CurrentPhase.CompleteUnsuccessful(code);
             });
 
     }

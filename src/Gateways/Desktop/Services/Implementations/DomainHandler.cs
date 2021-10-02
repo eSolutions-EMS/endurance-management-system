@@ -28,7 +28,7 @@ namespace EnduranceJudge.Gateways.Desktop.Services.Implementations
             }
         }
 
-        public void Handle(Action action)
+        public bool Handle(Action action)
         {
             try
             {
@@ -37,7 +37,9 @@ namespace EnduranceJudge.Gateways.Desktop.Services.Implementations
             catch (Exception exception)
             {
                 this.Handle(exception);
+                return false;
             }
+            return true;
         }
 
         private void Handle(Exception exception)

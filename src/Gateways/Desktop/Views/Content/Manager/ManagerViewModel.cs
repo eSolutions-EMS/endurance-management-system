@@ -18,6 +18,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager
 {
     public class ManagerViewModel : ViewModelBase
     {
+        private static readonly DateTime Today = DateTime.Today;
         private readonly IApplicationService application;
         private readonly IDomainHandler domainHandler;
 
@@ -27,38 +28,61 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager
             this.domainHandler = domainHandler;
             this.Update = new DelegateCommand(this.UpdateAction);
             this.Start = new DelegateCommand(this.StartAction);
+            this.Complete = new DelegateCommand(this.CompleteAction);
+            this.CompleteUnsuccessful = new DelegateCommand(this.CompleteUnsuccessfulAction);
         }
 
         public DelegateCommand Start { get; }
         public DelegateCommand Update { get; }
+        public DelegateCommand Complete { get; }
+        public DelegateCommand CompleteUnsuccessful { get; }
 
         private int inputNumber;
-        private DateTime inputTime = DateTime.Today;
+        private int inputHours;
+        private int inputMinutes;
+        private int inputSeconds;
+        private string deQualificationCode;
 
         public ObservableCollection<ParticipationViewModel> Participations { get; } = new();
 
+        private void StartAction()
+        {
+            var command = new StartParticipations();
+            this.application.Execute(command);
+        }
         private void UpdateAction()
+        {
+            var participation = this.SelectParticipation();
+            var time = this.InputTime;
+            this.Act(participation, x => x.UpdateProgress(time));
+        }
+        private void CompleteAction()
+        {
+            var participation = this.SelectParticipation();
+            this.Act(participation, x => x.CompleteSuccessful());
+        }
+        private void CompleteUnsuccessfulAction()
+        {
+            var participation = this.SelectParticipation();
+            this.Act(participation, x => x.CompleteUnsuccessful(this.DeQualificationCode));
+        }
+
+        private Participation SelectParticipation()
         {
             this.CollapseParticipations();
             var participation = this.GetParticipation();
             if (participation == null)
             {
                 this.ValidationError(PARTICIPANT_NOT_FOUND);
-                return;
+                return default;
             }
             if (participation.IsComplete)
             {
                 this.ValidationError(PARTICIPANT_HAS_COMPLETED_THE_PHASE);
-                return;
+                return default;
             }
 
-            this.Act(participation, x => x.UpdateProgress(this.InputTime));
-        }
-
-        private void StartAction()
-        {
-            var command = new StartParticipations();
-            this.application.Execute(command);
+            return participation;
         }
 
         private void CollapseParticipations()
@@ -92,13 +116,15 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager
 
         private async Task Act(Participation participation, Action<Participation> update)
         {
-            this.domainHandler.Handle(() => update(participation));
+            var isValid = this.domainHandler.Handle(() => update(participation));
+            if (isValid)
+            {
+                var command = new UpdateParticipation(participation);
+                await this.application.Execute(command);
 
-            var command = new UpdateParticipation(participation);
-            await this.application.Execute(command);
-
-            var viewModel = new ParticipationViewModel(this.InputNumber, participation);
-            this.Participations.Add(viewModel);
+                var viewModel = new ParticipationViewModel(this.InputNumber, participation);
+                this.Participations.Add(viewModel);
+            }
         }
 
         public int InputNumber
@@ -106,15 +132,29 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager
             get => this.inputNumber;
             set => this.SetProperty(ref this.inputNumber, value);
         }
-        public DateTime InputTime
+        public string DeQualificationCode
         {
-            get => this.inputTime;
-            set
-            {
-                var timeOfDay = value.TimeOfDay;
-                var now = this.inputTime.Date.Add(timeOfDay);
-                this.SetProperty(ref this.inputTime, now);
-            }
+            get => this.deQualificationCode;
+            set => this.SetProperty(ref this.deQualificationCode, value);
         }
+        public int InputHours
+        {
+            get => this.inputHours;
+            set => this.SetProperty(ref this.inputHours, value);
+        }
+        public int InputMinutes
+        {
+            get => this.inputMinutes;
+            set => this.SetProperty(ref this.inputMinutes, value);
+        }
+        public int InputSeconds
+        {
+            get => this.inputSeconds;
+            set => this.SetProperty(ref this.inputSeconds, value);
+        }
+        private DateTime InputTime => Today
+            .AddHours(this.InputHours)
+            .AddMinutes(this.InputMinutes)
+            .AddSeconds(this.InputSeconds);
     }
 }

@@ -10,7 +10,16 @@
             public const string CannotAddNullItemTemplate = "cannot add 'null' to a collection.";
             public const string CannotAddItemExistsTemplate = "cannot add '{0}' because entity with Id '{1}' already exists.";
             public const string INVALID_FUTURE_DATE_TEMPLATE = "Date '{0}' is not future date.";
-            public const string PARTICIPATION_HAS_NOT_STARTED = "has not started yet";
+
+            public static class Manager
+            {
+                public static class Participation
+                {
+                    public const string HAS_NOT_STARTED = "has not started yet";
+                    public const string CAN_ONLY_BE_COMPLETED = "can only be completed.";
+                    public const string CANNOT_BE_COMPLETED = "cannot be completed";
+                }
+            }
 
             public static class Ranking
             {
