@@ -5,7 +5,7 @@ using EnduranceJudge.Domain.Core.Models;
 
 namespace EnduranceJudge.Domain.Aggregates.Import.Participants
 {
-    public class Participant : DomainBase<ImportParticipantException>
+    public class Participant : DomainObjectBase<ImportParticipantException>
     {
         private Participant()
         {

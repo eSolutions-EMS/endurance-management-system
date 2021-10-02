@@ -11,7 +11,7 @@ namespace EnduranceJudge.Gateways.Persistence.Entities.Participants
     {
         public void AddFromMaps(IProfileExpression profile)
         {
-            profile.CreateMap<Domain.Aggregates.Event.Participants.Participant, ParticipantEntity>();
+            profile.CreateMap<Domain.Aggregates.State.Participants.Participant, ParticipantEntity>();
             profile.CreateMap<Domain.Aggregates.Import.Participants.Participant, ParticipantEntity>()
                 .ForMember(x => x.HorseId, opt => opt.Condition(p => p.Horse != null))
                 .ForMember(x => x.Horse, opt => opt.Condition(p => p.Horse != null))
@@ -32,7 +32,7 @@ namespace EnduranceJudge.Gateways.Persistence.Entities.Participants
 
         public void AddToMaps(IProfileExpression profile)
         {
-            profile.CreateMap<ParticipantEntity, Domain.Aggregates.Event.Participants.Participant>();
+            profile.CreateMap<ParticipantEntity, Domain.Aggregates.State.Participants.Participant>();
             profile.CreateMap<ParticipantEntity, Domain.Aggregates.Import.Participants.Participant>();
             profile.CreateMap<ParticipantEntity, ParticipantDependantModel>()
                 .MapMember(x => x.CategoryId, y => (int)y.Athlete.Category)

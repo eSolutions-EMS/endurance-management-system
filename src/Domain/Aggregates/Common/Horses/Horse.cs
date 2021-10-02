@@ -3,7 +3,7 @@ using EnduranceJudge.Domain.Core.Models;
 
 namespace EnduranceJudge.Domain.Aggregates.Common.Horses
 {
-    public class Horse : DomainBase<HorseException>, IHorseState, IAggregateRoot
+    public class Horse : DomainObjectBase<HorseException>, IHorseState, IAggregateRoot
     {
         private Horse()
         {

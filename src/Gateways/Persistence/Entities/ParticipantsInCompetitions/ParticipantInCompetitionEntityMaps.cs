@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using EnduranceJudge.Core.Extensions;
 using EnduranceJudge.Core.Mappings;
-using EnduranceJudge.Domain.Aggregates.Event.Participants;
+using EnduranceJudge.Domain.Aggregates.State.Participants;
 using EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInCompetitions;
 using EnduranceJudge.Domain.Aggregates.Rankings.Competitions;
 using EnduranceJudge.Gateways.Persistence.Entities.Competitions;

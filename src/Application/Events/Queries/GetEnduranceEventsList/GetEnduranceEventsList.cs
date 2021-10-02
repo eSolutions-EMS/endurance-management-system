@@ -1,7 +1,7 @@
 ﻿using EnduranceJudge.Application.Core.Contracts;
 using EnduranceJudge.Application.Core.Handlers;
 using EnduranceJudge.Application.Events.Common;
-using EnduranceJudge.Domain.Aggregates.Event.EnduranceEvents;
+using EnduranceJudge.Domain.Aggregates.State;
 using MediatR;
 using System.Collections.Generic;
 
@@ -10,9 +10,9 @@ namespace EnduranceJudge.Application.Events.Queries.GetEnduranceEventsList
     public class GetEnduranceEventsList : IRequest<IEnumerable<ListItemModel>>
     {
         public class GetEnduranceEventsListHandler
-            : GetAllHandler<GetEnduranceEventsList, ListItemModel, EnduranceEvent>
+            : GetAllHandler<GetEnduranceEventsList, ListItemModel, EventState>
         {
-            public GetEnduranceEventsListHandler(IQueries<EnduranceEvent> queries) : base(queries)
+            public GetEnduranceEventsListHandler(IQueries<EventState> queries) : base(queries)
             {
             }
         }

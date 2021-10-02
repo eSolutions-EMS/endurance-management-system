@@ -1,6 +1,6 @@
 using EnduranceJudge.Application.Events.Common;
 using EnduranceJudge.Core.Mappings;
-using EnduranceJudge.Domain.Aggregates.Event.PhasesForCategory;
+using EnduranceJudge.Domain.Aggregates.State.PhasesForCategory;
 using EnduranceJudge.Domain.Aggregates.Manager.DTOs;
 using EnduranceJudge.Domain.Enums;
 using EnduranceJudge.Domain.States;

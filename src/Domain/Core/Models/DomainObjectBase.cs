@@ -5,14 +5,14 @@ using System;
 
 namespace EnduranceJudge.Domain.Core.Models
 {
-    public abstract class DomainBase<TException> : ObjectBase, IDomainModel
+    public abstract class DomainObjectBase<TException> : ObjectBase, IDomainModel
         where TException : DomainException, new()
     {
-        protected DomainBase()
+        protected DomainObjectBase()
         {
         }
 
-        protected DomainBase(int id)
+        protected DomainObjectBase(int id)
         {
             this.Id = id;
         }

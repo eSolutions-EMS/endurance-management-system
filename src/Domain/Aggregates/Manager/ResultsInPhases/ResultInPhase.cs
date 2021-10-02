@@ -3,7 +3,7 @@ using EnduranceJudge.Domain.States;
 
 namespace EnduranceJudge.Domain.Aggregates.Manager.ResultsInPhases
 {
-    public class ResultInPhase : DomainBase<ManagerResultInPhaseException>, IResultInPhaseState
+    public class ResultInPhase : DomainObjectBase<ManagerResultInPhaseException>, IResultInPhaseState
     {
         internal ResultInPhase()
         {

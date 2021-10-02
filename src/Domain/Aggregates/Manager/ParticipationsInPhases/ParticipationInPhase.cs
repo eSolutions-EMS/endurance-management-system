@@ -1,5 +1,4 @@
 using EnduranceJudge.Domain.Core.Validation;
-using EnduranceJudge.Domain.Validation;
 using EnduranceJudge.Domain.Aggregates.Manager.DTOs;
 using EnduranceJudge.Domain.Aggregates.Manager.ResultsInPhases;
 using EnduranceJudge.Domain.Core.Models;
@@ -9,7 +8,7 @@ using System.Collections.Generic;
 
 namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInPhases
 {
-    public class ParticipationInPhase : DomainBase<ParticipationInPhaseException>, IParticipationInPhaseState
+    public class ParticipationInPhase : DomainObjectBase<ParticipationInPhaseException>, IParticipationInPhaseState
     {
         private static readonly string ArrivalTimeIsNullMessage = $"cannot complete: ArrivalTime cannot be null.";
         private static readonly string InspectionTimeIsNullMessage = $"cannot complete: InspectionTime cannot be null";

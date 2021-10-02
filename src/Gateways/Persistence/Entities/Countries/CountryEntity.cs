@@ -20,6 +20,6 @@ namespace EnduranceJudge.Gateways.Persistence.Entities.Countries
         public IList<AthleteEntity> Athletes { get; set; }
 
         [JsonIgnore]
-        public IList<EnduranceEventEntity> EnduranceEvents { get; set; }
+        public IList<EventEntity> EnduranceEvents { get; set; }
     }
 }

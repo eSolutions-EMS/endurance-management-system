@@ -1,6 +1,6 @@
 ﻿using EnduranceJudge.Application.Events.Common;
 using EnduranceJudge.Core.Mappings;
-using EnduranceJudge.Domain.Aggregates.Event.Personnels;
+using EnduranceJudge.Domain.Aggregates.State.Personnels;
 using EnduranceJudge.Domain.Enums;
 using EnduranceJudge.Domain.States;
 using EnduranceJudge.Gateways.Persistence.Core;
@@ -17,7 +17,7 @@ namespace EnduranceJudge.Gateways.Persistence.Entities.Personnels
         public PersonnelRole Role { get; set; }
 
         [JsonIgnore]
-        public EnduranceEventEntity EnduranceEvent { get; set; }
+        public EventEntity Event { get; set; }
         public int EnduranceEventId { get; set; }
     }
 }

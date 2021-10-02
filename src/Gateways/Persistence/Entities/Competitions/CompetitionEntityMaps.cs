@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using EnduranceJudge.Application.Events.Common;
 using EnduranceJudge.Core.Mappings;
-using EnduranceJudge.Domain.Aggregates.Event.Competitions;
+using EnduranceJudge.Domain.Aggregates.State.Competitions;
 using EnduranceJudge.Domain.Aggregates.Manager.DTOs;
 using System.Linq;
 using ImportCompetition = EnduranceJudge.Domain.Aggregates.Import.Competitions.Competition;

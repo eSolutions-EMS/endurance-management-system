@@ -1,4 +1,4 @@
-﻿using EnduranceJudge.Domain.Aggregates.Event.PhasesForCategory;
+﻿using EnduranceJudge.Domain.Aggregates.State.PhasesForCategory;
 using EnduranceJudge.Domain.States;
 
 namespace EnduranceJudge.Application.Events.Factories.Implementations

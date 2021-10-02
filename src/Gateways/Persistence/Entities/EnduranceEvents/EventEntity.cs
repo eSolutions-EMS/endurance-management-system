@@ -9,10 +9,10 @@ using System.Collections.Generic;
 
 namespace EnduranceJudge.Gateways.Persistence.Entities.EnduranceEvents
 {
-    public class EnduranceEventEntity : AggregateRootEntityBase, IEnduranceEventState
+    public class EventEntity : AggregateRootEntityBase, IEventState
     {
         private static readonly Type ImportAggregate = typeof(Domain.Aggregates.Import.EnduranceEvents.EnduranceEvent);
-        private static readonly Type EventAggregate = typeof(Domain.Aggregates.Event.EnduranceEvents.EnduranceEvent);
+        private static readonly Type EventAggregate = typeof(Domain.Aggregates.State.EventState);
 
         public string Name { get; set; }
         public string PopulatedPlace { get; set; }

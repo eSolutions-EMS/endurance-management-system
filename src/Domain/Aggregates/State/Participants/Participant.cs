@@ -1,10 +1,12 @@
+using EnduranceJudge.Domain.Aggregates.State.Participations;
 using EnduranceJudge.Domain.Core.Validation;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.States;
 
-namespace EnduranceJudge.Domain.Aggregates.Event.Participants
+namespace EnduranceJudge.Domain.Aggregates.State.Participants
 {
-    public class Participant : DomainBase<ParticipantException>, IParticipantState
+    // TODO: Rename to Contestant
+    public class Participant : DomainObjectBase<ParticipantException>, IParticipantState
     {
         public const int DEFAULT_MAX_AVERAGE_SPEED = 16;
 
@@ -27,5 +29,7 @@ namespace EnduranceJudge.Domain.Aggregates.Event.Participants
         public int HorseId { get; private set; }
 
         public int AthleteId { get; private set; }
+
+        public Participation Participation { get; private set; }
     }
 }

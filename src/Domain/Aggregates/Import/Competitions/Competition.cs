@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace EnduranceJudge.Domain.Aggregates.Import.Competitions
 {
-    public class Competition : DomainBase<ImportCompetitionException>
+    public class Competition : DomainObjectBase<ImportCompetitionException>
     {
         private Competition()
         {

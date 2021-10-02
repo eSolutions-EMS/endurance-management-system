@@ -1,6 +1,6 @@
 ﻿using EnduranceJudge.Application.Events.Common;
 using EnduranceJudge.Core.ConventionalServices;
-using EnduranceJudge.Domain.Aggregates.Event.Phases;
+using EnduranceJudge.Domain.Aggregates.State.Phases;
 
 namespace EnduranceJudge.Application.Events.Factories
 {

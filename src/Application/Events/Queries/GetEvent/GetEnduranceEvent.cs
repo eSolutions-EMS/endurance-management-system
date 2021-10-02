@@ -3,26 +3,26 @@ using EnduranceJudge.Application.Core.Contracts;
 using EnduranceJudge.Application.Core.Handlers;
 using EnduranceJudge.Application.Core.Requests;
 using EnduranceJudge.Application.Events.Queries.GetCountriesList;
-using EnduranceJudge.Domain.Aggregates.Event.EnduranceEvents;
+using EnduranceJudge.Domain.Aggregates.State;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace EnduranceJudge.Application.Events.Queries.GetEvent
 {
-    public class GetEnduranceEvent : IdentifiableRequest<EnduranceEventRootModel>
+    public class GetEnduranceEvent : IdentifiableRequest<EventRootModel>
     {
         public class GetEnduranceEventHandler
-            : GetOneHandler<GetEnduranceEvent, EnduranceEventRootModel, EnduranceEvent>
+            : GetOneHandler<GetEnduranceEvent, EventRootModel, EventState>
         {
             private readonly ICountryQueries countryQueries;
 
-            public GetEnduranceEventHandler(IQueries<EnduranceEvent> query, ICountryQueries countryQueries)
+            public GetEnduranceEventHandler(IQueries<EventState> query, ICountryQueries countryQueries)
                 : base(query)
             {
                 this.countryQueries = countryQueries;
             }
 
-            public override async Task<EnduranceEventRootModel> Handle(
+            public override async Task<EventRootModel> Handle(
                 GetEnduranceEvent request,
                 CancellationToken token)
             {

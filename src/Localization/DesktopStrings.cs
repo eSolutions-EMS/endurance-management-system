@@ -92,7 +92,7 @@
         public const string HorseLabel = "Horse";
         public const string CategoryLabel = "Category";
         public const string MAX_RECOVERY_TIME_IN_MINS = "Max Recovery Time (mins)";
-        public const string RestTimeInMinutesLabel = "Rest Time In Minutes";
+        public const string REST_TIME_IN_MINUTES = "Rest Time In Minutes";
         public const string PhasesForCategoryLabel = "Phases for Categories";
 
         // ------ Athlete

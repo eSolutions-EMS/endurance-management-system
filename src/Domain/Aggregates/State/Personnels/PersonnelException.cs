@@ -1,6 +1,6 @@
 using EnduranceJudge.Domain.Core.Exceptions;
 
-namespace EnduranceJudge.Domain.Aggregates.Event.Personnels
+namespace EnduranceJudge.Domain.Aggregates.State.Personnels
 {
     public class PersonnelException : DomainException
     {

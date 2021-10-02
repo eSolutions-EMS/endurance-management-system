@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInCompetitions
 {
-    public class ParticipationInCompetition : DomainBase<ParticipationInCompetitionException>
+    public class ParticipationInCompetition : DomainObjectBase<ParticipationInCompetitionException>
     {
         private readonly List<ParticipationInPhase> participationsInPhases = new();
         private readonly List<PhaseDto> phases = new();

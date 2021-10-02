@@ -63,7 +63,7 @@
                     Grid.Row="3" Grid.Column="0">
                 <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=RestTimeInMinutes}"
-                       Content="{x:Static strings:DesktopStrings.RestTimeInMinutesLabel}" />
+                       Content="{x:Static strings:DesktopStrings.REST_TIME_IN_MINUTES}" />
             </Border>
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="3" Grid.Column="1">

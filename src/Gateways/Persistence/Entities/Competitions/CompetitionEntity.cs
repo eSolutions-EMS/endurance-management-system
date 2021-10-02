@@ -20,7 +20,7 @@ namespace EnduranceJudge.Gateways.Persistence.Entities.Competitions
         public DateTime StartTime { get; set; }
 
         [JsonIgnore]
-        public EnduranceEventEntity EnduranceEvent { get; set; }
+        public EventEntity Event { get; set; }
         public int EnduranceEventId { get; set; }
 
         [JsonIgnore]

@@ -9,7 +9,7 @@ using static EnduranceJudge.Localization.Strings.Domain;
 
 namespace EnduranceJudge.Domain.Aggregates.Rankings.Stateless.Classifications
 {
-    public class Classification : DomainBase<ClassificationException>
+    public class Classification : DomainObjectBase<ClassificationException>
     {
         internal Classification(Category category, Competition competition)
         {

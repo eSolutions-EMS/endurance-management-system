@@ -1,5 +1,5 @@
 ﻿using EnduranceJudge.Application.Events.Common;
-using EnduranceJudge.Domain.Aggregates.Event.Competitions;
+using EnduranceJudge.Domain.Aggregates.State.Competitions;
 using System.Linq;
 
 namespace EnduranceJudge.Application.Events.Factories.Implementations

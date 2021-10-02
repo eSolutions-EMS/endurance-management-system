@@ -13,7 +13,7 @@ namespace EnduranceJudge.Gateways.Persistence.Entities.Participants
     public class ParticipantEntity : AggregateRootEntityBase, IParticipantState
     {
         private static readonly Type ImportDomain = typeof(Domain.Aggregates.Import.Participants.Participant);
-        private static readonly Type EventDomain = typeof(Domain.Aggregates.Event.Participants.Participant);
+        private static readonly Type EventDomain = typeof(Domain.Aggregates.State.Participants.Participant);
         private static readonly Type ManagerDomain = typeof(Domain.Aggregates.Manager.Participations.Participation);
 
         public string RfId { get; set; }

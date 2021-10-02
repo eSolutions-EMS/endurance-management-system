@@ -1,6 +1,6 @@
 using EnduranceJudge.Domain.Core.Exceptions;
 
-namespace EnduranceJudge.Domain.Aggregates.Event.Phases
+namespace EnduranceJudge.Domain.Aggregates.State.Phases
 {
     public class PhaseException : DomainException
     {

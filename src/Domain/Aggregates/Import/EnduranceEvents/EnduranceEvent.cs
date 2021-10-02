@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace EnduranceJudge.Domain.Aggregates.Import.EnduranceEvents
 {
-    public class EnduranceEvent : DomainBase<EnduranceEventException>, IAggregateRoot
+    public class EnduranceEvent : DomainObjectBase<EnduranceEventException>, IAggregateRoot
     {
         private EnduranceEvent()
         {

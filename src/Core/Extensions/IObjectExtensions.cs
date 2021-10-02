@@ -41,7 +41,7 @@ namespace EnduranceJudge.Core.Extensions
             collection.Add(model);
         }
 
-        public static void AddOrUpdateObject<T>(this ICollection<T> collection, T model)
+        public static void  AddOrUpdateObject<T>(this ICollection<T> collection, T model)
             where T : IObject
         {
             if (model == null)

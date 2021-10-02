@@ -1,5 +1,5 @@
 ﻿using EnduranceJudge.Application.Events.Commands.EnduranceEvents;
-using EnduranceJudge.Domain.Aggregates.Event.EnduranceEvents;
+using EnduranceJudge.Domain.Aggregates.State;
 using System.Linq;
 
 namespace EnduranceJudge.Application.Events.Factories.Implementations
@@ -15,9 +15,9 @@ namespace EnduranceJudge.Application.Events.Factories.Implementations
             this.personnelFactory = personnelFactory;
         }
 
-        public EnduranceEvent Create(SaveEnduranceEvent data)
+        public EventState Create(SaveEvent data)
         {
-            var enduranceEvent = new EnduranceEvent(data);
+            var enduranceEvent = new EventState(data);
 
             foreach (var competition in data.Competitions.Select(this.competitionFactory.Create))
             {
