@@ -1,7 +1,7 @@
 ﻿using EnduranceJudge.Application.Core.Contracts;
 using EnduranceJudge.Application.Core.Handlers;
 using EnduranceJudge.Application.Core.Requests;
-using EnduranceJudge.Domain.Aggregates.Common.Horses;
+using EnduranceJudge.Domain.State.Horses;
 
 namespace EnduranceJudge.Application.Events.Commands.Horses
 {

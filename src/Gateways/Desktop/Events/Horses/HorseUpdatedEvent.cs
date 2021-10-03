@@ -1,4 +1,4 @@
-﻿using EnduranceJudge.Domain.Aggregates.Common.Horses;
+﻿using EnduranceJudge.Domain.State.Horses;
 using Prism.Events;
 
 namespace EnduranceJudge.Gateways.Desktop.Events.Horses

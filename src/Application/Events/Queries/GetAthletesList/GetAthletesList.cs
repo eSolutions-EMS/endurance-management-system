@@ -1,7 +1,7 @@
 ﻿using EnduranceJudge.Application.Core.Contracts;
 using EnduranceJudge.Application.Core.Handlers;
 using EnduranceJudge.Application.Events.Common;
-using EnduranceJudge.Domain.Aggregates.Common.Athletes;
+using EnduranceJudge.Domain.State.Athletes;
 using MediatR;
 using System.Collections.Generic;
 using System.Linq.Expressions;

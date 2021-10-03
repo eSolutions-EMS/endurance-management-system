@@ -2,7 +2,7 @@
 using EnduranceJudge.Application.Core.Handlers;
 using EnduranceJudge.Application.Core.Requests;
 using EnduranceJudge.Application.Events.Models;
-using EnduranceJudge.Domain.Aggregates.Common.Athletes;
+using EnduranceJudge.Domain.State.Athletes;
 
 namespace EnduranceJudge.Application.Events.Queries.GetAthlete
 {

@@ -2,7 +2,7 @@
 using EnduranceJudge.Application.Events.Models;
 using EnduranceJudge.Application.Events.Queries.GetHorse;
 using EnduranceJudge.Core.Models;
-using EnduranceJudge.Domain.Aggregates.Common.Horses;
+using EnduranceJudge.Domain.State.Horses;
 using EnduranceJudge.Gateways.Desktop.Core.Static;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
 using EnduranceJudge.Gateways.Desktop.Events.Horses;

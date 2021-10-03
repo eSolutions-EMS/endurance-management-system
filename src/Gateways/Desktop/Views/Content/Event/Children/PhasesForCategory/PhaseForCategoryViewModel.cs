@@ -1,5 +1,5 @@
-﻿using EnduranceJudge.Domain.Enums;
-using EnduranceJudge.Domain.States;
+﻿using EnduranceJudge.Domain.State.PhasesForCategory;
+using EnduranceJudge.Domain.Enums;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
 using System.Collections.ObjectModel;

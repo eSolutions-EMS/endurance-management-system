@@ -1,5 +1,5 @@
-﻿using EnduranceJudge.Domain.Enums;
-using EnduranceJudge.Domain.States;
+﻿using EnduranceJudge.Domain.State.Competitions;
+using EnduranceJudge.Domain.Enums;
 using System;
 using System.Collections.Generic;
 

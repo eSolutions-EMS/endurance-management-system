@@ -1,6 +1,6 @@
 ﻿using EnduranceJudge.Application.Core.Handlers;
 using EnduranceJudge.Application.Events.Common;
-using EnduranceJudge.Domain.States;
+using EnduranceJudge.Domain.State;
 using MediatR;
 using System.Collections.Generic;
 using System.Threading;

@@ -1,6 +1,6 @@
 ﻿using EnduranceJudge.Application.Core.Handlers;
+using EnduranceJudge.Domain.State.Athletes;
 using EnduranceJudge.Domain.Enums;
-using EnduranceJudge.Domain.States;
 using MediatR;
 using System;
 using System.Threading;

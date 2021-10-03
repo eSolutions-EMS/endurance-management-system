@@ -11,7 +11,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInCompetitions
 {
     public class ParticipationInCompetition : DomainObjectBase<ParticipationInCompetitionException>
     {
-        private readonly List<ParticipationInPhase> participationsInPhases = new();
+        private readonly List<PhaseEntryManager> participationsInPhases = new();
         private readonly List<PhaseDto> phases = new();
 
         private ParticipationInCompetition()
@@ -29,7 +29,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInCompetitions
                 .OrderBy(x => x.OrderBy)
                 .ToList();
         }
-        public IReadOnlyList<ParticipationInPhase> ParticipationsInPhases
+        public IReadOnlyList<PhaseEntryManager> ParticipationsInPhases
         {
             get => this.participationsInPhases.AsReadOnly();
             private init => this.participationsInPhases = value
@@ -37,7 +37,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInCompetitions
                 .ToList();
         }
 
-        public ParticipationInPhase CurrentPhase
+        public PhaseEntryManager CurrentPhaseEntry
             => this.participationsInPhases.SingleOrDefault(participation => !participation.IsComplete);
         public bool IsNotComplete
             => this.Phases?.Count != this.participationsInPhases?.Count
@@ -90,7 +90,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInCompetitions
                     startTime = this.StartTime;
                 }
 
-                var participation = new ParticipationInPhase(nextPhase, startTime);
+                var participation = new PhaseEntryManager(nextPhase, startTime);
                 this.participationsInPhases.Add(participation);
             });
         internal void CompleteSuccessful()
@@ -102,7 +102,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInCompetitions
                 }
                 else
                 {
-                    this.CurrentPhase.CompleteSuccessful();
+                    this.CurrentPhaseEntry.CompleteSuccessful();
                     if (this.IsNotComplete)
                     {
                         this.StartPhase();
@@ -112,7 +112,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInCompetitions
         internal void CompleteUnsuccessful(string code)
             => this.Validate(() =>
             {
-                this.CurrentPhase.CompleteUnsuccessful(code);
+                this.CurrentPhaseEntry.CompleteUnsuccessful(code);
             });
 
     }

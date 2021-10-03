@@ -4,6 +4,6 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInPhases
 {
     public class ParticipationInPhaseException : DomainException
     {
-        protected override string Entity { get; } = nameof(ParticipationInPhase);
+        protected override string Entity { get; } = nameof(PhaseEntryManager);
     }
 }

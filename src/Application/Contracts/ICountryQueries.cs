@@ -1,5 +1,5 @@
 ﻿using EnduranceJudge.Core.ConventionalServices;
-using EnduranceJudge.Domain.Aggregates.Common.Countries;
+using EnduranceJudge.Domain.State.Countries;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 

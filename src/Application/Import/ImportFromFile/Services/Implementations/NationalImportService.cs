@@ -1,6 +1,6 @@
 ﻿using EnduranceJudge.Application.Core.Services;
 using EnduranceJudge.Core.Services;
-using EnduranceJudge.Domain.Aggregates.Common.Horses;
+using EnduranceJudge.Domain.State.Horses;
 using System.Collections.Generic;
 using System.Linq;
 using static EnduranceJudge.Application.ApplicationConstants;

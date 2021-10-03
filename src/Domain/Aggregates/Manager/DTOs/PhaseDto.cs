@@ -1,4 +1,4 @@
-using EnduranceJudge.Domain.States;
+using EnduranceJudge.Domain.State.Phases;
 using System.Collections.Generic;
 
 namespace EnduranceJudge.Domain.Aggregates.Manager.DTOs

@@ -2,7 +2,7 @@
 using EnduranceJudge.Application.Events.Queries.GetAthletesList;
 using EnduranceJudge.Application.Events.Queries.GetHorseList;
 using EnduranceJudge.Core.Mappings;
-using EnduranceJudge.Domain.Aggregates.State.Participants;
+using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
 using EnduranceJudge.Gateways.Desktop.Core.Static;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;

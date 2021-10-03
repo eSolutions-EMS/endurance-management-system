@@ -1,4 +1,4 @@
-﻿using EnduranceJudge.Domain.Aggregates.Common.Horses;
+﻿using EnduranceJudge.Domain.State.Horses;
 
 namespace EnduranceJudge.Application.Events.Models
 {

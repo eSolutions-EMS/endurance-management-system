@@ -1,5 +1,5 @@
 ﻿using EnduranceJudge.Core.ConventionalServices;
-using EnduranceJudge.Domain.Aggregates.Common.Horses;
+using EnduranceJudge.Domain.State.Horses;
 using System.Collections.Generic;
 
 namespace EnduranceJudge.Application.Import.ImportFromFile.Services

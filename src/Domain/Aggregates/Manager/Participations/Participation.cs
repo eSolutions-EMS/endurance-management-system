@@ -76,15 +76,15 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participations
 
         internal void Arrive(DateTime time)
         {
-            this.Update(participation => participation.CurrentPhase.Arrive(time));
+            this.Update(participation => participation.CurrentPhaseEntry.Arrive(time));
         }
         internal void Inspect(DateTime time)
         {
-            this.Update(participation => participation.CurrentPhase.Inspect(time));
+            this.Update(participation => participation.CurrentPhaseEntry.Inspect(time));
         }
         internal void ReInspect(DateTime time)
         {
-            this.Update(participation => participation.CurrentPhase.ReInspect(time));
+            this.Update(participation => participation.CurrentPhaseEntry.ReInspect(time));
         }
         public void CompleteSuccessful()
         {
@@ -112,7 +112,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participations
             }
         }
 
-        private bool AnyParticipationInPhase(Func<ParticipationInPhase, bool> predicate)
+        private bool AnyParticipationInPhase(Func<PhaseEntryManager, bool> predicate)
         {
             return this.ParticipationsInCompetitions.Any(pic =>
                 pic.ParticipationsInPhases.Any(predicate));

@@ -1,4 +1,4 @@
-﻿using EnduranceJudge.Domain.States;
+﻿using EnduranceJudge.Domain.State.Phases;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.PhasesForCategory;
 using EnduranceJudge.Localization;

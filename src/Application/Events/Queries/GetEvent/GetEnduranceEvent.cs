@@ -3,7 +3,7 @@ using EnduranceJudge.Application.Core.Contracts;
 using EnduranceJudge.Application.Core.Handlers;
 using EnduranceJudge.Application.Core.Requests;
 using EnduranceJudge.Application.Events.Queries.GetCountriesList;
-using EnduranceJudge.Domain.Aggregates.State;
+using EnduranceJudge.Domain.State;
 using System.Threading;
 using System.Threading.Tasks;
 

@@ -1,7 +1,7 @@
 ﻿using EnduranceJudge.Application.Events.Common;
 using EnduranceJudge.Application.Events.Queries.GetCountriesList;
 using EnduranceJudge.Core.Models;
-using EnduranceJudge.Domain.Aggregates.State;
+using EnduranceJudge.Domain.State;
 using EnduranceJudge.Domain.States;
 using System.Collections.Generic;
 

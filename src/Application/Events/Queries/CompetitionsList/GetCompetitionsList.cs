@@ -1,7 +1,7 @@
 ﻿using EnduranceJudge.Application.Core.Contracts;
 using EnduranceJudge.Application.Core.Handlers;
 using EnduranceJudge.Application.Events.Common;
-using EnduranceJudge.Domain.Aggregates.State.Competitions;
+using EnduranceJudge.Domain.State.Competitions;
 using MediatR;
 using System.Collections.Generic;
 

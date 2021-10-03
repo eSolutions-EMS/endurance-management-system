@@ -1,5 +1,5 @@
 ﻿using EnduranceJudge.Application.Core.Handlers;
-using EnduranceJudge.Domain.Aggregates.Common.Horses;
+using EnduranceJudge.Domain.State.Horses;
 using MediatR;
 using System;
 using System.Threading;

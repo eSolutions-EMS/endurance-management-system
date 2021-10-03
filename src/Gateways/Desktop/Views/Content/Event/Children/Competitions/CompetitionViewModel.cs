@@ -1,7 +1,8 @@
 ﻿using EnduranceJudge.Core.Mappings;
-using EnduranceJudge.Domain.Aggregates.Common.Horses;
+using EnduranceJudge.Domain.State.Athletes;
+using EnduranceJudge.Domain.State.Competitions;
+using EnduranceJudge.Domain.State.Horses;
 using EnduranceJudge.Domain.Enums;
-using EnduranceJudge.Domain.States;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
 using EnduranceJudge.Gateways.Desktop.Core.Static;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
