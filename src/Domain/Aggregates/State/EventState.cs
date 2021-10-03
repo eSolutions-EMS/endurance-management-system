@@ -1,5 +1,6 @@
 using EnduranceJudge.Core.Extensions;
 using EnduranceJudge.Domain.Aggregates.State.Competitions;
+using EnduranceJudge.Domain.Aggregates.State.Participants;
 using EnduranceJudge.Domain.Aggregates.State.Personnels;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.Core.Validation;
@@ -7,22 +8,27 @@ using EnduranceJudge.Domain.Enums;
 using EnduranceJudge.Domain.States;
 using System.Collections.Generic;
 using System.Linq;
+using static EnduranceJudge.Localization.DesktopStrings;
 
 namespace EnduranceJudge.Domain.Aggregates.State
 {
     public class EventState : DomainObjectBase<EventConfigurationException>, IEventState, IAggregateRoot
     {
-        public EventState(IEventState state) : base(state.Id) => this.Validate(() =>
+        private EventState()  {}
+        public EventState(int id, string name, string populatedPlace, string countryCode)
+            : base(id) => this.Validate(() =>
         {
-            this.Name = state.Name.IsRequired(nameof(state.Name));
-            this.PopulatedPlace = state.PopulatedPlace.IsRequired(nameof(state.PopulatedPlace));
-            this.CountryIsoCode = state.CountryIsoCode.IsRequired(nameof(state.CountryIsoCode));
+            this.Name = name.IsRequired(NAME);
+            this.PopulatedPlace = populatedPlace.IsRequired(POPULATED_PLACE);
+            this.CountryIsoCode = countryCode.IsRequired(COUNTRY);
         });
 
         private List<Personnel> membersOfVetCommittee = new();
         private List<Personnel> membersOfJudgeCommittee = new();
         private List<Personnel> stewards = new();
         private List<Competition> competitions = new();
+        private List<Participant> participants = new();
+
         public string Name { get; private set; }
         public string PopulatedPlace { get; private set; }
         public string CountryIsoCode { get; private set; }
@@ -37,7 +43,10 @@ namespace EnduranceJudge.Domain.Aggregates.State
         {
             this.competitions.AddOrUpdateObject(competition);
         });
-
+        public void Add(Participant participant) => this.Validate(() =>
+        {
+            this.participants.AddOrUpdateObject(participant);
+        });
         public void Add(Personnel personnel) => this.Validate(() =>
         {
             switch (personnel.Role)
@@ -91,6 +100,11 @@ namespace EnduranceJudge.Domain.Aggregates.State
         {
             get => this.competitions.AsReadOnly();
             private set => this.competitions = value.ToList();
+        }
+        public IReadOnlyList<Participant> Participants
+        {
+            get => this.participants.AsReadOnly();
+            private set => this.participants = value.ToList();
         }
     }
 }

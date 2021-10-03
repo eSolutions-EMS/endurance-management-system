@@ -1,19 +1,18 @@
 using EnduranceJudge.Domain.Core.Validation;
 using EnduranceJudge.Domain.Core.Models;
+using static EnduranceJudge.Localization.DesktopStrings;
 
 namespace EnduranceJudge.Domain.Aggregates.Common.Horses
 {
     public class Horse : DomainObjectBase<HorseException>, IHorseState, IAggregateRoot
     {
-        private Horse()
-        {
-        }
+        private Horse() {}
 
-        public Horse(string feiId, string name, string breed, string club): base(default)
-        => this.Validate(() =>
+        public Horse(int id, string feiId, string name, string breed, string club) : base(id)
+            => this.Validate(() =>
         {
-            this.Name = name.IsRequired(nameof(name));
-            this.Breed = breed.IsRequired(nameof(breed));
+            this.Name = name.IsRequired(NAME);
+            this.Breed = breed.IsRequired(BREED);
             this.FeiId = feiId;
             this.Club = club;
         });
@@ -26,17 +25,18 @@ namespace EnduranceJudge.Domain.Aggregates.Common.Horses
             string breed,
             string trainerFeiId,
             string trainerFirstName,
-            string trainerLastName) : base(id)
+            string trainerLastName)
+            : base(id)
             => this.Validate(() =>
-            {
-                this.Name = name.IsRequired(nameof(name));
-                this.Breed = breed.IsRequired(nameof(breed));
-                this.IsStallion = isStallion;
-                this.FeiId = feiId;
-                this.TrainerFeiId = trainerFeiId;
-                this.TrainerFirstName = trainerFirstName;
-                this.TrainerLastName = trainerLastName;
-            });
+        {
+            this.Name = name.IsRequired(NAME);
+            this.Breed = breed.IsRequired(BREED);
+            this.IsStallion = isStallion;
+            this.FeiId = feiId;
+            this.TrainerFeiId = trainerFeiId;
+            this.TrainerFirstName = trainerFirstName;
+            this.TrainerLastName = trainerLastName;
+        });
 
         public string FeiId { get; private set; }
         public string Name { get; private set; }

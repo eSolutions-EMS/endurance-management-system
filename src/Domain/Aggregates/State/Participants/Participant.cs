@@ -1,7 +1,10 @@
+using EnduranceJudge.Domain.Aggregates.Common.Athletes;
+using EnduranceJudge.Domain.Aggregates.Common.Horses;
 using EnduranceJudge.Domain.Aggregates.State.Participations;
 using EnduranceJudge.Domain.Core.Validation;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.States;
+using static EnduranceJudge.Localization.DesktopStrings;
 
 namespace EnduranceJudge.Domain.Aggregates.State.Participants
 {
@@ -10,26 +13,23 @@ namespace EnduranceJudge.Domain.Aggregates.State.Participants
     {
         public const int DEFAULT_MAX_AVERAGE_SPEED = 16;
 
-        public Participant(IParticipantState data) : base(data.Id)
+        private Participant() {}
+        public Participant(int id, int number, Horse horse, Athlete athlete, string rfId, int? maxAverageSpeedInKmPh)
+            : base(id)
+            => this.Validate(() =>
         {
-            this.Validate(() =>
-            {
-                this.RfId = data.RfId;
-                this.Number = data.Number.IsRequired(nameof(data.Number));
-                this.MaxAverageSpeedInKmPh = data.MaxAverageSpeedInKmPh;
-                this.HorseId = data.HorseId.IsRequired(nameof(data.HorseId));
-                this.AthleteId = data.AthleteId.IsRequired(nameof(data.AthleteId));
-            });
-        }
+            this.RfId = rfId;
+            this.MaxAverageSpeedInKmPh = maxAverageSpeedInKmPh;
+            this.Number = number.IsRequired(NUMBER);
+            this.Horse = horse.IsRequired(HORSE);
+            this.Athlete = athlete.IsRequired(ATHLETE);
+        });
 
         public string RfId { get; private set; }
         public int Number { get; private set; }
         public int? MaxAverageSpeedInKmPh { get; private set; }
-
-        public int HorseId { get; private set; }
-
-        public int AthleteId { get; private set; }
-
-        public Participation Participation { get; private set; }
+        public Horse Horse { get; private set; }
+        public Athlete Athlete { get; private set; }
+        public Participation Participation { get; } = new();
     }
 }

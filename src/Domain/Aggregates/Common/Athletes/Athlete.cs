@@ -3,16 +3,15 @@ using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.Enums;
 using EnduranceJudge.Domain.States;
 using System;
+using static EnduranceJudge.Localization.DesktopStrings;
 
 namespace EnduranceJudge.Domain.Aggregates.Common.Athletes
 {
     public class Athlete : DomainObjectBase<RiderException>, IAthleteState, IAggregateRoot
     {
-        private const int AdultAgeInYears = 18;
+        private const int ADULT_AGE_IN_YEARS = 18;
 
-        private Athlete()
-        {
-        }
+        private Athlete() {}
 
         public Athlete(int id, string feiId, string firstName, string lastName, string countryCode, DateTime birthDate)
             : this(id, feiId, firstName, lastName, countryCode, GetCategory(birthDate))
@@ -22,13 +21,13 @@ namespace EnduranceJudge.Domain.Aggregates.Common.Athletes
         public Athlete(int id, string feiId, string firstName, string lastName, string countryCode, Category category)
             : base(id)
             => this.Validate(() =>
-            {
-                this.FeiId = feiId.IsRequired(nameof(feiId));
-                this.FirstName = firstName.IsRequired(nameof(firstName));
-                this.LastName = lastName.IsRequired(nameof(lastName));
-                this.CountryIsoCode = countryCode.IsRequired(nameof(countryCode));
-                this.Category = category.IsRequired(nameof(category));
-            });
+        {
+            this.FeiId = feiId.IsRequired(FEI_ID);
+            this.FirstName = firstName.IsRequired(FIRST_NAME);
+            this.LastName = lastName.IsRequired(LAST_NAME);
+            this.CountryIsoCode = countryCode.IsRequired(COUNTRY);
+            this.Category = category.IsRequired(CATEGORY);
+        });
 
         public string FeiId { get; private set; }
         public string FirstName { get; private set; }
@@ -39,10 +38,9 @@ namespace EnduranceJudge.Domain.Aggregates.Common.Athletes
 
         private static Category GetCategory(DateTime birthDate)
         {
-            var category = birthDate.AddYears(AdultAgeInYears) <= DateTime.Now
+            var category = birthDate.AddYears(ADULT_AGE_IN_YEARS) <= DateTime.Now
                 ? Category.Adults
                 : Category.Kids;
-
             return category;
         }
     }

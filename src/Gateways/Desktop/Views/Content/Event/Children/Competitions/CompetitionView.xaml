@@ -41,7 +41,7 @@
                     Grid.Row="1" Grid.Column="0">
                 <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=Name}"
-                       Content="{x:Static strings:DesktopStrings.NameLabel}"/>
+                       Content="{x:Static strings:DesktopStrings.NAME}"/>
             </Border>
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="1" Grid.Column="1">
@@ -54,7 +54,7 @@
                     Grid.Row="2" Grid.Column="0">
                 <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=Type}"
-                       Content="{x:Static strings:DesktopStrings.TypeLabel}" />
+                       Content="{x:Static strings:DesktopStrings.TYPE}" />
             </Border>
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="2" Grid.Column="1">

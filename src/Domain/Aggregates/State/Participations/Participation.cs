@@ -8,19 +8,25 @@ namespace EnduranceJudge.Domain.Aggregates.State.Participations
 {
     public class Participation : DomainObjectBase<ParticipationException>
     {
-        private readonly List<Competition> competitions = new();
-        public IReadOnlyList<Competition> Competitions => this.competitions.AsReadOnly();
+        public Participation() {}
 
+        private List<int> competitionIds = new();
         public List<PhaseEntry> PhaseEntries { get; } = new();
 
         public void Add(Competition competition) => this.Validate(() =>
         {
-            if (this.Competitions.Any())
+            if (this.CompetitionIds.Any())
             {
-                var first = this.competitions.First();
+                var first = this.competitionIds.First();
                 // TODO if first.Configuration != competition.Configuration -> throw
             }
-            this.competitions.Add(competition);
+            this.competitionIds.Add(competition.Id);
         });
+
+        public IReadOnlyList<int> CompetitionIds
+        {
+            get => this.competitionIds.AsReadOnly();
+            private set => this.competitionIds = value.ToList();
+        }
     }
 }

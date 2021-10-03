@@ -38,7 +38,7 @@
                     Grid.Row="1" Grid.Column="0">
                 <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=OrderBy}"
-                       Content="{x:Static strings:DesktopStrings.ORDER_LABEL}" />
+                       Content="{x:Static strings:DesktopStrings.ORDER}" />
             </Border>
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="1" Grid.Column="1">

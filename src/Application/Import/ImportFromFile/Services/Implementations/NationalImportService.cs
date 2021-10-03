@@ -1,6 +1,4 @@
 ﻿using EnduranceJudge.Application.Core.Services;
-using EnduranceJudge.Application.Factories;
-using EnduranceJudge.Application.Import.ImportFromFile.Models;
 using EnduranceJudge.Core.Services;
 using EnduranceJudge.Domain.Aggregates.Common.Horses;
 using System.Collections.Generic;
@@ -12,12 +10,10 @@ namespace EnduranceJudge.Application.Import.ImportFromFile.Services.Implementati
     public class NationalImportService : ExcelServiceBase, INationalImportService
     {
         private readonly IFileService file;
-        private readonly IHorseFactory horseFactory;
 
-        public NationalImportService(IFileService file, IHorseFactory horseFactory)
+        public NationalImportService(IFileService file)
         {
             this.file = file;
-            this.horseFactory = horseFactory;
         }
 
         public IEnumerable<Horse> ImportForNational(string filePath)
@@ -48,8 +44,8 @@ namespace EnduranceJudge.Application.Import.ImportFromFile.Services.Implementati
                     break;
                 }
 
-                var horse = this.horseFactory.Create(feiId, name, breed, club);
-                horses.Add(horse);
+                // var horse = this.horseFactory.Create(feiId, name, breed, club);
+                // horses.Add(horse);
 
                 row++;
             }

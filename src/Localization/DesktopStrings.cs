@@ -49,10 +49,10 @@
         // ------ Endurance Event
         public const string EnduranceEventTitle = "Endurance Event";
         public const string EnduranceEventListTitle = "Endurance Events";
-        public const string NameLabel = "Name";
+        public const string NAME = "Name";
         public const string START_TIME = "Start Time";
-        public const string PopulatedPlaceLabel = "Populated Place";
-        public const string CountryLabel = "Country";
+        public const string POPULATED_PLACE = "Populated Place";
+        public const string COUNTRY = "Country";
         public const string PresidentGroundJuryLabel = "President Ground Jury";
         public const string PresidentVetCommissionLabel = "President Vet Commission";
         public const string ForeignJudgeLabel = "Foreign Judge";
@@ -67,7 +67,7 @@
 
         // ------ Competition
         public const string CompetitionTitle = "Competition";
-        public const string TypeLabel = "Type";
+        public const string TYPE = "Type";
 
         // ------ Personnel
         public const string PersonnelTitle = "Personnel";
@@ -77,7 +77,7 @@
         public const string PhaseTitle = "Phase";
         public const string PhaseListItemDisplayTemplate = "{0}km - Is Final: {1}";
         public const string LengthInKmLabel = "Length in Km";
-        public const string ORDER_LABEL = "Order";
+        public const string ORDER = "Order";
         public const string IsFinalLabel = "Is Final Phase";
         public const string PhasesLabel = "Phases";
         public const string ParticipantsLabel = "Participants";
@@ -88,8 +88,8 @@
         public const string NumberLabel = "Number";
         public const string MAX_AVERAGE_SPEED_IN_KMH = "Max Average Speed (km/h)";
         public const string HAS_AVERAGE_SPEED_LIMIT = "Has Average Speed Limit";
-        public const string AthleteLabel = "Athlete";
-        public const string HorseLabel = "Horse";
+        public const string ATHLETE = "Athlete";
+        public const string HORSE = "Horse";
         public const string CategoryLabel = "Category";
         public const string MAX_RECOVERY_TIME_IN_MINS = "Max Recovery Time (mins)";
         public const string REST_TIME_IN_MINUTES = "Rest Time In Minutes";
@@ -98,14 +98,14 @@
         // ------ Athlete
         public const string AthleteTitle = "Athlete";
         public const string AthletesListTitle = "Athletes";
-        public const string FeiIdLabel = "Fei ID";
-        public const string FirstNameLabel = "First Name";
-        public const string LastNameLabel = "Last Name";
+        public const string FEI_ID = "Fei ID";
+        public const string FIRST_NAME = "First Name";
+        public const string LAST_NAME = "Last Name";
 
         // ------ Horse
         public const string HorseTitle = "Horse";
         public const string HorsesListTitle = "Horses";
-        public const string BreedLabel = "Breed";
+        public const string BREED = "Breed";
         public const string TrainerFeiId = "Trainer FEI ID";
         public const string TrainerFirstNameLabel = "Trainer First Name";
         public const string TrainerLastNameLabel = "Trainer Last Name";

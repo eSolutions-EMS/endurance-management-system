@@ -7,7 +7,5 @@ namespace EnduranceJudge.Domain.States
         public string RfId { get; }
         public int Number { get; }
         int? MaxAverageSpeedInKmPh { get; }
-        int HorseId { get; }
-        int AthleteId { get; }
     }
 }

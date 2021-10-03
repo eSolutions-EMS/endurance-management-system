@@ -91,7 +91,7 @@
                     Grid.Row="5" Grid.Column="0">
                 <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=Athlete}"
-                       Content="{x:Static strings:DesktopStrings.AthleteLabel}" />
+                       Content="{x:Static strings:DesktopStrings.ATHLETE}" />
             </Border>
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="5" Grid.Column="1">
@@ -105,7 +105,7 @@
                     Grid.Row="6" Grid.Column="0">
                 <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=Horse}"
-                       Content="{x:Static strings:DesktopStrings.HorseLabel}" />
+                       Content="{x:Static strings:DesktopStrings.HORSE}" />
             </Border>
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="6" Grid.Column="1">

@@ -1,3 +1,4 @@
+using JsonNet.PrivatePropertySetterResolver;
 using Newtonsoft.Json;
 using System;
 
@@ -5,6 +6,17 @@ namespace EnduranceJudge.Core.Services.Implementations
 {
     public class JsonSerializationService : IJsonSerializationService
     {
+        private readonly JsonSerializerSettings settings;
+
+        public JsonSerializationService()
+        {
+            this.settings = new JsonSerializerSettings
+            {
+                ContractResolver = new PrivatePropertySetterResolver(),
+                ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
+            };
+        }
+
         public string Serialize(object data)
         {
             var serialized = JsonConvert.SerializeObject(data);
@@ -13,13 +25,13 @@ namespace EnduranceJudge.Core.Services.Implementations
 
         public T Deserialize<T>(string serialized)
         {
-            var deserialized = JsonConvert.DeserializeObject<T>(serialized);
+            var deserialized = JsonConvert.DeserializeObject<T>(serialized, this.settings);
             return deserialized;
         }
 
         public object Deserialize(string serialized, Type resultType)
         {
-            var deserialized = JsonConvert.DeserializeObject(serialized, resultType);
+            var deserialized = JsonConvert.DeserializeObject(serialized, resultType, this.settings);
             return deserialized;
         }
     }

@@ -5,16 +5,17 @@ using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.States;
 using System.Collections.Generic;
 using System.Linq;
-
+using static EnduranceJudge.Localization.DesktopStrings;
 namespace EnduranceJudge.Domain.Aggregates.State.Phases
 {
     public class Phase : DomainObjectBase<PhaseException>, IPhaseState
     {
-        public Phase(IPhaseState data) : base(data.Id) => this.Validate(() =>
+        private Phase() {}
+        public Phase(int id, bool isFinal, int orderBy, int lengthInKm) : base(id) => this.Validate(() =>
         {
-            this.IsFinal = data.IsFinal;
-            this.OrderBy = data.OrderBy.IsRequired(nameof(data.OrderBy));
-            this.LengthInKm = data.LengthInKm.IsRequired(nameof(data.LengthInKm));
+            this.IsFinal = isFinal;
+            this.OrderBy = orderBy.IsRequired(ORDER);
+            this.LengthInKm = lengthInKm.IsRequired(LENGTH_IN_KM);
         });
 
         private List<PhaseForCategory> phasesForCategories = new();

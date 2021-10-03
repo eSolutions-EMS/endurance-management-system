@@ -8,11 +8,13 @@ namespace EnduranceJudge.Domain.Aggregates.State.PhasesForCategory
 {
     public class PhaseForCategory : DomainObjectBase<PhaseForCategoryException>, IPhaseForCategoryState
     {
-        public PhaseForCategory(IPhaseForCategoryState data) : base(data.Id) => this.Validate(() =>
+        private PhaseForCategory() {}
+        public PhaseForCategory(int id, int maxRecoveryTime, int restTime, Category  category) : base(id)
+            => this.Validate(() =>
         {
-            this.MaxRecoveryTimeInMinutes = data.MaxRecoveryTimeInMinutes.IsRequired(MAX_RECOVERY_TIME_IN_MINS);
-            this.RestTimeInMinutes = data.RestTimeInMinutes.IsRequired(REST_TIME_IN_MINUTES);
-            this.Category = data.Category.IsRequired(CATEGORY);
+            this.MaxRecoveryTimeInMinutes = maxRecoveryTime.IsRequired(MAX_RECOVERY_TIME_IN_MINS);
+            this.RestTimeInMinutes = restTime.IsRequired(REST_TIME_IN_MINUTES);
+            this.Category = category.IsRequired(CATEGORY);
         });
 
         public int MaxRecoveryTimeInMinutes { get; private set; }
