@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using System.Threading.Tasks;
 
 namespace EnduranceJudge.Core.Services.Implementations
 {
@@ -12,16 +11,16 @@ namespace EnduranceJudge.Core.Services.Implementations
         public bool Exists(string path)
             => File.Exists(path);
 
-        public async Task Create(string filePath, string content)
+        public void Create(string filePath, string content)
         {
-            await using var stream = new StreamWriter(filePath);
-            await stream.WriteAsync(content);
+            using var stream = new StreamWriter(filePath);
+            stream.Write(content);
         }
 
-        public async Task<string> Read(string filePath)
+        public string Read(string filePath)
         {
             using var stream = this.ReadStream(filePath);
-            return await stream.ReadToEndAsync();
+            return stream.ReadToEnd();
         }
 
         public StreamReader ReadStream(string filePath)

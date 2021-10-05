@@ -10,9 +10,9 @@ namespace EnduranceJudge.Core.Services
 
         bool Exists(string path);
 
-        public Task Create(string filePath, string content);
+        public void Create(string filePath, string content);
 
-        public Task<string> Read(string name);
+        public string Read(string name);
 
         StreamReader ReadStream(string filePath);
 

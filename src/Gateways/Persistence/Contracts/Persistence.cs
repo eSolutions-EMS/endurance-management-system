@@ -1,17 +1,15 @@
-﻿using EnduranceJudge.Application.Imports.Contracts;
+﻿using EnduranceJudge.Application.Contracts;
 using EnduranceJudge.Core.ConventionalServices;
 using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Core.Services;
-using EnduranceJudge.Gateways.Persistence;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace EnduranceJudge.Gateways.Persistence.Contracts
 {
     public class Persistence : IPersistence
     {
-        private string storageFilePath;
+        private const string STORAGE_FILE_NAME = "endurance-judge-data";
 
+        private string storageFilePath;
         private readonly IDataContext dataContext;
         private readonly IEncryptionService encryption;
         private readonly IFileService file;
@@ -29,40 +27,42 @@ namespace EnduranceJudge.Gateways.Persistence.Contracts
             this.serialization = serialization;
         }
 
-        public async Task<bool> Initialize(string path, CancellationToken token)
+        public IStorageResult Initialize(string directoryPath)
         {
-            this.storageFilePath = path;
+            this.storageFilePath = BuildStorageFilePath(directoryPath);
 
-            if (this.file.Exists(path))
+            if (this.file.Exists(this.storageFilePath))
             {
-                await this.Restore(path);
-                return false;
+                this.Restore();
+                return StorageResult.Existing;
             }
             else
             {
-                await this.Create();
-                return true;
+                this.Create();
+                return StorageResult.New;
             }
         }
 
-        public async Task Snapshot() => await this.Create();
+        public void Snapshot() => this.Create();
 
-        private async Task Restore(string path)
+        private void Restore()
         {
-            var contents = await this.file.Read(path);
+            var contents = this.file.Read(this.storageFilePath);
             var state = this.serialization.Deserialize<State>(contents);
             this.dataContext.State.MapFrom(state);
         }
 
-        private async Task Create()
+        private async void Create()
         {
             var serialized = this.serialization.Serialize(this.dataContext.State);
-            await this.file.Create(this.storageFilePath, serialized);
+            this.file.Create(this.storageFilePath, serialized);
         }
+
+        private static string BuildStorageFilePath(string directory) => $"{directory}\\{STORAGE_FILE_NAME}";
     }
 
     public interface IPersistence : IStorageInitializer, ISingletonService
     {
-        Task Snapshot();
+        void Snapshot();
     }
 }

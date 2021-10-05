@@ -1,8 +1,6 @@
 ﻿using EnduranceJudge.Application.Contracts;
 using EnduranceJudge.Core.ConventionalServices;
 using EnduranceJudge.Domain.Core.Models;
-using EnduranceJudge.Gateways.Persistence;
-using System.Threading.Tasks;
 
 namespace EnduranceJudge.Gateways.Persistence.Contracts
 {
@@ -17,10 +15,10 @@ namespace EnduranceJudge.Gateways.Persistence.Contracts
             this.persistence = persistence;
         }
 
-        public async Task Update(IAggregateRoot aggregateRoot)
+        public void Update(IAggregateRoot aggregateRoot)
         {
             aggregateRoot.UpdateState(this.context.State);
-            await this.persistence.Snapshot();
+            this.persistence.Snapshot();
         }
     }
 }

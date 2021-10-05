@@ -1,4 +1,5 @@
-﻿using EnduranceJudge.Application.Services;
+﻿using EnduranceJudge.Application.Contracts;
+using EnduranceJudge.Application.Services;
 using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Core.Static;
 using EnduranceJudge.Gateways.Desktop.Services;
@@ -9,15 +10,21 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Imports
 {
     public class ImportViewModel : ViewModelBase
     {
+        private readonly IStorageInitializer storageInitializer;
+        private readonly IImportService importService;
         private readonly IExplorerService explorer;
         private readonly INavigationService navigation;
-        private readonly IImportService importService;
 
-        public ImportViewModel(IExplorerService explorer, INavigationService navigation, IImportService importService)
+        public ImportViewModel(
+            IStorageInitializer storageInitializer,
+            IImportService importService,
+            IExplorerService explorer,
+            INavigationService navigation)
         {
+            this.storageInitializer = storageInitializer;
+            this.importService = importService;
             this.explorer = explorer;
             this.navigation = navigation;
-            this.importService = importService;
             this.OpenFolderDialog = new DelegateCommand(this.OpenFolderDialogAction);
             this.OpenImportFileDialog = new DelegateCommand(this.OpenImportFileDialogAction);
         }
@@ -59,19 +66,15 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Imports
                 return;
             }
             this.WorkDirectoryPath = selectedPath;
-            // var selectWorkFileRequest = new SelectWorkFile
-            // {
-            //     DirectoryPath = selectedPath,
-            // };
-            //
-            // this.WorkDirectoryVisibility = Visibility.Hidden;
-            // this.ImportFilePathVisibility = Visibility.Visible;
-            //
-            // var isNewFileCreated = await this.application.Execute(selectWorkFileRequest);
-            // if (!isNewFileCreated)
-            // {
-            //     this.Redirect();
-            // }
+
+            this.WorkDirectoryVisibility = Visibility.Collapsed;
+            this.ImportFilePathVisibility = Visibility.Visible;
+
+            var result = this.storageInitializer.Initialize(selectedPath);
+            if (result.IsExistingFile)
+            {
+                this.Redirect();
+            }
         }
 
         private void OpenImportFileDialogAction()
@@ -84,7 +87,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Imports
 
             this.ImportFilePath = path;
             this.importService.Import(path);
-            // this.Redirect();
+            this.Redirect();
         }
 
         private void Redirect()

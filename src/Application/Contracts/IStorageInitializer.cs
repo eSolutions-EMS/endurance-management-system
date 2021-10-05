@@ -1,10 +1,7 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-
-namespace EnduranceJudge.Application.Imports.Contracts
+﻿namespace EnduranceJudge.Application.Contracts
 {
     public interface IStorageInitializer
     {
-        Task<bool> Initialize(string path, CancellationToken token);
+        IStorageResult Initialize(string directoryPath);
     }
 }
