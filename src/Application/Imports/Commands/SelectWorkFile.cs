@@ -12,16 +12,16 @@ namespace EnduranceJudge.Application.Imports.Commands
 
         public class SelectWorkFileHandler : Handler<SelectWorkFile, bool>
         {
-            private readonly IWorkFileService workFile;
+            private readonly IStorageInitializer workFile;
 
-            public SelectWorkFileHandler(IWorkFileService workFile)
+            public SelectWorkFileHandler(IStorageInitializer workFile)
             {
                 this.workFile = workFile;
             }
 
             public override async Task<bool> Handle(SelectWorkFile request, CancellationToken token)
             {
-                var workFilePath = $"{request.DirectoryPath}\\{ApplicationConstants.WorkFileName}";
+                var workFilePath = $"{request.DirectoryPath}\\{ApplicationConstants.STORAGE_FILE_NAME}";
 
                 var isNewFileCreated = await this.workFile.Initialize(workFilePath, token);
 

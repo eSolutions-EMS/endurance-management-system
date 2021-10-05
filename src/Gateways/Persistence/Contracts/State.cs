@@ -1,5 +1,6 @@
 ﻿using EnduranceJudge.Domain.State;
 using EnduranceJudge.Domain.State.Athletes;
+using EnduranceJudge.Domain.State.Countries;
 using EnduranceJudge.Domain.State.EnduranceEvents;
 using EnduranceJudge.Domain.State.Horses;
 using EnduranceJudge.Domain.State.Participants;
@@ -9,9 +10,12 @@ namespace EnduranceJudge.Gateways.Persistence.Contracts
 {
     public class State : IState
     {
+        internal State() {}
+
         public EnduranceEvent Event { get; set; }
-        public List<Horse> Horses { get; } = new List<Horse>();
-        public List<Athlete> Athletes { get; } = new List<Athlete>();
-        public List<Participant> Participants { get; } = new List<Participant>();
+        public List<Horse> Horses { get; } = new();
+        public List<Athlete> Athletes { get; } = new();
+        public List<Participant> Participants { get; } = new();
+        public List<Country> Countries { get; } = new();
     }
 }

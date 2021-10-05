@@ -18,18 +18,18 @@ namespace EnduranceJudge.Application.Imports.Commands
 
         public class ImportHandler : Handler<Import>
         {
-            private readonly IStateHolder stateHolder;
+            private readonly IStateUpdater stateUpdater;
             private readonly INationalReader nationalReader;
             private readonly IInternationalReader internationalReader;
             private readonly IFileService file;
 
             public ImportHandler(
-                IStateHolder stateHolder,
+                IStateUpdater stateUpdater,
                 INationalReader nationalReader,
                 IInternationalReader internationalReader,
                 IFileService file)
             {
-                this.stateHolder = stateHolder;
+                this.stateUpdater = stateUpdater;
                 this.nationalReader = nationalReader;
                 this.internationalReader = internationalReader;
                 this.file = file;
@@ -70,7 +70,7 @@ namespace EnduranceJudge.Application.Imports.Commands
                     }
                 }
 
-                this.stateHolder.Update(manager);
+                this.stateUpdater.Update(manager);
             }
         }
     }

@@ -25,6 +25,11 @@
             {
                 public const string INCOMPLETE_PARTICIPATIONS = " is invalid - contains uncomplete competitions";
             }
+
+            public static class Countries
+            {
+                public const string BULGARIA = "Bulgaria";
+            }
         }
 
         public static class Application

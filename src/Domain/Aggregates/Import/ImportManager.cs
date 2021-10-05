@@ -5,6 +5,7 @@ using EnduranceJudge.Domain.Enums;
 using EnduranceJudge.Domain.State;
 using EnduranceJudge.Domain.State.Athletes;
 using EnduranceJudge.Domain.State.Competitions;
+using EnduranceJudge.Domain.State.Countries;
 using EnduranceJudge.Domain.State.EnduranceEvents;
 using EnduranceJudge.Domain.State.Horses;
 using EnduranceJudge.Domain.State.Participants;
@@ -13,6 +14,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using static EnduranceJudge.Localization.DesktopStrings;
+using static EnduranceJudge.Localization.Strings.Domain.Countries;
 using static EnduranceJudge.Domain.DomainConstants;
 
 namespace EnduranceJudge.Domain.Aggregates.Import
@@ -50,7 +52,7 @@ namespace EnduranceJudge.Domain.Aggregates.Import
         public void AddAthletes(List<HorseSportShowEntriesAthlete> athletesData)
             => this.Validate<AthleteException>(() =>
         {
-            if (this.Athletes.Any())
+            if (this.athletes.Any())
             {
                 return;
             }
@@ -81,7 +83,7 @@ namespace EnduranceJudge.Domain.Aggregates.Import
 
         public void AddHorses(List<HorseSportShowEntriesHorse> horsesData)
         {
-            if (this.Horses.Any())
+            if (this.horses.Any())
             {
                 return;
             }
@@ -109,19 +111,19 @@ namespace EnduranceJudge.Domain.Aggregates.Import
 
         public void AddParticipants(List<HorseSportShowEntriesEventAthleteEntry> participantsData)
         {
-            if (this.Participants.Any())
+            if (this.participants.Any())
             {
                 return;
             }
-            if (!this.Horses.Any() || !this.Athletes.Any())
+            if (!this.horses.Any() || !this.athletes.Any())
             {
                 this.Throw("Cannot import Participants - empty horses and/or athletes.");
             }
 
             foreach (var participantData in participantsData)
             {
-                var athlete = this.Athletes.FirstOrDefault(x => x.FeiId == participantData.FEIID);
-                var horse = this.Horses.FirstOrDefault(x => x.FeiId == participantData.HorseEntry.First().FEIID);
+                var athlete = this.athletes.FirstOrDefault(x => x.FeiId == participantData.FEIID);
+                var horse = this.horses.FirstOrDefault(x => x.FeiId == participantData.HorseEntry.First().FEIID);
                 if (athlete != null && horse != null)
                 {
                     var participant = new Participant(default, horse, athlete);
@@ -140,28 +142,32 @@ namespace EnduranceJudge.Domain.Aggregates.Import
             this.horses.Add(horse);
         }
 
-        public IReadOnlyList<Athlete> Athletes => this.athletes.AsReadOnly();
-        public IReadOnlyList<Horse> Horses => this.horses.AsReadOnly();
-        public IReadOnlyList<Participant> Participants => this.participants.AsReadOnly();
-
         public void UpdateState(IState state)
         {
             if (this.EnduranceEvent != null)
             {
                 state.Event = this.EnduranceEvent;
             }
-            if (this.Horses.Any())
+            if (this.horses.Any())
             {
-                state.Horses.AddRange(this.Horses);
+                state.Horses.AddRange(this.horses);
             }
-            if (this.Athletes.Any())
+            if (this.athletes.Any())
             {
-                state.Athletes.AddRange(this.Athletes);
+                state.Athletes.AddRange(this.athletes);
             }
-            if (this.Participants.Any())
+            if (this.participants.Any())
             {
-                state.Participants.AddRange(this.Participants);
+                state.Participants.AddRange(this.participants);
             }
+            state.Countries.AddRange(GetCountries());
+        }
+
+        private static List<Country> GetCountries()
+        {
+            var bulgaria = new Country("BUL", BULGARIA);
+
+            return new List<Country> { bulgaria };
         }
     }
 }
