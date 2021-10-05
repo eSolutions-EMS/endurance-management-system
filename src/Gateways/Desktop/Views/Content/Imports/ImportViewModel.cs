@@ -1,4 +1,5 @@
-﻿using EnduranceJudge.Gateways.Desktop.Core;
+﻿using EnduranceJudge.Application.Services;
+using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Core.Static;
 using EnduranceJudge.Gateways.Desktop.Services;
 using Prism.Commands;
@@ -10,11 +11,13 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Imports
     {
         private readonly IExplorerService explorer;
         private readonly INavigationService navigation;
+        private readonly IImportService importService;
 
-        public ImportViewModel(IExplorerService explorer, INavigationService navigation)
+        public ImportViewModel(IExplorerService explorer, INavigationService navigation, IImportService importService)
         {
             this.explorer = explorer;
             this.navigation = navigation;
+            this.importService = importService;
             this.OpenFolderDialog = new DelegateCommand(this.OpenFolderDialogAction);
             this.OpenImportFileDialog = new DelegateCommand(this.OpenImportFileDialogAction);
         }
@@ -80,11 +83,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Imports
             }
 
             this.ImportFilePath = path;
-            // var importFromFileRequest = new Import
-            // {
-            //     FilePath = path,
-            // };
-            // await this.application.Execute(importFromFileRequest);
+            this.importService.Import(path);
             // this.Redirect();
         }
 
