@@ -1,8 +1,7 @@
 ﻿using AutoMapper;
-using EnduranceJudge.Application.Events.Commands.EnduranceEvents;
-using EnduranceJudge.Application.Events.Queries.GetEvent;
 using EnduranceJudge.Core.Extensions;
 using EnduranceJudge.Core.Mappings;
+using EnduranceJudge.Domain.State.EnduranceEvents;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.EnduranceEvents
 {
@@ -10,13 +9,13 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.EnduranceEve
     {
         public void AddFromMaps(IProfileExpression profile)
         {
-            profile.CreateMap<EnduranceEventViewModel, SaveEnduranceEventState>()
+            profile.CreateMap<EnduranceEventViewModel, EnduranceEvent>()
                 .MapMember(d => d.CountryIsoCode, s => s.SelectedCountryIsoCode);
         }
 
         public void AddToMaps(IProfileExpression profile)
         {
-            profile.CreateMap<EnduranceEventRootModel, EnduranceEventViewModel>()
+            profile.CreateMap<EnduranceEvent, EnduranceEventViewModel>()
                 .MapMember(d => d.SelectedCountryIsoCode, s => s.CountryIsoCode);
         }
     }

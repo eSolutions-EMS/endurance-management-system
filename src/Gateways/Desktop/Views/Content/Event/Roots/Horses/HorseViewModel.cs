@@ -1,23 +1,16 @@
-﻿using EnduranceJudge.Application.Events.Commands.Horses;
-using EnduranceJudge.Application.Events.Models;
-using EnduranceJudge.Application.Events.Queries.GetHorse;
-using EnduranceJudge.Core.Models;
+﻿using EnduranceJudge.Core.Models;
 using EnduranceJudge.Domain.State.Horses;
-using EnduranceJudge.Gateways.Desktop.Core.Static;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
 using EnduranceJudge.Gateways.Desktop.Events.Horses;
 using Prism.Events;
-using System.Threading.Tasks;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Horses
 {
-    public class HorseViewModel : RootFormBase<GetHorse, UpdateHorse, HorseRootModel, HorseView>,
-        IHorseState,
-        IListable
+    public class HorseViewModel : RootFormBase<HorseView>, IHorseState, IListable
     {
         private readonly IEventAggregator eventAggregator;
 
-        private HorseViewModel(IApplicationService application, IEventAggregator eventAggregator) : base(application)
+        private HorseViewModel(IEventAggregator eventAggregator)
         {
             this.eventAggregator = eventAggregator;
         }
@@ -30,6 +23,18 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Horses
         private string trainerFeiId;
         private string trainerFirstName;
         private string trainerLastName;
+
+        protected override void Load(int id)
+        {
+            throw new System.NotImplementedException();
+        }
+        protected override void SubmitAction()
+        {
+            // TODO Submit
+            this.eventAggregator
+                .GetEvent<HorseUpdatedEvent>()
+                .Publish(this);
+        }
 
         public string FeiId
         {
@@ -74,12 +79,5 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Horses
 
         public bool IsStallion => this.isStallionValue != 0;
 
-        protected override async Task SubmitAction()
-        {
-            await base.SubmitAction();
-            this.eventAggregator
-                .GetEvent<HorseUpdatedEvent>()
-                .Publish(this);
-        }
     }
 }

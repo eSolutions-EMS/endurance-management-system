@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using EnduranceJudge.Application.Events.Models;
 using EnduranceJudge.Core.Extensions;
 using EnduranceJudge.Core.Mappings;
+using EnduranceJudge.Domain.State.Athletes;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Athletes.Configuration
 {
@@ -9,7 +9,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Athletes.Con
     {
         public void AddFromMaps(IProfileExpression profile)
         {
-            profile.CreateMap<AthleteRootModel, AthleteViewModel>()
+            profile.CreateMap<Athlete, AthleteViewModel>()
                 .MapMember(x => x.CategoryId, y => (int)y.Category);
         }
 

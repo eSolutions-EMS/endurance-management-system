@@ -1,25 +1,21 @@
-﻿using EnduranceJudge.Application.Events.Commands.Horses;
-using EnduranceJudge.Application.Events.Queries.GetHorseList;
-using EnduranceJudge.Gateways.Desktop.Core.Static;
+﻿using EnduranceJudge.Application.Models;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
 using EnduranceJudge.Gateways.Desktop.Events.Horses;
 using EnduranceJudge.Gateways.Desktop.Services;
 using Prism.Events;
+using System.Collections.Generic;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Horses.Listing
 {
-    public class HorseListViewModel : SearchableListViewModelBase<GetHorseList, RemoveHorse, HorseView>
+    public class HorseListViewModel : SearchableListViewModelBase<HorseView>
     {
         private readonly IEventAggregator eventAggregator;
-        public HorseListViewModel(
-            IApplicationService application,
-            INavigationService navigation,
-            IEventAggregator eventAggregator)
-            : base(application, navigation)
+        public HorseListViewModel(INavigationService navigation, IEventAggregator eventAggregator) : base(navigation)
         {
             this.eventAggregator = eventAggregator;
         }
 
+        protected override IEnumerable<ListItemModel> LoadData() => throw new System.NotImplementedException();
         protected override void RemoveAction(int? id)
         {
             base.RemoveAction(id);

@@ -1,5 +1,4 @@
 using EnduranceJudge.Application;
-using EnduranceJudge.Application.Core;
 using EnduranceJudge.Core;
 using EnduranceJudge.Gateways.Desktop.Core.Objects;
 using EnduranceJudge.Core.Services;
@@ -35,7 +34,6 @@ namespace EnduranceJudge.Gateways.Desktop.Startup
 
             return services
                 .AddCore(assemblies)
-                .AddApplication()
                 .AddPersistence(assemblies)
                 .AddInitializers(assemblies);
         }

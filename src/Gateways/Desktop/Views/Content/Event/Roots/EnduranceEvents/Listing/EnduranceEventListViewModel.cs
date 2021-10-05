@@ -1,25 +1,23 @@
-﻿using EnduranceJudge.Application.Events.Commands.EnduranceEvents;
-using EnduranceJudge.Application.Events.Queries.GetEnduranceEventsList;
+﻿using EnduranceJudge.Application.Models;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem;
-using EnduranceJudge.Gateways.Desktop.Core.Static;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
 using EnduranceJudge.Gateways.Desktop.Services;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.EnduranceEvents.Listing
 {
-    public class EnduranceEventListViewModel :
-        ListViewModelBase<GetEnduranceEventsList, RemoveEnduranceEvent, EnduranceEventView>
+    public class EnduranceEventListViewModel : ListViewModelBase<EnduranceEventView>
     {
-        public EnduranceEventListViewModel() : base(null, null)
+        public EnduranceEventListViewModel() : base(null)
         {
         }
 
-        public EnduranceEventListViewModel(IApplicationService application, INavigationService navigation)
-            : base (application, navigation)
+        public EnduranceEventListViewModel(INavigationService navigation) : base (navigation)
         {
         }
 
         public ObservableCollection<ListItemViewModel> EnduranceEvents => this.ListItems;
+        protected override IEnumerable<ListItemModel> LoadData() => throw new System.NotImplementedException();
     }
 }

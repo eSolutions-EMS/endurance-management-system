@@ -1,4 +1,4 @@
-﻿using EnduranceJudge.Application.Events.Common;
+﻿using EnduranceJudge.Application.Models;
 using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Core.Models;
 using EnduranceJudge.Localization;

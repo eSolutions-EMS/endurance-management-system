@@ -1,9 +1,5 @@
-﻿using EnduranceJudge.Application.Actions.Manager.Commands;
-using EnduranceJudge.Application.Actions.Manager.Commands.UpdateParticipation;
-using EnduranceJudge.Application.Actions.Manager.Queries.Participations;
-using EnduranceJudge.Domain.Aggregates.Manager.Participations;
+﻿using EnduranceJudge.Domain.Aggregates.Manager.Participations;
 using EnduranceJudge.Gateways.Desktop.Core;
-using EnduranceJudge.Gateways.Desktop.Core.Static;
 using EnduranceJudge.Gateways.Desktop.Services;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participations;
 using Prism.Commands;
@@ -19,12 +15,10 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager
     public class ManagerViewModel : ViewModelBase
     {
         private static readonly DateTime Today = DateTime.Today;
-        private readonly IApplicationService application;
         private readonly IDomainHandler domainHandler;
 
-        public ManagerViewModel(IApplicationService application, IDomainHandler domainHandler)
+        public ManagerViewModel(IDomainHandler domainHandler)
         {
-            this.application = application;
             this.domainHandler = domainHandler;
             this.Update = new DelegateCommand(this.UpdateAction);
             this.Start = new DelegateCommand(this.StartAction);
@@ -47,8 +41,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager
 
         private void StartAction()
         {
-            var command = new StartParticipations();
-            this.application.Execute(command);
+            throw new NotImplementedException();
         }
         private void UpdateAction()
         {
@@ -104,11 +97,12 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager
             }
             else
             {
-                var query = new GetParticipation
-                {
-                    Number = this.InputNumber,
-                };
-                participation = this.application.Execute(query).Result;
+                // var query = new GetParticipation
+                // {
+                //     Number = this.InputNumber,
+                // };
+                // participation = this.application.Execute(query).Result;
+                participation = default;
             }
 
             return participation;
@@ -119,11 +113,11 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager
             var isValid = this.domainHandler.Handle(() => update(participation));
             if (isValid)
             {
-                var command = new UpdateParticipation(participation);
-                await this.application.Execute(command);
-
-                var viewModel = new ParticipationViewModel(this.InputNumber, participation);
-                this.Participations.Add(viewModel);
+                // var command = new UpdateParticipation(participation);
+                // await this.application.Execute(command);
+                //
+                // var viewModel = new ParticipationViewModel(this.InputNumber, participation);
+                // this.Participations.Add(viewModel);
             }
         }
 

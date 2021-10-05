@@ -1,31 +1,24 @@
-﻿using EnduranceJudge.Application.Core.Requests;
-using EnduranceJudge.Application.Events.Common;
+﻿using EnduranceJudge.Application.Models;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem;
-using EnduranceJudge.Gateways.Desktop.Core.Static;
 using EnduranceJudge.Gateways.Desktop.Services;
-using MediatR;
 using Prism.Commands;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
 {
-    public abstract class ListViewModelBase<TListQuery, TRemoveCommand, TView> : ViewModelBase
-        where TListQuery : IRequest<IEnumerable<ListItemModel>>, new()
-        where TRemoveCommand : IdentifiableRequest,  new()
+    public abstract class ListViewModelBase<TView> : ViewModelBase
         where TView : IView
     {
-        protected ListViewModelBase(IApplicationService application, INavigationService navigation)
+        protected ListViewModelBase(INavigationService navigation)
         {
             this.Navigation = navigation;
             this.ChangeToCreate = new DelegateCommand(this.ChangeToCreateAction);
-            this.Application = application;
         }
 
         protected INavigationService Navigation { get; }
-        protected IApplicationService Application { get; }
 
         public ObservableCollection<ListItemViewModel> ListItems { get; protected init; }
             = new (Enumerable.Empty<ListItemViewModel>());
@@ -35,14 +28,23 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
         public override void OnNavigatedTo(Prism.Regions.NavigationContext context)
         {
             base.OnNavigatedTo(context);
-
-            this.LoadEvents();
+            this.Load();
         }
 
-        private async Task LoadEvents()
+        protected abstract IEnumerable<ListItemModel> LoadData();
+
+        protected virtual void ChangeToCreateAction()
         {
-            var getEventsList = new TListQuery();
-            var eventsList = await this.Application.Execute(getEventsList);
+            this.Navigation.ChangeTo<TView>();
+        }
+        protected virtual void ChangeToUpdateAction(int? id)
+        {
+            this.Navigation.ChangeTo<TView>(id!.Value);
+        }
+
+        protected virtual void Load()
+        {
+            var eventsList = this.LoadData();
 
             var viewModels = eventsList
                 .Select(this.ToViewModel)
@@ -51,33 +53,22 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
             this.ListItems.Clear();
             this.ListItems.AddRange(viewModels);
         }
+        protected virtual void RemoveAction(int? id)
+        {
+            this.RemoveItem(id!.Value);
+            var item = this.ListItems.FirstOrDefault(i => i.Id == id!.Value);
+            this.ListItems.Remove(item);
+        }
+        protected virtual void RemoveItem(int id)
+        {
+            throw new NotImplementedException();
+        }
 
         private ListItemViewModel ToViewModel(ListItemModel listable)
         {
             var update = new DelegateCommand<int?>(this.ChangeToUpdateAction);
             var remove = new DelegateCommand<int?>(this.RemoveAction);
             return new ListItemViewModel(listable.Id, listable.Name, update, remove);
-        }
-
-        protected virtual void ChangeToCreateAction()
-        {
-            this.Navigation.ChangeTo<TView>();
-        }
-
-        protected virtual void ChangeToUpdateAction(int? id)
-        {
-            this.Navigation.ChangeTo<TView>(id!.Value);
-        }
-
-        protected virtual void RemoveAction(int? id)
-        {
-            var remove = new TRemoveCommand
-            {
-                Id = id!.Value,
-            };
-            this.Application.Execute(remove);
-            var item = this.ListItems.FirstOrDefault(i => i.Id == id!.Value);
-            this.ListItems.Remove(item);
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using EnduranceJudge.Application.Events.Common;
-using EnduranceJudge.Core.Mappings;
+﻿using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Domain.Enums;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
@@ -7,7 +6,7 @@ using System.Collections.ObjectModel;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Personnel
 {
-    public class PersonnelViewModel : ChildFormBase<PersonnelView>, IMap<PersonnelDependantModel>
+    public class PersonnelViewModel : ChildFormBase<PersonnelView>, IMap<Domain.State.Personnels.Personnel>
     {
         public PersonnelViewModel()
         {

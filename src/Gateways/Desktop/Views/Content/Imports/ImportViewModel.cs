@@ -1,11 +1,7 @@
-﻿using EnduranceJudge.Application.Imports.Commands;
-using EnduranceJudge.Gateways.Desktop.Core;
-using EnduranceJudge.Gateways.Desktop.Core.Objects;
+﻿using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Core.Static;
 using EnduranceJudge.Gateways.Desktop.Services;
 using Prism.Commands;
-using System;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Imports
@@ -14,18 +10,13 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Imports
     {
         private readonly IExplorerService explorer;
         private readonly INavigationService navigation;
-        private readonly IApplicationService application;
 
-        public ImportViewModel(
-            IExplorerService explorer,
-            INavigationService navigation,
-            IApplicationService application)
+        public ImportViewModel(IExplorerService explorer, INavigationService navigation)
         {
             this.explorer = explorer;
             this.navigation = navigation;
-            this.application = application;
-            this.OpenFolderDialog = new AsyncCommand(this.OpenFolderDialogAction);
-            this.OpenImportFileDialog = new AsyncCommand(this.OpenImportFileDialogAction);
+            this.OpenFolderDialog = new DelegateCommand(this.OpenFolderDialogAction);
+            this.OpenImportFileDialog = new DelegateCommand(this.OpenImportFileDialogAction);
         }
 
         public DelegateCommand OpenFolderDialog { get; }
@@ -57,7 +48,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Imports
             set => this.SetProperty(ref this.importFilePathVisibility, value);
         }
 
-        private async Task OpenFolderDialogAction()
+        private void OpenFolderDialogAction()
         {
             var selectedPath = this.explorer.SelectDirectory();
             if (selectedPath == null)
@@ -65,22 +56,22 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Imports
                 return;
             }
             this.WorkDirectoryPath = selectedPath;
-            var selectWorkFileRequest = new SelectWorkFile
-            {
-                DirectoryPath = selectedPath,
-            };
-
-            this.WorkDirectoryVisibility = Visibility.Hidden;
-            this.ImportFilePathVisibility = Visibility.Visible;
-
-            var isNewFileCreated = await this.application.Execute(selectWorkFileRequest);
-            if (!isNewFileCreated)
-            {
-                this.Redirect();
-            }
+            // var selectWorkFileRequest = new SelectWorkFile
+            // {
+            //     DirectoryPath = selectedPath,
+            // };
+            //
+            // this.WorkDirectoryVisibility = Visibility.Hidden;
+            // this.ImportFilePathVisibility = Visibility.Visible;
+            //
+            // var isNewFileCreated = await this.application.Execute(selectWorkFileRequest);
+            // if (!isNewFileCreated)
+            // {
+            //     this.Redirect();
+            // }
         }
 
-        private async Task OpenImportFileDialogAction()
+        private void OpenImportFileDialogAction()
         {
             var path = this.explorer.SelectFile();
             if (path == null)
@@ -89,12 +80,12 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Imports
             }
 
             this.ImportFilePath = path;
-            var importFromFileRequest = new Import
-            {
-                FilePath = path,
-            };
-            await this.application.Execute(importFromFileRequest);
-            this.Redirect();
+            // var importFromFileRequest = new Import
+            // {
+            //     FilePath = path,
+            // };
+            // await this.application.Execute(importFromFileRequest);
+            // this.Redirect();
         }
 
         private void Redirect()

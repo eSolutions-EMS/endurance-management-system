@@ -1,21 +1,16 @@
-﻿using EnduranceJudge.Application.Actions.Manager.Queries.Participations;
-using EnduranceJudge.Application.Core.Requests;
-using EnduranceJudge.Gateways.Desktop.Core.Static;
+﻿using EnduranceJudge.Application.Models;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
 using EnduranceJudge.Gateways.Desktop.Services;
+using System.Collections.Generic;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participations.Listing
 {
-    public class ParticipationListViewModel
-        : SearchableListViewModelBase<GetParticipationList, UnusedCommend, ManagerView>
+    public class ParticipationListViewModel : SearchableListViewModelBase<ManagerView>
     {
-        public ParticipationListViewModel(IApplicationService application, INavigationService navigation)
-            : base(application, navigation)
+        public ParticipationListViewModel(INavigationService navigation) : base(navigation)
         {
         }
-    }
 
-    public class UnusedCommend : IdentifiableRequest
-    {
+        protected override IEnumerable<ListItemModel> LoadData() => throw new System.NotImplementedException();
     }
 }

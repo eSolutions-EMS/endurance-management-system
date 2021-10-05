@@ -1,31 +1,20 @@
-﻿using EnduranceJudge.Application.Events.Common;
-using EnduranceJudge.Application.Events.Queries.GetAthletesList;
-using EnduranceJudge.Application.Events.Queries.GetHorseList;
-using EnduranceJudge.Core.Mappings;
+﻿using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
-using EnduranceJudge.Gateways.Desktop.Core.Static;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
 using Prism.Commands;
 using Prism.Regions;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Participants
 {
     public class ParticipantViewModel : ChildFormBase<ParticipantView>,
-        IMap<ParticipantDependantModel>
+        IMap<Participant>
     {
-        private readonly IApplicationService application;
-        private ParticipantViewModel()
+        public ParticipantViewModel()
         {
-        }
-
-        public ParticipantViewModel(IApplicationService application)
-        {
-            this.application = application;
             this.ToggleIsAverageSpeedInKmPhVisibility = new DelegateCommand(
                 this.ToggleIsAverageSpeedInKmPhVisibilityAction);
         }
@@ -138,14 +127,14 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Participa
 
         private async Task LoadCompetitors()
         {
-            var horses = await this.application.Execute(new GetHorseList());
-            var athletes = await this.application.Execute(new GetAthletesList());
-
-            var horseItems = horses.Select(x => new SimpleListItemViewModel(x));
-            var athleteItems = athletes.Select(x => new SimpleListItemViewModel(x));
-
-            this.HorseItems.AddRange(horseItems);
-            this.AthleteItems.AddRange(athleteItems);
+            // var horses = await this.application.Execute(new GetHorseList());
+            // var athletes = await this.application.Execute(new GetAthletesList());
+            //
+            // var horseItems = horses.Select(x => new SimpleListItemViewModel(x));
+            // var athleteItems = athletes.Select(x => new SimpleListItemViewModel(x));
+            //
+            // this.HorseItems.AddRange(horseItems);
+            // this.AthleteItems.AddRange(athleteItems);
         }
 
         private string FormatName()
