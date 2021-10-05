@@ -1,7 +1,7 @@
 ﻿using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.EnduranceEvents.Listing;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Event.NavigationStrip;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Import;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Imports;
 using EnduranceJudge.Gateways.Desktop.Core.Services.Implementations;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Manager;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participations.Listing;

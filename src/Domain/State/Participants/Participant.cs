@@ -3,7 +3,6 @@ using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Athletes;
 using EnduranceJudge.Domain.State.Horses;
 using EnduranceJudge.Domain.State.Participations;
-using EnduranceJudge.Domain.States;
 using static EnduranceJudge.Localization.DesktopStrings;
 
 namespace EnduranceJudge.Domain.State.Participants
@@ -14,13 +13,19 @@ namespace EnduranceJudge.Domain.State.Participants
         public const int DEFAULT_MAX_AVERAGE_SPEED = 16;
 
         private Participant() {}
-        public Participant(int id, int number, Horse horse, Athlete athlete, string rfId, int? maxAverageSpeedInKmPh)
+        public Participant(
+            int id,
+            Horse horse,
+            Athlete athlete,
+            int number = default,
+            string rfId = default,
+            int? maxAverageSpeedInKmPh = default)
             : base(id)
             => this.Validate(() =>
         {
             this.RfId = rfId;
             this.MaxAverageSpeedInKmPh = maxAverageSpeedInKmPh;
-            this.Number = number.IsRequired(NUMBER);
+            this.Number = number;
             this.Horse = horse.IsRequired(HORSE);
             this.Athlete = athlete.IsRequired(ATHLETE);
         });

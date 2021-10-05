@@ -2,7 +2,7 @@ using EnduranceJudge.Domain.Core.Models;
 
 namespace EnduranceJudge.Domain.State.Countries
 {
-    public class Country : DomainObjectBase<CountryException>, ICountryState, IAggregateRoot
+    public class Country : DomainObjectBase<CountryException>, ICountryState
     {
         private Country() : base(default)
         {

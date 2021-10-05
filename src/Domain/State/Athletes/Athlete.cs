@@ -1,18 +1,14 @@
-using EnduranceJudge.Domain.Core.Validation;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.Enums;
-using EnduranceJudge.Domain.States;
 using System;
-using static EnduranceJudge.Localization.DesktopStrings;
 
 namespace EnduranceJudge.Domain.State.Athletes
 {
-    public class Athlete : DomainObjectBase<RiderException>, IAthleteState, IAggregateRoot
+    public class Athlete : DomainObjectBase<AthleteException>, IAthleteState
     {
         private const int ADULT_AGE_IN_YEARS = 18;
 
         private Athlete() {}
-
         public Athlete(int id, string feiId, string firstName, string lastName, string countryCode, DateTime birthDate)
             : this(id, feiId, firstName, lastName, countryCode, GetCategory(birthDate))
         {
@@ -22,11 +18,11 @@ namespace EnduranceJudge.Domain.State.Athletes
             : base(id)
             => this.Validate(() =>
         {
-            this.FeiId = feiId.IsRequired(FEI_ID);
-            this.FirstName = firstName.IsRequired(FIRST_NAME);
-            this.LastName = lastName.IsRequired(LAST_NAME);
-            this.CountryIsoCode = countryCode.IsRequired(COUNTRY);
-            this.Category = category.IsRequired(CATEGORY);
+            this.FeiId = feiId;
+            this.FirstName = firstName;
+            this.LastName = lastName;
+            this.CountryIsoCode = countryCode;
+            this.Category = category;
         });
 
         public string FeiId { get; private set; }

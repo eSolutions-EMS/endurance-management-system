@@ -30,9 +30,24 @@ namespace EnduranceJudge.Domain.Core.Models
                 this.Throw(exception.Message);
             }
         }
+        internal void Validate<TCustomException>(Action action)
+            where TCustomException : DomainException, new()
+        {
+            try
+            {
+                action();
+            }
+            catch (CoreException exception)
+            {
+                this.Throw<TCustomException>(exception.Message);
+            }
+        }
 
         internal void Throw(string message)
             => Thrower.Throw<TException>(message);
+        internal void Throw<TCustomException>(string message)
+            where TCustomException : DomainException, new()
+            => Thrower.Throw<TCustomException>(message);
 
         public override bool Equals(object other)
         {

@@ -1,14 +1,10 @@
 using EnduranceJudge.Core.Extensions;
-using EnduranceJudge.Domain.Core.Validation;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.Enums;
 using EnduranceJudge.Domain.State.Phases;
-using EnduranceJudge.Domain.States;
-using EnduranceJudge.Domain.Validation;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static EnduranceJudge.Localization.DesktopStrings;
 
 namespace EnduranceJudge.Domain.State.Competitions
 {
@@ -18,11 +14,9 @@ namespace EnduranceJudge.Domain.State.Competitions
         public Competition(int id, CompetitionType type, string name, DateTime startTime) : base(id)
             => this.Validate(() =>
         {
-            this.Type = type.IsRequired(TYPE);
-            this.Name = name.IsRequired(NAME);
-            this.StartTime = startTime
-                .IsRequired(START_TIME)
-                .IsFutureDate();
+            this.Type = type;
+            this.Name = name;
+            this.StartTime = startTime;
         });
 
         private List<Phase> phases = new();

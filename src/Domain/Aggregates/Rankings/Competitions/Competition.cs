@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace EnduranceJudge.Domain.Aggregates.Rankings.Competitions
 {
-    public class Competition : DomainObjectBase<RankingCompetitionException>, IAggregateRoot
+    public class Competition : DomainObjectBase<RankingCompetitionException>
     {
         private List<Participation> participations = new();
 

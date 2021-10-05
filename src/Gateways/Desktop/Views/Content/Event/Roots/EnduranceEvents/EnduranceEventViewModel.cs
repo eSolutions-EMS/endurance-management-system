@@ -15,7 +15,7 @@ using System.Windows;
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.EnduranceEvents
 {
     public class EnduranceEventViewModel
-        : RootFormBase<GetEnduranceEvent, SaveEventState, EventRootModel, EnduranceEventView>
+        : RootFormBase<GetEnduranceEvent, SaveEnduranceEventState, EnduranceEventRootModel, EnduranceEventView>
     {
         private EnduranceEventViewModel(IApplicationService application)  : base(application)
         {

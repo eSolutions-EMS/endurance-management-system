@@ -1,4 +1,5 @@
-﻿using EnduranceJudge.Core.ConventionalServices;
+﻿using AutoMapper;
+using EnduranceJudge.Core.ConventionalServices;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
@@ -10,6 +11,7 @@ namespace EnduranceJudge.Core
             this IServiceCollection services,
             params Assembly[] assemblies)
             => services
+                .AddMapping(assemblies)
                 .AddTransientServices(assemblies)
                 .AddScopedServices(assemblies)
                 .AddSingletonServices(assemblies);
@@ -34,5 +36,13 @@ namespace EnduranceJudge.Core
                 .AddClasses(classes => classes.AssignableTo<ISingletonService>())
                 .AsSelfWithInterfaces()
                 .WithSingletonLifetime());
+
+        private static IServiceCollection AddMapping(this IServiceCollection services, Assembly[] assemblies)
+            => services.AddAutoMapper(
+                configuration =>
+                {
+                    configuration.DisableConstructorMapping();
+                },
+                assemblies);
     }
 }

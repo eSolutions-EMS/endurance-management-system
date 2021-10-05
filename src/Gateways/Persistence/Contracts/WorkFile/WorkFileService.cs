@@ -1,4 +1,4 @@
-﻿using EnduranceJudge.Application.Import.Contracts;
+﻿using EnduranceJudge.Application.Imports.Contracts;
 using EnduranceJudge.Core.ConventionalServices;
 using EnduranceJudge.Core.Services;
 using EnduranceJudge.Core.Utilities;

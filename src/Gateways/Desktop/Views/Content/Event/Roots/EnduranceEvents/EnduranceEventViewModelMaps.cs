@@ -10,13 +10,13 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.EnduranceEve
     {
         public void AddFromMaps(IProfileExpression profile)
         {
-            profile.CreateMap<EnduranceEventViewModel, SaveEventState>()
+            profile.CreateMap<EnduranceEventViewModel, SaveEnduranceEventState>()
                 .MapMember(d => d.CountryIsoCode, s => s.SelectedCountryIsoCode);
         }
 
         public void AddToMaps(IProfileExpression profile)
         {
-            profile.CreateMap<EventRootModel, EnduranceEventViewModel>()
+            profile.CreateMap<EnduranceEventRootModel, EnduranceEventViewModel>()
                 .MapMember(d => d.SelectedCountryIsoCode, s => s.CountryIsoCode);
         }
     }

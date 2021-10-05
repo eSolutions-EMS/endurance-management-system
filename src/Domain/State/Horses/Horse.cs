@@ -1,18 +1,16 @@
-using EnduranceJudge.Domain.Core.Validation;
 using EnduranceJudge.Domain.Core.Models;
-using static EnduranceJudge.Localization.DesktopStrings;
 
 namespace EnduranceJudge.Domain.State.Horses
 {
-    public class Horse : DomainObjectBase<HorseException>, IHorseState, IAggregateRoot
+    public class Horse : DomainObjectBase<HorseException>, IHorseState
     {
         private Horse() {}
 
         public Horse(int id, string feiId, string name, string breed, string club) : base(id)
             => this.Validate(() =>
         {
-            this.Name = name.IsRequired(NAME);
-            this.Breed = breed.IsRequired(BREED);
+            this.Name = name;
+            this.Breed = breed;
             this.FeiId = feiId;
             this.Club = club;
         });
@@ -29,8 +27,8 @@ namespace EnduranceJudge.Domain.State.Horses
             : base(id)
             => this.Validate(() =>
         {
-            this.Name = name.IsRequired(NAME);
-            this.Breed = breed.IsRequired(BREED);
+            this.Name = name;
+            this.Breed = breed;
             this.IsStallion = isStallion;
             this.FeiId = feiId;
             this.TrainerFeiId = trainerFeiId;

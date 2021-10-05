@@ -7,11 +7,8 @@ namespace EnduranceJudge.Application.Events.Commands.Horses
 {
     public class RemoveHorse : IdentifiableRequest
     {
-        public class RemoveHorseHandler : RemoveOneHandler<RemoveHorse, Horse>
+        public class RemoveHorseHandler
         {
-            public RemoveHorseHandler(ICommands<Horse> commands) : base(commands)
-            {
-            }
         }
     }
 }

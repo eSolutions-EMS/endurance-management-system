@@ -2,7 +2,6 @@
 using EnduranceJudge.Core.Utilities;
 using EnduranceJudge.Domain.State.Athletes;
 using EnduranceJudge.Domain.State.Horses;
-using EnduranceJudge.Domain.State;
 using EnduranceJudge.Domain.State.Competitions;
 using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Domain.State.Personnels;
@@ -10,6 +9,7 @@ using EnduranceJudge.Domain.State.PhaseEntries;
 using EnduranceJudge.Domain.State.Phases;
 using EnduranceJudge.Domain.State.PhasesForCategory;
 using EnduranceJudge.Domain.Enums;
+using EnduranceJudge.Domain.State.EnduranceEvents;
 using EnduranceJudge.Gateways.Desktop.Startup;
 using EnduranceJudge.Gateways.Desktop.Views;
 using EnduranceJudge.Gateways.Desktop.Core;
@@ -94,7 +94,7 @@ namespace EnduranceJudge.Gateways.Desktop
         {
             var serializer = ServiceProvider.GetService<IJsonSerializationService>();
 
-            var eventState = new EventState(1, "name", "place", "BUL");
+            var eventState = new EnduranceEvent(1, "name", "place", "BUL");
             var president = new Personnel(1, "Pesho Goshov", PersonnelRole.PresidentGroundJury);
             var steward1 = new Personnel(2, "Stew Stew", PersonnelRole.Steward);
             var steward2 = new Personnel(3, "Two two", PersonnelRole.Steward);
@@ -105,10 +105,10 @@ namespace EnduranceJudge.Gateways.Desktop
             var horse2 = new Horse(2, "feiId2", "name2", "breed", "club");
             var athlete1 = new Athlete(1, "feiId", "name1", "name2", "country", Category.Kids);
             var athlete2 = new Athlete(1, "feiId", "name1", "name2", "country", Category.Adults);
-            var participant1 = new Participant(1, 10, horse1, athlete1, "rfId", 16);
-            var participant2 = new Participant(2, 10, horse2, athlete2, "rfId", 16);
-            eventState.Add(participant1);
-            eventState.Add(participant2);
+            var participant1 = new Participant(1, horse1, athlete1, 10, "rfId", 16);
+            var participant2 = new Participant(2, horse2, athlete2, 11, "rfId", 16);
+            // eventState.Add(participant1);
+            // eventState.Add(participant2);
 
             var competition1 = new Competition(1, CompetitionType.National, "Name", DateTime.Now.AddDays(1));
             eventState.Add(competition1);
@@ -155,7 +155,7 @@ namespace EnduranceJudge.Gateways.Desktop
 
 
             var json = serializer.Serialize(eventState);
-            var result = serializer.Deserialize<EventState>(json);
+            var result = serializer.Deserialize<EnduranceEvent>(json);
         }
     }
 }

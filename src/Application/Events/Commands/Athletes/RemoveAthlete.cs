@@ -1,17 +1,12 @@
-﻿using EnduranceJudge.Application.Core.Contracts;
-using EnduranceJudge.Application.Core.Handlers;
-using EnduranceJudge.Application.Core.Requests;
-using EnduranceJudge.Domain.State.Athletes;
+﻿using EnduranceJudge.Application.Core.Requests;
 
 namespace EnduranceJudge.Application.Events.Commands.Athletes
 {
     public class RemoveAthlete : IdentifiableRequest
     {
-        public class RemoveAthleteHandler : RemoveOneHandler<RemoveAthlete, Athlete>
+        public class RemoveAthleteHandler
         {
-            public RemoveAthleteHandler(ICommands<Athlete> commands) : base(commands)
-            {
-            }
+
         }
     }
 }

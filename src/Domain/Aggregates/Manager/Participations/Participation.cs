@@ -8,7 +8,7 @@ using static EnduranceJudge.Localization.Strings.Domain.Manager.Participation;
 
 namespace EnduranceJudge.Domain.Aggregates.Manager.Participations
 {
-    public class Participation : DomainObjectBase<ManagerParticipationException>, IAggregateRoot
+    public class Participation : DomainObjectBase<ManagerParticipationException>
     {
         private List<ParticipationInCompetition> participationsInCompetitions = new();
 
