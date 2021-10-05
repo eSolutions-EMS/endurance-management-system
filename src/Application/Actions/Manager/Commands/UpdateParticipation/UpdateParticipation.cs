@@ -1,8 +1,8 @@
-﻿using EnduranceJudge.Application.Core.Contracts;
-using EnduranceJudge.Application.Core.Handlers;
+﻿using EnduranceJudge.Application.Core.Handlers;
 using EnduranceJudge.Application.Core.Requests;
 using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Domain.Aggregates.Manager.Participations;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -19,16 +19,13 @@ namespace EnduranceJudge.Application.Actions.Manager.Commands.UpdateParticipatio
 
         public class UpdateParticipationHandler : Handler<UpdateParticipation>
         {
-            private readonly ICommands<Participation> commands;
-
-            public UpdateParticipationHandler(ICommands<Participation> commands)
+            public UpdateParticipationHandler()
             {
-                this.commands = commands;
             }
 
             public override async Task DoHandle(UpdateParticipation request, CancellationToken token)
             {
-                await this.commands.Save(request.Participation, token);
+                throw new NotImplementedException();
             }
         }
     }

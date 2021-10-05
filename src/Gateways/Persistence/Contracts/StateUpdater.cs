@@ -1,7 +1,7 @@
 ﻿using EnduranceJudge.Application.Contracts;
 using EnduranceJudge.Core.ConventionalServices;
 using EnduranceJudge.Domain.Core.Models;
-using EnduranceJudge.Gateways.Persistence.Context;
+using EnduranceJudge.Gateways.Persistence;
 using System.Threading.Tasks;
 
 namespace EnduranceJudge.Gateways.Persistence.Contracts

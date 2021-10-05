@@ -1,5 +1,4 @@
-﻿using EnduranceJudge.Application.Core.Contracts;
-using EnduranceJudge.Application.Core.Handlers;
+﻿using EnduranceJudge.Application.Core.Handlers;
 using EnduranceJudge.Domain.State.Horses;
 using MediatR;
 using System.Collections.Generic;
@@ -10,7 +9,7 @@ namespace EnduranceJudge.Application.Events.Queries.GetHorses
     {
         public class GetHorsesHandler : GetAllHandler<GetHorses, HorseModel, Horse>
         {
-            public GetHorsesHandler(IQueries<Horse> horseQueries) : base(horseQueries)
+            public GetHorsesHandler() : base()
             {
             }
         }

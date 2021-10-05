@@ -2,7 +2,7 @@
 using EnduranceJudge.Core.ConventionalServices;
 using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Core.Services;
-using EnduranceJudge.Gateways.Persistence.Context;
+using EnduranceJudge.Gateways.Persistence;
 using System.Threading;
 using System.Threading.Tasks;
 

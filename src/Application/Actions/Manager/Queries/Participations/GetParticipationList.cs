@@ -1,7 +1,6 @@
-﻿using EnduranceJudge.Application.Core.Contracts;
-using EnduranceJudge.Application.Core.Handlers;
+﻿using EnduranceJudge.Application.Core.Handlers;
 using EnduranceJudge.Application.Events.Common;
-using EnduranceJudge.Domain.Aggregates.Manager.Participations;
+using EnduranceJudge.Domain.State.Participations;
 using MediatR;
 using System.Collections.Generic;
 
@@ -11,7 +10,7 @@ namespace EnduranceJudge.Application.Actions.Manager.Queries.Participations
     {
         public class GetParticipationListHandler : GetAllHandler<GetParticipationList, ListItemModel, Participation>
         {
-            public GetParticipationListHandler(IQueries<Participation> queries) : base(queries)
+            public GetParticipationListHandler() : base()
             {
             }
         }

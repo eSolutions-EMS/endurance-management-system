@@ -2,7 +2,7 @@
 using EnduranceJudge.Domain.State.Horses;
 using EnduranceJudge.Gateways.Persistence.Contracts;
 
-namespace EnduranceJudge.Gateways.Persistence.Context
+namespace EnduranceJudge.Gateways.Persistence
 {
     public class DataContext : IDataContext
     {

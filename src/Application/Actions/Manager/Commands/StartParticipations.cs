@@ -1,7 +1,6 @@
-﻿using EnduranceJudge.Application.Core.Contracts;
-using EnduranceJudge.Application.Core.Handlers;
-using EnduranceJudge.Domain.Aggregates.Manager.Participations;
+﻿using EnduranceJudge.Application.Core.Handlers;
 using MediatR;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,21 +10,13 @@ namespace EnduranceJudge.Application.Actions.Manager.Commands
     {
         public class StartParticipationsHandler : Handler<StartParticipations>
         {
-            private readonly ICommands<Participation> commands;
-            public StartParticipationsHandler(ICommands<Participation> commands)
+            public StartParticipationsHandler()
             {
-                this.commands = commands;
             }
 
             public override async Task DoHandle(StartParticipations request, CancellationToken token)
             {
-                var participations = await this.commands.All();
-                foreach (var participation in participations)
-                {
-                    participation.Start();
-                }
-
-                await this.commands.Update(participations, token);
+                throw new NotImplementedException();
             }
         }
     }
