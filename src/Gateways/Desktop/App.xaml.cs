@@ -7,7 +7,6 @@ using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Domain.State.Personnels;
 using EnduranceJudge.Domain.State.PhaseEntries;
 using EnduranceJudge.Domain.State.Phases;
-using EnduranceJudge.Domain.State.PhasesForCategory;
 using EnduranceJudge.Domain.Enums;
 using EnduranceJudge.Domain.State.EnduranceEvents;
 using EnduranceJudge.Gateways.Desktop.Startup;
@@ -115,44 +114,27 @@ namespace EnduranceJudge.Gateways.Desktop
             participant1.Participation.Add(competition1);
             participant2.Participation.Add(competition1);
 
-            var phase1 = new Phase(1, false, 10, 15);
+            var phase1 = new Phase(1, false, 10, 15, 10, 20);
             competition1.Add(phase1);
-            var phaseForCategory1 = new PhaseForCategory(1, 10, 20, Category.Kids);
-            var phaseForCategory2 = new PhaseForCategory(2, 15, 25, Category.Adults);
-            phase1.Add(phaseForCategory1);
-            phase1.Add(phaseForCategory2);
             var phaseEntry1 = new PhaseEntry(phase1, competition1.StartTime);
             var phaseEntry2 = new PhaseEntry(phase1, competition1.StartTime);
             participant1.Participation.PhaseEntries.Add(phaseEntry1);
             participant2.Participation.PhaseEntries.Add(phaseEntry2);
 
-            var phase2 = new Phase(2, true, 20, 30);
+            var phase2 = new Phase(2, true, 20, 30, 10, 20);
             competition1.Add(phase2);
-            var phaseForCategory3 = new PhaseForCategory(3, 10, 20, Category.Kids);
-            var phaseForCategory4 = new PhaseForCategory(4, 15, 25, Category.Adults);
-            phase2.Add(phaseForCategory3);
-            phase2.Add(phaseForCategory4);
 
             var competition2 = new Competition(2, CompetitionType.International, "Name", DateTime.Now.AddDays(1));
             eventState.Add(competition1);
             participant1.Participation.Add(competition2);
 
-            var phase3 = new Phase(1, false, 10, 15);
-            competition2.Add(phase1);
-            var phaseForCategory5 = new PhaseForCategory(1, 10, 20, Category.Kids);
-            var phaseForCategory6 = new PhaseForCategory(2, 15, 25, Category.Adults);
-            phase3.Add(phaseForCategory5);
-            phase3.Add(phaseForCategory6);
+            var phase3 = new Phase(1, false, 10, 15, 10, 20);
+            competition2.Add(phase3);
             var phaseEntry3 = new PhaseEntry(phase1, competition1.StartTime);
             participant1.Participation.PhaseEntries.Add(phaseEntry3);
 
-            var phase4 = new Phase(2, true, 20, 30);
-            competition2.Add(phase2);
-            var phaseForCategory7 = new PhaseForCategory(3, 10, 20, Category.Kids);
-            var phaseForCategory8 = new PhaseForCategory(4, 15, 25, Category.Adults);
-            phase4.Add(phaseForCategory7);
-            phase4.Add(phaseForCategory8);
-
+            var phase4 = new Phase(2, true, 20, 30, 10, 20);
+            competition2.Add(phase4);
 
             var json = serializer.Serialize(eventState);
             var result = serializer.Deserialize<EnduranceEvent>(json);

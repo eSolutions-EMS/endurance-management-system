@@ -79,8 +79,6 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInCompetitions
                 {
                     var lastPhase = this.ParticipationsInPhases.Last();
                     var restTime = lastPhase
-                        .PhasesForCategories
-                        .First(pfc => pfc.Category == this.Category)
                         .RestTimeInMinutes;
                     startTime = lastPhase.ReInspectionTime?.AddMinutes(restTime)
                         ?? lastPhase.InspectionTime!.Value.AddMinutes(restTime);

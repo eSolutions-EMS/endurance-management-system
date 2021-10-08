@@ -15,7 +15,7 @@
         public const string BoolFalseValue = "No";
 
         public const string RestInMinutesText = "Rest (min)";
-        public const string RecoveryInMinutesText = "Recovery (min)";
+        public const string RECOVERY_IN_MINUTES_TEXT = "Recovery (min)";
         public const string LengthInKmText = "Length (km)";
         public const string IsFinalText = "Final";
         public const string PHASES = "Phases";
@@ -92,7 +92,7 @@
         public const string HORSE = "Horse";
         public const string CategoryLabel = "Category";
         public const string MAX_RECOVERY_TIME_IN_MINS = "Max Recovery Time (mins)";
-        public const string REST_TIME_IN_MINUTES = "Rest Time In Minutes";
+        public const string REST_TIME_IN_MINS = "Rest Time (mins)";
         public const string PhasesForCategoryLabel = "Phases for Categories";
 
         // ------ Athlete

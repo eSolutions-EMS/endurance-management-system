@@ -60,6 +60,7 @@
                          Name="LengthInKm" />
             </Border>
 
+
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="3" Grid.Column="0">
                 <Label Style="{StaticResource Label-Primary}"
@@ -78,20 +79,27 @@
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="4" Grid.Column="0">
                 <Label Style="{StaticResource Label-Primary}"
-                       Target="{Binding ElementName=NavigateToCreatePhaseForCategory}"
-                       Content="{x:Static strings:DesktopStrings.PhasesForCategoryLabel}" />
+                       Target="{Binding ElementName=MaxRecoveryTimeInMinutes}"
+                       Content="{x:Static strings:DesktopStrings.MAX_RECOVERY_TIME_IN_MINS}" />
             </Border>
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="4" Grid.Column="1">
-                <Button Style="{StaticResource Button-Form-Create}"
-                        Command="{Binding NavigateToCreatePhaseForCategory}"
-                        Name="NavigateToCreatePhaseForCategory" />
+                <TextBox Style="{StaticResource Input}"
+                         Text="{Binding MaxRecoveryTimeInMinutes}"
+                         Name="MaxRecoveryTimeInMinutes" />
             </Border>
 
             <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="5" Grid.Column="1">
-                <ListBox Style="{StaticResource ListBox-Vertical}"
-                         ItemsSource="{Binding PhasesForCategories}" />
+                    Grid.Row="5" Grid.Column="0">
+                <Label Style="{StaticResource Label-Primary}"
+                       Target="{Binding ElementName=RestTimeInMinutes}"
+                       Content="{x:Static strings:DesktopStrings.REST_TIME_IN_MINS}" />
+            </Border>
+            <Border Style="{StaticResource Border-Vertical}"
+                    Grid.Row="6" Grid.Column="1">
+                <TextBox Style="{StaticResource Input}"
+                         Text="{Binding RestTimeInMinutes}"
+                         Name="RestTimeInMinutes" />
             </Border>
 
             <Border Style="{StaticResource Border-Vertical}"

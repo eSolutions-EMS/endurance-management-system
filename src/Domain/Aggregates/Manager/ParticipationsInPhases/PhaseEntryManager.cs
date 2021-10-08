@@ -4,7 +4,6 @@ using EnduranceJudge.Domain.Aggregates.Manager.ResultsInPhases;
 using EnduranceJudge.Domain.State.PhaseEntries;
 using EnduranceJudge.Domain.Core.Models;
 using System;
-using System.Collections.Generic;
 
 namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInPhases
 {
@@ -23,7 +22,6 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInPhases
             this.PhaseId = phase.Id;
             this.PhaseOrderBy = phase.OrderBy;
             this.PhaseLengthInKm = phase.LengthInKm;
-            this.PhasesForCategories = phase.PhasesForCategories;
         }
 
         public DateTime StartTime { get; private set; }
@@ -32,10 +30,11 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInPhases
         public DateTime? ReInspectionTime { get; private set; }
         public ResultInPhase ResultInPhase { get; private set; }
 
-        public int PhaseId { get; private init; }
-        public int PhaseOrderBy { get; private init; }
-        public int PhaseLengthInKm { get; private init; }
-        public IEnumerable<PhaseForCategoryDto> PhasesForCategories { get; private init; }
+        public int PhaseId { get; }
+        public int PhaseOrderBy { get; }
+        public int PhaseLengthInKm { get; }
+        public int MaxRecoveryTimeInMinutes { get; set; }
+        public int RestTimeInMinutes { get; set; }
 
         public TimeSpan? LoopSpan => this.ArrivalTime - this.StartTime;
         public TimeSpan? PhaseSpan => (this.ReInspectionTime ?? this.InspectionTime) - this.StartTime;
