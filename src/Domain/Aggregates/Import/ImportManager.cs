@@ -22,7 +22,7 @@ namespace EnduranceJudge.Domain.Aggregates.Import
     public class ImportManager : DomainObjectBase<EventStateException>, IAggregateRoot
     {
         public ImportManager(string name = EVENT_DEFAULT_NAME, string countryIsoCode = COUNTRY_DEFAULT_CODE)
-            : base(default)
+            : base(true)
             => this.Validate<EventStateException>(() =>
         {
             this.EnduranceEvent = new EnduranceEvent(default, name, countryIsoCode);
@@ -44,7 +44,7 @@ namespace EnduranceJudge.Domain.Aggregates.Import
             foreach (var data in competitionsData)
             {
                 var name = data.FEIID.IsRequired(NAME);
-                var competition = new Competition(default, CompetitionType.International, name, default);
+                var competition = new Competition(CompetitionType.International, name, default);
                 this.EnduranceEvent.Add(competition);
             }
         });
@@ -71,7 +71,6 @@ namespace EnduranceJudge.Domain.Aggregates.Import
                 }
 
                 var athlete = new Athlete(
-                    default,
                     data.FEIID,
                     data.FirstName,
                     data.FamilyName,
@@ -97,7 +96,6 @@ namespace EnduranceJudge.Domain.Aggregates.Import
                 }
 
                 var horse = new Horse(
-                    default,
                     data.FEIID,
                     data.Name,
                     isStallion,
@@ -126,7 +124,7 @@ namespace EnduranceJudge.Domain.Aggregates.Import
                 var horse = this.horses.FirstOrDefault(x => x.FeiId == participantData.HorseEntry.First().FEIID);
                 if (athlete != null && horse != null)
                 {
-                    var participant = new Participant(default, horse, athlete);
+                    var participant = new Participant(horse, athlete);
                     this.participants.Add(participant);
                 }
             }
@@ -138,7 +136,7 @@ namespace EnduranceJudge.Domain.Aggregates.Import
             {
                 return;
             }
-            var horse = new Horse(default, feiId, name, breed, club);
+            var horse = new Horse(feiId, name, breed, club);
             this.horses.Add(horse);
         }
 

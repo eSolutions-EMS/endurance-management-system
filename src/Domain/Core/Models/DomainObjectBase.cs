@@ -5,16 +5,13 @@ using System;
 
 namespace EnduranceJudge.Domain.Core.Models
 {
-    public abstract class DomainObjectBase<TException> : ObjectBase, IDomainModel
+    public abstract class DomainObjectBase<TException> : IDomainObject
         where TException : DomainException, new()
     {
-        protected DomainObjectBase()
+        protected DomainObjectBase() {}
+        protected DomainObjectBase(bool targetThisConstructor)
         {
-        }
-
-        protected DomainObjectBase(int id)
-        {
-            this.Id = id;
+            this.Id = DomainIdProvider.NewId();
         }
 
         public int Id { get; init; }
@@ -51,12 +48,25 @@ namespace EnduranceJudge.Domain.Core.Models
 
         public override bool Equals(object other)
         {
-            return this.IsEqual(other);
+            if (other is not IDomainObject domainModel)
+            {
+                return false;
+            }
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+            if (this.GetType() != other.GetType())
+            {
+                return false;
+            }
+
+            return this.GetHashCode().Equals(other.GetHashCode());
         }
 
         public bool Equals(IIdentifiable identifiable)
         {
-            if (identifiable == null)
+            if (identifiable is not IDomainObject domainObject)
             {
                 return false;
             }
@@ -65,24 +75,10 @@ namespace EnduranceJudge.Domain.Core.Models
                 return this.Id == identifiable.Id;
             }
 
-            return base.Equals(identifiable);
+            return this.Equals(domainObject);
         }
 
         public override int GetHashCode()
             => base.GetHashCode() + this.Id;
-
-        private bool IsEqual(object other)
-        {
-            if (other is not IDomainModel domainModel)
-            {
-                return false;
-            }
-            if (this.GetType() != domainModel.GetType())
-            {
-                return false;
-            }
-
-            return this.Equals(domainModel);
-        }
     }
 }

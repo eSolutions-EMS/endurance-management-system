@@ -1,19 +1,15 @@
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.States;
 
-namespace EnduranceJudge.Domain.Aggregates.Manager.ResultsInPhases
+namespace EnduranceJudge.Domain.State.ResultsInPhases
 {
     public class ResultInPhase : DomainObjectBase<ManagerResultInPhaseException>, IResultInPhaseState
     {
-        internal ResultInPhase()
+        private ResultInPhase() {}
+        internal ResultInPhase(string code = null) : base(true)
         {
-            this.IsRanked = true;
-        }
-
-        internal ResultInPhase(string code)
-        {
+            this.IsRanked = code == null;
             this.Code = code;
-            this.IsRanked = false;
         }
 
         public bool IsRanked { get; private set; }

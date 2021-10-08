@@ -1,16 +1,16 @@
 ﻿using EnduranceJudge.Core.Exceptions;
 using EnduranceJudge.Core.Mappings;
-using EnduranceJudge.Core.Models;
+using EnduranceJudge.Domain.Core.Models;
 using System.Collections.Generic;
 using System.Linq;
 using static EnduranceJudge.Localization.Strings.Domain;
 
-namespace EnduranceJudge.Core.Extensions
+namespace EnduranceJudge.Domain.Core.Extensions
 {
-    public static class IObjectExtensions
+    public static class DomainObjectExtensions
     {
         public static void RemoveObject<T>(this ICollection<T> collection, T model)
-            where T : IObject
+            where T : IDomainObject
         {
             if (model == null)
             {
@@ -26,7 +26,7 @@ namespace EnduranceJudge.Core.Extensions
         }
 
         public static void AddObject<T>(this ICollection<T> collection, T model)
-            where T : IObject
+            where T : IDomainObject
         {
             if (model == null)
             {
@@ -42,7 +42,7 @@ namespace EnduranceJudge.Core.Extensions
         }
 
         public static void  AddOrUpdateObject<T>(this ICollection<T> collection, T model)
-            where T : IObject
+            where T : IDomainObject
         {
             if (model == null)
             {
@@ -59,7 +59,7 @@ namespace EnduranceJudge.Core.Extensions
         }
 
         public static void UpdateObject<T>(this ICollection<T> collection, T model)
-            where T : IObject
+            where T : IDomainObject
         {
             if (model == null)
             {

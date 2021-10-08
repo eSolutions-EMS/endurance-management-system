@@ -9,7 +9,7 @@ namespace EnduranceJudge.Domain.State.Personnels
     public class Personnel : DomainObjectBase<PersonnelException>, IPersonnelState
     {
         private Personnel() {}
-        public Personnel(int id, string name, PersonnelRole role) : base(id)
+        public Personnel(string name, PersonnelRole role) : base(true)
             => this.Validate(() =>
             {
                 this.Name = name.CheckPersonName();

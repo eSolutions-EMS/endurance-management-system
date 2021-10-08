@@ -2,7 +2,7 @@ using EnduranceJudge.Domain.State;
 
 namespace EnduranceJudge.Domain.Core.Models
 {
-    public interface IAggregateRoot : IDomainModel
+    public interface IAggregateRoot : IDomainObject
     {
         void UpdateState(IState state);
     }

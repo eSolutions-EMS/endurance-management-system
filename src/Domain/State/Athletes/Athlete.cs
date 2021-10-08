@@ -9,13 +9,13 @@ namespace EnduranceJudge.Domain.State.Athletes
         private const int ADULT_AGE_IN_YEARS = 18;
 
         private Athlete() {}
-        public Athlete(int id, string feiId, string firstName, string lastName, string countryCode, DateTime birthDate)
-            : this(id, feiId, firstName, lastName, countryCode, GetCategory(birthDate))
+        public Athlete(string feiId, string firstName, string lastName, string countryCode, DateTime birthDate)
+            : this(feiId, firstName, lastName, countryCode, GetCategory(birthDate))
         {
         }
 
-        public Athlete(int id, string feiId, string firstName, string lastName, string countryCode, Category category)
-            : base(id)
+        public Athlete(string feiId, string firstName, string lastName, string countryCode, Category category)
+            : base(true)
             => this.Validate(() =>
         {
             this.FeiId = feiId;

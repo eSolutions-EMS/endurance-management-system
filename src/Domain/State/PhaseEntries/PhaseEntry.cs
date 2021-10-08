@@ -1,4 +1,4 @@
-﻿using EnduranceJudge.Domain.Aggregates.Manager.ResultsInPhases;
+﻿using EnduranceJudge.Domain.State.ResultsInPhases;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Phases;
 using System;

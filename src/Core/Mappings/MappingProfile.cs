@@ -10,7 +10,6 @@ namespace EnduranceJudge.Core.Mappings
 {
     public abstract class MappingProfile : Profile
     {
-        private static readonly Type MyObjectType = typeof(IObject);
         private static readonly Type MapFromType = typeof(IMapFrom<>);
         private static readonly Type MapToType = typeof(IMapTo<>);
         private static readonly Type MapType = typeof(IMap<>);
@@ -28,7 +27,7 @@ namespace EnduranceJudge.Core.Mappings
         {
             var configurations = this
                 .GetInstanceTypes()
-                .Where(t => MyObjectType.IsAssignableFrom(t))
+                // .Where(t => MyObjectType.IsAssignableFrom(t))
                 .Select(t => new
                 {
                     Type = t,

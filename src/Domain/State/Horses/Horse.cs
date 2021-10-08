@@ -5,8 +5,7 @@ namespace EnduranceJudge.Domain.State.Horses
     public class Horse : DomainObjectBase<HorseException>, IHorseState
     {
         private Horse() {}
-
-        public Horse(int id, string feiId, string name, string breed, string club) : base(id)
+        public Horse(string feiId, string name, string breed, string club) : base(true)
             => this.Validate(() =>
         {
             this.Name = name;
@@ -16,7 +15,6 @@ namespace EnduranceJudge.Domain.State.Horses
         });
 
         public Horse(
-            int id,
             string feiId,
             string name,
             bool isStallion,
@@ -24,7 +22,7 @@ namespace EnduranceJudge.Domain.State.Horses
             string trainerFeiId,
             string trainerFirstName,
             string trainerLastName)
-            : base(id)
+            : base(true)
             => this.Validate(() =>
         {
             this.Name = name;

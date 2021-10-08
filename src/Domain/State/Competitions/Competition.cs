@@ -1,4 +1,5 @@
 using EnduranceJudge.Core.Extensions;
+using EnduranceJudge.Domain.Core.Extensions;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.Enums;
 using EnduranceJudge.Domain.State.Phases;
@@ -11,12 +12,12 @@ namespace EnduranceJudge.Domain.State.Competitions
     public class Competition : DomainObjectBase<CompetitionException>, ICompetitionState
     {
         private Competition() {}
-        public Competition(int id, CompetitionType type, string name, DateTime startTime) : base(id)
+        public Competition(CompetitionType type, string name, DateTime? startTime = null) : base(true)
             => this.Validate(() =>
         {
             this.Type = type;
             this.Name = name;
-            this.StartTime = startTime;
+            this.StartTime = startTime ?? DateTime.Today;
         });
 
         private List<Phase> phases = new();

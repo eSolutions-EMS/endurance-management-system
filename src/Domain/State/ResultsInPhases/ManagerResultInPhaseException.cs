@@ -1,6 +1,6 @@
 using EnduranceJudge.Domain.Core.Exceptions;
 
-namespace EnduranceJudge.Domain.Aggregates.Manager.ResultsInPhases
+namespace EnduranceJudge.Domain.State.ResultsInPhases
 {
     public class ManagerResultInPhaseException : DomainException
     {

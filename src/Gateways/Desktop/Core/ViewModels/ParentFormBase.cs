@@ -1,6 +1,4 @@
-﻿using EnduranceJudge.Core.Extensions;
-using EnduranceJudge.Core.Models;
-using EnduranceJudge.Gateways.Desktop.Core.Extensions;
+﻿using EnduranceJudge.Gateways.Desktop.Core.Extensions;
 using Prism.Regions;
 using System;
 using System.Collections.ObjectModel;
@@ -20,7 +18,7 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
         }
 
         public void UpdateGrandChild<T>(NavigationContext context, ObservableCollection<T> children)
-            where T : IParentForm, IObject
+            where T : IParentForm
         {
             context.Parameters.Add(DesktopConstants.UPDATE_PARAMETER, true);
             foreach (var parent in children)
@@ -34,22 +32,22 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
         }
 
         protected void AddOrUpdateChild<T>(NavigationContext context, ObservableCollection<T> parents)
-            where T : IParentForm, IObject
+            where T : IParentForm
         {
             var child = context.GetChild<T>();
             if (child != null)
             {
                 if (context.IsRemove())
                 {
-                    parents.RemoveObject(child);
+                    parents.Remove(child);
                 }
                 else if (context.IsUpdate())
                 {
-                    parents.UpdateObject(child);
+                    parents.Remove(child);
                 }
                 else
                 {
-                    parents.AddOrUpdateObject(child);
+                    parents.Add(child);
                 }
             }
         }

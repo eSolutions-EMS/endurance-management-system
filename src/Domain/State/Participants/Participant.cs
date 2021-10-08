@@ -1,6 +1,7 @@
 using EnduranceJudge.Domain.Core.Validation;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Athletes;
+using EnduranceJudge.Domain.State.Competitions;
 using EnduranceJudge.Domain.State.Horses;
 using EnduranceJudge.Domain.State.Participations;
 using static EnduranceJudge.Localization.DesktopStrings;
@@ -14,13 +15,12 @@ namespace EnduranceJudge.Domain.State.Participants
 
         private Participant() {}
         public Participant(
-            int id,
             Horse horse,
             Athlete athlete,
             int number = default,
             string rfId = default,
             int? maxAverageSpeedInKmPh = default)
-            : base(id)
+            : base(true)
             => this.Validate(() =>
         {
             this.RfId = rfId;
@@ -35,6 +35,18 @@ namespace EnduranceJudge.Domain.State.Participants
         public int? MaxAverageSpeedInKmPh { get; private set; }
         public Horse Horse { get; private set; }
         public Athlete Athlete { get; private set; }
-        public Participation Participation { get; } = new();
+        public Participation Participation { get; private set; }
+
+        public void ParticipateIn(Competition competition)
+        {
+            if (this.Participation == null)
+            {
+                this.Participation = new Participation(competition);
+            }
+            else
+            {
+                this.Participation.Add(competition);
+            }
+        }
     }
 }

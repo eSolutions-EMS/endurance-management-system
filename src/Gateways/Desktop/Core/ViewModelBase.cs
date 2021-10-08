@@ -10,23 +10,20 @@ using System;
 
 namespace EnduranceJudge.Gateways.Desktop.Core
 {
-    public abstract class ViewModelBase : BindableBase, INavigationAware, IObject
+    public abstract class ViewModelBase : BindableBase, INavigationAware
     {
         private readonly int objectUniqueCode;
 
         protected ViewModelBase()
         {
             this.EventAggregator = ServiceProvider.GetService<IEventAggregator>();
-            this.ObjectId = Guid.NewGuid();
-            this.objectUniqueCode = ObjectUtilities.GetUniqueObjectCode(this);
         }
 
         protected IEventAggregator EventAggregator { get; }
         protected IRegionNavigationJournal Journal { get; private set; }
 
-        public Guid ObjectId { get; }
-        public DelegateCommand NavigateForward => new DelegateCommand(this.NavigateForwardAction);
-        public DelegateCommand NavigateBack => new DelegateCommand(this.NavigateBackAction);
+        public DelegateCommand NavigateForward => new (this.NavigateForwardAction);
+        public DelegateCommand NavigateBack => new (this.NavigateBackAction);
 
         public virtual void OnNavigatedTo(NavigationContext context)
         {
@@ -54,19 +51,6 @@ namespace EnduranceJudge.Gateways.Desktop.Core
             this.EventAggregator
                 .GetEvent<ErrorEvent>()
                 .Publish(message);
-        }
-
-        public override bool Equals(object other)
-        {
-            return this.Equals(other as IObject);
-        }
-        public bool Equals(IObject other)
-        {
-            return ObjectUtilities.IsEqual(this, other);
-        }
-        public override int GetHashCode()
-        {
-            return this.objectUniqueCode;
         }
     }
 }

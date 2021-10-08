@@ -1,4 +1,5 @@
 using EnduranceJudge.Core.Extensions;
+using EnduranceJudge.Domain.Core.Extensions;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.Core.Validation;
 using EnduranceJudge.Domain.Enums;
@@ -14,13 +15,13 @@ namespace EnduranceJudge.Domain.State.EnduranceEvents
     public class EnduranceEvent : DomainObjectBase<EventStateException>, IEnduranceEventState
     {
         private EnduranceEvent()  {}
-        public EnduranceEvent(int id, string name, string countryIsoCode) : base(id)
+        public EnduranceEvent(string name, string countryIsoCode) : base(true)
         {
             this.Name = name;
             this.CountryIsoCode = countryIsoCode;
         }
 
-        public EnduranceEvent(int id, string name, string populatedPlace, string countryCode) : base(id)
+        public EnduranceEvent(string name, string populatedPlace, string countryCode) : base(true)
             => this.Validate(() =>
         {
             this.Name = name.IsRequired(NAME);

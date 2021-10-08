@@ -1,6 +1,6 @@
 using EnduranceJudge.Domain.Core.Validation;
 using EnduranceJudge.Domain.Aggregates.Manager.DTOs;
-using EnduranceJudge.Domain.Aggregates.Manager.ResultsInPhases;
+using EnduranceJudge.Domain.State.ResultsInPhases;
 using EnduranceJudge.Domain.State.PhaseEntries;
 using EnduranceJudge.Domain.Core.Models;
 using System;

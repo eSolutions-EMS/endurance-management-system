@@ -6,7 +6,7 @@ namespace EnduranceJudge.Domain.State.Phases
     public class Phase : DomainObjectBase<PhaseException>, IPhaseState
     {
         private Phase() {}
-        public Phase(int id, bool isFinal, int orderBy, int lengthInKm, int maxRecovery, int restTime) : base(id)
+        public Phase(bool isFinal, int orderBy, int lengthInKm, int maxRecovery, int restTime) : base(true)
             => this.Validate(() =>
         {
             this.IsFinal = isFinal;
