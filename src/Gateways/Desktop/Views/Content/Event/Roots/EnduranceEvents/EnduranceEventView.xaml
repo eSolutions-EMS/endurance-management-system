@@ -69,9 +69,8 @@
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="4" Grid.Column="1" >
                 <ComboBox Style="{StaticResource Combo-Box}"
-                          ItemsSource="{Binding Countries}"
-                          SelectedValue="{Binding SelectedCountryIsoCode}"
-                          SelectedValuePath="IsoCode"/>
+                          ItemsSource="{Binding CountryItems}"
+                          SelectedValue="{Binding CountryId}"/>
             </Border>
 
             <Border Style="{StaticResource Border-Vertical}"

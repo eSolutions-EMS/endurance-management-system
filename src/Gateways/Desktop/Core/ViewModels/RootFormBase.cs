@@ -27,11 +27,7 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
 
         public override void OnNavigatedTo(NavigationContext context)
         {
-            var id = context.GetId();
-            if (id.HasValue && this.Id == default)
-            {
-                this.Load(id.Value);
-            }
+            this.Load(default);
             base.OnNavigatedTo(context);
         }
 

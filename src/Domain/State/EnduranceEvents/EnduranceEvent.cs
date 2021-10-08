@@ -1,32 +1,25 @@
-using EnduranceJudge.Core.Extensions;
 using EnduranceJudge.Domain.Core.Extensions;
 using EnduranceJudge.Domain.Core.Models;
-using EnduranceJudge.Domain.Core.Validation;
 using EnduranceJudge.Domain.Enums;
 using EnduranceJudge.Domain.State.Competitions;
+using EnduranceJudge.Domain.State.Countries;
 using EnduranceJudge.Domain.State.Participations;
 using EnduranceJudge.Domain.State.Personnels;
 using System.Collections.Generic;
 using System.Linq;
-using static EnduranceJudge.Localization.DesktopStrings;
 
 namespace EnduranceJudge.Domain.State.EnduranceEvents
 {
     public class EnduranceEvent : DomainObjectBase<EventStateException>, IEnduranceEventState
     {
         private EnduranceEvent()  {}
-        public EnduranceEvent(string name, string countryIsoCode) : base(true)
-        {
-            this.Name = name;
-            this.CountryIsoCode = countryIsoCode;
-        }
 
-        public EnduranceEvent(string name, string populatedPlace, string countryCode) : base(true)
+        public EnduranceEvent(string name, Country country, string populatedPlace) : base(true)
             => this.Validate(() =>
         {
-            this.Name = name.IsRequired(NAME);
-            this.PopulatedPlace = populatedPlace.IsRequired(POPULATED_PLACE);
-            this.CountryIsoCode = countryCode.IsRequired(COUNTRY);
+            this.Name = name;//.IsRequired(NAME);
+            this.PopulatedPlace = populatedPlace;//.IsRequired(POPULATED_PLACE);
+            this.Country = country; //.IsRequired(COUNTRY);
         });
 
         private List<Personnel> membersOfVetCommittee = new();
@@ -37,7 +30,7 @@ namespace EnduranceJudge.Domain.State.EnduranceEvents
 
         public string Name { get; private set; }
         public string PopulatedPlace { get; private set; }
-        public string CountryIsoCode { get; private set; }
+        public Country Country { get; private set; }
         public Personnel PresidentGroundJury { get; private set; }
         public Personnel PresidentVetCommission { get; private set; }
         public Personnel ForeignJudge { get; private set; }

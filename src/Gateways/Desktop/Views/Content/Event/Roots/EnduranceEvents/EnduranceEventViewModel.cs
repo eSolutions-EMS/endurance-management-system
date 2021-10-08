@@ -1,4 +1,7 @@
-﻿using EnduranceJudge.Application.Models;
+﻿using EnduranceJudge.Application.Contracts.Queries;
+using EnduranceJudge.Application.Models;
+using EnduranceJudge.Core.Mappings;
+using EnduranceJudge.Domain.State.Countries;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Competitions;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Personnel;
@@ -7,43 +10,41 @@ using Prism.Regions;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.EnduranceEvents
 {
     public class EnduranceEventViewModel : RootFormBase<EnduranceEventView>
     {
-        public EnduranceEventViewModel()
+        private readonly IEnduranceEventQuery enduranceEventQuery;
+        private readonly IQueries<Country> countryQueries;
+        public EnduranceEventViewModel(IEnduranceEventQuery enduranceEventQuery, IQueries<Country> countryQueries)
         {
+            this.enduranceEventQuery = enduranceEventQuery;
+            this.countryQueries = countryQueries;
             this.NavigateToCompetition = new DelegateCommand(this.NavigateToNewChild<CompetitionView>);
             this.NavigateToPersonnel = new DelegateCommand(this.NavigateToNewChild<PersonnelView>);
         }
 
         public DelegateCommand NavigateToPersonnel { get; }
         public DelegateCommand NavigateToCompetition { get; }
-        public ObservableCollection<ListItemModel> Countries { get; }
-            = new (Enumerable.Empty<ListItemModel>());
+        public ObservableCollection<ListItemModel> CountryItems { get; } = new();
         public ObservableCollection<PersonnelViewModel> Personnel { get; } = new();
         public ObservableCollection<CompetitionViewModel> Competitions { get; } = new();
 
         private string name;
         private string populatedPlace;
-        private string selectedCountryIsoCode;
-
-        public Visibility CountryVisibility { get; private set; } = Visibility.Hidden;
+        private int countryId;
 
         public override void OnNavigatedTo(NavigationContext context)
         {
             base.OnNavigatedTo(context);
-            if (!this.Countries.Any())
-            {
-                this.LoadCountries();
-            }
+            this.LoadCountries();
         }
 
         protected override void Load(int id)
         {
-            throw new NotImplementedException();
+            var enduranceEvent = this.enduranceEventQuery.Get();
+            this.MapFrom(enduranceEvent);
         }
         protected override void SubmitAction()
         {
@@ -60,15 +61,17 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.EnduranceEve
             get => this.populatedPlace;
             set => this.SetProperty(ref this.populatedPlace, value);
         }
-        public string SelectedCountryIsoCode
+        public int CountryId
         {
-            get => this.selectedCountryIsoCode;
-            set => this.SetProperty(ref this.selectedCountryIsoCode, value);
+            get => this.countryId;
+            set => this.SetProperty(ref this.countryId, value);
         }
 
         private void LoadCountries()
         {
-            throw new NotImplementedException();
+            var countries = this.countryQueries.GetAll();
+            var viewModels = countries.Select(x => new ListItemModel { Id = x.Id, Name = x.Name });
+            this.CountryItems.AddRange(viewModels);
         }
 
         public override void HandleChildren(NavigationContext context)

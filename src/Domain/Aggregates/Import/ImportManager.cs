@@ -21,11 +21,11 @@ namespace EnduranceJudge.Domain.Aggregates.Import
 {
     public class ImportManager : DomainObjectBase<EventStateException>, IAggregateRoot
     {
-        public ImportManager(string name = EVENT_DEFAULT_NAME, string countryIsoCode = COUNTRY_DEFAULT_CODE)
+        public ImportManager(string name = EVENT_DEFAULT_NAME, Country country = null)
             : base(true)
             => this.Validate<EventStateException>(() =>
         {
-            this.EnduranceEvent = new EnduranceEvent(default, name, countryIsoCode);
+            this.EnduranceEvent = new EnduranceEvent(name, country, null);
         });
 
         public EnduranceEvent EnduranceEvent { get; private set; }

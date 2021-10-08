@@ -1,11 +1,11 @@
 ﻿using EnduranceJudge.Gateways.Desktop.Core;
 using System.Windows.Controls;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.NavigationStrip
+namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.ConfigurationMenu
 {
-    public partial class EventNavigationStripView : UserControl, IView
+    public partial class ConfigurationMenuView : UserControl, IView
     {
-        public EventNavigationStripView()
+        public ConfigurationMenuView()
         {
             InitializeComponent();
         }

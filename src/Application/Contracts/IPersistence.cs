@@ -2,7 +2,7 @@
 
 namespace EnduranceJudge.Application.Contracts
 {
-    public interface IStateUpdater
+    public interface IPersistence
     {
         void Update(IAggregateRoot aggregateRoot);
     }

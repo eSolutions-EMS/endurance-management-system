@@ -10,11 +10,15 @@ namespace EnduranceJudge.Core
         public static IServiceCollection AddCore(
             this IServiceCollection services,
             params Assembly[] assemblies)
-            => services
+        {
+            services.AddDataProtection();
+
+            return services
                 .AddMapping(assemblies)
                 .AddTransientServices(assemblies)
                 .AddScopedServices(assemblies)
                 .AddSingletonServices(assemblies);
+        }
 
         private static IServiceCollection AddTransientServices(this IServiceCollection services, Assembly[] assemblies)
             => services.Scan(scan => scan

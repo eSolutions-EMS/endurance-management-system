@@ -6,6 +6,5 @@ namespace EnduranceJudge.Domain.State.EnduranceEvents
     {
         public string Name { get; }
         public string PopulatedPlace { get; }
-        public string CountryIsoCode { get; }
     }
 }

@@ -4,7 +4,6 @@ using System.Reflection;
 using AutoMapper;
 using System.Collections.Generic;
 using EnduranceJudge.Core.Extensions;
-using EnduranceJudge.Core.Models;
 
 namespace EnduranceJudge.Core.Mappings
 {
@@ -17,7 +16,7 @@ namespace EnduranceJudge.Core.Mappings
 
         protected MappingProfile()
         {
-            this.AddConventionalMaps();
+            // this.AddConventionalMaps();
             this.AddCustomMaps();
         }
 

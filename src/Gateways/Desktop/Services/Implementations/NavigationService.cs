@@ -1,8 +1,9 @@
 ﻿using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.EnduranceEvents.Listing;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Event.NavigationStrip;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Event.ConfigurationMenu;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Imports;
 using EnduranceJudge.Gateways.Desktop.Core.Services.Implementations;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.EnduranceEvents;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Manager;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participations.Listing;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.Categorizations.Listing;
@@ -25,9 +26,9 @@ namespace EnduranceJudge.Gateways.Desktop.Services.Implementations
 
         public void NavigateToEvent()
         {
-            this.ChangeTo<EnduranceEventListView>();
-            this.ChangeTo<EventNavigationStripView>(Regions.CONTENT_RIGHT);
-       }
+            this.ChangeTo<EnduranceEventView>();
+            this.ChangeTo<ConfigurationMenuView>(Regions.CONTENT_RIGHT);
+        }
 
         public void NavigateToManager()
         {

@@ -5,7 +5,7 @@ using EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.EnduranceEvents.
 using EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Horses.Listing;
 using Prism.Commands;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.NavigationStrip
+namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.ConfigurationMenu
 {
     public class EventNavigationStripViewModel : ViewModelBase
     {
