@@ -3,14 +3,13 @@ using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
 using Prism.Commands;
-using Prism.Regions;
+using System;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Participants
 {
-    public class ParticipantViewModel : ChildFormBase<ParticipantView>,
+    public class ParticipantViewModel : FormBase<ParticipantView>,
         IMap<Participant>
     {
         public ParticipantViewModel()
@@ -18,6 +17,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Participa
             this.ToggleIsAverageSpeedInKmPhVisibility = new DelegateCommand(
                 this.ToggleIsAverageSpeedInKmPhVisibilityAction);
         }
+        public DelegateCommand ToggleIsAverageSpeedInKmPhVisibility { get; }
 
         public ObservableCollection<SimpleListItemViewModel> HorseItems { get; } = new();
         public ObservableCollection<SimpleListItemViewModel> AthleteItems { get; } = new();
@@ -32,6 +32,47 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Participa
         private string name;
         private string horseName;
         private string athleteName;
+
+        protected override void Load(int id)
+        {
+            throw new NotImplementedException();
+        }
+        protected override void SubmitAction()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ToggleIsAverageSpeedInKmPhVisibilityAction()
+        {
+            if (this.MaxAverageSpeedInKmPhVisibility == Visibility.Hidden)
+            {
+                this.ShowMaxAverageSpeedInKmPh();
+            }
+            else
+            {
+                this.HideMaxAverageSpeedInKmPh();
+            }
+        }
+        private void ShowMaxAverageSpeedInKmPh()
+        {
+            this.MaxAverageSpeedInKmPhVisibility = Visibility.Visible;
+            this.MaxAverageSpeedInKmPh = Participant.DEFAULT_MAX_AVERAGE_SPEED;
+        }
+        private void HideMaxAverageSpeedInKmPh()
+        {
+            this.MaxAverageSpeedInKmPhVisibility = Visibility.Hidden;
+            this.MaxAverageSpeedInKmPh = default;
+        }
+        public Visibility MaxAverageSpeedInKmPhVisibility
+        {
+            get => this.maxAverageSpeedInKmPhVisibility;
+            set => this.SetProperty(ref this.maxAverageSpeedInKmPhVisibility, value);
+        }
+
+        private string FormatName()
+        {
+            return string.Format(DesktopConstants.COMPOSITE_NAME_FORMAT, this.AthleteName, this.horseName);
+        }
 
         public string RfId
         {
@@ -85,61 +126,6 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Participa
         {
             get => this.name;
             private set => this.SetProperty(ref this.name, value);
-        }
-
-        public override void OnNavigatedTo(NavigationContext context)
-        {
-            base.OnNavigatedTo(context);
-            this.LoadCompetitors();
-            if (this.MaxAverageSpeedInKmPh.HasValue)
-            {
-                this.ShowMaxAverageSpeedInKmPh();
-            }
-        }
-
-        public DelegateCommand ToggleIsAverageSpeedInKmPhVisibility { get; private set; }
-        public void ToggleIsAverageSpeedInKmPhVisibilityAction()
-        {
-            if (this.MaxAverageSpeedInKmPhVisibility == Visibility.Hidden)
-            {
-                this.ShowMaxAverageSpeedInKmPh();
-            }
-            else
-            {
-                this.HideMaxAverageSpeedInKmPh();
-            }
-        }
-        private void ShowMaxAverageSpeedInKmPh()
-        {
-            this.MaxAverageSpeedInKmPhVisibility = Visibility.Visible;
-            this.MaxAverageSpeedInKmPh = Participant.DEFAULT_MAX_AVERAGE_SPEED;
-        }
-        private void HideMaxAverageSpeedInKmPh()
-        {
-            this.MaxAverageSpeedInKmPhVisibility = Visibility.Hidden;
-            this.MaxAverageSpeedInKmPh = default;
-        }
-        public Visibility MaxAverageSpeedInKmPhVisibility
-        {
-            get => this.maxAverageSpeedInKmPhVisibility;
-            set => this.SetProperty(ref this.maxAverageSpeedInKmPhVisibility, value);
-        }
-
-        private async Task LoadCompetitors()
-        {
-            // var horses = await this.application.Execute(new GetHorseList());
-            // var athletes = await this.application.Execute(new GetAthletesList());
-            //
-            // var horseItems = horses.Select(x => new SimpleListItemViewModel(x));
-            // var athleteItems = athletes.Select(x => new SimpleListItemViewModel(x));
-            //
-            // this.HorseItems.AddRange(horseItems);
-            // this.AthleteItems.AddRange(athleteItems);
-        }
-
-        private string FormatName()
-        {
-            return string.Format(DesktopConstants.COMPOSITE_NAME_FORMAT, this.AthleteName, this.horseName);
         }
     }
 }

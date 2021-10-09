@@ -1,19 +1,14 @@
-﻿using EnduranceJudge.Core.Models;
-using EnduranceJudge.Core.Utilities;
-using EnduranceJudge.Gateways.Desktop.Core.Objects;
+﻿using EnduranceJudge.Gateways.Desktop.Core.Objects;
 using EnduranceJudge.Gateways.Desktop.Core.Static;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
 using Prism.Regions;
-using System;
 
 namespace EnduranceJudge.Gateways.Desktop.Core
 {
     public abstract class ViewModelBase : BindableBase, INavigationAware
     {
-        private readonly int objectUniqueCode;
-
         protected ViewModelBase()
         {
             this.EventAggregator = ServiceProvider.GetService<IEventAggregator>();

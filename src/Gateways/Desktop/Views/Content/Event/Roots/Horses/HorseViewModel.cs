@@ -6,7 +6,7 @@ using Prism.Events;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Horses
 {
-    public class HorseViewModel : RootFormBase<HorseView>, IHorseState, IListable
+    public class HorseViewModel : FormBase<HorseView>, IHorseState, IListable
     {
         private readonly IEventAggregator eventAggregator;
 

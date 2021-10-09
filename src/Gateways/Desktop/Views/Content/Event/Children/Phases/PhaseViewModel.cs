@@ -1,10 +1,11 @@
 ﻿using EnduranceJudge.Domain.State.Phases;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
 using EnduranceJudge.Localization;
+using System;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Phases
 {
-    public class PhaseViewModel : ChildFormBase<PhaseView>, IPhaseState
+    public class PhaseViewModel : FormBase<PhaseView>, IPhaseState
     {
         private string isFinalText;
         private int isFinalValue;
@@ -12,6 +13,15 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Phases
         private int orderBy;
         private int maxRecoveryTimeInMinutes;
         private int restTimeInMinutes;
+
+        protected override void Load(int id)
+        {
+            throw new NotImplementedException();
+        }
+        protected override void SubmitAction()
+        {
+            throw new NotImplementedException();
+        }
 
         public int IsFinalValue
         {

@@ -1,5 +1,4 @@
-﻿using EnduranceJudge.Core.Mappings;
-using EnduranceJudge.Domain.State.Athletes;
+﻿using EnduranceJudge.Domain.State.Athletes;
 using EnduranceJudge.Domain.State.Competitions;
 using EnduranceJudge.Domain.State.Horses;
 using EnduranceJudge.Domain.Enums;
@@ -12,7 +11,6 @@ using EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Participants;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Phases;
 using Prism.Commands;
 using Prism.Events;
-using Prism.Regions;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -20,15 +18,15 @@ using System.Windows;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Competitions
 {
-    public class CompetitionViewModel : ChildFormBase<CompetitionView>, ICompetitionState
+    public class CompetitionViewModel : FormBase<CompetitionView>, ICompetitionState
     {
         private readonly IEventAggregator eventAggregator;
 
         public CompetitionViewModel()
         {
             this.LoadTypes();
-            this.NavigateToCreatePhase = new DelegateCommand(this.NavigateToNewChild<PhaseView>);
-            this.NavigateToCreateParticipant = new DelegateCommand(this.NavigateToNewChild<ParticipantView>);
+            this.NavigateToCreatePhase = new DelegateCommand(this.Navigation.ChangeTo<PhaseView>);
+            this.NavigateToCreateParticipant = new DelegateCommand(this.Navigation.ChangeTo<ParticipantView>);
             this.Toggle = new DelegateCommand(this.ToggleAction);
             this.eventAggregator = ServiceProvider.GetService<IEventAggregator>();
             this.ListenForCompetitorChange();
@@ -49,53 +47,13 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Competiti
         private string toggleText = "Expand";
         private Visibility toggleVisibility = Visibility.Collapsed;
 
-        public string TypeString
+        protected override void Load(int id)
         {
-            get => this.typeString;
-            set => this.SetProperty(ref this.typeString, value);
+            throw new NotImplementedException();
         }
-        public int TypeValue
+        protected override void SubmitAction()
         {
-            get => this.typeValue;
-            set
-            {
-                this.SetProperty(ref this.typeValue, value);
-                this.TypeString = ((CompetitionType)this.typeValue).ToString();
-            }
-        }
-        public string Name
-        {
-            get => this.name;
-            set => this.SetProperty(ref this.name, value);
-        }
-        public DateTime StartTime
-        {
-            get => this.startTime;
-            set => this.SetProperty(ref this.startTime, value);
-        }
-        public string ToggleText
-        {
-            get => this.toggleText;
-            set => this.SetProperty(ref this.toggleText, value);
-        }
-        public Visibility ToggleVisibility
-        {
-            get => this.toggleVisibility;
-            private set => this.SetProperty(ref this.toggleVisibility, value);
-        }
-
-        public override void HandleChildren(NavigationContext context)
-        {
-            this.AddOrUpdateChild(context, this.Phases);
-            this.AddOrUpdateChild(context, this.Participants);
-
-            this.UpdateGrandChild(context, this.Phases);
-        }
-
-        private void LoadTypes()
-        {
-            var typeViewModels = SimpleListItemViewModel.FromEnum<CompetitionType>();
-            this.TypeItems = new ObservableCollection<SimpleListItemViewModel>(typeViewModels);
+            throw new NotImplementedException();
         }
 
         private void ToggleAction()
@@ -164,6 +122,47 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Competiti
                 participant.HorseId = horse.Id;
                 participant.HorseName = horse.Name;
             }
+        }
+
+        public string TypeString
+        {
+            get => this.typeString;
+            set => this.SetProperty(ref this.typeString, value);
+        }
+        public int TypeValue
+        {
+            get => this.typeValue;
+            set
+            {
+                this.SetProperty(ref this.typeValue, value);
+                this.TypeString = ((CompetitionType)this.typeValue).ToString();
+            }
+        }
+        public string Name
+        {
+            get => this.name;
+            set => this.SetProperty(ref this.name, value);
+        }
+        public DateTime StartTime
+        {
+            get => this.startTime;
+            set => this.SetProperty(ref this.startTime, value);
+        }
+        public string ToggleText
+        {
+            get => this.toggleText;
+            set => this.SetProperty(ref this.toggleText, value);
+        }
+        public Visibility ToggleVisibility
+        {
+            get => this.toggleVisibility;
+            private set => this.SetProperty(ref this.toggleVisibility, value);
+        }
+
+        private void LoadTypes()
+        {
+            var typeViewModels = SimpleListItemViewModel.FromEnum<CompetitionType>();
+            this.TypeItems = new ObservableCollection<SimpleListItemViewModel>(typeViewModels);
         }
     }
 }

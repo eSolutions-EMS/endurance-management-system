@@ -15,7 +15,7 @@ using System.Linq;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.EnduranceEvents
 {
-    public class EnduranceEventViewModel : RootFormBase<EnduranceEventView>
+    public class EnduranceEventViewModel : FormBase<EnduranceEventView>
     {
         private readonly IDomainHandler domainHandler;
         private readonly IPersistence persistence;
@@ -31,8 +31,8 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.EnduranceEve
             this.persistence = persistence;
             this.enduranceEventQuery = enduranceEventQuery;
             this.countryQueries = countryQueries;
-            this.NavigateToCompetition = new DelegateCommand(this.NavigateToNewChild<CompetitionView>);
-            this.NavigateToPersonnel = new DelegateCommand(this.NavigateToNewChild<PersonnelView>);
+            this.NavigateToCompetition = new DelegateCommand(this.Navigation.ChangeTo<CompetitionView>);
+            this.NavigateToPersonnel = new DelegateCommand(this.Navigation.ChangeTo<PersonnelView>);
         }
 
         public DelegateCommand NavigateToPersonnel { get; }
@@ -84,14 +84,6 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.EnduranceEve
             var countries = this.countryQueries.GetAll();
             var viewModels = countries.Select(x => new ListItemModel { Id = x.Id, Name = x.Name });
             this.CountryItems.AddRange(viewModels);
-        }
-
-        public override void HandleChildren(NavigationContext context)
-        {
-            this.AddOrUpdateChild(context, this.Personnel);
-            this.AddOrUpdateChild(context, this.Competitions);
-
-            this.UpdateGrandChild(context, this.Competitions);
         }
     }
 }

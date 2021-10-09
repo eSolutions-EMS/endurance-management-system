@@ -6,7 +6,7 @@ using System.Collections.ObjectModel;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Personnel
 {
-    public class PersonnelViewModel : ChildFormBase<PersonnelView>, IMap<Domain.State.Personnels.Personnel>
+    public class PersonnelViewModel : FormBase<PersonnelView>, IMap<Domain.State.Personnels.Personnel>
     {
         public PersonnelViewModel()
         {
@@ -35,6 +35,14 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Personnel
         {
             var roles = SimpleListItemViewModel.FromEnum<PersonnelRole>();
             this.RoleItems = new ObservableCollection<SimpleListItemViewModel>(roles);
+        }
+        protected override void Load(int id)
+        {
+            throw new System.NotImplementedException();
+        }
+        protected override void SubmitAction()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

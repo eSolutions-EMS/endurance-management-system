@@ -13,7 +13,7 @@ using System.Linq;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Athletes
 {
-    public class AthleteViewModel : RootFormBase<AthleteView>, IAthleteState, IListable
+    public class AthleteViewModel : FormBase<AthleteView>, IAthleteState, IListable
     {
         private readonly IEventAggregator eventAggregator;
         private AthleteViewModel(IEventAggregator eventAggregator)
