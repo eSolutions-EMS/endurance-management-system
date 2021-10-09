@@ -3,7 +3,7 @@ using EnduranceJudge.Domain.Core.Models;
 using static EnduranceJudge.Localization.DesktopStrings;
 namespace EnduranceJudge.Domain.State.Phases
 {
-    public class Phase : DomainObjectBase<PhaseException>, IPhaseState
+    public class Phase : DomainObjectBase<PhaseObjectException>, IPhaseState
     {
         private Phase() {}
         public Phase(bool isFinal, int orderBy, int lengthInKm, int maxRecovery, int restTime) : base(true)

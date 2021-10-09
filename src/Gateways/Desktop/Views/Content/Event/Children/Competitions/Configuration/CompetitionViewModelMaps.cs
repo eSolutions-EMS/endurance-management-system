@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using EnduranceJudge.Application.Models;
+using EnduranceJudge.Application.Core.Models;
 using EnduranceJudge.Core.Extensions;
 using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Domain.Enums;

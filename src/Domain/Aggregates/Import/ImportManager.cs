@@ -19,11 +19,11 @@ using static EnduranceJudge.Domain.DomainConstants;
 
 namespace EnduranceJudge.Domain.Aggregates.Import
 {
-    public class ImportManager : DomainObjectBase<EventStateException>, IAggregateRoot
+    public class ImportManager : DomainObjectBase<EventStateObjectException>, IAggregateRoot
     {
         public ImportManager(string name = EVENT_DEFAULT_NAME, Country country = null)
             : base(true)
-            => this.Validate<EventStateException>(() =>
+            => this.Validate<EventStateObjectException>(() =>
         {
             this.EnduranceEvent = new EnduranceEvent(name, country, null);
         });
@@ -34,7 +34,7 @@ namespace EnduranceJudge.Domain.Aggregates.Import
         private readonly List<Participant> participants = new();
 
         public void AddCompetitions(List<HorseSportShowEntriesEvent> competitionsData)
-            => this.Validate<CompetitionException>(() =>
+            => this.Validate<CompetitionObjectException>(() =>
         {
             if (this.EnduranceEvent.Competitions.Any())
             {
@@ -50,7 +50,7 @@ namespace EnduranceJudge.Domain.Aggregates.Import
         });
 
         public void AddAthletes(List<HorseSportShowEntriesAthlete> athletesData)
-            => this.Validate<AthleteException>(() =>
+            => this.Validate<AthleteObjectException>(() =>
         {
             if (this.athletes.Any())
             {

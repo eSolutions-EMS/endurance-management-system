@@ -1,4 +1,4 @@
-﻿using EnduranceJudge.Core.Exceptions;
+﻿using EnduranceJudge.Domain.Core.Exceptions;
 using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Domain.Core.Models;
 using System.Collections.Generic;
@@ -14,12 +14,12 @@ namespace EnduranceJudge.Domain.Core.Extensions
         {
             if (model == null)
             {
-                throw new CoreException(CannotRemoveNullItemTemplate);
+                throw new DomainException(CannotRemoveNullItemTemplate);
             }
 
             if (!collection.Contains(model))
             {
-                throw new CoreException(CannotRemoveItemIsNotFoundTemplate, model.GetType().Name);
+                throw new DomainException(CannotRemoveItemIsNotFoundTemplate, model.GetType().Name);
             }
 
             collection.Remove(model);
@@ -30,12 +30,12 @@ namespace EnduranceJudge.Domain.Core.Extensions
         {
             if (model == null)
             {
-                throw new CoreException(CannotAddNullItemTemplate);
+                throw new DomainException(CannotAddNullItemTemplate);
             }
 
             if (collection.Contains(model))
             {
-                throw new CoreException(CannotAddItemExistsTemplate, model.GetType().Name);
+                throw new DomainException(CannotAddItemExistsTemplate, model.GetType().Name);
             }
 
             collection.Add(model);
@@ -46,7 +46,7 @@ namespace EnduranceJudge.Domain.Core.Extensions
         {
             if (model == null)
             {
-                throw new CoreException(CannotAddNullItemTemplate);
+                throw new DomainException(CannotAddNullItemTemplate);
             }
 
             if (collection.Contains(model))
@@ -63,7 +63,7 @@ namespace EnduranceJudge.Domain.Core.Extensions
         {
             if (model == null)
             {
-                throw new CoreException(CannotAddNullItemTemplate);
+                throw new DomainException(CannotAddNullItemTemplate);
             }
 
             if (!collection.Contains(model))

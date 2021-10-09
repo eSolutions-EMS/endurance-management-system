@@ -1,4 +1,4 @@
-﻿using EnduranceJudge.Application.Models;
+﻿using EnduranceJudge.Application.Core.Models;
 using EnduranceJudge.Core.Models;
 using EnduranceJudge.Domain.State.Athletes;
 using EnduranceJudge.Domain.Enums;

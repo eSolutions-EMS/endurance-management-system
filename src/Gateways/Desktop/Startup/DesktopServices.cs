@@ -43,7 +43,7 @@ namespace EnduranceJudge.Gateways.Desktop.Startup
                 .Scan(scan => scan
                     .FromAssemblies(assemblies)
                     .AddClasses(classes =>
-                        classes.AssignableTo<IInitializerInterface>())
+                        classes.AssignableTo<IInitializer>())
                     .AsSelfWithInterfaces()
                     .WithSingletonLifetime());
 

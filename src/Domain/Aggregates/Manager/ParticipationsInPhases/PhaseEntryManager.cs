@@ -7,7 +7,7 @@ using System;
 
 namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInPhases
 {
-    public class PhaseEntryManager : DomainObjectBase<ParticipationInPhaseException>, IPhaseEntryState
+    public class PhaseEntryManager : DomainObjectBase<ParticipationInPhaseObjectException>, IPhaseEntryState
     {
         private static readonly string ArrivalTimeIsNullMessage = $"cannot complete: ArrivalTime cannot be null.";
         private static readonly string InspectionTimeIsNullMessage = $"cannot complete: InspectionTime cannot be null";

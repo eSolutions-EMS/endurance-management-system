@@ -55,7 +55,7 @@ namespace EnduranceJudge.Gateways.Desktop
             InitializeStaticServices(aspNetProvider);
             // this.BigDick();
 
-            var initializers = aspNetProvider.GetServices<IInitializerInterface>();
+            var initializers = aspNetProvider.GetServices<IInitializer>();
             foreach (var initializer in initializers.OrderBy(x => x.RunningOrder))
             {
                 initializer.Run(aspNetProvider);

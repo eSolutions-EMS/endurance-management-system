@@ -1,5 +1,5 @@
 ﻿using EnduranceJudge.Application.Contracts.Queries;
-using EnduranceJudge.Application.Models;
+using EnduranceJudge.Application.Core.Models;
 using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Domain.State.Countries;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;

@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace EnduranceJudge.Domain.State.Competitions
 {
-    public class Competition : DomainObjectBase<CompetitionException>, ICompetitionState
+    public class Competition : DomainObjectBase<CompetitionObjectException>, ICompetitionState
     {
         private Competition() {}
         public Competition(CompetitionType type, string name, DateTime? startTime = null) : base(true)

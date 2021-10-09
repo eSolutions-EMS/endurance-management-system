@@ -4,7 +4,7 @@ using System;
 
 namespace EnduranceJudge.Domain.State.Athletes
 {
-    public class Athlete : DomainObjectBase<AthleteException>, IAthleteState
+    public class Athlete : DomainObjectBase<AthleteObjectException>, IAthleteState
     {
         private const int ADULT_AGE_IN_YEARS = 18;
 

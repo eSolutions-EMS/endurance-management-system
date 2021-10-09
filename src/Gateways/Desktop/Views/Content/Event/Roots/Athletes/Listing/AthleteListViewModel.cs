@@ -1,4 +1,4 @@
-﻿using EnduranceJudge.Application.Models;
+﻿using EnduranceJudge.Application.Core.Models;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
 using EnduranceJudge.Gateways.Desktop.Events.Athletes;
 using EnduranceJudge.Gateways.Desktop.Services;

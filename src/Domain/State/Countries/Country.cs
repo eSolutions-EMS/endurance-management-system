@@ -2,7 +2,7 @@ using EnduranceJudge.Domain.Core.Models;
 
 namespace EnduranceJudge.Domain.State.Countries
 {
-    public class Country : DomainObjectBase<CountryException>, ICountryState
+    public class Country : DomainObjectBase<CountryObjectException>, ICountryState
     {
         private Country() {}
         internal Country(string isoCode, string name) : base(true)

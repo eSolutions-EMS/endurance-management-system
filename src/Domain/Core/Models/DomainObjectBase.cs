@@ -1,12 +1,11 @@
-﻿using EnduranceJudge.Core.Exceptions;
-using EnduranceJudge.Core.Models;
+﻿using EnduranceJudge.Core.Models;
 using EnduranceJudge.Domain.Core.Exceptions;
 using System;
 
 namespace EnduranceJudge.Domain.Core.Models
 {
     public abstract class DomainObjectBase<TException> : IDomainObject
-        where TException : DomainException, new()
+        where TException : DomainObjectException, new()
     {
         protected DomainObjectBase() {}
         protected DomainObjectBase(bool targetThisConstructor)
@@ -22,19 +21,19 @@ namespace EnduranceJudge.Domain.Core.Models
             {
                 action();
             }
-            catch (CoreException exception)
+            catch (DomainException exception)
             {
                 this.Throw(exception.Message);
             }
         }
         internal void Validate<TCustomException>(Action action)
-            where TCustomException : DomainException, new()
+            where TCustomException : DomainObjectException, new()
         {
             try
             {
                 action();
             }
-            catch (CoreException exception)
+            catch (DomainException exception)
             {
                 this.Throw<TCustomException>(exception.Message);
             }
@@ -43,7 +42,7 @@ namespace EnduranceJudge.Domain.Core.Models
         internal void Throw(string message)
             => Thrower.Throw<TException>(message);
         internal void Throw<TCustomException>(string message)
-            where TCustomException : DomainException, new()
+            where TCustomException : DomainObjectException, new()
             => Thrower.Throw<TCustomException>(message);
 
         public override bool Equals(object other)

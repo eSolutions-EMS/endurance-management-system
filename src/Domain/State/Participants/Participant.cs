@@ -9,7 +9,7 @@ using static EnduranceJudge.Localization.DesktopStrings;
 namespace EnduranceJudge.Domain.State.Participants
 {
     // TODO: Rename to Contestant
-    public class Participant : DomainObjectBase<ParticipantException>, IParticipantState
+    public class Participant : DomainObjectBase<ParticipantObjectException>, IParticipantState
     {
         public const int DEFAULT_MAX_AVERAGE_SPEED = 16;
 

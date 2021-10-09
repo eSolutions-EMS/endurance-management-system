@@ -6,7 +6,7 @@ using EnduranceJudge.Domain.States;
 
 namespace EnduranceJudge.Domain.State.Personnels
 {
-    public class Personnel : DomainObjectBase<PersonnelException>, IPersonnelState
+    public class Personnel : DomainObjectBase<PersonnelObjectException>, IPersonnelState
     {
         private Personnel() {}
         public Personnel(string name, PersonnelRole role) : base(true)

@@ -1,7 +1,7 @@
 ﻿using EnduranceJudge.Application.Contracts;
+using EnduranceJudge.Application.Core.Services;
 using EnduranceJudge.Core.ConventionalServices;
 using EnduranceJudge.Core.Mappings;
-using EnduranceJudge.Core.Services;
 
 namespace EnduranceJudge.Gateways.Persistence.Contracts
 {
