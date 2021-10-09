@@ -1,13 +1,15 @@
-﻿using EnduranceJudge.Application.Contracts.Queries;
+﻿using EnduranceJudge.Application.Aggregates.Configurations.Contracts;
+using EnduranceJudge.Application.Contracts;
 using EnduranceJudge.Application.Core.Models;
 using EnduranceJudge.Core.Mappings;
+using EnduranceJudge.Domain.Aggregates.Configuration;
 using EnduranceJudge.Domain.State.Countries;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
+using EnduranceJudge.Gateways.Desktop.Services;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Competitions;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Personnel;
 using Prism.Commands;
 using Prism.Regions;
-using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -15,10 +17,18 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.EnduranceEve
 {
     public class EnduranceEventViewModel : RootFormBase<EnduranceEventView>
     {
+        private readonly IDomainHandler domainHandler;
+        private readonly IPersistence persistence;
         private readonly IEnduranceEventQuery enduranceEventQuery;
         private readonly IQueries<Country> countryQueries;
-        public EnduranceEventViewModel(IEnduranceEventQuery enduranceEventQuery, IQueries<Country> countryQueries)
+        public EnduranceEventViewModel(
+            IDomainHandler domainHandler,
+            IPersistence persistence,
+            IEnduranceEventQuery enduranceEventQuery,
+            IQueries<Country> countryQueries)
         {
+            this.domainHandler = domainHandler;
+            this.persistence = persistence;
             this.enduranceEventQuery = enduranceEventQuery;
             this.countryQueries = countryQueries;
             this.NavigateToCompetition = new DelegateCommand(this.NavigateToNewChild<CompetitionView>);
@@ -46,10 +56,12 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.EnduranceEve
             var enduranceEvent = this.enduranceEventQuery.Get();
             this.MapFrom(enduranceEvent);
         }
-        protected override void SubmitAction()
+        protected override void SubmitAction() => this.domainHandler.Handle(() =>
         {
-            throw new NotImplementedException();
-        }
+            var manager = new ConfigurationManager();
+            manager.Update(this.Name, this.CountryId, this.PopulatedPlace);
+            this.persistence.Update(manager);
+        });
 
         public string Name
         {

@@ -1,4 +1,5 @@
 using EnduranceJudge.Domain.Aggregates.Import.Models;
+using EnduranceJudge.Domain.Core.Exceptions;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.Core.Validation;
 using EnduranceJudge.Domain.Enums;
@@ -19,11 +20,10 @@ using static EnduranceJudge.Domain.DomainConstants;
 
 namespace EnduranceJudge.Domain.Aggregates.Import
 {
-    public class ImportManager : DomainObjectBase<EventStateObjectException>, IAggregateRoot
+    public class ImportManager : ManagerObjectBase, IAggregateRoot
     {
         public ImportManager(string name = EVENT_DEFAULT_NAME, Country country = null)
-            : base(true)
-            => this.Validate<EventStateObjectException>(() =>
+            => this.Validate<EnduranceEventException>(() =>
         {
             this.EnduranceEvent = new EnduranceEvent(name, country, null);
         });
@@ -44,7 +44,7 @@ namespace EnduranceJudge.Domain.Aggregates.Import
             foreach (var data in competitionsData)
             {
                 var name = data.FEIID.IsRequired(NAME);
-                var competition = new Competition(CompetitionType.International, name, default);
+                var competition = new Competition(CompetitionType.International, name);
                 this.EnduranceEvent.Add(competition);
             }
         });
@@ -115,7 +115,7 @@ namespace EnduranceJudge.Domain.Aggregates.Import
             }
             if (!this.horses.Any() || !this.athletes.Any())
             {
-                this.Throw("Cannot import Participants - empty horses and/or athletes.");
+                throw new DomainException("Cannot import Participants - empty horses and/or athletes.");
             }
 
             foreach (var participantData in participantsData)

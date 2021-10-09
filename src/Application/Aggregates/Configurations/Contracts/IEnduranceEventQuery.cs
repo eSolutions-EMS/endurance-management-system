@@ -1,6 +1,6 @@
 ﻿using EnduranceJudge.Domain.State.EnduranceEvents;
 
-namespace EnduranceJudge.Application.Contracts.Queries
+namespace EnduranceJudge.Application.Aggregates.Configurations.Contracts
 {
     public interface IEnduranceEventQuery
     {

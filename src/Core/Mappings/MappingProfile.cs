@@ -4,6 +4,7 @@ using System.Reflection;
 using AutoMapper;
 using System.Collections.Generic;
 using EnduranceJudge.Core.Extensions;
+using EnduranceJudge.Core.Utilities;
 
 namespace EnduranceJudge.Core.Mappings
 {
@@ -16,17 +17,14 @@ namespace EnduranceJudge.Core.Mappings
 
         protected MappingProfile()
         {
-            // this.AddConventionalMaps();
             this.AddCustomMaps();
         }
 
         protected abstract Assembly[] Assemblies { get; }
 
-        protected void AddConventionalMaps()
+        protected void AddConventionalMaps(IEnumerable<Type> instanceTypes)
         {
-            var configurations = this
-                .GetInstanceTypes()
-                // .Where(t => MyObjectType.IsAssignableFrom(t))
+            var configurations = instanceTypes
                 .Select(t => new
                 {
                     Type = t,
@@ -52,8 +50,8 @@ namespace EnduranceJudge.Core.Mappings
 
         private void AddCustomMaps()
         {
-            var configurations = this
-                .GetInstanceTypes()
+            var configurations = ReflectionUtilities
+                .GetInstanceTypes(this.Assemblies)
                 .Where(t => CustomMapConfigurationType.IsAssignableFrom(t))
                 .Select(t => Activator.CreateInstance(t)!)
                 .Cast<ICustomMapConfiguration>()
@@ -64,15 +62,6 @@ namespace EnduranceJudge.Core.Mappings
                 configuration.AddFromMaps(this);
                 configuration.AddToMaps(this);
             }
-        }
-
-        private IEnumerable<Type> GetInstanceTypes()
-        {
-            var types = this.Assemblies
-                .SelectMany(a => a.GetExportedTypes())
-                .Where(t => t.IsClass && !t.IsAbstract);
-
-            return types;
         }
 
         protected static IEnumerable<Type> GetMappingModels(Type source, Type mappingType)

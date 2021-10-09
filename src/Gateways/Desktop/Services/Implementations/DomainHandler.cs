@@ -1,7 +1,6 @@
 ﻿using EnduranceJudge.Gateways.Desktop.Core.Objects;
 using Prism.Events;
 using System;
-using System.Threading.Tasks;
 
 namespace EnduranceJudge.Gateways.Desktop.Services.Implementations
 {
@@ -12,20 +11,6 @@ namespace EnduranceJudge.Gateways.Desktop.Services.Implementations
         public DomainHandler(IEventAggregator eventAggregator)
         {
             this.eventAggregator = eventAggregator;
-        }
-
-        public async Task<T> Handle<T>(Func<T> action)
-        {
-            try
-            {
-                var result = action();
-                return result;
-            }
-            catch (Exception exception)
-            {
-                this.Handle(exception);
-                return default;
-            }
         }
 
         public bool Handle(Action action)

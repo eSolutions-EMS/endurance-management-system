@@ -11,7 +11,7 @@ namespace EnduranceJudge.Domain.State.Countries
             this.Name = name;
         }
 
-        public string IsoCode { get; }
-        public string Name { get; }
+        public string IsoCode { get; private set; }
+        public string Name { get; private set; }
     }
 }

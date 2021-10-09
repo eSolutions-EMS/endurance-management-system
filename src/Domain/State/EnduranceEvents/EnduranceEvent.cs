@@ -10,16 +10,16 @@ using System.Linq;
 
 namespace EnduranceJudge.Domain.State.EnduranceEvents
 {
-    public class EnduranceEvent : DomainObjectBase<EventStateObjectException>, IEnduranceEventState
+    public class EnduranceEvent : DomainObjectBase<EnduranceEventException>, IEnduranceEventState
     {
         private EnduranceEvent()  {}
 
-        public EnduranceEvent(string name, Country country, string populatedPlace) : base(true)
+        internal EnduranceEvent(string name, Country country, string populatedPlace) : base(true)
             => this.Validate(() =>
         {
-            this.Name = name;//.IsRequired(NAME);
-            this.PopulatedPlace = populatedPlace;//.IsRequired(POPULATED_PLACE);
-            this.Country = country; //.IsRequired(COUNTRY);
+            this.Name = name;
+            this.PopulatedPlace = populatedPlace;
+            this.Country = country;
         });
 
         private List<Personnel> membersOfVetCommittee = new();
@@ -28,15 +28,15 @@ namespace EnduranceJudge.Domain.State.EnduranceEvents
         private List<Competition> competitions = new();
         private List<Participation> participations = new();
 
-        public string Name { get; private set; }
-        public string PopulatedPlace { get; private set; }
-        public Country Country { get; private set; }
-        public Personnel PresidentGroundJury { get; private set; }
-        public Personnel PresidentVetCommission { get; private set; }
-        public Personnel ForeignJudge { get; private set; }
-        public Personnel FeiTechDelegate { get; private set; }
-        public Personnel FeiVetDelegate { get; private set; }
-        public Personnel ActiveVet { get; private set; }
+        public string Name { get; internal set; }
+        public string PopulatedPlace { get; internal set; }
+        public Country Country { get; internal set; }
+        public Personnel PresidentGroundJury { get; internal set; }
+        public Personnel PresidentVetCommission { get; internal set; }
+        public Personnel ForeignJudge { get; internal set; }
+        public Personnel FeiTechDelegate { get; internal set; }
+        public Personnel FeiVetDelegate { get; internal set; }
+        public Personnel ActiveVet { get; internal set; }
 
         public void Add(Competition competition) => this.Validate(() =>
         {

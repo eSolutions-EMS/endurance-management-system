@@ -1,5 +1,5 @@
 ﻿using EnduranceJudge.Application.Contracts;
-using EnduranceJudge.Application.Contracts.Queries;
+using EnduranceJudge.Application.Aggregates.Configurations.Contracts;
 using EnduranceJudge.Application.Core.Exceptions;
 using EnduranceJudge.Application.Core.Services;
 using EnduranceJudge.Application.Aggregates.Imports.Services;

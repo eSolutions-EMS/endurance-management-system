@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace EnduranceJudge.Application.Contracts.Queries
+namespace EnduranceJudge.Application.Aggregates.Configurations.Contracts
 {
     public interface IQueries<T>
         where T : IDomainObject

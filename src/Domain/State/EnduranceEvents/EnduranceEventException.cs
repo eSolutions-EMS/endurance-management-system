@@ -2,7 +2,7 @@ using EnduranceJudge.Domain.Core.Exceptions;
 
 namespace EnduranceJudge.Domain.State.EnduranceEvents
 {
-    public class EventStateObjectException : DomainObjectException
+    public class EnduranceEventException : DomainObjectException
     {
         private static readonly string Name = nameof(EnduranceEvent);
 

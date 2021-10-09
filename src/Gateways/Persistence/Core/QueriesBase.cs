@@ -1,4 +1,4 @@
-﻿using EnduranceJudge.Application.Contracts.Queries;
+﻿using EnduranceJudge.Application.Aggregates.Configurations.Contracts;
 using EnduranceJudge.Domain.Core.Models;
 using System;
 using System.Collections.Generic;

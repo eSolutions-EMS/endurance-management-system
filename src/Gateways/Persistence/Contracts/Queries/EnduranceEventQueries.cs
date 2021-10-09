@@ -1,4 +1,4 @@
-﻿using EnduranceJudge.Application.Contracts.Queries;
+﻿using EnduranceJudge.Application.Aggregates.Configurations.Contracts;
 using EnduranceJudge.Domain.State.EnduranceEvents;
 using EnduranceJudge.Gateways.Persistence.Core;
 
