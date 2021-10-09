@@ -26,26 +26,17 @@ namespace EnduranceJudge.Domain.Core.Models
                 this.Throw(exception.Message);
             }
         }
-        internal void Validate<TCustomException>(Action action)
-            where TCustomException : DomainObjectException, new()
-        {
-            try
-            {
-                action();
-            }
-            catch (DomainException exception)
-            {
-                this.Throw<TCustomException>(exception.Message);
-            }
-        }
 
         internal void Throw(string message)
             => Thrower.Throw<TException>(message);
-        internal void Throw<TCustomException>(string message)
-            where TCustomException : DomainObjectException, new()
-            => Thrower.Throw<TCustomException>(message);
 
         public override bool Equals(object other)
+            => this.IsEqual(other);
+
+        public bool Equals(IIdentifiable identifiable)
+            => this.IsEqual(identifiable);
+
+        private bool IsEqual(object other)
         {
             if (other is not IDomainObject domainModel)
             {
@@ -55,26 +46,16 @@ namespace EnduranceJudge.Domain.Core.Models
             {
                 return true;
             }
+            if (this.Id == domainModel.Id)
+            {
+                return true;
+            }
             if (this.GetType() != other.GetType())
             {
                 return false;
             }
 
             return this.GetHashCode().Equals(other.GetHashCode());
-        }
-
-        public bool Equals(IIdentifiable identifiable)
-        {
-            if (identifiable is not IDomainObject domainObject)
-            {
-                return false;
-            }
-            if (this.Id != default &&  identifiable.Id != default)
-            {
-                return this.Id == identifiable.Id;
-            }
-
-            return this.Equals(domainObject);
         }
 
         public override int GetHashCode()

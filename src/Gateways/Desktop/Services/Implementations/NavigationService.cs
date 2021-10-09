@@ -1,5 +1,4 @@
 ﻿using EnduranceJudge.Gateways.Desktop.Core;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.EnduranceEvents.Listing;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Event.ConfigurationMenu;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Imports;
 using EnduranceJudge.Gateways.Desktop.Core.Services.Implementations;
@@ -9,6 +8,7 @@ using EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participations.Listi
 using EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.Categorizations.Listing;
 using Prism.Regions;
 using System;
+using static EnduranceJudge.Gateways.Desktop.DesktopConstants;
 
 namespace EnduranceJudge.Gateways.Desktop.Services.Implementations
 {
@@ -41,14 +41,23 @@ namespace EnduranceJudge.Gateways.Desktop.Services.Implementations
             this.ClearRegion(Regions.CONTENT_LEFT);
         }
 
-        public void ChangeTo<T>() where T : IView
+        public void ChangeTo<T>()
+            where T : IView
         {
-            this.ChangeTo(Regions.CONTENT_LEFT, typeof(T), null);
+            this.ChangeTo(typeof(T));
         }
 
-        public void ChangeTo<T>(int entityId)
+        public void ChangeToNewForm<T>(int principalId)
+            where T : IView
         {
-            var parameter = new NavigationParameter(DesktopConstants.EntityIdParameter, entityId);
+            var parameter = new NavigationParameter(Parameters.PRINCIPAL_ID, principalId);
+            this.ChangeTo(typeof(T), parameter);
+        }
+
+        public void ChangeToUpdateForm<T>(int id)
+            where T : IView
+        {
+            var parameter = new NavigationParameter(Parameters.ID, id);
             this.ChangeTo(typeof(T), parameter);
         }
 

@@ -40,7 +40,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Personnel
         {
             throw new System.NotImplementedException();
         }
-        protected override void SubmitAction()
+        protected override void DomainAction()
         {
             throw new System.NotImplementedException();
         }

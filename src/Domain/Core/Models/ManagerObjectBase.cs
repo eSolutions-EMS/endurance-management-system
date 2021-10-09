@@ -3,7 +3,7 @@ using System;
 
 namespace EnduranceJudge.Domain.Core.Models
 {
-    public class ManagerObjectBase
+    public abstract class ManagerObjectBase
     {
         protected void Validate<TCustomException>(Action action)
             where TCustomException : DomainObjectException, new()

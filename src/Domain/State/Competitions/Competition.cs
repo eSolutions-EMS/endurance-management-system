@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace EnduranceJudge.Domain.State.Competitions
 {
-    public class Competition : DomainObjectBase<CompetitionObjectException>, ICompetitionState
+    public class Competition : DomainObjectBase<CompetitionException>, ICompetitionState
     {
         private Competition() {}
         public Competition(CompetitionType type, string name, DateTime? startTime = null) : base(true)
@@ -25,9 +25,9 @@ namespace EnduranceJudge.Domain.State.Competitions
         public string Name { get; private set; }
         public DateTime StartTime { get; private set; }
 
-        public void Add(Phase phase) => this.Validate(() =>
+        public void Save(Phase phase) => this.Validate(() =>
         {
-            this.phases.AddOrUpdateObject(phase);
+            this.phases.Save(phase);
         });
 
         public IReadOnlyList<Phase> Phases

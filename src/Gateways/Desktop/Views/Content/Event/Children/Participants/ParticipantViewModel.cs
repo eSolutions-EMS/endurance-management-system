@@ -9,14 +9,14 @@ using System.Windows;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Participants
 {
-    public class ParticipantViewModel : FormBase<ParticipantView>,
-        IMap<Participant>
+    public class ParticipantViewModel : FormBase<ParticipantView>, IMap<Participant>
     {
         public ParticipantViewModel()
         {
             this.ToggleIsAverageSpeedInKmPhVisibility = new DelegateCommand(
                 this.ToggleIsAverageSpeedInKmPhVisibilityAction);
         }
+
         public DelegateCommand ToggleIsAverageSpeedInKmPhVisibility { get; }
 
         public ObservableCollection<SimpleListItemViewModel> HorseItems { get; } = new();
@@ -37,7 +37,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Participa
         {
             throw new NotImplementedException();
         }
-        protected override void SubmitAction()
+        protected override void DomainAction()
         {
             throw new NotImplementedException();
         }

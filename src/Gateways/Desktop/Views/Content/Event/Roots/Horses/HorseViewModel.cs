@@ -28,7 +28,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Horses
         {
             throw new System.NotImplementedException();
         }
-        protected override void SubmitAction()
+        protected override void DomainAction()
         {
             // TODO Submit
             this.eventAggregator

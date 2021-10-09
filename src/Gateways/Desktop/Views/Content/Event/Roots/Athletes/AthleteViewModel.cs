@@ -5,6 +5,7 @@ using EnduranceJudge.Domain.Enums;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
 using EnduranceJudge.Gateways.Desktop.Events.Athletes;
+using EnduranceJudge.Gateways.Desktop.Services;
 using Prism.Events;
 using Prism.Regions;
 using System;
@@ -45,7 +46,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Athletes
         {
             throw new NotImplementedException();
         }
-        protected override void SubmitAction()
+        protected override void DomainAction()
         {
             // TODO: submit
             this.eventAggregator

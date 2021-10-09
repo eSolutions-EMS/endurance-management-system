@@ -79,27 +79,27 @@
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="4" Grid.Column="0">
                 <Label Style="{StaticResource Label-Primary}"
-                       Target="{Binding ElementName=MaxRecoveryTimeInMinutes}"
+                       Target="{Binding ElementName=MaxRecoveryTimeInMins}"
                        Content="{x:Static strings:DesktopStrings.MAX_RECOVERY_TIME_IN_MINS}" />
             </Border>
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="4" Grid.Column="1">
                 <TextBox Style="{StaticResource Input}"
-                         Text="{Binding MaxRecoveryTimeInMinutes}"
-                         Name="MaxRecoveryTimeInMinutes" />
+                         Text="{Binding MaxRecoveryTimeInMins}"
+                         Name="MaxRecoveryTimeInMins" />
             </Border>
 
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="5" Grid.Column="0">
                 <Label Style="{StaticResource Label-Primary}"
-                       Target="{Binding ElementName=RestTimeInMinutes}"
+                       Target="{Binding ElementName=RestTimeInMins}"
                        Content="{x:Static strings:DesktopStrings.REST_TIME_IN_MINS}" />
             </Border>
             <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="6" Grid.Column="1">
+                    Grid.Row="5" Grid.Column="1">
                 <TextBox Style="{StaticResource Input}"
-                         Text="{Binding RestTimeInMinutes}"
-                         Name="RestTimeInMinutes" />
+                         Text="{Binding RestTimeInMins}"
+                         Name="RestTimeInMins" />
             </Border>
 
             <Border Style="{StaticResource Border-Vertical}"
@@ -107,12 +107,10 @@
                 <Button Style="{StaticResource Button-Form-Back}"
                         Command="{Binding NavigateBack}" />
             </Border>
-            <Border Style="{StaticResource Border-Vertical}"
+            <Border Style="{StaticResource Wrapper-Form-Buttons}"
                     Grid.Row="6" Grid.Column="1">
-                <DockPanel Style="{StaticResource Dock-Horizontal}">
-                    <Button Style="{StaticResource Button-Form-Remove}" HorizontalAlignment="Right"
-                            Command="{Binding Remove}" />
-                </DockPanel>
+                <Button Style="{StaticResource Button-Form-Save}"
+                        Command="{Binding Submit}" />
             </Border>
         </Grid>
     </ScrollViewer>

@@ -5,7 +5,7 @@ using System;
 
 namespace EnduranceJudge.Domain.State.PhaseEntries
 {
-    public class PhaseEntry : DomainObjectBase<PhaseEntryObjectException>
+    public class PhaseEntry : DomainObjectBase<PhaseEntryException>
     {
         private PhaseEntry() {}
         public PhaseEntry(Phase phase, DateTime startTime) : base(true)

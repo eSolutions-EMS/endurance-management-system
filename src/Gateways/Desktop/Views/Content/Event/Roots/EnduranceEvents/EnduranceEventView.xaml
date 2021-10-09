@@ -81,7 +81,7 @@
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="5" Grid.Column="1">
                 <Button Style="{StaticResource Button-Form-Create}"
-                        Command="{Binding NavigateToPersonnel}" />
+                        Command="{Binding CreatePersonnel}" />
             </Border>
 
             <Border Style="{StaticResource Border-Vertical}"
@@ -100,7 +100,7 @@
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="7" Grid.Column="1">
                 <Button Style="{StaticResource Button-Form-Create}"
-                        Command="{Binding NavigateToCompetition}" />
+                        Command="{Binding CreateCompetition}" />
             </Border>
 
             <Border Style="{StaticResource Border-Vertical}"

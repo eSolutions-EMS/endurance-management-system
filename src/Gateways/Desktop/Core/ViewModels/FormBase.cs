@@ -1,39 +1,62 @@
-﻿using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
+﻿using EnduranceJudge.Application.Contracts;
+using EnduranceJudge.Core.Utilities;
+using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
+using EnduranceJudge.Gateways.Desktop.Core.Extensions;
 using EnduranceJudge.Gateways.Desktop.Services;
 using Prism.Commands;
 using System.Collections.Generic;
-using ServiceProvider = EnduranceJudge.Gateways.Desktop.Core.Static.ServiceProvider;
 
 namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
 {
     public abstract class FormBase<TView> : ViewModelBase
         where TView : IView
     {
+        private readonly IDomainHandler domainHandler;
+        private readonly IPersistence persistence;
+        protected INavigationService Navigation { get; }
+        protected int? PrincipalId { get; private set; }
 
         protected FormBase()
         {
-            this.Navigation = ServiceProvider.GetService<INavigationService>();
+            this.Navigation = StaticProvider.GetService<INavigationService>();
+            this.domainHandler = StaticProvider.GetService<IDomainHandler>();
+            this.persistence = StaticProvider.GetService<IPersistence>();
+
             this.BoolItems = SimpleListItemViewModel.FromBool();
-            this.NavigateToUpdate = new DelegateCommand(
-                () => Navigation.ChangeTo<TView>(new NavigationParameter(DesktopConstants.DataParameter, this)));
+
+            this.Submit = new DelegateCommand(this.SubmitAction);
+            this.NavigateToUpdate = new DelegateCommand(() => Navigation.ChangeToUpdateForm<TView>(this.Id));
         }
 
-        protected INavigationService Navigation { get; }
-
-        private readonly int id;
-
-        protected abstract void Load(int id);
-        protected abstract void SubmitAction();
         public DelegateCommand Submit { get; }
         public DelegateCommand NavigateToUpdate { get; }
 
+        private readonly int id;
+        public List<SimpleListItemViewModel> BoolItems { get; }
+
+        protected abstract void Load(int id);
+        protected abstract void DomainAction();
+
         public override void OnNavigatedTo(Prism.Regions.NavigationContext context)
         {
-            this.Load(default);
+            var id = context.GetId();
+            if (id.HasValue)
+            {
+                this.Load(id.Value);
+            }
+            else
+            {
+                this.PrincipalId = context.GetPrincipalId();
+            }
             base.OnNavigatedTo(context);
         }
 
-        public List<SimpleListItemViewModel> BoolItems { get; }
+        private void SubmitAction() => this.domainHandler.Handle(() =>
+        {
+            this.DomainAction();
+            this.persistence.Snapshot();
+            this.NavigateBackAction();
+        });
 
         public int Id
         {

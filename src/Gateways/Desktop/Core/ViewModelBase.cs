@@ -1,5 +1,5 @@
-﻿using EnduranceJudge.Gateways.Desktop.Core.Objects;
-using EnduranceJudge.Gateways.Desktop.Core.Static;
+﻿using EnduranceJudge.Core.Utilities;
+using EnduranceJudge.Gateways.Desktop.Core.Objects;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Mvvm;
@@ -11,11 +11,11 @@ namespace EnduranceJudge.Gateways.Desktop.Core
     {
         protected ViewModelBase()
         {
-            this.EventAggregator = ServiceProvider.GetService<IEventAggregator>();
+            this.EventAggregator = StaticProvider.GetService<IEventAggregator>();
         }
 
         protected IEventAggregator EventAggregator { get; }
-        protected IRegionNavigationJournal Journal { get; private set; }
+        protected IRegionNavigationJournal Journal { get; set; }
 
         public DelegateCommand NavigateForward => new (this.NavigateForwardAction);
         public DelegateCommand NavigateBack => new (this.NavigateBackAction);

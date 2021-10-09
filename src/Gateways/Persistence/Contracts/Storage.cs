@@ -2,6 +2,7 @@
 using EnduranceJudge.Application.Core.Services;
 using EnduranceJudge.Core.ConventionalServices;
 using EnduranceJudge.Core.Mappings;
+using EnduranceJudge.Domain.State;
 
 namespace EnduranceJudge.Gateways.Persistence.Contracts
 {
@@ -10,18 +11,18 @@ namespace EnduranceJudge.Gateways.Persistence.Contracts
         private const string STORAGE_FILE_NAME = "endurance-judge-data";
 
         private string storageFilePath;
-        private readonly IDataContext dataContext;
+        private readonly IState state;
         private readonly IEncryptionService encryption;
         private readonly IFileService file;
         private readonly IJsonSerializationService serialization;
 
         public Storage(
-            IDataContext dataContext,
+            IState state,
             IEncryptionService encryption,
             IFileService file,
             IJsonSerializationService serialization)
         {
-            this.dataContext = dataContext;
+            this.state = state;
             this.encryption = encryption;
             this.file = file;
             this.serialization = serialization;
@@ -49,20 +50,19 @@ namespace EnduranceJudge.Gateways.Persistence.Contracts
         {
             var contents = this.file.Read(this.storageFilePath);
             var state = this.serialization.Deserialize<State>(contents);
-            this.dataContext.State.MapFrom(state);
+            this.state.MapFrom(state);
         }
 
         private async void Create()
         {
-            var serialized = this.serialization.Serialize(this.dataContext.State);
+            var serialized = this.serialization.Serialize(this.state);
             this.file.Create(this.storageFilePath, serialized);
         }
 
         private static string BuildStorageFilePath(string directory) => $"{directory}\\{STORAGE_FILE_NAME}";
     }
 
-    public interface IStorage : IStorageInitializer, ISingletonService
+    public interface IStorage : IStorageInitializer, IPersistence, ISingletonService
     {
-        void Snapshot();
     }
 }

@@ -39,7 +39,7 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
         }
         protected virtual void ChangeToUpdateAction(int? id)
         {
-            this.Navigation.ChangeTo<TView>(id!.Value);
+            this.Navigation.ChangeToNewForm<TView>(id!.Value);
         }
 
         protected virtual void Load()

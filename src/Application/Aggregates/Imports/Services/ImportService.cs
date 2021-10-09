@@ -67,7 +67,7 @@ namespace EnduranceJudge.Application.Services
                 }
             }
 
-            this.persistence.Update(manager);
+            this.persistence.Snapshot();
         }
     }
 

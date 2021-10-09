@@ -1,4 +1,5 @@
-﻿using EnduranceJudge.Core.Mappings;
+﻿using EnduranceJudge.Core.Utilities;
+using EnduranceJudge.Domain.Core.Extensions;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.Core.Validation;
 using EnduranceJudge.Domain.State;
@@ -9,24 +10,27 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
 {
     public class ConfigurationManager : ManagerObjectBase, IAggregateRoot
     {
-        private EnduranceEvent enduranceEvent;
-        private int countryId;
+        private readonly IState state;
+
+        public ConfigurationManager()
+        {
+            this.state = StaticProvider.GetService<IState>();
+            this.Competitions = new CompetitionsManager(this.state.Event.Competitions);
+            this.Phases = new PhasesManager(this.state.Event.Competitions);
+        }
 
         public void Update(string name, int countryId, string populatedPlace)
             => this.Validate<EnduranceEventException>(() =>
         {
-            name.IsRequired(NAME);
-            populatedPlace.IsRequired(POPULATED_PLACE);
-            this.countryId = countryId.IsRequired(COUNTRY);
+            this.state.Event.Name = name.IsRequired(NAME);
+            this.state.Event.PopulatedPlace = populatedPlace.IsRequired(POPULATED_PLACE);
 
-            this.enduranceEvent = new EnduranceEvent(name, null, populatedPlace);
+            countryId.IsRequired(COUNTRY);
+            var country = this.state.Countries.FindDomain(countryId);
+            this.state.Event.Country = country;
         });
 
-        public void UpdateState(IState state)
-        {
-            var country = state.Countries.Find(x => x.Id == this.countryId);
-            this.enduranceEvent.Country = country;
-            state.Event.MapFrom(this.enduranceEvent);
-        }
+        public CompetitionsManager Competitions { get; }
+        public PhasesManager Phases { get; }
     }
 }

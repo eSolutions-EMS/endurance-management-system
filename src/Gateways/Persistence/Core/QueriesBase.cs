@@ -1,20 +1,21 @@
 ﻿using EnduranceJudge.Application.Aggregates.Configurations.Contracts;
 using EnduranceJudge.Domain.Core.Models;
+using EnduranceJudge.Domain.State;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace EnduranceJudge.Gateways.Persistence.Core
 {
-    public abstract class QueriesBase<T> : IQueries<T>
+    public abstract class QueriesBase<T> : IQueries<T>, IRepository
         where T : IDomainObject
     {
-        protected QueriesBase(IDataContext context)
+        protected QueriesBase(IState state)
         {
-            this.Context = context;
+            this.State = state;
         }
 
-        protected IDataContext Context { get; }
+        protected IState State { get; }
 
         protected abstract List<T> Set { get; }
 

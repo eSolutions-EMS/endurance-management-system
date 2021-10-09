@@ -1,3 +1,4 @@
+using EnduranceJudge.Core.Utilities;
 using EnduranceJudge.Domain.Aggregates.Import.Models;
 using EnduranceJudge.Domain.Core.Exceptions;
 using EnduranceJudge.Domain.Core.Models;
@@ -22,21 +23,27 @@ namespace EnduranceJudge.Domain.Aggregates.Import
 {
     public class ImportManager : ManagerObjectBase, IAggregateRoot
     {
-        public ImportManager(string name = EVENT_DEFAULT_NAME, Country country = null)
-            => this.Validate<EnduranceEventException>(() =>
-        {
-            this.EnduranceEvent = new EnduranceEvent(name, country, null);
-        });
+        private readonly IState state;
 
-        public EnduranceEvent EnduranceEvent { get; private set; }
-        private readonly List<Athlete> athletes = new();
-        private readonly List<Horse> horses = new();
-        private readonly List<Participant> participants = new();
+        public ImportManager(string name = EVENT_DEFAULT_NAME, Country country = null)
+        {
+            this.state = StaticProvider.GetService<IState>();
+
+            if (this.state.Event == null)
+            {
+                this.Validate<EnduranceEventException>(() =>
+                {
+                    this.state.Event = new EnduranceEvent(name, country, null);
+                });
+            }
+
+            this.state.Countries.AddRange(GetCountries());
+        }
 
         public void AddCompetitions(List<HorseSportShowEntriesEvent> competitionsData)
-            => this.Validate<CompetitionObjectException>(() =>
+            => this.Validate<CompetitionException>(() =>
         {
-            if (this.EnduranceEvent.Competitions.Any())
+            if (this.state.Event.Competitions.Any())
             {
                 return;
             }
@@ -45,14 +52,14 @@ namespace EnduranceJudge.Domain.Aggregates.Import
             {
                 var name = data.FEIID.IsRequired(NAME);
                 var competition = new Competition(CompetitionType.International, name);
-                this.EnduranceEvent.Add(competition);
+                this.state.Event.Save(competition);
             }
         });
 
         public void AddAthletes(List<HorseSportShowEntriesAthlete> athletesData)
             => this.Validate<AthleteObjectException>(() =>
         {
-            if (this.athletes.Any())
+            if (this.state.Athletes.Any())
             {
                 return;
             }
@@ -76,13 +83,13 @@ namespace EnduranceJudge.Domain.Aggregates.Import
                     data.FamilyName,
                     data.CompetingFor,
                     birthDate);
-                this.athletes.Add(athlete);
+                this.state.Athletes.Add(athlete);
             }
         });
 
         public void AddHorses(List<HorseSportShowEntriesHorse> horsesData)
         {
-            if (this.horses.Any())
+            if (this.state.Horses.Any())
             {
                 return;
             }
@@ -103,62 +110,41 @@ namespace EnduranceJudge.Domain.Aggregates.Import
                     data.TrainerFEIID,
                     data.TrainerFirstName,
                     data.TrainerFamilyName);
-                this.horses.Add(horse);
+                this.state.Horses.Add(horse);
             }
         }
 
         public void AddParticipants(List<HorseSportShowEntriesEventAthleteEntry> participantsData)
         {
-            if (this.participants.Any())
+            if (this.state.Participants.Any())
             {
                 return;
             }
-            if (!this.horses.Any() || !this.athletes.Any())
+            if (!this.state.Horses.Any() || !this.state.Athletes.Any())
             {
                 throw new DomainException("Cannot import Participants - empty horses and/or athletes.");
             }
 
             foreach (var participantData in participantsData)
             {
-                var athlete = this.athletes.FirstOrDefault(x => x.FeiId == participantData.FEIID);
-                var horse = this.horses.FirstOrDefault(x => x.FeiId == participantData.HorseEntry.First().FEIID);
+                var athlete = this.state.Athletes.FirstOrDefault(x => x.FeiId == participantData.FEIID);
+                var horse = this.state.Horses.FirstOrDefault(x => x.FeiId == participantData.HorseEntry.First().FEIID);
                 if (athlete != null && horse != null)
                 {
                     var participant = new Participant(horse, athlete);
-                    this.participants.Add(participant);
+                    this.state.Participants.Add(participant);
                 }
             }
         }
 
         public void AddHorse(string name, string breed, string feiId, string club)
         {
-            if (this.horses.Any())
+            if (this.state.Horses.Any())
             {
                 return;
             }
             var horse = new Horse(feiId, name, breed, club);
-            this.horses.Add(horse);
-        }
-
-        public void UpdateState(IState state)
-        {
-            if (this.EnduranceEvent != null)
-            {
-                state.Event = this.EnduranceEvent;
-            }
-            if (this.horses.Any())
-            {
-                state.Horses.AddRange(this.horses);
-            }
-            if (this.athletes.Any())
-            {
-                state.Athletes.AddRange(this.athletes);
-            }
-            if (this.participants.Any())
-            {
-                state.Participants.AddRange(this.participants);
-            }
-            state.Countries.AddRange(GetCountries());
+            this.state.Horses.Add(horse);
         }
 
         private static List<Country> GetCountries()

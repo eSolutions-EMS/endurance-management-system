@@ -1,9 +1,12 @@
-﻿using EnduranceJudge.Domain.State.Athletes;
+﻿using EnduranceJudge.Application.Aggregates.Configurations.Contracts;
+using EnduranceJudge.Core.Mappings;
+using EnduranceJudge.Core.Utilities;
+using EnduranceJudge.Domain.Aggregates.Configuration;
+using EnduranceJudge.Domain.State.Athletes;
 using EnduranceJudge.Domain.State.Competitions;
 using EnduranceJudge.Domain.State.Horses;
 using EnduranceJudge.Domain.Enums;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
-using EnduranceJudge.Gateways.Desktop.Core.Static;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
 using EnduranceJudge.Gateways.Desktop.Events.Athletes;
 using EnduranceJudge.Gateways.Desktop.Events.Horses;
@@ -18,23 +21,27 @@ using System.Windows;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Competitions
 {
-    public class CompetitionViewModel : FormBase<CompetitionView>, ICompetitionState
+    public class CompetitionViewModel : ParentFormBase<CompetitionView>, ICompetitionState
     {
         private readonly IEventAggregator eventAggregator;
+        private readonly IQueries<Competition> competitions;
 
         public CompetitionViewModel()
         {
-            this.LoadTypes();
-            this.NavigateToCreatePhase = new DelegateCommand(this.Navigation.ChangeTo<PhaseView>);
-            this.NavigateToCreateParticipant = new DelegateCommand(this.Navigation.ChangeTo<ParticipantView>);
+            this.competitions = StaticProvider.GetService<IQueries<Competition>>();
+            this.eventAggregator = StaticProvider.GetService<IEventAggregator>();
+
             this.Toggle = new DelegateCommand(this.ToggleAction);
-            this.eventAggregator = ServiceProvider.GetService<IEventAggregator>();
+            this.CreatePhase = new DelegateCommand(this.NewForm<PhaseView>);
+            this.CreateParticipant = new DelegateCommand(this.NewForm<ParticipantView>);
+
+            this.LoadTypes();
             this.ListenForCompetitorChange();
         }
 
         public DelegateCommand Toggle { get; }
-        public DelegateCommand NavigateToCreatePhase { get; }
-        public DelegateCommand NavigateToCreateParticipant { get; }
+        public DelegateCommand CreatePhase { get; }
+        public DelegateCommand CreateParticipant { get; }
         public ObservableCollection<SimpleListItemViewModel> TypeItems { get; private set; }
         public ObservableCollection<PhaseViewModel> Phases { get; } = new();
         public ObservableCollection<ParticipantViewModel> Participants { get; } = new();
@@ -49,11 +56,13 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Competiti
 
         protected override void Load(int id)
         {
-            throw new NotImplementedException();
+            var competition = this.competitions.GetOne(id);
+            this.MapFrom(competition);
         }
-        protected override void SubmitAction()
+        protected override void DomainAction()
         {
-            throw new NotImplementedException();
+            var configuration = new ConfigurationManager();
+            configuration.Competitions.Save(this);
         }
 
         private void ToggleAction()

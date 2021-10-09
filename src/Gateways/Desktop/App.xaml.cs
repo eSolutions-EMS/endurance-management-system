@@ -22,7 +22,6 @@ using System;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
-using ServiceProvider = EnduranceJudge.Gateways.Desktop.Core.Static.ServiceProvider;
 
 namespace EnduranceJudge.Gateways.Desktop
 {
@@ -85,7 +84,7 @@ namespace EnduranceJudge.Gateways.Desktop
 
         private static void InitializeStaticServices(IServiceProvider provider)
         {
-            ServiceProvider.Initialize(provider);
+            StaticProvider.Initialize(provider);
             ErrorHandler.Initialize();
         }
 

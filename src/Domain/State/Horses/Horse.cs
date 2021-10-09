@@ -2,7 +2,7 @@ using EnduranceJudge.Domain.Core.Models;
 
 namespace EnduranceJudge.Domain.State.Horses
 {
-    public class Horse : DomainObjectBase<HorseObjectException>, IHorseState
+    public class Horse : DomainObjectBase<HorseException>, IHorseState
     {
         private Horse() {}
         public Horse(string feiId, string name, string breed, string club) : base(true)

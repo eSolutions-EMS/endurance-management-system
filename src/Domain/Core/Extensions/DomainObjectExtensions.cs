@@ -9,7 +9,7 @@ namespace EnduranceJudge.Domain.Core.Extensions
 {
     public static class DomainObjectExtensions
     {
-        public static void RemoveObject<T>(this ICollection<T> collection, T model)
+        public static void RemoveDomain<T>(this ICollection<T> collection, T model)
             where T : IDomainObject
         {
             if (model == null)
@@ -25,7 +25,7 @@ namespace EnduranceJudge.Domain.Core.Extensions
             collection.Remove(model);
         }
 
-        public static void AddObject<T>(this ICollection<T> collection, T model)
+        public static void AddDomain<T>(this ICollection<T> collection, T model)
             where T : IDomainObject
         {
             if (model == null)
@@ -41,41 +41,43 @@ namespace EnduranceJudge.Domain.Core.Extensions
             collection.Add(model);
         }
 
-        public static void  AddOrUpdateObject<T>(this ICollection<T> collection, T model)
+        public static void Save<T>(this ICollection<T> collection, T domainObject)
             where T : IDomainObject
         {
-            if (model == null)
+            if (domainObject == null)
             {
                 throw new DomainException(CannotAddNullItemTemplate);
             }
 
-            if (collection.Contains(model))
+            if (collection.Contains(domainObject))
             {
-                collection.UpdateObject(model);
+                var match = collection.MatchDomain(domainObject);
+                match.MapFrom(domainObject);
                 return;
             }
 
-            collection.Add(model);
+            collection.Add(domainObject);
         }
 
-        public static void UpdateObject<T>(this ICollection<T> collection, T model)
+        public static T MatchDomain<T>(this IEnumerable<T> collection, T domainObject)
             where T : IDomainObject
         {
-            if (model == null)
-            {
-                throw new DomainException(CannotAddNullItemTemplate);
-            }
+            var result = collection.FirstOrDefault(x => x.Id == domainObject.Id);
+            return result;
+        }
 
-            if (!collection.Contains(model))
-            {
-                return;
-            }
+        public static T FindDomain<T>(this IEnumerable<T> collection, int id)
+            where T : IDomainObject
+        {
+            var result = collection.FirstOrDefault(x => x.Id == id);
+            return result;
+        }
 
-            var item = collection.First(x => x.Equals(model));
-            if (!ReferenceEquals(item, model))
-            {
-                item.MapFrom(model);
-            }
+        public static bool AnyMatch<T>(this IEnumerable<T> collection, T domainObject)
+            where T : IDomainObject
+        {
+            var result = collection.Any(x => x.Id == domainObject.Id);
+            return result;
         }
     }
 }

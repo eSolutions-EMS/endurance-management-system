@@ -1,15 +1,16 @@
-﻿using EnduranceJudge.Domain.State.Countries;
+﻿using EnduranceJudge.Domain.State;
+using EnduranceJudge.Domain.State.Countries;
 using EnduranceJudge.Gateways.Persistence.Core;
 using System.Collections.Generic;
 
 namespace EnduranceJudge.Gateways.Persistence.Contracts.Queries
 {
-    public class CountryQueries : QueriesBase<Country>, IRepository
+    public class CountryQueries : QueriesBase<Country>
     {
-        public CountryQueries(IDataContext context) : base(context)
+        public CountryQueries(IState state) : base(state)
         {
         }
 
-        protected override List<Country> Set => this.Context.State.Countries;
+        protected override List<Country> Set => this.State.Countries;
     }
 }

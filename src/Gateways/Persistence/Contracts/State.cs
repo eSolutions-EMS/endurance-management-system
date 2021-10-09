@@ -1,4 +1,5 @@
-﻿using EnduranceJudge.Domain.State;
+﻿using EnduranceJudge.Core.ConventionalServices;
+using EnduranceJudge.Domain.State;
 using EnduranceJudge.Domain.State.Athletes;
 using EnduranceJudge.Domain.State.Countries;
 using EnduranceJudge.Domain.State.EnduranceEvents;
@@ -8,10 +9,8 @@ using System.Collections.Generic;
 
 namespace EnduranceJudge.Gateways.Persistence.Contracts
 {
-    public class State : IState
+    public class State : IState, ISingletonService
     {
-        internal State() {}
-
         public EnduranceEvent Event { get; set; }
         public List<Horse> Horses { get; } = new();
         public List<Athlete> Athletes { get; } = new();
