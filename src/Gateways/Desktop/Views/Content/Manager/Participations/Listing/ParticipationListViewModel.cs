@@ -7,10 +7,15 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participations.L
 {
     public class ParticipationListViewModel : SearchableListViewModelBase<ManagerView>
     {
-        public ParticipationListViewModel(INavigationService navigation) : base(navigation)
+        public ParticipationListViewModel(INavigationService navigation, IDomainHandler domainHandler)
+            : base(navigation, domainHandler)
         {
         }
 
         protected override IEnumerable<ListItemModel> LoadData() => throw new System.NotImplementedException();
+        protected override void RemoveDomain(int id)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

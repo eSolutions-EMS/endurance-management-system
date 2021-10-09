@@ -1,17 +1,17 @@
 ﻿using EnduranceJudge.Domain.State;
-using EnduranceJudge.Domain.State.Countries;
+using EnduranceJudge.Domain.State.Athletes;
 using EnduranceJudge.Gateways.Persistence.Core;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace EnduranceJudge.Gateways.Persistence.Contracts.Queries
 {
-    public class CountryQueries : QueriesBase<Country>
+    public class AthleteQueries : QueriesBase<Athlete>
     {
-        public CountryQueries(IState state) : base(state)
+        public AthleteQueries(IState state) : base(state)
         {
         }
 
-        protected override List<Country> Set => this.State.Countries.ToList();
+        protected override List<Athlete> Set => this.State.Athletes.ToList();
     }
 }

@@ -57,7 +57,7 @@ namespace EnduranceJudge.Domain.Aggregates.Import
         });
 
         public void AddAthletes(List<HorseSportShowEntriesAthlete> athletesData)
-            => this.Validate<AthleteObjectException>(() =>
+            => this.Validate<AthleteException>(() =>
         {
             if (this.state.Athletes.Any())
             {
@@ -77,12 +77,8 @@ namespace EnduranceJudge.Domain.Aggregates.Import
                     continue;
                 }
 
-                var athlete = new Athlete(
-                    data.FEIID,
-                    data.FirstName,
-                    data.FamilyName,
-                    data.CompetingFor,
-                    birthDate);
+                var country = this.state.Countries.FirstOrDefault(x => x.IsoCode == data.CompetingFor);
+                var athlete = new Athlete(data.FEIID, data.FirstName, data.FamilyName, country, birthDate);
                 this.state.Athletes.Add(athlete);
             }
         });

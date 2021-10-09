@@ -10,12 +10,21 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Horses.Listi
     public class HorseListViewModel : SearchableListViewModelBase<HorseView>
     {
         private readonly IEventAggregator eventAggregator;
-        public HorseListViewModel(INavigationService navigation, IEventAggregator eventAggregator) : base(navigation)
+
+        public HorseListViewModel(
+            INavigationService navigation,
+            IEventAggregator eventAggregator,
+            IDomainHandler domainHandler)
+            : base(navigation, domainHandler)
         {
             this.eventAggregator = eventAggregator;
         }
 
         protected override IEnumerable<ListItemModel> LoadData() => throw new System.NotImplementedException();
+        protected override void RemoveDomain(int id)
+        {
+            throw new System.NotImplementedException();
+        }
         protected override void RemoveAction(int? id)
         {
             base.RemoveAction(id);

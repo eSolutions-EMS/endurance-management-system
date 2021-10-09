@@ -9,7 +9,8 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
     public abstract class SearchableListViewModelBase<TView> : ListViewModelBase<TView>
         where TView : IView
     {
-        protected SearchableListViewModelBase(INavigationService navigation) : base(navigation)
+        protected SearchableListViewModelBase(INavigationService navigation, IDomainHandler domainHandler)
+            : base(navigation, domainHandler)
         {
             Func<ListItemViewModel, string, bool> filter
                 = (item, value) => item.Name.ToLower().Contains(value.ToLower());

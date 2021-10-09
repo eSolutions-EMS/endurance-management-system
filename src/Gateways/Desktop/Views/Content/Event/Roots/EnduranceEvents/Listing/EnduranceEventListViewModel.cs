@@ -9,15 +9,16 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.EnduranceEve
 {
     public class EnduranceEventListViewModel : ListViewModelBase<EnduranceEventView>
     {
-        public EnduranceEventListViewModel() : base(null)
-        {
-        }
-
-        public EnduranceEventListViewModel(INavigationService navigation) : base (navigation)
+        public EnduranceEventListViewModel(INavigationService navigation, IDomainHandler domainHandler)
+            : base (navigation, domainHandler)
         {
         }
 
         public ObservableCollection<ListItemViewModel> EnduranceEvents => this.ListItems;
         protected override IEnumerable<ListItemModel> LoadData() => throw new System.NotImplementedException();
+        protected override void RemoveDomain(int id)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

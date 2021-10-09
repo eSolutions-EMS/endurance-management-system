@@ -12,10 +12,12 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
     public abstract class ListViewModelBase<TView> : ViewModelBase
         where TView : IView
     {
-        protected ListViewModelBase(INavigationService navigation)
+        private readonly IDomainHandler domainHandler;
+        protected ListViewModelBase(INavigationService navigation, IDomainHandler domainHandler)
         {
+            this.domainHandler = domainHandler;
             this.Navigation = navigation;
-            this.ChangeToCreate = new DelegateCommand(this.ChangeToCreateAction);
+            this.Create = new DelegateCommand(this.CreateAction);
         }
 
         protected INavigationService Navigation { get; }
@@ -23,7 +25,7 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
         public ObservableCollection<ListItemViewModel> ListItems { get; protected init; }
             = new (Enumerable.Empty<ListItemViewModel>());
 
-        public DelegateCommand ChangeToCreate { get; }
+        public DelegateCommand Create { get; }
 
         public override void OnNavigatedTo(Prism.Regions.NavigationContext context)
         {
@@ -32,17 +34,18 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
         }
 
         protected abstract IEnumerable<ListItemModel> LoadData();
+        protected abstract void RemoveDomain(int id);
 
-        protected virtual void ChangeToCreateAction()
+        protected virtual void CreateAction()
         {
             this.Navigation.ChangeTo<TView>();
         }
-        protected virtual void ChangeToUpdateAction(int? id)
+        protected virtual void UpdateAction(int? id)
         {
-            this.Navigation.ChangeToNewForm<TView>(id!.Value);
+            this.Navigation.ChangeToUpdateForm<TView>(id!.Value);
         }
 
-        protected virtual void Load()
+        protected virtual void Load() => this.domainHandler.Handle(() =>
         {
             var eventsList = this.LoadData();
 
@@ -52,21 +55,17 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
 
             this.ListItems.Clear();
             this.ListItems.AddRange(viewModels);
-        }
-        protected virtual void RemoveAction(int? id)
+        });
+        protected virtual void RemoveAction(int? id) => this.domainHandler.Handle(() =>
         {
-            this.RemoveItem(id!.Value);
+            this.RemoveDomain(id!.Value);
             var item = this.ListItems.FirstOrDefault(i => i.Id == id!.Value);
             this.ListItems.Remove(item);
-        }
-        protected virtual void RemoveItem(int id)
-        {
-            throw new NotImplementedException();
-        }
+        });
 
         private ListItemViewModel ToViewModel(ListItemModel listable)
         {
-            var update = new DelegateCommand<int?>(this.ChangeToUpdateAction);
+            var update = new DelegateCommand<int?>(this.UpdateAction);
             var remove = new DelegateCommand<int?>(this.RemoveAction);
             return new ListItemViewModel(listable.Id, listable.Name, update, remove);
         }
