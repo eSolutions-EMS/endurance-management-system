@@ -4,6 +4,7 @@ using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.Core.Validation;
 using EnduranceJudge.Domain.State;
 using EnduranceJudge.Domain.State.EnduranceEvents;
+using EnduranceJudge.Domain.State.Personnels;
 using static EnduranceJudge.Localization.DesktopStrings;
 
 namespace EnduranceJudge.Domain.Aggregates.Configuration
@@ -29,6 +30,12 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
             var country = this.state.Countries.FindDomain(countryId);
             this.state.Event.Country = country;
         });
+
+        public void Save(IPersonnelState state)
+        {
+            var personnel = new Personnel(state);
+            this.state.Event.Save(personnel);
+        }
 
         public CompetitionsManager Competitions { get; }
         public PhasesManager Phases { get; }

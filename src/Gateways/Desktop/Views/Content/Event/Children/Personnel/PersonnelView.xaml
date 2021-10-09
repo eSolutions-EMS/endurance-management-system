@@ -46,16 +46,16 @@
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="2" Grid.Column="0">
                 <Label Style="{StaticResource Label-Primary}"
-                       Target="{Binding ElementName=Role}"
-                       Content="{x:Static strings:DesktopStrings.RoleLabel}" />
+                       Target="{Binding ElementName=RoleId}"
+                       Content="{x:Static strings:DesktopStrings.ROLE}" />
             </Border>
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="2" Grid.Column="1">
                 <ComboBox Style="{StaticResource Combo-Box}"
                           ItemsSource="{Binding RoleItems}"
-                          SelectedValue="{Binding Role}"
-                          SelectedIndex="{Binding Role}"
-                          Name="Role" />
+                          SelectedValue="{Binding RoleId}"
+                          SelectedIndex="{Binding RoleId}"
+                          Name="RoleId" />
             </Border>
 
             <Border Style="{StaticResource Border-Vertical}"
@@ -63,12 +63,10 @@
                 <Button Style="{StaticResource Button-Form-Back}"
                         Command="{Binding NavigateBack}"/>
             </Border>
-            <Border Style="{StaticResource Border-Vertical}"
+            <Border Style="{StaticResource Wrapper-Form-Buttons}"
                     Grid.Row="3" Grid.Column="1">
-                <DockPanel Style="{StaticResource Dock-Horizontal}">
-                    <Button Style="{StaticResource Button-Form-Remove}" HorizontalAlignment="Right"
-                            Command="{Binding Remove}" />
-                </DockPanel>
+                <Button Style="{StaticResource Button-Form-Save}"
+                        Command="{Binding Submit}" />
             </Border>
         </Grid>
     </ScrollViewer>

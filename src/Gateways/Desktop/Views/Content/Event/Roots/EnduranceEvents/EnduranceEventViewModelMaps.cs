@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
-using EnduranceJudge.Core.Extensions;
+using EnduranceJudge.Application.Aggregates.Configurations;
 using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Domain.State.EnduranceEvents;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Personnel;
+using System.Collections.ObjectModel;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.EnduranceEvents
 {
@@ -9,12 +11,18 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.EnduranceEve
     {
         public void AddFromMaps(IProfileExpression profile)
         {
-            profile.CreateMap<EnduranceEventViewModel, EnduranceEvent>();
         }
 
         public void AddToMaps(IProfileExpression profile)
         {
-            profile.CreateMap<EnduranceEvent, EnduranceEventViewModel>();
+            profile.CreateMap<EnduranceEvent, EnduranceEventViewModel>()
+                .AfterMap((s, d) =>
+                {
+                    var personnel = PersonnelAggregator
+                        .Aggregate(s)
+                        .MapEnumerable<PersonnelViewModel>();
+                    d.Personnel.AddRange(personnel);
+                });
         }
     }
 }

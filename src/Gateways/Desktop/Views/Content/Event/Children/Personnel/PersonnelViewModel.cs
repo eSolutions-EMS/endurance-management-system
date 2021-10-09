@@ -1,48 +1,52 @@
-﻿using EnduranceJudge.Core.Mappings;
+﻿using EnduranceJudge.Application.Aggregates.Configurations.Contracts;
+using EnduranceJudge.Core.Mappings;
+using EnduranceJudge.Domain.Aggregates.Configuration;
 using EnduranceJudge.Domain.Enums;
+using EnduranceJudge.Domain.State.Personnels;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
 using System.Collections.ObjectModel;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Personnel
 {
-    public class PersonnelViewModel : FormBase<PersonnelView>, IMap<Domain.State.Personnels.Personnel>
+    public class PersonnelViewModel : FormBase<PersonnelView>, IPersonnelState, IMap<Domain.State.Personnels.Personnel>
     {
-        public PersonnelViewModel()
+        private readonly IQueries<Domain.State.Personnels.Personnel> personnel;
+        private PersonnelViewModel() {}
+        public PersonnelViewModel(IQueries<Domain.State.Personnels.Personnel> personnel)
         {
-            this.LoadRoles();
+            this.personnel = personnel;
         }
 
-        public ObservableCollection<SimpleListItemViewModel> RoleItems { get; private set; }
+        public ObservableCollection<SimpleListItemViewModel> RoleItems { get; }
+            = new(SimpleListItemViewModel.FromEnum<PersonnelRole>());
 
         private string name;
-        private int role;
+        private int roleId;
+
+        protected override void Load(int id)
+        {
+            var personnel = this.personnel.GetOne(id);
+            this.MapFrom(personnel);
+        }
+        protected override void DomainAction()
+        {
+            var configuration = new ConfigurationManager();
+            configuration.Save(this);
+        }
 
         public string Name
         {
             get => this.name;
             set => this.SetProperty(ref this.name, value);
         }
-        public int Role
+        public int RoleId
         {
-            get => this.role;
-            set => this.SetProperty(ref this.role, value);
+            get => this.roleId;
+            set => this.SetProperty(ref this.roleId, value);
         }
 
-        public string RoleName => this.RoleItems[this.Role].Name;
-
-        private void LoadRoles()
-        {
-            var roles = SimpleListItemViewModel.FromEnum<PersonnelRole>();
-            this.RoleItems = new ObservableCollection<SimpleListItemViewModel>(roles);
-        }
-        protected override void Load(int id)
-        {
-            throw new System.NotImplementedException();
-        }
-        protected override void DomainAction()
-        {
-            throw new System.NotImplementedException();
-        }
+        public PersonnelRole Role => (PersonnelRole)this.RoleId;
+        public string RoleName => this.RoleItems[this.RoleId].Name;
     }
 }

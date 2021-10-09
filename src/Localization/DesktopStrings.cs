@@ -71,7 +71,7 @@
 
         // ------ Personnel
         public const string PersonnelTitle = "Personnel";
-        public const string RoleLabel = "Role";
+        public const string ROLE = "Role";
 
         // ------ Phase
         public const string PhaseTitle = "Phase";
@@ -146,5 +146,6 @@
         public const string START_PARTICIPATIONS = "START PARTICIPATIONS";
         public const string COMPLETE_UNSUCCESSFULLY = "Disqualify";
         public const string COMPLETE = "Complete";
+        public const string UPDATE_PERSONNEL = "Update Personnel";
     }
 }
