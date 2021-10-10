@@ -47,7 +47,6 @@ namespace EnduranceJudge.Domain.State.Athletes
             return category;
         }
 
-        [JsonIgnore]
         public string Name => $"{this.FirstName} {this.LastName}";
     }
 }

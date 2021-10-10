@@ -20,7 +20,7 @@ namespace EnduranceJudge.Application.Aggregates.Configurations
             };
 
             personnelList.AddRange(enduranceEvent.MembersOfJudgeCommittee);
-            personnelList.AddRange(enduranceEvent.MembersOfJudgeCommittee);
+            personnelList.AddRange(enduranceEvent.MembersOfVetCommittee);
             personnelList.AddRange(enduranceEvent.Stewards);
 
             return personnelList

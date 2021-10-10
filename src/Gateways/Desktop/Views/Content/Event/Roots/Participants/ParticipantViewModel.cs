@@ -1,21 +1,30 @@
 ﻿using EnduranceJudge.Application.Aggregates.Configurations.Contracts;
 using EnduranceJudge.Core.Mappings;
+using EnduranceJudge.Domain.Aggregates.Configuration;
+using EnduranceJudge.Domain.State.Athletes;
+using EnduranceJudge.Domain.State.Horses;
 using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
 using Prism.Commands;
-using System;
+using Prism.Regions;
 using System.Collections.ObjectModel;
 using System.Windows;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Participants
+namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Participants
 {
-    public class ParticipantViewModel : FormBase<ParticipantView, Participant>, IMap<Participant>
+    public class ParticipantViewModel : FormBase<ParticipantView, Participant>, IParticipantState, IMapFrom<Participant>
     {
-
+        private readonly IQueries<Athlete> athletes;
+        private readonly IQueries<Horse> horses;
         private ParticipantViewModel() : base(null) {}
-        public ParticipantViewModel(IQueries<Participant> participants) : base(participants)
+        public ParticipantViewModel(
+            IQueries<Athlete> athletes,
+            IQueries<Horse> horses,
+            IQueries<Participant> participants) : base(participants)
         {
+            this.athletes = athletes;
+            this.horses = horses;
             this.ToggleIsAverageSpeedInKmPhVisibility = new DelegateCommand(
                 this.ToggleIsAverageSpeedInKmPhVisibilityAction);
         }
@@ -31,18 +40,34 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Participa
         private Visibility maxAverageSpeedInKmPhVisibility = Visibility.Hidden;
         private int horseId;
         private int athleteId;
-        private int categoryId;
         private string name;
         private string horseName;
         private string athleteName;
 
-        protected override void Load(int id)
+        public override void OnNavigatedTo(NavigationContext context)
         {
-            throw new NotImplementedException();
+            this.LoadAthletes();
+            this.LoadHorses();
+            base.OnNavigatedTo(context);
         }
+
         protected override void ActOnSubmit()
         {
-            throw new NotImplementedException();
+            var configurations = new ConfigurationManager();
+            configurations.Participants.Save(this, this.AthleteId, this.HorseId);
+        }
+
+        private void LoadAthletes()
+        {
+            var athletes = this.athletes.GetAll();
+            var viewModels = athletes.MapEnumerable<SimpleListItemViewModel>();
+            this.AthleteItems.AddRange(viewModels);
+        }
+        private void LoadHorses()
+        {
+            var horses = this.horses.GetAll();
+            var viewModels = horses.MapEnumerable<SimpleListItemViewModel>();
+            this.HorseItems.AddRange(viewModels);
         }
 
         public void ToggleIsAverageSpeedInKmPhVisibilityAction()
@@ -74,7 +99,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Participa
 
         private string FormatName()
         {
-            return string.Format(DesktopConstants.COMPOSITE_NAME_FORMAT, this.AthleteName, this.horseName);
+            return string.Format(Participant.NAME_FORMAT, this.AthleteName, this.horseName);
         }
 
         public string RfId
@@ -101,11 +126,6 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Participa
         {
             get => this.athleteId;
             set => this.SetProperty(ref this.athleteId, value);
-        }
-        public int CategoryId
-        {
-            get => this.categoryId;
-            set => this.SetProperty(ref this.categoryId, value);
         }
         public string HorseName
         {

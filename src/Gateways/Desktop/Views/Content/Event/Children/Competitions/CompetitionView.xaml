@@ -22,8 +22,6 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <Border Style="{StaticResource Border-Vertical}"
@@ -98,37 +96,11 @@
 
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="6" Grid.Column="0">
-                <Label Style="{StaticResource Label-Primary}"
-                       Target="{Binding ElementName=CreateParticipant}"
-                       Content="{x:Static strings:DesktopStrings.ParticipantsLabel}" />
-            </Border>
-            <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="6" Grid.Column="1">
-                <Button Style="{StaticResource Button-Form-Create}"
-                        Command="{Binding CreateParticipant}"
-                        Name="CreateParticipant"/>
-            </Border>
-
-            <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="7" Grid.Column="1">
-                <ListBox Style="{StaticResource ListBox-Vertical}"
-                         ItemsSource="{Binding Participants}" />
-            </Border>
-
-            <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="8" Grid.Column="0">
                 <Button Style="{StaticResource Button-Form-Back}"
                         Command="{Binding NavigateBack}" />
             </Border>
-            <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="8" Grid.Column="1">
-                <DockPanel Style="{StaticResource Dock-Horizontal}">
-                    <Button Style="{StaticResource Button-Form-Remove}" HorizontalAlignment="Right"
-                            Command="{Binding Remove}" />
-                </DockPanel>
-            </Border>
             <Border Style="{StaticResource Wrapper-Form-Buttons}"
-                    Grid.Row="8" Grid.Column="1">
+                    Grid.Row="6" Grid.Column="1">
                 <Button Style="{StaticResource Button-Form-Save}"
                         Command="{Binding Submit}" />
             </Border>

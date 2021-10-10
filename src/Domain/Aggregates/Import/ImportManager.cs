@@ -127,7 +127,7 @@ namespace EnduranceJudge.Domain.Aggregates.Import
                 var horse = this.state.Horses.FirstOrDefault(x => x.FeiId == participantData.HorseEntry.First().FEIID);
                 if (athlete != null && horse != null)
                 {
-                    var participant = new Participant(horse, athlete);
+                    var participant = new Participant(athlete, horse);
                     this.state.Participants.Add(participant);
                 }
             }

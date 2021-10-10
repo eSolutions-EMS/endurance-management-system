@@ -1,4 +1,5 @@
-﻿using EnduranceJudge.Application.Core.Models;
+﻿using EnduranceJudge.Application.Contracts;
+using EnduranceJudge.Application.Core.Models;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
 using EnduranceJudge.Gateways.Desktop.Services;
 using System.Collections.Generic;
@@ -7,8 +8,11 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participations.L
 {
     public class ParticipationListViewModel : SearchableListViewModelBase<ManagerView>
     {
-        public ParticipationListViewModel(INavigationService navigation, IDomainHandler domainHandler)
-            : base(navigation, domainHandler)
+        public ParticipationListViewModel(
+            IPersistence persistence,
+            INavigationService navigation,
+            IDomainHandler domainHandler)
+            : base(navigation, domainHandler, persistence)
         {
         }
 

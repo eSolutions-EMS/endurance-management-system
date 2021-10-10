@@ -15,7 +15,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Phases
         private int maxRecoveryTimeInMinutes;
         private int restTimeInMinutes;
 
-        private PhaseViewModel() : base(null) { }
+        private PhaseViewModel() : this(null) { }
         public PhaseViewModel(IQueries<Phase> phases) : base(phases)
         {
         }

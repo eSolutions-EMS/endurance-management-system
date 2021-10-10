@@ -4,7 +4,6 @@ using EnduranceJudge.Domain.State.Competitions;
 using EnduranceJudge.Domain.Enums;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Participants;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Phases;
 using Prism.Commands;
 using System;
@@ -15,21 +14,18 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Competiti
 {
     public class CompetitionViewModel : ParentFormBase<CompetitionView, Competition>, ICompetitionState
     {
-        public CompetitionViewModel() : base(null) {}
+        public CompetitionViewModel() : this(null) { }
         public CompetitionViewModel(IQueries<Competition> competitions) : base(competitions)
         {
             this.Toggle = new DelegateCommand(this.ToggleAction);
             this.CreatePhase = new DelegateCommand(this.NewForm<PhaseView>);
-            this.CreateParticipant = new DelegateCommand(this.NewForm<ParticipantView>);
         }
 
         public DelegateCommand Toggle { get; }
         public DelegateCommand CreatePhase { get; }
-        public DelegateCommand CreateParticipant { get; }
         public ObservableCollection<SimpleListItemViewModel> TypeItems { get; }
             = new(SimpleListItemViewModel.FromEnum<CompetitionType>());
         public ObservableCollection<PhaseViewModel> Phases { get; } = new();
-        public ObservableCollection<ParticipantViewModel> Participants { get; } = new();
 
         private int typeValue;
         private string typeString;

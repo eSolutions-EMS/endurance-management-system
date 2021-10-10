@@ -8,24 +8,22 @@ using static EnduranceJudge.Localization.DesktopStrings;
 
 namespace EnduranceJudge.Domain.State.Participants
 {
-    // TODO: Rename to Contestant
     public class Participant : DomainObjectBase<ParticipantException>, IParticipantState
     {
         public const int DEFAULT_MAX_AVERAGE_SPEED = 16;
+        public const string NAME_FORMAT = "{0} - {1}";
 
         private Participant() {}
-        public Participant(
-            Horse horse,
-            Athlete athlete,
-            int number = default,
-            string rfId = default,
-            int? maxAverageSpeedInKmPh = default)
-            : base(true)
-            => this.Validate(() =>
+
+        public Participant(Athlete athlete, Horse horse, IParticipantState state)
+            : this(athlete, horse)
         {
-            this.RfId = rfId;
-            this.MaxAverageSpeedInKmPh = maxAverageSpeedInKmPh;
-            this.Number = number;
+            this.RfId = state.RfId;
+            this.MaxAverageSpeedInKmPh = state.MaxAverageSpeedInKmPh;
+            this.Number = state.Number;
+        }
+        public Participant(Athlete athlete, Horse horse) : base(true) => this.Validate(() =>
+        {
             this.Horse = horse.IsRequired(HORSE);
             this.Athlete = athlete.IsRequired(ATHLETE);
         });
@@ -48,5 +46,7 @@ namespace EnduranceJudge.Domain.State.Participants
                 this.Participation.Add(competition);
             }
         }
+
+        public string Name => string.Format(NAME_FORMAT, this.Athlete.Name, this.Horse.Name);
     }
 }

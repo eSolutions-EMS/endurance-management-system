@@ -6,16 +6,20 @@
              prism:ViewModelLocator.AutoWireViewModel="True">
 
     <StackPanel Style="{StaticResource List-Vertical}">
-        <Button Style="{StaticResource Button-Header-Vertical}"
-                Command="{Binding ChangeToEventsList}"
-                Content="{x:Static strings:DesktopStrings.EnduranceEventButtonText}" />
+        <Button Style="{StaticResource Button-Big-Vertical}"
+                Command="{Binding Event}"
+                Content="{x:Static strings:DesktopStrings.ENDURANCE_EVENTS}" />
 
-        <Button Style="{StaticResource Button-Header-Vertical}"
-                Command="{Binding ChangeToAthletesList}"
-                Content="{x:Static strings:DesktopStrings.AthletesButtonText}" />
+        <Button Style="{StaticResource Button-Big-Vertical}"
+                Command="{Binding AthleteList}"
+                Content="{x:Static strings:DesktopStrings.ATHLETES}" />
 
-        <Button Style="{StaticResource Button-Header-Vertical}"
-                Command="{Binding ChangeToHorseList}"
-                Content="{x:Static strings:DesktopStrings.HorsesButtonText}" />
+        <Button Style="{StaticResource Button-Big-Vertical}"
+                Command="{Binding HorseList}"
+                Content="{x:Static strings:DesktopStrings.HORSES}" />
+
+        <Button Style="{StaticResource Button-Big-Vertical}"
+                Command="{Binding ParticipantList}"
+                Content="{x:Static strings:DesktopStrings.PARTICIPANTS}" />
     </StackPanel>
 </UserControl>

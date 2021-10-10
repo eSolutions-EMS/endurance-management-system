@@ -7,8 +7,8 @@
         public const string SAVE = "Save";
         public const string UPDATE = "Update";
         public const string REMOVE = "Remove";
-        public const string SearchButtonText = "Search";
-        public const string ClearButtonText = "Clear";
+        public const string SEARCH = "Search";
+        public const string CLEAR = "Clear";
         public const string CREATE_BUTTON = "Create";
         public const string BACK = "Back";
         public const string BoolTrueValue = "Yes";
@@ -42,9 +42,9 @@
         // ---- Event Page
 
         // ------ Navigation Strip
-        public const string EnduranceEventButtonText = "Endurance Events";
-        public const string AthletesButtonText = "Athletes";
-        public const string HorsesButtonText = "Horses";
+        public const string ENDURANCE_EVENTS = "Endurance Events";
+        public const string ATHLETES = "Athletes";
+        public const string HORSES = "Horses";
 
         // ------ Endurance Event
         public const string EnduranceEventTitle = "Endurance Event";
@@ -147,7 +147,8 @@
         public const string COMPLETE_UNSUCCESSFULLY = "Disqualify";
         public const string COMPLETE = "Complete";
         public const string UPDATE_PERSONNEL = "Update Personnel";
-        public const string CANNOT_REMOVE_USED_IN_PARTICIPANT =
-            "Cannot be remobed because it is used in an existing Participant";
+        public const string CANNOT_REMOVE_USED_IN_PARTICIPANT = "Cannot be remobed because it is used in an existing Participant";
+        public const string ALREADY_PARTICIPATING_TEMPLATE = "Cannot be created - '{0}' is already participating.";
+        public const string PARTICIPANTS = "Participants";
     }
 }

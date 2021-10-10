@@ -3,18 +3,18 @@ using EnduranceJudge.Gateways.Desktop.Core.Static;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Horses.Listing
+namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Participants
 {
-    public partial class HorseListView : UserControl, IScrollableView
+    public partial class ParticipantView : UserControl, IScrollableView
     {
         private readonly IMouseInputService mouseInput;
 
-        public HorseListView()
+        public ParticipantView()
         {
             InitializeComponent();
         }
 
-        public HorseListView(IMouseInputService mouseInput) : this()
+        public ParticipantView(IMouseInputService mouseInput) : this()
         {
             this.mouseInput = mouseInput;
         }

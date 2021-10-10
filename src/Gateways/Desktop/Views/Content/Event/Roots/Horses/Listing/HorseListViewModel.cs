@@ -1,4 +1,6 @@
-﻿using EnduranceJudge.Application.Aggregates.Configurations.Contracts;
+﻿using AutoMapper.EntityFrameworkCore;
+using EnduranceJudge.Application.Aggregates.Configurations.Contracts;
+using EnduranceJudge.Application.Contracts;
 using EnduranceJudge.Application.Core.Models;
 using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Domain.Aggregates.Configuration;
@@ -13,8 +15,12 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Horses.Listi
     {
         private readonly IQueries<Horse> horses;
 
-        public HorseListViewModel(IQueries<Horse> horses, INavigationService navigation, IDomainHandler domainHandler)
-            : base(navigation, domainHandler)
+        public HorseListViewModel(
+            IQueries<Horse> horses,
+            IPersistence persistence,
+            INavigationService navigation,
+            IDomainHandler domainHandler)
+            : base(navigation, domainHandler, persistence)
         {
             this.horses = horses;
         }

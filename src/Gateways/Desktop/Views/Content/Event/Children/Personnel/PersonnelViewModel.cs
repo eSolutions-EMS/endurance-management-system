@@ -5,12 +5,13 @@ using EnduranceJudge.Domain.State.Personnels;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
 using System.Collections.ObjectModel;
+using System.Linq;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Personnel
 {
     public class PersonnelViewModel : FormBase<PersonnelView, Domain.State.Personnels.Personnel>, IPersonnelState
     {
-        private PersonnelViewModel() : base(null) {}
+        private PersonnelViewModel() : this(null) {}
         public PersonnelViewModel(IQueries<Domain.State.Personnels.Personnel> personnel) : base(personnel)
         {
         }
@@ -39,6 +40,6 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Personnel
         }
 
         public PersonnelRole Role => (PersonnelRole)this.RoleId;
-        public string RoleName => this.RoleItems[this.RoleId].Name;
+        public string RoleName => this.RoleItems.First(x => x.Id == this.RoleId).Name;
     }
 }
