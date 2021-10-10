@@ -1,31 +1,41 @@
-﻿using EnduranceJudge.Application.Events.Commands.Horses;
-using EnduranceJudge.Application.Events.Queries.GetHorseList;
-using EnduranceJudge.Gateways.Desktop.Core.Static;
+﻿using AutoMapper.EntityFrameworkCore;
+using EnduranceJudge.Application.Aggregates.Configurations.Contracts;
+using EnduranceJudge.Application.Contracts;
+using EnduranceJudge.Application.Core.Models;
+using EnduranceJudge.Core.Mappings;
+using EnduranceJudge.Domain.Aggregates.Configuration;
+using EnduranceJudge.Domain.State.Horses;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
-using EnduranceJudge.Gateways.Desktop.Events.Horses;
 using EnduranceJudge.Gateways.Desktop.Services;
-using Prism.Events;
+using System.Collections.Generic;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Horses.Listing
 {
-    public class HorseListViewModel : SearchableListViewModelBase<GetHorseList, RemoveHorse, HorseView>
+    public class HorseListViewModel : SearchableListViewModelBase<HorseView>
     {
-        private readonly IEventAggregator eventAggregator;
+        private readonly IQueries<Horse> horses;
+
         public HorseListViewModel(
-            IApplicationService application,
+            IQueries<Horse> horses,
+            IPersistence persistence,
             INavigationService navigation,
-            IEventAggregator eventAggregator)
-            : base(application, navigation)
+            IDomainHandler domainHandler)
+            : base(navigation, domainHandler, persistence)
         {
-            this.eventAggregator = eventAggregator;
+            this.horses = horses;
         }
 
-        protected override void RemoveAction(int? id)
+        protected override IEnumerable<ListItemModel> LoadData()
         {
-            base.RemoveAction(id);
-            this.eventAggregator
-                .GetEvent<HorseRemovedEvent>()
-                .Publish(id!.Value);
+            var horses = this.horses
+                .GetAll()
+                .MapEnumerable<ListItemModel>();
+            return horses;
+        }
+        protected override void RemoveDomain(int id)
+        {
+            var configurations = new ConfigurationManager();
+            configurations.Horses.Remove(id);
         }
     }
 }

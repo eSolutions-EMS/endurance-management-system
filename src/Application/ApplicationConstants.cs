@@ -14,7 +14,7 @@ namespace EnduranceJudge.Application
             }
         }
 
-        public const string WorkFileName = "endurance-judge-file";
+        public const string STORAGE_FILE_NAME = "endurance-judge-data";
 
         public static class FileExtensions
         {

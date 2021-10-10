@@ -1,43 +1,40 @@
-﻿ using EnduranceJudge.Application.Events.Commands.Athletes;
-using EnduranceJudge.Application.Events.Models;
-using EnduranceJudge.Application.Events.Queries.GetAthlete;
-using EnduranceJudge.Application.Events.Queries.GetCountriesList;
+﻿using EnduranceJudge.Application.Aggregates.Configurations.Contracts;
+using EnduranceJudge.Application.Core.Models;
+using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Core.Models;
+using EnduranceJudge.Domain.Aggregates.Configuration;
+using EnduranceJudge.Domain.State.Athletes;
 using EnduranceJudge.Domain.Enums;
-using EnduranceJudge.Domain.States;
+using EnduranceJudge.Domain.State.Countries;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
-using EnduranceJudge.Gateways.Desktop.Core.Static;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
- using EnduranceJudge.Gateways.Desktop.Events.Athletes;
- using Prism.Events;
- using Prism.Regions;
+using Prism.Regions;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
+using static EnduranceJudge.Localization.Constants;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Athletes
 {
-    public class AthleteViewModel : RootFormBase<GetAthlete, UpdateAthlete, AthleteRootModel, AthleteView>,
-        IAthleteState,
-        IListable
+    public class AthleteViewModel : FormBase<AthleteView, Athlete>, IAthleteState, IListable
     {
-        private readonly IEventAggregator eventAggregator;
-        private AthleteViewModel(IApplicationService application, IEventAggregator eventAggregator) : base(application)
+        private readonly IQueries<Country> countries;
+        private readonly IQueries<Athlete> athletes;
+
+        private AthleteViewModel(IQueries<Country> countries, IQueries<Athlete> athletes) : base(athletes)
         {
-            this.eventAggregator = eventAggregator;
+            this.countries = countries;
+            this.athletes = athletes;
             this.CategoryId = (int)Category.Adults;
-            this.CountryIsoCode = "BUL";
         }
 
         public ObservableCollection<SimpleListItemViewModel> CategoryItems { get; }
             = new(SimpleListItemViewModel.FromEnum<Category>());
-        public ObservableCollection<CountryListModel> CountryItems { get; }
-            = new(Enumerable.Empty<CountryListModel>());
+        public ObservableCollection<ListItemModel> CountryItems { get; } = new();
 
         private string feiId;
         private string firstName;
         private string lastName;
-        private string countryIsoCode;
+        private int countryId;
         private int categoryId;
         private string club;
 
@@ -45,6 +42,27 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Athletes
         {
             base.OnNavigatedTo(context);
             this.LoadCountries();
+        }
+
+        protected override void Load(int id)
+        {
+            var athlete = this.athletes.GetOne(id);
+            this.MapFrom(athlete);
+        }
+        protected override void ActOnSubmit()
+        {
+            var configuration = new ConfigurationManager();
+            configuration.Athletes.Save(this, this.CountryId);
+        }
+        private void LoadCountries()
+        {
+            var countries = this.countries.GetAll();
+
+            var listItems = countries.MapEnumerable<ListItemModel>();
+            this.CountryItems.AddRange(listItems);
+            this.CountryId = countries
+                .First(x => x.IsoCode == DEFAULT_COUNTRY_CODE)
+                .Id;
         }
 
         public string FeiId
@@ -62,10 +80,10 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Athletes
             get => this.lastName;
             set => this.SetProperty(ref this.lastName, value);
         }
-        public string CountryIsoCode
+        public int CountryId
         {
-            get => this.countryIsoCode;
-            set => this.SetProperty(ref this.countryIsoCode, value);
+            get => this.countryId;
+            set => this.SetProperty(ref this.countryId, value);
         }
         public int CategoryId
         {
@@ -77,22 +95,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Athletes
             get => this.club;
             set => this.SetProperty(ref this.club, value);
         }
-
-        private async Task LoadCountries()
-        {
-            var countries = await this.Application.Execute(new GetCountriesList());
-            this.CountryItems.AddRange(countries);
-        }
-
         public Category Category => (Category)this.CategoryId;
         public string Name => $"{this.FirstName} {this.LastName}";
-
-        protected override async Task SubmitAction()
-        {
-            await base.SubmitAction();
-            this.eventAggregator
-                .GetEvent<AthleteUpdatedEvent>()
-                .Publish(this);
-        }
     }
 }

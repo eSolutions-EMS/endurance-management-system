@@ -35,7 +35,7 @@
         <Border Style="{StaticResource Border-Vertical}"
                 Grid.Row="1" Grid.Column="0">
             <TextBlock Style="{StaticResource Text}"
-                   Text="{x:Static strings:DesktopStrings.FeiIdLabel}" />
+                   Text="{x:Static strings:DesktopStrings.FEI_ID}" />
         </Border>
         <Border Style="{StaticResource Border-Vertical}"
                 Grid.Row="1" Grid.Column="1">
@@ -46,7 +46,7 @@
         <Border Style="{StaticResource Border-Vertical}"
                 Grid.Row="2" Grid.Column="0">
             <TextBlock Style="{StaticResource Text-Bold}"
-                       Text="{x:Static strings:DesktopStrings.NameLabel}" />
+                       Text="{x:Static strings:DesktopStrings.NAME}" />
         </Border>
         <Border Style="{StaticResource Border-Vertical}"
                 Grid.Row="2" Grid.Column="1">
@@ -81,7 +81,7 @@
         <Border Style="{StaticResource Border-Vertical}"
                 Grid.Row="5" Grid.Column="0">
             <TextBlock Style="{StaticResource Text-Bold}"
-                       Text="{x:Static strings:DesktopStrings.BreedLabel}" />
+                       Text="{x:Static strings:DesktopStrings.BREED}" />
         </Border>
         <Border Style="{StaticResource Border-Vertical}"
                 Grid.Row="5" Grid.Column="1">

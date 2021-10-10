@@ -1,25 +1,15 @@
-﻿using EnduranceJudge.Application.Events.Commands.Horses;
-using EnduranceJudge.Application.Events.Models;
-using EnduranceJudge.Application.Events.Queries.GetHorse;
+﻿using EnduranceJudge.Application.Aggregates.Configurations.Contracts;
 using EnduranceJudge.Core.Models;
-using EnduranceJudge.Domain.Aggregates.Common.Horses;
-using EnduranceJudge.Gateways.Desktop.Core.Static;
+using EnduranceJudge.Domain.Aggregates.Configuration;
+using EnduranceJudge.Domain.State.Horses;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
-using EnduranceJudge.Gateways.Desktop.Events.Horses;
-using Prism.Events;
-using System.Threading.Tasks;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Horses
 {
-    public class HorseViewModel : RootFormBase<GetHorse, UpdateHorse, HorseRootModel, HorseView>,
-        IHorseState,
-        IListable
+    public class HorseViewModel : FormBase<HorseView, Horse>, IHorseState, IListable
     {
-        private readonly IEventAggregator eventAggregator;
-
-        private HorseViewModel(IApplicationService application, IEventAggregator eventAggregator) : base(application)
+        private HorseViewModel(IQueries<Horse> horses) : base(horses)
         {
-            this.eventAggregator = eventAggregator;
         }
 
         private int isStallionValue;
@@ -30,6 +20,12 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Horses
         private string trainerFeiId;
         private string trainerFirstName;
         private string trainerLastName;
+
+        protected override void ActOnSubmit()
+        {
+            var configurations = new ConfigurationManager();
+            configurations.Horses.Save(this);
+        }
 
         public string FeiId
         {
@@ -74,12 +70,5 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Horses
 
         public bool IsStallion => this.isStallionValue != 0;
 
-        protected override async Task SubmitAction()
-        {
-            await base.SubmitAction();
-            this.eventAggregator
-                .GetEvent<HorseUpdatedEvent>()
-                .Publish(this);
-        }
     }
 }

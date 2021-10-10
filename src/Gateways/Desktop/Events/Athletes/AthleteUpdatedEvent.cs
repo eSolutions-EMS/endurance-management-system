@@ -1,4 +1,4 @@
-﻿using EnduranceJudge.Domain.States;
+﻿using EnduranceJudge.Domain.State.Athletes;
 using Prism.Events;
 
 namespace EnduranceJudge.Gateways.Desktop.Events.Athletes

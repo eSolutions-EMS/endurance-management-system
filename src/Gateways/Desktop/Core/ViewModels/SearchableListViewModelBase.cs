@@ -1,24 +1,20 @@
-﻿using EnduranceJudge.Application.Core.Requests;
-using EnduranceJudge.Application.Events.Common;
+﻿using EnduranceJudge.Application.Contracts;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem;
 using EnduranceJudge.Gateways.Desktop.Core.Objects;
-using EnduranceJudge.Gateways.Desktop.Core.Static;
 using EnduranceJudge.Gateways.Desktop.Services;
-using MediatR;
 using Prism.Commands;
 using System;
-using System.Collections.Generic;
 
 namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
 {
-    public abstract class SearchableListViewModelBase<TListQuery, TRemoveCommand, TView>
-        : ListViewModelBase<TListQuery, TRemoveCommand, TView>
-        where TListQuery : IRequest<IEnumerable<ListItemModel>>, new()
-        where TRemoveCommand : IdentifiableRequest, new()
+    public abstract class SearchableListViewModelBase<TView> : ListViewModelBase<TView>
         where TView : IView
     {
-        protected SearchableListViewModelBase(IApplicationService application, INavigationService navigation)
-            : base(application, navigation)
+        protected SearchableListViewModelBase(
+            INavigationService navigation,
+            IDomainHandler domainHandler,
+            IPersistence persistence)
+            : base(navigation, domainHandler, persistence)
         {
             Func<ListItemViewModel, string, bool> filter
                 = (item, value) => item.Name.ToLower().Contains(value.ToLower());

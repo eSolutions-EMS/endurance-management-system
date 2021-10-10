@@ -1,21 +1,25 @@
-﻿using EnduranceJudge.Application.Actions.Manager.Queries.GetParticipationList;
-using EnduranceJudge.Application.Core.Requests;
-using EnduranceJudge.Gateways.Desktop.Core.Static;
+﻿using EnduranceJudge.Application.Contracts;
+using EnduranceJudge.Application.Core.Models;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
 using EnduranceJudge.Gateways.Desktop.Services;
+using System.Collections.Generic;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participations.Listing
 {
-    public class ParticipationListViewModel
-        : SearchableListViewModelBase<GetParticipationList, UnusedCommend, ParticipationView>
+    public class ParticipationListViewModel : SearchableListViewModelBase<ManagerView>
     {
-        public ParticipationListViewModel(IApplicationService application, INavigationService navigation)
-            : base(application, navigation)
+        public ParticipationListViewModel(
+            IPersistence persistence,
+            INavigationService navigation,
+            IDomainHandler domainHandler)
+            : base(navigation, domainHandler, persistence)
         {
         }
-    }
 
-    public class UnusedCommend : IdentifiableRequest
-    {
+        protected override IEnumerable<ListItemModel> LoadData() => throw new System.NotImplementedException();
+        protected override void RemoveDomain(int id)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
