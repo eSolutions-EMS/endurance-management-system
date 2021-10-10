@@ -13,12 +13,20 @@ namespace EnduranceJudge.Domain.Core
 
         public DomainMappingProfile()
         {
-            var domainTypes = ReflectionUtilities
-                .GetInstanceTypes(this.Assemblies)
-                .Where(t => DomainObjectType.IsAssignableFrom(t));
-            this.AddConventionalMaps(domainTypes);
+            this.CreateDomainMaps();
         }
 
         protected override Assembly[] Assemblies => DomainConstants.Assemblies;
+
+        private void CreateDomainMaps()
+        {
+            var types = ReflectionUtilities
+                .GetInstanceTypes(this.Assemblies)
+                .Where(t => DomainObjectType.IsAssignableFrom(t));
+            foreach (var type in types)
+            {
+                this.CreateMap(type, type);
+            }
+        }
     }
 }

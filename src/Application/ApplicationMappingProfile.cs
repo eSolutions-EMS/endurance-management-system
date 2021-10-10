@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using EnduranceJudge.Core.Mappings;
+using EnduranceJudge.Core.Utilities;
 
 namespace EnduranceJudge.Application.Core
 {

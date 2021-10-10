@@ -8,8 +8,9 @@ using System.Collections.ObjectModel;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Personnel
 {
-    public class    PersonnelViewModel : FormBase<PersonnelView, Domain.State.Personnels.Personnel>, IPersonnelState
+    public class PersonnelViewModel : FormBase<PersonnelView, Domain.State.Personnels.Personnel>, IPersonnelState
     {
+        private PersonnelViewModel() : base(null) {}
         public PersonnelViewModel(IQueries<Domain.State.Personnels.Personnel> personnel) : base(personnel)
         {
         }

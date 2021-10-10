@@ -15,6 +15,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Competiti
 {
     public class CompetitionViewModel : ParentFormBase<CompetitionView, Competition>, ICompetitionState
     {
+        public CompetitionViewModel() : base(null) {}
         public CompetitionViewModel(IQueries<Competition> competitions) : base(competitions)
         {
             this.Toggle = new DelegateCommand(this.ToggleAction);

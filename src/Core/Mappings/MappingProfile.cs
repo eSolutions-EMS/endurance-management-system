@@ -10,6 +10,7 @@ namespace EnduranceJudge.Core.Mappings
 {
     public abstract class MappingProfile : Profile
     {
+        private static readonly Type ConventionalMapType = typeof(IConventionalMap);
         private static readonly Type MapFromType = typeof(IMapFrom<>);
         private static readonly Type MapToType = typeof(IMapTo<>);
         private static readonly Type MapType = typeof(IMap<>);
@@ -17,6 +18,7 @@ namespace EnduranceJudge.Core.Mappings
 
         protected MappingProfile()
         {
+            this.AddConventionalMaps(ReflectionUtilities.GetInstanceTypes(this.Assemblies));
             this.AddCustomMaps();
         }
 
@@ -24,27 +26,25 @@ namespace EnduranceJudge.Core.Mappings
 
         protected void AddConventionalMaps(IEnumerable<Type> instanceTypes)
         {
-            var configurations = instanceTypes
-                .Select(t => new
-                {
-                    Type = t,
-                    MapFromTypes = GetMappingModels(t, MapFromType),
-                    MapToTypes = GetMappingModels(t, MapToType),
-                    MapTypes = GetMappingModels(t, MapType),
-                })
+            var types = instanceTypes
+                .Where(x => ConventionalMapType.IsAssignableFrom(x))
                 .ToList();
 
-            foreach (var configuration in configurations)
+            foreach (var type in types)
             {
-                configuration.MapFromTypes.ForEach(mapFrom => this.CreateMap(mapFrom, configuration.Type));
-                configuration.MapToTypes.ForEach(mapTo => this.CreateMap(configuration.Type, mapTo));
-                configuration.MapTypes.ForEach(map =>
+                var mapFrom = GetMappingModels(type, MapFromType);
+                var mapTo = GetMappingModels(type, MapToType);
+                var map = GetMappingModels(type, MapType);
+
+                mapFrom.ForEach(x => this.CreateMap(x, type));
+                mapTo.ForEach(x => this.CreateMap(type, x));
+                map.ForEach(x =>
                 {
-                    this.CreateMap(configuration.Type, map);
-                    this.CreateMap(map, configuration.Type);
+                    this.CreateMap(type, x);
+                    this.CreateMap(x, type);
                 });
 
-                this.CreateMap(configuration.Type, configuration.Type);
+                this.CreateMap(type, type);
             }
         }
 
@@ -52,8 +52,8 @@ namespace EnduranceJudge.Core.Mappings
         {
             var configurations = ReflectionUtilities
                 .GetInstanceTypes(this.Assemblies)
-                .Where(t => CustomMapConfigurationType.IsAssignableFrom(t))
-                .Select(t => Activator.CreateInstance(t)!)
+                .Where(CustomMapConfigurationType.IsAssignableFrom)
+                .Select(Activator.CreateInstance)
                 .Cast<ICustomMapConfiguration>()
                 .ToList();
 
