@@ -19,6 +19,7 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
             this.Competitions = new CompetitionsManager(this.state.Event.Competitions);
             this.Phases = new PhasesManager(this.state.Event.Competitions);
             this.Athletes = new AthletesManger(this.state);
+            this.Horses = new HorsesManager(this.state);
         }
 
         public void Update(string name, int countryId, string populatedPlace)
@@ -41,5 +42,6 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
         public CompetitionsManager Competitions { get; }
         public PhasesManager Phases { get; }
         public AthletesManger Athletes { get; }
+        public HorsesManager Horses { get; }
     }
 }

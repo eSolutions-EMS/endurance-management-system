@@ -16,10 +16,10 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.EnduranceEve
             profile.CreateMap<EnduranceEvent, EnduranceEventViewModel>()
                 .AfterMap((s, d) =>
                 {
-                    var personnel = PersonnelAggregator
-                        .Aggregate(s)
-                        .MapEnumerable<PersonnelViewModel>();
-                    d.Personnel.AddRange(personnel);
+                    // var personnel = PersonnelAggregator
+                    //     .Aggregate(s)
+                    //     .MapEnumerable<PersonnelViewModel>();
+                    // d.Personnel.AddRange(personnel);
                 });
             profile.CreateMap<Country, ListItemModel>();
 

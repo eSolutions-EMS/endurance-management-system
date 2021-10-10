@@ -2,6 +2,8 @@
 using EnduranceJudge.Domain.State;
 using EnduranceJudge.Domain.State.EnduranceEvents;
 using EnduranceJudge.Gateways.Persistence.Core;
+using System;
+using System.Collections.Generic;
 
 namespace EnduranceJudge.Gateways.Persistence.Contracts.Queries
 {
@@ -17,5 +19,9 @@ namespace EnduranceJudge.Gateways.Persistence.Contracts.Queries
         {
             return this.state.Event;
         }
+
+        public EnduranceEvent GetOne(Predicate<EnduranceEvent> predicate) => throw new NotImplementedException();
+        public EnduranceEvent GetOne(int id) => throw new NotImplementedException();
+        public List<EnduranceEvent> GetAll() => throw new NotImplementedException();
     }
 }

@@ -1,5 +1,4 @@
 ﻿using EnduranceJudge.Application.Aggregates.Configurations.Contracts;
-using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Domain.Aggregates.Configuration;
 using EnduranceJudge.Domain.Enums;
 using EnduranceJudge.Domain.State.Personnels;
@@ -9,13 +8,10 @@ using System.Collections.ObjectModel;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Personnel
 {
-    public class PersonnelViewModel : FormBase<PersonnelView>, IPersonnelState, IMap<Domain.State.Personnels.Personnel>
+    public class    PersonnelViewModel : FormBase<PersonnelView, Domain.State.Personnels.Personnel>, IPersonnelState
     {
-        private readonly IQueries<Domain.State.Personnels.Personnel> personnel;
-        private PersonnelViewModel() {}
-        public PersonnelViewModel(IQueries<Domain.State.Personnels.Personnel> personnel)
+        public PersonnelViewModel(IQueries<Domain.State.Personnels.Personnel> personnel) : base(personnel)
         {
-            this.personnel = personnel;
         }
 
         public ObservableCollection<SimpleListItemViewModel> RoleItems { get; }
@@ -24,12 +20,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Personnel
         private string name;
         private int roleId;
 
-        protected override void Load(int id)
-        {
-            var personnel = this.personnel.GetOne(id);
-            this.MapFrom(personnel);
-        }
-        protected override void DomainAction()
+        protected override void ActOnSubmit()
         {
             var configuration = new ConfigurationManager();
             configuration.Save(this);

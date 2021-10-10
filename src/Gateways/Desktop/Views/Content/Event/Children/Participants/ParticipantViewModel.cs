@@ -1,4 +1,5 @@
-﻿using EnduranceJudge.Core.Mappings;
+﻿using EnduranceJudge.Application.Aggregates.Configurations.Contracts;
+using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
@@ -9,9 +10,11 @@ using System.Windows;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Participants
 {
-    public class ParticipantViewModel : FormBase<ParticipantView>, IMap<Participant>
+    public class ParticipantViewModel : FormBase<ParticipantView, Participant>, IMap<Participant>
     {
-        public ParticipantViewModel()
+
+        private ParticipantViewModel() : base(null) {}
+        public ParticipantViewModel(IQueries<Participant> participants) : base(participants)
         {
             this.ToggleIsAverageSpeedInKmPhVisibility = new DelegateCommand(
                 this.ToggleIsAverageSpeedInKmPhVisibilityAction);
@@ -37,7 +40,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Participa
         {
             throw new NotImplementedException();
         }
-        protected override void DomainAction()
+        protected override void ActOnSubmit()
         {
             throw new NotImplementedException();
         }

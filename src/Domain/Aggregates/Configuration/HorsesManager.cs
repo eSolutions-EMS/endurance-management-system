@@ -3,54 +3,51 @@ using EnduranceJudge.Domain.Core.Exceptions;
 using EnduranceJudge.Domain.Core.Extensions;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State;
-using EnduranceJudge.Domain.State.Athletes;
+using EnduranceJudge.Domain.State.Horses;
 using static EnduranceJudge.Localization.DesktopStrings;
 
 namespace EnduranceJudge.Domain.Aggregates.Configuration
 {
-    public class AthletesManger : ManagerObjectBase
+    public class HorsesManager : ManagerObjectBase
     {
         private readonly IState state;
-
-        internal AthletesManger(IState state)
+        internal HorsesManager(IState state)
         {
             this.state = state;
         }
 
-        public void Save(IAthleteState state, int countryId)
+        public void Save(IHorseState state)
         {
-            var country = this.state.Countries.FindDomain(countryId);
-            var athlete = new Athlete(state)
+            var horse = new Horse(state)
             {
                 Id = state.Id,
-                Country = country
             };
-            this.state.Athletes.Save(athlete);
+            this.state.Horses.Save(horse);
 
-            this.UpdateParticipants(athlete);
+            this.UpdateParticipants(horse);
         }
 
-        public void Remove(int id) => this.Validate<AthleteException>(() =>
+        public void Remove(int id) => this.Validate<HorseException>(() =>
         {
-            var athlete = this.state.Athletes.FindDomain(id);
+            var horse = this.state.Horses.FindDomain(id);
             foreach (var participant in this.state.Participants)
             {
-                if (participant.Athlete.Equals(athlete))
+                if (participant.Athlete.Equals(horse))
                 {
                     throw new DomainException(CANNOT_REMOVE_USED_IN_PARTICIPANT);
                 }
             }
 
-            this.state.Athletes.Remove(athlete);
+            this.state.Horses.Remove(horse);
         });
 
-        private void UpdateParticipants(Athlete athlete)
+        private void UpdateParticipants(Horse horse)
         {
             foreach (var participant in this.state.Participants)
             {
-                if (participant.Athlete.Equals(athlete))
+                if (participant.Horse.Equals(horse))
                 {
-                    participant.Athlete.MapFrom(athlete);
+                    participant.Horse.MapFrom(horse);
                 }
             }
         }

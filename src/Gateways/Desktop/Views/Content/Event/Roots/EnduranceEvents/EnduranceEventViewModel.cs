@@ -3,6 +3,7 @@ using EnduranceJudge.Application.Core.Models;
 using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Domain.Aggregates.Configuration;
 using EnduranceJudge.Domain.State.Countries;
+using EnduranceJudge.Domain.State.EnduranceEvents;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Competitions;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Personnel;
@@ -13,12 +14,13 @@ using System.Linq;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.EnduranceEvents
 {
-    public class EnduranceEventViewModel : ParentFormBase<EnduranceEventView>
+    public class EnduranceEventViewModel : ParentFormBase<EnduranceEventView, EnduranceEvent>
     {
         private readonly IEnduranceEventQuery enduranceEventQuery;
         private readonly IQueries<Country> countryQueries;
 
         public EnduranceEventViewModel(IEnduranceEventQuery enduranceEventQuery, IQueries<Country> countryQueries)
+            : base (enduranceEventQuery)
         {
             this.enduranceEventQuery = enduranceEventQuery;
             this.countryQueries = countryQueries;
@@ -47,7 +49,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.EnduranceEve
             var enduranceEvent = this.enduranceEventQuery.Get();
             this.MapFrom(enduranceEvent);
         }
-        protected override void DomainAction()
+        protected override void ActOnSubmit()
         {
             var configuration = new ConfigurationManager();
             configuration.Update(this.Name, this.CountryId, this.PopulatedPlace);

@@ -1,4 +1,6 @@
 using EnduranceJudge.Domain.Core.Models;
+using EnduranceJudge.Domain.Core.Validation;
+using static EnduranceJudge.Localization.DesktopStrings;
 
 namespace EnduranceJudge.Domain.State.Horses
 {
@@ -33,6 +35,18 @@ namespace EnduranceJudge.Domain.State.Horses
             this.TrainerFirstName = trainerFirstName;
             this.TrainerLastName = trainerLastName;
         });
+
+        public Horse(IHorseState state)
+        {
+            this.FeiId = state.FeiId;
+            this.Club = state.Club;
+            this.IsStallion = state.IsStallion;
+            this.Breed = state.Breed;
+            this.TrainerFeiId = state.TrainerFeiId;
+            this.TrainerFirstName = state.TrainerFirstName;
+            this.TrainerLastName = state.TrainerLastName;
+            this.Name = state.Name.IsRequired(NAME);
+        }
 
         public string FeiId { get; private set; }
         public string Name { get; private set; }

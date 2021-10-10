@@ -147,7 +147,7 @@
         public const string COMPLETE_UNSUCCESSFULLY = "Disqualify";
         public const string COMPLETE = "Complete";
         public const string UPDATE_PERSONNEL = "Update Personnel";
-        public const string CANNOT_REMOVE_ATHLETE_IN_PARTICIPANT =
-            "Cannot remove Athlete, because it is used in existing Participant";
+        public const string CANNOT_REMOVE_USED_IN_PARTICIPANT =
+            "Cannot be remobed because it is used in an existing Participant";
     }
 }

@@ -1,36 +1,35 @@
-﻿using EnduranceJudge.Application.Core.Models;
+﻿using EnduranceJudge.Application.Aggregates.Configurations.Contracts;
+using EnduranceJudge.Application.Core.Models;
+using EnduranceJudge.Core.Mappings;
+using EnduranceJudge.Domain.Aggregates.Configuration;
+using EnduranceJudge.Domain.State.Horses;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
-using EnduranceJudge.Gateways.Desktop.Events.Horses;
 using EnduranceJudge.Gateways.Desktop.Services;
-using Prism.Events;
 using System.Collections.Generic;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Horses.Listing
 {
     public class HorseListViewModel : SearchableListViewModelBase<HorseView>
     {
-        private readonly IEventAggregator eventAggregator;
+        private readonly IQueries<Horse> horses;
 
-        public HorseListViewModel(
-            INavigationService navigation,
-            IEventAggregator eventAggregator,
-            IDomainHandler domainHandler)
+        public HorseListViewModel(IQueries<Horse> horses, INavigationService navigation, IDomainHandler domainHandler)
             : base(navigation, domainHandler)
         {
-            this.eventAggregator = eventAggregator;
+            this.horses = horses;
         }
 
-        protected override IEnumerable<ListItemModel> LoadData() => throw new System.NotImplementedException();
+        protected override IEnumerable<ListItemModel> LoadData()
+        {
+            var horses = this.horses
+                .GetAll()
+                .MapEnumerable<ListItemModel>();
+            return horses;
+        }
         protected override void RemoveDomain(int id)
         {
-            throw new System.NotImplementedException();
-        }
-        protected override void RemoveAction(int? id)
-        {
-            base.RemoveAction(id);
-            this.eventAggregator
-                .GetEvent<HorseRemovedEvent>()
-                .Publish(id!.Value);
+            var configurations = new ConfigurationManager();
+            configurations.Horses.Remove(id);
         }
     }
 }

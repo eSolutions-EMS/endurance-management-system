@@ -1,5 +1,4 @@
 ﻿using EnduranceJudge.Application.Aggregates.Configurations.Contracts;
-using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Domain.Aggregates.Configuration;
 using EnduranceJudge.Domain.State.Phases;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
@@ -7,9 +6,8 @@ using EnduranceJudge.Localization;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Phases
 {
-    public class PhaseViewModel : FormBase<PhaseView>, IPhaseState
+    public class PhaseViewModel : FormBase<PhaseView, Phase>, IPhaseState
     {
-        private readonly IQueries<Phase> phases;
         private string isFinalText;
         private int isFinalValue;
         private int lengthInKm;
@@ -17,18 +15,11 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Phases
         private int maxRecoveryTimeInMinutes;
         private int restTimeInMinutes;
 
-        private PhaseViewModel() {}
-        public PhaseViewModel(IQueries<Phase> phases)
+        public PhaseViewModel(IQueries<Phase> phases) : base(phases)
         {
-            this.phases = phases;
         }
 
-        protected override void Load(int id)
-        {
-            var phase = this.phases.GetOne(id);
-            this.MapFrom(phase);
-        }
-        protected override void DomainAction()
+        protected override void ActOnSubmit()
         {
             var configuration = new ConfigurationManager();
             if (this.PrincipalId.HasValue)

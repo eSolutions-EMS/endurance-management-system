@@ -15,11 +15,12 @@ using static EnduranceJudge.Localization.Constants;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Athletes
 {
-    public class AthleteViewModel : FormBase<AthleteView>, IAthleteState, IListable
+    public class AthleteViewModel : FormBase<AthleteView, Athlete>, IAthleteState, IListable
     {
         private readonly IQueries<Country> countries;
         private readonly IQueries<Athlete> athletes;
-        private AthleteViewModel(IQueries<Country> countries, IQueries<Athlete> athletes)
+
+        private AthleteViewModel(IQueries<Country> countries, IQueries<Athlete> athletes) : base(athletes)
         {
             this.countries = countries;
             this.athletes = athletes;
@@ -48,7 +49,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Athletes
             var athlete = this.athletes.GetOne(id);
             this.MapFrom(athlete);
         }
-        protected override void DomainAction()
+        protected override void ActOnSubmit()
         {
             var configuration = new ConfigurationManager();
             configuration.Athletes.Save(this, this.CountryId);

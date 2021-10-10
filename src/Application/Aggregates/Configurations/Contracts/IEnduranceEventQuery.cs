@@ -2,7 +2,7 @@
 
 namespace EnduranceJudge.Application.Aggregates.Configurations.Contracts
 {
-    public interface IEnduranceEventQuery
+    public interface IEnduranceEventQuery : IQueries<EnduranceEvent>
     {
         EnduranceEvent Get();
     }

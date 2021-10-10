@@ -1,18 +1,15 @@
-﻿using EnduranceJudge.Core.Models;
+﻿using EnduranceJudge.Application.Aggregates.Configurations.Contracts;
+using EnduranceJudge.Core.Models;
+using EnduranceJudge.Domain.Aggregates.Configuration;
 using EnduranceJudge.Domain.State.Horses;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
-using EnduranceJudge.Gateways.Desktop.Events.Horses;
-using Prism.Events;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Horses
 {
-    public class HorseViewModel : FormBase<HorseView>, IHorseState, IListable
+    public class HorseViewModel : FormBase<HorseView, Horse>, IHorseState, IListable
     {
-        private readonly IEventAggregator eventAggregator;
-
-        private HorseViewModel(IEventAggregator eventAggregator)
+        private HorseViewModel(IQueries<Horse> horses) : base(horses)
         {
-            this.eventAggregator = eventAggregator;
         }
 
         private int isStallionValue;
@@ -24,16 +21,10 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Horses
         private string trainerFirstName;
         private string trainerLastName;
 
-        protected override void Load(int id)
+        protected override void ActOnSubmit()
         {
-            throw new System.NotImplementedException();
-        }
-        protected override void DomainAction()
-        {
-            // TODO Submit
-            this.eventAggregator
-                .GetEvent<HorseUpdatedEvent>()
-                .Publish(this);
+            var configurations = new ConfigurationManager();
+            configurations.Horses.Save(this);
         }
 
         public string FeiId
