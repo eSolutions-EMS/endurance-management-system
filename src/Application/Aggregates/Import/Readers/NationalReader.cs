@@ -1,12 +1,10 @@
 ﻿using EnduranceJudge.Application.Core.Services;
-using EnduranceJudge.Application.Aggregates.Imports.Models;
 using EnduranceJudge.Core.ConventionalServices;
-using EnduranceJudge.Core.Services;
-using System.Collections.Generic;
+using EnduranceJudge.Domain.Aggregates.Import.Models.National;
 using System.Linq;
 using static EnduranceJudge.Application.ApplicationConstants;
 
-namespace EnduranceJudge.Application.Aggregates.Imports.Services
+namespace EnduranceJudge.Application.Aggregates.Import.Readers
 {
     public class NationalReader : ExcelServiceBase, INationalReader
     {
@@ -17,7 +15,7 @@ namespace EnduranceJudge.Application.Aggregates.Imports.Services
             this.file = file;
         }
 
-        public List<NationalHorseDataModel> Read(string filePath)
+        public NationalData Read(string filePath)
         {
             var file = this.file.Get(filePath);
             this.Initialize(file);
@@ -29,7 +27,7 @@ namespace EnduranceJudge.Application.Aggregates.Imports.Services
             }
 
             var row = ExcelMaps.ImportNational.FIRST_ENTRY_ROW;
-            var data = new List<NationalHorseDataModel>();
+            var data = new NationalData();
 
             while(true)
             {
@@ -46,7 +44,7 @@ namespace EnduranceJudge.Application.Aggregates.Imports.Services
                     break;
                 }
 
-                var horse = new NationalHorseDataModel
+                var horse = new HorseExcelSchema
                 {
                     FeiId = feiId,
                     Name = name,
@@ -54,7 +52,7 @@ namespace EnduranceJudge.Application.Aggregates.Imports.Services
                     Club = club,
                 };
 
-                data.Add(horse);
+                data.Horses.Add(horse);
 
                 row++;
             }
@@ -65,6 +63,6 @@ namespace EnduranceJudge.Application.Aggregates.Imports.Services
 
     public interface INationalReader : IService
     {
-        public List<NationalHorseDataModel> Read(string filePath);
+        public NationalData Read(string filePath);
     }
 }

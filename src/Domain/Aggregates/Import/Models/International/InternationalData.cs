@@ -1,9 +1,8 @@
-﻿using EnduranceJudge.Domain.Aggregates.Import.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace EnduranceJudge.Application.Aggregates.Imports.Models
+namespace EnduranceJudge.Domain.Aggregates.Import.Models.International
 {
-    public class InternationalDataModel
+    public class InternationalData
     {
         public HorseSportShowEntriesShowVenue Event { get; init; }
         public List<HorseSportShowEntriesEvent> Competitions { get; init; } = new();

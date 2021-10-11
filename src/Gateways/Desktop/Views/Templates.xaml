@@ -2,14 +2,14 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="Content/Event/Roots/EnduranceEvents/Listing/EnduranceEventTemplate.xaml" />
-        <ResourceDictionary Source="Content/Event/Roots/Horses/Configuration/HorseTemplate.xaml" />
-        <ResourceDictionary Source="Content/Event/Roots/Athletes/Configuration/AthleteTemplate.xaml" />
-        <ResourceDictionary Source="Content/Event/Children/Competitions/Configuration/CompetitionTemplate.xaml" />
-        <ResourceDictionary Source="Content/Event/Children/Personnel/Configuration/PersonnelTemplate.xaml" />
-        <ResourceDictionary Source="Content/Event/Children/Phases/Configuration/PhaseTemplate.xaml" />
-        <ResourceDictionary Source="Content/Event/Roots/Participants/Configuration/ParticipantTemplate.xaml" />
-        <ResourceDictionary Source="Content/Event/Children/Personnel/Configuration/PersonnelTemplate.xaml" />
+        <ResourceDictionary Source="Content/Configuration/Roots/EnduranceEvents/Listing/EnduranceEventTemplate.xaml" />
+        <ResourceDictionary Source="Content/Configuration/Roots/Horses/Configuration/HorseTemplate.xaml" />
+        <ResourceDictionary Source="Content/Configuration/Roots/Athletes/Configuration/AthleteTemplate.xaml" />
+        <ResourceDictionary Source="Content/Configuration/Children/Competitions/Configuration/CompetitionTemplate.xaml" />
+        <ResourceDictionary Source="Content/Configuration/Children/Personnel/Configuration/PersonnelTemplate.xaml" />
+        <ResourceDictionary Source="Content/Configuration/Children/Phases/Configuration/PhaseTemplate.xaml" />
+        <ResourceDictionary Source="Content/Configuration/Roots/Participants/Configuration/ParticipantTemplate.xaml" />
+        <ResourceDictionary Source="Content/Configuration/Children/Personnel/Configuration/PersonnelTemplate.xaml" />
         <ResourceDictionary Source="Content/Manager/ParticipationsInPhases/ParticipationInPhaseTemplate.xaml" />
         <ResourceDictionary Source="Content/Manager/Participations/ParticipationTemplate.xaml" />
         <ResourceDictionary Source="Content/Rankings/Categorizations/ParticipationTemplate.xaml" />

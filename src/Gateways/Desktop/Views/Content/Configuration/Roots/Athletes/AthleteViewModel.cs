@@ -13,7 +13,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using static EnduranceJudge.Localization.Constants;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Athletes
+namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Athletes
 {
     public class AthleteViewModel : FormBase<AthleteView, Athlete>, IAthleteState, IListable
     {

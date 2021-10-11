@@ -23,7 +23,7 @@
         <Border Style="{StaticResource Border-Vertical}"
                 Grid.Row="1">
             <Button Style="{StaticResource Button-Form-Create}"
-                    Command="{Binding ChangeToCreate}" />
+                    Command="{Binding Create}" />
         </Border>
 
         <Border Style="{StaticResource Border-Vertical}"

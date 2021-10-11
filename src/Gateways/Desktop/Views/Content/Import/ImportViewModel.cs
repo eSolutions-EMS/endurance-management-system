@@ -1,12 +1,12 @@
-﻿using EnduranceJudge.Application.Contracts;
-using EnduranceJudge.Application.Services;
+﻿using EnduranceJudge.Application.Aggregates.Import;
+using EnduranceJudge.Application.Contracts;
 using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Core.Static;
 using EnduranceJudge.Gateways.Desktop.Services;
 using Prism.Commands;
 using System.Windows;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Imports
+namespace EnduranceJudge.Gateways.Desktop.Views.Content.Import
 {
     public class ImportViewModel : ViewModelBase
     {

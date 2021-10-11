@@ -4,7 +4,7 @@ using EnduranceJudge.Core.Extensions;
 using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Domain.State.Athletes;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Athletes.Configuration
+namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Athletes.Configuration
 {
     public class AthleteMaps : ICustomMapConfiguration
     {

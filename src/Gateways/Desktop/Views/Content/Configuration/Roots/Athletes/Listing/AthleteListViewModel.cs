@@ -8,7 +8,7 @@ using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
 using EnduranceJudge.Gateways.Desktop.Services;
 using System.Collections.Generic;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Athletes.Listing
+namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Athletes.Listing
 {
     public class AthleteListViewModel : SearchableListViewModelBase<AthleteView>
     {

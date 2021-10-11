@@ -1,10 +1,10 @@
 ﻿using EnduranceJudge.Application.Core.Services;
-using EnduranceJudge.Application.Aggregates.Imports.Models;
 using EnduranceJudge.Core.ConventionalServices;
 using EnduranceJudge.Domain.Aggregates.Import.Models;
+using EnduranceJudge.Domain.Aggregates.Import.Models.International;
 using System.Linq;
 
-namespace EnduranceJudge.Application.Aggregates.Imports.Services
+namespace EnduranceJudge.Application.Aggregates.Import.Readers
 {
     public class InternationalReader : IInternationalReader
     {
@@ -15,7 +15,7 @@ namespace EnduranceJudge.Application.Aggregates.Imports.Services
             this.xmlSerialization = xmlSerialization;
         }
 
-        public InternationalDataModel Read(string filePath)
+        public InternationalData Read(string filePath)
         {
             var importData = this.xmlSerialization.Deserialize<HorseSport>(filePath);
             var showEntries = importData?.Items?.FirstOrDefault() as HorseSportShowEntries;
@@ -30,7 +30,7 @@ namespace EnduranceJudge.Application.Aggregates.Imports.Services
             var horseData = showEntries.Horse.ToList();
             var eventData = showEntries.Event.ToList();
 
-            var data = new InternationalDataModel
+            var data = new InternationalData
             {
                 Event = venueData,
                 Competitions = eventData,
@@ -50,6 +50,6 @@ namespace EnduranceJudge.Application.Aggregates.Imports.Services
 
     public interface IInternationalReader : IService
     {
-        InternationalDataModel Read(string filePath);
+        InternationalData Read(string filePath);
     }
 }

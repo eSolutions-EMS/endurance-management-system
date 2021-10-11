@@ -3,7 +3,7 @@ using EnduranceJudge.Gateways.Desktop.Core.Static;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Athletes.Listing
+namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Athletes.Listing
 {
     public partial class AthleteScrollableView : UserControl, IScrollableView
     {

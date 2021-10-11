@@ -1,6 +1,6 @@
 ﻿using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Event.ConfigurationMenu;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Imports;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Import;
 using EnduranceJudge.Gateways.Desktop.Core.Services.Implementations;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.EnduranceEvents;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Manager;

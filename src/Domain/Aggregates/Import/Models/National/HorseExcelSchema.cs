@@ -1,6 +1,6 @@
-﻿namespace EnduranceJudge.Application.Aggregates.Imports.Models
+﻿namespace EnduranceJudge.Domain.Aggregates.Import.Models.National
 {
-    public class NationalHorseDataModel
+    public class HorseExcelSchema
     {
         public string FeiId { get; init; }
         public string Name { get; init; }

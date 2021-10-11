@@ -1,6 +1,6 @@
 ﻿using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Services;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Athletes.Listing;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Athletes.Listing;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Participants.Listing;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.EnduranceEvents;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.EnduranceEvents.Listing;

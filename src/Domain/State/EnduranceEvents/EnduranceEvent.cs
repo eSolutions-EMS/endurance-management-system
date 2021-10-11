@@ -13,7 +13,6 @@ namespace EnduranceJudge.Domain.State.EnduranceEvents
     public class EnduranceEvent : DomainObjectBase<EnduranceEventException>, IEnduranceEventState
     {
         private EnduranceEvent()  {}
-
         internal EnduranceEvent(string name, Country country, string populatedPlace) : base(true)
             => this.Validate(() =>
         {
