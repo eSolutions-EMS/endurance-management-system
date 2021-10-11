@@ -22,13 +22,7 @@ namespace EnduranceJudge.Gateways.Desktop.Core.Static
 
             eventAggregator
                 .GetEvent<ErrorEvent>()
-                .Subscribe(NavigateToError);
-        }
-
-        private static void NavigateToError(string message)
-        {
-            var parameter = new NavigationParameter(DesktopConstants.MESSAGE_PARAMETER, message);
-            navigation.ChangeTo<ErrorView>(parameter);
+                .Subscribe(navigation.Error);
         }
     }
 }

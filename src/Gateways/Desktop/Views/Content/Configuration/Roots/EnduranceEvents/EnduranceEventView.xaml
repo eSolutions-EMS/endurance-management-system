@@ -112,11 +112,6 @@
             </Border>
 
             <Border Style="{StaticResource Wrapper-Form-Buttons}"
-                    Grid.Row="9" Grid.Column="0">
-                <Button Style="{StaticResource Button-Form-Back}"
-                        Command="{Binding NavigateBack}" />
-            </Border>
-            <Border Style="{StaticResource Wrapper-Form-Buttons}"
                     Grid.Row="9" Grid.Column="1">
                 <Button Style="{StaticResource Button-Form-Save}"
                         Command="{Binding Submit}" />

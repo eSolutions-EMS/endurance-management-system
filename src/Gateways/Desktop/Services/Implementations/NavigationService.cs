@@ -6,16 +6,20 @@ using EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.EnduranceEvents;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Manager;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participations.Listing;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.Categorizations.Listing;
+using EnduranceJudge.Gateways.Desktop.Views.Error;
 using Prism.Regions;
 using System;
 using static EnduranceJudge.Gateways.Desktop.DesktopConstants;
+using static EnduranceJudge.Localization.DesktopStrings;
 
 namespace EnduranceJudge.Gateways.Desktop.Services.Implementations
 {
     public class NavigationService : NavigationServiceBase, INavigationService
     {
-        public NavigationService(IRegionManager regionManager) : base(regionManager)
+        private readonly IApplicationContext context;
+        public NavigationService(IRegionManager regionManager, IApplicationContext context) : base(regionManager)
         {
+            this.context = context;
         }
 
         public void NavigateToImport()
@@ -26,17 +30,33 @@ namespace EnduranceJudge.Gateways.Desktop.Services.Implementations
 
         public void NavigateToEvent()
         {
+            if (!this.context.IsInitialized)
+            {
+                this.Error(SELECT_WORK_DIRECTORY);
+                return;
+            }
+
             this.ChangeTo<EnduranceEventView>();
             this.ChangeTo<ConfigurationMenuView>(Regions.CONTENT_RIGHT);
         }
 
         public void NavigateToManager()
         {
+            if (!this.context.IsInitialized)
+            {
+                this.Error(SELECT_WORK_DIRECTORY);
+                return;
+            }
             this.ChangeTo<ManagerView>();
             this.ChangeTo<ParticipationListView>(Regions.CONTENT_RIGHT);
         }
         public void NavigateToRanking()
         {
+            if (!this.context.IsInitialized)
+            {
+                this.Error(SELECT_WORK_DIRECTORY);
+                return;
+            }
             this.ChangeTo<CategorizationListView>(Regions.CONTENT_RIGHT);
             this.ClearRegion(Regions.CONTENT_LEFT);
         }
@@ -75,6 +95,12 @@ namespace EnduranceJudge.Gateways.Desktop.Services.Implementations
             }
 
             this.ChangeTo(Regions.CONTENT_LEFT, view, navigationParameters);
+        }
+
+        public void Error(string message)
+        {
+            var parameter = new NavigationParameter(DesktopConstants.MESSAGE_PARAMETER, message);
+            this.ChangeTo<ErrorView>(parameter);
         }
     }
 }

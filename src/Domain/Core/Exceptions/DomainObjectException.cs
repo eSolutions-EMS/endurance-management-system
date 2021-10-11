@@ -10,5 +10,7 @@ namespace EnduranceJudge.Domain.Core.Exceptions
             => string.Format($"{this.Entity} {this.DomainMessage}");
 
         protected abstract string Entity { get; }
+
+        public override string ToString() => this.Message;
     }
 }

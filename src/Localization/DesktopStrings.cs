@@ -150,5 +150,6 @@
         public const string CANNOT_REMOVE_USED_IN_PARTICIPANT = "Cannot be remobed because it is used in an existing Participant";
         public const string ALREADY_PARTICIPATING_TEMPLATE = "Cannot be created - '{0}' is already participating.";
         public const string PARTICIPANTS = "Participants";
+        public const string SELECT_WORK_DIRECTORY = "Select working directory from 'Import' button above.";
     }
 }

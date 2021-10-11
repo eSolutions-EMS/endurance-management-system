@@ -4,23 +4,27 @@ using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Core.Static;
 using EnduranceJudge.Gateways.Desktop.Services;
 using Prism.Commands;
+using Prism.Regions;
 using System.Windows;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Import
 {
     public class ImportViewModel : ViewModelBase
     {
+        private readonly IApplicationContext context;
         private readonly IStorageInitializer storageInitializer;
         private readonly IImportService importService;
         private readonly IExplorerService explorer;
         private readonly INavigationService navigation;
 
         public ImportViewModel(
+            IApplicationContext context,
             IStorageInitializer storageInitializer,
             IImportService importService,
             IExplorerService explorer,
             INavigationService navigation)
         {
+            this.context = context;
             this.storageInitializer = storageInitializer;
             this.importService = importService;
             this.explorer = explorer;
@@ -36,6 +40,16 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Import
         private string importFilePath;
         private Visibility workDirectoryVisibility = Visibility.Visible;
         private Visibility importFilePathVisibility = Visibility.Hidden;
+
+        public override void OnNavigatedTo(NavigationContext context)
+        {
+            base.OnNavigatedTo(context);
+            if (this.context.IsInitialized)
+            {
+                this.WorkDirectoryVisibility = Visibility.Collapsed;
+                this.ImportFilePathVisibility = Visibility.Visible;
+            }
+        }
 
         public string WorkDirectoryPath
         {
@@ -71,6 +85,8 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Import
             this.ImportFilePathVisibility = Visibility.Visible;
 
             var result = this.storageInitializer.Initialize(selectedPath);
+            this.context.Initialize();
+
             if (result.IsExistingFile)
             {
                 this.Redirect();
@@ -87,6 +103,8 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Import
 
             this.ImportFilePath = path;
             this.importService.Import(path);
+
+            this.context.Initialize();
             this.Redirect();
         }
 
