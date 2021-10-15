@@ -1,21 +1,19 @@
-﻿using EnduranceJudge.Domain.Core.Extensions;
-using EnduranceJudge.Domain.Core.Models;
+﻿using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.Core.Validation;
+using EnduranceJudge.Domain.State;
 using EnduranceJudge.Domain.State.Competitions;
 using EnduranceJudge.Domain.Validation;
-using System.Collections.Generic;
-using System.Linq;
 using static EnduranceJudge.Localization.DesktopStrings;
 
 namespace EnduranceJudge.Domain.Aggregates.Configuration
 {
     public class CompetitionsManager : ManagerObjectBase
     {
-        private readonly List<Competition> competitions;
+        private readonly IState state;
 
-        internal CompetitionsManager(IEnumerable<Competition> competitions)
+        internal CompetitionsManager(IState state)
         {
-            this.competitions = competitions.ToList();
+            this.state = state;
         }
 
         public void Save(ICompetitionState state) => this.Validate<CompetitionException>(() =>
@@ -28,7 +26,7 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
             {
                 Id = state.Id,
             };
-            this.competitions.Save(competition);
+            this.state.Event.Save(competition);
         });
     }
 }

@@ -39,11 +39,11 @@ namespace EnduranceJudge.Domain.State.EnduranceEvents
 
         public void Save(Competition competition) => this.Validate(() =>
         {
-            this.competitions.Save(competition);
+            this.competitions.AddOrUpdate(competition);
         });
         public void Save(Participation participation) => this.Validate(() =>
         {
-            this.participations.Save(participation);
+            this.participations.AddOrUpdate(participation);
         });
         public void Save(Personnel personnel) => this.Validate(() =>
         {
@@ -68,13 +68,13 @@ namespace EnduranceJudge.Domain.State.EnduranceEvents
                     this.ActiveVet = personnel;
                     break;
                 case PersonnelRole.MemberOfVetCommittee:
-                    this.membersOfVetCommittee.Save(personnel);
+                    this.membersOfVetCommittee.AddOrUpdate(personnel);
                     break;
                 case PersonnelRole.MemberOfJudgeCommittee:
-                    this.membersOfJudgeCommittee.Save(personnel);
+                    this.membersOfJudgeCommittee.AddOrUpdate(personnel);
                     break;
                 case PersonnelRole.Steward:
-                    this.stewards.Save(personnel);
+                    this.stewards.AddOrUpdate(personnel);
                     break;
             }
         });

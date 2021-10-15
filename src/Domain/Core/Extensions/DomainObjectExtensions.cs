@@ -41,7 +41,7 @@ namespace EnduranceJudge.Domain.Core.Extensions
             collection.Add(model);
         }
 
-        public static void Save<T>(this ICollection<T> collection, T domainObject)
+        public static void AddOrUpdate<T>(this ICollection<T> collection, T domainObject)
             where T : IDomainObject
         {
             if (domainObject == null)

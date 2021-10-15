@@ -1,4 +1,3 @@
-using EnduranceJudge.Core.Extensions;
 using EnduranceJudge.Domain.Core.Extensions;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.Enums;
@@ -27,7 +26,7 @@ namespace EnduranceJudge.Domain.State.Competitions
 
         public void Save(Phase phase) => this.Validate(() =>
         {
-            this.phases.Save(phase);
+            this.phases.AddOrUpdate(phase);
         });
 
         public IReadOnlyList<Phase> Phases

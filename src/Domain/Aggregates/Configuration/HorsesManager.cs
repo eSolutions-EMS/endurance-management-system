@@ -22,7 +22,7 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
             {
                 Id = state.Id,
             };
-            this.state.Horses.Save(horse);
+            this.state.Horses.AddOrUpdate(horse);
 
             this.UpdateParticipants(horse);
         }

@@ -16,8 +16,8 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
         public ConfigurationManager()
         {
             this.state = StaticProvider.GetService<IState>();
-            this.Competitions = new CompetitionsManager(this.state.Event.Competitions);
-            this.Phases = new PhasesManager(this.state.Event.Competitions);
+            this.Competitions = new CompetitionsManager(this.state);
+            this.Phases = new PhasesManager(this.state);
             this.Athletes = new AthletesManger(this.state);
             this.Horses = new HorsesManager(this.state);
             this.Participants = new ParticipantsManager(this.state);

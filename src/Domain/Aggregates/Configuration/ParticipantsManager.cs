@@ -43,7 +43,7 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
             {
                 Id = state.Id,
             };
-            this.state.Participants.Save(participants);
+            this.state.Participants.AddOrUpdate(participants);
         });
 
         public void Remove(int id)

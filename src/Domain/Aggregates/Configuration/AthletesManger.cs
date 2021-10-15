@@ -25,7 +25,7 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
                 Id = state.Id,
                 Country = country
             };
-            this.state.Athletes.Save(athlete);
+            this.state.Athletes.AddOrUpdate(athlete);
 
             this.UpdateParticipants(athlete);
         }
