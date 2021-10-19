@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using EnduranceJudge.Core.Mappings;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Personnel.Configuration
+namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Personnel.Configuration
 {
     public class PersonnelMaps : ICustomMapConfiguration
     {

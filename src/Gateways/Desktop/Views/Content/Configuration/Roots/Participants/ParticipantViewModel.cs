@@ -1,19 +1,22 @@
 ﻿using EnduranceJudge.Application.Aggregates.Configurations.Contracts;
 using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Domain.Aggregates.Configuration;
+using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Athletes;
 using EnduranceJudge.Domain.State.Horses;
 using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
-using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core;
 using Prism.Commands;
 using Prism.Regions;
 using System.Collections.ObjectModel;
 using System.Windows;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Participants
+namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Participants
 {
-    public class ParticipantViewModel : FormBase<ParticipantView, Participant>, IParticipantState, IMapFrom<Participant>
+    public class ParticipantViewModel : ConfigurationBase<ParticipantView, Participant>,
+        IParticipantState,
+        IMapFrom<Participant>
     {
         private readonly IQueries<Athlete> athletes;
         private readonly IQueries<Horse> horses;
@@ -51,10 +54,10 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Participants
             base.OnNavigatedTo(context);
         }
 
-        protected override void ActOnSubmit()
+        protected override IDomainObject ActOnSubmit()
         {
             var configurations = new ConfigurationManager();
-            configurations.Participants.Save(this, this.AthleteId, this.HorseId);
+            return configurations.Participants.Save(this, this.AthleteId, this.HorseId);
         }
 
         private void LoadAthletes()

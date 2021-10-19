@@ -6,10 +6,31 @@ namespace EnduranceJudge.Gateways.Desktop.Core.Extensions
 {
     public static class NavigationContextExtensions
     {
-        public static int? GetId(this NavigationContext context)
+        private const string MISSING_PARAMETER_TEMPLATE = "Missing '{0}' from navigation context";
+
+        public static bool IsExistingConfiguration(this NavigationContext context)
         {
-            var hasId = context.Parameters.TryGetValue<int>(Parameters.ID, out var id);
+            var hasDomainId = context.Parameters.ContainsKey(Parameters.DOMAIN_ID);
+            return hasDomainId;
+        }
+
+        public static int GetDomainId(this NavigationContext context)
+        {
+            var key = Parameters.DOMAIN_ID;
+            var hasId = context.Parameters.TryGetValue<int>(key, out var id);
             if (!hasId)
+            {
+                var message = string.Format(MISSING_PARAMETER_TEMPLATE, key);
+                throw new ArgumentException(message);
+            }
+
+            return id;
+        }
+
+        public static int? LookForParentViewId(this NavigationContext context)
+        {
+            var hasPrincipalId = context.Parameters.TryGetValue<int>(Parameters.PARENT_VIEW_ID, out var id);
+            if (!hasPrincipalId)
             {
                 return null;
             }
@@ -17,12 +38,14 @@ namespace EnduranceJudge.Gateways.Desktop.Core.Extensions
             return id;
         }
 
-        public static int? GetPrincipalId(this NavigationContext context)
+        public static int GetViewId(this NavigationContext context)
         {
-            var hasPrincipalId = context.Parameters.TryGetValue<int>(Parameters.PRINCIPAL_ID, out var id);
+            var key = Parameters.VIEW_ID;
+            var hasPrincipalId = context.Parameters.TryGetValue<int>(key, out var id);
             if (!hasPrincipalId)
             {
-                return null;
+                var message = string.Format(MISSING_PARAMETER_TEMPLATE, key);
+                throw new ArgumentException(message);
             }
 
             return id;
@@ -37,12 +60,6 @@ namespace EnduranceJudge.Gateways.Desktop.Core.Extensions
             }
 
             return data;
-        }
-
-        public static Guid GetChildId(this NavigationContext context)
-        {
-            var id = context.Parameters.GetValue<Guid>(DesktopConstants.NewChildIdParameter);
-            return id;
         }
 
         public static string GetMessage(this NavigationContext context)

@@ -3,7 +3,7 @@ using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Core.Mappings.Converters;
 using EnduranceJudge.Domain.State.Horses;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Horses.Configuration
+namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Horses.Configuration
 {
     public class HorseViewModelMaps : ICustomMapConfiguration
     {

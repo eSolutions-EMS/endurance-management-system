@@ -1,15 +1,17 @@
 ﻿using EnduranceJudge.Application.Aggregates.Configurations.Contracts;
 using EnduranceJudge.Domain.Aggregates.Configuration;
+using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.Enums;
 using EnduranceJudge.Domain.State.Personnels;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
-using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Personnel
+namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Personnel
 {
-    public class PersonnelViewModel : FormBase<PersonnelView, Domain.State.Personnels.Personnel>, IPersonnelState
+    public class PersonnelViewModel : RelatedConfigurationBase<PersonnelView, Domain.State.Personnels.Personnel>,
+        IPersonnelState
     {
         private PersonnelViewModel() : this(null) {}
         public PersonnelViewModel(IQueries<Domain.State.Personnels.Personnel> personnel) : base(personnel)
@@ -22,10 +24,10 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Personnel
         private string name;
         private int roleId;
 
-        protected override void ActOnSubmit()
+        protected override IDomainObject ActOnSubmit()
         {
             var configuration = new ConfigurationManager();
-            configuration.Save(this);
+            return configuration.Save(this);
         }
 
         public string Name

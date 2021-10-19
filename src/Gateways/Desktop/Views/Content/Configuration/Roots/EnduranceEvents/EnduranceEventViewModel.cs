@@ -2,19 +2,20 @@
 using EnduranceJudge.Application.Core.Models;
 using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Domain.Aggregates.Configuration;
+using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Countries;
 using EnduranceJudge.Domain.State.EnduranceEvents;
-using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Competitions;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Personnel;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Competitions;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Personnel;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core;
 using Prism.Commands;
 using Prism.Regions;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.EnduranceEvents
+namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.EnduranceEvents
 {
-    public class EnduranceEventViewModel : ParentFormBase<EnduranceEventView, EnduranceEvent>
+    public class EnduranceEventViewModel : RelatedConfigurationBase<EnduranceEventView, EnduranceEvent>
     {
         private readonly IEnduranceEventQuery enduranceEventQuery;
         private readonly IQueries<Country> countryQueries;
@@ -38,10 +39,13 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.EnduranceEve
         private string populatedPlace;
         private int countryId;
 
+        public override bool IsNavigationTarget(NavigationContext context)
+            => true;
         public override void OnNavigatedTo(NavigationContext context)
         {
             this.Load(default); // Only one Endurance event per state.
             this.LoadCountries();
+            this.Journal = context.NavigationService.Journal;
         }
 
         protected override void Load(int id)
@@ -49,10 +53,10 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.EnduranceEve
             var enduranceEvent = this.enduranceEventQuery.Get();
             this.MapFrom(enduranceEvent);
         }
-        protected override void ActOnSubmit()
+        protected override IDomainObject ActOnSubmit()
         {
             var configuration = new ConfigurationManager();
-            configuration.Update(this.Name, this.CountryId, this.PopulatedPlace);
+            return configuration.Update(this.Name, this.CountryId, this.PopulatedPlace);
         }
 
         public string Name

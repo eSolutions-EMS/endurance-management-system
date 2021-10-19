@@ -1,12 +1,14 @@
 ﻿using EnduranceJudge.Application.Aggregates.Configurations.Contracts;
 using EnduranceJudge.Core.Models;
 using EnduranceJudge.Domain.Aggregates.Configuration;
+using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Horses;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Horses
+namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Horses
 {
-    public class HorseViewModel : FormBase<HorseView, Horse>, IHorseState, IListable
+    public class HorseViewModel : ConfigurationBase<HorseView, Horse>, IHorseState, IListable
     {
         private HorseViewModel(IQueries<Horse> horses) : base(horses)
         {
@@ -21,10 +23,10 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Horses
         private string trainerFirstName;
         private string trainerLastName;
 
-        protected override void ActOnSubmit()
+        protected override IDomainObject ActOnSubmit()
         {
             var configurations = new ConfigurationManager();
-            configurations.Horses.Save(this);
+            return configurations.Horses.Save(this);
         }
 
         public string FeiId

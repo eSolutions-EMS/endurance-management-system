@@ -47,7 +47,7 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
         }
         protected virtual void UpdateAction(int? id)
         {
-            this.Navigation.ChangeToUpdateForm<TView>(id!.Value);
+            this.Navigation.ChangeToUpdateConfiguration<TView>(id!.Value);
         }
 
         protected virtual void Load() => this.domainHandler.Handle(() =>

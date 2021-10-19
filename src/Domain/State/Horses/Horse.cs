@@ -7,7 +7,7 @@ namespace EnduranceJudge.Domain.State.Horses
     public class Horse : DomainObjectBase<HorseException>, IHorseState
     {
         private Horse() {}
-        public Horse(string feiId, string name, string breed, string club) : base(default)
+        public Horse(string feiId, string name, string breed, string club) : base(GENERATE_ID)
         {
             this.Name = name;
             this.Breed = breed;
@@ -22,7 +22,7 @@ namespace EnduranceJudge.Domain.State.Horses
             string breed,
             string trainerFeiId,
             string trainerFirstName,
-            string trainerLastName) : base(default)
+            string trainerLastName) : base(GENERATE_ID)
         {
             this.Name = name;
             this.Breed = breed;
@@ -33,7 +33,7 @@ namespace EnduranceJudge.Domain.State.Horses
             this.TrainerLastName = trainerLastName;
         }
 
-        public Horse(IHorseState state) : base(state.Id)
+        public Horse(IHorseState state) : base(GENERATE_ID)
             => this.Validate(() =>
             {
                 this.FeiId = state.FeiId;
@@ -46,13 +46,13 @@ namespace EnduranceJudge.Domain.State.Horses
                 this.Name = state.Name.IsRequired(NAME);
             });
 
-        public string FeiId { get; private set; }
-        public string Name { get; private set; }
-        public string Club { get; private set; }
-        public bool IsStallion { get; private set; }
-        public string Breed { get; private set; }
-        public string TrainerFeiId { get; private set; }
-        public string TrainerFirstName { get; private set; }
-        public string TrainerLastName { get; private set; }
+        public string FeiId { get; internal set; }
+        public string Name { get; internal set; }
+        public string Club { get; internal set; }
+        public bool IsStallion { get; internal set; }
+        public string Breed { get; internal set; }
+        public string TrainerFeiId { get; internal set; }
+        public string TrainerFirstName { get; internal set; }
+        public string TrainerLastName { get; internal set; }
     }
 }

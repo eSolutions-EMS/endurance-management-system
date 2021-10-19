@@ -6,7 +6,7 @@ using EnduranceJudge.Domain.State.Horses;
 using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Participants.Configuration
+namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Participants.Configuration
 {
     public class ParticipantMaps : ICustomMapConfiguration
     {

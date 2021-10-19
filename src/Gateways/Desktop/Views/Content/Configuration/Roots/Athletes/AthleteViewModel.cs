@@ -3,11 +3,13 @@ using EnduranceJudge.Application.Core.Models;
 using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Core.Models;
 using EnduranceJudge.Domain.Aggregates.Configuration;
+using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Athletes;
 using EnduranceJudge.Domain.Enums;
 using EnduranceJudge.Domain.State.Countries;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core;
 using Prism.Regions;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -15,7 +17,7 @@ using static EnduranceJudge.Localization.Constants;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Athletes
 {
-    public class AthleteViewModel : FormBase<AthleteView, Athlete>, IAthleteState, IListable
+    public class AthleteViewModel : ConfigurationBase<AthleteView, Athlete>, IAthleteState, IListable
     {
         private readonly IQueries<Country> countries;
         private readonly IQueries<Athlete> athletes;
@@ -49,10 +51,10 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Athl
             var athlete = this.athletes.GetOne(id);
             this.MapFrom(athlete);
         }
-        protected override void ActOnSubmit()
+        protected override IDomainObject ActOnSubmit()
         {
             var configuration = new ConfigurationManager();
-            configuration.Athletes.Save(this, this.CountryId);
+            return configuration.Athletes.Save(this, this.CountryId);
         }
         private void LoadCountries()
         {

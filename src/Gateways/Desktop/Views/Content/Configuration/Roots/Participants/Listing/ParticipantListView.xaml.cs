@@ -3,7 +3,7 @@ using EnduranceJudge.Gateways.Desktop.Core.Static;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.Participants.Listing
+namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Participants.Listing
 {
     public partial class ParticipantListView : UserControl, IScrollableView
     {

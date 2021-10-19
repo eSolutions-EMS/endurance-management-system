@@ -1,9 +1,7 @@
 using EnduranceJudge.Domain.Core.Models;
-using EnduranceJudge.Domain.Core.Validation;
 using EnduranceJudge.Domain.Enums;
 using EnduranceJudge.Domain.State.Countries;
 using System;
-using static EnduranceJudge.Localization.DesktopStrings;
 
 namespace EnduranceJudge.Domain.State.Athletes
 {
@@ -13,39 +11,32 @@ namespace EnduranceJudge.Domain.State.Athletes
 
         private Athlete() {}
         public Athlete(string feiId, string firstName, string lastName, Country country, DateTime birthDate)
-            : base(default)
+            : base(GENERATE_ID)
         {
             this.FeiId = feiId;
             this.FirstName = firstName;
             this.LastName = lastName;
             this.Country = country;
-            this.Category = GetCategory(birthDate);
-        }
-        public Athlete(IAthleteState state, Country  country) : base(state.Id)
-            => this.Validate(() =>
-            {
-                this.FeiId = state.FeiId;
-                this.Club = state.Club;
-                this.FirstName = state.FirstName.IsRequired(FIRST_NAME);
-                this.LastName = state.LastName.IsRequired(LAST_NAME);
-                this.Category = state.Category.IsRequired(CATEGORY);
-                this.Country = country.IsRequired(COUNTRY);
-            });
-
-        public string FeiId { get; private set; }
-        public string FirstName { get; private set; }
-        public string LastName { get; private set; }
-        public string Club { get; private set; }
-        public Category Category { get; private set; }
-        public Country Country { get; internal set; }
-
-        private static Category GetCategory(DateTime birthDate)
-        {
-            var category = birthDate.AddYears(ADULT_AGE_IN_YEARS) <= DateTime.Now
+            this.Category = birthDate.AddYears(ADULT_AGE_IN_YEARS) <= DateTime.Now
                 ? Category.Adults
                 : Category.Kids;
-            return category;
         }
+        public Athlete(IAthleteState state, Country country) : base(GENERATE_ID)
+        {
+            this.FeiId = state.FeiId;
+            this.Club = state.Club;
+            this.FirstName = state.FirstName;
+            this.LastName = state.LastName;
+            this.Category = state.Category;
+            this.Country = country;
+        }
+
+        public string FeiId { get; internal set; }
+        public string FirstName { get; internal set; }
+        public string LastName { get; internal set; }
+        public string Club { get; internal set; }
+        public Category Category { get; internal set; }
+        public Country Country { get; internal set; }
 
         public string Name => $"{this.FirstName} {this.LastName}";
     }

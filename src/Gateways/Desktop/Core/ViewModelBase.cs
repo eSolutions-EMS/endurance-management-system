@@ -34,11 +34,11 @@ namespace EnduranceJudge.Gateways.Desktop.Core
 
         protected virtual void NavigateForwardAction()
         {
-            this.Journal?.GoForward();
+            this.Journal.GoForward();
         }
         protected virtual void NavigateBackAction()
         {
-            this.Journal?.GoBack();
+            this.Journal.GoBack();
         }
 
         protected virtual void ValidationError(string message)

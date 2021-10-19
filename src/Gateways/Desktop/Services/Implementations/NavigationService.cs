@@ -1,8 +1,8 @@
 ﻿using EnduranceJudge.Gateways.Desktop.Core;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Event.ConfigurationMenu;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.ConfigurationMenu;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Import;
 using EnduranceJudge.Gateways.Desktop.Core.Services.Implementations;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.EnduranceEvents;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.EnduranceEvents;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Manager;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participations.Listing;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.Categorizations.Listing;
@@ -67,17 +67,18 @@ namespace EnduranceJudge.Gateways.Desktop.Services.Implementations
             this.ChangeTo(typeof(T));
         }
 
-        public void ChangeToNewForm<T>(int principalId)
+        public void ChangeToNewConfiguration<T>(int principalId, int childViewId)
             where T : IView
         {
-            var parameter = new NavigationParameter(Parameters.PRINCIPAL_ID, principalId);
-            this.ChangeTo(typeof(T), parameter);
+            var principal = new NavigationParameter(Parameters.PARENT_VIEW_ID, principalId);
+            var childView = new NavigationParameter(Parameters.VIEW_ID, childViewId);
+            this.ChangeTo(typeof(T), principal, childView);
         }
 
-        public void ChangeToUpdateForm<T>(int id)
+        public void ChangeToUpdateConfiguration<T>(int id)
             where T : IView
         {
-            var parameter = new NavigationParameter(Parameters.ID, id);
+            var parameter = new NavigationParameter(Parameters.DOMAIN_ID, id);
             this.ChangeTo(typeof(T), parameter);
         }
 

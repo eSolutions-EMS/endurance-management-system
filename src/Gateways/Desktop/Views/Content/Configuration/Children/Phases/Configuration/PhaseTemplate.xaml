@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:phases="clr-namespace:EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Phases"
+                    xmlns:phases="clr-namespace:EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Phases"
                     xmlns:localization="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization">
 
     <DataTemplate DataType="{x:Type phases:PhaseViewModel}">

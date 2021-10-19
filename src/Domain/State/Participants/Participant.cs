@@ -1,4 +1,3 @@
-using EnduranceJudge.Domain.Core.Validation;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Athletes;
 using EnduranceJudge.Domain.State.Competitions;
@@ -13,12 +12,12 @@ namespace EnduranceJudge.Domain.State.Participants
         public const string NAME_FORMAT = "{0} - {1}";
 
         private Participant() {}
-        public Participant(Athlete athlete, Horse horse) : base(default)
+        public Participant(Athlete athlete, Horse horse) : base(GENERATE_ID)
         {
             this.Horse = horse;
             this.Athlete = athlete;
         }
-        public Participant(Athlete athlete, Horse horse, IParticipantState state) : base(state.Id)
+        public Participant(Athlete athlete, Horse horse, IParticipantState state) : base(GENERATE_ID)
         {
             this.RfId = state.RfId;
             this.MaxAverageSpeedInKmPh = state.MaxAverageSpeedInKmPh;
@@ -27,11 +26,11 @@ namespace EnduranceJudge.Domain.State.Participants
             this.Horse = horse;
         }
 
-        public string RfId { get; private set; }
-        public int Number { get; private set; }
-        public int? MaxAverageSpeedInKmPh { get; private set; }
-        public Horse Horse { get; private set; }
-        public Athlete Athlete { get; private set; }
+        public string RfId { get; internal set; }
+        public int Number { get; internal set; }
+        public int? MaxAverageSpeedInKmPh { get; internal set; }
+        public Horse Horse { get; internal set; }
+        public Athlete Athlete { get; internal set; }
         public Participation Participation { get; private set; }
 
         public void ParticipateIn(Competition competition)

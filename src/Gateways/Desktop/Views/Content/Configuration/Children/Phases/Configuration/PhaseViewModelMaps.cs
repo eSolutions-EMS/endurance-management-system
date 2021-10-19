@@ -3,7 +3,7 @@ using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Core.Mappings.Converters;
 using EnduranceJudge.Domain.State.Phases;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Phases.Configuration
+namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Phases.Configuration
 {
     public class PhaseViewModelMaps : ICustomMapConfiguration
     {

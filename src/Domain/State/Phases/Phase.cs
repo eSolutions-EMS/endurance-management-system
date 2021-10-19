@@ -1,26 +1,23 @@
-using EnduranceJudge.Domain.Core.Validation;
 using EnduranceJudge.Domain.Core.Models;
-using static EnduranceJudge.Localization.DesktopStrings;
 
 namespace EnduranceJudge.Domain.State.Phases
 {
     public class Phase : DomainObjectBase<PhaseException>, IPhaseState
     {
         private Phase() {}
-        public Phase(IPhaseState state) : base(state.Id)
-            => this.Validate(() =>
-            {
-                this.IsFinal = state.IsFinal;
-                this.OrderBy = state.OrderBy.IsRequired(ORDER);
-                this.LengthInKm = state.LengthInKm.IsRequired(LENGTH_IN_KM);
-                this.MaxRecoveryTimeInMins = state.MaxRecoveryTimeInMins.IsRequired(RECOVERY_IN_MINUTES_TEXT);
-                this.RestTimeInMins = state.RestTimeInMins.IsRequired(REST_TIME_IN_MINS);
-            });
+        public Phase(IPhaseState state) : base(GENERATE_ID)
+        {
+            this.IsFinal = state.IsFinal;
+            this.OrderBy = state.OrderBy;
+            this.LengthInKm = state.LengthInKm;
+            this.MaxRecoveryTimeInMins = state.MaxRecoveryTimeInMins;
+            this.RestTimeInMins = state.RestTimeInMins;
+        }
 
-        public bool IsFinal { get; private set; }
-        public int OrderBy { get; private set; }
-        public int LengthInKm { get; private set; }
-        public int MaxRecoveryTimeInMins { get; private set; }
-        public int RestTimeInMins { get; private set; }
+        public bool IsFinal { get; internal set; }
+        public int OrderBy { get; internal set; }
+        public int LengthInKm { get; internal set; }
+        public int MaxRecoveryTimeInMins { get; internal set; }
+        public int RestTimeInMins { get; internal set; }
     }
 }

@@ -13,12 +13,11 @@ namespace EnduranceJudge.Domain.State.EnduranceEvents
     public class EnduranceEvent : DomainObjectBase<EnduranceEventException>, IEnduranceEventState
     {
         private EnduranceEvent()  {}
-        internal EnduranceEvent(string name, Country country) : base(default)
-            => this.Validate(() =>
-            {
-                this.Name = name;
-                this.Country = country;
-            });
+        internal EnduranceEvent(string name, Country country) : base(GENERATE_ID)
+        {
+            this.Name = name;
+            this.Country = country;
+        }
 
         private List<Personnel> membersOfVetCommittee = new();
         private List<Personnel> membersOfJudgeCommittee = new();

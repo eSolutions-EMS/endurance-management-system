@@ -23,21 +23,26 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
             this.Participants = new ParticipantsManager(this.state);
         }
 
-        public void Update(string name, int countryId, string populatedPlace)
-            => this.Validate<EnduranceEventException>(() =>
+        public EnduranceEvent Update(string name, int countryId, string populatedPlace)
         {
-            this.state.Event.Name = name.IsRequired(NAME);
-            this.state.Event.PopulatedPlace = populatedPlace.IsRequired(POPULATED_PLACE);
+            this.Validate<EnduranceEventException>(() =>
+            {
+                this.state.Event.Name = name.IsRequired(NAME);
+                this.state.Event.PopulatedPlace = populatedPlace.IsRequired(POPULATED_PLACE);
 
-            countryId.IsRequired(COUNTRY);
-            var country = this.state.Countries.FindDomain(countryId);
-            this.state.Event.Country = country;
-        });
+                countryId.IsRequired(COUNTRY);
+                var country = this.state.Countries.FindDomain(countryId);
+                this.state.Event.Country = country;
+            });
 
-        public void Save(IPersonnelState state)
+            return this.state.Event;
+        }
+
+        public Personnel Save(IPersonnelState state)
         {
             var personnel = new Personnel(state);
             this.state.Event.Save(personnel);
+            return personnel;
         }
 
         public CompetitionsManager Competitions { get; }

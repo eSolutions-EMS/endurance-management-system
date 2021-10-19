@@ -1,12 +1,14 @@
 ﻿using EnduranceJudge.Application.Aggregates.Configurations.Contracts;
 using EnduranceJudge.Domain.Aggregates.Configuration;
+using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Phases;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core;
 using EnduranceJudge.Localization;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Phases
+namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Phases
 {
-    public class PhaseViewModel : FormBase<PhaseView, Phase>, IPhaseState
+    public class PhaseViewModel : RelatedConfigurationBase<PhaseView, Phase>, IPhaseState
     {
         private string isFinalText;
         private int isFinalValue;
@@ -20,16 +22,16 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Phases
         {
         }
 
-        protected override void ActOnSubmit()
+        protected override IDomainObject ActOnSubmit()
         {
             var configuration = new ConfigurationManager();
-            if (this.PrincipalId.HasValue)
+            if (this.ParentId.HasValue)
             {
-                configuration.Phases.Create(this.PrincipalId.Value, this);
+                return configuration.Phases.Create(this.ParentId.Value, this);
             }
             else
             {
-                configuration.Phases.Update(this);
+                return configuration.Phases.Update(this);
             }
         }
 

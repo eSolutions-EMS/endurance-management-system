@@ -4,10 +4,10 @@ using EnduranceJudge.Application.Core.Models;
 using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Domain.State.Countries;
 using EnduranceJudge.Domain.State.EnduranceEvents;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Personnel;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Personnel;
 using System.Collections.ObjectModel;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Roots.EnduranceEvents
+namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.EnduranceEvents
 {
     public class EnduranceEventViewModelMaps : ICustomMapConfiguration
     {

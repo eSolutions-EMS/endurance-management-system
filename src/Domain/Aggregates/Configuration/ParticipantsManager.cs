@@ -19,29 +19,41 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
             this.state = state;
         }
 
-        public void Save(IParticipantState state, int athleteId, int horseId)
-            => this.Validate<ParticipantException>(() =>
+        public Participant Save(IParticipantState state, int athleteId, int horseId)
         {
             var athlete = this.state.Athletes.FindDomain(athleteId);
             var horse = this.state.Horses.FindDomain(horseId);
-
-            if (this.IsNew(state.Id))
+            this.Validate<ParticipantException>(() =>
             {
-                if (this.IsParticipating(athlete))
+                if (this.IsPartOfAnotherParticipant(athlete, state.Id))
                 {
                     var message = string.Format(ALREADY_PARTICIPATING_TEMPLATE, athlete.Name);
                     throw new DomainException(message);
                 }
-                if (this.IsParticipating(horse))
+                if (this.IsPartOfAnotherParticipant(horse, state.Id))
                 {
                     var message = string.Format(ALREADY_PARTICIPATING_TEMPLATE, horse.Name);
                     throw new DomainException(message);
                 }
+            });
+
+            var participant = this.state.Participants.FindDomain(state.Id);
+            if (participant == null)
+            {
+                participant = new Participant(athlete, horse, state);
+                this.state.Participants.AddOrUpdate(participant);
+            }
+            else
+            {
+                participant.Athlete = athlete;
+                participant.Horse = horse;
+                participant.RfId = state.RfId;
+                participant.MaxAverageSpeedInKmPh = state.MaxAverageSpeedInKmPh;
+                participant.Number = state.Number;
             }
 
-            var participants = new Participant(athlete, horse, state);
-            this.state.Participants.AddOrUpdate(participants);
-        });
+            return participant;
+        }
 
         public void Remove(int id)
         {
@@ -49,13 +61,10 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
             this.state.Participants.Remove(participant);
         }
 
-        private bool IsNew(int id)
-            => this.state.Participants.All(x => x.Id != id);
+        private bool IsPartOfAnotherParticipant(Athlete athlete, int participantId)
+            => this.state.Participants.Any(x => x.Athlete.Equals(athlete) && x.Id != participantId);
 
-        private bool IsParticipating(Athlete athlete)
-            => this.state.Participants.Any(x => x.Athlete.Equals(athlete));
-
-        private bool IsParticipating(Horse horse)
-            => this.state.Participants.Any(x => x.Horse.Equals(horse));
+        private bool IsPartOfAnotherParticipant(Horse horse, int participantId)
+            => this.state.Participants.Any(x => x.Horse.Equals(horse) && x.Id != participantId);
     }
 }

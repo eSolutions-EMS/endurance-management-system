@@ -5,10 +5,10 @@ using System;
 
 namespace EnduranceJudge.Domain.State.PhaseEntries
 {
-    public class PhaseEntry : DomainObjectBase<PhaseEntryException>
+    public class PhaseEntry : DomainObjectBase<PhaseEntryException>, IPhaseEntryState
     {
         private PhaseEntry() {}
-        public PhaseEntry(Phase phase, DateTime startTime) : base(default)
+        public PhaseEntry(Phase phase, DateTime startTime) : base(GENERATE_ID)
         {
             this.Phase = phase;
             this.StartTime = startTime;

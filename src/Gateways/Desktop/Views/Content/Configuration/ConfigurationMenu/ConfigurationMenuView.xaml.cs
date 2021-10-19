@@ -1,7 +1,7 @@
 ﻿using EnduranceJudge.Gateways.Desktop.Core;
 using System.Windows.Controls;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.ConfigurationMenu
+namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.ConfigurationMenu
 {
     public partial class ConfigurationMenuView : UserControl, IView
     {

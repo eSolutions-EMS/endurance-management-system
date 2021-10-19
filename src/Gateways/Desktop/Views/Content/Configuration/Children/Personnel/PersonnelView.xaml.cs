@@ -4,7 +4,7 @@ using System.Net;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Personnel
+namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Personnel
 {
     public partial class PersonnelView : UserControl, IScrollableView
     {

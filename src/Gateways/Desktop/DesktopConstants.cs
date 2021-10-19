@@ -23,8 +23,9 @@ namespace EnduranceJudge.Gateways.Desktop
 
         public static class Parameters
         {
-            public const string ID = "Id";
-            public const string PRINCIPAL_ID = "PrincipalId";
+            public const string DOMAIN_ID = "DomainId";
+            public const string VIEW_ID = "ViewId";
+            public const string PARENT_VIEW_ID = "ParentViewId";
         }
 
         public const string DataParameter = "Parameter1";

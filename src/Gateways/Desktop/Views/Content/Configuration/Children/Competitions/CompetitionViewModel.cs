@@ -1,18 +1,20 @@
 ﻿using EnduranceJudge.Application.Aggregates.Configurations.Contracts;
 using EnduranceJudge.Domain.Aggregates.Configuration;
+using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Competitions;
 using EnduranceJudge.Domain.Enums;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Phases;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Phases;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core;
 using Prism.Commands;
 using System;
 using System.Collections.ObjectModel;
 using System.Windows;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Competitions
+namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Competitions
 {
-    public class CompetitionViewModel : ParentFormBase<CompetitionView, Competition>, ICompetitionState
+    public class CompetitionViewModel : RelatedConfigurationBase<CompetitionView, Competition>, ICompetitionState
     {
         public CompetitionViewModel() : this(null) { }
         public CompetitionViewModel(IQueries<Competition> competitions) : base(competitions)
@@ -35,10 +37,10 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Competiti
         private string toggleText = "Expand";
         private Visibility toggleVisibility = Visibility.Collapsed;
 
-        protected override void ActOnSubmit()
+        protected override IDomainObject ActOnSubmit()
         {
             var configuration = new ConfigurationManager();
-            configuration.Competitions.Save(this);
+            return configuration.Competitions.Save(this);
         }
 
         private void ToggleAction()

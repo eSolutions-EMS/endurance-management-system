@@ -1,4 +1,6 @@
-﻿using EnduranceJudge.Domain.Core.Models;
+﻿using EnduranceJudge.Core.Mappings;
+using EnduranceJudge.Domain.Core.Extensions;
+using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.Core.Validation;
 using EnduranceJudge.Domain.State;
 using EnduranceJudge.Domain.State.Competitions;
@@ -16,14 +18,29 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
             this.state = state;
         }
 
-        public void Save(ICompetitionState state) => this.Validate<CompetitionException>(() =>
+        public Competition Save(ICompetitionState state)
         {
-            state.Type.IsRequired(TYPE);
-            state.Name.IsRequired(NAME);
-            state.StartTime.IsRequired(START_TIME).IsFutureDate();
+            this.Validate<CompetitionException>(() =>
+            {
+                state.Type.IsRequired(TYPE);
+                state.Name.IsRequired(NAME);
+                state.StartTime.IsRequired(START_TIME).IsFutureDate();
+            });
 
-            var competition = new Competition(state);
-            this.state.Event.Save(competition);
-        });
+            var competition = this.state.Event.Competitions.FindDomain(state.Id);
+            if (competition == null)
+            {
+                competition = new Competition(state);
+                this.state.Event.Save(competition);
+            }
+            else
+            {
+                competition.Name = state.Name;
+                competition.Type = state.Type;
+                competition.StartTime = state.StartTime;
+            }
+
+            return competition;
+        }
     }
 }

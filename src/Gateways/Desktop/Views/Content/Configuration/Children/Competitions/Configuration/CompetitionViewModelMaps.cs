@@ -5,7 +5,7 @@ using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Domain.Enums;
 using EnduranceJudge.Domain.State.Competitions;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Event.Children.Competitions.Configuration
+namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Competitions.Configuration
 {
     public class CompetitionViewModelMaps : ICustomMapConfiguration
     {
