@@ -20,11 +20,7 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
         public void Save(IAthleteState state, int countryId)
         {
             var country = this.state.Countries.FindDomain(countryId);
-            var athlete = new Athlete(state)
-            {
-                Id = state.Id,
-                Country = country
-            };
+            var athlete = new Athlete(state, country);
             this.state.Athletes.AddOrUpdate(athlete);
 
             this.UpdateParticipants(athlete);

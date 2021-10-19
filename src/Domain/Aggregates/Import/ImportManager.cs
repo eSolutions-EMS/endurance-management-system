@@ -31,14 +31,14 @@ namespace EnduranceJudge.Domain.Aggregates.Import
         {
             this.state = StaticProvider.GetService<IState>();
 
-            this.state.Event ??= new EnduranceEvent(null, null, null);
             this.state.Countries.AddRange(GetCountries());
         }
 
         public void Import(InternationalData data)
         {
-            this.state.Event.Name = data.Event?.Name ?? EVENT_DEFAULT_NAME;
-            this.state.Event.Country = this.state.Countries.FirstOrDefault(x => x.IsoCode == data.Event.CountryNOC);
+            var eventName = data.Event?.Name ?? EVENT_DEFAULT_NAME;
+            var country = this.state.Countries.FirstOrDefault(x => x.IsoCode == data.Event.CountryNOC);
+            this.state.Event = new EnduranceEvent(eventName, country);
 
             this.AddCompetitions(data.Competitions);
             this.AddAthletes(data.Athletes);
@@ -48,6 +48,7 @@ namespace EnduranceJudge.Domain.Aggregates.Import
 
         public void Import(NationalData data)
         {
+            this.state.Event = new EnduranceEvent(null, null);
             if (this.state.Horses.Any())
             {
                 return;

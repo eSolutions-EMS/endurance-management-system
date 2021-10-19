@@ -11,13 +11,20 @@ namespace EnduranceJudge.Domain.State.Competitions
     public class Competition : DomainObjectBase<CompetitionException>, ICompetitionState
     {
         private Competition() {}
-        public Competition(CompetitionType type, string name, DateTime? startTime = null) : base(true)
-            => this.Validate(() =>
+        public Competition(CompetitionType type, string name) : base(default)
         {
             this.Type = type;
             this.Name = name;
-            this.StartTime = startTime ?? DateTime.Today;
-        });
+        }
+        public Competition(ICompetitionState state) : base(state.Id)
+            => this.Validate(() =>
+            {
+                this.Type = state.Type;
+                this.Name = state.Name;
+                this.StartTime = state.StartTime == default
+                    ? DateTime.Today
+                    : state.StartTime;
+            });
 
         private List<Phase> phases = new();
         public CompetitionType Type { get; private set; }

@@ -8,7 +8,7 @@ namespace EnduranceJudge.Domain.Core
         private static readonly Random Random = new();
         private static readonly HashSet<int> DomainIds = new();
 
-        public static int NewId()
+        public static int Generate()
         {
             var id = Random.Next();
             while (DomainIds.Contains(id))

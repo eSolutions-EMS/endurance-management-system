@@ -4,7 +4,6 @@ using EnduranceJudge.Domain.State.Athletes;
 using EnduranceJudge.Domain.State.Competitions;
 using EnduranceJudge.Domain.State.Horses;
 using EnduranceJudge.Domain.State.Participations;
-using static EnduranceJudge.Localization.DesktopStrings;
 
 namespace EnduranceJudge.Domain.State.Participants
 {
@@ -14,19 +13,19 @@ namespace EnduranceJudge.Domain.State.Participants
         public const string NAME_FORMAT = "{0} - {1}";
 
         private Participant() {}
-
-        public Participant(Athlete athlete, Horse horse, IParticipantState state)
-            : this(athlete, horse)
+        public Participant(Athlete athlete, Horse horse) : base(default)
+        {
+            this.Horse = horse;
+            this.Athlete = athlete;
+        }
+        public Participant(Athlete athlete, Horse horse, IParticipantState state) : base(state.Id)
         {
             this.RfId = state.RfId;
             this.MaxAverageSpeedInKmPh = state.MaxAverageSpeedInKmPh;
             this.Number = state.Number;
+            this.Athlete = athlete;
+            this.Horse = horse;
         }
-        public Participant(Athlete athlete, Horse horse) : base(true) => this.Validate(() =>
-        {
-            this.Horse = horse.IsRequired(HORSE);
-            this.Athlete = athlete.IsRequired(ATHLETE);
-        });
 
         public string RfId { get; private set; }
         public int Number { get; private set; }

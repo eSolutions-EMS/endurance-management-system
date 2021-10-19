@@ -18,10 +18,7 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
 
         public void Save(IHorseState state)
         {
-            var horse = new Horse(state)
-            {
-                Id = state.Id,
-            };
+            var horse = new Horse(state);
             this.state.Horses.AddOrUpdate(horse);
 
             this.UpdateParticipants(horse);

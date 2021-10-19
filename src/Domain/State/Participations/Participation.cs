@@ -11,7 +11,7 @@ namespace EnduranceJudge.Domain.State.Participations
     public class Participation : DomainObjectBase<ParticipationException>
     {
         private Participation() {}
-        public Participation(Competition competition) : base(true)
+        public Participation(Competition competition) : base(default)
         {
             this.competitionIds.Add(competition.Id);
         }

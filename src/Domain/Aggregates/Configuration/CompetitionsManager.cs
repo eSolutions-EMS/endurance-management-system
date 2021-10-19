@@ -22,10 +22,7 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
             state.Name.IsRequired(NAME);
             state.StartTime.IsRequired(START_TIME).IsFutureDate();
 
-            var competition = new Competition(state.Type, state.Name, state.StartTime)
-            {
-                Id = state.Id,
-            };
+            var competition = new Competition(state);
             this.state.Event.Save(competition);
         });
     }

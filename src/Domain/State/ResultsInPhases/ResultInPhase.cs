@@ -6,7 +6,7 @@ namespace EnduranceJudge.Domain.State.ResultsInPhases
     public class ResultInPhase : DomainObjectBase<ManagerResultInPhaseObjectException>, IResultInPhaseState
     {
         private ResultInPhase() {}
-        internal ResultInPhase(string code = null) : base(true)
+        internal ResultInPhase(string code = null) : base(default)
         {
             this.IsRanked = code == null;
             this.Code = code;

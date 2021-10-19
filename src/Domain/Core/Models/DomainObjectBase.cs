@@ -7,13 +7,25 @@ namespace EnduranceJudge.Domain.Core.Models
     public abstract class DomainObjectBase<TException> : IDomainObject
         where TException : DomainObjectException, new()
     {
+        private readonly int id;
+
         protected DomainObjectBase() {}
-        protected DomainObjectBase(bool targetThisConstructor)
+
+        protected DomainObjectBase(int id)
         {
-            this.Id = DomainIdProvider.NewId();
+            this.Id = id;
         }
 
-        public int Id { get; init; }
+        public int Id
+        {
+            get => this.id;
+            private init
+            {
+                this.id = value == default
+                    ? DomainIdProvider.Generate()
+                    : value;
+            }
+        }
 
         internal void Validate(Action action)
         {

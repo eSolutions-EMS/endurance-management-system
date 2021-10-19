@@ -39,10 +39,7 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
                 }
             }
 
-            var participants = new Participant(athlete, horse, state)
-            {
-                Id = state.Id,
-            };
+            var participants = new Participant(athlete, horse, state);
             this.state.Participants.AddOrUpdate(participants);
         });
 
