@@ -353,3 +353,4 @@ MigrationBackup/
 .idea
 
 files/*
+samples/endurance-judge-data

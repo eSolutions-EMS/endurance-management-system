@@ -53,7 +53,7 @@ namespace EnduranceJudge.Gateways.Persistence.Contracts
             this.state.MapFrom(state);
         }
 
-        private async void Create()
+        private void Create()
         {
             var serialized = this.serialization.Serialize(this.state);
             this.file.Create(this.storageFilePath, serialized);

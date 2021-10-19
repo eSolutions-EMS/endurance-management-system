@@ -13,6 +13,8 @@ namespace EnduranceJudge.Application.Core.Services
         {
             this.settings = new JsonSerializerSettings
             {
+                PreserveReferencesHandling = PreserveReferencesHandling.None,
+                ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
                 ContractResolver = new PrivatePropertySetterResolver(),
                 ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
             };
