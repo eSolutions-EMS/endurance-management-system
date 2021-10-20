@@ -1,7 +1,7 @@
 ﻿using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Domain.Aggregates.Manager.Participations;
 using EnduranceJudge.Gateways.Desktop.Core;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Manager.ParticipationsInPhases;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Manager.PhasePerformances;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
@@ -19,7 +19,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participants
 
         private int number;
         private Visibility visibility = Visibility.Visible;
-        public ObservableCollection<ParticipationInPhaseViewModel> ParticipationsInPhases { get; } = new();
+        public ObservableCollection<PhasePerformanceViewModel> PhasePerformances { get; } = new();
         public ObservableCollection<int> PhaseLengths { get; } = new();
 
         public Participation Participation { get; }
@@ -39,10 +39,10 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participants
             var participationInCompetition = participation.ParticipationsInCompetitions[0];
             var lengths = participationInCompetition.Phases.Select(x => x.LengthInKm);
             var viewModels = participationInCompetition
-                .ParticipationsInPhases
-                .MapEnumerable<ParticipationInPhaseViewModel>();
+                .PhasePerformances
+                .MapEnumerable<PhasePerformanceViewModel>();
 
-            this.ParticipationsInPhases.AddRange(viewModels);
+            this.PhasePerformances.AddRange(viewModels);
             this.PhaseLengths.AddRange(lengths);
         }
     }

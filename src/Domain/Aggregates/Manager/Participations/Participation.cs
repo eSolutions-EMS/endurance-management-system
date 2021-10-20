@@ -1,5 +1,5 @@
 using EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInCompetitions;
-using EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInPhases;
+using EnduranceJudge.Domain.Aggregates.Manager.PhasePerformances;
 using EnduranceJudge.Domain.Core.Models;
 using System;
 using System.Collections.Generic;
@@ -28,11 +28,11 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participations
             .StartTime;
         public bool HasNotStarted
             => !this.IsComplete
-                && this.ParticipationsInCompetitions.All(x => !x.ParticipationsInPhases.Any());
-        public bool CanArrive => !this.IsComplete && this.AnyParticipationInPhase(pip => pip.CanArrive);
-        public bool CanInspect => !this.IsComplete && this.AnyParticipationInPhase(pip => pip.CanInspect);
-        public bool CanReInspect => !this.IsComplete && this.AnyParticipationInPhase(pip => pip.CanReInspect);
-        public bool CanComplete => !this.IsComplete && this.AnyParticipationInPhase(pip => pip.CanComplete);
+                && this.ParticipationsInCompetitions.All(x => !x.PhasePerformances.Any());
+        public bool CanArrive => !this.IsComplete && this.AnyPhasePerformance(pip => pip.CanArrive);
+        public bool CanInspect => !this.IsComplete && this.AnyPhasePerformance(pip => pip.CanInspect);
+        public bool CanReInspect => !this.IsComplete && this.AnyPhasePerformance(pip => pip.CanReInspect);
+        public bool CanComplete => !this.IsComplete && this.AnyPhasePerformance(pip => pip.CanComplete);
         public bool IsComplete => this.participationsInCompetitions.All(participation => !participation.IsNotComplete);
 
         public void Start()
@@ -76,15 +76,15 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participations
 
         internal void Arrive(DateTime time)
         {
-            this.Update(participation => participation.CurrentPhaseEntry.Arrive(time));
+            this.Update(participation => participation.CurrentPhasePerformance.Arrive(time));
         }
         internal void Inspect(DateTime time)
         {
-            this.Update(participation => participation.CurrentPhaseEntry.Inspect(time));
+            this.Update(participation => participation.CurrentPhasePerformance.Inspect(time));
         }
         internal void ReInspect(DateTime time)
         {
-            this.Update(participation => participation.CurrentPhaseEntry.ReInspect(time));
+            this.Update(participation => participation.CurrentPhasePerformance.ReInspect(time));
         }
         public void CompleteSuccessful()
         {
@@ -112,10 +112,10 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participations
             }
         }
 
-        private bool AnyParticipationInPhase(Func<PhaseEntryManager, bool> predicate)
+        private bool AnyPhasePerformance(Func<PhasePerformanceManager, bool> predicate)
         {
             return this.ParticipationsInCompetitions.Any(pic =>
-                pic.ParticipationsInPhases.Any(predicate));
+                pic.PhasePerformances.Any(predicate));
         }
     }
 }

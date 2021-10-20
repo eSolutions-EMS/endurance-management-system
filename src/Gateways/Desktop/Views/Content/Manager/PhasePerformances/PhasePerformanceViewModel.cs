@@ -1,11 +1,11 @@
 ﻿using EnduranceJudge.Core.Mappings;
-using EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInPhases;
+using EnduranceJudge.Domain.Aggregates.Manager.PhasePerformances;
 using EnduranceJudge.Gateways.Desktop.Core;
 using System;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager.ParticipationsInPhases
+namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager.PhasePerformances
 {
-    public class ParticipationInPhaseViewModel : ViewModelBase, IMapFrom<PhaseEntryManager>
+    public class PhasePerformanceViewModel : ViewModelBase, IMapFrom<PhasePerformanceManager>
     {
         public int OrderBy { get; private set; }
 

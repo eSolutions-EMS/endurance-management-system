@@ -75,7 +75,7 @@
                     </StackPanel>
 
                     <ListBox Style="{StaticResource ListBox-Horizontal}" BorderThickness="0"
-                             ItemsSource="{Binding ParticipationsInPhases}"/>
+                             ItemsSource="{Binding PhasePerformances}"/>
                 </StackPanel>
             </StackPanel>
         </Border>

@@ -4,11 +4,11 @@ using EnduranceJudge.Domain.Aggregates.Rankings.DTOs;
 using EnduranceJudge.Domain.Core.Models;
 using System;
 
-namespace EnduranceJudge.Domain.Aggregates.Rankings.ParticipationsInPhases
+namespace EnduranceJudge.Domain.Aggregates.Rankings.PhasePerformances
 {
-    public class ParticipationInPhase : DomainObjectBase<RankingParticipationInPhaseObjectException>
+    public class PhasePerformance : DomainObjectBase<RankingPhasePerformanceObjectException>
     {
-        private ParticipationInPhase()
+        private PhasePerformance()
         {
         }
 

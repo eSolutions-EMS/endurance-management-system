@@ -3,7 +3,7 @@ using System;
 
 namespace EnduranceJudge.Domain.State.PhaseEntries
 {
-    public interface IPhaseEntryState : IDomainModelState
+    public interface IPhasePerformanceState : IDomainModelState
     {
         DateTime StartTime { get; }
         DateTime? ArrivalTime { get; }

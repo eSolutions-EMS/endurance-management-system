@@ -1,6 +1,5 @@
-using EnduranceJudge.Domain.Core.Validation;
 using EnduranceJudge.Domain.Aggregates.Manager.DTOs;
-using EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInPhases;
+using EnduranceJudge.Domain.Aggregates.Manager.PhasePerformances;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.Enums;
 using System;
@@ -11,7 +10,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInCompetitions
 {
     public class ParticipationInCompetition : DomainObjectBase<ParticipationInCompetitionObjectException>
     {
-        private readonly List<PhaseEntryManager> participationsInPhases = new();
+        private readonly List<PhasePerformanceManager> phasePerformances = new();
         private readonly List<PhaseDto> phases = new();
 
         private ParticipationInCompetition()
@@ -29,25 +28,25 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInCompetitions
                 .OrderBy(x => x.OrderBy)
                 .ToList();
         }
-        public IReadOnlyList<PhaseEntryManager> ParticipationsInPhases
+        public IReadOnlyList<PhasePerformanceManager> PhasePerformances
         {
-            get => this.participationsInPhases.AsReadOnly();
-            private init => this.participationsInPhases = value
+            get => this.phasePerformances.AsReadOnly();
+            private init => this.PhasePerformances = value
                 .OrderBy(x => x.PhaseOrderBy)
                 .ToList();
         }
 
-        public PhaseEntryManager CurrentPhaseEntry
-            => this.participationsInPhases.SingleOrDefault(participation => !participation.IsComplete);
+        public PhasePerformanceManager CurrentPhasePerformance
+            => this.PhasePerformances.SingleOrDefault(participation => !participation.IsComplete);
         public bool IsNotComplete
-            => this.Phases?.Count != this.participationsInPhases?.Count
-                || this.ParticipationsInPhases.Any(x => !x.IsComplete);
+            => this.Phases?.Count != this.PhasePerformances?.Count
+                || this.PhasePerformances.Any(x => !x.IsComplete);
         public bool HasExceededSpeedRestriction => this.AverageSpeedInKpH > this.MaxAverageSpeedInKpH;
         public double? AverageSpeedInKpH
         {
             get
             {
-                var completedPhases = this.participationsInPhases
+                var completedPhases = this.PhasePerformances
                     .Where(x => x.IsComplete)
                     .ToList();
 
@@ -61,7 +60,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInCompetitions
                     : completedPhases.Select(x => x.AverageSpeedForLoopInKpH!.Value);
 
                 var averageSpeedSum = averageSpeedInPhases.Aggregate(0d, (sum, average) => sum + average);
-                var phasesCount = this.participationsInPhases.Count;
+                var phasesCount = this.PhasePerformances.Count;
 
                 return averageSpeedSum / phasesCount;
             }
@@ -71,13 +70,13 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInCompetitions
             => this.Validate(() =>
             {
                 var nextPhase = this.Phases
-                    .Skip(this.participationsInPhases.Count)
+                    .Skip(this.PhasePerformances.Count)
                     .First();
 
                 DateTime startTime;
-                if (this.ParticipationsInPhases.Any())
+                if (this.PhasePerformances.Any())
                 {
-                    var lastPhase = this.ParticipationsInPhases.Last();
+                    var lastPhase = this.PhasePerformances.Last();
                     var restTime = lastPhase
                         .RestTimeInMinutes;
                     startTime = lastPhase.ReInspectionTime?.AddMinutes(restTime)
@@ -88,8 +87,8 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInCompetitions
                     startTime = this.StartTime;
                 }
 
-                var participation = new PhaseEntryManager(nextPhase, startTime);
-                this.participationsInPhases.Add(participation);
+                var participation = new PhasePerformanceManager(nextPhase, startTime);
+                this.phasePerformances.Add(participation);
             });
         internal void CompleteSuccessful()
             => this.Validate(() =>
@@ -100,7 +99,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInCompetitions
                 }
                 else
                 {
-                    this.CurrentPhaseEntry.CompleteSuccessful();
+                    this.CurrentPhasePerformance.CompleteSuccessful();
                     if (this.IsNotComplete)
                     {
                         this.StartPhase();
@@ -110,7 +109,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInCompetitions
         internal void CompleteUnsuccessful(string code)
             => this.Validate(() =>
             {
-                this.CurrentPhaseEntry.CompleteUnsuccessful(code);
+                this.CurrentPhasePerformance.CompleteUnsuccessful(code);
             });
 
     }

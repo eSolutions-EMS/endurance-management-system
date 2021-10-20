@@ -17,7 +17,7 @@ namespace EnduranceJudge.Domain.State.Participations
         }
 
         private List<int> competitionIds = new();
-        public List<PhaseEntry> PhaseEntries { get; } = new();
+        public List<PhasePerformance> PhaseEntries { get; } = new();
 
         internal void Add(Competition competition) => this.Validate(() =>
         {
@@ -31,7 +31,7 @@ namespace EnduranceJudge.Domain.State.Participations
 
         public void StartPhase(Phase phase, DateTime startTime)
         {
-            var phaseEntry = new PhaseEntry(phase, startTime);
+            var phaseEntry = new PhasePerformance(phase, startTime);
             this.PhaseEntries.Add(phaseEntry);
         }
 

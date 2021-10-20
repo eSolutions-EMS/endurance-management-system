@@ -5,14 +5,14 @@ using EnduranceJudge.Domain.State.PhaseEntries;
 using EnduranceJudge.Domain.Core.Models;
 using System;
 
-namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInPhases
+namespace EnduranceJudge.Domain.Aggregates.Manager.PhasePerformances
 {
-    public class PhaseEntryManager : DomainObjectBase<ParticipationInPhaseObjectException>, IPhaseEntryState
+    public class PhasePerformanceManager : DomainObjectBase<PhasePerformanceObjectException>, IPhasePerformanceState
     {
         private static readonly string ArrivalTimeIsNullMessage = $"cannot complete: ArrivalTime cannot be null.";
         private static readonly string InspectionTimeIsNullMessage = $"cannot complete: InspectionTime cannot be null";
 
-        internal PhaseEntryManager(PhaseDto phase, DateTime startTime)
+        internal PhasePerformanceManager(PhaseDto phase, DateTime startTime)
         {
             this.Validate(() =>
             {

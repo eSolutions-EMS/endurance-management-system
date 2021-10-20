@@ -1,9 +1,9 @@
 using EnduranceJudge.Domain.Core.Exceptions;
 
-namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInPhases
+namespace EnduranceJudge.Domain.Aggregates.Manager.PhasePerformances
 {
-    public class ParticipationInPhaseObjectException : DomainObjectException
+    public class PhasePerformanceObjectException : DomainObjectException
     {
-        protected override string Entity { get; } = nameof(PhaseEntryManager);
+        protected override string Entity { get; } = nameof(PhasePerformanceManager);
     }
 }
