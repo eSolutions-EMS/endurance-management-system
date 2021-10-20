@@ -3,6 +3,7 @@ using EnduranceJudge.Application.Core.Models;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem;
 using EnduranceJudge.Gateways.Desktop.Services;
 using Prism.Commands;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -25,6 +26,8 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
             this.Create = new DelegateCommand(this.CreateAction);
         }
 
+        protected bool AllowDelete { get; init; } = true;
+        protected bool AllowCreate { get; init; } = true;
         protected INavigationService Navigation { get; }
 
         public ObservableCollection<ListItemViewModel> ListItems { get; protected init; }
@@ -39,15 +42,9 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
         }
 
         protected abstract IEnumerable<ListItemModel> LoadData();
-        protected abstract void RemoveDomain(int id);
-
-        protected virtual void CreateAction()
+        protected virtual void RemoveDomain(int id)
         {
-            this.Navigation.ChangeTo<TView>();
-        }
-        protected virtual void UpdateAction(int? id)
-        {
-            this.Navigation.ChangeToUpdateConfiguration<TView>(id!.Value);
+            throw new NotImplementedException();
         }
 
         protected virtual void Load() => this.domainHandler.Handle(() =>
@@ -61,18 +58,34 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
             this.ListItems.Clear();
             this.ListItems.AddRange(viewModels);
         });
+        protected virtual void CreateAction()
+        {
+            if (this.AllowCreate)
+            {
+                this.Navigation.ChangeTo<TView>();
+            }
+        }
+        protected virtual void UpdateAction(int? id)
+        {
+            this.Navigation.ChangeToUpdateConfiguration<TView>(id!.Value);
+        }
         protected virtual void RemoveAction(int? id) => this.domainHandler.Handle(() =>
         {
-            this.RemoveDomain(id!.Value);
-            var item = this.ListItems.FirstOrDefault(i => i.Id == id!.Value);
-            this.ListItems.Remove(item);
-            this.persistence.Snapshot();
+            if (this.AllowDelete)
+            {
+                this.RemoveDomain(id!.Value);
+                var item = this.ListItems.FirstOrDefault(i => i.Id == id!.Value);
+                this.ListItems.Remove(item);
+                this.persistence.Snapshot();
+            }
         });
 
         private ListItemViewModel ToViewModel(ListItemModel listable)
         {
             var update = new DelegateCommand<int?>(this.UpdateAction);
-            var remove = new DelegateCommand<int?>(this.RemoveAction);
+            var remove = this.AllowDelete
+                ? new DelegateCommand<int?>(this.RemoveAction)
+                : null;
             return new ListItemViewModel(listable.Id, listable.Name, update, remove);
         }
     }

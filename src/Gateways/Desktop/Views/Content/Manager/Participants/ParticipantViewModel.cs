@@ -6,11 +6,11 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participations
+namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participants
 {
-    public class ParticipationViewModel : ViewModelBase
+    public class ParticipantViewModel : ViewModelBase
     {
-        public ParticipationViewModel(int number, Participation participation)
+        public ParticipantViewModel(int number, Participation participation)
         {
             this.number = number;
             this.Participation = participation;

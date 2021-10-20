@@ -4,7 +4,7 @@ using EnduranceJudge.Gateways.Desktop.Views.Content.Import;
 using EnduranceJudge.Gateways.Desktop.Core.Services.Implementations;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.EnduranceEvents;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Manager;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participations.Listing;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participants.Listing;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.Categorizations.Listing;
 using EnduranceJudge.Gateways.Desktop.Views.Error;
 using Prism.Regions;
@@ -48,7 +48,7 @@ namespace EnduranceJudge.Gateways.Desktop.Services.Implementations
                 return;
             }
             this.ChangeTo<ManagerView>();
-            this.ChangeTo<ParticipationListView>(Regions.CONTENT_RIGHT);
+            this.ChangeTo<ParticipantListView>(Regions.CONTENT_RIGHT);
         }
         public void NavigateToRanking()
         {

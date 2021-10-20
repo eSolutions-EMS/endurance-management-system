@@ -1,7 +1,7 @@
 ﻿using EnduranceJudge.Domain.Aggregates.Manager.Participations;
 using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Services;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participations;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participants;
 using Prism.Commands;
 using System;
 using System.Collections.ObjectModel;
@@ -37,7 +37,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager
         private int inputSeconds;
         private string deQualificationCode;
 
-        public ObservableCollection<ParticipationViewModel> Participations { get; } = new();
+        public ObservableCollection<ParticipantViewModel> Participations { get; } = new();
 
         private void StartAction()
         {

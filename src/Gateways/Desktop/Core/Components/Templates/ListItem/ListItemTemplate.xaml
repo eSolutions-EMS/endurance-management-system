@@ -7,7 +7,7 @@
         <StackPanel>
             <DockPanel Style="{StaticResource Dock-Horizontal}">
 
-                <Button Style="{StaticResource Button}"
+                <Button Style="{StaticResource Button}" Visibility="{Binding RemoveVisibility}"
                         Content="{x:Static strings:DesktopStrings.REMOVE}"
                         Command="{Binding Remove}"
                         CommandParameter="{Binding Id}" />

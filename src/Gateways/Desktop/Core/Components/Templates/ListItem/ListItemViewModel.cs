@@ -1,4 +1,5 @@
 ﻿using Prism.Commands;
+using System.Windows;
 
 namespace EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem
 {
@@ -28,5 +29,8 @@ namespace EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem
         public string Name { get; }
         public DelegateCommandBase Action { get; }
         public DelegateCommandBase Remove { get; }
+        public Visibility RemoveVisibility => this.Remove != null
+            ? Visibility.Visible
+            : Visibility.Collapsed;
     }
 }
