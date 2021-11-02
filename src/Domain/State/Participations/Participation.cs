@@ -1,6 +1,6 @@
 ﻿using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Competitions;
-using EnduranceJudge.Domain.State.PhaseEntries;
+using EnduranceJudge.Domain.State.PhasePerformances;
 using EnduranceJudge.Domain.State.Phases;
 using System;
 using System.Collections.Generic;
@@ -17,7 +17,7 @@ namespace EnduranceJudge.Domain.State.Participations
         }
 
         private List<int> competitionIds = new();
-        public List<PhasePerformance> PhaseEntries { get; } = new();
+        public List<PhasePerformance> PhasePerformances { get; } = new();
 
         internal void Add(Competition competition) => this.Validate(() =>
         {
@@ -32,7 +32,7 @@ namespace EnduranceJudge.Domain.State.Participations
         public void StartPhase(Phase phase, DateTime startTime)
         {
             var phaseEntry = new PhasePerformance(phase, startTime);
-            this.PhaseEntries.Add(phaseEntry);
+            this.PhasePerformances.Add(phaseEntry);
         }
 
         public IReadOnlyList<int> CompetitionIds

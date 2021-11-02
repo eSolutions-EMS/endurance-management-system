@@ -26,7 +26,7 @@ namespace EnduranceJudge.Domain.Aggregates.Rankings.Participations
         public bool IsNotComplete
             => this.PhasePerformances.Any(pip => pip.IsNotComplete);
         public bool IsQualified
-            => this.PhasePerformances.All(participation => participation.ResultInPhase.IsRanked);
+            => this.PhasePerformances.All(participation => participation.PhaseResult.IsRanked);
 
         public DateTime FinalTime
         {

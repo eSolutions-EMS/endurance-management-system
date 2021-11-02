@@ -1,8 +1,8 @@
 using EnduranceJudge.Domain.Core.Models;
 
-namespace EnduranceJudge.Domain.States
+namespace EnduranceJudge.Domain.State.PhaseResults
 {
-    public interface IResultInPhaseState : IDomainModelState
+    public interface IPhaseResultState : IDomainModelState
     {
         bool IsRanked { get; }
 

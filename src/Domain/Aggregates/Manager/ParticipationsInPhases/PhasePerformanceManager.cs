@@ -1,8 +1,8 @@
 using EnduranceJudge.Domain.Core.Validation;
 using EnduranceJudge.Domain.Aggregates.Manager.DTOs;
-using EnduranceJudge.Domain.State.ResultsInPhases;
-using EnduranceJudge.Domain.State.PhaseEntries;
+using EnduranceJudge.Domain.State.PhasePerformances;
 using EnduranceJudge.Domain.Core.Models;
+using EnduranceJudge.Domain.State.PhaseResults;
 using System;
 
 namespace EnduranceJudge.Domain.Aggregates.Manager.PhasePerformances
@@ -28,7 +28,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.PhasePerformances
         public DateTime? ArrivalTime { get; private set; }
         public DateTime? InspectionTime { get; private set; }
         public DateTime? ReInspectionTime { get; private set; }
-        public ResultInPhase ResultInPhase { get; private set; }
+        public PhaseResult PhaseResult { get; private set; }
 
         public int PhaseId { get; }
         public int PhaseOrderBy { get; }
@@ -60,7 +60,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.PhasePerformances
                 return this.GetAverageSpeed(this.PhaseSpan.Value);
             }
         }
-        public bool IsComplete => this.ResultInPhase != null;
+        public bool IsComplete => this.PhaseResult != null;
         public bool CanArrive
             => !this.IsComplete
                 && !this.ArrivalTime.HasValue;
@@ -107,11 +107,11 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.PhasePerformances
         {
             this.ArrivalTime.IsNotDefault(ArrivalTimeIsNullMessage);
             this.InspectionTime.IsNotDefault(InspectionTimeIsNullMessage);
-            this.ResultInPhase = new ResultInPhase();
+            this.PhaseResult = new PhaseResult();
         }
         internal void CompleteUnsuccessful(string code)
         {
-            this.ResultInPhase = new ResultInPhase(code);
+            this.PhaseResult = new PhaseResult(code);
         }
 
         private double GetAverageSpeed(TimeSpan timeSpan)

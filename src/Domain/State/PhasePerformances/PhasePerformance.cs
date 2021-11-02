@@ -1,9 +1,9 @@
-﻿using EnduranceJudge.Domain.State.ResultsInPhases;
-using EnduranceJudge.Domain.Core.Models;
+﻿using EnduranceJudge.Domain.Core.Models;
+using EnduranceJudge.Domain.State.PhaseResults;
 using EnduranceJudge.Domain.State.Phases;
 using System;
 
-namespace EnduranceJudge.Domain.State.PhaseEntries
+namespace EnduranceJudge.Domain.State.PhasePerformances
 {
     public class PhasePerformance : DomainObjectBase<PhasePerformanceException>, IPhasePerformanceState
     {
@@ -19,7 +19,6 @@ namespace EnduranceJudge.Domain.State.PhaseEntries
         public DateTime? ArrivalTime { get; internal set; }
         public DateTime? InspectionTime { get; internal set; }
         public DateTime? ReInspectionTime { get; internal set; }
-        // TODO: Rename
-        public ResultInPhase Result { get; internal set; }
+        public PhaseResult Result { get; internal set; }
     }
 }

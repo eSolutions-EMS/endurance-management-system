@@ -1,7 +1,7 @@
 using EnduranceJudge.Domain.Core.Models;
 using System;
 
-namespace EnduranceJudge.Domain.State.PhaseEntries
+namespace EnduranceJudge.Domain.State.PhasePerformances
 {
     public interface IPhasePerformanceState : IDomainModelState
     {
