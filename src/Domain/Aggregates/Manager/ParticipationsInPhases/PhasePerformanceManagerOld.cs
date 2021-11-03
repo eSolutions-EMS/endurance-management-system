@@ -7,12 +7,11 @@ using System;
 
 namespace EnduranceJudge.Domain.Aggregates.Manager.PhasePerformances
 {
-    public class PhasePerformanceManager : DomainObjectBase<PhasePerformanceObjectException>, IPhasePerformanceState
+    public class PhasePerformanceManagerOld : DomainObjectBase<PhasePerformanceObjectException>, IPhasePerformanceState
     {
-        private static readonly string ArrivalTimeIsNullMessage = $"cannot complete: ArrivalTime cannot be null.";
-        private static readonly string InspectionTimeIsNullMessage = $"cannot complete: InspectionTime cannot be null";
 
-        internal PhasePerformanceManager(PhaseDto phase, DateTime startTime)
+
+        internal PhasePerformanceManagerOld(PhaseDto phase, DateTime startTime)
         {
             this.Validate(() =>
             {
@@ -105,8 +104,8 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.PhasePerformances
             });
         internal void CompleteSuccessful()
         {
-            this.ArrivalTime.IsNotDefault(ArrivalTimeIsNullMessage);
-            this.InspectionTime.IsNotDefault(InspectionTimeIsNullMessage);
+            this.ArrivalTime.IsRequired(nameof(ArrivalTime));
+            this.InspectionTime.IsRequired(nameof(ArrivalTime));
             this.PhaseResult = new PhaseResult();
         }
         internal void CompleteUnsuccessful(string code)

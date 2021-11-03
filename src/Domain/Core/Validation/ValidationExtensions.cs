@@ -17,16 +17,6 @@ namespace EnduranceJudge.Domain.Core.Validation
             return value;
         }
 
-        public static TValue IsNotDefault<TValue>(this TValue value, string name)
-        {
-            if (value?.Equals(default(TValue)) ?? true)
-            {
-                throw new DomainException(IsRequiredTemplate, name);
-            }
-
-            return value;
-        }
-
         public static TValue IsDefault<TValue>(this TValue value, string message)
         {
             if (!value?.Equals(default(TValue)) ?? false)

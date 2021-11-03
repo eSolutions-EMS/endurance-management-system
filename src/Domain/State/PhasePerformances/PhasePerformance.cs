@@ -20,5 +20,39 @@ namespace EnduranceJudge.Domain.State.PhasePerformances
         public DateTime? InspectionTime { get; internal set; }
         public DateTime? ReInspectionTime { get; internal set; }
         public PhaseResult Result { get; internal set; }
+
+        public TimeSpan? LoopSpan
+            => this.ArrivalTime - this.StartTime;
+        public TimeSpan? PhaseSpan
+            => (this.ReInspectionTime ?? this.InspectionTime) - this.StartTime;
+        public double? AverageSpeedForLoopInKpH
+        {
+            get
+            {
+                if (this.LoopSpan == null)
+                {
+                    return null;
+                }
+                return this.GetAverageSpeed(this.LoopSpan.Value);
+            }
+        }
+        public double? AverageSpeedForPhaseInKpH
+        {
+            get
+            {
+                if (this.PhaseSpan == null)
+                {
+                    return null;
+                }
+                return this.GetAverageSpeed(this.PhaseSpan.Value);
+            }
+        }
+
+        private double GetAverageSpeed(TimeSpan timeSpan)
+        {
+            var phaseLengthInKm = this.Phase.LengthInKm;
+            var totalHours = timeSpan.TotalHours;
+            return  phaseLengthInKm / totalHours;
+        }
     }
 }

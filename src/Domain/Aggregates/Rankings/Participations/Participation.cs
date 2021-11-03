@@ -32,7 +32,7 @@ namespace EnduranceJudge.Domain.Aggregates.Rankings.Participations
         {
             get
             {
-                this.IsQualified.IsNotDefault(NOT_RANKED_MESSAGE);
+                this.IsQualified.IsRequired(NOT_RANKED_MESSAGE);
 
                 var finalPhase = this.PhasePerformances.Single(participation => participation.Phase.IsFinal);
                 return finalPhase.ArrivalTime;
@@ -43,7 +43,7 @@ namespace EnduranceJudge.Domain.Aggregates.Rankings.Participations
         {
             get
             {
-                this.IsQualified.IsNotDefault(NOT_RANKED_MESSAGE);
+                this.IsQualified.IsRequired(NOT_RANKED_MESSAGE);
 
                 var recoverySum = this.PhasePerformances.Aggregate(
                     TimeSpan.Zero,

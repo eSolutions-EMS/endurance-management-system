@@ -25,7 +25,7 @@ namespace EnduranceJudge.Domain.Core.Extensions
             collection.Remove(model);
         }
 
-        public static void AddDomain<T>(this ICollection<T> collection, T model)
+        public static void AddUnique<T>(this ICollection<T> collection, T model)
             where T : IDomainObject
         {
             if (model == null)

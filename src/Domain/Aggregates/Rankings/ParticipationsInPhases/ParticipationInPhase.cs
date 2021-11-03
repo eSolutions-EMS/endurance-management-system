@@ -24,8 +24,8 @@ namespace EnduranceJudge.Domain.Aggregates.Rankings.PhasePerformances
             {
                 this.Validate(() =>
                 {
-                    this.ArrivalTime.IsNotDefault(nameof(this.ArrivalTime));
-                    this.InspectionTime.IsNotDefault(nameof(this.ArrivalTime));
+                    this.ArrivalTime.IsRequired(nameof(this.ArrivalTime));
+                    this.InspectionTime.IsRequired(nameof(this.ArrivalTime));
                 });
 
                 var inspectionTime = this.ReInspectionTime ?? this.InspectionTime;

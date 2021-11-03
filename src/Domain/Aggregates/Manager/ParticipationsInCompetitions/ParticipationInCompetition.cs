@@ -10,7 +10,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInCompetitions
 {
     public class ParticipationInCompetition : DomainObjectBase<ParticipationInCompetitionObjectException>
     {
-        private readonly List<PhasePerformanceManager> phasePerformances = new();
+        private readonly List<PhasePerformanceManagerOld> phasePerformances = new();
         private readonly List<PhaseDto> phases = new();
 
         private ParticipationInCompetition()
@@ -28,7 +28,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInCompetitions
                 .OrderBy(x => x.OrderBy)
                 .ToList();
         }
-        public IReadOnlyList<PhasePerformanceManager> PhasePerformances
+        public IReadOnlyList<PhasePerformanceManagerOld> PhasePerformances
         {
             get => this.phasePerformances.AsReadOnly();
             private init => this.PhasePerformances = value
@@ -36,7 +36,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInCompetitions
                 .ToList();
         }
 
-        public PhasePerformanceManager CurrentPhasePerformance
+        public PhasePerformanceManagerOld CurrentPhasePerformance
             => this.PhasePerformances.SingleOrDefault(participation => !participation.IsComplete);
         public bool IsNotComplete
             => this.Phases?.Count != this.PhasePerformances?.Count
@@ -87,7 +87,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.ParticipationsInCompetitions
                     startTime = this.StartTime;
                 }
 
-                var participation = new PhasePerformanceManager(nextPhase, startTime);
+                var participation = new PhasePerformanceManagerOld(nextPhase, startTime);
                 this.phasePerformances.Add(participation);
             });
         internal void CompleteSuccessful()

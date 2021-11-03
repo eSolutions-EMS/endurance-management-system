@@ -8,11 +8,11 @@ using static EnduranceJudge.Localization.Strings.Domain.Manager.Participation;
 
 namespace EnduranceJudge.Domain.Aggregates.Manager.Participations
 {
-    public class Participation : DomainObjectBase<ManagerParticipationObjectException>
+    public class ParticipationOld : DomainObjectBase<ManagerParticipationObjectException>
     {
         private List<ParticipationInCompetition> participationsInCompetitions = new();
 
-        private Participation()
+        private ParticipationOld()
         {
         }
 
@@ -112,7 +112,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participations
             }
         }
 
-        private bool AnyPhasePerformance(Func<PhasePerformanceManager, bool> predicate)
+        private bool AnyPhasePerformance(Func<PhasePerformanceManagerOld, bool> predicate)
         {
             return this.ParticipationsInCompetitions.Any(pic =>
                 pic.PhasePerformances.Any(predicate));

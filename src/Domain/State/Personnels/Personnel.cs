@@ -12,7 +12,7 @@ namespace EnduranceJudge.Domain.State.Personnels
             => this.Validate(() =>
             {
                 this.Name = state.Name.CheckPersonName();
-                this.Role = state.Role.IsNotDefault(nameof(state.Role));
+                this.Role = state.Role.IsRequired(nameof(state.Role));
             });
 
         public string Name { get; private set; }
