@@ -8,7 +8,6 @@ using Prism.Commands;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Printing;
 using System.Windows;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager
@@ -34,6 +33,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager
         public DelegateCommand Complete { get; }
         public DelegateCommand CompleteUnsuccessful { get; }
 
+        private Visibility startVisibility;
         private int inputNumber;
         private int inputHours;
         private int inputMinutes;
@@ -44,8 +44,12 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager
 
         private void StartAction()
         {
-            var manager = new ContestManager();
-            manager.Start();
+            this.domainHandler.Handle(() =>
+            {
+                var manager = new ContestManager();
+                manager.Start();
+            });
+            this.StartVisibility = Visibility.Collapsed;
         }
         private void UpdateAction()
         {
@@ -92,6 +96,11 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager
             this.Participations.Insert(0, participationViewModel);
         }
 
+        public Visibility StartVisibility
+        {
+            get => this.startVisibility;
+            set => this.SetProperty(ref this.startVisibility, value);
+        }
         public int InputNumber
         {
             get => this.inputNumber;

@@ -15,6 +15,7 @@
             {
                 public static class Participation
                 {
+                    public const string HAS_ALREADY_STARTED = "has already started";
                     public const string HAS_NOT_STARTED = "has not started yet";
                     public const string CAN_ONLY_BE_COMPLETED = "can only be completed.";
                     public const string CANNOT_BE_COMPLETED = "cannot be completed";
