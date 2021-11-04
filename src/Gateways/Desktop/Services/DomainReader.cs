@@ -1,37 +1,32 @@
-﻿using EnduranceJudge.Application.Contracts;
+﻿using EnduranceJudge.Core.ConventionalServices;
 using EnduranceJudge.Gateways.Desktop.Core.Objects;
 using Prism.Events;
 using System;
 
-namespace EnduranceJudge.Gateways.Desktop.Services.Implementations
+namespace EnduranceJudge.Gateways.Desktop.Services
 {
-    public class DomainHandler : IDomainHandler
+    public class DomainReader : IDomainReader
     {
         private readonly IEventAggregator eventAggregator;
-        private readonly IPersistence persistence;
 
-        public DomainHandler(IEventAggregator eventAggregator, IPersistence persistence)
+        public DomainReader(IEventAggregator eventAggregator)
         {
             this.eventAggregator = eventAggregator;
-            this.persistence = persistence;
         }
 
-        public bool Handle(Action action)
+        public void Read(Action action)
         {
             try
             {
                 action();
-                this.persistence.Snapshot();
             }
             catch (Exception exception)
             {
                 this.Handle(exception);
-                return false;
             }
-            return true;
         }
 
-        private void Handle(Exception exception)
+        protected void Handle(Exception exception)
         {
             exception = GetInnermostException(exception);
             this.eventAggregator
@@ -39,14 +34,18 @@ namespace EnduranceJudge.Gateways.Desktop.Services.Implementations
                 .Publish(exception.ToString());
         }
 
-        private static Exception GetInnermostException(Exception exception)
+        protected static Exception GetInnermostException(Exception exception)
         {
             if (exception.InnerException != null)
             {
                 return GetInnermostException(exception.InnerException);
             }
-
             return exception;
         }
+    }
+
+    public interface IDomainReader : IService
+    {
+        public void Read(Action action);
     }
 }

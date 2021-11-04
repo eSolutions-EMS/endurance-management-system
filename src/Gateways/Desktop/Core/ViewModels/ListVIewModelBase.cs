@@ -2,6 +2,7 @@
 using EnduranceJudge.Application.Core.Models;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem;
 using EnduranceJudge.Gateways.Desktop.Services;
+using EnduranceJudge.Gateways.Desktop.Services.Implementations;
 using Prism.Commands;
 using System;
 using System.Collections.Generic;
@@ -13,14 +14,14 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
     public abstract class ListViewModelBase<TView> : ViewModelBase
         where TView : IView
     {
-        private readonly IDomainHandler domainHandler;
+        private readonly IDomainReader domainReader;
         private readonly IPersistence persistence;
         protected ListViewModelBase(
             INavigationService navigation,
-            IDomainHandler domainHandler,
+            IDomainReader domainReader,
             IPersistence persistence)
         {
-            this.domainHandler = domainHandler;
+            this.domainReader = domainReader;
             this.persistence = persistence;
             this.Navigation = navigation;
             this.Create = new DelegateCommand(this.CreateAction);
@@ -47,7 +48,7 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
             throw new NotImplementedException();
         }
 
-        protected virtual void Load() => this.domainHandler.Handle(() =>
+        protected virtual void Load() => this.domainReader.Read(() =>
         {
             var eventsList = this.LoadData();
 
@@ -69,7 +70,7 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
         {
             this.Navigation.ChangeToUpdateConfiguration<TView>(id!.Value);
         }
-        protected virtual void RemoveAction(int? id) => this.domainHandler.Handle(() =>
+        protected virtual void RemoveAction(int? id) => this.domainReader.Read(() =>
         {
             if (this.AllowDelete)
             {

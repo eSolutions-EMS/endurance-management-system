@@ -6,6 +6,7 @@ using EnduranceJudge.Domain.Aggregates.Configuration;
 using EnduranceJudge.Domain.State.Athletes;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
 using EnduranceJudge.Gateways.Desktop.Services;
+using EnduranceJudge.Gateways.Desktop.Services.Implementations;
 using System.Collections.Generic;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Athletes.Listing
@@ -17,7 +18,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Athl
             IPersistence persistence,
             IQueries<Athlete> athletes,
             INavigationService navigation,
-            IDomainHandler domainHandler) : base(navigation, domainHandler, persistence)
+            IDomainHandler<ConfigurationManager> domainReader) : base(navigation, domainReader, persistence)
         {
             this.athletes = athletes;
         }

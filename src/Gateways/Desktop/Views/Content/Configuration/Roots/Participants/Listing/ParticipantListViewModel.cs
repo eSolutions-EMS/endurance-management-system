@@ -18,7 +18,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Part
             IQueries<Participant> participants,
             IPersistence persistence,
             INavigationService navigation,
-            IDomainHandler domainHandler) : base(navigation, domainHandler, persistence)
+            IDomainReader domainReader) : base(navigation, domainReader, persistence)
         {
             this.participants = participants;
         }

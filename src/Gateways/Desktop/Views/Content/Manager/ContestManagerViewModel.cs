@@ -15,10 +15,10 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager
     public class ContestManagerViewModel : ViewModelBase
     {
         private static readonly DateTime Today = DateTime.Today;
-        private readonly IDomainHandler domainHandler;
+        private readonly IDomainHandler<ContestManager> domainHandler;
         private readonly IQueries<Participant> participants;
 
-        public ContestManagerViewModel(IDomainHandler domainHandler, IQueries<Participant> participants)
+        public ContestManagerViewModel(IDomainHandler<ContestManager> domainHandler, IQueries<Participant> participants)
         {
             this.domainHandler = domainHandler;
             this.participants = participants;
@@ -44,38 +44,25 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager
 
         private void StartAction()
         {
-            this.domainHandler.Handle(() =>
-            {
-                var manager = new ContestManager();
-                manager.Start();
-            });
+            this.domainHandler.Write(manager => manager.Start());
             this.StartVisibility = Visibility.Collapsed;
         }
         private void UpdateAction()
         {
-            this.domainHandler.Handle(() =>
-            {
-                var manager = new ContestManager();
-                manager.UpdatePerformance(this.InputNumber, this.InputTime);
-            });
+            this.domainHandler.Write(manager
+                => manager.UpdatePerformance(this.InputNumber, this.InputTime));
             this.LoadParticipation();
         }
         private void CompleteAction()
         {
-            this.domainHandler.Handle(() =>
-            {
-                var manager = new ContestManager();
-                manager.CompletePerformance(this.InputNumber);
-            });
+            this.domainHandler.Write(manager
+                => manager.CompletePerformance(this.InputNumber));
             this.LoadParticipation();
         }
         private void CompleteUnsuccessfulAction()
         {
-            this.domainHandler.Handle(() =>
-            {
-                var manager = new ContestManager();
-                manager.CompletePerformance(this.InputNumber, this.DeQualificationCode);
-            });
+            this.domainHandler.Write(manager
+                => manager.CompletePerformance(this.InputNumber, this.DeQualificationCode));
             this.LoadParticipation();
         }
 

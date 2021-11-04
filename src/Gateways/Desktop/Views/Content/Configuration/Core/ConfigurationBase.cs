@@ -18,13 +18,13 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core
     {
         private readonly IQueries<TDomain> queries;
         protected INavigationService Navigation { get; }
-        protected IDomainHandler DomainHandler { get; }
+        protected IDomainReader DomainReader { get; }
 
         protected ConfigurationBase(IQueries<TDomain> queries)
         {
             this.queries = queries;
             this.Navigation = StaticProvider.GetService<INavigationService>();
-            this.DomainHandler = StaticProvider.GetService<IDomainHandler>();
+            this.DomainReader = StaticProvider.GetService<IDomainReader>();
 
             this.BoolItems = SimpleListItemViewModel.FromBool();
 
@@ -55,7 +55,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core
             var domainObject = this.queries.GetOne(id);
             this.MapFrom(domainObject);
         }
-        private void SubmitAction() => this.DomainHandler.Handle(() =>
+        private void SubmitAction() => this.DomainReader.Read(() =>
         {
             this.ActOnSubmit();
             this.NavigateBackAction();

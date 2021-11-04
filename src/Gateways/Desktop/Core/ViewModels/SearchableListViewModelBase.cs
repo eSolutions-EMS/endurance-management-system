@@ -2,6 +2,7 @@
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem;
 using EnduranceJudge.Gateways.Desktop.Core.Objects;
 using EnduranceJudge.Gateways.Desktop.Services;
+using EnduranceJudge.Gateways.Desktop.Services.Implementations;
 using Prism.Commands;
 using System;
 
@@ -12,9 +13,9 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
     {
         protected SearchableListViewModelBase(
             INavigationService navigation,
-            IDomainHandler domainHandler,
+            IDomainReader domainReader,
             IPersistence persistence)
-            : base(navigation, domainHandler, persistence)
+            : base(navigation, domainReader, persistence)
         {
             Func<ListItemViewModel, string, bool> filter
                 = (item, value) => item.Name.ToLower().Contains(value.ToLower());

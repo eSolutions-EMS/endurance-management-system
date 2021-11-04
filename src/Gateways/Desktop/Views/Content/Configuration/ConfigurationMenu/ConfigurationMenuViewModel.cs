@@ -4,7 +4,6 @@ using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Athletes
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.EnduranceEvents;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Horses.Listing;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Participants.Listing;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.EnduranceEvents.Listing;
 using Prism.Commands;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.ConfigurationMenu

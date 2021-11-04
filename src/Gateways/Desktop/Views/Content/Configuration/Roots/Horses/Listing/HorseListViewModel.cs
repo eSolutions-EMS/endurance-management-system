@@ -19,8 +19,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Hors
             IQueries<Horse> horses,
             IPersistence persistence,
             INavigationService navigation,
-            IDomainHandler domainHandler)
-            : base(navigation, domainHandler, persistence)
+            IDomainReader domainReader) : base(navigation, domainReader, persistence)
         {
             this.horses = horses;
         }

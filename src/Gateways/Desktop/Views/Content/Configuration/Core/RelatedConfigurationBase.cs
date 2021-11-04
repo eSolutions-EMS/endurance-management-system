@@ -51,7 +51,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core
         protected void NewForm<T>()
             where T : IView
         {
-            this.DomainHandler.Handle(() =>
+            this.DomainReader.Read(() =>
             {
                 var domain = this.ActOnSubmit();
                 this.MapFrom(domain);

@@ -2,9 +2,11 @@
 using EnduranceJudge.Application.Contracts;
 using EnduranceJudge.Application.Core.Models;
 using EnduranceJudge.Core.Mappings;
+using EnduranceJudge.Domain.Aggregates.Configuration;
 using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
 using EnduranceJudge.Gateways.Desktop.Services;
+using EnduranceJudge.Gateways.Desktop.Services.Implementations;
 using System.Collections.Generic;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participants.Listing
@@ -16,8 +18,8 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participants.Lis
             IQueries<Participant> participants,
             IPersistence persistence,
             INavigationService navigation,
-            IDomainHandler domainHandler)
-            : base(navigation, domainHandler, persistence)
+            IDomainHandler<ConfigurationManager> domainReader)
+            : base(navigation, domainReader, persistence)
         {
             this.AllowCreate = false;
             this.AllowDelete = false;
