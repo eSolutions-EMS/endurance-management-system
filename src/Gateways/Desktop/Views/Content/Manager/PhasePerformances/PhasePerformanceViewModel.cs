@@ -1,11 +1,12 @@
 ﻿using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Domain.Aggregates.Manager.PhasePerformances;
+using EnduranceJudge.Domain.State.PhasePerformances;
 using EnduranceJudge.Gateways.Desktop.Core;
 using System;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager.PhasePerformances
 {
-    public class PhasePerformanceViewModel : ViewModelBase, IMapFrom<PhasePerformanceManager>
+    public class PhasePerformanceViewModel : ViewModelBase, IMapFrom<PhasePerformance>
     {
         public int OrderBy { get; private set; }
 

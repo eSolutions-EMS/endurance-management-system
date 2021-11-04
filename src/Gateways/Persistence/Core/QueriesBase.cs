@@ -19,7 +19,7 @@ namespace EnduranceJudge.Gateways.Persistence.Core
 
         protected abstract List<T> Set { get; }
 
-        public T GetOne(Predicate<T> predicate) => this.Set.Find(predicate);
+        public virtual T GetOne(Predicate<T> predicate) => this.Set.Find(predicate);
         public virtual T GetOne(int id) => this.Set.Find(x => x.Id == id);
         public virtual List<T> GetAll() => this.Set.ToList();
     }

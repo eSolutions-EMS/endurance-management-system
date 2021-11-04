@@ -46,9 +46,9 @@ namespace EnduranceJudge.Domain.Aggregates.Manager
             participation.CompletePerformance(code);
         }
 
-        private ParticipationManager GetParticipation(int participantId)
+        private ParticipationManager GetParticipation(int number)
         {
-            return this.participationManagers.First(x => x.ParticipantId == participantId);
+            return this.participationManagers.First(x => x.Number == number);
         }
     }
 }

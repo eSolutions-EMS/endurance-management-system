@@ -9,7 +9,7 @@ using System.Collections.Generic;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participants.Listing
 {
-    public class ParticipantListViewModel : SearchableListViewModelBase<ManagerView>
+    public class ParticipantListViewModel : SearchableListViewModelBase<ContestManagerView>
     {
         private readonly IQueries<Participant> participants;
         public ParticipantListViewModel(

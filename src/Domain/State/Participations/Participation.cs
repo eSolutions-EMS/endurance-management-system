@@ -9,12 +9,6 @@ namespace EnduranceJudge.Domain.State.Participations
 {
     public class Participation : DomainObjectBase<ParticipationException>
     {
-        private Participation() {}
-        internal Participation(Competition competition) : base(default)
-        {
-            this.competitions.Add(competition);
-        }
-
         private List<Competition> competitions = new();
         private List<PhasePerformance> phasePerformances = new();
 

@@ -5,9 +5,9 @@ using System.Collections.Generic;
 
 namespace EnduranceJudge.Gateways.Persistence.Contracts.Queries
 {
-    public class CompetitorQueries : QueriesBase<Participant>
+    public class ParticipantQueries : QueriesBase<Participant>
     {
-        public CompetitorQueries(IState state) : base(state)
+        public ParticipantQueries(IState state) : base(state)
         {
         }
 

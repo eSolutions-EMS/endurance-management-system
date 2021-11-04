@@ -31,18 +31,11 @@ namespace EnduranceJudge.Domain.State.Participants
         public int? MaxAverageSpeedInKmPh { get; internal set; }
         public Horse Horse { get; internal set; }
         public Athlete Athlete { get; internal set; }
-        public Participation Participation { get; private set; }
+        public Participation Participation { get; private set; } = new();
 
         public void ParticipateIn(Competition competition)
         {
-            if (this.Participation == null)
-            {
-                this.Participation = new Participation(competition);
-            }
-            else
-            {
-                this.Participation.Add(competition);
-            }
+            this.Participation.Add(competition);
         }
 
         public string Name => string.Format(NAME_FORMAT, this.Athlete.Name, this.Horse.Name);

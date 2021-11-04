@@ -1,4 +1,6 @@
-﻿using EnduranceJudge.Domain.Aggregates.Manager.Participations;
+﻿using EnduranceJudge.Application.Aggregates.Configurations.Contracts;
+using EnduranceJudge.Domain.Aggregates.Manager;
+using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Services;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participants;
@@ -6,20 +8,21 @@ using Prism.Commands;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Printing;
 using System.Windows;
-using static EnduranceJudge.Localization.Strings.Desktop;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager
 {
-    public class ManagerViewModel : ViewModelBase
+    public class ContestManagerViewModel : ViewModelBase
     {
         private static readonly DateTime Today = DateTime.Today;
         private readonly IDomainHandler domainHandler;
+        private readonly IQueries<Participant> participants;
 
-        public ManagerViewModel(IDomainHandler domainHandler)
+        public ContestManagerViewModel(IDomainHandler domainHandler, IQueries<Participant> participants)
         {
             this.domainHandler = domainHandler;
+            this.participants = participants;
             this.Update = new DelegateCommand(this.UpdateAction);
             this.Start = new DelegateCommand(this.StartAction);
             this.Complete = new DelegateCommand(this.CompleteAction);
@@ -41,84 +44,52 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager
 
         private void StartAction()
         {
-            throw new NotImplementedException();
+            var manager = new ContestManager();
+            manager.Start();
         }
         private void UpdateAction()
         {
-            var participation = this.SelectParticipation();
-            var time = this.InputTime;
-            this.Act(participation, x => x.UpdateProgress(time));
+            this.domainHandler.Handle(() =>
+            {
+                var manager = new ContestManager();
+                manager.UpdatePerformance(this.InputNumber, this.InputTime);
+            });
+            this.LoadParticipation();
         }
         private void CompleteAction()
         {
-            var participation = this.SelectParticipation();
-            this.Act(participation, x => x.CompleteSuccessful());
+            this.domainHandler.Handle(() =>
+            {
+                var manager = new ContestManager();
+                manager.CompletePerformance(this.InputNumber);
+            });
+            this.LoadParticipation();
         }
         private void CompleteUnsuccessfulAction()
         {
-            var participation = this.SelectParticipation();
-            this.Act(participation, x => x.CompleteUnsuccessful(this.DeQualificationCode));
+            this.domainHandler.Handle(() =>
+            {
+                var manager = new ContestManager();
+                manager.CompletePerformance(this.InputNumber, this.DeQualificationCode);
+            });
+            this.LoadParticipation();
         }
 
-        private Participation SelectParticipation()
+        private void LoadParticipation()
         {
-            this.CollapseParticipations();
-            var participation = this.GetParticipation();
-            if (participation == null)
-            {
-                this.ValidationError(PARTICIPANT_NOT_FOUND);
-                return default;
-            }
-            if (participation.IsComplete)
-            {
-                this.ValidationError(PARTICIPANT_HAS_COMPLETED_THE_PHASE);
-                return default;
-            }
+            var participant = this.participants.GetOne(x => x.Number == this.InputNumber);
+            var participationViewModel = new ParticipantViewModel(this.InputNumber, participant.Participation);
 
-            return participation;
-        }
-
-        private void CollapseParticipations()
-        {
             foreach (var participation in this.Participations)
             {
                 participation.Visibility = Visibility.Collapsed;
             }
-        }
-
-        private Participation GetParticipation()
-        {
-            var viewItem = this.Participations.FirstOrDefault(x => x.Number == this.InputNumber);
-            Participation participation;
-            if (viewItem != null)
+            var existing = this.Participations.FirstOrDefault(x => x.Number == this.InputNumber);
+            if (existing != null)
             {
-                this.Participations.Remove(viewItem);
-                participation = viewItem.Participation;
+                this.Participations.Remove(existing);
             }
-            else
-            {
-                // var query = new GetParticipation
-                // {
-                //     Number = this.InputNumber,
-                // };
-                // participation = this.application.Execute(query).Result;
-                participation = default;
-            }
-
-            return participation;
-        }
-
-        private async Task Act(Participation participation, Action<Participation> update)
-        {
-            var isValid = this.domainHandler.Handle(() => update(participation));
-            if (isValid)
-            {
-                // var command = new UpdateParticipation(participation);
-                // await this.application.Execute(command);
-                //
-                // var viewModel = new ParticipationViewModel(this.InputNumber, participation);
-                // this.Participations.Add(viewModel);
-            }
+            this.Participations.Insert(0, participationViewModel);
         }
 
         public int InputNumber

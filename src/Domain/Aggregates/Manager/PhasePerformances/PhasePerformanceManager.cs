@@ -37,21 +37,24 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.PhasePerformances
             {
                 this.Throw<PhasePerformanceException>(IS_COMPLETE);
             }
+            if (this.performance.InspectionTime.HasValue && this.performance.ReInspectionTime.HasValue)
+            {
+                this.Throw<PhasePerformanceException>(CAN_ONLY_BE_COMPLETED);
+            }
 
             if (this.performance.ArrivalTime == null)
             {
-                this.performance.ArrivalTime = time;
+                this.Arrive(time);
             }
             else if (this.performance.InspectionTime == null)
             {
-                this.performance.InspectionTime = time;
+                this.Inspect(time);
             }
             else if (this.performance.ReInspectionTime == null)
             {
-                this.performance.ReInspectionTime = time;
+                this.ReInspect(time);
             }
         }
-
         internal void Complete()
         {
             this.Validate<PhasePerformanceException>(() =>
@@ -65,6 +68,48 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.PhasePerformances
         internal void CompleteUnsuccessful(string code)
         {
             this.performance.Result = new PhaseResult(code);
+        }
+
+        private void Arrive(DateTime time)
+        {
+            if (time <= this.performance.StartTime)
+            {
+                var message = string.Format(
+                    DATE_TIME_HAS_TO_BE_LATER_TEMPLATE,
+                    nameof(this.performance.ArrivalTime),
+                    nameof(this.performance.StartTime));
+                this.Throw<PhasePerformanceException>(message);
+            }
+
+            this.performance.ArrivalTime = time;
+        }
+
+        private void Inspect(DateTime time)
+        {
+            if (time <= this.performance.ArrivalTime)
+            {
+                var message = string.Format(
+                    DATE_TIME_HAS_TO_BE_LATER_TEMPLATE,
+                    nameof(this.performance.InspectionTime),
+                    nameof(this.performance.ArrivalTime));
+                this.Throw<PhasePerformanceException>(message);
+            }
+
+            this.performance.InspectionTime = time;
+        }
+
+        private void ReInspect(DateTime time)
+        {
+            if (time <= this.performance.InspectionTime)
+            {
+                var message = string.Format(
+                    DATE_TIME_HAS_TO_BE_LATER_TEMPLATE,
+                    nameof(this.performance.ReInspectionTime),
+                    nameof(this.performance.InspectionTime));
+                this.Throw<PhasePerformanceException>(message);
+            }
+
+            this.performance.ReInspectionTime = time;
         }
     }
 }

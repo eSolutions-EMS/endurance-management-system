@@ -47,8 +47,8 @@ namespace EnduranceJudge.Gateways.Desktop.Services.Implementations
                 this.Error(SELECT_WORK_DIRECTORY);
                 return;
             }
-            this.ChangeTo<ManagerView>();
-            this.ChangeTo<ParticipantListView>(Regions.CONTENT_RIGHT);
+            this.ChangeTo<ContestManagerView>();
+            // this.ChangeTo<ParticipantListView>(Regions.CONTENT_RIGHT);
         }
         public void NavigateToRanking()
         {

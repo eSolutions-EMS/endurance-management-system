@@ -1,5 +1,4 @@
 ﻿using EnduranceJudge.Application.Aggregates.Configurations.Contracts;
-using EnduranceJudge.Application.Contracts;
 using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Core.Utilities;
 using EnduranceJudge.Domain.Core.Models;
@@ -18,7 +17,6 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core
         where TDomain : IDomainObject
     {
         private readonly IQueries<TDomain> queries;
-        private readonly IPersistence persistence;
         protected INavigationService Navigation { get; }
         protected IDomainHandler DomainHandler { get; }
 
@@ -27,7 +25,6 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core
             this.queries = queries;
             this.Navigation = StaticProvider.GetService<INavigationService>();
             this.DomainHandler = StaticProvider.GetService<IDomainHandler>();
-            this.persistence = StaticProvider.GetService<IPersistence>();
 
             this.BoolItems = SimpleListItemViewModel.FromBool();
 
@@ -61,7 +58,6 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core
         private void SubmitAction() => this.DomainHandler.Handle(() =>
         {
             this.ActOnSubmit();
-            this.persistence.Snapshot();
             this.NavigateBackAction();
         });
 

@@ -7,6 +7,7 @@ using EnduranceJudge.Domain.State.PhasePerformances;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static EnduranceJudge.Localization.Strings.Domain.Manager.Participation;
 
 namespace EnduranceJudge.Domain.Aggregates.Manager.Participations
 {
@@ -18,7 +19,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participations
 
         internal ParticipationManager(Participant participant)
         {
-            this.ParticipantId = participant.Id;
+            this.Number = participant.Number;
             this.participation = participant.Participation;
             this.competition = this.participation.Competitions.First();
 
@@ -30,9 +31,9 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participations
         }
 
         public PhasePerformanceManager CurrentPerformanceManager
-            => this.performanceManagers.Last();
+            => this.performanceManagers.LastOrDefault();
 
-        public int ParticipantId { get; }
+        public int Number { get; }
 
         internal void Start()
         {
@@ -42,6 +43,10 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participations
         }
         internal void UpdatePerformance(DateTime time)
         {
+            if (this.CurrentPerformanceManager == null)
+            {
+                this.Throw<ParticipationException>(HAS_NOT_STARTED);
+            }
             this.CurrentPerformanceManager.Update(time);
         }
         internal void CompletePerformance()
@@ -76,6 +81,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participations
             }
 
             var performance = new PhasePerformance(phase, startTime);
+            this.participation.Add(performance);
             var manager = new PhasePerformanceManager(performance);
             this.performanceManagers.Add(manager);
         }

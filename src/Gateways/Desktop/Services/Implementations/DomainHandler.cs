@@ -1,4 +1,5 @@
-﻿using EnduranceJudge.Gateways.Desktop.Core.Objects;
+﻿using EnduranceJudge.Application.Contracts;
+using EnduranceJudge.Gateways.Desktop.Core.Objects;
 using Prism.Events;
 using System;
 
@@ -7,10 +8,12 @@ namespace EnduranceJudge.Gateways.Desktop.Services.Implementations
     public class DomainHandler : IDomainHandler
     {
         private readonly IEventAggregator eventAggregator;
+        private readonly IPersistence persistence;
 
-        public DomainHandler(IEventAggregator eventAggregator)
+        public DomainHandler(IEventAggregator eventAggregator, IPersistence persistence)
         {
             this.eventAggregator = eventAggregator;
+            this.persistence = persistence;
         }
 
         public bool Handle(Action action)
@@ -18,6 +21,7 @@ namespace EnduranceJudge.Gateways.Desktop.Services.Implementations
             try
             {
                 action();
+                this.persistence.Snapshot();
             }
             catch (Exception exception)
             {

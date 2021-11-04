@@ -3,9 +3,9 @@ using System.Windows.Controls;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager
 {
-    public partial class ManagerView : UserControl, IView
+    public partial class ContestManagerView : UserControl, IView
     {
-        public ManagerView()
+        public ContestManagerView()
         {
             InitializeComponent();
         }
