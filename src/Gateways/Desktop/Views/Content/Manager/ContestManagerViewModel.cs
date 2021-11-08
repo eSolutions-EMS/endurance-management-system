@@ -15,12 +15,12 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager
     public class ContestManagerViewModel : ViewModelBase
     {
         private static readonly DateTime Today = DateTime.Today;
-        private readonly IDomainHandler<ContestManager> domainHandler;
+        private readonly IDomainExecutor<ContestManager> domainExecutor;
         private readonly IQueries<Participant> participants;
 
-        public ContestManagerViewModel(IDomainHandler<ContestManager> domainHandler, IQueries<Participant> participants)
+        public ContestManagerViewModel(IDomainExecutor<ContestManager> domainExecutor, IQueries<Participant> participants)
         {
-            this.domainHandler = domainHandler;
+            this.domainExecutor = domainExecutor;
             this.participants = participants;
             this.Update = new DelegateCommand(this.UpdateAction);
             this.Start = new DelegateCommand(this.StartAction);
@@ -44,24 +44,24 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager
 
         private void StartAction()
         {
-            this.domainHandler.Write(manager => manager.Start());
+            this.domainExecutor.Write(manager => manager.Start());
             this.StartVisibility = Visibility.Collapsed;
         }
         private void UpdateAction()
         {
-            this.domainHandler.Write(manager
+            this.domainExecutor.Write(manager
                 => manager.UpdatePerformance(this.InputNumber, this.InputTime));
             this.LoadParticipation();
         }
         private void CompleteAction()
         {
-            this.domainHandler.Write(manager
+            this.domainExecutor.Write(manager
                 => manager.CompletePerformance(this.InputNumber));
             this.LoadParticipation();
         }
         private void CompleteUnsuccessfulAction()
         {
-            this.domainHandler.Write(manager
+            this.domainExecutor.Write(manager
                 => manager.CompletePerformance(this.InputNumber, this.DeQualificationCode));
             this.LoadParticipation();
         }

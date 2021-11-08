@@ -41,7 +41,11 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participations
             {
                 this.Throw<ParticipationException>(HAS_ALREADY_STARTED);
             }
-            var firstPhase = this.competition.Phases.First();
+            var firstPhase = this.competition.Phases.FirstOrDefault();
+            if (firstPhase == null)
+            {
+                this.Throw<ParticipantException>(CANNOT_START_COMPETITION_WITHOUT_PHASES);
+            }
             var phaseEntry = new PhasePerformance(firstPhase, this.competition.StartTime);
             this.participation.Add(phaseEntry);
         }

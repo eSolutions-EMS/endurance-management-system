@@ -1,17 +1,15 @@
 ﻿using EnduranceJudge.Core.ConventionalServices;
-using EnduranceJudge.Gateways.Desktop.Core.Objects;
-using Prism.Events;
 using System;
 
 namespace EnduranceJudge.Gateways.Desktop.Services
 {
     public class DomainReader : IDomainReader
     {
-        private readonly IEventAggregator eventAggregator;
+        private readonly IErrorHandler errorHandler;
 
-        public DomainReader(IEventAggregator eventAggregator)
+        public DomainReader(IErrorHandler errorHandler)
         {
-            this.eventAggregator = eventAggregator;
+            this.errorHandler = errorHandler;
         }
 
         public void Read(Action action)
@@ -22,25 +20,8 @@ namespace EnduranceJudge.Gateways.Desktop.Services
             }
             catch (Exception exception)
             {
-                this.Handle(exception);
+                this.errorHandler.Handle(exception);
             }
-        }
-
-        protected void Handle(Exception exception)
-        {
-            exception = GetInnermostException(exception);
-            this.eventAggregator
-                .GetEvent<ErrorEvent>()
-                .Publish(exception.ToString());
-        }
-
-        protected static Exception GetInnermostException(Exception exception)
-        {
-            if (exception.InnerException != null)
-            {
-                return GetInnermostException(exception.InnerException);
-            }
-            return exception;
         }
     }
 

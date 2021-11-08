@@ -15,8 +15,15 @@ namespace EnduranceJudge.Domain.Aggregates.Manager
         public ContestManager()
         {
             var state = StaticProvider.GetService<IState>();
+            // TODO: remove
+            var competitionTmp = state.Event.Competitions.FirstOrDefault();
             foreach (var participant in state.Participants)
             {
+                // TODO: remove
+                if (participant.Participation.Competitions.Count == 0)
+                {
+                    participant.ParticipateIn(competitionTmp);
+                }
                 var manager = new ParticipationManager(participant);
                 this.participationManagers.Add(manager);
             }

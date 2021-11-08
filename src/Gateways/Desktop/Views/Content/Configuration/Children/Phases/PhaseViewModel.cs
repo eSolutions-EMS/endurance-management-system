@@ -11,7 +11,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.P
 {
     public class PhaseViewModel : RelatedConfigurationBase<PhaseView, Phase>, IPhaseState
     {
-        private readonly IDomainHandler<ConfigurationManager> domainHandler;
+        private readonly IDomainExecutor<ConfigurationManager> domainExecutor;
         private string isFinalText;
         private int isFinalValue;
         private int lengthInKm;
@@ -21,15 +21,15 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.P
 
         private PhaseViewModel() : this(null, null) { }
         public PhaseViewModel(
-            IDomainHandler<ConfigurationManager> domainHandler,
+            IDomainExecutor<ConfigurationManager> domainExecutor,
             IQueries<Phase> phases) : base(phases)
         {
-            this.domainHandler = domainHandler;
+            this.domainExecutor = domainExecutor;
         }
 
         protected override IDomainObject ActOnSubmit()
         {
-            var result = this.domainHandler.Write(manager =>
+            var result = this.domainExecutor.Write(manager =>
             {
                 if (this.ParentId.HasValue)
                 {

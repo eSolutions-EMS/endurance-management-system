@@ -53,7 +53,7 @@ namespace EnduranceJudge.Gateways.Persistence.Contracts
             var state = this.serialization.Deserialize<State>(contents);
             this.state.MapFrom(state);
             // temp
-            var competition = this.state.Event.Competitions.FirstOrDefault();
+            var competition = this.state.Event?.Competitions.FirstOrDefault();
             foreach (var participant in this.state.Participants)
             {
                 if (participant.Participation.Competitions.Count == 0)

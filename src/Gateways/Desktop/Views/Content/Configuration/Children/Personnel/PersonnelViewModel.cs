@@ -14,13 +14,13 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.P
     public class PersonnelViewModel : RelatedConfigurationBase<PersonnelView, Domain.State.Personnels.Personnel>,
         IPersonnelState
     {
-        private readonly IDomainHandler<ConfigurationManager> domainHandler;
+        private readonly IDomainExecutor<ConfigurationManager> domainExecutor;
         private PersonnelViewModel() : this(null, null) {}
         public PersonnelViewModel(
-            IDomainHandler<ConfigurationManager> domainHandler,
+            IDomainExecutor<ConfigurationManager> domainExecutor,
             IQueries<Domain.State.Personnels.Personnel> personnel) : base(personnel)
         {
-            this.domainHandler = domainHandler;
+            this.domainExecutor = domainExecutor;
         }
 
         public ObservableCollection<SimpleListItemViewModel> RoleItems { get; }
@@ -31,7 +31,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.P
 
         protected override IDomainObject ActOnSubmit()
         {
-            var result = this.domainHandler.Write(x =>
+            var result = this.domainExecutor.Write(x =>
                 x.Save(this));
             return result;
         }

@@ -1,10 +1,10 @@
 ﻿using EnduranceJudge.Application.Aggregates.Configurations.Contracts;
-using EnduranceJudge.Application.Core.Models;
 using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Domain.Aggregates.Configuration;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Countries;
 using EnduranceJudge.Domain.State.EnduranceEvents;
+using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
 using EnduranceJudge.Gateways.Desktop.Services;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Competitions;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Personnel;
@@ -18,16 +18,16 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Endu
 {
     public class EnduranceEventViewModel : RelatedConfigurationBase<EnduranceEventView, EnduranceEvent>
     {
-        private readonly IDomainHandler<ConfigurationManager> domainHandler;
+        private readonly IDomainExecutor<ConfigurationManager> domainExecutor;
         private readonly IEnduranceEventQuery enduranceEventQuery;
         private readonly IQueries<Country> countryQueries;
 
         public EnduranceEventViewModel(
-            IDomainHandler<ConfigurationManager> domainHandler,
+            IDomainExecutor<ConfigurationManager> domainExecutor,
             IEnduranceEventQuery enduranceEventQuery,
             IQueries<Country> countryQueries) : base (enduranceEventQuery)
         {
-            this.domainHandler = domainHandler;
+            this.domainExecutor = domainExecutor;
             this.enduranceEventQuery = enduranceEventQuery;
             this.countryQueries = countryQueries;
             this.CreateCompetition = new DelegateCommand(this.NewForm<CompetitionView>);
@@ -36,7 +36,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Endu
 
         public DelegateCommand CreatePersonnel { get; }
         public DelegateCommand CreateCompetition { get; }
-        public ObservableCollection<ListItemModel> CountryItems { get; } = new();
+        public ObservableCollection<SimpleListItemViewModel> Countries { get; } = new();
         public ObservableCollection<PersonnelViewModel> Personnel { get; } = new();
         public ObservableCollection<CompetitionViewModel> Competitions { get; } = new();
 
@@ -55,12 +55,14 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Endu
 
         protected override void Load(int id)
         {
+            this.Personnel.Clear();
+            this.Competitions.Clear();
             var enduranceEvent = this.enduranceEventQuery.Get();
             this.MapFrom(enduranceEvent);
         }
         protected override IDomainObject ActOnSubmit()
         {
-            var result = this.domainHandler.Write(x =>
+            var result = this.domainExecutor.Write(x =>
                 x.Update(this.Name, this.CountryId, this.PopulatedPlace));
             return result;
         }
@@ -83,9 +85,13 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Endu
 
         private void LoadCountries()
         {
+            if (this.Countries.Any())
+            {
+                return;
+            }
             var countries = this.countryQueries.GetAll();
-            var viewModels = countries.Select(x => new ListItemModel { Id = x.Id, Name = x.Name });
-            this.CountryItems.AddRange(viewModels);
+            var viewModels = countries.Select(x => new SimpleListItemViewModel(x.Id, x.Name));
+            this.Countries.AddRange(viewModels);
         }
     }
 }

@@ -18,7 +18,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participants.Lis
             IQueries<Participant> participants,
             IPersistence persistence,
             INavigationService navigation,
-            IDomainHandler<ConfigurationManager> domainReader)
+            IDomainExecutor<ConfigurationManager> domainReader)
             : base(navigation, domainReader, persistence)
         {
             this.AllowCreate = false;

@@ -1,4 +1,5 @@
-﻿using EnduranceJudge.Domain.Core.Extensions;
+﻿using EnduranceJudge.Core.Mappings;
+using EnduranceJudge.Domain.Core.Extensions;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.Core.Validation;
 using EnduranceJudge.Domain.State;
@@ -37,9 +38,25 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
                 competition.Name = state.Name;
                 competition.Type = state.Type;
                 competition.StartTime = state.StartTime;
+                this.UpdateParticipants(competition);
             }
 
             return competition;
+        }
+
+
+        private void UpdateParticipants(Competition competition)
+        {
+            foreach (var participant in this.state.Participants)
+            {
+                foreach (var existingCompetition in participant.Participation.Competitions)
+                {
+                    if (existingCompetition.Equals(competition))
+                    {
+                        existingCompetition.MapFrom(competition);
+                    }
+                }
+            }
         }
     }
 }

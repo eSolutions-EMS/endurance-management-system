@@ -57,8 +57,13 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core
         }
         private void SubmitAction() => this.DomainReader.Read(() =>
         {
-            this.ActOnSubmit();
-            this.NavigateBackAction();
+            var result = this.ActOnSubmit();
+            // Do not back when exception was thrown;
+            // TODO: Improve
+            if (result != null)
+            {
+                this.NavigateBackAction();
+            }
         });
 
         public int Id

@@ -12,16 +12,16 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Hors
 {
     public class HorseListViewModel : SearchableListViewModelBase<HorseView>
     {
-        private readonly IDomainHandler<ConfigurationManager> domainHandler;
+        private readonly IDomainExecutor<ConfigurationManager> domainExecutor;
         private readonly IQueries<Horse> horses;
 
         public HorseListViewModel(
-            IDomainHandler<ConfigurationManager> domainHandler,
+            IDomainExecutor<ConfigurationManager> domainExecutor,
             IQueries<Horse> horses,
             IPersistence persistence,
-            INavigationService navigation) : base(navigation, domainHandler, persistence)
+            INavigationService navigation) : base(navigation, domainExecutor, persistence)
         {
-            this.domainHandler = domainHandler;
+            this.domainExecutor = domainExecutor;
             this.horses = horses;
         }
 

@@ -16,13 +16,13 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.C
 {
     public class CompetitionViewModel : RelatedConfigurationBase<CompetitionView, Competition>, ICompetitionState
     {
-        private readonly IDomainHandler<ConfigurationManager> domainHandler;
+        private readonly IDomainExecutor<ConfigurationManager> domainExecutor;
         public CompetitionViewModel() : this(null, null) { }
         public CompetitionViewModel(
-            IDomainHandler<ConfigurationManager> domainHandler,
+            IDomainExecutor<ConfigurationManager> domainExecutor,
             IQueries<Competition> competitions) : base(competitions)
         {
-            this.domainHandler = domainHandler;
+            this.domainExecutor = domainExecutor;
             this.Toggle = new DelegateCommand(this.ToggleAction);
             this.CreatePhase = new DelegateCommand(this.NewForm<PhaseView>);
         }
@@ -43,7 +43,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.C
 
         protected override IDomainObject ActOnSubmit()
         {
-            var result = this.domainHandler.Write(x =>
+            var result = this.domainExecutor.Write(x =>
                 x.Competitions.Save(this));
             return result;
         }

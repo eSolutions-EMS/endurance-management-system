@@ -21,6 +21,8 @@
                     public const string CANNOT_BE_COMPLETED = "cannot be completed";
                     public const string IS_COMPLETE = "Performance is complete";
                     public const string DATE_TIME_HAS_TO_BE_LATER_TEMPLATE = "{0} has to be later than {1}";
+                    public const string CANNOT_START_COMPETITION_WITHOUT_PHASES =
+                        "cannot start - competition has no phases.";
                 }
             }
 

@@ -156,7 +156,6 @@ namespace EnduranceJudge.Domain.Aggregates.Import
         private static List<Country> GetCountries()
         {
             var bulgaria = new Country("BUL", BULGARIA);
-
             return new List<Country> { bulgaria };
         }
     }

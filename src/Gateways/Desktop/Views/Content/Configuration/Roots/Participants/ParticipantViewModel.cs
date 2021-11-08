@@ -64,12 +64,14 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Part
         {
             var athletes = this.athletes.GetAll();
             var viewModels = athletes.MapEnumerable<SimpleListItemViewModel>();
+            this.AthleteItems.Clear();
             this.AthleteItems.AddRange(viewModels);
         }
         private void LoadHorses()
         {
             var horses = this.horses.GetAll();
             var viewModels = horses.MapEnumerable<SimpleListItemViewModel>();
+            this.HorseItems.Clear();
             this.HorseItems.AddRange(viewModels);
         }
 

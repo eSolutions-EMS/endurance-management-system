@@ -50,7 +50,7 @@ namespace EnduranceJudge.Gateways.Desktop.Startup
                     .WithSingletonLifetime());
 
         private static IServiceCollection AddDesktop(this IServiceCollection services, Assembly[] assemblies)
-            => services.AddTransient(typeof(IDomainHandler<>), typeof(DomainWriter<>));
+            => services.AddTransient(typeof(IDomainExecutor<>), typeof(DomainExecutor<>));
 
         private static IServiceCollection AdaptToDesktop(
             this IServiceCollection services,

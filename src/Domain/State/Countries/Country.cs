@@ -1,4 +1,5 @@
 using EnduranceJudge.Domain.Core.Models;
+using EnduranceJudge.Domain.Core.Validation;
 
 namespace EnduranceJudge.Domain.State.Countries
 {
@@ -7,6 +8,11 @@ namespace EnduranceJudge.Domain.State.Countries
         private Country() {}
         internal Country(string isoCode, string name) : base(GENERATE_ID)
         {
+            this.Validate(() =>
+            {
+                this.IsoCode = isoCode.IsRequired(nameof(isoCode));
+                this.Name = name.IsRequired(nameof(name));
+            });
         }
 
         public string IsoCode { get; private set; }

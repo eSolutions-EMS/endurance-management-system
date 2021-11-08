@@ -69,7 +69,7 @@
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="4" Grid.Column="1" >
                 <ComboBox Style="{StaticResource Combo-Box}"
-                          ItemsSource="{Binding CountryItems}"
+                          ItemsSource="{Binding Countries}"
                           SelectedValue="{Binding CountryId}"/>
             </Border>
 
