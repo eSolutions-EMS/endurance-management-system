@@ -2,7 +2,6 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="Content/Configuration/Roots/EnduranceEvents/Listing/EnduranceEventTemplate.xaml" />
         <ResourceDictionary Source="Content/Configuration/Roots/Horses/Configuration/HorseTemplate.xaml" />
         <ResourceDictionary Source="Content/Configuration/Roots/Athletes/Configuration/AthleteTemplate.xaml" />
         <ResourceDictionary Source="Content/Configuration/Children/Competitions/Configuration/CompetitionTemplate.xaml" />

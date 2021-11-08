@@ -4,6 +4,7 @@ using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.Enums;
 using EnduranceJudge.Domain.State.Personnels;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
+using EnduranceJudge.Gateways.Desktop.Services;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -13,9 +14,13 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.P
     public class PersonnelViewModel : RelatedConfigurationBase<PersonnelView, Domain.State.Personnels.Personnel>,
         IPersonnelState
     {
-        private PersonnelViewModel() : this(null) {}
-        public PersonnelViewModel(IQueries<Domain.State.Personnels.Personnel> personnel) : base(personnel)
+        private readonly IDomainHandler<ConfigurationManager> domainHandler;
+        private PersonnelViewModel() : this(null, null) {}
+        public PersonnelViewModel(
+            IDomainHandler<ConfigurationManager> domainHandler,
+            IQueries<Domain.State.Personnels.Personnel> personnel) : base(personnel)
         {
+            this.domainHandler = domainHandler;
         }
 
         public ObservableCollection<SimpleListItemViewModel> RoleItems { get; }
@@ -26,8 +31,9 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.P
 
         protected override IDomainObject ActOnSubmit()
         {
-            var configuration = new ConfigurationManager();
-            return configuration.Save(this);
+            var result = this.domainHandler.Write(x =>
+                x.Save(this));
+            return result;
         }
 
         public string Name

@@ -13,13 +13,15 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Athl
 {
     public class AthleteListViewModel : SearchableListViewModelBase<AthleteView>
     {
+        private readonly IDomainHandler<ConfigurationManager> domainHandler;
         private readonly IQueries<Athlete> athletes;
         public AthleteListViewModel(
+            IDomainHandler<ConfigurationManager> domainHandler,
             IPersistence persistence,
             IQueries<Athlete> athletes,
-            INavigationService navigation,
-            IDomainHandler<ConfigurationManager> domainReader) : base(navigation, domainReader, persistence)
+            INavigationService navigation) : base(navigation, domainHandler, persistence)
         {
+            this.domainHandler = domainHandler;
             this.athletes = athletes;
         }
 
@@ -32,8 +34,8 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Athl
         }
         protected override void RemoveDomain(int id)
         {
-            var configuration = new ConfigurationManager();
-            configuration.Athletes.Remove(id);
+            this.domainHandler.Write(x =>
+                x.Athletes.Remove(id));
         }
     }
 }

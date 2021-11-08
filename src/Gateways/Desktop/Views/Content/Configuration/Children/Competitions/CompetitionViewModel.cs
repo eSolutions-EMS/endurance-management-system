@@ -4,7 +4,7 @@ using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Competitions;
 using EnduranceJudge.Domain.Enums;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
-using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
+using EnduranceJudge.Gateways.Desktop.Services;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Phases;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core;
 using Prism.Commands;
@@ -16,9 +16,13 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.C
 {
     public class CompetitionViewModel : RelatedConfigurationBase<CompetitionView, Competition>, ICompetitionState
     {
-        public CompetitionViewModel() : this(null) { }
-        public CompetitionViewModel(IQueries<Competition> competitions) : base(competitions)
+        private readonly IDomainHandler<ConfigurationManager> domainHandler;
+        public CompetitionViewModel() : this(null, null) { }
+        public CompetitionViewModel(
+            IDomainHandler<ConfigurationManager> domainHandler,
+            IQueries<Competition> competitions) : base(competitions)
         {
+            this.domainHandler = domainHandler;
             this.Toggle = new DelegateCommand(this.ToggleAction);
             this.CreatePhase = new DelegateCommand(this.NewForm<PhaseView>);
         }
@@ -39,8 +43,9 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.C
 
         protected override IDomainObject ActOnSubmit()
         {
-            var configuration = new ConfigurationManager();
-            return configuration.Competitions.Save(this);
+            var result = this.domainHandler.Write(x =>
+                x.Competitions.Save(this));
+            return result;
         }
 
         private void ToggleAction()

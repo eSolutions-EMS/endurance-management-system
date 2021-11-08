@@ -3,6 +3,7 @@ using EnduranceJudge.Domain.Aggregates.Configuration;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Phases;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
+using EnduranceJudge.Gateways.Desktop.Services;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core;
 using EnduranceJudge.Localization;
 
@@ -10,6 +11,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.P
 {
     public class PhaseViewModel : RelatedConfigurationBase<PhaseView, Phase>, IPhaseState
     {
+        private readonly IDomainHandler<ConfigurationManager> domainHandler;
         private string isFinalText;
         private int isFinalValue;
         private int lengthInKm;
@@ -17,22 +19,28 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.P
         private int maxRecoveryTimeInMinutes;
         private int restTimeInMinutes;
 
-        private PhaseViewModel() : this(null) { }
-        public PhaseViewModel(IQueries<Phase> phases) : base(phases)
+        private PhaseViewModel() : this(null, null) { }
+        public PhaseViewModel(
+            IDomainHandler<ConfigurationManager> domainHandler,
+            IQueries<Phase> phases) : base(phases)
         {
+            this.domainHandler = domainHandler;
         }
 
         protected override IDomainObject ActOnSubmit()
         {
-            var configuration = new ConfigurationManager();
-            if (this.ParentId.HasValue)
+            var result = this.domainHandler.Write(manager =>
             {
-                return configuration.Phases.Create(this.ParentId.Value, this);
-            }
-            else
-            {
-                return configuration.Phases.Update(this);
-            }
+                if (this.ParentId.HasValue)
+                {
+                    return manager.Phases.Create(this.ParentId.Value, this);
+                }
+                else
+                {
+                    return manager.Phases.Update(this);
+                }
+            });
+            return result;
         }
 
         public int IsFinalValue

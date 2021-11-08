@@ -5,6 +5,7 @@ using EnduranceJudge.Domain.Aggregates.Configuration;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Countries;
 using EnduranceJudge.Domain.State.EnduranceEvents;
+using EnduranceJudge.Gateways.Desktop.Services;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Competitions;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Personnel;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core;
@@ -17,12 +18,16 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Endu
 {
     public class EnduranceEventViewModel : RelatedConfigurationBase<EnduranceEventView, EnduranceEvent>
     {
+        private readonly IDomainHandler<ConfigurationManager> domainHandler;
         private readonly IEnduranceEventQuery enduranceEventQuery;
         private readonly IQueries<Country> countryQueries;
 
-        public EnduranceEventViewModel(IEnduranceEventQuery enduranceEventQuery, IQueries<Country> countryQueries)
-            : base (enduranceEventQuery)
+        public EnduranceEventViewModel(
+            IDomainHandler<ConfigurationManager> domainHandler,
+            IEnduranceEventQuery enduranceEventQuery,
+            IQueries<Country> countryQueries) : base (enduranceEventQuery)
         {
+            this.domainHandler = domainHandler;
             this.enduranceEventQuery = enduranceEventQuery;
             this.countryQueries = countryQueries;
             this.CreateCompetition = new DelegateCommand(this.NewForm<CompetitionView>);
@@ -55,8 +60,9 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Endu
         }
         protected override IDomainObject ActOnSubmit()
         {
-            var configuration = new ConfigurationManager();
-            return configuration.Update(this.Name, this.CountryId, this.PopulatedPlace);
+            var result = this.domainHandler.Write(x =>
+                x.Update(this.Name, this.CountryId, this.PopulatedPlace));
+            return result;
         }
 
         public string Name

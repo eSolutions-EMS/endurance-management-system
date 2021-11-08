@@ -3,15 +3,19 @@ using EnduranceJudge.Core.Models;
 using EnduranceJudge.Domain.Aggregates.Configuration;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Horses;
-using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
+using EnduranceJudge.Gateways.Desktop.Services;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Horses
 {
     public class HorseViewModel : ConfigurationBase<HorseView, Horse>, IHorseState, IListable
     {
-        private HorseViewModel(IQueries<Horse> horses) : base(horses)
+        private readonly IDomainHandler<ConfigurationManager> domainHandler;
+        private HorseViewModel(
+            IQueries<Horse> horses,
+            IDomainHandler<ConfigurationManager> domainHandler) : base(horses)
         {
+            this.domainHandler = domainHandler;
         }
 
         private int isStallionValue;
@@ -25,8 +29,9 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Hors
 
         protected override IDomainObject ActOnSubmit()
         {
-            var configurations = new ConfigurationManager();
-            return configurations.Horses.Save(this);
+            var result = this.domainHandler.Write(x =>
+                x.Horses.Save(this));
+            return result;
         }
 
         public string FeiId

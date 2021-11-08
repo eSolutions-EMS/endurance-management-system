@@ -3,6 +3,7 @@ using EnduranceJudge.Core;
 using EnduranceJudge.Gateways.Desktop.Core.Objects;
 using EnduranceJudge.Core.Services;
 using EnduranceJudge.Domain;
+using EnduranceJudge.Gateways.Desktop.Services;
 using EnduranceJudge.Gateways.Persistence;
 using EnduranceJudge.Gateways.Persistence.Startup;
 using Microsoft.Extensions.DependencyInjection;
@@ -35,6 +36,7 @@ namespace EnduranceJudge.Gateways.Desktop.Startup
             return services
                 .AddCore(assemblies)
                 .AddPersistence(assemblies)
+                .AddDesktop(assemblies)
                 .AddInitializers(assemblies);
         }
 
@@ -46,6 +48,9 @@ namespace EnduranceJudge.Gateways.Desktop.Startup
                         classes.AssignableTo<IInitializer>())
                     .AsSelfWithInterfaces()
                     .WithSingletonLifetime());
+
+        private static IServiceCollection AddDesktop(this IServiceCollection services, Assembly[] assemblies)
+            => services.AddTransient(typeof(IDomainHandler<>), typeof(DomainWriter<>));
 
         private static IServiceCollection AdaptToDesktop(
             this IServiceCollection services,

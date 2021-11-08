@@ -1,5 +1,4 @@
 ﻿using EnduranceJudge.Core.ConventionalServices;
-using System;
 
 namespace EnduranceJudge.Gateways.Desktop.Services
 {
