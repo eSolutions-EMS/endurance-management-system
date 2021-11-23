@@ -12,16 +12,16 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Hors
 {
     public class HorseListViewModel : SearchableListViewModelBase<HorseView>
     {
-        private readonly IDomainExecutor<ConfigurationManager> domainExecutor;
+        private readonly ConfigurationManager manager;
         private readonly IQueries<Horse> horses;
 
         public HorseListViewModel(
-            IDomainExecutor<ConfigurationManager> domainExecutor,
+            ConfigurationManager manager,
             IQueries<Horse> horses,
             IPersistence persistence,
-            INavigationService navigation) : base(navigation, domainExecutor, persistence)
+            INavigationService navigation) : base(navigation, persistence)
         {
-            this.domainExecutor = domainExecutor;
+            this.manager = manager;
             this.horses = horses;
         }
 
@@ -34,8 +34,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Hors
         }
         protected override void RemoveDomain(int id)
         {
-            var configurations = new ConfigurationManager();
-            configurations.Horses.Remove(id);
+            this.manager.Horses.Remove(id);
         }
     }
 }

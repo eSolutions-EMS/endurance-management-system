@@ -15,12 +15,12 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager
     public class ContestManagerViewModel : ViewModelBase
     {
         private static readonly DateTime Today = DateTime.Today;
-        private readonly IDomainExecutor<ContestManager> domainExecutor;
+        private readonly IExecutor<ContestManager> executor;
         private readonly IQueries<Participant> participants;
 
-        public ContestManagerViewModel(IDomainExecutor<ContestManager> domainExecutor, IQueries<Participant> participants)
+        public ContestManagerViewModel(IExecutor<ContestManager> executor, IQueries<Participant> participants)
         {
-            this.domainExecutor = domainExecutor;
+            this.executor = executor;
             this.participants = participants;
             this.Update = new DelegateCommand(this.UpdateAction);
             this.Start = new DelegateCommand(this.StartAction);
@@ -44,24 +44,24 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager
 
         private void StartAction()
         {
-            this.domainExecutor.Write(manager => manager.Start());
+            this.executor.Execute(manager => manager.Start());
             this.StartVisibility = Visibility.Collapsed;
         }
         private void UpdateAction()
         {
-            this.domainExecutor.Write(manager
+            this.executor.Execute(manager
                 => manager.UpdatePerformance(this.InputNumber, this.InputTime));
             this.LoadParticipation();
         }
         private void CompleteAction()
         {
-            this.domainExecutor.Write(manager
+            this.executor.Execute(manager
                 => manager.CompletePerformance(this.InputNumber));
             this.LoadParticipation();
         }
         private void CompleteUnsuccessfulAction()
         {
-            this.domainExecutor.Write(manager
+            this.executor.Execute(manager
                 => manager.CompletePerformance(this.InputNumber, this.DeQualificationCode));
             this.LoadParticipation();
         }

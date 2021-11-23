@@ -1,8 +1,8 @@
 ﻿using EnduranceJudge.Application.Contracts;
 using EnduranceJudge.Application.Core.Models;
+using EnduranceJudge.Core.Utilities;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem;
 using EnduranceJudge.Gateways.Desktop.Services;
-using EnduranceJudge.Gateways.Desktop.Services.Implementations;
 using Prism.Commands;
 using System;
 using System.Collections.Generic;
@@ -14,14 +14,10 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
     public abstract class ListViewModelBase<TView> : ViewModelBase
         where TView : IView
     {
-        private readonly IDomainReader domainReader;
         private readonly IPersistence persistence;
-        protected ListViewModelBase(
-            INavigationService navigation,
-            IDomainReader domainReader,
-            IPersistence persistence)
+        protected ListViewModelBase(INavigationService navigation, IPersistence persistence)
         {
-            this.domainReader = domainReader;
+            this.Executor = StaticProvider.GetService<IBasicExecutor>();
             this.persistence = persistence;
             this.Navigation = navigation;
             this.Create = new DelegateCommand(this.CreateAction);
@@ -30,6 +26,7 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
         protected bool AllowDelete { get; init; } = true;
         protected bool AllowCreate { get; init; } = true;
         protected INavigationService Navigation { get; }
+        protected IBasicExecutor Executor { get; }
 
         public ObservableCollection<ListItemViewModel> ListItems { get; protected init; }
             = new (Enumerable.Empty<ListItemViewModel>());
@@ -48,7 +45,7 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
             throw new NotImplementedException();
         }
 
-        protected virtual void Load() => this.domainReader.Read(() =>
+        protected virtual void Load() => this.Executor.Execute(() =>
         {
             var eventsList = this.LoadData();
 
@@ -70,7 +67,7 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
         {
             this.Navigation.ChangeToUpdateConfiguration<TView>(id!.Value);
         }
-        protected virtual void RemoveAction(int? id) => this.domainReader.Read(() =>
+        protected virtual void RemoveAction(int? id) => this.Executor.Execute(() =>
         {
             if (this.AllowDelete)
             {

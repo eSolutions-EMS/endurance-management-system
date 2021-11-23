@@ -4,53 +4,53 @@ using System;
 
 namespace EnduranceJudge.Gateways.Desktop.Services
 {
-    public class DomainExecutor<T> : DomainReader, IDomainExecutor<T>
-        where T : IAggregateRoot, new()
+    public class Executor<T> : IExecutor<T>
     {
+        private readonly T service;
         private readonly IErrorHandler errorHandler;
         private readonly IPersistence persistence;
 
-        public DomainExecutor(IErrorHandler errorHandler, IPersistence persistence) : base(errorHandler)
+        public Executor(T service, IErrorHandler errorHandler, IPersistence persistence)
         {
+            this.service = service;
             this.errorHandler = errorHandler;
             this.persistence = persistence;
         }
 
-        public void Write(Action<T> action)
+        public bool Execute(Action<T> action)
         {
             try
             {
-                var manager = new T();
-                action(manager);
+                action(this.service);
                 this.persistence.Snapshot();
+                return true;
             }
             catch (Exception exception)
             {
                 this.errorHandler.Handle(exception);
+                return false;
             }
         }
 
-        public IDomainObject Write(Func<T, IDomainObject> action)
+        public (bool, IDomainObject) Execute(Func<T, IDomainObject> action)
         {
             try
             {
-                var manager = new T();
-                var result = action(manager);
+                var result = action(this.service);
                 this.persistence.Snapshot();
-                return result;
+                return (true, result);
             }
             catch (Exception exception)
             {
                 this.errorHandler.Handle(exception);
-                return null;
+                return (false, null);
             }
         }
     }
 
-    public interface IDomainExecutor<T> : IDomainReader
-        where T : IAggregateRoot, new()
+    public interface IExecutor<T>
     {
-        public void Write(Action<T> action);
-        public IDomainObject Write(Func<T, IDomainObject> action);
+        bool Execute(Action<T> action);
+        (bool, IDomainObject) Execute(Func<T, IDomainObject> action);
     }
 }

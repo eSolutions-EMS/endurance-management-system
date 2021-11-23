@@ -16,13 +16,14 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.C
 {
     public class CompetitionViewModel : RelatedConfigurationBase<CompetitionView, Competition>, ICompetitionState
     {
-        private readonly IDomainExecutor<ConfigurationManager> domainExecutor;
+        private readonly ConfigurationManager configuration;
+        private readonly IExecutor<ConfigurationManager> executor;
         public CompetitionViewModel() : this(null, null) { }
         public CompetitionViewModel(
-            IDomainExecutor<ConfigurationManager> domainExecutor,
+            ConfigurationManager configuration,
             IQueries<Competition> competitions) : base(competitions)
         {
-            this.domainExecutor = domainExecutor;
+            this.configuration = configuration;
             this.Toggle = new DelegateCommand(this.ToggleAction);
             this.CreatePhase = new DelegateCommand(this.NewForm<PhaseView>);
         }
@@ -41,10 +42,9 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.C
         private string toggleText = "Expand";
         private Visibility toggleVisibility = Visibility.Collapsed;
 
-        protected override IDomainObject ActOnSubmit()
+        protected override IDomainObject Persist()
         {
-            var result = this.domainExecutor.Write(x =>
-                x.Competitions.Save(this));
+            var result = this.configuration.Competitions.Save(this);
             return result;
         }
 

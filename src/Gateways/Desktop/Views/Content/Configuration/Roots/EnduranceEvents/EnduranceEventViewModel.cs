@@ -5,7 +5,6 @@ using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Countries;
 using EnduranceJudge.Domain.State.EnduranceEvents;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
-using EnduranceJudge.Gateways.Desktop.Services;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Competitions;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Personnel;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core;
@@ -18,16 +17,16 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Endu
 {
     public class EnduranceEventViewModel : RelatedConfigurationBase<EnduranceEventView, EnduranceEvent>
     {
-        private readonly IDomainExecutor<ConfigurationManager> domainExecutor;
+        private readonly ConfigurationManager manager;
         private readonly IEnduranceEventQuery enduranceEventQuery;
         private readonly IQueries<Country> countryQueries;
 
         public EnduranceEventViewModel(
-            IDomainExecutor<ConfigurationManager> domainExecutor,
+            ConfigurationManager manager,
             IEnduranceEventQuery enduranceEventQuery,
             IQueries<Country> countryQueries) : base (enduranceEventQuery)
         {
-            this.domainExecutor = domainExecutor;
+            this.manager = manager;
             this.enduranceEventQuery = enduranceEventQuery;
             this.countryQueries = countryQueries;
             this.CreateCompetition = new DelegateCommand(this.NewForm<CompetitionView>);
@@ -60,10 +59,9 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Endu
             var enduranceEvent = this.enduranceEventQuery.Get();
             this.MapFrom(enduranceEvent);
         }
-        protected override IDomainObject ActOnSubmit()
+        protected override IDomainObject Persist()
         {
-            var result = this.domainExecutor.Write(x =>
-                x.Update(this.Name, this.CountryId, this.PopulatedPlace));
+            var result = this.manager.Update(this.Name, this.CountryId, this.PopulatedPlace);
             return result;
         }
 

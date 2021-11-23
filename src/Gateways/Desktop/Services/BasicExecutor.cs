@@ -3,30 +3,32 @@ using System;
 
 namespace EnduranceJudge.Gateways.Desktop.Services
 {
-    public class DomainReader : IDomainReader
+    public class BasicExecutor : IBasicExecutor
     {
         private readonly IErrorHandler errorHandler;
 
-        public DomainReader(IErrorHandler errorHandler)
+        public BasicExecutor(IErrorHandler errorHandler)
         {
             this.errorHandler = errorHandler;
         }
 
-        public void Read(Action action)
+        public bool Execute(Action action)
         {
             try
             {
                 action();
+                return true;
             }
             catch (Exception exception)
             {
                 this.errorHandler.Handle(exception);
+                return false;
             }
         }
     }
 
-    public interface IDomainReader : IService
+    public interface IBasicExecutor : IService
     {
-        public void Read(Action action);
+        public bool Execute(Action action);
     }
 }

@@ -11,7 +11,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Import
 {
     public class ImportViewModel : ViewModelBase
     {
-        private readonly IServiceExecutor serviceExecutor;
+        private readonly IExecutor<IImportService> importExecutor;
         private readonly IApplicationContext context;
         private readonly IStorageInitializer storageInitializer;
         private readonly IImportService importService;
@@ -19,14 +19,14 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Import
         private readonly INavigationService navigation;
 
         public ImportViewModel(
-            IServiceExecutor serviceExecutor,
+            IExecutor<IImportService> importExecutor,
             IApplicationContext context,
             IStorageInitializer storageInitializer,
             IImportService importService,
             IExplorerService explorer,
             INavigationService navigation)
         {
-            this.serviceExecutor = serviceExecutor;
+            this.importExecutor = importExecutor;
             this.context = context;
             this.storageInitializer = storageInitializer;
             this.importService = importService;
@@ -105,11 +105,12 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Import
             }
 
             this.ImportFilePath = path;
-            this.serviceExecutor.Execute(() =>
-                this.importService.Import(path));
-
-            this.context.Initialize();
-            this.Redirect();
+            var isSuccessful = this.importExecutor.Execute(x => x.Import(path));
+            if (isSuccessful)
+            {
+                this.context.Initialize();
+                this.Redirect();
+            }
         }
 
         private void Redirect()

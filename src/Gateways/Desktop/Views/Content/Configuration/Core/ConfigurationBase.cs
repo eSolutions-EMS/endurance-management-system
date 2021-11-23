@@ -18,13 +18,13 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core
     {
         private readonly IQueries<TDomain> queries;
         protected INavigationService Navigation { get; }
-        protected IDomainReader DomainReader { get; }
+        protected IBasicExecutor Executor { get; }
 
         protected ConfigurationBase(IQueries<TDomain> queries)
         {
             this.queries = queries;
             this.Navigation = StaticProvider.GetService<INavigationService>();
-            this.DomainReader = StaticProvider.GetService<IDomainReader>();
+            this.Executor = StaticProvider.GetService<IBasicExecutor>();
 
             this.BoolItems = SimpleListItemViewModel.FromBool();
 
@@ -38,7 +38,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core
         private readonly int id;
         public List<SimpleListItemViewModel> BoolItems { get; }
 
-        protected abstract IDomainObject ActOnSubmit();
+        protected abstract IDomainObject Persist();
 
         public override void OnNavigatedTo(NavigationContext context)
         {
@@ -55,15 +55,10 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core
             var domainObject = this.queries.GetOne(id);
             this.MapFrom(domainObject);
         }
-        private void SubmitAction() => this.DomainReader.Read(() =>
+        private void SubmitAction() => this.Executor.Execute(() =>
         {
-            var result = this.ActOnSubmit();
-            // Do not back when exception was thrown;
-            // TODO: Improve
-            if (result != null)
-            {
-                this.NavigateBackAction();
-            }
+            this.Persist();
+            this.NavigateBackAction();
         });
 
         public int Id

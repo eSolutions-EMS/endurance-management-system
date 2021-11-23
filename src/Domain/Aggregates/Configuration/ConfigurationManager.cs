@@ -27,14 +27,25 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
         {
             this.Validate<EnduranceEventException>(() =>
             {
-                this.state.Event.Name = name.IsRequired(NAME);
-                this.state.Event.PopulatedPlace = populatedPlace.IsRequired(POPULATED_PLACE);
-
+                name.IsRequired(NAME);
+                populatedPlace.IsRequired(POPULATED_PLACE);
                 countryId.IsRequired(COUNTRY);
-                var country = this.state.Countries.FindDomain(countryId);
-                this.state.Event.Country = country;
             });
 
+            var country = this.state.Countries.FindDomain(countryId);
+            if (this.state.Event == null)
+            {
+                this.state.Event = new EnduranceEvent(name, country)
+                {
+                    PopulatedPlace = populatedPlace,
+                };
+            }
+            else
+            {
+                this.state.Event.Name = name;
+                this.state.Event.PopulatedPlace = populatedPlace;
+                this.state.Event.Country = country;
+            }
             return this.state.Event;
         }
 

@@ -1,5 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<xs:schema id="HorseSport" targetNamespace="http://www.fei.org/Entry" xmlns:mstns="http://www.fei.org/Entry" xmlns="http://www.fei.org/Entry" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" attributeFormDefault="qualified" elementFormDefault="qualified">
+<xs:schema id="HorseSport"
+ targetNamespace="http://www.fei.org/Entry"
+  xmlns:mstns="http://www.fei.org/Entry"
+   xmlns="http://www.fei.org/Entry"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+     xmlns:msdata="urn:schemas-microsoft-com:xml-msdata"
+      attributeFormDefault="qualified"
+       elementFormDefault="qualified">
   <xs:element name="HorseSport" msdata:IsDataSet="true" msdata:Locale="en-US">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">

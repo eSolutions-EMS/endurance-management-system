@@ -2,7 +2,6 @@
 using EnduranceJudge.Domain.Aggregates.Configuration;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Phases;
-using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
 using EnduranceJudge.Gateways.Desktop.Services;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core;
 using EnduranceJudge.Localization;
@@ -11,7 +10,8 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.P
 {
     public class PhaseViewModel : RelatedConfigurationBase<PhaseView, Phase>, IPhaseState
     {
-        private readonly IDomainExecutor<ConfigurationManager> domainExecutor;
+        private readonly ConfigurationManager manager;
+        private readonly IExecutor<ConfigurationManager> executor;
         private string isFinalText;
         private int isFinalValue;
         private int lengthInKm;
@@ -21,26 +21,22 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.P
 
         private PhaseViewModel() : this(null, null) { }
         public PhaseViewModel(
-            IDomainExecutor<ConfigurationManager> domainExecutor,
+            ConfigurationManager manager,
             IQueries<Phase> phases) : base(phases)
         {
-            this.domainExecutor = domainExecutor;
+            this.manager = manager;
         }
 
-        protected override IDomainObject ActOnSubmit()
+        protected override IDomainObject Persist()
         {
-            var result = this.domainExecutor.Write(manager =>
+            if (this.ParentId.HasValue)
             {
-                if (this.ParentId.HasValue)
-                {
-                    return manager.Phases.Create(this.ParentId.Value, this);
-                }
-                else
-                {
-                    return manager.Phases.Update(this);
-                }
-            });
-            return result;
+                return this.manager.Phases.Create(this.ParentId.Value, this);
+            }
+            else
+            {
+                return this.manager.Phases.Update(this);
+            }
         }
 
         public int IsFinalValue

@@ -3,6 +3,7 @@ using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Core.Extensions;
+using EnduranceJudge.Gateways.Desktop.Services;
 using Prism.Regions;
 using System;
 
@@ -49,15 +50,12 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core
         }
 
         protected void NewForm<T>()
-            where T : IView
+            where T : IView => this.Executor.Execute(() =>
         {
-            this.DomainReader.Read(() =>
-            {
-                var domain = this.ActOnSubmit();
-                this.MapFrom(domain);
-                var childViewId = Random.Next();
-                this.Navigation.ChangeToNewConfiguration<T>(this.Id, childViewId);
-            });
-        }
+            var domain = this.Persist();
+            this.MapFrom(domain); // TODO: necessary?
+            var childViewId = Random.Next();
+            this.Navigation.ChangeToNewConfiguration<T>(this.Id, childViewId);
+        });
     }
 }

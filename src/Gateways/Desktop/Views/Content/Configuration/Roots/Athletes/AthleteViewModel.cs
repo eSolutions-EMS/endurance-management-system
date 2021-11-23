@@ -19,16 +19,16 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Athl
 {
     public class AthleteViewModel : ConfigurationBase<AthleteView, Athlete>, IAthleteState, IListable
     {
-        private readonly IDomainExecutor<ConfigurationManager> domainExecutor;
+        private readonly ConfigurationManager manager;
         private readonly IQueries<Country> countries;
         private readonly IQueries<Athlete> athletes;
 
         private AthleteViewModel(
-            IDomainExecutor<ConfigurationManager> domainExecutor,
+            ConfigurationManager manager,
             IQueries<Country> countries,
             IQueries<Athlete> athletes) : base(athletes)
         {
-            this.domainExecutor = domainExecutor;
+            this.manager = manager;
             this.countries = countries;
             this.athletes = athletes;
             this.CategoryId = (int)Category.Adults;
@@ -56,10 +56,9 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Athl
             var athlete = this.athletes.GetOne(id);
             this.MapFrom(athlete);
         }
-        protected override IDomainObject ActOnSubmit()
+        protected override IDomainObject Persist()
         {
-            var result = this.domainExecutor.Write(x =>
-                x.Athletes.Save(this, this.CountryId));
+            var result = this.manager.Athletes.Save(this, this.CountryId);
             return result;
         }
         private void LoadCountries()

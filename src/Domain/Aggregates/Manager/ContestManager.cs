@@ -15,6 +15,13 @@ namespace EnduranceJudge.Domain.Aggregates.Manager
         public ContestManager()
         {
             var state = StaticProvider.GetService<IState>();
+            // Check is necessary due to Prism's initialization logic which uses reflection
+            // to generate instances of views as part of the startup process.
+            // Does views are not used in the actual views during the application use cycle
+            if (state?.Event == null)
+            {
+                return;
+            }
             // TODO: remove
             var competitionTmp = state.Event.Competitions.FirstOrDefault();
             foreach (var participant in state.Participants)
