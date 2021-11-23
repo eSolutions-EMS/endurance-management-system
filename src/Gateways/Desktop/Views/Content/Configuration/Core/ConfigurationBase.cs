@@ -19,7 +19,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core
         private readonly IQueries<TDomain> queries;
         protected INavigationService Navigation { get; }
         protected IBasicExecutor Executor { get; }
-        protected bool BackOnSubmit { get; set; } = true;
+        protected bool BackOnSubmit { get; init; } = true;
 
         protected ConfigurationBase(IQueries<TDomain> queries)
         {
@@ -56,14 +56,14 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core
             var domainObject = this.queries.GetOne(id);
             this.MapFrom(domainObject);
         }
-        private void SubmitAction() => this.Executor.Execute(() =>
+        private void SubmitAction()
         {
-            this.Persist();
+            this.Executor.Execute(() => this.Persist());
             if (this.BackOnSubmit)
             {
                 this.NavigateBackAction();
             }
-        });
+        }
 
         public int Id
         {

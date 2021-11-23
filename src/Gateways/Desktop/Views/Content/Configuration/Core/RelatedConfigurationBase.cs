@@ -36,7 +36,11 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core
 
         public override void OnNavigatedTo(NavigationContext context)
         {
-            if (context.IsExistingConfiguration())
+            if (this.ViewId != default)
+            {
+                this.Load(this.Id);
+            }
+            else if (context.IsExistingConfiguration())
             {
                 var id = context.GetDomainId();
                 this.Load(id);

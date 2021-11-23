@@ -1,4 +1,5 @@
 using EnduranceJudge.Domain.Core.Models;
+using EnduranceJudge.Domain.Core.Validation;
 using EnduranceJudge.Domain.State.Athletes;
 using EnduranceJudge.Domain.State.Competitions;
 using EnduranceJudge.Domain.State.Horses;
@@ -35,6 +36,10 @@ namespace EnduranceJudge.Domain.State.Participants
 
         public void ParticipateIn(Competition competition)
         {
+            this.Validate(() =>
+            {
+                competition.IsRequired(nameof(competition));
+            });
             this.Participation.Add(competition);
         }
 

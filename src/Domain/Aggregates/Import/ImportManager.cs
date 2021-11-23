@@ -44,11 +44,7 @@ namespace EnduranceJudge.Domain.Aggregates.Import
 
         public void Import(NationalData data)
         {
-            this.state.Event = new EnduranceEvent(null, null);
-            if (this.state.Horses.Any())
-            {
-                return;
-            }
+            this.state.Event ??= new EnduranceEvent(null, null);
             foreach (var horseData in data.Horses)
             {
                 var horse = new Horse(horseData.FeiId, horseData.Name, horseData.Breed, horseData.Club);

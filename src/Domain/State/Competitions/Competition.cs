@@ -15,6 +15,7 @@ namespace EnduranceJudge.Domain.State.Competitions
         {
             this.Type = type;
             this.Name = name;
+            this.StartTime = DateTime.Now;
         }
         public Competition(ICompetitionState state) : base(GENERATE_ID)
         {
