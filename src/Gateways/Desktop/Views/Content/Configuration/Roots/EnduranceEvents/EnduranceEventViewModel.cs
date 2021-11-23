@@ -26,6 +26,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Endu
             IEnduranceEventQuery enduranceEventQuery,
             IQueries<Country> countryQueries) : base (enduranceEventQuery)
         {
+            this.BackOnSubmit = false;
             this.manager = manager;
             this.enduranceEventQuery = enduranceEventQuery;
             this.countryQueries = countryQueries;

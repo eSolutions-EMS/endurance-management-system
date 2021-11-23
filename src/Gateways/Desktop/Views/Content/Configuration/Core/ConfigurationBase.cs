@@ -19,6 +19,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core
         private readonly IQueries<TDomain> queries;
         protected INavigationService Navigation { get; }
         protected IBasicExecutor Executor { get; }
+        protected bool BackOnSubmit { get; set; } = true;
 
         protected ConfigurationBase(IQueries<TDomain> queries)
         {
@@ -58,7 +59,10 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core
         private void SubmitAction() => this.Executor.Execute(() =>
         {
             this.Persist();
-            this.NavigateBackAction();
+            if (this.BackOnSubmit)
+            {
+                this.NavigateBackAction();
+            }
         });
 
         public int Id
