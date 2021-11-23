@@ -6,6 +6,7 @@ using EnduranceJudge.Domain.State.EnduranceEvents;
 using EnduranceJudge.Domain.State.Horses;
 using EnduranceJudge.Domain.State.Participants;
 using System.Collections.Generic;
+using static EnduranceJudge.Localization.Strings.Domain.Countries;
 
 namespace EnduranceJudge.Gateways.Persistence.Contracts
 {
@@ -15,6 +16,9 @@ namespace EnduranceJudge.Gateways.Persistence.Contracts
         public List<Horse> Horses { get; } = new();
         public List<Athlete> Athletes { get; } = new();
         public List<Participant> Participants { get; } = new();
-        public List<Country> Countries { get; } = new();
+        public List<Country> Countries { get; } = new()
+        {
+            new Country("BUL", BULGARIA),
+        };
     }
 }

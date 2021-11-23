@@ -9,7 +9,6 @@ using EnduranceJudge.Domain.Enums;
 using EnduranceJudge.Domain.State;
 using EnduranceJudge.Domain.State.Athletes;
 using EnduranceJudge.Domain.State.Competitions;
-using EnduranceJudge.Domain.State.Countries;
 using EnduranceJudge.Domain.State.EnduranceEvents;
 using EnduranceJudge.Domain.State.Horses;
 using EnduranceJudge.Domain.State.Participants;
@@ -18,7 +17,6 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using static EnduranceJudge.Localization.DesktopStrings;
-using static EnduranceJudge.Localization.Strings.Domain.Countries;
 using static EnduranceJudge.Domain.DomainConstants;
 
 namespace EnduranceJudge.Domain.Aggregates.Import
@@ -30,8 +28,6 @@ namespace EnduranceJudge.Domain.Aggregates.Import
         public ImportManager()
         {
             this.state = StaticProvider.GetService<IState>();
-
-            this.state.Countries.AddRange(GetCountries());
         }
 
         public void Import(InternationalData data)
@@ -151,12 +147,6 @@ namespace EnduranceJudge.Domain.Aggregates.Import
                     this.state.Participants.Add(participant);
                 }
             }
-        }
-
-        private static List<Country> GetCountries()
-        {
-            var bulgaria = new Country("BUL", BULGARIA);
-            return new List<Country> { bulgaria };
         }
     }
 }
