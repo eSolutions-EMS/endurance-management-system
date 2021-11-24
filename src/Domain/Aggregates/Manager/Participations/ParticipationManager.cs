@@ -25,8 +25,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participations
 
             foreach (var performance in this.participation.Performances)
             {
-                var manager = new PhasePerformanceManager(performance);
-                this.performanceManagers.Add(manager);
+                this.AddPerformanceManager(performance);
             }
         }
 
@@ -46,8 +45,9 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participations
             {
                 this.Throw<ParticipantException>(CANNOT_START_COMPETITION_WITHOUT_PHASES);
             }
-            var phaseEntry = new PhasePerformance(firstPhase, this.competition.StartTime);
-            this.participation.Add(phaseEntry);
+            var performance = new PhasePerformance(firstPhase, this.competition.StartTime);
+            this.participation.Add(performance);
+            this.AddPerformanceManager(performance);
         }
         internal void UpdatePerformance(DateTime time)
         {
@@ -98,6 +98,12 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participations
         {
             return participation.Performances.Count == this.competition.Phases.Count
                 && participation.Performances.All(x => x.Result != null);
+        }
+
+        private void AddPerformanceManager(PhasePerformance performance)
+        {
+            var performanceManager = new PhasePerformanceManager(performance);
+            this.performanceManagers.Add(performanceManager);
         }
     }
 }
