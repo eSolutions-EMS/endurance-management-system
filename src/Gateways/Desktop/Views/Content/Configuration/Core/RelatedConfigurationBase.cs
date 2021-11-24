@@ -3,7 +3,6 @@ using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Core.Extensions;
-using EnduranceJudge.Gateways.Desktop.Services;
 using Prism.Regions;
 using System;
 
@@ -54,7 +53,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core
         }
 
         protected void NewForm<T>()
-            where T : IView => this.Executor.Execute(() =>
+            where T : IView => this.BasicExecutor.Execute(() =>
         {
             var domain = this.Persist();
             this.MapFrom(domain); // TODO: necessary?
