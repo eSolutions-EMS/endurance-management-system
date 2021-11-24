@@ -34,10 +34,10 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager
         public DelegateCommand CompleteUnsuccessful { get; }
 
         private Visibility startVisibility;
-        private int inputNumber;
-        private int inputHours;
-        private int inputMinutes;
-        private int inputSeconds;
+        private int? inputNumber;
+        private int? inputHours;
+        private int? inputMinutes;
+        private int? inputSeconds;
         private string deQualificationCode;
 
         public ObservableCollection<ParticipantViewModel> Participations { get; } = new();
@@ -49,27 +49,44 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager
         }
         private void UpdateAction()
         {
+            if (!this.InputNumber.HasValue)
+            {
+                return;
+            }
             this.contestExecutor.Execute(manager
-                => manager.UpdatePerformance(this.InputNumber, this.InputTime));
+                => manager.UpdatePerformance(this.InputNumber.Value, this.InputTime));
             this.LoadParticipation();
         }
         private void CompleteAction()
         {
+            if (!this.InputNumber.HasValue)
+            {
+                return;
+            }
             this.contestExecutor.Execute(manager
-                => manager.CompletePerformance(this.InputNumber));
+                => manager.CompletePerformance(this.InputNumber.Value));
             this.LoadParticipation();
         }
         private void CompleteUnsuccessfulAction()
         {
+            if (!this.InputNumber.HasValue)
+            {
+                return;
+            }
             this.contestExecutor.Execute(manager
-                => manager.CompletePerformance(this.InputNumber, this.DeQualificationCode));
+                => manager.CompletePerformance(this.InputNumber.Value, this.DeQualificationCode));
             this.LoadParticipation();
         }
 
         private void LoadParticipation()
         {
+            if (!this.InputNumber.HasValue)
+            {
+                return;
+            }
+
             var participant = this.participants.GetOne(x => x.Number == this.InputNumber);
-            var participationViewModel = new ParticipantViewModel(this.InputNumber, participant.Participation);
+            var participationViewModel = new ParticipantViewModel(this.InputNumber.Value, participant.Participation);
 
             foreach (var participation in this.Participations)
             {
@@ -88,7 +105,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager
             get => this.startVisibility;
             set => this.SetProperty(ref this.startVisibility, value);
         }
-        public int InputNumber
+        public int? InputNumber
         {
             get => this.inputNumber;
             set => this.SetProperty(ref this.inputNumber, value);
@@ -98,24 +115,40 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager
             get => this.deQualificationCode;
             set => this.SetProperty(ref this.deQualificationCode, value);
         }
-        public int InputHours
+        public int? InputHours
         {
             get => this.inputHours;
             set => this.SetProperty(ref this.inputHours, value);
         }
-        public int InputMinutes
+        public int? InputMinutes
         {
             get => this.inputMinutes;
             set => this.SetProperty(ref this.inputMinutes, value);
         }
-        public int InputSeconds
+        public int? InputSeconds
         {
             get => this.inputSeconds;
             set => this.SetProperty(ref this.inputSeconds, value);
         }
-        private DateTime InputTime => Today
-            .AddHours(this.InputHours)
-            .AddMinutes(this.InputMinutes)
-            .AddSeconds(this.InputSeconds);
+        private DateTime InputTime
+        {
+            get
+            {
+                var time = Today;
+                if (this.InputHours.HasValue)
+                {
+                    time = time.AddHours(this.InputHours.Value);
+                }
+                if (this.InputMinutes.HasValue)
+                {
+                    time = time.AddMinutes(this.InputMinutes.Value);
+                }
+                if (this.InputSeconds.HasValue)
+                {
+                    time = time.AddSeconds(this.InputSeconds.Value);
+                }
+                return time;
+            }
+        }
     }
 }

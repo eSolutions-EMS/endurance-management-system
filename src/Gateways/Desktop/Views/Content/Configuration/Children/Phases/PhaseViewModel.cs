@@ -14,10 +14,10 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.P
         private readonly IExecutor<ConfigurationManager> executor;
         private string isFinalText;
         private int isFinalValue;
-        private double lengthInKm;
-        private int orderBy;
-        private int maxRecoveryTimeInMinutes;
-        private int restTimeInMinutes;
+        private double? lengthInKm;
+        private int? orderBy;
+        private int? maxRecoveryTimeInMinutes;
+        private int? restTimeInMinutes;
 
         private PhaseViewModel() : this(null, null) { }
         public PhaseViewModel(
@@ -56,25 +56,46 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.P
             get => this.isFinalText;
             set => this.SetProperty (ref this.isFinalText, value);
         }
-        public double LengthInKm
+        public double? LengthInKmDisplay
         {
             get => this.lengthInKm;
             set => this.SetProperty(ref this.lengthInKm, value);
         }
-        public int OrderBy
+        public int? OrderByDisplay
         {
             get => this.orderBy;
             set => this.SetProperty(ref this.orderBy, value);
         }
-        public int MaxRecoveryTimeInMins
+        public int? MaxRecoveryTimeInMinsDisplay
         {
             get => this.maxRecoveryTimeInMinutes;
             set => this.SetProperty(ref this.maxRecoveryTimeInMinutes, value);
         }
-        public int RestTimeInMins
+        public int? RestTimeInMinsDisplay
         {
             get => this.restTimeInMinutes;
             set => this.SetProperty(ref this.restTimeInMinutes, value);
+        }
+
+        public double LengthInKm
+        {
+            get => this.LengthInKmDisplay ?? default;
+            set => this.LengthInKmDisplay = value;
+        }
+        public int OrderBy
+        {
+            get => this.OrderByDisplay ?? default;
+            set => this.OrderByDisplay = value;
+        }
+        public int MaxRecoveryTimeInMins
+        {
+            get => this.MaxRecoveryTimeInMinsDisplay ?? default;
+            set => this.MaxRecoveryTimeInMinsDisplay = value;
+        }
+        public int RestTimeInMins
+        {
+            get => this.RestTimeInMinsDisplay ?? default;
+            set => this.RestTimeInMinsDisplay = value;
         }
     }
 }
