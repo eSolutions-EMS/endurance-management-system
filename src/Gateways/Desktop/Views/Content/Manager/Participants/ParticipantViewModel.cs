@@ -20,7 +20,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participants
         private int number;
         private Visibility visibility = Visibility.Visible;
         public ObservableCollection<PhasePerformanceViewModel> PhasePerformances { get; } = new();
-        public ObservableCollection<int> PhaseLengths { get; } = new();
+        public ObservableCollection<double> PhaseLengths { get; } = new();
 
         public int Number
         {

@@ -4,7 +4,7 @@ namespace EnduranceJudge.Domain.State.Phases
 {
     public interface IPhaseState : IDomainModelState
     {
-        int LengthInKm { get; }
+        double LengthInKm { get; }
         bool IsFinal { get; }
         int OrderBy { get; }
         int MaxRecoveryTimeInMins { get; }

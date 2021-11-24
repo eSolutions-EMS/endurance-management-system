@@ -14,7 +14,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.P
         private readonly IExecutor<ConfigurationManager> executor;
         private string isFinalText;
         private int isFinalValue;
-        private int lengthInKm;
+        private double lengthInKm;
         private int orderBy;
         private int maxRecoveryTimeInMinutes;
         private int restTimeInMinutes;
@@ -56,7 +56,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.P
             get => this.isFinalText;
             set => this.SetProperty (ref this.isFinalText, value);
         }
-        public int LengthInKm
+        public double LengthInKm
         {
             get => this.lengthInKm;
             set => this.SetProperty(ref this.lengthInKm, value);
