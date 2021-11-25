@@ -42,7 +42,7 @@
         <Setter Property="VerticalAlignment" Value="Top" />
     </Style>
 
-    <Style x:Key="Text-Error" TargetType="TextBlock" BasedOn="{StaticResource Text}">
+    <Style x:Key="Text-White" TargetType="TextBlock" BasedOn="{StaticResource Text}">
         <Setter Property="Foreground" Value="White" />
         <Setter Property="Margin" Value="10px" />
     </Style>

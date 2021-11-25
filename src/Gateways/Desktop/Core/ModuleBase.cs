@@ -1,5 +1,6 @@
 ﻿using EnduranceJudge.Core.Models;
 using EnduranceJudge.Core.Utilities;
+using EnduranceJudge.Gateways.Desktop.Views.Error;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
@@ -15,6 +16,7 @@ namespace EnduranceJudge.Gateways.Desktop.Core
         public virtual void RegisterTypes(IContainerRegistry containerRegistry)
         {
             this.RegisterViewsForNavigation(containerRegistry);
+            containerRegistry.RegisterDialog<MessageDialog>();
         }
 
         public virtual void OnInitialized(IContainerProvider containerProvider)

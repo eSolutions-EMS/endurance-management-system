@@ -101,7 +101,7 @@ namespace EnduranceJudge.Gateways.Desktop.Services.Implementations
         public void Error(string message)
         {
             var parameter = new NavigationParameter(DesktopConstants.MESSAGE_PARAMETER, message);
-            this.ChangeTo<ErrorView>(parameter);
+            this.ChangeTo<MessageDialog>(parameter);
         }
     }
 }

@@ -5,6 +5,7 @@ using EnduranceJudge.Domain.State.Phases;
 using EnduranceJudge.Gateways.Desktop.Services;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core;
 using EnduranceJudge.Localization;
+using System;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Phases
 {
@@ -29,6 +30,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.P
 
         protected override IDomainObject Persist()
         {
+            throw new Exception();
             if (this.ParentId.HasValue)
             {
                 return this.manager.Phases.Create(this.ParentId.Value, this);

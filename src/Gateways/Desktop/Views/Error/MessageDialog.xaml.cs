@@ -3,9 +3,9 @@ using System.Windows.Controls;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Error
 {
-    public partial class ErrorView : UserControl, IView
+    public partial class MessageDialog : UserControl, IView
     {
-        public ErrorView()
+        public MessageDialog()
         {
             InitializeComponent();
         }
