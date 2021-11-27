@@ -4,6 +4,7 @@ using EnduranceJudge.Application.Core.Models;
 using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Domain.Aggregates.Configuration;
 using EnduranceJudge.Domain.State.Athletes;
+using EnduranceJudge.Gateways.Desktop.Core.Services;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
 using EnduranceJudge.Gateways.Desktop.Services;
 using System.Collections.Generic;
@@ -15,10 +16,11 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Athl
         private readonly IExecutor<ConfigurationManager> configurationExecutor;
         private readonly IQueries<Athlete> athletes;
         public AthleteListViewModel(
+            IPopupService popupService,
             IExecutor<ConfigurationManager> configurationExecutor,
             IPersistence persistence,
             IQueries<Athlete> athletes,
-            INavigationService navigation) : base(navigation, persistence)
+            INavigationService navigation) : base(navigation, persistence, popupService)
         {
             this.configurationExecutor = configurationExecutor;
             this.athletes = athletes;

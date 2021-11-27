@@ -1,31 +1,31 @@
 ﻿using EnduranceJudge.Core.ConventionalServices;
-using EnduranceJudge.Gateways.Desktop.Core.Extensions;
-using EnduranceJudge.Gateways.Desktop.Core.Objects;
-using EnduranceJudge.Gateways.Desktop.Views.Error;
-using Prism.Events;
-using Prism.Services.Dialogs;
+using EnduranceJudge.Domain.Core.Exceptions;
+using EnduranceJudge.Gateways.Desktop.Core.Services;
 using System;
 
 namespace EnduranceJudge.Gateways.Desktop.Services
 {
     public class ErrorHandler : IErrorHandler
     {
-        private readonly IEventAggregator eventAggregator;
-        private readonly IDialogService dialogService;
-        public ErrorHandler(IEventAggregator eventAggregator, IDialogService dialogService)
+        private readonly IPopupService popupService;
+
+        public ErrorHandler(IPopupService popupService)
         {
-            this.eventAggregator = eventAggregator;
-            this.dialogService = dialogService;
+            this.popupService = popupService;
+            this.popupService = popupService;
         }
 
         public void Handle(Exception exception)
         {
             exception = GetInnermostException(exception);
-            var parameters = new DialogParameters()
-                .SetTitle("Error")
-                .SetSeverity(MessageSeverity.Error)
-                .SetMessage(exception.ToString());
-            this.dialogService.ShowDialog(nameof(MessageDialog), parameters, _ => { });
+            if (exception is DomainException)
+            {
+                this.popupService.RenderValidation(exception.Message);
+            }
+            else
+            {
+                this.popupService.RenderError(exception.ToString());
+            }
         }
 
         protected static Exception GetInnermostException(Exception exception)

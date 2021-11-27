@@ -1,7 +1,7 @@
 ﻿using EnduranceJudge.Core.Utilities;
 using EnduranceJudge.Gateways.Desktop.Core.Objects;
 using EnduranceJudge.Gateways.Desktop.Services;
-using EnduranceJudge.Gateways.Desktop.Views.Error;
+using EnduranceJudge.Gateways.Desktop.Views.Dialogs.Message;
 using Prism.Events;
 
 namespace EnduranceJudge.Gateways.Desktop.Core.Static

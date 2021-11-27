@@ -4,6 +4,7 @@ using EnduranceJudge.Application.Core.Models;
 using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Domain.Aggregates.Configuration;
 using EnduranceJudge.Domain.State.Participants;
+using EnduranceJudge.Gateways.Desktop.Core.Services;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
 using EnduranceJudge.Gateways.Desktop.Services;
 using System.Collections.Generic;
@@ -16,11 +17,11 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Part
         private readonly IQueries<Participant> participants;
 
         public ParticipantListViewModel(
+            IPopupService popupService,
             ConfigurationManager manager,
             IQueries<Participant> participants,
             IPersistence persistence,
-            INavigationService navigation,
-            IBasicExecutor basicExecutor) : base(navigation, persistence)
+            INavigationService navigation) : base(navigation, persistence, popupService)
         {
             this.manager = manager;
             this.participants = participants;

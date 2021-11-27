@@ -1,6 +1,7 @@
 ﻿using EnduranceJudge.Application.Contracts;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem;
 using EnduranceJudge.Gateways.Desktop.Core.Objects;
+using EnduranceJudge.Gateways.Desktop.Core.Services;
 using EnduranceJudge.Gateways.Desktop.Services;
 using EnduranceJudge.Gateways.Desktop.Services.Implementations;
 using Prism.Commands;
@@ -11,8 +12,10 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
     public abstract class SearchableListViewModelBase<TView> : ListViewModelBase<TView>
         where TView : IView
     {
-        protected SearchableListViewModelBase(INavigationService navigation, IPersistence persistence)
-            : base(navigation, persistence)
+        protected SearchableListViewModelBase(
+            INavigationService navigation,
+            IPersistence persistence,
+            IPopupService service) : base(navigation, persistence, service)
         {
             Func<ListItemViewModel, string, bool> filter
                 = (item, value) => item.Name.ToLower().Contains(value.ToLower());
