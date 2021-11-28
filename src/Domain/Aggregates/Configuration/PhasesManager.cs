@@ -67,10 +67,13 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
         {
             this.Validate<PhaseException>(() =>
             {
+                if (!state.IsFinal)
+                {
+                    state.RestTimeInMins.IsRequired(REST_TIME_IN_MINS);
+                }
                 state.OrderBy.IsRequired(ORDER);
                 state.LengthInKm.IsRequired(LENGTH_IN_KM);
                 state.MaxRecoveryTimeInMins.IsRequired(RECOVERY_IN_MINUTES_TEXT);
-                state.RestTimeInMins.IsRequired(REST_TIME_IN_MINS);
             });
         }
     }

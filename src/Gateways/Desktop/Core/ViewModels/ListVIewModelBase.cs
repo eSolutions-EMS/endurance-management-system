@@ -2,12 +2,14 @@
 using EnduranceJudge.Application.Core.Models;
 using EnduranceJudge.Core.Utilities;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem;
+using EnduranceJudge.Gateways.Desktop.Core.Services;
 using EnduranceJudge.Gateways.Desktop.Services;
 using Prism.Commands;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using static EnduranceJudge.Localization.Strings;
 
 namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
 {
@@ -15,10 +17,12 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
         where TView : IView
     {
         private readonly IPersistence persistence;
-        protected ListViewModelBase(INavigationService navigation, IPersistence persistence)
+        private readonly IPopupService popupService;
+        protected ListViewModelBase(INavigationService navigation, IPersistence persistence, IPopupService popupService)
         {
             this.Executor = StaticProvider.GetService<IBasicExecutor>();
             this.persistence = persistence;
+            this.popupService = popupService;
             this.Navigation = navigation;
             this.Create = new DelegateCommand(this.CreateAction);
         }
@@ -67,16 +71,20 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
         {
             this.Navigation.ChangeToUpdateConfiguration<TView>(id!.Value);
         }
-        protected virtual void RemoveAction(int? id) => this.Executor.Execute(() =>
+        protected virtual void RemoveAction(int? id)
         {
-            if (this.AllowDelete)
+            Action action = () => this.Executor.Execute(() =>
             {
-                this.RemoveDomain(id!.Value);
-                var item = this.ListItems.FirstOrDefault(i => i.Id == id!.Value);
-                this.ListItems.Remove(item);
-                this.persistence.Snapshot();
-            }
-        });
+                if (this.AllowDelete)
+                {
+                    this.RemoveDomain(id!.Value);
+                    var item = this.ListItems.FirstOrDefault(i => i.Id == id!.Value);
+                    this.ListItems.Remove(item);
+                    this.persistence.Snapshot();
+                }
+            });
+            this.popupService.RenderConfirmation(DesktopStrings.REMOVE_CONFIRMATION_MESSAGE, action);
+        }
 
         private ListItemViewModel ToViewModel(ListItemModel listable)
         {

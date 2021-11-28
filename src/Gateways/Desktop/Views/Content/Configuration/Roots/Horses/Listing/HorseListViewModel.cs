@@ -4,6 +4,7 @@ using EnduranceJudge.Application.Core.Models;
 using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Domain.Aggregates.Configuration;
 using EnduranceJudge.Domain.State.Horses;
+using EnduranceJudge.Gateways.Desktop.Core.Services;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
 using EnduranceJudge.Gateways.Desktop.Services;
 using System.Collections.Generic;
@@ -16,10 +17,11 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Hors
         private readonly IQueries<Horse> horses;
 
         public HorseListViewModel(
+            IPopupService popupService,
             ConfigurationManager manager,
             IQueries<Horse> horses,
             IPersistence persistence,
-            INavigationService navigation) : base(navigation, persistence)
+            INavigationService navigation) : base(navigation, persistence, popupService)
         {
             this.manager = manager;
             this.horses = horses;

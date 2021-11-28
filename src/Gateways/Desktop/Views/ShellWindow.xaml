@@ -45,7 +45,7 @@
                         Grid.Row="1" Grid.Column="0">
             <ContentControl.Template>
                 <ControlTemplate TargetType="ContentControl">
-                    <Border Style="{StaticResource Border-Wrapper}">
+                    <Border Style="{StaticResource Padding}">
                         <Grid Style="{StaticResource Region}">
                             <ContentPresenter Content="{TemplateBinding Content}" />
                         </Grid>

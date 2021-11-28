@@ -9,7 +9,7 @@
                 <TextBlock Style="{StaticResource Text}">
                     <Run Text="{x:Static localization:DesktopStrings.LengthInKmText}" />
                     <Run Text=":" />
-                    <Run Style="{StaticResource Run-Bold}" Text="{Binding LengthInKm}" />
+                    <Run Style="{StaticResource Run-Bold}" Text="{Binding LengthInKmDisplay}" />
                 </TextBlock>
 
                 <TextBlock Style="{StaticResource Text-Bold}"
