@@ -44,6 +44,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager
 
         private void StartAction()
         {
+            this.InputNumber = 15;
             this.contestExecutor.Execute(manager => manager.Start());
             this.StartVisibility = Visibility.Collapsed;
         }
@@ -53,9 +54,11 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager
             {
                 return;
             }
-            this.contestExecutor.Execute(manager
-                => manager.UpdatePerformance(this.InputNumber.Value, this.InputTime));
-            this.LoadParticipation();
+            this.contestExecutor.Execute(manager =>
+            {
+                manager.UpdatePerformance(this.InputNumber.Value, this.InputTime);
+                this.LoadParticipation();
+            });
         }
         private void CompleteAction()
         {
@@ -63,9 +66,11 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager
             {
                 return;
             }
-            this.contestExecutor.Execute(manager
-                => manager.CompletePerformance(this.InputNumber.Value));
-            this.LoadParticipation();
+            this.contestExecutor.Execute(manager =>
+            {
+                manager.CompletePerformance(this.InputNumber.Value);
+                this.LoadParticipation();
+            });
         }
         private void CompleteUnsuccessfulAction()
         {
@@ -73,9 +78,11 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager
             {
                 return;
             }
-            this.contestExecutor.Execute(manager
-                => manager.CompletePerformance(this.InputNumber.Value, this.DeQualificationCode));
-            this.LoadParticipation();
+            this.contestExecutor.Execute(manager =>
+            {
+                manager.CompletePerformance(this.InputNumber.Value, this.DeQualificationCode);
+                this.LoadParticipation();
+            });
         }
 
         private void LoadParticipation()
