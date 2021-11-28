@@ -151,5 +151,7 @@
         public const string ALREADY_PARTICIPATING_TEMPLATE = "Cannot be created - '{0}' is already participating.";
         public const string PARTICIPANTS = "Participants";
         public const string SELECT_WORK_DIRECTORY = "Select working directory from 'Import' button above.";
+        public const string YES = "Yes";
+        public const string NO = "No";
     }
 }

@@ -5,6 +5,7 @@ using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Countries;
 using EnduranceJudge.Domain.State.EnduranceEvents;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
+using EnduranceJudge.Gateways.Desktop.Core.Services;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Competitions;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Personnel;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core;
@@ -17,16 +18,19 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Endu
 {
     public class EnduranceEventViewModel : RelatedConfigurationBase<EnduranceEventView, EnduranceEvent>
     {
+        private readonly IPopupService popupService;
         private readonly ConfigurationManager manager;
         private readonly IEnduranceEventQuery enduranceEventQuery;
         private readonly IQueries<Country> countryQueries;
 
         public EnduranceEventViewModel(
+            IPopupService popupService,
             ConfigurationManager manager,
             IEnduranceEventQuery enduranceEventQuery,
             IQueries<Country> countryQueries) : base (enduranceEventQuery)
         {
             this.BackOnSubmit = false;
+            this.popupService = popupService;
             this.manager = manager;
             this.enduranceEventQuery = enduranceEventQuery;
             this.countryQueries = countryQueries;
@@ -63,6 +67,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Endu
         protected override IDomainObject Persist()
         {
             var result = this.manager.Update(this.Name, this.CountryId, this.PopulatedPlace);
+            this.popupService.RenderOk();
             return result;
         }
 

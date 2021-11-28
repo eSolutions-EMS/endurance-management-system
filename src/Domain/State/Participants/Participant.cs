@@ -10,7 +10,7 @@ namespace EnduranceJudge.Domain.State.Participants
     public class Participant : DomainObjectBase<ParticipantException>, IParticipantState
     {
         public const int DEFAULT_MAX_AVERAGE_SPEED = 16;
-        public const string NAME_FORMAT = "{0} - {1}";
+        private const string NAME_FORMAT = "{0} - {1} with {2}";
 
         private Participant() {}
         public Participant(Athlete athlete, Horse horse) : base(GENERATE_ID)
@@ -43,6 +43,11 @@ namespace EnduranceJudge.Domain.State.Participants
             this.Participation.Add(competition);
         }
 
-        public string Name => string.Format(NAME_FORMAT, this.Athlete.Name, this.Horse.Name);
+        public string Name => FormatName(this.Number, this.Athlete.Name, this.Horse.Name);
+
+        public static string FormatName(int number, string athleteName, string horseName)
+        {
+            return string.Format(NAME_FORMAT, number, athleteName, horseName);
+        }
     }
 }

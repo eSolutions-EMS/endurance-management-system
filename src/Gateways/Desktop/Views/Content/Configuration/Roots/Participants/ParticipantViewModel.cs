@@ -6,7 +6,6 @@ using EnduranceJudge.Domain.State.Athletes;
 using EnduranceJudge.Domain.State.Horses;
 using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
-using EnduranceJudge.Gateways.Desktop.Services;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core;
 using Prism.Commands;
 using Prism.Regions;
@@ -42,7 +41,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Part
         public ObservableCollection<SimpleListItemViewModel> AthleteItems { get; } = new();
 
         private string rfId;
-        public int number;
+        public int? number;
         public int? maxAverageSpeedInKmPh;
         private Visibility maxAverageSpeedInKmPhVisibility = Visibility.Hidden;
         private int horseId;
@@ -108,7 +107,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Part
 
         private string FormatName()
         {
-            return string.Format(Participant.NAME_FORMAT, this.AthleteName, this.horseName);
+            return Participant.FormatName(this.Number, this.AthleteName, this.horseName);
         }
 
         public string RfId
@@ -116,7 +115,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Part
             get => this.rfId;
             set => this.SetProperty(ref this.rfId, value);
         }
-        public int Number
+        public int? NumberDisplay
         {
             get => this.number;
             set => this.SetProperty(ref this.number, value);
@@ -158,6 +157,12 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Part
         {
             get => this.name;
             private set => this.SetProperty(ref this.name, value);
+        }
+
+        public int Number
+        {
+            get => this.NumberDisplay ?? default;
+            set => this.NumberDisplay = value;
         }
     }
 }

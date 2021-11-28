@@ -51,7 +51,7 @@
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="2" Grid.Column="1">
                 <TextBox Style="{StaticResource Input}"
-                         Text="{Binding Number}"
+                         Text="{Binding NumberDisplay}"
                          Name="Number" />
             </Border>
 

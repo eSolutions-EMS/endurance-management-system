@@ -6,7 +6,7 @@ using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Enduranc
 using EnduranceJudge.Gateways.Desktop.Views.Content.Manager;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participants.Listing;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.Categorizations.Listing;
-using EnduranceJudge.Gateways.Desktop.Views.Error;
+using EnduranceJudge.Gateways.Desktop.Views.Dialogs.Message;
 using Prism.Regions;
 using System;
 using static EnduranceJudge.Gateways.Desktop.DesktopConstants;
@@ -101,7 +101,7 @@ namespace EnduranceJudge.Gateways.Desktop.Services.Implementations
         public void Error(string message)
         {
             var parameter = new NavigationParameter(DesktopConstants.MESSAGE_PARAMETER, message);
-            this.ChangeTo<ErrorView>(parameter);
+            this.ChangeTo<MessageDialog>(parameter);
         }
     }
 }

@@ -43,7 +43,7 @@
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="1" Grid.Column="1">
                 <TextBox Style="{StaticResource Input}"
-                         Text="{Binding OrderBy}"
+                         Text="{Binding OrderByDisplay}"
                          Name="OrderBy" />
             </Border>
 
@@ -56,7 +56,7 @@
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="2" Grid.Column="1">
                 <TextBox Style="{StaticResource Input}"
-                         Text="{Binding LengthInKm}"
+                         Text="{Binding LengthInKmDisplay}"
                          Name="LengthInKm" />
             </Border>
 
@@ -85,7 +85,7 @@
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="4" Grid.Column="1">
                 <TextBox Style="{StaticResource Input}"
-                         Text="{Binding MaxRecoveryTimeInMins}"
+                         Text="{Binding MaxRecoveryTimeInMinsDisplay}"
                          Name="MaxRecoveryTimeInMins" />
             </Border>
 
@@ -98,7 +98,7 @@
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="5" Grid.Column="1">
                 <TextBox Style="{StaticResource Input}"
-                         Text="{Binding RestTimeInMins}"
+                         Text="{Binding RestTimeInMinsDisplay}"
                          Name="RestTimeInMins" />
             </Border>
 

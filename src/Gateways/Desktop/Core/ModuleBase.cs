@@ -1,5 +1,7 @@
 ﻿using EnduranceJudge.Core.Models;
 using EnduranceJudge.Core.Utilities;
+using EnduranceJudge.Gateways.Desktop.Views.Dialogs.Confirmation;
+using EnduranceJudge.Gateways.Desktop.Views.Dialogs.Message;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
@@ -15,6 +17,8 @@ namespace EnduranceJudge.Gateways.Desktop.Core
         public virtual void RegisterTypes(IContainerRegistry containerRegistry)
         {
             this.RegisterViewsForNavigation(containerRegistry);
+            containerRegistry.RegisterDialog<MessageDialog>();
+            containerRegistry.RegisterDialog<ConfirmationDialog>();
         }
 
         public virtual void OnInitialized(IContainerProvider containerProvider)

@@ -45,10 +45,12 @@
             public const string NO_COMPETITIONS = "There are no competitions";
         }
 
-        public static class Desktop
+        public static class DesktopStrings
         {
-            public const string PARTICIPANT_NOT_FOUND = "Participant not found.";
-            public const string PARTICIPANT_HAS_COMPLETED_THE_PHASE = "Participant has completed the phase.";
+            public const string APPLICATION_ERROR = "Application Error";
+            public const string VALIDATION_TITLE = "Validation Message";
+            public const string CONFIRMATION_TITLE = "Confirmation";
+            public const string REMOVE_CONFIRMATION_MESSAGE = "Are you sure you want to remove this item";
         }
     }
 }
