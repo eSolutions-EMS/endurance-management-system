@@ -107,7 +107,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Part
 
         private string FormatName()
         {
-            return string.Format(Participant.NAME_FORMAT, this.AthleteName, this.horseName);
+            return Participant.FormatName(this.Number, this.AthleteName, this.horseName);
         }
 
         public string RfId
