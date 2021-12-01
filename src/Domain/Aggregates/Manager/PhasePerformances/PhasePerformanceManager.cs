@@ -33,7 +33,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.PhasePerformances
             {
                 time.IsRequired(nameof(time));
             });
-            if (this.performance.Result != null)
+            if (this.IsComplete)
             {
                 this.Throw<PhasePerformanceException>(IS_COMPLETE);
             }

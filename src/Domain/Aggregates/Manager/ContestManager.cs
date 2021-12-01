@@ -2,9 +2,11 @@
 using EnduranceJudge.Domain.Aggregates.Manager.Participations;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State;
+using EnduranceJudge.Domain.State.Participants;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static EnduranceJudge.Localization.Strings.DesktopStrings;
 
 namespace EnduranceJudge.Domain.Aggregates.Manager
 {
@@ -62,7 +64,13 @@ namespace EnduranceJudge.Domain.Aggregates.Manager
 
         private ParticipationManager GetParticipation(int number)
         {
-            return this.participationManagers.First(x => x.Number == number);
+            var participation = this.participationManagers.FirstOrDefault(x => x.Number == number);
+            if (participation == null)
+            {
+                var message = string.Format(PARTICIPANT_NUMBER_NOT_FOUND_TEMPLATE, number);
+                throw new ParticipantException { DomainMessage = message };
+            }
+            return participation;
         }
     }
 }

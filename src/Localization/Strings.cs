@@ -51,6 +51,7 @@
             public const string VALIDATION_TITLE = "Validation Message";
             public const string CONFIRMATION_TITLE = "Confirmation";
             public const string REMOVE_CONFIRMATION_MESSAGE = "Are you sure you want to remove this item";
+            public const string PARTICIPANT_NUMBER_NOT_FOUND_TEMPLATE = "Participant with number '{0}' not found.";
         }
     }
 }

@@ -52,10 +52,6 @@ namespace EnduranceJudge.Domain.Core.Models
 
         public static bool operator !=(DomainObjectBase<TException> one, DomainObjectBase<TException> two)
         {
-            if (ReferenceEquals(one, null))
-            {
-                return ReferenceEquals(two, null);
-            }
             return !(one == two);
         }
 
