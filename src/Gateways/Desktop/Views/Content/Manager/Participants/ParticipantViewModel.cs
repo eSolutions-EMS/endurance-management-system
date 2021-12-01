@@ -1,4 +1,5 @@
 ﻿using EnduranceJudge.Core.Mappings;
+using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Domain.State.Participations;
 using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Manager.PhasePerformances;
@@ -10,28 +11,16 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participants
 {
     public class ParticipantViewModel : ViewModelBase
     {
-
-        public ParticipantViewModel(int number, Participation participation)
+        public ParticipantViewModel(Participant participant)
         {
-            this.number = number;
-            this.UpdatePhases(participation);
+            this.Number = participant.Number;
+            this.UpdatePhases(participant.Participation);
         }
 
-        private int number;
+        private readonly int number;
         private Visibility visibility = Visibility.Visible;
         public ObservableCollection<PhasePerformanceViewModel> PhasePerformances { get; } = new();
         public ObservableCollection<double> PhaseLengths { get; } = new();
-
-        public int Number
-        {
-            get => this.number;
-            private set => this.SetProperty(ref this.number, value);
-        }
-        public Visibility Visibility
-        {
-            get => this.visibility;
-            set => this.SetProperty(ref this.visibility, value);
-        }
 
         private void UpdatePhases(Participation participation)
         {
@@ -40,6 +29,17 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participants
 
             this.PhasePerformances.AddRange(viewModels);
             this.PhaseLengths.AddRange(lengths);
+        }
+
+        public int Number
+        {
+            get => this.number;
+            private init => this.SetProperty(ref this.number, value);
+        }
+        public Visibility Visibility
+        {
+            get => this.visibility;
+            set => this.SetProperty(ref this.visibility, value);
         }
     }
 }

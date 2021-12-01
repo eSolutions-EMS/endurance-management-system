@@ -93,7 +93,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager
             }
 
             var participant = this.participants.GetOne(x => x.Number == this.InputNumber);
-            var participationViewModel = new ParticipantViewModel(this.InputNumber.Value, participant.Participation);
+            var participationViewModel = new ParticipantViewModel(participant);
 
             foreach (var participation in this.Participations)
             {

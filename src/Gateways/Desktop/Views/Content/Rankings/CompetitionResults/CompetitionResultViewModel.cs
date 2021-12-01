@@ -1,20 +1,20 @@
-﻿using EnduranceJudge.Domain.Aggregates.Rankings.Participations;
-using EnduranceJudge.Domain.Aggregates.Rankings.Stateless.Categorizations;
-using EnduranceJudge.Domain.Aggregates.Rankings.Stateless.Classifications;
+﻿using EnduranceJudge.Domain.Aggregates.Rankings.AggregateBranches;
 using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Core.Extensions;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participants;
 using Prism.Commands;
 using Prism.Regions;
 using System;
 using System.Collections.ObjectModel;
+using System.Globalization;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.Categorizations
 {
-    public class CategorizationViewModel : ViewModelBase
+    public class CompetitionResultViewModel : ViewModelBase
     {
-        private Categorization categorization;
+        private CompetitionResult competitionResult;
 
-        public CategorizationViewModel()
+        public CompetitionResultViewModel()
         {
             this.SelectKidsCategory = new DelegateCommand(this.SelectKidsCategoryAction);
             this.SelectAdultsCategory = new DelegateCommand(this.SelectAdultsCategoryAction);
@@ -23,7 +23,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.Categorizations
         public DelegateCommand SelectKidsCategory { get; }
         public DelegateCommand SelectAdultsCategory { get; }
 
-        public ObservableCollection<Participation> RankList { get; } = new();
+        public ObservableCollection<ParticipantViewModel> RankList { get; } = new();
         private string totalLengthInKm;
         private string categoryName;
         private bool hasKidsClassification;
@@ -33,15 +33,15 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.Categorizations
         {
             base.OnNavigatedTo(context);
             var data = context.GetData();
-            if (data is not Categorization categorization)
+            if (data is not CompetitionResult categorization)
             {
                 throw new InvalidOperationException(
                     $"Data is of type '{data.GetType()}'. Expected type is 'Classification'");
             }
-            this.categorization = categorization;
+            this.competitionResult = categorization;
 
-            this.HasAdultsClassification = categorization.AdultsClassification != null;
-            this.HasKidsClassification = categorization.KidsClassification != null;
+            this.HasAdultsClassification = categorization.AdultsRankList != null;
+            this.HasKidsClassification = categorization.KidsRankList != null;
             this.SelectDefault();
         }
 
@@ -68,26 +68,30 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.Categorizations
 
         private void SelectKidsCategoryAction()
         {
-            this.Select(this.categorization.KidsClassification);
+            this.Select(this.competitionResult.KidsRankList);
         }
         private void SelectAdultsCategoryAction()
         {
-            this.Select(this.categorization.AdultsClassification);
+            this.Select(this.competitionResult.AdultsRankList);
         }
 
         private void SelectDefault()
         {
-            var defaultClassification = this.categorization.AdultsClassification
-                ?? this.categorization.KidsClassification;
+            var defaultClassification = this.competitionResult.AdultsRankList
+                ?? this.competitionResult.KidsRankList;
             this.Select(defaultClassification);
         }
 
-        private void Select(Classification classification)
+        private void Select(RankList rankList)
         {
-            this.TotalLengthInKm = classification.TotalLengthInKm.ToString();
-            this.CategoryName = classification.Category.ToString();
+            this.TotalLengthInKm = this.competitionResult.Length.ToString(CultureInfo.InvariantCulture);
+            this.CategoryName = rankList.Category.ToString();
             this.RankList.Clear();
-            this.RankList.AddRange(classification.RankList);
+            foreach (var participant in rankList)
+            {
+                var viewModel = new ParticipantViewModel(participant);
+                this.RankList.Add(viewModel);
+            }
         }
     }
 }

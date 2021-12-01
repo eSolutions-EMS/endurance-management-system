@@ -11,7 +11,6 @@
         <ResourceDictionary Source="Content/Configuration/Children/Personnel/Configuration/PersonnelTemplate.xaml" />
         <ResourceDictionary Source="Content/Manager/PhasePerformances/PhasePerformanceTemplate.xaml" />
         <ResourceDictionary Source="Content/Manager/Participants/ParticipantTemplate.xaml" />
-        <ResourceDictionary Source="Content/Rankings/Categorizations/ParticipationTemplate.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

@@ -4,7 +4,7 @@ using System;
 
 namespace EnduranceJudge.Domain.Core.Models
 {
-    public abstract class DomainObjectBase<TException> : IDomainObject
+    public abstract class DomainObjectBase<TException> : IDomainObject, IEquatable<DomainObjectBase<TException>>
         where TException : DomainObjectException, new()
     {
         protected const string GENERATE_ID = "GenerateIdFlag";
@@ -34,9 +34,30 @@ namespace EnduranceJudge.Domain.Core.Models
 
         public override bool Equals(object other)
             => this.IsEqual(other);
+        //
+        // public bool Equals(IIdentifiable identifiable)
+        //     => this.IsEqual(identifiable);
 
-        public bool Equals(IIdentifiable identifiable)
-            => this.IsEqual(identifiable);
+        public bool Equals(DomainObjectBase<TException> domainObject)
+            => this.IsEqual(domainObject);
+
+        public static bool operator ==(DomainObjectBase<TException> one, DomainObjectBase<TException> two)
+        {
+            if (ReferenceEquals(one, null))
+            {
+                return ReferenceEquals(two, null);
+            }
+            return one.Equals(two);
+        }
+
+        public static bool operator !=(DomainObjectBase<TException> one, DomainObjectBase<TException> two)
+        {
+            if (ReferenceEquals(one, null))
+            {
+                return ReferenceEquals(two, null);
+            }
+            return !(one == two);
+        }
 
         private bool IsEqual(object other)
         {
