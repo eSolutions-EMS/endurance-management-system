@@ -9,13 +9,16 @@ namespace EnduranceJudge.Domain.Core.Models
     {
         protected const string GENERATE_ID = "GenerateIdFlag";
 
+        // Empty constructor is used by mapping for existing (in the database) entries
         protected DomainObjectBase() {}
-        protected DomainObjectBase(string flag)
+        // Unused variable is needed mark the constructor which generates Id
+        // That constructor should ONLY be used when creating NEW (no database entry) objects
+        protected DomainObjectBase(string generateIdFlag)
         {
             this.Id = DomainIdProvider.Generate();
         }
 
-        public int Id { get; private init; }
+        public int Id { get; }
 
         internal void Validate(Action action)
         {
@@ -34,9 +37,9 @@ namespace EnduranceJudge.Domain.Core.Models
 
         public override bool Equals(object other)
             => this.IsEqual(other);
-        //
-        // public bool Equals(IIdentifiable identifiable)
-        //     => this.IsEqual(identifiable);
+
+        public bool Equals(IIdentifiable identifiable)
+            => this.IsEqual(identifiable);
 
         public bool Equals(DomainObjectBase<TException> domainObject)
             => this.IsEqual(domainObject);
@@ -51,9 +54,7 @@ namespace EnduranceJudge.Domain.Core.Models
         }
 
         public static bool operator !=(DomainObjectBase<TException> one, DomainObjectBase<TException> two)
-        {
-            return !(one == two);
-        }
+            => !(one == two);
 
         private bool IsEqual(object other)
         {
@@ -78,6 +79,6 @@ namespace EnduranceJudge.Domain.Core.Models
         }
 
         public override int GetHashCode()
-            => base.GetHashCode() + this.Id;
+            => this.Id;
     }
 }
