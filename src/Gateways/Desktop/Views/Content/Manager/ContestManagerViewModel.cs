@@ -49,12 +49,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager
             {
                 return;
             }
-            var participants = this.participants.GetAll();
-            foreach (var participant in participants)
-            {
-                var viewModel = new ParticipantTemplateModel(participant, Visibility.Collapsed);
-                this.Participations.Add(viewModel);
-            }
+            this.LoadParticipants();
         }
 
         private void StartAction()
@@ -120,6 +115,16 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager
                 this.Participations.Remove(existing);
             }
             this.Participations.Insert(0, participationViewModel);
+        }
+
+        private void LoadParticipants()
+        {
+            var participants = this.participants.GetAll();
+            foreach (var participant in participants)
+            {
+                var viewModel = new ParticipantTemplateModel(participant, Visibility.Collapsed);
+                this.Participations.Add(viewModel);
+            }
         }
 
         public Visibility StartVisibility
