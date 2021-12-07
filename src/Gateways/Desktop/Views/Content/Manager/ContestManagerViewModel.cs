@@ -5,6 +5,7 @@ using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Services;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participants;
 using Prism.Commands;
+using Prism.Regions;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -40,7 +41,21 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager
         private int? inputSeconds;
         private string deQualificationCode;
 
-        public ObservableCollection<ParticipantViewModel> Participations { get; } = new();
+        public ObservableCollection<ParticipantTemplateModel> Participations { get; } = new();
+
+        public override void OnNavigatedTo(NavigationContext context)
+        {
+            if (this.Participations.Any())
+            {
+                return;
+            }
+            var participants = this.participants.GetAll();
+            foreach (var participant in participants)
+            {
+                var viewModel = new ParticipantTemplateModel(participant, Visibility.Collapsed);
+                this.Participations.Add(viewModel);
+            }
+        }
 
         private void StartAction()
         {
@@ -57,8 +72,8 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager
             this.contestExecutor.Execute(manager =>
             {
                 manager.UpdatePerformance(this.InputNumber.Value, this.InputTime);
-                this.LoadParticipation();
             });
+            this.LoadParticipation();
         }
         private void CompleteAction()
         {
@@ -93,7 +108,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager
             }
 
             var participant = this.participants.GetOne(x => x.Number == this.InputNumber);
-            var participationViewModel = new ParticipantViewModel(participant);
+            var participationViewModel = new ParticipantTemplateModel(participant);
 
             foreach (var participation in this.Participations)
             {

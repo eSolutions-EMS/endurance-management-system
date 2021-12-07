@@ -3,7 +3,7 @@
                     xmlns:participations="clr-namespace:EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participants"
                     xmlns:localization="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization">
 
-    <DataTemplate DataType="{x:Type participations:ParticipantViewModel}">
+    <DataTemplate DataType="{x:Type participations:ParticipantTemplateModel}">
         <Border Style="{StaticResource Border-Vertical}">
             <StackPanel Style="{StaticResource List-Vertical}">
                 <StackPanel Style="{StaticResource List-Horizontal}">
@@ -28,6 +28,10 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
+
+                    <Button Style="{StaticResource Button-Horizontal}"
+                            Command="{Binding ToggleVisibility}"
+                            Content="{Binding ToggleText}" />
                 </StackPanel>
 
                 <StackPanel Style="{StaticResource List-Horizontal}" Visibility="{Binding Visibility}">

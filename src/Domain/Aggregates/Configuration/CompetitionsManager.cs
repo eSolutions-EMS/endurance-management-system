@@ -24,7 +24,7 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
             {
                 state.Type.IsRequired(TYPE);
                 state.Name.IsRequired(NAME);
-                state.StartTime.IsRequired(START_TIME).IsFutureDate();
+                state.StartTime.IsRequired(START_TIME)/*.IsFutureDate()*/;
             });
 
             var competition = this.state.Event.Competitions.FindDomain(state.Id);

@@ -15,7 +15,7 @@
                                Text="{Binding TypeString}" />
 
                     <Button Style="{StaticResource Button-Form}"
-                            Command="{Binding Toggle}"
+                            Command="{Binding ToggleVisibility}"
                             Content="{Binding ToggleText}" />
 
                     <Button Style="{StaticResource Button-Form}" HorizontalAlignment="Right"
@@ -24,7 +24,7 @@
                 </DockPanel>
             </Border>
 
-            <StackPanel Visibility="{Binding ToggleVisibility}">
+            <StackPanel Visibility="{Binding Visibility}">
 
                 <Border Style="{StaticResource Border-Vertical}">
                     <TextBlock Style="{StaticResource Text}"

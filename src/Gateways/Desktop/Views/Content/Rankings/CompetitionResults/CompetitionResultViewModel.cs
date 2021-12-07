@@ -23,7 +23,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.Categorizations
         public DelegateCommand SelectKidsCategory { get; }
         public DelegateCommand SelectAdultsCategory { get; }
 
-        public ObservableCollection<ParticipantViewModel> RankList { get; } = new();
+        public ObservableCollection<ParticipantTemplateModel> RankList { get; } = new();
         private string totalLengthInKm;
         private string categoryName;
         private bool hasKidsClassification;
@@ -89,7 +89,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.Categorizations
             this.RankList.Clear();
             foreach (var participant in rankList)
             {
-                var viewModel = new ParticipantViewModel(participant);
+                var viewModel = new ParticipantTemplateModel(participant);
                 this.RankList.Add(viewModel);
             }
         }

@@ -153,5 +153,7 @@
         public const string SELECT_WORK_DIRECTORY = "Select working directory from 'Import' button above.";
         public const string YES = "_Yes";
         public const string NO = "_No";
+        public const string EXPAND = "Expand";
+        public const string COLLAPSE = "Collapse";
     }
 }
