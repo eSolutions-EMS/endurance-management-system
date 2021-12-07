@@ -13,6 +13,6 @@ namespace EnduranceJudge.Domain.State
         List<Horse> Horses { get; }
         List<Athlete> Athletes { get; }
         List<Participant> Participants { get; }
-        List<Country> Countries { get; }
+        IReadOnlyList<Country> Countries { get; }
     }
 }

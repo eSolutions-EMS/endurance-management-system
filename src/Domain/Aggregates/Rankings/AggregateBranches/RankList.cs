@@ -42,11 +42,16 @@ namespace EnduranceJudge.Domain.Aggregates.Rankings.AggregateBranches
                 .ToList();
 
         private IEnumerable<Participant> RankAdults(IEnumerable<Participant> adults)
-            => adults.OrderBy(x => x
-                .Participation
-                .Performances
-                .FirstOrDefault(p => p.Phase.IsFinal)
-                ?.ArrivalTime);
+            => adults
+                .OrderByDescending(participant => participant
+                    .Participation
+                    .Performances
+                    .All(performance => performance.Result?.IsRanked ?? false))
+                .ThenBy(participant => participant
+                    .Participation
+                    .Performances
+                    .FirstOrDefault(performance => performance.Phase.IsFinal)
+                    ?.ArrivalTime);
 
         private (TimeSpan, Participant) CalculateTotalRecovery(Participant participant)
         {

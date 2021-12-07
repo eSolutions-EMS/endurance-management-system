@@ -59,7 +59,7 @@ namespace EnduranceJudge.Core.Mappings
 
             if (ReferenceEquals(source, destination))
             {
-                throw new InvalidOperationException($"Source and destination are reference-equal objects: {source}");
+                return destination;
             }
 
             return Mapper.Map(source, destination);
@@ -71,7 +71,7 @@ namespace EnduranceJudge.Core.Mappings
 
             if (ReferenceEquals(source, destination))
             {
-                throw new InvalidOperationException($"Source and destination are reference-equal objects: {source}");
+                return destination;
             }
 
             return Mapper.Map(source, destination);

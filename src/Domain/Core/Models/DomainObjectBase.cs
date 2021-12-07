@@ -18,7 +18,7 @@ namespace EnduranceJudge.Domain.Core.Models
             this.Id = DomainIdProvider.Generate();
         }
 
-        public int Id { get; }
+        public int Id { get; protected init; } // Keep setter for mapping
 
         internal void Validate(Action action)
         {

@@ -6,8 +6,9 @@ namespace EnduranceJudge.Domain.State.Countries
     public class Country : DomainObjectBase<CountryException>, ICountryState
     {
         private Country() {}
-        public Country(string isoCode, string name) : base(GENERATE_ID)
+        public Country(string isoCode, string name, int id) : base(GENERATE_ID)
         {
+            this.Id = id;
             this.Validate(() =>
             {
                 this.IsoCode = isoCode.IsRequired(nameof(isoCode));

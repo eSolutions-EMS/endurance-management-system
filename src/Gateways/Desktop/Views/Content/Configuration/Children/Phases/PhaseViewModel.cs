@@ -30,7 +30,6 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.P
 
         protected override IDomainObject Persist()
         {
-            throw new Exception();
             if (this.ParentId.HasValue)
             {
                 return this.manager.Phases.Create(this.ParentId.Value, this);
