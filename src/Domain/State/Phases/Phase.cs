@@ -19,5 +19,6 @@ namespace EnduranceJudge.Domain.State.Phases
         public double LengthInKm { get; internal set; }
         public int MaxRecoveryTimeInMins { get; internal set; }
         public int RestTimeInMins { get; internal set; }
+        public bool RequireCompulsoryInspection { get; internal set; }
     }
 }

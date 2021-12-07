@@ -57,6 +57,7 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
                 phase.LengthInKm = state.LengthInKm;
                 phase.MaxRecoveryTimeInMins = state.MaxRecoveryTimeInMins;
                 phase.RestTimeInMins = state.RestTimeInMins;
+                phase.RequireCompulsoryInspection = state.RequireCompulsoryInspection;
                 return phase;
             }
 

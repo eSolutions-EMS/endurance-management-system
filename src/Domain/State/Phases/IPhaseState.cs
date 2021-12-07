@@ -9,5 +9,6 @@ namespace EnduranceJudge.Domain.State.Phases
         int OrderBy { get; }
         int MaxRecoveryTimeInMins { get; }
         int RestTimeInMins { get; }
+        bool RequireCompulsoryInspection { get; }
     }
 }

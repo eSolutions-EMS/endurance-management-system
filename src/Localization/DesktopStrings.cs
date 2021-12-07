@@ -157,5 +157,6 @@
         public const string COLLAPSE = "Collapse";
         public const string REQUIRED_INSPECTION = "Required Inspection";
         public const string COMPULSORY_INSPECTION = "Compulsory Inspection";
+        public const string REQUIRE_COMPULSORY_INSPECTION = "Require Compulsory Inspection";
     }
 }
