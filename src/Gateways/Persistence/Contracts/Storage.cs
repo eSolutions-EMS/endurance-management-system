@@ -4,6 +4,7 @@ using EnduranceJudge.Core.ConventionalServices;
 using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Domain.State;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace EnduranceJudge.Gateways.Persistence.Contracts
 {
@@ -50,6 +51,8 @@ namespace EnduranceJudge.Gateways.Persistence.Contracts
         private void Restore()
         {
             var contents = this.file.Read(this.storageFilePath);
+            // Normalize countries due to change in code
+            contents = this.NormalizeStorageFileContents(contents);
             var state = this.serialization.Deserialize<State>(contents);
             this.state.MapFrom(state);
             // temp
@@ -67,6 +70,13 @@ namespace EnduranceJudge.Gateways.Persistence.Contracts
         {
             var serialized = this.serialization.Serialize(this.state);
             this.file.Create(this.storageFilePath, serialized);
+        }
+
+        private string NormalizeStorageFileContents(string contents)
+        {
+            var correctCountryData = "Country\":{\"IsoCode\":\"BUL\",\"Name\":\"Bulgaria\",\"Id\":1}";
+            var regex = new Regex("Country\":{\"IsoCode\":\"BUL\",\"Name\":\"Bulgaria\",\"Id\":[0-9]*}");
+            return regex.Replace(contents, correctCountryData);
         }
 
         private static string BuildStorageFilePath(string directory) => $"{directory}\\{STORAGE_FILE_NAME}";
