@@ -77,7 +77,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.PhasePerformances
                 var message = string.Format(
                     DATE_TIME_HAS_TO_BE_LATER_TEMPLATE,
                     nameof(this.performance.ArrivalTime),
-                    nameof(this.performance.StartTime));
+                    this.performance.StartTime);
                 this.Throw<PhasePerformanceException>(message);
             }
 
