@@ -59,6 +59,16 @@
 
                         <Border Style="{StaticResource Border-Vertical}">
                             <TextBlock Style="{StaticResource Text-Bold}"
+                                       Text="{x:Static localization:DesktopStrings.REQUIRED_INSPECTION}"/>
+                        </Border>
+
+                        <Border Style="{StaticResource Border-Vertical}">
+                            <TextBlock Style="{StaticResource Text-Bold}"
+                                       Text="{x:Static localization:DesktopStrings.COMPULSORY_INSPECTION}"/>
+                        </Border>
+
+                        <Border Style="{StaticResource Border-Vertical}">
+                            <TextBlock Style="{StaticResource Text-Bold}"
                                        Text="{x:Static localization:DesktopStrings.LOOP_SPAN}"/>
                         </Border>
 
@@ -79,7 +89,7 @@
                     </StackPanel>
 
                     <ListBox Style="{StaticResource ListBox-Horizontal}" BorderThickness="0"
-                             ItemsSource="{Binding PhasePerformances}"/>
+                             ItemsSource="{Binding Performances}"/>
                 </StackPanel>
             </StackPanel>
         </Border>

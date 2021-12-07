@@ -3,7 +3,7 @@ using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Competitions;
 using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Domain.State.Participations;
-using EnduranceJudge.Domain.State.PhasePerformances;
+using EnduranceJudge.Domain.State.Performances;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +15,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participations
     {
         private readonly Competition competition;
         private readonly Participation participation;
-        private readonly List<PhasePerformanceManager> performanceManagers = new();
+        private readonly List<PerformanceManager> performanceManagers = new();
 
         internal ParticipationManager(Participant participant)
         {
@@ -29,7 +29,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participations
             }
         }
 
-        public PhasePerformanceManager CurrentPerformanceManager
+        public PerformanceManager CurrentPerformanceManager
             => this.performanceManagers.LastOrDefault();
 
         public int Number { get; }
@@ -45,7 +45,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participations
             {
                 this.Throw<ParticipantException>(CANNOT_START_COMPETITION_WITHOUT_PHASES);
             }
-            var performance = new PhasePerformance(firstPhase, this.competition.StartTime);
+            var performance = new Performance(firstPhase, this.competition.StartTime);
             this.participation.Add(performance);
             this.AddPerformanceManager(performance);
         }
@@ -76,7 +76,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participations
         {
             if (!this.CurrentPerformanceManager.IsComplete)
             {
-                this.Throw<PhasePerformanceException>("cannot start - previous participation is not complete.");
+                this.Throw<PerformanceException>("cannot start - previous participation is not complete.");
             }
 
             var phase = this.competition
@@ -85,12 +85,12 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participations
                 .FirstOrDefault();
             if (phase == null)
             {
-                this.Throw<PhasePerformanceException>("cannot start - no next phase.");
+                this.Throw<PerformanceException>("cannot start - no next phase.");
             }
 
-            var performance = new PhasePerformance(phase, startTime);
+            var performance = new Performance(phase, startTime);
             this.participation.Add(performance);
-            var manager = new PhasePerformanceManager(performance);
+            var manager = new PerformanceManager(performance);
             this.performanceManagers.Add(manager);
         }
 
@@ -100,9 +100,9 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participations
                 && participation.Performances.All(x => x.Result != null);
         }
 
-        private void AddPerformanceManager(PhasePerformance performance)
+        private void AddPerformanceManager(Performance performance)
         {
-            var performanceManager = new PhasePerformanceManager(performance);
+            var performanceManager = new PerformanceManager(performance);
             this.performanceManagers.Add(performanceManager);
         }
     }

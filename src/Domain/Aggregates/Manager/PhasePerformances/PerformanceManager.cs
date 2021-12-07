@@ -1,6 +1,6 @@
 ﻿using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.Core.Validation;
-using EnduranceJudge.Domain.State.PhasePerformances;
+using EnduranceJudge.Domain.State.Performances;
 using EnduranceJudge.Domain.State.PhaseResults;
 using EnduranceJudge.Domain.State.Phases;
 using System;
@@ -8,13 +8,13 @@ using static EnduranceJudge.Localization.Strings.Domain.Manager.Participation;
 
 namespace EnduranceJudge.Domain.Aggregates.Manager.PhasePerformances
 {
-    public class PhasePerformanceManager : ManagerObjectBase
+    public class PerformanceManager : ManagerObjectBase
     {
-        private readonly PhasePerformance performance;
+        private readonly Performance performance;
         private const string ARRIVAL_TIME_IS_NULL_MESSAGE = "cannot complete: ArrivalTime cannot be null.";
         private const string INSPECTION_TIME_IS_NULL_MESSAGE = "cannot complete: InspectionTime cannot be null";
 
-        internal PhasePerformanceManager(PhasePerformance performance)
+        internal PerformanceManager(Performance performance)
         {
             this.performance = performance;
             this.Phase = performance.Phase;
@@ -29,17 +29,17 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.PhasePerformances
 
         internal void Update(DateTime time)
         {
-            this.Validate<PhasePerformanceException>(() =>
+            this.Validate<PerformanceException>(() =>
             {
                 time.IsRequired(nameof(time));
             });
             if (this.IsComplete)
             {
-                this.Throw<PhasePerformanceException>(IS_COMPLETE);
+                this.Throw<PerformanceException>(IS_COMPLETE);
             }
             if (this.performance.InspectionTime.HasValue && this.performance.ReInspectionTime.HasValue)
             {
-                this.Throw<PhasePerformanceException>(CAN_ONLY_BE_COMPLETED);
+                this.Throw<PerformanceException>(CAN_ONLY_BE_COMPLETED);
             }
 
             if (this.performance.ArrivalTime == null)
@@ -57,7 +57,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.PhasePerformances
         }
         internal void Complete()
         {
-            this.Validate<PhasePerformanceException>(() =>
+            this.Validate<PerformanceException>(() =>
             {
                 this.performance.ArrivalTime.IsRequired(ARRIVAL_TIME_IS_NULL_MESSAGE);
                 this.performance.InspectionTime.IsRequired(INSPECTION_TIME_IS_NULL_MESSAGE);
@@ -78,7 +78,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.PhasePerformances
                     DATE_TIME_HAS_TO_BE_LATER_TEMPLATE,
                     nameof(this.performance.ArrivalTime),
                     this.performance.StartTime);
-                this.Throw<PhasePerformanceException>(message);
+                this.Throw<PerformanceException>(message);
             }
 
             this.performance.ArrivalTime = time;
@@ -92,7 +92,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.PhasePerformances
                     DATE_TIME_HAS_TO_BE_LATER_TEMPLATE,
                     nameof(this.performance.InspectionTime),
                     nameof(this.performance.ArrivalTime));
-                this.Throw<PhasePerformanceException>(message);
+                this.Throw<PerformanceException>(message);
             }
 
             this.performance.InspectionTime = time;
@@ -106,7 +106,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.PhasePerformances
                     DATE_TIME_HAS_TO_BE_LATER_TEMPLATE,
                     nameof(this.performance.ReInspectionTime),
                     nameof(this.performance.InspectionTime));
-                this.Throw<PhasePerformanceException>(message);
+                this.Throw<PerformanceException>(message);
             }
 
             this.performance.ReInspectionTime = time;

@@ -1,7 +1,7 @@
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.Enums;
 using EnduranceJudge.Domain.State.Participants;
-using EnduranceJudge.Domain.State.PhasePerformances;
+using EnduranceJudge.Domain.State.Performances;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -66,7 +66,7 @@ namespace EnduranceJudge.Domain.Aggregates.Rankings.AggregateBranches
             return (totalRecovery, participant);
         }
 
-        private TimeSpan GetRecoveryTime(PhasePerformance performance)
+        private TimeSpan GetRecoveryTime(Performance performance)
         {
             var arrival = performance.ArrivalTime;
             var inspection = performance.ReInspectionTime ?? performance.InspectionTime;

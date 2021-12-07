@@ -1,12 +1,11 @@
 ﻿using EnduranceJudge.Core.Mappings;
-using EnduranceJudge.Domain.Aggregates.Manager.PhasePerformances;
-using EnduranceJudge.Domain.State.PhasePerformances;
+using EnduranceJudge.Domain.State.Performances;
 using EnduranceJudge.Gateways.Desktop.Core;
 using System;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager.PhasePerformances
 {
-    public class PhasePerformanceViewModel : ViewModelBase, IMapFrom<PhasePerformance>
+    public class PerformanceViewModel : ViewModelBase, IMapFrom<Performance>, IPerformanceState
     {
         public int OrderBy { get; private set; }
 
@@ -14,6 +13,8 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager.PhasePerformance
         private DateTime? arrivalTime;
         private DateTime? inspectionTime;
         private DateTime? reInspectionTime;
+        private DateTime? requiredInspectionTime;
+        private DateTime? compulsoryInspectionTime;
         private int phaseLengthInKm;
         private TimeSpan loopSpan;
         private TimeSpan phaseSpan;
@@ -40,6 +41,16 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager.PhasePerformance
         {
             get => this.reInspectionTime;
             private set => this.SetProperty(ref this.reInspectionTime, value);
+        }
+        public DateTime? RequiredInspectionTime
+        {
+            get => this.requiredInspectionTime;
+            private set => this.SetProperty(ref this.requiredInspectionTime, value);
+        }
+        public DateTime? CompulsoryInspectionTime
+        {
+            get => this.compulsoryInspectionTime;
+            private set => this.SetProperty(ref this.compulsoryInspectionTime, value);
         }
         public int PhaseLengthInKm
         {
@@ -72,5 +83,6 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager.PhasePerformance
             get => this.isComplete;
             private set => this.SetProperty(ref this.isComplete, value);
         }
+        public int Id => throw new NotImplementedException();
     }
 }

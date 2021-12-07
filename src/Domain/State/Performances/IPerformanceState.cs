@@ -1,13 +1,15 @@
 using EnduranceJudge.Domain.Core.Models;
 using System;
 
-namespace EnduranceJudge.Domain.State.PhasePerformances
+namespace EnduranceJudge.Domain.State.Performances
 {
-    public interface IPhasePerformanceState : IDomainModelState
+    public interface IPerformanceState : IDomainModelState
     {
         DateTime StartTime { get; }
         DateTime? ArrivalTime { get; }
         DateTime? InspectionTime { get; }
         DateTime? ReInspectionTime { get; }
+        DateTime? RequiredInspectionTime { get; }
+        DateTime? CompulsoryInspectionTime { get; }
     }
 }
