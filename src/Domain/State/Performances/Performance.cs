@@ -22,6 +22,7 @@ namespace EnduranceJudge.Domain.State.Performances
         public DateTime? ReInspectionTime { get; internal set; }
         public bool IsAnotherInspectionRequired { get; internal set; }
         public DateTime? RequiredInspectionTime { get; internal set; }
+        public DateTime? NextPerformanceStartTime { get; internal set; }
         public PhaseResult Result { get; internal set; }
 
         public TimeSpan? LoopSpan

@@ -5,7 +5,7 @@ using System;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager.PhasePerformances
 {
-    public class PerformanceViewModel : ViewModelBase, IMapFrom<Performance>, IPerformanceState
+    public class PerformanceTemplateModel : ViewModelBase, IMapFrom<Performance>, IPerformanceState
     {
         public int OrderBy { get; private set; }
 
@@ -13,12 +13,14 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager.PhasePerformance
         private DateTime? arrivalTime;
         private DateTime? inspectionTime;
         private DateTime? reInspectionTime;
+        private DateTime? requiredInspectionTime;
         private bool isAnotherInspectionRequired;
         private int phaseLengthInKm;
         private TimeSpan loopSpan;
         private TimeSpan phaseSpan;
         private double? averageSpeedForLoopInKpH;
         public double? averageSpeedForPhaseInKpH;
+        public DateTime? nextPerformanceStartTime;
         public bool isComplete;
 
         public DateTime StartTime
@@ -77,8 +79,17 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager.PhasePerformance
             get => this.isComplete;
             private set => this.SetProperty(ref this.isComplete, value);
         }
+        public DateTime? NextPerformanceStartTime
+        {
+            get => this.nextPerformanceStartTime;
+            private set => this.SetProperty(ref this.nextPerformanceStartTime, value);
+        }
+        public DateTime? RequiredInspectionTime
+        {
+            get => this.requiredInspectionTime;
+            private set => this.SetProperty(ref this.requiredInspectionTime, value);
+        }
 
-        public DateTime? RequiredInspectionTime { get; }
         public int Id => throw new NotImplementedException();
     }
 }

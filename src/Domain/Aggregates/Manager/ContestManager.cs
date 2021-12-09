@@ -40,9 +40,9 @@ namespace EnduranceJudge.Domain.Aggregates.Manager
 
         public void Start()
         {
-            foreach (var manager in this.participationManagers)
+            foreach (var participation in this.participationManagers)
             {
-                manager.Start();
+                participation.Start();
             }
         }
 

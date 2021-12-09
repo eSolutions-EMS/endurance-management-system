@@ -64,11 +64,6 @@
 
                         <Border Style="{StaticResource Border-Vertical}">
                             <TextBlock Style="{StaticResource Text-Bold}"
-                                       Text="{x:Static localization:DesktopStrings.COMPULSORY_INSPECTION}"/>
-                        </Border>
-
-                        <Border Style="{StaticResource Border-Vertical}">
-                            <TextBlock Style="{StaticResource Text-Bold}"
                                        Text="{x:Static localization:DesktopStrings.LOOP_SPAN}"/>
                         </Border>
 
@@ -85,6 +80,11 @@
                         <Border Style="{StaticResource Border-Vertical}">
                             <TextBlock Style="{StaticResource Text-Bold}"
                                        Text="{x:Static localization:DesktopStrings.AVERAGE_SPEED_FOR_PHASE}"/>
+                        </Border>
+
+                        <Border Style="{StaticResource Border-Vertical}">
+                            <TextBlock Style="{StaticResource Text-Bold}"
+                                       Text="{x:Static localization:DesktopStrings.NEXT_START_TIME}"/>
                         </Border>
                     </StackPanel>
 

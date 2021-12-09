@@ -4,6 +4,7 @@ using EnduranceJudge.Domain.State.Competitions;
 using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Domain.State.Participations;
 using EnduranceJudge.Domain.State.Performances;
+using EnduranceJudge.Domain.State.Phases;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,12 +26,16 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participations
 
             foreach (var performance in this.participation.Performances)
             {
-                this.AddPerformanceManager(performance);
+                var manager = new PerformanceManager(performance);
+                this.performanceManagers.Add(manager);
+                if (performance.Result == null)
+                {
+                    this.CurrentPerformance = manager;
+                }
             }
         }
 
-        public PerformanceManager CurrentPerformanceManager
-            => this.performanceManagers.LastOrDefault();
+        public PerformanceManager CurrentPerformance { get; private set; }
 
         public int Number { get; }
 
@@ -45,46 +50,46 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participations
             {
                 this.Throw<ParticipantException>(CANNOT_START_COMPETITION_WITHOUT_PHASES);
             }
-            var performance = new Performance(firstPhase, this.competition.StartTime);
-            this.participation.Add(performance);
-            this.AddPerformanceManager(performance);
+            this.AddPerformanceManager(firstPhase, this.competition.StartTime);
         }
         internal void UpdatePerformance(DateTime time)
         {
-            if (this.CurrentPerformanceManager == null)
+            if (this.CurrentPerformance == null)
             {
-                this.Throw<ParticipationException>(HAS_NOT_STARTED);
+                this.StartNextPerformance();
             }
-            this.CurrentPerformanceManager.Update(time);
+            this.CurrentPerformance.Update(time);
         }
         internal void CompletePerformance()
         {
-            this.CurrentPerformanceManager.Complete();
-            if (!this.IsComplete(this.participation))
+            DateTime? nextPhaseStartTime = null;
+            if (!this.CurrentPerformance.Phase.IsFinal)
             {
-                var restTime = this.CurrentPerformanceManager.Phase.RestTimeInMins;
-                var startTime = this.CurrentPerformanceManager.VetGatePassedTime.AddMinutes(restTime);
-                this.AddNextPhase(startTime);
+                var restTime = this.CurrentPerformance.Phase.RestTimeInMins;
+                nextPhaseStartTime = this.CurrentPerformance.VetGatePassedTime.AddMinutes(restTime);
             }
+            this.CurrentPerformance.Complete(nextPhaseStartTime);
+            this.CurrentPerformance = null;
         }
         internal void CompletePerformance(string code)
         {
-            this.CurrentPerformanceManager.CompleteUnsuccessful(code);
+            this.CurrentPerformance.CompleteUnsuccessful(code);
+            this.CurrentPerformance = null;
         }
         internal void RequireInspection()
         {
-            this.CurrentPerformanceManager.RequireInspection();
+            this.CurrentPerformance.RequireInspection();
         }
         internal void CompleteRequiredInspection()
         {
-            this.CurrentPerformanceManager.CompleteRequiredInspection();
+            this.CurrentPerformance.CompleteRequiredInspection();
         }
 
-        private void AddNextPhase(DateTime startTime)
+        private void StartNextPerformance()
         {
-            if (!this.CurrentPerformanceManager.IsComplete)
+            if (this.IsComplete)
             {
-                this.Throw<PerformanceException>("cannot start - previous participation is not complete.");
+                throw new InvalidOperationException(CANNOT_START_NEXT_PERFORMANCE_PARTICIPATION_IS_COMPLETE);
             }
 
             var phase = this.competition
@@ -93,25 +98,28 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participations
                 .FirstOrDefault();
             if (phase == null)
             {
-                this.Throw<PerformanceException>("cannot start - no next phase.");
+                throw new InvalidOperationException(CANNOT_START_PERFORMANCE_NO_PHASE);
             }
+            var previousPerformance = this.performanceManagers.Last();
+            var startTime = previousPerformance.NextPerformanceStartTime;
+            if (startTime == null)
+            {
+                throw new InvalidOperationException(CANNOT_START_PERFORMANCE_NO_START_TIME);
+            }
+            this.AddPerformanceManager(phase, startTime.Value);
+        }
 
+        private bool IsComplete
+            => this.participation.Performances.Count == this.competition.Phases.Count
+                && this.participation.Performances.All(x => x.Result != null);
+
+        private void AddPerformanceManager(Phase phase, DateTime startTime)
+        {
             var performance = new Performance(phase, startTime);
             this.participation.Add(performance);
-            var manager = new PerformanceManager(performance);
-            this.performanceManagers.Add(manager);
-        }
-
-        private bool IsComplete(Participation participation)
-        {
-            return participation.Performances.Count == this.competition.Phases.Count
-                && participation.Performances.All(x => x.Result != null);
-        }
-
-        private void AddPerformanceManager(Performance performance)
-        {
             var performanceManager = new PerformanceManager(performance);
             this.performanceManagers.Add(performanceManager);
+            this.CurrentPerformance = performanceManager;
         }
     }
 }

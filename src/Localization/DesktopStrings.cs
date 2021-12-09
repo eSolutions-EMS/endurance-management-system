@@ -156,10 +156,10 @@
         public const string EXPAND = "Expand";
         public const string COLLAPSE = "Collapse";
         public const string REQUIRED_INSPECTION = "Required Inspection";
-        public const string COMPULSORY_INSPECTION = "Compulsory Inspection";
         public const string REQUIRE_COMPULSORY_INSPECTION = "Require Compulsory Inspection";
         public const string VET_REQUIRE_INSPECTION = "Require Inspection";
         public const string COMPLETE_INSPECTION = "Complete Inspection";
         public const string _NUMBER = "_Number";
+        public const string NEXT_START_TIME = "Next Start Time";
     }
 }

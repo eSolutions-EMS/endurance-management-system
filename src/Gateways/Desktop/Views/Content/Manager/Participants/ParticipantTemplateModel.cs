@@ -25,13 +25,13 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participants
         private string toggleText = EXPAND;
         private readonly int number;
         private Visibility visibility;
-        public ObservableCollection<PerformanceViewModel> Performances { get; } = new();
+        public ObservableCollection<PerformanceTemplateModel> Performances { get; } = new();
         public ObservableCollection<double> PhaseLengths { get; } = new();
 
         private void UpdatePhases(Participation participation)
         {
             var lengths = participation.Performances.Select(x => x.Phase.LengthInKm);
-            var viewModels = participation.Performances.MapEnumerable<PerformanceViewModel>();
+            var viewModels = participation.Performances.MapEnumerable<PerformanceTemplateModel>();
 
             this.Performances.AddRange(viewModels);
             this.PhaseLengths.AddRange(lengths);

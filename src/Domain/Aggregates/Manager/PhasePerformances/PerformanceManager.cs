@@ -21,8 +21,8 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.PhasePerformances
 
         public Phase Phase { get; }
 
-        public bool IsComplete
-            => this.performance.Result != null;
+        public DateTime? NextPerformanceStartTime
+            => this.performance.NextPerformanceStartTime;
         public DateTime VetGatePassedTime =>
             this.performance.ReInspectionTime ?? this.performance.InspectionTime!.Value;
 
@@ -32,10 +32,6 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.PhasePerformances
             {
                 time.IsRequired(nameof(time));
             });
-            if (this.IsComplete)
-            {
-                this.Throw<PerformanceException>(IS_COMPLETE);
-            }
             if (this.performance.InspectionTime.HasValue && this.performance.ReInspectionTime.HasValue)
             {
                 this.Throw<PerformanceException>(CAN_ONLY_BE_COMPLETED);
@@ -54,7 +50,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.PhasePerformances
                 this.ReInspect(time);
             }
         }
-        internal void Complete()
+        internal void Complete(DateTime? nextPhaseStartTime)
         {
             this.Validate<PerformanceException>(() =>
             {
@@ -67,6 +63,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.PhasePerformances
             });
 
             this.performance.Result = new PhaseResult();
+            this.performance.NextPerformanceStartTime = nextPhaseStartTime;
         }
         internal void CompleteUnsuccessful(string code)
         {
@@ -82,7 +79,8 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.PhasePerformances
             {
                 this.Throw<PerformanceException>(CANNOT_COMPLETE_REQUIRED_INSPECTION);
             }
-            var inspectionTime = DateTime.Now
+            var inspectionTime = (this.performance.ReInspectionTime ?? this.performance.InspectionTime)
+                !.Value
                 .AddMinutes(this.Phase.RestTimeInMins)
                 .AddMinutes(-COMPULSORY_INSPECTION_TIME_BEFORE_NEXT_START);
             this.performance.RequiredInspectionTime = inspectionTime;

@@ -33,10 +33,10 @@ namespace EnduranceJudge.Domain.Core.Extensions
                 throw new DomainException(CANNOT_ADD_NULL_ITEM_TEMPLATE);
             }
 
-            if (collection.Contains(model))
-            {
-                throw new DomainException(CANNOT_ADD_ITEM_EXISTS_TEMPLATE, model.GetType().Name);
-            }
+            // if (collection.Contains(model))
+            // {
+            //     throw new DomainException(CANNOT_ADD_ITEM_EXISTS_TEMPLATE, model.GetType().Name);
+            // }
 
             collection.Add(model);
         }

@@ -59,7 +59,6 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager
 
         private void StartAction()
         {
-            this.InputNumber = 15;
             this.contestExecutor.Execute(manager => manager.Start());
             this.StartVisibility = Visibility.Collapsed;
         }
@@ -105,8 +104,11 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager
             {
                 return;
             }
-            this.contestExecutor.Execute(manager
-                => manager.RequireInspection(this.InputNumber.Value));
+            this.contestExecutor.Execute(manager =>
+            {
+                manager.RequireInspection(this.InputNumber.Value);
+                this.RequireInspectionValue = false;
+            });
         }
         private void CompleteInspectionAction()
         {
