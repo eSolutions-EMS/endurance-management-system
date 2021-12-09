@@ -14,12 +14,12 @@ namespace EnduranceJudge.Domain.Core.Extensions
         {
             if (model == null)
             {
-                throw new DomainException(CannotRemoveNullItemTemplate);
+                throw new DomainException(CANNOT_REMOVE_NULL_ITEM_TEMPLATE);
             }
 
             if (!collection.Contains(model))
             {
-                throw new DomainException(CannotRemoveItemIsNotFoundTemplate, model.GetType().Name);
+                throw new DomainException(CANNOT_REMOVE_ITEM_IS_NOT_FOUND_TEMPLATE, model.GetType().Name);
             }
 
             collection.Remove(model);
@@ -30,12 +30,12 @@ namespace EnduranceJudge.Domain.Core.Extensions
         {
             if (model == null)
             {
-                throw new DomainException(CannotAddNullItemTemplate);
+                throw new DomainException(CANNOT_ADD_NULL_ITEM_TEMPLATE);
             }
 
             if (collection.Contains(model))
             {
-                throw new DomainException(CannotAddItemExistsTemplate, model.GetType().Name);
+                throw new DomainException(CANNOT_ADD_ITEM_EXISTS_TEMPLATE, model.GetType().Name);
             }
 
             collection.Add(model);
@@ -46,7 +46,7 @@ namespace EnduranceJudge.Domain.Core.Extensions
         {
             if (domainObject == null)
             {
-                throw new DomainException(CannotAddNullItemTemplate);
+                throw new DomainException(CANNOT_ADD_NULL_ITEM_TEMPLATE);
             }
 
             if (collection.Contains(domainObject))

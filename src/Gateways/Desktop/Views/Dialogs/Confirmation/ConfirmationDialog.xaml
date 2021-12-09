@@ -22,11 +22,11 @@
 
                 <Button Style="{StaticResource Button}" Width="200px" HorizontalAlignment="Center" Margin="5px"
                         Command="{Binding Confirm}"
-                        Content="{x:Static strings:DesktopStrings.YES}" />
+                        Content="{x:Static strings:DesktopStrings._YES}" />
 
                 <Button Style="{StaticResource Button}" Width="200px" HorizontalAlignment="Center" Margin="5px"
                         Command="{Binding Reject}"
-                        Content="{x:Static strings:DesktopStrings.NO}" />
+                        Content="{x:Static strings:DesktopStrings._NO}" />
 
             </StackPanel>
         </Grid>

@@ -61,6 +61,16 @@ namespace EnduranceJudge.Domain.Aggregates.Manager
             var participation = this.GetParticipation(participantId);
             participation.CompletePerformance(code);
         }
+        public void RequireInspection(int participantId)
+        {
+            var participation = this.GetParticipation(participantId);
+            participation.RequireInspection();
+        }
+        public void CompleteRequiredInspection(int participantId)
+        {
+            var participation = this.GetParticipation(participantId);
+            participation.CompleteRequiredInspection();
+        }
 
         private ParticipationManager GetParticipation(int number)
         {

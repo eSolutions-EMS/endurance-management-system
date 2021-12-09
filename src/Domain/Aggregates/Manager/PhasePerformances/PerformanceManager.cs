@@ -11,8 +11,6 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.PhasePerformances
     public class PerformanceManager : ManagerObjectBase
     {
         private readonly Performance performance;
-        private const string ARRIVAL_TIME_IS_NULL_MESSAGE = "cannot complete: ArrivalTime cannot be null.";
-        private const string INSPECTION_TIME_IS_NULL_MESSAGE = "cannot complete: InspectionTime cannot be null";
         public const int COMPULSORY_INSPECTION_TIME_BEFORE_NEXT_START = 15;
 
         internal PerformanceManager(Performance performance)
@@ -62,6 +60,10 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.PhasePerformances
             {
                 this.performance.ArrivalTime.IsRequired(ARRIVAL_TIME_IS_NULL_MESSAGE);
                 this.performance.InspectionTime.IsRequired(INSPECTION_TIME_IS_NULL_MESSAGE);
+                if (this.performance.IsAnotherInspectionRequired)
+                {
+                    this.performance.RequiredInspectionTime.IsRequired(REQUIRED_INSPECTION_IS_NULL_MESSAGE);
+                }
             });
 
             this.performance.Result = new PhaseResult();
@@ -69,6 +71,21 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.PhasePerformances
         internal void CompleteUnsuccessful(string code)
         {
             this.performance.Result = new PhaseResult(code);
+        }
+        internal void RequireInspection()
+        {
+            this.performance.IsAnotherInspectionRequired = true;
+        }
+        internal void CompleteRequiredInspection()
+        {
+            if (!this.performance.IsAnotherInspectionRequired)
+            {
+                this.Throw<PerformanceException>(CANNOT_COMPLETE_REQUIRED_INSPECTION);
+            }
+            var inspectionTime = DateTime.Now
+                .AddMinutes(this.Phase.RestTimeInMins)
+                .AddMinutes(-COMPULSORY_INSPECTION_TIME_BEFORE_NEXT_START);
+            this.performance.RequiredInspectionTime = inspectionTime;
         }
 
         private void Arrive(DateTime time)
@@ -97,7 +114,6 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.PhasePerformances
             }
 
             this.performance.InspectionTime = time;
-            this.HandleCompulsoryInspection(time);
         }
 
         private void ReInspect(DateTime time)
@@ -112,18 +128,6 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.PhasePerformances
             }
 
             this.performance.ReInspectionTime = time;
-            this.HandleCompulsoryInspection(time);
-        }
-
-        private void HandleCompulsoryInspection(DateTime time)
-        {
-            if (this.Phase.RequireCompulsoryInspection)
-            {
-                var inspectionTime = time
-                    .AddMinutes(this.Phase.RestTimeInMins)
-                    .AddMinutes(-COMPULSORY_INSPECTION_TIME_BEFORE_NEXT_START);
-                this.performance.CompulsoryInspectionTime = inspectionTime;
-            }
         }
     }
 }

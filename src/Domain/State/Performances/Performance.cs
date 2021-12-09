@@ -11,6 +11,7 @@ namespace EnduranceJudge.Domain.State.Performances
         public Performance(Phase phase, DateTime startTime) : base(GENERATE_ID)
         {
             this.Phase = phase;
+            this.IsAnotherInspectionRequired = phase.RequireCompulsoryInspection;
             this.StartTime = startTime;
         }
 
@@ -19,8 +20,8 @@ namespace EnduranceJudge.Domain.State.Performances
         public DateTime? ArrivalTime { get; internal set; }
         public DateTime? InspectionTime { get; internal set; }
         public DateTime? ReInspectionTime { get; internal set; }
+        public bool IsAnotherInspectionRequired { get; internal set; }
         public DateTime? RequiredInspectionTime { get; internal set; }
-        public DateTime? CompulsoryInspectionTime { get; internal set; }
         public PhaseResult Result { get; internal set; }
 
         public TimeSpan? LoopSpan

@@ -11,7 +11,7 @@ namespace EnduranceJudge.Domain.Core.Validation
         {
             if (value?.Equals(default(TValue)) ?? true)
             {
-                throw new DomainException(IsRequiredTemplate, name, value);
+                throw new DomainException(IS_REQUIRED_TEMPLATE, name, value);
             }
 
             return value;

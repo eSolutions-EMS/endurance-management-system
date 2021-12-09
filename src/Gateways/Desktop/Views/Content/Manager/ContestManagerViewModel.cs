@@ -27,12 +27,16 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager
             this.Start = new DelegateCommand(this.StartAction);
             this.Complete = new DelegateCommand(this.CompleteAction);
             this.CompleteUnsuccessful = new DelegateCommand(this.CompleteUnsuccessfulAction);
+            this.RequireInspection = new DelegateCommand(this.RequireInspectionAction);
+            this.CompleteInspection = new DelegateCommand(this.CompleteInspectionAction);
         }
 
         public DelegateCommand Start { get; }
         public DelegateCommand Update { get; }
         public DelegateCommand Complete { get; }
         public DelegateCommand CompleteUnsuccessful { get; }
+        public DelegateCommand RequireInspection { get; }
+        public DelegateCommand CompleteInspection { get; }
 
         private Visibility startVisibility;
         private int? inputNumber;
@@ -40,6 +44,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager
         private int? inputMinutes;
         private int? inputSeconds;
         private string deQualificationCode;
+        private bool requireInspectionValue;
 
         public ObservableCollection<ParticipantTemplateModel> Participations { get; } = new();
 
@@ -93,6 +98,24 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager
                 manager.CompletePerformance(this.InputNumber.Value, this.DeQualificationCode);
                 this.LoadParticipation();
             });
+        }
+        private void RequireInspectionAction()
+        {
+            if (!this.InputNumber.HasValue)
+            {
+                return;
+            }
+            this.contestExecutor.Execute(manager
+                => manager.RequireInspection(this.InputNumber.Value));
+        }
+        private void CompleteInspectionAction()
+        {
+            if (!this.InputNumber.HasValue)
+            {
+                return;
+            }
+            this.contestExecutor.Execute(manager =>
+                manager.CompleteRequiredInspection(this.InputNumber.Value));
         }
 
         private void LoadParticipation()
@@ -157,6 +180,12 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager
             get => this.inputSeconds;
             set => this.SetProperty(ref this.inputSeconds, value);
         }
+        public bool RequireInspectionValue
+        {
+            get => this.requireInspectionValue;
+            set => this.SetProperty(ref this.requireInspectionValue, true);
+        }
+
         private DateTime InputTime
         {
             get

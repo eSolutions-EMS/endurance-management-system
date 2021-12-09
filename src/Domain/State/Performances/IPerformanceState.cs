@@ -9,7 +9,7 @@ namespace EnduranceJudge.Domain.State.Performances
         DateTime? ArrivalTime { get; }
         DateTime? InspectionTime { get; }
         DateTime? ReInspectionTime { get; }
+        bool IsAnotherInspectionRequired { get; }
         DateTime? RequiredInspectionTime { get; }
-        DateTime? CompulsoryInspectionTime { get; }
     }
 }

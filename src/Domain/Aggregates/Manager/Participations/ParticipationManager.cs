@@ -71,6 +71,14 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participations
         {
             this.CurrentPerformanceManager.CompleteUnsuccessful(code);
         }
+        internal void RequireInspection()
+        {
+            this.CurrentPerformanceManager.RequireInspection();
+        }
+        internal void CompleteRequiredInspection()
+        {
+            this.CurrentPerformanceManager.CompleteRequiredInspection();
+        }
 
         private void AddNextPhase(DateTime startTime)
         {

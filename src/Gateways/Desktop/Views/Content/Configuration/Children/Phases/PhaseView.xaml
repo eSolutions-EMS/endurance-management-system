@@ -114,7 +114,7 @@
                 <CheckBox Style="{StaticResource CheckBox}"
                           IsChecked="{Binding RequireCompulsoryInspection}"
                           Name="RequireCompulsoryInspection"
-                          Content="{x:Static strings:DesktopStrings.YES}" />
+                          Content="{x:Static strings:DesktopStrings._YES}" />
             </Border>
 
             <Border Style="{StaticResource Border-Vertical}"

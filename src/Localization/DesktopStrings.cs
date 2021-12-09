@@ -151,12 +151,15 @@
         public const string ALREADY_PARTICIPATING_TEMPLATE = "Cannot be created - '{0}' is already participating.";
         public const string PARTICIPANTS = "Participants";
         public const string SELECT_WORK_DIRECTORY = "Select working directory from 'Import' button above.";
-        public const string YES = "_Yes";
-        public const string NO = "_No";
+        public const string _YES = "_Yes";
+        public const string _NO = "_No";
         public const string EXPAND = "Expand";
         public const string COLLAPSE = "Collapse";
         public const string REQUIRED_INSPECTION = "Required Inspection";
         public const string COMPULSORY_INSPECTION = "Compulsory Inspection";
         public const string REQUIRE_COMPULSORY_INSPECTION = "Require Compulsory Inspection";
+        public const string VET_REQUIRE_INSPECTION = "Require Inspection";
+        public const string COMPLETE_INSPECTION = "Complete Inspection";
+        public const string _NUMBER = "_Number";
     }
 }
