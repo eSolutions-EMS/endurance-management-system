@@ -1,26 +1,35 @@
 ﻿using EnduranceJudge.Core.Mappings;
+using EnduranceJudge.Core.Utilities;
 using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Domain.State.Participations;
 using EnduranceJudge.Gateways.Desktop.Core;
+using EnduranceJudge.Gateways.Desktop.Services;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Manager.PhasePerformances;
 using Prism.Commands;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 using static EnduranceJudge.Localization.DesktopStrings;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participants
 {
     public class ParticipantTemplateModel : ViewModelBase, ICollapsable
     {
+        private readonly IPrinter printer;
+
         public ParticipantTemplateModel(Participant participant, Visibility visibility = Visibility.Visible)
         {
+            this.printer = StaticProvider.GetService<IPrinter>();
             this.Visibility = visibility;
-            this.ToggleVisibility = new DelegateCommand(this.ToggleVisibilityAction);
             this.Number = participant.Number;
             this.UpdatePhases(participant.Participation);
+            this.ToggleVisibility = new DelegateCommand(this.ToggleVisibilityAction);
+            this.Print = new DelegateCommand<Visual>(this.PrintAction);
         }
 
+        public DelegateCommand<Visual> Print { get; }
         public DelegateCommand ToggleVisibility { get; }
         private string toggleText = EXPAND;
         private readonly int number;
@@ -35,6 +44,11 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participants
 
             this.Performances.AddRange(viewModels);
             this.PhaseLengths.AddRange(lengths);
+        }
+
+        private void PrintAction(Visual control)
+        {
+            this.printer.Print(control);
         }
 
         public int Number

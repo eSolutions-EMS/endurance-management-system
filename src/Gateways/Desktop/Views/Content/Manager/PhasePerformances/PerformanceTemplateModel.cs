@@ -1,14 +1,16 @@
 ﻿using EnduranceJudge.Core.Mappings;
+using EnduranceJudge.Core.Utilities;
 using EnduranceJudge.Domain.State.Performances;
 using EnduranceJudge.Gateways.Desktop.Core;
+using EnduranceJudge.Gateways.Desktop.Services;
+using Prism.Commands;
 using System;
+using System.Windows.Media;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager.PhasePerformances
 {
     public class PerformanceTemplateModel : ViewModelBase, IMapFrom<Performance>, IPerformanceState
     {
-        public int OrderBy { get; private set; }
-
         private DateTime startTime;
         private DateTime? arrivalTime;
         private DateTime? inspectionTime;

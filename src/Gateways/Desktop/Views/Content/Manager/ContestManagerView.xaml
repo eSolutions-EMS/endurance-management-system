@@ -112,10 +112,10 @@
                                                   Content="{x:Static localization:DesktopStrings.VET_REQUIRE_INSPECTION}" />
                                     </Border>
 
-                                    <Border Style="{StaticResource Border-Horizontal}">
+                                    <Border Style="{StaticResource Border-Horizontal}" Margin="18px 0 0 0">
                                         <Button Style="{StaticResource Button-Big-Horizontal}"
                                                 Command="{Binding CompleteInspection}"
-                                                Content="{x:Static localization:DesktopStrings.COMPLETE_INSPECTION}" />
+                                                Content="{x:Static localization:DesktopStrings.COMPLETE}" />
                                     </Border>
                                 </StackPanel>
                             </Border>
