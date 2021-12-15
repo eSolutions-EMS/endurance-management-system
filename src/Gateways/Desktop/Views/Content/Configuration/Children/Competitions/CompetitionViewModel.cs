@@ -3,13 +3,18 @@ using EnduranceJudge.Domain.Aggregates.Configuration;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Competitions;
 using EnduranceJudge.Domain.Enums;
+using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Gateways.Desktop.Core;
+using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
+using EnduranceJudge.Gateways.Desktop.Services;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Phases;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core;
 using Prism.Commands;
+using Prism.Regions;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using static EnduranceJudge.Localization.DesktopStrings;
 
@@ -19,22 +24,31 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.C
         ICompetitionState,
         ICollapsable
     {
+        private readonly IExecutor<ConfigurationManager> configurationExecutor;
+        private readonly IQueries<Participant> participants;
         private readonly ConfigurationManager configuration;
-        public CompetitionViewModel() : this(null, null) { }
+        public CompetitionViewModel() : this(null, null, null, null) { }
         public CompetitionViewModel(
+            IExecutor<ConfigurationManager> configurationExecutor,
+            IQueries<Participant> participants,
             ConfigurationManager configuration,
             IQueries<Competition> competitions) : base(competitions)
         {
+            // this.AddParticipants = new DelegateCommand(this.Navigation.ChangeTo<>());
+            this.configurationExecutor = configurationExecutor;
+            this.participants = participants;
             this.configuration = configuration;
             this.ToggleVisibility = new DelegateCommand(this.ToggleVisibilityAction);
             this.CreatePhase = new DelegateCommand(this.NewForm<PhaseView>);
         }
 
+        public DelegateCommand AddParticipants { get; }
         public DelegateCommand ToggleVisibility { get; }
         public DelegateCommand CreatePhase { get; }
         public ObservableCollection<SimpleListItemViewModel> TypeItems { get; }
             = new(SimpleListItemViewModel.FromEnum<CompetitionType>());
         public ObservableCollection<PhaseViewModel> Phases { get; } = new();
+        public ObservableCollection<ListItemViewModel> Participants { get; } = new();
 
         private int typeValue;
         private string name;
@@ -44,12 +58,57 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.C
         private Visibility visibility = Visibility.Collapsed;
         public CompetitionType Type => (CompetitionType)this.TypeValue;
 
+        public override void OnNavigatedTo(NavigationContext context)
+        {
+            base.OnNavigatedTo(context);
+            this.LoadParticipants();
+        }
         protected override IDomainObject Persist()
         {
             var result = this.configuration.Competitions.Save(this);
             return result;
         }
 
+        private void RemoveParticipantAction(int? participantId)
+        {
+            this.configurationExecutor.Execute(x =>
+                x.Competitions.RemoveParticipant(this.Id, participantId!.Value));
+            this.LoadParticipants();
+        }
+
+        private void LoadParticipants()
+        {
+            this.Participants.Clear();
+            var participants = this.participants
+                .GetAll()
+                .Where(x => x.Participation.Competitions.Any(comp => comp.Equals(this)));
+            foreach (var participant in participants)
+            {
+                var removeCommand = new DelegateCommand<int?>(this.RemoveParticipantAction);
+                var listItem = new ListItemViewModel(
+                    participant.Id,
+                    participant.Name,
+                    removeCommand,
+                    REMOVE);
+                this.Participants.Add(listItem);
+            }
+        }
+
+        private void ToggleVisibilityAction()
+        {
+            if (this.Visibility == Visibility.Collapsed)
+            {
+                this.Visibility = Visibility.Visible;
+                this.ToggleText = COLLAPSE;
+            }
+            else
+            {
+                this.Visibility = Visibility.Collapsed;
+                this.ToggleText = EXPAND;
+            }
+        }
+
+        #region Setters
         public string TypeString
         {
             get => this.typeString;
@@ -84,19 +143,6 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.C
             get => this.visibility;
             private set => this.SetProperty(ref this.visibility, value);
         }
-
-        private void ToggleVisibilityAction()
-        {
-            if (this.Visibility == Visibility.Collapsed)
-            {
-                this.Visibility = Visibility.Visible;
-                this.ToggleText = COLLAPSE;
-            }
-            else
-            {
-                this.Visibility = Visibility.Collapsed;
-                this.ToggleText = EXPAND;
-            }
-        }
+        #endregion
     }
 }

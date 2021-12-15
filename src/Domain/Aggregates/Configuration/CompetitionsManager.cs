@@ -44,7 +44,12 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
             return competition;
         }
 
-
+        public void RemoveParticipant(int competitionId, int participantId)
+        {
+            var competition = this.state.Event.Competitions.FindDomain(competitionId);
+            var participant = this.state.Participants.FindDomain(participantId);
+            participant.RemoveFrom(competition);
+        }
         private void UpdateParticipants(Competition competition)
         {
             foreach (var participant in this.state.Participants)

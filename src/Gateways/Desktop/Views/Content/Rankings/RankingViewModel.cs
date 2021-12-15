@@ -8,6 +8,7 @@ using Prism.Commands;
 using Prism.Regions;
 using System.Collections.ObjectModel;
 using System.Linq;
+using static EnduranceJudge.Localization.DesktopStrings;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings
 {
@@ -37,7 +38,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings
         private ListItemViewModel ToListItem(CompetitionResult competitionResult)
         {
             var command = new DelegateCommand<int?>(this.NavigateToClassification);
-            var listItem = new ListItemViewModel((int)competitionResult.Length, command);
+            var listItem = new ListItemViewModel((int)competitionResult.Length, command, VIEW);
             return listItem;
         }
 

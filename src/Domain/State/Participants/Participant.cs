@@ -42,6 +42,11 @@ namespace EnduranceJudge.Domain.State.Participants
             });
             this.Participation.Add(competition);
         }
+        public void RemoveFrom(Competition competition)
+        {
+            this.Validate(() => competition.IsRequired(nameof(competition)));
+            this.Participation.Remove(competition);
+        }
 
         public string Name => FormatName(this.Number, this.Athlete.Name, this.Horse.Name);
 

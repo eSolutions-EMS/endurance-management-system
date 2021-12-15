@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using static EnduranceJudge.Localization.Strings;
+using static EnduranceJudge.Localization.DesktopStrings;
 
 namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
 {
@@ -92,7 +93,7 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
             var remove = this.AllowDelete
                 ? new DelegateCommand<int?>(this.RemoveAction)
                 : null;
-            return new ListItemViewModel(listable.Id, listable.Name, update, remove);
+            return new ListItemViewModel(listable.Id, listable.Name, update, REMOVE, remove);
         }
     }
 }

@@ -3,6 +3,7 @@ using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Competitions;
 using EnduranceJudge.Domain.State.Performances;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 
 namespace EnduranceJudge.Domain.State.Participations
@@ -21,8 +22,11 @@ namespace EnduranceJudge.Domain.State.Participations
             }
             this.competitions.Add(competition);
         });
-
-        public void Add(Performance performance)
+        internal void Remove(Competition competition)
+        {
+            this.competitions.Remove(competition);
+        }
+        internal void Add(Performance performance)
         {
             this.phasePerformances.AddUnique(performance);
         }

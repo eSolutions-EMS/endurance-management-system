@@ -162,5 +162,7 @@
         public const string NEXT_START_TIME = "Next Start Time";
         public const string PRINT = "Print";
         public const string EDIT = "Edit";
+        public const string VIEW = "View";
+        public const string ADD = "Add";
     }
 }
