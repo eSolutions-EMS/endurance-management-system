@@ -46,11 +46,11 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager
         private string deQualificationCode;
         private bool requireInspectionValue;
 
-        public ObservableCollection<ParticipantTemplateModel> Participations { get; } = new();
+        public ObservableCollection<ParticipantTemplateModel> Participants { get; } = new();
 
         public override void OnNavigatedTo(NavigationContext context)
         {
-            if (this.Participations.Any())
+            if (this.Participants.Any())
             {
                 return;
             }
@@ -130,16 +130,16 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager
             var participant = this.participants.GetOne(x => x.Number == this.InputNumber);
             var participationViewModel = new ParticipantTemplateModel(participant);
 
-            foreach (var participation in this.Participations)
+            foreach (var participation in this.Participants)
             {
                 participation.Visibility = Visibility.Collapsed;
             }
-            var existing = this.Participations.FirstOrDefault(x => x.Number == this.InputNumber);
+            var existing = this.Participants.FirstOrDefault(x => x.Number == this.InputNumber);
             if (existing != null)
             {
-                this.Participations.Remove(existing);
+                this.Participants.Remove(existing);
             }
-            this.Participations.Insert(0, participationViewModel);
+            this.Participants.Insert(0, participationViewModel);
         }
 
         private void LoadParticipants()
@@ -148,7 +148,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager
             foreach (var participant in participants)
             {
                 var viewModel = new ParticipantTemplateModel(participant, Visibility.Collapsed);
-                this.Participations.Add(viewModel);
+                this.Participants.Add(viewModel);
             }
         }
 

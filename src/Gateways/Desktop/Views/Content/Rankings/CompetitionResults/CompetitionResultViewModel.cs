@@ -8,7 +8,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.Categorizations
+namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.CompetitionResults
 {
     public class CompetitionResultViewModel : ViewModelBase
     {

@@ -3,7 +3,7 @@ using EnduranceJudge.Domain.Aggregates.Rankings.AggregateBranches;
 using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem;
 using EnduranceJudge.Gateways.Desktop.Services;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.Categorizations;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.CompetitionResults;
 using Prism.Commands;
 using Prism.Regions;
 using System.Collections.ObjectModel;
