@@ -9,7 +9,6 @@ using Prism.Commands;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 using static EnduranceJudge.Localization.DesktopStrings;
 

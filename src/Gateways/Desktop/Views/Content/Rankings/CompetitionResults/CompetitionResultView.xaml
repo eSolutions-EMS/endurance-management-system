@@ -28,14 +28,17 @@
                     <Button Style="{StaticResource Button-Big-Horizontal}"
                             IsEnabled="{Binding HasKidsClassification}"
                             Command="{Binding SelectKidsCategory}"
-                            Content="{x:Static localization:DesktopStrings.KIDS}"
-                            Grid.Column="0" />
+                            Content="{x:Static localization:DesktopStrings.KIDS}"/>
 
                     <Button Style="{StaticResource Button-Big-Horizontal}"
                             IsEnabled="{Binding HasAdultsClassification}"
                             Command="{Binding SelectAdultsCategory}"
-                            Content="{x:Static localization:DesktopStrings.ADULTS}"
-                            Grid.Column="1" />
+                            Content="{x:Static localization:DesktopStrings.ADULTS}"/>
+
+                    <Button Style="{StaticResource Button-Big-Horizontal}" Margin="200px 0 0 0"
+                            Command="{Binding Print}"
+                            CommandParameter="{Binding ElementName=RankList}"
+                            Content="{x:Static localization:DesktopStrings.PRINT}" />
                 </StackPanel>
             </Border>
 
@@ -69,7 +72,8 @@
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="3" Grid.Column="1">
                 <ListBox Style="{StaticResource ListBox-Vertical}"
-                         ItemsSource="{Binding RankList}" />
+                         ItemsSource="{Binding RankList}"
+                         Name="RankList"/>
             </Border>
         </Grid>
     </ScrollViewer>

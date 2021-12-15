@@ -1,12 +1,14 @@
 ﻿using EnduranceJudge.Domain.Aggregates.Rankings.AggregateBranches;
 using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Core.Extensions;
+using EnduranceJudge.Gateways.Desktop.Services;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participants;
 using Prism.Commands;
 using Prism.Regions;
 using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Windows.Media;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.CompetitionResults
 {
@@ -14,12 +16,14 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.CompetitionResu
     {
         private CompetitionResult competitionResult;
 
-        public CompetitionResultViewModel()
+        public CompetitionResultViewModel(IPrinter printer)
         {
+            this.Print = new DelegateCommand<Visual>(printer.Print);
             this.SelectKidsCategory = new DelegateCommand(this.SelectKidsCategoryAction);
             this.SelectAdultsCategory = new DelegateCommand(this.SelectAdultsCategoryAction);
         }
 
+        public DelegateCommand<Visual> Print { get; }
         public DelegateCommand SelectKidsCategory { get; }
         public DelegateCommand SelectAdultsCategory { get; }
 
@@ -45,6 +49,33 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.CompetitionResu
             this.SelectDefault();
         }
 
+        private void SelectKidsCategoryAction()
+        {
+            this.Select(this.competitionResult.KidsRankList);
+        }
+        private void SelectAdultsCategoryAction()
+        {
+            this.Select(this.competitionResult.AdultsRankList);
+        }
+        private void SelectDefault()
+        {
+            var defaultClassification = this.competitionResult.AdultsRankList
+                ?? this.competitionResult.KidsRankList;
+            this.Select(defaultClassification);
+        }
+        private void Select(RankList rankList)
+        {
+            this.TotalLengthInKm = this.competitionResult.Length.ToString(CultureInfo.InvariantCulture);
+            this.CategoryName = rankList.Category.ToString();
+            this.RankList.Clear();
+            foreach (var participant in rankList)
+            {
+                var viewModel = new ParticipantTemplateModel(participant);
+                this.RankList.Add(viewModel);
+            }
+        }
+
+        #region Setters
         public string TotalLengthInKm
         {
             get => this.totalLengthInKm;
@@ -65,33 +96,6 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.CompetitionResu
             get => this.hasAdultsClassification;
             set => this.SetProperty(ref this.hasAdultsClassification, value);
         }
-
-        private void SelectKidsCategoryAction()
-        {
-            this.Select(this.competitionResult.KidsRankList);
-        }
-        private void SelectAdultsCategoryAction()
-        {
-            this.Select(this.competitionResult.AdultsRankList);
-        }
-
-        private void SelectDefault()
-        {
-            var defaultClassification = this.competitionResult.AdultsRankList
-                ?? this.competitionResult.KidsRankList;
-            this.Select(defaultClassification);
-        }
-
-        private void Select(RankList rankList)
-        {
-            this.TotalLengthInKm = this.competitionResult.Length.ToString(CultureInfo.InvariantCulture);
-            this.CategoryName = rankList.Category.ToString();
-            this.RankList.Clear();
-            foreach (var participant in rankList)
-            {
-                var viewModel = new ParticipantTemplateModel(participant);
-                this.RankList.Add(viewModel);
-            }
-        }
+        #endregion
     }
 }
