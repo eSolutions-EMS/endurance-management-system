@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace EnduranceJudge.Gateways.Persistence.Contracts.Queries
 {
-    public class EnduranceEventQueries : IEnduranceEventQuery, IRepository
+    public class EnduranceEventQueries : IEnduranceEventQuery, IQuery
     {
         private readonly IState state;
         public EnduranceEventQueries(IState state)

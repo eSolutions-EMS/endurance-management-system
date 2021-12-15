@@ -1,4 +1,5 @@
-﻿using EnduranceJudge.Core.ConventionalServices;
+﻿using EnduranceJudge.Application.Core.Exceptions;
+using EnduranceJudge.Core.ConventionalServices;
 using EnduranceJudge.Domain.Core.Exceptions;
 using EnduranceJudge.Gateways.Desktop.Core.Services;
 using System;
@@ -18,7 +19,7 @@ namespace EnduranceJudge.Gateways.Desktop.Services
         public void Handle(Exception exception)
         {
             exception = GetInnermostException(exception);
-            if (exception is DomainException)
+            if (exception is DomainException or AppException)
             {
                 this.popupService.RenderValidation(exception.Message);
             }

@@ -58,7 +58,7 @@ namespace EnduranceJudge.Domain.Core.Models
 
         private bool IsEqual(object other)
         {
-            if (other is not IDomainObject domainModel)
+            if (other is not IIdentifiable identifiable)
             {
                 return false;
             }
@@ -66,7 +66,7 @@ namespace EnduranceJudge.Domain.Core.Models
             {
                 return true;
             }
-            if (this.Id == domainModel.Id)
+            if (this.Id == identifiable.Id)
             {
                 return true;
             }

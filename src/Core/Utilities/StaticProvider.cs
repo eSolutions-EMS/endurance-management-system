@@ -7,11 +7,6 @@ namespace EnduranceJudge.Core.Utilities
     {
         private static IServiceProvider? provider;
 
-        public static void Set(IServiceProvider provider)
-        {
-            StaticProvider.provider = provider;
-        }
-
         public static void Initialize(IServiceProvider provider)
         {
             if (StaticProvider.provider != null)
@@ -23,13 +18,14 @@ namespace EnduranceJudge.Core.Utilities
         }
 
         public static T GetService<T>()
+            where T : notnull
         {
             if (StaticProvider.provider == null)
             {
                 throw new InvalidOperationException("StaticProvider is not initialized");
             }
 
-            return provider.GetService<T>()!;
+            return provider.GetRequiredService<T>();
         }
     }
 }

@@ -13,7 +13,7 @@ namespace EnduranceJudge.Gateways.Persistence.Startup
         {
             services.Scan(scan => scan
                 .FromAssemblies(assemblies)
-                .AddClasses(classes => classes.AssignableTo<IRepository>())
+                .AddClasses(classes => classes.AssignableTo<IQuery>())
                 .AsSelfWithInterfaces()
                 .WithTransientLifetime());
 

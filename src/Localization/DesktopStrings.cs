@@ -161,5 +161,6 @@
         public const string _NUMBER = "_Number";
         public const string NEXT_START_TIME = "Next Start Time";
         public const string PRINT = "Print";
+        public const string EDIT = "Edit";
     }
 }

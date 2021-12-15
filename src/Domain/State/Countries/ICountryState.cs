@@ -1,8 +1,8 @@
-using EnduranceJudge.Domain.Core.Models;
+using EnduranceJudge.Core.Models;
 
 namespace EnduranceJudge.Domain.State.Countries
 {
-    public interface ICountryState : IDomainModelState
+    public interface ICountryState : IIdentifiable
     {
         string IsoCode { get; }
 

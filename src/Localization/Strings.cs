@@ -19,7 +19,6 @@
                     public const string HAS_NOT_STARTED = "has not started yet";
                     public const string CAN_ONLY_BE_COMPLETED = "can only be completed.";
                     public const string CANNOT_BE_COMPLETED = "cannot be completed";
-                    public const string IS_COMPLETE = "Performance is complete";
                     public const string DATE_TIME_HAS_TO_BE_LATER_TEMPLATE = "{0} has to be later than {1}";
                     public const string CANNOT_START_COMPETITION_WITHOUT_PHASES = "cannot start - competition has no phases.";
                     public const string REQUIRED_INSPECTION_IS_NULL_MESSAGE = "cannot complete: Additional Inspection is required and is not completed";
@@ -28,7 +27,8 @@
                     public const string CANNOT_COMPLETE_REQUIRED_INSPECTION = "cannot complete : Aditional inspecion is not required. Tick the checkbox to require one";
                     public const string CANNOT_START_NEXT_PERFORMANCE_PARTICIPATION_IS_COMPLETE = "cannot start next Performance. This Participant is already finished";
                     public const string CANNOT_START_PERFORMANCE_NO_PHASE = "cannot start performance - no Phase found.";
-                    public const string CANNOT_START_PERFORMANCE_NO_START_TIME = "cannot start next performance - no Start Time.";
+                    public const string CANNOT_START_PERFORMANCE_NO_START_TIME ="cannot start next performance - no Start Time.";
+                    public const string CANNOT_EDIT_PERFORMANCE = "Editting '{0}' is not allowed, becausue no value exists. Please use 'Update' button above.";
                 }
             }
 
@@ -48,6 +48,7 @@
             public const string UNSUPPORTED_IMPORT_FILE_TEMPLATE =  "Unsupported file. Please use '{0}' or '{1}'.";
             public const string COMPETITIONS_WITH_DIFFERENT_START_TIMES = "Invalid configuration. Competitions have different starttimes.";
             public const string NO_COMPETITIONS = "There are no competitions";
+            public const string INVALID_DATE_FORMAT = "Invalid date: '{0}'. Expected format: '{1}'.";
         }
 
         public static class DesktopStrings

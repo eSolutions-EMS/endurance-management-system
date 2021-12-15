@@ -1,8 +1,8 @@
-using EnduranceJudge.Domain.Core.Models;
+using EnduranceJudge.Core.Models;
 
 namespace EnduranceJudge.Domain.State.Participants
 {
-    public interface IParticipantState : IDomainModelState
+    public interface IParticipantState : IIdentifiable
     {
         public string RfId { get; }
         public int Number { get; }

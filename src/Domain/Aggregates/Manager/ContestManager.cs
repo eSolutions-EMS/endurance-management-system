@@ -1,10 +1,11 @@
 ﻿using EnduranceJudge.Core.Utilities;
-using EnduranceJudge.Domain.Aggregates.Manager.Participations;
+using EnduranceJudge.Domain.Aggregates.Manager.Participants;
+using EnduranceJudge.Domain.Aggregates.Manager.Performances;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State;
 using EnduranceJudge.Domain.State.Participants;
+using EnduranceJudge.Domain.State.Performances;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using static EnduranceJudge.Localization.Strings.DesktopStrings;
 
@@ -12,75 +13,91 @@ namespace EnduranceJudge.Domain.Aggregates.Manager
 {
     public class ContestManager : ManagerObjectBase, IAggregateRoot
     {
-        private readonly List<ParticipationManager> participationManagers = new();
+        private readonly IState state;
 
         public ContestManager()
         {
-            var state = StaticProvider.GetService<IState>();
+            this.state = StaticProvider.GetService<IState>();
             // Check is necessary due to Prism's initialization logic which uses reflection
             // to generate instances of views as part of the startup process.
             // Does views are not used in the actual views during the application use cycle
-            if (state?.Event == null)
+            if (this.state?.Event == null)
             {
                 return;
             }
-            // TODO: remove
-            var competitionTmp = state.Event.Competitions.FirstOrDefault();
-            foreach (var participant in state.Participants)
+            var competitionTmp = this.state.Event.Competitions.FirstOrDefault();
+            foreach (var participant in this.state.Participants)
             {
-                // TODO: remove
                 if (participant.Participation.Competitions.Count == 0)
                 {
                     participant.ParticipateIn(competitionTmp);
                 }
-                var manager = new ParticipationManager(participant);
-                this.participationManagers.Add(manager);
             }
         }
 
         public void Start()
         {
-            foreach (var participation in this.participationManagers)
+            var participants = this.state
+                .Participants
+                .Select(x => new ParticipantManager(x))
+                .ToList();
+            foreach (var participant in participants)
             {
-                participation.Start();
+                participant.Start();
             }
         }
 
-        public void UpdatePerformance(int participantId, DateTime time)
+        public void UpdatePerformance(int number, DateTime time)
         {
-            var participation = this.GetParticipation(participantId);
-            participation.UpdatePerformance(time);
+            var participant = this.GetParticipant(number);
+            participant.UpdatePerformance(time);
         }
-        public void CompletePerformance(int participantId)
+        public void CompletePerformance(int number)
         {
-            var participation = this.GetParticipation(participantId);
-            participation.CompletePerformance();
+            var participant = this.GetParticipant(number);
+            participant.CompletePerformance();
         }
-        public void CompletePerformance(int participantId, string code)
+        public void CompletePerformance(int number, string code)
         {
-            var participation = this.GetParticipation(participantId);
-            participation.CompletePerformance(code);
+            var participant = this.GetParticipant(number);
+            var performance = participant.GetActivePerformance();
+            performance.Complete(code);
         }
-        public void RequireInspection(int participantId)
+        public void RequireInspection(int number)
         {
-            var participation = this.GetParticipation(participantId);
-            participation.RequireInspection();
+            var participant = this.GetParticipant(number);
+            var performance = participant.GetActivePerformance();
+            performance.RequireInspection();
         }
-        public void CompleteRequiredInspection(int participantId)
+        public void CompleteRequiredInspection(int number)
         {
-            var participation = this.GetParticipation(participantId);
-            participation.CompleteRequiredInspection();
+            var participant = this.GetParticipant(number);
+            var performance = participant.GetActivePerformance();
+            performance.CompleteRequiredInspection();
+        }
+        public void EditPerformance(IPerformanceState state)
+        {
+            var performance = this.state
+                .Participants
+                .Select(part => part.Participation)
+                .SelectMany(participant => participant.Performances)
+                .FirstOrDefault(perf => perf.Equals(state));
+            var manager = new PerformanceManager(performance);
+            manager.Edit(state);
         }
 
-        private ParticipationManager GetParticipation(int number)
+        private ParticipantManager GetParticipant(int number)
         {
-            var participation = this.participationManagers.FirstOrDefault(x => x.Number == number);
-            if (participation == null)
+            var participant = this.state
+                .Participants
+                .FirstOrDefault(x => x.Number == number);
+            if (participant == null)
             {
                 var message = string.Format(PARTICIPANT_NUMBER_NOT_FOUND_TEMPLATE, number);
                 throw new ParticipantException { DomainMessage = message };
             }
-            return participation;
+            var manager = new ParticipantManager(participant);
+            return manager;
         }
     }
 }

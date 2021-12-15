@@ -1,8 +1,8 @@
-using EnduranceJudge.Domain.Core.Models;
+using EnduranceJudge.Core.Models;
 
 namespace EnduranceJudge.Domain.State.Horses
 {
-    public interface IHorseState : IDomainModelState
+    public interface IHorseState : IIdentifiable
     {
         string FeiId { get; }
         string Name { get; }

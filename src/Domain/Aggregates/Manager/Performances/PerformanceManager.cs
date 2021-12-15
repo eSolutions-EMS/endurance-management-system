@@ -5,8 +5,9 @@ using EnduranceJudge.Domain.State.PhaseResults;
 using EnduranceJudge.Domain.State.Phases;
 using System;
 using static EnduranceJudge.Localization.Strings.Domain.Manager.Participation;
+using static EnduranceJudge.Localization.DesktopStrings;
 
-namespace EnduranceJudge.Domain.Aggregates.Manager.PhasePerformances
+namespace EnduranceJudge.Domain.Aggregates.Manager.Performances
 {
     public class PerformanceManager : ManagerObjectBase
     {
@@ -21,8 +22,6 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.PhasePerformances
 
         public Phase Phase { get; }
 
-        public DateTime? NextPerformanceStartTime
-            => this.performance.NextPerformanceStartTime;
         public DateTime VetGatePassedTime =>
             this.performance.ReInspectionTime ?? this.performance.InspectionTime!.Value;
 
@@ -65,7 +64,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.PhasePerformances
             this.performance.Result = new PhaseResult();
             this.performance.NextPerformanceStartTime = nextPhaseStartTime;
         }
-        internal void CompleteUnsuccessful(string code)
+        internal void Complete(string code)
         {
             this.performance.Result = new PhaseResult(code);
         }
@@ -85,7 +84,42 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.PhasePerformances
                 .AddMinutes(-COMPULSORY_INSPECTION_TIME_BEFORE_NEXT_START);
             this.performance.RequiredInspectionTime = inspectionTime;
         }
-
+        internal void Edit(IPerformanceState state)
+        {
+            if (this.performance.Result != null)
+            {
+                this.Throw<PerformanceException>(IS_COMPLETE);
+            }
+            if (state.ArrivalTime.HasValue && this.performance.ArrivalTime != state.ArrivalTime)
+            {
+                if (this.performance.ArrivalTime == null)
+                {
+                    this.ThrowRestrictedEdit(ARRIVAL);
+                }
+                this.Arrive(state.ArrivalTime.Value);
+            }
+            if (state.InspectionTime.HasValue && this.performance.InspectionTime != state.InspectionTime)
+            {
+                if (this.performance.InspectionTime == null)
+                {
+                    this.ThrowRestrictedEdit(INSPECTION);
+                }
+                this.Inspect(state.InspectionTime.Value);
+            }
+            if (state.ReInspectionTime.HasValue && this.performance.ReInspectionTime != state.ReInspectionTime)
+            {
+                if (this.performance.ReInspectionTime == null)
+                {
+                    this.ThrowRestrictedEdit(RE_INSPECTION);
+                }
+                this.ReInspect(state.ReInspectionTime.Value);
+            }
+        }
+        private void ThrowRestrictedEdit(string labelName)
+        {
+            var message = string.Format(CANNOT_EDIT_PERFORMANCE, labelName);
+            this.Throw<PerformanceException>(message);
+        }
         private void Arrive(DateTime time)
         {
             if (time <= this.performance.StartTime)
@@ -107,7 +141,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.PhasePerformances
                 var message = string.Format(
                     DATE_TIME_HAS_TO_BE_LATER_TEMPLATE,
                     nameof(this.performance.InspectionTime),
-                    nameof(this.performance.ArrivalTime));
+                    this.performance.ArrivalTime);
                 this.Throw<PerformanceException>(message);
             }
 
@@ -121,7 +155,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.PhasePerformances
                 var message = string.Format(
                     DATE_TIME_HAS_TO_BE_LATER_TEMPLATE,
                     nameof(this.performance.ReInspectionTime),
-                    nameof(this.performance.InspectionTime));
+                    this.performance.InspectionTime);
                 this.Throw<PerformanceException>(message);
             }
 

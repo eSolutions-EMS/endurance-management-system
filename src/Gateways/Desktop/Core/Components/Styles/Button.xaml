@@ -29,6 +29,7 @@
 
     <Style x:Key="Button-Big-Horizontal" TargetType="Button" BasedOn="{StaticResource Button-Horizontal}">
         <Setter Property="MinWidth" Value="150px" />
+        <Setter Property="MaxWidth" Value="150px" />
         <Setter Property="FontSize" Value="16px" />
     </Style>
 

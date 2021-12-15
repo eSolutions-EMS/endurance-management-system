@@ -1,8 +1,8 @@
-using EnduranceJudge.Domain.Core.Models;
+using EnduranceJudge.Core.Models;
 
 namespace EnduranceJudge.Domain.State.Phases
 {
-    public interface IPhaseState : IDomainModelState
+    public interface IPhaseState : IIdentifiable
     {
         double LengthInKm { get; }
         bool IsFinal { get; }

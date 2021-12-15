@@ -7,37 +7,37 @@
         <Border Style="{StaticResource Border-Participation-In-Phase}" >
             <StackPanel Style="{StaticResource List-Vertical}">
 
-                <Border Style="{StaticResource Border-Vertical}"
+                <Border Style="{StaticResource Border-Performance-Entry}"
                         Grid.Row="0" Grid.Column="1">
                     <TextBlock Style="{StaticResource Text}"
                                Text="{Binding StartTime, Mode=OneWay, StringFormat=HH:mm}" />
                 </Border>
 
-                <Border Style="{StaticResource Border-Vertical}"
+                <Border Style="{StaticResource Border-Performance-Entry}"
                         Grid.Row="1" Grid.Column="1">
-                    <TextBlock Style="{StaticResource Text}"
-                               Text="{Binding ArrivalTime, Mode=OneWay, StringFormat=HH:mm}" />
+                    <TextBox Style="{StaticResource Input}"
+                               Text="{Binding ArrivalTimeString}" />
                 </Border>
 
-                <Border Style="{StaticResource Border-Vertical}"
+                <Border Style="{StaticResource Border-Performance-Entry}"
                         Grid.Row="2" Grid.Column="1">
-                    <TextBlock Style="{StaticResource Text}"
-                               Text="{Binding InspectionTime, Mode=OneWay, StringFormat=HH:mm}" />
+                    <TextBox Style="{StaticResource Input}"
+                               Text="{Binding InspectionTimeString}" />
                 </Border>
 
-                <Border Style="{StaticResource Border-Vertical}"
+                <Border Style="{StaticResource Border-Performance-Entry}"
                         Grid.Row="3" Grid.Column="1">
-                    <TextBlock Style="{StaticResource Text}"
-                               Text="{Binding ReInspectionTime, Mode=OneWay, StringFormat=HH:mm}" />
+                    <TextBox Style="{StaticResource Input}"
+                               Text="{Binding ReInspectionTimeString}" />
                 </Border>
 
-                <Border Style="{StaticResource Border-Vertical}"
+                <Border Style="{StaticResource Border-Performance-Entry}"
                         Grid.Row="2" Grid.Column="1">
-                    <TextBlock Style="{StaticResource Text}"
-                               Text="{Binding RequiredInspectionTime, Mode=OneWay, StringFormat=HH:mm}" />
+                    <TextBox Style="{StaticResource Input}"
+                               Text="{Binding RequiredInspectionTimeString}" />
                 </Border>
 
-                <Border Style="{StaticResource Border-Vertical}"
+                <Border Style="{StaticResource Border-Performance-Entry}"
                         Grid.Row="3" Grid.Column="1">
                     <TextBlock Style="{StaticResource Text}">
                         <Run Text="{Binding LoopSpan, Mode=OneWay, StringFormat=hh\\:mm}" />
@@ -45,7 +45,7 @@
                     </TextBlock>
                 </Border>
 
-                <Border Style="{StaticResource Border-Vertical}"
+                <Border Style="{StaticResource Border-Performance-Entry}"
                         Grid.Row="4" Grid.Column="1">
                     <TextBlock Style="{StaticResource Text}">
                         <Run Text="{Binding PhaseSpan, Mode=OneWay, StringFormat=hh\\:mm}" />
@@ -53,7 +53,7 @@
                     </TextBlock>
                 </Border>
 
-                <Border Style="{StaticResource Border-Vertical}"
+                <Border Style="{StaticResource Border-Performance-Entry}"
                         Grid.Row="5" Grid.Column="1">
                     <TextBlock Style="{StaticResource Text}">
                         <Run Text="{Binding AverageSpeedForLoopInKpH, Mode=OneWay, StringFormat=N2}" />
@@ -61,7 +61,7 @@
                     </TextBlock>
                 </Border>
 
-                <Border Style="{StaticResource Border-Vertical}"
+                <Border Style="{StaticResource Border-Performance-Entry}"
                         Grid.Row="6" Grid.Column="1">
                     <TextBlock Style="{StaticResource Text}">
                         <Run Text="{Binding AverageSpeedForPhaseInKpH, Mode=OneWay, StringFormat=N2}" />
@@ -69,10 +69,17 @@
                     </TextBlock>
                 </Border>
 
-                <Border Style="{StaticResource Border-Vertical}"
+                <Border Style="{StaticResource Border-Performance-Entry}"
                         Grid.Row="7" Grid.Column="1">
                     <TextBlock Style="{StaticResource Text}"
                                Text="{Binding NextPerformanceStartTime, Mode=OneWay, StringFormat=HH:mm}" />
+                </Border>
+
+                <Border Style="{StaticResource Border-Performance-Entry}"
+                        Grid.Row="8" Grid.Column="1">
+                    <Button Style="{StaticResource Button-Horizontal}" Width="90px"
+                            Command="{Binding Edit}"
+                            Content="{x:Static localization:DesktopStrings.EDIT}" />
                 </Border>
             </StackPanel>
         </Border>

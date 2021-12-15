@@ -1,8 +1,8 @@
-using EnduranceJudge.Domain.Core.Models;
+using EnduranceJudge.Core.Models;
 
 namespace EnduranceJudge.Domain.State.EnduranceEvents
 {
-    public interface IEnduranceEventState : IDomainModelState
+    public interface IEnduranceEventState : IIdentifiable
     {
         public string Name { get; }
         public string PopulatedPlace { get; }

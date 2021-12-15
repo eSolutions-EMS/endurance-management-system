@@ -1,9 +1,9 @@
-﻿using EnduranceJudge.Domain.Core.Models;
+﻿using EnduranceJudge.Core.Models;
 using EnduranceJudge.Domain.Enums;
 
 namespace EnduranceJudge.Domain.State.Athletes
 {
-    public interface IAthleteState : IDomainModelState
+    public interface IAthleteState : IIdentifiable
     {
         public string FeiId { get; }
         public string FirstName { get; }

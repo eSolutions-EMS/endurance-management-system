@@ -1,9 +1,9 @@
-using EnduranceJudge.Domain.Core.Models;
+using EnduranceJudge.Core.Models;
 using EnduranceJudge.Domain.Enums;
 
 namespace EnduranceJudge.Domain.State.Personnels
 {
-    public interface IPersonnelState : IDomainModelState
+    public interface IPersonnelState : IIdentifiable
     {
         public string Name { get; }
 
