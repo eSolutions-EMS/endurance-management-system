@@ -3,7 +3,6 @@ using EnduranceJudge.Application.Core.Services;
 using EnduranceJudge.Core.ConventionalServices;
 using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Domain.State;
-using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace EnduranceJudge.Gateways.Persistence.Contracts
@@ -55,15 +54,6 @@ namespace EnduranceJudge.Gateways.Persistence.Contracts
             contents = this.NormalizeStorageFileContents(contents);
             var state = this.serialization.Deserialize<State>(contents);
             this.state.MapFrom(state);
-            // temp
-            var competition = this.state.Event?.Competitions.FirstOrDefault();
-            foreach (var participant in this.state.Participants)
-            {
-                if (participant.Participation.Competitions.Count == 0)
-                {
-                    participant.ParticipateIn(competition);
-                }
-            }
         }
 
         private void Create()

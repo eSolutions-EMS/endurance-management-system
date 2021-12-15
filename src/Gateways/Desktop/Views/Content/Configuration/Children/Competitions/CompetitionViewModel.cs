@@ -8,15 +8,18 @@ using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
 using EnduranceJudge.Gateways.Desktop.Services;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Competitions.AddParticipants;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Phases;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core;
 using Prism.Commands;
+using Prism.Events;
 using Prism.Regions;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using static EnduranceJudge.Localization.DesktopStrings;
+using static EnduranceJudge.Gateways.Desktop.DesktopConstants;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Competitions
 {
@@ -34,10 +37,10 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.C
             ConfigurationManager configuration,
             IQueries<Competition> competitions) : base(competitions)
         {
-            // this.AddParticipants = new DelegateCommand(this.Navigation.ChangeTo<>());
             this.configurationExecutor = configurationExecutor;
             this.participants = participants;
             this.configuration = configuration;
+            this.AddParticipants = new DelegateCommand(this.NavigateToAddParticipants);
             this.ToggleVisibility = new DelegateCommand(this.ToggleVisibilityAction);
             this.CreatePhase = new DelegateCommand(this.NewForm<PhaseView>);
         }
@@ -92,6 +95,13 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.C
                     REMOVE);
                 this.Participants.Add(listItem);
             }
+        }
+
+        private void NavigateToAddParticipants()
+        {
+            var tuple = (this.Id, this.Name);
+            var parameter = new NavigationParameter(NavigationParametersKeys.DATA, tuple);
+            this.Navigation.ChangeTo<AddParticipantsView>(parameter);
         }
 
         private void ToggleVisibilityAction()

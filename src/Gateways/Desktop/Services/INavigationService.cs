@@ -18,6 +18,5 @@ namespace EnduranceJudge.Gateways.Desktop.Services
             where T : IView;
         void ChangeTo<T>(params NavigationParameter[] parameters);
         void ChangeTo(Type view, params NavigationParameter[] parameters);
-        void Error(string message);
     }
 }

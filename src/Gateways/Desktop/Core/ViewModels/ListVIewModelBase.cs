@@ -87,7 +87,7 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
             this.popupService.RenderConfirmation(DesktopStrings.REMOVE_CONFIRMATION_MESSAGE, action);
         }
 
-        private ListItemViewModel ToViewModel(ListItemModel listable)
+        protected virtual ListItemViewModel ToViewModel(ListItemModel listable)
         {
             var update = new DelegateCommand<int?>(this.UpdateAction);
             var remove = this.AllowDelete

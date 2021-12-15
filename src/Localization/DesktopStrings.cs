@@ -104,7 +104,7 @@
 
         // ------ Horse
         public const string HorseTitle = "Horse";
-        public const string HorsesListTitle = "Horses";
+        public const string HORSES_LIST_TITLE = "Horses";
         public const string BREED = "Breed";
         public const string TrainerFeiId = "Trainer FEI ID";
         public const string TrainerFirstNameLabel = "Trainer First Name";
@@ -147,7 +147,8 @@
         public const string COMPLETE_UNSUCCESSFULLY = "Disqualify";
         public const string COMPLETE = "Complete";
         public const string UPDATE_PERSONNEL = "Update Personnel";
-        public const string CANNOT_REMOVE_USED_IN_PARTICIPANT = "Cannot be remobed because it is used in an existing Participant";
+        public const string CANNOT_REMOVE_USED_IN_PARTICIPANT =
+            "Cannot be remobed because it is used in an existing Participant";
         public const string ALREADY_PARTICIPATING_TEMPLATE = "Cannot be created - '{0}' is already participating.";
         public const string PARTICIPANTS = "Participants";
         public const string SELECT_WORK_DIRECTORY = "Select working directory from 'Import' button above.";
@@ -164,5 +165,6 @@
         public const string EDIT = "Edit";
         public const string VIEW = "View";
         public const string ADD = "Add";
+        public const string ADD_PARTICIPANTS_TO_COMPETITION = "Add Participants to";
     }
 }

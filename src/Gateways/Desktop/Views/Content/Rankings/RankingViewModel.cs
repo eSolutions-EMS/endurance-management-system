@@ -1,4 +1,5 @@
-﻿using EnduranceJudge.Domain.Aggregates.Rankings;
+﻿using DryIoc;
+using EnduranceJudge.Domain.Aggregates.Rankings;
 using EnduranceJudge.Domain.Aggregates.Rankings.AggregateBranches;
 using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem;
@@ -9,6 +10,7 @@ using Prism.Regions;
 using System.Collections.ObjectModel;
 using System.Linq;
 using static EnduranceJudge.Localization.DesktopStrings;
+using static EnduranceJudge.Gateways.Desktop.DesktopConstants;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings
 {
@@ -45,7 +47,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings
         private void NavigateToClassification(int? length)
         {
             var categorization = this.ranking.Competitions.First(x => x.Length == length!.Value);
-            var dataParameter = new NavigationParameter(DesktopConstants.DataParameter, categorization);
+            var dataParameter = new NavigationParameter(NavigationParametersKeys.DATA, categorization);
             this.navigation.ChangeTo<CompetitionResultView>(dataParameter);
         }
     }

@@ -20,7 +20,7 @@ namespace EnduranceJudge.Domain.State.Participations
                 var first = this.competitions.First();
                 // TODO if first.Configuration != competition.Configuration -> throw
             }
-            this.competitions.Add(competition);
+            this.competitions.AddUnique(competition);
         });
         internal void Remove(Competition competition)
         {

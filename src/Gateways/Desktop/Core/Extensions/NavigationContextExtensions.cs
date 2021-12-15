@@ -10,13 +10,13 @@ namespace EnduranceJudge.Gateways.Desktop.Core.Extensions
 
         public static bool IsExistingConfiguration(this NavigationContext context)
         {
-            var hasDomainId = context.Parameters.ContainsKey(Parameters.DOMAIN_ID);
+            var hasDomainId = context.Parameters.ContainsKey(DesktopConstants.NavigationParametersKeys.DOMAIN_ID);
             return hasDomainId;
         }
 
         public static int GetDomainId(this NavigationContext context)
         {
-            var key = Parameters.DOMAIN_ID;
+            var key = DesktopConstants.NavigationParametersKeys.DOMAIN_ID;
             var hasId = context.Parameters.TryGetValue<int>(key, out var id);
             if (!hasId)
             {
@@ -29,7 +29,7 @@ namespace EnduranceJudge.Gateways.Desktop.Core.Extensions
 
         public static int? LookForParentViewId(this NavigationContext context)
         {
-            var hasPrincipalId = context.Parameters.TryGetValue<int>(Parameters.PARENT_VIEW_ID, out var id);
+            var hasPrincipalId = context.Parameters.TryGetValue<int>(DesktopConstants.NavigationParametersKeys.PARENT_VIEW_ID, out var id);
             if (!hasPrincipalId)
             {
                 return null;
@@ -40,7 +40,7 @@ namespace EnduranceJudge.Gateways.Desktop.Core.Extensions
 
         public static int GetViewId(this NavigationContext context)
         {
-            var key = Parameters.VIEW_ID;
+            var key = DesktopConstants.NavigationParametersKeys.VIEW_ID;
             var hasPrincipalId = context.Parameters.TryGetValue<int>(key, out var id);
             if (!hasPrincipalId)
             {
@@ -53,19 +53,13 @@ namespace EnduranceJudge.Gateways.Desktop.Core.Extensions
 
         public static object GetData(this NavigationContext context)
         {
-            var hasData = context.Parameters.TryGetValue<object>(DesktopConstants.DataParameter, out var data);
+            var hasData = context.Parameters.TryGetValue<object>(DesktopConstants.NavigationParametersKeys.DATA, out var data);
             if (!hasData)
             {
                 return null;
             }
 
             return data;
-        }
-
-        public static string GetMessage(this NavigationContext context)
-        {
-            context.Parameters.TryGetValue<string>(DesktopConstants.MESSAGE_PARAMETER, out var message);
-            return message;
         }
     }
 }

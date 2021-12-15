@@ -60,6 +60,12 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
             var participant = this.state.Participants.FindDomain(id);
             this.state.Participants.Remove(participant);
         }
+        public void AddParticipation(int competitionId, int participantId)
+        {
+            var participant = this.state.Participants.FindDomain(participantId);
+            var competition = this.state.Event.Competitions.FindDomain(competitionId);
+            participant.ParticipateIn(competition);
+        }
 
         private bool IsPartOfAnotherParticipant(Athlete athlete, int participantId)
             => this.state.Participants.Any(x => x.Athlete.Equals(athlete) && x.Id != participantId);

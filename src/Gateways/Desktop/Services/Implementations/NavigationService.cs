@@ -1,4 +1,5 @@
-﻿using EnduranceJudge.Gateways.Desktop.Core;
+﻿using EnduranceJudge.Application.Core.Exceptions;
+using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.ConfigurationMenu;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Import;
 using EnduranceJudge.Gateways.Desktop.Core.Services.Implementations;
@@ -10,6 +11,7 @@ using Prism.Regions;
 using System;
 using static EnduranceJudge.Gateways.Desktop.DesktopConstants;
 using static EnduranceJudge.Localization.DesktopStrings;
+using NavigationParameters = Prism.Regions.NavigationParameters;
 
 namespace EnduranceJudge.Gateways.Desktop.Services.Implementations
 {
@@ -31,8 +33,7 @@ namespace EnduranceJudge.Gateways.Desktop.Services.Implementations
         {
             if (!this.context.IsInitialized)
             {
-                this.Error(SELECT_WORK_DIRECTORY);
-                return;
+                throw new AppException(SELECT_WORK_DIRECTORY);
             }
 
             this.ChangeTo<EnduranceEventView>();
@@ -43,18 +44,15 @@ namespace EnduranceJudge.Gateways.Desktop.Services.Implementations
         {
             if (!this.context.IsInitialized)
             {
-                this.Error(SELECT_WORK_DIRECTORY);
-                return;
+                throw new AppException(SELECT_WORK_DIRECTORY);
             }
             this.ChangeTo<ContestManagerView>();
-            // this.ChangeTo<ParticipantListView>(Regions.CONTENT_RIGHT);
         }
         public void NavigateToRanking()
         {
             if (!this.context.IsInitialized)
             {
-                this.Error(SELECT_WORK_DIRECTORY);
-                return;
+                throw new AppException(SELECT_WORK_DIRECTORY);
             }
             this.ChangeTo<RankingView>(Regions.CONTENT_RIGHT);
             this.ClearRegion(Regions.CONTENT_LEFT);
@@ -69,15 +67,15 @@ namespace EnduranceJudge.Gateways.Desktop.Services.Implementations
         public void ChangeToNewConfiguration<T>(int principalId, int childViewId)
             where T : IView
         {
-            var principal = new NavigationParameter(Parameters.PARENT_VIEW_ID, principalId);
-            var childView = new NavigationParameter(Parameters.VIEW_ID, childViewId);
+            var principal = new NavigationParameter(DesktopConstants.NavigationParametersKeys.PARENT_VIEW_ID, principalId);
+            var childView = new NavigationParameter(DesktopConstants.NavigationParametersKeys.VIEW_ID, childViewId);
             this.ChangeTo(typeof(T), principal, childView);
         }
 
         public void ChangeToUpdateConfiguration<T>(int id)
             where T : IView
         {
-            var parameter = new NavigationParameter(Parameters.DOMAIN_ID, id);
+            var parameter = new NavigationParameter(DesktopConstants.NavigationParametersKeys.DOMAIN_ID, id);
             this.ChangeTo(typeof(T), parameter);
         }
 
@@ -95,12 +93,6 @@ namespace EnduranceJudge.Gateways.Desktop.Services.Implementations
             }
 
             this.ChangeTo(Regions.CONTENT_LEFT, view, navigationParameters);
-        }
-
-        public void Error(string message)
-        {
-            var parameter = new NavigationParameter(DesktopConstants.MESSAGE_PARAMETER, message);
-            this.ChangeTo<MessageDialog>(parameter);
         }
     }
 }

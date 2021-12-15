@@ -25,14 +25,6 @@ namespace EnduranceJudge.Domain.Aggregates.Manager
             {
                 return;
             }
-            var competitionTmp = this.state.Event.Competitions.FirstOrDefault();
-            foreach (var participant in this.state.Participants)
-            {
-                if (participant.Participation.Competitions.Count == 0)
-                {
-                    participant.ParticipateIn(competitionTmp);
-                }
-            }
         }
 
         public void Start()

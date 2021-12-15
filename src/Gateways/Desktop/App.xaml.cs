@@ -85,7 +85,6 @@ namespace EnduranceJudge.Gateways.Desktop
         private static void InitializeStaticServices(IServiceProvider provider)
         {
             StaticProvider.Initialize(provider);
-            ErrorHandler.Initialize();
         }
 
         // private void BigDick()
