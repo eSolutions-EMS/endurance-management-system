@@ -16,7 +16,7 @@ using System.Linq;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.EnduranceEvents
 {
-    public class EnduranceEventViewModel : RelatedConfigurationBase<EnduranceEventView, EnduranceEvent>
+    public class EnduranceEventViewModel : NestedConfigurationBase<EnduranceEventView, EnduranceEvent>
     {
         private readonly IPopupService popupService;
         private readonly ConfigurationManager manager;

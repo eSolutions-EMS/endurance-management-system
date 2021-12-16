@@ -1,5 +1,4 @@
 ﻿using EnduranceJudge.Application.Aggregates.Configurations.Contracts;
-using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Core.Extensions;
@@ -8,12 +7,12 @@ using System;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core
 {
-    public abstract class RelatedConfigurationBase<TView, TDomain> : ConfigurationBase<TView, TDomain>
+    public abstract class NestedConfigurationBase<TView, TDomain> : ConfigurationBase<TView, TDomain>
         where TView : IView
         where TDomain : IDomainObject
     {
         private static readonly Random Random = new ();
-        protected RelatedConfigurationBase(IQueries<TDomain> queries) : base(queries)
+        protected NestedConfigurationBase(IQueries<TDomain> queries) : base(queries)
         {
         }
 
@@ -55,8 +54,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core
         protected void NewForm<T>()
             where T : IView => this.BasicExecutor.Execute(() =>
         {
-            var domain = this.Persist();
-            this.MapFrom(domain); // TODO: necessary?
+            this.Persist();
             var childViewId = Random.Next();
             this.Navigation.ChangeToNewConfiguration<T>(this.Id, childViewId);
         });

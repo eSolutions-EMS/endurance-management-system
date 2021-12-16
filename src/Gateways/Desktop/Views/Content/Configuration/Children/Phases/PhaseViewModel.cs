@@ -7,7 +7,7 @@ using EnduranceJudge.Localization;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Phases
 {
-    public class PhaseViewModel : RelatedConfigurationBase<PhaseView, Phase>, IPhaseState
+    public class PhaseViewModel : NestedConfigurationBase<PhaseView, Phase>, IPhaseState
     {
         private readonly ConfigurationManager manager;
         private string isFinalText;

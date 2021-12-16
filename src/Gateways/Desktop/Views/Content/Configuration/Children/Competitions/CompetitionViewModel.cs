@@ -23,7 +23,7 @@ using static EnduranceJudge.Gateways.Desktop.DesktopConstants;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Competitions
 {
-    public class CompetitionViewModel : RelatedConfigurationBase<CompetitionView, Competition>,
+    public class CompetitionViewModel : NestedConfigurationBase<CompetitionView, Competition>,
         ICompetitionState,
         ICollapsable
     {

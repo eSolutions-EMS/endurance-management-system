@@ -166,5 +166,7 @@
         public const string VIEW = "View";
         public const string ADD = "Add";
         public const string ADD_PARTICIPANTS_TO_COMPETITION = "Add Participants to";
+        public const string CANNOT_ADD_PARTICIPATION_DIFFERENT_PHASE_COUNT = "Cannot add Participation, because this competitor already participates in '{0}' with different amount of Phases ";
+        public const string CANNOT_ADD_PARTICIPATION_DIFFERENT_PHASE_LENGTHS = "Cannot add Participation - competitior already participates in '{0}' with different Phase lengths";
     }
 }
