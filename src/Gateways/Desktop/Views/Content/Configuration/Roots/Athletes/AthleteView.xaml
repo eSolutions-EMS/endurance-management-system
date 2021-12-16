@@ -27,7 +27,7 @@
         <Border Style="{StaticResource Border-Vertical}"
                 Grid.Row="0" Grid.Column="1">
             <TextBlock Style="{StaticResource Text-H1}"
-                       Text="{x:Static strings:DesktopStrings.AthleteTitle}" />
+                       Text="{x:Static strings:DesktopStrings.ATHLETE}" />
         </Border>
 
         <Border Style="{StaticResource Border-Vertical}"
@@ -90,7 +90,7 @@
         <Border Style="{StaticResource Border-Vertical}"
                 Grid.Row="6" Grid.Column="0">
             <TextBlock Style="{StaticResource Text-Bold}"
-                   Text="{x:Static strings:DesktopStrings.CategoryLabel}" />
+                   Text="{x:Static strings:DesktopStrings.CATEGORY}" />
         </Border>
         <Border Style="{StaticResource Border-Vertical}"
                 Grid.Row="6" Grid.Column="1">

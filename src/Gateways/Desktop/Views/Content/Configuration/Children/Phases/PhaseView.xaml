@@ -32,7 +32,7 @@
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="0" Grid.Column="1">
                 <TextBlock Style="{StaticResource Text-H1}"
-                       Text="{x:Static strings:DesktopStrings.PhaseTitle}" />
+                       Text="{x:Static strings:DesktopStrings.PHASE}" />
             </Border>
 
             <Border Style="{StaticResource Border-Vertical}"
@@ -52,7 +52,7 @@
                     Grid.Row="2" Grid.Column="0">
                 <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=LengthInKm}"
-                       Content="{x:Static strings:DesktopStrings.LengthInKmLabel}" />
+                       Content="{x:Static strings:DesktopStrings.LENGTH_IN_KM}" />
             </Border>
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="2" Grid.Column="1">
@@ -66,7 +66,7 @@
                     Grid.Row="3" Grid.Column="0">
                 <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=IsFinal}"
-                       Content="{x:Static strings:DesktopStrings.IsFinalLabel}" />
+                       Content="{x:Static strings:DesktopStrings.IS_FINAL}" />
             </Border>
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="3" Grid.Column="1">

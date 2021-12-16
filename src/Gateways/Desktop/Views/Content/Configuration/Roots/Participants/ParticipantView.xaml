@@ -26,14 +26,14 @@
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="0" Grid.Column="1">
                 <TextBlock Style="{StaticResource Text-H1}"
-                       Text="{x:Static strings:DesktopStrings.ParticipantTitle}" />
+                       Text="{x:Static strings:DesktopStrings.PARTICIPANT}" />
             </Border>
 
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="1" Grid.Column="0">
                 <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=RfId}"
-                       Content="{x:Static strings:DesktopStrings.RfIdLabel}" />
+                       Content="{x:Static strings:DesktopStrings.RFID_NUMBER}" />
             </Border>
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="1" Grid.Column="1">
@@ -46,7 +46,7 @@
                     Grid.Row="2" Grid.Column="0">
                 <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=Number}"
-                       Content="{x:Static strings:DesktopStrings.NumberLabel}" />
+                       Content="{x:Static strings:DesktopStrings.NUMBER}" />
             </Border>
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="2" Grid.Column="1">

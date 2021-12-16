@@ -42,7 +42,7 @@
     </Style>
 
     <Style x:Key="Button-Create" TargetType="Button" BasedOn="{StaticResource Button-Big-Vertical}">
-        <Setter Property="Content" Value="{x:Static localization:DesktopStrings.CREATE_BUTTON}" />
+        <Setter Property="Content" Value="{x:Static localization:DesktopStrings.CREATE}" />
     </Style>
 
     <Style x:Key="Button-Form" TargetType="Button" BasedOn="{StaticResource Button}">
@@ -51,7 +51,7 @@
     </Style>
 
     <Style x:Key="Button-Form-Create" TargetType="Button" BasedOn="{StaticResource Button-Form}">
-        <Setter Property="Content" Value="{x:Static localization:DesktopStrings.CREATE_BUTTON}" />
+        <Setter Property="Content" Value="{x:Static localization:DesktopStrings.CREATE}" />
     </Style>
 
     <Style x:Key="Button-Form-Back" TargetType="Button" BasedOn="{StaticResource Button-Form}">

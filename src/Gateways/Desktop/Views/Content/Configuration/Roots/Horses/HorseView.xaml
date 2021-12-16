@@ -29,7 +29,7 @@
         <Border Style="{StaticResource Border-Vertical}"
                 Grid.Row="0" Grid.Column="1">
             <TextBlock Style="{StaticResource Text-H1}"
-                       Text="{x:Static strings:DesktopStrings.HorseTitle}" />
+                       Text="{x:Static strings:DesktopStrings.HORSE}" />
         </Border>
 
         <Border Style="{StaticResource Border-Vertical}"
@@ -57,7 +57,7 @@
         <Border Style="{StaticResource Border-Vertical}"
                 Grid.Row="3" Grid.Column="0">
             <TextBlock Style="{StaticResource Text-Bold}"
-                       Text="{x:Static strings:DesktopStrings.IsStallionLabel}" />
+                       Text="{x:Static strings:DesktopStrings.IS_STALLION}" />
         </Border>
         <Border Style="{StaticResource Border-Vertical}"
                 Grid.Row="3" Grid.Column="1">
@@ -70,7 +70,7 @@
         <Border Style="{StaticResource Border-Vertical}"
                 Grid.Row="4" Grid.Column="0">
             <TextBlock Style="{StaticResource Text-Bold}"
-                       Text="{x:Static strings:DesktopStrings.TrainerFeiId}" />
+                       Text="{x:Static strings:DesktopStrings.TRAINER_FEI_ID}" />
         </Border>
         <Border Style="{StaticResource Border-Vertical}"
                 Grid.Row="4" Grid.Column="1">
@@ -92,7 +92,7 @@
         <Border Style="{StaticResource Border-Vertical}"
                 Grid.Row="6" Grid.Column="0">
             <TextBlock Style="{StaticResource Text-Bold}"
-                       Text="{x:Static strings:DesktopStrings.TrainerFirstNameLabel}" />
+                       Text="{x:Static strings:DesktopStrings.TRAINER_FIRST_NAME}" />
         </Border>
         <Border Style="{StaticResource Border-Vertical}"
                 Grid.Row="6" Grid.Column="1">
@@ -103,7 +103,7 @@
         <Border Style="{StaticResource Border-Vertical}"
                 Grid.Row="7" Grid.Column="0">
             <TextBlock Style="{StaticResource Text-Bold}"
-                       Text="{x:Static strings:DesktopStrings.TrainerLastNameLabel}" />
+                       Text="{x:Static strings:DesktopStrings.TRAINER_LAST_NAME}" />
         </Border>
         <Border Style="{StaticResource Border-Vertical}"
                 Grid.Row="7" Grid.Column="1">

@@ -50,8 +50,8 @@ namespace EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListIt
 
         public static List<SimpleListItemViewModel> FromBool()
         {
-            var falseItem = new SimpleListItemViewModel(0, DesktopStrings.BoolFalseValue);
-            var trueItem = new SimpleListItemViewModel(1, DesktopStrings.BoolTrueValue);
+            var falseItem = new SimpleListItemViewModel(0, DesktopStrings.NO);
+            var trueItem = new SimpleListItemViewModel(1, DesktopStrings.YES);
 
             var result =  new List<SimpleListItemViewModel> { falseItem, trueItem };
 

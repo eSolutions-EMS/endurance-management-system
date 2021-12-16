@@ -45,7 +45,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.P
             {
                 this.SetProperty(ref this.isFinalValue, value);
                 this.IsFinalText = value == 1
-                    ? DesktopStrings.IsFinalText
+                    ? DesktopStrings.IS_FINAL_TEXT
                     : string.Empty;
             }
         }

@@ -12,7 +12,7 @@
 
             <Button Style="{StaticResource Button}"
                     Command="{Binding OpenFolderDialog}"
-                    Content="{x:Static strings:DesktopStrings.SelectWorkDirectoryButtonText}" />
+                    Content="{x:Static strings:DesktopStrings.SELECT_WORK_DIRECTORY_BUTTON_TEXT}" />
 
             <TextBox Style="{StaticResource Input}"
                      Text="{Binding WorkDirectoryPath, Mode=OneWay}"
@@ -24,7 +24,7 @@
 
             <Button Style="{StaticResource Button}"
                     Command="{Binding OpenImportFileDialog}"
-                    Content="{x:Static strings:DesktopStrings.SelectImportFileButtonText}" />
+                    Content="{x:Static strings:DesktopStrings.SELECT_IMPORT_FILE_BUTTON_TEXT}" />
 
             <TextBox Style="{StaticResource Input}"
                      Text="{Binding ImportFilePath, Mode=OneWay}"
