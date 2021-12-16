@@ -16,7 +16,7 @@
         <Border Style="{StaticResource Border-Vertical}"
                 Grid.Row="0">
             <TextBlock Style="{StaticResource Text-H1}"
-                       Text="{x:Static strings:DesktopStrings.HORSES_LIST_TITLE}"
+                       Text="{x:Static strings:DesktopStrings.HORSES_ENTITY}"
                        Grid.Row="0" />
         </Border>
 

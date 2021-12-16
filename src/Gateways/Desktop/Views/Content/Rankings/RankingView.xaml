@@ -8,7 +8,7 @@
     <StackPanel Style="{StaticResource List-Vertical}">
 
         <TextBlock Style="{StaticResource Text-H2}"
-                   Text="{x:Static localization:DesktopStrings.COMPETITIONS}" />
+                   Text="{x:Static localization:DesktopStrings.COMPETITIONS_ENTITY}" />
 
         <StackPanel Style="{StaticResource List-Vertical}">
             <ListBox Style="{StaticResource ListBox-Vertical}"

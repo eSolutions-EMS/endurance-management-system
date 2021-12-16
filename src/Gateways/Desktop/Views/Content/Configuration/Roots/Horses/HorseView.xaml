@@ -29,7 +29,7 @@
         <Border Style="{StaticResource Border-Vertical}"
                 Grid.Row="0" Grid.Column="1">
             <TextBlock Style="{StaticResource Text-H1}"
-                       Text="{x:Static strings:DesktopStrings.HORSE}" />
+                       Text="{x:Static strings:DesktopStrings.HORSE_ENTITY}" />
         </Border>
 
         <Border Style="{StaticResource Border-Vertical}"

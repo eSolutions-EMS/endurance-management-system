@@ -8,18 +8,18 @@
     <StackPanel Style="{StaticResource List-Vertical}">
         <Button Style="{StaticResource Button-Big-Vertical}"
                 Command="{Binding Event}"
-                Content="{x:Static strings:DesktopStrings.ENDURANCE_EVENTS}" />
+                Content="{x:Static strings:DesktopStrings.ENDURANCE_EVENTS_ENTITY}" />
 
         <Button Style="{StaticResource Button-Big-Vertical}"
                 Command="{Binding AthleteList}"
-                Content="{x:Static strings:DesktopStrings.ATHLETES}" />
+                Content="{x:Static strings:DesktopStrings.ATHLETES_ENTITY}" />
 
         <Button Style="{StaticResource Button-Big-Vertical}"
                 Command="{Binding HorseList}"
-                Content="{x:Static strings:DesktopStrings.HORSES}" />
+                Content="{x:Static strings:DesktopStrings.HORSES_ENTITY}" />
 
         <Button Style="{StaticResource Button-Big-Vertical}"
                 Command="{Binding ParticipantList}"
-                Content="{x:Static strings:DesktopStrings.PARTICIPANTS}" />
+                Content="{x:Static strings:DesktopStrings.PARTICIPANTS_ENTITY}" />
     </StackPanel>
 </UserControl>

@@ -25,7 +25,7 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
                 state.FirstName.IsRequired(FIRST_NAME);
                 state.LastName.IsRequired(LAST_NAME);
                 state.Category.IsRequired(CATEGORY);
-                countryId.IsRequired(COUNTRY);
+                countryId.IsRequired(COUNTRY_ENTITY);
             });
 
             var athlete = this.state.Athletes.FindDomain(state.Id);

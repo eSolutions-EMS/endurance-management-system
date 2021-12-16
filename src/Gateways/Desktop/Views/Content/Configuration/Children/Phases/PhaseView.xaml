@@ -32,7 +32,7 @@
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="0" Grid.Column="1">
                 <TextBlock Style="{StaticResource Text-H1}"
-                       Text="{x:Static strings:DesktopStrings.PHASE}" />
+                       Text="{x:Static strings:DesktopStrings.PHASE_ENTITY}" />
             </Border>
 
             <Border Style="{StaticResource Border-Vertical}"

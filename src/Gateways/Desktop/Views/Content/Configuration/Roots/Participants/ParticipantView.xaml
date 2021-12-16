@@ -26,7 +26,7 @@
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="0" Grid.Column="1">
                 <TextBlock Style="{StaticResource Text-H1}"
-                       Text="{x:Static strings:DesktopStrings.PARTICIPANT}" />
+                       Text="{x:Static strings:DesktopStrings.PARTICIPANT_ENTITY}" />
             </Border>
 
             <Border Style="{StaticResource Border-Vertical}"
@@ -91,7 +91,7 @@
                     Grid.Row="5" Grid.Column="0">
                 <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=Athlete}"
-                       Content="{x:Static strings:DesktopStrings.ATHLETE}" />
+                       Content="{x:Static strings:DesktopStrings.ATHLETE_ENTITY}" />
             </Border>
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="5" Grid.Column="1">
@@ -105,7 +105,7 @@
                     Grid.Row="6" Grid.Column="0">
                 <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=Horse}"
-                       Content="{x:Static strings:DesktopStrings.HORSE}" />
+                       Content="{x:Static strings:DesktopStrings.HORSE_ENTITY}" />
             </Border>
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="6" Grid.Column="1">

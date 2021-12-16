@@ -29,7 +29,7 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
             {
                 name.IsRequired(NAME);
                 populatedPlace.IsRequired(POPULATED_PLACE);
-                countryId.IsRequired(COUNTRY);
+                countryId.IsRequired(COUNTRY_ENTITY);
             });
 
             var country = this.state.Countries.FindDomain(countryId);
