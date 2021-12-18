@@ -4,6 +4,7 @@
         <TargetFramework>net5.0</TargetFramework>
         <RootNamespace>EnduranceJudge.Localization</RootNamespace>
         <AssemblyName>EnduranceJudge.Localization</AssemblyName>
+        <LangVersion>latestmajor</LangVersion>
     </PropertyGroup>
 
 </Project>

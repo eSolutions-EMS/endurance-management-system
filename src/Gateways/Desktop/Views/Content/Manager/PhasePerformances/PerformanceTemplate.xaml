@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:EnduranceJudge.Gateways.Desktop.Views.Content.Manager.PhasePerformances"
-                    xmlns:localization="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization">
+                    xmlns:localization="clr-namespace:EnduranceJudge.Localization.Translations;assembly=EnduranceJudge.Localization">
 
     <DataTemplate DataType="{x:Type local:PerformanceTemplateModel}">
         <Border Style="{StaticResource Border-Participation-In-Phase}" >
@@ -41,7 +41,7 @@
                         Grid.Row="3" Grid.Column="1">
                     <TextBlock Style="{StaticResource Text}">
                         <Run Text="{Binding LoopSpan, Mode=OneWay, StringFormat=hh\\:mm}" />
-                        <Run Text="{x:Static localization:DesktopStrings.HOURS_SYMBOL}" />
+                        <Run Text="{x:Static localization:Words.HOURS_SYMBOL}" />
                     </TextBlock>
                 </Border>
 
@@ -49,7 +49,7 @@
                         Grid.Row="4" Grid.Column="1">
                     <TextBlock Style="{StaticResource Text}">
                         <Run Text="{Binding PhaseSpan, Mode=OneWay, StringFormat=hh\\:mm}" />
-                        <Run Text="{x:Static localization:DesktopStrings.HOURS_SYMBOL}" />
+                        <Run Text="{x:Static localization:Words.HOURS_SYMBOL}" />
                     </TextBlock>
                 </Border>
 
@@ -57,7 +57,7 @@
                         Grid.Row="5" Grid.Column="1">
                     <TextBlock Style="{StaticResource Text}">
                         <Run Text="{Binding AverageSpeedForLoopInKpH, Mode=OneWay, StringFormat=N2}" />
-                        <Run Text="{x:Static localization:DesktopStrings.KM_PER_HOUR}" />
+                        <Run Text="{x:Static localization:Words.KM_PER_HOUR}" />
                     </TextBlock>
                 </Border>
 
@@ -65,7 +65,7 @@
                         Grid.Row="6" Grid.Column="1">
                     <TextBlock Style="{StaticResource Text}">
                         <Run Text="{Binding AverageSpeedForPhaseInKpH, Mode=OneWay, StringFormat=N2}" />
-                        <Run Text="{x:Static localization:DesktopStrings.KM_PER_HOUR}" />
+                        <Run Text="{x:Static localization:Words.KM_PER_HOUR}" />
                     </TextBlock>
                 </Border>
 
@@ -79,7 +79,7 @@
                         Grid.Row="8" Grid.Column="1">
                     <Button Style="{StaticResource Button-Horizontal}" Width="90px"
                             Command="{Binding Edit}"
-                            Content="{x:Static localization:DesktopStrings.EDIT}" />
+                            Content="{x:Static localization:Words.EDIT}" />
                 </Border>
             </StackPanel>
         </Border>

@@ -1,15 +1,14 @@
-﻿using DryIoc;
-using EnduranceJudge.Domain.Aggregates.Rankings;
+﻿using EnduranceJudge.Domain.Aggregates.Rankings;
 using EnduranceJudge.Domain.Aggregates.Rankings.AggregateBranches;
 using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem;
 using EnduranceJudge.Gateways.Desktop.Services;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.CompetitionResults;
+using EnduranceJudge.Localization.Translations;
 using Prism.Commands;
 using Prism.Regions;
 using System.Collections.ObjectModel;
 using System.Linq;
-using static EnduranceJudge.Localization.DesktopStrings;
 using static EnduranceJudge.Gateways.Desktop.DesktopConstants;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings
@@ -40,7 +39,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings
         private ListItemViewModel ToListItem(CompetitionResult competitionResult)
         {
             var command = new DelegateCommand<int?>(this.NavigateToClassification);
-            var listItem = new ListItemViewModel((int)competitionResult.Length, command, VIEW);
+            var listItem = new ListItemViewModel((int)competitionResult.Length, command, Words.VIEW);
             return listItem;
         }
 

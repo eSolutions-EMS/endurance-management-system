@@ -2,7 +2,7 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"
-             xmlns:localization="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization"
+             xmlns:localization="clr-namespace:EnduranceJudge.Localization.Translations;assembly=EnduranceJudge.Localization"
              prism:ViewModelLocator.AutoWireViewModel="True">
 
     <ScrollViewer Style="{StaticResource Scroll}"
@@ -28,24 +28,24 @@
                     <Button Style="{StaticResource Button-Big-Horizontal}"
                             IsEnabled="{Binding HasKidsClassification}"
                             Command="{Binding SelectKidsCategory}"
-                            Content="{x:Static localization:DesktopStrings.KIDS}"/>
+                            Content="{x:Static localization:Words.KIDS}"/>
 
                     <Button Style="{StaticResource Button-Big-Horizontal}"
                             IsEnabled="{Binding HasAdultsClassification}"
                             Command="{Binding SelectAdultsCategory}"
-                            Content="{x:Static localization:DesktopStrings.ADULTS}"/>
+                            Content="{x:Static localization:Words.ADULTS}"/>
 
                     <Button Style="{StaticResource Button-Big-Horizontal}" Margin="200px 0 0 0"
                             Command="{Binding Print}"
                             CommandParameter="{Binding ElementName=RankList}"
-                            Content="{x:Static localization:DesktopStrings.PRINT}" />
+                            Content="{x:Static localization:Words.PRINT}" />
                 </StackPanel>
             </Border>
 
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="1" Grid.Column="0" >
                 <TextBlock Style="{StaticResource Text-Bold}"
-                           Text="{x:Static localization:DesktopStrings.LENGTH}" />
+                           Text="{x:Static localization:Words.LENGTH}" />
             </Border>
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="1" Grid.Column="1">
@@ -56,7 +56,7 @@
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="2" Grid.Column="0" >
                 <TextBlock Style="{StaticResource Text-Bold}"
-                           Text="{x:Static localization:DesktopStrings.CATEGORY}" />
+                           Text="{x:Static localization:Words.CATEGORY}" />
             </Border>
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="2" Grid.Column="1">
@@ -67,7 +67,7 @@
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="3" Grid.Column="0">
                 <TextBlock Style="{StaticResource Text-Bold}"
-                           Text="{x:Static localization:DesktopStrings.RANK_LIST}" />
+                           Text="{x:Static localization:Words.RANK_LIST}" />
             </Border>
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="3" Grid.Column="1">

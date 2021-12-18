@@ -5,9 +5,9 @@ using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State;
 using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Domain.State.Performances;
+using EnduranceJudge.Localization.Translations;
 using System;
 using System.Linq;
-using static EnduranceJudge.Localization.Strings.DesktopStrings;
 
 namespace EnduranceJudge.Domain.Aggregates.Manager
 {
@@ -85,7 +85,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager
                 .FirstOrDefault(x => x.Number == number);
             if (participant == null)
             {
-                var message = string.Format(PARTICIPANT_NUMBER_NOT_FOUND_TEMPLATE, number);
+                var message = string.Format(Messages.PARTICIPANT_NUMBER_NOT_FOUND_TEMPLATE, number);
                 throw new ParticipantException { DomainMessage = message };
             }
             var manager = new ParticipantManager(participant);

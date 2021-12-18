@@ -5,12 +5,13 @@ using EnduranceJudge.Domain.State.Participations;
 using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Services;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Manager.PhasePerformances;
+using EnduranceJudge.Localization.Translations;
 using Prism.Commands;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
-using static EnduranceJudge.Localization.DesktopStrings;
+using static EnduranceJudge.Localization.Translations.Messages;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participants
 {
@@ -30,7 +31,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participants
 
         public DelegateCommand<Visual> Print { get; }
         public DelegateCommand ToggleVisibility { get; }
-        private string toggleText = EXPAND;
+        private string toggleText = Words.EXPAND;
         private readonly int number;
         private Visibility visibility;
         public ObservableCollection<PerformanceTemplateModel> Performances { get; } = new();
@@ -71,12 +72,12 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participants
             if (this.Visibility == Visibility.Collapsed)
             {
                 this.Visibility = Visibility.Visible;
-                this.ToggleText = COLLAPSE;
+                this.ToggleText = Words.COLLAPSE;
             }
             else
             {
                 this.Visibility = Visibility.Collapsed;
-                this.ToggleText = EXPAND;
+                this.ToggleText = Words.EXPAND;
             }
         }
     }

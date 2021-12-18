@@ -5,7 +5,8 @@ using EnduranceJudge.Domain.Core.Validation;
 using EnduranceJudge.Domain.State;
 using EnduranceJudge.Domain.State.EnduranceEvents;
 using EnduranceJudge.Domain.State.Personnels;
-using static EnduranceJudge.Localization.DesktopStrings;
+using EnduranceJudge.Localization.Translations;
+using static EnduranceJudge.Localization.Translations.Words;
 
 namespace EnduranceJudge.Domain.Aggregates.Configuration
 {
@@ -27,9 +28,9 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
         {
             this.Validate<EnduranceEventException>(() =>
             {
-                name.IsRequired(NAME);
-                populatedPlace.IsRequired(POPULATED_PLACE);
-                countryId.IsRequired(COUNTRY_ENTITY);
+                name.IsRequired(Words.NAME);
+                populatedPlace.IsRequired(Words.POPULATED_PLACE);
+                countryId.IsRequired(Entities.COUNTRY);
             });
 
             var country = this.state.Countries.FindDomain(countryId);

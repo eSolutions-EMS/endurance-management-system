@@ -1,8 +1,8 @@
 ﻿using EnduranceJudge.Application.Core.Exceptions;
 using EnduranceJudge.Core.ConventionalServices;
+using EnduranceJudge.Localization.Translations;
 using System;
 using System.Globalization;
-using static EnduranceJudge.Localization.Strings.Application;
 
 namespace EnduranceJudge.Application.Core.Services
 {
@@ -17,7 +17,7 @@ namespace EnduranceJudge.Application.Core.Services
                 DateTimeStyles.None, out var result);
             if (!hasParsed)
             {
-                var message = string.Format(INVALID_DATE_FORMAT, date, format);
+                var message = string.Format(Messages.INVALID_DATE_FORMAT, date, format);
                 throw new AppException(message);
             }
             return result;

@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:participations="clr-namespace:EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participants"
-                    xmlns:localization="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization">
+                    xmlns:localization="clr-namespace:EnduranceJudge.Localization.Translations;assembly=EnduranceJudge.Localization">
 
     <DataTemplate DataType="{x:Type participations:ParticipantTemplateModel}">
         <Border Style="{StaticResource Border-Vertical}">
@@ -23,7 +23,7 @@
                                     <Border Style="{StaticResource Border-Participation-In-Phase}">
                                         <TextBlock Style="{StaticResource Text-Centered}" FontWeight="Bold">
                                             <Run Text="{Binding .}"/>
-                                            <Run Text="{x:Static localization:DesktopStrings.KM}"/>
+                                            <Run Text="{x:Static localization:Words.KM}"/>
                                         </TextBlock>
                                     </Border>
                                 </DataTemplate>
@@ -45,52 +45,52 @@
 
                             <Border Style="{StaticResource Border-Performance-Entry}">
                                 <TextBlock Style="{StaticResource Text-Bold}"
-                                           Text="{x:Static localization:DesktopStrings.START}"/>
+                                           Text="{x:Static localization:Words.START}"/>
                             </Border>
 
                             <Border Style="{StaticResource Border-Performance-Entry}">
                                 <TextBlock Style="{StaticResource Text-Bold}"
-                                           Text="{x:Static localization:DesktopStrings.ARRIVE}"/>
+                                           Text="{x:Static localization:Words.ARRIVE}"/>
                             </Border>
 
                             <Border Style="{StaticResource Border-Performance-Entry}">
                                 <TextBlock Style="{StaticResource Text-Bold}"
-                                           Text="{x:Static localization:DesktopStrings.INSPECTION}"/>
+                                           Text="{x:Static localization:Words.INSPECTION}"/>
                             </Border>
 
                             <Border Style="{StaticResource Border-Performance-Entry}">
                                 <TextBlock Style="{StaticResource Text-Bold}"
-                                           Text="{x:Static localization:DesktopStrings.RE_INSPECTION}"/>
+                                           Text="{x:Static localization:Words.RE_INSPECTION}"/>
                             </Border>
 
                             <Border Style="{StaticResource Border-Performance-Entry}">
                                 <TextBlock Style="{StaticResource Text-Bold}"
-                                           Text="{x:Static localization:DesktopStrings.REQUIRED_INSPECTION}"/>
+                                           Text="{x:Static localization:Words.REQUIRED_INSPECTION}"/>
                             </Border>
 
                             <Border Style="{StaticResource Border-Performance-Entry}">
                                 <TextBlock Style="{StaticResource Text-Bold}"
-                                           Text="{x:Static localization:DesktopStrings.LOOP_SPAN}"/>
+                                           Text="{x:Static localization:Words.LOOP_SPAN}"/>
                             </Border>
 
                             <Border Style="{StaticResource Border-Performance-Entry}">
                                 <TextBlock Style="{StaticResource Text-Bold}"
-                                           Text="{x:Static localization:DesktopStrings.PHASE_SPAN}"/>
+                                           Text="{x:Static localization:Words.PHASE_SPAN}"/>
                             </Border>
 
                             <Border Style="{StaticResource Border-Performance-Entry}">
                                 <TextBlock Style="{StaticResource Text-Bold}"
-                                           Text="{x:Static localization:DesktopStrings.AVERAGE_SPEED_FOR_LOOP}"/>
+                                           Text="{x:Static localization:Words.AVERAGE_SPEED_FOR_LOOP}"/>
                             </Border>
 
                             <Border Style="{StaticResource Border-Performance-Entry}">
                                 <TextBlock Style="{StaticResource Text-Bold}"
-                                           Text="{x:Static localization:DesktopStrings.AVERAGE_SPEED_FOR_PHASE}"/>
+                                           Text="{x:Static localization:Words.AVERAGE_SPEED_FOR_PHASE}"/>
                             </Border>
 
                             <Border Style="{StaticResource Border-Performance-Entry}">
                                 <TextBlock Style="{StaticResource Text-Bold}"
-                                           Text="{x:Static localization:DesktopStrings.NEXT_START_TIME}"/>
+                                           Text="{x:Static localization:Words.NEXT_START_TIME}"/>
                             </Border>
                         </StackPanel>
                     </Border>
@@ -105,7 +105,7 @@
                         <Button Style="{StaticResource Button-Big-Horizontal}"
                                 Command="{Binding Print}"
                                 CommandParameter="{Binding ElementName=Performances}"
-                                Content="{x:Static localization:DesktopStrings.PRINT}"/>
+                                Content="{x:Static localization:Words.PRINT}"/>
                     </Border>
                 </StackPanel>
             </StackPanel>

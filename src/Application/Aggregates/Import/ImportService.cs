@@ -4,7 +4,7 @@ using EnduranceJudge.Application.Core.Services;
 using EnduranceJudge.Application.Aggregates.Import.Readers;
 using EnduranceJudge.Core.ConventionalServices;
 using EnduranceJudge.Domain.Aggregates.Import;
-using static EnduranceJudge.Localization.Strings.Application;
+using EnduranceJudge.Localization.Translations;
 
 namespace EnduranceJudge.Application.Aggregates.Import
 {
@@ -33,7 +33,7 @@ namespace EnduranceJudge.Application.Aggregates.Import
             if (fileExtension != ApplicationConstants.FileExtensions.Xml && fileExtension != ApplicationConstants.FileExtensions.SupportedExcel)
             {
                 var message = string.Format(
-                    UNSUPPORTED_IMPORT_FILE_TEMPLATE,
+                    Messages.UNSUPPORTED_IMPORT_FILE_TEMPLATE,
                     ApplicationConstants.FileExtensions.Xml,
                     ApplicationConstants.FileExtensions.SupportedExcel);
 

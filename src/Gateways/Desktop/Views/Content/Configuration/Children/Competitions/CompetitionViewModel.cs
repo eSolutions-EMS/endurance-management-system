@@ -11,6 +11,7 @@ using EnduranceJudge.Gateways.Desktop.Services;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Competitions.AddParticipants;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Phases;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core;
+using EnduranceJudge.Localization.Translations;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Regions;
@@ -18,7 +19,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using static EnduranceJudge.Localization.DesktopStrings;
+using static EnduranceJudge.Localization.Translations.Messages;
 using static EnduranceJudge.Gateways.Desktop.DesktopConstants;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Competitions
@@ -56,7 +57,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.C
         private int typeValue;
         private string name;
         private string typeString;
-        private string toggleText = EXPAND;
+        private string toggleText = Words.EXPAND;
         private DateTime startTime = DateTime.Today;
         private Visibility visibility = Visibility.Collapsed;
         public CompetitionType Type => (CompetitionType)this.TypeValue;
@@ -92,7 +93,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.C
                     participant.Id,
                     participant.Name,
                     removeCommand,
-                    REMOVE);
+                    Words.REMOVE);
                 this.Participants.Add(listItem);
             }
         }
@@ -109,12 +110,12 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.C
             if (this.Visibility == Visibility.Collapsed)
             {
                 this.Visibility = Visibility.Visible;
-                this.ToggleText = COLLAPSE;
+                this.ToggleText = Words.COLLAPSE;
             }
             else
             {
                 this.Visibility = Visibility.Collapsed;
-                this.ToggleText = EXPAND;
+                this.ToggleText = Words.EXPAND;
             }
         }
 

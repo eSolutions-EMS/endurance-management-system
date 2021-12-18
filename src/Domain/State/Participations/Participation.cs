@@ -5,7 +5,7 @@ using EnduranceJudge.Domain.State.Competitions;
 using EnduranceJudge.Domain.State.Performances;
 using System.Collections.Generic;
 using System.Linq;
-using static EnduranceJudge.Localization.DesktopStrings;
+using static EnduranceJudge.Localization.Translations.Messages;
 
 namespace EnduranceJudge.Domain.State.Participations
 {

@@ -1,7 +1,7 @@
 using EnduranceJudge.Domain.Core.Exceptions;
 using System.Collections.Generic;
 using System.Linq;
-using static EnduranceJudge.Localization.Strings.Domain;
+using static EnduranceJudge.Localization.Translations.Messages;
 
 namespace EnduranceJudge.Domain.Core.Validation
 {

@@ -8,12 +8,11 @@ using EnduranceJudge.Domain.State.Athletes;
 using EnduranceJudge.Domain.Enums;
 using EnduranceJudge.Domain.State.Countries;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
-using EnduranceJudge.Gateways.Desktop.Services;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core;
 using Prism.Regions;
 using System.Collections.ObjectModel;
 using System.Linq;
-using static EnduranceJudge.Localization.Constants;
+using static EnduranceJudge.Localization.Translations.LocalizationConstants;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Athletes
 {

@@ -5,7 +5,8 @@ using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.Core.Validation;
 using EnduranceJudge.Domain.State;
 using EnduranceJudge.Domain.State.Athletes;
-using static EnduranceJudge.Localization.DesktopStrings;
+using EnduranceJudge.Localization.Translations;
+using static EnduranceJudge.Localization.Translations.Messages;
 
 namespace EnduranceJudge.Domain.Aggregates.Configuration
 {
@@ -22,10 +23,10 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
         {
             this.Validate<AthleteException>(() =>
             {
-                state.FirstName.IsRequired(FIRST_NAME);
-                state.LastName.IsRequired(LAST_NAME);
-                state.Category.IsRequired(CATEGORY);
-                countryId.IsRequired(COUNTRY_ENTITY);
+                state.FirstName.IsRequired(Words.FIRST_NAME);
+                state.LastName.IsRequired(Words.LAST_NAME);
+                state.Category.IsRequired(Words.CATEGORY);
+                countryId.IsRequired(Entities.COUNTRY);
             });
 
             var athlete = this.state.Athletes.FindDomain(state.Id);

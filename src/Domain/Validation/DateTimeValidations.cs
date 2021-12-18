@@ -1,6 +1,6 @@
 using EnduranceJudge.Domain.Core.Exceptions;
 using System;
-using static EnduranceJudge.Localization.Strings.Domain;
+using static EnduranceJudge.Localization.Translations.Messages;
 
 namespace EnduranceJudge.Domain.Validation
 {

@@ -1,7 +1,7 @@
 ﻿using EnduranceJudge.Application.Core.Models;
 using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Core.Models;
-using EnduranceJudge.Localization;
+using EnduranceJudge.Localization.Translations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,8 +50,8 @@ namespace EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListIt
 
         public static List<SimpleListItemViewModel> FromBool()
         {
-            var falseItem = new SimpleListItemViewModel(0, DesktopStrings.NO);
-            var trueItem = new SimpleListItemViewModel(1, DesktopStrings.YES);
+            var falseItem = new SimpleListItemViewModel(0, Words.NO);
+            var trueItem = new SimpleListItemViewModel(1, Words.YES);
 
             var result =  new List<SimpleListItemViewModel> { falseItem, trueItem };
 

@@ -3,7 +3,7 @@ using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Domain.Core.Models;
 using System.Collections.Generic;
 using System.Linq;
-using static EnduranceJudge.Localization.Strings.Domain;
+using static EnduranceJudge.Localization.Translations.Messages;
 
 namespace EnduranceJudge.Domain.Core.Extensions
 {

@@ -9,7 +9,6 @@ using EnduranceJudge.Domain.State.Horses;
 using EnduranceJudge.Domain.State.Participants;
 using Newtonsoft.Json;
 using System.Collections.Generic;
-using static EnduranceJudge.Localization.Strings.Domain.Countries;
 
 namespace EnduranceJudge.Gateways.Persistence.Contracts
 {
@@ -22,7 +21,7 @@ namespace EnduranceJudge.Gateways.Persistence.Contracts
         [JsonIgnore]
         public IReadOnlyList<Country> Countries { get; } = new List<Country>()
         {
-            new ("BUL", BULGARIA, 1),
+            new ("BUL", "Bulgaria", 1),
         }.AsReadOnly();
     }
 

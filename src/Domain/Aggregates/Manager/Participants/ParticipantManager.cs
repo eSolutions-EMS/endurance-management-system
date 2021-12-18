@@ -7,7 +7,7 @@ using EnduranceJudge.Domain.State.Performances;
 using EnduranceJudge.Domain.State.Phases;
 using System;
 using System.Linq;
-using static EnduranceJudge.Localization.Strings.Domain.Manager.Participation;
+using static EnduranceJudge.Localization.Translations.Messages;
 
 namespace EnduranceJudge.Domain.Aggregates.Manager.Participants
 {

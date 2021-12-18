@@ -3,7 +3,7 @@ using EnduranceJudge.Domain.Aggregates.Configuration;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Phases;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core;
-using EnduranceJudge.Localization;
+using EnduranceJudge.Localization.Translations;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Phases
 {
@@ -45,7 +45,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.P
             {
                 this.SetProperty(ref this.isFinalValue, value);
                 this.IsFinalText = value == 1
-                    ? DesktopStrings.IS_FINAL_TEXT
+                    ? Words.FINAL
                     : string.Empty;
             }
         }
