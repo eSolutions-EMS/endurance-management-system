@@ -12,7 +12,7 @@ using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core;
 using Prism.Regions;
 using System.Collections.ObjectModel;
 using System.Linq;
-using static EnduranceJudge.Localization.Translations.LocalizationConstants;
+using static EnduranceJudge.Localization.LocalizationConstants;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Athletes
 {

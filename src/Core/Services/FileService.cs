@@ -2,7 +2,7 @@ using EnduranceJudge.Core.ConventionalServices;
 using System;
 using System.IO;
 
-namespace EnduranceJudge.Application.Core.Services
+namespace EnduranceJudge.Core.Services
 {
     public class FileService : IFileService
     {

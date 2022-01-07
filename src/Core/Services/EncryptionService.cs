@@ -1,7 +1,7 @@
 using EnduranceJudge.Core.ConventionalServices;
 using Microsoft.AspNetCore.DataProtection;
 
-namespace EnduranceJudge.Application.Core.Services
+namespace EnduranceJudge.Core.Services
 {
     public class EncryptionService : IEncryptionService
     {

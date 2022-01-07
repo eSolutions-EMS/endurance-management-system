@@ -1,8 +1,8 @@
 ﻿using EnduranceJudge.Application.Contracts;
 using EnduranceJudge.Application.Core.Exceptions;
-using EnduranceJudge.Application.Core.Services;
 using EnduranceJudge.Application.Aggregates.Import.Readers;
 using EnduranceJudge.Core.ConventionalServices;
+using EnduranceJudge.Core.Services;
 using EnduranceJudge.Domain.Aggregates.Import;
 using EnduranceJudge.Localization.Translations;
 

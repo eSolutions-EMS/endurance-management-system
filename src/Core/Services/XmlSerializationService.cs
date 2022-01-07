@@ -1,8 +1,7 @@
 ﻿using EnduranceJudge.Core.ConventionalServices;
-using System.IO;
 using System.Xml.Serialization;
 
-namespace EnduranceJudge.Application.Core.Services
+namespace EnduranceJudge.Core.Services
 {
     public class XmlSerializationService : IXmlSerializationService
     {
@@ -18,7 +17,7 @@ namespace EnduranceJudge.Application.Core.Services
             var serializer = new XmlSerializer(typeof(T));
 
             using var readStream = this.file.ReadStream(filePath);
-            var data = (T)serializer.Deserialize(readStream);
+            var data = (T)serializer.Deserialize(readStream)!;
 
             return data;
         }
