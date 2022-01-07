@@ -39,6 +39,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager
             {
                 participant.Start();
             }
+            this.state.Event.HasStarted = true;
         }
 
         public void UpdatePerformance(int number, DateTime time)

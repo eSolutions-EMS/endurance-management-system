@@ -1,4 +1,5 @@
 ﻿using EnduranceJudge.Core.Mappings;
+using EnduranceJudge.Domain.Aggregates.Configuration.Extensions;
 using EnduranceJudge.Domain.Core.Extensions;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.Core.Validation;
@@ -17,26 +18,28 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
             this.state = state;
         }
 
-        public Competition Save(ICompetitionState state)
+        public Competition Save(ICompetitionState competitionState)
         {
+            this.state.ValidateThatEventHasNotStarted();
+
             this.Validate<CompetitionException>(() =>
             {
-                state.Type.IsRequired(TYPE);
-                state.Name.IsRequired(NAME);
-                state.StartTime.IsRequired(START_TIME)/*.IsFutureDate()*/;
+                competitionState.Type.IsRequired(TYPE);
+                competitionState.Name.IsRequired(NAME);
+                competitionState.StartTime.IsRequired(START_TIME)/*.IsFutureDate()*/;
             });
 
-            var competition = this.state.Event.Competitions.FindDomain(state.Id);
+            var competition = this.state.Event.Competitions.FindDomain(competitionState.Id);
             if (competition == null)
             {
-                competition = new Competition(state);
+                competition = new Competition(competitionState);
                 this.state.Event.Save(competition);
             }
             else
             {
-                competition.Name = state.Name;
-                competition.Type = state.Type;
-                competition.StartTime = state.StartTime;
+                competition.Name = competitionState.Name;
+                competition.Type = competitionState.Type;
+                competition.StartTime = competitionState.StartTime;
                 this.UpdateParticipants(competition);
             }
 
@@ -45,10 +48,13 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
 
         public void RemoveParticipant(int competitionId, int participantId)
         {
+            this.state.ValidateThatEventHasNotStarted();
+
             var competition = this.state.Event.Competitions.FindDomain(competitionId);
             var participant = this.state.Participants.FindDomain(participantId);
             participant.RemoveFrom(competition);
         }
+
         private void UpdateParticipants(Competition competition)
         {
             foreach (var participant in this.state.Participants)

@@ -1,4 +1,5 @@
 ﻿using EnduranceJudge.Core.Mappings;
+using EnduranceJudge.Domain.Aggregates.Configuration.Extensions;
 using EnduranceJudge.Domain.Core.Exceptions;
 using EnduranceJudge.Domain.Core.Extensions;
 using EnduranceJudge.Domain.Core.Models;
@@ -19,28 +20,30 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
             this.state = state;
         }
 
-        public Athlete Save(IAthleteState state, int countryId)
+        public Athlete Save(IAthleteState athleteState, int countryId)
         {
+            this.state.ValidateThatEventHasNotStarted();
+
             this.Validate<AthleteException>(() =>
             {
-                state.FirstName.IsRequired(Words.FIRST_NAME);
-                state.LastName.IsRequired(Words.LAST_NAME);
-                state.Category.IsRequired(Words.CATEGORY);
+                athleteState.FirstName.IsRequired(Words.FIRST_NAME);
+                athleteState.LastName.IsRequired(Words.LAST_NAME);
+                athleteState.Category.IsRequired(Words.CATEGORY);
                 countryId.IsRequired(Entities.COUNTRY);
             });
 
-            var athlete = this.state.Athletes.FindDomain(state.Id);
+            var athlete = this.state.Athletes.FindDomain(athleteState.Id);
             if (athlete == null)
             {
                 var country = this.state.Countries.FindDomain(countryId);
-                athlete = new Athlete(state, country);
+                athlete = new Athlete(athleteState, country);
                 this.state.Athletes.AddOrUpdate(athlete);
                 this.UpdateParticipants(athlete);
             }
             else
             {
-                athlete.Category = state.Category;
-                athlete.Club = state.Club;
+                athlete.Category = athleteState.Category;
+                athlete.Club = athleteState.Club;
                 athlete.FirstName = athlete.FirstName;
                 athlete.LastName = athlete.LastName;
                 athlete.FeiId = athlete.FeiId;
@@ -50,14 +53,13 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
                     athlete.Country = country;
                 }
             }
-
-
-
             return athlete;
         }
 
         public void Remove(int id)
         {
+            this.state.ValidateThatEventHasNotStarted();
+
             var athlete = this.state.Athletes.FindDomain(id);
             this.Validate<AthleteException>(() =>
             {

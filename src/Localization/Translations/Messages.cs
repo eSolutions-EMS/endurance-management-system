@@ -29,4 +29,5 @@ public static class Messages
     public const string INVALID_DATE_FORMAT = "Invalid date: '{0}'. Expected format: '{1}'.";
     public const string REMOVE_CONFIRMATION_MESSAGE = "Are you sure you want to remove this item";
     public const string PARTICIPANT_NUMBER_NOT_FOUND_TEMPLATE = "Participant with number '{0}' not found.";
+    public const string CHANGE_NOT_ALLOWED_WHEN_EVENT_HAS_STARTED = "This change is not allowed after Participations have started ";
 }

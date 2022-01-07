@@ -1,4 +1,5 @@
 ﻿using EnduranceJudge.Core.Mappings;
+using EnduranceJudge.Domain.Aggregates.Configuration.Extensions;
 using EnduranceJudge.Domain.Core.Exceptions;
 using EnduranceJudge.Domain.Core.Extensions;
 using EnduranceJudge.Domain.Core.Models;
@@ -18,30 +19,30 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
             this.state = state;
         }
 
-        public Horse Save(IHorseState state)
+        public Horse Save(IHorseState horseState)
         {
             this.Validate<HorseException>(() =>
             {
-                state.Name.IsRequired(NAME);
+                horseState.Name.IsRequired(NAME);
             });
 
-            var horse = this.state.Horses.FindDomain(state.Id);
+            var horse = this.state.Horses.FindDomain(horseState.Id);
             if (horse == null)
             {
-                horse = new Horse(state);
+                horse = new Horse(horseState);
                 this.state.Horses.AddOrUpdate(horse);
                 this.UpdateParticipants(horse);
             }
             else
             {
-                horse.FeiId = state.FeiId;
-                horse.Club = state.Club;
-                horse.IsStallion = state.IsStallion;
-                horse.Breed = state.Breed;
-                horse.TrainerFeiId = state.TrainerFeiId;
-                horse.TrainerFirstName = state.TrainerFirstName;
-                horse.TrainerLastName = state.TrainerLastName;
-                horse.Name = state.Name;
+                horse.FeiId = horseState.FeiId;
+                horse.Club = horseState.Club;
+                horse.IsStallion = horseState.IsStallion;
+                horse.Breed = horseState.Breed;
+                horse.TrainerFeiId = horseState.TrainerFeiId;
+                horse.TrainerFirstName = horseState.TrainerFirstName;
+                horse.TrainerLastName = horseState.TrainerLastName;
+                horse.Name = horseState.Name;
             }
 
             return horse;
@@ -49,6 +50,8 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
 
         public void Remove(int id)
         {
+            this.state.ValidateThatEventHasNotStarted();
+
             var horse = this.state.Horses.FindDomain(id);
             this.Validate<HorseException>(() =>
             {

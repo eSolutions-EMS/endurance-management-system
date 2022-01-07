@@ -56,14 +56,21 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core
             var domainObject = this.queries.GetOne(id);
             this.MapFrom(domainObject);
         }
-        private void SubmitAction() => this.BasicExecutor.Execute(() =>
+        private void SubmitAction()
         {
-            this.Persist();
-            if (this.BackOnSubmit)
+            var isSuccessful = this.BasicExecutor.Execute(() =>
             {
-                this.NavigateBackAction();
+                this.Persist();
+                if (this.BackOnSubmit)
+                {
+                    this.NavigateBackAction();
+                }
+            });
+            if (!isSuccessful)
+            {
+                this.Load(this.Id);
             }
-        });
+        }
 
         public int Id
         {

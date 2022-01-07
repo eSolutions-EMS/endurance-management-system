@@ -1,4 +1,5 @@
-﻿using EnduranceJudge.Domain.Core.Exceptions;
+﻿using EnduranceJudge.Domain.Aggregates.Configuration.Extensions;
+using EnduranceJudge.Domain.Core.Exceptions;
 using EnduranceJudge.Domain.Core.Extensions;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State;
@@ -19,37 +20,39 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
             this.state = state;
         }
 
-        public Participant Save(IParticipantState state, int athleteId, int horseId)
+        public Participant Save(IParticipantState participantState, int athleteId, int horseId)
         {
+            this.state.ValidateThatEventHasNotStarted();
+
             var athlete = this.state.Athletes.FindDomain(athleteId);
             var horse = this.state.Horses.FindDomain(horseId);
             this.Validate<ParticipantException>(() =>
             {
-                if (this.IsPartOfAnotherParticipant(athlete, state.Id))
+                if (this.IsPartOfAnotherParticipant(athlete, participantState.Id))
                 {
                     var message = string.Format(ALREADY_PARTICIPATING_TEMPLATE, athlete.Name);
                     throw new DomainException(message);
                 }
-                if (this.IsPartOfAnotherParticipant(horse, state.Id))
+                if (this.IsPartOfAnotherParticipant(horse, participantState.Id))
                 {
                     var message = string.Format(ALREADY_PARTICIPATING_TEMPLATE, horse.Name);
                     throw new DomainException(message);
                 }
             });
 
-            var participant = this.state.Participants.FindDomain(state.Id);
+            var participant = this.state.Participants.FindDomain(participantState.Id);
             if (participant == null)
             {
-                participant = new Participant(athlete, horse, state);
+                participant = new Participant(athlete, horse, participantState);
                 this.state.Participants.AddOrUpdate(participant);
             }
             else
             {
                 participant.Athlete = athlete;
                 participant.Horse = horse;
-                participant.RfId = state.RfId;
-                participant.MaxAverageSpeedInKmPh = state.MaxAverageSpeedInKmPh;
-                participant.Number = state.Number;
+                participant.RfId = participantState.RfId;
+                participant.MaxAverageSpeedInKmPh = participantState.MaxAverageSpeedInKmPh;
+                participant.Number = participantState.Number;
             }
 
             return participant;
@@ -57,11 +60,15 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
 
         public void Remove(int id)
         {
+            this.state.ValidateThatEventHasNotStarted();
+
             var participant = this.state.Participants.FindDomain(id);
             this.state.Participants.Remove(participant);
         }
         public void AddParticipation(int competitionId, int participantId)
         {
+            this.state.ValidateThatEventHasNotStarted();
+
             var participant = this.state.Participants.FindDomain(participantId);
             var competition = this.state.Event.Competitions.FindDomain(competitionId);
             participant.ParticipateIn(competition);

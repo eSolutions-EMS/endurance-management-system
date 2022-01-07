@@ -27,6 +27,7 @@ namespace EnduranceJudge.Domain.State.EnduranceEvents
 
         public string Name { get; internal set; }
         public string PopulatedPlace { get; internal set; }
+        public bool HasStarted { get; internal set; }
         public Country Country { get; internal set; }
         public Personnel PresidentGroundJury { get; internal set; }
         public Personnel PresidentVetCommission { get; internal set; }
