@@ -32,6 +32,21 @@ namespace EnduranceJudge.Gateways.Desktop.Services
             }
         }
 
+        public TResult Execute<TResult>(Func<T, TResult> action)
+        {
+            try
+            {
+                var result = action(this.service);
+                this.persistence.Snapshot();
+                return result;
+            }
+            catch (Exception exception)
+            {
+                this.errorHandler.Handle(exception);
+                return default;
+            }
+        }
+
         public (bool, IDomainObject) Execute(Func<T, IDomainObject> action)
         {
             try
@@ -51,6 +66,7 @@ namespace EnduranceJudge.Gateways.Desktop.Services
     public interface IExecutor<T>
     {
         bool Execute(Action<T> action);
+        TResult Execute<TResult>(Func<T, TResult> action);
         (bool, IDomainObject) Execute(Func<T, IDomainObject> action);
     }
 }

@@ -8,6 +8,7 @@ public static class Messages
     public const string CANNOT_ADD_PARTICIPATION_DIFFERENT_PHASE_COUNT = "Cannot add Participation, because this competitor already participates in '{0}' with different amount of Phases ";
     public const string CANNOT_ADD_PARTICIPATION_DIFFERENT_PHASE_LENGTHS = "Cannot add Participation - competitior already participates in '{0}' with different Phase lengths";
     public const string HAS_ALREADY_STARTED = "has already started";
+    public const string PARTICIPANT_CANNOT_START_NO_COMPETITION_TEMPLATE = "Participant '{0}' cannot start, because they don't participate in any Competition";
     public const string CAN_ONLY_BE_COMPLETED = "can only be completed.";
     public const string DATE_TIME_HAS_TO_BE_LATER_TEMPLATE = "{0} has to be later than {1}";
     public const string CANNOT_START_COMPETITION_WITHOUT_PHASES = "cannot start - competition has no phases.";

@@ -20,7 +20,12 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participants
         {
             this.Number = participant.Number;
             this.participation = participant.Participation;
-            this.competition = this.participation.Competitions.First();
+            this.competition = this.participation.Competitions.FirstOrDefault();
+            if (this.competition == null)
+            {
+                var message = string.Format(PARTICIPANT_CANNOT_START_NO_COMPETITION_TEMPLATE, this.Number);
+                this.Throw<ParticipantException>(message);
+            }
         }
 
         public int Number { get; }

@@ -27,6 +27,8 @@ namespace EnduranceJudge.Domain.Aggregates.Manager
             }
         }
 
+        public bool HasStarted()
+            => this.state.Participants.Any(x => x.Participation.Performances.Any());
         public void Start()
         {
             var participants = this.state

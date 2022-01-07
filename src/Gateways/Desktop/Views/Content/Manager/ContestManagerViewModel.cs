@@ -54,12 +54,20 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager
             {
                 return;
             }
-            this.LoadParticipants();
+            var hasStarted = this.contestExecutor.Execute(x => x.HasStarted());
+            if (hasStarted)
+            {
+                this.LoadParticipants();
+            }
         }
 
         private void StartAction()
         {
-            this.contestExecutor.Execute(manager => manager.Start());
+            this.contestExecutor.Execute(manager =>
+            {
+                manager.Start();
+                this.LoadParticipants();
+            });
             this.StartVisibility = Visibility.Collapsed;
         }
         private void UpdateAction()
