@@ -6,6 +6,7 @@ using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Services;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Manager.PhasePerformances;
 using EnduranceJudge.Localization.Translations;
+using ImTools;
 using Prism.Commands;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -19,21 +20,24 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participants
     {
         private readonly IPrinter printer;
 
-        public ParticipantTemplateModel(Participant participant, Visibility visibility = Visibility.Visible)
+        public ParticipantTemplateModel(Participant participant, bool isExpanded = true)
         {
             this.printer = StaticProvider.GetService<IPrinter>();
-            this.Visibility = visibility;
             this.Number = participant.Number;
             this.UpdatePhases(participant.Participation);
             this.ToggleVisibility = new DelegateCommand(this.ToggleVisibilityAction);
             this.Print = new DelegateCommand<Visual>(this.PrintAction);
+            if (isExpanded)
+            {
+                this.ToggleVisibilityAction();
+            }
         }
 
         public DelegateCommand<Visual> Print { get; }
         public DelegateCommand ToggleVisibility { get; }
         private string toggleText = Words.EXPAND;
         private readonly int number;
-        private Visibility visibility;
+        private Visibility visibility = Visibility.Collapsed;
         public ObservableCollection<PerformanceTemplateModel> Performances { get; } = new();
         public ObservableCollection<double> PhaseLengths { get; } = new();
 
