@@ -59,5 +59,10 @@ namespace EnduranceJudge.Domain.State.Participations
             get => this.performances.AsReadOnly();
             private set => this.performances = value.ToList();
         }
+
+        public void __REMOVE_PERFORMANCES__()
+        {
+            this.performances.Clear();
+        }
     }
 }

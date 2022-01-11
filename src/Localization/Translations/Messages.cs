@@ -19,6 +19,7 @@ public static class Messages
     public const string CANNOT_START_NEXT_PERFORMANCE_PARTICIPATION_IS_COMPLETE = "cannot start next Performance. This Participant is already finished";
     public const string CANNOT_START_PERFORMANCE_NO_PHASE = "cannot start performance - no Phase found.";
     public const string CANNOT_START_PERFORMANCE_NO_START_TIME ="cannot start next performance - no Start Time.";
+    public const string CANNOT_START_NEXT_PERFORMANCE_NO_LAST_PERFORMANCE ="Cannot start next Performance. Participations have not started or data is invalid.";
     public const string CANNOT_EDIT_PERFORMANCE = "Editting '{0}' is not allowed, becausue no value exists. Please use 'Update' button above.";
     public const string IS_REQUIRED_TEMPLATE = "property '{0}' is required.";
     public const string CANNOT_REMOVE_NULL_ITEM_TEMPLATE = "cannot remove 'null' from collection..";

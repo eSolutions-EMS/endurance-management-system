@@ -76,7 +76,6 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participants
             {
                 throw new InvalidOperationException(CANNOT_START_NEXT_PERFORMANCE_PARTICIPATION_IS_COMPLETE);
             }
-
             var phase = this.competition
                 .Phases
                 .Skip(this.participation.Performances.Count)
@@ -85,12 +84,17 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participants
             {
                 throw new InvalidOperationException(CANNOT_START_PERFORMANCE_NO_PHASE);
             }
-            var previousPerformance = this.participation.Performances.Last();
+            var previousPerformance = this.participation.Performances.LastOrDefault();
+            if (previousPerformance == null)
+            {
+                throw new InvalidOperationException(CANNOT_START_NEXT_PERFORMANCE_NO_LAST_PERFORMANCE);
+            }
             var startTime = previousPerformance.NextPerformanceStartTime;
             if (startTime == null)
             {
                 throw new InvalidOperationException(CANNOT_START_PERFORMANCE_NO_START_TIME);
             }
+
             return this.AddPerformance(phase, startTime.Value);
         }
 
