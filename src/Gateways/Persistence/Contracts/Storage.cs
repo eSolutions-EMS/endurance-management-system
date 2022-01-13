@@ -3,8 +3,8 @@ using EnduranceJudge.Application.Core.Services;
 using EnduranceJudge.Core.ConventionalServices;
 using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Core.Services;
+using EnduranceJudge.Domain.Aggregates.Configuration;
 using EnduranceJudge.Domain.State;
-using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace EnduranceJudge.Gateways.Persistence.Contracts
@@ -55,7 +55,7 @@ namespace EnduranceJudge.Gateways.Persistence.Contracts
             // Normalize countries due to change in code
             contents = this.NormalizeStorageFileContents(contents);
             var state = this.serialization.Deserialize<State>(contents);
-            // this.__REMOVE_PARTICIPANTS__(state);
+            // this.__REVERT_START_PARTICIPATIONS__();
             this.state.MapFrom(state);
         }
 
@@ -74,12 +74,10 @@ namespace EnduranceJudge.Gateways.Persistence.Contracts
 
         private static string BuildStorageFilePath(string directory) => $"{directory}\\{STORAGE_FILE_NAME}";
 
-        private void __REMOVE_PARTICIPANTS__(IState state)
+        private void __REVERT_START_PARTICIPATIONS__()
         {
-            foreach (var participation in state.Participants.Select(x => x.Participation))
-            {
-                participation.__REMOVE_PERFORMANCES__();
-            }
+            var manager = new ConfigurationManager();
+            manager.__REVERT_START_PARTICIPATIONS__();
         }
     }
 

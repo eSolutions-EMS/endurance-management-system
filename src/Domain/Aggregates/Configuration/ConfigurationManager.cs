@@ -61,5 +61,11 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
         public AthletesManger Athletes { get; }
         public HorsesManager Horses { get; }
         public ParticipantsManager Participants { get; }
+
+        public void __REVERT_START_PARTICIPATIONS__()
+        {
+            this.state.Event.HasStarted = false;
+            this.Participants.__REVERT_START_PARTICIPATIONS__();
+        }
     }
 }

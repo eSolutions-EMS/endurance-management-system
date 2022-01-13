@@ -79,5 +79,13 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
 
         private bool IsPartOfAnotherParticipant(Horse horse, int participantId)
             => this.state.Participants.Any(x => x.Horse.Equals(horse) && x.Id != participantId);
+
+        public void __REVERT_START_PARTICIPATIONS__()
+        {
+            foreach (var participant in this.state.Participants)
+            {
+                participant.Participation.__REMOVE_PERFORMANCES__();
+            }
+        }
     }
 }
