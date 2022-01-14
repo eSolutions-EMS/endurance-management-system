@@ -18,22 +18,28 @@ namespace EnduranceJudge.Domain.State.Participations
         {
             if (this.Competitions.Any())
             {
+                var firstCompetition = this.competitions.First();
                 var newCompetitionName = competition.Name;
-                var first = this.competitions.First();
-                if (first.Phases.Count != competition.Phases.Count)
+                var existingCompetitionName = firstCompetition.Name;
+                if (firstCompetition.Phases.Count != competition.Phases.Count)
                 {
                     var message = string.Format(CANNOT_ADD_PARTICIPATION_DIFFERENT_PHASE_COUNT, newCompetitionName);
                     this.Throw(message);
                 }
-                for (var i = 0; i <= first.Phases.Count; i++)
+                for (var phaseIndex = 0; phaseIndex < firstCompetition.Phases.Count; phaseIndex++)
                 {
-                    var existingPhase = first.Phases[i];
-                    var newPhase = competition.Phases[i];
-                    if (!existingPhase.LengthInKm.PreciseEquals(newPhase.LengthInKm))
+                    var existingPhase = firstCompetition.Phases[phaseIndex];
+                    var newPhase = competition.Phases[phaseIndex];
+                    // ReSharper disable once CompareOfFloatsByEqualityOperator
+                    if (existingPhase.LengthInKm != newPhase.LengthInKm)
                     {
                         var message = string.Format(
                             CANNOT_ADD_PARTICIPATION_DIFFERENT_PHASE_LENGTHS,
-                            newCompetitionName);
+                            newCompetitionName,
+                            existingCompetitionName,
+                            phaseIndex + 1,
+                            newPhase.LengthInKm,
+                            existingPhase.LengthInKm);
                         this.Throw(message);
                     }
                 }

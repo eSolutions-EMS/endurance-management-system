@@ -1,4 +1,6 @@
-﻿namespace EnduranceJudge.Localization.Translations;
+﻿using System;
+
+namespace EnduranceJudge.Localization.Translations;
 
 public static class Messages
 {
@@ -6,7 +8,7 @@ public static class Messages
     public const string ALREADY_PARTICIPATING_TEMPLATE = "Cannot be created - '{0}' is already participating.";
     public const string SELECT_WORK_DIRECTORY = "Select working directory using the 'Import' button above.";
     public const string CANNOT_ADD_PARTICIPATION_DIFFERENT_PHASE_COUNT = "Cannot add Participation, because this competitor already participates in '{0}' with different amount of Phases ";
-    public const string CANNOT_ADD_PARTICIPATION_DIFFERENT_PHASE_LENGTHS = "Cannot add Participation - competitior already participates in '{0}' with different Phase lengths";
+    public const string CANNOT_ADD_PARTICIPATION_DIFFERENT_PHASE_LENGTHS = "Cannot add Participation in '{0}'- competitior already participates in '{1}' and difference is detected in 'Phase {2}' lengths: '{3}' and '{4}";
     public const string HAS_ALREADY_STARTED = "has already started";
     public const string PARTICIPANT_CANNOT_START_NO_COMPETITION_TEMPLATE = "Participant '{0}' cannot start, because they don't participate in any Competition";
     public const string CAN_ONLY_BE_COMPLETED = "can only be completed.";
