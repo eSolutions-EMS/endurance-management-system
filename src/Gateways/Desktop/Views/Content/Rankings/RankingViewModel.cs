@@ -39,13 +39,13 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings
         private ListItemViewModel ToListItem(CompetitionResult competitionResult)
         {
             var command = new DelegateCommand<int?>(this.NavigateToClassification);
-            var listItem = new ListItemViewModel((int)competitionResult.Length, command, Words.VIEW);
+            var listItem = new ListItemViewModel(competitionResult.Id, competitionResult.Name, command, Words.VIEW);
             return listItem;
         }
 
-        private void NavigateToClassification(int? length)
+        private void NavigateToClassification(int? id)
         {
-            var categorization = this.ranking.Competitions.First(x => x.Length == length!.Value);
+            var categorization = this.ranking.Competitions.First(x => x.Id == id!.Value);
             var dataParameter = new NavigationParameter(NavigationParametersKeys.DATA, categorization);
             this.navigation.ChangeTo<CompetitionResultView>(dataParameter);
         }
