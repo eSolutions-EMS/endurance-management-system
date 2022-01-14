@@ -25,6 +25,6 @@
             <Button Style="{StaticResource Button-Header-Horizontal}"
                     Command="{Binding NavigateToPrintExample}">Print example</Button>
 
-            <TextBlock Style="{StaticResource Text}">Version 2.0.6</TextBlock>
+            <TextBlock Style="{StaticResource Text}">Version 2.0.7</TextBlock>
         </StackPanel>
 </UserControl>
