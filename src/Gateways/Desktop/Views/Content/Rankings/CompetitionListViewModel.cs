@@ -13,12 +13,12 @@ using static EnduranceJudge.Gateways.Desktop.DesktopConstants;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings
 {
-    public class RankingViewModel : ViewModelBase
+    public class CompetitionListViewModel : ViewModelBase
     {
         private readonly INavigationService navigation;
         private readonly Ranking ranking;
 
-        public RankingViewModel(INavigationService navigation, Ranking ranking)
+        public CompetitionListViewModel(INavigationService navigation, Ranking ranking)
         {
             this.navigation = navigation;
             this.ranking = ranking;
@@ -36,10 +36,10 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings
             base.OnNavigatedTo(context);
         }
 
-        private ListItemViewModel ToListItem(CompetitionResult competitionResult)
+        private ListItemViewModel ToListItem(CompetitionResult result)
         {
             var command = new DelegateCommand<int?>(this.NavigateToClassification);
-            var listItem = new ListItemViewModel(competitionResult.Id, competitionResult.Name, command, Words.VIEW);
+            var listItem = new ListItemViewModel(result.Id, result.CompetitionName, command, Words.VIEW);
             return listItem;
         }
 

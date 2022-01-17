@@ -1,5 +1,5 @@
 ﻿using EnduranceJudge.Gateways.Desktop.Core;
-using EnduranceJudge.Gateways.Desktop.Core.Static;
+using EnduranceJudge.Gateways.Desktop.Core.Services;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -7,14 +7,14 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.P
 {
     public partial class PhaseView : UserControl, IScrollableView
     {
-        private readonly IMouseInputService mouseInput;
+        private readonly IMouseHandler mouseInput;
 
         public PhaseView()
         {
             InitializeComponent();
         }
 
-        public PhaseView(IMouseInputService mouseInput) : this()
+        public PhaseView(IMouseHandler mouseInput) : this()
         {
             this.mouseInput = mouseInput;
         }

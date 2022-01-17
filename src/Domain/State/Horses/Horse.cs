@@ -54,5 +54,7 @@ namespace EnduranceJudge.Domain.State.Horses
         public string TrainerFeiId { get; internal set; }
         public string TrainerFirstName { get; internal set; }
         public string TrainerLastName { get; internal set; }
+
+        public string TrainerName => $"{this.TrainerFirstName} {TrainerLastName}";
     }
 }

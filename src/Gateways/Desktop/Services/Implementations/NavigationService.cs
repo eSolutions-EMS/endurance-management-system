@@ -54,7 +54,7 @@ namespace EnduranceJudge.Gateways.Desktop.Services.Implementations
             {
                 throw new AppException(SELECT_WORK_DIRECTORY);
             }
-            this.ChangeTo<RankingView>(Regions.CONTENT_RIGHT);
+            this.ChangeTo<CompetitionListView>(Regions.CONTENT_RIGHT);
             this.ClearRegion(Regions.CONTENT_LEFT);
         }
 

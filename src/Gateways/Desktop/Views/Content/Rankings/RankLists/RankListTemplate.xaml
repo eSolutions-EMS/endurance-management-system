@@ -1,0 +1,63 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.RankLists">
+
+    <DataTemplate DataType="{x:Type local:RankListTemplateModel}">
+        <Grid Style="{StaticResource Grid}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="80px" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <!-- Header -->
+            <Border Style="{StaticResource Border-Vertical}"
+                    Grid.Row="0">
+                <StackPanel Style="{StaticResource List-Horizontal}">
+
+                    <!-- Event  -->
+                    <StackPanel Style="{StaticResource List-Vertical}">
+
+                        <TextBlock Style="{StaticResource Text-Bold}"
+                                   Text="{Binding EventName}" />
+
+                        <TextBlock Style="{StaticResource Text-Bold}">
+                            <Run Style="{StaticResource Run-Bold}"
+                                 Text="{Binding PopulatedPlace}" />
+                            <Run Style="{StaticResource Run-Bold}"
+                                 Text=" - " />
+                            <Run Style="{StaticResource Run-Bold}"
+                                 Text="{Binding CountryName}" />
+                        </TextBlock>
+
+                        <TextBlock Style="{StaticResource Text-Bold}"
+                                   Text="{Binding CompetitionDate}" />
+                    </StackPanel>
+
+                    <!-- Organizers -->
+                    <TextBlock Style="{StaticResource Text-H3}"
+                               Text="{Binding Organizer}"/>
+
+                </StackPanel>
+            </Border>
+
+            <!-- Title -->
+            <Border Style="{StaticResource Border-Vertical}"
+                    Grid.Row="1"
+                    BorderThickness="1"
+                    BorderBrush="Black"
+                    Background="DimGray">
+                <TextBlock Style="{StaticResource Text-H2}"
+                           Text="{Binding Title}" />
+            </Border>
+
+            <!-- Rank List -->
+            <Border Style="{StaticResource Border-Vertical}"
+                    Grid.Row="2">
+                <ListBox Style="{StaticResource ListBox-Vertical}"
+                         ItemsSource="{Binding RankList}" />
+            </Border>
+        </Grid>
+    </DataTemplate>
+
+</ResourceDictionary>

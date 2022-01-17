@@ -12,17 +12,20 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="100px" />
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="150px" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
 
+            <!-- Buttons -->
+            <Border Style="{StaticResource Border-Horizontal}"
+                    Grid.Row="0" Grid.Column="0">
+                <TextBox Style="{StaticResource Readonly}" Height="28px"
+                         Text="{Binding CategoryName, Mode=OneWay}" />
+            </Border>
             <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="0"
-                    Grid.Column="1">
+                    Grid.Row="0" Grid.Column="1">
                 <StackPanel Style="{StaticResource List-Horizontal}" HorizontalAlignment="Center">
 
                     <Button Style="{StaticResource Button-Big-Horizontal}"
@@ -42,35 +45,14 @@
                 </StackPanel>
             </Border>
 
+            <!-- Content -->
             <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="1" Grid.Column="0" >
-                <TextBlock Style="{StaticResource Text-Bold}"
-                           Text="{x:Static localization:Words.LENGTH}" />
-            </Border>
-            <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="1" Grid.Column="1">
-                <TextBox Style="{StaticResource Readonly}"
-                         Text="{Binding TotalLengthInKm, Mode=OneWay}" />
-            </Border>
-
-            <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="2" Grid.Column="0" >
-                <TextBlock Style="{StaticResource Text-Bold}"
-                           Text="{x:Static localization:Words.CATEGORY}" />
-            </Border>
-            <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="2" Grid.Column="1">
-                <TextBox Style="{StaticResource Readonly}"
-                         Text="{Binding CategoryName, Mode=OneWay}" />
-            </Border>
-
-            <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="3" Grid.Column="0">
+                    Grid.Row="1" Grid.Column="0">
                 <TextBlock Style="{StaticResource Text-Bold}"
                            Text="{x:Static localization:Words.RANK_LIST}" />
             </Border>
             <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="3" Grid.Column="1">
+                    Grid.Row="1" Grid.Column="1">
                 <ListBox Style="{StaticResource ListBox-Vertical}"
                          ItemsSource="{Binding RankList}"
                          Name="RankList"/>

@@ -9,8 +9,8 @@
         <ResourceDictionary Source="Content/Configuration/Children/Phases/Configuration/PhaseTemplate.xaml" />
         <ResourceDictionary Source="Content/Configuration/Roots/Participants/Configuration/ParticipantTemplate.xaml" />
         <ResourceDictionary Source="Content/Configuration/Children/Personnel/Configuration/PersonnelTemplate.xaml" />
-        <ResourceDictionary Source="Content/Manager/PhasePerformances/PerformanceTemplate.xaml" />
-        <ResourceDictionary Source="Content/Manager/Participants/ParticipantTemplate.xaml" />
+        <ResourceDictionary Source="Content/Common/PhasePerformances/PerformanceTemplate.xaml" />
+        <ResourceDictionary Source="Content/Common/Participants/ParticipantTemplate.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

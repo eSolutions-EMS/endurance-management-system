@@ -1,5 +1,5 @@
 ﻿using EnduranceJudge.Gateways.Desktop.Core;
-using EnduranceJudge.Gateways.Desktop.Core.Static;
+using EnduranceJudge.Gateways.Desktop.Core.Services;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -7,14 +7,14 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Endu
 {
     public partial class EnduranceEventView : UserControl, IScrollableView
     {
-        private readonly IMouseInputService mouseInput;
+        private readonly IMouseHandler mouseInput;
 
         public EnduranceEventView()
         {
             InitializeComponent();
         }
 
-        public EnduranceEventView(IMouseInputService mouseInput) : this()
+        public EnduranceEventView(IMouseHandler mouseInput) : this()
         {
             this.mouseInput = mouseInput;
         }

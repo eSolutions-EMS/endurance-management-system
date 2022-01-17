@@ -3,9 +3,9 @@ using System.Windows.Controls;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings
 {
-    public partial class RankingView : UserControl, IView
+    public partial class CompetitionListView : UserControl, IView
     {
-        public RankingView()
+        public CompetitionListView()
         {
             InitializeComponent();
         }

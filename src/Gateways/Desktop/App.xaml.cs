@@ -12,7 +12,7 @@ using EnduranceJudge.Domain.State.EnduranceEvents;
 using EnduranceJudge.Gateways.Desktop.Startup;
 using EnduranceJudge.Gateways.Desktop.Views;
 using EnduranceJudge.Gateways.Desktop.Core;
-using EnduranceJudge.Gateways.Desktop.Core.Static;
+using EnduranceJudge.Gateways.Desktop.Core.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Prism.DryIoc;
 using Prism.Ioc;

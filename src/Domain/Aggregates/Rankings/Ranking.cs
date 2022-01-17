@@ -30,7 +30,7 @@ namespace EnduranceJudge.Domain.Aggregates.Rankings
                 var participantsInCompetition = participants
                     .Where(x => x.Participation.Competitions.Contains(competition))
                     .ToList();
-                var listing = new CompetitionResult(competition, participantsInCompetition);
+                var listing = new CompetitionResult(state.Event, competition, participantsInCompetition);
                 this.competitions.Add(listing);
             }
         }

@@ -2,7 +2,7 @@
 using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Core.Extensions;
 using EnduranceJudge.Gateways.Desktop.Services;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participants;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Common.Participants;
 using Prism.Commands;
 using Prism.Regions;
 using System;
@@ -14,7 +14,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.CompetitionResu
 {
     public class CompetitionResultViewModel : ViewModelBase
     {
-        private CompetitionResult competitionResult;
+        private CompetitionResult result;
 
         public CompetitionResultViewModel(IPrinter printer)
         {
@@ -42,7 +42,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.CompetitionResu
                 throw new InvalidOperationException(
                     $"Data is of type '{data.GetType()}'. Expected type is 'Classification'");
             }
-            this.competitionResult = categorization;
+            this.result = categorization;
 
             this.HasAdultsClassification = categorization.AdultsRankList != null;
             this.HasKidsClassification = categorization.KidsRankList != null;
@@ -51,21 +51,21 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.CompetitionResu
 
         private void SelectKidsCategoryAction()
         {
-            this.Select(this.competitionResult.KidsRankList);
+            this.Select(this.result.KidsRankList);
         }
         private void SelectAdultsCategoryAction()
         {
-            this.Select(this.competitionResult.AdultsRankList);
+            this.Select(this.result.AdultsRankList);
         }
         private void SelectDefault()
         {
-            var defaultClassification = this.competitionResult.AdultsRankList
-                ?? this.competitionResult.KidsRankList;
+            var defaultClassification = this.result.AdultsRankList
+                ?? this.result.KidsRankList;
             this.Select(defaultClassification);
         }
         private void Select(RankList rankList)
         {
-            this.TotalLengthInKm = this.competitionResult.Length.ToString(CultureInfo.InvariantCulture);
+            this.TotalLengthInKm = this.result.CompetitionLengthInKm.ToString(CultureInfo.InvariantCulture);
             this.CategoryName = rankList.Category.ToString();
             this.RankList.Clear();
             foreach (var participant in rankList)
