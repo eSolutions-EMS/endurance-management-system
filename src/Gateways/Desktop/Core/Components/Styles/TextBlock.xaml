@@ -7,6 +7,10 @@
         <Setter Property="Padding" Value="10px 0 0 0" />
     </Style>
 
+    <Style x:Key="Text-Small" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="12" />
+    </Style>
+
     <Style x:Key="Interval" TargetType="TextBlock">
         <Setter Property="Text" Value="   " />
     </Style>
@@ -19,25 +23,31 @@
         <Setter Property="FontWeight" Value="Bold" />
     </Style>
 
-    <Style x:Key="Text-H1" TargetType="TextBlock" BasedOn="{StaticResource Text-Centered}">
+    <Style x:Key="Text-Heading" TargetType="TextBlock" BasedOn="{StaticResource Text-Centered}">
         <Setter Property="Foreground" Value="#f7c56e" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Padding" Value="5px" />
+    </Style>
+
+    <Style x:Key="Text-H1" TargetType="TextBlock" BasedOn="{StaticResource Text-Heading}">
         <Setter Property="FontSize" Value="21px" />
-        <Setter Property="FontWeight" Value="Bold" />
-        <Setter Property="Padding" Value="5px" />
     </Style>
 
-    <Style x:Key="Text-H2" TargetType="TextBlock" BasedOn="{StaticResource Text}">
-        <Setter Property="Foreground" Value="#f7c56e" />
+    <Style x:Key="Text-H2" TargetType="TextBlock" BasedOn="{StaticResource Text-Heading}">
         <Setter Property="FontSize" Value="18px" />
-        <Setter Property="FontWeight" Value="Bold" />
-        <Setter Property="Padding" Value="5px" />
     </Style>
 
-    <Style x:Key="Text-H3" TargetType="TextBlock" BasedOn="{StaticResource Text-Bold}">
+    <Style x:Key="Text-H3" TargetType="TextBlock" BasedOn="{StaticResource Text-Heading}">
         <Setter Property="FontSize" Value="16px" />
     </Style>
 
-    <Style x:Key="Text-Label" TargetType="TextBlock" BasedOn="{StaticResource Text-H3}">
+    <Style x:Key="Text-H3-Right" TargetType="TextBlock" BasedOn="{StaticResource Text-H3}">
+        <Setter Property="HorizontalAlignment" Value="Right" />
+        <Setter Property="Padding" Value="50px 0" />
+    </Style>
+
+    <Style x:Key="Text-Label" TargetType="TextBlock" BasedOn="{StaticResource Text}">
+        <Setter Property="FontWeight" Value="Bold" />
         <Setter Property="Padding" Value="5px" />
         <Setter Property="VerticalAlignment" Value="Top" />
     </Style>
@@ -45,6 +55,18 @@
     <Style x:Key="Text-White" TargetType="TextBlock" BasedOn="{StaticResource Text}">
         <Setter Property="Foreground" Value="White" />
         <Setter Property="Margin" Value="10px" />
+    </Style>
+
+    <Style x:Key="Text-Align" BasedOn="{StaticResource Text}" TargetType="TextBlock">
+        <Setter Property="Padding" Value="50px 0" />
+    </Style>
+
+    <Style x:Key="Text-Align-Right" BasedOn="{StaticResource Text-Align}" TargetType="TextBlock">
+        <Setter Property="HorizontalAlignment" Value="Right" />
+    </Style>
+
+    <Style x:Key="Text-Align-Left" BasedOn="{StaticResource Text-Align}" TargetType="TextBlock">
+        <Setter Property="HorizontalAlignment" Value="Left" />
     </Style>
 
 </ResourceDictionary>

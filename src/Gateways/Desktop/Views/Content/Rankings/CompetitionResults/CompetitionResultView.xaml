@@ -12,65 +12,43 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="100px" />
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="150px" />
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition Style="{StaticResource Layout-Left}" />
+                <ColumnDefinition Style="{StaticResource Layout-Center}" />
             </Grid.ColumnDefinitions>
 
+            <!-- Title -->
+            <TextBlock Style="{StaticResource Text-H1}"
+                       Text="{x:Static localization:Pages.RANK_LIST}"
+                       Grid.Row="0" Grid.Column="1"/>
+            <!-- Buttons  -->
             <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="0"
-                    Grid.Column="1">
-                <StackPanel Style="{StaticResource List-Horizontal}" HorizontalAlignment="Center">
-
-                    <Button Style="{StaticResource Button-Big-Horizontal}"
+                    Grid.Row="1" Grid.Column="0">
+                <StackPanel Style="{StaticResource List-Vertical}">
+                    <!-- Category Label -->
+                    <TextBox Style="{StaticResource Readonly}" Height="28px" Margin="1px 5px 5px 5px"
+                             Text="{Binding CategoryName, Mode=OneWay}" />
+                    <!-- Kids Button-->
+                    <Button Style="{StaticResource Button-Big-Vertical}"
                             IsEnabled="{Binding HasKidsClassification}"
                             Command="{Binding SelectKidsCategory}"
                             Content="{x:Static localization:Words.KIDS}"/>
-
-                    <Button Style="{StaticResource Button-Big-Horizontal}"
+                    <!-- Adults Button -->
+                    <Button Style="{StaticResource Button-Big-Vertical}"
                             IsEnabled="{Binding HasAdultsClassification}"
                             Command="{Binding SelectAdultsCategory}"
                             Content="{x:Static localization:Words.ADULTS}"/>
-
-                    <Button Style="{StaticResource Button-Big-Horizontal}" Margin="200px 0 0 0"
+                    <!-- Print Button -->
+                    <Button Style="{StaticResource Button-Big-Vertical}" Margin="0 50px"
                             Command="{Binding Print}"
                             CommandParameter="{Binding ElementName=RankList}"
                             Content="{x:Static localization:Words.PRINT}" />
                 </StackPanel>
             </Border>
-
-            <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="1" Grid.Column="0" >
-                <TextBlock Style="{StaticResource Text-Bold}"
-                           Text="{x:Static localization:Words.LENGTH}" />
-            </Border>
+            <!-- Content -->
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="1" Grid.Column="1">
-                <TextBox Style="{StaticResource Readonly}"
-                         Text="{Binding TotalLengthInKm, Mode=OneWay}" />
-            </Border>
-
-            <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="2" Grid.Column="0" >
-                <TextBlock Style="{StaticResource Text-Bold}"
-                           Text="{x:Static localization:Words.CATEGORY}" />
-            </Border>
-            <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="2" Grid.Column="1">
-                <TextBox Style="{StaticResource Readonly}"
-                         Text="{Binding CategoryName, Mode=OneWay}" />
-            </Border>
-
-            <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="3" Grid.Column="0">
-                <TextBlock Style="{StaticResource Text-Bold}"
-                           Text="{x:Static localization:Words.RANK_LIST}" />
-            </Border>
-            <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="3" Grid.Column="1">
                 <ListBox Style="{StaticResource ListBox-Vertical}"
                          ItemsSource="{Binding RankList}"
                          Name="RankList"/>

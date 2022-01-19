@@ -1,4 +1,4 @@
-﻿using EnduranceJudge.Gateways.Desktop.Core.Static;
+﻿using EnduranceJudge.Gateways.Desktop.Core.Services;
 using Microsoft.WindowsAPICodePack.Dialogs;
 
 namespace EnduranceJudge.Gateways.Desktop.Core.Services.Implementations

@@ -13,22 +13,22 @@ using static EnduranceJudge.Gateways.Desktop.DesktopConstants;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings
 {
-    public class RankingViewModel : ViewModelBase
+    public class CompetitionListViewModel : ViewModelBase
     {
         private readonly INavigationService navigation;
-        private readonly Ranking ranking;
+        private readonly RankingManager rankingManager;
 
-        public RankingViewModel(INavigationService navigation, Ranking ranking)
+        public CompetitionListViewModel(INavigationService navigation, RankingManager rankingManager)
         {
             this.navigation = navigation;
-            this.ranking = ranking;
+            this.rankingManager = rankingManager;
         }
 
         public ObservableCollection<ListItemViewModel> Competitions { get; } = new();
 
         public override void OnNavigatedTo(NavigationContext context)
         {
-            foreach (var competition in this.ranking.Competitions)
+            foreach (var competition in this.rankingManager.Competitions)
             {
                 var viewModel = this.ToListItem(competition);
                 this.Competitions.Add(viewModel);
@@ -36,16 +36,16 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings
             base.OnNavigatedTo(context);
         }
 
-        private ListItemViewModel ToListItem(CompetitionResult competitionResult)
+        private ListItemViewModel ToListItem(CompetitionResult result)
         {
             var command = new DelegateCommand<int?>(this.NavigateToClassification);
-            var listItem = new ListItemViewModel(competitionResult.Id, competitionResult.Name, command, Words.VIEW);
+            var listItem = new ListItemViewModel(result.Id, result.CompetitionName, command, Words.VIEW);
             return listItem;
         }
 
         private void NavigateToClassification(int? id)
         {
-            var categorization = this.ranking.Competitions.First(x => x.Id == id!.Value);
+            var categorization = this.rankingManager.Competitions.First(x => x.Id == id!.Value);
             var dataParameter = new NavigationParameter(NavigationParametersKeys.DATA, categorization);
             this.navigation.ChangeTo<CompetitionResultView>(dataParameter);
         }

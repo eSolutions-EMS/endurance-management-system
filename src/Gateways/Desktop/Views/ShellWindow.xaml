@@ -12,8 +12,8 @@
             <RowDefinition Height="15*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="10*" MinWidth="100px"></ColumnDefinition>
-            <ColumnDefinition Width="2*"></ColumnDefinition>
+            <ColumnDefinition Style="{StaticResource Layout-Center-And-Left}"></ColumnDefinition>
+            <ColumnDefinition Style="{StaticResource Layout-Right}"></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
         <ContentControl prism:RegionManager.RegionName="{x:Static desktop:Regions.HEADER_RIGHT}"

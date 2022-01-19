@@ -3,7 +3,7 @@ using EnduranceJudge.Domain.Aggregates.Manager;
 using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Services;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participants;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Common.Participants;
 using Prism.Commands;
 using Prism.Regions;
 using System;

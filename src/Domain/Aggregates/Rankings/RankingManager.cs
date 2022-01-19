@@ -8,11 +8,11 @@ using System.Linq;
 
 namespace EnduranceJudge.Domain.Aggregates.Rankings
 {
-    public class Ranking : ManagerObjectBase, IAggregateRoot
+    public class RankingManager : ManagerObjectBase, IAggregateRoot
     {
         private readonly List<CompetitionResult> competitions = new();
 
-        public Ranking(IState state)
+        public RankingManager(IState state)
         {
             // Program.Main();
             if (state.Event == default)
@@ -30,7 +30,7 @@ namespace EnduranceJudge.Domain.Aggregates.Rankings
                 var participantsInCompetition = participants
                     .Where(x => x.Participation.Competitions.Contains(competition))
                     .ToList();
-                var listing = new CompetitionResult(competition, participantsInCompetition);
+                var listing = new CompetitionResult(state.Event, competition, participantsInCompetition);
                 this.competitions.Add(listing);
             }
         }

@@ -20,6 +20,7 @@ namespace EnduranceJudge.Gateways.Desktop.Services.Implementations
         private readonly IApplicationContext context;
         public NavigationService(IRegionManager regionManager, IApplicationContext context) : base(regionManager)
         {
+            // TODO: Add domain handling for navigation service
             this.context = context;
         }
 
@@ -54,7 +55,7 @@ namespace EnduranceJudge.Gateways.Desktop.Services.Implementations
             {
                 throw new AppException(SELECT_WORK_DIRECTORY);
             }
-            this.ChangeTo<RankingView>(Regions.CONTENT_RIGHT);
+            this.ChangeTo<CompetitionListView>(Regions.CONTENT_RIGHT);
             this.ClearRegion(Regions.CONTENT_LEFT);
         }
 

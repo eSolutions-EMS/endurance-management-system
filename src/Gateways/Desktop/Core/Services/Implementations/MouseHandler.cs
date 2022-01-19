@@ -1,10 +1,10 @@
-﻿using EnduranceJudge.Gateways.Desktop.Core.Static;
+﻿using EnduranceJudge.Gateways.Desktop.Core.Services;
 using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace EnduranceJudge.Gateways.Desktop.Core.Services.Implementations
 {
-    public class MouseInputService : IMouseInputService
+    public class MouseHandler : IMouseHandler
     {
         public void HandleScroll(object sender, MouseWheelEventArgs scrollEvent)
         {

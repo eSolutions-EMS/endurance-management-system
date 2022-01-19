@@ -2,19 +2,18 @@
 using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Core.Extensions;
 using EnduranceJudge.Gateways.Desktop.Services;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Manager.Participants;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.RankLists;
 using Prism.Commands;
 using Prism.Regions;
 using System;
 using System.Collections.ObjectModel;
-using System.Globalization;
 using System.Windows.Media;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.CompetitionResults
 {
     public class CompetitionResultViewModel : ViewModelBase
     {
-        private CompetitionResult competitionResult;
+        private CompetitionResult result;
 
         public CompetitionResultViewModel(IPrinter printer)
         {
@@ -27,7 +26,10 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.CompetitionResu
         public DelegateCommand SelectKidsCategory { get; }
         public DelegateCommand SelectAdultsCategory { get; }
 
-        public ObservableCollection<ParticipantTemplateModel> RankList { get; } = new();
+        // This should not be a collection and should always have only a single instance
+        // It is defined as collection in order to work-around
+        // my inability to render a template outside of a list.
+        public ObservableCollection<RankListTemplateModel> RankList { get; } = new();
         private string totalLengthInKm;
         private string categoryName;
         private bool hasKidsClassification;
@@ -42,7 +44,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.CompetitionResu
                 throw new InvalidOperationException(
                     $"Data is of type '{data.GetType()}'. Expected type is 'Classification'");
             }
-            this.competitionResult = categorization;
+            this.result = categorization;
 
             this.HasAdultsClassification = categorization.AdultsRankList != null;
             this.HasKidsClassification = categorization.KidsRankList != null;
@@ -51,28 +53,24 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.CompetitionResu
 
         private void SelectKidsCategoryAction()
         {
-            this.Select(this.competitionResult.KidsRankList);
+            this.Select(this.result.KidsRankList);
         }
         private void SelectAdultsCategoryAction()
         {
-            this.Select(this.competitionResult.AdultsRankList);
+            this.Select(this.result.AdultsRankList);
         }
         private void SelectDefault()
         {
-            var defaultClassification = this.competitionResult.AdultsRankList
-                ?? this.competitionResult.KidsRankList;
-            this.Select(defaultClassification);
+            var rankList = this.result.AdultsRankList
+                ?? this.result.KidsRankList;
+            this.Select(rankList);
         }
         private void Select(RankList rankList)
         {
-            this.TotalLengthInKm = this.competitionResult.Length.ToString(CultureInfo.InvariantCulture);
-            this.CategoryName = rankList.Category.ToString();
             this.RankList.Clear();
-            foreach (var participant in rankList)
-            {
-                var viewModel = new ParticipantTemplateModel(participant);
-                this.RankList.Add(viewModel);
-            }
+            var template = new RankListTemplateModel(rankList, this.result);
+            this.RankList.Add(template);
+            this.CategoryName = rankList.Category.ToString();
         }
 
         #region Setters

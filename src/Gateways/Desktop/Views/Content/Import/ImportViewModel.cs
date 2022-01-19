@@ -1,7 +1,7 @@
 ﻿using EnduranceJudge.Application.Aggregates.Import;
 using EnduranceJudge.Application.Contracts;
 using EnduranceJudge.Gateways.Desktop.Core;
-using EnduranceJudge.Gateways.Desktop.Core.Static;
+using EnduranceJudge.Gateways.Desktop.Core.Services;
 using EnduranceJudge.Gateways.Desktop.Services;
 using Prism.Commands;
 using Prism.Regions;

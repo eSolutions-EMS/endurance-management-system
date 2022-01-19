@@ -11,11 +11,11 @@ using static EnduranceJudge.Localization.Translations.Messages;
 
 namespace EnduranceJudge.Domain.Aggregates.Configuration
 {
-    public class AthletesManger : ManagerObjectBase
+    public class AthletesManager : ManagerObjectBase
     {
         private readonly IState state;
 
-        internal AthletesManger(IState state)
+        internal AthletesManager(IState state)
         {
             this.state = state;
         }

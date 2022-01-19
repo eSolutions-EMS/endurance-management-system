@@ -23,7 +23,7 @@
     </Style>
 
     <Style x:Key="Button-Big-Vertical" TargetType="Button" BasedOn="{StaticResource Button-Vertical}">
-        <Setter Property="MinWidth" Value="150px" />
+        <Setter Property="MinWidth" Value="200px" />
         <Setter Property="FontSize" Value="16px" />
     </Style>
 

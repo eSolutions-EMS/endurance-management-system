@@ -20,4 +20,8 @@
         <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
 
+    <Style x:Key="Performance-Column" BasedOn="{StaticResource List-Vertical}" TargetType="StackPanel">
+        <Setter Property="Width" Value="140px" />
+    </Style>
+
 </ResourceDictionary>

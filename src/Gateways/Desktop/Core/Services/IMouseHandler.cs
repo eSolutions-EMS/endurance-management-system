@@ -1,9 +1,9 @@
 ﻿using EnduranceJudge.Core.ConventionalServices;
 using System.Windows.Input;
 
-namespace EnduranceJudge.Gateways.Desktop.Core.Static
+namespace EnduranceJudge.Gateways.Desktop.Core.Services
 {
-    public interface IMouseInputService : IService
+    public interface IMouseHandler : IService
     {
         void HandleScroll(object sender, MouseWheelEventArgs scrollEvent);
     }

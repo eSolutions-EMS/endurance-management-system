@@ -7,7 +7,6 @@
 
     <ScrollViewer Style="{StaticResource Scroll}"
                   PreviewMouseWheel="HandleScroll">
-
         <Grid Style="{StaticResource Grid}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -18,18 +17,18 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-
+            <!-- Title -->
             <TextBlock Style="{StaticResource Text-H1}"
                        Text="{x:Static localization:Words.MANAGER}"
                        Grid.Row="0"/>
-
+            <!-- Start button (temp) -->
             <Border Style="{StaticResource Border-Vertical}" Visibility="{Binding StartVisibility}"
                     Grid.Row="1">
                 <Button Style="{StaticResource Button-Big-Vertical}"
                         Command="{Binding Start}"
                         Content="{x:Static localization:Words.START_PARTICIPATIONS}" />
             </Border>
-
+            <!-- Controls -->
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="2">
                 <StackPanel Style="{StaticResource List-Horizontal}">
@@ -166,10 +165,10 @@
                     </StackPanel>
                 </StackPanel>
             </Border>
-
+            <!-- Participations -->
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="3">
-                <ListBox Style="{StaticResource ListBox-Vertical}"
+                <ListBox Style="{StaticResource ListBox-Vertical-Border}"
                          ItemsSource="{Binding Participants}" />
             </Border>
         </Grid>

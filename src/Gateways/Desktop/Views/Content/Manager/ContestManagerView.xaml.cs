@@ -1,5 +1,5 @@
 ﻿using EnduranceJudge.Gateways.Desktop.Core;
-using EnduranceJudge.Gateways.Desktop.Core.Static;
+using EnduranceJudge.Gateways.Desktop.Core.Services;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -7,9 +7,9 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager
 {
     public partial class ContestManagerView : UserControl, IScrollableView
     {
-        private readonly IMouseInputService mouseInput;
+        private readonly IMouseHandler mouseInput;
 
-        public ContestManagerView(IMouseInputService mouseInput) : this()
+        public ContestManagerView(IMouseHandler mouseInput) : this()
         {
             this.mouseInput = mouseInput;
         }

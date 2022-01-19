@@ -81,4 +81,7 @@ public class Words
     public const string APPLICATION_ERROR = "Application Error";
     public const string VALIDATION_MESSAGE = "Validation Message";
     public const string CONFIRMATION = "Confirmation";
+    public const string MARE = "Mare";
+    public const string STALLION = "Stallion";
+    public const string TOTAL = "Total";
 }

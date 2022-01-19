@@ -1,5 +1,5 @@
 ﻿using EnduranceJudge.Gateways.Desktop.Core;
-using EnduranceJudge.Gateways.Desktop.Core.Static;
+using EnduranceJudge.Gateways.Desktop.Core.Services;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -7,10 +7,10 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.CompetitionResu
 {
     public partial class CompetitionResultView : UserControl, IScrollableView
     {
-        private readonly IMouseInputService inputService;
-        public CompetitionResultView(IMouseInputService inputService) : this()
+        private readonly IMouseHandler handler;
+        public CompetitionResultView(IMouseHandler handler) : this()
         {
-            this.inputService = inputService;
+            this.handler = handler;
         }
         public CompetitionResultView()
         {
@@ -21,7 +21,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.CompetitionResu
 
         public void HandleScroll(object sender, MouseWheelEventArgs mouseEvent)
         {
-            this.inputService.HandleScroll(sender, mouseEvent);
+            this.handler.HandleScroll(sender, mouseEvent);
         }
     }
 }
