@@ -2,7 +2,11 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Style x:Key="Strip" TargetType="DockPanel">
-        <Setter Property="LastChildFill" Value="True"></Setter>
+        <Setter Property="LastChildFill" Value="True" />
+    </Style>
+
+    <Style x:Key="Strip-Vertical" TargetType="DockPanel" BasedOn="{StaticResource Strip}">
+        <Setter Property="VerticalAlignment" Value="Top"/>
     </Style>
 
     <Style x:Key="Stretch-Last" TargetType="DockPanel">

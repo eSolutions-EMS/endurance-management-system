@@ -1,7 +1,7 @@
 ﻿using EnduranceJudge.Domain.Aggregates;
 using EnduranceJudge.Domain.Aggregates.Rankings.AggregateBranches;
 using EnduranceJudge.Gateways.Desktop.Core;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.RankListEntries;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.ParticipantResults;
 using System;
 using System.Collections.ObjectModel;
 using static EnduranceJudge.Localization.Translations.Words;
@@ -29,13 +29,13 @@ public class RankListTemplateModel : ViewModelBase, ICompetitionData
         var rank = 1;
         foreach (var participant in rankList)
         {
-            var entry = new RankListEntryTemplateModel(rank, participant);
+            var entry = new ParticipantResultTemplateModel(rank, participant);
             this.RankList.Add(entry);
             rank++;
         }
     }
 
-    public ObservableCollection<RankListEntryTemplateModel> RankList { get; } = new();
+    public ObservableCollection<ParticipantResultTemplateModel> RankList { get; } = new();
 
     public string Title => $"{this.CompetitionName} * {this.CompetitionLengthInKm} {KM.ToUpper()}";
     public string EventName { get; }

@@ -20,6 +20,7 @@ namespace EnduranceJudge.Gateways.Desktop.Services.Implementations
         private readonly IApplicationContext context;
         public NavigationService(IRegionManager regionManager, IApplicationContext context) : base(regionManager)
         {
+            // TODO: Add domain handling for navigation service
             this.context = context;
         }
 

@@ -1,14 +1,14 @@
 ﻿using EnduranceJudge.Domain.State.Participants;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Common.Participants;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Common;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.PerformanceResults;
 using System;
 using static EnduranceJudge.Localization.Translations.Words;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.RankListEntries;
+namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.ParticipantResults;
 
-public class RankListEntryTemplateModel : ParticipantTemplateModel
+public class ParticipantResultTemplateModel : ParticipantTemplateModelBase<PerformanceResultTemplateModel>
 {
-    public RankListEntryTemplateModel(int rank, Participant participant)
-        : base(participant)
+    public ParticipantResultTemplateModel(int rank, Participant participant) : base(participant)
     {
         this.Rank = rank;
         this.ParticipantNumber = participant.Number;
@@ -21,7 +21,7 @@ public class RankListEntryTemplateModel : ParticipantTemplateModel
         this.HorseBreed = participant.Horse.Breed;
         this.TrainerFeiId = participant.Horse.TrainerFeiId;
         this.TrainerName = participant.Horse.TrainerName;
-        this.AverageSpeedInKm = participant.Participation.AverageSpeedForLoopInKm;
+        this.AverageSpeedInKm = Math.Round(participant.Participation.AverageSpeedForLoopInKm, 3);
     }
 
     public int Rank { get; }

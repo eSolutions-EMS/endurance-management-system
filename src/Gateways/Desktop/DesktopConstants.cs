@@ -5,6 +5,8 @@ namespace EnduranceJudge.Gateways.Desktop
 {
     public static class DesktopConstants
     {
+        public const string TIME_FORMAT = "HH:mm:ss";
+
         public static Assembly[] Assemblies
         {
             get

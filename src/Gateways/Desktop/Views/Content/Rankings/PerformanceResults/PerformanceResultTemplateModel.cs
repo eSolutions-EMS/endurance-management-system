@@ -1,32 +1,21 @@
-﻿using EnduranceJudge.Application.Aggregates.Configurations.Contracts;
-using EnduranceJudge.Application.Core.Services;
+﻿using EnduranceJudge.Application.Core.Services;
 using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Core.Utilities;
-using EnduranceJudge.Domain.Aggregates.Manager;
 using EnduranceJudge.Domain.State.Performances;
 using EnduranceJudge.Gateways.Desktop.Core;
-using EnduranceJudge.Gateways.Desktop.Services;
-using Prism.Commands;
 using System;
 using static EnduranceJudge.Gateways.Desktop.DesktopConstants;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Common.PhasePerformances;
+namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.PerformanceResults;
 
-public class PerformanceTemplateModel : ViewModelBase, IMapFrom<Performance>, IPerformanceState
+public class PerformanceResultTemplateModel : ViewModelBase, IPerformanceState, IMapFrom<Performance>
 {
-    private readonly IExecutor<ContestManager> competitionExecutor;
-    private readonly IQueries<Performance> performances;
     private readonly IDateService dateService;
 
-    public PerformanceTemplateModel()
+    public PerformanceResultTemplateModel()
     {
-        this.competitionExecutor = StaticProvider.GetService<IExecutor<ContestManager>>();
-        this.performances = StaticProvider.GetService<IQueries<Performance>>();
         this.dateService = StaticProvider.GetService<IDateService>();
-        this.Edit = new DelegateCommand(this.EditAction);
     }
-
-    public DelegateCommand Edit { get; }
 
     private DateTime startTime;
     private string arrivalTimeString;
@@ -41,57 +30,6 @@ public class PerformanceTemplateModel : ViewModelBase, IMapFrom<Performance>, IP
     public double? averageSpeedForPhaseInKpH;
     public DateTime? nextPerformanceStartTime;
     public bool isComplete;
-
-    public void EditAction()
-    {
-        this.competitionExecutor.Execute(x => x.EditPerformance(this));
-        var result = this.performances.GetOne(this.Id);
-        this.MapFrom(result);
-    }
-
-    #region IPerformanceState implementation
-
-    public DateTime? ArrivalTime
-    {
-        get => this.ParseTime(this.ArrivalTimeString);
-        private set => this.ArrivalTimeString = this.FormatTime(value);
-    }
-    public DateTime? InspectionTime
-    {
-        get => this.ParseTime(this.InspectionTimeString);
-        private set => this.InspectionTimeString = this.FormatTime(value);
-    }
-    public DateTime? ReInspectionTime
-    {
-        get => this.ParseTime(this.ReInspectionTimeString);
-        private set => this.ReInspectionTimeString = this.FormatTime(value);
-    }
-    public DateTime? RequiredInspectionTime
-    {
-        get => this.ParseTime(this.RequiredInspectionTimeString);
-        private set => this.RequiredInspectionTimeString = this.FormatTime(value);
-    }
-
-    public int Id { get; private set; }
-
-    #endregion
-
-    private DateTime? ParseTime(string value)
-    {
-        if (string.IsNullOrEmpty(value))
-        {
-            return null;
-        }
-        var date = this.dateService.Parse(value, TIME_FORMAT);
-        return date;
-    }
-    private string FormatTime(DateTime? time)
-    {
-        var timeString = time?.ToString(TIME_FORMAT);
-        return timeString;
-    }
-
-    #region Setters
 
     public DateTime StartTime
     {
@@ -160,5 +98,45 @@ public class PerformanceTemplateModel : ViewModelBase, IMapFrom<Performance>, IP
         private set => this.SetProperty(ref this.nextPerformanceStartTime, value);
     }
 
-    #endregion Setters;
+    #region IPerformanceState implementation
+
+    public DateTime? ArrivalTime
+    {
+        get => this.ParseTime(this.ArrivalTimeString);
+        private set => this.ArrivalTimeString = this.FormatTime(value);
+    }
+    public DateTime? InspectionTime
+    {
+        get => this.ParseTime(this.InspectionTimeString);
+        private set => this.InspectionTimeString = this.FormatTime(value);
+    }
+    public DateTime? ReInspectionTime
+    {
+        get => this.ParseTime(this.ReInspectionTimeString);
+        private set => this.ReInspectionTimeString = this.FormatTime(value);
+    }
+    public DateTime? RequiredInspectionTime
+    {
+        get => this.ParseTime(this.RequiredInspectionTimeString);
+        private set => this.RequiredInspectionTimeString = this.FormatTime(value);
+    }
+
+    public int Id { get; private set; }
+
+    private DateTime? ParseTime(string value)
+    {
+        if (string.IsNullOrEmpty(value))
+        {
+            return null;
+        }
+        var date = this.dateService.Parse(value, TIME_FORMAT);
+        return date;
+    }
+    private string FormatTime(DateTime? time)
+    {
+        var timeString = time?.ToString(TIME_FORMAT);
+        return timeString;
+    }
+
+    #endregion
 }
