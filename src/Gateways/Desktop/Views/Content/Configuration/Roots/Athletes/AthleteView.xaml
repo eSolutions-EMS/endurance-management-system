@@ -7,8 +7,8 @@
 
        <Grid Style="{StaticResource Grid}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="250px" />
-            <ColumnDefinition Width="*" />
+            <ColumnDefinition Style="{StaticResource Layout-Left}" />
+            <ColumnDefinition Style="{StaticResource Layout-Center}" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />

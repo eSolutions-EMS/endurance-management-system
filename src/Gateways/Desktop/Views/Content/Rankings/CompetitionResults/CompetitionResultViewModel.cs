@@ -70,6 +70,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.CompetitionResu
             this.RankList.Clear();
             var template = new RankListTemplateModel(rankList, this.result);
             this.RankList.Add(template);
+            this.CategoryName = rankList.Category.ToString();
         }
 
         #region Setters
