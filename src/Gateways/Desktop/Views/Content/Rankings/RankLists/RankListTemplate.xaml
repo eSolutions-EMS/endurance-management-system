@@ -19,24 +19,24 @@
                     <StackPanel Style="{StaticResource List-Vertical}">
 
                         <TextBlock Style="{StaticResource Text-Bold}"
-                                   Text="{Binding EventName}" />
+                                   Text="{Binding EventName, Mode=OneWay}" />
 
                         <TextBlock Style="{StaticResource Text-Bold}">
                             <Run Style="{StaticResource Run-Bold}"
-                                 Text="{Binding PopulatedPlace}" />
+                                 Text="{Binding PopulatedPlace, Mode=OneWay}" />
                             <Run Style="{StaticResource Run-Bold}"
                                  Text=" - " />
                             <Run Style="{StaticResource Run-Bold}"
-                                 Text="{Binding CountryName}" />
+                                 Text="{Binding CountryName, Mode=OneWay}" />
                         </TextBlock>
 
                         <TextBlock Style="{StaticResource Text-Bold}"
-                                   Text="{Binding CompetitionDate}" />
+                                   Text="{Binding CompetitionDate, Mode=OneWay}" />
                     </StackPanel>
 
                     <!-- Organizers -->
                     <TextBlock Style="{StaticResource Text-H3}"
-                               Text="{Binding Organizer}"/>
+                               Text="{Binding Organizer, Mode=OneWay}"/>
 
                 </StackPanel>
             </Border>
@@ -48,14 +48,14 @@
                     BorderBrush="Black"
                     Background="DimGray">
                 <TextBlock Style="{StaticResource Text-H2}"
-                           Text="{Binding Title}" />
+                           Text="{Binding Title, Mode=OneWay}" />
             </Border>
 
             <!-- Rank List -->
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="2">
                 <ListBox Style="{StaticResource ListBox-Vertical}"
-                         ItemsSource="{Binding RankList}" />
+                         ItemsSource="{Binding RankList, Mode=OneWay}" />
             </Border>
         </Grid>
     </DataTemplate>

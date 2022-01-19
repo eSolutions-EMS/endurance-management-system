@@ -8,11 +8,11 @@ using System.Linq;
 
 namespace EnduranceJudge.Domain.Aggregates.Rankings
 {
-    public class Ranking : ManagerObjectBase, IAggregateRoot
+    public class RankingManager : ManagerObjectBase, IAggregateRoot
     {
         private readonly List<CompetitionResult> competitions = new();
 
-        public Ranking(IState state)
+        public RankingManager(IState state)
         {
             // Program.Main();
             if (state.Event == default)

@@ -23,7 +23,7 @@ public class CompetitionResult : ManagerObjectBase, ICompetitionData
         this.EventName = enduranceEvent.Name;
         this.PopulatedPlace = enduranceEvent.PopulatedPlace;
         this.CountryName = enduranceEvent.Country.Name;
-        this.PresidentGroundJuryName = enduranceEvent.PresidentGroundJury.Name;
+        this.PresidentGroundJuryName = enduranceEvent.PresidentGroundJury?.Name;
         this.ChiefStewardName = enduranceEvent.Stewards.FirstOrDefault()?.Name;
         this.CompetitionName = competition.Name;
         this.CompetitionDate = competition.StartTime;

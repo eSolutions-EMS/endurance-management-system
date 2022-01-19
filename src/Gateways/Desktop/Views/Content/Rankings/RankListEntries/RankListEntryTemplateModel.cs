@@ -3,12 +3,12 @@ using EnduranceJudge.Gateways.Desktop.Views.Content.Common.Participants;
 using System;
 using static EnduranceJudge.Localization.Translations.Words;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.RankListEntry;
+namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.RankListEntries;
 
 public class RankListEntryTemplateModel : ParticipantTemplateModel
 {
-    public RankListEntryTemplateModel(int rank, Participant participant, bool isExpanded = true)
-        : base(participant, isExpanded)
+    public RankListEntryTemplateModel(int rank, Participant participant)
+        : base(participant)
     {
         this.Rank = rank;
         this.ParticipantNumber = participant.Number;
@@ -21,6 +21,7 @@ public class RankListEntryTemplateModel : ParticipantTemplateModel
         this.HorseBreed = participant.Horse.Breed;
         this.TrainerFeiId = participant.Horse.TrainerFeiId;
         this.TrainerName = participant.Horse.TrainerName;
+        this.AverageSpeedInKm = participant.Participation.AverageSpeedForLoopInKm;
     }
 
     public int Rank { get; }
@@ -35,7 +36,8 @@ public class RankListEntryTemplateModel : ParticipantTemplateModel
     public string TrainerFeiId { get; }
     public string TrainerName { get; }
     public TimeSpan TotalLoopSpan { get; }
+    public double AverageSpeedInKm { get; }
 
     public string HorseGenderString => this.HorseIsStallion ? STALLION : MARE;
-    public string TotalLoopSpanString => this.TotalLoopSpan.ToString("HH:mm:ss");
+    public string TotalLoopSpanString => this.TotalLoopSpan.ToString(@"hh\:mm\:ss");
 }

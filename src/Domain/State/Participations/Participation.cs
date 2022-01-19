@@ -3,6 +3,7 @@ using EnduranceJudge.Domain.Core.Extensions;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Competitions;
 using EnduranceJudge.Domain.State.Performances;
+using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 using System.Linq;
 using static EnduranceJudge.Localization.Translations.Messages;
@@ -13,6 +14,21 @@ namespace EnduranceJudge.Domain.State.Participations
     {
         private List<Competition> competitions = new();
         private List<Performance> performances = new();
+
+        public double AverageSpeedForLoopInKm
+        {
+            get
+            {
+                var finishedPerformances = this.performances
+                    .Where(x => x.AverageSpeedForLoopInKpH.HasValue)
+                    .ToList();
+                var sum = finishedPerformances.Aggregate(
+                    0d,
+                    (sum, performance) => sum + performance.AverageSpeedForLoopInKpH!.Value);
+                var average = sum / finishedPerformances.Count;
+                return average;
+            }
+        }
 
         internal void Add(Competition competition) => this.Validate(() =>
         {

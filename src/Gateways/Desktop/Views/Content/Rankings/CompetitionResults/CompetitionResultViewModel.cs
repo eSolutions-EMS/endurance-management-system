@@ -2,12 +2,11 @@
 using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Core.Extensions;
 using EnduranceJudge.Gateways.Desktop.Services;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Common.Participants;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.RankLists;
 using Prism.Commands;
 using Prism.Regions;
 using System;
 using System.Collections.ObjectModel;
-using System.Globalization;
 using System.Windows.Media;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.CompetitionResults
@@ -27,7 +26,10 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.CompetitionResu
         public DelegateCommand SelectKidsCategory { get; }
         public DelegateCommand SelectAdultsCategory { get; }
 
-        public ObservableCollection<ParticipantTemplateModel> RankList { get; } = new();
+        // This should not be a collection and should always have only a single instance
+        // It is defined as collection in order to work-around
+        // my inability to render a template outside of a list.
+        public ObservableCollection<RankListTemplateModel> RankList { get; } = new();
         private string totalLengthInKm;
         private string categoryName;
         private bool hasKidsClassification;
@@ -59,20 +61,15 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.CompetitionResu
         }
         private void SelectDefault()
         {
-            var defaultClassification = this.result.AdultsRankList
+            var rankList = this.result.AdultsRankList
                 ?? this.result.KidsRankList;
-            this.Select(defaultClassification);
+            this.Select(rankList);
         }
         private void Select(RankList rankList)
         {
-            this.TotalLengthInKm = this.result.CompetitionLengthInKm.ToString(CultureInfo.InvariantCulture);
-            this.CategoryName = rankList.Category.ToString();
             this.RankList.Clear();
-            foreach (var participant in rankList)
-            {
-                var viewModel = new ParticipantTemplateModel(participant);
-                this.RankList.Add(viewModel);
-            }
+            var template = new RankListTemplateModel(rankList, this.result);
+            this.RankList.Add(template);
         }
 
         #region Setters
