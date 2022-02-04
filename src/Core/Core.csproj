@@ -5,7 +5,7 @@
     <RootNamespace>EnduranceJudge.Core</RootNamespace>
     <AssemblyName>EnduranceJudge.Core</AssemblyName>
     <Nullable>enable</Nullable>
-    <LangVersion>default</LangVersion>
+    <LangVersion>10</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>

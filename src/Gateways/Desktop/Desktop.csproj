@@ -3,7 +3,7 @@
     <PropertyGroup>
         <RootNamespace>EnduranceJudge.Gateways.Desktop</RootNamespace>
         <AssemblyName>EnduranceJudge.Gateways.Desktop</AssemblyName>
-        <LangVersion>default</LangVersion>
+        <LangVersion>10</LangVersion>
         <OutputType>Exe</OutputType>
         <TargetFramework>net5.0-windows</TargetFramework>
         <RuntimeIdentifier>win-x64</RuntimeIdentifier>
