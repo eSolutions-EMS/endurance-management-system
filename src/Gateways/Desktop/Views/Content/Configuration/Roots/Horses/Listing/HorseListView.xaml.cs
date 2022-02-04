@@ -5,7 +5,7 @@ using System.Windows.Input;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Horses.Listing
 {
-    public partial class HorseListView : UserControl, IScrollableView
+    public partial class HorseListView : UserControl, IView
     {
         private readonly IInputHandler inputInput;
 

@@ -5,7 +5,7 @@ using System.Windows.Input;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Athletes.Listing
 {
-    public partial class AthleteScrollableView : UserControl, IScrollableView
+    public partial class AthleteScrollableView : UserControl, IView
     {
         private readonly IInputHandler inputInput;
 

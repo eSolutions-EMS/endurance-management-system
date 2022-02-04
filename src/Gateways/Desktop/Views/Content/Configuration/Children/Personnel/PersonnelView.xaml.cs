@@ -6,7 +6,7 @@ using System.Windows.Input;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Personnel
 {
-    public partial class PersonnelView : UserControl, IScrollableView
+    public partial class PersonnelView : UserControl, IView
     {
         private readonly IInputHandler inputInput;
 

@@ -5,7 +5,7 @@ using System.Windows.Input;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Competitions.AddParticipants;
 
-public partial class AddParticipantsView : UserControl, IScrollableView
+public partial class AddParticipantsView : UserControl, IView
 {
     private readonly IInputHandler inputInput;
 

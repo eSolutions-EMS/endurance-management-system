@@ -5,7 +5,7 @@ using System.Windows.Input;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Phases
 {
-    public partial class PhaseView : UserControl, IScrollableView
+    public partial class PhaseView : UserControl, IView
     {
         private readonly IInputHandler inputInput;
 

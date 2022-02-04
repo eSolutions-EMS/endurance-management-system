@@ -5,7 +5,7 @@ using System.Windows.Input;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.CompetitionResults
 {
-    public partial class CompetitionResultView : UserControl, IScrollableView
+    public partial class CompetitionResultView : UserControl, IView
     {
         private readonly IInputHandler handler;
         public CompetitionResultView(IInputHandler handler) : this()
