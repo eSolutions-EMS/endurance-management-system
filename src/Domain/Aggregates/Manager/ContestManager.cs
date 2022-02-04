@@ -58,11 +58,11 @@ namespace EnduranceJudge.Domain.Aggregates.Manager
             var performance = participant.GetActivePerformance();
             performance.Complete(code);
         }
-        public void RequireInspection(int number)
+        public void RequireInspection(int number, bool isRequired)
         {
             var participant = this.GetParticipant(number);
             var performance = participant.GetActivePerformance();
-            performance.RequireInspection();
+            performance.RequireInspection(isRequired);
         }
         public void CompleteRequiredInspection(int number)
         {

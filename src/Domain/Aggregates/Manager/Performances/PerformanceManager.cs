@@ -68,9 +68,9 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Performances
         {
             this.performance.Result = new PhaseResult(code);
         }
-        internal void RequireInspection()
+        internal void RequireInspection(bool isRequired)
         {
-            this.performance.IsAnotherInspectionRequired = true;
+            this.performance.IsAnotherInspectionRequired = isRequired;
         }
         internal void CompleteRequiredInspection()
         {

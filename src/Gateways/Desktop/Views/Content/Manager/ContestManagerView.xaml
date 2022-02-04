@@ -108,7 +108,7 @@
                                 <!-- Require Inspection -->
                                 <CheckBox Style="{StaticResource CheckBox}"
                                           Command="{Binding RequireInspection}"
-                                          IsChecked="{Binding RequireInspectionValue}"
+                                          IsChecked="{Binding RequireInspectionValue, Mode=OneWay}"
                                           Name="RequireInspectionCheckbox" />
                                 <Label Style="{StaticResource Label-Primary}"
                                        Target="{Binding ElementName=RequireInspectionCheckbox}"

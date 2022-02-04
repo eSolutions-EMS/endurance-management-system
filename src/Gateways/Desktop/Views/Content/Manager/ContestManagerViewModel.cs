@@ -44,7 +44,7 @@ public class ContestManagerViewModel : ViewModelBase
     private int? inputMinutes;
     private int? inputSeconds;
     private string deQualificationCode;
-    private bool requireInspectionValue;
+    private bool requireInspectionValue = false;
 
     public ObservableCollection<ParticipantTemplateModel> Participants { get; } = new();
 
@@ -114,8 +114,9 @@ public class ContestManagerViewModel : ViewModelBase
         }
         this.contestExecutor.Execute(manager =>
         {
-            manager.RequireInspection(this.InputNumber.Value);
-            this.RequireInspectionValue = false;
+            var isRequired = !this.RequireInspectionValue;
+            manager.RequireInspection(this.InputNumber.Value, isRequired);
+            this.RequireInspectionValue = isRequired;
         });
     }
     private void CompleteInspectionAction()
@@ -197,7 +198,7 @@ public class ContestManagerViewModel : ViewModelBase
     public bool RequireInspectionValue
     {
         get => this.requireInspectionValue;
-        set => this.SetProperty(ref this.requireInspectionValue, true);
+        set => this.SetProperty(ref this.requireInspectionValue, value);
     }
 
     private DateTime InputTime
