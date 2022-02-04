@@ -24,11 +24,6 @@ public class InputHandler : IInputHandler
 
     private void HandleKeyboardFocus(object sender, KeyboardFocusChangedEventArgs args)
     {
-        var prev = args.OldFocus;
-        if (prev is TextBox prevTextBox)
-        {
-            prevTextBox.Select(0, 0);
-        }
         if (sender is TextBox {IsReadOnly: false} textBox && args.KeyboardDevice.IsKeyDown(Key.Tab))
         {
             textBox.SelectAll();
