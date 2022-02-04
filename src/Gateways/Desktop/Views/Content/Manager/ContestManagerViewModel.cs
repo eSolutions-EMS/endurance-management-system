@@ -136,6 +136,10 @@ public class ContestManagerViewModel : ViewModelBase
         }
 
         var participant = this.participants.GetOne(x => x.Number == this.InputNumber);
+        if (participant == null)
+        {
+            return;
+        }
         var participationViewModel = new ParticipantTemplateModel(participant);
 
         foreach (var participation in this.Participants)
