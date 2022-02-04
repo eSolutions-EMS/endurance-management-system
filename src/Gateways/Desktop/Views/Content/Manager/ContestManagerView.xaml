@@ -105,15 +105,16 @@
 
                         <Border Style="{StaticResource Border-Vertical}" Padding="177px 0 0 0">
                             <StackPanel Style="{StaticResource List-Horizontal}">
-
-                                <Border Style="{StaticResource Border-Horizontal}">
-                                    <CheckBox Style="{StaticResource CheckBox}"
-                                              Command="{Binding RequireInspection}"
-                                              IsChecked="{Binding RequireInspectionValue}"
-                                              Content="{x:Static localization:Words.VET_REQUIRE_INSPECTION}" />
-                                </Border>
-
-                                <Border Style="{StaticResource Border-Horizontal}" Margin="18px 0 0 0">
+                                <!-- Require Inspection -->
+                                <CheckBox Style="{StaticResource CheckBox}"
+                                          Command="{Binding RequireInspection}"
+                                          IsChecked="{Binding RequireInspectionValue}"
+                                          Name="RequireInspectionCheckbox" />
+                                <Label Style="{StaticResource Label-Primary}"
+                                       Target="{Binding ElementName=RequireInspectionCheckbox}"
+                                       Content="{x:Static localization:Words._VET_REQUIRE_INSPECTION}"/>
+                                <!-- Complete button -->
+                                <Border Style="{StaticResource Border-Horizontal}" Margin="20px 0 0 0">
                                     <Button Style="{StaticResource Button-Big-Horizontal}"
                                             Command="{Binding CompleteInspection}"
                                             Content="{x:Static localization:Words.COMPLETE}" />
