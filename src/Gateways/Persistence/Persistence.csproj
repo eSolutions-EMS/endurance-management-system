@@ -3,8 +3,7 @@
   <PropertyGroup>
     <RootNamespace>EnduranceJudge.Gateways.Persistence</RootNamespace>
     <AssemblyName>EnduranceJudge.Gateways.Persistence</AssemblyName>
-    <TargetFramework>net5.0</TargetFramework>
-    <LangVersion>10</LangVersion>
+    <TargetFramework>net5.0-windows</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>

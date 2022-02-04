@@ -5,7 +5,7 @@
     <RootNamespace>EnduranceJudge.Domain</RootNamespace>
     <AssemblyName>EnduranceJudge.Domain</AssemblyName>
     <Configurations>Debug;Release</Configurations>
-    <LangVersion>10</LangVersion>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
