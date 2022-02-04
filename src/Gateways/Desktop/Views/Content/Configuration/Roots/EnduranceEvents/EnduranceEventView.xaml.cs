@@ -7,23 +7,23 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Endu
 {
     public partial class EnduranceEventView : UserControl, IScrollableView
     {
-        private readonly IMouseHandler mouseInput;
+        private readonly IInputHandler inputInput;
 
         public EnduranceEventView()
         {
             InitializeComponent();
         }
 
-        public EnduranceEventView(IMouseHandler mouseInput) : this()
+        public EnduranceEventView(IInputHandler inputInput) : this()
         {
-            this.mouseInput = mouseInput;
+            this.inputInput = inputInput;
         }
 
         public string RegionName { get; } = Regions.CONTENT_LEFT;
 
         public void HandleScroll(object sender, MouseWheelEventArgs mouseEvent)
         {
-            this.mouseInput.HandleScroll(sender, mouseEvent);
+            this.inputInput.HandleScroll(sender, mouseEvent);
         }
     }
 }

@@ -7,23 +7,23 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Hors
 {
     public partial class HorseListView : UserControl, IScrollableView
     {
-        private readonly IMouseHandler mouseInput;
+        private readonly IInputHandler inputInput;
 
         public HorseListView()
         {
             InitializeComponent();
         }
 
-        public HorseListView(IMouseHandler mouseInput) : this()
+        public HorseListView(IInputHandler inputInput) : this()
         {
-            this.mouseInput = mouseInput;
+            this.inputInput = inputInput;
         }
 
         public string RegionName { get; } = Regions.CONTENT_LEFT;
 
         public void HandleScroll(object sender, MouseWheelEventArgs mouseEvent)
         {
-            this.mouseInput.HandleScroll(sender, mouseEvent);
+            this.inputInput.HandleScroll(sender, mouseEvent);
         }
     }
 }

@@ -7,8 +7,8 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.CompetitionResu
 {
     public partial class CompetitionResultView : UserControl, IScrollableView
     {
-        private readonly IMouseHandler handler;
-        public CompetitionResultView(IMouseHandler handler) : this()
+        private readonly IInputHandler handler;
+        public CompetitionResultView(IInputHandler handler) : this()
         {
             this.handler = handler;
         }

@@ -4,7 +4,7 @@ using System.Windows.Input;
 
 namespace EnduranceJudge.Gateways.Desktop.Core.Services.Implementations
 {
-    public class MouseHandler : IMouseHandler
+    public class InputHandler : IInputHandler
     {
         public void HandleScroll(object sender, MouseWheelEventArgs scrollEvent)
         {

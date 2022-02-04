@@ -7,11 +7,11 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager
 {
     public partial class ContestManagerView : UserControl, IScrollableView
     {
-        private readonly IMouseHandler mouseInput;
+        private readonly IInputHandler inputInput;
 
-        public ContestManagerView(IMouseHandler mouseInput) : this()
+        public ContestManagerView(IInputHandler inputInput) : this()
         {
-            this.mouseInput = mouseInput;
+            this.inputInput = inputInput;
         }
         public ContestManagerView()
         {
@@ -22,7 +22,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager
 
         public void HandleScroll(object sender, MouseWheelEventArgs mouseEvent)
         {
-            this.mouseInput.HandleScroll(sender, mouseEvent);
+            this.inputInput.HandleScroll(sender, mouseEvent);
         }
     }
 }

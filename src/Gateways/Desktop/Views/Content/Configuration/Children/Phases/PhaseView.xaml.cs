@@ -7,23 +7,23 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.P
 {
     public partial class PhaseView : UserControl, IScrollableView
     {
-        private readonly IMouseHandler mouseInput;
+        private readonly IInputHandler inputInput;
 
         public PhaseView()
         {
             InitializeComponent();
         }
 
-        public PhaseView(IMouseHandler mouseInput) : this()
+        public PhaseView(IInputHandler inputInput) : this()
         {
-            this.mouseInput = mouseInput;
+            this.inputInput = inputInput;
         }
 
         public string RegionName { get; } = Regions.CONTENT_LEFT;
 
         public void HandleScroll(object sender, MouseWheelEventArgs mouseEvent)
         {
-            this.mouseInput.HandleScroll(sender, mouseEvent);
+            this.inputInput.HandleScroll(sender, mouseEvent);
         }
     }
 }
