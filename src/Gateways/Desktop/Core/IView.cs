@@ -6,5 +6,6 @@ namespace EnduranceJudge.Gateways.Desktop.Core
     {
         string RegionName { get; }
         void HandleScroll(object sender, MouseWheelEventArgs args);
+        void HandleKeyboardFocus(object sender, KeyboardFocusChangedEventArgs args);
     }
 }
