@@ -66,9 +66,12 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Athl
 
             var listItems = countries.MapEnumerable<ListItemModel>();
             this.CountryItems.AddRange(listItems);
-            this.CountryId = countries
-                .First(x => x.IsoCode == DEFAULT_COUNTRY_CODE)
-                .Id;
+            if (this.countryId == default)
+            {
+                this.CountryId = countries
+                    .First(x => x.IsoCode == DEFAULT_COUNTRY_CODE)
+                    .Id;
+            }
         }
 
         public string FeiId
