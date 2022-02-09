@@ -52,7 +52,6 @@ namespace EnduranceJudge.Gateways.Persistence.Contracts
         private void Restore()
         {
             var contents = this.file.Read(this.storageFilePath);
-            // Normalize countries due to change in code
             contents = this.NormalizeStorageFileContents(contents);
             var state = this.serialization.Deserialize<State>(contents);
             // this.__REVERT_START_PARTICIPATIONS__();
@@ -67,7 +66,8 @@ namespace EnduranceJudge.Gateways.Persistence.Contracts
 
         private string NormalizeStorageFileContents(string contents)
         {
-            var correctCountryData = "Country\":{\"IsoCode\":\"BUL\",\"Name\":\"Bulgaria\",\"Id\":1}";
+            // Normalize countries due to change in code
+            var correctCountryData = "Country\":{\"IsoCode\":\"BGR\",\"Name\":\"Bulgaria\",\"Id\":1}";
             var regex = new Regex("Country\":{\"IsoCode\":\"BUL\",\"Name\":\"Bulgaria\",\"Id\":[0-9]*}");
             return regex.Replace(contents, correctCountryData);
         }
