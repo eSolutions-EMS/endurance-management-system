@@ -19,10 +19,8 @@ namespace EnduranceJudge.Gateways.Persistence.Contracts
         public List<Athlete> Athletes { get; } = new();
         public List<Participant> Participants { get; } = new();
         [JsonIgnore]
-        public IReadOnlyList<Country> Countries { get; } = new List<Country>()
-        {
-            new ("BUL", "Bulgaria", 1),
-        }.AsReadOnly();
+        public IReadOnlyList<Country> Countries
+            => PersistenceConstants.Countries.List.AsReadOnly();
     }
 
     public class StateMaps : ICustomMapConfiguration

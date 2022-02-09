@@ -5,7 +5,7 @@ namespace EnduranceJudge.Localization;
 
 public static class LocalizationConstants
 {
-    public const string DEFAULT_COUNTRY_CODE = "BUL";
+    public const string DEFAULT_COUNTRY_CODE = "BGR";
     public const string TRANSLATION_FILE_NAME = "translation-values.txt";
 
     internal static Dictionary<string, string> Placeholders = new()
