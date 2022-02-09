@@ -27,6 +27,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Performances
 
         internal void Update(DateTime time)
         {
+
             this.Validate<PerformanceException>(() =>
             {
                 time.IsRequired(nameof(time));
@@ -82,6 +83,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Performances
                 !.Value
                 .AddMinutes(this.Phase.RestTimeInMins)
                 .AddMinutes(-COMPULSORY_INSPECTION_TIME_BEFORE_NEXT_START);
+            inspectionTime = FixDateForToday(inspectionTime);
             this.performance.RequiredInspectionTime = inspectionTime;
         }
         internal void Edit(IPerformanceState state)
@@ -122,6 +124,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Performances
         }
         private void Arrive(DateTime time)
         {
+            time = FixDateForToday(time);
             if (time <= this.performance.StartTime)
             {
                 var message = string.Format(
@@ -136,6 +139,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Performances
 
         private void Inspect(DateTime time)
         {
+            time = FixDateForToday(time);
             if (time <= this.performance.ArrivalTime)
             {
                 var message = string.Format(
@@ -150,6 +154,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Performances
 
         private void ReInspect(DateTime time)
         {
+            time = FixDateForToday(time);
             if (time <= this.performance.InspectionTime)
             {
                 var message = string.Format(
@@ -160,6 +165,17 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Performances
             }
 
             this.performance.ReInspectionTime = time;
+        }
+
+        // TODO: remove after testing phase
+        private DateTime FixDateForToday(DateTime date)
+        {
+            var today = DateTime.Today;
+            today = today.AddHours(date.Hour);
+            today = today.AddMinutes(date.Minute);
+            today = today.AddSeconds(date.Second);
+            today = today.AddMilliseconds(date.Millisecond);
+            return today;
         }
     }
 }

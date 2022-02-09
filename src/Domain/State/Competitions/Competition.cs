@@ -27,7 +27,7 @@ namespace EnduranceJudge.Domain.State.Competitions
         private List<Phase> phases = new();
         public CompetitionType Type { get; internal set; }
         public string Name { get; internal set; }
-        public DateTime StartTime { get; internal set; }
+        public DateTime StartTime { get; set; }
 
         public void Save(Phase phase) => this.Validate(() =>
         {

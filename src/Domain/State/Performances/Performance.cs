@@ -16,12 +16,12 @@ namespace EnduranceJudge.Domain.State.Performances
         }
 
         public Phase Phase { get; private set; }
-        public DateTime StartTime { get; private set; }
-        public DateTime? ArrivalTime { get; internal set; }
-        public DateTime? InspectionTime { get; internal set; }
-        public DateTime? ReInspectionTime { get; internal set; }
+        public DateTime StartTime { get; set; }
+        public DateTime? ArrivalTime { get; set; }
+        public DateTime? InspectionTime { get; set; }
+        public DateTime? ReInspectionTime { get; set; }
         public bool IsAnotherInspectionRequired { get; internal set; }
-        public DateTime? RequiredInspectionTime { get; internal set; }
+        public DateTime? RequiredInspectionTime { get; set; }
         public DateTime? NextPerformanceStartTime { get; internal set; }
         public PhaseResult Result { get; internal set; }
 

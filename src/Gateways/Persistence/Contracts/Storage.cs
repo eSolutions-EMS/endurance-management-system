@@ -5,6 +5,8 @@ using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Core.Services;
 using EnduranceJudge.Domain.Aggregates.Configuration;
 using EnduranceJudge.Domain.State;
+using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace EnduranceJudge.Gateways.Persistence.Contracts
@@ -54,6 +56,7 @@ namespace EnduranceJudge.Gateways.Persistence.Contracts
             var contents = this.file.Read(this.storageFilePath);
             contents = this.NormalizeStorageFileContents(contents);
             var state = this.serialization.Deserialize<State>(contents);
+            this.FixDatesForToday(state);
             // this.__REVERT_START_PARTICIPATIONS__();
             this.state.MapFrom(state);
         }
@@ -64,6 +67,7 @@ namespace EnduranceJudge.Gateways.Persistence.Contracts
             this.file.Create(this.storageFilePath, serialized);
         }
 
+        // TODO: Remove after testing phase
         private string NormalizeStorageFileContents(string contents)
         {
             // Normalize countries due to change in code
@@ -72,8 +76,51 @@ namespace EnduranceJudge.Gateways.Persistence.Contracts
             return regex.Replace(contents, correctCountryData);
         }
 
+        // TODO: Remove after testing phase
+        private void FixDatesForToday(IState state)
+        {
+            foreach (var competition in state.Event.Competitions)
+            {
+                competition.StartTime = FixDateForToday(competition.StartTime);
+            }
+            foreach (var participation in state.Participants.Select(x => x.Participation))
+            {
+                foreach (var performance in participation.Performances)
+                {
+                    performance.StartTime = FixDateForToday(performance.StartTime);
+                    if (performance.ArrivalTime.HasValue)
+                    {
+                        performance.ArrivalTime = FixDateForToday(performance.ArrivalTime.Value);
+                    }
+                    if (performance.InspectionTime.HasValue)
+                    {
+                        performance.InspectionTime = FixDateForToday(performance.InspectionTime.Value);
+                    }
+                    if (performance.ReInspectionTime.HasValue)
+                    {
+                        performance.ReInspectionTime = FixDateForToday(performance.ReInspectionTime.Value);
+                    }
+                    if (performance.RequiredInspectionTime.HasValue)
+                    {
+                        performance.RequiredInspectionTime = FixDateForToday(performance.RequiredInspectionTime.Value);
+                    }
+                }
+            }
+        }
+
+        private DateTime FixDateForToday(DateTime date)
+        {
+            var today = DateTime.Today;
+            today = today.AddHours(date.Hour);
+            today = today.AddMinutes(date.Minute);
+            today = today.AddSeconds(date.Second);
+            today = today.AddMilliseconds(date.Millisecond);
+            return today;
+        }
+
         private static string BuildStorageFilePath(string directory) => $"{directory}\\{STORAGE_FILE_NAME}";
 
+        // TODO: Remove after testing phase
         private void __REVERT_START_PARTICIPATIONS__()
         {
             var manager = new ConfigurationManager();

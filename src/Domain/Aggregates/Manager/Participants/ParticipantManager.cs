@@ -104,10 +104,21 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participants
 
         private PerformanceManager AddPerformance(Phase phase, DateTime startTime)
         {
-            var performance = new Performance(phase, startTime);
+            var performance = new Performance(phase, FixDateForToday(startTime));
             this.participation.Add(performance);
             var manager = new PerformanceManager(performance);
             return manager;
+        }
+
+        // TODO: Remove after testing phase
+        private DateTime FixDateForToday(DateTime date)
+        {
+            var today = DateTime.Today;
+            today = today.AddHours(date.Hour);
+            today = today.AddMinutes(date.Minute);
+            today = today.AddSeconds(date.Second);
+            today = today.AddMilliseconds(date.Millisecond);
+            return today;
         }
     }
 }
