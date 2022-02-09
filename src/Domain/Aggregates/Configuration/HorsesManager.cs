@@ -31,7 +31,6 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
             {
                 horse = new Horse(horseState);
                 this.state.Horses.AddOrUpdate(horse);
-                this.UpdateParticipants(horse);
             }
             else
             {
@@ -43,6 +42,7 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
                 horse.TrainerFirstName = horseState.TrainerFirstName;
                 horse.TrainerLastName = horseState.TrainerLastName;
                 horse.Name = horseState.Name;
+                this.UpdateParticipants(horse);
             }
 
             return horse;

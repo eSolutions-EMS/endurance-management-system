@@ -38,7 +38,6 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
                 var country = this.state.Countries.FindDomain(countryId);
                 athlete = new Athlete(athleteState, country);
                 this.state.Athletes.AddOrUpdate(athlete);
-                this.UpdateParticipants(athlete);
             }
             else
             {
@@ -47,11 +46,12 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
                 athlete.FirstName = athlete.FirstName;
                 athlete.LastName = athlete.LastName;
                 athlete.FeiId = athlete.FeiId;
-                if (athlete.Country.Id != countryId)
+                if (athlete.Country?.Id != countryId)
                 {
                     var country = this.state.Countries.FindDomain(countryId);
                     athlete.Country = country;
                 }
+                this.UpdateParticipants(athlete);
             }
             return athlete;
         }
