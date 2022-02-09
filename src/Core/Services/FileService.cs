@@ -17,6 +17,8 @@ namespace EnduranceJudge.Core.Services
             using var stream = new StreamWriter(filePath);
             stream.Write(content);
         }
+        public void Delete(string path)
+            => File.Delete(path);
 
         public string Read(string filePath)
         {
@@ -53,6 +55,7 @@ namespace EnduranceJudge.Core.Services
         FileInfo Get(string path);
         bool Exists(string path);
         public void Create(string filePath, string content);
+        public void Delete(string path);
         public string Read(string name);
         StreamReader ReadStream(string filePath);
         string GetExtension(string path);
