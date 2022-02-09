@@ -1,10 +1,12 @@
-﻿namespace EnduranceJudge.Tools.Console
+﻿using EnduranceJudge.Tools.Console.PrintCountries;
+
+namespace EnduranceJudge.Tools.Console
 {
     public class Program
     {
         public static void Main()
         {
-            AutoMapperCollectionsDemo.Run();
+            CountryService.Print();
         }
     }
 }
