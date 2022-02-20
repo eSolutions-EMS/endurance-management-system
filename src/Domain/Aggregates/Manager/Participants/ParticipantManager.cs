@@ -46,18 +46,14 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participants
         internal void UpdatePerformance(DateTime time)
         {
             var performance = this.GetActivePerformance() ?? this.StartNext();
-            performance.Update(time);
-        }
-        internal void CompletePerformance()
-        {
-            DateTime? nextPhaseStartTime = null;
-            var performance = this.GetActivePerformance();
-            if (!performance.Phase.IsFinal)
+            var isComplete = performance.Update(time);
+            // Performance now completes automatically.
+            // In that case the input time is supposed to be the arrival time
+            // of the next performance.
+            if (isComplete)
             {
-                var restTime = performance.Phase.RestTimeInMins;
-                nextPhaseStartTime = performance.VetGatePassedTime.AddMinutes(restTime);
+                this.UpdatePerformance(time);
             }
-            performance.Complete(nextPhaseStartTime);
         }
         internal PerformanceManager GetActivePerformance()
         {

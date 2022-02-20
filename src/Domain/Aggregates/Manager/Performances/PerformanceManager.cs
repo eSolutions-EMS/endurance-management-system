@@ -25,17 +25,12 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Performances
         public DateTime VetGatePassedTime =>
             this.performance.ReInspectionTime ?? this.performance.InspectionTime!.Value;
 
-        internal void Update(DateTime time)
+        internal bool Update(DateTime time)
         {
-
             this.Validate<PerformanceException>(() =>
             {
                 time.IsRequired(nameof(time));
             });
-            if (this.performance.InspectionTime.HasValue && this.performance.ReInspectionTime.HasValue)
-            {
-                this.Throw<PerformanceException>(CAN_ONLY_BE_COMPLETED);
-            }
 
             if (this.performance.ArrivalTime == null)
             {
@@ -45,13 +40,26 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Performances
             {
                 this.Inspect(time);
             }
-            else if (this.performance.ReInspectionTime == null)
+            else if (this.performance.IsReInspectionRequired && this.performance.ReInspectionTime == null)
             {
                 this.ReInspect(time);
             }
+            else if (this.performance.IsAnotherInspectionRequired && this.performance.RequiredInspectionTime == null)
+            {
+                this.CompleteRequiredInspection();
+            }
+            else
+            {
+                this.Complete();
+                return true;
+            }
+
+            return false;
         }
-        internal void Complete(DateTime? nextPhaseStartTime)
+        internal void Complete()
         {
+            var restTime = this.performance.Phase.RestTimeInMins;
+            var nextPhaseStartTime = this.VetGatePassedTime.AddMinutes(restTime);
             this.Validate<PerformanceException>(() =>
             {
                 this.performance.ArrivalTime.IsRequired(ARRIVAL_TIME_IS_NULL_MESSAGE);
@@ -68,6 +76,10 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Performances
         internal void Complete(string code)
         {
             this.performance.Result = new PhaseResult(code);
+        }
+        internal void ReInspection(bool isRequired)
+        {
+            this.performance.IsReInspectionRequired = isRequired;
         }
         internal void RequireInspection(bool isRequired)
         {

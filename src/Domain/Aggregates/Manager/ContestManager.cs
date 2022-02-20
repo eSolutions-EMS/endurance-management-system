@@ -18,9 +18,10 @@ namespace EnduranceJudge.Domain.Aggregates.Manager
         public ContestManager()
         {
             this.state = StaticProvider.GetService<IState>();
+            // TODO: think this is no longer necessary.
             // Check is necessary due to Prism's initialization logic which uses reflection
             // to generate instances of views as part of the startup process.
-            // Does views are not used in the actual views during the application use cycle
+            // These views are not used in the actual views during the application use cycle
             if (this.state?.Event == null)
             {
                 return;
@@ -47,28 +48,23 @@ namespace EnduranceJudge.Domain.Aggregates.Manager
             var participant = this.GetParticipant(number);
             participant.UpdatePerformance(time);
         }
-        public void CompletePerformance(int number)
-        {
-            var participant = this.GetParticipant(number);
-            participant.CompletePerformance();
-        }
         public void CompletePerformance(int number, string code)
         {
             var participant = this.GetParticipant(number);
             var performance = participant.GetActivePerformance();
             performance.Complete(code);
         }
+        public void ReInspection(int number, bool isRequired)
+        {
+            var participant = this.GetParticipant(number);
+            var performance = participant.GetActivePerformance();
+            performance.ReInspection(isRequired);
+        }
         public void RequireInspection(int number, bool isRequired)
         {
             var participant = this.GetParticipant(number);
             var performance = participant.GetActivePerformance();
             performance.RequireInspection(isRequired);
-        }
-        public void CompleteRequiredInspection(int number)
-        {
-            var participant = this.GetParticipant(number);
-            var performance = participant.GetActivePerformance();
-            performance.CompleteRequiredInspection();
         }
         public void EditPerformance(IPerformanceState state)
         {
