@@ -85,4 +85,5 @@ public class Words
     public const string MARE = "Mare";
     public const string STALLION = "Stallion";
     public const string TOTAL = "Total";
+    public const string SELECT = "Select";
 }

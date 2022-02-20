@@ -134,8 +134,7 @@ public class ContestManagerViewModel : ViewModelBase
         {
             return;
         }
-        var participationViewModel = new ParticipantTemplateModel(participant);
-
+        var participationViewModel = new ParticipantTemplateModel(participant, this.SelectParticipant, true);
         foreach (var participation in this.Participants)
         {
             participation.Visibility = Visibility.Collapsed;
@@ -160,11 +159,17 @@ public class ContestManagerViewModel : ViewModelBase
         var participants = this.participants.GetAll();
         foreach (var participant in participants)
         {
-            var viewModel = new ParticipantTemplateModel(participant, isExpanded: false);
+            var viewModel = new ParticipantTemplateModel(participant, this.SelectParticipant);
             this.Participants.Add(viewModel);
         }
     }
+    private void SelectParticipant(int number)
+    {
+        this.InputNumber = number;
+        this.LoadParticipation();
+    }
 
+    #region setters
     public Visibility StartVisibility
     {
         get => this.startVisibility;
@@ -205,6 +210,7 @@ public class ContestManagerViewModel : ViewModelBase
         get => this.requireInspectionValue;
         set => this.SetProperty(ref this.requireInspectionValue, value);
     }
+    #endregion
 
     private DateTime InputTime
     {

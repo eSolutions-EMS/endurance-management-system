@@ -34,11 +34,11 @@
                         </ListBox>
                     </Border>
 
-                    <!-- Collapse/Expand Button -->
+                    <!-- Select Button -->
                     <Border Style="{StaticResource Border-Horizontal}">
                         <Button Style="{StaticResource Button-Horizontal}"
-                                Command="{Binding ToggleVisibility}"
-                                Content="{Binding ToggleText}" />
+                                Command="{Binding Select}"
+                                Content="{x:Static localization:Words.SELECT}" />
                     </Border>
                 </StackPanel>
 

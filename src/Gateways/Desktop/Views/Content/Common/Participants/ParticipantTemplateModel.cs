@@ -1,35 +1,35 @@
 ﻿using EnduranceJudge.Core.Utilities;
 using EnduranceJudge.Domain.State.Participants;
-using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Services;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Common.PhasePerformances;
-using EnduranceJudge.Localization.Translations;
 using Prism.Commands;
+using System;
 using System.Windows;
 using System.Windows.Media;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Common.Participants;
 
-public class ParticipantTemplateModel : ParticipantTemplateModelBase<PerformanceTemplateModel>, ICollapsable
+public class ParticipantTemplateModel : ParticipantTemplateModelBase<PerformanceTemplateModel>
 {
     private readonly IPrinter printer;
-
-    public ParticipantTemplateModel(Participant participant, bool isExpanded = true) : base(participant)
+    private readonly Action<int> selectAction;
+    public ParticipantTemplateModel(Participant participant, Action<int> selectAction, bool isExpanded = false)
+        : base(participant)
     {
+        this.selectAction = selectAction;
         this.printer = StaticProvider.GetService<IPrinter>();
-        this.ToggleVisibility = new DelegateCommand(this.ToggleVisibilityAction);
+        this.Select = new DelegateCommand(this.SelectAction);
         this.Print = new DelegateCommand<Visual>(this.PrintAction);
-        if (isExpanded)
-        {
-            this.ToggleVisibilityAction();
-        }
+
+        this.visibility = isExpanded
+            ? Visibility.Visible
+            : Visibility.Collapsed;
     }
 
     public DelegateCommand<Visual> Print { get; }
-    public DelegateCommand ToggleVisibility { get; }
-    private string toggleText = Words.EXPAND;
-    private readonly int number;
-    private Visibility visibility = Visibility.Collapsed;
+    public DelegateCommand Select { get; }
+
+    private Visibility visibility;
 
     private void PrintAction(Visual control)
     {
@@ -41,23 +41,9 @@ public class ParticipantTemplateModel : ParticipantTemplateModelBase<Performance
         get => this.visibility;
         set => this.SetProperty(ref this.visibility, value);
     }
-    public string ToggleText
-    {
-        get => this.toggleText;
-        set => this.SetProperty(ref this.toggleText, value);
-    }
 
-    private void ToggleVisibilityAction()
+    private void SelectAction()
     {
-        if (this.Visibility == Visibility.Collapsed)
-        {
-            this.Visibility = Visibility.Visible;
-            this.ToggleText = Words.COLLAPSE;
-        }
-        else
-        {
-            this.Visibility = Visibility.Collapsed;
-            this.ToggleText = Words.EXPAND;
-        }
+        this.selectAction(this.Number);
     }
 }
