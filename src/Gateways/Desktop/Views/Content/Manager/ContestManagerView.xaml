@@ -105,65 +105,42 @@
 
                         <Border Style="{StaticResource Border-Vertical}" Padding="177px 0 0 0">
                             <StackPanel Style="{StaticResource List-Horizontal}">
-                                <!-- Require Inspection -->
+                                <!-- Re Inspection checkbox -->
+                                <CheckBox Style="{StaticResource CheckBox}"
+                                          Command="{Binding ReInspection}"
+                                          IsChecked="{Binding ReInspectionValue, Mode=OneWay}"
+                                          Name="ReInspectionCheckbox" />
+                                <Label Style="{StaticResource Label-Primary}"
+                                       Target="{Binding ElementName=ReInspectionCheckbox}"
+                                       Content="{x:Static localization:Words._RE_INSPECTION}"/>
+                                <!-- Require Inspection checkbox -->
                                 <CheckBox Style="{StaticResource CheckBox}"
                                           Command="{Binding RequireInspection}"
                                           IsChecked="{Binding RequireInspectionValue, Mode=OneWay}"
                                           Name="RequireInspectionCheckbox" />
                                 <Label Style="{StaticResource Label-Primary}"
                                        Target="{Binding ElementName=RequireInspectionCheckbox}"
-                                       Content="{x:Static localization:Words._VET_REQUIRE_INSPECTION}"/>
-                                <!-- Complete button -->
-                                <Border Style="{StaticResource Border-Horizontal}" Margin="20px 0 0 0">
-                                    <Button Style="{StaticResource Button-Big-Horizontal}"
-                                            Command="{Binding CompleteInspection}"
-                                            Content="{x:Static localization:Words.COMPLETE}" />
-                                </Border>
+                                       Content="{x:Static localization:Words.RE_QUIRED_INSPECTION}"/>
                             </StackPanel>
                         </Border>
                     </StackPanel>
 
-                    <StackPanel Style="{StaticResource List-Vertical}">
+                    <Border Style="{StaticResource Border-Vertical}">
+                        <StackPanel Style="{StaticResource List-Horizontal}">
+                            <Label Style="{StaticResource Label-Primary}"
+                                   Target="{Binding ElementName=DeQualificationCode}"
+                                   Content="_DQ:"/>
+                            <TextBox Style="{StaticResource Input}" Width="100px"
+                                     Text="{Binding DeQualificationCode}"
+                                     Name="DeQualificationCode"/>
 
-                        <Border Style="{StaticResource Border-Vertical}">
-                            <StackPanel Style="{StaticResource List-Horizontal}">
-
-                                <Border Style="{StaticResource Border-Horizontal}" Padding="10px 0 0 0" Margin="-38px 0 0 0">
-                                    <StackPanel Style="{StaticResource List-Horizontal}">
-                                        <Label Style="{StaticResource Label-Primary}"
-                                               Target="{Binding ElementName=InputNumber3}"
-                                               Content="{x:Static localization:Words._NUMBER}" />
-                                        <TextBox Style="{StaticResource Input}" Width="100px"
-                                                 Text="{Binding InputNumber}"
-                                                 Name="InputNumber3"/>
-                                    </StackPanel>
-                                </Border>
-
-                                <Border Style="{StaticResource Border-Horizontal}">
-                                    <Button Style="{StaticResource Button-Big-Horizontal}"
-                                            Command="{Binding Complete}"
-                                            Content="{x:Static localization:Words.COMPLETE}" />
-                                </Border>
-                            </StackPanel>
-                        </Border>
-
-                        <Border Style="{StaticResource Border-Vertical}">
-                            <StackPanel Style="{StaticResource List-Horizontal}">
-                                <Label Style="{StaticResource Label-Primary}"
-                                       Target="{Binding ElementName=DeQualificationCode}"
-                                       Content="_DQ:"/>
-                                <TextBox Style="{StaticResource Input}" Width="100px"
-                                         Text="{Binding DeQualificationCode}"
-                                         Name="DeQualificationCode"/>
-
-                                <Border Style="{StaticResource Border-Horizontal}">
-                                    <Button Style="{StaticResource Button-Big-Horizontal}"
-                                            Command="{Binding CompleteUnsuccessful}"
-                                            Content="{x:Static localization:Words.COMPLETE_UNSUCCESSFULLY}" />
-                                </Border>
-                            </StackPanel>
-                        </Border>
-                    </StackPanel>
+                            <Border Style="{StaticResource Border-Horizontal}">
+                                <Button Style="{StaticResource Button-Big-Horizontal}"
+                                        Command="{Binding CompleteUnsuccessful}"
+                                        Content="{x:Static localization:Words.COMPLETE_UNSUCCESSFULLY}" />
+                            </Border>
+                        </StackPanel>
+                    </Border>
                 </StackPanel>
             </Border>
             <!-- Participations -->
