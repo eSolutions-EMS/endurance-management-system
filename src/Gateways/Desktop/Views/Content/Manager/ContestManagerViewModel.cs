@@ -25,18 +25,16 @@ public class ContestManagerViewModel : ViewModelBase
         this.participants = participants;
         this.Update = new DelegateCommand(this.UpdateAction);
         this.Start = new DelegateCommand(this.StartAction);
-        this.Complete = new DelegateCommand(this.CompleteAction);
         this.CompleteUnsuccessful = new DelegateCommand(this.CompleteUnsuccessfulAction);
+        this.ReInspection = new DelegateCommand(this.ReInspectionAction);
         this.RequireInspection = new DelegateCommand(this.RequireInspectionAction);
-        this.CompleteInspection = new DelegateCommand(this.CompleteInspectionAction);
     }
 
     public DelegateCommand Start { get; }
     public DelegateCommand Update { get; }
-    public DelegateCommand Complete { get; }
     public DelegateCommand CompleteUnsuccessful { get; }
+    public DelegateCommand ReInspection { get; }
     public DelegateCommand RequireInspection { get; }
-    public DelegateCommand CompleteInspection { get; }
 
     private Visibility startVisibility;
     private int? inputNumber;
@@ -45,6 +43,7 @@ public class ContestManagerViewModel : ViewModelBase
     private int? inputSeconds;
     private string deQualificationCode;
     private bool requireInspectionValue = false;
+    private bool reInspectionValue = false;
 
     public ObservableCollection<ParticipantTemplateModel> Participants { get; } = new();
 
@@ -82,18 +81,6 @@ public class ContestManagerViewModel : ViewModelBase
         });
         this.LoadParticipation();
     }
-    private void CompleteAction()
-    {
-        if (!this.InputNumber.HasValue)
-        {
-            return;
-        }
-        this.contestExecutor.Execute(manager =>
-        {
-            manager.CompletePerformance(this.InputNumber.Value);
-            this.LoadParticipation();
-        });
-    }
     private void CompleteUnsuccessfulAction()
     {
         if (!this.InputNumber.HasValue)
@@ -105,6 +92,20 @@ public class ContestManagerViewModel : ViewModelBase
             manager.CompletePerformance(this.InputNumber.Value, this.DeQualificationCode);
             this.LoadParticipation();
         });
+    }
+    private void ReInspectionAction()
+    {
+        if (!this.InputNumber.HasValue)
+        {
+            return;
+        }
+        this.contestExecutor.Execute(manager =>
+        {
+            var isRequired = !this.ReInspectionValue;
+            manager.ReInspection(this.InputNumber.Value, isRequired);
+            this.ReInspectionValue = isRequired;
+        });
+        this.LoadParticipation();
     }
     private void RequireInspectionAction()
     {
@@ -118,15 +119,7 @@ public class ContestManagerViewModel : ViewModelBase
             manager.RequireInspection(this.InputNumber.Value, isRequired);
             this.RequireInspectionValue = isRequired;
         });
-    }
-    private void CompleteInspectionAction()
-    {
-        if (!this.InputNumber.HasValue)
-        {
-            return;
-        }
-        this.contestExecutor.Execute(manager =>
-            manager.CompleteRequiredInspection(this.InputNumber.Value));
+        this.LoadParticipation();
     }
 
     private void LoadParticipation()
@@ -194,6 +187,11 @@ public class ContestManagerViewModel : ViewModelBase
     {
         get => this.inputSeconds;
         set => this.SetProperty(ref this.inputSeconds, value);
+    }
+    public bool ReInspectionValue
+    {
+        get => this.reInspectionValue;
+        set => this.SetProperty(ref this.reInspectionValue, value);
     }
     public bool RequireInspectionValue
     {
