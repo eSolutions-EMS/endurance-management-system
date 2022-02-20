@@ -11,6 +11,6 @@ namespace EnduranceJudge.Domain.State.Performances
         DateTime? ReInspectionTime { get; }
         DateTime? RequiredInspectionTime { get; }
         DateTime? NextPerformanceStartTime { get; }
-        bool IsAnotherInspectionRequired { get; }
+        bool IsRequiredInspectionRequired { get; }
     }
 }

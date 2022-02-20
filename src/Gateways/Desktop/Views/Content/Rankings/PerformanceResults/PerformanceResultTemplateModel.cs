@@ -56,7 +56,7 @@ public class PerformanceResultTemplateModel : ViewModelBase, IPerformanceState, 
         get => this.requiredInspectionTimeString;
         set => this.SetProperty(ref this.requiredInspectionTimeString, value);
     }
-    public bool IsAnotherInspectionRequired
+    public bool IsRequiredInspectionRequired
     {
         get => this.isAnotherInspectionRequired;
         private set => this.SetProperty(ref this.isAnotherInspectionRequired, value);

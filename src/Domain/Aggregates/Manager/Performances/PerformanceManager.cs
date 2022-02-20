@@ -44,7 +44,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Performances
             {
                 this.ReInspect(time);
             }
-            else if (this.performance.IsAnotherInspectionRequired && this.performance.RequiredInspectionTime == null)
+            else if (this.performance.IsRequiredInspectionRequired && this.performance.RequiredInspectionTime == null)
             {
                 this.CompleteRequiredInspection();
             }
@@ -64,7 +64,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Performances
             {
                 this.performance.ArrivalTime.IsRequired(ARRIVAL_TIME_IS_NULL_MESSAGE);
                 this.performance.InspectionTime.IsRequired(INSPECTION_TIME_IS_NULL_MESSAGE);
-                if (this.performance.IsAnotherInspectionRequired)
+                if (this.performance.IsRequiredInspectionRequired)
                 {
                     this.performance.RequiredInspectionTime.IsRequired(REQUIRED_INSPECTION_IS_NULL_MESSAGE);
                 }
@@ -83,11 +83,11 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Performances
         }
         internal void RequireInspection(bool isRequired)
         {
-            this.performance.IsAnotherInspectionRequired = isRequired;
+            this.performance.IsRequiredInspectionRequired = isRequired;
         }
         internal void CompleteRequiredInspection()
         {
-            if (!this.performance.IsAnotherInspectionRequired)
+            if (!this.performance.IsRequiredInspectionRequired)
             {
                 this.Throw<PerformanceException>(CANNOT_COMPLETE_REQUIRED_INSPECTION);
             }

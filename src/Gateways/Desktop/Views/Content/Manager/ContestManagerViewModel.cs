@@ -146,6 +146,13 @@ public class ContestManagerViewModel : ViewModelBase
             this.Participants.Remove(existing);
         }
         this.Participants.Insert(0, participationViewModel);
+        this.UpdateAdditionalInspectionCheckboxes(participant);
+    }
+    private void UpdateAdditionalInspectionCheckboxes(Participant participant)
+    {
+        var currentPerformance = participant.Participation.Performances.Last();
+        this.ReInspectionValue = currentPerformance.IsReInspectionRequired;
+        this.RequireInspectionValue = currentPerformance.IsRequiredInspectionRequired;
     }
 
     private void LoadParticipants()
