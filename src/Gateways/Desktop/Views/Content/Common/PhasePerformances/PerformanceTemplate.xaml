@@ -4,9 +4,9 @@
                     xmlns:localization="clr-namespace:EnduranceJudge.Localization.Translations;assembly=EnduranceJudge.Localization">
 
     <DataTemplate DataType="{x:Type local:PerformanceTemplateModel}">
-        <StackPanel Style="{StaticResource List-Vertical}" Margin="0 -3px 0 0">
+        <StackPanel Style="{StaticResource List-Vertical}" Margin="0 -3px 0 0" Width="100px">
             <!-- Header -->
-            <Border Style="{StaticResource Border-Table-Header}">
+            <Border Style="{StaticResource Border-Table-Cell}">
                 <TextBlock Style="{StaticResource Text}"
                            Text="{Binding HeaderValue, Mode=OneWay, StringFormat=HH:mm}" />
             </Border>
@@ -15,24 +15,46 @@
                 <TextBlock Style="{StaticResource Text}"
                            Text="{Binding StartTime, Mode=OneWay, StringFormat=HH:mm}" />
             </Border>
+            <!-- EDITABLE TIMES -->
             <!-- Arrival Time -->
-            <Border Style="{StaticResource Border-Table-Cell}">
+            <Border Style="{StaticResource Border-Table-Cell}" Visibility="{Binding EditVisibility}">
                 <TextBox Style="{StaticResource Input}"
+                         Text="{Binding ArrivalTimeString}" BorderThickness="0" />
+            </Border>
+            <!-- Inspection Time -->
+            <Border Style="{StaticResource Border-Table-Cell}" Visibility="{Binding EditVisibility}">
+                <TextBox Style="{StaticResource Input}"
+                         Text="{Binding InspectionTimeString}" BorderThickness="0" />
+            </Border>
+            <!-- ReInspection Time -->
+            <Border Style="{StaticResource Border-Table-Cell}" Visibility="{Binding EditVisibility}">
+                <TextBox Style="{StaticResource Input}"
+                         Text="{Binding ReInspectionTimeString}" BorderThickness="0" />
+            </Border>
+            <!-- Required Inspection Time -->
+            <Border Style="{StaticResource Border-Table-Cell}" Visibility="{Binding EditVisibility}">
+                <TextBox Style="{StaticResource Input}"
+                         Text="{Binding RequiredInspectionTimeString}" />
+            </Border>
+            <!-- READONLY TIMES -->
+            <!-- Arrival Time-->
+            <Border Style="{StaticResource Border-Table-Cell}" Visibility="{Binding ReadonlyVisibility}">
+                <TextBlock Style="{StaticResource Text}"
                            Text="{Binding ArrivalTimeString}" />
             </Border>
             <!-- Inspection Time -->
-            <Border Style="{StaticResource Border-Table-Cell}">
-                <TextBox Style="{StaticResource Input}"
+            <Border Style="{StaticResource Border-Table-Cell}" Visibility="{Binding ReadonlyVisibility}">
+                <TextBlock Style="{StaticResource Text}"
                            Text="{Binding InspectionTimeString}" />
             </Border>
-            <!-- ReInspection Time -->
-            <Border Style="{StaticResource Border-Table-Cell}">
-                <TextBox Style="{StaticResource Input}"
+            <!-- Re-inspection Time -->
+            <Border Style="{StaticResource Border-Table-Cell}" Visibility="{Binding ReadonlyVisibility}">
+                <TextBlock Style="{StaticResource Text}"
                            Text="{Binding ReInspectionTimeString}" />
             </Border>
             <!-- Required Inspection Time -->
-            <Border Style="{StaticResource Border-Table-Cell}">
-                <TextBox Style="{StaticResource Input}"
+            <Border Style="{StaticResource Border-Table-Cell}" Visibility="{Binding ReadonlyVisibility}">
+                <TextBlock Style="{StaticResource Text}"
                            Text="{Binding RequiredInspectionTimeString}" />
             </Border>
             <!-- Loop Span -->
@@ -69,8 +91,8 @@
                            Text="{Binding NextPerformanceStartTime, Mode=OneWay, StringFormat=HH:mm}" />
             </Border>
             <!-- Edit button -->
-            <Border Style="{StaticResource Border-Table-Cell}">
-                <Button Style="{StaticResource Button-Horizontal}" Width="90px"
+            <Border Style="{StaticResource Border-Table-Cell}" Visibility="{Binding EditVisibility}">
+                <Button Style="{StaticResource Button-Table}" Width="90px"
                         Command="{Binding Edit}"
                         Content="{x:Static localization:Words.EDIT}" />
             </Border>

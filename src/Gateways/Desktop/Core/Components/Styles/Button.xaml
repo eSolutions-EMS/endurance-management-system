@@ -2,12 +2,19 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:localization="clr-namespace:EnduranceJudge.Localization.Translations;assembly=EnduranceJudge.Localization">
 
-    <Style x:Key="Button" TargetType="Button">
-        <Setter Property="Height" Value="30px" />
+    <Style x:Key="Button-Base" TargetType="Button">
         <Setter Property="Padding" Value="10px 0" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="MaxWidth" Value="300px" />
+        <Setter Property="MinWidth" Value="80px" />
         <Setter Property="HorizontalAlignment" Value="Left" />
+    </Style>
+
+    <Style x:Key="Button" TargetType="Button" BasedOn="{StaticResource Button-Base}">
+        <Setter Property="Height" Value="30px" />
+    </Style>
+
+    <Style x:Key="Button-Table" TargetType="Button" BasedOn="{StaticResource Button-Base}">
     </Style>
 
     <Style x:Key="Button-Back" TargetType="Button" BasedOn="{StaticResource Button}">

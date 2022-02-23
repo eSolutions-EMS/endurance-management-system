@@ -13,7 +13,7 @@ public class ParticipantTemplateModel : ParticipantTemplateModelBase
     private readonly IPrinter printer;
     private readonly Action<int> selectAction;
     public ParticipantTemplateModel(Participant participant, Action<int> selectAction, bool isExpanded = false)
-        : base(participant)
+        : base(participant, true)
     {
         this.selectAction = selectAction;
         this.printer = StaticProvider.GetService<IPrinter>();

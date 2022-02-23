@@ -8,6 +8,7 @@ using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Services;
 using Prism.Commands;
 using System;
+using System.Windows;
 using static EnduranceJudge.Gateways.Desktop.DesktopConstants;
 using static EnduranceJudge.Localization.Translations.Words;
 
@@ -19,8 +20,14 @@ public class PerformanceTemplateModel : ViewModelBase, IMapFrom<Performance>, IP
     private readonly IQueries<Performance> performances;
     private readonly IDateService dateService;
 
-    public PerformanceTemplateModel(Performance performance, int index)
+    public PerformanceTemplateModel(Performance performance, int index, bool allowEdit)
     {
+        this.EditVisibility = allowEdit
+            ? Visibility.Visible
+            : Visibility.Collapsed;
+        this.ReadonlyVisibility = allowEdit
+            ? Visibility.Collapsed
+            : Visibility.Visible;
         this.competitionExecutor = StaticProvider.GetService<IExecutor<ContestManager>>();
         this.performances = StaticProvider.GetService<IQueries<Performance>>();
         this.dateService = StaticProvider.GetService<IDateService>();
@@ -28,7 +35,8 @@ public class PerformanceTemplateModel : ViewModelBase, IMapFrom<Performance>, IP
         this.MapFrom(performance);
         this.HeaderValue = $"{GATE.ToUpper()}{index}/{performance.Phase.LengthInKm}";
     }
-
+    public Visibility EditVisibility { get; }
+    public Visibility ReadonlyVisibility { get; }
     public DelegateCommand Edit { get; }
 
     public string HeaderValue { get; }

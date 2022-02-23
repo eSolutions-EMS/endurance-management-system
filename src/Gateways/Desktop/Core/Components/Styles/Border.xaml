@@ -18,10 +18,6 @@
         <Setter Property="Padding" Value="5px 0" />
     </Style>
 
-    <Style x:Key="Border-Table-Header" TargetType="Border" BasedOn="{StaticResource Border-Horizontal}">
-        <Setter Property="Height" Value="60px"/>
-    </Style>
-
     <Style x:Key="Wrapper-Form-Buttons" TargetType="Border" BasedOn="{StaticResource Padding}">
         <Setter Property="Padding" Value="0 20px 0 0" />
     </Style>
@@ -41,25 +37,21 @@
         <Setter Property="Padding" Value="15px 0 15px 0" />
     </Style>
 
-    <Style x:Key="Border-Table-Cell" TargetType="Border" BasedOn="{StaticResource Border-Horizontal}">
-        <Setter Property="Height" Value="40px" />
-    </Style>
-
-    <Style x:Key="Cell" TargetType="Border">
-        <Setter Property="Padding" Value="5px 0" />
+    <Style x:Key="Border-Table-Cell" TargetType="Border">
+        <!-- <Setter Property="Padding" Value="5px 0" /> -->
         <Setter Property="BorderThickness" Value="1,1,1,1" />
         <Setter Property="BorderBrush" Value="Black" />
     </Style>
 
-    <Style x:Key="Cell-Thick-Right" TargetType="Border" BasedOn="{StaticResource Cell}">
+    <Style x:Key="Cell-Thick-Right" TargetType="Border" BasedOn="{StaticResource Border-Table-Cell}">
         <Setter Property="BorderThickness" Value="0,0,0,1" />
     </Style>
 
-    <Style x:Key="Cell-No-Padding" TargetType="Border" BasedOn="{StaticResource Cell}">
+    <Style x:Key="Cell-No-Padding" TargetType="Border" BasedOn="{StaticResource Border-Table-Cell}">
         <Setter Property="Padding" Value="0" />
     </Style>
 
-    <Style x:Key="Border-Heading" BasedOn="{StaticResource Cell}" TargetType="Border">
+    <Style x:Key="Border-Heading" BasedOn="{StaticResource Border-Table-Cell}" TargetType="Border">
         <Setter Property="Background" Value="DimGray" />
         <Setter Property="Height" Value="50px" />
     </Style>

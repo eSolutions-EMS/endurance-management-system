@@ -6,99 +6,84 @@
     <DataTemplate DataType="{x:Type participations:ParticipantTemplateModel}">
         <Border Style="{StaticResource Border-Vertical}">
             <StackPanel Style="{StaticResource List-Horizontal}">
-                <!-- Select Button -->
+                <!-- Controls -->
                 <Border Style="{StaticResource Border-Horizontal}">
-                    <Button Style="{StaticResource Button-Horizontal}"
-                            Command="{Binding Select}"
-                            Content="{x:Static localization:Words.SELECT}" />
+                    <StackPanel Style="{StaticResource List-Vertical}">
+                        <!-- Select Button -->
+                        <Button Style="{StaticResource Button-Vertical}"
+                                Command="{Binding Select}"
+                                Content="{x:Static localization:Words.SELECT}" />
+                        <!-- Print Button -->
+                        <Button Style="{StaticResource Button-Vertical}"
+                                Command="{Binding Print}"
+                                CommandParameter="{Binding ElementName=Performances}"
+                                Content="{x:Static localization:Words.PRINT}"/>
+                    </StackPanel>
                 </Border>
                 <!-- Label Column -->
                 <StackPanel Style="{StaticResource List-Vertical}">
                     <!-- Number -->
-                    <Border Style="{StaticResource Border-Table-Header}" Width="150px">
-                        <TextBlock Style="{StaticResource Text-H2}">
+                    <Border Style="{StaticResource Border-Table-Cell}" Width="150px">
+                        <TextBlock Style="{StaticResource Text}">
                             <Run>#</Run>
                             <Run Text="{Binding Number, Mode=OneWay}" />
                         </TextBlock>
                     </Border>
                     <!-- Start -->
                     <Border Style="{StaticResource Border-Table-Cell}">
-                        <TextBlock Style="{StaticResource Text-Bold}"
+                        <TextBlock Style="{StaticResource Text}"
                                    Text="{x:Static localization:Words.START}"/>
                     </Border>
                     <!-- Arrive -->
                     <Border Style="{StaticResource Border-Table-Cell}">
-                        <TextBlock Style="{StaticResource Text-Bold}"
+                        <TextBlock Style="{StaticResource Text}"
                                    Text="{x:Static localization:Words.ARRIVE}"/>
                     </Border>
                     <!-- Inspection -->
                     <Border Style="{StaticResource Border-Table-Cell}">
-                        <TextBlock Style="{StaticResource Text-Bold}"
+                        <TextBlock Style="{StaticResource Text}"
                                    Text="{x:Static localization:Words.INSPECTION}"/>
                     </Border>
                     <!-- ReInspection -->
                     <Border Style="{StaticResource Border-Table-Cell}">
-                        <TextBlock Style="{StaticResource Text-Bold}"
+                        <TextBlock Style="{StaticResource Text}"
                                    Text="{x:Static localization:Words.RE_INSPECTION}"/>
                     </Border>
                     <!-- RequiredInspection -->
                     <Border Style="{StaticResource Border-Table-Cell}">
-                        <TextBlock Style="{StaticResource Text-Bold}"
+                        <TextBlock Style="{StaticResource Text}"
                                    Text="{x:Static localization:Words.REQUIRED_INSPECTION}"/>
                     </Border>
                     <!-- LoopSpan -->
                     <Border Style="{StaticResource Border-Table-Cell}">
-                        <TextBlock Style="{StaticResource Text-Bold}"
+                        <TextBlock Style="{StaticResource Text}"
                                    Text="{x:Static localization:Words.LOOP_SPAN}"/>
                     </Border>
                     <!-- PhaseSpan -->
                     <Border Style="{StaticResource Border-Table-Cell}">
-                        <TextBlock Style="{StaticResource Text-Bold}"
+                        <TextBlock Style="{StaticResource Text}"
                                    Text="{x:Static localization:Words.PHASE_SPAN}"/>
                     </Border>
                     <!-- AverageSpeedForLoop -->
                     <Border Style="{StaticResource Border-Table-Cell}">
-                        <TextBlock Style="{StaticResource Text-Bold}"
+                        <TextBlock Style="{StaticResource Text}"
                                    Text="{x:Static localization:Words.AVERAGE_SPEED_FOR_LOOP}"/>
                     </Border>
                     <!-- AverageSpeedForPhase -->
                     <Border Style="{StaticResource Border-Table-Cell}">
-                        <TextBlock Style="{StaticResource Text-Bold}"
+                        <TextBlock Style="{StaticResource Text}"
                                    Text="{x:Static localization:Words.AVERAGE_SPEED_FOR_PHASE}"/>
                     </Border>
                     <!-- NextStartTime -->
                     <Border Style="{StaticResource Border-Table-Cell}">
-                        <TextBlock Style="{StaticResource Text-Bold}"
+                        <TextBlock Style="{StaticResource Text}"
                                    Text="{x:Static localization:Words.NEXT_START_TIME}"/>
                     </Border>
-                    <!-- ~1~ Phase Performances @1@ -->
-                    <!-- <Border Style="{StaticResource Border-Column-Header}"> -->
-                    <!--     <ListBox Style="{StaticResource ListBox-Horizontal}" -->
-                    <!--              ItemsSource="{Binding PhaseLengths}"> -->
-                    <!--         <ListBox.ItemTemplate> -->
-                    <!--             <DataTemplate> -->
-                    <!--                 <Border Style="{StaticResource Border-Participation-In-Phase}"> -->
-                    <!--                     <TextBlock Style="{StaticResource Text-Centered}" FontWeight="Bold"> -->
-                    <!--                         <Run Text="{Binding .}"/> -->
-                    <!--                         <Run Text="{x:Static localization:Words.KM}"/> -->
-                    <!--                     </TextBlock> -->
-                    <!--                 </Border> -->
-                    <!--             </DataTemplate> -->
-                    <!--         </ListBox.ItemTemplate> -->
-                    <!--     </ListBox> -->
-                    <!-- </Border> -->
                 </StackPanel>
                 <!-- Performance columns -->
                 <ListBox Style="{StaticResource ListBox-Horizontal}"
                          ItemsSource="{Binding Performances}"
                          Name="Performances" />
-                <!-- Print button -->
-                <Border Style="{StaticResource Border-Horizontal}">
-                    <Button Style="{StaticResource Button-Big-Horizontal}"
-                            Command="{Binding Print}"
-                            CommandParameter="{Binding ElementName=Performances}"
-                            Content="{x:Static localization:Words.PRINT}"/>
-                </Border>
             </StackPanel>
         </Border>
     </DataTemplate>

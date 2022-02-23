@@ -7,7 +7,7 @@
         <Border Style="{StaticResource Cell-No-Padding}" Margin="0 5px">
             <StackPanel Style="{StaticResource List-Vertical}">
                 <!-- Participant data -->
-                <Border Style="{StaticResource Cell}" Padding="5px">
+                <Border Style="{StaticResource Border-Table-Cell}" Padding="5px">
                     <StackPanel Style="{StaticResource List-Horizontal}">
                         <!-- Rank -->
                         <Border Style="{StaticResource Border-Left}">
@@ -56,7 +56,7 @@
                     <Border Style="{StaticResource Cell-No-Padding}">
                         <StackPanel Style="{StaticResource Performance-Column}">
                             <!-- Total header -->
-                            <Border Style="{StaticResource Cell}">
+                            <Border Style="{StaticResource Border-Table-Cell}">
                                 <TextBlock Style="{StaticResource Text-Bold}"
                                            Text="{x:Static localization:Words.TOTAL}" />
                             </Border>
@@ -85,41 +85,62 @@
                     </Border>
                     <!-- Label rows-->
                     <StackPanel Style="{StaticResource Performance-Column}">
-                        <Border Style="{StaticResource Cell}">
-                            <TextBlock Style="{StaticResource Text-Bold}"
-                                       Text=" "/>
+                        <!-- Number -->
+                        <Border Style="{StaticResource Border-Table-Cell}" Width="150px">
+                            <TextBlock Style="{StaticResource Text}">
+                                <Run>#</Run>
+                                <Run Text="{Binding Number, Mode=OneWay}" />
+                            </TextBlock>
                         </Border>
-                        <Border Style="{StaticResource Cell}">
-                            <TextBlock Style="{StaticResource Text-Bold}"
+                        <!-- Start -->
+                        <Border Style="{StaticResource Border-Table-Cell}">
+                            <TextBlock Style="{StaticResource Text}"
+                                       Text="{x:Static localization:Words.START}"/>
+                        </Border>
+                        <!-- Arrive -->
+                        <Border Style="{StaticResource Border-Table-Cell}">
+                            <TextBlock Style="{StaticResource Text}"
                                        Text="{x:Static localization:Words.ARRIVE}"/>
                         </Border>
-                        <Border Style="{StaticResource Cell}">
-                            <TextBlock Style="{StaticResource Text-Bold}"
+                        <!-- Inspection -->
+                        <Border Style="{StaticResource Border-Table-Cell}">
+                            <TextBlock Style="{StaticResource Text}"
                                        Text="{x:Static localization:Words.INSPECTION}"/>
                         </Border>
-                        <Border Style="{StaticResource Cell}">
-                            <TextBlock Style="{StaticResource Text-Bold}"
+                        <!-- ReInspection -->
+                        <Border Style="{StaticResource Border-Table-Cell}">
+                            <TextBlock Style="{StaticResource Text}"
                                        Text="{x:Static localization:Words.RE_INSPECTION}"/>
                         </Border>
-                        <Border Style="{StaticResource Cell}">
-                            <TextBlock Style="{StaticResource Text-Bold}"
+                        <!-- RequiredInspection -->
+                        <Border Style="{StaticResource Border-Table-Cell}">
+                            <TextBlock Style="{StaticResource Text}"
                                        Text="{x:Static localization:Words.REQUIRED_INSPECTION}"/>
                         </Border>
-                        <Border Style="{StaticResource Cell}">
-                            <TextBlock Style="{StaticResource Text-Bold}"
+                        <!-- LoopSpan -->
+                        <Border Style="{StaticResource Border-Table-Cell}">
+                            <TextBlock Style="{StaticResource Text}"
                                        Text="{x:Static localization:Words.LOOP_SPAN}"/>
                         </Border>
-                        <Border Style="{StaticResource Cell}">
-                            <TextBlock Style="{StaticResource Text-Bold}"
+                        <!-- PhaseSpan -->
+                        <Border Style="{StaticResource Border-Table-Cell}">
+                            <TextBlock Style="{StaticResource Text}"
                                        Text="{x:Static localization:Words.PHASE_SPAN}"/>
                         </Border>
-                        <Border Style="{StaticResource Cell}">
-                            <TextBlock Style="{StaticResource Text-Bold}"
+                        <!-- AverageSpeedForLoop -->
+                        <Border Style="{StaticResource Border-Table-Cell}">
+                            <TextBlock Style="{StaticResource Text}"
                                        Text="{x:Static localization:Words.AVERAGE_SPEED_FOR_LOOP}"/>
                         </Border>
-                        <Border Style="{StaticResource Cell}">
-                            <TextBlock Style="{StaticResource Text-Bold}"
+                        <!-- AverageSpeedForPhase -->
+                        <Border Style="{StaticResource Border-Table-Cell}">
+                            <TextBlock Style="{StaticResource Text}"
                                        Text="{x:Static localization:Words.AVERAGE_SPEED_FOR_PHASE}"/>
+                        </Border>
+                        <!-- NextStartTime -->
+                        <Border Style="{StaticResource Border-Table-Cell}">
+                            <TextBlock Style="{StaticResource Text}"
+                                       Text="{x:Static localization:Words.NEXT_START_TIME}"/>
                         </Border>
                     </StackPanel>
                     <!-- Performances -->
