@@ -47,7 +47,7 @@ public class Words
     public const string ARRIVAL = "Arrival";
     public const string INSPECTION = "Inspection";
     public const string RE_INSPECTION = "ReInspection";
-    public const string KM = "km";
+    public const string KM = "Km";
     public const string LOOP_SPAN = "Loop span";
     public const string PHASE_SPAN = "Phase span";
     public const string AVERAGE_SPEED_FOR_LOOP = "Average (loop)";
@@ -86,4 +86,5 @@ public class Words
     public const string STALLION = "Stallion";
     public const string TOTAL = "Total";
     public const string SELECT = "Select";
+    public const string GATE = "Gate";
 }

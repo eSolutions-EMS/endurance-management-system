@@ -4,6 +4,7 @@ using EnduranceJudge.Domain.State.Participations;
 using EnduranceJudge.Gateways.Desktop.Core;
 using System.Collections.ObjectModel;
 using System.Linq;
+using static EnduranceJudge.Localization.Translations.Words;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Common;
 
@@ -15,14 +16,20 @@ public class ParticipantTemplateModelBase<TPerformanceTemplate> : ViewModelBase
         this.UpdatePhases(participant.Participation);
     }
 
-    public ObservableCollection<double> PhaseLengths { get; } = new();
+    public ObservableCollection<string> PhaseLengths { get; } = new();
     public ObservableCollection<TPerformanceTemplate> Performances { get; } = new();
 
     private readonly int number;
 
     private void UpdatePhases(Participation participation)
     {
-        var lengths = participation.Performances.Select(x => x.Phase.LengthInKm);
+        var count = 0;
+        var lengths = participation.Performances.Select(x =>
+        {
+            count++;
+            var value = $"{GATE.ToUpper()}{count}/{x.Phase.LengthInKm}";
+            return value;
+        });
         var viewModels = participation.Performances.MapEnumerable<TPerformanceTemplate>();
 
         this.Performances.AddRange(viewModels);
