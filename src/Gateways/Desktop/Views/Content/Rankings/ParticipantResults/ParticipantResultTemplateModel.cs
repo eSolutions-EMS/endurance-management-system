@@ -1,12 +1,11 @@
 ﻿using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Common;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.PerformanceResults;
 using System;
 using static EnduranceJudge.Localization.Translations.Words;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.ParticipantResults;
 
-public class ParticipantResultTemplateModel : ParticipantTemplateModelBase<PerformanceResultTemplateModel>
+public class ParticipantResultTemplateModel : ParticipantTemplateModelBase
 {
     public ParticipantResultTemplateModel(int rank, Participant participant) : base(participant)
     {

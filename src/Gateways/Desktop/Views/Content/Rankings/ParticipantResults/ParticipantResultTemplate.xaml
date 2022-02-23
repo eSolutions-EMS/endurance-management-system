@@ -87,6 +87,10 @@
                     <StackPanel Style="{StaticResource Performance-Column}">
                         <Border Style="{StaticResource Cell}">
                             <TextBlock Style="{StaticResource Text-Bold}"
+                                       Text=" "/>
+                        </Border>
+                        <Border Style="{StaticResource Cell}">
+                            <TextBlock Style="{StaticResource Text-Bold}"
                                        Text="{x:Static localization:Words.ARRIVE}"/>
                         </Border>
                         <Border Style="{StaticResource Cell}">

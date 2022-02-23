@@ -1,7 +1,6 @@
 ﻿using EnduranceJudge.Core.Utilities;
 using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Gateways.Desktop.Services;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Common.PhasePerformances;
 using Prism.Commands;
 using System;
 using System.Windows;
@@ -9,7 +8,7 @@ using System.Windows.Media;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Common.Participants;
 
-public class ParticipantTemplateModel : ParticipantTemplateModelBase<PerformanceTemplateModel>
+public class ParticipantTemplateModel : ParticipantTemplateModelBase
 {
     private readonly IPrinter printer;
     private readonly Action<int> selectAction;

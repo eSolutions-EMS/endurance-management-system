@@ -18,6 +18,10 @@
         <Setter Property="Padding" Value="5px 0" />
     </Style>
 
+    <Style x:Key="Border-Table-Header" TargetType="Border" BasedOn="{StaticResource Border-Horizontal}">
+        <Setter Property="Height" Value="60px"/>
+    </Style>
+
     <Style x:Key="Wrapper-Form-Buttons" TargetType="Border" BasedOn="{StaticResource Padding}">
         <Setter Property="Padding" Value="0 20px 0 0" />
     </Style>
@@ -37,7 +41,7 @@
         <Setter Property="Padding" Value="15px 0 15px 0" />
     </Style>
 
-    <Style x:Key="Border-Performance-Entry" TargetType="Border" BasedOn="{StaticResource Border-Vertical}">
+    <Style x:Key="Border-Table-Cell" TargetType="Border" BasedOn="{StaticResource Border-Horizontal}">
         <Setter Property="Height" Value="40px" />
     </Style>
 

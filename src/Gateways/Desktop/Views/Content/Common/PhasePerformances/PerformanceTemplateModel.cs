@@ -9,6 +9,7 @@ using EnduranceJudge.Gateways.Desktop.Services;
 using Prism.Commands;
 using System;
 using static EnduranceJudge.Gateways.Desktop.DesktopConstants;
+using static EnduranceJudge.Localization.Translations.Words;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Common.PhasePerformances;
 
@@ -18,16 +19,19 @@ public class PerformanceTemplateModel : ViewModelBase, IMapFrom<Performance>, IP
     private readonly IQueries<Performance> performances;
     private readonly IDateService dateService;
 
-    public PerformanceTemplateModel()
+    public PerformanceTemplateModel(Performance performance, int index)
     {
         this.competitionExecutor = StaticProvider.GetService<IExecutor<ContestManager>>();
         this.performances = StaticProvider.GetService<IQueries<Performance>>();
         this.dateService = StaticProvider.GetService<IDateService>();
         this.Edit = new DelegateCommand(this.EditAction);
+        this.MapFrom(performance);
+        this.HeaderValue = $"{GATE.ToUpper()}{index}/{performance.Phase.LengthInKm}";
     }
 
     public DelegateCommand Edit { get; }
 
+    public string HeaderValue { get; }
     private DateTime startTime;
     private string arrivalTimeString;
     private string inspectionTimeString;
