@@ -3,7 +3,7 @@
                     xmlns:local="clr-namespace:EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.RankLists">
 
     <DataTemplate DataType="{x:Type local:RankListTemplateModel}">
-        <Border Style="{StaticResource Border-Table-Cell}" Padding="0" BorderThickness="3,3,3,3" BorderBrush="DimGray">
+        <Border Style="{StaticResource Padding}" Padding="0" BorderThickness="3,3,3,3" BorderBrush="DimGray">
             <Grid Style="{StaticResource Grid}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="80px" />

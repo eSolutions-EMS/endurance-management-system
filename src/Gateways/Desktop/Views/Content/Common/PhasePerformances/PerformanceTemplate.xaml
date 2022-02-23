@@ -13,24 +13,30 @@
             <!-- EDITABLE TIMES -->
             <!-- Arrival Time -->
             <Border Style="{StaticResource Border-Table-Cell}" Visibility="{Binding EditVisibility}">
-                <TextBox Style="{StaticResource Input}"
+                <TextBox Style="{StaticResource TextBox-Table}"
                          Text="{Binding ArrivalTimeString}" BorderThickness="0" />
             </Border>
             <!-- Inspection Time -->
             <Border Style="{StaticResource Border-Table-Cell}" Visibility="{Binding EditVisibility}">
-                <TextBox Style="{StaticResource Input}"
+                <TextBox Style="{StaticResource TextBox-Table}"
                          Text="{Binding InspectionTimeString}" BorderThickness="0" />
             </Border>
             <!-- ReInspection Time -->
             <Border Style="{StaticResource Border-Table-Cell}" Visibility="{Binding EditVisibility}">
-                <TextBox Style="{StaticResource Input}"
+                <TextBox Style="{StaticResource TextBox-Table}"
                          Text="{Binding ReInspectionTimeString}" BorderThickness="0" />
             </Border>
             <!-- Required Inspection Time -->
             <Border Style="{StaticResource Border-Table-Cell}" Visibility="{Binding EditVisibility}">
-                <TextBox Style="{StaticResource Input}"
+                <TextBox Style="{StaticResource TextBox-Table}"
                          Text="{Binding RequiredInspectionTimeString}" />
             </Border>
+            <!-- Compulsory Required Inspection Time -->
+            <Border Style="{StaticResource Border-Table-Cell}" Visibility="{Binding EditVisibility}">
+                <TextBox Style="{StaticResource TextBox-Table}"
+                         Text="{Binding CompulsoryRequiredInspectionTimeString}" />
+            </Border>
+            <!-- END EDITABLE TIMES -->
             <!-- READONLY TIMES -->
             <!-- Arrival Time-->
             <Border Style="{StaticResource Border-Table-Cell}" Visibility="{Binding ReadonlyVisibility}">
@@ -52,38 +58,44 @@
                 <TextBlock Style="{StaticResource Text}"
                            Text="{Binding RequiredInspectionTimeString}" />
             </Border>
-            <!-- Loop Span -->
+            <!-- Compulsory Required Inspection Time -->
+            <Border Style="{StaticResource Border-Table-Cell}" Visibility="{Binding ReadonlyVisibility}">
+                <TextBlock Style="{StaticResource Text}"
+                         Text="{Binding CompulsoryRequiredInspectionTimeString}" />
+            </Border>
+            <!-- END READONLY TIMES -->
+            <!-- Next Performance Start Time -->
+            <Border Style="{StaticResource Border-Table-Cell}">
+                <TextBlock Style="{StaticResource Text}"
+                           Text="{Binding NextPerformanceStartTime, Mode=OneWay, StringFormat=HH:mm}" />
+            </Border>
+            <!-- Recovery Span -->
             <Border Style="{StaticResource Border-Table-Cell}">
                 <TextBlock Style="{StaticResource Text}">
-                    <Run Text="{Binding LoopSpan, Mode=OneWay, StringFormat=hh\\:mm}" />
+                    <Run Text="{Binding RecoverySpan, Mode=OneWay, StringFormat=hh\\:mm}" />
                     <Run Text="{x:Static localization:Words.HOURS_SYMBOL}" />
                 </TextBlock>
             </Border>
-            <!-- Phase Span -->
+            <!-- Time Span-->
             <Border Style="{StaticResource Border-Table-Cell}">
                 <TextBlock Style="{StaticResource Text}">
-                    <Run Text="{Binding PhaseSpan, Mode=OneWay, StringFormat=hh\\:mm}" />
+                    <Run Text="{Binding Time, Mode=OneWay, StringFormat=hh\\:mm}" />
                     <Run Text="{x:Static localization:Words.HOURS_SYMBOL}" />
                 </TextBlock>
             </Border>
-            <!-- Average Speed for Loop -->
+            <!-- Average Speed Loop -->
             <Border Style="{StaticResource Border-Table-Cell}">
                 <TextBlock Style="{StaticResource Text}">
                     <Run Text="{Binding AverageSpeedForLoopInKpH, Mode=OneWay, StringFormat=N2}" />
                     <Run Text="{x:Static localization:Words.KM_PER_HOUR}" />
                 </TextBlock>
             </Border>
-            <!-- Average Speed for Phase -->
+            <!-- Average Speed Total -->
             <Border Style="{StaticResource Border-Table-Cell}">
                 <TextBlock Style="{StaticResource Text}">
-                    <Run Text="{Binding AverageSpeedForPhaseInKpH, Mode=OneWay, StringFormat=N2}" />
+                    <Run Text="{Binding AverageSpeedTotalKpH, Mode=OneWay, StringFormat=N2}" />
                     <Run Text="{x:Static localization:Words.KM_PER_HOUR}" />
                 </TextBlock>
-            </Border>
-            <!-- Next Performance Start Time -->
-            <Border Style="{StaticResource Border-Table-Cell}">
-                <TextBlock Style="{StaticResource Text}"
-                           Text="{Binding NextPerformanceStartTime, Mode=OneWay, StringFormat=HH:mm}" />
             </Border>
             <!-- Edit button -->
             <Border Style="{StaticResource Border-Table-Cell}" Visibility="{Binding EditVisibility}">

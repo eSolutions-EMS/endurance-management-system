@@ -12,8 +12,4 @@ public class Terms
     public const string TIME = "TIME";
     public const string AVERAGE_SPEED_LOOP = "Speed (loop)";
     public const string AVERAGE_SPEED_TOTAL = "Speed (comp)";
-    public const string LOOP_SPAN = "Loop span";
-    public const string PHASE_SPAN = "Phase span";
-    public const string AVERAGE_SPEED_FOR_LOOP = "Average (loop)";
-    public const string AVERAGE_SPEED_FOR_PHASE = "Average (phase)";
 }

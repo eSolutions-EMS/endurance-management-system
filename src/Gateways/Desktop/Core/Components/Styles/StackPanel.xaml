@@ -16,12 +16,12 @@
         <Setter Property="Orientation" Value="Vertical" />
     </Style>
 
-    <Style x:Key="List-Vertical-Centered"  TargetType="StackPanel" BasedOn="{StaticResource List-Vertical}">
+    <Style x:Key="List-Vertical-Centered" TargetType="StackPanel" BasedOn="{StaticResource List-Vertical}">
         <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
 
-    <Style x:Key="Performance-Column" BasedOn="{StaticResource List-Vertical}" TargetType="StackPanel">
-        <Setter Property="Width" Value="140px" />
+    <Style x:Key="List-Performance-Labels" TargetType="StackPanel" BasedOn="{StaticResource List-Vertical}">
+        <Setter Property="Width" Value="110px" />
     </Style>
 
 </ResourceDictionary>

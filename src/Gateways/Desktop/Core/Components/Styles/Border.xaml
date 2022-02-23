@@ -37,17 +37,20 @@
         <Setter Property="Padding" Value="15px 0 15px 0" />
     </Style>
 
-    <Style x:Key="Border-Table-Cell" TargetType="Border">
-        <!-- <Setter Property="Padding" Value="5px 0" /> -->
+    <Style x:Key="Border-Cell" TargetType="Border">
         <Setter Property="BorderThickness" Value="1,1,1,1" />
         <Setter Property="BorderBrush" Value="Black" />
+    </Style>
+
+    <Style x:Key="Border-Table-Cell" TargetType="Border" BasedOn="{StaticResource Border-Cell}">
+        <Setter Property="Height" Value="19px"/>
     </Style>
 
     <Style x:Key="Cell-Thick-Right" TargetType="Border" BasedOn="{StaticResource Border-Table-Cell}">
         <Setter Property="BorderThickness" Value="0,0,0,1" />
     </Style>
 
-    <Style x:Key="Cell-No-Padding" TargetType="Border" BasedOn="{StaticResource Border-Table-Cell}">
+    <Style x:Key="Cell-No-Padding" TargetType="Border" BasedOn="{StaticResource Border-Cell}">
         <Setter Property="Padding" Value="0" />
     </Style>
 

@@ -6,6 +6,10 @@
         <Setter Property="VerticalContentAlignment" Value="Center" />
     </Style>
 
+    <Style x:Key="TextBox-Table" TargetType="TextBox" BasedOn="{StaticResource Input}">
+        <Setter Property="Height" Value="19px" />
+    </Style>
+
     <Style x:Key="Input-Id" BasedOn="{StaticResource Input}" TargetType="TextBox">
         <Setter Property="Visibility" Value="Hidden" />
     </Style>

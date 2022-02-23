@@ -45,14 +45,13 @@ public class PerformanceTemplateModel : ViewModelBase, IMapFrom<Performance>, IP
     private string inspectionTimeString;
     private string reInspectionTimeString;
     private string requiredInspectionTimeString;
+    private string compulsoryRequiredInspectionTimeString;
     private bool isAnotherInspectionRequired;
-    private int phaseLengthInKm;
-    private TimeSpan loopSpan;
-    private TimeSpan phaseSpan;
-    private double? averageSpeedForLoopInKpH;
-    public double? averageSpeedForPhaseInKpH;
+    private TimeSpan recoverySpan;
+    private TimeSpan time;
+    private double? averageSpeedForLoopKpH;
+    private double? averageSpeedTotalKpH;
     public DateTime? nextPerformanceStartTime;
-    public bool isComplete;
 
     public void EditAction()
     {
@@ -82,6 +81,12 @@ public class PerformanceTemplateModel : ViewModelBase, IMapFrom<Performance>, IP
     {
         get => this.ParseTime(this.RequiredInspectionTimeString);
         private set => this.RequiredInspectionTimeString = this.FormatTime(value);
+    }
+
+    public DateTime? CompulsoryRequiredInspectionTime
+    {
+        get => this.ParseTime(this.CompulsoryRequiredInspectionTimeString);
+        private set => this.CompulsoryRequiredInspectionTimeString = this.FormatTime(value);
     }
 
     public int Id { get; private set; }
@@ -130,41 +135,35 @@ public class PerformanceTemplateModel : ViewModelBase, IMapFrom<Performance>, IP
         get => this.requiredInspectionTimeString;
         set => this.SetProperty(ref this.requiredInspectionTimeString, value);
     }
+    public string CompulsoryRequiredInspectionTimeString
+    {
+        get => this.compulsoryRequiredInspectionTimeString;
+        set => this.SetProperty(ref this.compulsoryRequiredInspectionTimeString, value);
+    }
     public bool IsRequiredInspectionRequired
     {
         get => this.isAnotherInspectionRequired;
         private set => this.SetProperty(ref this.isAnotherInspectionRequired, value);
     }
-    public int PhaseLengthInKm
+    public TimeSpan RecoverySpan
     {
-        get => this.phaseLengthInKm;
-        private set => this.SetProperty(ref this.phaseLengthInKm, value);
+        get => this.recoverySpan;
+        private set => this.SetProperty(ref this.recoverySpan, value);
     }
-
-    public TimeSpan LoopSpan
+    public TimeSpan Time
     {
-        get => this.loopSpan;
-        private set => this.SetProperty(ref this.loopSpan, value);
-    }
-    public TimeSpan PhaseSpan
-    {
-        get => this.phaseSpan;
-        private set => this.SetProperty(ref this.phaseSpan, value);
+        get => this.time;
+        private set => this.SetProperty(ref this.time, value);
     }
     public double? AverageSpeedForLoopInKpH
     {
-        get => this.averageSpeedForLoopInKpH;
-        private set => this.SetProperty(ref this.averageSpeedForLoopInKpH, value);
+        get => this.averageSpeedForLoopKpH;
+        private set => this.SetProperty(ref this.averageSpeedForLoopKpH, value);
     }
-    public double? AverageSpeedForPhaseInKpH
+    public double? AverageSpeedTotalKpH
     {
-        get => this.averageSpeedForPhaseInKpH;
-        private set => this.SetProperty(ref this.averageSpeedForPhaseInKpH, value);
-    }
-    public bool IsComplete
-    {
-        get => this.isComplete;
-        private set => this.SetProperty(ref this.isComplete, value);
+        get => this.averageSpeedTotalKpH;
+        private set => this.SetProperty(ref this.averageSpeedTotalKpH, value);
     }
     public DateTime? NextPerformanceStartTime
     {

@@ -7,7 +7,7 @@
         <Border Style="{StaticResource Cell-No-Padding}" Margin="0 5px">
             <StackPanel Style="{StaticResource List-Vertical}">
                 <!-- Participant data -->
-                <Border Style="{StaticResource Border-Table-Cell}" Padding="5px">
+                <Border Style="{StaticResource Border-Cell}" Padding="5px">
                     <StackPanel Style="{StaticResource List-Horizontal}">
                         <!-- Rank -->
                         <Border Style="{StaticResource Border-Left}">
@@ -54,7 +54,7 @@
                 <StackPanel Style="{StaticResource List-Horizontal}">
                     <!-- First column -->
                     <Border Style="{StaticResource Cell-No-Padding}">
-                        <StackPanel Style="{StaticResource Performance-Column}">
+                        <StackPanel Style="{StaticResource List-Vertical}" Width="140px">
                             <!-- Total header -->
                             <Border Style="{StaticResource Border-Table-Cell}">
                                 <TextBlock Style="{StaticResource Text-Bold}"
@@ -84,9 +84,9 @@
                         </StackPanel>
                     </Border>
                     <!-- Label rows-->
-                    <StackPanel Style="{StaticResource Performance-Column}">
+                    <StackPanel Style="{StaticResource List-Performance-Labels}">
                         <!-- Number -->
-                        <Border Style="{StaticResource Border-Table-Cell}" Width="150px">
+                        <Border Style="{StaticResource Border-Table-Cell}">
                             <TextBlock Style="{StaticResource Text}">
                                 <Run>#</Run>
                                 <Run Text="{Binding Number, Mode=OneWay}" />
@@ -112,30 +112,35 @@
                             <TextBlock Style="{StaticResource Text}"
                                        Text="{x:Static localization:Terms.REQUIRED_INSPECTION}"/>
                         </Border>
-                        <!-- LoopSpan -->
+                        <!-- Compulsory Required Inspection -->
                         <Border Style="{StaticResource Border-Table-Cell}">
                             <TextBlock Style="{StaticResource Text}"
-                                       Text="{x:Static localization:Terms.LOOP_SPAN}"/>
+                                       Text="{x:Static localization:Terms.COMPULSORY_REQUIRED_INSPECTION}"/>
                         </Border>
-                        <!-- PhaseSpan -->
-                        <Border Style="{StaticResource Border-Table-Cell}">
-                            <TextBlock Style="{StaticResource Text}"
-                                       Text="{x:Static localization:Terms.PHASE_SPAN}"/>
-                        </Border>
-                        <!-- AverageSpeedForLoop -->
-                        <Border Style="{StaticResource Border-Table-Cell}">
-                            <TextBlock Style="{StaticResource Text}"
-                                       Text="{x:Static localization:Terms.AVERAGE_SPEED_FOR_LOOP}"/>
-                        </Border>
-                        <!-- AverageSpeedForPhase -->
-                        <Border Style="{StaticResource Border-Table-Cell}">
-                            <TextBlock Style="{StaticResource Text}"
-                                       Text="{x:Static localization:Terms.AVERAGE_SPEED_FOR_PHASE}"/>
-                        </Border>
-                        <!-- NextStartTime -->
+                        <!-- Next Start Time -->
                         <Border Style="{StaticResource Border-Table-Cell}">
                             <TextBlock Style="{StaticResource Text}"
                                        Text="{x:Static localization:Terms.NEXT_START_TIME}"/>
+                        </Border>
+                        <!-- Recovery Span -->
+                        <Border Style="{StaticResource Border-Table-Cell}">
+                            <TextBlock Style="{StaticResource Text}"
+                                       Text="{x:Static localization:Terms.RECOVERY_SPAN}"/>
+                        </Border>
+                        <!-- Time -->
+                        <Border Style="{StaticResource Border-Table-Cell}">
+                            <TextBlock Style="{StaticResource Text}"
+                                       Text="{x:Static localization:Terms.TIME}"/>
+                        </Border>
+                        <!-- Average Speed Loop -->
+                        <Border Style="{StaticResource Border-Table-Cell}">
+                            <TextBlock Style="{StaticResource Text}"
+                                       Text="{x:Static localization:Terms.AVERAGE_SPEED_LOOP}"/>
+                        </Border>
+                        <!-- Average Speed Total -->
+                        <Border Style="{StaticResource Border-Table-Cell}">
+                            <TextBlock Style="{StaticResource Text}"
+                                       Text="{x:Static localization:Terms.AVERAGE_SPEED_TOTAL}"/>
                         </Border>
                     </StackPanel>
                     <!-- Performances -->

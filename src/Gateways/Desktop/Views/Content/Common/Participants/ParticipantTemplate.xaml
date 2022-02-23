@@ -17,13 +17,13 @@
                         <Button Style="{StaticResource Button-Vertical}"
                                 Command="{Binding Print}"
                                 CommandParameter="{Binding ElementName=Performances}"
-                                Content="{x:Static localization:Words.PRINT}"/>
+                                Content="{x:Static localization:Words.PRINT}" />
                     </StackPanel>
                 </Border>
                 <!-- Label Column -->
-                <StackPanel Style="{StaticResource List-Vertical}">
+                <StackPanel Style="{StaticResource List-Performance-Labels}">
                     <!-- Number -->
-                    <Border Style="{StaticResource Border-Table-Cell}" Width="150px">
+                    <Border Style="{StaticResource Border-Table-Cell}">
                         <TextBlock Style="{StaticResource Text}">
                             <Run>#</Run>
                             <Run Text="{Binding Number, Mode=OneWay}" />
@@ -49,34 +49,39 @@
                         <TextBlock Style="{StaticResource Text}"
                                    Text="{x:Static localization:Terms.REQUIRED_INSPECTION}"/>
                     </Border>
-                    <!-- LoopSpan -->
+                    <!-- Compulsory Required Inspection -->
                     <Border Style="{StaticResource Border-Table-Cell}">
                         <TextBlock Style="{StaticResource Text}"
-                                   Text="{x:Static localization:Terms.LOOP_SPAN}"/>
+                                   Text="{x:Static localization:Terms.COMPULSORY_REQUIRED_INSPECTION}"/>
                     </Border>
-                    <!-- PhaseSpan -->
-                    <Border Style="{StaticResource Border-Table-Cell}">
-                        <TextBlock Style="{StaticResource Text}"
-                                   Text="{x:Static localization:Terms.PHASE_SPAN}"/>
-                    </Border>
-                    <!-- AverageSpeedForLoop -->
-                    <Border Style="{StaticResource Border-Table-Cell}">
-                        <TextBlock Style="{StaticResource Text}"
-                                   Text="{x:Static localization:Terms.AVERAGE_SPEED_FOR_LOOP}"/>
-                    </Border>
-                    <!-- AverageSpeedForPhase -->
-                    <Border Style="{StaticResource Border-Table-Cell}">
-                        <TextBlock Style="{StaticResource Text}"
-                                   Text="{x:Static localization:Terms.AVERAGE_SPEED_FOR_PHASE}"/>
-                    </Border>
-                    <!-- NextStartTime -->
+                    <!-- Next Start Time -->
                     <Border Style="{StaticResource Border-Table-Cell}">
                         <TextBlock Style="{StaticResource Text}"
                                    Text="{x:Static localization:Terms.NEXT_START_TIME}"/>
                     </Border>
+                    <!-- Recovery Span -->
+                    <Border Style="{StaticResource Border-Table-Cell}">
+                        <TextBlock Style="{StaticResource Text}"
+                                   Text="{x:Static localization:Terms.RECOVERY_SPAN}"/>
+                    </Border>
+                    <!-- Time -->
+                    <Border Style="{StaticResource Border-Table-Cell}">
+                        <TextBlock Style="{StaticResource Text}"
+                                   Text="{x:Static localization:Terms.TIME}"/>
+                    </Border>
+                    <!-- Average Speed Loop -->
+                    <Border Style="{StaticResource Border-Table-Cell}">
+                        <TextBlock Style="{StaticResource Text}"
+                                   Text="{x:Static localization:Terms.AVERAGE_SPEED_LOOP}"/>
+                    </Border>
+                    <!-- Average Speed Total -->
+                    <Border Style="{StaticResource Border-Table-Cell}">
+                        <TextBlock Style="{StaticResource Text}"
+                                   Text="{x:Static localization:Terms.AVERAGE_SPEED_TOTAL}"/>
+                    </Border>
                 </StackPanel>
                 <!-- Performance columns -->
-                <ListBox Style="{StaticResource ListBox-Horizontal}"
+                <ListBox Style="{StaticResource ListBox-Horizontal}" Padding="0" Margin="0"
                          ItemsSource="{Binding Performances}"
                          Name="Performances" />
             </StackPanel>
