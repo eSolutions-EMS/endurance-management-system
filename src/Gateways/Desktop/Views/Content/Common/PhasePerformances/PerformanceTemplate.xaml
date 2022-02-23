@@ -10,11 +10,6 @@
                 <TextBlock Style="{StaticResource Text}"
                            Text="{Binding HeaderValue, Mode=OneWay, StringFormat=HH:mm}" />
             </Border>
-            <!-- Start Time-->
-            <Border Style="{StaticResource Border-Table-Cell}">
-                <TextBlock Style="{StaticResource Text}"
-                           Text="{Binding StartTime, Mode=OneWay, StringFormat=HH:mm}" />
-            </Border>
             <!-- EDITABLE TIMES -->
             <!-- Arrival Time -->
             <Border Style="{StaticResource Border-Table-Cell}" Visibility="{Binding EditVisibility}">

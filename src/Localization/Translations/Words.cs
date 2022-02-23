@@ -43,15 +43,7 @@ public class Words
     public const string NUMBER = "Number";
     public const string IS_COMPLETE = "Is complete";
     public const string START = "Start";
-    public const string ARRIVE = "Arrive";
-    public const string ARRIVAL = "Arrival";
-    public const string INSPECTION = "Inspection";
-    public const string RE_INSPECTION = "ReInspection";
     public const string KM = "Km";
-    public const string LOOP_SPAN = "Loop span";
-    public const string PHASE_SPAN = "Phase span";
-    public const string AVERAGE_SPEED_FOR_LOOP = "Average (loop)";
-    public const string AVERAGE_SPEED_FOR_PHASE = "Average (phase)";
     public const string LENGTH_IN_KM = "Length";
     public const string HOURS_SYMBOL = "h";
     public const string KM_PER_HOUR = "km/h";
@@ -68,12 +60,9 @@ public class Words
     public const string _NO = "_No";
     public const string EXPAND = "Expand";
     public const string COLLAPSE = "Collapse";
-    public const string REQUIRED_INSPECTION = "Required Inspection";
     public const string REQUIRE_COMPULSORY_INSPECTION = "Require Compulsory Inspection";
     public const string _RE_INSPECTION = "_ReInspection";
-    public const string RE_QUIRED_INSPECTION = "Re_quired Inspection";
     public const string _NUMBER = "_Number";
-    public const string NEXT_START_TIME = "Next Start Time";
     public const string PRINT = "Print";
     public const string EDIT = "Edit";
     public const string VIEW = "View";
@@ -87,4 +76,6 @@ public class Words
     public const string TOTAL = "Total";
     public const string SELECT = "Select";
     public const string GATE = "Gate";
+    public const string RE_QUIRED_INSPECTION = "Re_quired Inspection";
+
 }

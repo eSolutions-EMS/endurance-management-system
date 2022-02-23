@@ -92,55 +92,50 @@
                                 <Run Text="{Binding Number, Mode=OneWay}" />
                             </TextBlock>
                         </Border>
-                        <!-- Start -->
-                        <Border Style="{StaticResource Border-Table-Cell}">
-                            <TextBlock Style="{StaticResource Text}"
-                                       Text="{x:Static localization:Words.START}"/>
-                        </Border>
                         <!-- Arrive -->
                         <Border Style="{StaticResource Border-Table-Cell}">
                             <TextBlock Style="{StaticResource Text}"
-                                       Text="{x:Static localization:Words.ARRIVE}"/>
+                                       Text="{x:Static localization:Terms.ARRIVAL}"/>
                         </Border>
                         <!-- Inspection -->
                         <Border Style="{StaticResource Border-Table-Cell}">
                             <TextBlock Style="{StaticResource Text}"
-                                       Text="{x:Static localization:Words.INSPECTION}"/>
+                                       Text="{x:Static localization:Terms.INSPECTION}"/>
                         </Border>
                         <!-- ReInspection -->
                         <Border Style="{StaticResource Border-Table-Cell}">
                             <TextBlock Style="{StaticResource Text}"
-                                       Text="{x:Static localization:Words.RE_INSPECTION}"/>
+                                       Text="{x:Static localization:Terms.RE_INSPECTION}"/>
                         </Border>
                         <!-- RequiredInspection -->
                         <Border Style="{StaticResource Border-Table-Cell}">
                             <TextBlock Style="{StaticResource Text}"
-                                       Text="{x:Static localization:Words.REQUIRED_INSPECTION}"/>
+                                       Text="{x:Static localization:Terms.REQUIRED_INSPECTION}"/>
                         </Border>
                         <!-- LoopSpan -->
                         <Border Style="{StaticResource Border-Table-Cell}">
                             <TextBlock Style="{StaticResource Text}"
-                                       Text="{x:Static localization:Words.LOOP_SPAN}"/>
+                                       Text="{x:Static localization:Terms.LOOP_SPAN}"/>
                         </Border>
                         <!-- PhaseSpan -->
                         <Border Style="{StaticResource Border-Table-Cell}">
                             <TextBlock Style="{StaticResource Text}"
-                                       Text="{x:Static localization:Words.PHASE_SPAN}"/>
+                                       Text="{x:Static localization:Terms.PHASE_SPAN}"/>
                         </Border>
                         <!-- AverageSpeedForLoop -->
                         <Border Style="{StaticResource Border-Table-Cell}">
                             <TextBlock Style="{StaticResource Text}"
-                                       Text="{x:Static localization:Words.AVERAGE_SPEED_FOR_LOOP}"/>
+                                       Text="{x:Static localization:Terms.AVERAGE_SPEED_FOR_LOOP}"/>
                         </Border>
                         <!-- AverageSpeedForPhase -->
                         <Border Style="{StaticResource Border-Table-Cell}">
                             <TextBlock Style="{StaticResource Text}"
-                                       Text="{x:Static localization:Words.AVERAGE_SPEED_FOR_PHASE}"/>
+                                       Text="{x:Static localization:Terms.AVERAGE_SPEED_FOR_PHASE}"/>
                         </Border>
                         <!-- NextStartTime -->
                         <Border Style="{StaticResource Border-Table-Cell}">
                             <TextBlock Style="{StaticResource Text}"
-                                       Text="{x:Static localization:Words.NEXT_START_TIME}"/>
+                                       Text="{x:Static localization:Terms.NEXT_START_TIME}"/>
                         </Border>
                     </StackPanel>
                     <!-- Performances -->

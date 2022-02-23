@@ -6,6 +6,7 @@ using EnduranceJudge.Domain.State.Phases;
 using System;
 using static EnduranceJudge.Localization.Translations.Messages;
 using static EnduranceJudge.Localization.Translations.Words;
+using static EnduranceJudge.Localization.Translations.Terms;
 
 namespace EnduranceJudge.Domain.Aggregates.Manager.Performances
 {
