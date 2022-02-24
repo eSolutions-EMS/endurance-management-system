@@ -43,8 +43,8 @@ namespace EnduranceJudge.Domain.State.Performances
             => (this.ReInspectionTime ?? this.InspectionTime) - this.ArrivalTime;
         public TimeSpan? Time
             => this.Phase.IsFinal
-                ? this.LoopSpan
-                : this.PhaseSpan;
+                ? this.PhaseSpan
+                : this.LoopSpan;
         public double? AverageSpeedForLoopInKpH
         {
             get
