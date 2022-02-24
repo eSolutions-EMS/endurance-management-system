@@ -121,10 +121,6 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Performances
         }
         internal void Edit(IPerformanceState state)
         {
-            if (this.performance.Result != null)
-            {
-                this.Throw<PerformanceException>(IS_COMPLETE);
-            }
             if (state.ArrivalTime.HasValue && this.performance.ArrivalTime != state.ArrivalTime)
             {
                 if (this.performance.ArrivalTime == null)
