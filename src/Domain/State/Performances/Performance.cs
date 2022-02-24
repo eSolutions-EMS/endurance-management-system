@@ -23,7 +23,6 @@ namespace EnduranceJudge.Domain.State.Performances
             this.previousSpans = previousSpans.ToList();
             this.previousLengths = previousLengths.ToList();
             this.Phase = phase;
-            this.IsRequiredInspectionRequired = phase.IsCompulsoryInspectionRequired;
             this.StartTime = startTime;
         }
 
