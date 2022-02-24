@@ -33,4 +33,5 @@ public static class Messages
     public const string REMOVE_CONFIRMATION_MESSAGE = "Are you sure you want to remove this item";
     public const string PARTICIPANT_NUMBER_NOT_FOUND_TEMPLATE = "Participant with number '{0}' not found.";
     public const string CHANGE_NOT_ALLOWED_WHEN_EVENT_HAS_STARTED = "This change is not allowed after Participations have started ";
+    public const string REQUIRED_INSPECTION_IS_NOT_ALLOWED = "Individual Required Inspection is not allowed, because CRI is enabled on this Phase";
 }

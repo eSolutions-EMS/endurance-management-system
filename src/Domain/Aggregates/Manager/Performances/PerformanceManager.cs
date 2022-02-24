@@ -97,6 +97,10 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Performances
         }
         internal void RequireInspection(bool isRequired)
         {
+            if (this.Phase.IsCompulsoryInspectionRequired)
+            {
+                this.Throw<PerformanceException>(REQUIRED_INSPECTION_IS_NOT_ALLOWED);
+            }
             this.performance.IsRequiredInspectionRequired = isRequired;
         }
         internal void CompleteRequiredInspection()
