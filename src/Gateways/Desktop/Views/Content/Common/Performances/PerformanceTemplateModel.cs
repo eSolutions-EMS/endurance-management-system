@@ -6,6 +6,7 @@ using EnduranceJudge.Domain.Aggregates.Manager;
 using EnduranceJudge.Domain.State.Performances;
 using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Services;
+using EnduranceJudge.Localization.Translations;
 using Prism.Commands;
 using System;
 using System.Windows;
@@ -33,7 +34,7 @@ public class PerformanceTemplateModel : ViewModelBase, IMapFrom<Performance>, IP
         this.dateService = StaticProvider.GetService<IDateService>();
         this.Edit = new DelegateCommand(this.EditAction);
         this.MapFrom(performance);
-        this.HeaderValue = $"{GATE.ToUpper()}{index}/{performance.Phase.LengthInKm}";
+        this.HeaderValue = $"{GATE.ToUpper()}{index}/{performance.Phase.LengthInKm} {Words.KM}";
     }
     public Visibility EditVisibility { get; }
     public Visibility ReadonlyVisibility { get; }

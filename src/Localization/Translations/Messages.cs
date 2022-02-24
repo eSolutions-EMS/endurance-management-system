@@ -17,7 +17,6 @@ public static class Messages
     public const string REQUIRED_INSPECTION_IS_NULL_MESSAGE = "cannot complete: Additional Inspection is required and is not completed";
     public const string ARRIVAL_TIME_IS_NULL_MESSAGE = "cannot complete: ArrivalTime cannot be null.";
     public const string INSPECTION_TIME_IS_NULL_MESSAGE = "cannot complete: InspectionTime cannot be null";
-    public const string CANNOT_COMPLETE_REQUIRED_INSPECTION = "cannot complete : Aditional inspecion is not required. Tick the checkbox to require one";
     public const string CANNOT_START_NEXT_PERFORMANCE_PARTICIPATION_IS_COMPLETE = "cannot start next Performance. This Participant is already finished";
     public const string CANNOT_START_PERFORMANCE_NO_PHASE = "cannot start performance - no Phase found.";
     public const string CANNOT_START_PERFORMANCE_NO_START_TIME ="cannot start next performance - no Start Time.";
