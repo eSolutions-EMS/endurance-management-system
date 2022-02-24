@@ -26,7 +26,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Performances
         public DateTime VetGatePassedTime =>
             this.performance.ReInspectionTime ?? this.performance.InspectionTime!.Value;
 
-        internal bool Update(DateTime time)
+        internal void Update(DateTime time)
         {
             this.Validate<PerformanceException>(() =>
             {
@@ -40,10 +40,21 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Performances
             else if (this.performance.InspectionTime == null)
             {
                 this.Inspect(time);
+                if (!this.performance.IsReInspectionRequired
+                    && !this.performance.IsRequiredInspectionRequired
+                    && !this.Phase.IsCompulsoryInspectionRequired)
+                {
+                    this.Complete();
+                }
             }
             else if (this.performance.IsReInspectionRequired && this.performance.ReInspectionTime == null)
             {
                 this.ReInspect(time);
+                if (!this.performance.IsRequiredInspectionRequired
+                    && !this.Phase.IsCompulsoryInspectionRequired)
+                {
+                    this.Complete();
+                }
             }
             else if (this.performance.IsRequiredInspectionRequired
                         && this.performance.RequiredInspectionTime == null
@@ -51,14 +62,8 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Performances
                         && this.performance.CompulsoryRequiredInspectionTime == null)
             {
                 this.CompleteRequiredInspection();
-            }
-            else
-            {
                 this.Complete();
-                return true;
             }
-
-            return false;
         }
         internal void Complete()
         {
@@ -71,6 +76,11 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Performances
                 if (this.performance.IsRequiredInspectionRequired)
                 {
                     this.performance.RequiredInspectionTime.IsRequired(REQUIRED_INSPECTION_IS_NULL_MESSAGE);
+                }
+                if (this.Phase.IsCompulsoryInspectionRequired)
+                {
+                    this.performance.CompulsoryRequiredInspectionTime.IsRequired(
+                        COMPULSORY_REQUIRED_INSPECTION_IS_NULL_MESSAGE);
                 }
             });
 

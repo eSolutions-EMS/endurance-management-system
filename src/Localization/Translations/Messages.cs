@@ -14,7 +14,8 @@ public static class Messages
     public const string CAN_ONLY_BE_COMPLETED = "can only be completed.";
     public const string DATE_TIME_HAS_TO_BE_LATER_TEMPLATE = "{0} has to be later than {1}";
     public const string CANNOT_START_COMPETITION_WITHOUT_PHASES = "cannot start - competition has no phases.";
-    public const string REQUIRED_INSPECTION_IS_NULL_MESSAGE = "cannot complete: Additional Inspection is required and is not completed";
+    public const string REQUIRED_INSPECTION_IS_NULL_MESSAGE = "cannot complete: Required Inspection is required and is not completed";
+    public const string COMPULSORY_REQUIRED_INSPECTION_IS_NULL_MESSAGE = "cannot complete: Compulsory Required Inspection is required and is not completed";
     public const string ARRIVAL_TIME_IS_NULL_MESSAGE = "cannot complete: ArrivalTime cannot be null.";
     public const string INSPECTION_TIME_IS_NULL_MESSAGE = "cannot complete: InspectionTime cannot be null";
     public const string CANNOT_START_NEXT_PERFORMANCE_PARTICIPATION_IS_COMPLETE = "cannot start next Performance. This Participant is already finished";

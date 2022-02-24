@@ -46,14 +46,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participants
         internal void UpdatePerformance(DateTime time)
         {
             var performance = this.GetActivePerformance() ?? this.StartNext();
-            var isComplete = performance.Update(time);
-            // Performance now completes automatically.
-            // In that case the input time is supposed to be the arrival time
-            // of the next performance.
-            if (isComplete)
-            {
-                this.UpdatePerformance(time);
-            }
+            performance.Update(time);
         }
         internal PerformanceManager GetActivePerformance()
         {
