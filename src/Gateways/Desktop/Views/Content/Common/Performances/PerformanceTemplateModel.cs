@@ -48,7 +48,7 @@ public class PerformanceTemplateModel : ViewModelBase, IMapFrom<Performance>, IP
     private string requiredInspectionTimeString;
     private string compulsoryRequiredInspectionTimeString;
     private TimeSpan? recoverySpan;
-    private TimeSpan time;
+    private TimeSpan? time;
     private double? averageSpeedForLoopKpH;
     private double? averageSpeedTotalKpH;
     public DateTime? nextPerformanceStartTime;
@@ -145,7 +145,7 @@ public class PerformanceTemplateModel : ViewModelBase, IMapFrom<Performance>, IP
         get => this.recoverySpan;
         private set => this.SetProperty(ref this.recoverySpan, value);
     }
-    public TimeSpan Time
+    public TimeSpan? Time
     {
         get => this.time;
         private set => this.SetProperty(ref this.time, value);

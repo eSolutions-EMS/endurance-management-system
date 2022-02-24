@@ -76,7 +76,7 @@
                     <Run Text="{x:Static localization:Words.HOURS_SYMBOL}" />
                 </TextBlock>
             </Border>
-            <!-- Time Span-->
+            <!-- Time -->
             <Border Style="{StaticResource Border-Table-Cell}">
                 <TextBlock Style="{StaticResource Text}">
                     <Run Text="{Binding Time, Mode=OneWay, StringFormat=hh\\:mm}" />

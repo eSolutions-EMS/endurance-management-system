@@ -29,10 +29,10 @@ namespace EnduranceJudge.Domain.State.Performances
 
         public TimeSpan? RecoverySpan
             => (this.ReInspectionTime ?? this.InspectionTime) - this.ArrivalTime;
-        public TimeSpan? LoopSpan
-            => this.ArrivalTime - this.StartTime;
-        public TimeSpan? PhaseSpan
-            => (this.ReInspectionTime ?? this.InspectionTime) - this.StartTime;
+        public TimeSpan? Time
+            => this.Phase.IsFinal
+                ? this.LoopSpan
+                : this.PhaseSpan;
         public double? AverageSpeedForLoopInKpH
         {
             get
@@ -55,6 +55,10 @@ namespace EnduranceJudge.Domain.State.Performances
                 return this.GetAverageSpeed(this.PhaseSpan.Value);
             }
         }
+        private TimeSpan? LoopSpan
+            => this.ArrivalTime - this.StartTime;
+        private TimeSpan? PhaseSpan
+            => (this.ReInspectionTime ?? this.InspectionTime) - this.StartTime;
 
         private double GetAverageSpeed(TimeSpan timeSpan)
         {
