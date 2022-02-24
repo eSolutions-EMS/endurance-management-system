@@ -45,7 +45,10 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Performances
             {
                 this.ReInspect(time);
             }
-            else if (this.performance.IsRequiredInspectionRequired && this.performance.RequiredInspectionTime == null)
+            else if (this.performance.IsRequiredInspectionRequired
+                        && this.performance.RequiredInspectionTime == null
+                    || this.Phase.IsCompulsoryInspectionRequired
+                        && this.performance.CompulsoryRequiredInspectionTime == null)
             {
                 this.CompleteRequiredInspection();
             }
@@ -88,16 +91,19 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Performances
         }
         internal void CompleteRequiredInspection()
         {
-            if (!this.performance.IsRequiredInspectionRequired)
-            {
-                this.Throw<PerformanceException>(CANNOT_COMPLETE_REQUIRED_INSPECTION);
-            }
             var inspectionTime = (this.performance.ReInspectionTime ?? this.performance.InspectionTime)
                 !.Value
                 .AddMinutes(this.Phase.RestTimeInMins)
                 .AddMinutes(-COMPULSORY_INSPECTION_TIME_BEFORE_NEXT_START);
             inspectionTime = FixDateForToday(inspectionTime);
-            this.performance.RequiredInspectionTime = inspectionTime;
+            if (this.Phase.IsCompulsoryInspectionRequired)
+            {
+                this.performance.CompulsoryRequiredInspectionTime = inspectionTime;
+            }
+            else
+            {
+                this.performance.RequiredInspectionTime = inspectionTime;
+            }
         }
         internal void Edit(IPerformanceState state)
         {
