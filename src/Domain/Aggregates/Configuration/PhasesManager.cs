@@ -1,10 +1,13 @@
-﻿using EnduranceJudge.Domain.Aggregates.Configuration.Extensions;
+﻿using EnduranceJudge.Core.Mappings;
+using EnduranceJudge.Domain.Aggregates.Configuration.Extensions;
 using EnduranceJudge.Domain.Core.Extensions;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.Core.Validation;
 using EnduranceJudge.Domain.State;
 using EnduranceJudge.Domain.State.Phases;
 using System;
+using System.Linq;
+using System.Reflection.Metadata;
 using static EnduranceJudge.Localization.Translations.Words;
 
 namespace EnduranceJudge.Domain.Aggregates.Configuration
@@ -62,12 +65,28 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
                 phase.MaxRecoveryTimeInMins = phaseState.MaxRecoveryTimeInMins;
                 phase.RestTimeInMins = phaseState.RestTimeInMins;
                 phase.IsCompulsoryInspectionRequired = phaseState.IsCompulsoryInspectionRequired;
+                this.UpdateParticipations(phase);
                 return phase;
             }
 
             throw new InvalidOperationException($"Phase with Id '{phaseState.Id}' does not exist");
         }
 
+        private void UpdateParticipations(Phase phase)
+        {
+            foreach (var participation in this.state.Participants.Select(x => x.Participation))
+            {
+                foreach (var competition in participation.Competitions)
+                {
+                    if (competition.Phases.Contains(phase))
+                    {
+                        competition.Phases
+                            .FindDomain(phase.Id)
+                            .MapFrom(phase);
+                    }
+                }
+            }
+        }
         private void Validate(IPhaseState state)
         {
             this.Validate<PhaseException>(() =>

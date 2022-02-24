@@ -12,6 +12,7 @@ namespace EnduranceJudge.Domain.State.Phases
             this.LengthInKm = state.LengthInKm;
             this.MaxRecoveryTimeInMins = state.MaxRecoveryTimeInMins;
             this.RestTimeInMins = state.RestTimeInMins;
+            this.IsCompulsoryInspectionRequired = state.IsCompulsoryInspectionRequired;
         }
 
         public bool IsFinal { get; internal set; }
