@@ -36,6 +36,7 @@ public class PerformanceTemplateModel : ViewModelBase, IMapFrom<Performance>, IP
         this.MapFrom(performance);
         this.HeaderValue = $"{GATE.ToUpper()}{index}/{performance.Phase.LengthInKm} {Words.KM}";
     }
+
     public Visibility EditVisibility { get; }
     public Visibility ReadonlyVisibility { get; }
     public DelegateCommand Edit { get; }

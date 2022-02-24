@@ -93,7 +93,9 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participants
 
         private PerformanceManager AddPerformance(Phase phase, DateTime startTime)
         {
-            var performance = new Performance(phase, FixDateForToday(startTime));
+            var previousLengths = this.participation.Performances.Select(x => x.Phase.LengthInKm);
+            var previousSpans = this.participation.Performances.Select(x => x.LoopSpan!.Value);
+            var performance = new Performance(phase, FixDateForToday(startTime), previousLengths, previousSpans);
             this.participation.Add(performance);
             var manager = new PerformanceManager(performance);
             return manager;
