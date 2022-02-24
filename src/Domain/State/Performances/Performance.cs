@@ -27,6 +27,8 @@ namespace EnduranceJudge.Domain.State.Performances
         public DateTime? NextPerformanceStartTime { get; internal set; }
         public PhaseResult Result { get; internal set; }
 
+        public TimeSpan? RecoverySpan
+            => (this.ReInspectionTime ?? this.InspectionTime) - this.ArrivalTime;
         public TimeSpan? LoopSpan
             => this.ArrivalTime - this.StartTime;
         public TimeSpan? PhaseSpan
