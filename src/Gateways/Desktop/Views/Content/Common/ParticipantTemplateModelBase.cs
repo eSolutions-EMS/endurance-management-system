@@ -1,6 +1,6 @@
 ﻿using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Gateways.Desktop.Core;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Common.PhasePerformances;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Common.Performances;
 using System.Collections.ObjectModel;
 using System.Linq;
 

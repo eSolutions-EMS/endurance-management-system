@@ -12,7 +12,7 @@ using System.Windows;
 using static EnduranceJudge.Gateways.Desktop.DesktopConstants;
 using static EnduranceJudge.Localization.Translations.Words;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Common.PhasePerformances;
+namespace EnduranceJudge.Gateways.Desktop.Views.Content.Common.Performances;
 
 public class PerformanceTemplateModel : ViewModelBase, IMapFrom<Performance>, IPerformanceState
 {
