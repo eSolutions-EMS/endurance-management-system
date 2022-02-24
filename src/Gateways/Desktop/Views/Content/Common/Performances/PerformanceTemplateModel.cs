@@ -46,7 +46,6 @@ public class PerformanceTemplateModel : ViewModelBase, IMapFrom<Performance>, IP
     private string reInspectionTimeString;
     private string requiredInspectionTimeString;
     private string compulsoryRequiredInspectionTimeString;
-    private bool isAnotherInspectionRequired;
     private TimeSpan recoverySpan;
     private TimeSpan time;
     private double? averageSpeedForLoopKpH;
@@ -82,12 +81,12 @@ public class PerformanceTemplateModel : ViewModelBase, IMapFrom<Performance>, IP
         get => this.ParseTime(this.RequiredInspectionTimeString);
         private set => this.RequiredInspectionTimeString = this.FormatTime(value);
     }
-
     public DateTime? CompulsoryRequiredInspectionTime
     {
         get => this.ParseTime(this.CompulsoryRequiredInspectionTimeString);
         private set => this.CompulsoryRequiredInspectionTimeString = this.FormatTime(value);
     }
+    public bool IsRequiredInspectionRequired { get; private set; }
 
     public int Id { get; private set; }
 
@@ -139,11 +138,6 @@ public class PerformanceTemplateModel : ViewModelBase, IMapFrom<Performance>, IP
     {
         get => this.compulsoryRequiredInspectionTimeString;
         set => this.SetProperty(ref this.compulsoryRequiredInspectionTimeString, value);
-    }
-    public bool IsRequiredInspectionRequired
-    {
-        get => this.isAnotherInspectionRequired;
-        private set => this.SetProperty(ref this.isAnotherInspectionRequired, value);
     }
     public TimeSpan RecoverySpan
     {

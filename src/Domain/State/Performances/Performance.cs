@@ -11,7 +11,7 @@ namespace EnduranceJudge.Domain.State.Performances
         public Performance(Phase phase, DateTime startTime) : base(GENERATE_ID)
         {
             this.Phase = phase;
-            this.IsRequiredInspectionRequired = phase.RequireCompulsoryInspection;
+            this.IsRequiredInspectionRequired = phase.IsCompulsoryInspectionRequired;
             this.StartTime = startTime;
         }
 

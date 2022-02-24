@@ -96,7 +96,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.P
             get => this.RestTimeInMinsDisplay ?? default;
             set => this.RestTimeInMinsDisplay = value;
         }
-        public bool RequireCompulsoryInspection
+        public bool IsCompulsoryInspectionRequired
         {
             get => this.requireCompulsoryInspection;
             set => this.SetProperty(ref this.requireCompulsoryInspection, value);
