@@ -91,7 +91,7 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
         private void Validate(IPhaseState phaseState, int competitionId)
         {
             var competition = this.state.Event.Competitions.FindDomain(competitionId);
-            if (competition.Phases.Any(x => x.OrderBy == phaseState.OrderBy))
+            if (competition.Phases.Any(x => x.OrderBy == phaseState.OrderBy && x.Id != phaseState.Id))
             {
                 throw new DomainException(INVALID_ORDER_BY, phaseState.OrderBy);
             }
