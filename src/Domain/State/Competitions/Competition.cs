@@ -36,7 +36,7 @@ namespace EnduranceJudge.Domain.State.Competitions
 
         public IReadOnlyList<Phase> Phases
         {
-            get => this.phases.AsReadOnly();
+            get => this.phases.OrderBy(x => x.OrderBy).ToList().AsReadOnly();
             private set => this.phases = value.ToList();
         }
     }
