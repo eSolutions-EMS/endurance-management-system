@@ -42,6 +42,10 @@
         <Setter Property="BorderBrush" Value="Black" />
     </Style>
 
+    <Style x:Key="Border-StartList" TargetType="Border" BasedOn="{StaticResource Border-Cell}">
+        <Setter Property="Width" Value="100px" />
+    </Style>
+
     <Style x:Key="Border-Table-Cell" TargetType="Border" BasedOn="{StaticResource Border-Cell}">
         <Setter Property="Height" Value="19px"/>
     </Style>

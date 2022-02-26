@@ -1,0 +1,43 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:localization="clr-namespace:EnduranceJudge.Localization.Translations;assembly=EnduranceJudge.Localization"
+                    xmlns:printStartList="clr-namespace:EnduranceJudge.Gateways.Desktop.Views.Dialogs.PrintStartList">
+
+    <DataTemplate DataType="{x:Type printStartList:StartTemplateModel}">
+        <StackPanel Style="{StaticResource List-Horizontal}" Margin="-5px -2px 0 0">
+            <!-- Number -->
+            <Border Style="{StaticResource Border-StartList}">
+                <TextBlock Style="{StaticResource Text}"
+                           Text="{Binding Number}" />
+            </Border>
+            <!-- Name -->
+            <Border Style="{StaticResource Border-StartList}" Width="400px">
+                <TextBlock Style="{StaticResource Text}"
+                           Text="{Binding Name}" />
+            </Border>
+            <!-- Country Name -->
+            <Border Style="{StaticResource Border-StartList}">
+                <TextBlock Style="{StaticResource Text}"
+                           Text="{Binding CountryName}" />
+            </Border>
+            <!-- Distance -->
+            <Border Style="{StaticResource Border-StartList}">
+                <TextBlock Style="{StaticResource Text}">
+                    <Run Text="{Binding Distance, Mode=OneWay}" />
+                    <Run Text="{x:Static localization:Words.KM}" />
+                </TextBlock>
+            </Border>
+            <!-- StartTime -->
+            <Border Style="{StaticResource Border-StartList}">
+                <TextBlock Style="{StaticResource Text}"
+                           Text="{Binding StartTimeString}" />
+            </Border>
+            <!-- HasStarted -->
+            <Border Style="{StaticResource Border-StartList}">
+                <TextBlock Style="{StaticResource Text}"
+                           Text="{Binding HasStarted}" />
+            </Border>
+        </StackPanel>
+    </DataTemplate>
+
+</ResourceDictionary>

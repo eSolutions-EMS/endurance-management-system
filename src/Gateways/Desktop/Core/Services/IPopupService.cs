@@ -3,6 +3,7 @@ using EnduranceJudge.Gateways.Desktop.Core.Extensions;
 using EnduranceJudge.Gateways.Desktop.Core.Objects;
 using EnduranceJudge.Gateways.Desktop.Views.Dialogs.Confirmation;
 using EnduranceJudge.Gateways.Desktop.Views.Dialogs.Message;
+using EnduranceJudge.Gateways.Desktop.Views.Dialogs.PrintStartList;
 using Prism.Services.Dialogs;
 using System;
 
@@ -46,6 +47,10 @@ namespace EnduranceJudge.Gateways.Desktop.Core.Services
             };
             this.RenderDialog(nameof(ConfirmationDialog), parameters, dialogAction);
         }
+        public void RenderStartList()
+        {
+            this.RenderDialog(nameof(PrintStartListDialog), new DialogParameters());
+        }
 
         public void RenderOk()
         {
@@ -65,6 +70,7 @@ namespace EnduranceJudge.Gateways.Desktop.Core.Services
         void RenderError(string message);
         void RenderValidation(string message);
         void RenderConfirmation(string message, Action action);
+        void RenderStartList();
         void RenderOk();
     }
 }

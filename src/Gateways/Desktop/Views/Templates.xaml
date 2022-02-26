@@ -13,6 +13,7 @@
         <ResourceDictionary Source="Content/Common/Participants/ParticipantTemplate.xaml" />
         <ResourceDictionary Source="Content/Rankings/RankLists/RankListTemplate.xaml" />
         <ResourceDictionary Source="Content/Rankings/ParticipantResults/ParticipantResultTemplate.xaml" />
+        <ResourceDictionary Source="Dialogs/PrintStartList/StartTemplate.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

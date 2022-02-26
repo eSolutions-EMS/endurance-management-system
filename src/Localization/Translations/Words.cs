@@ -77,5 +77,7 @@ public class Words
     public const string SELECT = "Select";
     public const string GATE = "Gate";
     public const string RE_QUIRED_INSPECTION = "Re_quired Inspection";
-
+    public const string HAS_STARTED = "Has Started";
+    public const string DISTANCE = "Distance";
+    public const string STARTLIST = "Startlist";
 }

@@ -2,8 +2,10 @@
 using EnduranceJudge.Domain.Aggregates.Manager;
 using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Gateways.Desktop.Core;
+using EnduranceJudge.Gateways.Desktop.Core.Services;
 using EnduranceJudge.Gateways.Desktop.Services;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Common.Participants;
+using Microsoft.AspNetCore.CookiePolicy;
 using Prism.Commands;
 using Prism.Regions;
 using System;
@@ -16,11 +18,16 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager;
 public class ContestManagerViewModel : ViewModelBase
 {
     private static readonly DateTime Today = DateTime.Today;
+    private readonly IPopupService popupService;
     private readonly IExecutor<ContestManager> contestExecutor;
     private readonly IQueries<Participant> participants;
 
-    public ContestManagerViewModel(IExecutor<ContestManager> contestExecutor, IQueries<Participant> participants)
+    public ContestManagerViewModel(
+        IPopupService popupService,
+        IExecutor<ContestManager> contestExecutor,
+        IQueries<Participant> participants)
     {
+        this.popupService = popupService;
         this.contestExecutor = contestExecutor;
         this.participants = participants;
         this.Update = new DelegateCommand(this.UpdateAction);
@@ -28,6 +35,7 @@ public class ContestManagerViewModel : ViewModelBase
         this.CompleteUnsuccessful = new DelegateCommand(this.CompleteUnsuccessfulAction);
         this.ReInspection = new DelegateCommand(this.ReInspectionAction);
         this.RequireInspection = new DelegateCommand(this.RequireInspectionAction);
+        this.StartList = new DelegateCommand(this.popupService.RenderStartList);
     }
 
     public DelegateCommand Start { get; }
@@ -35,6 +43,7 @@ public class ContestManagerViewModel : ViewModelBase
     public DelegateCommand CompleteUnsuccessful { get; }
     public DelegateCommand ReInspection { get; }
     public DelegateCommand RequireInspection { get; }
+    public DelegateCommand StartList { get; }
 
     private Visibility startVisibility;
     private int? inputNumber;

@@ -1,6 +1,7 @@
-﻿using EnduranceJudge.Gateways.Desktop.Core.Objects;
+﻿using EnduranceJudge.Domain.State.Participants;
+using EnduranceJudge.Gateways.Desktop.Core.Objects;
 using Prism.Services.Dialogs;
-using System;
+using System.Collections.Generic;
 
 namespace EnduranceJudge.Gateways.Desktop.Core.Extensions
 {
@@ -8,6 +9,7 @@ namespace EnduranceJudge.Gateways.Desktop.Core.Extensions
     {
         private const string SEVERITY_KEY = "severity-key";
         private const string MESSAGE_KEY = "message-key";
+        private const string START_LIST_KEY = "start-list-key";
 
         public static IDialogParameters SetSeverity(this IDialogParameters parameters, MessageSeverity severity)
         {

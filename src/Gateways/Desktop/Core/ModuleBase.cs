@@ -2,6 +2,7 @@
 using EnduranceJudge.Core.Utilities;
 using EnduranceJudge.Gateways.Desktop.Views.Dialogs.Confirmation;
 using EnduranceJudge.Gateways.Desktop.Views.Dialogs.Message;
+using EnduranceJudge.Gateways.Desktop.Views.Dialogs.PrintStartList;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
@@ -19,6 +20,7 @@ namespace EnduranceJudge.Gateways.Desktop.Core
             this.RegisterViewsForNavigation(containerRegistry);
             containerRegistry.RegisterDialog<MessageDialog>();
             containerRegistry.RegisterDialog<ConfirmationDialog>();
+            containerRegistry.RegisterDialog<PrintStartListDialog>();
         }
 
         public virtual void OnInitialized(IContainerProvider containerProvider)

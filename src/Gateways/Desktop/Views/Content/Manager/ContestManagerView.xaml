@@ -32,7 +32,7 @@
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="2">
                 <StackPanel Style="{StaticResource List-Horizontal}">
-
+                    <!-- Update -->
                     <StackPanel Style="{StaticResource List-Vertical}" Margin="0 0 80px 0">
                         <Border Style="{StaticResource Border-Vertical}">
                             <StackPanel Style="{StaticResource List-Horizontal}">
@@ -124,7 +124,7 @@
                             </StackPanel>
                         </Border>
                     </StackPanel>
-
+                    <!-- DQ -->
                     <Border Style="{StaticResource Border-Vertical}">
                         <StackPanel Style="{StaticResource List-Horizontal}">
                             <Label Style="{StaticResource Label-Primary}"
@@ -141,6 +141,10 @@
                             </Border>
                         </StackPanel>
                     </Border>
+                    <!-- StartList -->
+                    <Button Style="{StaticResource Button-Big-Horizontal}"
+                            Command="{Binding StartList}"
+                            Content="{x:Static localization:Words.STARTLIST}" />
                 </StackPanel>
             </Border>
             <!-- Participations -->

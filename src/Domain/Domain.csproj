@@ -13,4 +13,8 @@
     <ProjectReference Include="..\Localization\Localization.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Aggregates\Manager\Models" />
+  </ItemGroup>
+
 </Project>

@@ -29,6 +29,10 @@ namespace EnduranceJudge.Domain.State.Participations
                 return average;
             }
         }
+        public double Distance
+            => this.Competitions.First().Phases
+                .Select(x => x.LengthInKm)
+                .Sum();
 
         internal void Add(Competition competition) => this.Validate(() =>
         {
