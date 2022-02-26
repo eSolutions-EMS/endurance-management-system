@@ -27,7 +27,7 @@
                                 </TextBlock>
                                 <!-- Horse -->
                                 <TextBlock Style="{StaticResource Text}">
-                                    <Run Text="{Binding HorseName, Mode=OneWay}" />
+                                    <Run Text="{Binding HorseName, Mode=OneWay}" Style="{StaticResource Run-Bold}"/>
                                     <Run Text=" / " />
                                     <Run Text="{Binding HorseFeiId, Mode=OneWay}" />
                                     <Run Text=" / " />

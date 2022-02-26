@@ -33,7 +33,7 @@
             </Border>
             <!-- Compulsory Required Inspection Time -->
             <Border Style="{StaticResource Border-Table-Cell}" Visibility="{Binding EditVisibility}">
-                <TextBox Style="{StaticResource TextBox-Table}"
+                <TextBox Style="{StaticResource TextBox-Table-Bold}"
                          Text="{Binding CompulsoryRequiredInspectionTimeString}" />
             </Border>
             <!-- END EDITABLE TIMES -->
@@ -60,13 +60,13 @@
             </Border>
             <!-- Compulsory Required Inspection Time -->
             <Border Style="{StaticResource Border-Table-Cell}" Visibility="{Binding ReadonlyVisibility}">
-                <TextBlock Style="{StaticResource Text}"
+                <TextBlock Style="{StaticResource Text-Bold}"
                          Text="{Binding CompulsoryRequiredInspectionTimeString}" />
             </Border>
             <!-- END READONLY TIMES -->
             <!-- Next Performance Start Time -->
             <Border Style="{StaticResource Border-Table-Cell}">
-                <TextBlock Style="{StaticResource Text}"
+                <TextBlock Style="{StaticResource Text-Bold}"
                            Text="{Binding NextPerformanceStartTime, Mode=OneWay, StringFormat=HH:mm}" />
             </Border>
             <!-- Recovery Span -->

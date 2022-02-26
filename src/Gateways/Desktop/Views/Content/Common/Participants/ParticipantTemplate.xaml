@@ -24,7 +24,7 @@
                 <StackPanel Style="{StaticResource List-Performance-Labels}">
                     <!-- Number -->
                     <Border Style="{StaticResource Border-Table-Cell}">
-                        <TextBlock Style="{StaticResource Text}">
+                        <TextBlock Style="{StaticResource Text-Bold}">
                             <Run>#</Run>
                             <Run Text="{Binding Number, Mode=OneWay}" />
                         </TextBlock>
