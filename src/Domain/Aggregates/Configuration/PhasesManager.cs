@@ -1,5 +1,6 @@
 ﻿using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Domain.Aggregates.Configuration.Extensions;
+using EnduranceJudge.Domain.Core.Exceptions;
 using EnduranceJudge.Domain.Core.Extensions;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.Core.Validation;
@@ -7,8 +8,8 @@ using EnduranceJudge.Domain.State;
 using EnduranceJudge.Domain.State.Phases;
 using System;
 using System.Linq;
-using System.Reflection.Metadata;
 using static EnduranceJudge.Localization.Translations.Words;
+using static EnduranceJudge.Localization.Translations.Messages;
 
 namespace EnduranceJudge.Domain.Aggregates.Configuration
 {
@@ -38,7 +39,7 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
                 throw new InvalidOperationException(message);
             }
 
-            this.Validate(phaseState);
+            this.Validate(phaseState, competitionId);
 
             phase = new Phase(phaseState);
             competition.Save(phase);
@@ -49,7 +50,6 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
         public Phase Update(IPhaseState phaseState)
         {
             this.state.ValidateThatEventHasNotStarted();
-            this.Validate(phaseState);
 
             foreach (var competition in this.state.Event.Competitions)
             {
@@ -58,6 +58,7 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
                 {
                     continue;
                 }
+                this.Validate(phaseState, competition.Id);
 
                 phase.IsFinal = phaseState.IsFinal;
                 phase.OrderBy = phaseState.OrderBy;
@@ -87,17 +88,22 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
                 }
             }
         }
-        private void Validate(IPhaseState state)
+        private void Validate(IPhaseState phaseState, int competitionId)
         {
+            var competition = this.state.Event.Competitions.FindDomain(competitionId);
+            if (competition.Phases.Any(x => x.OrderBy == phaseState.OrderBy))
+            {
+                throw new DomainException(INVALID_ORDER_BY, phaseState.OrderBy);
+            }
             this.Validate<PhaseException>(() =>
             {
-                if (!state.IsFinal)
+                if (!phaseState.IsFinal)
                 {
-                    state.RestTimeInMins.IsRequired(REST_TIME_IN_MINS);
+                    phaseState.RestTimeInMins.IsRequired(REST_TIME_IN_MINS);
                 }
-                state.OrderBy.IsRequired(ORDER);
-                state.LengthInKm.IsRequired(LENGTH_IN_KM);
-                state.MaxRecoveryTimeInMins.IsRequired(RECOVERY_IN_MINUTES_TEXT);
+                phaseState.OrderBy.IsRequired(ORDER);
+                phaseState.LengthInKm.IsRequired(LENGTH_IN_KM);
+                phaseState.MaxRecoveryTimeInMins.IsRequired(RECOVERY_IN_MINUTES_TEXT);
             });
         }
     }
