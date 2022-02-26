@@ -1,6 +1,7 @@
 ﻿using EnduranceJudge.Core.Utilities;
 using EnduranceJudge.Domain.Aggregates.Manager.Participants;
 using EnduranceJudge.Domain.Aggregates.Manager.Performances;
+using EnduranceJudge.Domain.Core.Exceptions;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State;
 using EnduranceJudge.Domain.State.Participants;
@@ -8,6 +9,7 @@ using EnduranceJudge.Domain.State.Performances;
 using EnduranceJudge.Localization.Translations;
 using System;
 using System.Linq;
+using static EnduranceJudge.Localization.Translations.Messages;
 
 namespace EnduranceJudge.Domain.Aggregates.Manager
 {
@@ -32,6 +34,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager
             => this.state.Participants.Any(x => x.Participation.Performances.Any());
         public void Start()
         {
+            this.ValidateConfiguration();
             var participants = this.state
                 .Participants
                 .Select(x => new ParticipantManager(x))
@@ -89,6 +92,17 @@ namespace EnduranceJudge.Domain.Aggregates.Manager
             }
             var manager = new ParticipantManager(participant);
             return manager;
+        }
+
+        private void ValidateConfiguration()
+        {
+            foreach (var competition in this.state.Event.Competitions)
+            {
+                if (competition.Phases.All(x => !x.IsFinal))
+                {
+                    throw new DomainException(INVALID_COMPETITION_NO_FINAL_PHASE, competition.Name);
+                }
+            }
         }
     }
 }
