@@ -103,6 +103,13 @@ namespace EnduranceJudge.Domain.Aggregates.Manager
                     throw new DomainException(INVALID_COMPETITION_NO_FINAL_PHASE, competition.Name);
                 }
             }
+            foreach (var participant in this.state.Participants)
+            {
+                if (!participant.Participation.Competitions.Any())
+                {
+                    throw new DomainException(INVALID_PARTICIPANT_NO_PARTICIPATIONS, participant.Number);
+                }
+            }
         }
     }
 }

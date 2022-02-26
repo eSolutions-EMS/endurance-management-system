@@ -34,6 +34,7 @@ public static class Messages
     public const string PARTICIPANT_NUMBER_NOT_FOUND_TEMPLATE = "Participant with number '{0}' not found.";
     public const string CHANGE_NOT_ALLOWED_WHEN_EVENT_HAS_STARTED = "This change is not allowed after Participations have started ";
     public const string REQUIRED_INSPECTION_IS_NOT_ALLOWED = "Individual Required Inspection is not allowed, because CRI is enabled on this Phase";
-    public const string INVALID_COMPETITION_NO_FINAL_PHASE = "Competition {0} has no final phase.";
+    public const string INVALID_COMPETITION_NO_FINAL_PHASE = $"Competition {{0}} has no final {Entities.PHASE}";
     public const string INVALID_ORDER_BY = "Phase with order {0} already exists.";
+    public const string INVALID_PARTICIPANT_NO_PARTICIPATIONS = $"Participant {{0}} is not included in any {Entities.COMPETITION}";
 }
