@@ -93,7 +93,7 @@
             <!-- Average Speed Total -->
             <Border Style="{StaticResource Border-Table-Cell}">
                 <TextBlock Style="{StaticResource Text}">
-                    <Run Text="{Binding AverageSpeedTotalKpH, Mode=OneWay, StringFormat=N2}" />
+                    <Run Text="{Binding AverageSpeedTotal, Mode=OneWay, StringFormat=N2}" />
                     <Run Text="{x:Static localization:Words.KM_PER_HOUR}" />
                 </TextBlock>
             </Border>

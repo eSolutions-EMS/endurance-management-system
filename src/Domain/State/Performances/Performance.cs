@@ -46,7 +46,7 @@ namespace EnduranceJudge.Domain.State.Performances
             => this.Phase.IsFinal
                 ? this.PhaseSpan
                 : this.LoopSpan;
-        public double? AverageSpeedForLoopInKpH
+        public double? AverageSpeed
         {
             get
             {
@@ -57,11 +57,11 @@ namespace EnduranceJudge.Domain.State.Performances
                 return this.GetAverageSpeed(this.LoopSpan.Value);
             }
         }
-        public double? AverageSpeedTotalKpH
+        public double? AverageSpeedTotal
         {
             get
             {
-                if (!this.AverageSpeedForLoopInKpH.HasValue)
+                if (!this.AverageSpeed.HasValue)
                 {
                     return null;
                 }
@@ -71,17 +71,6 @@ namespace EnduranceJudge.Domain.State.Performances
                     + this.LoopSpan!.Value.TotalHours;
                 var totalAverageSpeed = totalLengths / totalHours;
                 return totalAverageSpeed;
-            }
-        }
-        public double? AverageSpeedForPhaseInKpH
-        {
-            get
-            {
-                if (this.PhaseSpan == null)
-                {
-                    return null;
-                }
-                return this.GetAverageSpeed(this.PhaseSpan.Value);
             }
         }
         public TimeSpan? LoopSpan

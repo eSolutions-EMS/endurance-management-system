@@ -15,7 +15,7 @@ namespace EnduranceJudge.Domain.State.Performances
         bool IsRequiredInspectionRequired { get; }
         TimeSpan? RecoverySpan { get; }
         TimeSpan? Time { get; }
-        double? AverageSpeedTotalKpH { get; }
+        double? AverageSpeedTotal { get; }
         public double LengthSoFar { get; }
     }
 }

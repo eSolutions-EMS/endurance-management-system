@@ -156,7 +156,7 @@ public class PerformanceTemplateModel : ViewModelBase, IMapFrom<Performance>, IP
         get => this.averageSpeedForLoopKpH;
         private set => this.SetProperty(ref this.averageSpeedForLoopKpH, value);
     }
-    public double? AverageSpeedTotalKpH
+    public double? AverageSpeedTotal
     {
         get => this.averageSpeedTotalKpH;
         private set => this.SetProperty(ref this.averageSpeedTotalKpH, value);

@@ -20,11 +20,11 @@ namespace EnduranceJudge.Domain.State.Participations
             get
             {
                 var finishedPerformances = this.performances
-                    .Where(x => x.AverageSpeedForLoopInKpH.HasValue)
+                    .Where(x => x.AverageSpeed.HasValue)
                     .ToList();
                 var sum = finishedPerformances.Aggregate(
                     0d,
-                    (sum, performance) => sum + performance.AverageSpeedForLoopInKpH!.Value);
+                    (sum, performance) => sum + performance.AverageSpeed!.Value);
                 var average = sum / finishedPerformances.Count;
                 return average;
             }
