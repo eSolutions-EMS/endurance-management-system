@@ -2,7 +2,6 @@
 using EnduranceJudge.Domain.State.PhaseResults;
 using EnduranceJudge.Domain.State.Phases;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,7 +9,7 @@ namespace EnduranceJudge.Domain.State.Performances
 {
     public class Performance : DomainObjectBase<PerformanceException>, IPerformanceState
     {
-        private readonly List<TimeSpan> previousSpans = new();
+        private readonly List<TimeSpan> previousTimes = new();
         private readonly List<double> previousLengths = new();
 
         private Performance() {}
@@ -18,10 +17,10 @@ namespace EnduranceJudge.Domain.State.Performances
             Phase phase,
             DateTime startTime,
             IEnumerable<double> previousLengths,
-            IEnumerable<TimeSpan> previousSpans) : base(GENERATE_ID)
+            IEnumerable<TimeSpan> previousTimes) : base(GENERATE_ID)
         {
             this.previousLengths = previousLengths.ToList();
-            this.previousSpans = previousSpans.ToList();
+            this.previousTimes = previousTimes.ToList();
             this.Phase = phase;
             this.StartTime = startTime;
         }
@@ -44,17 +43,15 @@ namespace EnduranceJudge.Domain.State.Performances
             => (this.ReInspectionTime ?? this.InspectionTime) - this.ArrivalTime;
         public TimeSpan? Time
             => this.Phase.IsFinal
-                ? this.PhaseSpan
-                : this.LoopSpan;
+                ? (this.ReInspectionTime ?? this.InspectionTime) - this.StartTime
+                : this.ArrivalTime - this.StartTime;
         public double? AverageSpeed
         {
             get
             {
-                if (this.LoopSpan == null)
-                {
-                    return null;
-                }
-                return this.GetAverageSpeed(this.LoopSpan.Value);
+                var phaseLengthInKm = this.Phase.LengthInKm;
+                var totalHours = this.Time?.TotalHours;
+                return  phaseLengthInKm / totalHours;
             }
         }
         public double? AverageSpeedTotal
@@ -67,22 +64,11 @@ namespace EnduranceJudge.Domain.State.Performances
                 }
                 var totalLengths = this.previousLengths.Aggregate(0d, (sum, leng) => sum + leng)
                     + this.Phase.LengthInKm;
-                var totalHours = this.previousSpans.Aggregate(0d, (sum, span) => sum + span.TotalHours)
-                    + this.LoopSpan!.Value.TotalHours;
+                var totalHours = this.previousTimes.Aggregate(0d, (sum, span) => sum + span.TotalHours)
+                    + this.Time!.Value.TotalHours;
                 var totalAverageSpeed = totalLengths / totalHours;
                 return totalAverageSpeed;
             }
-        }
-        public TimeSpan? LoopSpan
-            => this.ArrivalTime - this.StartTime;
-        private TimeSpan? PhaseSpan
-            => (this.ReInspectionTime ?? this.InspectionTime) - this.StartTime;
-
-        private double GetAverageSpeed(TimeSpan timeSpan)
-        {
-            var phaseLengthInKm = this.Phase.LengthInKm;
-            var totalHours = timeSpan.TotalHours;
-            return  phaseLengthInKm / totalHours;
         }
     }
 }
