@@ -16,5 +16,6 @@ namespace EnduranceJudge.Domain.State.Performances
         TimeSpan? RecoverySpan { get; }
         TimeSpan? Time { get; }
         double? AverageSpeedTotalKpH { get; }
+        public double LengthSoFar { get; }
     }
 }

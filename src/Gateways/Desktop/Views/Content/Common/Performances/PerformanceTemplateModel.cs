@@ -34,7 +34,7 @@ public class PerformanceTemplateModel : ViewModelBase, IMapFrom<Performance>, IP
         this.dateService = StaticProvider.GetService<IDateService>();
         this.Edit = new DelegateCommand(this.EditAction);
         this.MapFrom(performance);
-        this.HeaderValue = $"{GATE.ToUpper()}{index}/{performance.Phase.LengthInKm} {Words.KM}";
+        this.HeaderValue = $"{GATE.ToUpper()}{index}/{this.LengthSoFar} {Words.KM}";
     }
 
     public Visibility EditVisibility { get; }
@@ -89,7 +89,7 @@ public class PerformanceTemplateModel : ViewModelBase, IMapFrom<Performance>, IP
         private set => this.CompulsoryRequiredInspectionTimeString = this.FormatTime(value);
     }
     public bool IsRequiredInspectionRequired { get; private set; }
-
+    public double LengthSoFar { get; private set;  }
     public int Id { get; private set; }
 
     #endregion

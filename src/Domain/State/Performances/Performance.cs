@@ -20,8 +20,8 @@ namespace EnduranceJudge.Domain.State.Performances
             IEnumerable<double> previousLengths,
             IEnumerable<TimeSpan> previousSpans) : base(GENERATE_ID)
         {
-            this.previousSpans = previousSpans.ToList();
             this.previousLengths = previousLengths.ToList();
+            this.previousSpans = previousSpans.ToList();
             this.Phase = phase;
             this.StartTime = startTime;
         }
@@ -36,6 +36,8 @@ namespace EnduranceJudge.Domain.State.Performances
         public DateTime? RequiredInspectionTime { get; set; } // TODO: internal-set after testing phase
         public DateTime? CompulsoryRequiredInspectionTime { get; internal set; }
         public DateTime? NextPerformanceStartTime { get; internal set; }
+        public double LengthSoFar
+            => this.previousLengths.Aggregate(0d, (sum, leng) => sum + leng) + this.Phase.LengthInKm;
         public PhaseResult Result { get; internal set; }
 
         public TimeSpan? RecoverySpan
