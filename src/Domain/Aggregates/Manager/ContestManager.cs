@@ -109,6 +109,10 @@ namespace EnduranceJudge.Domain.Aggregates.Manager
                 {
                     throw new DomainException(INVALID_PARTICIPANT_NO_PARTICIPATIONS, participant.Number);
                 }
+                if (participant.Athlete.Country == null)
+                {
+                    throw new DomainException(INVALID_PARTICIPANT_NO_COUNTRY, participant.Number);
+                }
             }
         }
     }

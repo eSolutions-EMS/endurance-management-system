@@ -37,4 +37,5 @@ public static class Messages
     public const string INVALID_COMPETITION_NO_FINAL_PHASE = $"Competition {{0}} has no final {Entities.PHASE}";
     public const string INVALID_ORDER_BY = "Phase with order {0} already exists.";
     public const string INVALID_PARTICIPANT_NO_PARTICIPATIONS = $"Participant {{0}} is not included in any {Entities.COMPETITION}";
+    public const string INVALID_PARTICIPANT_NO_COUNTRY = $"Participant {{0}} has no {Entities.COUNTRY}";
 }
