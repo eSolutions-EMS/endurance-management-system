@@ -84,11 +84,7 @@ public class ContestManager : ManagerObjectBase, IAggregateRoot
 
     public IEnumerable<StartModel> GetStartList(bool includePast)
     {
-        var startList = new StartList(this.state.Participants);
-        if (!includePast)
-        {
-            return startList.Where(x => !x.HasStarted);
-        }
+        var startList = new StartList(this.state.Participants, includePast);
         return startList;
     }
 

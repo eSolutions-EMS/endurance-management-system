@@ -1,4 +1,5 @@
 ﻿using EnduranceJudge.Domain.State.Participants;
+using EnduranceJudge.Domain.State.Performances;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,29 +8,46 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Branches.StartList;
 
 public class StartList : List<StartModel>
 {
-    internal StartList(IEnumerable<Participant> participants)
+    internal StartList(IEnumerable<Participant> participants, bool includePast)
     {
         foreach (var participant in participants)
         {
-            this.AddStart(participant);
+            this.HandleParticipant(participant, includePast);
         }
     }
 
-    private void AddStart(Participant participant)
+    private void HandleParticipant(Participant participant, bool includePast)
     {
-        //TODO: Refactor this
-        var performances = participant.Participation.Performances
-            .Skip(1)
-            .Where(x => x.Result != null)
-            .Select(performance => new StartModel
+        var performances = participant.Participation.Performances;
+        if (!includePast)
+        {
+            var current = performances.FirstOrDefault(x => x.NextPerformanceStartTime > DateTime.Now);
+            if (current == null)
             {
-                Number = participant.Number,
-                Name = participant.Name,
-                CountryName = participant.Athlete.Country.Name,
-                Distance = participant.Participation.Distance,
-                StartTime = performance.NextPerformanceStartTime!.Value,
-                HasStarted = performance.StartTime < DateTime.Now,
-            });
-        this.AddRange(performances);
+                return;
+            }
+            this.AddStart(participant, current);
+        }
+        else
+        {
+            foreach (var performance in participant.Participation.Performances.Where(x => x.Result != null))
+            {
+                this.AddStart(participant, performance);
+            }
+        }
+    }
+
+    private void AddStart(Participant participant, Performance performance)
+    {
+        var start = new StartModel
+        {
+            Number = participant.Number,
+            Name = participant.Name,
+            CountryName = participant.Athlete.Country.Name,
+            Distance = participant.Participation.Distance,
+            StartTime = performance.NextPerformanceStartTime!.Value,
+            HasStarted = performance.StartTime < DateTime.Now,
+        };
+        this.Add(start);
     }
 }
