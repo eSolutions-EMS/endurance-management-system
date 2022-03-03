@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Dialogs.StartList;
+namespace EnduranceJudge.Gateways.Desktop.Views.Dialogs.Startlists;
 
 public partial class StartlistDialog : UserControl
 {

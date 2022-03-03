@@ -7,7 +7,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Media;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Dialogs.StartList;
+namespace EnduranceJudge.Gateways.Desktop.Views.Dialogs.Startlists;
 
 public class StartlistDialogModel : DialogBase
 {

@@ -1,7 +1,7 @@
 ﻿using EnduranceJudge.Domain.Aggregates.Manager.Branches.StartLists;
 using EnduranceJudge.Localization.Translations;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Dialogs.StartList;
+namespace EnduranceJudge.Gateways.Desktop.Views.Dialogs.Startlists;
 
 public class StartTemplateModel
 {
