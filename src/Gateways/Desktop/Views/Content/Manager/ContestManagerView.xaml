@@ -9,7 +9,8 @@
                   PreviewMouseWheel="HandleScroll">
         <Grid Style="{StaticResource Grid}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition Style="{StaticResource Layout-Left}" />
+                <ColumnDefinition Style="{StaticResource Layout-Center}" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -17,20 +18,30 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
+
             <!-- Title -->
             <TextBlock Style="{StaticResource Text-H1}"
                        Text="{x:Static localization:Words.MANAGER}"
-                       Grid.Row="0"/>
-            <!-- Start button (temp) -->
-            <Border Style="{StaticResource Border-Vertical}" Visibility="{Binding StartVisibility}"
-                    Grid.Row="1">
+                       Grid.Row="0" Grid.Column="1"/>
+            <!-- Left -->
+            <StackPanel Style="{StaticResource List-Vertical}"
+                Grid.Row="3" Grid.Column="0">
+                <!-- Start button -->
+                <Border Style="{StaticResource Border-Vertical}" Visibility="{Binding StartVisibility}"
+                        Grid.Row="1" Grid.Column="1">
+                    <Button Style="{StaticResource Button-Big-Vertical}"
+                            Command="{Binding Start}"
+                            Content="{x:Static localization:Words.START}" />
+                </Border>
+                <!-- StartList -->
                 <Button Style="{StaticResource Button-Big-Vertical}"
-                        Command="{Binding Start}"
-                        Content="{x:Static localization:Words.START_PARTICIPATIONS}" />
-            </Border>
+                        Command="{Binding StartList}"
+                        Content="{x:Static localization:Words.STARTLIST}" />
+            </StackPanel>
+            <!-- Center-->
             <!-- Controls -->
             <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="2">
+                    Grid.Row="2" Grid.Column="1">
                 <StackPanel Style="{StaticResource List-Horizontal}">
                     <!-- Update -->
                     <StackPanel Style="{StaticResource List-Vertical}" Margin="0 0 80px 0">
@@ -129,7 +140,7 @@
                         <StackPanel Style="{StaticResource List-Horizontal}">
                             <Label Style="{StaticResource Label-Primary}"
                                    Target="{Binding ElementName=DeQualificationCode}"
-                                   Content="_DQ:"/>
+                                   Content="{x:Static localization:Words._DQ}"/>
                             <TextBox Style="{StaticResource Input}" Width="100px"
                                      Text="{Binding DeQualificationCode}"
                                      Name="DeQualificationCode"/>
@@ -141,15 +152,11 @@
                             </Border>
                         </StackPanel>
                     </Border>
-                    <!-- StartList -->
-                    <Button Style="{StaticResource Button-Big-Horizontal}"
-                            Command="{Binding StartList}"
-                            Content="{x:Static localization:Words.STARTLIST}" />
                 </StackPanel>
             </Border>
             <!-- Participations -->
             <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="3">
+                    Grid.Row="3" Grid.Column="1">
                 <ListBox Style="{StaticResource ListBox-Vertical-Border}"
                          ItemsSource="{Binding Participants}" />
             </Border>

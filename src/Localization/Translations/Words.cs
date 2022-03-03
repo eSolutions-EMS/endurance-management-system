@@ -52,7 +52,6 @@ public class Words
     public const string LENGTH = "Lenght";
     public const string RANK_LIST = "Ranklist";
     public const string CATEGORY = "Category";
-    public const string START_PARTICIPATIONS = "START PARTICIPATIONS";
     public const string COMPLETE_UNSUCCESSFULLY = "Disqualify";
     public const string COMPLETE = "Complete";
     public const string UPDATE_PERSONNEL = "Update Personnel";
@@ -81,4 +80,5 @@ public class Words
     public const string DISTANCE = "Distance";
     public const string STARTLIST = "Startlist";
     public const string INCLUDE_PAST = "Include Past";
+    public const string _DQ = "_DQ";
 }
