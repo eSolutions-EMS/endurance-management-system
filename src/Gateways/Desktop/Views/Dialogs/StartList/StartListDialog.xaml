@@ -23,9 +23,16 @@
                         Command="{Binding GetList}"
                         Content="{x:Static localization:Words.CREATE}"/>
             </Border>
+            <Border Style="{StaticResource Border-Horizontal}" HorizontalAlignment="Right">
+                <Button Style="{StaticResource Button-Big-Horizontal}"
+                        Command="{Binding Print}"
+                        CommandParameter="{Binding ElementName=StartList}"
+                        Content="{x:Static localization:Words.PRINT}" />
+            </Border>
         </StackPanel>
         <!-- List -->
         <StackPanel Style="{StaticResource List-Vertical}" Margin="1px 0 0 0"
+                    Name="StartList"
                     Grid.Row="1">
             <!-- Header -->
             <StackPanel Style="{StaticResource List-Horizontal}">

@@ -12,14 +12,12 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Dialogs.StartList;
 public class StartListDialogModel : DialogBase
 {
     private readonly IExecutor<ContestManager> contestExecutor;
-    private readonly IPrinter printer;
 
     public StartListDialogModel(IExecutor<ContestManager> contestExecutor, IPrinter printer)
     {
         this.contestExecutor = contestExecutor;
-        this.printer = printer;
         this.GetList = new DelegateCommand(this.RenderList);
-        this.Print = new DelegateCommand<Visual>(this.PrintAction);
+        this.Print = new DelegateCommand<Visual>(printer.Print);
     }
 
     public ObservableCollection<StartTemplateModel> List { get; } = new();
@@ -39,9 +37,5 @@ public class StartListDialogModel : DialogBase
             .Select(x => new StartTemplateModel(x));
         this.List.Clear();
         this.List.AddRange(participants);
-    }
-    private void PrintAction(Visual visual)
-    {
-        this.printer.Print(visual);
     }
 }
