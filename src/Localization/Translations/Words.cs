@@ -80,4 +80,5 @@ public class Words
     public const string HAS_STARTED = "Has Started";
     public const string DISTANCE = "Distance";
     public const string STARTLIST = "Startlist";
+    public const string INCLUDE_PAST = "Include Past";
 }
