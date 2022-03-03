@@ -2,7 +2,7 @@
 using EnduranceJudge.Core.Utilities;
 using EnduranceJudge.Gateways.Desktop.Views.Dialogs.Confirmation;
 using EnduranceJudge.Gateways.Desktop.Views.Dialogs.Message;
-using EnduranceJudge.Gateways.Desktop.Views.Dialogs.PrintStartList;
+using EnduranceJudge.Gateways.Desktop.Views.Dialogs.StartList;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
