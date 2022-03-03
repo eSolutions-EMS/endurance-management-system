@@ -6,9 +6,9 @@ using System.Linq;
 
 namespace EnduranceJudge.Domain.Aggregates.Manager.Branches.StartList;
 
-public class StartList : List<StartModel>
+public class Startlist : List<StartModel>
 {
-    internal StartList(IEnumerable<Participant> participants, bool includePast)
+    internal Startlist(IEnumerable<Participant> participants, bool includePast)
     {
         foreach (var participant in participants)
         {
