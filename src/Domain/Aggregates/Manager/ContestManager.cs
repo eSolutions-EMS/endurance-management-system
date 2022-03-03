@@ -1,5 +1,5 @@
 ﻿using EnduranceJudge.Core.Utilities;
-using EnduranceJudge.Domain.Aggregates.Manager.Branches.StartList;
+using EnduranceJudge.Domain.Aggregates.Manager.Branches.StartLists;
 using EnduranceJudge.Domain.Aggregates.Manager.Participants;
 using EnduranceJudge.Domain.Aggregates.Manager.Performances;
 using EnduranceJudge.Domain.Core.Exceptions;

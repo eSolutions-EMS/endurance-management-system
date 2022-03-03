@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EnduranceJudge.Domain.Aggregates.Manager.Branches.StartList;
+namespace EnduranceJudge.Domain.Aggregates.Manager.Branches.StartLists;
 
 public class Startlist : List<StartModel>
 {

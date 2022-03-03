@@ -1,4 +1,4 @@
-﻿using EnduranceJudge.Domain.Aggregates.Manager.Branches.StartList;
+﻿using EnduranceJudge.Domain.Aggregates.Manager.Branches.StartLists;
 using EnduranceJudge.Localization.Translations;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Dialogs.StartList;
