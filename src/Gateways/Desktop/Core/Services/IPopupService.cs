@@ -49,7 +49,7 @@ namespace EnduranceJudge.Gateways.Desktop.Core.Services
         }
         public void RenderStartList()
         {
-            this.RenderDialog(nameof(StartListDialog), new DialogParameters());
+            this.RenderDialog(nameof(StartlistDialog), new DialogParameters());
         }
 
         public void RenderOk()

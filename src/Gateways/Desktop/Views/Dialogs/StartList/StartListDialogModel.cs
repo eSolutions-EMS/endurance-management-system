@@ -9,11 +9,11 @@ using System.Windows.Media;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Dialogs.StartList;
 
-public class StartListDialogModel : DialogBase
+public class StartlistDialogModel : DialogBase
 {
     private readonly IExecutor<ContestManager> contestExecutor;
 
-    public StartListDialogModel(IExecutor<ContestManager> contestExecutor, IPrinter printer)
+    public StartlistDialogModel(IExecutor<ContestManager> contestExecutor, IPrinter printer)
     {
         this.contestExecutor = contestExecutor;
         this.GetList = new DelegateCommand(this.RenderList);
