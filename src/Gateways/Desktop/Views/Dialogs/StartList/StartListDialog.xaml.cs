@@ -2,9 +2,9 @@
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Dialogs.PrintStartList;
 
-public partial class PrintStartListDialog : UserControl
+public partial class StartListDialog : UserControl
 {
-    public PrintStartListDialog()
+    public StartListDialog()
     {
         InitializeComponent();
     }

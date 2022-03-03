@@ -20,7 +20,7 @@ namespace EnduranceJudge.Gateways.Desktop.Core
             this.RegisterViewsForNavigation(containerRegistry);
             containerRegistry.RegisterDialog<MessageDialog>();
             containerRegistry.RegisterDialog<ConfirmationDialog>();
-            containerRegistry.RegisterDialog<PrintStartListDialog>();
+            containerRegistry.RegisterDialog<StartListDialog>();
         }
 
         public virtual void OnInitialized(IContainerProvider containerProvider)

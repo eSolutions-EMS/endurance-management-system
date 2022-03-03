@@ -9,12 +9,12 @@ using System.Windows.Media;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Dialogs.PrintStartList;
 
-public class PrintStartListDialogModel : DialogBase
+public class StartListDialogModel : DialogBase
 {
     private readonly IExecutor<ContestManager> contestExecutor;
     private readonly IPrinter printer;
 
-    public PrintStartListDialogModel(IExecutor<ContestManager> contestExecutor, IPrinter printer)
+    public StartListDialogModel(IExecutor<ContestManager> contestExecutor, IPrinter printer)
     {
         this.contestExecutor = contestExecutor;
         this.printer = printer;
