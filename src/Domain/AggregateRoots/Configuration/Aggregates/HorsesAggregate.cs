@@ -3,7 +3,7 @@ using EnduranceJudge.Domain.AggregateRoots.Configuration.Extensions;
 using EnduranceJudge.Domain.Core.Exceptions;
 using EnduranceJudge.Domain.Core.Extensions;
 using EnduranceJudge.Domain.Core.Models;
-using EnduranceJudge.Domain.Core.Validation;
+using EnduranceJudge.Domain.Validation;
 using EnduranceJudge.Domain.State;
 using EnduranceJudge.Domain.State.Horses;
 using static EnduranceJudge.Localization.Translations.Messages.DomainValidation;

@@ -2,7 +2,7 @@
 using EnduranceJudge.Domain.AggregateRoots.Configuration.Aggregates;
 using EnduranceJudge.Domain.Core.Extensions;
 using EnduranceJudge.Domain.Core.Models;
-using EnduranceJudge.Domain.Core.Validation;
+using EnduranceJudge.Domain.Validation;
 using EnduranceJudge.Domain.State;
 using EnduranceJudge.Domain.State.EnduranceEvents;
 using EnduranceJudge.Domain.State.Personnels;

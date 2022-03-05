@@ -1,6 +1,6 @@
 ﻿using EnduranceJudge.Domain.Core.Exceptions;
 using EnduranceJudge.Domain.Core.Models;
-using EnduranceJudge.Domain.Core.Validation;
+using EnduranceJudge.Domain.Validation;
 using EnduranceJudge.Domain.State.Performances;
 using EnduranceJudge.Domain.State.PhaseResults;
 using EnduranceJudge.Domain.State.Phases;

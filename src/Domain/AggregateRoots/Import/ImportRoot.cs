@@ -4,7 +4,7 @@ using EnduranceJudge.Domain.AggregateRoots.Import.Models.International;
 using EnduranceJudge.Domain.AggregateRoots.Import.Models.National;
 using EnduranceJudge.Domain.Core.Exceptions;
 using EnduranceJudge.Domain.Core.Models;
-using EnduranceJudge.Domain.Core.Validation;
+using EnduranceJudge.Domain.Validation;
 using EnduranceJudge.Domain.Enums;
 using EnduranceJudge.Domain.State;
 using EnduranceJudge.Domain.State.Athletes;

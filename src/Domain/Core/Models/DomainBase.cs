@@ -1,6 +1,6 @@
 ﻿using EnduranceJudge.Core.Models;
 using EnduranceJudge.Domain.Core.Exceptions;
-using EnduranceJudge.Domain.Core.Validation;
+using EnduranceJudge.Domain.Validation;
 using System;
 
 namespace EnduranceJudge.Domain.Core.Models

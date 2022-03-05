@@ -4,9 +4,8 @@ using System.Linq;
 using static EnduranceJudge.Localization.Translations.Messages.DomainValidation;
 using static EnduranceJudge.Localization.Translations.Words;
 
-namespace EnduranceJudge.Domain.Core.Validation;
+namespace EnduranceJudge.Domain.Validation;
 
-//TODO: move out of Core
 public class Validator<T> where T : DomainExceptionBase, new()
 {
     public TValue IsRequired<TValue>(TValue obj, string property)

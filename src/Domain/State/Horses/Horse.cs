@@ -1,5 +1,5 @@
 using EnduranceJudge.Domain.Core.Models;
-using EnduranceJudge.Domain.Core.Validation;
+using EnduranceJudge.Domain.Validation;
 using static EnduranceJudge.Localization.Translations.Words;
 
 namespace EnduranceJudge.Domain.State.Horses

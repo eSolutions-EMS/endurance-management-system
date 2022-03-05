@@ -1,5 +1,5 @@
 using EnduranceJudge.Domain.Core.Models;
-using EnduranceJudge.Domain.Core.Validation;
+using EnduranceJudge.Domain.Validation;
 
 namespace EnduranceJudge.Domain.State.Countries
 {
