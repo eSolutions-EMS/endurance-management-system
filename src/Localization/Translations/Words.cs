@@ -81,4 +81,5 @@ public class Words
     public const string STARTLIST = "Startlist";
     public const string INCLUDE_PAST = "Include Past";
     public const string _DQ = "_DQ";
+    public const string IMPORT = "Import";
 }

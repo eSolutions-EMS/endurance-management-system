@@ -2,6 +2,7 @@
 using EnduranceJudge.Domain.Core.Extensions;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Competitions;
+using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Domain.State.Performances;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,7 +43,7 @@ namespace EnduranceJudge.Domain.State.Participations
                 var existingCompetitionName = firstCompetition.Name;
                 if (firstCompetition.Phases.Count != competition.Phases.Count)
                 {
-                    throw DomainExceptionBase.Create<ParticipationException>(
+                    throw DomainExceptionBase.Create<ParticipantException>(
                         CANNOT_ADD_PARTICIPATION_DIFFERENT_PHASE_COUNT,
                         newCompetitionName);
                 }
@@ -53,7 +54,7 @@ namespace EnduranceJudge.Domain.State.Participations
                     // ReSharper disable once CompareOfFloatsByEqualityOperator
                     if (existingPhase.LengthInKm != newPhase.LengthInKm)
                     {
-                        throw DomainExceptionBase.Create<ParticipationException>(
+                        throw DomainExceptionBase.Create<ParticipantException>(
                             CANNOT_ADD_PARTICIPATION_DIFFERENT_PHASE_LENGTHS,
                             newCompetitionName,
                             existingCompetitionName,

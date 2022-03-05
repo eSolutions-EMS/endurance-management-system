@@ -66,7 +66,7 @@ public class ManagerRoot : IAggregate, IAggregateRoot
         var performance = participant.GetActivePerformance();
         if (performance == null)
         {
-            throw DomainExceptionBase.Create<ParticipantException>(PARTICIPANT_HAS_NO_ACTIVE_PERFORMANCE);
+            throw DomainExceptionBase.Create<ParticipantException>(PARTICIPANT_HAS_NO_ACTIVE_PERFORMANCE, number);
         }
         performance!.ReInspection(isRequired);
     }
@@ -76,7 +76,7 @@ public class ManagerRoot : IAggregate, IAggregateRoot
         var performance = participant.GetActivePerformance();
         if (performance == null)
         {
-            throw DomainExceptionBase.Create<ParticipationException>(PARTICIPANT_HAS_NO_ACTIVE_PERFORMANCE);
+            throw DomainExceptionBase.Create<ParticipationException>(PARTICIPANT_HAS_NO_ACTIVE_PERFORMANCE, number);
         }
         performance!.RequireInspection(isRequired);
     }

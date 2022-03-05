@@ -40,7 +40,7 @@ namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates
             var firstPhase = this.competition.Phases.FirstOrDefault();
             if (firstPhase == null)
             {
-                throw DomainExceptionBase.Create<ParticipantException>(CANNOT_START_COMPETITION_WITHOUT_PHASES);
+                throw new InvalidOperationException(CANNOT_START_COMPETITION_WITHOUT_PHASES);
             }
             this.AddPerformance(firstPhase, this.competition.StartTime);
         }
