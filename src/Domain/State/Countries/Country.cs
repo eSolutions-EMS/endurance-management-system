@@ -8,8 +8,6 @@ namespace EnduranceJudge.Domain.State.Countries
         private Country() {}
         public Country(string isoCode, string name, int id) : base(GENERATE_ID)
         {
-            // TODO: ErrorException to state models
-            // Also maybe segregate State from domain?
             this.Id = id;
             this.IsoCode = this.Validator.IsRequired(isoCode, nameof(isoCode));
             this.Name = this.Validator.IsRequired(name, nameof(name));

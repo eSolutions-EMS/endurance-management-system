@@ -10,6 +10,7 @@ using System;
 using System.Linq;
 using static EnduranceJudge.Localization.Translations.Words;
 using static EnduranceJudge.Localization.Translations.Messages.DomainValidation;
+using static EnduranceJudge.Domain.DomainConstants.ErrorMessages;
 
 namespace EnduranceJudge.Domain.AggregateRoots.Configuration.Aggregates
 {
@@ -31,14 +32,14 @@ namespace EnduranceJudge.Domain.AggregateRoots.Configuration.Aggregates
             var competition = this.state.Event.Competitions.FindDomain(competitionId);
             if (competition == null)
             {
-                var message = $"Cannot save Phase - competition with id '{competitionId}' does not exit";
-                throw new InvalidOperationException(message);
+                var message = string.Format(CANNOT_CREATE_PHASE_COMPETITION_DOES_NOT_EXIST, competitionId);
+                throw new Exception(message);
             }
             var phase = competition.Phases.FindDomain(phaseState.Id);
             if (phase != null)
             {
-                var message = $"Cannot create phase. A phase with Id '{phaseState.Id}' already exists";
-                throw new InvalidOperationException(message);
+                var message = string.Format(CANNOT_CREATE_PHASE_IT_ALREADY_EXISTS, phaseState.Id);
+                throw new Exception(message);
             }
 
             this.Validate(phaseState, competitionId);
@@ -72,7 +73,8 @@ namespace EnduranceJudge.Domain.AggregateRoots.Configuration.Aggregates
                 return phase;
             }
 
-            throw new InvalidOperationException($"Phase with Id '{phaseState.Id}' does not exist");
+            var message = string.Format(CANNOT_UPDATE_PHASE_IT_DOES_NOT_EXIST, phaseState.Id);
+            throw new InvalidOperationException(message);
         }
 
         private void UpdateParticipations(Phase phase)

@@ -1,5 +1,4 @@
-﻿using EnduranceJudge.Domain.Core.Exceptions;
-using EnduranceJudge.Domain.Core.Models;
+﻿using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Competitions;
 using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Domain.State.Participations;
@@ -7,8 +6,7 @@ using EnduranceJudge.Domain.State.Performances;
 using EnduranceJudge.Domain.State.Phases;
 using System;
 using System.Linq;
-using static EnduranceJudge.Localization.Translations.Messages;
-using static EnduranceJudge.Localization.Translations.Messages.DomainValidation;
+using static EnduranceJudge.Domain.DomainConstants.ErrorMessages;
 
 namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates
 {
@@ -24,9 +22,7 @@ namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates
             this.competition = this.participation.Competitions.FirstOrDefault();
             if (this.competition == null)
             {
-                throw DomainExceptionBase.Create<ParticipantException>(
-                    PARTICIPANT_CANNOT_START_NO_COMPETITION_TEMPLATE,
-                    this.Number);
+                throw new Exception(PARTICIPANT_CANNOT_START_NO_COMPETITION_TEMPLATE);
             }
         }
 
@@ -36,12 +32,12 @@ namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates
         {
             if (this.participation.Performances.Any())
             {
-                throw DomainExceptionBase.Create<ParticipationException>(HAS_ALREADY_STARTED);
+                throw new Exception(PARTICIPANT_HAS_ALREADY_STARTED);
             }
             var firstPhase = this.competition.Phases.FirstOrDefault();
             if (firstPhase == null)
             {
-                throw new InvalidOperationException(CANNOT_START_COMPETITION_WITHOUT_PHASES);
+                throw new Exception(CANNOT_START_COMPETITION_WITHOUT_PHASES);
             }
             this.AddPerformance(firstPhase, this.competition.StartTime);
         }
@@ -65,7 +61,7 @@ namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates
         {
             if (this.IsComplete)
             {
-                throw new InvalidOperationException(CANNOT_START_NEXT_PERFORMANCE_PARTICIPATION_IS_COMPLETE);
+                throw new Exception(CANNOT_START_NEXT_PERFORMANCE_PARTICIPATION_IS_COMPLETE);
             }
             var phase = this.competition
                 .Phases
@@ -73,17 +69,17 @@ namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates
                 .FirstOrDefault();
             if (phase == null)
             {
-                throw new InvalidOperationException(CANNOT_START_PERFORMANCE_NO_PHASE);
+                throw new Exception(CANNOT_START_PERFORMANCE_NO_PHASE);
             }
             var previousPerformance = this.participation.Performances.LastOrDefault();
             if (previousPerformance == null)
             {
-                throw new InvalidOperationException(CANNOT_START_NEXT_PERFORMANCE_NO_LAST_PERFORMANCE);
+                throw new Exception(CANNOT_START_NEXT_PERFORMANCE_NO_LAST_PERFORMANCE);
             }
             var startTime = previousPerformance.NextPerformanceStartTime;
             if (startTime == null)
             {
-                throw new InvalidOperationException(CANNOT_START_PERFORMANCE_NO_START_TIME);
+                throw new Exception(CANNOT_START_PERFORMANCE_NO_START_TIME);
             }
 
             return this.AddPerformance(phase, startTime.Value);
