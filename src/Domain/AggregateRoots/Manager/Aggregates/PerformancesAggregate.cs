@@ -7,6 +7,7 @@ using EnduranceJudge.Domain.State.Phases;
 using System;
 using static EnduranceJudge.Localization.Translations.Messages.DomainValidation;
 using static EnduranceJudge.Localization.Translations.Terms;
+using static EnduranceJudge.Domain.DomainConstants.ErrorMessages;
 
 namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates
 {
@@ -169,18 +170,18 @@ namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates
         {
             var restTime = this.performance.Phase.RestTimeInMins;
             var nextPhaseStartTime = this.VetGatePassedTime.AddMinutes(restTime);
-            //  TODO: Throw Error.
-            // this.performance.ArrivalTime.IsRequired(ARRIVAL_TIME_IS_NULL_MESSAGE);
-            // this.performance.InspectionTime.IsRequired(INSPECTION_TIME_IS_NULL_MESSAGE);
-            // if (this.performance.IsRequiredInspectionRequired)
-            // {
-            //     this.performance.RequiredInspectionTime.IsRequired(REQUIRED_INSPECTION_IS_NULL_MESSAGE);
-            // }
-            // if (this.Phase.IsCompulsoryInspectionRequired)
-            // {
-            //     this.performance.CompulsoryRequiredInspectionTime.IsRequired(
-            //         COMPULSORY_REQUIRED_INSPECTION_IS_NULL_MESSAGE);
-            // }
+            if (!this.performance.ArrivalTime.HasValue || !this.performance.InspectionTime.HasValue)
+            {
+                throw new Exception(PERFORMANCE_INVALID_COMPLETE);
+            }
+            if (this.performance.IsRequiredInspectionRequired && !this.performance.RequiredInspectionTime.HasValue)
+            {
+                throw new Exception(PERFORMANCE_INVALID_COMPLETE);
+            }
+            if (this.Phase.IsCompulsoryInspectionRequired && !this.performance.CompulsoryRequiredInspectionTime.HasValue)
+            {
+                throw new Exception(PERFORMANCE_INVALID_COMPLETE);
+            }
 
             this.performance.Result = new PhaseResult();
             this.performance.NextPerformanceStartTime = nextPhaseStartTime;

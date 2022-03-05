@@ -40,6 +40,7 @@ namespace EnduranceJudge.Domain
             public const string CANNOT_CREATE_PHASE_COMPETITION_DOES_NOT_EXIST = $"Cannot save {nameof(Phase)} - competition with id '{{0}}' does not exit";
             public const string CANNOT_CREATE_PHASE_IT_ALREADY_EXISTS = $"Cannot create {nameof(Phase)}. A {nameof(Phase)} with Id '{{0}}' already exists";
             public const string CANNOT_UPDATE_PHASE_IT_DOES_NOT_EXIST = $"Cannot update {nameof(Phase)} with Id '{{0}}' does not exist";
+            public const string PERFORMANCE_INVALID_COMPLETE = $"Performance has invalid state and cannot complete.";
         }
     }
 }
