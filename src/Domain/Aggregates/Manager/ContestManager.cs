@@ -5,7 +5,9 @@ using EnduranceJudge.Domain.Aggregates.Manager.Performances;
 using EnduranceJudge.Domain.Core.Exceptions;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State;
+using EnduranceJudge.Domain.State.Competitions;
 using EnduranceJudge.Domain.State.Participants;
+using EnduranceJudge.Domain.State.Participations;
 using EnduranceJudge.Domain.State.Performances;
 using EnduranceJudge.Localization.Translations;
 using System;
@@ -65,7 +67,7 @@ public class ContestManager : ManagerObjectBase, IAggregateRoot
         var performance = participant.GetActivePerformance();
         if (performance == null)
         {
-            this.Throw<ParticipantException>(PARTICIPANT_HAS_NO_ACTIVE_PERFORMANCE);
+            throw DomainExceptionBase.Create<ParticipantException>(PARTICIPANT_HAS_NO_ACTIVE_PERFORMANCE);
         }
         performance!.ReInspection(isRequired);
     }
@@ -75,7 +77,7 @@ public class ContestManager : ManagerObjectBase, IAggregateRoot
         var performance = participant.GetActivePerformance();
         if (performance == null)
         {
-            this.Throw<ParticipantException>(PARTICIPANT_HAS_NO_ACTIVE_PERFORMANCE);
+            throw DomainExceptionBase.Create<ParticipationException>(PARTICIPANT_HAS_NO_ACTIVE_PERFORMANCE);
         }
         performance!.RequireInspection(isRequired);
     }
@@ -103,8 +105,7 @@ public class ContestManager : ManagerObjectBase, IAggregateRoot
             .FirstOrDefault(x => x.Number == number);
         if (participant == null)
         {
-            var message = string.Format(Messages.PARTICIPANT_NUMBER_NOT_FOUND_TEMPLATE, number);
-            throw new ParticipantException { DomainMessage = message };
+            throw DomainExceptionBase.Create<ParticipantException>(Messages.PARTICIPANT_NUMBER_NOT_FOUND_TEMPLATE, number);
         }
         var manager = new ParticipantManager(participant);
         return manager;
@@ -116,18 +117,22 @@ public class ContestManager : ManagerObjectBase, IAggregateRoot
         {
             if (competition.Phases.All(x => !x.IsFinal))
             {
-                throw new DomainException(INVALID_COMPETITION_NO_FINAL_PHASE, competition.Name);
+                throw DomainExceptionBase.Create<CompetitionException>(
+                    INVALID_COMPETITION_NO_FINAL_PHASE,
+                    competition.Name);
             }
         }
         foreach (var participant in this.state.Participants)
         {
             if (!participant.Participation.Competitions.Any())
             {
-                throw new DomainException(INVALID_PARTICIPANT_NO_PARTICIPATIONS, participant.Number);
+                throw DomainExceptionBase.Create<ParticipantException>(
+                    INVALID_PARTICIPANT_NO_PARTICIPATIONS,
+                    participant.Number);
             }
             if (participant.Athlete.Country == null)
             {
-                throw new DomainException(INVALID_PARTICIPANT_NO_COUNTRY, participant.Number);
+                throw DomainExceptionBase.Create<ParticipantException>(INVALID_PARTICIPANT_NO_COUNTRY, participant.Number);
             }
         }
     }

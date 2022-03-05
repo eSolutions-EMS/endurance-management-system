@@ -2,7 +2,7 @@
 
 namespace EnduranceJudge.Domain.Aggregates.Import
 {
-    public class ImportObjectException : DomainObjectException
+    public class ImportObjectException : DomainExceptionBase
     {
         protected override string Entity { get; } = nameof(ImportManager);
     }

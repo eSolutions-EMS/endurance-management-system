@@ -1,16 +1,19 @@
 ﻿using EnduranceJudge.Core.Models;
 using EnduranceJudge.Domain.Core.Exceptions;
+using EnduranceJudge.Domain.Core.Validation;
 using System;
 
 namespace EnduranceJudge.Domain.Core.Models
 {
     public abstract class DomainObjectBase<TException> : IDomainObject, IEquatable<DomainObjectBase<TException>>
-        where TException : DomainObjectException, new()
+        where TException : DomainExceptionBase, new()
     {
         protected const string GENERATE_ID = "GenerateIdFlag";
 
         // Empty constructor is used by mapping for existing (in the database) entries
-        protected DomainObjectBase() {}
+        protected DomainObjectBase()
+        {
+        }
         // Unused variable is needed mark the constructor which generates Id
         // That constructor should ONLY be used when creating NEW (no database entry) objects
         protected DomainObjectBase(string generateIdFlag)
@@ -19,21 +22,6 @@ namespace EnduranceJudge.Domain.Core.Models
         }
 
         public int Id { get; protected init; } // Keep setter for mapping
-
-        internal void Validate(Action action)
-        {
-            try
-            {
-                action();
-            }
-            catch (DomainException exception)
-            {
-                this.Throw(exception.Message);
-            }
-        }
-
-        internal void Throw(string message)
-            => Thrower.Throw<TException>(message);
 
         public override bool Equals(object other)
             => this.IsEqual(other);
@@ -80,5 +68,7 @@ namespace EnduranceJudge.Domain.Core.Models
 
         public override int GetHashCode()
             => this.Id;
+
+        protected Validator<TException> Validator { get; } = new();
     }
 }

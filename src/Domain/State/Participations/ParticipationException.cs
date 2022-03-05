@@ -2,7 +2,7 @@
 
 namespace EnduranceJudge.Domain.State.Participations
 {
-    public class ParticipationException : DomainObjectException
+    public class ParticipationException : DomainExceptionBase
     {
         protected override string Entity { get; } = nameof(Participation);
     }

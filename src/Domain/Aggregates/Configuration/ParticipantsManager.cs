@@ -26,19 +26,14 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
 
             var athlete = this.state.Athletes.FindDomain(athleteId);
             var horse = this.state.Horses.FindDomain(horseId);
-            this.Validate<ParticipantException>(() =>
+            if (this.IsPartOfAnotherParticipant(athlete, participantState.Id))
             {
-                if (this.IsPartOfAnotherParticipant(athlete, participantState.Id))
-                {
-                    var message = string.Format(ALREADY_PARTICIPATING_TEMPLATE, athlete.Name);
-                    throw new DomainException(message);
-                }
-                if (this.IsPartOfAnotherParticipant(horse, participantState.Id))
-                {
-                    var message = string.Format(ALREADY_PARTICIPATING_TEMPLATE, horse.Name);
-                    throw new DomainException(message);
-                }
-            });
+                throw DomainExceptionBase.Create<ParticipantException>(ALREADY_PARTICIPATING_TEMPLATE, athlete.Name);
+            }
+            if (this.IsPartOfAnotherParticipant(horse, participantState.Id))
+            {
+                throw DomainExceptionBase.Create<ParticipantException>(ALREADY_PARTICIPATING_TEMPLATE, horse.Name);
+            }
 
             var participant = this.state.Participants.FindDomain(participantState.Id);
             if (participant == null)

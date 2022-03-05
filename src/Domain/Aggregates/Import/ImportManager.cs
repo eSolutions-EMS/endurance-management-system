@@ -24,10 +24,12 @@ namespace EnduranceJudge.Domain.Aggregates.Import
     public class ImportManager : ManagerObjectBase, IAggregateRoot
     {
         private readonly IState state;
+        private readonly Validator<CompetitionException> validator;
 
         public ImportManager()
         {
             this.state = StaticProvider.GetService<IState>();
+            this.validator = new Validator<CompetitionException>();
         }
 
         public void Import(InternationalData data)
@@ -53,23 +55,20 @@ namespace EnduranceJudge.Domain.Aggregates.Import
         }
 
         private void AddCompetitions(List<HorseSportShowEntriesEvent> competitionsData)
-            => this.Validate<CompetitionException>(() =>
         {
             if (this.state.Event.Competitions.Any())
             {
                 return;
             }
-
             foreach (var data in competitionsData)
             {
-                var name = data.FEIID.IsRequired(NAME);
+                var name = this.validator.IsRequired(data.FEIID, NAME);
                 var competition = new Competition(CompetitionType.International, name);
                 this.state.Event.Save(competition);
             }
-        });
+        }
 
         private void AddAthletes(List<HorseSportShowEntriesAthlete> athletesData)
-            => this.Validate<AthleteException>(() =>
         {
             if (this.state.Athletes.Any())
             {
@@ -93,7 +92,7 @@ namespace EnduranceJudge.Domain.Aggregates.Import
                 var athlete = new Athlete(data.FEIID, data.FirstName, data.FamilyName, country, birthDate);
                 this.state.Athletes.Add(athlete);
             }
-        });
+        }
 
         private void AddHorses(List<HorseSportShowEntriesHorse> horsesData)
         {
@@ -130,7 +129,9 @@ namespace EnduranceJudge.Domain.Aggregates.Import
             }
             if (!this.state.Horses.Any() || !this.state.Athletes.Any())
             {
-                throw new DomainException("Cannot import Participants - empty horses and/or athletes.");
+                // TODO: constant
+                throw DomainExceptionBase.Create<ParticipantException>(
+                    "Cannot import Participants - empty horses and/or athletes.");
             }
 
             foreach (var participantData in participantsData)

@@ -6,11 +6,12 @@ namespace EnduranceJudge.Domain.Validation
 {
     public static class DateTimeValidations
     {
-        public static DateTime IsFutureDate(this DateTime dateTime)
+        public static DateTime IsFutureDate<T>(this DateTime dateTime)
+            where T : DomainExceptionBase, new()
         {
             if (dateTime <= DateTime.Now)
             {
-                throw new DomainException(INVALID_FUTURE_DATE_TEMPLATE, dateTime);
+                throw DomainExceptionBase.Create<T>(INVALID_FUTURE_DATE_TEMPLATE, dateTime);
             }
 
             return dateTime;

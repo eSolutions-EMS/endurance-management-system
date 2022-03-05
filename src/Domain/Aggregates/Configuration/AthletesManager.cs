@@ -8,29 +8,29 @@ using EnduranceJudge.Domain.State;
 using EnduranceJudge.Domain.State.Athletes;
 using EnduranceJudge.Localization.Translations;
 using static EnduranceJudge.Localization.Translations.Messages;
+using static EnduranceJudge.Localization.Translations.Words;
 
 namespace EnduranceJudge.Domain.Aggregates.Configuration
 {
     public class AthletesManager : ManagerObjectBase
     {
         private readonly IState state;
+        private readonly Validator<AthleteException> validator;
 
         internal AthletesManager(IState state)
         {
             this.state = state;
+            this.validator = new Validator<AthleteException>();
         }
 
         public Athlete Save(IAthleteState athleteState, int countryId)
         {
             this.state.ValidateThatEventHasNotStarted();
 
-            this.Validate<AthleteException>(() =>
-            {
-                athleteState.FirstName.IsRequired(Words.FIRST_NAME);
-                athleteState.LastName.IsRequired(Words.LAST_NAME);
-                athleteState.Category.IsRequired(Words.CATEGORY);
-                countryId.IsRequired(Entities.COUNTRY);
-            });
+            this.validator.IsRequired(athleteState.FirstName, FIRST_NAME);
+            this.validator.IsRequired(athleteState.LastName, LAST_NAME);
+            this.validator.IsRequired(athleteState.Category, CATEGORY);
+            this.validator.IsRequired(countryId, Entities.COUNTRY);
 
             var athlete = this.state.Athletes.FindDomain(athleteState.Id);
             if (athlete == null)
@@ -61,17 +61,13 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
             this.state.ValidateThatEventHasNotStarted();
 
             var athlete = this.state.Athletes.FindDomain(id);
-            this.Validate<AthleteException>(() =>
+            foreach (var participant in this.state.Participants)
             {
-                foreach (var participant in this.state.Participants)
+                if (participant.Athlete.Equals(athlete))
                 {
-                    if (participant.Athlete.Equals(athlete))
-                    {
-                        throw new DomainException(CANNOT_REMOVE_USED_IN_PARTICIPANT);
-                    }
+                    throw DomainExceptionBase.Create<AthleteException>(CANNOT_REMOVE_USED_IN_PARTICIPANT);
                 }
-            });
-
+            }
             this.state.Athletes.Remove(athlete);
         }
 

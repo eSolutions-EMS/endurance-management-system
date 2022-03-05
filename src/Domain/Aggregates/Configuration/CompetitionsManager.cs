@@ -12,22 +12,20 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
     public class CompetitionsManager : ManagerObjectBase
     {
         private readonly IState state;
+        private readonly Validator<CompetitionException> validator;
 
         internal CompetitionsManager(IState state)
         {
             this.state = state;
+            this.validator = new Validator<CompetitionException>();
         }
 
         public Competition Save(ICompetitionState competitionState)
         {
             this.state.ValidateThatEventHasNotStarted();
-
-            this.Validate<CompetitionException>(() =>
-            {
-                competitionState.Type.IsRequired(TYPE);
-                competitionState.Name.IsRequired(NAME);
-                competitionState.StartTime.IsRequired(START_TIME)/*.IsFutureDate()*/;
-            });
+            this.validator.IsRequired(competitionState.Type, TYPE);
+            this.validator.IsRequired(competitionState.Name, NAME);
+            this.validator.IsRequired(competitionState.StartTime, START_TIME);
 
             var competition = this.state.Event.Competitions.FindDomain(competitionState.Id);
             if (competition == null)

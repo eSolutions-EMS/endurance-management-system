@@ -14,17 +14,17 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
     public class HorsesManager : ManagerObjectBase
     {
         private readonly IState state;
+        private readonly Validator<HorseException> validator;
+
         internal HorsesManager(IState state)
         {
             this.state = state;
+            this.validator = new Validator<HorseException>();
         }
 
         public Horse Save(IHorseState horseState)
         {
-            this.Validate<HorseException>(() =>
-            {
-                horseState.Name.IsRequired(NAME);
-            });
+            this.validator.IsRequired(horseState.Name, NAME);
 
             var horse = this.state.Horses.FindDomain(horseState.Id);
             if (horse == null)
@@ -53,16 +53,13 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
             this.state.ValidateThatEventHasNotStarted();
 
             var horse = this.state.Horses.FindDomain(id);
-            this.Validate<HorseException>(() =>
+            foreach (var participant in this.state.Participants)
             {
-                foreach (var participant in this.state.Participants)
+                if (participant.Athlete.Equals(horse))
                 {
-                    if (participant.Athlete.Equals(horse))
-                    {
-                        throw new DomainException(CANNOT_REMOVE_USED_IN_PARTICIPANT);
-                    }
+                    throw DomainExceptionBase.Create<HorseException>(CANNOT_REMOVE_USED_IN_PARTICIPANT);
                 }
-            });
+            }
 
             this.state.Horses.Remove(horse);
         }

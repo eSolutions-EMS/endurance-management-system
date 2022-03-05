@@ -34,17 +34,16 @@ namespace EnduranceJudge.Domain.State.Horses
         }
 
         public Horse(IHorseState state) : base(GENERATE_ID)
-            => this.Validate(() =>
-            {
-                this.FeiId = state.FeiId;
-                this.Club = state.Club;
-                this.IsStallion = state.IsStallion;
-                this.Breed = state.Breed;
-                this.TrainerFeiId = state.TrainerFeiId;
-                this.TrainerFirstName = state.TrainerFirstName;
-                this.TrainerLastName = state.TrainerLastName;
-                this.Name = state.Name.IsRequired(NAME);
-            });
+        {
+            this.FeiId = state.FeiId;
+            this.Club = state.Club;
+            this.IsStallion = state.IsStallion;
+            this.Breed = state.Breed;
+            this.TrainerFeiId = state.TrainerFeiId;
+            this.TrainerFirstName = state.TrainerFirstName;
+            this.TrainerLastName = state.TrainerLastName;
+            this.Name = this.Validator.IsRequired(state.Name, NAME);
+        }
 
         public string FeiId { get; internal set; }
         public string Name { get; internal set; }

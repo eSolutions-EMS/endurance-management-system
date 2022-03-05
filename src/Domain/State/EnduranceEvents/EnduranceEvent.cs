@@ -36,15 +36,15 @@ namespace EnduranceJudge.Domain.State.EnduranceEvents
         public Personnel FeiVetDelegate { get; internal set; }
         public Personnel ActiveVet { get; internal set; }
 
-        public void Save(Competition competition) => this.Validate(() =>
+        public void Save(Competition competition)
         {
             this.competitions.AddOrUpdate(competition);
-        });
-        public void Save(Participation participation) => this.Validate(() =>
+        }
+        public void Save(Participation participation)
         {
             this.participations.AddOrUpdate(participation);
-        });
-        public void Save(Personnel personnel) => this.Validate(() =>
+        }
+        public void Save(Personnel personnel)
         {
             switch (personnel.Role)
             {
@@ -76,7 +76,7 @@ namespace EnduranceJudge.Domain.State.EnduranceEvents
                     this.stewards.AddOrUpdate(personnel);
                     break;
             }
-        });
+        }
 
         public IReadOnlyList<Personnel> MembersOfVetCommittee
         {

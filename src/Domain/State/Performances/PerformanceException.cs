@@ -2,7 +2,7 @@
 
 namespace EnduranceJudge.Domain.State.Performances
 {
-    public class PerformanceException : DomainObjectException
+    public class PerformanceException : DomainExceptionBase
     {
         protected override string Entity { get; } = nameof(Performance);
     }

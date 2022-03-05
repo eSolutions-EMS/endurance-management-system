@@ -29,10 +29,10 @@ namespace EnduranceJudge.Domain.State.Competitions
         public string Name { get; internal set; }
         public DateTime StartTime { get; set; }
 
-        public void Save(Phase phase) => this.Validate(() =>
+        public void Save(Phase phase)
         {
             this.phases.AddOrUpdate(phase);
-        });
+        }
 
         public IReadOnlyList<Phase> Phases
         {

@@ -1,4 +1,5 @@
 ﻿using EnduranceJudge.Domain.Aggregates.Manager.Performances;
+using EnduranceJudge.Domain.Core.Exceptions;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Competitions;
 using EnduranceJudge.Domain.State.Participants;
@@ -23,8 +24,9 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participants
             this.competition = this.participation.Competitions.FirstOrDefault();
             if (this.competition == null)
             {
-                var message = string.Format(PARTICIPANT_CANNOT_START_NO_COMPETITION_TEMPLATE, this.Number);
-                this.Throw<ParticipantException>(message);
+                throw DomainExceptionBase.Create<ParticipantException>(
+                    PARTICIPANT_CANNOT_START_NO_COMPETITION_TEMPLATE,
+                    this.Number);
             }
         }
 
@@ -34,12 +36,12 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participants
         {
             if (this.participation.Performances.Any())
             {
-                this.Throw<ParticipationException>(HAS_ALREADY_STARTED);
+                throw DomainExceptionBase.Create<ParticipationException>(HAS_ALREADY_STARTED);
             }
             var firstPhase = this.competition.Phases.FirstOrDefault();
             if (firstPhase == null)
             {
-                this.Throw<ParticipantException>(CANNOT_START_COMPETITION_WITHOUT_PHASES);
+                throw DomainExceptionBase.Create<ParticipantException>(CANNOT_START_COMPETITION_WITHOUT_PHASES);
             }
             this.AddPerformance(firstPhase, this.competition.StartTime);
         }

@@ -1,24 +1,26 @@
-﻿using EnduranceJudge.Domain.Core.Models;
+﻿using EnduranceJudge.Domain.Core.Exceptions;
+using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.Core.Validation;
 using EnduranceJudge.Domain.State.Performances;
 using EnduranceJudge.Domain.State.PhaseResults;
 using EnduranceJudge.Domain.State.Phases;
 using System;
 using static EnduranceJudge.Localization.Translations.Messages;
-using static EnduranceJudge.Localization.Translations.Words;
 using static EnduranceJudge.Localization.Translations.Terms;
 
 namespace EnduranceJudge.Domain.Aggregates.Manager.Performances
 {
     public class PerformanceManager : ManagerObjectBase
     {
-        private readonly Performance performance;
         public const int COMPULSORY_INSPECTION_TIME_BEFORE_NEXT_START = 15;
+        private readonly Performance performance;
+        private readonly Validator<PerformanceException> validator;
 
         internal PerformanceManager(Performance performance)
         {
             this.performance = performance;
             this.Phase = performance.Phase;
+            this.validator = new Validator<PerformanceException>();
         }
 
         public Phase Phase { get; }
@@ -28,10 +30,8 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Performances
 
         internal void Update(DateTime time)
         {
-            this.Validate<PerformanceException>(() =>
-            {
-                time.IsRequired(nameof(time));
-            });
+            // TODO: Probably throw error as well
+            this.validator.IsRequired(time, nameof(time));
 
             if (this.performance.ArrivalTime == null)
             {
@@ -77,7 +77,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Performances
         {
             if (this.Phase.IsCompulsoryInspectionRequired)
             {
-                this.Throw<PerformanceException>(REQUIRED_INSPECTION_IS_NOT_ALLOWED);
+                throw DomainExceptionBase.Create<PerformanceException>(REQUIRED_INSPECTION_IS_NOT_ALLOWED);
             }
             this.performance.IsRequiredInspectionRequired = isRequired;
         }
@@ -110,8 +110,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Performances
         }
         private void ThrowRestrictedEdit(string labelName)
         {
-            var message = string.Format(CANNOT_EDIT_PERFORMANCE, labelName);
-            this.Throw<PerformanceException>(message);
+            throw DomainExceptionBase.Create<PerformanceException>(CANNOT_EDIT_PERFORMANCE, labelName);
         }
 
         private void Arrive(DateTime time)
@@ -119,11 +118,11 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Performances
             time = FixDateForToday(time);
             if (time <= this.performance.StartTime)
             {
-                var message = string.Format(
+                // TODO : validation extension
+                throw DomainExceptionBase.Create<PerformanceException>(
                     DATE_TIME_HAS_TO_BE_LATER_TEMPLATE,
                     nameof(this.performance.ArrivalTime),
                     this.performance.StartTime);
-                this.Throw<PerformanceException>(message);
             }
 
             this.performance.ArrivalTime = time;
@@ -133,11 +132,10 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Performances
             time = FixDateForToday(time);
             if (time <= this.performance.ArrivalTime)
             {
-                var message = string.Format(
+                throw DomainExceptionBase.Create<PerformanceException>(
                     DATE_TIME_HAS_TO_BE_LATER_TEMPLATE,
                     nameof(this.performance.InspectionTime),
                     this.performance.ArrivalTime);
-                this.Throw<PerformanceException>(message);
             }
 
             this.performance.InspectionTime = time;
@@ -147,11 +145,10 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Performances
             time = FixDateForToday(time);
             if (time <= this.performance.InspectionTime)
             {
-                var message = string.Format(
+                throw DomainExceptionBase.Create<PerformanceException>(
                     DATE_TIME_HAS_TO_BE_LATER_TEMPLATE,
                     nameof(this.performance.ReInspectionTime),
                     this.performance.InspectionTime);
-                this.Throw<PerformanceException>(message);
             }
 
             this.performance.ReInspectionTime = time;
@@ -176,20 +173,18 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Performances
         {
             var restTime = this.performance.Phase.RestTimeInMins;
             var nextPhaseStartTime = this.VetGatePassedTime.AddMinutes(restTime);
-            this.Validate<PerformanceException>(() =>
-            {
-                this.performance.ArrivalTime.IsRequired(ARRIVAL_TIME_IS_NULL_MESSAGE);
-                this.performance.InspectionTime.IsRequired(INSPECTION_TIME_IS_NULL_MESSAGE);
-                if (this.performance.IsRequiredInspectionRequired)
-                {
-                    this.performance.RequiredInspectionTime.IsRequired(REQUIRED_INSPECTION_IS_NULL_MESSAGE);
-                }
-                if (this.Phase.IsCompulsoryInspectionRequired)
-                {
-                    this.performance.CompulsoryRequiredInspectionTime.IsRequired(
-                        COMPULSORY_REQUIRED_INSPECTION_IS_NULL_MESSAGE);
-                }
-            });
+            //  TODO: Throw Error.
+            // this.performance.ArrivalTime.IsRequired(ARRIVAL_TIME_IS_NULL_MESSAGE);
+            // this.performance.InspectionTime.IsRequired(INSPECTION_TIME_IS_NULL_MESSAGE);
+            // if (this.performance.IsRequiredInspectionRequired)
+            // {
+            //     this.performance.RequiredInspectionTime.IsRequired(REQUIRED_INSPECTION_IS_NULL_MESSAGE);
+            // }
+            // if (this.Phase.IsCompulsoryInspectionRequired)
+            // {
+            //     this.performance.CompulsoryRequiredInspectionTime.IsRequired(
+            //         COMPULSORY_REQUIRED_INSPECTION_IS_NULL_MESSAGE);
+            // }
 
             this.performance.Result = new PhaseResult();
             this.performance.NextPerformanceStartTime = nextPhaseStartTime;

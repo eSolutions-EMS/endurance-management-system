@@ -36,15 +36,12 @@ namespace EnduranceJudge.Domain.State.Participants
 
         public void ParticipateIn(Competition competition)
         {
-            this.Validate(() =>
-            {
-                competition.IsRequired(nameof(competition));
-            });
+            this.Validator.IsRequired(competition, nameof(competition));
             this.Participation.Add(competition);
         }
         public void RemoveFrom(Competition competition)
         {
-            this.Validate(() => competition.IsRequired(nameof(competition)));
+            this.Validator.IsRequired(competition, nameof(competition));
             this.Participation.Remove(competition);
         }
 

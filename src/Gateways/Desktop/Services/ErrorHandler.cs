@@ -19,7 +19,7 @@ namespace EnduranceJudge.Gateways.Desktop.Services
         public void Handle(Exception exception)
         {
             exception = GetInnermostException(exception);
-            if (exception is DomainException or DomainObjectException or AppException)
+            if (exception is DomainExceptionBase or DomainExceptionBase or AppException)
             {
                 this.popupService.RenderValidation(exception.Message);
             }

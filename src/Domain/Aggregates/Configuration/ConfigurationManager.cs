@@ -6,12 +6,14 @@ using EnduranceJudge.Domain.State;
 using EnduranceJudge.Domain.State.EnduranceEvents;
 using EnduranceJudge.Domain.State.Personnels;
 using EnduranceJudge.Localization.Translations;
+using static EnduranceJudge.Localization.Translations.Words;
 
 namespace EnduranceJudge.Domain.Aggregates.Configuration
 {
     public class ConfigurationManager : ManagerObjectBase, IAggregateRoot
     {
         private readonly IState state;
+        private readonly Validator<EnduranceEventException> validator;
 
         public ConfigurationManager()
         {
@@ -21,16 +23,14 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
             this.Athletes = new AthletesManager(this.state);
             this.Horses = new HorsesManager(this.state);
             this.Participants = new ParticipantsManager(this.state);
+            this.validator = new Validator<EnduranceEventException>();
         }
 
         public EnduranceEvent Update(string name, int countryId, string populatedPlace)
         {
-            this.Validate<EnduranceEventException>(() =>
-            {
-                name.IsRequired(Words.NAME);
-                populatedPlace.IsRequired(Words.POPULATED_PLACE);
-                countryId.IsRequired(Entities.COUNTRY);
-            });
+            this.validator.IsRequired(name, NAME);
+            this.validator.IsRequired(populatedPlace, POPULATED_PLACE);
+            this.validator.IsRequired(countryId, Entities.COUNTRY);
 
             var country = this.state.Countries.FindDomain(countryId);
             if (this.state.Event == null)

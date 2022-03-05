@@ -1,9 +1,8 @@
-﻿using EnduranceJudge.Core.Extensions;
+﻿using EnduranceJudge.Domain.Core.Exceptions;
 using EnduranceJudge.Domain.Core.Extensions;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Competitions;
 using EnduranceJudge.Domain.State.Performances;
-using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
 using System.Linq;
 using static EnduranceJudge.Localization.Translations.Messages;
@@ -34,7 +33,7 @@ namespace EnduranceJudge.Domain.State.Participations
                 .Select(x => x.LengthInKm)
                 .Sum();
 
-        internal void Add(Competition competition) => this.Validate(() =>
+        internal void Add(Competition competition)
         {
             if (this.Competitions.Any())
             {
@@ -43,8 +42,9 @@ namespace EnduranceJudge.Domain.State.Participations
                 var existingCompetitionName = firstCompetition.Name;
                 if (firstCompetition.Phases.Count != competition.Phases.Count)
                 {
-                    var message = string.Format(CANNOT_ADD_PARTICIPATION_DIFFERENT_PHASE_COUNT, newCompetitionName);
-                    this.Throw(message);
+                    throw DomainExceptionBase.Create<ParticipationException>(
+                        CANNOT_ADD_PARTICIPATION_DIFFERENT_PHASE_COUNT,
+                        newCompetitionName);
                 }
                 for (var phaseIndex = 0; phaseIndex < firstCompetition.Phases.Count; phaseIndex++)
                 {
@@ -53,26 +53,25 @@ namespace EnduranceJudge.Domain.State.Participations
                     // ReSharper disable once CompareOfFloatsByEqualityOperator
                     if (existingPhase.LengthInKm != newPhase.LengthInKm)
                     {
-                        var message = string.Format(
+                        throw DomainExceptionBase.Create<ParticipationException>(
                             CANNOT_ADD_PARTICIPATION_DIFFERENT_PHASE_LENGTHS,
                             newCompetitionName,
                             existingCompetitionName,
                             phaseIndex + 1,
                             newPhase.LengthInKm,
                             existingPhase.LengthInKm);
-                        this.Throw(message);
                     }
                 }
             }
-            this.competitions.AddUnique(competition);
-        });
+            this.competitions.AddOrUpdate(competition);
+        }
         internal void Remove(Competition competition)
         {
             this.competitions.Remove(competition);
         }
         internal void Add(Performance performance)
         {
-            this.performances.AddUnique(performance);
+            this.performances.AddOrUpdate(performance);
         }
 
         public IReadOnlyList<Competition> Competitions

@@ -1,4 +1,5 @@
-﻿using EnduranceJudge.Domain.State;
+﻿using EnduranceJudge.Domain.Core.Exceptions;
+using EnduranceJudge.Domain.State;
 using EnduranceJudge.Domain.State.EnduranceEvents;
 using static EnduranceJudge.Localization.Translations.Messages;
 
@@ -10,10 +11,7 @@ public static class StateExtensions
     {
         if (state.Event.HasStarted)
         {
-            throw new EnduranceEventException
-            {
-                DomainMessage = CHANGE_NOT_ALLOWED_WHEN_EVENT_HAS_STARTED,
-            };
+            throw DomainExceptionBase.Create<EnduranceEventException>(CHANGE_NOT_ALLOWED_WHEN_EVENT_HAS_STARTED);
         }
     }
 }

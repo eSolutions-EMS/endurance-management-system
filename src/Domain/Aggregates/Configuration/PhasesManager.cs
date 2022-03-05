@@ -16,10 +16,12 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
     public class PhasesManager : ManagerObjectBase
     {
         private readonly IState state;
+        private readonly Validator<PhaseException> validator;
 
         internal PhasesManager(IState state)
         {
             this.state = state;
+            this.validator = new Validator<PhaseException>();
         }
 
         public Phase Create(int competitionId, IPhaseState phaseState)
@@ -93,18 +95,15 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
             var competition = this.state.Event.Competitions.FindDomain(competitionId);
             if (competition.Phases.Any(x => x.OrderBy == phaseState.OrderBy && x.Id != phaseState.Id))
             {
-                throw new DomainException(INVALID_ORDER_BY, phaseState.OrderBy);
+                throw DomainExceptionBase.Create<PhaseException>(INVALID_ORDER_BY, phaseState.OrderBy);
             }
-            this.Validate<PhaseException>(() =>
+            if (!phaseState.IsFinal)
             {
-                if (!phaseState.IsFinal)
-                {
-                    phaseState.RestTimeInMins.IsRequired(REST_TIME_IN_MINS);
-                }
-                phaseState.OrderBy.IsRequired(ORDER);
-                phaseState.LengthInKm.IsRequired(LENGTH_IN_KM);
-                phaseState.MaxRecoveryTimeInMins.IsRequired(RECOVERY_IN_MINUTES_TEXT);
-            });
+                this.validator.IsRequired(phaseState.RestTimeInMins, REST_TIME_IN_MINS);
+            }
+            this.validator.IsRequired(phaseState.OrderBy, ORDER);
+            this.validator.IsRequired(phaseState.LengthInKm, LENGTH_IN_KM);
+            this.validator.IsRequired(phaseState.MaxRecoveryTimeInMins, RECOVERY_IN_MINUTES_TEXT);
         }
     }
 }

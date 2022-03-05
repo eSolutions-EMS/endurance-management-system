@@ -4,8 +4,8 @@ namespace EnduranceJudge.Localization.Translations;
 
 public static class Messages
 {
-    public const string CANNOT_REMOVE_USED_IN_PARTICIPANT = "Cannot be remobed because it is used in an existing Participant";
-    public const string ALREADY_PARTICIPATING_TEMPLATE = "Cannot be created - '{0}' is already participating.";
+    public const string CANNOT_REMOVE_USED_IN_PARTICIPANT = "cannot be removed because it is used in an existing Participant";
+    public const string ALREADY_PARTICIPATING_TEMPLATE = "cannot be created - '{0}' is already participating.";
     public const string SELECT_WORK_DIRECTORY = "Select working directory using the 'Import' button above.";
     public const string CANNOT_ADD_PARTICIPATION_DIFFERENT_PHASE_COUNT = "Cannot add Participation, because this competitor already participates in '{0}' with different amount of Phases ";
     public const string CANNOT_ADD_PARTICIPATION_DIFFERENT_PHASE_LENGTHS = "Cannot add Participation in '{0}'- competitior already participates in '{1}' and difference is detected in 'Phase {2}' lengths: '{3}' and '{4}";
@@ -23,7 +23,7 @@ public static class Messages
     public const string CANNOT_START_PERFORMANCE_NO_START_TIME ="cannot start next performance - no Start Time.";
     public const string CANNOT_START_NEXT_PERFORMANCE_NO_LAST_PERFORMANCE ="Cannot start next Performance. Participations have not started or data is invalid.";
     public const string CANNOT_EDIT_PERFORMANCE = "Editting '{0}' is not allowed, becausue no value exists. Please use 'Update' button above.";
-    public const string IS_REQUIRED_TEMPLATE = "property '{0}' is required.";
+    public const string IS_REQUIRED_TEMPLATE = "{0} is required.";
     public const string CANNOT_REMOVE_NULL_ITEM_TEMPLATE = "cannot remove 'null' from collection..";
     public const string CANNOT_REMOVE_ITEM_IS_NOT_FOUND_TEMPLATE = "cannot remove '{0}' - it is not found.";
     public const string CANNOT_ADD_NULL_ITEM_TEMPLATE = "cannot add 'null' to a collection.";
@@ -31,12 +31,13 @@ public static class Messages
     public const string UNSUPPORTED_IMPORT_FILE_TEMPLATE =  "Unsupported file. Please use '{0}' or '{1}'.";
     public const string INVALID_DATE_FORMAT = "Invalid date: '{0}'. Expected format: '{1}'.";
     public const string REMOVE_CONFIRMATION_MESSAGE = "Are you sure you want to remove this item";
-    public const string PARTICIPANT_NUMBER_NOT_FOUND_TEMPLATE = "Participant with number '{0}' not found.";
-    public const string CHANGE_NOT_ALLOWED_WHEN_EVENT_HAS_STARTED = "This change is not allowed after Participations have started ";
+    public const string PARTICIPANT_NUMBER_NOT_FOUND_TEMPLATE = "with number '{0}' not found.";
+    public const string CHANGE_NOT_ALLOWED_WHEN_EVENT_HAS_STARTED = "changes is not allowed after Participations have started ";
     public const string REQUIRED_INSPECTION_IS_NOT_ALLOWED = "Individual Required Inspection is not allowed, because CRI is enabled on this Phase";
-    public const string INVALID_COMPETITION_NO_FINAL_PHASE = $"Competition {{0}} has no final {Entities.PHASE}";
+    public const string INVALID_COMPETITION_NO_FINAL_PHASE = $"{{0}} has no final {Entities.PHASE}";
     public const string INVALID_ORDER_BY = "Phase with order {0} already exists.";
-    public const string INVALID_PARTICIPANT_NO_PARTICIPATIONS = $"Participant {{0}} is not included in any {Entities.COMPETITION}";
+    public const string INVALID_PARTICIPANT_NO_PARTICIPATIONS = $"{{0}} is not included in any {Entities.COMPETITION}";
     public const string INVALID_PARTICIPANT_NO_COUNTRY = $"Participant {{0}} has no {Entities.COUNTRY}";
     public const string PARTICIPANT_HAS_NO_ACTIVE_PERFORMANCE = $"has no active {Entities.PERFORMANCE}";
+    public const string INVALID_FULL_NAME = "Full Name '{0}' is INVALID. Please use First and Last name.";
 }
