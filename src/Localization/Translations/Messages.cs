@@ -38,4 +38,5 @@ public static class Messages
     public const string INVALID_ORDER_BY = "Phase with order {0} already exists.";
     public const string INVALID_PARTICIPANT_NO_PARTICIPATIONS = $"Participant {{0}} is not included in any {Entities.COMPETITION}";
     public const string INVALID_PARTICIPANT_NO_COUNTRY = $"Participant {{0}} has no {Entities.COUNTRY}";
+    public const string PARTICIPANT_HAS_NO_ACTIVE_PERFORMANCE = $"has no active {Entities.PERFORMANCE}";
 }
