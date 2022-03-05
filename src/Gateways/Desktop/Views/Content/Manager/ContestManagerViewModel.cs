@@ -108,13 +108,10 @@ public class ContestManagerViewModel : ViewModelBase
         {
             return;
         }
-        this.contestExecutor.Execute(manager =>
-        {
-            var isRequired = !this.ReInspectionValue;
-            manager.ReInspection(this.InputNumber.Value, isRequired);
-            this.ReInspectionValue = isRequired;
-        });
-        this.LoadParticipation();
+        Action<ContestManager, bool> action = (manager, boolValue) => manager.ReInspection(
+            this.InputNumber.Value,
+            boolValue);
+        this.CheckboxHandler(this.ReInspectionValue, action);
     }
     private void RequireInspectionAction()
     {
@@ -122,12 +119,22 @@ public class ContestManagerViewModel : ViewModelBase
         {
             return;
         }
-        this.contestExecutor.Execute(manager =>
+        Action<ContestManager, bool> action = (manager, boolValue) => manager.RequireInspection(
+            this.InputNumber.Value,
+            boolValue);
+        this.CheckboxHandler(this.RequireInspectionValue, action);
+    }
+    private void CheckboxHandler(bool newValue, Action<ContestManager, bool> action)
+    {
+        var previousValue = !newValue;
+        var isSuccessful = this.contestExecutor.Execute(manager =>
         {
-            var isRequired = !this.RequireInspectionValue;
-            manager.RequireInspection(this.InputNumber.Value, isRequired);
-            this.RequireInspectionValue = isRequired;
+            action(manager, newValue);
         });
+        if (!isSuccessful)
+        {
+            this.RequireInspectionValue = previousValue;
+        }
         this.LoadParticipation();
     }
 
