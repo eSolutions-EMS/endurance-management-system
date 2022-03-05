@@ -130,7 +130,7 @@ namespace EnduranceJudge.Domain.AggregateRoots.Import
             if (!this.state.Horses.Any() || !this.state.Athletes.Any())
             {
                 // TODO: constant
-                throw DomainExceptionBase.Create<ParticipantException>(
+                throw Helper.Create<ParticipantException>(
                     "Cannot import Participants - empty horses and/or athletes.");
             }
 

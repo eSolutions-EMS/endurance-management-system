@@ -43,7 +43,7 @@ namespace EnduranceJudge.Domain.State.Participations
                 var existingCompetitionName = firstCompetition.Name;
                 if (firstCompetition.Phases.Count != competition.Phases.Count)
                 {
-                    throw DomainExceptionBase.Create<ParticipantException>(
+                    throw Helper.Create<ParticipantException>(
                         CANNOT_ADD_PARTICIPATION_DIFFERENT_PHASE_COUNT,
                         newCompetitionName);
                 }
@@ -54,7 +54,7 @@ namespace EnduranceJudge.Domain.State.Participations
                     // ReSharper disable once CompareOfFloatsByEqualityOperator
                     if (existingPhase.LengthInKm != newPhase.LengthInKm)
                     {
-                        throw DomainExceptionBase.Create<ParticipantException>(
+                        throw Helper.Create<ParticipantException>(
                             CANNOT_ADD_PARTICIPATION_DIFFERENT_PHASE_LENGTHS,
                             newCompetitionName,
                             existingCompetitionName,

@@ -97,7 +97,7 @@ namespace EnduranceJudge.Domain.AggregateRoots.Configuration.Aggregates
             var competition = this.state.Event.Competitions.FindDomain(competitionId);
             if (competition.Phases.Any(x => x.OrderBy == phaseState.OrderBy && x.Id != phaseState.Id))
             {
-                throw DomainExceptionBase.Create<PhaseException>(INVALID_ORDER_BY, phaseState.OrderBy);
+                throw Helper.Create<PhaseException>(INVALID_ORDER_BY, phaseState.OrderBy);
             }
             if (!phaseState.IsFinal)
             {

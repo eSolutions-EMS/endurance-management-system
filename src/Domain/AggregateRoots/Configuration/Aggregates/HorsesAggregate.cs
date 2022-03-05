@@ -57,7 +57,7 @@ namespace EnduranceJudge.Domain.AggregateRoots.Configuration.Aggregates
             {
                 if (participant.Athlete.Equals(horse))
                 {
-                    throw DomainExceptionBase.Create<HorseException>(CANNOT_REMOVE_USED_IN_PARTICIPANT);
+                    throw Helper.Create<HorseException>(CANNOT_REMOVE_USED_IN_PARTICIPANT);
                 }
             }
 

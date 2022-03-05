@@ -77,7 +77,7 @@ namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates
         {
             if (this.Phase.IsCompulsoryInspectionRequired)
             {
-                throw DomainExceptionBase.Create<PerformanceException>(REQUIRED_INSPECTION_IS_NOT_ALLOWED);
+                throw Helper.Create<PerformanceException>(REQUIRED_INSPECTION_IS_NOT_ALLOWED);
             }
             this.performance.IsRequiredInspectionRequired = isRequired;
         }
@@ -87,7 +87,7 @@ namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates
             {
                 if (this.performance.ArrivalTime == null)
                 {
-                    this.ThrowRestrictedEdit(ARRIVAL);
+                    throw Helper.Create<PerformanceException>(CANNOT_EDIT_PERFORMANCE, ARRIVAL);
                 }
                 this.Arrive(state.ArrivalTime.Value);
             }
@@ -95,7 +95,7 @@ namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates
             {
                 if (this.performance.InspectionTime == null)
                 {
-                    this.ThrowRestrictedEdit(INSPECTION);
+                    throw Helper.Create<PerformanceException>(CANNOT_EDIT_PERFORMANCE, INSPECTION);
                 }
                 this.Inspect(state.InspectionTime.Value);
             }
@@ -103,14 +103,10 @@ namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates
             {
                 if (this.performance.ReInspectionTime == null)
                 {
-                    this.ThrowRestrictedEdit(RE_INSPECTION);
+                    throw Helper.Create<PerformanceException>(CANNOT_EDIT_PERFORMANCE, RE_INSPECTION);
                 }
                 this.CompleteReInspection(state.ReInspectionTime.Value);
             }
-        }
-        private void ThrowRestrictedEdit(string labelName)
-        {
-            throw DomainExceptionBase.Create<PerformanceException>(CANNOT_EDIT_PERFORMANCE, labelName);
         }
 
         private void Arrive(DateTime time)
@@ -119,7 +115,7 @@ namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates
             if (time <= this.performance.StartTime)
             {
                 // TODO : validation extension
-                throw DomainExceptionBase.Create<PerformanceException>(
+                throw Helper.Create<PerformanceException>(
                     DATE_TIME_HAS_TO_BE_LATER_TEMPLATE,
                     nameof(this.performance.ArrivalTime),
                     this.performance.StartTime);
@@ -132,7 +128,7 @@ namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates
             time = FixDateForToday(time);
             if (time <= this.performance.ArrivalTime)
             {
-                throw DomainExceptionBase.Create<PerformanceException>(
+                throw Helper.Create<PerformanceException>(
                     DATE_TIME_HAS_TO_BE_LATER_TEMPLATE,
                     nameof(this.performance.InspectionTime),
                     this.performance.ArrivalTime);
@@ -145,7 +141,7 @@ namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates
             time = FixDateForToday(time);
             if (time <= this.performance.InspectionTime)
             {
-                throw DomainExceptionBase.Create<PerformanceException>(
+                throw Helper.Create<PerformanceException>(
                     DATE_TIME_HAS_TO_BE_LATER_TEMPLATE,
                     nameof(this.performance.ReInspectionTime),
                     this.performance.InspectionTime);

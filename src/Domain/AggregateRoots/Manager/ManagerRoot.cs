@@ -65,7 +65,7 @@ public class ManagerRoot : IAggregateRoot
         var performance = participant.GetActivePerformance();
         if (performance == null)
         {
-            throw DomainExceptionBase.Create<ParticipantException>(PARTICIPANT_HAS_NO_ACTIVE_PERFORMANCE, number);
+            throw Helper.Create<ParticipantException>(PARTICIPANT_HAS_NO_ACTIVE_PERFORMANCE, number);
         }
         performance!.ReInspection(isRequired);
     }
@@ -75,7 +75,7 @@ public class ManagerRoot : IAggregateRoot
         var performance = participant.GetActivePerformance();
         if (performance == null)
         {
-            throw DomainExceptionBase.Create<ParticipationException>(PARTICIPANT_HAS_NO_ACTIVE_PERFORMANCE, number);
+            throw Helper.Create<ParticipationException>(PARTICIPANT_HAS_NO_ACTIVE_PERFORMANCE, number);
         }
         performance!.RequireInspection(isRequired);
     }
@@ -103,7 +103,7 @@ public class ManagerRoot : IAggregateRoot
             .FirstOrDefault(x => x.Number == number);
         if (participant == null)
         {
-            throw DomainExceptionBase.Create<ParticipantException>(PARTICIPANT_NUMBER_NOT_FOUND_TEMPLATE, number);
+            throw Helper.Create<ParticipantException>(PARTICIPANT_NUMBER_NOT_FOUND_TEMPLATE, number);
         }
         var manager = new ParticipantsAggregate(participant);
         return manager;
@@ -115,7 +115,7 @@ public class ManagerRoot : IAggregateRoot
         {
             if (competition.Phases.All(x => !x.IsFinal))
             {
-                throw DomainExceptionBase.Create<CompetitionException>(
+                throw Helper.Create<CompetitionException>(
                     INVALID_COMPETITION_NO_FINAL_PHASE,
                     competition.Name);
             }
@@ -124,13 +124,13 @@ public class ManagerRoot : IAggregateRoot
         {
             if (!participant.Participation.Competitions.Any())
             {
-                throw DomainExceptionBase.Create<ParticipantException>(
+                throw Helper.Create<ParticipantException>(
                     INVALID_PARTICIPANT_NO_PARTICIPATIONS,
                     participant.Number);
             }
             if (participant.Athlete.Country == null)
             {
-                throw DomainExceptionBase.Create<ParticipantException>(INVALID_PARTICIPANT_NO_COUNTRY, participant.Number);
+                throw Helper.Create<ParticipantException>(INVALID_PARTICIPANT_NO_COUNTRY, participant.Number);
             }
         }
     }

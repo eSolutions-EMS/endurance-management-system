@@ -13,7 +13,7 @@ public class Validator<T> where T : DomainExceptionBase, new()
     {
         if (obj?.Equals(default) ?? true)
         {
-            throw DomainExceptionBase.Create<T>(IS_REQUIRED_TEMPLATE, property);
+            throw Helper.Create<T>(IS_REQUIRED_TEMPLATE, property);
         }
         return obj;
     }
@@ -26,7 +26,7 @@ public class Validator<T> where T : DomainExceptionBase, new()
         var lastName = parts.LastOrDefault();
         if (parts.Length < 2 || string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName))
         {
-            throw DomainExceptionBase.Create<T>(INVALID_FULL_NAME, name);
+            throw Helper.Create<T>(INVALID_FULL_NAME, name);
         }
         return name;
     }
