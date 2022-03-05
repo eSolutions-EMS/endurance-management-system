@@ -2,6 +2,7 @@
 
 public static class Messages
 {
+    // TODO: split on validation and errors
     public static class DomainValidation
     {
         public const string CANNOT_REMOVE_USED_IN_PARTICIPANT = $"cannot be removed because it is used in an existing {Entities.PARTICIPANT}";
@@ -23,7 +24,6 @@ public static class Messages
         public const string INVALID_FULL_NAME = "Full Name '{0}' is INVALID. Please use First and Last name";
     }
 
-    // Separate
     public const string SELECT_WORK_DIRECTORY = $"Select working directory using the '{Words.IMPORT}' button above.";
     public const string REMOVE_CONFIRMATION_MESSAGE = "Are you sure you want to remove this item";
     public const string INVALID_DATE_FORMAT = "Invalid date: '{0}'. Expected format: '{1}'.";
