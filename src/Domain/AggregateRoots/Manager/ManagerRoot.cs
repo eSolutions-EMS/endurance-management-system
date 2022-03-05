@@ -8,15 +8,14 @@ using EnduranceJudge.Domain.State.Competitions;
 using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Domain.State.Participations;
 using EnduranceJudge.Domain.State.Performances;
-using EnduranceJudge.Localization.Translations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static EnduranceJudge.Localization.Translations.Messages;
+using static EnduranceJudge.Localization.Translations.Messages.DomainValidation;
 
 namespace EnduranceJudge.Domain.AggregateRoots.Manager;
 
-public class ManagerRoot : IAggregate, IAggregateRoot
+public class ManagerRoot : IAggregateRoot
 {
     private readonly IState state;
 
@@ -104,7 +103,7 @@ public class ManagerRoot : IAggregate, IAggregateRoot
             .FirstOrDefault(x => x.Number == number);
         if (participant == null)
         {
-            throw DomainExceptionBase.Create<ParticipantException>(Messages.PARTICIPANT_NUMBER_NOT_FOUND_TEMPLATE, number);
+            throw DomainExceptionBase.Create<ParticipantException>(PARTICIPANT_NUMBER_NOT_FOUND_TEMPLATE, number);
         }
         var manager = new ParticipantsAggregate(participant);
         return manager;

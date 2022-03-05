@@ -5,7 +5,7 @@ using EnduranceJudge.Domain.State.Performances;
 using EnduranceJudge.Domain.State.PhaseResults;
 using EnduranceJudge.Domain.State.Phases;
 using System;
-using static EnduranceJudge.Localization.Translations.Messages;
+using static EnduranceJudge.Localization.Translations.Messages.DomainValidation;
 using static EnduranceJudge.Localization.Translations.Terms;
 
 namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates

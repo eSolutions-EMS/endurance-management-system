@@ -7,8 +7,8 @@ using EnduranceJudge.Domain.Core.Validation;
 using EnduranceJudge.Domain.State;
 using EnduranceJudge.Domain.State.Athletes;
 using EnduranceJudge.Localization.Translations;
-using static EnduranceJudge.Localization.Translations.Messages;
 using static EnduranceJudge.Localization.Translations.Words;
+using static EnduranceJudge.Localization.Translations.Messages.DomainValidation;
 
 namespace EnduranceJudge.Domain.AggregateRoots.Configuration.Aggregates
 {
