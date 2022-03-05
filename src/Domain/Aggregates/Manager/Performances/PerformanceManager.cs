@@ -49,7 +49,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Performances
             }
             else if (this.performance.IsReInspectionRequired && this.performance.ReInspectionTime == null)
             {
-                this.ReInspect(time);
+                this.CompleteReInspection(time);
                 if (!this.performance.IsRequiredInspectionRequired
                     && !this.Phase.IsCompulsoryInspectionRequired)
                 {
@@ -127,7 +127,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Performances
                 {
                     this.ThrowRestrictedEdit(RE_INSPECTION);
                 }
-                this.ReInspect(state.ReInspectionTime.Value);
+                this.CompleteReInspection(state.ReInspectionTime.Value);
             }
         }
         private void ThrowRestrictedEdit(string labelName)
@@ -165,7 +165,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Performances
             this.performance.InspectionTime = time;
         }
 
-        private void ReInspect(DateTime time)
+        private void CompleteReInspection(DateTime time)
         {
             time = FixDateForToday(time);
             if (time <= this.performance.InspectionTime)
