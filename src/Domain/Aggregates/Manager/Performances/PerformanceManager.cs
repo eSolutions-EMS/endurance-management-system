@@ -103,22 +103,6 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Performances
             }
             this.performance.IsRequiredInspectionRequired = isRequired;
         }
-        internal void CompleteRequiredInspection()
-        {
-            var inspectionTime = (this.performance.ReInspectionTime ?? this.performance.InspectionTime)
-                !.Value
-                .AddMinutes(this.Phase.RestTimeInMins)
-                .AddMinutes(-COMPULSORY_INSPECTION_TIME_BEFORE_NEXT_START);
-            inspectionTime = FixDateForToday(inspectionTime);
-            if (this.Phase.IsCompulsoryInspectionRequired)
-            {
-                this.performance.CompulsoryRequiredInspectionTime = inspectionTime;
-            }
-            else
-            {
-                this.performance.RequiredInspectionTime = inspectionTime;
-            }
-        }
         internal void Edit(IPerformanceState state)
         {
             if (state.ArrivalTime.HasValue && this.performance.ArrivalTime != state.ArrivalTime)
@@ -194,6 +178,22 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Performances
             }
 
             this.performance.ReInspectionTime = time;
+        }
+        private void CompleteRequiredInspection()
+        {
+            var inspectionTime = (this.performance.ReInspectionTime ?? this.performance.InspectionTime)
+                !.Value
+                .AddMinutes(this.Phase.RestTimeInMins)
+                .AddMinutes(-COMPULSORY_INSPECTION_TIME_BEFORE_NEXT_START);
+            inspectionTime = FixDateForToday(inspectionTime);
+            if (this.Phase.IsCompulsoryInspectionRequired)
+            {
+                this.performance.CompulsoryRequiredInspectionTime = inspectionTime;
+            }
+            else
+            {
+                this.performance.RequiredInspectionTime = inspectionTime;
+            }
         }
 
         // TODO: remove after testing phase
