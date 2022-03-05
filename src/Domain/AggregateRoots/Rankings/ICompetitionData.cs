@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EnduranceJudge.Domain.AggregateRoots;
+namespace EnduranceJudge.Domain.AggregateRoots.Rankings;
 
 public interface ICompetitionData
 {

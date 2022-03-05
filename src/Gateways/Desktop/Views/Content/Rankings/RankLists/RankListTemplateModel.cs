@@ -1,4 +1,4 @@
-﻿using EnduranceJudge.Domain.AggregateRoots;
+﻿using EnduranceJudge.Domain.AggregateRoots.Rankings;
 using EnduranceJudge.Domain.AggregateRoots.Rankings.Aggregates;
 using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.ParticipantResults;
