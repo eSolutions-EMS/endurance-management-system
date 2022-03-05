@@ -13,10 +13,10 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.P
     public class PersonnelViewModel : NestedConfigurationBase<PersonnelView, Domain.State.Personnels.Personnel>,
         IPersonnelState
     {
-        private readonly ConfigurationManager configuration;
+        private readonly ConfigurationRoot configuration;
         private PersonnelViewModel() : this(null, null) {}
         public PersonnelViewModel(
-            ConfigurationManager configuration,
+            ConfigurationRoot configuration,
             IQueries<Domain.State.Personnels.Personnel> personnel) : base(personnel)
         {
             this.configuration = configuration;

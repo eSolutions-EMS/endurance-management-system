@@ -10,9 +10,9 @@ using System.Linq;
 
 namespace EnduranceJudge.Domain.Aggregates.Rankings.AggregateBranches;
 
-public class CompetitionResult : IAggregate, ICompetitionData
+public class CompetitionResultAggregate : IAggregate, ICompetitionData
 {
-    internal CompetitionResult(
+    internal CompetitionResultAggregate(
         EnduranceEvent enduranceEvent,
         Competition competition,
         IList<Participant> participants)

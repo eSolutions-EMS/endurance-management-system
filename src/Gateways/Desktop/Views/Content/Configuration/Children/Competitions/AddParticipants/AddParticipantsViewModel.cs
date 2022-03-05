@@ -21,12 +21,12 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.C
 
 public class AddParticipantsViewModel : SearchableListViewModelBase<AddParticipantsView>
 {
-    private readonly IExecutor<ConfigurationManager> configurationExecutor;
+    private readonly IExecutor<ConfigurationRoot> configurationExecutor;
     private readonly IQueries<Participant> participants;
     private int competitionId;
 
     public AddParticipantsViewModel(
-        IExecutor<ConfigurationManager> configurationExecutor,
+        IExecutor<ConfigurationRoot> configurationExecutor,
         IQueries<Participant> participants,
         INavigationService navigation,
         IPersistence persistence,

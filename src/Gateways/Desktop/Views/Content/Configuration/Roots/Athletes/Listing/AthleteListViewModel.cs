@@ -13,11 +13,11 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Athl
 {
     public class AthleteListViewModel : SearchableListViewModelBase<AthleteView>
     {
-        private readonly IExecutor<ConfigurationManager> configurationExecutor;
+        private readonly IExecutor<ConfigurationRoot> configurationExecutor;
         private readonly IQueries<Athlete> athletes;
         public AthleteListViewModel(
             IPopupService popupService,
-            IExecutor<ConfigurationManager> configurationExecutor,
+            IExecutor<ConfigurationRoot> configurationExecutor,
             IPersistence persistence,
             IQueries<Athlete> athletes,
             INavigationService navigation) : base(navigation, persistence, popupService)

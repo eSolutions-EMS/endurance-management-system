@@ -21,12 +21,12 @@ using static EnduranceJudge.Domain.DomainConstants;
 
 namespace EnduranceJudge.Domain.Aggregates.Import
 {
-    public class ImportManager : IAggregate, IAggregateRoot
+    public class ImportRoot : IAggregateRoot
     {
         private readonly IState state;
         private readonly Validator<CompetitionException> validator;
 
-        public ImportManager()
+        public ImportRoot()
         {
             this.state = StaticProvider.GetService<IState>();
             this.validator = new Validator<CompetitionException>();

@@ -17,11 +17,11 @@ using static EnduranceJudge.Localization.Translations.Messages;
 
 namespace EnduranceJudge.Domain.Aggregates.Manager;
 
-public class ContestManager : IAggregate, IAggregateRoot
+public class ManagerRoot : IAggregate, IAggregateRoot
 {
     private readonly IState state;
 
-    public ContestManager()
+    public ManagerRoot()
     {
         this.state = StaticProvider.GetService<IState>();
         // TODO: think this is no longer necessary.
@@ -41,7 +41,7 @@ public class ContestManager : IAggregate, IAggregateRoot
         this.ValidateConfiguration();
         var participants = this.state
             .Participants
-            .Select(x => new ParticipantManager(x))
+            .Select(x => new ParticipantsAggregate(x))
             .ToList();
         foreach (var participant in participants)
         {
@@ -88,7 +88,7 @@ public class ContestManager : IAggregate, IAggregateRoot
             .Select(part => part.Participation)
             .SelectMany(participant => participant.Performances)
             .FirstOrDefault(perf => perf.Equals(state));
-        var manager = new PerformanceManager(performance);
+        var manager = new PerformancesAggregate(performance);
         manager.Edit(state);
     }
 
@@ -98,7 +98,7 @@ public class ContestManager : IAggregate, IAggregateRoot
         return startList;
     }
 
-    private ParticipantManager GetParticipant(int number)
+    private ParticipantsAggregate GetParticipant(int number)
     {
         var participant = this.state
             .Participants
@@ -107,7 +107,7 @@ public class ContestManager : IAggregate, IAggregateRoot
         {
             throw DomainExceptionBase.Create<ParticipantException>(Messages.PARTICIPANT_NUMBER_NOT_FOUND_TEMPLATE, number);
         }
-        var manager = new ParticipantManager(participant);
+        var manager = new ParticipantsAggregate(participant);
         return manager;
     }
 

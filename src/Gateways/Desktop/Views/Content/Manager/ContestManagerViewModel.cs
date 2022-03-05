@@ -19,12 +19,12 @@ public class ContestManagerViewModel : ViewModelBase
 {
     private static readonly DateTime Today = DateTime.Today;
     private readonly IPopupService popupService;
-    private readonly IExecutor<ContestManager> contestExecutor;
+    private readonly IExecutor<ManagerRoot> contestExecutor;
     private readonly IQueries<Participant> participants;
 
     public ContestManagerViewModel(
         IPopupService popupService,
-        IExecutor<ContestManager> contestExecutor,
+        IExecutor<ManagerRoot> contestExecutor,
         IQueries<Participant> participants)
     {
         this.popupService = popupService;
@@ -108,7 +108,7 @@ public class ContestManagerViewModel : ViewModelBase
         {
             return;
         }
-        Action<ContestManager, bool> action = (manager, boolValue) => manager.ReInspection(
+        Action<ManagerRoot, bool> action = (manager, boolValue) => manager.ReInspection(
             this.InputNumber.Value,
             boolValue);
         Action<bool> setter = value => this.ReInspectionValue = value;
@@ -120,13 +120,13 @@ public class ContestManagerViewModel : ViewModelBase
         {
             return;
         }
-        Action<ContestManager, bool> action = (manager, boolValue) => manager.RequireInspection(
+        Action<ManagerRoot, bool> action = (manager, boolValue) => manager.RequireInspection(
             this.InputNumber.Value,
             boolValue);
         Action<bool> setter = value => this.RequireInspectionValue = value;
         this.CheckboxHandler(this.RequireInspectionValue, action, setter);
     }
-    private void CheckboxHandler(bool newValue, Action<ContestManager, bool> action, Action<bool> checkboxSetter)
+    private void CheckboxHandler(bool newValue, Action<ManagerRoot, bool> action, Action<bool> checkboxSetter)
     {
         var previousValue = !newValue;
         var isSuccessful = this.contestExecutor.Execute(manager =>

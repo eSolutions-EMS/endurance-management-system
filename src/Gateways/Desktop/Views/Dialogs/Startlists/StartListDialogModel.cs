@@ -11,9 +11,9 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Dialogs.Startlists;
 
 public class StartlistDialogModel : DialogBase
 {
-    private readonly IExecutor<ContestManager> contestExecutor;
+    private readonly IExecutor<ManagerRoot> contestExecutor;
 
-    public StartlistDialogModel(IExecutor<ContestManager> contestExecutor, IPrinter printer)
+    public StartlistDialogModel(IExecutor<ManagerRoot> contestExecutor, IPrinter printer)
     {
         this.contestExecutor = contestExecutor;
         this.GetList = new DelegateCommand(this.RenderList);

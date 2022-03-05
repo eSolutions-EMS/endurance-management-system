@@ -10,13 +10,13 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Hors
 {
     public class HorseViewModel : ConfigurationBase<HorseView, Horse>, IHorseState, IListable
     {
-        private readonly ConfigurationManager manager;
+        private readonly ConfigurationRoot configuration;
         private HorseViewModel(
-            ConfigurationManager manager,
+            ConfigurationRoot configuration,
             IQueries<Horse> horses,
-            IExecutor<ConfigurationManager> executor) : base(horses)
+            IExecutor<ConfigurationRoot> executor) : base(horses)
         {
-            this.manager = manager;
+            this.configuration = configuration;
         }
 
         private int isStallionValue;
@@ -30,7 +30,8 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Hors
 
         protected override IDomain Persist()
         {
-            var result = this.manager.Horses.Save(this);
+            // TODO: use executor
+            var result = this.configuration.Horses.Save(this);
             return result;
         }
 

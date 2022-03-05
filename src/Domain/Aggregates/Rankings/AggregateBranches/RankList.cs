@@ -1,4 +1,3 @@
-using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.Enums;
 using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Domain.State.Performances;
@@ -9,7 +8,7 @@ using System.Linq;
 
 namespace EnduranceJudge.Domain.Aggregates.Rankings.AggregateBranches
 {
-    public class RankList : IAggregate, IEnumerable<Participant>
+    public class RankList : IEnumerable<Participant>
     {
         private readonly IEnumerable<Participant> participants;
 

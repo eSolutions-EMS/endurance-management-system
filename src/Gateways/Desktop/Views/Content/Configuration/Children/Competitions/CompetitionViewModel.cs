@@ -28,14 +28,14 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.C
         ICompetitionState,
         ICollapsable
     {
-        private readonly IExecutor<ConfigurationManager> configurationExecutor;
+        private readonly IExecutor<ConfigurationRoot> configurationExecutor;
         private readonly IQueries<Participant> participants;
-        private readonly ConfigurationManager configuration;
+        private readonly ConfigurationRoot configuration;
         public CompetitionViewModel() : this(null, null, null, null) { }
         public CompetitionViewModel(
-            IExecutor<ConfigurationManager> configurationExecutor,
+            IExecutor<ConfigurationRoot> configurationExecutor,
             IQueries<Participant> participants,
-            ConfigurationManager configuration,
+            ConfigurationRoot configuration,
             IQueries<Competition> competitions) : base(competitions)
         {
             this.configurationExecutor = configurationExecutor;

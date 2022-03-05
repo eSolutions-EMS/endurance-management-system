@@ -13,12 +13,12 @@ using static EnduranceJudge.Localization.Translations.Messages;
 
 namespace EnduranceJudge.Domain.Aggregates.Configuration
 {
-    public class PhasesManager : IAggregate
+    public class PhasesAggregate : IAggregate
     {
         private readonly IState state;
         private readonly Validator<PhaseException> validator;
 
-        internal PhasesManager(IState state)
+        internal PhasesAggregate(IState state)
         {
             this.state = state;
             this.validator = new Validator<PhaseException>();

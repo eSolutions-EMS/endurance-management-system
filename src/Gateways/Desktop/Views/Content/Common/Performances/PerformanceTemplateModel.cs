@@ -17,7 +17,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Common.Performances;
 
 public class PerformanceTemplateModel : ViewModelBase, IMapFrom<Performance>, IPerformanceState
 {
-    private readonly IExecutor<ContestManager> competitionExecutor;
+    private readonly IExecutor<ManagerRoot> competitionExecutor;
     private readonly IQueries<Performance> performances;
     private readonly IDateService dateService;
 
@@ -29,7 +29,7 @@ public class PerformanceTemplateModel : ViewModelBase, IMapFrom<Performance>, IP
         this.ReadonlyVisibility = allowEdit
             ? Visibility.Collapsed
             : Visibility.Visible;
-        this.competitionExecutor = StaticProvider.GetService<IExecutor<ContestManager>>();
+        this.competitionExecutor = StaticProvider.GetService<IExecutor<ManagerRoot>>();
         this.performances = StaticProvider.GetService<IQueries<Performance>>();
         this.dateService = StaticProvider.GetService<IDateService>();
         this.Edit = new DelegateCommand(this.EditAction);

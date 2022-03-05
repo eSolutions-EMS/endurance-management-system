@@ -12,12 +12,12 @@ using static EnduranceJudge.Localization.Translations.Messages;
 
 namespace EnduranceJudge.Domain.Aggregates.Manager.Participants
 {
-    public class ParticipantManager : IAggregate
+    public class ParticipantsAggregate : IAggregate
     {
         private readonly Competition competition;
         private readonly Participation participation;
 
-        internal ParticipantManager(Participant participant)
+        internal ParticipantsAggregate(Participant participant)
         {
             this.Number = participant.Number;
             this.participation = participant.Participation;
@@ -50,18 +50,18 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participants
             var performance = this.GetActivePerformance() ?? this.StartNext();
             performance.Update(time);
         }
-        internal PerformanceManager GetActivePerformance()
+        internal PerformancesAggregate GetActivePerformance()
         {
             var activePerformance = this.participation.Performances.SingleOrDefault(x => x.Result == null);
             if (activePerformance == null)
             {
                 return null;
             }
-            var currentManager = new PerformanceManager(activePerformance);
+            var currentManager = new PerformancesAggregate(activePerformance);
             return currentManager;
         }
 
-        private PerformanceManager StartNext()
+        private PerformancesAggregate StartNext()
         {
             if (this.IsComplete)
             {
@@ -93,13 +93,13 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participants
             => this.participation.Performances.Count == this.competition.Phases.Count
                 && this.participation.Performances.All(x => x.Result != null);
 
-        private PerformanceManager AddPerformance(Phase phase, DateTime startTime)
+        private PerformancesAggregate AddPerformance(Phase phase, DateTime startTime)
         {
             var previousLengths = this.participation.Performances.Select(x => x.Phase.LengthInKm);
             var previousTimes = this.participation.Performances.Select(x => x.Time!.Value);
             var performance = new Performance(phase, FixDateForToday(startTime), previousLengths, previousTimes);
             this.participation.Add(performance);
-            var manager = new PerformanceManager(performance);
+            var manager = new PerformancesAggregate(performance);
             return manager;
         }
 

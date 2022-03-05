@@ -19,19 +19,19 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Endu
     public class EnduranceEventViewModel : NestedConfigurationBase<EnduranceEventView, EnduranceEvent>
     {
         private readonly IPopupService popupService;
-        private readonly ConfigurationManager manager;
+        private readonly ConfigurationRoot aggregate;
         private readonly IEnduranceEventQuery enduranceEventQuery;
         private readonly IQueries<Country> countryQueries;
 
         public EnduranceEventViewModel(
             IPopupService popupService,
-            ConfigurationManager manager,
+            ConfigurationRoot aggregate,
             IEnduranceEventQuery enduranceEventQuery,
             IQueries<Country> countryQueries) : base (enduranceEventQuery)
         {
             this.BackOnSubmit = false;
             this.popupService = popupService;
-            this.manager = manager;
+            this.aggregate = aggregate;
             this.enduranceEventQuery = enduranceEventQuery;
             this.countryQueries = countryQueries;
             this.CreateCompetition = new DelegateCommand(this.NewForm<CompetitionView>);
@@ -66,7 +66,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Endu
         }
         protected override IDomain Persist()
         {
-            var result = this.manager.Update(this.Name, this.CountryId, this.PopulatedPlace);
+            var result = this.aggregate.Update(this.Name, this.CountryId, this.PopulatedPlace);
             this.popupService.RenderOk();
             return result;
         }

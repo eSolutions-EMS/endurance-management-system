@@ -13,7 +13,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.CompetitionResu
 {
     public class CompetitionResultViewModel : ViewModelBase
     {
-        private CompetitionResult result;
+        private CompetitionResultAggregate resultAggregate;
 
         public CompetitionResultViewModel(IPrinter printer)
         {
@@ -39,12 +39,12 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.CompetitionResu
         {
             base.OnNavigatedTo(context);
             var data = context.GetData();
-            if (data is not CompetitionResult categorization)
+            if (data is not CompetitionResultAggregate categorization)
             {
                 throw new InvalidOperationException(
                     $"Data is of type '{data.GetType()}'. Expected type is 'Classification'");
             }
-            this.result = categorization;
+            this.resultAggregate = categorization;
 
             this.HasAdultsClassification = categorization.AdultsRankList != null;
             this.HasKidsClassification = categorization.KidsRankList != null;
@@ -53,22 +53,22 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.CompetitionResu
 
         private void SelectKidsCategoryAction()
         {
-            this.Select(this.result.KidsRankList);
+            this.Select(this.resultAggregate.KidsRankList);
         }
         private void SelectAdultsCategoryAction()
         {
-            this.Select(this.result.AdultsRankList);
+            this.Select(this.resultAggregate.AdultsRankList);
         }
         private void SelectDefault()
         {
-            var rankList = this.result.AdultsRankList
-                ?? this.result.KidsRankList;
+            var rankList = this.resultAggregate.AdultsRankList
+                ?? this.resultAggregate.KidsRankList;
             this.Select(rankList);
         }
         private void Select(RankList rankList)
         {
             this.RankList.Clear();
-            var template = new RankListTemplateModel(rankList, this.result);
+            var template = new RankListTemplateModel(rankList, this.resultAggregate);
             this.RankList.Add(template);
             this.CategoryName = rankList.Category.ToString();
         }

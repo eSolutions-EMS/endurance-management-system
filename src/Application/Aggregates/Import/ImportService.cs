@@ -43,13 +43,13 @@ namespace EnduranceJudge.Application.Aggregates.Import
             if (fileExtension == ApplicationConstants.FileExtensions.Xml)
             {
                 var data = this.internationalReader.Read(filePath);
-                var manager = new ImportManager();
+                var manager = new ImportRoot();
                 manager.Import(data);
             }
             else
             {
                 var data = this.nationalReader.Read(filePath);
-                var manager = new ImportManager();
+                var manager = new ImportRoot();
                 manager.Import(data);
             }
 

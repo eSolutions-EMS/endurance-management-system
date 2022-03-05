@@ -11,12 +11,12 @@ using static EnduranceJudge.Localization.Translations.Words;
 
 namespace EnduranceJudge.Domain.Aggregates.Configuration
 {
-    public class HorsesManager : IAggregate
+    public class HorsesAggregate : IAggregate
     {
         private readonly IState state;
         private readonly Validator<HorseException> validator;
 
-        internal HorsesManager(IState state)
+        internal HorsesAggregate(IState state)
         {
             this.state = state;
             this.validator = new Validator<HorseException>();

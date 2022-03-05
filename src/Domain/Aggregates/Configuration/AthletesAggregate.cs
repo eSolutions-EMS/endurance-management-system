@@ -12,12 +12,12 @@ using static EnduranceJudge.Localization.Translations.Words;
 
 namespace EnduranceJudge.Domain.Aggregates.Configuration
 {
-    public class AthletesManager : IAggregate
+    public class AthletesAggregate : IAggregate
     {
         private readonly IState state;
         private readonly Validator<AthleteException> validator;
 
-        internal AthletesManager(IState state)
+        internal AthletesAggregate(IState state)
         {
             this.state = state;
             this.validator = new Validator<AthleteException>();

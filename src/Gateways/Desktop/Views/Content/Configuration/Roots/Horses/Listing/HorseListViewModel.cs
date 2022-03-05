@@ -13,17 +13,17 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Hors
 {
     public class HorseListViewModel : SearchableListViewModelBase<HorseView>
     {
-        private readonly ConfigurationManager manager;
+        private readonly ConfigurationRoot aggregate;
         private readonly IQueries<Horse> horses;
 
         public HorseListViewModel(
             IPopupService popupService,
-            ConfigurationManager manager,
+            ConfigurationRoot aggregate,
             IQueries<Horse> horses,
             IPersistence persistence,
             INavigationService navigation) : base(navigation, persistence, popupService)
         {
-            this.manager = manager;
+            this.aggregate = aggregate;
             this.horses = horses;
         }
 
@@ -36,7 +36,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Hors
         }
         protected override void RemoveDomain(int id)
         {
-            this.manager.Horses.Remove(id);
+            this.aggregate.Horses.Remove(id);
         }
     }
 }

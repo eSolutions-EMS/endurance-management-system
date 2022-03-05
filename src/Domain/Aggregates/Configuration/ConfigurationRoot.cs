@@ -10,19 +10,19 @@ using static EnduranceJudge.Localization.Translations.Words;
 
 namespace EnduranceJudge.Domain.Aggregates.Configuration
 {
-    public class ConfigurationManager : IAggregate, IAggregateRoot
+    public class ConfigurationRoot : IAggregateRoot
     {
         private readonly IState state;
         private readonly Validator<EnduranceEventException> validator;
 
-        public ConfigurationManager()
+        public ConfigurationRoot()
         {
             this.state = StaticProvider.GetService<IState>();
-            this.Competitions = new CompetitionsManager(this.state);
-            this.Phases = new PhasesManager(this.state);
-            this.Athletes = new AthletesManager(this.state);
-            this.Horses = new HorsesManager(this.state);
-            this.Participants = new ParticipantsManager(this.state);
+            this.Competitions = new CompetitionsAggregate(this.state);
+            this.Phases = new PhasesAggregate(this.state);
+            this.Athletes = new AthletesAggregate(this.state);
+            this.Horses = new HorsesAggregate(this.state);
+            this.Participants = new ParticipantsAggregate(this.state);
             this.validator = new Validator<EnduranceEventException>();
         }
 
@@ -56,11 +56,11 @@ namespace EnduranceJudge.Domain.Aggregates.Configuration
             return personnel;
         }
 
-        public CompetitionsManager Competitions { get; }
-        public PhasesManager Phases { get; }
-        public AthletesManager Athletes { get; }
-        public HorsesManager Horses { get; }
-        public ParticipantsManager Participants { get; }
+        public CompetitionsAggregate Competitions { get; }
+        public PhasesAggregate Phases { get; }
+        public AthletesAggregate Athletes { get; }
+        public HorsesAggregate Horses { get; }
+        public ParticipantsAggregate Participants { get; }
 
         public void __REVERT_START_PARTICIPATIONS__()
         {

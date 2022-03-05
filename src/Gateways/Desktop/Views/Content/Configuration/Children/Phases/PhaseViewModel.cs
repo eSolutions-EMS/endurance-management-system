@@ -9,7 +9,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.P
 {
     public class PhaseViewModel : NestedConfigurationBase<PhaseView, Phase>, IPhaseState
     {
-        private readonly ConfigurationManager manager;
+        private readonly ConfigurationRoot aggregate;
         private string isFinalText;
         private int isFinalValue;
         private double? lengthInKm;
@@ -20,21 +20,21 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.P
 
         private PhaseViewModel() : this(null, null) { }
         public PhaseViewModel(
-            ConfigurationManager manager,
+            ConfigurationRoot aggregate,
             IQueries<Phase> phases) : base(phases)
         {
-            this.manager = manager;
+            this.aggregate = aggregate;
         }
 
         protected override IDomain Persist()
         {
             if (this.ParentId.HasValue)
             {
-                return this.manager.Phases.Create(this.ParentId.Value, this);
+                return this.aggregate.Phases.Create(this.ParentId.Value, this);
             }
             else
             {
-                return this.manager.Phases.Update(this);
+                return this.aggregate.Phases.Update(this);
             }
         }
 

@@ -18,17 +18,17 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Part
         IParticipantState,
         IMapFrom<Participant>
     {
-        private readonly ConfigurationManager manager;
+        private readonly ConfigurationRoot aggregate;
         private readonly IQueries<Athlete> athletes;
         private readonly IQueries<Horse> horses;
         private ParticipantViewModel() : base(null) {}
         public ParticipantViewModel(
-            ConfigurationManager manager,
+            ConfigurationRoot aggregate,
             IQueries<Athlete> athletes,
             IQueries<Horse> horses,
             IQueries<Participant> participants) : base(participants)
         {
-            this.manager = manager;
+            this.aggregate = aggregate;
             this.athletes = athletes;
             this.horses = horses;
             this.ToggleIsAverageSpeedInKmPhVisibility = new DelegateCommand(
@@ -59,7 +59,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Part
 
         protected override IDomain Persist()
         {
-            var result = this.manager.Participants.Save(this, this.AthleteId, this.HorseId);
+            var result = this.aggregate.Participants.Save(this, this.AthleteId, this.HorseId);
             return result;
         }
 

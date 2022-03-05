@@ -123,7 +123,7 @@ namespace EnduranceJudge.Gateways.Persistence.Contracts
         // TODO: Remove after testing phase
         private void __REVERT_START_PARTICIPATIONS__()
         {
-            var manager = new ConfigurationManager();
+            var manager = new ConfigurationRoot();
             manager.__REVERT_START_PARTICIPATIONS__();
         }
     }
