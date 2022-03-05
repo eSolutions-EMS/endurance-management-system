@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EnduranceJudge.Domain.Aggregates.Rankings.AggregateBranches;
+namespace EnduranceJudge.Domain.Aggregates.Rankings.Aggregates;
 
 public class CompetitionResultAggregate : IAggregate, ICompetitionData
 {

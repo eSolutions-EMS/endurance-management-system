@@ -1,4 +1,4 @@
-using EnduranceJudge.Domain.Aggregates.Rankings.AggregateBranches;
+using EnduranceJudge.Domain.Aggregates.Rankings.Aggregates;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State;
 using EnduranceJudge.Domain.State.Competitions;
