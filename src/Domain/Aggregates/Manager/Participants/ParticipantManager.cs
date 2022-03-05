@@ -53,7 +53,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Participants
             var activePerformance = this.participation.Performances.SingleOrDefault(x => x.Result == null);
             if (activePerformance == null)
             {
-                this.Throw<ParticipantException>(PARTICIPANT_HAS_NO_ACTIVE_PERFORMANCE);
+                return null;
             }
             var currentManager = new PerformanceManager(activePerformance);
             return currentManager;

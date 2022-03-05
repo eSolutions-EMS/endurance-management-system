@@ -63,13 +63,21 @@ public class ContestManager : ManagerObjectBase, IAggregateRoot
     {
         var participant = this.GetParticipant(number);
         var performance = participant.GetActivePerformance();
-        performance.ReInspection(isRequired);
+        if (performance == null)
+        {
+            this.Throw<ParticipantException>(PARTICIPANT_HAS_NO_ACTIVE_PERFORMANCE);
+        }
+        performance!.ReInspection(isRequired);
     }
     public void RequireInspection(int number, bool isRequired)
     {
         var participant = this.GetParticipant(number);
         var performance = participant.GetActivePerformance();
-        performance.RequireInspection(isRequired);
+        if (performance == null)
+        {
+            this.Throw<ParticipantException>(PARTICIPANT_HAS_NO_ACTIVE_PERFORMANCE);
+        }
+        performance!.RequireInspection(isRequired);
     }
     public void EditPerformance(IPerformanceState state)
     {
