@@ -65,28 +65,6 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Performances
                 this.Complete();
             }
         }
-        internal void Complete()
-        {
-            var restTime = this.performance.Phase.RestTimeInMins;
-            var nextPhaseStartTime = this.VetGatePassedTime.AddMinutes(restTime);
-            this.Validate<PerformanceException>(() =>
-            {
-                this.performance.ArrivalTime.IsRequired(ARRIVAL_TIME_IS_NULL_MESSAGE);
-                this.performance.InspectionTime.IsRequired(INSPECTION_TIME_IS_NULL_MESSAGE);
-                if (this.performance.IsRequiredInspectionRequired)
-                {
-                    this.performance.RequiredInspectionTime.IsRequired(REQUIRED_INSPECTION_IS_NULL_MESSAGE);
-                }
-                if (this.Phase.IsCompulsoryInspectionRequired)
-                {
-                    this.performance.CompulsoryRequiredInspectionTime.IsRequired(
-                        COMPULSORY_REQUIRED_INSPECTION_IS_NULL_MESSAGE);
-                }
-            });
-
-            this.performance.Result = new PhaseResult();
-            this.performance.NextPerformanceStartTime = nextPhaseStartTime;
-        }
         internal void Complete(string code)
         {
             this.performance.Result = new PhaseResult(code);
@@ -135,6 +113,7 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Performances
             var message = string.Format(CANNOT_EDIT_PERFORMANCE, labelName);
             this.Throw<PerformanceException>(message);
         }
+
         private void Arrive(DateTime time)
         {
             time = FixDateForToday(time);
@@ -149,7 +128,6 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Performances
 
             this.performance.ArrivalTime = time;
         }
-
         private void Inspect(DateTime time)
         {
             time = FixDateForToday(time);
@@ -164,7 +142,6 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Performances
 
             this.performance.InspectionTime = time;
         }
-
         private void CompleteReInspection(DateTime time)
         {
             time = FixDateForToday(time);
@@ -194,6 +171,28 @@ namespace EnduranceJudge.Domain.Aggregates.Manager.Performances
             {
                 this.performance.RequiredInspectionTime = inspectionTime;
             }
+        }
+        private void Complete()
+        {
+            var restTime = this.performance.Phase.RestTimeInMins;
+            var nextPhaseStartTime = this.VetGatePassedTime.AddMinutes(restTime);
+            this.Validate<PerformanceException>(() =>
+            {
+                this.performance.ArrivalTime.IsRequired(ARRIVAL_TIME_IS_NULL_MESSAGE);
+                this.performance.InspectionTime.IsRequired(INSPECTION_TIME_IS_NULL_MESSAGE);
+                if (this.performance.IsRequiredInspectionRequired)
+                {
+                    this.performance.RequiredInspectionTime.IsRequired(REQUIRED_INSPECTION_IS_NULL_MESSAGE);
+                }
+                if (this.Phase.IsCompulsoryInspectionRequired)
+                {
+                    this.performance.CompulsoryRequiredInspectionTime.IsRequired(
+                        COMPULSORY_REQUIRED_INSPECTION_IS_NULL_MESSAGE);
+                }
+            });
+
+            this.performance.Result = new PhaseResult();
+            this.performance.NextPerformanceStartTime = nextPhaseStartTime;
         }
 
         // TODO: remove after testing phase
