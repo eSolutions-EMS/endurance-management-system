@@ -16,12 +16,14 @@
                         <!-- Print Button -->
                         <Button Style="{StaticResource Button-Vertical}"
                                 Command="{Binding Print}"
-                                CommandParameter="{Binding ElementName=Performances}"
+                                CommandParameter="{Binding ElementName=PerformanceTable}"
                                 Content="{x:Static localization:Words.PRINT}" />
                     </StackPanel>
                 </Border>
-                <!-- Label Column -->
-                <StackPanel Style="{StaticResource List-Performance-Labels}">
+                <!-- Performance table -->
+                <StackPanel Style="{StaticResource List-Performance-Labels}"
+                            Name="PerformanceTable" >
+                    <!-- Label Column -->
                     <!-- Number -->
                     <Border Style="{StaticResource Border-Table-Cell}">
                         <TextBlock Style="{StaticResource Text-Bold}">
@@ -80,10 +82,9 @@
                                    Text="{x:Static localization:Terms.AVERAGE_SPEED_TOTAL}"/>
                     </Border>
                 </StackPanel>
-                <!-- Performance columns -->
+                <!-- Performances -->
                 <ListBox Style="{StaticResource ListBox-Horizontal}" Padding="0" Margin="0"
-                         ItemsSource="{Binding Performances}"
-                         Name="Performances" />
+                         ItemsSource="{Binding Performances}" />
             </StackPanel>
         </Border>
     </DataTemplate>
