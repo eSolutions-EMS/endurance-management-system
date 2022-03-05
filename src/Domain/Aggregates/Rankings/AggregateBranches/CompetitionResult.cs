@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace EnduranceJudge.Domain.Aggregates.Rankings.AggregateBranches;
 
-public class CompetitionResult : ManagerObjectBase, ICompetitionData
+public class CompetitionResult : IAggregate, ICompetitionData
 {
     internal CompetitionResult(
         EnduranceEvent enduranceEvent,

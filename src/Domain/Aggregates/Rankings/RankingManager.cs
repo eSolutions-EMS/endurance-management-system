@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace EnduranceJudge.Domain.Aggregates.Rankings
 {
-    public class RankingManager : ManagerObjectBase, IAggregateRoot
+    public class RankingManager : IAggregate, IAggregateRoot
     {
         private readonly List<CompetitionResult> competitions = new();
 

@@ -13,7 +13,7 @@ using static EnduranceJudge.Localization.Translations.Messages;
 
 namespace EnduranceJudge.Domain.Aggregates.Configuration
 {
-    public class PhasesManager : ManagerObjectBase
+    public class PhasesManager : IAggregate
     {
         private readonly IState state;
         private readonly Validator<PhaseException> validator;

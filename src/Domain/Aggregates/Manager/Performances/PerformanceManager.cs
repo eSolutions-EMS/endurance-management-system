@@ -10,7 +10,7 @@ using static EnduranceJudge.Localization.Translations.Terms;
 
 namespace EnduranceJudge.Domain.Aggregates.Manager.Performances
 {
-    public class PerformanceManager : ManagerObjectBase
+    public class PerformanceManager : IAggregate
     {
         public const int COMPULSORY_INSPECTION_TIME_BEFORE_NEXT_START = 15;
         private readonly Performance performance;

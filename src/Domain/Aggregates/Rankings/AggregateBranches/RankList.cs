@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace EnduranceJudge.Domain.Aggregates.Rankings.AggregateBranches
 {
-    public class RankList : ManagerObjectBase, IEnumerable<Participant>
+    public class RankList : IAggregate, IEnumerable<Participant>
     {
         private readonly IEnumerable<Participant> participants;
 

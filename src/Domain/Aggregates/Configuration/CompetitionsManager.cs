@@ -9,7 +9,7 @@ using static EnduranceJudge.Localization.Translations.Words;
 
 namespace EnduranceJudge.Domain.Aggregates.Configuration
 {
-    public class CompetitionsManager : ManagerObjectBase
+    public class CompetitionsManager : IAggregate
     {
         private readonly IState state;
         private readonly Validator<CompetitionException> validator;

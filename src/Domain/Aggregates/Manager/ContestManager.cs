@@ -17,7 +17,7 @@ using static EnduranceJudge.Localization.Translations.Messages;
 
 namespace EnduranceJudge.Domain.Aggregates.Manager;
 
-public class ContestManager : ManagerObjectBase, IAggregateRoot
+public class ContestManager : IAggregate, IAggregateRoot
 {
     private readonly IState state;
 

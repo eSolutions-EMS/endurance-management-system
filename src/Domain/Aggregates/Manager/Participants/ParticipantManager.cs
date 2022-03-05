@@ -12,7 +12,7 @@ using static EnduranceJudge.Localization.Translations.Messages;
 
 namespace EnduranceJudge.Domain.Aggregates.Manager.Participants
 {
-    public class ParticipantManager : ManagerObjectBase
+    public class ParticipantManager : IAggregate
     {
         private readonly Competition competition;
         private readonly Participation participation;

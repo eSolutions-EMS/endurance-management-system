@@ -12,7 +12,7 @@ using static EnduranceJudge.Localization.Translations.Words;
 
 namespace EnduranceJudge.Domain.Aggregates.Configuration
 {
-    public class AthletesManager : ManagerObjectBase
+    public class AthletesManager : IAggregate
     {
         private readonly IState state;
         private readonly Validator<AthleteException> validator;

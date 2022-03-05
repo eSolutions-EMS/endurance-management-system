@@ -21,7 +21,7 @@ using static EnduranceJudge.Domain.DomainConstants;
 
 namespace EnduranceJudge.Domain.Aggregates.Import
 {
-    public class ImportManager : ManagerObjectBase, IAggregateRoot
+    public class ImportManager : IAggregate, IAggregateRoot
     {
         private readonly IState state;
         private readonly Validator<CompetitionException> validator;

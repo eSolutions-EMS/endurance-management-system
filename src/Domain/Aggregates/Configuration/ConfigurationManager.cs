@@ -10,7 +10,7 @@ using static EnduranceJudge.Localization.Translations.Words;
 
 namespace EnduranceJudge.Domain.Aggregates.Configuration
 {
-    public class ConfigurationManager : ManagerObjectBase, IAggregateRoot
+    public class ConfigurationManager : IAggregate, IAggregateRoot
     {
         private readonly IState state;
         private readonly Validator<EnduranceEventException> validator;
