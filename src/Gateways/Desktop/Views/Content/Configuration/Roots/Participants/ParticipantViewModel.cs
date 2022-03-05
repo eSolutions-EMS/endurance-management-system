@@ -57,7 +57,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Part
             base.OnNavigatedTo(context);
         }
 
-        protected override IDomainObject Persist()
+        protected override IDomain Persist()
         {
             var result = this.manager.Participants.Save(this, this.AthleteId, this.HorseId);
             return result;

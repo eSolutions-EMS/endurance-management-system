@@ -67,7 +67,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.C
             base.OnNavigatedTo(context);
             this.LoadParticipants();
         }
-        protected override IDomainObject Persist()
+        protected override IDomain Persist()
         {
             var result = this.configuration.Competitions.Save(this);
             return result;

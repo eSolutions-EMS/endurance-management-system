@@ -2,7 +2,7 @@ using EnduranceJudge.Domain.Core.Models;
 
 namespace EnduranceJudge.Domain.State.PhaseResults
 {
-    public class PhaseResult : DomainObjectBase<PhaseResultException>, IPhaseResultState
+    public class PhaseResult : DomainBase<PhaseResultException>, IPhaseResultState
     {
         private PhaseResult() {}
         internal PhaseResult(string code = null) : base(default)

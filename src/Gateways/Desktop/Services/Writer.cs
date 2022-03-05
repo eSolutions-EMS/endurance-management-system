@@ -47,7 +47,7 @@ namespace EnduranceJudge.Gateways.Desktop.Services
             }
         }
 
-        public (bool, IDomainObject) Execute(Func<T, IDomainObject> action)
+        public (bool, IDomain) Execute(Func<T, IDomain> action)
         {
             try
             {
@@ -67,6 +67,6 @@ namespace EnduranceJudge.Gateways.Desktop.Services
     {
         bool Execute(Action<T> action);
         TResult Execute<TResult>(Func<T, TResult> action);
-        (bool, IDomainObject) Execute(Func<T, IDomainObject> action);
+        (bool, IDomain) Execute(Func<T, IDomain> action);
     }
 }

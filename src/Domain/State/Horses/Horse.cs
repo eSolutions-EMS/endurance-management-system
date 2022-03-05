@@ -4,7 +4,7 @@ using static EnduranceJudge.Localization.Translations.Words;
 
 namespace EnduranceJudge.Domain.State.Horses
 {
-    public class Horse : DomainObjectBase<HorseException>, IHorseState
+    public class Horse : DomainBase<HorseException>, IHorseState
     {
         private Horse() {}
         public Horse(string feiId, string name, string breed, string club) : base(GENERATE_ID)

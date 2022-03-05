@@ -8,7 +8,7 @@ using System.Linq;
 namespace EnduranceJudge.Gateways.Persistence.Core
 {
     public abstract class QueriesBase<T> : IQueries<T>, IQuery
-        where T : IDomainObject
+        where T : IDomain
     {
         protected QueriesBase(IState state)
         {

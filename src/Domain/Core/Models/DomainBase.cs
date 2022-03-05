@@ -5,18 +5,18 @@ using System;
 
 namespace EnduranceJudge.Domain.Core.Models
 {
-    public abstract class DomainObjectBase<TException> : IDomainObject, IEquatable<DomainObjectBase<TException>>
+    public abstract class DomainBase<TException> : IDomain, IEquatable<DomainBase<TException>>
         where TException : DomainExceptionBase, new()
     {
         protected const string GENERATE_ID = "GenerateIdFlag";
 
         // Empty constructor is used by mapping for existing (in the database) entries
-        protected DomainObjectBase()
+        protected DomainBase()
         {
         }
         // Unused variable is needed mark the constructor which generates Id
         // That constructor should ONLY be used when creating NEW (no database entry) objects
-        protected DomainObjectBase(string generateIdFlag)
+        protected DomainBase(string generateIdFlag)
         {
             this.Id = DomainIdProvider.Generate();
         }
@@ -29,10 +29,10 @@ namespace EnduranceJudge.Domain.Core.Models
         public bool Equals(IIdentifiable identifiable)
             => this.IsEqual(identifiable);
 
-        public bool Equals(DomainObjectBase<TException> domainObject)
-            => this.IsEqual(domainObject);
+        public bool Equals(DomainBase<TException> domain)
+            => this.IsEqual(domain);
 
-        public static bool operator ==(DomainObjectBase<TException> one, DomainObjectBase<TException> two)
+        public static bool operator ==(DomainBase<TException> one, DomainBase<TException> two)
         {
             if (ReferenceEquals(one, null))
             {
@@ -41,7 +41,7 @@ namespace EnduranceJudge.Domain.Core.Models
             return one.Equals(two);
         }
 
-        public static bool operator !=(DomainObjectBase<TException> one, DomainObjectBase<TException> two)
+        public static bool operator !=(DomainBase<TException> one, DomainBase<TException> two)
             => !(one == two);
 
         private bool IsEqual(object other)

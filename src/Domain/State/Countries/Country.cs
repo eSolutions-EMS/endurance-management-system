@@ -3,7 +3,7 @@ using EnduranceJudge.Domain.Core.Validation;
 
 namespace EnduranceJudge.Domain.State.Countries
 {
-    public class Country : DomainObjectBase<CountryException>, ICountryState
+    public class Country : DomainBase<CountryException>, ICountryState
     {
         private Country() {}
         public Country(string isoCode, string name, int id) : base(GENERATE_ID)

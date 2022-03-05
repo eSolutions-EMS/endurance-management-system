@@ -14,7 +14,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core
 {
     public abstract class ConfigurationBase<TView, TDomain> : ViewModelBase
         where TView : IView
-        where TDomain : IDomainObject
+        where TDomain : IDomain
     {
         private readonly IQueries<TDomain> queries;
         protected INavigationService Navigation { get; }
@@ -39,7 +39,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core
         private readonly int id;
         public List<SimpleListItemViewModel> BoolItems { get; }
 
-        protected abstract IDomainObject Persist();
+        protected abstract IDomain Persist();
 
         public override void OnNavigatedTo(NavigationContext context)
         {

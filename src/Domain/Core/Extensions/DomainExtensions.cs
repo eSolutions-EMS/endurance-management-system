@@ -6,10 +6,10 @@ using System.Linq;
 
 namespace EnduranceJudge.Domain.Core.Extensions
 {
-    public static class DomainObjectExtensions
+    public static class DomainExtensions
     {
         public static void AddOrUpdate<T>(this ICollection<T> collection, T domainObject)
-            where T : IDomainObject
+            where T : IDomain
         {
             if (domainObject == null)
             {
@@ -25,14 +25,14 @@ namespace EnduranceJudge.Domain.Core.Extensions
         }
 
         public static T MatchDomain<T>(this IEnumerable<T> collection, T domainObject)
-            where T : IDomainObject
+            where T : IDomain
         {
             var result = collection.FirstOrDefault(x => x.Id == domainObject.Id);
             return result;
         }
 
         public static T FindDomain<T>(this IEnumerable<T> collection, int id)
-            where T : IDomainObject
+            where T : IDomain
         {
             var result = collection.FirstOrDefault(x => x.Id == id);
             return result;

@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace EnduranceJudge.Domain.State.Performances
 {
-    public class Performance : DomainObjectBase<PerformanceException>, IPerformanceState
+    public class Performance : DomainBase<PerformanceException>, IPerformanceState
     {
         private readonly List<TimeSpan> previousTimes = new();
         private readonly List<double> previousLengths = new();

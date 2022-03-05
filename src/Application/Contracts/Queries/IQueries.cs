@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace EnduranceJudge.Application.Aggregates.Configurations.Contracts
 {
     public interface IQueries<T>
-        where T : IDomainObject
+        where T : IDomain
     {
         T GetOne(Predicate<T> predicate);
         T GetOne(int id);

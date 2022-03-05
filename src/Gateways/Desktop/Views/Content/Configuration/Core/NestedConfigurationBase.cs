@@ -9,7 +9,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core
 {
     public abstract class NestedConfigurationBase<TView, TDomain> : ConfigurationBase<TView, TDomain>
         where TView : IView
-        where TDomain : IDomainObject
+        where TDomain : IDomain
     {
         private static readonly Random Random = new ();
         protected NestedConfigurationBase(IQueries<TDomain> queries) : base(queries)

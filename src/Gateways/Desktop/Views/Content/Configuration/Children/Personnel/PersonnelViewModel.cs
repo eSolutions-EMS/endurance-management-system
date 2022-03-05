@@ -28,7 +28,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.P
         private string name;
         private int roleId;
 
-        protected override IDomainObject Persist()
+        protected override IDomain Persist()
         {
             var result = this.configuration.Save(this);
             return result;

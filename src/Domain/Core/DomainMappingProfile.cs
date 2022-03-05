@@ -9,7 +9,7 @@ namespace EnduranceJudge.Domain.Core
 {
     public class DomainMappingProfile : MappingProfile
     {
-        private static readonly Type DomainObjectType = typeof(IDomainObject);
+        private static readonly Type DomainObjectType = typeof(IDomain);
 
         public DomainMappingProfile()
         {

@@ -3,7 +3,7 @@ using EnduranceJudge.Domain.Enums;
 
 namespace EnduranceJudge.Domain.State.Personnels
 {
-    public class Personnel : DomainObjectBase<PersonnelException>, IPersonnelState
+    public class Personnel : DomainBase<PersonnelException>, IPersonnelState
     {
         private Personnel() {}
         public Personnel(IPersonnelState state) : base(GENERATE_ID)

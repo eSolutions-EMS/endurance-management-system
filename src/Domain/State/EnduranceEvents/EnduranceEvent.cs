@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace EnduranceJudge.Domain.State.EnduranceEvents
 {
-    public class EnduranceEvent : DomainObjectBase<EnduranceEventException>, IEnduranceEventState
+    public class EnduranceEvent : DomainBase<EnduranceEventException>, IEnduranceEventState
     {
         private EnduranceEvent()  {}
         internal EnduranceEvent(string name, Country country) : base(GENERATE_ID)

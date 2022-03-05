@@ -64,7 +64,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Endu
             var enduranceEvent = this.enduranceEventQuery.Get();
             this.MapFrom(enduranceEvent);
         }
-        protected override IDomainObject Persist()
+        protected override IDomain Persist()
         {
             var result = this.manager.Update(this.Name, this.CountryId, this.PopulatedPlace);
             this.popupService.RenderOk();

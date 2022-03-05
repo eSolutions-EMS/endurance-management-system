@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace EnduranceJudge.Domain.State.Competitions
 {
-    public class Competition : DomainObjectBase<CompetitionException>, ICompetitionState
+    public class Competition : DomainBase<CompetitionException>, ICompetitionState
     {
         private Competition() {}
         public Competition(CompetitionType type, string name) : base(GENERATE_ID)

@@ -2,7 +2,7 @@ using EnduranceJudge.Domain.Core.Models;
 
 namespace EnduranceJudge.Domain.State.Phases
 {
-    public class Phase : DomainObjectBase<PhaseException>, IPhaseState
+    public class Phase : DomainBase<PhaseException>, IPhaseState
     {
         private Phase() {}
         public Phase(IPhaseState state) : base(GENERATE_ID)

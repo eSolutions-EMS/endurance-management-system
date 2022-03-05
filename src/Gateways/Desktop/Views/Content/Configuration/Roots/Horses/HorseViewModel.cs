@@ -28,7 +28,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Hors
         private string trainerFirstName;
         private string trainerLastName;
 
-        protected override IDomainObject Persist()
+        protected override IDomain Persist()
         {
             var result = this.manager.Horses.Save(this);
             return result;

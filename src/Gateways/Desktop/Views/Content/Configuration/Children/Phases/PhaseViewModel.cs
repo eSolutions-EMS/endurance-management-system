@@ -26,7 +26,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.P
             this.manager = manager;
         }
 
-        protected override IDomainObject Persist()
+        protected override IDomain Persist()
         {
             if (this.ParentId.HasValue)
             {

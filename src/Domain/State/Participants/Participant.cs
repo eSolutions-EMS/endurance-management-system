@@ -7,7 +7,7 @@ using EnduranceJudge.Domain.State.Participations;
 
 namespace EnduranceJudge.Domain.State.Participants
 {
-    public class Participant : DomainObjectBase<ParticipantException>, IParticipantState
+    public class Participant : DomainBase<ParticipantException>, IParticipantState
     {
         public const int DEFAULT_MAX_AVERAGE_SPEED = 16;
         private const string NAME_FORMAT = "{0} - {1} with {2}";

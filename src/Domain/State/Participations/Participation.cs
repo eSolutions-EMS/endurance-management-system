@@ -9,7 +9,7 @@ using static EnduranceJudge.Localization.Translations.Messages;
 
 namespace EnduranceJudge.Domain.State.Participations
 {
-    public class Participation : DomainObjectBase<ParticipationException>
+    public class Participation : DomainBase<ParticipationException>
     {
         private List<Competition> competitions = new();
         private List<Performance> performances = new();

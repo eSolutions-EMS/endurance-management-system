@@ -55,7 +55,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Athl
             var athlete = this.athletes.GetOne(id);
             this.MapFrom(athlete);
         }
-        protected override IDomainObject Persist()
+        protected override IDomain Persist()
         {
             var result = this.manager.Athletes.Save(this, this.CountryId);
             return result;
