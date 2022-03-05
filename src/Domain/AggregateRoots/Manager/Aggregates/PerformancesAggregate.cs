@@ -113,40 +113,19 @@ namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates
         private void Arrive(DateTime time)
         {
             time = FixDateForToday(time);
-            if (time <= this.performance.StartTime)
-            {
-                // TODO : validation extension
-                throw Helper.Create<PerformanceException>(
-                    DATE_TIME_HAS_TO_BE_LATER_TEMPLATE,
-                    nameof(this.performance.ArrivalTime),
-                    this.performance.StartTime);
-            }
-
+            this.validator.IsLaterThan(time, this.performance.StartTime, ARRIVAL);
             this.performance.ArrivalTime = time;
         }
         private void Inspect(DateTime time)
         {
             time = FixDateForToday(time);
-            if (time <= this.performance.ArrivalTime)
-            {
-                throw Helper.Create<PerformanceException>(
-                    DATE_TIME_HAS_TO_BE_LATER_TEMPLATE,
-                    nameof(this.performance.InspectionTime),
-                    this.performance.ArrivalTime);
-            }
-
+            this.validator.IsLaterThan(time, this.performance.ArrivalTime, INSPECTION);
             this.performance.InspectionTime = time;
         }
         private void CompleteReInspection(DateTime time)
         {
             time = FixDateForToday(time);
-            if (time <= this.performance.InspectionTime)
-            {
-                throw Helper.Create<PerformanceException>(
-                    DATE_TIME_HAS_TO_BE_LATER_TEMPLATE,
-                    nameof(this.performance.ReInspectionTime),
-                    this.performance.InspectionTime);
-            }
+            this.validator.IsLaterThan(time, this.performance.InspectionTime, RE_INSPECTION);
 
             this.performance.ReInspectionTime = time;
         }

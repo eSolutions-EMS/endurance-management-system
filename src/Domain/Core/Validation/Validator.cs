@@ -30,4 +30,12 @@ public class Validator<T> where T : DomainExceptionBase, new()
         }
         return name;
     }
+
+    public void IsLaterThan(DateTime value, DateTime? compareTo, string name)
+    {
+        if (value <= compareTo)
+        {
+            throw Helper.Create<T>(DATE_TIME_HAS_TO_BE_LATER_TEMPLATE, name, compareTo);
+        }
+    }
 }
