@@ -8,7 +8,7 @@ using System;
 using static EnduranceJudge.Localization.Translations.Messages;
 using static EnduranceJudge.Localization.Translations.Terms;
 
-namespace EnduranceJudge.Domain.AggregateRoots.Manager.Performances
+namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates
 {
     public class PerformancesAggregate : IAggregate
     {

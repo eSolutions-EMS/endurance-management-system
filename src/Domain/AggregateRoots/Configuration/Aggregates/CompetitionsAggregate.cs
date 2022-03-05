@@ -7,7 +7,7 @@ using EnduranceJudge.Domain.State;
 using EnduranceJudge.Domain.State.Competitions;
 using static EnduranceJudge.Localization.Translations.Words;
 
-namespace EnduranceJudge.Domain.AggregateRoots.Configuration
+namespace EnduranceJudge.Domain.AggregateRoots.Configuration.Aggregates
 {
     public class CompetitionsAggregate : IAggregate
     {

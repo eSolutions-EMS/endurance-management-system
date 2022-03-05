@@ -9,7 +9,7 @@ using EnduranceJudge.Domain.State.Horses;
 using static EnduranceJudge.Localization.Translations.Messages;
 using static EnduranceJudge.Localization.Translations.Words;
 
-namespace EnduranceJudge.Domain.AggregateRoots.Configuration
+namespace EnduranceJudge.Domain.AggregateRoots.Configuration.Aggregates
 {
     public class HorsesAggregate : IAggregate
     {

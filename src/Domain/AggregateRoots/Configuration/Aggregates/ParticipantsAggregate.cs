@@ -9,7 +9,7 @@ using EnduranceJudge.Domain.State.Participants;
 using System.Linq;
 using static EnduranceJudge.Localization.Translations.Messages;
 
-namespace EnduranceJudge.Domain.AggregateRoots.Configuration
+namespace EnduranceJudge.Domain.AggregateRoots.Configuration.Aggregates
 {
     public class ParticipantsAggregate : IAggregate
     {

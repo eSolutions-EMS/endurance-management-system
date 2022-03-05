@@ -1,5 +1,4 @@
-﻿using EnduranceJudge.Domain.AggregateRoots.Manager.Performances;
-using EnduranceJudge.Domain.Core.Exceptions;
+﻿using EnduranceJudge.Domain.Core.Exceptions;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Competitions;
 using EnduranceJudge.Domain.State.Participants;
@@ -10,7 +9,7 @@ using System;
 using System.Linq;
 using static EnduranceJudge.Localization.Translations.Messages;
 
-namespace EnduranceJudge.Domain.AggregateRoots.Manager.Participants
+namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates
 {
     public class ParticipantsAggregate : IAggregate
     {

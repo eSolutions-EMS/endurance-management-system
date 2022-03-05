@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EnduranceJudge.Domain.AggregateRoots.Manager.Branches.StartLists;
+namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 
 public class StartModel
 {

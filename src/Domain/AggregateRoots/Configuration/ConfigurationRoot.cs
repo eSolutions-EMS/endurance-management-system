@@ -1,4 +1,5 @@
 ﻿using EnduranceJudge.Core.Utilities;
+using EnduranceJudge.Domain.AggregateRoots.Configuration.Aggregates;
 using EnduranceJudge.Domain.Core.Extensions;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.Core.Validation;

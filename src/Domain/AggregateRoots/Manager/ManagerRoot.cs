@@ -1,7 +1,6 @@
 ﻿using EnduranceJudge.Core.Utilities;
-using EnduranceJudge.Domain.AggregateRoots.Manager.Branches.StartLists;
-using EnduranceJudge.Domain.AggregateRoots.Manager.Participants;
-using EnduranceJudge.Domain.AggregateRoots.Manager.Performances;
+using EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates;
+using EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 using EnduranceJudge.Domain.Core.Exceptions;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State;
