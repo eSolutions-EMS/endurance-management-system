@@ -1,5 +1,5 @@
 ﻿using EnduranceJudge.Application.Aggregates.Configurations.Contracts;
-using EnduranceJudge.Domain.Aggregates.Configuration;
+using EnduranceJudge.Domain.AggregateRoots.Configuration;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.Enums;
 using EnduranceJudge.Domain.State.Personnels;

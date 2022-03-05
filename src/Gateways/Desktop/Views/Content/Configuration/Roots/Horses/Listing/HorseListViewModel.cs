@@ -2,7 +2,7 @@
 using EnduranceJudge.Application.Contracts;
 using EnduranceJudge.Application.Core.Models;
 using EnduranceJudge.Core.Mappings;
-using EnduranceJudge.Domain.Aggregates.Configuration;
+using EnduranceJudge.Domain.AggregateRoots.Configuration;
 using EnduranceJudge.Domain.State.Horses;
 using EnduranceJudge.Gateways.Desktop.Core.Services;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;

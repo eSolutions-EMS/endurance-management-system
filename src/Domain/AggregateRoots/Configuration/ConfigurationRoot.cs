@@ -8,7 +8,7 @@ using EnduranceJudge.Domain.State.Personnels;
 using EnduranceJudge.Localization.Translations;
 using static EnduranceJudge.Localization.Translations.Words;
 
-namespace EnduranceJudge.Domain.Aggregates.Configuration
+namespace EnduranceJudge.Domain.AggregateRoots.Configuration
 {
     public class ConfigurationRoot : IAggregateRoot
     {

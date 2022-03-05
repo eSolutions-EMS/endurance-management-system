@@ -1,7 +1,7 @@
 ﻿using EnduranceJudge.Core.Utilities;
-using EnduranceJudge.Domain.Aggregates.Manager.Branches.StartLists;
-using EnduranceJudge.Domain.Aggregates.Manager.Participants;
-using EnduranceJudge.Domain.Aggregates.Manager.Performances;
+using EnduranceJudge.Domain.AggregateRoots.Manager.Branches.StartLists;
+using EnduranceJudge.Domain.AggregateRoots.Manager.Participants;
+using EnduranceJudge.Domain.AggregateRoots.Manager.Performances;
 using EnduranceJudge.Domain.Core.Exceptions;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State;
@@ -15,7 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using static EnduranceJudge.Localization.Translations.Messages;
 
-namespace EnduranceJudge.Domain.Aggregates.Manager;
+namespace EnduranceJudge.Domain.AggregateRoots.Manager;
 
 public class ManagerRoot : IAggregate, IAggregateRoot
 {

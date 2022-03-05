@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace EnduranceJudge.Domain.Aggregates.Import.Models.International
+namespace EnduranceJudge.Domain.AggregateRoots.Import.Models.International
 {
     public class InternationalData
     {

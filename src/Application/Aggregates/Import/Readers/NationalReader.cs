@@ -1,7 +1,7 @@
 ﻿using EnduranceJudge.Application.Core.Services;
 using EnduranceJudge.Core.ConventionalServices;
 using EnduranceJudge.Core.Services;
-using EnduranceJudge.Domain.Aggregates.Import.Models.National;
+using EnduranceJudge.Domain.AggregateRoots.Import.Models.National;
 using System.Linq;
 using static EnduranceJudge.Application.ApplicationConstants;
 

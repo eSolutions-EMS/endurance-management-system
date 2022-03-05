@@ -1,6 +1,6 @@
 ﻿using EnduranceJudge.Domain.Core.Exceptions;
 
-namespace EnduranceJudge.Domain.Aggregates.Import
+namespace EnduranceJudge.Domain.AggregateRoots.Import
 {
     public class ImportObjectException : DomainExceptionBase
     {

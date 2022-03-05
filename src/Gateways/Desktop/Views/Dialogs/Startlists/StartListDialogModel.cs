@@ -1,4 +1,4 @@
-﻿using EnduranceJudge.Domain.Aggregates.Manager;
+﻿using EnduranceJudge.Domain.AggregateRoots.Manager;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
 using EnduranceJudge.Gateways.Desktop.Services;
 using Prism.Commands;

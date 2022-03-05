@@ -1,5 +1,5 @@
-﻿using EnduranceJudge.Domain.Aggregates.Rankings;
-using EnduranceJudge.Domain.Aggregates.Rankings.Aggregates;
+﻿using EnduranceJudge.Domain.AggregateRoots.Rankings;
+using EnduranceJudge.Domain.AggregateRoots.Rankings.Aggregates;
 using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem;
 using EnduranceJudge.Gateways.Desktop.Services;

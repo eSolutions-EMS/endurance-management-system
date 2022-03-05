@@ -1,5 +1,5 @@
 ﻿using EnduranceJudge.Application.Aggregates.Configurations.Contracts;
-using EnduranceJudge.Domain.Aggregates.Manager;
+using EnduranceJudge.Domain.AggregateRoots.Manager;
 using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Core.Services;

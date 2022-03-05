@@ -3,7 +3,7 @@ using EnduranceJudge.Application.Core.Exceptions;
 using EnduranceJudge.Application.Aggregates.Import.Readers;
 using EnduranceJudge.Core.ConventionalServices;
 using EnduranceJudge.Core.Services;
-using EnduranceJudge.Domain.Aggregates.Import;
+using EnduranceJudge.Domain.AggregateRoots.Import;
 using EnduranceJudge.Localization.Translations;
 
 namespace EnduranceJudge.Application.Aggregates.Import

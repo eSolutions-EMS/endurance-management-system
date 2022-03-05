@@ -1,7 +1,7 @@
 using EnduranceJudge.Core.Utilities;
-using EnduranceJudge.Domain.Aggregates.Import.Models;
-using EnduranceJudge.Domain.Aggregates.Import.Models.International;
-using EnduranceJudge.Domain.Aggregates.Import.Models.National;
+using EnduranceJudge.Domain.AggregateRoots.Import.Models;
+using EnduranceJudge.Domain.AggregateRoots.Import.Models.International;
+using EnduranceJudge.Domain.AggregateRoots.Import.Models.National;
 using EnduranceJudge.Domain.Core.Exceptions;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.Core.Validation;
@@ -19,7 +19,7 @@ using System.Linq;
 using static EnduranceJudge.Localization.Translations.Words;
 using static EnduranceJudge.Domain.DomainConstants;
 
-namespace EnduranceJudge.Domain.Aggregates.Import
+namespace EnduranceJudge.Domain.AggregateRoots.Import
 {
     public class ImportRoot : IAggregateRoot
     {

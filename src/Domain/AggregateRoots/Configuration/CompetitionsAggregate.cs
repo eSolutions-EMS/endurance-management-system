@@ -1,5 +1,5 @@
 ﻿using EnduranceJudge.Core.Mappings;
-using EnduranceJudge.Domain.Aggregates.Configuration.Extensions;
+using EnduranceJudge.Domain.AggregateRoots.Configuration.Extensions;
 using EnduranceJudge.Domain.Core.Extensions;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.Core.Validation;
@@ -7,7 +7,7 @@ using EnduranceJudge.Domain.State;
 using EnduranceJudge.Domain.State.Competitions;
 using static EnduranceJudge.Localization.Translations.Words;
 
-namespace EnduranceJudge.Domain.Aggregates.Configuration
+namespace EnduranceJudge.Domain.AggregateRoots.Configuration
 {
     public class CompetitionsAggregate : IAggregate
     {

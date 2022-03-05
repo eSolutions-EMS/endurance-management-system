@@ -7,7 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EnduranceJudge.Domain.Aggregates.Rankings.Aggregates
+namespace EnduranceJudge.Domain.AggregateRoots.Rankings.Aggregates
 {
     public class RankList : IAggregate, IEnumerable<Participant>
     {

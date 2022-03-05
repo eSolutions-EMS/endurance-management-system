@@ -3,7 +3,7 @@ using EnduranceJudge.Domain.State;
 using EnduranceJudge.Domain.State.EnduranceEvents;
 using static EnduranceJudge.Localization.Translations.Messages;
 
-namespace EnduranceJudge.Domain.Aggregates.Configuration.Extensions;
+namespace EnduranceJudge.Domain.AggregateRoots.Configuration.Extensions;
 
 public static class StateExtensions
 {

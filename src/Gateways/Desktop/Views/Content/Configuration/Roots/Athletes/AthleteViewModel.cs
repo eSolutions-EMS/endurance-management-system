@@ -2,7 +2,7 @@
 using EnduranceJudge.Application.Core.Models;
 using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Core.Models;
-using EnduranceJudge.Domain.Aggregates.Configuration;
+using EnduranceJudge.Domain.AggregateRoots.Configuration;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Athletes;
 using EnduranceJudge.Domain.Enums;

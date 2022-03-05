@@ -1,7 +1,7 @@
 ﻿using EnduranceJudge.Core.ConventionalServices;
 using EnduranceJudge.Core.Services;
-using EnduranceJudge.Domain.Aggregates.Import.Models;
-using EnduranceJudge.Domain.Aggregates.Import.Models.International;
+using EnduranceJudge.Domain.AggregateRoots.Import.Models;
+using EnduranceJudge.Domain.AggregateRoots.Import.Models.International;
 using System.Linq;
 
 namespace EnduranceJudge.Application.Aggregates.Import.Readers

@@ -1,4 +1,4 @@
-﻿namespace EnduranceJudge.Domain.Aggregates.Import.Models.National
+﻿namespace EnduranceJudge.Domain.AggregateRoots.Import.Models.National
 {
     public class HorseExcelSchema
     {

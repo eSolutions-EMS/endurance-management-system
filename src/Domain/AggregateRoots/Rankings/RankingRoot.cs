@@ -1,4 +1,4 @@
-using EnduranceJudge.Domain.Aggregates.Rankings.Aggregates;
+using EnduranceJudge.Domain.AggregateRoots.Rankings.Aggregates;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State;
 using EnduranceJudge.Domain.State.Competitions;
@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EnduranceJudge.Domain.Aggregates.Rankings
+namespace EnduranceJudge.Domain.AggregateRoots.Rankings
 {
     public class RankingRoot : IAggregate, IAggregateRoot
     {

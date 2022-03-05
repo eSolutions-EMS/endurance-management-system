@@ -2,7 +2,7 @@
 using EnduranceJudge.Application.Core.Services;
 using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Core.Utilities;
-using EnduranceJudge.Domain.Aggregates.Manager;
+using EnduranceJudge.Domain.AggregateRoots.Manager;
 using EnduranceJudge.Domain.State.Performances;
 using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Services;
