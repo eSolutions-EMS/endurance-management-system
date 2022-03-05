@@ -12,7 +12,7 @@ public static class Messages
         public const string CANNOT_EDIT_PERFORMANCE = $"- INVALID edit. Value does not exist for '{{0}}'. 'Edit' button should only be used to correct errors. Please use '{Words.UPDATE}' button above when setting Times.";
         public const string IS_REQUIRED_TEMPLATE = "'{0}' is required.";
         public const string PARTICIPANT_NUMBER_NOT_FOUND_TEMPLATE = "'{0}' does not exit";
-        public const string CHANGE_NOT_ALLOWED_WHEN_EVENT_HAS_STARTED = $"changes is not allowed after {Entities.PARTICIPATION}s have started";
+        public const string CHANGE_NOT_ALLOWED_WHEN_EVENT_HAS_STARTED = $"changes are not allowed after {Entities.PARTICIPATION}s have started";
         public const string REQUIRED_INSPECTION_IS_NOT_ALLOWED = $"'s Individual Required Inspection is not allowed, because CRI is enabled on this '{Entities.PHASE}'";
         public const string INVALID_ORDER_BY = "with order '{0}' already exists";
         public const string INVALID_COMPETITION_NO_FINAL_PHASE = $"{{0}} has no final {Entities.PHASE}";
