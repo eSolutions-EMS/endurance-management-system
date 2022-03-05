@@ -111,7 +111,8 @@ public class ContestManagerViewModel : ViewModelBase
         Action<ContestManager, bool> action = (manager, boolValue) => manager.ReInspection(
             this.InputNumber.Value,
             boolValue);
-        this.CheckboxHandler(this.ReInspectionValue, action);
+        Action<bool> setter = value => this.ReInspectionValue = value;
+        this.CheckboxHandler(this.ReInspectionValue, action, setter);
     }
     private void RequireInspectionAction()
     {
@@ -122,9 +123,10 @@ public class ContestManagerViewModel : ViewModelBase
         Action<ContestManager, bool> action = (manager, boolValue) => manager.RequireInspection(
             this.InputNumber.Value,
             boolValue);
-        this.CheckboxHandler(this.RequireInspectionValue, action);
+        Action<bool> setter = value => this.RequireInspectionValue = value;
+        this.CheckboxHandler(this.RequireInspectionValue, action, setter);
     }
-    private void CheckboxHandler(bool newValue, Action<ContestManager, bool> action)
+    private void CheckboxHandler(bool newValue, Action<ContestManager, bool> action, Action<bool> checkboxSetter)
     {
         var previousValue = !newValue;
         var isSuccessful = this.contestExecutor.Execute(manager =>
@@ -133,7 +135,7 @@ public class ContestManagerViewModel : ViewModelBase
         });
         if (!isSuccessful)
         {
-            this.RequireInspectionValue = previousValue;
+            checkboxSetter(previousValue);
         }
         this.LoadParticipation();
     }
