@@ -38,7 +38,7 @@ public class TranslationsReader : ITranslationsReader
 
     private void ValidatePlaceholders(string baseline, string translation)
     {
-        foreach (var (_, placeholder) in LocalizationConstants.Placeholders)
+        foreach (var (_, placeholder) in LocalizationConstants.PLACEHOLDERS)
         {
             if (baseline.Contains(placeholder) != translation.Contains(placeholder))
             {
