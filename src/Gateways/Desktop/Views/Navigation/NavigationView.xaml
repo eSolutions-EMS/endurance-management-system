@@ -8,19 +8,19 @@
         <StackPanel Orientation="Horizontal" VerticalAlignment="Stretch">
             <Button Style="{StaticResource Button-Header-Horizontal}"
                     Command="{Binding NavigateToImport}"
-                    Content="{x:Static localization:Pages.IMPORT}" />
+                    Content="{x:Static localization:Pages.IMPORT_PAGE}" />
 
             <Button Style="{StaticResource Button-Header-Horizontal}"
                     Command="{Binding NavigateToEvent}"
-                    Content="{x:Static localization:Pages.EVENT}" />
+                    Content="{x:Static localization:Pages.EVENT_PAGE}" />
 
             <Button Style="{StaticResource Button-Header-Horizontal}"
                     Command="{Binding NavigateToManager}"
-                    Content="{x:Static localization:Pages.MANAGER}" />
+                    Content="{x:Static localization:Pages.MANAGER_PAGE}" />
 
             <Button Style="{StaticResource Button-Header-Horizontal}"
                     Command="{Binding NavigateToRanking}"
-                    Content="{x:Static localization:Pages.RANK_LIST}" />
+                    Content="{x:Static localization:Pages.RANK_LIST_PAGE}" />
 
             <TextBlock Style="{StaticResource Text}">Version 2.0.11</TextBlock>
         </StackPanel>

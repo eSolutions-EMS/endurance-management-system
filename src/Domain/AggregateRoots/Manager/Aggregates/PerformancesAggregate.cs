@@ -78,7 +78,7 @@ namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates
         {
             if (this.Phase.IsCompulsoryInspectionRequired)
             {
-                throw Helper.Create<PerformanceException>(REQUIRED_INSPECTION_IS_NOT_ALLOWED);
+                throw Helper.Create<PerformanceException>(REQUIRED_INSPECTION_IS_NOT_ALLOWED_MESSAGE);
             }
             this.performance.IsRequiredInspectionRequired = isRequired;
         }
@@ -88,7 +88,7 @@ namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates
             {
                 if (this.performance.ArrivalTime == null)
                 {
-                    throw Helper.Create<PerformanceException>(CANNOT_EDIT_PERFORMANCE, ARRIVAL);
+                    throw Helper.Create<PerformanceException>(CANNOT_EDIT_PERFORMANCE_MESSAGE, ARRIVAL_TERM);
                 }
                 this.Arrive(state.ArrivalTime.Value);
             }
@@ -96,7 +96,7 @@ namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates
             {
                 if (this.performance.InspectionTime == null)
                 {
-                    throw Helper.Create<PerformanceException>(CANNOT_EDIT_PERFORMANCE, INSPECTION);
+                    throw Helper.Create<PerformanceException>(CANNOT_EDIT_PERFORMANCE_MESSAGE, INSPECTION_TERM);
                 }
                 this.Inspect(state.InspectionTime.Value);
             }
@@ -104,7 +104,7 @@ namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates
             {
                 if (this.performance.ReInspectionTime == null)
                 {
-                    throw Helper.Create<PerformanceException>(CANNOT_EDIT_PERFORMANCE, RE_INSPECTION);
+                    throw Helper.Create<PerformanceException>(CANNOT_EDIT_PERFORMANCE_MESSAGE, RE_INSPECTION_TERM);
                 }
                 this.CompleteReInspection(state.ReInspectionTime.Value);
             }
@@ -113,19 +113,19 @@ namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates
         private void Arrive(DateTime time)
         {
             time = FixDateForToday(time);
-            this.validator.IsLaterThan(time, this.performance.StartTime, ARRIVAL);
+            this.validator.IsLaterThan(time, this.performance.StartTime, ARRIVAL_TERM);
             this.performance.ArrivalTime = time;
         }
         private void Inspect(DateTime time)
         {
             time = FixDateForToday(time);
-            this.validator.IsLaterThan(time, this.performance.ArrivalTime, INSPECTION);
+            this.validator.IsLaterThan(time, this.performance.ArrivalTime, INSPECTION_TERM);
             this.performance.InspectionTime = time;
         }
         private void CompleteReInspection(DateTime time)
         {
             time = FixDateForToday(time);
-            this.validator.IsLaterThan(time, this.performance.InspectionTime, RE_INSPECTION);
+            this.validator.IsLaterThan(time, this.performance.InspectionTime, RE_INSPECTION_TERM);
 
             this.performance.ReInspectionTime = time;
         }

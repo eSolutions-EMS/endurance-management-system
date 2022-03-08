@@ -11,7 +11,7 @@ public static class StateExtensions
     {
         if (state.Event.HasStarted)
         {
-            throw Helper.Create<EnduranceEventException>(CHANGE_NOT_ALLOWED_WHEN_EVENT_HAS_STARTED);
+            throw Helper.Create<EnduranceEventException>(CHANGE_NOT_ALLOWED_WHEN_EVENT_HAS_STARTED_MESSAGE);
         }
     }
 }

@@ -28,11 +28,11 @@ namespace EnduranceJudge.Domain.AggregateRoots.Configuration.Aggregates
             var horse = this.state.Horses.FindDomain(horseId);
             if (this.IsPartOfAnotherParticipant(athlete, participantState.Id))
             {
-                throw Helper.Create<ParticipantException>(ALREADY_PARTICIPATING_TEMPLATE, athlete.Name);
+                throw Helper.Create<ParticipantException>(ALREADY_PARTICIPATING_MESSAGE, athlete.Name);
             }
             if (this.IsPartOfAnotherParticipant(horse, participantState.Id))
             {
-                throw Helper.Create<ParticipantException>(ALREADY_PARTICIPATING_TEMPLATE, horse.Name);
+                throw Helper.Create<ParticipantException>(ALREADY_PARTICIPATING_MESSAGE, horse.Name);
             }
 
             var participant = this.state.Participants.FindDomain(participantState.Id);

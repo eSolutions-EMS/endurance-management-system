@@ -12,7 +12,7 @@ public class Validator<T> where T : DomainExceptionBase, new()
     {
         if (obj?.Equals(default) ?? true)
         {
-            throw Helper.Create<T>(IS_REQUIRED_TEMPLATE, property);
+            throw Helper.Create<T>(IS_REQUIRED_MESSAGE, property);
         }
         return obj;
     }
@@ -25,7 +25,7 @@ public class Validator<T> where T : DomainExceptionBase, new()
         var lastName = parts.LastOrDefault();
         if (parts.Length < 2 || string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName))
         {
-            throw Helper.Create<T>(INVALID_FULL_NAME, name);
+            throw Helper.Create<T>(INVALID_FULL_NAME_MESSAGE, name);
         }
         return name;
     }
@@ -34,7 +34,7 @@ public class Validator<T> where T : DomainExceptionBase, new()
     {
         if (value <= compareTo)
         {
-            throw Helper.Create<T>(DATE_TIME_HAS_TO_BE_LATER_TEMPLATE, name, compareTo);
+            throw Helper.Create<T>(DATE_TIME_HAS_TO_BE_LATER_MESSAGE, name, compareTo);
         }
     }
 }

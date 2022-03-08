@@ -17,7 +17,7 @@ namespace EnduranceJudge.Application.Core.Services
                 DateTimeStyles.None, out var result);
             if (!hasParsed)
             {
-                var message = string.Format(Messages.INVALID_DATE_FORMAT, date, format);
+                var message = string.Format(Messages.INVALID_DATE_FORMAT_MESSAGE, date, format);
                 throw new AppException(message);
             }
             return result;

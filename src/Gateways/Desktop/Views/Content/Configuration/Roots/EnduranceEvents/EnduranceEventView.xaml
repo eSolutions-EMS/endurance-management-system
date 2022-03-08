@@ -32,7 +32,7 @@
                      Grid.Row="0" Grid.Column="0"/>
 
             <TextBlock Style="{StaticResource Text-H1}"
-                       Text="{x:Static localization:Entities.ENDURANCE_EVENT}"
+                       Text="{x:Static localization:Entities.ENDURANCE_EVENT_ENTITY}"
                        Grid.Row="1" Grid.Column="1" />
 
             <Border Style="{StaticResource Border-Vertical}"
@@ -64,7 +64,7 @@
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="4" Grid.Column="0" >
                 <TextBlock Style="{StaticResource Text-Label}"
-                           Text="{x:Static localization:Entities.COUNTRY}" />
+                           Text="{x:Static localization:Entities.COUNTRY_ENTITY}" />
             </Border>
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="4" Grid.Column="1" >
@@ -76,7 +76,7 @@
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="5" Grid.Column="0">
                 <TextBlock Style="{StaticResource Text-Label}"
-                           Text ="{x:Static localization:Entities.PERSONNEL}" />
+                           Text ="{x:Static localization:Entities.PERSONNEL_ENTITY}" />
             </Border>
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="5" Grid.Column="1">
@@ -95,7 +95,7 @@
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="7" Grid.Column="0" >
                 <TextBlock Style="{StaticResource Text-Label}"
-                           Text ="{x:Static localization:Entities.COMPETITIONS}" />
+                           Text ="{x:Static localization:Entities.COMPETITIONS_ENTITY}" />
             </Border>
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="7" Grid.Column="1">

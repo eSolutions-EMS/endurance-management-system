@@ -46,7 +46,7 @@
                 </Border>
                 <Border Style="{StaticResource Border-StartList}">
                     <TextBlock Style="{StaticResource Text}"
-                               Text="{x:Static localization:Entities.COUNTRY}" />
+                               Text="{x:Static localization:Entities.COUNTRY_ENTITY}" />
                 </Border>
                 <Border Style="{StaticResource Border-StartList}">
                     <TextBlock Style="{StaticResource Text}"

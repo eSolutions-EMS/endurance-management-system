@@ -1,132 +1,132 @@
-﻿constant-key                                       english-value                                                                translated-value
-CANNOT_REMOVE_USED_IN_PARTICIPANT                | cannot be removed because it is used in an existing {entities-participant} | cannot be removed because it is used in an existing {entities-participant}
-ALREADY_PARTICIPATING_TEMPLATE                   | cannot be created - '{0}' is already participating. | cannot be created - '{0}' is already participating.
-CANNOT_ADD_PARTICIPATION_DIFFERENT_PHASE_COUNT   | cannot be added, because they already participate in '{0}' with different amount of {entities-phase-plurals}  | cannot be added, because they already participate in '{0}' with different amount of {entities-phase-plurals}
-CANNOT_ADD_PARTICIPATION_DIFFERENT_PHASE_LENGTHS | cannot be added in '{0}'- they already participate in '{1}' and difference is detected in '{entities-phase} {2}' lengths: '{3}' and '{4} | cannot be added in '{0}'- they already participate in '{1}' and difference is detected in '{entities-phase} {2}' lengths: '{3}' and '{4}
-DATE_TIME_HAS_TO_BE_LATER_TEMPLATE               | {0} has to be later than {1} | {0} has to be later than {1}
-CANNOT_EDIT_PERFORMANCE                          | - INVALID edit. Value does not exist for '{0}'. 'Edit' button should only be used to correct errors. Please use '{words-update}' button above when setting Times.  | - INVALID edit. Value does not exist for '{0}'. 'Edit' button should only be used to correct errors. Please use '{words-update}' button above when setting Times.
-IS_REQUIRED_TEMPLATE                             | '{0}' is required. | '{0}' is required.
-PARTICIPANT_NUMBER_NOT_FOUND_TEMPLATE            | '{0}' does not exit | '{0}' does not exit
-CHANGE_NOT_ALLOWED_WHEN_EVENT_HAS_STARTED        | changes are not allowed after {entities-participation-plurals} have started | changes are not allowed after {entities-participation-plurals} have started
-REQUIRED_INSPECTION_IS_NOT_ALLOWED               | 's Individual Required Inspection is not allowed, because CRI is enabled on this '{entities-phase}' | 's Individual Required Inspection is not allowed, because CRI is enabled on this '{entities-phase}'
-INVALID_ORDER_BY                                 | with order '{0}' already exists | with order '{0}' already exists
-INVALID_COMPETITION_NO_FINAL_PHASE               | {0} has no final {entities-phase} | {0} has no final {entities-phase}
-INVALID_PARTICIPANT_NO_PARTICIPATIONS            | '{0}' is not included in any {entities-competition} | '{0}' is not included in any {entities-competition}
-INVALID_PARTICIPANT_NO_COUNTRY                   | '{0}' has no {entities-country} | '{0}' has no {entities-country}
-PARTICIPANT_HAS_NO_ACTIVE_PERFORMANCE            | '{0}' has no active {entities-performance} | '{0}' has no active {entities-performance}
-INVALID_FULL_NAME                                | Full Name '{0}' is INVALID. Please use First and Last name | Full Name '{0}' is INVALID. Please use First and Last name
-SELECT_WORK_DIRECTORY                            | Select working directory using the {words-import} button above. | Select working directory using the {words-import} button above.
-REMOVE_CONFIRMATION_MESSAGE                      | Are you sure you want to remove this item | Are you sure you want to remove this item
-INVALID_DATE_FORMAT                              | Invalid date: '{0}'. Expected format: '{1}' | Invalid date: '{0}'. Expected format: '{1}'
-UNSUPPORTED_IMPORT_FILE_TEMPLATE                 | Unsupported file. Please use '{0}' or '{1}' | Unsupported file. Please use '{0}' or '{1}'
-ATHLETE                                          | Athlete | Athlete
-ATHLETES                                         | Athletes | Athletes
-HORSE                                            | Horse | Horse
-HORSES                                           | Horses | Horses
-PARTICIPANT                                      | Participant | Participant
-PARTICIPANTS                                     | Participants | Participants
-PARTICIPATION                                    | Participation | Participation
-PARTICIPATIONS                                   | Participations | Participations
-PERFORMANCE                                      | Performance | Performance
-PERFORMANCES                                     | Performances | Performances
-ENDURANCE_EVENT                                  | Endurance Event | Endurance Event
-ENDURANCE_EVENTS                                 | Endurance Events | Endurance Events
-COMPETITION                                      | Competition | Competition
-COMPETITIONS                                     | Competitions | Competitions
-PERSONNEL                                        | Personnel | Personnel
-PHASE                                            | Phase | Phase
-PHASES                                           | Phases | Phases
-COUNTRY                                          | Country | Country
-COUNTRIES                                        | Countries | Countries
-RESULT                                           | Result | Result
-RESULTS                                          | Results | Results
-IMPORT                                           | Import | Import
-EVENT                                            | Event | Event
-MANAGER                                          | Manager | Manager
-RANK_LIST                                        | Ranking | Ranking
-ARRIVAL                                          | ARR | ARR
-INSPECTION                                       | IN | IN
-RE_INSPECTION                                    | ReIN | ReIN
-REQUIRED_INSPECTION                              | RECINS | RECINS
-COMPULSORY_REQUIRED_INSPECTION                   | CRI | CRI
-NEXT_START_TIME                                  | OUT | OUT
-RECOVERY_SPAN                                    | REC | REC
-TIME                                             | TIME | TIME
-AVERAGE_SPEED_LOOP                               | Speed (loop) | Speed (loop)
-AVERAGE_SPEED_TOTAL                              | Speed (comp) | Speed (comp)
-SAVE                                             | Save | Save
-UPDATE                                           | Update | Update
-REMOVE                                           | Remove | Remove
-SEARCH                                           | Search | Search
-CLEAR                                            | Clear | Clear
-CREATE                                           | Create | Create
-BACK                                             | Back | Back
-YES                                              | Yes | Yes
-NO                                               | No | No
-RECOVERY_IN_MINUTES_TEXT                         | Recovery (min) | Recovery (min)
-LENGTH_IN_KM_TEXT                                | Length (km) | Length (km)
-FINAL                                            | Final | Final
-UPDATE_COMPETITION                               | Update Competition | Update Competition
-UPDATE_PHASE_TEXT                                | Update Phase | Update Phase
-SELECT_WORK_DIRECTORY                            | Select Work Directory | Select Work Directory
-SELECT_IMPORT_FILE                               | Select Import File | Select Import File
-NAME                                             | Name | Name
-START_TIME                                       | Start Time | Start Time
-POPULATED_PLACE                                  | Populated Place | Populated Place
-TYPE                                             | Type | Type
-ROLE                                             | Role | Role
-ORDER                                            | Order | Order
-IS_FINAL                                         | Is Final Phase | Is Final Phase
-RFID_NUMBER                                      | RFID Number | RFID Number
-MAX_AVERAGE_SPEED_IN_KMH                         | Max Average Speed (km/h) | Max Average Speed (km/h)
-HAS_AVERAGE_SPEED_LIMIT                          | Has Average Speed Limit | Has Average Speed Limit
-MAX_RECOVERY_TIME_IN_MINS                        | Max Recovery Time (mins) | Max Recovery Time (mins)
-REST_TIME_IN_MINS                                | Rest Time (mins) | Rest Time (mins)
-FEI_ID                                           | Fei ID | Fei ID
-FIRST_NAME                                       | First Name | First Name
-LAST_NAME                                        | Last Name | Last Name
-BREED                                            | Breed | Breed
-TRAINER_FEI_ID                                   | Trainer FEI ID | Trainer FEI ID
-TRAINER_FIRST_NAME                               | Trainer First | Trainer First Name
-TRAINER_LAST_NAME                                | Trainer Last Name | Trainer Last Name
-IS_STALLION                                      | Is Stallion | Is Stallion
-CLUB                                             | Club | Club
-MANAGER                                          | Manager | Manager
-NUMBER                                           | Number  | Number
-START                                            | Start | Start
-KM                                               | Km | Km
-LENGTH_IN_KM                                     | Length | Length
-HOURS_SYMBOL                                     | h | h
-KM_PER_HOUR                                      | km/h | km/h
-KIDS                                             | Kids | Kids
-ADULTS                                           | Adults | Adults
-CATEGORY                                         | Category | Category
-COMPLETE_UNSUCCESSFULLY                          | Disqualify | Disqualify
-UPDATE_PERSONNEL                                 | Update Personnel | Update Personnel
-_YES                                             | _Yes | _Yes
-_NO                                              | _No | _No
-EXPAND                                           | Expand | Expand
-COLLAPSE                                         | Collapse | Collapse
-REQUIRE_COMPULSORY_INSPECTION                    | Require Compulsory Inspection | Require Compulsory Inspection
-_RE_INSPECTION                                   | _ReInspection | _ReInspection
-_NUMBER                                          | _Number | _Number
-PRINT                                            | Print | Print
-EDIT                                             | Edit | Edit
-VIEW                                             | View | View
-ADD                                              | Add | Add
-ADD_PARTICIPANTS_TO                              | Add Participants to | Add Participants to
-APPLICATION_ERROR                                | Application Error | Application Error
-VALIDATION_MESSAGE                               | Validation Message | Validation Message
-CONFIRMATION                                     | Confirmation | Confirmation
-MARE                                             | Mare | Mare
-STALLION                                         | Stallion | Stallion
-TOTAL                                            | Total | Total
-SELECT                                           | Select | Select
-GATE                                             | Gate | Gate
-RE_QUIRED_INSPECTION                             | Re_quired Inspection | Re_quired Inspection
-HAS_STARTED                                      | Has Started | Has Started
-DISTANCE                                         | Distance | Distance
-STARTLIST                                        | Startlist | Startlist
-INCLUDE_PAST                                     | Include Past | Include Past
-_DQ                                              | _DQ | _DQ
-IMPORT                                           | Import | Import
+﻿constant-key | english-value | translated-value
+CANNOT_REMOVE_USED_IN_PARTICIPANT_MESSAGE                | cannot be removed because it is used in an existing {entities-participant} | cannot be removed because it is used in an existing {entities-participant}
+ALREADY_PARTICIPATING_MESSAGE                            | cannot be created - '{0}' is already participating. | cannot be created - '{0}' is already participating.
+CANNOT_ADD_PARTICIPATION_DIFFERENT_PHASE_COUNT_MESSAGE   | cannot be added, because they already participate in '{0}' with different amount of {entities-phase-plurals}  | cannot be added, because they already participate in '{0}' with different amount of {entities-phase-plurals}
+CANNOT_ADD_PARTICIPATION_DIFFERENT_PHASE_LENGTHS_MESSAGE | cannot be added in '{0}'- they already participate in '{1}' and difference is detected in '{entities-phase} {2}' lengths: '{3}' and '{4} | cannot be added in '{0}'- they already participate in '{1}' and difference is detected in '{entities-phase} {2}' lengths: '{3}' and '{4}
+DATE_TIME_HAS_TO_BE_LATER_MESSAGE                        | {0} has to be later than {1} | {0} has to be later than {1}
+CANNOT_EDIT_PERFORMANCE_MESSAGE                          | - INVALID edit. Value does not exist for '{0}'. 'Edit' button should only be used to correct errors. Please use '{words-update}' button above when setting Times.  | - INVALID edit. Value does not exist for '{0}'. 'Edit' button should only be used to correct errors. Please use '{words-update}' button above when setting Times.
+IS_REQUIRED_MESSAGE                                      | '{0}' is required. | '{0}' is required.
+PARTICIPANT_NUMBER_NOT_FOUND_MESSAGE                     | '{0}' does not exit | '{0}' does not exit
+CHANGE_NOT_ALLOWED_WHEN_EVENT_HAS_STARTED_MESSAGE        | changes are not allowed after {entities-participation-plurals} have started | changes are not allowed after {entities-participation-plurals} have started
+REQUIRED_INSPECTION_IS_NOT_ALLOWED_MESSAGE               | 's Individual Required Inspection is not allowed, because CRI is enabled on this '{entities-phase}' | 's Individual Required Inspection is not allowed, because CRI is enabled on this '{entities-phase}'
+INVALID_ORDER_BY_MESSAGE                                 | with order '{0}' already exists | with order '{0}' already exists
+INVALID_COMPETITION_NO_FINAL_PHASE_MESSAGE               | {0} has no final {entities-phase} | {0} has no final {entities-phase}
+INVALID_PARTICIPANT_NO_PARTICIPATIONS_MESSAGE            | '{0}' is not included in any {entities-competition} | '{0}' is not included in any {entities-competition}
+INVALID_PARTICIPANT_NO_COUNTRY_MESSAGE                   | '{0}' has no {entities-country} | '{0}' has no {entities-country}
+PARTICIPANT_HAS_NO_ACTIVE_PERFORMANCE_MESSAGE            | '{0}' has no active {entities-performance} | '{0}' has no active {entities-performance}
+INVALID_FULL_NAME_MESSAGE                                | Full Name '{0}' is INVALID. Please use First and Last name | Full Name '{0}' is INVALID. Please use First and Last name
+SELECT_WORK_DIRECTORY_MESSAGE_MESSAGE                    | Select working directory using the {words-import} button above. | Select working directory using the {words-import} button above.
+REMOVE_CONFIRMATION_MESSAGE_MESSAGE                      | Are you sure you want to remove this item | Are you sure you want to remove this item
+INVALID_DATE_FORMAT_MESSAGE                              | Invalid date: '{0}'. Expected format: '{1}' | Invalid date: '{0}'. Expected format: '{1}'
+UNSUPPORTED_IMPORT_FILE_MESSAGE                          | Unsupported file. Please use '{0}' or '{1}' | Unsupported file. Please use '{0}' or '{1}'
+ATHLETE_ENTITY                      | Athlete | Athlete
+ATHLETES_ENTITY                     | Athletes | Athletes
+HORSE_ENTITY                        | Horse | Horse
+HORSES_ENTITY                       | Horses | Horses
+PARTICIPANT_ENTITY                  | Participant | Participant
+PARTICIPANTS_ENTITY                 | Participants | Participants
+PARTICIPATION_ENTITY                | Participation | Participation
+PARTICIPATIONS_ENTITY               | Participations | Participations
+PERFORMANCE_ENTITY                  | Performance | Performance
+PERFORMANCES_ENTITY                 | Performances | Performances
+ENDURANCE_EVENT_ENTITY              | Endurance Event | Endurance Event
+ENDURANCE_EVENTS_ENTITY             | Endurance Events | Endurance Events
+COMPETITION_ENTITY                  | Competition | Competition
+COMPETITIONS_ENTITY                 | Competitions | Competitions
+PERSONNEL_ENTITY                    | Personnel | Personnel
+PHASE_ENTITY                        | Phase | Phase
+PHASES_ENTITY                       | Phases | Phases
+COUNTRY_ENTITY                      | Country | Country
+COUNTRIES_ENTITY                    | Countries | Countries
+RESULT_ENTITY                       | Result | Result
+RESULTS_ENTITY                      | Results | Results
+IMPORT_PAGE                                | Import | Import
+EVENT_PAGE                                 | Event | Event
+MANAGER_PAGE                               | Manager | Manager
+RANK_LIST_PAGE                             | Ranking | Ranking
+ARRIVAL_TERM                               | ARR | ARR
+INSPECTION_TERM                            | IN | IN
+RE_INSPECTION_TERM                         | ReIN | ReIN
+REQUIRED_INSPECTION_TERM                   | RECINS | RECINS
+COMPULSORY_REQUIRED_INSPECTION_TERM        | CRI | CRI
+NEXT_START_TIME_TERM                       | OUT | OUT
+RECOVERY_SPAN_TERM                         | REC | REC
+TIME_TERM                                  | TIME | TIME
+AVERAGE_SPEED_LOOP_TERM                    | Speed (loop) | Speed (loop)
+AVERAGE_SPEED_TOTAL_TERM                   | Speed (comp) | Speed (comp)
+SAVE                                | Save | Save
+UPDATE                              | Update | Update
+REMOVE                              | Remove | Remove
+SEARCH                              | Search | Search
+CLEAR                               | Clear | Clear
+CREATE                              | Create | Create
+BACK                                | Back | Back
+YES                                 | Yes | Yes
+NO                                  | No | No
+RECOVERY_IN_MINUTES_TEXT            | Recovery (min) | Recovery (min)
+LENGTH_IN_KM_TEXT                   | Length (km) | Length (km)
+FINAL                               | Final | Final
+UPDATE_COMPETITION                  | Update Competition | Update Competition
+UPDATE_PHASE_TEXT                   | Update Phase | Update Phase
+SELECT_WORK_DIRECTORY               | Select Work Directory | Select Work Directory
+SELECT_IMPORT_FILE                  | Select Import File | Select Import File
+NAME                                | Name | Name
+START_TIME                          | Start Time | Start Time
+POPULATED_PLACE                     | Populated Place | Populated Place
+TYPE                                | Type | Type
+ROLE                                | Role | Role
+ORDER                               | Order | Order
+IS_FINAL                            | Is Final Phase | Is Final Phase
+RFID_NUMBER                         | RFID Number | RFID Number
+MAX_AVERAGE_SPEED_IN_KMH            | Max Average Speed (km/h) | Max Average Speed (km/h)
+HAS_AVERAGE_SPEED_LIMIT             | Has Average Speed Limit | Has Average Speed Limit
+MAX_RECOVERY_TIME_IN_MINS           | Max Recovery Time (mins) | Max Recovery Time (mins)
+REST_TIME_IN_MINS                   | Rest Time (mins) | Rest Time (mins)
+FEI_ID                              | Fei ID | Fei ID
+FIRST_NAME                          | First Name | First Name
+LAST_NAME                           | Last Name | Last Name
+BREED                               | Breed | Breed
+TRAINER_FEI_ID                      | Trainer FEI ID | Trainer FEI ID
+TRAINER_FIRST_NAME                  | Trainer First | Trainer First Name
+TRAINER_LAST_NAME                   | Trainer Last Name | Trainer Last Name
+IS_STALLION                         | Is Stallion | Is Stallion
+CLUB                                | Club | Club
+MANAGER                             | Manager | Manager
+NUMBER                              | Number  | Number
+START                               | Start | Start
+KM                                  | Km | Km
+LENGTH_IN_KM                        | Length | Length
+HOURS_SYMBOL                        | h | h
+KM_PER_HOUR                         | km/h | km/h
+KIDS                                | Kids | Kids
+ADULTS                              | Adults | Adults
+CATEGORY                            | Category | Category
+COMPLETE_UNSUCCESSFULLY             | Disqualify | Disqualify
+UPDATE_PERSONNEL                    | Update Personnel | Update Personnel
+_YES                                | _Yes | _Yes
+_NO                                 | _No | _No
+EXPAND                              | Expand | Expand
+COLLAPSE                            | Collapse | Collapse
+REQUIRE_COMPULSORY_INSPECTION       | Require Compulsory Inspection | Require Compulsory Inspection
+_RE_INSPECTION                      | _ReInspection | _ReInspection
+_NUMBER                             | _Number | _Number
+PRINT                               | Print | Print
+EDIT                                | Edit | Edit
+VIEW                                | View | View
+ADD                                 | Add | Add
+ADD_PARTICIPANTS_TO                 | Add Participants to | Add Participants to
+APPLICATION_ERROR                   | Application Error | Application Error
+VALIDATION_MESSAGE                  | Validation Message | Validation Message
+CONFIRMATION                        | Confirmation | Confirmation
+MARE                                | Mare | Mare
+STALLION                            | Stallion | Stallion
+TOTAL                               | Total | Total
+SELECT                              | Select | Select
+GATE                                | Gate | Gate
+RE_QUIRED_INSPECTION                | Re_quired Inspection | Re_quired Inspection
+HAS_STARTED                         | Has Started | Has Started
+DISTANCE                            | Distance | Distance
+STARTLIST                           | Startlist | Startlist
+INCLUDE_PAST                        | Include Past | Include Past
+_DQ                                 | _DQ | _DQ
+IMPORT                              | Import | Import

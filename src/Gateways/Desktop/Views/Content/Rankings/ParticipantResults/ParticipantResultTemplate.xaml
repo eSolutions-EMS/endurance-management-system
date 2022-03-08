@@ -95,52 +95,52 @@
                         <!-- Arrive -->
                         <Border Style="{StaticResource Border-Table-Cell}">
                             <TextBlock Style="{StaticResource Text}"
-                                       Text="{x:Static localization:Terms.ARRIVAL}"/>
+                                       Text="{x:Static localization:Terms.ARRIVAL_TERM}"/>
                         </Border>
                         <!-- Inspection -->
                         <Border Style="{StaticResource Border-Table-Cell}">
                             <TextBlock Style="{StaticResource Text}"
-                                       Text="{x:Static localization:Terms.INSPECTION}"/>
+                                       Text="{x:Static localization:Terms.INSPECTION_TERM}"/>
                         </Border>
                         <!-- ReInspection -->
                         <Border Style="{StaticResource Border-Table-Cell}">
                             <TextBlock Style="{StaticResource Text}"
-                                       Text="{x:Static localization:Terms.RE_INSPECTION}"/>
+                                       Text="{x:Static localization:Terms.RE_INSPECTION_TERM}"/>
                         </Border>
                         <!-- RequiredInspection -->
                         <Border Style="{StaticResource Border-Table-Cell}">
                             <TextBlock Style="{StaticResource Text}"
-                                       Text="{x:Static localization:Terms.REQUIRED_INSPECTION}"/>
+                                       Text="{x:Static localization:Terms.REQUIRED_INSPECTION_TERM}"/>
                         </Border>
                         <!-- Compulsory Required Inspection -->
                         <Border Style="{StaticResource Border-Table-Cell}">
                             <TextBlock Style="{StaticResource Text}"
-                                       Text="{x:Static localization:Terms.COMPULSORY_REQUIRED_INSPECTION}"/>
+                                       Text="{x:Static localization:Terms.COMPULSORY_REQUIRED_INSPECTION_TERM}"/>
                         </Border>
                         <!-- Next Start Time -->
                         <Border Style="{StaticResource Border-Table-Cell}">
                             <TextBlock Style="{StaticResource Text}"
-                                       Text="{x:Static localization:Terms.NEXT_START_TIME}"/>
+                                       Text="{x:Static localization:Terms.NEXT_START_TIME_TERM}"/>
                         </Border>
                         <!-- Recovery Span -->
                         <Border Style="{StaticResource Border-Table-Cell}">
                             <TextBlock Style="{StaticResource Text}"
-                                       Text="{x:Static localization:Terms.RECOVERY_SPAN}"/>
+                                       Text="{x:Static localization:Terms.RECOVERY_SPAN_TERM}"/>
                         </Border>
                         <!-- Time -->
                         <Border Style="{StaticResource Border-Table-Cell}">
                             <TextBlock Style="{StaticResource Text}"
-                                       Text="{x:Static localization:Terms.TIME}"/>
+                                       Text="{x:Static localization:Terms.TIME_TERM}"/>
                         </Border>
                         <!-- Average Speed Loop -->
                         <Border Style="{StaticResource Border-Table-Cell}">
                             <TextBlock Style="{StaticResource Text}"
-                                       Text="{x:Static localization:Terms.AVERAGE_SPEED_LOOP}"/>
+                                       Text="{x:Static localization:Terms.AVERAGE_SPEED_LOOP_TERM}"/>
                         </Border>
                         <!-- Average Speed Total -->
                         <Border Style="{StaticResource Border-Table-Cell}">
                             <TextBlock Style="{StaticResource Text}"
-                                       Text="{x:Static localization:Terms.AVERAGE_SPEED_TOTAL}"/>
+                                       Text="{x:Static localization:Terms.AVERAGE_SPEED_TOTAL_TERM}"/>
                         </Border>
                     </StackPanel>
                     <!-- Performances -->

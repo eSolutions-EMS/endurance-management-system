@@ -20,7 +20,7 @@ public class StringsReader : IStringsReader
 
     public Dictionary<string, string> Read()
     {
-        var filePath = Path.Combine(Directory.GetCurrentDirectory(), $"./{TRANSLATION_FILE_NAME}");
+        var filePath = Path.Combine(Directory.GetCurrentDirectory(), $"./{STRINGS_FILENAME}");
         using var stream = this.fileService.ReadStream(filePath);
         var line = stream.ReadLine(); // header line
         var lineNumber = 0;

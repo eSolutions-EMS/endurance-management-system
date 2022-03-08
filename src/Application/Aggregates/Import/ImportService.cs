@@ -33,7 +33,7 @@ namespace EnduranceJudge.Application.Aggregates.Import
             if (fileExtension != ApplicationConstants.FileExtensions.Xml && fileExtension != ApplicationConstants.FileExtensions.SupportedExcel)
             {
                 var message = string.Format(
-                    Messages.UNSUPPORTED_IMPORT_FILE_TEMPLATE,
+                    Messages.UNSUPPORTED_IMPORT_FILE_MESSAGE,
                     ApplicationConstants.FileExtensions.Xml,
                     ApplicationConstants.FileExtensions.SupportedExcel);
 

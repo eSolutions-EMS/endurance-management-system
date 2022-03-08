@@ -34,7 +34,7 @@ namespace EnduranceJudge.Gateways.Desktop.Services.Implementations
         {
             if (!this.context.IsInitialized)
             {
-                throw new AppException(SELECT_WORK_DIRECTORY);
+                throw new AppException(SELECT_WORK_DIRECTORY_MESSAGE);
             }
 
             this.ChangeTo<EnduranceEventView>();
@@ -45,7 +45,7 @@ namespace EnduranceJudge.Gateways.Desktop.Services.Implementations
         {
             if (!this.context.IsInitialized)
             {
-                throw new AppException(SELECT_WORK_DIRECTORY);
+                throw new AppException(SELECT_WORK_DIRECTORY_MESSAGE);
             }
             this.ChangeTo<ContestManagerView>();
         }
@@ -53,7 +53,7 @@ namespace EnduranceJudge.Gateways.Desktop.Services.Implementations
         {
             if (!this.context.IsInitialized)
             {
-                throw new AppException(SELECT_WORK_DIRECTORY);
+                throw new AppException(SELECT_WORK_DIRECTORY_MESSAGE);
             }
             this.ChangeTo<CompetitionListView>(Regions.CONTENT_RIGHT);
             this.ClearRegion(Regions.CONTENT_LEFT);

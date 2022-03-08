@@ -20,7 +20,7 @@
 
             <!-- Title -->
             <TextBlock Style="{StaticResource Text-H1}"
-                       Text="{x:Static localization:Pages.RANK_LIST}"
+                       Text="{x:Static localization:Pages.RANK_LIST_PAGE}"
                        Grid.Row="0" Grid.Column="1"/>
             <!-- Buttons  -->
             <Border Style="{StaticResource Border-Vertical}"

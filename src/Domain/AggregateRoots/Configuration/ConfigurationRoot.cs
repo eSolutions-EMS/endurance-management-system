@@ -31,7 +31,7 @@ namespace EnduranceJudge.Domain.AggregateRoots.Configuration
         {
             this.validator.IsRequired(name, NAME);
             this.validator.IsRequired(populatedPlace, POPULATED_PLACE);
-            this.validator.IsRequired(countryId, Entities.COUNTRY);
+            this.validator.IsRequired(countryId, Entities.COUNTRY_ENTITY);
 
             var country = this.state.Countries.FindDomain(countryId);
             if (this.state.Event == null)

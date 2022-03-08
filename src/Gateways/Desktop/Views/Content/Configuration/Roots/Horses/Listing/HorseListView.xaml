@@ -16,7 +16,7 @@
         <Border Style="{StaticResource Border-Vertical}"
                 Grid.Row="0">
             <TextBlock Style="{StaticResource Text-H1}"
-                       Text="{x:Static localization:Entities.HORSE}"
+                       Text="{x:Static localization:Entities.HORSE_ENTITY}"
                        Grid.Row="0" />
         </Border>
 

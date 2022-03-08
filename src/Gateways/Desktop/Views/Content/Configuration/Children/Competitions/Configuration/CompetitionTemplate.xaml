@@ -28,7 +28,7 @@
 
                 <Border Style="{StaticResource Border-Vertical}">
                     <TextBlock Style="{StaticResource Text}"
-                               Text="{x:Static localization:Entities.PHASES}" />
+                               Text="{x:Static localization:Entities.PHASES_ENTITY}" />
                 </Border>
 
                 <Border Style="{StaticResource Border-Vertical}">
