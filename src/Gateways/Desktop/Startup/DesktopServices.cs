@@ -6,6 +6,7 @@ using EnduranceJudge.Domain;
 using EnduranceJudge.Gateways.Desktop.Services;
 using EnduranceJudge.Gateways.Persistence;
 using EnduranceJudge.Gateways.Persistence.Startup;
+using EnduranceJudge.Localization;
 using Microsoft.Extensions.DependencyInjection;
 using Prism.Ioc;
 using System.Linq;
@@ -27,6 +28,7 @@ namespace EnduranceJudge.Gateways.Desktop.Startup
         private static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             var assemblies = CoreConstants.Assemblies
+                .Concat(LocalizationConstants.Assemblies)
                 .Concat(DomainConstants.Assemblies)
                 .Concat(ApplicationConstants.Assemblies)
                 .Concat(PersistenceConstants.Assemblies)

@@ -1,5 +1,7 @@
-﻿using EnduranceJudge.Localization.Translations;
+﻿using EnduranceJudge.Core.Utilities;
+using EnduranceJudge.Localization.Translations;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace EnduranceJudge.Localization;
 
@@ -34,4 +36,13 @@ public static class LocalizationConstants
         { "{words-update}",                    Words.UPDATE },
         { "{words-import}",                    Words.IMPORT },
     };
+
+    public static Assembly[] Assemblies
+    {
+        get
+        {
+            var assemblies = ReflectionUtilities.GetAssemblies("EnduranceJudge.Localization");
+            return assemblies;
+        }
+    }
 }
