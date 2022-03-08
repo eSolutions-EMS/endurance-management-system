@@ -1,85 +1,82 @@
-﻿namespace EnduranceJudge.Localization.Strings;
+﻿// ReSharper disable InconsistentNaming
+namespace EnduranceJudge.Localization.Strings;
 
 public class Words
 {
-    public const string SAVE = "Save";
-    public const string UPDATE = "Update";
-    public const string REMOVE = "Remove";
-    public const string SEARCH = "Search";
-    public const string CLEAR = "Clear";
-    public const string CREATE = "Create";
-    public const string BACK = "Back";
-    public const string YES = "Yes";
-    public const string NO = "No";
-    public const string RECOVERY_IN_MINUTES_TEXT = "Recovery (min)";
-    public const string LENGTH_IN_KM_TEXT = "Length (km)";
-    public const string FINAL = "Final";
-    public const string UPDATE_COMPETITION = "Update Competition";
-    public const string UPDATE_PHASE_TEXT = "Update Phase";
-    public const string SELECT_WORK_DIRECTORY = "Select Work Directory";
-    public const string SELECT_IMPORT_FILE = "Select Import File";
-    public const string NAME = "Name";
-    public const string START_TIME = "Start Time";
-    public const string POPULATED_PLACE = "Populated Place";
-    public const string TYPE = "Type";
-    public const string ROLE = "Role";
-    public const string ORDER = "Order";
-    public const string IS_FINAL = "Is Final Phase";
-    public const string RFID_NUMBER = "RFID Number";
-    public const string MAX_AVERAGE_SPEED_IN_KMH = "Max Average Speed (km/h)";
-    public const string HAS_AVERAGE_SPEED_LIMIT = "Has Average Speed Limit";
-    public const string MAX_RECOVERY_TIME_IN_MINS = "Max Recovery Time (mins)";
-    public const string REST_TIME_IN_MINS = "Rest Time (mins)";
-    public const string FEI_ID = "Fei ID";
-    public const string FIRST_NAME = "First Name";
-    public const string LAST_NAME = "Last Name";
-    public const string BREED = "Breed";
-    public const string TRAINER_FEI_ID = "Trainer FEI ID";
-    public const string TRAINER_FIRST_NAME = "Trainer First Name";
-    public const string TRAINER_LAST_NAME = "Trainer Last Name";
-    public const string IS_STALLION = "Is Stallion";
-    public const string CLUB = "Club";
-    public const string MANAGER = "Manager";
-    public const string NUMBER = "Number";
-    public const string IS_COMPLETE = "Is complete";
-    public const string START = "Start";
-    public const string KM = "Km";
-    public const string LENGTH_IN_KM = "Length";
-    public const string HOURS_SYMBOL = "h";
-    public const string KM_PER_HOUR = "km/h";
-    public const string KIDS = "Kids";
-    public const string ADULTS = "Adults";
-    public const string LENGTH = "Lenght";
-    public const string RANK_LIST = "Ranklist";
-    public const string CATEGORY = "Category";
-    public const string COMPLETE_UNSUCCESSFULLY = "Disqualify";
-    public const string COMPLETE = "Complete";
-    public const string UPDATE_PERSONNEL = "Update Personnel";
-    public const string _YES = "_Yes";
-    public const string _NO = "_No";
-    public const string EXPAND = "Expand";
-    public const string COLLAPSE = "Collapse";
-    public const string REQUIRE_COMPULSORY_INSPECTION = "Require Compulsory Inspection";
-    public const string _RE_INSPECTION = "_ReInspection";
-    public const string _NUMBER = "_Number";
-    public const string PRINT = "Print";
-    public const string EDIT = "Edit";
-    public const string VIEW = "View";
-    public const string ADD = "Add";
-    public const string ADD_PARTICIPANTS_TO = "Add Participants to";
-    public const string APPLICATION_ERROR = "Application Error";
-    public const string VALIDATION_MESSAGE = "Validation Message";
-    public const string CONFIRMATION = "Confirmation";
-    public const string MARE = "Mare";
-    public const string STALLION = "Stallion";
-    public const string TOTAL = "Total";
-    public const string SELECT = "Select";
-    public const string GATE = "Gate";
-    public const string RE_QUIRED_INSPECTION = "Re_quired Inspection";
-    public const string HAS_STARTED = "Has Started";
-    public const string DISTANCE = "Distance";
-    public const string STARTLIST = "Startlist";
-    public const string INCLUDE_PAST = "Include Past";
-    public const string _DQ = "_DQ";
-    public const string IMPORT = "Import";
+    public static string SAVE                              { get; internal set; }
+    public static string UPDATE                            { get; internal set; }
+    public static string REMOVE                            { get; internal set; }
+    public static string SEARCH                            { get; internal set; }
+    public static string CLEAR                             { get; internal set; }
+    public static string CREATE                            { get; internal set; }
+    public static string BACK                              { get; internal set; }
+    public static string YES                               { get; internal set; }
+    public static string NO                                { get; internal set; }
+    public static string RECOVERY_IN_MINUTES_TEXT          { get; internal set; }
+    public static string LENGTH_IN_KM_TEXT                 { get; internal set; }
+    public static string FINAL                             { get; internal set; }
+    public static string UPDATE_COMPETITION                { get; internal set; }
+    public static string UPDATE_PHASE_TEXT                 { get; internal set; }
+    public static string SELECT_WORK_DIRECTORY             { get; internal set; }
+    public static string SELECT_IMPORT_FILE                { get; internal set; }
+    public static string NAME                              { get; internal set; }
+    public static string START_TIME                        { get; internal set; }
+    public static string POPULATED_PLACE                   { get; internal set; }
+    public static string TYPE                              { get; internal set; }
+    public static string ROLE                              { get; internal set; }
+    public static string ORDER                             { get; internal set; }
+    public static string IS_FINAL                          { get; internal set; }
+    public static string RFID_NUMBER                       { get; internal set; }
+    public static string MAX_AVERAGE_SPEED_IN_KMH          { get; internal set; }
+    public static string HAS_AVERAGE_SPEED_LIMIT           { get; internal set; }
+    public static string MAX_RECOVERY_TIME_IN_MINS         { get; internal set; }
+    public static string REST_TIME_IN_MINS                 { get; internal set; }
+    public static string FEI_ID                            { get; internal set; }
+    public static string FIRST_NAME                        { get; internal set; }
+    public static string LAST_NAME                         { get; internal set; }
+    public static string BREED                             { get; internal set; }
+    public static string TRAINER_FEI_ID                    { get; internal set; }
+    public static string TRAINER_FIRST_NAME                { get; internal set; }
+    public static string TRAINER_LAST_NAME                 { get; internal set; }
+    public static string IS_STALLION                       { get; internal set; }
+    public static string CLUB                              { get; internal set; }
+    public static string MANAGER                           { get; internal set; }
+    public static string NUMBER                            { get; internal set; }
+    public static string START                             { get; internal set; }
+    public static string KM                                { get; internal set; }
+    public static string LENGTH_IN_KM                      { get; internal set; }
+    public static string HOURS_SYMBOL                      { get; internal set; }
+    public static string KM_PER_HOUR                       { get; internal set; }
+    public static string KIDS                              { get; internal set; }
+    public static string ADULTS                            { get; internal set; }
+    public static string CATEGORY                          { get; internal set; }
+    public static string COMPLETE_UNSUCCESSFULLY           { get; internal set; }
+    public static string UPDATE_PERSONNEL                  { get; internal set; }
+    public static string _YES                              { get; internal set; }
+    public static string _NO                               { get; internal set; }
+    public static string EXPAND                            { get; internal set; }
+    public static string COLLAPSE                          { get; internal set; }
+    public static string REQUIRE_COMPULSORY_INSPECTION     { get; internal set; }
+    public static string _RE_INSPECTION                    { get; internal set; }
+    public static string _NUMBER                           { get; internal set; }
+    public static string PRINT                             { get; internal set; }
+    public static string EDIT                              { get; internal set; }
+    public static string VIEW                              { get; internal set; }
+    public static string ADD                               { get; internal set; }
+    public static string ADD_PARTICIPANTS_TO               { get; internal set; }
+    public static string APPLICATION_ERROR                 { get; internal set; }
+    public static string VALIDATION_MESSAGE                { get; internal set; }
+    public static string CONFIRMATION                      { get; internal set; }
+    public static string MARE                              { get; internal set; }
+    public static string STALLION                          { get; internal set; }
+    public static string TOTAL                             { get; internal set; }
+    public static string SELECT                            { get; internal set; }
+    public static string GATE                              { get; internal set; }
+    public static string RE_QUIRED_INSPECTION              { get; internal set; }
+    public static string HAS_STARTED                       { get; internal set; }
+    public static string DISTANCE                          { get; internal set; }
+    public static string STARTLIST                         { get; internal set; }
+    public static string INCLUDE_PAST                      { get; internal set; }
+    public static string _DQ                               { get; internal set; }
+    public static string IMPORT                            { get; internal set; }
 }

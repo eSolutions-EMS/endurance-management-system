@@ -1,26 +1,27 @@
-﻿namespace EnduranceJudge.Localization.Strings;
+﻿// ReSharper disable InconsistentNaming
+namespace EnduranceJudge.Localization.Strings;
 
 public static class Entities
 {
-    public const string ATHLETE          = "Athlete";
-    public const string ATHLETES         = "Athletes";
-    public const string HORSE            = "Horse";
-    public const string HORSES           = "Horses";
-    public const string PARTICIPANT      = "Participant";
-    public const string PARTICIPANTS     = "Participants";
-    public const string PARTICIPATION    = "Participation";
-    public const string PARTICIPATIONS   = "Participations";
-    public const string PERFORMANCE      = "Performance";
-    public const string PERFORMANCES     = "Performances";
-    public const string ENDURANCE_EVENT  = "Endurance Event";
-    public const string ENDURANCE_EVENTS = "Endurance Events";
-    public const string COMPETITION      = "Competition";
-    public const string COMPETITIONS     = "Competitions";
-    public const string PERSONNEL        = "Personnel";
-    public const string PHASE            = "Phase";
-    public const string PHASES           = "Phases";
-    public const string COUNTRY          = "Country";
-    public const string COUNTRIES        = "Countries";
-    public const string RESULT           = "Result";
-    public const string RESULTS          = "Results";
+    public static string ATHLETE           { get; internal set; }
+    public static string ATHLETES          { get; internal set; }
+    public static string HORSE             { get; internal set; }
+    public static string HORSES            { get; internal set; }
+    public static string PARTICIPANT       { get; internal set; }
+    public static string PARTICIPANTS      { get; internal set; }
+    public static string PARTICIPATION     { get; internal set; }
+    public static string PARTICIPATIONS    { get; internal set; }
+    public static string PERFORMANCE       { get; internal set; }
+    public static string PERFORMANCES      { get; internal set; }
+    public static string ENDURANCE_EVENT   { get; internal set; }
+    public static string ENDURANCE_EVENTS  { get; internal set; }
+    public static string COMPETITION       { get; internal set; }
+    public static string COMPETITIONS      { get; internal set; }
+    public static string PERSONNEL         { get; internal set; }
+    public static string PHASE             { get; internal set; }
+    public static string PHASES            { get; internal set; }
+    public static string COUNTRY           { get; internal set; }
+    public static string COUNTRIES         { get; internal set; }
+    public static string RESULT            { get; internal set; }
+    public static string RESULTS           { get; internal set; }
 }

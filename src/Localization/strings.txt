@@ -20,3 +20,114 @@ SELECT_WORK_DIRECTORY | Select working directory using the {words-import} button
 REMOVE_CONFIRMATION_MESSAGE | Are you sure you want to remove this item | Are you sure you want to remove this item
 INVALID_DATE_FORMAT | Invalid date: '{0}'. Expected format: '{1}' | Invalid date: '{0}'. Expected format: '{1}'
 UNSUPPORTED_IMPORT_FILE_TEMPLATE | Unsupported file. Please use '{0}' or '{1}' | Unsupported file. Please use '{0}' or '{1}'
+ATHLETE          | Athlete | Athlete
+ATHLETES         | Athletes | Athletes
+HORSE            | Horse | Horse
+HORSES           | Horses | Horses
+PARTICIPANT      | Participant | Participant
+PARTICIPANTS     | Participants | Participants
+PARTICIPATION    | Participation | Participation
+PARTICIPATIONS   | Participations | Participations
+PERFORMANCE      | Performance | Performance
+PERFORMANCES     | Performances | Performances
+ENDURANCE_EVENT  | Endurance Event | Endurance Event
+ENDURANCE_EVENTS | Endurance Events | Endurance Events
+COMPETITION      | Competition | Competition
+COMPETITIONS     | Competitions | Competitions
+PERSONNEL        | Personnel | Personnel
+PHASE            | Phase | Phase
+PHASES           | Phases | Phases
+COUNTRY          | Country | Country
+COUNTRIES        | Countries | Countries
+RESULT           | Result | Result
+RESULTS          | Results | Results
+IMPORT    | Import | Import
+EVENT     | Event | Event
+MANAGER   | Manager | Manager
+RANK_LIST | Ranking | Ranking
+ARRIVAL                          | ARR | ARR
+INSPECTION                       | IN | IN
+RE_INSPECTION                    | ReIN | ReIN
+REQUIRED_INSPECTION              | RECINS | RECINS
+COMPULSORY_REQUIRED_INSPECTION   | CRI | CRI
+NEXT_START_TIME                  | OUT | OUT
+RECOVERY_SPAN                    | REC | REC
+TIME                             | TIME | TIME
+AVERAGE_SPEED_LOOP               | Speed (loop) | Speed (loop)
+AVERAGE_SPEED_TOTAL              | Speed (comp) | Speed (comp)
+SAVE | Save | Save
+UPDATE | Update | Update
+REMOVE | Remove | Remove
+SEARCH | Search | Search
+CLEAR | Clear | Clear
+CREATE | Create | Create
+BACK | Back | Back
+YES | Yes | Yes
+NO | No | No
+RECOVERY_IN_MINUTES_TEXT | Recovery (min) | Recovery (min)
+LENGTH_IN_KM_TEXT | Length (km) | Length (km)
+FINAL | Final | Final
+UPDATE_COMPETITION | Update Competition | Update Competition
+UPDATE_PHASE_TEXT | Update Phase | Update Phase
+SELECT_WORK_DIRECTORY | Select Work Directory | Select Work Directory
+SELECT_IMPORT_FILE | Select Import File | Select Import File
+NAME | Name | Name
+START_TIME | Start Time | Start Time
+POPULATED_PLACE | Populated Place | Populated Place
+TYPE | Type | Type
+ROLE | Role | Role
+ORDER | Order | Order
+IS_FINAL | Is Final Phase | Is Final Phase
+RFID_NUMBER | RFID Number | RFID Number
+MAX_AVERAGE_SPEED_IN_KMH | Max Average Speed (km/h) | Max Average Speed (km/h)
+HAS_AVERAGE_SPEED_LIMIT | Has Average Speed Limit | Has Average Speed Limit
+MAX_RECOVERY_TIME_IN_MINS | Max Recovery Time (mins) | Max Recovery Time (mins)
+REST_TIME_IN_MINS | Rest Time (mins) | Rest Time (mins)
+FEI_ID | Fei ID | Fei ID
+FIRST_NAME | First Name | First Name
+LAST_NAME | Last Name | Last Name
+BREED | Breed | Breed
+TRAINER_FEI_ID | Trainer FEI ID | Trainer FEI ID
+TRAINER_FIRST_NAME | Trainer First Name | Trainer First Name
+TRAINER_LAST_NAME | Trainer Last Name | Trainer Last Name
+IS_STALLION | Is Stallion | Is Stallion
+CLUB | Club | Club
+MANAGER | Manager | Manager
+NUMBER | Number | Number
+START | Start | Start
+KM | Km | Km
+LENGTH_IN_KM | Length | Length
+HOURS_SYMBOL | h | h
+KM_PER_HOUR | km/h | km/h
+KIDS | Kids | Kids
+ADULTS | Adults | Adults
+CATEGORY | Category | Category
+COMPLETE_UNSUCCESSFULLY | Disqualify | Disqualify
+UPDATE_PERSONNEL | Update Personnel | Update Personnel
+_YES | _Yes | _Yes
+_NO | _No | _No
+EXPAND | Expand | Expand
+COLLAPSE | Collapse | Collapse
+REQUIRE_COMPULSORY_INSPECTION | Require Compulsory Inspection | Require Compulsory Inspection
+_RE_INSPECTION | _ReInspection | _ReInspection
+_NUMBER | _Number | _Number
+PRINT | Print | Print
+EDIT | Edit | Edit
+VIEW | View | View
+ADD | Add | Add
+ADD_PARTICIPANTS_TO | Add Participants to | Add Participants to
+APPLICATION_ERROR | Application Error | Application Error
+VALIDATION_MESSAGE | Validation Message | Validation Message
+CONFIRMATION | Confirmation | Confirmation
+MARE | Mare | Mare
+STALLION | Stallion | Stallion
+TOTAL | Total | Total
+SELECT | Select | Select
+GATE | Gate | Gate
+RE_QUIRED_INSPECTION | Re_quired Inspection | Re_quired Inspection
+HAS_STARTED | Has Started | Has Started
+DISTANCE | Distance | Distance
+STARTLIST | Startlist | Startlist
+INCLUDE_PAST | Include Past | Include Past
+_DQ | _DQ | _DQ
+IMPORT | Import | Import

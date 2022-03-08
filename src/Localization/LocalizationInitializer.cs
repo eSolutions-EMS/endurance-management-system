@@ -22,5 +22,9 @@ public class LocalizationInitializer : IInitializer
         var values = this.stringsReader.Read();
         this.stringsPopulator.Populate(typeof(Messages), values);
         this.stringsPopulator.Populate(typeof(Messages.DomainValidation), values);
+        this.stringsPopulator.Populate(typeof(Entities), values);
+        this.stringsPopulator.Populate(typeof(Pages), values);
+        this.stringsPopulator.Populate(typeof(Terms), values);
+        this.stringsPopulator.Populate(typeof(Words), values);
     }
 }

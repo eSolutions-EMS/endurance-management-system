@@ -1,15 +1,16 @@
-﻿namespace EnduranceJudge.Localization.Strings;
+﻿// ReSharper disable InconsistentNaming
+namespace EnduranceJudge.Localization.Strings;
 
 public class Terms
 {
-    public const string ARRIVAL                          = "ARR";
-    public const string INSPECTION                       = "IN";
-    public const string RE_INSPECTION                    = "ReIN";
-    public const string REQUIRED_INSPECTION              = "RECINS";
-    public const string COMPULSORY_REQUIRED_INSPECTION   = "CRI";
-    public const string NEXT_START_TIME                  = "OUT";
-    public const string RECOVERY_SPAN                    = "REC";
-    public const string TIME                             = "TIME";
-    public const string AVERAGE_SPEED_LOOP               = "Speed (loop)";
-    public const string AVERAGE_SPEED_TOTAL              = "Speed (comp)";
+    public static string ARRIVAL                          { get; internal set; }
+    public static string INSPECTION                       { get; internal set; }
+    public static string RE_INSPECTION                    { get; internal set; }
+    public static string REQUIRED_INSPECTION              { get; internal set; }
+    public static string COMPULSORY_REQUIRED_INSPECTION   { get; internal set; }
+    public static string NEXT_START_TIME                  { get; internal set; }
+    public static string RECOVERY_SPAN                    { get; internal set; }
+    public static string TIME                             { get; internal set; }
+    public static string AVERAGE_SPEED_LOOP               { get; internal set; }
+    public static string AVERAGE_SPEED_TOTAL              { get; internal set; }
 }
