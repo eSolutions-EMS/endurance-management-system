@@ -1,8 +1,8 @@
 ﻿using EnduranceJudge.Domain.Core.Exceptions;
 using System;
 using System.Linq;
-using static EnduranceJudge.Localization.Translations.Messages.DomainValidation;
-using static EnduranceJudge.Localization.Translations.Words;
+using static EnduranceJudge.Localization.Strings.Messages.DomainValidation;
+using static EnduranceJudge.Localization.Strings.Words;
 
 namespace EnduranceJudge.Domain.Validation;
 

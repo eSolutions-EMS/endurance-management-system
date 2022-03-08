@@ -8,8 +8,8 @@ using EnduranceJudge.Domain.State;
 using EnduranceJudge.Domain.State.Phases;
 using System;
 using System.Linq;
-using static EnduranceJudge.Localization.Translations.Words;
-using static EnduranceJudge.Localization.Translations.Messages.DomainValidation;
+using static EnduranceJudge.Localization.Strings.Words;
+using static EnduranceJudge.Localization.Strings.Messages.DomainValidation;
 using static EnduranceJudge.Domain.DomainConstants.ErrorMessages;
 
 namespace EnduranceJudge.Domain.AggregateRoots.Configuration.Aggregates

@@ -4,7 +4,7 @@ using EnduranceJudge.Application.Aggregates.Import.Readers;
 using EnduranceJudge.Core.ConventionalServices;
 using EnduranceJudge.Core.Services;
 using EnduranceJudge.Domain.AggregateRoots.Import;
-using EnduranceJudge.Localization.Translations;
+using EnduranceJudge.Localization.Strings;
 
 namespace EnduranceJudge.Application.Aggregates.Import
 {

@@ -6,9 +6,9 @@ using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.Validation;
 using EnduranceJudge.Domain.State;
 using EnduranceJudge.Domain.State.Athletes;
-using EnduranceJudge.Localization.Translations;
-using static EnduranceJudge.Localization.Translations.Words;
-using static EnduranceJudge.Localization.Translations.Messages.DomainValidation;
+using EnduranceJudge.Localization.Strings;
+using static EnduranceJudge.Localization.Strings.Words;
+using static EnduranceJudge.Localization.Strings.Messages.DomainValidation;
 
 namespace EnduranceJudge.Domain.AggregateRoots.Configuration.Aggregates
 {

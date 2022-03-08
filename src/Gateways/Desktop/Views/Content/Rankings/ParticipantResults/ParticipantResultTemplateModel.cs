@@ -1,7 +1,7 @@
 ﻿using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Common;
 using System;
-using static EnduranceJudge.Localization.Translations.Words;
+using static EnduranceJudge.Localization.Strings.Words;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.ParticipantResults;
 

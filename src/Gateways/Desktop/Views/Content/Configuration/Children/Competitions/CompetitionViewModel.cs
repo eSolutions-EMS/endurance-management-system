@@ -11,7 +11,7 @@ using EnduranceJudge.Gateways.Desktop.Services;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Competitions.AddParticipants;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Phases;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core;
-using EnduranceJudge.Localization.Translations;
+using EnduranceJudge.Localization.Strings;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Regions;
@@ -19,7 +19,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using static EnduranceJudge.Localization.Translations.Messages;
+using static EnduranceJudge.Localization.Strings.Messages;
 using static EnduranceJudge.Gateways.Desktop.DesktopConstants;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Competitions

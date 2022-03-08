@@ -6,8 +6,8 @@ using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.Validation;
 using EnduranceJudge.Domain.State;
 using EnduranceJudge.Domain.State.Horses;
-using static EnduranceJudge.Localization.Translations.Messages.DomainValidation;
-using static EnduranceJudge.Localization.Translations.Words;
+using static EnduranceJudge.Localization.Strings.Messages.DomainValidation;
+using static EnduranceJudge.Localization.Strings.Words;
 
 namespace EnduranceJudge.Domain.AggregateRoots.Configuration.Aggregates
 {

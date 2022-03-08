@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:participations="clr-namespace:EnduranceJudge.Gateways.Desktop.Views.Content.Common.Participants"
-                    xmlns:localization="clr-namespace:EnduranceJudge.Localization.Translations;assembly=EnduranceJudge.Localization">
+                    xmlns:localization="clr-namespace:EnduranceJudge.Localization.Strings;assembly=EnduranceJudge.Localization">
 
     <DataTemplate DataType="{x:Type participations:ParticipantTemplateModel}">
         <Border Style="{StaticResource Border-Vertical}">

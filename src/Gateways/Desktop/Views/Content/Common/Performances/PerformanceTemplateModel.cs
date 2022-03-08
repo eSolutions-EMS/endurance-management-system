@@ -6,12 +6,12 @@ using EnduranceJudge.Domain.AggregateRoots.Manager;
 using EnduranceJudge.Domain.State.Performances;
 using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Services;
-using EnduranceJudge.Localization.Translations;
+using EnduranceJudge.Localization.Strings;
 using Prism.Commands;
 using System;
 using System.Windows;
 using static EnduranceJudge.Gateways.Desktop.DesktopConstants;
-using static EnduranceJudge.Localization.Translations.Words;
+using static EnduranceJudge.Localization.Strings.Words;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Common.Performances;
 

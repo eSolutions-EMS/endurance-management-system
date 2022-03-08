@@ -7,7 +7,7 @@ using EnduranceJudge.Domain.State.Athletes;
 using EnduranceJudge.Domain.State.Horses;
 using EnduranceJudge.Domain.State.Participants;
 using System.Linq;
-using static EnduranceJudge.Localization.Translations.Messages.DomainValidation;
+using static EnduranceJudge.Localization.Strings.Messages.DomainValidation;
 
 namespace EnduranceJudge.Domain.AggregateRoots.Configuration.Aggregates
 {

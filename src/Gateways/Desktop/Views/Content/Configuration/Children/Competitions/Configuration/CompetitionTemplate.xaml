@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:competitions="clr-namespace:EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Competitions"
-                    xmlns:localization="clr-namespace:EnduranceJudge.Localization.Translations;assembly=EnduranceJudge.Localization">
+                    xmlns:localization="clr-namespace:EnduranceJudge.Localization.Strings;assembly=EnduranceJudge.Localization">
 
     <DataTemplate DataType="{x:Type competitions:CompetitionViewModel}">
         <StackPanel Style="{StaticResource List-Vertical}">

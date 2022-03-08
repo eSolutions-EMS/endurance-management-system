@@ -11,7 +11,7 @@ using EnduranceJudge.Domain.State.Performances;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static EnduranceJudge.Localization.Translations.Messages.DomainValidation;
+using static EnduranceJudge.Localization.Strings.Messages.DomainValidation;
 
 namespace EnduranceJudge.Domain.AggregateRoots.Manager;
 

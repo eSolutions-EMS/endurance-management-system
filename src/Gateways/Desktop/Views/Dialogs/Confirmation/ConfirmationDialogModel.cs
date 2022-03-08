@@ -1,6 +1,6 @@
 ﻿using EnduranceJudge.Gateways.Desktop.Core.Extensions;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
-using EnduranceJudge.Localization.Translations;
+using EnduranceJudge.Localization.Strings;
 using Prism.Commands;
 using Prism.Services.Dialogs;
 using System;

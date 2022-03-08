@@ -1,4 +1,4 @@
-﻿namespace EnduranceJudge.Localization.Translations;
+﻿namespace EnduranceJudge.Localization.Strings;
 
 public static class Pages
 {

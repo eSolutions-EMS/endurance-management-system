@@ -1,5 +1,5 @@
 ﻿using EnduranceJudge.Core.Utilities;
-using EnduranceJudge.Localization.Translations;
+using EnduranceJudge.Localization.Strings;
 using System.Collections.Generic;
 using System.Reflection;
 

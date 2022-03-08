@@ -1,7 +1,7 @@
 ﻿using EnduranceJudge.Gateways.Desktop.Core.Extensions;
 using EnduranceJudge.Gateways.Desktop.Core.Objects;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
-using EnduranceJudge.Localization.Translations;
+using EnduranceJudge.Localization.Strings;
 using Prism.Services.Dialogs;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Dialogs.Message

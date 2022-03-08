@@ -1,6 +1,6 @@
 ﻿using EnduranceJudge.Application.Core.Exceptions;
 using EnduranceJudge.Core.ConventionalServices;
-using EnduranceJudge.Localization.Translations;
+using EnduranceJudge.Localization.Strings;
 using System;
 using System.Globalization;
 

@@ -3,7 +3,7 @@ using EnduranceJudge.Domain.AggregateRoots.Configuration;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Phases;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core;
-using EnduranceJudge.Localization.Translations;
+using EnduranceJudge.Localization.Strings;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Phases
 {

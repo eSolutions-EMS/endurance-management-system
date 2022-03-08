@@ -1,6 +1,6 @@
 ﻿using EnduranceJudge.Core.Services;
 using EnduranceJudge.Localization.Services;
-using EnduranceJudge.Localization.Translations;
+using EnduranceJudge.Localization.Strings;
 using System;
 
 namespace EnduranceJudge.Localization;

@@ -6,7 +6,7 @@ using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Domain.State.Performances;
 using System.Collections.Generic;
 using System.Linq;
-using static EnduranceJudge.Localization.Translations.Messages.DomainValidation;
+using static EnduranceJudge.Localization.Strings.Messages.DomainValidation;
 
 namespace EnduranceJudge.Domain.State.Participations
 {

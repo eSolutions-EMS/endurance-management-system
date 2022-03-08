@@ -10,7 +10,7 @@ using EnduranceJudge.Gateways.Desktop.Views.Dialogs.Message;
 using Prism.Regions;
 using System;
 using static EnduranceJudge.Gateways.Desktop.DesktopConstants;
-using static EnduranceJudge.Localization.Translations.Messages;
+using static EnduranceJudge.Localization.Strings.Messages;
 using NavigationParameters = Prism.Regions.NavigationParameters;
 
 namespace EnduranceJudge.Gateways.Desktop.Services.Implementations

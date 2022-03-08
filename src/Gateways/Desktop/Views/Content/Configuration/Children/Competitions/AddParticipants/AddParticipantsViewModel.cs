@@ -9,13 +9,13 @@ using EnduranceJudge.Gateways.Desktop.Core.Extensions;
 using EnduranceJudge.Gateways.Desktop.Core.Services;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
 using EnduranceJudge.Gateways.Desktop.Services;
-using EnduranceJudge.Localization.Translations;
+using EnduranceJudge.Localization.Strings;
 using Prism.Commands;
 using Prism.Regions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static EnduranceJudge.Localization.Translations.Messages;
+using static EnduranceJudge.Localization.Strings.Messages;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Competitions.AddParticipants;
 
