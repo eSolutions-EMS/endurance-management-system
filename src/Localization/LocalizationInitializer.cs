@@ -8,11 +8,11 @@ namespace EnduranceJudge.Localization;
 public class LocalizationInitializer : IInitializer
 {
     private readonly ITranslationsReader translationsReader;
-    private readonly IPopulator populator;
-    public LocalizationInitializer(ITranslationsReader translationsReader, IPopulator populator)
+    private readonly IStringsPopulator stringsPopulator;
+    public LocalizationInitializer(ITranslationsReader translationsReader, IStringsPopulator stringsPopulator)
     {
         this.translationsReader = translationsReader;
-        this.populator = populator;
+        this.stringsPopulator = stringsPopulator;
     }
 
     public int RunningOrder { get; }
@@ -20,7 +20,7 @@ public class LocalizationInitializer : IInitializer
     public void Run(IServiceProvider serviceProvider)
     {
         var values = this.translationsReader.Read();
-        this.populator.Populate(typeof(Messages), values);
-        this.populator.Populate(typeof(Messages.DomainValidation), values);
+        this.stringsPopulator.Populate(typeof(Messages), values);
+        this.stringsPopulator.Populate(typeof(Messages.DomainValidation), values);
     }
 }

@@ -6,7 +6,7 @@ using System.Reflection;
 
 namespace EnduranceJudge.Localization.Services;
 
-public class Populator : IPopulator
+public class StringsPopulator : IStringsPopulator
 {
     public void Populate(Type type, Dictionary<string, string> values)
     {
@@ -39,7 +39,7 @@ public class Populator : IPopulator
     }
 }
 
-public interface IPopulator : IService
+public interface IStringsPopulator : IService
 {
     void Populate(Type type, Dictionary<string, string> values);
 }
