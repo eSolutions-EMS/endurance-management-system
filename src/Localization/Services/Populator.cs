@@ -14,7 +14,7 @@ public class Populator : IPopulator
         {
             throw new Exception("Translation values are empty");
         }
-        var fields = type.GetFields(BindingFlags.Public | BindingFlags.Static);
+        var fields = type.GetProperties(BindingFlags.Public | BindingFlags.Static);
         foreach (var info in fields)
         {
             var name = info.Name;

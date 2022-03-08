@@ -3,6 +3,7 @@ using EnduranceJudge.Core.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using static EnduranceJudge.Localization.LocalizationConstants;
 
 namespace EnduranceJudge.Localization.Services;
@@ -24,9 +25,11 @@ public class TranslationsReader : ITranslationsReader
         var line = stream.ReadLine(); // header line
         var lineNumber = 0;
         var values = new Dictionary<string, string>();
-        while (line != null)
+        while (true)
         {
             line = stream.ReadLine();
+            if (line == null)
+                break;
             lineNumber++;
             var (key, translation) = this.ProcessLine(line, lineNumber);
             values.Add(key, translation);
@@ -56,10 +59,13 @@ public class TranslationsReader : ITranslationsReader
 
     private (string key, string baseline, string translation) ParseColumnValues(string line, int lineNumber)
     {
-        var values = line.Split('|', StringSplitOptions.RemoveEmptyEntries);
-        if (values.Length != 3)
+        var values = line
+            .Split('|', StringSplitOptions.RemoveEmptyEntries)
+            .Select(x => x.Trim())
+            .ToList();
+        if (values.Count != 3)
         {
-            var message = $"Line {lineNumber} has {values.Length} values. Each line should contain EXACTLY 3 values, separated by '|'.";
+            var message = $"Line {lineNumber} has {values.Count} values. Each line should contain EXACTLY 3 values, separated by '|'.";
             this.Throw(message);
         }
         var key = values[0];
