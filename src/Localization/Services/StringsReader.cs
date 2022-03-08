@@ -8,12 +8,12 @@ using static EnduranceJudge.Localization.LocalizationConstants;
 
 namespace EnduranceJudge.Localization.Services;
 
-public class TranslationsReader : ITranslationsReader
+public class StringsReader : IStringsReader
 {
     private const string ERROR_TEMPLATE = "Invalid translation file. {0} For more information: 'https://github.com/HorseSport-achobanov/endurance-judge/blob/develop/README.md#translation'";
     private readonly IFileService fileService;
 
-    public TranslationsReader(IFileService fileService)
+    public StringsReader(IFileService fileService)
     {
         this.fileService = fileService;
     }
@@ -97,7 +97,7 @@ public class TranslationsReader : ITranslationsReader
     }
 }
 
-public interface ITranslationsReader : IService
+public interface IStringsReader : IService
 {
     Dictionary<string, string> Read();
 }

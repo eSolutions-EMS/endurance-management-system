@@ -7,11 +7,11 @@ namespace EnduranceJudge.Localization;
 
 public class LocalizationInitializer : IInitializer
 {
-    private readonly ITranslationsReader translationsReader;
+    private readonly IStringsReader stringsReader;
     private readonly IStringsPopulator stringsPopulator;
-    public LocalizationInitializer(ITranslationsReader translationsReader, IStringsPopulator stringsPopulator)
+    public LocalizationInitializer(IStringsReader stringsReader, IStringsPopulator stringsPopulator)
     {
-        this.translationsReader = translationsReader;
+        this.stringsReader = stringsReader;
         this.stringsPopulator = stringsPopulator;
     }
 
@@ -19,7 +19,7 @@ public class LocalizationInitializer : IInitializer
 
     public void Run(IServiceProvider serviceProvider)
     {
-        var values = this.translationsReader.Read();
+        var values = this.stringsReader.Read();
         this.stringsPopulator.Populate(typeof(Messages), values);
         this.stringsPopulator.Populate(typeof(Messages.DomainValidation), values);
     }
