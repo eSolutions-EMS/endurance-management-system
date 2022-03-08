@@ -6,9 +6,8 @@ using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.Validation;
 using EnduranceJudge.Domain.State;
 using EnduranceJudge.Domain.State.Athletes;
-using EnduranceJudge.Localization.Strings;
-using static EnduranceJudge.Localization.Strings.Words;
-using static EnduranceJudge.Localization.Strings.Messages.DomainValidation;
+using static EnduranceJudge.Localization.Strings;
+
 
 namespace EnduranceJudge.Domain.AggregateRoots.Configuration.Aggregates
 {
@@ -30,7 +29,7 @@ namespace EnduranceJudge.Domain.AggregateRoots.Configuration.Aggregates
             this.validator.IsRequired(athleteState.FirstName, FIRST_NAME);
             this.validator.IsRequired(athleteState.LastName, LAST_NAME);
             this.validator.IsRequired(athleteState.Category, CATEGORY);
-            this.validator.IsRequired(countryId, Entities.COUNTRY_ENTITY);
+            this.validator.IsRequired(countryId, COUNTRY_ENTITY);
 
             var athlete = this.state.Athletes.FindDomain(athleteState.Id);
             if (athlete == null)

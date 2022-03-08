@@ -1,7 +1,7 @@
 ﻿using EnduranceJudge.Domain.Core.Exceptions;
 using EnduranceJudge.Domain.State;
 using EnduranceJudge.Domain.State.EnduranceEvents;
-using static EnduranceJudge.Localization.Strings.Messages.DomainValidation;
+using static EnduranceJudge.Localization.Strings;
 
 namespace EnduranceJudge.Domain.AggregateRoots.Configuration.Extensions;
 

@@ -1,5 +1,5 @@
 ﻿using EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates.Startlists;
-using EnduranceJudge.Localization.Strings;
+using static EnduranceJudge.Localization.Strings;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Dialogs.Startlists;
 
@@ -12,8 +12,8 @@ public class StartTemplateModel
         this.CountryName = start.CountryName;
         this.Distance = start.Distance;
         this.HasStarted = start.HasStarted
-            ? Words.YES
-            : Words.NO;
+            ? YES
+            : NO;
         this.StartTimeString = start.StartTime.ToString(DesktopConstants.TIME_FORMAT);
     }
 

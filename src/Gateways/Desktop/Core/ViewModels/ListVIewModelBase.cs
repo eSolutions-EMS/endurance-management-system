@@ -4,12 +4,12 @@ using EnduranceJudge.Core.Utilities;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem;
 using EnduranceJudge.Gateways.Desktop.Core.Services;
 using EnduranceJudge.Gateways.Desktop.Services;
-using EnduranceJudge.Localization.Strings;
 using Prism.Commands;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using static EnduranceJudge.Localization.Strings;
 
 namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
 {
@@ -83,7 +83,7 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
                     this.persistence.Snapshot();
                 }
             });
-            this.popupService.RenderConfirmation(Messages.REMOVE_CONFIRMATION_MESSAGE, action);
+            this.popupService.RenderConfirmation(REMOVE_CONFIRMATION_MESSAGE, action);
         }
 
         protected virtual ListItemViewModel ToViewModel(ListItemModel listable)
@@ -92,7 +92,7 @@ namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels
             var remove = this.AllowDelete
                 ? new DelegateCommand<int?>(this.RemoveAction)
                 : null;
-            return new ListItemViewModel(listable.Id, listable.Name, update, Words.UPDATE, remove);
+            return new ListItemViewModel(listable.Id, listable.Name, update, UPDATE, remove);
         }
     }
 }

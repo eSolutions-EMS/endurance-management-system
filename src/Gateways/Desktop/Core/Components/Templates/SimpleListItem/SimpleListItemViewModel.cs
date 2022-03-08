@@ -1,10 +1,10 @@
 ﻿using EnduranceJudge.Application.Core.Models;
 using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Core.Models;
-using EnduranceJudge.Localization.Strings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static EnduranceJudge.Localization.Strings;
 
 namespace EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem
 {
@@ -50,8 +50,8 @@ namespace EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListIt
 
         public static List<SimpleListItemViewModel> FromBool()
         {
-            var falseItem = new SimpleListItemViewModel(0, Words.NO);
-            var trueItem = new SimpleListItemViewModel(1, Words.YES);
+            var falseItem = new SimpleListItemViewModel(0, NO);
+            var trueItem = new SimpleListItemViewModel(1, YES);
 
             var result =  new List<SimpleListItemViewModel> { falseItem, trueItem };
 

@@ -16,7 +16,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using static EnduranceJudge.Localization.Strings.Words;
+using static EnduranceJudge.Localization.Strings;
 using static EnduranceJudge.Domain.DomainConstants;
 
 namespace EnduranceJudge.Domain.AggregateRoots.Import

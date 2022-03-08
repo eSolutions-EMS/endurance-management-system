@@ -1,5 +1,5 @@
 ﻿using EnduranceJudge.Core.Utilities;
-using EnduranceJudge.Localization.Strings;
+using static EnduranceJudge.Localization.Strings;
 using System.Collections.Generic;
 using System.Reflection;
 
@@ -12,29 +12,29 @@ public static class LocalizationConstants
 
     internal static readonly Dictionary<string, string> PLACEHOLDERS_VALUES = new()
     {
-        { "{entities-athlete}",                Entities.ATHLETE_ENTITY },
-        { "{entities-athlete-plurals}",        Entities.ATHLETES_ENTITY },
-        { "{entities-competition}",            Entities.COMPETITION_ENTITY },
-        { "{entities-competition-plurals}",    Entities.COMPETITIONS_ENTITY },
-        { "{entities-country}",                Entities.COUNTRY_ENTITY },
-        { "{entities-country-plurals}",        Entities.COUNTRIES_ENTITY },
-        { "{entities-event}",                  Entities.ENDURANCE_EVENT_ENTITY },
-        { "{entities-event-plurals}",          Entities.ENDURANCE_EVENTS_ENTITY },
-        { "{entities-horse}",                  Entities.HORSE_ENTITY },
-        { "{entities-horse-plurals}",          Entities.HORSES_ENTITY },
-        { "{entities-participant}",            Entities.PARTICIPANT_ENTITY },
-        { "{entities-participant-plurals}",    Entities.PARTICIPANTS_ENTITY },
-        { "{entities-participation}",          Entities.PARTICIPATION_ENTITY },
-        { "{entities-participation-plurals}",  Entities.PARTICIPATIONS_ENTITY },
-        { "{entities-performance}",            Entities.PERFORMANCE_ENTITY },
-        { "{entities-performance-plurals}",    Entities.PERFORMANCES_ENTITY },
-        { "{entities-personnel}",              Entities.PERSONNEL_ENTITY },
-        { "{entities-result}",                 Entities.RESULT_ENTITY },
-        { "{entities-result-plurals}",         Entities.RESULTS_ENTITY },
-        { "{entities-phase}",                  Entities.PHASE_ENTITY },
-        { "{entities-phase-plurals}",          Entities.PHASES_ENTITY },
-        { "{words-update}",                    Words.UPDATE },
-        { "{words-import}",                    Words.IMPORT },
+        { "{entities-athlete}",                ATHLETE_ENTITY },
+        { "{entities-athlete-plurals}",        ATHLETES_ENTITY },
+        { "{entities-competition}",            COMPETITION_ENTITY },
+        { "{entities-competition-plurals}",    COMPETITIONS_ENTITY },
+        { "{entities-country}",                COUNTRY_ENTITY },
+        { "{entities-country-plurals}",        COUNTRIES_ENTITY },
+        { "{entities-event}",                  ENDURANCE_EVENT_ENTITY },
+        { "{entities-event-plurals}",          ENDURANCE_EVENTS_ENTITY },
+        { "{entities-horse}",                  HORSE_ENTITY },
+        { "{entities-horse-plurals}",          HORSES_ENTITY },
+        { "{entities-participant}",            PARTICIPANT_ENTITY },
+        { "{entities-participant-plurals}",    PARTICIPANTS_ENTITY },
+        { "{entities-participation}",          PARTICIPATION_ENTITY },
+        { "{entities-participation-plurals}",  PARTICIPATIONS_ENTITY },
+        { "{entities-performance}",            PERFORMANCE_ENTITY },
+        { "{entities-performance-plurals}",    PERFORMANCES_ENTITY },
+        { "{entities-personnel}",              PERSONNEL_ENTITY },
+        { "{entities-result}",                 RESULT_ENTITY },
+        { "{entities-result-plurals}",         RESULTS_ENTITY },
+        { "{entities-phase}",                  PHASE_ENTITY },
+        { "{entities-phase-plurals}",          PHASES_ENTITY },
+        { "{words-update}",                    UPDATE },
+        { "{words-import}",                    IMPORT },
     };
 
     public static Assembly[] Assemblies

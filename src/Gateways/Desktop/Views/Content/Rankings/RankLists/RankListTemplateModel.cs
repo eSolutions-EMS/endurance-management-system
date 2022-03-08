@@ -4,7 +4,7 @@ using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.ParticipantResults;
 using System;
 using System.Collections.ObjectModel;
-using static EnduranceJudge.Localization.Strings.Words;
+using static EnduranceJudge.Localization.Strings;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.RankLists;
 

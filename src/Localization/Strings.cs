@@ -1,8 +1,38 @@
 ﻿// ReSharper disable InconsistentNaming
-namespace EnduranceJudge.Localization.Strings;
+namespace EnduranceJudge.Localization;
 
-public class Words
+public static class Strings
 {
+    /* Pages */
+    public static string IMPORT_PAGE    { get; internal set; }
+    public static string EVENT_PAGE     { get; internal set; }
+    public static string MANAGER_PAGE   { get; internal set; }
+    public static string RANK_LIST_PAGE { get; internal set; }
+
+    /* Entities */
+    public static string ATHLETE_ENTITY           { get; internal set; }
+    public static string ATHLETES_ENTITY          { get; internal set; }
+    public static string HORSE_ENTITY             { get; internal set; }
+    public static string HORSES_ENTITY            { get; internal set; }
+    public static string PARTICIPANT_ENTITY       { get; internal set; }
+    public static string PARTICIPANTS_ENTITY      { get; internal set; }
+    public static string PARTICIPATION_ENTITY     { get; internal set; }
+    public static string PARTICIPATIONS_ENTITY    { get; internal set; }
+    public static string PERFORMANCE_ENTITY       { get; internal set; }
+    public static string PERFORMANCES_ENTITY      { get; internal set; }
+    public static string ENDURANCE_EVENT_ENTITY   { get; internal set; }
+    public static string ENDURANCE_EVENTS_ENTITY  { get; internal set; }
+    public static string COMPETITION_ENTITY       { get; internal set; }
+    public static string COMPETITIONS_ENTITY      { get; internal set; }
+    public static string PERSONNEL_ENTITY         { get; internal set; }
+    public static string PHASE_ENTITY             { get; internal set; }
+    public static string PHASES_ENTITY            { get; internal set; }
+    public static string COUNTRY_ENTITY           { get; internal set; }
+    public static string COUNTRIES_ENTITY         { get; internal set; }
+    public static string RESULT_ENTITY            { get; internal set; }
+    public static string RESULTS_ENTITY           { get; internal set; }
+
+   /* Words */
     public static string SAVE                              { get; internal set; }
     public static string UPDATE                            { get; internal set; }
     public static string REMOVE                            { get; internal set; }
@@ -79,4 +109,40 @@ public class Words
     public static string INCLUDE_PAST                      { get; internal set; }
     public static string _DQ                               { get; internal set; }
     public static string IMPORT                            { get; internal set; }
+
+    /* Terms */
+    public static string ARRIVAL_TERM                          { get; internal set; }
+    public static string INSPECTION_TERM                       { get; internal set; }
+    public static string RE_INSPECTION_TERM                    { get; internal set; }
+    public static string REQUIRED_INSPECTION_TERM              { get; internal set; }
+    public static string COMPULSORY_REQUIRED_INSPECTION_TERM   { get; internal set; }
+    public static string NEXT_START_TIME_TERM                  { get; internal set; }
+    public static string RECOVERY_SPAN_TERM                    { get; internal set; }
+    public static string TIME_TERM                             { get; internal set; }
+    public static string AVERAGE_SPEED_LOOP_TERM               { get; internal set; }
+    public static string AVERAGE_SPEED_TOTAL_TERM              { get; internal set; }
+
+    /* Messages */
+    public static string SELECT_WORK_DIRECTORY_MESSAGE            { get; internal set; }
+    public static string REMOVE_CONFIRMATION_MESSAGE              { get; internal set; }
+    public static string INVALID_DATE_FORMAT_MESSAGE              { get; internal set; }
+    public static string UNSUPPORTED_IMPORT_FILE_MESSAGE          { get; internal set; }
+
+    /* Domain messages */
+    public static string CANNOT_REMOVE_USED_IN_PARTICIPANT_MESSAGE                { get; internal set; }
+    public static string ALREADY_PARTICIPATING_MESSAGE                            { get; internal set; }
+    public static string CANNOT_ADD_PARTICIPATION_DIFFERENT_PHASE_COUNT_MESSAGE   { get; internal set; }
+    public static string CANNOT_ADD_PARTICIPATION_DIFFERENT_PHASE_LENGTHS_MESSAGE { get; internal set; }
+    public static string DATE_TIME_HAS_TO_BE_LATER_MESSAGE                        { get; internal set; }
+    public static string CANNOT_EDIT_PERFORMANCE_MESSAGE                          { get; internal set; }
+    public static string IS_REQUIRED_MESSAGE                                      { get; internal set; }
+    public static string PARTICIPANT_NUMBER_NOT_FOUND_MESSAGE                     { get; internal set; }
+    public static string CHANGE_NOT_ALLOWED_WHEN_EVENT_HAS_STARTED_MESSAGE        { get; internal set; }
+    public static string REQUIRED_INSPECTION_IS_NOT_ALLOWED_MESSAGE               { get; internal set; }
+    public static string INVALID_ORDER_BY_MESSAGE                                 { get; internal set; }
+    public static string INVALID_COMPETITION_NO_FINAL_PHASE_MESSAGE               { get; internal set; }
+    public static string INVALID_PARTICIPANT_NO_PARTICIPATIONS_MESSAGE            { get; internal set; }
+    public static string INVALID_PARTICIPANT_NO_COUNTRY_MESSAGE                   { get; internal set; }
+    public static string PARTICIPANT_HAS_NO_ACTIVE_PERFORMANCE_MESSAGE            { get; internal set; }
+    public static string INVALID_FULL_NAME_MESSAGE                                { get; internal set; }
 }

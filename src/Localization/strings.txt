@@ -15,8 +15,8 @@ INVALID_PARTICIPANT_NO_PARTICIPATIONS_MESSAGE            | '{0}' is not included
 INVALID_PARTICIPANT_NO_COUNTRY_MESSAGE                   | '{0}' has no {entities-country} | '{0}' has no {entities-country}
 PARTICIPANT_HAS_NO_ACTIVE_PERFORMANCE_MESSAGE            | '{0}' has no active {entities-performance} | '{0}' has no active {entities-performance}
 INVALID_FULL_NAME_MESSAGE                                | Full Name '{0}' is INVALID. Please use First and Last name | Full Name '{0}' is INVALID. Please use First and Last name
-SELECT_WORK_DIRECTORY_MESSAGE_MESSAGE                    | Select working directory using the {words-import} button above. | Select working directory using the {words-import} button above.
-REMOVE_CONFIRMATION_MESSAGE_MESSAGE                      | Are you sure you want to remove this item | Are you sure you want to remove this item
+SELECT_WORK_DIRECTORY_MESSAGE                            | Select working directory using the {words-import} button above. | Select working directory using the {words-import} button above.
+REMOVE_CONFIRMATION_MESSAGE                              | Are you sure you want to remove this item | Are you sure you want to remove this item
 INVALID_DATE_FORMAT_MESSAGE                              | Invalid date: '{0}'. Expected format: '{1}' | Invalid date: '{0}'. Expected format: '{1}'
 UNSUPPORTED_IMPORT_FILE_MESSAGE                          | Unsupported file. Please use '{0}' or '{1}' | Unsupported file. Please use '{0}' or '{1}'
 ATHLETE_ENTITY                      | Athlete | Athlete

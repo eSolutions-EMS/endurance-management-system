@@ -1,14 +1,14 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem"
-                    xmlns:localization="clr-namespace:EnduranceJudge.Localization.Strings;assembly=EnduranceJudge.Localization">
+                    xmlns:localization="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization">
 
     <DataTemplate DataType="{x:Type local:ListItemViewModel}">
         <StackPanel>
             <DockPanel Style="{StaticResource Dock-Horizontal}">
 
                 <Button Style="{StaticResource Button}" Visibility="{Binding RemoveVisibility}"
-                        Content="{x:Static localization:Words.REMOVE}"
+                        Content="{x:Static localization:Strings.REMOVE}"
                         Command="{Binding Remove}"
                         CommandParameter="{Binding Id}" />
 

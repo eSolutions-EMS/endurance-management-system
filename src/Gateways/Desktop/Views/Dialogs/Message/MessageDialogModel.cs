@@ -1,7 +1,7 @@
 ﻿using EnduranceJudge.Gateways.Desktop.Core.Extensions;
 using EnduranceJudge.Gateways.Desktop.Core.Objects;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
-using EnduranceJudge.Localization.Strings;
+using static EnduranceJudge.Localization.Strings;
 using Prism.Services.Dialogs;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Dialogs.Message
@@ -16,8 +16,8 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Dialogs.Message
             this.Severity = parameters.GetSeverity();
             this.Message = parameters.GetMessage();
             this.Title = this.Severity == MessageSeverity.Error
-                ? Words.APPLICATION_ERROR
-                : Words.VALIDATION_MESSAGE;
+                ? APPLICATION_ERROR
+                : VALIDATION_MESSAGE;
         }
 
         public string Message

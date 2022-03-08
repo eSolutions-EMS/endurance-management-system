@@ -2,7 +2,7 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"
-             xmlns:localization="clr-namespace:EnduranceJudge.Localization.Strings;assembly=EnduranceJudge.Localization"
+             xmlns:localization="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization"
              prism:ViewModelLocator.AutoWireViewModel="True"
              HorizontalContentAlignment="Stretch">
 
@@ -12,7 +12,7 @@
 
             <Button Style="{StaticResource Button}"
                     Command="{Binding OpenFolderDialog}"
-                    Content="{x:Static localization:Words.SELECT_WORK_DIRECTORY}" />
+                    Content="{x:Static localization:Strings.SELECT_WORK_DIRECTORY}" />
 
             <TextBox Style="{StaticResource Input}"
                      Text="{Binding WorkDirectoryPath, Mode=OneWay}"
@@ -24,7 +24,7 @@
 
             <Button Style="{StaticResource Button}"
                     Command="{Binding OpenImportFileDialog}"
-                    Content="{x:Static localization:Words.SELECT_IMPORT_FILE}" />
+                    Content="{x:Static localization:Strings.SELECT_IMPORT_FILE}" />
 
             <TextBox Style="{StaticResource Input}"
                      Text="{Binding ImportFilePath, Mode=OneWay}"

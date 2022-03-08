@@ -1,6 +1,6 @@
 ﻿using EnduranceJudge.Gateways.Desktop.Core.Extensions;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
-using EnduranceJudge.Localization.Strings;
+using static EnduranceJudge.Localization.Strings;
 using Prism.Commands;
 using Prism.Services.Dialogs;
 using System;
@@ -23,7 +23,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Dialogs.Confirmation
 
         public override void OnDialogOpened(IDialogParameters parameters)
         {
-            this.Title = Words.CONFIRMATION;
+            this.Title = CONFIRMATION;
             this.Message = parameters.GetMessage();
         }
 

@@ -6,8 +6,7 @@ using EnduranceJudge.Domain.Validation;
 using EnduranceJudge.Domain.State;
 using EnduranceJudge.Domain.State.EnduranceEvents;
 using EnduranceJudge.Domain.State.Personnels;
-using EnduranceJudge.Localization.Strings;
-using static EnduranceJudge.Localization.Strings.Words;
+using static EnduranceJudge.Localization.Strings;
 
 namespace EnduranceJudge.Domain.AggregateRoots.Configuration
 {
@@ -31,7 +30,7 @@ namespace EnduranceJudge.Domain.AggregateRoots.Configuration
         {
             this.validator.IsRequired(name, NAME);
             this.validator.IsRequired(populatedPlace, POPULATED_PLACE);
-            this.validator.IsRequired(countryId, Entities.COUNTRY_ENTITY);
+            this.validator.IsRequired(countryId, COUNTRY_ENTITY);
 
             var country = this.state.Countries.FindDomain(countryId);
             if (this.state.Event == null)
