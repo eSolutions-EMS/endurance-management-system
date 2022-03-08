@@ -1,2 +1,22 @@
 ﻿constant-key english-value translated-value
 PARTICIPANT | Participant | Participant
+CANNOT_REMOVE_USED_IN_PARTICIPANT | cannot be removed because it is used in an existing {entities-participant} | cannot be removed because it is used in an existing {entities-participant}
+ALREADY_PARTICIPATING_TEMPLATE | cannot be created - '{0}' is already participating. | cannot be created - '{0}' is already participating.
+CANNOT_ADD_PARTICIPATION_DIFFERENT_PHASE_COUNT | cannot be added, because they already participate in '{0}' with different amount of {entities-phase-plurals}  | cannot be added, because they already participate in '{0}' with different amount of {entities-phase-plurals}
+CANNOT_ADD_PARTICIPATION_DIFFERENT_PHASE_LENGTHS | cannot be added in '{0}'- they already participate in '{1}' and difference is detected in '{entities-phase} {2}' lengths: '{3}' and '{4} | cannot be added in '{0}'- they already participate in '{1}' and difference is detected in '{entities-phase} {2}' lengths: '{3}' and '{4}
+DATE_TIME_HAS_TO_BE_LATER_TEMPLATE | {0} has to be later than {1} | {0} has to be later than {1}
+CANNOT_EDIT_PERFORMANCE | - INVALID edit. Value does not exist for '{0}'. 'Edit' button should only be used to correct errors. Please use '{words-update}' button above when setting Times. | - INVALID edit. Value does not exist for '{0}'. 'Edit' button should only be used to correct errors. Please use '{words-update}' button above when setting Times.
+IS_REQUIRED_TEMPLATE | '{0}' is required. | '{0}' is required.
+PARTICIPANT_NUMBER_NOT_FOUND_TEMPLATE | '{0}' does not exit | '{0}' does not exit
+CHANGE_NOT_ALLOWED_WHEN_EVENT_HAS_STARTED | changes are not allowed after {entities-participation-plurals} have started | changes are not allowed after {entities-participation-plurals} have started
+REQUIRED_INSPECTION_IS_NOT_ALLOWED | 's Individual Required Inspection is not allowed, because CRI is enabled on this '{entities-phase}' | 's Individual Required Inspection is not allowed, because CRI is enabled on this '{entities-phase}'
+INVALID_ORDER_BY | with order '{0}' already exists | with order '{0}' already exists
+INVALID_COMPETITION_NO_FINAL_PHASE | {0} has no final {entities-phase} | {0} has no final {entities-phase}
+INVALID_PARTICIPANT_NO_PARTICIPATIONS | '{0}' is not included in any {entities-competition} | '{0}' is not included in any {entities-competition}
+INVALID_PARTICIPANT_NO_COUNTRY | '{0}' has no {entities-country} | '{0}' has no {entities-country}
+PARTICIPANT_HAS_NO_ACTIVE_PERFORMANCE | '{0}' has no active {entities-performance} | '{0}' has no active {entities-performance}
+INVALID_FULL_NAME | Full Name '{0}' is INVALID. Please use First and Last name | Full Name '{0}' is INVALID. Please use First and Last name
+SELECT_WORK_DIRECTORY | Select working directory using the {words-import} button above. | Select working directory using the {words-import} button above.
+REMOVE_CONFIRMATION_MESSAGE | Are you sure you want to remove this item | Are you sure you want to remove this item
+INVALID_DATE_FORMAT | Invalid date: '{0}'. Expected format: '{1}' | Invalid date: '{0}'. Expected format: '{1}'
+UNSUPPORTED_IMPORT_FILE_TEMPLATE | Unsupported file. Please use '{0}' or '{1}' | Unsupported file. Please use '{0}' or '{1}'

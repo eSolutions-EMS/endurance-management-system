@@ -2,6 +2,7 @@
 using EnduranceJudge.Core.Services;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using static EnduranceJudge.Localization.LocalizationConstants;
 
 namespace EnduranceJudge.Localization.Services;
@@ -18,7 +19,8 @@ public class TranslationsReader : ITranslationsReader
 
     public Dictionary<string, string> Read()
     {
-        using var stream = this.fileService.ReadStream($"./{TRANSLATION_FILE_NAME}");
+        var filePath = Path.Combine(Directory.GetCurrentDirectory(), $"./{TRANSLATION_FILE_NAME}");
+        using var stream = this.fileService.ReadStream(filePath);
         var line = stream.ReadLine(); // header line
         var lineNumber = 0;
         var values = new Dictionary<string, string>();
