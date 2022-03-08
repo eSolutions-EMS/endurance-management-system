@@ -1,7 +1,7 @@
 ﻿using EnduranceJudge.Core.ConventionalServices;
 using EnduranceJudge.Core.Services;
-using EnduranceJudge.Localization.Static;
 using System;
+using System.Collections.Generic;
 using static EnduranceJudge.Localization.LocalizationConstants;
 
 namespace EnduranceJudge.Localization.Services;
@@ -16,29 +16,33 @@ public class TranslationsReader : ITranslationsReader
         this.fileService = fileService;
     }
 
-    public void Read()
+    public Dictionary<string, string> Read()
     {
         using var stream = this.fileService.ReadStream($"./{TRANSLATION_FILE_NAME}");
         var line = stream.ReadLine(); // header line
         var lineNumber = 0;
+        var values = new Dictionary<string, string>();
         while (line != null)
         {
             line = stream.ReadLine();
             lineNumber++;
-            this.ProcessLine(line, lineNumber);
+            var (key, translation) = this.ProcessLine(line, lineNumber);
+            values.Add(key, translation);
         }
+
+        return values;
     }
 
-    private void ProcessLine(string line, int lineNumber)
+    private (string key, string translation) ProcessLine(string line, int lineNumber)
     {
         var (key, baseline, translation) = this.ParseColumnValues(line, lineNumber);
         this.ValidatePlaceholders(baseline, translation);
-        Translation.Values.Add(key, translation);
+        return (key, translation);
     }
 
     private void ValidatePlaceholders(string baseline, string translation)
     {
-        foreach (var (_, placeholder) in LocalizationConstants.PLACEHOLDERS)
+        foreach (var (placeholder, _) in LocalizationConstants.PLACEHOLDERS_VALUES)
         {
             if (baseline.Contains(placeholder) != translation.Contains(placeholder))
             {
@@ -87,5 +91,5 @@ public class TranslationsReader : ITranslationsReader
 
 public interface ITranslationsReader : IService
 {
-    void Read();
+    Dictionary<string, string> Read();
 }
