@@ -1,2 +1,0 @@
-﻿constant-key english-value translated-value
-PARTICIPANT | Participant | Participant

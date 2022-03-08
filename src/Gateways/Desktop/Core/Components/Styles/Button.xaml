@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:localization="clr-namespace:EnduranceJudge.Localization.Translations;assembly=EnduranceJudge.Localization">
+                    xmlns:localization="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization">
 
     <Style x:Key="Button-Base" TargetType="Button">
         <Setter Property="Padding" Value="10px 0" />
@@ -18,7 +18,7 @@
     </Style>
 
     <Style x:Key="Button-Back" TargetType="Button" BasedOn="{StaticResource Button}">
-        <Setter Property="Content" Value="{x:Static localization:Words.BACK}" />
+        <Setter Property="Content" Value="{x:Static localization:Strings.BACK}" />
     </Style>
 
     <Style x:Key="Button-Vertical" TargetType="Button" BasedOn="{StaticResource Button}">
@@ -49,7 +49,7 @@
     </Style>
 
     <Style x:Key="Button-Create" TargetType="Button" BasedOn="{StaticResource Button-Big-Vertical}">
-        <Setter Property="Content" Value="{x:Static localization:Words.CREATE}" />
+        <Setter Property="Content" Value="{x:Static localization:Strings.CREATE}" />
     </Style>
 
     <Style x:Key="Button-Form" TargetType="Button" BasedOn="{StaticResource Button}">
@@ -58,23 +58,23 @@
     </Style>
 
     <Style x:Key="Button-Form-Create" TargetType="Button" BasedOn="{StaticResource Button-Form}">
-        <Setter Property="Content" Value="{x:Static localization:Words.CREATE}" />
+        <Setter Property="Content" Value="{x:Static localization:Strings.CREATE}" />
     </Style>
 
     <Style x:Key="Button-Form-Back" TargetType="Button" BasedOn="{StaticResource Button-Form}">
-        <Setter Property="Content" Value="{x:Static localization:Words.BACK}" />
+        <Setter Property="Content" Value="{x:Static localization:Strings.BACK}" />
     </Style>
 
     <Style x:Key="Button-Form-Save" TargetType="Button" BasedOn="{StaticResource Button-Form}">
-        <Setter Property="Content" Value="{x:Static localization:Words.SAVE}" />
+        <Setter Property="Content" Value="{x:Static localization:Strings.SAVE}" />
     </Style>
 
     <Style x:Key="Button-Form-Update" TargetType="Button" BasedOn="{StaticResource Button-Form}">
-        <Setter Property="Content" Value="{x:Static localization:Words.UPDATE}" />
+        <Setter Property="Content" Value="{x:Static localization:Strings.UPDATE}" />
     </Style>
 
     <Style x:Key="Button-Form-Remove" TargetType="Button" BasedOn="{StaticResource Button-Form}">
-        <Setter Property="Content" Value="{x:Static localization:Words.REMOVE}" />
+        <Setter Property="Content" Value="{x:Static localization:Strings.REMOVE}" />
     </Style>
 
 </ResourceDictionary>

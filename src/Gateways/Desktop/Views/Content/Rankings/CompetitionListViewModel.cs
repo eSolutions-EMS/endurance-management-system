@@ -4,7 +4,7 @@ using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem;
 using EnduranceJudge.Gateways.Desktop.Services;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.CompetitionResults;
-using EnduranceJudge.Localization.Translations;
+using static EnduranceJudge.Localization.Strings;
 using Prism.Commands;
 using Prism.Regions;
 using System.Collections.ObjectModel;
@@ -39,7 +39,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings
         private ListItemViewModel ToListItem(CompetitionResultAggregate resultAggregate)
         {
             var command = new DelegateCommand<int?>(this.NavigateToClassification);
-            var listItem = new ListItemViewModel(resultAggregate.Id, resultAggregate.CompetitionName, command, Words.VIEW);
+            var listItem = new ListItemViewModel(resultAggregate.Id, resultAggregate.CompetitionName, command, VIEW);
             return listItem;
         }
 

@@ -3,7 +3,7 @@ using EnduranceJudge.Domain.AggregateRoots.Configuration;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Phases;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core;
-using EnduranceJudge.Localization.Translations;
+using static EnduranceJudge.Localization.Strings;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Phases
 {
@@ -45,7 +45,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.P
             {
                 this.SetProperty(ref this.isFinalValue, value);
                 this.IsFinalText = value == 1
-                    ? Words.FINAL
+                    ? FINAL
                     : string.Empty;
             }
         }

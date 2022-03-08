@@ -1,7 +1,7 @@
 ﻿using EnduranceJudge.Domain.Core.Exceptions;
 using EnduranceJudge.Domain.State;
 using EnduranceJudge.Domain.State.EnduranceEvents;
-using static EnduranceJudge.Localization.Translations.Messages.DomainValidation;
+using static EnduranceJudge.Localization.Strings;
 
 namespace EnduranceJudge.Domain.AggregateRoots.Configuration.Extensions;
 
@@ -11,7 +11,7 @@ public static class StateExtensions
     {
         if (state.Event.HasStarted)
         {
-            throw Helper.Create<EnduranceEventException>(CHANGE_NOT_ALLOWED_WHEN_EVENT_HAS_STARTED);
+            throw Helper.Create<EnduranceEventException>(CHANGE_NOT_ALLOWED_WHEN_EVENT_HAS_STARTED_MESSAGE);
         }
     }
 }

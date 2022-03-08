@@ -10,7 +10,7 @@ using EnduranceJudge.Gateways.Desktop.Views.Dialogs.Message;
 using Prism.Regions;
 using System;
 using static EnduranceJudge.Gateways.Desktop.DesktopConstants;
-using static EnduranceJudge.Localization.Translations.Messages;
+using static EnduranceJudge.Localization.Strings;
 using NavigationParameters = Prism.Regions.NavigationParameters;
 
 namespace EnduranceJudge.Gateways.Desktop.Services.Implementations
@@ -34,7 +34,7 @@ namespace EnduranceJudge.Gateways.Desktop.Services.Implementations
         {
             if (!this.context.IsInitialized)
             {
-                throw new AppException(SELECT_WORK_DIRECTORY);
+                throw new AppException(SELECT_WORK_DIRECTORY_MESSAGE);
             }
 
             this.ChangeTo<EnduranceEventView>();
@@ -45,7 +45,7 @@ namespace EnduranceJudge.Gateways.Desktop.Services.Implementations
         {
             if (!this.context.IsInitialized)
             {
-                throw new AppException(SELECT_WORK_DIRECTORY);
+                throw new AppException(SELECT_WORK_DIRECTORY_MESSAGE);
             }
             this.ChangeTo<ContestManagerView>();
         }
@@ -53,7 +53,7 @@ namespace EnduranceJudge.Gateways.Desktop.Services.Implementations
         {
             if (!this.context.IsInitialized)
             {
-                throw new AppException(SELECT_WORK_DIRECTORY);
+                throw new AppException(SELECT_WORK_DIRECTORY_MESSAGE);
             }
             this.ChangeTo<CompetitionListView>(Regions.CONTENT_RIGHT);
             this.ClearRegion(Regions.CONTENT_LEFT);

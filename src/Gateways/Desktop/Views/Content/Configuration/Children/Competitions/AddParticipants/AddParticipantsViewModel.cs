@@ -9,13 +9,12 @@ using EnduranceJudge.Gateways.Desktop.Core.Extensions;
 using EnduranceJudge.Gateways.Desktop.Core.Services;
 using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
 using EnduranceJudge.Gateways.Desktop.Services;
-using EnduranceJudge.Localization.Translations;
+using static EnduranceJudge.Localization.Strings;
 using Prism.Commands;
 using Prism.Regions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static EnduranceJudge.Localization.Translations.Messages;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Competitions.AddParticipants;
 
@@ -61,7 +60,7 @@ public class AddParticipantsViewModel : SearchableListViewModelBase<AddParticipa
     protected override ListItemViewModel ToViewModel(ListItemModel listable)
     {
         var addAction = new DelegateCommand<int?>(this.AddParticipantAction);
-        var viewModel = new ListItemViewModel(listable.Id, listable.Name, addAction, Words.ADD);
+        var viewModel = new ListItemViewModel(listable.Id, listable.Name, addAction, ADD);
         return viewModel;
     }
 

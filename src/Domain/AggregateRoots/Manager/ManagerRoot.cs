@@ -11,7 +11,7 @@ using EnduranceJudge.Domain.State.Performances;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static EnduranceJudge.Localization.Translations.Messages.DomainValidation;
+using static EnduranceJudge.Localization.Strings;
 
 namespace EnduranceJudge.Domain.AggregateRoots.Manager;
 
@@ -65,7 +65,7 @@ public class ManagerRoot : IAggregateRoot
         var performance = participant.GetActivePerformance();
         if (performance == null)
         {
-            throw Helper.Create<ParticipantException>(PARTICIPANT_HAS_NO_ACTIVE_PERFORMANCE, number);
+            throw Helper.Create<ParticipantException>(PARTICIPANT_HAS_NO_ACTIVE_PERFORMANCE_MESSAGE, number);
         }
         performance!.ReInspection(isRequired);
     }
@@ -75,7 +75,7 @@ public class ManagerRoot : IAggregateRoot
         var performance = participant.GetActivePerformance();
         if (performance == null)
         {
-            throw Helper.Create<ParticipationException>(PARTICIPANT_HAS_NO_ACTIVE_PERFORMANCE, number);
+            throw Helper.Create<ParticipationException>(PARTICIPANT_HAS_NO_ACTIVE_PERFORMANCE_MESSAGE, number);
         }
         performance!.RequireInspection(isRequired);
     }
@@ -103,7 +103,7 @@ public class ManagerRoot : IAggregateRoot
             .FirstOrDefault(x => x.Number == number);
         if (participant == null)
         {
-            throw Helper.Create<ParticipantException>(PARTICIPANT_NUMBER_NOT_FOUND_TEMPLATE, number);
+            throw Helper.Create<ParticipantException>(PARTICIPANT_NUMBER_NOT_FOUND_MESSAGE, number);
         }
         var manager = new ParticipantsAggregate(participant);
         return manager;
@@ -116,7 +116,7 @@ public class ManagerRoot : IAggregateRoot
             if (competition.Phases.All(x => !x.IsFinal))
             {
                 throw Helper.Create<CompetitionException>(
-                    INVALID_COMPETITION_NO_FINAL_PHASE,
+                    INVALID_COMPETITION_NO_FINAL_PHASE_MESSAGE,
                     competition.Name);
             }
         }
@@ -125,12 +125,12 @@ public class ManagerRoot : IAggregateRoot
             if (!participant.Participation.Competitions.Any())
             {
                 throw Helper.Create<ParticipantException>(
-                    INVALID_PARTICIPANT_NO_PARTICIPATIONS,
+                    INVALID_PARTICIPANT_NO_PARTICIPATIONS_MESSAGE,
                     participant.Number);
             }
             if (participant.Athlete.Country == null)
             {
-                throw Helper.Create<ParticipantException>(INVALID_PARTICIPANT_NO_COUNTRY, participant.Number);
+                throw Helper.Create<ParticipantException>(INVALID_PARTICIPANT_NO_COUNTRY_MESSAGE, participant.Number);
             }
         }
     }

@@ -6,7 +6,7 @@ using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Domain.State.Performances;
 using System.Collections.Generic;
 using System.Linq;
-using static EnduranceJudge.Localization.Translations.Messages.DomainValidation;
+using static EnduranceJudge.Localization.Strings;
 
 namespace EnduranceJudge.Domain.State.Participations
 {
@@ -44,7 +44,7 @@ namespace EnduranceJudge.Domain.State.Participations
                 if (firstCompetition.Phases.Count != competition.Phases.Count)
                 {
                     throw Helper.Create<ParticipantException>(
-                        CANNOT_ADD_PARTICIPATION_DIFFERENT_PHASE_COUNT,
+                        CANNOT_ADD_PARTICIPATION_DIFFERENT_PHASE_COUNT_MESSAGE,
                         newCompetitionName);
                 }
                 for (var phaseIndex = 0; phaseIndex < firstCompetition.Phases.Count; phaseIndex++)
@@ -55,7 +55,7 @@ namespace EnduranceJudge.Domain.State.Participations
                     if (existingPhase.LengthInKm != newPhase.LengthInKm)
                     {
                         throw Helper.Create<ParticipantException>(
-                            CANNOT_ADD_PARTICIPATION_DIFFERENT_PHASE_LENGTHS,
+                            CANNOT_ADD_PARTICIPATION_DIFFERENT_PHASE_LENGTHS_MESSAGE,
                             newCompetitionName,
                             existingCompetitionName,
                             phaseIndex + 1,

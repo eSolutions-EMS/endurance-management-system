@@ -1,44 +1,53 @@
 ﻿using EnduranceJudge.Core.ConventionalServices;
 using EnduranceJudge.Core.Services;
-using EnduranceJudge.Localization.Static;
 using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using static EnduranceJudge.Localization.LocalizationConstants;
 
 namespace EnduranceJudge.Localization.Services;
 
-public class TranslationsReader : ITranslationsReader
+public class StringsReader : IStringsReader
 {
     private const string ERROR_TEMPLATE = "Invalid translation file. {0} For more information: 'https://github.com/HorseSport-achobanov/endurance-judge/blob/develop/README.md#translation'";
     private readonly IFileService fileService;
 
-    public TranslationsReader(IFileService fileService)
+    public StringsReader(IFileService fileService)
     {
         this.fileService = fileService;
     }
 
-    public void Read()
+    public Dictionary<string, string> Read()
     {
-        using var stream = this.fileService.ReadStream($"./{TRANSLATION_FILE_NAME}");
+        var filePath = Path.Combine(Directory.GetCurrentDirectory(), $"./{STRINGS_FILENAME}");
+        using var stream = this.fileService.ReadStream(filePath);
         var line = stream.ReadLine(); // header line
         var lineNumber = 0;
-        while (line != null)
+        var values = new Dictionary<string, string>();
+        while (true)
         {
             line = stream.ReadLine();
+            if (line == null)
+                break;
             lineNumber++;
-            this.ProcessLine(line, lineNumber);
+            var (key, translation) = this.ProcessLine(line, lineNumber);
+            values.Add(key, translation);
         }
+
+        return values;
     }
 
-    private void ProcessLine(string line, int lineNumber)
+    private (string key, string translation) ProcessLine(string line, int lineNumber)
     {
         var (key, baseline, translation) = this.ParseColumnValues(line, lineNumber);
         this.ValidatePlaceholders(baseline, translation);
-        Translation.Values.Add(key, translation);
+        return (key, translation);
     }
 
     private void ValidatePlaceholders(string baseline, string translation)
     {
-        foreach (var (_, placeholder) in LocalizationConstants.Placeholders)
+        foreach (var (placeholder, _) in LocalizationConstants.PLACEHOLDERS_VALUES)
         {
             if (baseline.Contains(placeholder) != translation.Contains(placeholder))
             {
@@ -50,10 +59,13 @@ public class TranslationsReader : ITranslationsReader
 
     private (string key, string baseline, string translation) ParseColumnValues(string line, int lineNumber)
     {
-        var values = line.Split('|', StringSplitOptions.RemoveEmptyEntries);
-        if (values.Length != 3)
+        var values = line
+            .Split('|', StringSplitOptions.RemoveEmptyEntries)
+            .Select(x => x.Trim())
+            .ToList();
+        if (values.Count != 3)
         {
-            var message = $"Line {lineNumber} has {values.Length} values. Each line should contain EXACTLY 3 values, separated by '|'.";
+            var message = $"Line {lineNumber} has {values.Count} values. Each line should contain EXACTLY 3 values, separated by '|'.";
             this.Throw(message);
         }
         var key = values[0];
@@ -85,7 +97,7 @@ public class TranslationsReader : ITranslationsReader
     }
 }
 
-public interface ITranslationsReader : IService
+public interface IStringsReader : IService
 {
-    void Read();
+    Dictionary<string, string> Read();
 }

@@ -2,7 +2,7 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"
-             xmlns:localization="clr-namespace:EnduranceJudge.Localization.Translations;assembly=EnduranceJudge.Localization"
+             xmlns:localization="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization"
              prism:ViewModelLocator.AutoWireViewModel="True">
 
     <ScrollViewer Style="{StaticResource Scroll}"
@@ -21,7 +21,7 @@
 
             <!-- Title -->
             <TextBlock Style="{StaticResource Text-H1}"
-                       Text="{x:Static localization:Words.MANAGER}"
+                       Text="{x:Static localization:Strings.MANAGER}"
                        Grid.Row="0" Grid.Column="1"/>
             <!-- Left -->
             <StackPanel Style="{StaticResource List-Vertical}"
@@ -31,12 +31,12 @@
                         Grid.Row="1" Grid.Column="1">
                     <Button Style="{StaticResource Button-Big-Vertical}"
                             Command="{Binding Start}"
-                            Content="{x:Static localization:Words.START}" />
+                            Content="{x:Static localization:Strings.START}" />
                 </Border>
                 <!-- StartList -->
                 <Button Style="{StaticResource Button-Big-Vertical}"
                         Command="{Binding StartList}"
-                        Content="{x:Static localization:Words.STARTLIST}" />
+                        Content="{x:Static localization:Strings.STARTLIST}" />
             </StackPanel>
             <!-- Center-->
             <!-- Controls -->
@@ -52,7 +52,7 @@
                                     <StackPanel Style="{StaticResource List-Horizontal}">
                                         <Label Style="{StaticResource Label-Primary}"
                                                Target="{Binding ElementName=InputNumber}"
-                                               Content="{x:Static localization:Words._NUMBER}" />
+                                               Content="{x:Static localization:Strings._NUMBER}" />
                                         <TextBox Style="{StaticResource Input}" Width="60px"
                                                  Text="{Binding InputNumber}"
                                                  Name="InputNumber" />
@@ -107,7 +107,7 @@
                                         <Border Style="{StaticResource Border-Vertical}">
                                             <Button Style="{StaticResource Button-Big-Horizontal}"
                                                     Command="{Binding Update}"
-                                                    Content="{x:Static localization:Words.UPDATE}" />
+                                                    Content="{x:Static localization:Strings.UPDATE}" />
                                         </Border>
                                     </StackPanel>
                                 </Border>
@@ -123,7 +123,7 @@
                                           Name="ReInspectionCheckbox" />
                                 <Label Style="{StaticResource Label-Primary}"
                                        Target="{Binding ElementName=ReInspectionCheckbox}"
-                                       Content="{x:Static localization:Words._RE_INSPECTION}"/>
+                                       Content="{x:Static localization:Strings._RE_INSPECTION}"/>
                                 <!-- Require Inspection checkbox -->
                                 <CheckBox Style="{StaticResource CheckBox}"
                                           Command="{Binding RequireInspection}"
@@ -131,7 +131,7 @@
                                           Name="RequireInspectionCheckbox" />
                                 <Label Style="{StaticResource Label-Primary}"
                                        Target="{Binding ElementName=RequireInspectionCheckbox}"
-                                       Content="{x:Static localization:Words.RE_QUIRED_INSPECTION}"/>
+                                       Content="{x:Static localization:Strings.RE_QUIRED_INSPECTION}"/>
                             </StackPanel>
                         </Border>
                     </StackPanel>
@@ -140,7 +140,7 @@
                         <StackPanel Style="{StaticResource List-Horizontal}">
                             <Label Style="{StaticResource Label-Primary}"
                                    Target="{Binding ElementName=DeQualificationCode}"
-                                   Content="{x:Static localization:Words._DQ}"/>
+                                   Content="{x:Static localization:Strings._DQ}"/>
                             <TextBox Style="{StaticResource Input}" Width="100px"
                                      Text="{Binding DeQualificationCode}"
                                      Name="DeQualificationCode"/>
@@ -148,7 +148,7 @@
                             <Border Style="{StaticResource Border-Horizontal}">
                                 <Button Style="{StaticResource Button-Big-Horizontal}"
                                         Command="{Binding CompleteUnsuccessful}"
-                                        Content="{x:Static localization:Words.COMPLETE_UNSUCCESSFULLY}" />
+                                        Content="{x:Static localization:Strings.COMPLETE_UNSUCCESSFULLY}" />
                             </Border>
                         </StackPanel>
                     </Border>

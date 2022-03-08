@@ -5,7 +5,7 @@ using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.Validation;
 using EnduranceJudge.Domain.State;
 using EnduranceJudge.Domain.State.Competitions;
-using static EnduranceJudge.Localization.Translations.Words;
+using static EnduranceJudge.Localization.Strings;
 
 namespace EnduranceJudge.Domain.AggregateRoots.Configuration.Aggregates
 {

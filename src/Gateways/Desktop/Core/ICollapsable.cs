@@ -1,6 +1,5 @@
 ﻿using Prism.Commands;
 using System.Windows;
-using static EnduranceJudge.Localization.Translations.Messages;
 
 namespace EnduranceJudge.Gateways.Desktop.Core;
 

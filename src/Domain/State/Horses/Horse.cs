@@ -1,6 +1,6 @@
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.Validation;
-using static EnduranceJudge.Localization.Translations.Words;
+using static EnduranceJudge.Localization.Strings;
 
 namespace EnduranceJudge.Domain.State.Horses
 {

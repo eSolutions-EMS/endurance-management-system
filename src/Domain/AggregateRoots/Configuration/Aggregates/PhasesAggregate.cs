@@ -8,9 +8,8 @@ using EnduranceJudge.Domain.State;
 using EnduranceJudge.Domain.State.Phases;
 using System;
 using System.Linq;
-using static EnduranceJudge.Localization.Translations.Words;
-using static EnduranceJudge.Localization.Translations.Messages.DomainValidation;
 using static EnduranceJudge.Domain.DomainConstants.ErrorMessages;
+using static EnduranceJudge.Localization.Strings;
 
 namespace EnduranceJudge.Domain.AggregateRoots.Configuration.Aggregates
 {
@@ -97,7 +96,7 @@ namespace EnduranceJudge.Domain.AggregateRoots.Configuration.Aggregates
             var competition = this.state.Event.Competitions.FindDomain(competitionId);
             if (competition.Phases.Any(x => x.OrderBy == phaseState.OrderBy && x.Id != phaseState.Id))
             {
-                throw Helper.Create<PhaseException>(INVALID_ORDER_BY, phaseState.OrderBy);
+                throw Helper.Create<PhaseException>(INVALID_ORDER_BY_MESSAGE, phaseState.OrderBy);
             }
             if (!phaseState.IsFinal)
             {

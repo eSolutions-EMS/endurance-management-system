@@ -6,8 +6,7 @@ using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.Validation;
 using EnduranceJudge.Domain.State;
 using EnduranceJudge.Domain.State.Horses;
-using static EnduranceJudge.Localization.Translations.Messages.DomainValidation;
-using static EnduranceJudge.Localization.Translations.Words;
+using static EnduranceJudge.Localization.Strings;
 
 namespace EnduranceJudge.Domain.AggregateRoots.Configuration.Aggregates
 {
@@ -57,7 +56,7 @@ namespace EnduranceJudge.Domain.AggregateRoots.Configuration.Aggregates
             {
                 if (participant.Athlete.Equals(horse))
                 {
-                    throw Helper.Create<HorseException>(CANNOT_REMOVE_USED_IN_PARTICIPANT);
+                    throw Helper.Create<HorseException>(CANNOT_REMOVE_USED_IN_PARTICIPANT_MESSAGE);
                 }
             }
 
