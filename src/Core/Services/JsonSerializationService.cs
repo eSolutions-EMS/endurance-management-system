@@ -27,13 +27,13 @@ namespace EnduranceJudge.Application.Core.Services
 
         public T Deserialize<T>(string serialized)
         {
-            var deserialized = JsonConvert.DeserializeObject<T>(serialized, this.settings);
+            var deserialized = JsonConvert.DeserializeObject<T>(serialized, this.settings)!;
             return deserialized;
         }
 
         public object Deserialize(string serialized, Type resultType)
         {
-            var deserialized = JsonConvert.DeserializeObject(serialized, resultType, this.settings);
+            var deserialized = JsonConvert.DeserializeObject(serialized, resultType, this.settings)!;
             return deserialized;
         }
     }
