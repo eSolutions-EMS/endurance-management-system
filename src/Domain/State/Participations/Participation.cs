@@ -29,8 +29,9 @@ namespace EnduranceJudge.Domain.State.Participations
                 return average;
             }
         }
-        public double Distance
-            => this.Competitions.First().Phases
+        public double? Distance
+            => this.Competitions.FirstOrDefault()
+                ?.Phases
                 .Select(x => x.LengthInKm)
                 .Sum();
 

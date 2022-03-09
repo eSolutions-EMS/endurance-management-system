@@ -44,7 +44,7 @@ public class Startlist : List<StartModel>
             Number = participant.Number,
             Name = participant.Name,
             CountryName = participant.Athlete.Country.Name,
-            Distance = participant.Participation.Distance,
+            Distance = participant.Participation.Distance.Value,
             StartTime = performance.NextPerformanceStartTime!.Value,
             HasStarted = performance.StartTime < DateTime.Now,
         };
