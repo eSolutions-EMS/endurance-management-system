@@ -1,5 +1,5 @@
 ﻿using EnduranceJudge.Domain.State.Participants;
-using EnduranceJudge.Domain.State.Performances;
+using EnduranceJudge.Domain.State.TimeRecords;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,10 +18,10 @@ public class Startlist : List<StartModel>
 
     private void HandleParticipant(Participant participant, bool includePast)
     {
-        var performances = participant.Participation.Performances;
+        var performances = participant.TimeRecords;
         if (!includePast)
         {
-            var current = performances.FirstOrDefault(x => x.NextPerformanceStartTime > DateTime.Now);
+            var current = performances.FirstOrDefault(x => x.StartTime > DateTime.Now);
             if (current == null)
             {
                 return;
@@ -30,23 +30,23 @@ public class Startlist : List<StartModel>
         }
         else
         {
-            foreach (var performance in participant.Participation.Performances.Where(x => x.Result != null))
+            foreach (var record in participant.TimeRecords.Where(x => x.Result != null))
             {
-                this.AddStart(participant, performance);
+                this.AddStart(participant, record);
             }
         }
     }
 
-    private void AddStart(Participant participant, Performance performance)
+    private void AddStart(Participant participant, TimeRecord record)
     {
         var start = new StartModel
         {
             Number = participant.Number,
             Name = participant.Name,
             CountryName = participant.Athlete.Country.Name,
-            Distance = participant.Participation.Distance.Value,
-            StartTime = performance.NextPerformanceStartTime!.Value,
-            HasStarted = performance.StartTime < DateTime.Now,
+            Distance = participant.Participation.Distance!.Value,
+            StartTime = record.StartTime,
+            HasStarted = record.StartTime < DateTime.Now,
         };
         this.Add(start);
     }

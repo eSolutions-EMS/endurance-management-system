@@ -1,74 +1,116 @@
 ﻿using EnduranceJudge.Domain.Core.Models;
-using EnduranceJudge.Domain.State.Results;
+using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Domain.State.Phases;
+using EnduranceJudge.Domain.State.TimeRecords;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace EnduranceJudge.Domain.State.Performances
 {
-    public class Performance : DomainBase<PerformanceException>, IPerformanceState
+    // TODO: rename to ???
+    public class Performance : IAggregate, IPerformance
     {
-        private readonly List<TimeSpan> previousTimes = new();
-        private readonly List<double> previousLengths = new();
+        public const int COMPULSORY_INSPECTION_TIME_OFFSET = -15;
 
-        private Performance() {}
-        public Performance(
-            Phase phase,
-            DateTime startTime,
-            IEnumerable<double> previousLengths,
-            IEnumerable<TimeSpan> previousTimes) : base(GENERATE_ID)
+        private readonly int index;
+        private readonly List<Phase> phases;
+        private readonly List<TimeRecord> timeRecords;
+
+        public Performance(Participant participant, IEnumerable<Phase> phases, int index)
         {
-            this.previousLengths = previousLengths.ToList();
-            this.previousTimes = previousTimes.ToList();
-            this.Phase = phase;
-            this.StartTime = startTime;
+            this.Participant = participant;
+            this.index = index;
+            this.phases = phases.ToList();
+            this.timeRecords = participant.TimeRecords.ToList();
         }
 
-        public Phase Phase { get; internal set; }
-        public DateTime StartTime { get; set; }
-        public DateTime? ArrivalTime { get; set; }
-        public DateTime? InspectionTime { get; set; }
-        public DateTime? ReInspectionTime { get; set; }
-        public bool IsReInspectionRequired { get; internal set; }
-        public bool IsRequiredInspectionRequired { get; internal set; }
-        public DateTime? RequiredInspectionTime { get; set; } // TODO: internal-set after testing phase
-        public DateTime? CompulsoryRequiredInspectionTime { get; internal set; }
-        public DateTime? NextPerformanceStartTime { get; internal set; }
-        public double LengthSoFar
-            => this.previousLengths.Aggregate(0d, (sum, leng) => sum + leng) + this.Phase.LengthInKm;
-        public Result Result { get; internal set; }
+        public Participant Participant { get; }
+
+        public DateTime? RequiredInspectionTime
+        {
+            get
+            {
+                var inspection = this.CurrentRecord.VetGateTime
+                    ?.AddMinutes(this.CurrentPhase.RestTimeInMins)
+                    .AddMinutes(COMPULSORY_INSPECTION_TIME_OFFSET);
+                return inspection;
+            }
+        }
 
         public TimeSpan? RecoverySpan
-            => (this.ReInspectionTime ?? this.InspectionTime) - this.ArrivalTime;
+            => this.CurrentRecord.VetGateTime - this.CurrentRecord.ArrivalTime;
+
         public TimeSpan? Time
-            => this.Phase.IsFinal
-                ? (this.ReInspectionTime ?? this.InspectionTime) - this.StartTime
-                : this.ArrivalTime - this.StartTime;
+            => this.CalculateLapTime(this.CurrentRecord, this.CurrentPhase);
+
         public double? AverageSpeed
         {
             get
             {
-                var phaseLengthInKm = this.Phase.LengthInKm;
+                var phaseLengthInKm = this.CurrentPhase.LengthInKm;
                 var totalHours = this.Time?.TotalHours;
                 return  phaseLengthInKm / totalHours;
             }
         }
+
         public double? AverageSpeedTotal
         {
             get
             {
-                if (!this.AverageSpeed.HasValue)
+                if (!this.Time.HasValue)
                 {
                     return null;
                 }
-                var totalLengths = this.previousLengths.Aggregate(0d, (sum, leng) => sum + leng)
-                    + this.Phase.LengthInKm;
-                var totalHours = this.previousTimes.Aggregate(0d, (sum, span) => sum + span.TotalHours)
-                    + this.Time!.Value.TotalHours;
-                var totalAverageSpeed = totalLengths / totalHours;
+                var totalTime = this.CalculateTotalTime();
+                var totalAverageSpeed = this.TotalLength / totalTime.TotalHours;
                 return totalAverageSpeed;
             }
         }
+
+        public double TotalLength
+            => this.TotalPhases
+                .Select(x => x.LengthInKm)
+                .Sum();
+
+        private TimeSpan? CalculateLapTime(TimeRecord record, Phase phase)
+            => phase.IsFinal
+                ? record.VetGateTime - record.StartTime
+                : record.ArrivalTime - record.StartTime;
+
+        private TimeSpan CalculateTotalTime()
+        {
+            var totalHours = TimeSpan.Zero;
+            for (var i = 0; i <= this.index; i++)
+            {
+                var record = this.timeRecords[i];
+                var phase = this.phases[i];
+                var time = this.CalculateLapTime(record, phase);
+                totalHours += time!.Value;
+            }
+            return totalHours;
+        }
+
+        private Phase CurrentPhase => this.phases[this.index];
+        private TimeRecord CurrentRecord => this.timeRecords[this.index];
+        private IEnumerable<Phase> TotalPhases => this.phases.Take(this.index + 1);
+        private IEnumerable<TimeRecord> TotalRecords => this.timeRecords.Take(this.index + 1);
+
+        public static DateTime CalculateStartTime(TimeRecord record, Phase phase)
+        {
+            if (!record.VetGateTime.HasValue)
+            {
+                throw new Exception("Cannot calculate Start Time for next Phase, because the current is not complete.");
+            }
+            return record.VetGateTime.Value.AddMinutes(phase.RestTimeInMins);
+        }
+
+        public int Id => this.CurrentRecord.Id;
+        public DateTime StartTime => this.CurrentRecord.StartTime;
+        public DateTime? ArrivalTime => this.CurrentRecord.ArrivalTime;
+        public DateTime? InspectionTime => this.CurrentRecord.InspectionTime;
+        public DateTime? ReInspectionTime => this.CurrentRecord.ReInspectionTime;
+        public bool IsReInspectionRequired => this.CurrentRecord.IsReInspectionRequired;
+        public bool IsRequiredInspectionRequired => this.CurrentRecord.IsReInspectionRequired;
     }
 }

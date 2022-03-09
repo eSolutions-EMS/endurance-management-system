@@ -1,5 +1,4 @@
 ﻿using EnduranceJudge.Domain.Core.Exceptions;
-using EnduranceJudge.Domain.Core.Extensions;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Competitions;
 using EnduranceJudge.Domain.State.Participants;
@@ -12,8 +11,17 @@ namespace EnduranceJudge.Domain.State.Participations
 {
     public class Participation : DomainBase<ParticipationException>
     {
-        private List<Competition> competitions = new();
+        internal Participation() {}
+        internal Participation(Participant participant, Competition competition) : base(GENERATE_ID)
+        {
+            this.Participant = participant;
+            this.CompetitionConstraint = competition;
+        }
+
+        private List<int> competitionsIds = new();
         private List<Performance> performances = new();
+        public Participant Participant { get; private set; }
+        public Competition CompetitionConstraint { get; private set; }
 
         public double AverageSpeedForLoopInKm
         {
@@ -30,56 +38,49 @@ namespace EnduranceJudge.Domain.State.Participations
             }
         }
         public double? Distance
-            => this.Competitions.FirstOrDefault()
+            => this.CompetitionConstraint
                 ?.Phases
                 .Select(x => x.LengthInKm)
                 .Sum();
 
         internal void Add(Competition competition)
         {
-            if (this.Competitions.Any())
+            if (this.CompetitionsIds.Any())
             {
-                var firstCompetition = this.competitions.First();
-                var newCompetitionName = competition.Name;
-                var existingCompetitionName = firstCompetition.Name;
-                if (firstCompetition.Phases.Count != competition.Phases.Count)
+                if (this.CompetitionConstraint.Phases.Count != competition.Phases.Count)
                 {
                     throw Helper.Create<ParticipantException>(
                         CANNOT_ADD_PARTICIPATION_DIFFERENT_PHASE_COUNT_MESSAGE,
-                        newCompetitionName);
+                        competition.Name);
                 }
-                for (var phaseIndex = 0; phaseIndex < firstCompetition.Phases.Count; phaseIndex++)
+                for (var phaseIndex = 0; phaseIndex < this.CompetitionConstraint.Phases.Count; phaseIndex++)
                 {
-                    var existingPhase = firstCompetition.Phases[phaseIndex];
-                    var newPhase = competition.Phases[phaseIndex];
+                    var phaseConstraint = this.CompetitionConstraint.Phases[phaseIndex];
+                    var phase = competition.Phases[phaseIndex];
                     // ReSharper disable once CompareOfFloatsByEqualityOperator
-                    if (existingPhase.LengthInKm != newPhase.LengthInKm)
+                    if (phaseConstraint.LengthInKm != phase.LengthInKm)
                     {
                         throw Helper.Create<ParticipantException>(
                             CANNOT_ADD_PARTICIPATION_DIFFERENT_PHASE_LENGTHS_MESSAGE,
-                            newCompetitionName,
-                            existingCompetitionName,
+                            competition.Name,
+                            this.CompetitionConstraint.Name,
                             phaseIndex + 1,
-                            newPhase.LengthInKm,
-                            existingPhase.LengthInKm);
+                            phase.LengthInKm,
+                            phaseConstraint.LengthInKm);
                     }
                 }
             }
-            this.competitions.AddOrUpdate(competition);
+            this.competitionsIds.Add(competition.Id);
         }
         internal void Remove(Competition competition)
         {
-            this.competitions.Remove(competition);
-        }
-        internal void Add(Performance performance)
-        {
-            this.performances.AddOrUpdate(performance);
+            this.competitionsIds.Remove(competition.Id);
         }
 
-        public IReadOnlyList<Competition> Competitions
+        public IReadOnlyList<int> CompetitionsIds
         {
-            get => this.competitions.AsReadOnly();
-            private set => this.competitions = value.ToList();
+            get => this.competitionsIds.AsReadOnly();
+            private set => this.competitionsIds = value.ToList();
         }
         public IReadOnlyList<Performance> Performances
         {

@@ -4,7 +4,9 @@ using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Domain.State.Participations;
 using EnduranceJudge.Domain.State.Performances;
 using EnduranceJudge.Domain.State.Phases;
+using EnduranceJudge.Domain.State.TimeRecords;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using static EnduranceJudge.Domain.DomainConstants.ErrorMessages;
 
@@ -12,92 +14,77 @@ namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates
 {
     public class ParticipantsAggregate : IAggregate
     {
-        private readonly Competition competition;
-        private readonly Participation participation;
+        private readonly Competition competitionConstraint;
+        private readonly List<TimeRecord> timeRecords;
 
-        internal ParticipantsAggregate(Participant participant)
+        // TODO: Rename to ParticipationsAggregate
+        internal ParticipantsAggregate(Participation participation)
         {
-            this.Number = participant.Number;
-            this.participation = participant.Participation;
-            this.competition = this.participation.Competitions.FirstOrDefault();
-            if (this.competition == null)
-            {
-                throw new Exception(PARTICIPANT_CANNOT_START_NO_COMPETITION_TEMPLATE);
-            }
+            this.Number = participation.Participant.Number;
+            this.timeRecords = participation.Participant.TimeRecords.ToList();
+            this.competitionConstraint = participation.CompetitionConstraint;
         }
 
         public int Number { get; }
 
         internal void Start()
         {
-            if (this.participation.Performances.Any())
+            if (this.timeRecords.Any())
             {
                 throw new Exception(PARTICIPANT_HAS_ALREADY_STARTED);
             }
-            var firstPhase = this.competition.Phases.FirstOrDefault();
+            var firstPhase = this.competitionConstraint.Phases.FirstOrDefault();
             if (firstPhase == null)
             {
                 throw new Exception(CANNOT_START_COMPETITION_WITHOUT_PHASES);
             }
-            this.AddPerformance(firstPhase, this.competition.StartTime);
+            this.AddRecord(this.competitionConstraint.StartTime);
         }
         internal void UpdatePerformance(DateTime time)
         {
-            var performance = this.GetActivePerformance() ?? this.StartNext();
-            performance.Update(time);
+            var record = this.GetCurrent() ?? this.CreateNext();
+            record.Update(time);
         }
-        internal PerformancesAggregate GetActivePerformance()
+        internal PerformancesAggregate GetCurrent()
         {
-            var activePerformance = this.participation.Performances.SingleOrDefault(x => x.Result == null);
-            if (activePerformance == null)
+            var record = this.timeRecords.SingleOrDefault(x => x.Result == null);
+            if (record == null)
             {
                 return null;
             }
-            var currentManager = new PerformancesAggregate(activePerformance);
-            return currentManager;
+            var recordsAggregate = new PerformancesAggregate(record);
+            return recordsAggregate;
         }
 
-        private PerformancesAggregate StartNext()
+        private PerformancesAggregate CreateNext()
         {
             if (this.IsComplete)
             {
                 throw new Exception(CANNOT_START_NEXT_PERFORMANCE_PARTICIPATION_IS_COMPLETE);
             }
-            var phase = this.competition
-                .Phases
-                .Skip(this.participation.Performances.Count)
-                .FirstOrDefault();
-            if (phase == null)
-            {
-                throw new Exception(CANNOT_START_PERFORMANCE_NO_PHASE);
-            }
-            var previousPerformance = this.participation.Performances.LastOrDefault();
-            if (previousPerformance == null)
+            var currentRecord = this.timeRecords.LastOrDefault();
+            if (currentRecord == null)
             {
                 throw new Exception(CANNOT_START_NEXT_PERFORMANCE_NO_LAST_PERFORMANCE);
             }
-            var startTime = previousPerformance.NextPerformanceStartTime;
-            if (startTime == null)
-            {
-                throw new Exception(CANNOT_START_PERFORMANCE_NO_START_TIME);
-            }
-
-            return this.AddPerformance(phase, startTime.Value);
+            var startTime = Performance.CalculateStartTime(currentRecord, this.CurrentPhase);
+            return this.AddRecord(startTime);
         }
 
         private bool IsComplete
-            => this.participation.Performances.Count == this.competition.Phases.Count
-                && this.participation.Performances.All(x => x.Result != null);
+            => this.timeRecords.Count == this.competitionConstraint.Phases.Count
+                && this.timeRecords.All(x => x.Result != null);
 
-        private PerformancesAggregate AddPerformance(Phase phase, DateTime startTime)
+        private PerformancesAggregate AddRecord(DateTime startTime)
         {
-            var previousLengths = this.participation.Performances.Select(x => x.Phase.LengthInKm);
-            var previousTimes = this.participation.Performances.Select(x => x.Time!.Value);
-            var performance = new Performance(phase, FixDateForToday(startTime), previousLengths, previousTimes);
-            this.participation.Add(performance);
-            var manager = new PerformancesAggregate(performance);
-            return manager;
+            var record = new TimeRecord(FixDateForToday(startTime), this.NextPhase);
+            this.timeRecords.Add(record);
+            var aggregate = new PerformancesAggregate(record);
+            return aggregate;
         }
+
+        private Phase CurrentPhase => this.competitionConstraint.Phases[this.timeRecords.Count];
+        private Phase NextPhase => this.competitionConstraint.Phases[this.timeRecords.Count + 1];
 
         // TODO: Remove after testing phase
         private DateTime FixDateForToday(DateTime date)

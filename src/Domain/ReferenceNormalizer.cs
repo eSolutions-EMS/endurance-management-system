@@ -41,18 +41,18 @@ public class ReferenceNormalizer
                 }
             }
         }
-        foreach (var phase in state.Event.Competitions.SelectMany(x => x.Phases))
-        {
-            foreach (var participation in state.Participants.Select(x => x.Participation))
-            {
-                foreach (var performance in participation.Performances)
-                {
-                    if (performance.Phase == phase)
-                    {
-                        performance.Phase = phase;
-                    }
-                }
-            }
-        }
+        // foreach (var phase in state.Event.Competitions.SelectMany(x => x.Phases))
+        // {
+        //     foreach (var participation in state.Participants.Select(x => x.Participation))
+        //     {
+        //         foreach (var performance in participation.Performances)
+        //         {
+        //             if (performance.Phase == phase)
+        //             {
+        //                 performance.Phase = phase;
+        //             }
+        //         }
+        //     }
+        // }
     }
 }

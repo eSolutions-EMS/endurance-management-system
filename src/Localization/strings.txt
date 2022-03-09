@@ -19,6 +19,7 @@ SELECT_WORK_DIRECTORY_MESSAGE                            | Select working direct
 REMOVE_CONFIRMATION_MESSAGE                              | Are you sure you want to remove this item | Are you sure you want to remove this item
 INVALID_DATE_FORMAT_MESSAGE                              | Invalid date: '{0}'. Expected format: '{1}' | Invalid date: '{0}'. Expected format: '{1}'
 UNSUPPORTED_IMPORT_FILE_MESSAGE                          | Unsupported file. Please use '{0}' or '{1}' | Unsupported file. Please use '{0}' or '{1}'
+NOT_FOUND_BY_ID_MESSAGE                                  | with ID '{0}' not found. | with ID '{0}' not found.
 ATHLETE_ENTITY                      | Athlete | Athlete
 ATHLETES_ENTITY                     | Athletes | Athletes
 HORSE_ENTITY                        | Horse | Horse

@@ -86,9 +86,9 @@ namespace EnduranceJudge.Gateways.Persistence.Contracts
             {
                 competition.StartTime = FixDateForToday(competition.StartTime);
             }
-            foreach (var participation in state.Participants.Select(x => x.Participation))
+            foreach (var participant in state.Participants)
             {
-                foreach (var performance in participation.Performances)
+                foreach (var performance in participant.TimeRecords)
                 {
                     performance.StartTime = FixDateForToday(performance.StartTime);
                     if (performance.ArrivalTime.HasValue)
@@ -102,10 +102,6 @@ namespace EnduranceJudge.Gateways.Persistence.Contracts
                     if (performance.ReInspectionTime.HasValue)
                     {
                         performance.ReInspectionTime = FixDateForToday(performance.ReInspectionTime.Value);
-                    }
-                    if (performance.RequiredInspectionTime.HasValue)
-                    {
-                        performance.RequiredInspectionTime = FixDateForToday(performance.RequiredInspectionTime.Value);
                     }
                 }
             }

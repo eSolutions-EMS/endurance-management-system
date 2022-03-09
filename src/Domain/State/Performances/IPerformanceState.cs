@@ -1,22 +1,15 @@
-using EnduranceJudge.Core.Models;
+using EnduranceJudge.Domain.State.TimeRecords;
 using System;
 
 namespace EnduranceJudge.Domain.State.Performances
 {
-    public interface IPerformanceState : IIdentifiable
+    public interface IPerformance : ITimeRecordState
     {
-        DateTime StartTime { get; }
-        DateTime? ArrivalTime { get; }
-        DateTime? InspectionTime { get; }
-        DateTime? ReInspectionTime { get; }
         DateTime? RequiredInspectionTime { get; }
-        DateTime? CompulsoryRequiredInspectionTime { get; }
-        DateTime? NextPerformanceStartTime { get; }
-        bool IsRequiredInspectionRequired { get; }
         TimeSpan? RecoverySpan { get; }
         TimeSpan? Time { get; }
         double? AverageSpeed { get; }
         double? AverageSpeedTotal { get; }
-        public double LengthSoFar { get; }
+        public double TotalLength { get; }
     }
 }

@@ -83,7 +83,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.C
             this.Participants.Clear();
             var participants = this.participants
                 .GetAll()
-                .Where(x => x.Participation.Competitions.Any(comp => comp.Equals(this)));
+                .Where(x => x.Participation.CompetitionsIds.Any(comp => comp.Equals(this)));
             foreach (var participant in participants)
             {
                 var removeCommand = new DelegateCommand<int?>(this.RemoveParticipantAction);

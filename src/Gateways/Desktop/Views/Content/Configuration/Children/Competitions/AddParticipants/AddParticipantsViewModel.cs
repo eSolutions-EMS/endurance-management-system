@@ -51,8 +51,8 @@ public class AddParticipantsViewModel : SearchableListViewModelBase<AddParticipa
         var participants = this.participants
             .GetAll()
             .Where(x => x.Participation
-                .Competitions
-                .All(comp => comp.Id != this.competitionId))
+                .CompetitionsIds
+                .All(id => id != this.competitionId))
             .MapEnumerable<ListItemModel>();
         return participants;
     }

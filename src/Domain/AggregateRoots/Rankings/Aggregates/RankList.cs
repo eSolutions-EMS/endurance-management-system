@@ -1,7 +1,7 @@
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.Enums;
 using EnduranceJudge.Domain.State.Participants;
-using EnduranceJudge.Domain.State.Performances;
+using EnduranceJudge.Domain.State.TimeRecords;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -44,20 +44,17 @@ namespace EnduranceJudge.Domain.AggregateRoots.Rankings.Aggregates
         private IEnumerable<Participant> RankAdults(IEnumerable<Participant> adults)
             => adults
                 .OrderByDescending(participant => participant
-                    .Participation
-                    .Performances
+                    .TimeRecords
                     .All(performance => performance.Result?.IsRanked ?? false))
                 .ThenBy(participant => participant
-                    .Participation
-                    .Performances
-                    .FirstOrDefault(performance => performance.Phase.IsFinal)
-                    ?.ArrivalTime);
+                    .TimeRecords
+                    .Last()
+                    .ArrivalTime);
 
         private (TimeSpan, Participant) CalculateTotalRecovery(Participant participant)
         {
             var totalRecovery = participant
-                .Participation
-                .Performances
+                .TimeRecords
                 .Where(x => x.Result != null)
                 .Aggregate(
                     TimeSpan.Zero,
@@ -66,10 +63,10 @@ namespace EnduranceJudge.Domain.AggregateRoots.Rankings.Aggregates
             return (totalRecovery, participant);
         }
 
-        private TimeSpan GetRecoveryTime(Performance performance)
+        private TimeSpan GetRecoveryTime(TimeRecord record)
         {
-            var arrival = performance.ArrivalTime;
-            var inspection = performance.ReInspectionTime ?? performance.InspectionTime;
+            var arrival = record.ArrivalTime;
+            var inspection = record.ReInspectionTime ?? record.InspectionTime;
             if (!arrival.HasValue || !inspection.HasValue)
             {
                 return TimeSpan.Zero;

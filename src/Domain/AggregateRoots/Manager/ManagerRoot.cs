@@ -8,8 +8,11 @@ using EnduranceJudge.Domain.State.Competitions;
 using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Domain.State.Participations;
 using EnduranceJudge.Domain.State.Performances;
+using EnduranceJudge.Domain.State.TimeRecords;
+using Microsoft.EntityFrameworkCore.Internal;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using static EnduranceJudge.Localization.Strings;
 
@@ -34,12 +37,13 @@ public class ManagerRoot : IAggregateRoot
 
     public bool HasStarted()
         => this.state.Participants.Any(x => x.Participation.Performances.Any());
+
     public void Start()
     {
         this.ValidateConfiguration();
         var participants = this.state
             .Participants
-            .Select(x => new ParticipantsAggregate(x))
+            .Select(x => new ParticipantsAggregate(x.Participation))
             .ToList();
         foreach (var participant in participants)
         {
@@ -50,44 +54,49 @@ public class ManagerRoot : IAggregateRoot
 
     public void UpdatePerformance(int number, DateTime time)
     {
-        var participant = this.GetParticipant(number);
+        var participant = this.GetParticipation(number);
         participant.UpdatePerformance(time);
     }
+
     public void CompletePerformance(int number, string code)
     {
-        var participant = this.GetParticipant(number);
-        var performance = participant.GetActivePerformance();
+        var participant = this.GetParticipation(number);
+        var performance = participant.GetCurrent();
         performance.Complete(code);
     }
+
     public void ReInspection(int number, bool isRequired)
     {
-        var participant = this.GetParticipant(number);
-        var performance = participant.GetActivePerformance();
+        var participant = this.GetParticipation(number);
+        var performance = participant.GetCurrent();
         if (performance == null)
         {
             throw Helper.Create<ParticipantException>(PARTICIPANT_HAS_NO_ACTIVE_PERFORMANCE_MESSAGE, number);
         }
         performance!.ReInspection(isRequired);
     }
+
     public void RequireInspection(int number, bool isRequired)
     {
-        var participant = this.GetParticipant(number);
-        var performance = participant.GetActivePerformance();
+        var participant = this.GetParticipation(number);
+        var performance = participant.GetCurrent();
         if (performance == null)
         {
             throw Helper.Create<ParticipationException>(PARTICIPANT_HAS_NO_ACTIVE_PERFORMANCE_MESSAGE, number);
         }
         performance!.RequireInspection(isRequired);
     }
-    public void EditPerformance(IPerformanceState state)
+
+    public Performance EditRecord(ITimeRecordState state)
     {
-        var performance = this.state
+        var record = this.state
             .Participants
-            .Select(part => part.Participation)
-            .SelectMany(participant => participant.Performances)
+            .SelectMany(part => part.TimeRecords)
             .FirstOrDefault(perf => perf.Equals(state));
-        var manager = new PerformancesAggregate(performance);
+        var manager = new PerformancesAggregate(record);
         manager.Edit(state);
+        var performance = this.GetPerformance(state.Id);
+        return performance;
     }
 
     public IEnumerable<StartModel> GetStartList(bool includePast)
@@ -96,17 +105,34 @@ public class ManagerRoot : IAggregateRoot
         return startList;
     }
 
-    private ParticipantsAggregate GetParticipant(int number)
+    private ParticipantsAggregate GetParticipation(int number)
     {
-        var participant = this.state
+        var participation = this.state
             .Participants
-            .FirstOrDefault(x => x.Number == number);
-        if (participant == null)
+            .Where(x => x.Number == number)
+            .Select(x => x.Participation)
+            .FirstOrDefault();
+        if (participation == null)
         {
             throw Helper.Create<ParticipantException>(PARTICIPANT_NUMBER_NOT_FOUND_MESSAGE, number);
         }
-        var manager = new ParticipantsAggregate(participant);
-        return manager;
+        var aggregate = new ParticipantsAggregate(participation);
+        return aggregate;
+    }
+
+    private Performance GetPerformance(int id)
+    {
+        foreach (var participant in this.state.Participants)
+        {
+            foreach (var timeRecord in participant.TimeRecords)
+            {
+                var competition = participant.Participation.CompetitionConstraint;
+                var index = participant.TimeRecords.ToList().IndexOf(timeRecord);
+                var performance = new Performance(participant, competition.Phases, index);
+                return performance;
+            }
+        }
+        throw Helper.Create<TimeRecordException>(NOT_FOUND_BY_ID_MESSAGE, id);
     }
 
     private void ValidateConfiguration()
@@ -122,7 +148,7 @@ public class ManagerRoot : IAggregateRoot
         }
         foreach (var participant in this.state.Participants)
         {
-            if (!participant.Participation.Competitions.Any())
+            if (!participant.Participation.CompetitionsIds.Any())
             {
                 throw Helper.Create<ParticipantException>(
                     INVALID_PARTICIPANT_NO_PARTICIPATIONS_MESSAGE,

@@ -57,7 +57,7 @@ namespace EnduranceJudge.Domain.AggregateRoots.Configuration.Aggregates
         {
             foreach (var participant in this.state.Participants)
             {
-                foreach (var existingCompetition in participant.Participation.Competitions)
+                foreach (var existingCompetition in participant.Participation.CompetitionsIds)
                 {
                     if (existingCompetition.Equals(competition))
                     {

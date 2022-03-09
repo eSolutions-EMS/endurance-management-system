@@ -42,11 +42,18 @@ namespace EnduranceJudge.Domain.State.Participants
             private set => this.timeRecords = value.ToList();
         }
 
-        public Participation Participation { get; private set; } = new();
+        public Participation Participation { get; private set; }
         public void ParticipateIn(Competition competition)
         {
             this.Validator.IsRequired(competition, nameof(competition));
-            this.Participation.Add(competition);
+            if (this.Participation == null)
+            {
+                this.Participation = new Participation(this, competition);
+            }
+            else
+            {
+                this.Participation.Add(competition);
+            }
         }
         public void RemoveFrom(Competition competition)
         {

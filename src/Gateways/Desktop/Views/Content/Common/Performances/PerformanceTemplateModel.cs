@@ -14,10 +14,9 @@ using static EnduranceJudge.Localization.Strings;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Common.Performances;
 
-public class PerformanceTemplateModel : ViewModelBase, IMapFrom<Performance>, IPerformanceState
+public class PerformanceTemplateModel : ViewModelBase, IMapFrom<Performance>, IPerformance
 {
-    private readonly IExecutor<ManagerRoot> competitionExecutor;
-    private readonly IQueries<Performance> performances;
+    private readonly IExecutor<ManagerRoot> managerExecutor;
     private readonly IDateService dateService;
 
     public PerformanceTemplateModel(Performance performance, int index, bool allowEdit)
@@ -28,12 +27,11 @@ public class PerformanceTemplateModel : ViewModelBase, IMapFrom<Performance>, IP
         this.ReadonlyVisibility = allowEdit
             ? Visibility.Collapsed
             : Visibility.Visible;
-        this.competitionExecutor = StaticProvider.GetService<IExecutor<ManagerRoot>>();
-        this.performances = StaticProvider.GetService<IQueries<Performance>>();
+        this.managerExecutor = StaticProvider.GetService<IExecutor<ManagerRoot>>();
         this.dateService = StaticProvider.GetService<IDateService>();
         this.Edit = new DelegateCommand(this.EditAction);
         this.MapFrom(performance);
-        this.HeaderValue = $"{GATE.ToUpper()}{index}/{this.LengthSoFar} {KM}";
+        this.HeaderValue = $"{GATE.ToUpper()}{index}/{this.TotalLength} {KM}";
     }
 
     public Visibility EditVisibility { get; }
@@ -55,8 +53,7 @@ public class PerformanceTemplateModel : ViewModelBase, IMapFrom<Performance>, IP
 
     public void EditAction()
     {
-        this.competitionExecutor.Execute(x => x.EditPerformance(this));
-        var result = this.performances.GetOne(this.Id);
+        var result = this.managerExecutor.Execute(x => x.EditRecord(this));
         this.MapFrom(result);
     }
 
@@ -82,13 +79,14 @@ public class PerformanceTemplateModel : ViewModelBase, IMapFrom<Performance>, IP
         get => this.ParseTime(this.RequiredInspectionTimeString);
         private set => this.RequiredInspectionTimeString = this.FormatTime(value);
     }
-    public DateTime? CompulsoryRequiredInspectionTime
+    public DateTime? CompulsoryRequiredInspectionTime // Possibly remove
     {
         get => this.ParseTime(this.CompulsoryRequiredInspectionTimeString);
         private set => this.CompulsoryRequiredInspectionTimeString = this.FormatTime(value);
     }
+    public bool IsReInspectionRequired { get; private set; }
     public bool IsRequiredInspectionRequired { get; private set; }
-    public double LengthSoFar { get; private set;  }
+    public double TotalLength { get; private set;  }
     public int Id { get; private set; }
 
     #endregion

@@ -1,4 +1,5 @@
 using EnduranceJudge.Domain.AggregateRoots.Rankings.Aggregates;
+using EnduranceJudge.Domain.Core.Extensions;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State;
 using EnduranceJudge.Domain.State.Competitions;
@@ -19,18 +20,18 @@ namespace EnduranceJudge.Domain.AggregateRoots.Rankings
             {
                 return;
             }
-            var participants = state.Participants;
-            var competitions = participants
+            var competitionsIds = state.Participants
                 .Select(x => x.Participation)
-                .SelectMany(x => x.Competitions)
+                .SelectMany(x => x.CompetitionsIds)
                 .Distinct()
                 .ToList();
-            foreach (var competition in competitions)
+            foreach (var id in competitionsIds)
             {
-                var participantsInCompetition = participants
-                    .Where(x => x.Participation.Competitions.Contains(competition))
+                var competition = state.Event.Competitions.FindDomain(id);
+                var participants = state.Participants
+                    .Where(x => x.Participation.CompetitionsIds.Contains(competition.Id))
                     .ToList();
-                var listing = new CompetitionResultAggregate(state.Event, competition, participantsInCompetition);
+                var listing = new CompetitionResultAggregate(state.Event, competition, participants);
                 this.competitions.Add(listing);
             }
         }

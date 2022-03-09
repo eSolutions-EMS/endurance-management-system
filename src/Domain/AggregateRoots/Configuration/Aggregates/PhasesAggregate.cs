@@ -76,18 +76,19 @@ namespace EnduranceJudge.Domain.AggregateRoots.Configuration.Aggregates
             throw new InvalidOperationException(message);
         }
 
+        // TODO: Remove these update methods.
         private void UpdateParticipations(Phase phase)
         {
             foreach (var participation in this.state.Participants.Select(x => x.Participation))
             {
-                foreach (var competition in participation.Competitions)
+                foreach (var competition in participation.CompetitionsIds)
                 {
-                    if (competition.Phases.Contains(phase))
-                    {
-                        competition.Phases
-                            .FindDomain(phase.Id)
-                            .MapFrom(phase);
-                    }
+                    // if (competition.Phases.Contains(phase))
+                    // {
+                    //     competition.Phases
+                    //         .FindDomain(phase.Id)
+                    //         .MapFrom(phase);
+                    // }
                 }
             }
         }
