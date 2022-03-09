@@ -3,6 +3,7 @@ using EnduranceJudge.Application.Core.Services;
 using EnduranceJudge.Core.ConventionalServices;
 using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Core.Services;
+using EnduranceJudge.Domain;
 using EnduranceJudge.Domain.AggregateRoots.Configuration;
 using EnduranceJudge.Domain.State;
 using System;
@@ -16,18 +17,18 @@ namespace EnduranceJudge.Gateways.Persistence.Contracts
         private const string STORAGE_FILE_NAME = "endurance-judge-data";
 
         private string storageFilePath;
-        private readonly IState state;
+        private readonly IStateContext context;
         private readonly IEncryptionService encryption;
         private readonly IFileService file;
         private readonly IJsonSerializationService serialization;
 
         public Storage(
-            IState state,
+            IStateContext context,
             IEncryptionService encryption,
             IFileService file,
             IJsonSerializationService serialization)
         {
-            this.state = state;
+            this.context = context;
             this.encryption = encryption;
             this.file = file;
             this.serialization = serialization;
@@ -56,14 +57,16 @@ namespace EnduranceJudge.Gateways.Persistence.Contracts
             var contents = this.file.Read(this.storageFilePath);
             contents = this.NormalizeStorageFileContents(contents);
             var state = this.serialization.Deserialize<State>(contents);
+            ReferenceNormalizer.Normalize(state);
             this.FixDatesForToday(state);
             // this.__REVERT_START_PARTICIPATIONS__();
-            this.state.MapFrom(state);
+            this.context.Populate(state);
+            ;
         }
 
         private void Create()
         {
-            var serialized = this.serialization.Serialize(this.state);
+            var serialized = this.serialization.Serialize(this.context);
             this.file.Create(this.storageFilePath, serialized);
         }
 

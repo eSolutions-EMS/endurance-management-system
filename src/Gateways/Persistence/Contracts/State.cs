@@ -12,7 +12,7 @@ using System.Collections.Generic;
 
 namespace EnduranceJudge.Gateways.Persistence.Contracts
 {
-    public class State : IState, ISingletonService
+    public class State : IState
     {
         public EnduranceEvent Event { get; set; }
         public List<Horse> Horses { get; } = new();
