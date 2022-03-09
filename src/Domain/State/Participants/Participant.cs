@@ -3,6 +3,9 @@ using EnduranceJudge.Domain.State.Athletes;
 using EnduranceJudge.Domain.State.Competitions;
 using EnduranceJudge.Domain.State.Horses;
 using EnduranceJudge.Domain.State.Participations;
+using EnduranceJudge.Domain.State.TimeRecords;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace EnduranceJudge.Domain.State.Participants
 {
@@ -10,6 +13,8 @@ namespace EnduranceJudge.Domain.State.Participants
     {
         public const int DEFAULT_MAX_AVERAGE_SPEED = 16;
         private const string NAME_FORMAT = "{0} - {1} with {2}";
+
+        private List<TimeRecord> timeRecords = new();
 
         private Participant() {}
         public Participant(Athlete athlete, Horse horse) : base(GENERATE_ID)
@@ -31,8 +36,13 @@ namespace EnduranceJudge.Domain.State.Participants
         public int? MaxAverageSpeedInKmPh { get; internal set; }
         public Horse Horse { get; internal set; }
         public Athlete Athlete { get; internal set; }
-        public Participation Participation { get; private set; } = new();
+        public IReadOnlyList<TimeRecord> TimeRecords
+        {
+            get => this.timeRecords.AsReadOnly();
+            private set => this.timeRecords = value.ToList();
+        }
 
+        public Participation Participation { get; private set; } = new();
         public void ParticipateIn(Competition competition)
         {
             this.Validator.IsRequired(competition, nameof(competition));
