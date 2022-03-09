@@ -2,7 +2,7 @@ using EnduranceJudge.Core.Models;
 
 namespace EnduranceJudge.Domain.State.PhaseResults
 {
-    public interface IPhaseResultState : IIdentifiable
+    public interface IResultState : IIdentifiable
     {
         bool IsRanked { get; }
 

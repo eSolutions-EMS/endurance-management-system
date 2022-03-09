@@ -2,10 +2,10 @@ using EnduranceJudge.Domain.Core.Models;
 
 namespace EnduranceJudge.Domain.State.PhaseResults
 {
-    public class PhaseResult : DomainBase<PhaseResultException>, IPhaseResultState
+    public class Result : DomainBase<PhaseResultException>, IResultState
     {
-        private PhaseResult() {}
-        internal PhaseResult(string code = null) : base(default)
+        private Result() {}
+        internal Result(string code = null) : base(default)
         {
             this.IsRanked = code == null;
             this.Code = code;

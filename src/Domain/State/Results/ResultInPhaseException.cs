@@ -4,6 +4,6 @@ namespace EnduranceJudge.Domain.State.PhaseResults
 {
     public class PhaseResultException : DomainExceptionBase
     {
-        protected override string Entity { get; } = nameof(PhaseResult);
+        protected override string Entity { get; } = nameof(Result);
     }
 }

@@ -67,7 +67,7 @@ namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates
         }
         internal void Complete(string code)
         {
-            this.performance.Result = new PhaseResult(code);
+            this.performance.Result = new Result(code);
         }
         internal void ReInspection(bool isRequired)
         {
@@ -161,7 +161,7 @@ namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates
                 throw new Exception(PERFORMANCE_INVALID_COMPLETE);
             }
 
-            this.performance.Result = new PhaseResult();
+            this.performance.Result = new Result();
             this.performance.NextPerformanceStartTime = nextPhaseStartTime;
         }
 

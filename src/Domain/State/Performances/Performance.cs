@@ -37,7 +37,7 @@ namespace EnduranceJudge.Domain.State.Performances
         public DateTime? NextPerformanceStartTime { get; internal set; }
         public double LengthSoFar
             => this.previousLengths.Aggregate(0d, (sum, leng) => sum + leng) + this.Phase.LengthInKm;
-        public PhaseResult Result { get; internal set; }
+        public Result Result { get; internal set; }
 
         public TimeSpan? RecoverySpan
             => (this.ReInspectionTime ?? this.InspectionTime) - this.ArrivalTime;
