@@ -5,6 +5,7 @@ using EnduranceJudge.Domain.State.Competitions;
 using EnduranceJudge.Domain.State.Countries;
 using EnduranceJudge.Domain.State.Participations;
 using EnduranceJudge.Domain.State.Personnels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -23,7 +24,6 @@ namespace EnduranceJudge.Domain.State.EnduranceEvents
         private List<Personnel> membersOfJudgeCommittee = new();
         private List<Personnel> stewards = new();
         private List<Competition> competitions = new();
-        private List<Participation> participations = new();
 
         public string Name { get; internal set; }
         public string PopulatedPlace { get; internal set; }
@@ -39,10 +39,6 @@ namespace EnduranceJudge.Domain.State.EnduranceEvents
         public void Save(Competition competition)
         {
             this.competitions.AddOrUpdate(competition);
-        }
-        public void Save(Participation participation)
-        {
-            this.participations.AddOrUpdate(participation);
         }
         public void Save(Personnel personnel)
         {
@@ -75,6 +71,10 @@ namespace EnduranceJudge.Domain.State.EnduranceEvents
                 case PersonnelRole.Steward:
                     this.stewards.AddOrUpdate(personnel);
                     break;
+                case PersonnelRole.Invalid:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 
@@ -97,11 +97,6 @@ namespace EnduranceJudge.Domain.State.EnduranceEvents
         {
             get => this.competitions.AsReadOnly();
             private set => this.competitions = value.ToList();
-        }
-        public IReadOnlyList<Participation> Participations
-        {
-            get => this.participations.AsReadOnly();
-            private set => this.participations = value.ToList();
         }
     }
 }
