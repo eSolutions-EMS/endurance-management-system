@@ -40,6 +40,8 @@ COUNTRY_ENTITY                      | Country | Country
 COUNTRIES_ENTITY                    | Countries | Countries
 RESULT_ENTITY                       | Result | Result
 RESULTS_ENTITY                      | Results | Results
+TIME_RECORD_ENTITY                  | Time Record | Time Record
+TIME_RECORDS_ENTITY                 | Time Records | Time Records
 IMPORT_PAGE                                | Import | Import
 EVENT_PAGE                                 | Event | Event
 MANAGER_PAGE                               | Manager | Manager
