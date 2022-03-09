@@ -1,5 +1,4 @@
-﻿using EnduranceJudge.Core.Mappings;
-using EnduranceJudge.Domain.AggregateRoots.Configuration.Extensions;
+﻿using EnduranceJudge.Domain.AggregateRoots.Configuration.Extensions;
 using EnduranceJudge.Domain.Core.Exceptions;
 using EnduranceJudge.Domain.Core.Extensions;
 using EnduranceJudge.Domain.Core.Models;
@@ -41,7 +40,6 @@ namespace EnduranceJudge.Domain.AggregateRoots.Configuration.Aggregates
                 horse.TrainerFirstName = horseState.TrainerFirstName;
                 horse.TrainerLastName = horseState.TrainerLastName;
                 horse.Name = horseState.Name;
-                this.UpdateParticipants(horse);
             }
 
             return horse;
@@ -61,17 +59,6 @@ namespace EnduranceJudge.Domain.AggregateRoots.Configuration.Aggregates
             }
 
             this.state.Horses.Remove(horse);
-        }
-
-        private void UpdateParticipants(Horse horse)
-        {
-            foreach (var participant in this.state.Participants)
-            {
-                if (participant.Horse.Equals(horse))
-                {
-                    participant.Horse.MapFrom(horse);
-                }
-            }
         }
     }
 }

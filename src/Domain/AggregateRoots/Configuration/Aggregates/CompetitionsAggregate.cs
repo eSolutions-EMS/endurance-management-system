@@ -1,5 +1,4 @@
-﻿using EnduranceJudge.Core.Mappings;
-using EnduranceJudge.Domain.AggregateRoots.Configuration.Extensions;
+﻿using EnduranceJudge.Domain.AggregateRoots.Configuration.Extensions;
 using EnduranceJudge.Domain.Core.Extensions;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.Validation;
@@ -38,7 +37,6 @@ namespace EnduranceJudge.Domain.AggregateRoots.Configuration.Aggregates
                 competition.Name = competitionState.Name;
                 competition.Type = competitionState.Type;
                 competition.StartTime = competitionState.StartTime;
-                this.UpdateParticipants(competition);
             }
 
             return competition;
@@ -51,20 +49,6 @@ namespace EnduranceJudge.Domain.AggregateRoots.Configuration.Aggregates
             var competition = this.state.Event.Competitions.FindDomain(competitionId);
             var participant = this.state.Participants.FindDomain(participantId);
             participant.RemoveFrom(competition);
-        }
-
-        private void UpdateParticipants(Competition competition)
-        {
-            foreach (var participant in this.state.Participants)
-            {
-                foreach (var existingCompetition in participant.Participation.CompetitionsIds)
-                {
-                    if (existingCompetition.Equals(competition))
-                    {
-                        existingCompetition.MapFrom(competition);
-                    }
-                }
-            }
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using EnduranceJudge.Core.Mappings;
-using EnduranceJudge.Domain.AggregateRoots.Configuration.Extensions;
+﻿using EnduranceJudge.Domain.AggregateRoots.Configuration.Extensions;
 using EnduranceJudge.Domain.Core.Exceptions;
 using EnduranceJudge.Domain.Core.Extensions;
 using EnduranceJudge.Domain.Core.Models;
@@ -50,7 +49,6 @@ namespace EnduranceJudge.Domain.AggregateRoots.Configuration.Aggregates
                     var country = this.state.Countries.FindDomain(countryId);
                     athlete.Country = country;
                 }
-                this.UpdateParticipants(athlete);
             }
             return athlete;
         }
@@ -68,17 +66,6 @@ namespace EnduranceJudge.Domain.AggregateRoots.Configuration.Aggregates
                 }
             }
             this.state.Athletes.Remove(athlete);
-        }
-
-        private void UpdateParticipants(Athlete athlete)
-        {
-            foreach (var participant in this.state.Participants)
-            {
-                if (participant.Athlete.Equals(athlete))
-                {
-                    participant.Athlete.MapFrom(athlete);
-                }
-            }
         }
     }
 }
