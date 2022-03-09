@@ -1,5 +1,4 @@
-﻿using EnduranceJudge.Core.Mappings;
-using EnduranceJudge.Domain.AggregateRoots.Configuration.Extensions;
+﻿using EnduranceJudge.Domain.AggregateRoots.Configuration.Extensions;
 using EnduranceJudge.Domain.Core.Exceptions;
 using EnduranceJudge.Domain.Core.Extensions;
 using EnduranceJudge.Domain.Core.Models;
@@ -68,7 +67,6 @@ namespace EnduranceJudge.Domain.AggregateRoots.Configuration.Aggregates
                 phase.MaxRecoveryTimeInMins = phaseState.MaxRecoveryTimeInMins;
                 phase.RestTimeInMins = phaseState.RestTimeInMins;
                 phase.IsCompulsoryInspectionRequired = phaseState.IsCompulsoryInspectionRequired;
-                this.UpdateParticipations(phase);
                 return phase;
             }
 
@@ -76,22 +74,6 @@ namespace EnduranceJudge.Domain.AggregateRoots.Configuration.Aggregates
             throw new InvalidOperationException(message);
         }
 
-        // TODO: Remove these update methods.
-        private void UpdateParticipations(Phase phase)
-        {
-            foreach (var participation in this.state.Participants.Select(x => x.Participation))
-            {
-                foreach (var competition in participation.CompetitionsIds)
-                {
-                    // if (competition.Phases.Contains(phase))
-                    // {
-                    //     competition.Phases
-                    //         .FindDomain(phase.Id)
-                    //         .MapFrom(phase);
-                    // }
-                }
-            }
-        }
         private void Validate(IPhaseState phaseState, int competitionId)
         {
             var competition = this.state.Event.Competitions.FindDomain(competitionId);

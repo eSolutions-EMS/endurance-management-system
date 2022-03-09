@@ -4,6 +4,7 @@ using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Competitions;
 using EnduranceJudge.Domain.Enums;
 using EnduranceJudge.Domain.State.Participants;
+using EnduranceJudge.Domain.State.Participations;
 using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
@@ -27,17 +28,17 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.C
         ICollapsable
     {
         private readonly IExecutor<ConfigurationRoot> configurationExecutor;
-        private readonly IQueries<Participant> participants;
+        private readonly IQueries<Participation> participations;
         private readonly ConfigurationRoot configuration;
         public CompetitionViewModel() : this(null, null, null, null) { }
         public CompetitionViewModel(
             IExecutor<ConfigurationRoot> configurationExecutor,
-            IQueries<Participant> participants,
+            IQueries<Participation> participations,
             ConfigurationRoot configuration,
             IQueries<Competition> competitions) : base(competitions)
         {
             this.configurationExecutor = configurationExecutor;
-            this.participants = participants;
+            this.participations = participations;
             this.configuration = configuration;
             this.AddParticipants = new DelegateCommand(this.NavigateToAddParticipants);
             this.ToggleVisibility = new DelegateCommand(this.ToggleVisibilityAction);
@@ -63,7 +64,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.C
         public override void OnNavigatedTo(NavigationContext context)
         {
             base.OnNavigatedTo(context);
-            this.LoadParticipants();
+            this.LoadParticipations();
         }
         protected override IDomain Persist()
         {
@@ -74,22 +75,22 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.C
         private void RemoveParticipantAction(int? participantId)
         {
             this.configurationExecutor.Execute(x =>
-                x.Competitions.RemoveParticipant(this.Id, participantId!.Value));
-            this.LoadParticipants();
+                x.Competitions.RemoveParticipation(this.Id, participantId!.Value));
+            this.LoadParticipations();
         }
 
-        private void LoadParticipants()
+        private void LoadParticipations()
         {
             this.Participants.Clear();
-            var participants = this.participants
+            var participations = this.participations
                 .GetAll()
-                .Where(x => x.Participation.CompetitionsIds.Any(comp => comp.Equals(this)));
-            foreach (var participant in participants)
+                .Where(x => x.CompetitionsIds.Any(id => id == this.Id));
+            foreach (var participation in participations)
             {
                 var removeCommand = new DelegateCommand<int?>(this.RemoveParticipantAction);
                 var listItem = new ListItemViewModel(
-                    participant.Id,
-                    participant.Name,
+                    participation.Id, // ??
+                    participation.Participant.Name,
                     removeCommand,
                     REMOVE);
                 this.Participants.Add(listItem);

@@ -167,9 +167,9 @@ public class ContestManagerViewModel : ViewModelBase
     }
     private void UpdateAdditionalInspectionCheckboxes(Participant participant)
     {
-        var currentPerformance = participant.Participation.Performances.Last();
-        this.ReInspectionValue = currentPerformance.IsReInspectionRequired;
-        this.RequireInspectionValue = currentPerformance.IsRequiredInspectionRequired;
+        var currentRecord = participant.TimeRecords.Last();
+        this.ReInspectionValue = currentRecord.IsReInspectionRequired;
+        this.RequireInspectionValue = currentRecord.IsRequiredInspectionRequired;
     }
 
     private void LoadParticipants()

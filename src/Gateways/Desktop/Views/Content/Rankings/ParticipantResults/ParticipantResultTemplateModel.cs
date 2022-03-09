@@ -20,7 +20,8 @@ public class ParticipantResultTemplateModel : ParticipantTemplateModelBase
         this.HorseBreed = participant.Horse.Breed;
         this.TrainerFeiId = participant.Horse.TrainerFeiId;
         this.TrainerName = participant.Horse.TrainerName;
-        this.AverageSpeedInKm = Math.Round(participant.Participation.AverageSpeedForLoopInKm, 3);
+        // TODO: Somehow use Performances here.
+        // this.AverageSpeedInKm = Math.Round(participant.Participation.AverageSpeedForLoopInKm, 3);
     }
 
     public int Rank { get; }

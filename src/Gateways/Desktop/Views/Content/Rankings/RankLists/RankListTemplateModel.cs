@@ -27,9 +27,9 @@ public class RankListTemplateModel : ViewModelBase, ICompetitionData
         this.DateNow = competitionData.DateNow;
 
         var rank = 1;
-        foreach (var participant in rankList)
+        foreach (var participation in rankList)
         {
-            var entry = new ParticipantResultTemplateModel(rank, participant);
+            var entry = new ParticipantResultTemplateModel(rank, participation.Participant);
             this.RankList.Add(entry);
             rank++;
         }

@@ -9,7 +9,7 @@ public class ReferenceNormalizer
     {
         foreach (var athlete in state.Athletes)
         {
-            foreach (var participant in state.Participants)
+            foreach (var participant in state.Participations.Select(x => x.Participant))
             {
                 if (participant.Athlete == athlete)
                 {
@@ -19,7 +19,7 @@ public class ReferenceNormalizer
         }
         foreach (var horse in state.Horses)
         {
-            foreach (var participant in state.Participants)
+            foreach (var participant in state.Participations.Select(x => x.Participant))
             {
                 if (participant.Horse == horse)
                 {

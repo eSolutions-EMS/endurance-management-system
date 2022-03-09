@@ -1,4 +1,4 @@
-﻿using EnduranceJudge.Domain.State.Participants;
+﻿using EnduranceJudge.Domain.State.Participations;
 using EnduranceJudge.Domain.State.TimeRecords;
 using System;
 using System.Collections.Generic;
@@ -8,17 +8,17 @@ namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 
 public class Startlist : List<StartModel>
 {
-    internal Startlist(IEnumerable<Participant> participants, bool includePast)
+    internal Startlist(IEnumerable<Participation> participation, bool includePast)
     {
-        foreach (var participant in participants)
+        foreach (var participant in participation)
         {
-            this.HandleParticipant(participant, includePast);
+            this.Handle(participant, includePast);
         }
     }
 
-    private void HandleParticipant(Participant participant, bool includePast)
+    private void Handle(Participation participation, bool includePast)
     {
-        var performances = participant.TimeRecords;
+        var performances = participation.Participant.TimeRecords;
         if (!includePast)
         {
             var current = performances.FirstOrDefault(x => x.StartTime > DateTime.Now);
@@ -26,25 +26,25 @@ public class Startlist : List<StartModel>
             {
                 return;
             }
-            this.AddStart(participant, current);
+            this.AddStart(participation, current);
         }
         else
         {
-            foreach (var record in participant.TimeRecords.Where(x => x.Result != null))
+            foreach (var record in participation.Participant.TimeRecords.Where(x => x.Result != null))
             {
-                this.AddStart(participant, record);
+                this.AddStart(participation, record);
             }
         }
     }
 
-    private void AddStart(Participant participant, TimeRecord record)
+    private void AddStart(Participation participation, TimeRecord record)
     {
         var start = new StartModel
         {
-            Number = participant.Number,
-            Name = participant.Name,
-            CountryName = participant.Athlete.Country.Name,
-            Distance = participant.Participation.Distance!.Value,
+            Number = participation.Participant.Number,
+            Name = participation.Participant.Name,
+            CountryName = participation.Participant.Athlete.Country.Name,
+            Distance = participation.Distance!.Value,
             StartTime = record.StartTime,
             HasStarted = record.StartTime < DateTime.Now,
         };

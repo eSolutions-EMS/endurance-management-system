@@ -2,8 +2,6 @@ using EnduranceJudge.Domain.AggregateRoots.Rankings.Aggregates;
 using EnduranceJudge.Domain.Core.Extensions;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State;
-using EnduranceJudge.Domain.State.Competitions;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -20,25 +18,25 @@ namespace EnduranceJudge.Domain.AggregateRoots.Rankings
             {
                 return;
             }
-            var competitionsIds = state.Participants
-                .Select(x => x.Participation)
+            var competitionsIds = state.Participations
                 .SelectMany(x => x.CompetitionsIds)
                 .Distinct()
                 .ToList();
             foreach (var id in competitionsIds)
             {
                 var competition = state.Event.Competitions.FindDomain(id);
-                var participants = state.Participants
-                    .Where(x => x.Participation.CompetitionsIds.Contains(competition.Id))
+                var participations = state.Participations
+                    .Where(x => x.CompetitionsIds.Contains(competition.Id))
                     .ToList();
-                var listing = new CompetitionResultAggregate(state.Event, competition, participants);
+                var listing = new CompetitionResultAggregate(state.Event, competition, participations);
                 this.competitions.Add(listing);
             }
         }
 
         public IReadOnlyList<CompetitionResultAggregate> Competitions => this.competitions.AsReadOnly();
     }
-//
+// TODO: remove
+    //
 //     public class Kur : IEqualityComparer<Competition>
 //     {
 //         public bool Equals(Competition x, Competition y)

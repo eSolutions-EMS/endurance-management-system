@@ -1,11 +1,11 @@
 ﻿using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Competitions;
+using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Domain.State.Participations;
 using EnduranceJudge.Domain.State.Performances;
 using EnduranceJudge.Domain.State.Phases;
 using EnduranceJudge.Domain.State.TimeRecords;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using static EnduranceJudge.Domain.DomainConstants.ErrorMessages;
 
@@ -14,21 +14,22 @@ namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates
     public class ParticipantsAggregate : IAggregate
     {
         private readonly Competition competitionConstraint;
-        private readonly List<TimeRecord> timeRecords;
+        private readonly Participant participant;
 
         // TODO: Rename to ParticipationsAggregate
         internal ParticipantsAggregate(Participation participation)
         {
             this.Number = participation.Participant.Number;
-            this.timeRecords = participation.Participant.TimeRecords.ToList();
+            this.participant = participation.Participant;
             this.competitionConstraint = participation.CompetitionConstraint;
         }
 
         public int Number { get; }
 
+        // TODO: Move in StartNext?
         internal void Start()
         {
-            if (this.timeRecords.Any())
+            if (this.participant.TimeRecords.Any())
             {
                 throw new Exception(PARTICIPANT_HAS_ALREADY_STARTED);
             }
@@ -46,7 +47,7 @@ namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates
         }
         internal PerformancesAggregate GetCurrent()
         {
-            var record = this.timeRecords.SingleOrDefault(x => x.Result == null);
+            var record = this.participant.TimeRecords.SingleOrDefault(x => x.Result == null);
             if (record == null)
             {
                 return null;
@@ -61,7 +62,7 @@ namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates
             {
                 throw new Exception(CANNOT_START_NEXT_PERFORMANCE_PARTICIPATION_IS_COMPLETE);
             }
-            var currentRecord = this.timeRecords.LastOrDefault();
+            var currentRecord = this.participant.TimeRecords.LastOrDefault();
             if (currentRecord == null)
             {
                 throw new Exception(CANNOT_START_NEXT_PERFORMANCE_NO_LAST_PERFORMANCE);
@@ -71,19 +72,19 @@ namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates
         }
 
         private bool IsComplete
-            => this.timeRecords.Count == this.competitionConstraint.Phases.Count
-                && this.timeRecords.All(x => x.Result != null);
+            => this.participant.TimeRecords.Count == this.competitionConstraint.Phases.Count
+                && this.participant.TimeRecords.All(x => x.Result != null);
 
         private PerformancesAggregate AddRecord(DateTime startTime)
         {
             var record = new TimeRecord(FixDateForToday(startTime), this.NextPhase);
-            this.timeRecords.Add(record);
+            this.participant.Add(record);
             var aggregate = new PerformancesAggregate(record);
             return aggregate;
         }
 
-        private Phase CurrentPhase => this.competitionConstraint.Phases[this.timeRecords.Count];
-        private Phase NextPhase => this.competitionConstraint.Phases[this.timeRecords.Count + 1];
+        private Phase CurrentPhase => this.competitionConstraint.Phases[this.participant.TimeRecords.Count];
+        private Phase NextPhase => this.competitionConstraint.Phases[this.participant.TimeRecords.Count + 1];
 
         // TODO: Remove after testing phase
         private DateTime FixDateForToday(DateTime date)

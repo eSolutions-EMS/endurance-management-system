@@ -6,6 +6,7 @@ using EnduranceJudge.Domain.State;
 using EnduranceJudge.Domain.State.Athletes;
 using EnduranceJudge.Domain.State.Horses;
 using EnduranceJudge.Domain.State.Participants;
+using EnduranceJudge.Domain.State.Participations;
 using System.Linq;
 using static EnduranceJudge.Localization.Strings;
 
@@ -57,16 +58,22 @@ namespace EnduranceJudge.Domain.AggregateRoots.Configuration.Aggregates
         {
             this.state.ValidateThatEventHasNotStarted();
 
-            var participant = this.state.Participants.FindDomain(id);
-            this.state.Participants.Remove(participant);
+            var participant = this.state.Participations.FindDomain(id);
+            this.state.Participations.Remove(participant);
         }
         public void AddParticipation(int competitionId, int participantId)
         {
             this.state.ValidateThatEventHasNotStarted();
 
-            var participant = this.state.Participants.FindDomain(participantId);
             var competition = this.state.Event.Competitions.FindDomain(competitionId);
-            participant.ParticipateIn(competition);
+            var participation = this.state.Participations.FirstOrDefault(x => x.Participant.Id == participantId);
+            if (participation == null)
+            {
+                var participant = this.state.Participants.FindDomain(participantId);
+                participation = new Participation(participant, competition);
+            }
+            participation.Add(competition);
+            this.state.Participations.Add(participation);
         }
 
         private bool IsPartOfAnotherParticipant(Athlete athlete, int participantId)
@@ -77,9 +84,9 @@ namespace EnduranceJudge.Domain.AggregateRoots.Configuration.Aggregates
 
         public void __REVERT_START_PARTICIPATIONS__()
         {
-            foreach (var participant in this.state.Participants)
+            foreach (var participant in this.state.Participations)
             {
-                participant.Participation.__REMOVE_PERFORMANCES__();
+                participant.__REMOVE_PERFORMANCES__();
             }
         }
     }

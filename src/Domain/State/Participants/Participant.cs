@@ -1,8 +1,6 @@
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Athletes;
-using EnduranceJudge.Domain.State.Competitions;
 using EnduranceJudge.Domain.State.Horses;
-using EnduranceJudge.Domain.State.Participations;
 using EnduranceJudge.Domain.State.TimeRecords;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,24 +40,8 @@ namespace EnduranceJudge.Domain.State.Participants
             private set => this.timeRecords = value.ToList();
         }
 
-        public Participation Participation { get; private set; }
-        public void ParticipateIn(Competition competition)
-        {
-            this.Validator.IsRequired(competition, nameof(competition));
-            if (this.Participation == null)
-            {
-                this.Participation = new Participation(this, competition);
-            }
-            else
-            {
-                this.Participation.Add(competition);
-            }
-        }
-        public void RemoveFrom(Competition competition)
-        {
-            this.Validator.IsRequired(competition, nameof(competition));
-            this.Participation.Remove(competition);
-        }
+        public void Add(TimeRecord record)
+            => this.timeRecords.Add(record);
 
         public string Name => FormatName(this.Number, this.Athlete.Name, this.Horse.Name);
 

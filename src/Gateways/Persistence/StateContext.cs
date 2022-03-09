@@ -5,6 +5,7 @@ using EnduranceJudge.Domain.State.Countries;
 using EnduranceJudge.Domain.State.EnduranceEvents;
 using EnduranceJudge.Domain.State.Horses;
 using EnduranceJudge.Domain.State.Participants;
+using EnduranceJudge.Domain.State.Participations;
 using System.Collections.Generic;
 
 namespace EnduranceJudge.Gateways.Persistence
@@ -26,6 +27,7 @@ namespace EnduranceJudge.Gateways.Persistence
         public List<Horse> Horses => this.state?.Horses;
         public List<Athlete> Athletes => this.state?.Athletes;
         public List<Participant> Participants => this.state?.Participants;
+        public List<Participation> Participations => this.state?.Participations;
         public IReadOnlyList<Country> Countries => this.state?.Countries;
     }
 

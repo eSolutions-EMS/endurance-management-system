@@ -1,9 +1,12 @@
 ﻿using EnduranceJudge.Domain.AggregateRoots.Configuration.Extensions;
+using EnduranceJudge.Domain.Core.Exceptions;
 using EnduranceJudge.Domain.Core.Extensions;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.Validation;
 using EnduranceJudge.Domain.State;
 using EnduranceJudge.Domain.State.Competitions;
+using EnduranceJudge.Domain.State.Participants;
+using System.Linq;
 using static EnduranceJudge.Localization.Strings;
 
 namespace EnduranceJudge.Domain.AggregateRoots.Configuration.Aggregates
@@ -42,13 +45,15 @@ namespace EnduranceJudge.Domain.AggregateRoots.Configuration.Aggregates
             return competition;
         }
 
-        public void RemoveParticipant(int competitionId, int participantId)
+        public void RemoveParticipation(int competitionId, int participantId)
         {
             this.state.ValidateThatEventHasNotStarted();
-
-            var competition = this.state.Event.Competitions.FindDomain(competitionId);
-            var participant = this.state.Participants.FindDomain(participantId);
-            participant.RemoveFrom(competition);
+            var participation = this.state.Participations.FirstOrDefault(x => x.Participant.Id == participantId);
+            if (participation == null)
+            {
+                throw Helper.Create<ParticipantException>(NOT_FOUND_BY_ID_MESSAGE);
+            }
+            participation.Remove(competitionId);
         }
     }
 }

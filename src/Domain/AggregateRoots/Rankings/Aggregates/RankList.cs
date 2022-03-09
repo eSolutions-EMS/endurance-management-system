@@ -1,6 +1,7 @@
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.Enums;
 using EnduranceJudge.Domain.State.Participants;
+using EnduranceJudge.Domain.State.Participations;
 using EnduranceJudge.Domain.State.TimeRecords;
 using System;
 using System.Collections;
@@ -9,11 +10,11 @@ using System.Linq;
 
 namespace EnduranceJudge.Domain.AggregateRoots.Rankings.Aggregates
 {
-    public class RankList : IAggregate, IEnumerable<Participant>
+    public class RankList : IAggregate, IEnumerable<Participation>
     {
-        private readonly IEnumerable<Participant> participants;
+        private readonly IEnumerable<Participation> participants;
 
-        internal RankList(Category category, IEnumerable<Participant> participants)
+        internal RankList(Category category, IEnumerable<Participation> participations)
         {
             if (category == default)
             {
@@ -21,12 +22,12 @@ namespace EnduranceJudge.Domain.AggregateRoots.Rankings.Aggregates
             }
 
             this.Category = category;
-            this.participants = this.Rank(category, participants);
+            this.participants = this.Rank(category, participations);
         }
 
         public Category Category { get; }
 
-        private IEnumerable<Participant> Rank(Category category, IEnumerable<Participant> participants)
+        private IEnumerable<Participation> Rank(Category category, IEnumerable<Participation> participants)
         {
             var ranked = category == Category.Kids
                 ? this.RankKids(participants)
@@ -34,33 +35,33 @@ namespace EnduranceJudge.Domain.AggregateRoots.Rankings.Aggregates
             return ranked;
         }
 
-        private IEnumerable<Participant> RankKids(IEnumerable<Participant> kids)
+        private IEnumerable<Participation> RankKids(IEnumerable<Participation> kids)
             => kids
                 .Select(this.CalculateTotalRecovery)
                 .OrderByDescending(tuple => tuple.Item1)
                 .Select(tuple => tuple.Item2)
                 .ToList();
 
-        private IEnumerable<Participant> RankAdults(IEnumerable<Participant> adults)
+        private IEnumerable<Participation> RankAdults(IEnumerable<Participation> adults)
             => adults
-                .OrderByDescending(participant => participant
+                .OrderByDescending(participation => participation.Participant
                     .TimeRecords
                     .All(performance => performance.Result?.IsRanked ?? false))
-                .ThenBy(participant => participant
+                .ThenBy(participation => participation.Participant
                     .TimeRecords
                     .Last()
                     .ArrivalTime);
 
-        private (TimeSpan, Participant) CalculateTotalRecovery(Participant participant)
+        private (TimeSpan, Participation) CalculateTotalRecovery(Participation participation)
         {
-            var totalRecovery = participant
+            var totalRecovery = participation.Participant
                 .TimeRecords
                 .Where(x => x.Result != null)
                 .Aggregate(
                     TimeSpan.Zero,
                     (total, x) => total + this.GetRecoveryTime(x));
 
-            return (totalRecovery, participant);
+            return (totalRecovery, participation);
         }
 
         private TimeSpan GetRecoveryTime(TimeRecord record)
@@ -76,7 +77,7 @@ namespace EnduranceJudge.Domain.AggregateRoots.Rankings.Aggregates
         }
 
 
-        public IEnumerator<Participant> GetEnumerator() => this.participants.GetEnumerator();
+        public IEnumerator<Participation> GetEnumerator() => this.participants.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
     }
 }

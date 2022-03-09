@@ -2,7 +2,6 @@
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Competitions;
 using EnduranceJudge.Domain.State.Participants;
-using EnduranceJudge.Domain.State.Performances;
 using System.Collections.Generic;
 using System.Linq;
 using static EnduranceJudge.Localization.Strings;
@@ -19,7 +18,6 @@ namespace EnduranceJudge.Domain.State.Participations
         }
 
         private List<int> competitionsIds = new();
-        private List<Performance> performances = new();
         public Participant Participant { get; private set; }
         public Competition CompetitionConstraint { get; private set; }
 
@@ -43,6 +41,7 @@ namespace EnduranceJudge.Domain.State.Participations
                 .Select(x => x.LengthInKm)
                 .Sum();
 
+        // TODO: In aggregate.
         internal void Add(Competition competition)
         {
             if (this.CompetitionsIds.Any())
@@ -72,20 +71,15 @@ namespace EnduranceJudge.Domain.State.Participations
             }
             this.competitionsIds.Add(competition.Id);
         }
-        internal void Remove(Competition competition)
+        internal void Remove(int competitionId)
         {
-            this.competitionsIds.Remove(competition.Id);
+            this.competitionsIds.Remove(competitionId);
         }
 
         public IReadOnlyList<int> CompetitionsIds
         {
             get => this.competitionsIds.AsReadOnly();
             private set => this.competitionsIds = value.ToList();
-        }
-        public IReadOnlyList<Performance> Performances
-        {
-            get => this.performances.AsReadOnly();
-            private set => this.performances = value.ToList();
         }
 
         public void __REMOVE_PERFORMANCES__()

@@ -9,10 +9,8 @@ using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Domain.State.Participations;
 using EnduranceJudge.Domain.State.Performances;
 using EnduranceJudge.Domain.State.TimeRecords;
-using Microsoft.EntityFrameworkCore.Internal;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using static EnduranceJudge.Localization.Strings;
 
@@ -36,14 +34,14 @@ public class ManagerRoot : IAggregateRoot
     }
 
     public bool HasStarted()
-        => this.state.Participants.Any(x => x.Participation.Performances.Any());
+        => this.state.Participations.Any(x => x.Participant.TimeRecords.Any());
 
     public void Start()
     {
         this.ValidateConfiguration();
         var participants = this.state
-            .Participants
-            .Select(x => new ParticipantsAggregate(x.Participation))
+            .Participations
+            .Select(x => new ParticipantsAggregate(x))
             .ToList();
         foreach (var participant in participants)
         {
@@ -90,7 +88,8 @@ public class ManagerRoot : IAggregateRoot
     public Performance EditRecord(ITimeRecordState state)
     {
         var record = this.state
-            .Participants
+            .Participations
+            .Select(x => x.Participant)
             .SelectMany(part => part.TimeRecords)
             .FirstOrDefault(perf => perf.Equals(state));
         var manager = new PerformancesAggregate(record);
@@ -101,17 +100,17 @@ public class ManagerRoot : IAggregateRoot
 
     public IEnumerable<StartModel> GetStartList(bool includePast)
     {
-        var startList = new Startlist(this.state.Participants, includePast);
+        // TODO: check
+        var participations = this.state.Participations;
+        var startList = new Startlist(participations, includePast);
         return startList;
     }
 
     private ParticipantsAggregate GetParticipation(int number)
     {
         var participation = this.state
-            .Participants
-            .Where(x => x.Number == number)
-            .Select(x => x.Participation)
-            .FirstOrDefault();
+            .Participations
+            .FirstOrDefault(x => x.Participant.Number == number);
         if (participation == null)
         {
             throw Helper.Create<ParticipantException>(PARTICIPANT_NUMBER_NOT_FOUND_MESSAGE, number);
@@ -126,7 +125,12 @@ public class ManagerRoot : IAggregateRoot
         {
             foreach (var timeRecord in participant.TimeRecords)
             {
-                var competition = participant.Participation.CompetitionConstraint;
+                var participation = this.state.Participations.FirstOrDefault(x => x.Participant.Id == participant.Id);
+                if (participation == null)
+                {
+                    throw Helper.Create<PerformanceException>(NOT_FOUND_BY_ID_MESSAGE);
+                }
+                var competition = participation.CompetitionConstraint;
                 var index = participant.TimeRecords.ToList().IndexOf(timeRecord);
                 var performance = new Performance(participant, competition.Phases, index);
                 return performance;
@@ -146,17 +150,19 @@ public class ManagerRoot : IAggregateRoot
                     competition.Name);
             }
         }
-        foreach (var participant in this.state.Participants)
+        foreach (var participation in this.state.Participations)
         {
-            if (!participant.Participation.CompetitionsIds.Any())
+            if (!participation.CompetitionsIds.Any())
             {
                 throw Helper.Create<ParticipantException>(
                     INVALID_PARTICIPANT_NO_PARTICIPATIONS_MESSAGE,
-                    participant.Number);
+                    participation.Participant.Number);
             }
-            if (participant.Athlete.Country == null)
+            if (participation.Participant.Athlete.Country == null)
             {
-                throw Helper.Create<ParticipantException>(INVALID_PARTICIPANT_NO_COUNTRY_MESSAGE, participant.Number);
+                throw Helper.Create<ParticipantException>(
+                    INVALID_PARTICIPANT_NO_COUNTRY_MESSAGE,
+                    participation.Participant.Number);
             }
         }
     }

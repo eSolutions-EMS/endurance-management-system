@@ -15,12 +15,12 @@ namespace EnduranceJudge.Application.Core.Services
             {
                 ContractResolver = new PrivatePropertySetterResolver(),
                 ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
-                PreserveReferencesHandling = PreserveReferencesHandling.All,
             };
         }
 
         public string Serialize(object data)
         {
+            this.settings.PreserveReferencesHandling = PreserveReferencesHandling.Objects;
             var serialized = JsonConvert.SerializeObject(data, this.settings);
             return serialized;
         }

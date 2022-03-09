@@ -2,6 +2,7 @@
 using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Gateways.Persistence.Core;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace EnduranceJudge.Gateways.Persistence.Contracts.Queries
 {
@@ -11,6 +12,6 @@ namespace EnduranceJudge.Gateways.Persistence.Contracts.Queries
         {
         }
 
-        protected override List<Participant> Set => this.State.Participants;
+        protected override List<Participant> Set => this.State.Participants.ToList();
     }
 }

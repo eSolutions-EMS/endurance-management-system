@@ -57,7 +57,6 @@ namespace EnduranceJudge.Domain.AggregateRoots.Configuration.Aggregates
                     throw Helper.Create<HorseException>(CANNOT_REMOVE_USED_IN_PARTICIPANT_MESSAGE);
                 }
             }
-
             this.state.Horses.Remove(horse);
         }
     }
