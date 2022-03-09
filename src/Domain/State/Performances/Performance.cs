@@ -25,7 +25,7 @@ namespace EnduranceJudge.Domain.State.Performances
             this.StartTime = startTime;
         }
 
-        public Phase Phase { get; private set; }
+        public Phase Phase { get; internal set; }
         public DateTime StartTime { get; set; }
         public DateTime? ArrivalTime { get; set; }
         public DateTime? InspectionTime { get; set; }
