@@ -1,5 +1,5 @@
 ﻿using EnduranceJudge.Domain.Core.Models;
-using EnduranceJudge.Domain.State.PhaseResults;
+using EnduranceJudge.Domain.State.Results;
 using EnduranceJudge.Domain.State.Phases;
 using System;
 using System.Collections.Generic;

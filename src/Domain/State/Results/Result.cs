@@ -1,6 +1,6 @@
 using EnduranceJudge.Domain.Core.Models;
 
-namespace EnduranceJudge.Domain.State.PhaseResults
+namespace EnduranceJudge.Domain.State.Results
 {
     public class Result : DomainBase<PhaseResultException>, IResultState
     {

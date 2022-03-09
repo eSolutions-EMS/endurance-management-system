@@ -2,7 +2,7 @@
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.Validation;
 using EnduranceJudge.Domain.State.Performances;
-using EnduranceJudge.Domain.State.PhaseResults;
+using EnduranceJudge.Domain.State.Results;
 using EnduranceJudge.Domain.State.Phases;
 using System;
 using static EnduranceJudge.Localization.Strings;
