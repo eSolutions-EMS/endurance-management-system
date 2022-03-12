@@ -8,7 +8,7 @@ namespace EnduranceJudge.Gateways.Desktop.Core.Objects
     public class SearchableCollection<TItem> : ObservableCollection<TItem>
     {
         private readonly Func<TItem, string, bool> filter;
-        private List<TItem> allItems;
+        private List<TItem> allItems = new();
 
         public SearchableCollection(Func<TItem, string, bool> filter) : this(Enumerable.Empty<TItem>().ToList(), filter)
         {
