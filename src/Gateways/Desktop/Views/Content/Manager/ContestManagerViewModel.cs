@@ -106,11 +106,13 @@ public class ContestManagerViewModel : ViewModelBase
         {
             return;
         }
-        Action<ManagerRoot, bool> action = (manager, boolValue) => manager.ReInspection(
-            this.InputNumber.Value,
-            boolValue);
-        Action<bool> setter = value => this.ReInspectionValue = value;
-        this.CheckboxHandler(this.ReInspectionValue, action, setter);
+        var isSuccessful = this.managerExecutor.Execute(manager =>
+            manager.ReInspection(this.InputNumber!.Value, this.ReInspectionValue));
+        if (!isSuccessful)
+        {
+            this.ReInspectionValue = !this.ReInspectionValue;
+        }
+        this.SelectParticipation();
     }
     private void RequireInspectionAction()
     {
@@ -118,22 +120,11 @@ public class ContestManagerViewModel : ViewModelBase
         {
             return;
         }
-        Action<ManagerRoot, bool> action = (manager, boolValue) => manager.RequireInspection(
-            this.InputNumber.Value,
-            boolValue);
-        Action<bool> setter = value => this.RequireInspectionValue = value;
-        this.CheckboxHandler(this.RequireInspectionValue, action, setter);
-    }
-    private void CheckboxHandler(bool newValue, Action<ManagerRoot, bool> action, Action<bool> checkboxSetter)
-    {
-        var previousValue = !newValue;
         var isSuccessful = this.managerExecutor.Execute(manager =>
-        {
-            action(manager, newValue);
-        });
+            manager.RequireInspection(this.InputNumber!.Value, this.RequireInspectionValue));
         if (!isSuccessful)
         {
-            checkboxSetter(previousValue);
+            this.RequireInspectionValue = !this.RequireInspectionValue;
         }
         this.SelectParticipation();
     }

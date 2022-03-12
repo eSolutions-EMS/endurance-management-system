@@ -16,9 +16,6 @@ public class Performance : IAggregate, IPerformance
     private readonly List<Lap> laps;
     private readonly List<LapRecord> timeRecords;
 
-    public Performance(Participation participation) : this(participation, participation.Participant.LapRecords.Count)
-    {
-    }
     public Performance(Participation participation, int index)
     {
         this.Participant = participation.Participant;
@@ -114,5 +111,5 @@ public class Performance : IAggregate, IPerformance
     public DateTime? InspectionTime => this.CurrentRecord.InspectionTime;
     public DateTime? ReInspectionTime => this.CurrentRecord.ReInspectionTime;
     public bool IsReInspectionRequired => this.CurrentRecord.IsReInspectionRequired;
-    public bool IsRequiredInspectionRequired => this.CurrentRecord.IsReInspectionRequired;
+    public bool IsRequiredInspectionRequired => this.CurrentRecord.IsRequiredInspectionRequired;
 }

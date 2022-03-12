@@ -119,7 +119,7 @@
                                 <!-- Re Inspection checkbox -->
                                 <CheckBox Style="{StaticResource CheckBox}"
                                           Command="{Binding ReInspection}"
-                                          IsChecked="{Binding ReInspectionValue, Mode=OneWay}"
+                                          IsChecked="{Binding ReInspectionValue}"
                                           Name="ReInspectionCheckbox" />
                                 <Label Style="{StaticResource Label-Primary}"
                                        Target="{Binding ElementName=ReInspectionCheckbox}"
@@ -127,7 +127,7 @@
                                 <!-- Require Inspection checkbox -->
                                 <CheckBox Style="{StaticResource CheckBox}"
                                           Command="{Binding RequireInspection}"
-                                          IsChecked="{Binding RequireInspectionValue, Mode=OneWay}"
+                                          IsChecked="{Binding RequireInspectionValue}"
                                           Name="RequireInspectionCheckbox" />
                                 <Label Style="{StaticResource Label-Primary}"
                                        Target="{Binding ElementName=RequireInspectionCheckbox}"
