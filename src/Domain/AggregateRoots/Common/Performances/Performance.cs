@@ -31,6 +31,11 @@ public class Performance : IAggregate, IPerformance
     {
         get
         {
+            if (!this.CurrentRecord.IsRequiredInspectionRequired
+                && !this.CurrentRecord.Lap.IsCompulsoryInspectionRequired)
+            {
+                return null;
+            }
             var inspection = this.CurrentRecord.VetGateTime
                 ?.AddMinutes(this.CurrentLap.RestTimeInMins)
                 .AddMinutes(COMPULSORY_INSPECTION_TIME_OFFSET);
