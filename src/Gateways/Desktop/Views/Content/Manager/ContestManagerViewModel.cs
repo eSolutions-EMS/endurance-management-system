@@ -5,7 +5,7 @@ using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Core.Services;
 using EnduranceJudge.Gateways.Desktop.Services;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Common.Participants;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Common.Participations;
 using Prism.Commands;
 using Prism.Regions;
 using System;

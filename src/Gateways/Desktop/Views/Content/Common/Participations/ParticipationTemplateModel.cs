@@ -1,6 +1,5 @@
 ﻿using EnduranceJudge.Core.Utilities;
 using EnduranceJudge.Domain.AggregateRoots.Common.Performances;
-using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Gateways.Desktop.Services;
 using Prism.Commands;
 using System;
@@ -8,7 +7,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Common.Participants;
+namespace EnduranceJudge.Gateways.Desktop.Views.Content.Common.Participations;
 
 public class ParticipationTemplateModel : ParticipantTemplateModelBase
 {
