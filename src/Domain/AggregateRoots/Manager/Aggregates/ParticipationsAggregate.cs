@@ -1,11 +1,11 @@
 ﻿using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Competitions;
-using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Domain.State.Participations;
 using EnduranceJudge.Domain.AggregateRoots.Common.Performances;
 using EnduranceJudge.Domain.State.Laps;
 using EnduranceJudge.Domain.State.LapRecords;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using static EnduranceJudge.Domain.DomainConstants.ErrorMessages;
 
@@ -14,25 +14,37 @@ namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates
     public class ParticipationsAggregate : IAggregate
     {
         private readonly Competition competitionConstraint;
-        private readonly Participant participant;
+        private readonly Participation participation;
 
         // TODO: Rename to ParticipationsAggregate
         internal ParticipationsAggregate(Participation participation)
         {
             this.Number = participation.Participant.Number;
-            this.participant = participation.Participant;
+            this.participation = participation;
             this.competitionConstraint = participation.CompetitionConstraint;
         }
 
         public int Number { get; }
 
+        internal IEnumerable<Performance> GetAllPerformances()
+        {
+            for (var i = 0; i < this.participation.Participant.LapRecords.Count; i++)
+            {
+                var performance = new Performance(this.participation, i);
+                yield return performance;
+            }
+        }
+
         // TODO: Move in StartNext?
         internal void Start()
         {
-            if (this.participant.LapRecords.Any())
+
+            // TODO: remove
+            if (this.participation.Participant.LapRecords.Any())
             {
                 throw new Exception(PARTICIPANT_HAS_ALREADY_STARTED);
             }
+            // TODO: Move check in validation
             var firstLap = this.competitionConstraint.Laps.FirstOrDefault();
             if (firstLap == null)
             {
@@ -47,7 +59,7 @@ namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates
         }
         internal LapRecordsAggregate GetCurrent()
         {
-            var record = this.participant.LapRecords.SingleOrDefault(x => x.Result == null);
+            var record = this.participation.Participant.LapRecords.SingleOrDefault(x => x.Result == null);
             if (record == null)
             {
                 return null;
@@ -58,11 +70,12 @@ namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates
 
         private LapRecordsAggregate CreateNext()
         {
+            // TODO: remove checks
             if (this.IsComplete)
             {
                 throw new Exception(CANNOT_START_NEXT_PERFORMANCE_PARTICIPATION_IS_COMPLETE);
             }
-            var currentRecord = this.participant.LapRecords.LastOrDefault();
+            var currentRecord = this.participation.Participant.LapRecords.LastOrDefault();
             if (currentRecord == null)
             {
                 throw new Exception(CANNOT_START_NEXT_PERFORMANCE_NO_LAST_PERFORMANCE);
@@ -72,19 +85,19 @@ namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates
         }
 
         private bool IsComplete
-            => this.participant.LapRecords.Count == this.competitionConstraint.Laps.Count
-                && this.participant.LapRecords.All(x => x.Result != null);
+            => this.participation.Participant.LapRecords.Count == this.competitionConstraint.Laps.Count
+                && this.participation.Participant.LapRecords.All(x => x.Result != null);
 
         private LapRecordsAggregate AddRecord(DateTime startTime)
         {
             var record = new LapRecord(FixDateForToday(startTime), this.NextLap);
-            this.participant.Add(record);
-            var laspAggregate = new LapRecordsAggregate(record);
-            return laspAggregate;
+            this.participation.Participant.Add(record);
+            var lapsAggregate = new LapRecordsAggregate(record);
+            return lapsAggregate;
         }
 
-        private Lap CurrentLap => this.competitionConstraint.Laps[this.participant.LapRecords.Count];
-        private Lap NextLap => this.competitionConstraint.Laps[this.participant.LapRecords.Count + 1];
+        private Lap CurrentLap => this.competitionConstraint.Laps[this.participation.Participant.LapRecords.Count];
+        private Lap NextLap => this.competitionConstraint.Laps[this.participation.Participant.LapRecords.Count + 1];
 
         // TODO: Remove after testing lap
         private DateTime FixDateForToday(DateTime date)

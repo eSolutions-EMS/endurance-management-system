@@ -5,6 +5,7 @@ namespace EnduranceJudge.Domain.AggregateRoots.Common.Performances;
 
 public interface IPerformance : ILapRecordState
 {
+    public int Index { get; }
     DateTime? RequiredInspectionTime { get; }
     TimeSpan? RecoverySpan { get; }
     TimeSpan? Time { get; }

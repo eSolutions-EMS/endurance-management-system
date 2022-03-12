@@ -1,4 +1,5 @@
 ﻿using EnduranceJudge.Application.Aggregates.Configurations.Contracts;
+using EnduranceJudge.Domain.AggregateRoots.Common.Performances;
 using EnduranceJudge.Domain.AggregateRoots.Manager;
 using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Gateways.Desktop.Core;
@@ -51,11 +52,11 @@ public class ContestManagerViewModel : ViewModelBase
     private bool requireInspectionValue = false;
     private bool reInspectionValue = false;
 
-    public ObservableCollection<ParticipantTemplateModel> Participants { get; } = new();
+    public ObservableCollection<ParticipantTemplateModel> Participations { get; } = new();
 
     public override void OnNavigatedTo(NavigationContext context)
     {
-        if (this.Participants.Any())
+        if (this.Participations.Any())
         {
             return;
         }
@@ -144,29 +145,30 @@ public class ContestManagerViewModel : ViewModelBase
             return;
         }
 
-        var participant = this.participants.GetOne(x => x.Number == this.InputNumber);
-        if (participant == null)
-        {
-            return;
-        }
-        var participationViewModel = new ParticipantTemplateModel(participant, this.SelectParticipant, true);
-        foreach (var participation in this.Participants)
+        var performances = this.managerExecutor
+            .Execute(x => x.GetPerformances(this.InputNumber.Value))
+            .ToList();
+        var participationViewModel = new ParticipantTemplateModel(
+            this.InputNumber.Value,
+            performances,
+            this.SelectParticipant,
+            true);
+        foreach (var participation in this.Participations)
         {
             participation.Visibility = Visibility.Collapsed;
         }
-        var existing = this.Participants.FirstOrDefault(x => x.Number == this.InputNumber);
+        var existing = this.Participations.FirstOrDefault(x => x.Number == this.InputNumber);
         if (existing != null)
         {
-            this.Participants.Remove(existing);
+            this.Participations.Remove(existing);
         }
-        this.Participants.Insert(0, participationViewModel);
-        this.UpdateAdditionalInspectionCheckboxes(participant);
+        this.Participations.Insert(0, participationViewModel);
+        this.UpdateAdditionalInspectionCheckboxes(performances.Last());
     }
-    private void UpdateAdditionalInspectionCheckboxes(Participant participant)
+    private void UpdateAdditionalInspectionCheckboxes(Performance performance)
     {
-        var currentRecord = participant.LapRecords.Last();
-        this.ReInspectionValue = currentRecord.IsReInspectionRequired;
-        this.RequireInspectionValue = currentRecord.IsRequiredInspectionRequired;
+        this.ReInspectionValue = performance.IsReInspectionRequired;
+        this.RequireInspectionValue = performance.IsRequiredInspectionRequired;
     }
 
     private void LoadParticipations()
@@ -174,8 +176,14 @@ public class ContestManagerViewModel : ViewModelBase
         var participations = this.participants.GetAll();
         foreach (var participation in participations)
         {
-            var viewModel = new ParticipantTemplateModel(participation, this.SelectParticipant);
-            this.Participants.Add(viewModel);
+            var performances = this.managerExecutor
+                .Execute(x => x.GetPerformances(participation.Number))
+                .ToList();
+            var viewModel = new ParticipantTemplateModel(
+                participation.Number,
+                performances,
+                this.SelectParticipant);
+            this.Participations.Add(viewModel);
         }
     }
     private void SelectParticipant(int number)

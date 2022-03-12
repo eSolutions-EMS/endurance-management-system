@@ -158,7 +158,7 @@
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="3" Grid.Column="1">
                 <ListBox Style="{StaticResource ListBox-Vertical-Border}"
-                         ItemsSource="{Binding Participants}" />
+                         ItemsSource="{Binding Participations}" />
             </Border>
         </Grid>
     </ScrollViewer>

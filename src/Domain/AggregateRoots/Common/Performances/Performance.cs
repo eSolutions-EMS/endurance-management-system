@@ -13,20 +13,23 @@ public class Performance : IAggregate, IPerformance
 {
     public const int COMPULSORY_INSPECTION_TIME_OFFSET = -15;
 
-    private readonly int index;
     private readonly List<Lap> laps;
     private readonly List<LapRecord> timeRecords;
 
-    public Performance(Participation participation)
+    public Performance(Participation participation) : this(participation, participation.Participant.LapRecords.Count)
+    {
+    }
+    public Performance(Participation participation, int index)
     {
         this.Participant = participation.Participant;
         this.timeRecords = this.Participant.LapRecords.ToList();
-        this.index = this.Participant.LapRecords.Count;
+        this.Index = index;
         this.laps = participation.CompetitionConstraint.Laps.ToList();
     }
 
     public Participant Participant { get; }
 
+    public int Index { get; }
     public DateTime? RequiredInspectionTime
     {
         get
@@ -81,7 +84,7 @@ public class Performance : IAggregate, IPerformance
     private TimeSpan CalculateTotalTime()
     {
         var totalHours = TimeSpan.Zero;
-        for (var i = 0; i <= this.index; i++)
+        for (var i = 0; i <= this.Index; i++)
         {
             var record = this.timeRecords[i];
             var lap = this.laps[i];
@@ -91,10 +94,10 @@ public class Performance : IAggregate, IPerformance
         return totalHours;
     }
 
-    private Lap CurrentLap => this.laps[this.index];
-    private LapRecord CurrentRecord => this.timeRecords[this.index];
-    private IEnumerable<Lap> TotalLaps => this.laps.Take(this.index + 1);
-    private IEnumerable<LapRecord> TotalRecords => this.timeRecords.Take(this.index + 1);
+    private Lap CurrentLap => this.laps[this.Index];
+    private LapRecord CurrentRecord => this.timeRecords[this.Index];
+    private IEnumerable<Lap> TotalLaps => this.laps.Take(this.Index + 1);
+    private IEnumerable<LapRecord> TotalRecords => this.timeRecords.Take(this.Index + 1);
 
     public static DateTime CalculateStartTime(LapRecord record, Lap lap)
     {

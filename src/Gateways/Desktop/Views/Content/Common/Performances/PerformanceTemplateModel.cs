@@ -19,7 +19,7 @@ public class PerformanceTemplateModel : ViewModelBase, IMapFrom<Performance>, IP
     private readonly IExecutor<ManagerRoot> managerExecutor;
     private readonly IDateService dateService;
 
-    public PerformanceTemplateModel(Performance performance, int index, bool allowEdit)
+    public PerformanceTemplateModel(Performance performance, bool allowEdit)
     {
         this.EditVisibility = allowEdit
             ? Visibility.Visible
@@ -30,8 +30,8 @@ public class PerformanceTemplateModel : ViewModelBase, IMapFrom<Performance>, IP
         this.managerExecutor = StaticProvider.GetService<IExecutor<ManagerRoot>>();
         this.dateService = StaticProvider.GetService<IDateService>();
         this.Edit = new DelegateCommand(this.EditAction);
-        this.MapFrom(performance);
-        this.HeaderValue = $"{GATE.ToUpper()}{index}/{this.TotalLength} {KM}";
+        this.HeaderValue = $"{GATE.ToUpper()}{performance.Index}/{this.TotalLength} {KM}";
+        this.MapFrom(performance); // TODO probably remove
     }
 
     public Visibility EditVisibility { get; }
@@ -74,6 +74,7 @@ public class PerformanceTemplateModel : ViewModelBase, IMapFrom<Performance>, IP
         get => this.ParseTime(this.ReInspectionTimeString);
         private set => this.ReInspectionTimeString = this.FormatTime(value);
     }
+    public int Index { get; }
     public DateTime? RequiredInspectionTime
     {
         get => this.ParseTime(this.RequiredInspectionTimeString);

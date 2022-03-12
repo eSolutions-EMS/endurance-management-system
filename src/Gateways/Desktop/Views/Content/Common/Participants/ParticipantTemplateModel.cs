@@ -1,8 +1,10 @@
 ﻿using EnduranceJudge.Core.Utilities;
+using EnduranceJudge.Domain.AggregateRoots.Common.Performances;
 using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Gateways.Desktop.Services;
 using Prism.Commands;
 using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
 
@@ -12,8 +14,12 @@ public class ParticipantTemplateModel : ParticipantTemplateModelBase
 {
     private readonly IPrinter printer;
     private readonly Action<int> selectAction;
-    public ParticipantTemplateModel(Participant participant, Action<int> selectAction, bool isExpanded = false)
-        : base(participant, true)
+    public ParticipantTemplateModel(
+        int number,
+        IEnumerable<Performance> performances,
+        Action<int> selectAction,
+        bool isExpanded = false)
+        : base(number, performances, true)
     {
         this.selectAction = selectAction;
         this.printer = StaticProvider.GetService<IPrinter>();

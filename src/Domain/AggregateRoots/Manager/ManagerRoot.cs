@@ -50,16 +50,11 @@ public class ManagerRoot : IAggregateRoot
         this.state.Event.HasStarted = true;
     }
 
-    public Performance GetPerformance(int participantNumber)
+    public IEnumerable<Performance> GetPerformances(int participantNumber)
     {
-        var participation = this.state.Participations.FirstOrDefault(x => x.Participant.Number == participantNumber);
-        if (participation == null)
-        {
-            var message = string.Format(NOT_FOUND_MESSAGE, NUMBER, participantNumber);
-            throw new Exception(message);
-        }
-        var performance = new Performance(participation);
-        return performance;
+        var participation = this.state.Participations.First(x => x.Participant.Number == participantNumber);
+        var aggregate = new ParticipationsAggregate(participation);
+        return aggregate.GetAllPerformances();
     }
 
     public void UpdateRecord(int number, DateTime time)
@@ -99,14 +94,14 @@ public class ManagerRoot : IAggregateRoot
 
     public Performance EditRecord(ILapRecordState state)
     {
-        var record = this.state
+        var participation = this.state
             .Participations
-            .Select(x => x.Participant)
-            .SelectMany(part => part.LapRecords)
-            .FirstOrDefault(perf => perf.Equals(state));
-        var manager = new LapRecordsAggregate(record);
-        manager.Edit(state);
-        var performance = this.GetPerformance(state.Id);
+            .First(x => x.Participant.LapRecords.Contains(state));
+        var records = participation.Participant.LapRecords.ToList();
+        var record = records.First(rec => rec.Equals(state));
+        var aggregate = new LapRecordsAggregate(record);
+        aggregate.Edit(state);
+        var performance = new Performance(participation, records.IndexOf(record));
         return performance;
     }
 

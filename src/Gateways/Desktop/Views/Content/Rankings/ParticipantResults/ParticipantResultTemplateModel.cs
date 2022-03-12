@@ -7,7 +7,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.ParticipantResu
 
 public class ParticipantResultTemplateModel : ParticipantTemplateModelBase
 {
-    public ParticipantResultTemplateModel(int rank, Participant participant) : base(participant)
+    public ParticipantResultTemplateModel(int rank, Participant participant) : base(default, default) // TODO: fix
     {
         this.Rank = rank;
         this.ParticipantNumber = participant.Number;
