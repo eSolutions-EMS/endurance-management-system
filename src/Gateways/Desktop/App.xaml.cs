@@ -5,7 +5,7 @@ using EnduranceJudge.Domain.State.Horses;
 using EnduranceJudge.Domain.State.Competitions;
 using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Domain.State.Personnels;
-using EnduranceJudge.Domain.State.Performances;
+using EnduranceJudge.Domain.AggregateRoots.Common.Performances;
 using EnduranceJudge.Domain.State.Phases;
 using EnduranceJudge.Domain.Enums;
 using EnduranceJudge.Domain.State.EnduranceEvents;

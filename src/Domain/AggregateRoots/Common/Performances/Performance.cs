@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EnduranceJudge.Domain.State.Performances;
+namespace EnduranceJudge.Domain.AggregateRoots.Common.Performances;
 
 // TODO: rename to ???
 public class Performance : IAggregate, IPerformance

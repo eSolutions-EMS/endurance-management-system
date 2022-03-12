@@ -2,7 +2,7 @@
 using EnduranceJudge.Domain.State.Competitions;
 using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Domain.State.Participations;
-using EnduranceJudge.Domain.State.Performances;
+using EnduranceJudge.Domain.AggregateRoots.Common.Performances;
 using EnduranceJudge.Domain.State.Phases;
 using EnduranceJudge.Domain.State.TimeRecords;
 using System;

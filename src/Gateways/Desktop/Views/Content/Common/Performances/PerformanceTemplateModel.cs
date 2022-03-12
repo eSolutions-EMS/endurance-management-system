@@ -3,7 +3,7 @@ using EnduranceJudge.Application.Core.Services;
 using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Core.Utilities;
 using EnduranceJudge.Domain.AggregateRoots.Manager;
-using EnduranceJudge.Domain.State.Performances;
+using EnduranceJudge.Domain.AggregateRoots.Common.Performances;
 using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Services;
 using Prism.Commands;

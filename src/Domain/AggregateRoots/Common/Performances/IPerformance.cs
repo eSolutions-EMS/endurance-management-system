@@ -1,7 +1,7 @@
 using EnduranceJudge.Domain.State.TimeRecords;
 using System;
 
-namespace EnduranceJudge.Domain.State.Performances;
+namespace EnduranceJudge.Domain.AggregateRoots.Common.Performances;
 
 public interface IPerformance : ITimeRecordState
 {

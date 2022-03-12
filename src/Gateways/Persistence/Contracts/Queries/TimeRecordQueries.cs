@@ -1,5 +1,5 @@
 ﻿using EnduranceJudge.Domain.State;
-using EnduranceJudge.Domain.State.Performances;
+using EnduranceJudge.Domain.AggregateRoots.Common.Performances;
 using EnduranceJudge.Domain.State.TimeRecords;
 using EnduranceJudge.Gateways.Persistence.Core;
 using System.Collections.Generic;
