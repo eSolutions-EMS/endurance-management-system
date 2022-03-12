@@ -34,7 +34,7 @@ public class ManagerRoot : IAggregateRoot
     }
 
     public bool HasStarted()
-        => this.state.Participations.Any(x => x.Participant.TimeRecords.Any());
+        => this.state.Participations.Any(x => x.Participant.LapRecords.Any());
 
     public void Start()
     {
@@ -48,6 +48,18 @@ public class ManagerRoot : IAggregateRoot
             participation.Start();
         }
         this.state.Event.HasStarted = true;
+    }
+
+    public Performance GetPerformance(int participantNumber)
+    {
+        var participation = this.state.Participations.FirstOrDefault(x => x.Participant.Number == participantNumber);
+        if (participation == null)
+        {
+            var message = string.Format(NOT_FOUND_MESSAGE, NUMBER, participantNumber);
+            throw new Exception(message);
+        }
+        var performance = new Performance(participation);
+        return performance;
     }
 
     public void UpdateRecord(int number, DateTime time)
@@ -69,7 +81,7 @@ public class ManagerRoot : IAggregateRoot
         var record = participation.GetCurrent();
         if (record == null)
         {
-            throw Helper.Create<ParticipantException>(PARTICIPANT_HAS_NO_ACTIVE_RECORD_MESSAGE, number);
+            throw Helper.Create<ParticipantException>(NOT_FOUND_MESSAGE, NUMBER, number);
         }
         record!.ReInspection(isRequired);
     }
@@ -80,7 +92,7 @@ public class ManagerRoot : IAggregateRoot
         var performance = participant.GetCurrent();
         if (performance == null)
         {
-            throw Helper.Create<ParticipationException>(PARTICIPANT_HAS_NO_ACTIVE_RECORD_MESSAGE, number);
+            throw Helper.Create<ParticipationException>(NOT_FOUND_MESSAGE, NUMBER, number);
         }
         performance!.RequireInspection(isRequired);
     }
@@ -90,7 +102,7 @@ public class ManagerRoot : IAggregateRoot
         var record = this.state
             .Participations
             .Select(x => x.Participant)
-            .SelectMany(part => part.TimeRecords)
+            .SelectMany(part => part.LapRecords)
             .FirstOrDefault(perf => perf.Equals(state));
         var manager = new LapRecordsAggregate(record);
         manager.Edit(state);
@@ -113,30 +125,10 @@ public class ManagerRoot : IAggregateRoot
             .FirstOrDefault(x => x.Participant.Number == number);
         if (participation == null)
         {
-            throw Helper.Create<ParticipantException>(PARTICIPANT_NUMBER_NOT_FOUND_MESSAGE, number);
+            throw Helper.Create<ParticipantException>(NOT_FOUND_MESSAGE, number);
         }
         var aggregate = new ParticipationsAggregate(participation);
         return aggregate;
-    }
-
-    private Performance GetPerformance(int id)
-    {
-        foreach (var participant in this.state.Participants)
-        {
-            foreach (var timeRecord in participant.TimeRecords)
-            {
-                var participation = this.state.Participations.FirstOrDefault(x => x.Participant.Id == participant.Id);
-                if (participation == null)
-                {
-                    throw Helper.Create<ParticipationException>(NOT_FOUND_BY_ID_MESSAGE);
-                }
-                var competition = participation.CompetitionConstraint;
-                var index = participant.TimeRecords.ToList().IndexOf(timeRecord);
-                var performance = new Performance(participant, competition.Laps, index);
-                return performance;
-            }
-        }
-        throw Helper.Create<LapRecordException>(NOT_FOUND_BY_ID_MESSAGE, id);
     }
 
     private void ValidateConfiguration()

@@ -88,7 +88,7 @@ namespace EnduranceJudge.Gateways.Persistence.Contracts
             }
             foreach (var participant in state.Participants)
             {
-                foreach (var performance in participant.TimeRecords)
+                foreach (var performance in participant.LapRecords)
                 {
                     performance.StartTime = FixDateForToday(performance.StartTime);
                     if (performance.ArrivalTime.HasValue)

@@ -18,7 +18,7 @@ public class Startlist : List<StartModel>
 
     private void Handle(Participation participation, bool includePast)
     {
-        var performances = participation.Participant.TimeRecords;
+        var performances = participation.Participant.LapRecords;
         if (!includePast)
         {
             var current = performances.FirstOrDefault(x => x.StartTime > DateTime.Now);
@@ -30,7 +30,7 @@ public class Startlist : List<StartModel>
         }
         else
         {
-            foreach (var record in participation.Participant.TimeRecords.Where(x => x.Result != null))
+            foreach (var record in participation.Participant.LapRecords.Where(x => x.Result != null))
             {
                 this.AddStart(participation, record);
             }

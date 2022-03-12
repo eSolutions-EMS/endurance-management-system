@@ -15,7 +15,7 @@ namespace EnduranceJudge.Gateways.Persistence.Contracts.Queries
 
         protected override List<LapRecord> Set => this.State
             .Participants
-            .SelectMany(part => part.TimeRecords)
+            .SelectMany(part => part.LapRecords)
             .ToList();
     }
 }

@@ -138,14 +138,17 @@ public static class Strings
     public static string DATE_TIME_HAS_TO_BE_LATER_MESSAGE                        { get; internal set; }
     public static string CANNOT_EDIT_PERFORMANCE_MESSAGE                          { get; internal set; }
     public static string IS_REQUIRED_MESSAGE                                      { get; internal set; }
-    public static string PARTICIPANT_NUMBER_NOT_FOUND_MESSAGE                     { get; internal set; }
+    /// <summary>
+    /// {0}: Property name
+    /// {1}: Property value
+    /// </summary>
+    public static string NOT_FOUND_MESSAGE                                        { get; internal set; }
     public static string CHANGE_NOT_ALLOWED_WHEN_EVENT_HAS_STARTED_MESSAGE        { get; internal set; }
     public static string REQUIRED_INSPECTION_IS_NOT_ALLOWED_MESSAGE               { get; internal set; }
     public static string INVALID_ORDER_BY_MESSAGE                                 { get; internal set; }
     public static string INVALID_COMPETITION_NO_FINAL_PHASE_MESSAGE               { get; internal set; }
     public static string INVALID_PARTICIPANT_NO_PARTICIPATIONS_MESSAGE            { get; internal set; }
     public static string INVALID_PARTICIPANT_NO_COUNTRY_MESSAGE                   { get; internal set; }
-    public static string PARTICIPANT_HAS_NO_ACTIVE_RECORD_MESSAGE            { get; internal set; }
     public static string INVALID_FULL_NAME_MESSAGE                                { get; internal set; }
     public static string NOT_FOUND_BY_ID_MESSAGE                                  { get; internal set; }
 }

@@ -45,17 +45,17 @@ namespace EnduranceJudge.Domain.AggregateRoots.Rankings.Aggregates
         private IEnumerable<Participation> RankAdults(IEnumerable<Participation> adults)
             => adults
                 .OrderByDescending(participation => participation.Participant
-                    .TimeRecords
+                    .LapRecords
                     .All(performance => performance.Result?.IsRanked ?? false))
                 .ThenBy(participation => participation.Participant
-                    .TimeRecords
+                    .LapRecords
                     .Last()
                     .ArrivalTime);
 
         private (TimeSpan, Participation) CalculateTotalRecovery(Participation participation)
         {
             var totalRecovery = participation.Participant
-                .TimeRecords
+                .LapRecords
                 .Where(x => x.Result != null)
                 .Aggregate(
                     TimeSpan.Zero,

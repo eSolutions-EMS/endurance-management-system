@@ -34,7 +34,7 @@ namespace EnduranceJudge.Domain.State.Participants
         public int? MaxAverageSpeedInKmPh { get; internal set; }
         public Horse Horse { get; internal set; }
         public Athlete Athlete { get; internal set; }
-        public IReadOnlyList<LapRecord> TimeRecords
+        public IReadOnlyList<LapRecord> LapRecords
         {
             get => this.timeRecords.AsReadOnly();
             private set => this.timeRecords = value.ToList();

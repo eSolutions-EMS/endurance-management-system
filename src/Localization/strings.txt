@@ -6,7 +6,7 @@ CANNOT_ADD_PARTICIPATION_DIFFERENT_PHASE_LENGTHS_MESSAGE | cannot be added in '{
 DATE_TIME_HAS_TO_BE_LATER_MESSAGE                        | {0} has to be later than {1} | {0} has to be later than {1}
 CANNOT_EDIT_PERFORMANCE_MESSAGE                          | - INVALID edit. Value does not exist for '{0}'. 'Edit' button should only be used to correct errors. Please use '{words-update}' button above when setting Times.  | - INVALID edit. Value does not exist for '{0}'. 'Edit' button should only be used to correct errors. Please use '{words-update}' button above when setting Times.
 IS_REQUIRED_MESSAGE                                      | '{0}' is required. | '{0}' is required.
-PARTICIPANT_NUMBER_NOT_FOUND_MESSAGE                     | '{0}' does not exit | '{0}' does not exit
+NOT_FOUND_MESSAGE                                        | with {0} '{1}' not found | with {0} '{1}' not found
 CHANGE_NOT_ALLOWED_WHEN_EVENT_HAS_STARTED_MESSAGE        | changes are not allowed after {entities-participation-plurals} have started | changes are not allowed after {entities-participation-plurals} have started
 REQUIRED_INSPECTION_IS_NOT_ALLOWED_MESSAGE               | 's Individual Required Inspection is not allowed, because CRI is enabled on this '{entities-lap}' | 's Individual Required Inspection is not allowed, because CRI is enabled on this '{entities-lap}'
 INVALID_ORDER_BY_MESSAGE                                 | with order '{0}' already exists | with order '{0}' already exists
@@ -35,14 +35,14 @@ ENDURANCE_EVENTS_ENTITY             | Endurance Events | Endurance Events
 COMPETITION_ENTITY                  | Competition | Competition
 COMPETITIONS_ENTITY                 | Competitions | Competitions
 PERSONNEL_ENTITY                    | Personnel | Personnel
-PHASE_ENTITY                        | Lap | Lap
-PHASES_ENTITY                       | Laps | Laps
+LAP_ENTITY                          | Lap | Lap
+LAPS_ENTITY                         | Laps | Laps
 COUNTRY_ENTITY                      | Country | Country
 COUNTRIES_ENTITY                    | Countries | Countries
 RESULT_ENTITY                       | Result | Result
 RESULTS_ENTITY                      | Results | Results
-LAP_RECORD_ENTITY                  | Lap Record | Lap Record
-LAP_RECORDS_ENTITY                 | Lap Records | Lap Records
+LAP_RECORD_ENTITY                   | Lap Record | Lap Record
+LAP_RECORDS_ENTITY                  | Lap Records | Lap Records
 IMPORT_PAGE                                | Import | Import
 EVENT_PAGE                                 | Event | Event
 MANAGER_PAGE                               | Manager | Manager

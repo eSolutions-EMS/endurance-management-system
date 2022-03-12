@@ -2,13 +2,13 @@
 using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Domain.State.Laps;
 using EnduranceJudge.Domain.State.LapRecords;
+using EnduranceJudge.Domain.State.Participations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace EnduranceJudge.Domain.AggregateRoots.Common.Performances;
 
-// TODO: rename to ???
 public class Performance : IAggregate, IPerformance
 {
     public const int COMPULSORY_INSPECTION_TIME_OFFSET = -15;
@@ -17,12 +17,12 @@ public class Performance : IAggregate, IPerformance
     private readonly List<Lap> laps;
     private readonly List<LapRecord> timeRecords;
 
-    public Performance(Participant participant, IEnumerable<Lap> laps, int index)
+    public Performance(Participation participation)
     {
-        this.Participant = participant;
-        this.index = index;
-        this.laps = laps.ToList();
-        this.timeRecords = participant.TimeRecords.ToList();
+        this.Participant = participation.Participant;
+        this.timeRecords = this.Participant.LapRecords.ToList();
+        this.index = this.Participant.LapRecords.Count;
+        this.laps = participation.CompetitionConstraint.Laps.ToList();
     }
 
     public Participant Participant { get; }

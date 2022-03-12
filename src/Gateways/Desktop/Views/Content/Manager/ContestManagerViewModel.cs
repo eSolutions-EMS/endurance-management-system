@@ -5,7 +5,6 @@ using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Core.Services;
 using EnduranceJudge.Gateways.Desktop.Services;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Common.Participants;
-using Microsoft.AspNetCore.CookiePolicy;
 using Prism.Commands;
 using Prism.Regions;
 using System;
@@ -18,24 +17,22 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager;
 public class ContestManagerViewModel : ViewModelBase
 {
     private static readonly DateTime Today = DateTime.Today;
-    private readonly IPopupService popupService;
-    private readonly IExecutor<ManagerRoot> contestExecutor;
+    private readonly IExecutor<ManagerRoot> managerExecutor;
     private readonly IQueries<Participant> participants;
 
     public ContestManagerViewModel(
         IPopupService popupService,
-        IExecutor<ManagerRoot> contestExecutor,
+        IExecutor<ManagerRoot> managerExecutor,
         IQueries<Participant> participants)
     {
-        this.popupService = popupService;
-        this.contestExecutor = contestExecutor;
+        this.managerExecutor = managerExecutor;
         this.participants = participants;
         this.Update = new DelegateCommand(this.UpdateAction);
         this.Start = new DelegateCommand(this.StartAction);
         this.CompleteUnsuccessful = new DelegateCommand(this.CompleteUnsuccessfulAction);
         this.ReInspection = new DelegateCommand(this.ReInspectionAction);
         this.RequireInspection = new DelegateCommand(this.RequireInspectionAction);
-        this.StartList = new DelegateCommand(this.popupService.RenderStartList);
+        this.StartList = new DelegateCommand(popupService.RenderStartList);
     }
 
     public DelegateCommand Start { get; }
@@ -62,19 +59,19 @@ public class ContestManagerViewModel : ViewModelBase
         {
             return;
         }
-        var hasStarted = this.contestExecutor.Execute(x => x.HasStarted());
+        var hasStarted = this.managerExecutor.Execute(x => x.HasStarted());
         if (hasStarted)
         {
-            this.LoadParticipants();
+            this.LoadParticipations();
         }
     }
 
     private void StartAction()
     {
-        this.contestExecutor.Execute(manager =>
+        this.managerExecutor.Execute(manager =>
         {
             manager.Start();
-            this.LoadParticipants();
+            this.LoadParticipations();
         });
         this.StartVisibility = Visibility.Collapsed;
     }
@@ -84,11 +81,11 @@ public class ContestManagerViewModel : ViewModelBase
         {
             return;
         }
-        this.contestExecutor.Execute(manager =>
+        this.managerExecutor.Execute(manager =>
         {
             manager.UpdateRecord(this.InputNumber.Value, this.InputTime);
         });
-        this.LoadParticipation();
+        this.SelectParticipation();
     }
     private void CompleteUnsuccessfulAction()
     {
@@ -96,10 +93,10 @@ public class ContestManagerViewModel : ViewModelBase
         {
             return;
         }
-        this.contestExecutor.Execute(manager =>
+        this.managerExecutor.Execute(manager =>
         {
             manager.CompletePerformance(this.InputNumber.Value, this.DeQualificationCode);
-            this.LoadParticipation();
+            this.SelectParticipation();
         });
     }
     private void ReInspectionAction()
@@ -129,7 +126,7 @@ public class ContestManagerViewModel : ViewModelBase
     private void CheckboxHandler(bool newValue, Action<ManagerRoot, bool> action, Action<bool> checkboxSetter)
     {
         var previousValue = !newValue;
-        var isSuccessful = this.contestExecutor.Execute(manager =>
+        var isSuccessful = this.managerExecutor.Execute(manager =>
         {
             action(manager, newValue);
         });
@@ -137,10 +134,10 @@ public class ContestManagerViewModel : ViewModelBase
         {
             checkboxSetter(previousValue);
         }
-        this.LoadParticipation();
+        this.SelectParticipation();
     }
 
-    private void LoadParticipation()
+    private void SelectParticipation()
     {
         if (!this.InputNumber.HasValue)
         {
@@ -167,24 +164,24 @@ public class ContestManagerViewModel : ViewModelBase
     }
     private void UpdateAdditionalInspectionCheckboxes(Participant participant)
     {
-        var currentRecord = participant.TimeRecords.Last();
+        var currentRecord = participant.LapRecords.Last();
         this.ReInspectionValue = currentRecord.IsReInspectionRequired;
         this.RequireInspectionValue = currentRecord.IsRequiredInspectionRequired;
     }
 
-    private void LoadParticipants()
+    private void LoadParticipations()
     {
-        var participants = this.participants.GetAll();
-        foreach (var participant in participants)
+        var participations = this.participants.GetAll();
+        foreach (var participation in participations)
         {
-            var viewModel = new ParticipantTemplateModel(participant, this.SelectParticipant);
+            var viewModel = new ParticipantTemplateModel(participation, this.SelectParticipant);
             this.Participants.Add(viewModel);
         }
     }
     private void SelectParticipant(int number)
     {
         this.InputNumber = number;
-        this.LoadParticipation();
+        this.SelectParticipation();
     }
 
     #region setters
