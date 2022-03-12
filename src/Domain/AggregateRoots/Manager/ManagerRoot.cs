@@ -60,7 +60,7 @@ public class ManagerRoot : IAggregateRoot
     public void UpdateRecord(int number, DateTime time)
     {
         var participation = this.GetParticipation(number);
-        participation.UpdateRecord(time);
+        participation.Update(time);
     }
 
     public void CompletePerformance(int number, string code)

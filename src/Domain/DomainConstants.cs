@@ -33,7 +33,6 @@ namespace EnduranceJudge.Domain
             public const string CANNOT_START_NEXT_PERFORMANCE_NO_LAST_PERFORMANCE = $"Cannot start next {nameof(Performance)}. {nameof(Participation)}s have not started or data is invalid.";
             public const string CANNOT_START_PERFORMANCE_NO_START_TIME = $"cannot start next {nameof(Performance)} - no Start Time.";
             public const string CANNOT_START_PERFORMANCE_NO_PHASE = $"cannot start {nameof(Performance)} - no {nameof(Lap)} found.";
-            public const string CANNOT_START_NEXT_PERFORMANCE_PARTICIPATION_IS_COMPLETE = $"cannot start next {nameof(Performance)}. This {nameof(Participant)} has already finished";
             public const string CANNOT_START_COMPETITION_WITHOUT_PHASES = $"{nameof(Participant)}s cannot start - {nameof(Competition)} has no laps.";
             public const string PARTICIPANT_CANNOT_START_NO_COMPETITION_TEMPLATE = $"{nameof(Participant)} '{{0}}' cannot start, because they don't participate in any {nameof(Competition)}";
             public const string PARTICIPANT_HAS_ALREADY_STARTED = $"{nameof(Participant)} has already started";
