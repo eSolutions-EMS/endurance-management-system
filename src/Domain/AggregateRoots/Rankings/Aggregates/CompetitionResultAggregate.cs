@@ -19,7 +19,7 @@ public class CompetitionResultAggregate : IAggregate, ICompetitionData
         IList<Participation> participations)
     {
         this.Id = DomainIdProvider.Generate();
-        this.CompetitionLengthInKm = competition.Phases.Aggregate(0d, (total, x) => total + x.LengthInKm);
+        this.CompetitionLengthInKm = competition.Laps.Aggregate(0d, (total, x) => total + x.LengthInKm);
         this.CompetitionName = competition.Name;
         this.EventName = enduranceEvent.Name;
         this.PopulatedPlace = enduranceEvent.PopulatedPlace;

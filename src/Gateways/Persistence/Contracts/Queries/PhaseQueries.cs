@@ -1,21 +1,21 @@
 ﻿using EnduranceJudge.Domain.State;
-using EnduranceJudge.Domain.State.Phases;
+using EnduranceJudge.Domain.State.Laps;
 using EnduranceJudge.Gateways.Persistence.Core;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace EnduranceJudge.Gateways.Persistence.Contracts.Queries
 {
-    public class PhaseQueries : QueriesBase<Phase>
+    public class LapQueries : QueriesBase<Lap>
     {
-        public PhaseQueries(IState state) : base(state)
+        public LapQueries(IState state) : base(state)
         {
         }
-        protected override List<Phase> Set
+        protected override List<Lap> Set
             => this.State
                 .Event
                 .Competitions
-                .SelectMany(x => x.Phases)
+                .SelectMany(x => x.Laps)
                 .ToList();
     }
 }

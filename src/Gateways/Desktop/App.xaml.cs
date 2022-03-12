@@ -6,7 +6,7 @@ using EnduranceJudge.Domain.State.Competitions;
 using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Domain.State.Personnels;
 using EnduranceJudge.Domain.AggregateRoots.Common.Performances;
-using EnduranceJudge.Domain.State.Phases;
+using EnduranceJudge.Domain.State.Laps;
 using EnduranceJudge.Domain.Enums;
 using EnduranceJudge.Domain.State.EnduranceEvents;
 using EnduranceJudge.Gateways.Desktop.Startup;
@@ -112,27 +112,27 @@ namespace EnduranceJudge.Gateways.Desktop
         //     participant1.ParticipateIn(competition1);
         //     participant2.ParticipateIn(competition1);
         //
-        //     var phase1 = new Phase(false, 10, 15, 10, 20);
-        //     competition1.Add(phase1);
-        //     var phaseEntry1 = new PhaseEntry(phase1, competition1.StartTime);
-        //     var phaseEntry2 = new PhaseEntry(phase1, competition1.StartTime);
-        //     participant1.Participation.PhaseEntries.Add(phaseEntry1);
-        //     participant2.Participation.PhaseEntries.Add(phaseEntry2);
+        //     var lap1 = new Lap(false, 10, 15, 10, 20);
+        //     competition1.Add(lap1);
+        //     var lapEntry1 = new LapEntry(lap1, competition1.StartTime);
+        //     var lapEntry2 = new LapEntry(lap1, competition1.StartTime);
+        //     participant1.Participation.LapEntries.Add(lapEntry1);
+        //     participant2.Participation.LapEntries.Add(lapEntry2);
         //
-        //     var phase2 = new Phase(true, 20, 30, 10, 20);
-        //     competition1.Add(phase2);
+        //     var lap2 = new Lap(true, 20, 30, 10, 20);
+        //     competition1.Add(lap2);
         //
         //     var competition2 = new Competition(CompetitionType.International, "Name", DateTime.Now.AddDays(1));
         //     eventState.Add(competition2);
         //     participant1.ParticipateIn(competition2);
         //
-        //     var phase3 = new Phase(false, 10, 15, 10, 20);
-        //     competition2.Add(phase3);
-        //     var phaseEntry3 = new PhaseEntry(phase1, competition1.StartTime);
-        //     participant1.Participation.PhaseEntries.Add(phaseEntry3);
+        //     var lap3 = new Lap(false, 10, 15, 10, 20);
+        //     competition2.Add(lap3);
+        //     var lapEntry3 = new LapEntry(lap1, competition1.StartTime);
+        //     participant1.Participation.LapEntries.Add(lapEntry3);
         //
-        //     var phase4 = new Phase(true, 20, 30, 10, 20);
-        //     competition2.Add(phase4);
+        //     var lap4 = new Lap(true, 20, 30, 10, 20);
+        //     competition2.Add(lap4);
         //
         //     var json = serializer.Serialize(eventState);
         //     var result = serializer.Deserialize<EnduranceEvent>(json);

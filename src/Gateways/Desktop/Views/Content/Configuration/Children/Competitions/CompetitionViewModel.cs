@@ -10,7 +10,7 @@ using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
 using EnduranceJudge.Gateways.Desktop.Services;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Competitions.AddParticipants;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Phases;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Laps;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core;
 using static EnduranceJudge.Localization.Strings;
 using Prism.Commands;
@@ -42,15 +42,15 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.C
             this.configuration = configuration;
             this.AddParticipants = new DelegateCommand(this.NavigateToAddParticipants);
             this.ToggleVisibility = new DelegateCommand(this.ToggleVisibilityAction);
-            this.CreatePhase = new DelegateCommand(this.NewForm<PhaseView>);
+            this.CreateLap = new DelegateCommand(this.NewForm<LapView>);
         }
 
         public DelegateCommand AddParticipants { get; }
         public DelegateCommand ToggleVisibility { get; }
-        public DelegateCommand CreatePhase { get; }
+        public DelegateCommand CreateLap { get; }
         public ObservableCollection<SimpleListItemViewModel> TypeItems { get; }
             = new(SimpleListItemViewModel.FromEnum<CompetitionType>());
-        public ObservableCollection<PhaseViewModel> Phases { get; } = new();
+        public ObservableCollection<LapViewModel> Laps { get; } = new();
         public ObservableCollection<ListItemViewModel> Participants { get; } = new();
 
         private int typeValue;

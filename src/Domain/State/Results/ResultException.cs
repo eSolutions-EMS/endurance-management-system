@@ -1,9 +1,8 @@
 using EnduranceJudge.Domain.Core.Exceptions;
 
-namespace EnduranceJudge.Domain.State.Results
+namespace EnduranceJudge.Domain.State.Results;
+
+public class ResultException : DomainExceptionBase
 {
-    public class PhaseResultException : DomainExceptionBase
-    {
-        protected override string Entity { get; } = nameof(Result);
-    }
+    protected override string Entity { get; } = nameof(Result);
 }

@@ -54,7 +54,7 @@ namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates
         }
         internal void RequireInspection(bool isRequired)
         {
-            if (this.record.Phase.IsCompulsoryInspectionRequired)
+            if (this.record.Lap.IsCompulsoryInspectionRequired)
             {
                 throw Helper.Create<TimeRecordException>(REQUIRED_INSPECTION_IS_NOT_ALLOWED_MESSAGE);
             }
@@ -116,7 +116,7 @@ namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates
             this.record.Result = new Result();
         }
 
-        // TODO: remove after testing phase
+        // TODO: remove after testing lap
         private DateTime FixDateForToday(DateTime date)
         {
             var today = DateTime.Today;

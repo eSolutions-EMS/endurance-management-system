@@ -1,9 +1,8 @@
 using EnduranceJudge.Domain.Core.Exceptions;
 
-namespace EnduranceJudge.Domain.State.Phases
+namespace EnduranceJudge.Domain.State.Laps;
+
+public class LapException : DomainExceptionBase
 {
-    public class PhaseException : DomainExceptionBase
-    {
-        protected override string Entity { get; } = nameof(Phase);
-    }
+    protected override string Entity { get; } = nameof(Lap);
 }

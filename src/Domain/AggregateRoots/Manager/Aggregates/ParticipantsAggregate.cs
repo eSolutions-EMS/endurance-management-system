@@ -3,7 +3,7 @@ using EnduranceJudge.Domain.State.Competitions;
 using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Domain.State.Participations;
 using EnduranceJudge.Domain.AggregateRoots.Common.Performances;
-using EnduranceJudge.Domain.State.Phases;
+using EnduranceJudge.Domain.State.Laps;
 using EnduranceJudge.Domain.State.TimeRecords;
 using System;
 using System.Linq;
@@ -33,8 +33,8 @@ namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates
             {
                 throw new Exception(PARTICIPANT_HAS_ALREADY_STARTED);
             }
-            var firstPhase = this.competitionConstraint.Phases.FirstOrDefault();
-            if (firstPhase == null)
+            var firstLap = this.competitionConstraint.Laps.FirstOrDefault();
+            if (firstLap == null)
             {
                 throw new Exception(CANNOT_START_COMPETITION_WITHOUT_PHASES);
             }
@@ -67,26 +67,26 @@ namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates
             {
                 throw new Exception(CANNOT_START_NEXT_PERFORMANCE_NO_LAST_PERFORMANCE);
             }
-            var startTime = Performance.CalculateStartTime(currentRecord, this.CurrentPhase);
+            var startTime = Performance.CalculateStartTime(currentRecord, this.CurrentLap);
             return this.AddRecord(startTime);
         }
 
         private bool IsComplete
-            => this.participant.TimeRecords.Count == this.competitionConstraint.Phases.Count
+            => this.participant.TimeRecords.Count == this.competitionConstraint.Laps.Count
                 && this.participant.TimeRecords.All(x => x.Result != null);
 
         private PerformancesAggregate AddRecord(DateTime startTime)
         {
-            var record = new TimeRecord(FixDateForToday(startTime), this.NextPhase);
+            var record = new TimeRecord(FixDateForToday(startTime), this.NextLap);
             this.participant.Add(record);
             var aggregate = new PerformancesAggregate(record);
             return aggregate;
         }
 
-        private Phase CurrentPhase => this.competitionConstraint.Phases[this.participant.TimeRecords.Count];
-        private Phase NextPhase => this.competitionConstraint.Phases[this.participant.TimeRecords.Count + 1];
+        private Lap CurrentLap => this.competitionConstraint.Laps[this.participant.TimeRecords.Count];
+        private Lap NextLap => this.competitionConstraint.Laps[this.participant.TimeRecords.Count + 1];
 
-        // TODO: Remove after testing phase
+        // TODO: Remove after testing lap
         private DateTime FixDateForToday(DateTime date)
         {
             var today = DateTime.Today;

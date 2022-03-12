@@ -19,7 +19,7 @@ namespace EnduranceJudge.Domain.AggregateRoots.Configuration
         {
             this.state = StaticProvider.GetService<IState>();
             this.Competitions = new CompetitionsAggregate(this.state);
-            this.Phases = new PhasesAggregate(this.state);
+            this.Laps = new LapsAggregate(this.state);
             this.Athletes = new AthletesAggregate(this.state);
             this.Horses = new HorsesAggregate(this.state);
             this.Participants = new ParticipantsAggregate(this.state);
@@ -57,7 +57,7 @@ namespace EnduranceJudge.Domain.AggregateRoots.Configuration
         }
 
         public CompetitionsAggregate Competitions { get; }
-        public PhasesAggregate Phases { get; }
+        public LapsAggregate Laps { get; }
         public AthletesAggregate Athletes { get; }
         public HorsesAggregate Horses { get; }
         public ParticipantsAggregate Participants { get; }

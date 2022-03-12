@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Phases.PhaseView"
+﻿<UserControl x:Class="EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Laps.LapView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"
@@ -32,7 +32,7 @@
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="0" Grid.Column="1">
                 <TextBlock Style="{StaticResource Text-H1}"
-                       Text="{x:Static localization:Strings.PHASE_ENTITY}" />
+                       Text="{x:Static localization:Strings.LAP_ENTITY}" />
             </Border>
 
             <Border Style="{StaticResource Border-Vertical}"

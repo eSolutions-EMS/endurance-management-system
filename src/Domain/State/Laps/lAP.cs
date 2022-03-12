@@ -1,11 +1,11 @@
 using EnduranceJudge.Domain.Core.Models;
 
-namespace EnduranceJudge.Domain.State.Phases
+namespace EnduranceJudge.Domain.State.Laps
 {
-    public class Phase : DomainBase<PhaseException>, IPhaseState
+    public class Lap : DomainBase<LapException>, ILapState
     {
-        private Phase() {}
-        public Phase(IPhaseState state) : base(GENERATE_ID)
+        private Lap() {}
+        public Lap(ILapState state) : base(GENERATE_ID)
         {
             this.IsFinal = state.IsFinal;
             this.OrderBy = state.OrderBy;

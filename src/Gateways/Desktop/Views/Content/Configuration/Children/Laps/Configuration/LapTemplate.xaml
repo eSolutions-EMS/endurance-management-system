@@ -1,9 +1,9 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:phases="clr-namespace:EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Phases"
+                    xmlns:laps="clr-namespace:EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Laps"
                     xmlns:localization="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization">
 
-    <DataTemplate DataType="{x:Type phases:PhaseViewModel}">
+    <DataTemplate DataType="{x:Type laps:LapViewModel}">
         <Border Style="{StaticResource Border-Vertical}">
             <DockPanel Style="{StaticResource Stretch-Last}">
                 <TextBlock Style="{StaticResource Text}">

@@ -3,18 +3,18 @@ using EnduranceJudge.Gateways.Desktop.Core.Services;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Phases
+namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Laps
 {
-    public partial class PhaseView : UserControl, IView
+    public partial class LapView : UserControl, IView
     {
         private readonly IInputHandler inputInput;
 
-        public PhaseView()
+        public LapView()
         {
             InitializeComponent();
         }
 
-        public PhaseView(IInputHandler inputInput) : this()
+        public LapView(IInputHandler inputInput) : this()
         {
             this.inputInput = inputInput;
         }

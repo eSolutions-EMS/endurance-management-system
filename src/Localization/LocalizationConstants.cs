@@ -31,8 +31,8 @@ public static class LocalizationConstants
         { "{entities-personnel}",              PERSONNEL_ENTITY },
         { "{entities-result}",                 RESULT_ENTITY },
         { "{entities-result-plurals}",         RESULTS_ENTITY },
-        { "{entities-phase}",                  PHASE_ENTITY },
-        { "{entities-phase-plurals}",          PHASES_ENTITY },
+        { "{entities-lap}",                    LAP_ENTITY },
+        { "{entities-lap-plurals}",            LAPS_ENTITY },
         { "{words-update}",                    UPDATE },
         { "{words-import}",                    IMPORT },
     };

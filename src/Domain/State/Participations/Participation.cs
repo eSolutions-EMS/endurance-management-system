@@ -23,7 +23,7 @@ namespace EnduranceJudge.Domain.State.Participations
 
         public double? Distance
             => this.CompetitionConstraint
-                ?.Phases
+                ?.Laps
                 .Select(x => x.LengthInKm)
                 .Sum();
 
@@ -32,26 +32,26 @@ namespace EnduranceJudge.Domain.State.Participations
         {
             if (this.CompetitionsIds.Any())
             {
-                if (this.CompetitionConstraint.Phases.Count != competition.Phases.Count)
+                if (this.CompetitionConstraint.Laps.Count != competition.Laps.Count)
                 {
                     throw Helper.Create<ParticipantException>(
                         CANNOT_ADD_PARTICIPATION_DIFFERENT_PHASE_COUNT_MESSAGE,
                         competition.Name);
                 }
-                for (var phaseIndex = 0; phaseIndex < this.CompetitionConstraint.Phases.Count; phaseIndex++)
+                for (var lapIndex = 0; lapIndex < this.CompetitionConstraint.Laps.Count; lapIndex++)
                 {
-                    var phaseConstraint = this.CompetitionConstraint.Phases[phaseIndex];
-                    var phase = competition.Phases[phaseIndex];
+                    var lapConstraint = this.CompetitionConstraint.Laps[lapIndex];
+                    var lap = competition.Laps[lapIndex];
                     // ReSharper disable once CompareOfFloatsByEqualityOperator
-                    if (phaseConstraint.LengthInKm != phase.LengthInKm)
+                    if (lapConstraint.LengthInKm != lap.LengthInKm)
                     {
                         throw Helper.Create<ParticipantException>(
                             CANNOT_ADD_PARTICIPATION_DIFFERENT_PHASE_LENGTHS_MESSAGE,
                             competition.Name,
                             this.CompetitionConstraint.Name,
-                            phaseIndex + 1,
-                            phase.LengthInKm,
-                            phaseConstraint.LengthInKm);
+                            lapIndex + 1,
+                            lap.LengthInKm,
+                            lapConstraint.LengthInKm);
                     }
                 }
             }

@@ -9,51 +9,50 @@ using EnduranceJudge.Domain.State.Participants;
 using System.Linq;
 using static EnduranceJudge.Localization.Strings;
 
-namespace EnduranceJudge.Domain.AggregateRoots.Configuration.Aggregates
+namespace EnduranceJudge.Domain.AggregateRoots.Configuration.Aggregates;
+
+public class CompetitionsAggregate : IAggregate
 {
-    public class CompetitionsAggregate : IAggregate
+    private readonly IState state;
+    private readonly Validator<CompetitionException> validator;
+
+    internal CompetitionsAggregate(IState state)
     {
-        private readonly IState state;
-        private readonly Validator<CompetitionException> validator;
+        this.state = state;
+        this.validator = new Validator<CompetitionException>();
+    }
 
-        internal CompetitionsAggregate(IState state)
+    public Competition Save(ICompetitionState competitionState)
+    {
+        this.state.ValidateThatEventHasNotStarted();
+        this.validator.IsRequired(competitionState.Type, TYPE);
+        this.validator.IsRequired(competitionState.Name, NAME);
+        this.validator.IsRequired(competitionState.StartTime, START_TIME);
+
+        var competition = this.state.Event.Competitions.FindDomain(competitionState.Id);
+        if (competition == null)
         {
-            this.state = state;
-            this.validator = new Validator<CompetitionException>();
+            competition = new Competition(competitionState);
+            this.state.Event.Save(competition);
+        }
+        else
+        {
+            competition.Name = competitionState.Name;
+            competition.Type = competitionState.Type;
+            competition.StartTime = competitionState.StartTime;
         }
 
-        public Competition Save(ICompetitionState competitionState)
+        return competition;
+    }
+
+    public void RemoveParticipation(int competitionId, int participantId)
+    {
+        this.state.ValidateThatEventHasNotStarted();
+        var participation = this.state.Participations.FirstOrDefault(x => x.Participant.Id == participantId);
+        if (participation == null)
         {
-            this.state.ValidateThatEventHasNotStarted();
-            this.validator.IsRequired(competitionState.Type, TYPE);
-            this.validator.IsRequired(competitionState.Name, NAME);
-            this.validator.IsRequired(competitionState.StartTime, START_TIME);
-
-            var competition = this.state.Event.Competitions.FindDomain(competitionState.Id);
-            if (competition == null)
-            {
-                competition = new Competition(competitionState);
-                this.state.Event.Save(competition);
-            }
-            else
-            {
-                competition.Name = competitionState.Name;
-                competition.Type = competitionState.Type;
-                competition.StartTime = competitionState.StartTime;
-            }
-
-            return competition;
+            throw Helper.Create<ParticipantException>(NOT_FOUND_BY_ID_MESSAGE);
         }
-
-        public void RemoveParticipation(int competitionId, int participantId)
-        {
-            this.state.ValidateThatEventHasNotStarted();
-            var participation = this.state.Participations.FirstOrDefault(x => x.Participant.Id == participantId);
-            if (participation == null)
-            {
-                throw Helper.Create<ParticipantException>(NOT_FOUND_BY_ID_MESSAGE);
-            }
-            participation.Remove(competitionId);
-        }
+        participation.Remove(competitionId);
     }
 }

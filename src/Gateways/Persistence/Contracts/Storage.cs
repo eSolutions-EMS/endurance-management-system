@@ -70,7 +70,7 @@ namespace EnduranceJudge.Gateways.Persistence.Contracts
             this.file.Create(this.storageFilePath, serialized);
         }
 
-        // TODO: Remove after testing phase
+        // TODO: Remove after testing lap
         private string NormalizeStorageFileContents(string contents)
         {
             // Normalize countries due to change in code
@@ -79,7 +79,7 @@ namespace EnduranceJudge.Gateways.Persistence.Contracts
             return regex.Replace(contents, correctCountryData);
         }
 
-        // TODO: Remove after testing phase
+        // TODO: Remove after testing lap
         private void FixDatesForToday(IState state)
         {
             foreach (var competition in state.Event.Competitions)
@@ -119,7 +119,7 @@ namespace EnduranceJudge.Gateways.Persistence.Contracts
 
         private static string BuildStorageFilePath(string directory) => $"{directory}\\{STORAGE_FILE_NAME}";
 
-        // TODO: Remove after testing phase
+        // TODO: Remove after testing lap
         private void __REVERT_START_PARTICIPATIONS__()
         {
             var manager = new ConfigurationRoot();

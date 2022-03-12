@@ -132,7 +132,7 @@ public class ManagerRoot : IAggregateRoot
                 }
                 var competition = participation.CompetitionConstraint;
                 var index = participant.TimeRecords.ToList().IndexOf(timeRecord);
-                var performance = new Performance(participant, competition.Phases, index);
+                var performance = new Performance(participant, competition.Laps, index);
                 return performance;
             }
         }
@@ -143,7 +143,7 @@ public class ManagerRoot : IAggregateRoot
     {
         foreach (var competition in this.state.Event.Competitions)
         {
-            if (competition.Phases.All(x => !x.IsFinal))
+            if (competition.Laps.All(x => !x.IsFinal))
             {
                 throw Helper.Create<CompetitionException>(
                     INVALID_COMPETITION_NO_FINAL_PHASE_MESSAGE,

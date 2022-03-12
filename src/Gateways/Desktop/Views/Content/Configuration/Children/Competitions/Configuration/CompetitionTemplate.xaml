@@ -28,12 +28,12 @@
 
                 <Border Style="{StaticResource Border-Vertical}">
                     <TextBlock Style="{StaticResource Text}"
-                               Text="{x:Static localization:Strings.PHASES_ENTITY}" />
+                               Text="{x:Static localization:Strings.LAPS_ENTITY}" />
                 </Border>
 
                 <Border Style="{StaticResource Border-Vertical}">
                     <ListBox Style="{StaticResource ListBox-Vertical}"
-                             ItemsSource="{Binding Phases}" />
+                             ItemsSource="{Binding Laps}" />
                 </Border>
 
             </StackPanel>

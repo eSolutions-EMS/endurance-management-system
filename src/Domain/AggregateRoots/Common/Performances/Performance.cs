@@ -1,6 +1,6 @@
 ﻿using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Participants;
-using EnduranceJudge.Domain.State.Phases;
+using EnduranceJudge.Domain.State.Laps;
 using EnduranceJudge.Domain.State.TimeRecords;
 using System;
 using System.Collections.Generic;
@@ -14,14 +14,14 @@ public class Performance : IAggregate, IPerformance
     public const int COMPULSORY_INSPECTION_TIME_OFFSET = -15;
 
     private readonly int index;
-    private readonly List<Phase> phases;
+    private readonly List<Lap> laps;
     private readonly List<TimeRecord> timeRecords;
 
-    public Performance(Participant participant, IEnumerable<Phase> phases, int index)
+    public Performance(Participant participant, IEnumerable<Lap> laps, int index)
     {
         this.Participant = participant;
         this.index = index;
-        this.phases = phases.ToList();
+        this.laps = laps.ToList();
         this.timeRecords = participant.TimeRecords.ToList();
     }
 
@@ -32,7 +32,7 @@ public class Performance : IAggregate, IPerformance
         get
         {
             var inspection = this.CurrentRecord.VetGateTime
-                ?.AddMinutes(this.CurrentPhase.RestTimeInMins)
+                ?.AddMinutes(this.CurrentLap.RestTimeInMins)
                 .AddMinutes(COMPULSORY_INSPECTION_TIME_OFFSET);
             return inspection;
         }
@@ -42,15 +42,15 @@ public class Performance : IAggregate, IPerformance
         => this.CurrentRecord.VetGateTime - this.CurrentRecord.ArrivalTime;
 
     public TimeSpan? Time
-        => this.CalculateLapTime(this.CurrentRecord, this.CurrentPhase);
+        => this.CalculateLapTime(this.CurrentRecord, this.CurrentLap);
 
     public double? AverageSpeed
     {
         get
         {
-            var phaseLengthInKm = this.CurrentPhase.LengthInKm;
+            var lapLengthInKm = this.CurrentLap.LengthInKm;
             var totalHours = this.Time?.TotalHours;
-            return  phaseLengthInKm / totalHours;
+            return  lapLengthInKm / totalHours;
         }
     }
 
@@ -69,12 +69,12 @@ public class Performance : IAggregate, IPerformance
     }
 
     public double TotalLength
-        => this.TotalPhases
+        => this.TotalLaps
             .Select(x => x.LengthInKm)
             .Sum();
 
-    private TimeSpan? CalculateLapTime(TimeRecord record, Phase phase)
-        => phase.IsFinal
+    private TimeSpan? CalculateLapTime(TimeRecord record, Lap lap)
+        => lap.IsFinal
             ? record.VetGateTime - record.StartTime
             : record.ArrivalTime - record.StartTime;
 
@@ -84,25 +84,25 @@ public class Performance : IAggregate, IPerformance
         for (var i = 0; i <= this.index; i++)
         {
             var record = this.timeRecords[i];
-            var phase = this.phases[i];
-            var time = this.CalculateLapTime(record, phase);
+            var lap = this.laps[i];
+            var time = this.CalculateLapTime(record, lap);
             totalHours += time!.Value;
         }
         return totalHours;
     }
 
-    private Phase CurrentPhase => this.phases[this.index];
+    private Lap CurrentLap => this.laps[this.index];
     private TimeRecord CurrentRecord => this.timeRecords[this.index];
-    private IEnumerable<Phase> TotalPhases => this.phases.Take(this.index + 1);
+    private IEnumerable<Lap> TotalLaps => this.laps.Take(this.index + 1);
     private IEnumerable<TimeRecord> TotalRecords => this.timeRecords.Take(this.index + 1);
 
-    public static DateTime CalculateStartTime(TimeRecord record, Phase phase)
+    public static DateTime CalculateStartTime(TimeRecord record, Lap lap)
     {
         if (!record.VetGateTime.HasValue)
         {
-            throw new Exception("Cannot calculate Start Time for next Phase, because the current is not complete.");
+            throw new Exception("Cannot calculate Start Time for next Lap, because the current is not complete.");
         }
-        return record.VetGateTime.Value.AddMinutes(phase.RestTimeInMins);
+        return record.VetGateTime.Value.AddMinutes(lap.RestTimeInMins);
     }
 
     public int Id => this.CurrentRecord.Id;

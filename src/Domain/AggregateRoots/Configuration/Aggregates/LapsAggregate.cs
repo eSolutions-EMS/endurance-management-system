@@ -4,90 +4,89 @@ using EnduranceJudge.Domain.Core.Extensions;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.Validation;
 using EnduranceJudge.Domain.State;
-using EnduranceJudge.Domain.State.Phases;
+using EnduranceJudge.Domain.State.Laps;
 using System;
 using System.Linq;
 using static EnduranceJudge.Domain.DomainConstants.ErrorMessages;
 using static EnduranceJudge.Localization.Strings;
 
-namespace EnduranceJudge.Domain.AggregateRoots.Configuration.Aggregates
+namespace EnduranceJudge.Domain.AggregateRoots.Configuration.Aggregates;
+
+public class LapsAggregate : IAggregate
 {
-    public class PhasesAggregate : IAggregate
+    private readonly IState state;
+    private readonly Validator<LapException> validator;
+
+    internal LapsAggregate(IState state)
     {
-        private readonly IState state;
-        private readonly Validator<PhaseException> validator;
+        this.state = state;
+        this.validator = new Validator<LapException>();
+    }
 
-        internal PhasesAggregate(IState state)
+    public Lap Create(int competitionId, ILapState lapState)
+    {
+        this.state.ValidateThatEventHasNotStarted();
+
+        var competition = this.state.Event.Competitions.FindDomain(competitionId);
+        if (competition == null)
         {
-            this.state = state;
-            this.validator = new Validator<PhaseException>();
+            var message = string.Format(CANNOT_CREATE_PHASE_COMPETITION_DOES_NOT_EXIST, competitionId);
+            throw new Exception(message);
+        }
+        var lap = competition.Laps.FindDomain(lapState.Id);
+        if (lap != null)
+        {
+            var message = string.Format(CANNOT_CREATE_PHASE_IT_ALREADY_EXISTS, lapState.Id);
+            throw new Exception(message);
         }
 
-        public Phase Create(int competitionId, IPhaseState phaseState)
+        this.Validate(lapState, competitionId);
+
+        lap = new Lap(lapState);
+        competition.Save(lap);
+
+        return lap;
+    }
+
+    public Lap Update(ILapState lapState)
+    {
+        this.state.ValidateThatEventHasNotStarted();
+
+        foreach (var competition in this.state.Event.Competitions)
         {
-            this.state.ValidateThatEventHasNotStarted();
-
-            var competition = this.state.Event.Competitions.FindDomain(competitionId);
-            if (competition == null)
+            var lap = competition.Laps.FindDomain(lapState.Id);
+            if (lap == null)
             {
-                var message = string.Format(CANNOT_CREATE_PHASE_COMPETITION_DOES_NOT_EXIST, competitionId);
-                throw new Exception(message);
+                continue;
             }
-            var phase = competition.Phases.FindDomain(phaseState.Id);
-            if (phase != null)
-            {
-                var message = string.Format(CANNOT_CREATE_PHASE_IT_ALREADY_EXISTS, phaseState.Id);
-                throw new Exception(message);
-            }
+            this.Validate(lapState, competition.Id);
 
-            this.Validate(phaseState, competitionId);
-
-            phase = new Phase(phaseState);
-            competition.Save(phase);
-
-            return phase;
+            lap.IsFinal = lapState.IsFinal;
+            lap.OrderBy = lapState.OrderBy;
+            lap.LengthInKm = lapState.LengthInKm;
+            lap.MaxRecoveryTimeInMins = lapState.MaxRecoveryTimeInMins;
+            lap.RestTimeInMins = lapState.RestTimeInMins;
+            lap.IsCompulsoryInspectionRequired = lapState.IsCompulsoryInspectionRequired;
+            return lap;
         }
 
-        public Phase Update(IPhaseState phaseState)
+        var message = string.Format(CANNOT_UPDATE_PHASE_IT_DOES_NOT_EXIST, lapState.Id);
+        throw new InvalidOperationException(message);
+    }
+
+    private void Validate(ILapState lapState, int competitionId)
+    {
+        var competition = this.state.Event.Competitions.FindDomain(competitionId);
+        if (competition.Laps.Any(x => x.OrderBy == lapState.OrderBy && x.Id != lapState.Id))
         {
-            this.state.ValidateThatEventHasNotStarted();
-
-            foreach (var competition in this.state.Event.Competitions)
-            {
-                var phase = competition.Phases.FindDomain(phaseState.Id);
-                if (phase == null)
-                {
-                    continue;
-                }
-                this.Validate(phaseState, competition.Id);
-
-                phase.IsFinal = phaseState.IsFinal;
-                phase.OrderBy = phaseState.OrderBy;
-                phase.LengthInKm = phaseState.LengthInKm;
-                phase.MaxRecoveryTimeInMins = phaseState.MaxRecoveryTimeInMins;
-                phase.RestTimeInMins = phaseState.RestTimeInMins;
-                phase.IsCompulsoryInspectionRequired = phaseState.IsCompulsoryInspectionRequired;
-                return phase;
-            }
-
-            var message = string.Format(CANNOT_UPDATE_PHASE_IT_DOES_NOT_EXIST, phaseState.Id);
-            throw new InvalidOperationException(message);
+            throw Helper.Create<LapException>(INVALID_ORDER_BY_MESSAGE, lapState.OrderBy);
         }
-
-        private void Validate(IPhaseState phaseState, int competitionId)
+        if (!lapState.IsFinal)
         {
-            var competition = this.state.Event.Competitions.FindDomain(competitionId);
-            if (competition.Phases.Any(x => x.OrderBy == phaseState.OrderBy && x.Id != phaseState.Id))
-            {
-                throw Helper.Create<PhaseException>(INVALID_ORDER_BY_MESSAGE, phaseState.OrderBy);
-            }
-            if (!phaseState.IsFinal)
-            {
-                this.validator.IsRequired(phaseState.RestTimeInMins, REST_TIME_IN_MINS);
-            }
-            this.validator.IsRequired(phaseState.OrderBy, ORDER);
-            this.validator.IsRequired(phaseState.LengthInKm, LENGTH_IN_KM);
-            this.validator.IsRequired(phaseState.MaxRecoveryTimeInMins, RECOVERY_IN_MINUTES_TEXT);
+            this.validator.IsRequired(lapState.RestTimeInMins, REST_TIME_IN_MINS);
         }
+        this.validator.IsRequired(lapState.OrderBy, ORDER);
+        this.validator.IsRequired(lapState.LengthInKm, LENGTH_IN_KM);
+        this.validator.IsRequired(lapState.MaxRecoveryTimeInMins, RECOVERY_IN_MINUTES_TEXT);
     }
 }

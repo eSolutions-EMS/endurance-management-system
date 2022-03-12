@@ -1,8 +1,8 @@
 using EnduranceJudge.Core.Models;
 
-namespace EnduranceJudge.Domain.State.Phases
+namespace EnduranceJudge.Domain.State.Laps
 {
-    public interface IPhaseState : IIdentifiable
+    public interface ILapState : IIdentifiable
     {
         double LengthInKm { get; }
         bool IsFinal { get; }

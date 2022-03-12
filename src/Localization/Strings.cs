@@ -25,8 +25,8 @@ public static class Strings
     public static string COMPETITION_ENTITY            { get; internal set; }
     public static string COMPETITIONS_ENTITY           { get; internal set; }
     public static string PERSONNEL_ENTITY              { get; internal set; }
-    public static string PHASE_ENTITY                  { get; internal set; }
-    public static string PHASES_ENTITY                 { get; internal set; }
+    public static string LAP_ENTITY                  { get; internal set; }
+    public static string LAPS_ENTITY                 { get; internal set; }
     public static string COUNTRY_ENTITY                { get; internal set; }
     public static string COUNTRIES_ENTITY              { get; internal set; }
     public static string RESULT_ENTITY                 { get; internal set; }
