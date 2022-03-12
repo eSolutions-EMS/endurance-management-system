@@ -21,20 +21,6 @@ namespace EnduranceJudge.Domain.State.Participations
         public Participant Participant { get; private set; }
         public Competition CompetitionConstraint { get; private set; }
 
-        public double AverageSpeedForLoopInKm
-        {
-            get
-            {
-                var finishedPerformances = this.performances
-                    .Where(x => x.AverageSpeed.HasValue)
-                    .ToList();
-                var sum = finishedPerformances.Aggregate(
-                    0d,
-                    (sum, performance) => sum + performance.AverageSpeed!.Value);
-                var average = sum / finishedPerformances.Count;
-                return average;
-            }
-        }
         public double? Distance
             => this.CompetitionConstraint
                 ?.Phases
@@ -84,7 +70,7 @@ namespace EnduranceJudge.Domain.State.Participations
 
         public void __REMOVE_PERFORMANCES__()
         {
-            this.performances.Clear();
+            this.Participant.__REMOVE_RECORDS__();
         }
     }
 }

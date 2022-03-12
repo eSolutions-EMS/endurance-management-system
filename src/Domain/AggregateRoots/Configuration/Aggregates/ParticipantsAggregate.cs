@@ -84,9 +84,9 @@ namespace EnduranceJudge.Domain.AggregateRoots.Configuration.Aggregates
 
         public void __REVERT_START_PARTICIPATIONS__()
         {
-            foreach (var participant in this.state.Participations)
+            foreach (var participation in this.state.Participations)
             {
-                participant.__REMOVE_PERFORMANCES__();
+                participation.__REMOVE_PERFORMANCES__();
             }
         }
     }

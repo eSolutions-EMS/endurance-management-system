@@ -49,5 +49,10 @@ namespace EnduranceJudge.Domain.State.Participants
         {
             return string.Format(NAME_FORMAT, number, athleteName, horseName);
         }
+
+        public void __REMOVE_RECORDS__()
+        {
+            this.timeRecords.Clear();
+        }
     }
 }
