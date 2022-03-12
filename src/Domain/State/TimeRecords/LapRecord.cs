@@ -5,10 +5,10 @@ using System;
 
 namespace EnduranceJudge.Domain.State.TimeRecords;
 
-public class TimeRecord : DomainBase<TimeRecordException>, ITimeRecordState
+public class LapRecord : DomainBase<LapRecordException>, ILapRecordState
 {
-    public TimeRecord() {}
-    public TimeRecord(DateTime startTime, Lap lap) : base(GENERATE_ID)
+    public LapRecord() {}
+    public LapRecord(DateTime startTime, Lap lap) : base(GENERATE_ID)
     {
         this.StartTime = startTime;
         this.Lap = lap;

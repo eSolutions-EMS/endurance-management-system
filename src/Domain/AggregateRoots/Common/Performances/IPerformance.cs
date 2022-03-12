@@ -3,7 +3,7 @@ using System;
 
 namespace EnduranceJudge.Domain.AggregateRoots.Common.Performances;
 
-public interface IPerformance : ITimeRecordState
+public interface IPerformance : ILapRecordState
 {
     DateTime? RequiredInspectionTime { get; }
     TimeSpan? RecoverySpan { get; }

@@ -12,7 +12,7 @@ namespace EnduranceJudge.Domain.State.Participants
         public const int DEFAULT_MAX_AVERAGE_SPEED = 16;
         private const string NAME_FORMAT = "{0} - {1} with {2}";
 
-        private List<TimeRecord> timeRecords = new();
+        private List<LapRecord> timeRecords = new();
 
         private Participant() {}
         public Participant(Athlete athlete, Horse horse) : base(GENERATE_ID)
@@ -34,13 +34,13 @@ namespace EnduranceJudge.Domain.State.Participants
         public int? MaxAverageSpeedInKmPh { get; internal set; }
         public Horse Horse { get; internal set; }
         public Athlete Athlete { get; internal set; }
-        public IReadOnlyList<TimeRecord> TimeRecords
+        public IReadOnlyList<LapRecord> TimeRecords
         {
             get => this.timeRecords.AsReadOnly();
             private set => this.timeRecords = value.ToList();
         }
 
-        public void Add(TimeRecord record)
+        public void Add(LapRecord record)
             => this.timeRecords.Add(record);
 
         public string Name => FormatName(this.Number, this.Athlete.Name, this.Horse.Name);

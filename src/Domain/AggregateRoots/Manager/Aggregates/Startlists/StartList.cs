@@ -37,7 +37,7 @@ public class Startlist : List<StartModel>
         }
     }
 
-    private void AddStart(Participation participation, TimeRecord record)
+    private void AddStart(Participation participation, LapRecord record)
     {
         var start = new StartModel
         {

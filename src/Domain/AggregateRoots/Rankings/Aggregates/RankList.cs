@@ -64,7 +64,7 @@ namespace EnduranceJudge.Domain.AggregateRoots.Rankings.Aggregates
             return (totalRecovery, participation);
         }
 
-        private TimeSpan GetRecoveryTime(TimeRecord record)
+        private TimeSpan GetRecoveryTime(LapRecord record)
         {
             var arrival = record.ArrivalTime;
             var inspection = record.ReInspectionTime ?? record.InspectionTime;

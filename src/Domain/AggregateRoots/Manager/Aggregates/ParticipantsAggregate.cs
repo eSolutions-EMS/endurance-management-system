@@ -77,7 +77,7 @@ namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates
 
         private PerformancesAggregate AddRecord(DateTime startTime)
         {
-            var record = new TimeRecord(FixDateForToday(startTime), this.NextLap);
+            var record = new LapRecord(FixDateForToday(startTime), this.NextLap);
             this.participant.Add(record);
             var aggregate = new PerformancesAggregate(record);
             return aggregate;

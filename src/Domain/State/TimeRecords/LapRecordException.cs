@@ -3,7 +3,7 @@ using EnduranceJudge.Localization;
 
 namespace EnduranceJudge.Domain.State.TimeRecords;
 
-public class TimeRecordException : DomainExceptionBase
+public class LapRecordException : DomainExceptionBase
 {
-    protected override string Entity => Strings.TIME_RECORD_ENTITY;
+    protected override string Entity => Strings.LAP_RECORD_ENTITY;
 }

@@ -85,7 +85,7 @@ public class ManagerRoot : IAggregateRoot
         performance!.RequireInspection(isRequired);
     }
 
-    public Performance EditRecord(ITimeRecordState state)
+    public Performance EditRecord(ILapRecordState state)
     {
         var record = this.state
             .Participations
@@ -136,7 +136,7 @@ public class ManagerRoot : IAggregateRoot
                 return performance;
             }
         }
-        throw Helper.Create<TimeRecordException>(NOT_FOUND_BY_ID_MESSAGE, id);
+        throw Helper.Create<LapRecordException>(NOT_FOUND_BY_ID_MESSAGE, id);
     }
 
     private void ValidateConfiguration()

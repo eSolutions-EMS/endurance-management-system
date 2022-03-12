@@ -7,13 +7,13 @@ using System.Linq;
 
 namespace EnduranceJudge.Gateways.Persistence.Contracts.Queries
 {
-    public class TimeRecordQueries : QueriesBase<TimeRecord>
+    public class TimeRecordQueries : QueriesBase<LapRecord>
     {
         public TimeRecordQueries(IState state) : base(state)
         {
         }
 
-        protected override List<TimeRecord> Set => this.State
+        protected override List<LapRecord> Set => this.State
             .Participants
             .SelectMany(part => part.TimeRecords)
             .ToList();

@@ -12,13 +12,13 @@ namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates
     // TODO: Rename to TimeRecordsAggregate
     public class PerformancesAggregate : IAggregate
     {
-        private readonly TimeRecord record;
-        private readonly Validator<TimeRecordException> validator;
+        private readonly LapRecord record;
+        private readonly Validator<LapRecordException> validator;
 
-        internal PerformancesAggregate(TimeRecord record)
+        internal PerformancesAggregate(LapRecord record)
         {
             this.record = record;
-            this.validator = new Validator<TimeRecordException>();
+            this.validator = new Validator<LapRecordException>();
         }
 
         internal void Update(DateTime time)
@@ -56,17 +56,17 @@ namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates
         {
             if (this.record.Lap.IsCompulsoryInspectionRequired)
             {
-                throw Helper.Create<TimeRecordException>(REQUIRED_INSPECTION_IS_NOT_ALLOWED_MESSAGE);
+                throw Helper.Create<LapRecordException>(REQUIRED_INSPECTION_IS_NOT_ALLOWED_MESSAGE);
             }
             this.record.IsRequiredInspectionRequired = isRequired;
         }
-        internal void Edit(ITimeRecordState state)
+        internal void Edit(ILapRecordState state)
         {
             if (state.ArrivalTime.HasValue && this.record.ArrivalTime != state.ArrivalTime)
             {
                 if (this.record.ArrivalTime == null)
                 {
-                    throw Helper.Create<TimeRecordException>(CANNOT_EDIT_PERFORMANCE_MESSAGE, ARRIVAL_TERM);
+                    throw Helper.Create<LapRecordException>(CANNOT_EDIT_PERFORMANCE_MESSAGE, ARRIVAL_TERM);
                 }
                 this.Arrive(state.ArrivalTime.Value);
             }
@@ -74,7 +74,7 @@ namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates
             {
                 if (this.record.InspectionTime == null)
                 {
-                    throw Helper.Create<TimeRecordException>(CANNOT_EDIT_PERFORMANCE_MESSAGE, INSPECTION_TERM);
+                    throw Helper.Create<LapRecordException>(CANNOT_EDIT_PERFORMANCE_MESSAGE, INSPECTION_TERM);
                 }
                 this.Inspect(state.InspectionTime.Value);
             }
@@ -82,7 +82,7 @@ namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates
             {
                 if (this.record.ReInspectionTime == null)
                 {
-                    throw Helper.Create<TimeRecordException>(CANNOT_EDIT_PERFORMANCE_MESSAGE, RE_INSPECTION_TERM);
+                    throw Helper.Create<LapRecordException>(CANNOT_EDIT_PERFORMANCE_MESSAGE, RE_INSPECTION_TERM);
                 }
                 this.CompleteReInspection(state.ReInspectionTime.Value);
             }

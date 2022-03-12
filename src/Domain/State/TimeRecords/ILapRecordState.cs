@@ -3,7 +3,7 @@ using System;
 
 namespace EnduranceJudge.Domain.State.TimeRecords;
 
-public interface ITimeRecordState : IIdentifiable
+public interface ILapRecordState : IIdentifiable
 {
     DateTime StartTime { get; }
     DateTime? ArrivalTime { get; }

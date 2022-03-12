@@ -31,8 +31,8 @@ public static class Strings
     public static string COUNTRIES_ENTITY              { get; internal set; }
     public static string RESULT_ENTITY                 { get; internal set; }
     public static string RESULTS_ENTITY                { get; internal set; }
-    public static string TIME_RECORD_ENTITY            { get; internal set; }
-    public static string TIME_RECORDS_ENTITY           { get; internal set; }
+    public static string LAP_RECORD_ENTITY            { get; internal set; }
+    public static string LAP_RECORDS_ENTITY           { get; internal set; }
 
    /* Words */
     public static string SAVE                              { get; internal set; }

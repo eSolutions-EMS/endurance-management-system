@@ -15,7 +15,7 @@ public class Performance : IAggregate, IPerformance
 
     private readonly int index;
     private readonly List<Lap> laps;
-    private readonly List<TimeRecord> timeRecords;
+    private readonly List<LapRecord> timeRecords;
 
     public Performance(Participant participant, IEnumerable<Lap> laps, int index)
     {
@@ -73,7 +73,7 @@ public class Performance : IAggregate, IPerformance
             .Select(x => x.LengthInKm)
             .Sum();
 
-    private TimeSpan? CalculateLapTime(TimeRecord record, Lap lap)
+    private TimeSpan? CalculateLapTime(LapRecord record, Lap lap)
         => lap.IsFinal
             ? record.VetGateTime - record.StartTime
             : record.ArrivalTime - record.StartTime;
@@ -92,11 +92,11 @@ public class Performance : IAggregate, IPerformance
     }
 
     private Lap CurrentLap => this.laps[this.index];
-    private TimeRecord CurrentRecord => this.timeRecords[this.index];
+    private LapRecord CurrentRecord => this.timeRecords[this.index];
     private IEnumerable<Lap> TotalLaps => this.laps.Take(this.index + 1);
-    private IEnumerable<TimeRecord> TotalRecords => this.timeRecords.Take(this.index + 1);
+    private IEnumerable<LapRecord> TotalRecords => this.timeRecords.Take(this.index + 1);
 
-    public static DateTime CalculateStartTime(TimeRecord record, Lap lap)
+    public static DateTime CalculateStartTime(LapRecord record, Lap lap)
     {
         if (!record.VetGateTime.HasValue)
         {
