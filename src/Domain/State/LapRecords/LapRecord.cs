@@ -3,7 +3,7 @@ using EnduranceJudge.Domain.State.Laps;
 using EnduranceJudge.Domain.State.Results;
 using System;
 
-namespace EnduranceJudge.Domain.State.TimeRecords;
+namespace EnduranceJudge.Domain.State.LapRecords;
 
 public class LapRecord : DomainBase<LapRecordException>, ILapRecordState
 {

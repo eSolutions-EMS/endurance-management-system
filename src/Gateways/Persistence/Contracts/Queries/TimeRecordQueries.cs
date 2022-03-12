@@ -1,6 +1,6 @@
 ﻿using EnduranceJudge.Domain.State;
 using EnduranceJudge.Domain.AggregateRoots.Common.Performances;
-using EnduranceJudge.Domain.State.TimeRecords;
+using EnduranceJudge.Domain.State.LapRecords;
 using EnduranceJudge.Gateways.Persistence.Core;
 using System.Collections.Generic;
 using System.Linq;

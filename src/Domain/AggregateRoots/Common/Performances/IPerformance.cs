@@ -1,4 +1,4 @@
-using EnduranceJudge.Domain.State.TimeRecords;
+using EnduranceJudge.Domain.State.LapRecords;
 using System;
 
 namespace EnduranceJudge.Domain.AggregateRoots.Common.Performances;

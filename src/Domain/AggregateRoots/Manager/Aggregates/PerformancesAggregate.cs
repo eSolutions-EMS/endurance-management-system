@@ -2,7 +2,7 @@
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.Validation;
 using EnduranceJudge.Domain.State.Results;
-using EnduranceJudge.Domain.State.TimeRecords;
+using EnduranceJudge.Domain.State.LapRecords;
 using System;
 using static EnduranceJudge.Localization.Strings;
 using static EnduranceJudge.Domain.DomainConstants.ErrorMessages;

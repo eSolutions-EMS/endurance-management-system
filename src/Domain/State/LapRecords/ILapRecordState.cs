@@ -1,7 +1,7 @@
 ﻿using EnduranceJudge.Core.Models;
 using System;
 
-namespace EnduranceJudge.Domain.State.TimeRecords;
+namespace EnduranceJudge.Domain.State.LapRecords;
 
 public interface ILapRecordState : IIdentifiable
 {

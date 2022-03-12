@@ -1,5 +1,5 @@
 ﻿using EnduranceJudge.Domain.State.Participations;
-using EnduranceJudge.Domain.State.TimeRecords;
+using EnduranceJudge.Domain.State.LapRecords;
 using System;
 using System.Collections.Generic;
 using System.Linq;

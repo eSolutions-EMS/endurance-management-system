@@ -4,7 +4,7 @@ using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Domain.State.Participations;
 using EnduranceJudge.Domain.AggregateRoots.Common.Performances;
 using EnduranceJudge.Domain.State.Laps;
-using EnduranceJudge.Domain.State.TimeRecords;
+using EnduranceJudge.Domain.State.LapRecords;
 using System;
 using System.Linq;
 using static EnduranceJudge.Domain.DomainConstants.ErrorMessages;

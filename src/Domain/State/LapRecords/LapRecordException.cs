@@ -1,7 +1,7 @@
 ﻿using EnduranceJudge.Domain.Core.Exceptions;
 using EnduranceJudge.Localization;
 
-namespace EnduranceJudge.Domain.State.TimeRecords;
+namespace EnduranceJudge.Domain.State.LapRecords;
 
 public class LapRecordException : DomainExceptionBase
 {
