@@ -128,7 +128,7 @@ public class ManagerRoot : IAggregateRoot
                 var participation = this.state.Participations.FirstOrDefault(x => x.Participant.Id == participant.Id);
                 if (participation == null)
                 {
-                    throw Helper.Create<PerformanceException>(NOT_FOUND_BY_ID_MESSAGE);
+                    throw Helper.Create<ParticipationException>(NOT_FOUND_BY_ID_MESSAGE);
                 }
                 var competition = participation.CompetitionConstraint;
                 var index = participant.TimeRecords.ToList().IndexOf(timeRecord);
