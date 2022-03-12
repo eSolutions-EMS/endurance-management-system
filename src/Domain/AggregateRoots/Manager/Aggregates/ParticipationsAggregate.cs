@@ -11,13 +11,13 @@ using static EnduranceJudge.Domain.DomainConstants.ErrorMessages;
 
 namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates
 {
-    public class ParticipantsAggregate : IAggregate
+    public class ParticipationsAggregate : IAggregate
     {
         private readonly Competition competitionConstraint;
         private readonly Participant participant;
 
         // TODO: Rename to ParticipationsAggregate
-        internal ParticipantsAggregate(Participation participation)
+        internal ParticipationsAggregate(Participation participation)
         {
             this.Number = participation.Participant.Number;
             this.participant = participation.Participant;
@@ -45,18 +45,18 @@ namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates
             var record = this.GetCurrent() ?? this.CreateNext();
             record.Update(time);
         }
-        internal PerformancesAggregate GetCurrent()
+        internal LapRecordsAggregate GetCurrent()
         {
             var record = this.participant.TimeRecords.SingleOrDefault(x => x.Result == null);
             if (record == null)
             {
                 return null;
             }
-            var recordsAggregate = new PerformancesAggregate(record);
+            var recordsAggregate = new LapRecordsAggregate(record);
             return recordsAggregate;
         }
 
-        private PerformancesAggregate CreateNext()
+        private LapRecordsAggregate CreateNext()
         {
             if (this.IsComplete)
             {
@@ -75,11 +75,11 @@ namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates
             => this.participant.TimeRecords.Count == this.competitionConstraint.Laps.Count
                 && this.participant.TimeRecords.All(x => x.Result != null);
 
-        private PerformancesAggregate AddRecord(DateTime startTime)
+        private LapRecordsAggregate AddRecord(DateTime startTime)
         {
             var record = new LapRecord(FixDateForToday(startTime), this.NextLap);
             this.participant.Add(record);
-            var aggregate = new PerformancesAggregate(record);
+            var aggregate = new LapRecordsAggregate(record);
             return aggregate;
         }
 

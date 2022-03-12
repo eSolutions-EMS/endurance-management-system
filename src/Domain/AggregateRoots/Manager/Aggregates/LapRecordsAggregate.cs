@@ -9,13 +9,12 @@ using static EnduranceJudge.Domain.DomainConstants.ErrorMessages;
 
 namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates
 {
-    // TODO: Rename to TimeRecordsAggregate
-    public class PerformancesAggregate : IAggregate
+    public class LapRecordsAggregate : IAggregate
     {
         private readonly LapRecord record;
         private readonly Validator<LapRecordException> validator;
 
-        internal PerformancesAggregate(LapRecord record)
+        internal LapRecordsAggregate(LapRecord record)
         {
             this.record = record;
             this.validator = new Validator<LapRecordException>();

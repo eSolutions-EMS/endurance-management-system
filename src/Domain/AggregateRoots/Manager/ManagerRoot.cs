@@ -41,7 +41,7 @@ public class ManagerRoot : IAggregateRoot
         this.ValidateConfiguration();
         var participants = this.state
             .Participations
-            .Select(x => new ParticipantsAggregate(x))
+            .Select(x => new ParticipationsAggregate(x))
             .ToList();
         foreach (var participant in participants)
         {
@@ -92,7 +92,7 @@ public class ManagerRoot : IAggregateRoot
             .Select(x => x.Participant)
             .SelectMany(part => part.TimeRecords)
             .FirstOrDefault(perf => perf.Equals(state));
-        var manager = new PerformancesAggregate(record);
+        var manager = new LapRecordsAggregate(record);
         manager.Edit(state);
         var performance = this.GetPerformance(state.Id);
         return performance;
@@ -106,7 +106,7 @@ public class ManagerRoot : IAggregateRoot
         return startList;
     }
 
-    private ParticipantsAggregate GetParticipation(int number)
+    private ParticipationsAggregate GetParticipation(int number)
     {
         var participation = this.state
             .Participations
@@ -115,7 +115,7 @@ public class ManagerRoot : IAggregateRoot
         {
             throw Helper.Create<ParticipantException>(PARTICIPANT_NUMBER_NOT_FOUND_MESSAGE, number);
         }
-        var aggregate = new ParticipantsAggregate(participation);
+        var aggregate = new ParticipationsAggregate(participation);
         return aggregate;
     }
 
