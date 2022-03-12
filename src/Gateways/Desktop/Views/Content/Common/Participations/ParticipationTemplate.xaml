@@ -3,7 +3,7 @@
                     xmlns:participations="clr-namespace:EnduranceJudge.Gateways.Desktop.Views.Content.Common.Participants"
                     xmlns:localization="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization">
 
-    <DataTemplate DataType="{x:Type participations:ParticipantTemplateModel}">
+    <DataTemplate DataType="{x:Type participations:ParticipationTemplateModel}">
         <Border Style="{StaticResource Border-Vertical}">
             <StackPanel Style="{StaticResource List-Horizontal}">
                 <!-- Controls -->

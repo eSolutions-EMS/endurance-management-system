@@ -10,11 +10,11 @@ using System.Windows.Media;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Common.Participants;
 
-public class ParticipantTemplateModel : ParticipantTemplateModelBase
+public class ParticipationTemplateModel : ParticipantTemplateModelBase
 {
     private readonly IPrinter printer;
     private readonly Action<int> selectAction;
-    public ParticipantTemplateModel(
+    public ParticipationTemplateModel(
         int number,
         IEnumerable<Performance> performances,
         Action<int> selectAction,

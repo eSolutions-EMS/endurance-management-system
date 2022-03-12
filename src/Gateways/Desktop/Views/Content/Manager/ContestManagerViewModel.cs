@@ -52,7 +52,7 @@ public class ContestManagerViewModel : ViewModelBase
     private bool requireInspectionValue = false;
     private bool reInspectionValue = false;
 
-    public ObservableCollection<ParticipantTemplateModel> Participations { get; } = new();
+    public ObservableCollection<ParticipationTemplateModel> Participations { get; } = new();
 
     public override void OnNavigatedTo(NavigationContext context)
     {
@@ -139,7 +139,7 @@ public class ContestManagerViewModel : ViewModelBase
         var performances = this.managerExecutor
             .Execute(x => x.GetPerformances(this.InputNumber.Value))
             .ToList();
-        var participationViewModel = new ParticipantTemplateModel(
+        var participationViewModel = new ParticipationTemplateModel(
             this.InputNumber.Value,
             performances,
             this.SelectParticipant,
@@ -170,7 +170,7 @@ public class ContestManagerViewModel : ViewModelBase
             var performances = this.managerExecutor
                 .Execute(x => x.GetPerformances(participation.Number))
                 .ToList();
-            var viewModel = new ParticipantTemplateModel(
+            var viewModel = new ParticipationTemplateModel(
                 participation.Number,
                 performances,
                 this.SelectParticipant);
