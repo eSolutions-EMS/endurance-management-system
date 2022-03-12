@@ -145,7 +145,7 @@ public static class Strings
     public static string INVALID_COMPETITION_NO_FINAL_PHASE_MESSAGE               { get; internal set; }
     public static string INVALID_PARTICIPANT_NO_PARTICIPATIONS_MESSAGE            { get; internal set; }
     public static string INVALID_PARTICIPANT_NO_COUNTRY_MESSAGE                   { get; internal set; }
-    public static string PARTICIPANT_HAS_NO_ACTIVE_PERFORMANCE_MESSAGE            { get; internal set; }
+    public static string PARTICIPANT_HAS_NO_ACTIVE_RECORD_MESSAGE            { get; internal set; }
     public static string INVALID_FULL_NAME_MESSAGE                                { get; internal set; }
     public static string NOT_FOUND_BY_ID_MESSAGE                                  { get; internal set; }
 }

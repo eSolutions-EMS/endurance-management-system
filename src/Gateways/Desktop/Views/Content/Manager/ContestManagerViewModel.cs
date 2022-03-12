@@ -86,7 +86,7 @@ public class ContestManagerViewModel : ViewModelBase
         }
         this.contestExecutor.Execute(manager =>
         {
-            manager.UpdatePerformance(this.InputNumber.Value, this.InputTime);
+            manager.UpdateRecord(this.InputNumber.Value, this.InputTime);
         });
         this.LoadParticipation();
     }

@@ -39,39 +39,39 @@ public class ManagerRoot : IAggregateRoot
     public void Start()
     {
         this.ValidateConfiguration();
-        var participants = this.state
+        var participations = this.state
             .Participations
             .Select(x => new ParticipationsAggregate(x))
             .ToList();
-        foreach (var participant in participants)
+        foreach (var participation in participations)
         {
-            participant.Start();
+            participation.Start();
         }
         this.state.Event.HasStarted = true;
     }
 
-    public void UpdatePerformance(int number, DateTime time)
+    public void UpdateRecord(int number, DateTime time)
     {
-        var participant = this.GetParticipation(number);
-        participant.UpdatePerformance(time);
+        var participation = this.GetParticipation(number);
+        participation.UpdateRecord(time);
     }
 
     public void CompletePerformance(int number, string code)
     {
-        var participant = this.GetParticipation(number);
-        var performance = participant.GetCurrent();
-        performance.Complete(code);
+        var participation = this.GetParticipation(number);
+        var record = participation.GetCurrent();
+        record.Complete(code);
     }
 
     public void ReInspection(int number, bool isRequired)
     {
-        var participant = this.GetParticipation(number);
-        var performance = participant.GetCurrent();
-        if (performance == null)
+        var participation = this.GetParticipation(number);
+        var record = participation.GetCurrent();
+        if (record == null)
         {
-            throw Helper.Create<ParticipantException>(PARTICIPANT_HAS_NO_ACTIVE_PERFORMANCE_MESSAGE, number);
+            throw Helper.Create<ParticipantException>(PARTICIPANT_HAS_NO_ACTIVE_RECORD_MESSAGE, number);
         }
-        performance!.ReInspection(isRequired);
+        record!.ReInspection(isRequired);
     }
 
     public void RequireInspection(int number, bool isRequired)
@@ -80,7 +80,7 @@ public class ManagerRoot : IAggregateRoot
         var performance = participant.GetCurrent();
         if (performance == null)
         {
-            throw Helper.Create<ParticipationException>(PARTICIPANT_HAS_NO_ACTIVE_PERFORMANCE_MESSAGE, number);
+            throw Helper.Create<ParticipationException>(PARTICIPANT_HAS_NO_ACTIVE_RECORD_MESSAGE, number);
         }
         performance!.RequireInspection(isRequired);
     }

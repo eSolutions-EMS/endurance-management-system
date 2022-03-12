@@ -40,7 +40,7 @@ namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates
             }
             this.AddRecord(this.competitionConstraint.StartTime);
         }
-        internal void UpdatePerformance(DateTime time)
+        internal void UpdateRecord(DateTime time)
         {
             var record = this.GetCurrent() ?? this.CreateNext();
             record.Update(time);
@@ -79,8 +79,8 @@ namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates
         {
             var record = new LapRecord(FixDateForToday(startTime), this.NextLap);
             this.participant.Add(record);
-            var aggregate = new LapRecordsAggregate(record);
-            return aggregate;
+            var laspAggregate = new LapRecordsAggregate(record);
+            return laspAggregate;
         }
 
         private Lap CurrentLap => this.competitionConstraint.Laps[this.participant.TimeRecords.Count];
