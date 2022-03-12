@@ -1,5 +1,4 @@
-﻿using EnduranceJudge.Application.Aggregates.Configurations.Contracts;
-using EnduranceJudge.Application.Core.Services;
+﻿using EnduranceJudge.Application.Core.Services;
 using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Core.Utilities;
 using EnduranceJudge.Domain.AggregateRoots.Manager;
@@ -49,7 +48,7 @@ public class PerformanceTemplateModel : ViewModelBase, IMapFrom<Performance>, IP
     private TimeSpan? time;
     private double? averageSpeedForLoopKpH;
     private double? averageSpeedTotalKpH;
-    public DateTime? nextPerformanceStartTime;
+    public DateTime? nextStartTime;
 
     public void EditAction()
     {
@@ -159,10 +158,10 @@ public class PerformanceTemplateModel : ViewModelBase, IMapFrom<Performance>, IP
         get => this.averageSpeedTotalKpH;
         private set => this.SetProperty(ref this.averageSpeedTotalKpH, value);
     }
-    public DateTime? NextPerformanceStartTime
+    public DateTime? NextStartTime
     {
-        get => this.nextPerformanceStartTime;
-        private set => this.SetProperty(ref this.nextPerformanceStartTime, value);
+        get => this.nextStartTime;
+        private set => this.SetProperty(ref this.nextStartTime, value);
     }
 
     #endregion Setters;

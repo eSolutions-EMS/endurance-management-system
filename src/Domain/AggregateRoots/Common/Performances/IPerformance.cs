@@ -12,4 +12,5 @@ public interface IPerformance : ILapRecordState
     double? AverageSpeed { get; }
     double? AverageSpeedTotal { get; }
     public double TotalLength { get; }
+    public DateTime? NextStartTime { get; }
 }

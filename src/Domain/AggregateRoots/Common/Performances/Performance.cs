@@ -78,6 +78,9 @@ public class Performance : IAggregate, IPerformance
             .Select(x => x.LengthInKm)
             .Sum();
 
+    public DateTime? NextStartTime
+        => this.CurrentRecord.VetGateTime?.AddMinutes(this.CurrentRecord.Lap.RestTimeInMins);
+
     private TimeSpan? CalculateLapTime(LapRecord record, Lap lap)
         => lap.IsFinal
             ? record.VetGateTime - record.StartTime
