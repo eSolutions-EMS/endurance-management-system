@@ -139,11 +139,7 @@ public class ContestManagerViewModel : ViewModelBase
         var performances = this.managerExecutor
             .Execute(x => x.GetPerformances(this.InputNumber.Value))
             .ToList();
-        var participationViewModel = new ParticipationTemplateModel(
-            this.InputNumber.Value,
-            performances,
-            this.SelectParticipant,
-            true);
+        var participationViewModel = new ParticipationTemplateModel(performances, this.SelectParticipant, true);
         foreach (var participation in this.Participations)
         {
             participation.Visibility = Visibility.Collapsed;
@@ -170,10 +166,7 @@ public class ContestManagerViewModel : ViewModelBase
             var performances = this.managerExecutor
                 .Execute(x => x.GetPerformances(participation.Number))
                 .ToList();
-            var viewModel = new ParticipationTemplateModel(
-                participation.Number,
-                performances,
-                this.SelectParticipant);
+            var viewModel = new ParticipationTemplateModel(performances, this.SelectParticipant);
             this.Participations.Add(viewModel);
         }
     }

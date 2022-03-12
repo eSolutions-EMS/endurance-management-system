@@ -1,6 +1,8 @@
 ﻿using EnduranceJudge.Domain.AggregateRoots.Common.Performances;
+using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Common.Performances;
+using ImTools;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -9,14 +11,18 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Common;
 
 public abstract class ParticipantTemplateModelBase : ViewModelBase
 {
-    protected ParticipantTemplateModelBase(int number, IEnumerable<Performance> performances, bool allowEdit = false)
+    protected ParticipantTemplateModelBase(IEnumerable<Performance> performances, bool allowEdit = false)
     {
-        this.Number = number;
-        var viewModels = performances.Select(perf => new PerformanceTemplateModel(perf, allowEdit));
+        var list = performances.ToList();
+        this.Participant = list.First().Participant;
+        this.Number = Participant.Number;
+        var viewModels = list.Select(perf => new PerformanceTemplateModel(perf, allowEdit));
         this.Performances.AddRange(viewModels);
     }
 
     public ObservableCollection<PerformanceTemplateModel> Performances { get; } = new();
+
+    protected Participant Participant { get; }
 
     private readonly int number;
 

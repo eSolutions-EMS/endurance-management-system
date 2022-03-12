@@ -1,5 +1,7 @@
-﻿using EnduranceJudge.Domain.AggregateRoots.Rankings;
+﻿using EnduranceJudge.Domain.AggregateRoots.Common.Performances;
+using EnduranceJudge.Domain.AggregateRoots.Rankings;
 using EnduranceJudge.Domain.AggregateRoots.Rankings.Aggregates;
+using EnduranceJudge.Domain.State.Participations;
 using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.ParticipantResults;
 using System;
@@ -29,7 +31,8 @@ public class RankListTemplateModel : ViewModelBase, ICompetitionData
         var rank = 1;
         foreach (var participation in rankList)
         {
-            var entry = new ParticipantResultTemplateModel(rank, participation.Participant);
+            var performances = Performance.GetAll(participation);
+            var entry = new ParticipantResultTemplateModel(rank, performances);
             this.RankList.Add(entry);
             rank++;
         }

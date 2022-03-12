@@ -14,11 +14,10 @@ public class ParticipationTemplateModel : ParticipantTemplateModelBase
     private readonly IPrinter printer;
     private readonly Action<int> selectAction;
     public ParticipationTemplateModel(
-        int number,
         IEnumerable<Performance> performances,
         Action<int> selectAction,
         bool isExpanded = false)
-        : base(number, performances, true)
+        : base(performances, true)
     {
         this.selectAction = selectAction;
         this.printer = StaticProvider.GetService<IPrinter>();

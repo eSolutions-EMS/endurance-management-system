@@ -120,4 +120,14 @@ public class Performance : IAggregate, IPerformance
     public DateTime? ReInspectionTime => this.CurrentRecord.ReInspectionTime;
     public bool IsReInspectionRequired => this.CurrentRecord.IsReInspectionRequired;
     public bool IsRequiredInspectionRequired => this.CurrentRecord.IsRequiredInspectionRequired;
+
+    public static IEnumerable<Performance> GetAll(Participation participation)
+    {
+        var index = 0;
+        foreach (var _ in participation.Participant.LapRecords)
+        {
+            yield return new Performance(participation, index);
+            index++;
+        }
+    }
 }
