@@ -53,6 +53,8 @@
         <Setter Property="FontSize" Value="18px" />
         <Setter Property="Foreground" Value="DimGray" />
         <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="BorderBrush" Value="DimGray" />
+        <Setter Property="BorderThickness" Value="2px" />
     </Style>
     <!-- end Margin-->
 

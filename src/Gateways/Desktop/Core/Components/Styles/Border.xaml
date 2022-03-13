@@ -33,7 +33,7 @@
     </Style>
 
     <Style x:Key="Border-Content-Left" TargetType="Border" BasedOn="{StaticResource Border}">
-        <Setter Property="Padding" Value="10px 0 0 0" />
+        <Setter Property="Padding" Value="30px 0 0 0" />
         <Setter Property="Margin" Value="0 0 0 10px" />
     </Style>
 
@@ -50,6 +50,8 @@
 
     <Style x:Key="Border-Layout-Header" TargetType="Border" BasedOn="{StaticResource Padding}">
         <Setter Property="Background" Value="#ffe9c2" />
+        <Setter Property="BorderThickness" Value="0 0 0 3px" />
+        <Setter Property="BorderBrush" Value="DimGray" />
     </Style>
 
     <Style x:Key="Border-Layout-Side" TargetType="Border" BasedOn="{StaticResource Border-Layout-Left}">
