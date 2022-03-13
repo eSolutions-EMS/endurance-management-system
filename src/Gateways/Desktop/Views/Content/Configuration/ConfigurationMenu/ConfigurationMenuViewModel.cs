@@ -1,7 +1,7 @@
 ﻿using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Services;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Athletes.Listing;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.EnduranceEvents;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Events;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Horses.Listing;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Participants.Listing;
 using Prism.Commands;

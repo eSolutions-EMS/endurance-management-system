@@ -3,7 +3,7 @@ using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.ConfigurationMenu;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Import;
 using EnduranceJudge.Gateways.Desktop.Core.Services.Implementations;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.EnduranceEvents;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Events;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Manager;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Rankings;
 using EnduranceJudge.Gateways.Desktop.Views.Dialogs.Message;
