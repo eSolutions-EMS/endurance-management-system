@@ -37,6 +37,9 @@
         <Setter Property="Margin" Value="0 0 0 10px" />
     </Style>
 
+    <Style x:Key="Border-Content-Right" TargetType="Border" BasedOn="{StaticResource Border}">
+    </Style>
+
     <Style x:Key="Border-Horizontal" TargetType="Border" BasedOn="{StaticResource Padding}">
         <Setter Property="Padding" Value="5px 0" />
     </Style>
