@@ -56,7 +56,7 @@ public class NavigationService : NavigationServiceBase, INavigationService
         {
             throw new AppException(SELECT_WORK_DIRECTORY_MESSAGE);
         }
-        this.ChangeTo<CompetitionResultView>(Regions.CONTENT_LEFT);
+        this.ChangeTo<RankingView>(Regions.CONTENT_LEFT);
     }
 
     public void ChangeTo<T>()

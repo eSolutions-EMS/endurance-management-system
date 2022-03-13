@@ -15,13 +15,13 @@ using static EnduranceJudge.Localization.Strings;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.CompetitionResults;
 
-public class CompetitionResultViewModel : ViewModelBase
+public class RankingViewModel : ViewModelBase
 {
     private readonly Executor<RankingRoot> rankingExecutor;
     private CompetitionResultAggregate selectedCompetition;
     private List<CompetitionResultAggregate> competitions;
 
-    public CompetitionResultViewModel(IPrinter printer, Executor<RankingRoot> rankingExecutor)
+    public RankingViewModel(IPrinter printer, Executor<RankingRoot> rankingExecutor)
     {
         this.rankingExecutor = rankingExecutor;
         this.Print = new DelegateCommand<Visual>(printer.Print);
