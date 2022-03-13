@@ -11,11 +11,12 @@
         <Grid Style="{StaticResource Grid}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Style="{StaticResource Content-Left}" />
-                <ColumnDefinition Style="{StaticResource Layout-Main}" />
+                <ColumnDefinition Style="{StaticResource Content-Center}" />
+                <ColumnDefinition Style="{StaticResource Content-Right}" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
+                <RowDefinition Style="{StaticResource Row-Collapsed}" />
+                <RowDefinition Style="{StaticResource Row-Title}" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -23,109 +24,117 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-
-            <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="0" Grid.Column="0">
-                <TextBox Style="{StaticResource Input-Id}"
-                         Text="{Binding Id}" />
-            </Border>
-            <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="0" Grid.Column="1">
-                <TextBlock Style="{StaticResource Text-H1}"
+            <!-- ID -->
+            <TextBox Style="{StaticResource Input-Id}"
+                     Text="{Binding Id}" />
+            <!-- Title -->
+            <TextBlock Style="{StaticResource Text-H1}"
+                       Grid.Row="1" Grid.Column="1"
                        Text="{x:Static localization:Strings.LAP_ENTITY}" />
-            </Border>
 
-            <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="1" Grid.Column="0">
+            <!-- Content Left Labels -->
+            <!-- Order -->
+            <Border Style="{StaticResource Border-Content-Left}"
+                    Grid.Row="2" Grid.Column="0">
                 <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=OrderBy}"
                        Content="{x:Static localization:Strings.ORDER}" />
             </Border>
-            <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="1" Grid.Column="1">
-                <TextBox Style="{StaticResource Input}"
-                         Text="{Binding OrderByDisplay}"
-                         Name="OrderBy" />
-            </Border>
-
-            <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="2" Grid.Column="0">
+            <!-- Lenght -->
+            <Border Style="{StaticResource Border-Content-Left}"
+                    Grid.Row="3" Grid.Column="0">
                 <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=LengthInKm}"
                        Content="{x:Static localization:Strings.LENGTH_IN_KM}" />
             </Border>
-            <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="2" Grid.Column="1">
-                <TextBox Style="{StaticResource Input}"
-                         Text="{Binding LengthInKmDisplay}"
-                         Name="LengthInKm" />
-            </Border>
-
-
-            <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="3" Grid.Column="0">
+            <!-- Is Final -->
+            <Border Style="{StaticResource Border-Content-Left}"
+                    Grid.Row="4" Grid.Column="0">
                 <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=IsFinal}"
                        Content="{x:Static localization:Strings.IS_FINAL}" />
             </Border>
-            <Border Style="{StaticResource Border-Vertical}"
+            <!-- Nax Recovery Timme -->
+            <Border Style="{StaticResource Border-Content-Left}"
+                    Grid.Row="5" Grid.Column="0">
+                <Label Style="{StaticResource Label-Primary}"
+                       Target="{Binding ElementName=MaxRecoveryTimeInMins}"
+                       Content="{x:Static localization:Strings.MAX_RECOVERY_TIME_IN_MINS}" />
+            </Border>
+            <!-- Rest Time -->
+            <Border Style="{StaticResource Border-Content-Left}"
+                    Grid.Row="6" Grid.Column="0">
+                <Label Style="{StaticResource Label-Primary}"
+                       Target="{Binding ElementName=RestTimeInMins}"
+                       Content="{x:Static localization:Strings.REST_TIME_IN_MINS}" />
+            </Border>
+            <!-- Require Compulsory Inspection -->
+            <Border Style="{StaticResource Border-Content-Left}"
+                    Grid.Row="7" Grid.Column="0">
+                <Label Style="{StaticResource Label-Primary}"
+                       Target="{Binding ElementName=IsCompulsoryInspectionRequired}"
+                       Content="{x:Static localization:Strings.REQUIRE_COMPULSORY_INSPECTION}" />
+            </Border>
+            <!-- Content Center Form -->
+            <!-- Order -->
+            <Border Style="{StaticResource Border-Content-Center}"
+                    Grid.Row="2" Grid.Column="1">
+                <TextBox Style="{StaticResource Input}"
+                         Text="{Binding OrderByDisplay}"
+                         Name="OrderBy" />
+            </Border>
+            <!-- Lenght -->
+            <Border Style="{StaticResource Border-Content-Center}"
                     Grid.Row="3" Grid.Column="1">
+                <TextBox Style="{StaticResource Input}"
+                         Text="{Binding LengthInKmDisplay}"
+                         Name="LengthInKm" />
+            </Border>
+            <!-- Is Final -->
+            <Border Style="{StaticResource Border-Content-Center}"
+                    Grid.Row="4" Grid.Column="1">
                 <ComboBox Style="{StaticResource Combo-Box}"
                           ItemsSource="{Binding BoolItems}"
                           SelectedValue="{Binding IsFinalValue}"
                           SelectedIndex="{Binding IsFinalValue}"
                           Name="IsFinal" />
             </Border>
-
-            <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="4" Grid.Column="0">
-                <Label Style="{StaticResource Label-Primary}"
-                       Target="{Binding ElementName=MaxRecoveryTimeInMins}"
-                       Content="{x:Static localization:Strings.MAX_RECOVERY_TIME_IN_MINS}" />
-            </Border>
-            <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="4" Grid.Column="1">
+            <!-- Nax Recovery Timme -->
+            <Border Style="{StaticResource Border-Content-Center}"
+                    Grid.Row="5" Grid.Column="1">
                 <TextBox Style="{StaticResource Input}"
                          Text="{Binding MaxRecoveryTimeInMinsDisplay}"
                          Name="MaxRecoveryTimeInMins" />
             </Border>
-
-            <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="5" Grid.Column="0">
-                <Label Style="{StaticResource Label-Primary}"
-                       Target="{Binding ElementName=RestTimeInMins}"
-                       Content="{x:Static localization:Strings.REST_TIME_IN_MINS}" />
-            </Border>
-            <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="5" Grid.Column="1">
+            <!-- Rest Time -->
+            <Border Style="{StaticResource Border-Content-Center}"
+                    Grid.Row="6" Grid.Column="1">
                 <TextBox Style="{StaticResource Input}"
                          Text="{Binding RestTimeInMinsDisplay}"
                          Name="RestTimeInMins" />
             </Border>
-
-            <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="6" Grid.Column="0">
-                <Label Style="{StaticResource Label-Primary}"
-                       Target="{Binding ElementName=IsCompulsoryInspectionRequired}"
-                       Content="{x:Static localization:Strings.REQUIRE_COMPULSORY_INSPECTION}" />
-            </Border>
-            <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="6" Grid.Column="1">
+            <!-- Require Compulsory Inspection -->
+            <Border Style="{StaticResource Border-Content-Center}"
+                    Grid.Row="7" Grid.Column="1">
                 <CheckBox Style="{StaticResource CheckBox}"
                           IsChecked="{Binding IsCompulsoryInspectionRequired}"
                           Name="IsCompulsoryInspectionRequired"
                           Content="{x:Static localization:Strings._YES}" />
             </Border>
-
-            <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="7" Grid.Column="0">
-                <Button Style="{StaticResource Button-Form-Back}"
-                        Command="{Binding NavigateBack}" />
+            <!-- Content Right Controls  -->
+            <!-- Save -->
+            <Border Style="{StaticResource Border-Content-Right}"
+                    Grid.Row="2" Grid.Column="2">
+                <Button Style="{StaticResource Button-Big-Vertical}"
+                        Command="{Binding Submit}"
+                        Content="{x:Static localization:Strings.SAVE}" />
             </Border>
-            <Border Style="{StaticResource Wrapper-Form-Buttons}"
-                    Grid.Row="7" Grid.Column="1">
-                <Button Style="{StaticResource Button-Form-Save}"
-                        Command="{Binding Submit}" />
+            <!-- Back -->
+            <Border Style="{StaticResource Border-Content-Right}"
+                    Grid.Row="3" Grid.Column="2">
+                <Button Style="{StaticResource Button-Big-Vertical}"
+                        Command="{Binding NavigateBack}"
+                        Content="{x:Static localization:Strings.BACK}" />
             </Border>
         </Grid>
     </ScrollViewer>
