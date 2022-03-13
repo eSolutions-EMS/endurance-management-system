@@ -9,34 +9,33 @@ using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
 using EnduranceJudge.Gateways.Desktop.Services;
 using System.Collections.Generic;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Athletes.Listing
-{
-    public class AthleteListViewModel : SearchableListViewModelBase<AthleteView>
-    {
-        private readonly IExecutor<ConfigurationRoot> configurationExecutor;
-        private readonly IQueries<Athlete> athletes;
-        public AthleteListViewModel(
-            IPopupService popupService,
-            IExecutor<ConfigurationRoot> configurationExecutor,
-            IPersistence persistence,
-            IQueries<Athlete> athletes,
-            INavigationService navigation) : base(navigation, persistence, popupService)
-        {
-            this.configurationExecutor = configurationExecutor;
-            this.athletes = athletes;
-        }
+namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Athletes.Listing;
 
-        protected override IEnumerable<ListItemModel> LoadData()
-        {
-            var athletes = this.athletes
-                .GetAll()
-                .MapEnumerable<ListItemModel>();
-            return athletes;
-        }
-        protected override void RemoveDomain(int id)
-        {
-            this.configurationExecutor.Execute(x =>
-                x.Athletes.Remove(id));
-        }
+public class AthleteListViewModel : SearchableListViewModelBase<AthleteView>
+{
+    private readonly IExecutor<ConfigurationRoot> configurationExecutor;
+    private readonly IQueries<Athlete> athletes;
+    public AthleteListViewModel(
+        IPopupService popupService,
+        IExecutor<ConfigurationRoot> configurationExecutor,
+        IPersistence persistence,
+        IQueries<Athlete> athletes,
+        INavigationService navigation) : base(navigation, persistence, popupService)
+    {
+        this.configurationExecutor = configurationExecutor;
+        this.athletes = athletes;
+    }
+
+    protected override IEnumerable<ListItemModel> LoadData()
+    {
+        var athletes = this.athletes
+            .GetAll()
+            .MapEnumerable<ListItemModel>();
+        return athletes;
+    }
+    protected override void RemoveDomain(int id)
+    {
+        this.configurationExecutor.Execute(x =>
+            x.Athletes.Remove(id));
     }
 }

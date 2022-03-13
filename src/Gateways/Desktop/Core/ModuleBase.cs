@@ -9,49 +9,48 @@ using Prism.Regions;
 using System;
 using System.Collections.Generic;
 
-namespace EnduranceJudge.Gateways.Desktop.Core
+namespace EnduranceJudge.Gateways.Desktop.Core;
+
+public class ModuleBase : IModule
 {
-    public class ModuleBase : IModule
+    private static readonly Type ModuleType = typeof(EntryModule);
+
+    public virtual void RegisterTypes(IContainerRegistry containerRegistry)
     {
-        private static readonly Type ModuleType = typeof(EntryModule);
+        this.RegisterViewsForNavigation(containerRegistry);
+        containerRegistry.RegisterDialog<MessageDialog>();
+        containerRegistry.RegisterDialog<ConfirmationDialog>();
+        containerRegistry.RegisterDialog<StartlistDialog>();
+    }
 
-        public virtual void RegisterTypes(IContainerRegistry containerRegistry)
+    public virtual void OnInitialized(IContainerProvider containerProvider)
+    {
+        this.RegisterViewsInRegions(containerProvider);
+    }
+
+    private void RegisterViewsForNavigation(IContainerRegistry containerRegistry)
+    {
+        var descriptors = this.GetViewDescriptors();
+
+        foreach (var descriptor in descriptors)
         {
-            this.RegisterViewsForNavigation(containerRegistry);
-            containerRegistry.RegisterDialog<MessageDialog>();
-            containerRegistry.RegisterDialog<ConfirmationDialog>();
-            containerRegistry.RegisterDialog<StartlistDialog>();
+            containerRegistry.RegisterForNavigation(descriptor.Type, descriptor.Type.Name);
         }
+    }
 
-        public virtual void OnInitialized(IContainerProvider containerProvider)
+    private void RegisterViewsInRegions(IContainerProvider containerProvider)
+    {
+        var regionManager = containerProvider.Resolve<IRegionManager>();
+        var viewsDescriptors = this.GetViewDescriptors();
+
+        foreach (var descriptor in viewsDescriptors)
         {
-            this.RegisterViewsInRegions(containerProvider);
+            regionManager.RegisterViewWithRegion(descriptor.Instance.RegionName, descriptor.Type);
         }
+    }
 
-        private void RegisterViewsForNavigation(IContainerRegistry containerRegistry)
-        {
-            var descriptors = this.GetViewDescriptors();
-
-            foreach (var descriptor in descriptors)
-            {
-                containerRegistry.RegisterForNavigation(descriptor.Type, descriptor.Type.Name);
-            }
-        }
-
-        private void RegisterViewsInRegions(IContainerProvider containerProvider)
-        {
-            var regionManager = containerProvider.Resolve<IRegionManager>();
-            var viewsDescriptors = this.GetViewDescriptors();
-
-            foreach (var descriptor in viewsDescriptors)
-            {
-                regionManager.RegisterViewWithRegion(descriptor.Instance.RegionName, descriptor.Type);
-            }
-        }
-
-        protected IEnumerable<TypeDescriptor<IView>> GetViewDescriptors()
-        {
-            return ReflectionUtilities.GetDescriptors<IView>(ModuleType.Assembly);
-        }
+    protected IEnumerable<TypeDescriptor<IView>> GetViewDescriptors()
+    {
+        return ReflectionUtilities.GetDescriptors<IView>(ModuleType.Assembly);
     }
 }

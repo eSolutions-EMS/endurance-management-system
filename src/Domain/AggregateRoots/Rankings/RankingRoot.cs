@@ -1,42 +1,41 @@
 using EnduranceJudge.Domain.AggregateRoots.Rankings.Aggregates;
+using EnduranceJudge.Domain.Core.Extensions;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State;
-using EnduranceJudge.Domain.State.Competitions;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EnduranceJudge.Domain.AggregateRoots.Rankings
+namespace EnduranceJudge.Domain.AggregateRoots.Rankings;
+
+public class RankingRoot : IAggregate, IAggregateRoot
 {
-    public class RankingRoot : IAggregate, IAggregateRoot
+    private readonly List<CompetitionResultAggregate> competitions = new();
+
+    public RankingRoot(IState state)
     {
-        private readonly List<CompetitionResultAggregate> competitions = new();
-
-        public RankingRoot(IState state)
+        // Program.Main();
+        if (state.Event == default)
         {
-            // Program.Main();
-            if (state.Event == default)
-            {
-                return;
-            }
-            var participants = state.Participants;
-            var competitions = participants
-                .Select(x => x.Participation)
-                .SelectMany(x => x.Competitions)
-                .Distinct()
-                .ToList();
-            foreach (var competition in competitions)
-            {
-                var participantsInCompetition = participants
-                    .Where(x => x.Participation.Competitions.Contains(competition))
-                    .ToList();
-                var listing = new CompetitionResultAggregate(state.Event, competition, participantsInCompetition);
-                this.competitions.Add(listing);
-            }
+            return;
         }
-
-        public IReadOnlyList<CompetitionResultAggregate> Competitions => this.competitions.AsReadOnly();
+        var competitionsIds = state.Participations
+            .SelectMany(x => x.CompetitionsIds)
+            .Distinct()
+            .ToList();
+        foreach (var id in competitionsIds)
+        {
+            var competition = state.Event.Competitions.FindDomain(id);
+            var participations = state.Participations
+                .Where(x => x.CompetitionsIds.Contains(competition.Id))
+                .ToList();
+            var listing = new CompetitionResultAggregate(state.Event, competition, participations);
+            this.competitions.Add(listing);
+        }
     }
+
+    public IReadOnlyList<CompetitionResultAggregate> Competitions => this.competitions.AsReadOnly();
+}
+// TODO: remove
 //
 //     public class Kur : IEqualityComparer<Competition>
 //     {
@@ -87,4 +86,3 @@ namespace EnduranceJudge.Domain.AggregateRoots.Rankings
 //
 //     public override int GetHashCode() => base.GetHashCode() + this.Id;
 // }
-}

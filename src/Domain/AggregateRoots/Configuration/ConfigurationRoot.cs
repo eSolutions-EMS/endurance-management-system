@@ -8,64 +8,63 @@ using EnduranceJudge.Domain.State.EnduranceEvents;
 using EnduranceJudge.Domain.State.Personnels;
 using static EnduranceJudge.Localization.Strings;
 
-namespace EnduranceJudge.Domain.AggregateRoots.Configuration
+namespace EnduranceJudge.Domain.AggregateRoots.Configuration;
+
+public class ConfigurationRoot : IAggregateRoot
 {
-    public class ConfigurationRoot : IAggregateRoot
+    private readonly IState state;
+    private readonly Validator<EnduranceEventException> validator;
+
+    public ConfigurationRoot()
     {
-        private readonly IState state;
-        private readonly Validator<EnduranceEventException> validator;
+        this.state = StaticProvider.GetService<IState>();
+        this.Competitions = new CompetitionsAggregate(this.state);
+        this.Laps = new LapsAggregate(this.state);
+        this.Athletes = new AthletesAggregate(this.state);
+        this.Horses = new HorsesAggregate(this.state);
+        this.Participants = new ParticipantsAggregate(this.state);
+        this.validator = new Validator<EnduranceEventException>();
+    }
 
-        public ConfigurationRoot()
+    public EnduranceEvent Update(string name, int countryId, string populatedPlace)
+    {
+        this.validator.IsRequired(name, NAME);
+        this.validator.IsRequired(populatedPlace, POPULATED_PLACE);
+        this.validator.IsRequired(countryId, COUNTRY_ENTITY);
+
+        var country = this.state.Countries.FindDomain(countryId);
+        if (this.state.Event == null)
         {
-            this.state = StaticProvider.GetService<IState>();
-            this.Competitions = new CompetitionsAggregate(this.state);
-            this.Phases = new PhasesAggregate(this.state);
-            this.Athletes = new AthletesAggregate(this.state);
-            this.Horses = new HorsesAggregate(this.state);
-            this.Participants = new ParticipantsAggregate(this.state);
-            this.validator = new Validator<EnduranceEventException>();
-        }
-
-        public EnduranceEvent Update(string name, int countryId, string populatedPlace)
-        {
-            this.validator.IsRequired(name, NAME);
-            this.validator.IsRequired(populatedPlace, POPULATED_PLACE);
-            this.validator.IsRequired(countryId, COUNTRY_ENTITY);
-
-            var country = this.state.Countries.FindDomain(countryId);
-            if (this.state.Event == null)
+            this.state.Event = new EnduranceEvent(name, country)
             {
-                this.state.Event = new EnduranceEvent(name, country)
-                {
-                    PopulatedPlace = populatedPlace,
-                };
-            }
-            else
-            {
-                this.state.Event.Name = name;
-                this.state.Event.PopulatedPlace = populatedPlace;
-                this.state.Event.Country = country;
-            }
-            return this.state.Event;
+                PopulatedPlace = populatedPlace,
+            };
         }
-
-        public Personnel Save(IPersonnelState state)
+        else
         {
-            var personnel = new Personnel(state);
-            this.state.Event.Save(personnel);
-            return personnel;
+            this.state.Event.Name = name;
+            this.state.Event.PopulatedPlace = populatedPlace;
+            this.state.Event.Country = country;
         }
+        return this.state.Event;
+    }
 
-        public CompetitionsAggregate Competitions { get; }
-        public PhasesAggregate Phases { get; }
-        public AthletesAggregate Athletes { get; }
-        public HorsesAggregate Horses { get; }
-        public ParticipantsAggregate Participants { get; }
+    public Personnel Save(IPersonnelState state)
+    {
+        var personnel = new Personnel(state);
+        this.state.Event.Save(personnel);
+        return personnel;
+    }
 
-        public void __REVERT_START_PARTICIPATIONS__()
-        {
-            this.state.Event.HasStarted = false;
-            this.Participants.__REVERT_START_PARTICIPATIONS__();
-        }
+    public CompetitionsAggregate Competitions { get; }
+    public LapsAggregate Laps { get; }
+    public AthletesAggregate Athletes { get; }
+    public HorsesAggregate Horses { get; }
+    public ParticipantsAggregate Participants { get; }
+
+    public void __REVERT_START_PARTICIPATIONS__()
+    {
+        this.state.Event.HasStarted = false;
+        this.Participants.__REVERT_START_PARTICIPATIONS__();
     }
 }

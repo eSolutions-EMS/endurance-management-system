@@ -4,31 +4,30 @@ using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
 using static EnduranceJudge.Localization.Strings;
 using Prism.Services.Dialogs;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Dialogs.Message
+namespace EnduranceJudge.Gateways.Desktop.Views.Dialogs.Message;
+
+public class MessageDialogModel : DialogBase
 {
-    public class MessageDialogModel : DialogBase
+    private string message;
+    private MessageSeverity severity;
+
+    public override void OnDialogOpened(IDialogParameters parameters)
     {
-        private string message;
-        private MessageSeverity severity;
+        this.Severity = parameters.GetSeverity();
+        this.Message = parameters.GetMessage();
+        this.Title = this.Severity == MessageSeverity.Error
+            ? APPLICATION_ERROR
+            : VALIDATION_MESSAGE;
+    }
 
-        public override void OnDialogOpened(IDialogParameters parameters)
-        {
-            this.Severity = parameters.GetSeverity();
-            this.Message = parameters.GetMessage();
-            this.Title = this.Severity == MessageSeverity.Error
-                ? APPLICATION_ERROR
-                : VALIDATION_MESSAGE;
-        }
-
-        public string Message
-        {
-            get => this.message;
-            set => this.SetProperty(ref this.message, value);
-        }
-        public MessageSeverity Severity
-        {
-            get => this.severity;
-            set => this.SetProperty(ref this.severity, value);
-        }
+    public string Message
+    {
+        get => this.message;
+        set => this.SetProperty(ref this.message, value);
+    }
+    public MessageSeverity Severity
+    {
+        get => this.severity;
+        set => this.SetProperty(ref this.severity, value);
     }
 }

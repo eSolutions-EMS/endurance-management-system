@@ -10,27 +10,29 @@ public static class Strings
     public static string RANK_LIST_PAGE { get; internal set; }
 
     /* Entities */
-    public static string ATHLETE_ENTITY           { get; internal set; }
-    public static string ATHLETES_ENTITY          { get; internal set; }
-    public static string HORSE_ENTITY             { get; internal set; }
-    public static string HORSES_ENTITY            { get; internal set; }
-    public static string PARTICIPANT_ENTITY       { get; internal set; }
-    public static string PARTICIPANTS_ENTITY      { get; internal set; }
-    public static string PARTICIPATION_ENTITY     { get; internal set; }
-    public static string PARTICIPATIONS_ENTITY    { get; internal set; }
-    public static string PERFORMANCE_ENTITY       { get; internal set; }
-    public static string PERFORMANCES_ENTITY      { get; internal set; }
-    public static string ENDURANCE_EVENT_ENTITY   { get; internal set; }
-    public static string ENDURANCE_EVENTS_ENTITY  { get; internal set; }
-    public static string COMPETITION_ENTITY       { get; internal set; }
-    public static string COMPETITIONS_ENTITY      { get; internal set; }
-    public static string PERSONNEL_ENTITY         { get; internal set; }
-    public static string PHASE_ENTITY             { get; internal set; }
-    public static string PHASES_ENTITY            { get; internal set; }
-    public static string COUNTRY_ENTITY           { get; internal set; }
-    public static string COUNTRIES_ENTITY         { get; internal set; }
-    public static string RESULT_ENTITY            { get; internal set; }
-    public static string RESULTS_ENTITY           { get; internal set; }
+    public static string ATHLETE_ENTITY                { get; internal set; }
+    public static string ATHLETES_ENTITY               { get; internal set; }
+    public static string HORSE_ENTITY                  { get; internal set; }
+    public static string HORSES_ENTITY                 { get; internal set; }
+    public static string PARTICIPANT_ENTITY            { get; internal set; }
+    public static string PARTICIPANTS_ENTITY           { get; internal set; }
+    public static string PARTICIPATION_ENTITY          { get; internal set; }
+    public static string PARTICIPATIONS_ENTITY         { get; internal set; }
+    public static string PERFORMANCE_ENTITY            { get; internal set; }
+    public static string PERFORMANCES_ENTITY           { get; internal set; }
+    public static string ENDURANCE_EVENT_ENTITY        { get; internal set; }
+    public static string ENDURANCE_EVENTS_ENTITY       { get; internal set; }
+    public static string COMPETITION_ENTITY            { get; internal set; }
+    public static string COMPETITIONS_ENTITY           { get; internal set; }
+    public static string PERSONNEL_ENTITY              { get; internal set; }
+    public static string LAP_ENTITY                    { get; internal set; }
+    public static string LAPS_ENTITY                   { get; internal set; }
+    public static string COUNTRY_ENTITY                { get; internal set; }
+    public static string COUNTRIES_ENTITY              { get; internal set; }
+    public static string RESULT_ENTITY                 { get; internal set; }
+    public static string RESULTS_ENTITY                { get; internal set; }
+    public static string LAP_RECORD_ENTITY             { get; internal set; }
+    public static string LAP_RECORDS_ENTITY            { get; internal set; }
 
    /* Words */
     public static string SAVE                              { get; internal set; }
@@ -136,13 +138,18 @@ public static class Strings
     public static string DATE_TIME_HAS_TO_BE_LATER_MESSAGE                        { get; internal set; }
     public static string CANNOT_EDIT_PERFORMANCE_MESSAGE                          { get; internal set; }
     public static string IS_REQUIRED_MESSAGE                                      { get; internal set; }
-    public static string PARTICIPANT_NUMBER_NOT_FOUND_MESSAGE                     { get; internal set; }
+    /// <summary>
+    /// {0}: Property name
+    /// {1}: Property value
+    /// </summary>
+    public static string NOT_FOUND_MESSAGE                                        { get; internal set; }
     public static string CHANGE_NOT_ALLOWED_WHEN_EVENT_HAS_STARTED_MESSAGE        { get; internal set; }
     public static string REQUIRED_INSPECTION_IS_NOT_ALLOWED_MESSAGE               { get; internal set; }
     public static string INVALID_ORDER_BY_MESSAGE                                 { get; internal set; }
     public static string INVALID_COMPETITION_NO_FINAL_PHASE_MESSAGE               { get; internal set; }
     public static string INVALID_PARTICIPANT_NO_PARTICIPATIONS_MESSAGE            { get; internal set; }
     public static string INVALID_PARTICIPANT_NO_COUNTRY_MESSAGE                   { get; internal set; }
-    public static string PARTICIPANT_HAS_NO_ACTIVE_PERFORMANCE_MESSAGE            { get; internal set; }
     public static string INVALID_FULL_NAME_MESSAGE                                { get; internal set; }
+    public static string NOT_FOUND_BY_ID_MESSAGE                                  { get; internal set; }
+    public static string PARTICIPATION_HAS_ENDED_MESSAGE                          { get; internal set; }
 }

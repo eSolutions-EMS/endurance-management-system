@@ -1,45 +1,43 @@
 ﻿using Prism.Regions;
 using System;
-using System.Collections.Generic;
 
-namespace EnduranceJudge.Gateways.Desktop.Core.Services.Implementations
+namespace EnduranceJudge.Gateways.Desktop.Core.Services.Implementations;
+
+public abstract class NavigationServiceBase
 {
-    public abstract class   NavigationServiceBase
+    private static readonly Type ViewType = typeof(IView);
+
+    private readonly IRegionManager regionManager;
+
+    protected NavigationServiceBase(IRegionManager regionManager)
     {
-        private static readonly Type ViewType = typeof(IView);
+        this.regionManager = regionManager;
+    }
 
-        private readonly IRegionManager regionManager;
+    protected void ChangeTo<T>(string regionName) where T : IView
+    {
+        this.ChangeTo(regionName, typeof(T), null);
+    }
 
-        protected NavigationServiceBase(IRegionManager regionManager)
+    protected void ChangeTo(string regionName, Type view, NavigationParameters parameters)
+    {
+        if (view == null)
         {
-            this.regionManager = regionManager;
+            throw new ArgumentNullException(nameof(view));
         }
 
-        protected void ChangeTo<T>(string regionName) where T : IView
+        if (!ViewType.IsAssignableFrom(view))
         {
-            this.ChangeTo(regionName, typeof(T), null);
+            throw new InvalidOperationException($"Type '{view?.Name}' does not implement '{ViewType}'");
         }
 
-        protected void ChangeTo(string regionName, Type view, NavigationParameters parameters)
-        {
-            if (view == null)
-            {
-                throw new ArgumentNullException(nameof(view));
-            }
+        var viewName = view.Name;
+        this.regionManager.RequestNavigate(regionName, viewName, parameters);
+    }
 
-            if (!ViewType.IsAssignableFrom(view))
-            {
-                throw new InvalidOperationException($"Type '{view?.Name}' does not implement '{ViewType}'");
-            }
-
-            var viewName = view.Name;
-            this.regionManager.RequestNavigate(regionName, viewName, parameters);
-        }
-
-        protected void ClearRegion(string name)
-        {
-            var region = this.regionManager.Regions[name];
-            region.RemoveAll();
-        }
+    protected void ClearRegion(string name)
+    {
+        var region = this.regionManager.Regions[name];
+        region.RemoveAll();
     }
 }

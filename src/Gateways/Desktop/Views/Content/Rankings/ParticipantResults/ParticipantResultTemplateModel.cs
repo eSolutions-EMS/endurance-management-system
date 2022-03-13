@@ -1,26 +1,29 @@
-﻿using EnduranceJudge.Domain.State.Participants;
+﻿using EnduranceJudge.Domain.AggregateRoots.Common.Performances;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Common;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using static EnduranceJudge.Localization.Strings;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.ParticipantResults;
 
+// TODO: rename to Participation
 public class ParticipantResultTemplateModel : ParticipantTemplateModelBase
 {
-    public ParticipantResultTemplateModel(int rank, Participant participant) : base(participant)
+    public ParticipantResultTemplateModel(int rank, IEnumerable<Performance> performances) : base(performances)
     {
         this.Rank = rank;
-        this.ParticipantNumber = participant.Number;
-        this.AthleteName = participant.Athlete.Name;
-        this.AthleteFeiId = participant.Athlete.FeiId;
-        this.AthleteCountryName = participant.Athlete.Country.Name;
-        this.HorseName = participant.Horse.Name;
-        this.HorseFeiId = participant.Horse.FeiId;
-        this.HorseIsStallion = participant.Horse.IsStallion;
-        this.HorseBreed = participant.Horse.Breed;
-        this.TrainerFeiId = participant.Horse.TrainerFeiId;
-        this.TrainerName = participant.Horse.TrainerName;
-        this.AverageSpeedInKm = Math.Round(participant.Participation.AverageSpeedForLoopInKm, 3);
+        this.ParticipantNumber = this.Participant.Number;
+        this.AthleteName = this.Participant.Athlete.Name;
+        this.AthleteFeiId = this.Participant.Athlete.FeiId;
+        this.AthleteCountryName = this.Participant.Athlete.Country.Name;
+        this.HorseName = this.Participant.Horse.Name;
+        this.HorseFeiId = this.Participant.Horse.FeiId;
+        this.HorseIsStallion = this.Participant.Horse.IsStallion;
+        this.HorseBreed = this.Participant.Horse.Breed;
+        this.TrainerFeiId = this.Participant.Horse.TrainerFeiId;
+        this.TrainerName = this.Participant.Horse.TrainerName;
+        this.AverageSpeedInKm = performances.Sum(x => x.AverageSpeed) / performances.Count();
     }
 
     public int Rank { get; }
@@ -35,7 +38,7 @@ public class ParticipantResultTemplateModel : ParticipantTemplateModelBase
     public string TrainerFeiId { get; }
     public string TrainerName { get; }
     public TimeSpan TotalLoopSpan { get; }
-    public double AverageSpeedInKm { get; }
+    public double? AverageSpeedInKm { get; }
 
     public string HorseGenderString => this.HorseIsStallion ? STALLION : MARE;
     public string TotalLoopSpanString => this.TotalLoopSpan.ToString(@"hh\:mm\:ss");

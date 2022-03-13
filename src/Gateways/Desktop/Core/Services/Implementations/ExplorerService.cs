@@ -1,35 +1,33 @@
-﻿using EnduranceJudge.Gateways.Desktop.Core.Services;
-using Microsoft.WindowsAPICodePack.Dialogs;
+﻿using Microsoft.WindowsAPICodePack.Dialogs;
 
-namespace EnduranceJudge.Gateways.Desktop.Core.Services.Implementations
+namespace EnduranceJudge.Gateways.Desktop.Core.Services.Implementations;
+
+public class ExplorerService : IExplorerService
 {
-    public class ExplorerService : IExplorerService
+    public string SelectDirectory()
     {
-        public string SelectDirectory()
+        using var openFolderDialog = new CommonOpenFileDialog
         {
-            using var openFolderDialog = new CommonOpenFileDialog
-            {
-                IsFolderPicker = true
-            };
+            IsFolderPicker = true
+        };
 
-            return this.GetPath(openFolderDialog);
+        return this.GetPath(openFolderDialog);
+    }
+
+    public string SelectFile()
+    {
+        using var selectFileDialog = new CommonOpenFileDialog();
+
+        return this.GetPath(selectFileDialog);
+    }
+
+    private string GetPath(CommonOpenFileDialog dialog)
+    {
+        if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
+        {
+            return dialog.FileName;
         }
 
-        public string SelectFile()
-        {
-            using var selectFileDialog = new CommonOpenFileDialog();
-
-            return this.GetPath(selectFileDialog);
-        }
-
-        private string GetPath(CommonOpenFileDialog dialog)
-        {
-            if (dialog.ShowDialog() == CommonFileDialogResult.Ok)
-            {
-                return dialog.FileName;
-            }
-
-            return null;
-        }
+        return null;
     }
 }

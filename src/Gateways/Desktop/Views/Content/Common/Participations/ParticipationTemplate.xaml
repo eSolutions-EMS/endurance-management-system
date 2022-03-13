@@ -1,0 +1,92 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:participations="clr-namespace:EnduranceJudge.Gateways.Desktop.Views.Content.Common.Participations"
+                    xmlns:localization="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization">
+
+    <DataTemplate DataType="{x:Type participations:ParticipationTemplateModel}">
+        <Border Style="{StaticResource Border-Vertical}">
+            <StackPanel Style="{StaticResource List-Horizontal}">
+                <!-- Controls -->
+                <Border Style="{StaticResource Border-Horizontal}">
+                    <StackPanel Style="{StaticResource List-Vertical}">
+                        <!-- Select Button -->
+                        <Button Style="{StaticResource Button-Vertical}"
+                                Command="{Binding Select}"
+                                Content="{x:Static localization:Strings.SELECT}" />
+                        <!-- Print Button -->
+                        <Button Style="{StaticResource Button-Vertical}"
+                                Command="{Binding Print}"
+                                CommandParameter="{Binding ElementName=PerformanceTable}"
+                                Content="{x:Static localization:Strings.PRINT}" />
+                    </StackPanel>
+                </Border>
+                <!-- Performance table -->
+                <StackPanel Style="{StaticResource List-Performance-Labels}"
+                            Name="PerformanceTable" >
+                    <!-- Label Column -->
+                    <!-- Number -->
+                    <Border Style="{StaticResource Border-Table-Cell}">
+                        <TextBlock Style="{StaticResource Text-Bold}">
+                            <Run>#</Run>
+                            <Run Text="{Binding Number, Mode=OneWay}" />
+                        </TextBlock>
+                    </Border>
+                    <!-- Arrive -->
+                    <Border Style="{StaticResource Border-Table-Cell}">
+                        <TextBlock Style="{StaticResource Text}"
+                                   Text="{x:Static localization:Strings.ARRIVAL_TERM}"/>
+                    </Border>
+                    <!-- Inspection -->
+                    <Border Style="{StaticResource Border-Table-Cell}">
+                        <TextBlock Style="{StaticResource Text}"
+                                   Text="{x:Static localization:Strings.INSPECTION_TERM}"/>
+                    </Border>
+                    <!-- ReInspection -->
+                    <Border Style="{StaticResource Border-Table-Cell}">
+                        <TextBlock Style="{StaticResource Text}"
+                                   Text="{x:Static localization:Strings.RE_INSPECTION_TERM}"/>
+                    </Border>
+                    <!-- RequiredInspection -->
+                    <Border Style="{StaticResource Border-Table-Cell}">
+                        <TextBlock Style="{StaticResource Text}"
+                                   Text="{x:Static localization:Strings.REQUIRED_INSPECTION_TERM}"/>
+                    </Border>
+                    <!-- Compulsory Required Inspection -->
+                    <Border Style="{StaticResource Border-Table-Cell}">
+                        <TextBlock Style="{StaticResource Text}"
+                                   Text="{x:Static localization:Strings.COMPULSORY_REQUIRED_INSPECTION_TERM}"/>
+                    </Border>
+                    <!-- Next Start Time -->
+                    <Border Style="{StaticResource Border-Table-Cell}">
+                        <TextBlock Style="{StaticResource Text}"
+                                   Text="{x:Static localization:Strings.NEXT_START_TIME_TERM}"/>
+                    </Border>
+                    <!-- Recovery Span -->
+                    <Border Style="{StaticResource Border-Table-Cell}">
+                        <TextBlock Style="{StaticResource Text}"
+                                   Text="{x:Static localization:Strings.RECOVERY_SPAN_TERM}"/>
+                    </Border>
+                    <!-- Time -->
+                    <Border Style="{StaticResource Border-Table-Cell}">
+                        <TextBlock Style="{StaticResource Text}"
+                                   Text="{x:Static localization:Strings.TIME_TERM}"/>
+                    </Border>
+                    <!-- Average Speed Loop -->
+                    <Border Style="{StaticResource Border-Table-Cell}">
+                        <TextBlock Style="{StaticResource Text}"
+                                   Text="{x:Static localization:Strings.AVERAGE_SPEED_LOOP_TERM}"/>
+                    </Border>
+                    <!-- Average Speed Total -->
+                    <Border Style="{StaticResource Border-Table-Cell}">
+                        <TextBlock Style="{StaticResource Text}"
+                                   Text="{x:Static localization:Strings.AVERAGE_SPEED_TOTAL_TERM}"/>
+                    </Border>
+                </StackPanel>
+                <!-- Performances -->
+                <ListBox Style="{StaticResource ListBox-Horizontal}" Padding="0" Margin="0"
+                         ItemsSource="{Binding Performances}" />
+            </StackPanel>
+        </Border>
+    </DataTemplate>
+
+</ResourceDictionary>

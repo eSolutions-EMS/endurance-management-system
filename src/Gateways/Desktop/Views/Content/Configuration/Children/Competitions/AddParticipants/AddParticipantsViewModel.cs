@@ -4,6 +4,7 @@ using EnduranceJudge.Application.Core.Models;
 using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Domain.AggregateRoots.Configuration;
 using EnduranceJudge.Domain.State.Participants;
+using EnduranceJudge.Domain.State.Participations;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem;
 using EnduranceJudge.Gateways.Desktop.Core.Extensions;
 using EnduranceJudge.Gateways.Desktop.Core.Services;
@@ -22,11 +23,13 @@ public class AddParticipantsViewModel : SearchableListViewModelBase<AddParticipa
 {
     private readonly IExecutor<ConfigurationRoot> configurationExecutor;
     private readonly IQueries<Participant> participants;
+    private readonly IQueries<Participation> participations;
     private int competitionId;
 
     public AddParticipantsViewModel(
         IExecutor<ConfigurationRoot> configurationExecutor,
         IQueries<Participant> participants,
+        IQueries<Participation> participations,
         INavigationService navigation,
         IPersistence persistence,
         IPopupService service) : base(navigation, persistence, service)
@@ -34,6 +37,7 @@ public class AddParticipantsViewModel : SearchableListViewModelBase<AddParticipa
         this.AllowCreate = false;
         this.configurationExecutor = configurationExecutor;
         this.participants = participants;
+        this.participations = participations;
     }
 
     public override void OnNavigatedTo(NavigationContext context)
@@ -48,11 +52,13 @@ public class AddParticipantsViewModel : SearchableListViewModelBase<AddParticipa
 
     protected override IEnumerable<ListItemModel> LoadData()
     {
+        var participationIds = this.participations
+            .GetAll()
+            .Where(x => x.CompetitionsIds.Contains(this.competitionId))
+            .Select(y => y.Participant.Id);
         var participants = this.participants
             .GetAll()
-            .Where(x => x.Participation
-                .Competitions
-                .All(comp => comp.Id != this.competitionId))
+            .Where(x => !participationIds.Contains(x.Id))
             .MapEnumerable<ListItemModel>();
         return participants;
     }
@@ -66,11 +72,12 @@ public class AddParticipantsViewModel : SearchableListViewModelBase<AddParticipa
 
     private void AddParticipantAction(int? participantId)
     {
-        this.configurationExecutor.Execute(x => x
-            .Participants
-            .AddParticipation(this.competitionId, participantId!.Value));
-        var listItem = this.ListItems.FirstOrDefault(x => x.Id == participantId!.Value);
-        this.ListItems.Remove(listItem);
+        this.configurationExecutor.Execute(configuration =>
+        {
+            configuration.Participants.AddParticipation(this.competitionId, participantId!.Value);
+            var listItem = this.ListItems.FirstOrDefault(x => x.Id == participantId!.Value);
+            this.ListItems.Remove(listItem);
+        });
     }
 
     public string CompetitionName

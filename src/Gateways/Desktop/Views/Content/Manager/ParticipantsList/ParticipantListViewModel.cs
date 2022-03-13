@@ -11,7 +11,7 @@ using System.Collections.Generic;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager.ParticipantsList;
 
-public class ParticipantListViewModel : SearchableListViewModelBase<ContestManagerView>
+public class ParticipantListViewModel : SearchableListViewModelBase<ManagerView>
 {
     private readonly IQueries<Participant> participants;
     public ParticipantListViewModel(

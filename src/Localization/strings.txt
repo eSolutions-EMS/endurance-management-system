@@ -1,16 +1,16 @@
 ﻿constant-key | english-value | translated-value
 CANNOT_REMOVE_USED_IN_PARTICIPANT_MESSAGE                | cannot be removed because it is used in an existing {entities-participant} | cannot be removed because it is used in an existing {entities-participant}
 ALREADY_PARTICIPATING_MESSAGE                            | cannot be created - '{0}' is already participating. | cannot be created - '{0}' is already participating.
-CANNOT_ADD_PARTICIPATION_DIFFERENT_PHASE_COUNT_MESSAGE   | cannot be added, because they already participate in '{0}' with different amount of {entities-phase-plurals}  | cannot be added, because they already participate in '{0}' with different amount of {entities-phase-plurals}
-CANNOT_ADD_PARTICIPATION_DIFFERENT_PHASE_LENGTHS_MESSAGE | cannot be added in '{0}'- they already participate in '{1}' and difference is detected in '{entities-phase} {2}' lengths: '{3}' and '{4} | cannot be added in '{0}'- they already participate in '{1}' and difference is detected in '{entities-phase} {2}' lengths: '{3}' and '{4}
+CANNOT_ADD_PARTICIPATION_DIFFERENT_PHASE_COUNT_MESSAGE   | cannot be added, because they already participate in '{0}' with different amount of {entities-lap-plurals}  | cannot be added, because they already participate in '{0}' with different amount of {entities-lap-plurals}
+CANNOT_ADD_PARTICIPATION_DIFFERENT_PHASE_LENGTHS_MESSAGE | cannot be added in '{0}'- they already participate in '{1}' and difference is detected in '{entities-lap} {2}' lengths: '{3}' and '{4} | cannot be added in '{0}'- they already participate in '{1}' and difference is detected in '{entities-lap} {2}' lengths: '{3}' and '{4}
 DATE_TIME_HAS_TO_BE_LATER_MESSAGE                        | {0} has to be later than {1} | {0} has to be later than {1}
 CANNOT_EDIT_PERFORMANCE_MESSAGE                          | - INVALID edit. Value does not exist for '{0}'. 'Edit' button should only be used to correct errors. Please use '{words-update}' button above when setting Times.  | - INVALID edit. Value does not exist for '{0}'. 'Edit' button should only be used to correct errors. Please use '{words-update}' button above when setting Times.
 IS_REQUIRED_MESSAGE                                      | '{0}' is required. | '{0}' is required.
-PARTICIPANT_NUMBER_NOT_FOUND_MESSAGE                     | '{0}' does not exit | '{0}' does not exit
+NOT_FOUND_MESSAGE                                        | with {0} '{1}' not found | with {0} '{1}' not found
 CHANGE_NOT_ALLOWED_WHEN_EVENT_HAS_STARTED_MESSAGE        | changes are not allowed after {entities-participation-plurals} have started | changes are not allowed after {entities-participation-plurals} have started
-REQUIRED_INSPECTION_IS_NOT_ALLOWED_MESSAGE               | 's Individual Required Inspection is not allowed, because CRI is enabled on this '{entities-phase}' | 's Individual Required Inspection is not allowed, because CRI is enabled on this '{entities-phase}'
+REQUIRED_INSPECTION_IS_NOT_ALLOWED_MESSAGE               | 's Individual Required Inspection is not allowed, because CRI is enabled on this '{entities-lap}' | 's Individual Required Inspection is not allowed, because CRI is enabled on this '{entities-lap}'
 INVALID_ORDER_BY_MESSAGE                                 | with order '{0}' already exists | with order '{0}' already exists
-INVALID_COMPETITION_NO_FINAL_PHASE_MESSAGE               | {0} has no final {entities-phase} | {0} has no final {entities-phase}
+INVALID_COMPETITION_NO_FINAL_PHASE_MESSAGE               | {0} has no final {entities-lap} | {0} has no final {entities-lap}
 INVALID_PARTICIPANT_NO_PARTICIPATIONS_MESSAGE            | '{0}' is not included in any {entities-competition} | '{0}' is not included in any {entities-competition}
 INVALID_PARTICIPANT_NO_COUNTRY_MESSAGE                   | '{0}' has no {entities-country} | '{0}' has no {entities-country}
 PARTICIPANT_HAS_NO_ACTIVE_PERFORMANCE_MESSAGE            | '{0}' has no active {entities-performance} | '{0}' has no active {entities-performance}
@@ -19,6 +19,8 @@ SELECT_WORK_DIRECTORY_MESSAGE                            | Select working direct
 REMOVE_CONFIRMATION_MESSAGE                              | Are you sure you want to remove this item | Are you sure you want to remove this item
 INVALID_DATE_FORMAT_MESSAGE                              | Invalid date: '{0}'. Expected format: '{1}' | Invalid date: '{0}'. Expected format: '{1}'
 UNSUPPORTED_IMPORT_FILE_MESSAGE                          | Unsupported file. Please use '{0}' or '{1}' | Unsupported file. Please use '{0}' or '{1}'
+NOT_FOUND_BY_ID_MESSAGE                                  | with ID '{0}' not found | with ID '{0}' not found
+PARTICIPATION_HAS_ENDED_MESSAGE                          | has ended | has ended
 ATHLETE_ENTITY                      | Athlete | Athlete
 ATHLETES_ENTITY                     | Athletes | Athletes
 HORSE_ENTITY                        | Horse | Horse
@@ -34,12 +36,14 @@ ENDURANCE_EVENTS_ENTITY             | Endurance Events | Endurance Events
 COMPETITION_ENTITY                  | Competition | Competition
 COMPETITIONS_ENTITY                 | Competitions | Competitions
 PERSONNEL_ENTITY                    | Personnel | Personnel
-PHASE_ENTITY                        | Phase | Phase
-PHASES_ENTITY                       | Phases | Phases
+LAP_ENTITY                          | Lap | Lap
+LAPS_ENTITY                         | Laps | Laps
 COUNTRY_ENTITY                      | Country | Country
 COUNTRIES_ENTITY                    | Countries | Countries
 RESULT_ENTITY                       | Result | Result
 RESULTS_ENTITY                      | Results | Results
+LAP_RECORD_ENTITY                   | Lap Record | Lap Record
+LAP_RECORDS_ENTITY                  | Lap Records | Lap Records
 IMPORT_PAGE                                | Import | Import
 EVENT_PAGE                                 | Event | Event
 MANAGER_PAGE                               | Manager | Manager
@@ -67,7 +71,7 @@ RECOVERY_IN_MINUTES_TEXT            | Recovery (min) | Recovery (min)
 LENGTH_IN_KM_TEXT                   | Length (km) | Length (km)
 FINAL                               | Final | Final
 UPDATE_COMPETITION                  | Update Competition | Update Competition
-UPDATE_PHASE_TEXT                   | Update Phase | Update Phase
+UPDATE_PHASE_TEXT                   | Update Lap | Update Lap
 SELECT_WORK_DIRECTORY               | Select Work Directory | Select Work Directory
 SELECT_IMPORT_FILE                  | Select Import File | Select Import File
 NAME                                | Name | Name
@@ -76,7 +80,7 @@ POPULATED_PLACE                     | Populated Place | Populated Place
 TYPE                                | Type | Type
 ROLE                                | Role | Role
 ORDER                               | Order | Order
-IS_FINAL                            | Is Final Phase | Is Final Phase
+IS_FINAL                            | Is Final {entities-lap} | Is Final {entities-lap}
 RFID_NUMBER                         | RFID Number | RFID Number
 MAX_AVERAGE_SPEED_IN_KMH            | Max Average Speed (km/h) | Max Average Speed (km/h)
 HAS_AVERAGE_SPEED_LIMIT             | Has Average Speed Limit | Has Average Speed Limit

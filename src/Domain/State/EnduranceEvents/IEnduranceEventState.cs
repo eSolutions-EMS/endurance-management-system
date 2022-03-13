@@ -1,11 +1,10 @@
 using EnduranceJudge.Core.Models;
 
-namespace EnduranceJudge.Domain.State.EnduranceEvents
+namespace EnduranceJudge.Domain.State.EnduranceEvents;
+
+public interface IEnduranceEventState : IIdentifiable
 {
-    public interface IEnduranceEventState : IIdentifiable
-    {
-        public string Name { get; }
-        public string PopulatedPlace { get; }
-        public bool HasStarted { get; }
-    }
+    public string Name { get; }
+    public string PopulatedPlace { get; }
+    public bool HasStarted { get; }
 }

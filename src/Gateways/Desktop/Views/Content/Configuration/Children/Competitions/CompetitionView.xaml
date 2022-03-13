@@ -80,20 +80,20 @@
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="4" Grid.Column="0">
                 <Label Style="{StaticResource Label-Primary}"
-                       Target="{Binding ElementName=CreatePhase}"
-                       Content="{x:Static localization:Strings.PHASES_ENTITY}" />
+                       Target="{Binding ElementName=CreateLap}"
+                       Content="{x:Static localization:Strings.LAPS_ENTITY}" />
             </Border>
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="4" Grid.Column="1">
                 <Button Style="{StaticResource Button-Form-Create}"
-                        Command="{Binding CreatePhase}"
-                        Name="CreatePhase"/>
+                        Command="{Binding CreateLap}"
+                        Name="CreateLap"/>
             </Border>
 
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="5" Grid.Column="1">
                 <ListBox Style="{StaticResource ListBox-Vertical-Border}"
-                         ItemsSource="{Binding Phases}" />
+                         ItemsSource="{Binding Laps}" />
             </Border>
 
             <Border Style="{StaticResource Border-Vertical}"

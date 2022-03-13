@@ -1,9 +1,8 @@
 ﻿using EnduranceJudge.Domain.State.EnduranceEvents;
 
-namespace EnduranceJudge.Application.Aggregates.Configurations.Contracts
+namespace EnduranceJudge.Application.Aggregates.Configurations.Contracts;
+
+public interface IEnduranceEventQuery : IQueries<EnduranceEvent>
 {
-    public interface IEnduranceEventQuery : IQueries<EnduranceEvent>
-    {
-        EnduranceEvent Get();
-    }
+    EnduranceEvent Get();
 }

@@ -4,13 +4,12 @@ using EnduranceJudge.Gateways.Persistence.Core;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EnduranceJudge.Gateways.Persistence.Contracts.Queries
+namespace EnduranceJudge.Gateways.Persistence.Contracts.Queries;
+
+public class CompetitionQueries : QueriesBase<Competition>
 {
-    public class CompetitionQueries : QueriesBase<Competition>
+    public CompetitionQueries(IState state) : base(state)
     {
-        public CompetitionQueries(IState state) : base(state)
-        {
-        }
-        protected override List<Competition> Set => this.State.Event.Competitions.ToList();
     }
+    protected override List<Competition> Set => this.State.Event.Competitions.ToList();
 }

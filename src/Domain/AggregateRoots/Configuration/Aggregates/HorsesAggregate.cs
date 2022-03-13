@@ -1,5 +1,4 @@
-﻿using EnduranceJudge.Core.Mappings;
-using EnduranceJudge.Domain.AggregateRoots.Configuration.Extensions;
+﻿using EnduranceJudge.Domain.AggregateRoots.Configuration.Extensions;
 using EnduranceJudge.Domain.Core.Exceptions;
 using EnduranceJudge.Domain.Core.Extensions;
 using EnduranceJudge.Domain.Core.Models;
@@ -8,70 +7,56 @@ using EnduranceJudge.Domain.State;
 using EnduranceJudge.Domain.State.Horses;
 using static EnduranceJudge.Localization.Strings;
 
-namespace EnduranceJudge.Domain.AggregateRoots.Configuration.Aggregates
+namespace EnduranceJudge.Domain.AggregateRoots.Configuration.Aggregates;
+
+public class HorsesAggregate : IAggregate
 {
-    public class HorsesAggregate : IAggregate
+    private readonly IState state;
+    private readonly Validator<HorseException> validator;
+
+    internal HorsesAggregate(IState state)
     {
-        private readonly IState state;
-        private readonly Validator<HorseException> validator;
+        this.state = state;
+        this.validator = new Validator<HorseException>();
+    }
 
-        internal HorsesAggregate(IState state)
+    public Horse Save(IHorseState horseState)
+    {
+        this.validator.IsRequired(horseState.Name, NAME);
+
+        var horse = this.state.Horses.FindDomain(horseState.Id);
+        if (horse == null)
         {
-            this.state = state;
-            this.validator = new Validator<HorseException>();
+            horse = new Horse(horseState);
+            this.state.Horses.AddOrUpdate(horse);
+        }
+        else
+        {
+            horse.FeiId = horseState.FeiId;
+            horse.Club = horseState.Club;
+            horse.IsStallion = horseState.IsStallion;
+            horse.Breed = horseState.Breed;
+            horse.TrainerFeiId = horseState.TrainerFeiId;
+            horse.TrainerFirstName = horseState.TrainerFirstName;
+            horse.TrainerLastName = horseState.TrainerLastName;
+            horse.Name = horseState.Name;
         }
 
-        public Horse Save(IHorseState horseState)
+        return horse;
+    }
+
+    public void Remove(int id)
+    {
+        this.state.ValidateThatEventHasNotStarted();
+
+        var horse = this.state.Horses.FindDomain(id);
+        foreach (var participant in this.state.Participants)
         {
-            this.validator.IsRequired(horseState.Name, NAME);
-
-            var horse = this.state.Horses.FindDomain(horseState.Id);
-            if (horse == null)
+            if (participant.Athlete.Equals(horse))
             {
-                horse = new Horse(horseState);
-                this.state.Horses.AddOrUpdate(horse);
-            }
-            else
-            {
-                horse.FeiId = horseState.FeiId;
-                horse.Club = horseState.Club;
-                horse.IsStallion = horseState.IsStallion;
-                horse.Breed = horseState.Breed;
-                horse.TrainerFeiId = horseState.TrainerFeiId;
-                horse.TrainerFirstName = horseState.TrainerFirstName;
-                horse.TrainerLastName = horseState.TrainerLastName;
-                horse.Name = horseState.Name;
-                this.UpdateParticipants(horse);
-            }
-
-            return horse;
-        }
-
-        public void Remove(int id)
-        {
-            this.state.ValidateThatEventHasNotStarted();
-
-            var horse = this.state.Horses.FindDomain(id);
-            foreach (var participant in this.state.Participants)
-            {
-                if (participant.Athlete.Equals(horse))
-                {
-                    throw Helper.Create<HorseException>(CANNOT_REMOVE_USED_IN_PARTICIPANT_MESSAGE);
-                }
-            }
-
-            this.state.Horses.Remove(horse);
-        }
-
-        private void UpdateParticipants(Horse horse)
-        {
-            foreach (var participant in this.state.Participants)
-            {
-                if (participant.Horse.Equals(horse))
-                {
-                    participant.Horse.MapFrom(horse);
-                }
+                throw Helper.Create<HorseException>(CANNOT_REMOVE_USED_IN_PARTICIPANT_MESSAGE);
             }
         }
+        this.state.Horses.Remove(horse);
     }
 }

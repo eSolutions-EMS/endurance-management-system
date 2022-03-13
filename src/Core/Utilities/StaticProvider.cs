@@ -1,31 +1,30 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 
-namespace EnduranceJudge.Core.Utilities
+namespace EnduranceJudge.Core.Utilities;
+
+public static class StaticProvider
 {
-    public static class StaticProvider
+    private static IServiceProvider? provider;
+
+    public static void Initialize(IServiceProvider provider)
     {
-        private static IServiceProvider? provider;
-
-        public static void Initialize(IServiceProvider provider)
+        if (StaticProvider.provider != null)
         {
-            if (StaticProvider.provider != null)
-            {
-                throw new InvalidOperationException("StaticProvider is already initialized");
-            }
-            StaticProvider.provider = provider;
+            throw new InvalidOperationException("StaticProvider is already initialized");
+        }
+        StaticProvider.provider = provider;
 
+    }
+
+    public static T GetService<T>()
+        where T : notnull
+    {
+        if (StaticProvider.provider == null)
+        {
+            throw new InvalidOperationException("StaticProvider is not initialized");
         }
 
-        public static T GetService<T>()
-            where T : notnull
-        {
-            if (StaticProvider.provider == null)
-            {
-                throw new InvalidOperationException("StaticProvider is not initialized");
-            }
-
-            return provider.GetRequiredService<T>();
-        }
+        return provider.GetRequiredService<T>();
     }
 }

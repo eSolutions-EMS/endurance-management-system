@@ -67,7 +67,7 @@
             <!-- Next Performance Start Time -->
             <Border Style="{StaticResource Border-Table-Cell}">
                 <TextBlock Style="{StaticResource Text-Bold}"
-                           Text="{Binding NextPerformanceStartTime, Mode=OneWay, StringFormat=HH:mm}" />
+                           Text="{Binding NextStartTime, Mode=OneWay, StringFormat=HH:mm}" />
             </Border>
             <!-- Recovery Span -->
             <Border Style="{StaticResource Border-Table-Cell}">

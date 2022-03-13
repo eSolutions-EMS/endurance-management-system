@@ -6,19 +6,18 @@ using EnduranceJudge.Domain.State.Horses;
 using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Participants.Configuration
-{
-    public class ParticipantMaps : ICustomMapConfiguration
-    {
-        public void AddFromMaps(IProfileExpression profile)
-        {
-            profile.CreateMap<Participant, ListItemModel>();
-            profile.CreateMap<Athlete, SimpleListItemViewModel>();
-            profile.CreateMap<Horse, SimpleListItemViewModel>();
-        }
+namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Participants.Configuration;
 
-        public void AddToMaps(IProfileExpression profile)
-        {
-        }
+public class ParticipantMaps : ICustomMapConfiguration
+{
+    public void AddFromMaps(IProfileExpression profile)
+    {
+        profile.CreateMap<Participant, ListItemModel>();
+        profile.CreateMap<Athlete, SimpleListItemViewModel>();
+        profile.CreateMap<Horse, SimpleListItemViewModel>();
+    }
+
+    public void AddToMaps(IProfileExpression profile)
+    {
     }
 }

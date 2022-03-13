@@ -4,6 +4,7 @@ using EnduranceJudge.Domain.Enums;
 using EnduranceJudge.Domain.State.Competitions;
 using EnduranceJudge.Domain.State.EnduranceEvents;
 using EnduranceJudge.Domain.State.Participants;
+using EnduranceJudge.Domain.State.Participations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +16,10 @@ public class CompetitionResultAggregate : IAggregate, ICompetitionData
     internal CompetitionResultAggregate(
         EnduranceEvent enduranceEvent,
         Competition competition,
-        IList<Participant> participants)
+        IList<Participation> participations)
     {
         this.Id = DomainIdProvider.Generate();
-        this.CompetitionLengthInKm = competition.Phases.Aggregate(0d, (total, x) => total + x.LengthInKm);
+        this.CompetitionLengthInKm = competition.Laps.Aggregate(0d, (total, x) => total + x.LengthInKm);
         this.CompetitionName = competition.Name;
         this.EventName = enduranceEvent.Name;
         this.PopulatedPlace = enduranceEvent.PopulatedPlace;
@@ -30,8 +31,8 @@ public class CompetitionResultAggregate : IAggregate, ICompetitionData
         this.DateNow = DateTime.Now;
         this.Organizer = "BFKS";
 
-        var kidsRankList = new RankList(Category.Kids, participants);
-        var adultsRankList = new RankList(Category.Adults, participants);
+        var kidsRankList = new RankList(Category.Kids, participations);
+        var adultsRankList = new RankList(Category.Adults, participations);
         if (kidsRankList.Any())
         {
             this.KidsRankList = kidsRankList;

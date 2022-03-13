@@ -12,157 +12,156 @@ using Prism.Regions;
 using System.Collections.ObjectModel;
 using System.Windows;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Participants
+namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Participants;
+
+public class ParticipantViewModel : ConfigurationBase<ParticipantView, Participant>,
+    IParticipantState,
+    IMapFrom<Participant>
 {
-    public class ParticipantViewModel : ConfigurationBase<ParticipantView, Participant>,
-        IParticipantState,
-        IMapFrom<Participant>
+    private readonly ConfigurationRoot aggregate;
+    private readonly IQueries<Athlete> athletes;
+    private readonly IQueries<Horse> horses;
+    private ParticipantViewModel() : base(null) {}
+    public ParticipantViewModel(
+        ConfigurationRoot aggregate,
+        IQueries<Athlete> athletes,
+        IQueries<Horse> horses,
+        IQueries<Participant> participants) : base(participants)
     {
-        private readonly ConfigurationRoot aggregate;
-        private readonly IQueries<Athlete> athletes;
-        private readonly IQueries<Horse> horses;
-        private ParticipantViewModel() : base(null) {}
-        public ParticipantViewModel(
-            ConfigurationRoot aggregate,
-            IQueries<Athlete> athletes,
-            IQueries<Horse> horses,
-            IQueries<Participant> participants) : base(participants)
-        {
-            this.aggregate = aggregate;
-            this.athletes = athletes;
-            this.horses = horses;
-            this.ToggleIsAverageSpeedInKmPhVisibility = new DelegateCommand(
-                this.ToggleIsAverageSpeedInKmPhVisibilityAction);
-        }
+        this.aggregate = aggregate;
+        this.athletes = athletes;
+        this.horses = horses;
+        this.ToggleIsAverageSpeedInKmPhVisibility = new DelegateCommand(
+            this.ToggleIsAverageSpeedInKmPhVisibilityAction);
+    }
 
-        public DelegateCommand ToggleIsAverageSpeedInKmPhVisibility { get; }
+    public DelegateCommand ToggleIsAverageSpeedInKmPhVisibility { get; }
 
-        public ObservableCollection<SimpleListItemViewModel> HorseItems { get; } = new();
-        public ObservableCollection<SimpleListItemViewModel> AthleteItems { get; } = new();
+    public ObservableCollection<SimpleListItemViewModel> HorseItems { get; } = new();
+    public ObservableCollection<SimpleListItemViewModel> AthleteItems { get; } = new();
 
-        private string rfId;
-        public int? number;
-        public int? maxAverageSpeedInKmPh;
-        private Visibility maxAverageSpeedInKmPhVisibility = Visibility.Hidden;
-        private int horseId;
-        private int athleteId;
-        private string name;
-        private string horseName;
-        private string athleteName;
+    private string rfId;
+    public int? number;
+    public int? maxAverageSpeedInKmPh;
+    private Visibility maxAverageSpeedInKmPhVisibility = Visibility.Hidden;
+    private int horseId;
+    private int athleteId;
+    private string name;
+    private string horseName;
+    private string athleteName;
 
-        public override void OnNavigatedTo(NavigationContext context)
-        {
-            this.LoadAthletes();
-            this.LoadHorses();
-            base.OnNavigatedTo(context);
-        }
+    public override void OnNavigatedTo(NavigationContext context)
+    {
+        this.LoadAthletes();
+        this.LoadHorses();
+        base.OnNavigatedTo(context);
+    }
 
-        protected override IDomain Persist()
-        {
-            var result = this.aggregate.Participants.Save(this, this.AthleteId, this.HorseId);
-            return result;
-        }
+    protected override IDomain Persist()
+    {
+        var result = this.aggregate.Participants.Save(this, this.AthleteId, this.HorseId);
+        return result;
+    }
 
-        private void LoadAthletes()
-        {
-            var athletes = this.athletes.GetAll();
-            var viewModels = athletes.MapEnumerable<SimpleListItemViewModel>();
-            this.AthleteItems.Clear();
-            this.AthleteItems.AddRange(viewModels);
-        }
-        private void LoadHorses()
-        {
-            var horses = this.horses.GetAll();
-            var viewModels = horses.MapEnumerable<SimpleListItemViewModel>();
-            this.HorseItems.Clear();
-            this.HorseItems.AddRange(viewModels);
-        }
+    private void LoadAthletes()
+    {
+        var athletes = this.athletes.GetAll();
+        var viewModels = athletes.MapEnumerable<SimpleListItemViewModel>();
+        this.AthleteItems.Clear();
+        this.AthleteItems.AddRange(viewModels);
+    }
+    private void LoadHorses()
+    {
+        var horses = this.horses.GetAll();
+        var viewModels = horses.MapEnumerable<SimpleListItemViewModel>();
+        this.HorseItems.Clear();
+        this.HorseItems.AddRange(viewModels);
+    }
 
-        public void ToggleIsAverageSpeedInKmPhVisibilityAction()
+    public void ToggleIsAverageSpeedInKmPhVisibilityAction()
+    {
+        if (this.MaxAverageSpeedInKmPhVisibility == Visibility.Hidden)
         {
-            if (this.MaxAverageSpeedInKmPhVisibility == Visibility.Hidden)
-            {
-                this.ShowMaxAverageSpeedInKmPh();
-            }
-            else
-            {
-                this.HideMaxAverageSpeedInKmPh();
-            }
+            this.ShowMaxAverageSpeedInKmPh();
         }
-        private void ShowMaxAverageSpeedInKmPh()
+        else
         {
-            this.MaxAverageSpeedInKmPhVisibility = Visibility.Visible;
-            this.MaxAverageSpeedInKmPh = Participant.DEFAULT_MAX_AVERAGE_SPEED;
+            this.HideMaxAverageSpeedInKmPh();
         }
-        private void HideMaxAverageSpeedInKmPh()
-        {
-            this.MaxAverageSpeedInKmPhVisibility = Visibility.Hidden;
-            this.MaxAverageSpeedInKmPh = default;
-        }
-        public Visibility MaxAverageSpeedInKmPhVisibility
-        {
-            get => this.maxAverageSpeedInKmPhVisibility;
-            set => this.SetProperty(ref this.maxAverageSpeedInKmPhVisibility, value);
-        }
+    }
+    private void ShowMaxAverageSpeedInKmPh()
+    {
+        this.MaxAverageSpeedInKmPhVisibility = Visibility.Visible;
+        this.MaxAverageSpeedInKmPh = Participant.DEFAULT_MAX_AVERAGE_SPEED;
+    }
+    private void HideMaxAverageSpeedInKmPh()
+    {
+        this.MaxAverageSpeedInKmPhVisibility = Visibility.Hidden;
+        this.MaxAverageSpeedInKmPh = default;
+    }
+    public Visibility MaxAverageSpeedInKmPhVisibility
+    {
+        get => this.maxAverageSpeedInKmPhVisibility;
+        set => this.SetProperty(ref this.maxAverageSpeedInKmPhVisibility, value);
+    }
 
-        private string FormatName()
-        {
-            return Participant.FormatName(this.Number, this.AthleteName, this.horseName);
-        }
+    private string FormatName()
+    {
+        return Participant.FormatName(this.Number, this.AthleteName, this.horseName);
+    }
 
-        public string RfId
+    public string RfId
+    {
+        get => this.rfId;
+        set => this.SetProperty(ref this.rfId, value);
+    }
+    public int? NumberDisplay
+    {
+        get => this.number;
+        set => this.SetProperty(ref this.number, value);
+    }
+    public int? MaxAverageSpeedInKmPh
+    {
+        get => this.maxAverageSpeedInKmPh;
+        set => this.SetProperty(ref this.maxAverageSpeedInKmPh, value);
+    }
+    public int HorseId
+    {
+        get => this.horseId;
+        set => this.SetProperty(ref this.horseId, value);
+    }
+    public int AthleteId
+    {
+        get => this.athleteId;
+        set => this.SetProperty(ref this.athleteId, value);
+    }
+    public string HorseName
+    {
+        get => this.horseName;
+        set
         {
-            get => this.rfId;
-            set => this.SetProperty(ref this.rfId, value);
+            this.SetProperty(ref this.horseName, value);
+            this.Name = this.FormatName();
         }
-        public int? NumberDisplay
+    }
+    public string AthleteName
+    {
+        get => this.athleteName;
+        set
         {
-            get => this.number;
-            set => this.SetProperty(ref this.number, value);
+            this.SetProperty(ref this.athleteName, value);
+            this.Name = this.FormatName();
         }
-        public int? MaxAverageSpeedInKmPh
-        {
-            get => this.maxAverageSpeedInKmPh;
-            set => this.SetProperty(ref this.maxAverageSpeedInKmPh, value);
-        }
-        public int HorseId
-        {
-            get => this.horseId;
-            set => this.SetProperty(ref this.horseId, value);
-        }
-        public int AthleteId
-        {
-            get => this.athleteId;
-            set => this.SetProperty(ref this.athleteId, value);
-        }
-        public string HorseName
-        {
-            get => this.horseName;
-            set
-            {
-                this.SetProperty(ref this.horseName, value);
-                this.Name = this.FormatName();
-            }
-        }
-        public string AthleteName
-        {
-            get => this.athleteName;
-            set
-            {
-                this.SetProperty(ref this.athleteName, value);
-                this.Name = this.FormatName();
-            }
-        }
-        public string Name
-        {
-            get => this.name;
-            private set => this.SetProperty(ref this.name, value);
-        }
+    }
+    public string Name
+    {
+        get => this.name;
+        private set => this.SetProperty(ref this.name, value);
+    }
 
-        public int Number
-        {
-            get => this.NumberDisplay ?? default;
-            set => this.NumberDisplay = value;
-        }
+    public int Number
+    {
+        get => this.NumberDisplay ?? default;
+        set => this.NumberDisplay = value;
     }
 }

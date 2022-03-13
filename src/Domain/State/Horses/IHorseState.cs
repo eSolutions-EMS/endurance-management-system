@@ -1,16 +1,15 @@
 using EnduranceJudge.Core.Models;
 
-namespace EnduranceJudge.Domain.State.Horses
+namespace EnduranceJudge.Domain.State.Horses;
+
+public interface IHorseState : IIdentifiable
 {
-    public interface IHorseState : IIdentifiable
-    {
-        string FeiId { get; }
-        string Name { get; }
-        string Club { get; }
-        bool IsStallion { get; }
-        string Breed { get; }
-        string TrainerFeiId { get; }
-        string TrainerFirstName { get; }
-        string TrainerLastName { get; }
-    }
+    string FeiId { get; }
+    string Name { get; }
+    string Club { get; }
+    bool IsStallion { get; }
+    string Breed { get; }
+    string TrainerFeiId { get; }
+    string TrainerFirstName { get; }
+    string TrainerLastName { get; }
 }

@@ -1,8 +1,7 @@
 ﻿using Prism.Events;
 
-namespace EnduranceJudge.Gateways.Desktop.Events.Horses
+namespace EnduranceJudge.Gateways.Desktop.Events.Horses;
+
+public class HorseRemovedEvent : PubSubEvent<int>
 {
-    public class HorseRemovedEvent : PubSubEvent<int>
-    {
-    }
 }

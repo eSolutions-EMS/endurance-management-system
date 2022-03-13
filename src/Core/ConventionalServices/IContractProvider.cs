@@ -1,9 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace EnduranceJudge.Core.ConventionalServices
+namespace EnduranceJudge.Core.ConventionalServices;
+
+public interface IContractProvider
 {
-    public interface IContractProvider
-    {
-        IServiceCollection ProvideImplementations(IServiceCollection services);
-    }
+    IServiceCollection ProvideImplementations(IServiceCollection services);
 }

@@ -2,71 +2,70 @@
 using EnduranceJudge.Domain.Core.Models;
 using System;
 
-namespace EnduranceJudge.Gateways.Desktop.Services
+namespace EnduranceJudge.Gateways.Desktop.Services;
+
+public class Executor<T> : IExecutor<T>
 {
-    public class Executor<T> : IExecutor<T>
+    private readonly T service;
+    private readonly IErrorHandler errorHandler;
+    private readonly IPersistence persistence;
+
+    public Executor(T service, IErrorHandler errorHandler, IPersistence persistence)
     {
-        private readonly T service;
-        private readonly IErrorHandler errorHandler;
-        private readonly IPersistence persistence;
+        this.service = service;
+        this.errorHandler = errorHandler;
+        this.persistence = persistence;
+    }
 
-        public Executor(T service, IErrorHandler errorHandler, IPersistence persistence)
+    public bool Execute(Action<T> action)
+    {
+        try
         {
-            this.service = service;
-            this.errorHandler = errorHandler;
-            this.persistence = persistence;
+            action(this.service);
+            this.persistence.Snapshot();
+            return true;
         }
-
-        public bool Execute(Action<T> action)
+        catch (Exception exception)
         {
-            try
-            {
-                action(this.service);
-                this.persistence.Snapshot();
-                return true;
-            }
-            catch (Exception exception)
-            {
-                this.errorHandler.Handle(exception);
-                return false;
-            }
-        }
-
-        public TResult Execute<TResult>(Func<T, TResult> action)
-        {
-            try
-            {
-                var result = action(this.service);
-                this.persistence.Snapshot();
-                return result;
-            }
-            catch (Exception exception)
-            {
-                this.errorHandler.Handle(exception);
-                return default;
-            }
-        }
-
-        public (bool, IDomain) Execute(Func<T, IDomain> action)
-        {
-            try
-            {
-                var result = action(this.service);
-                this.persistence.Snapshot();
-                return (true, result);
-            }
-            catch (Exception exception)
-            {
-                this.errorHandler.Handle(exception);
-                return (false, null);
-            }
+            this.errorHandler.Handle(exception);
+            return false;
         }
     }
 
-    public interface IExecutor<T>
+    public TResult Execute<TResult>(Func<T, TResult> action)
     {
-        bool Execute(Action<T> action);
-        TResult Execute<TResult>(Func<T, TResult> action);
-        (bool, IDomain) Execute(Func<T, IDomain> action);
+        try
+        {
+            var result = action(this.service);
+            this.persistence.Snapshot();
+            return result;
+        }
+        catch (Exception exception)
+        {
+            this.errorHandler.Handle(exception);
+            return default;
+        }
     }
+
+    public (bool, IDomain) Execute(Func<T, IDomain> action)
+    {
+        try
+        {
+            var result = action(this.service);
+            this.persistence.Snapshot();
+            return (true, result);
+        }
+        catch (Exception exception)
+        {
+            this.errorHandler.Handle(exception);
+            return (false, null);
+        }
+    }
+}
+
+public interface IExecutor<T>
+{
+    bool Execute(Action<T> action);
+    TResult Execute<TResult>(Func<T, TResult> action);
+    (bool, IDomain) Execute(Func<T, IDomain> action);
 }

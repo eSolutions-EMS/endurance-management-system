@@ -7,7 +7,8 @@ using EnduranceJudge.Domain.State;
 using EnduranceJudge.Domain.State.Competitions;
 using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Domain.State.Participations;
-using EnduranceJudge.Domain.State.Performances;
+using EnduranceJudge.Domain.AggregateRoots.Common.Performances;
+using EnduranceJudge.Domain.State.LapRecords;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,104 +34,122 @@ public class ManagerRoot : IAggregateRoot
     }
 
     public bool HasStarted()
-        => this.state.Participants.Any(x => x.Participation.Performances.Any());
+        => this.state.Participations.Any(x => x.Participant.LapRecords.Any());
+
     public void Start()
     {
         this.ValidateConfiguration();
-        var participants = this.state
-            .Participants
-            .Select(x => new ParticipantsAggregate(x))
+        var participations = this.state
+            .Participations
+            .Select(x => new ParticipationsAggregate(x))
             .ToList();
-        foreach (var participant in participants)
+        foreach (var participation in participations)
         {
-            participant.Start();
+            participation.Start();
         }
         this.state.Event.HasStarted = true;
     }
 
-    public void UpdatePerformance(int number, DateTime time)
+    public IEnumerable<Performance> GetPerformances(int participantNumber)
     {
-        var participant = this.GetParticipant(number);
-        participant.UpdatePerformance(time);
+        var participation = this.state.Participations.First(x => x.Participant.Number == participantNumber);
+        var aggregate = new ParticipationsAggregate(participation);
+        return aggregate.GetAllPerformances();
     }
+
+    public void UpdateRecord(int number, DateTime time)
+    {
+        var participation = this.GetParticipation(number);
+        participation.Update(time);
+    }
+
     public void CompletePerformance(int number, string code)
     {
-        var participant = this.GetParticipant(number);
-        var performance = participant.GetActivePerformance();
-        performance.Complete(code);
+        var participation = this.GetParticipation(number);
+        var record = participation.GetCurrent();
+        record.Complete(code);
     }
+
     public void ReInspection(int number, bool isRequired)
     {
-        var participant = this.GetParticipant(number);
-        var performance = participant.GetActivePerformance();
-        if (performance == null)
+        var participation = this.GetParticipation(number);
+        var record = participation.GetCurrent();
+        if (record == null)
         {
-            throw Helper.Create<ParticipantException>(PARTICIPANT_HAS_NO_ACTIVE_PERFORMANCE_MESSAGE, number);
+            throw Helper.Create<ParticipantException>(NOT_FOUND_MESSAGE, NUMBER, number);
         }
-        performance!.ReInspection(isRequired);
+        record!.ReInspection(isRequired);
     }
+
     public void RequireInspection(int number, bool isRequired)
     {
-        var participant = this.GetParticipant(number);
-        var performance = participant.GetActivePerformance();
+        var participant = this.GetParticipation(number);
+        var performance = participant.GetCurrent();
         if (performance == null)
         {
-            throw Helper.Create<ParticipationException>(PARTICIPANT_HAS_NO_ACTIVE_PERFORMANCE_MESSAGE, number);
+            throw Helper.Create<ParticipationException>(NOT_FOUND_MESSAGE, NUMBER, number);
         }
         performance!.RequireInspection(isRequired);
     }
-    public void EditPerformance(IPerformanceState state)
+
+    public Performance EditRecord(ILapRecordState state)
     {
-        var performance = this.state
-            .Participants
-            .Select(part => part.Participation)
-            .SelectMany(participant => participant.Performances)
-            .FirstOrDefault(perf => perf.Equals(state));
-        var manager = new PerformancesAggregate(performance);
-        manager.Edit(state);
+        var participation = this.state
+            .Participations
+            .First(x => x.Participant.LapRecords.Contains(state));
+        var records = participation.Participant.LapRecords.ToList();
+        var record = records.First(rec => rec.Equals(state));
+        var aggregate = new LapRecordsAggregate(record);
+        aggregate.Edit(state);
+        var performance = new Performance(participation, records.IndexOf(record));
+        return performance;
     }
 
     public IEnumerable<StartModel> GetStartList(bool includePast)
     {
-        var startList = new Startlist(this.state.Participants, includePast);
+        // TODO: check
+        var participations = this.state.Participations;
+        var startList = new Startlist(participations, includePast);
         return startList;
     }
 
-    private ParticipantsAggregate GetParticipant(int number)
+    private ParticipationsAggregate GetParticipation(int number)
     {
-        var participant = this.state
-            .Participants
-            .FirstOrDefault(x => x.Number == number);
-        if (participant == null)
+        var participation = this.state
+            .Participations
+            .FirstOrDefault(x => x.Participant.Number == number);
+        if (participation == null)
         {
-            throw Helper.Create<ParticipantException>(PARTICIPANT_NUMBER_NOT_FOUND_MESSAGE, number);
+            throw Helper.Create<ParticipantException>(NOT_FOUND_MESSAGE, number);
         }
-        var manager = new ParticipantsAggregate(participant);
-        return manager;
+        var aggregate = new ParticipationsAggregate(participation);
+        return aggregate;
     }
 
     private void ValidateConfiguration()
     {
         foreach (var competition in this.state.Event.Competitions)
         {
-            if (competition.Phases.All(x => !x.IsFinal))
+            if (competition.Laps.All(x => !x.IsFinal))
             {
                 throw Helper.Create<CompetitionException>(
                     INVALID_COMPETITION_NO_FINAL_PHASE_MESSAGE,
                     competition.Name);
             }
         }
-        foreach (var participant in this.state.Participants)
+        foreach (var participation in this.state.Participations)
         {
-            if (!participant.Participation.Competitions.Any())
+            if (!participation.CompetitionsIds.Any())
             {
                 throw Helper.Create<ParticipantException>(
                     INVALID_PARTICIPANT_NO_PARTICIPATIONS_MESSAGE,
-                    participant.Number);
+                    participation.Participant.Number);
             }
-            if (participant.Athlete.Country == null)
+            if (participation.Participant.Athlete.Country == null)
             {
-                throw Helper.Create<ParticipantException>(INVALID_PARTICIPANT_NO_COUNTRY_MESSAGE, participant.Number);
+                throw Helper.Create<ParticipantException>(
+                    INVALID_PARTICIPANT_NO_COUNTRY_MESSAGE,
+                    participation.Participant.Number);
             }
         }
     }

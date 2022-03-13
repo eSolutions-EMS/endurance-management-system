@@ -1,8 +1,7 @@
 ﻿using Prism.Events;
 
-namespace EnduranceJudge.Gateways.Desktop.Core.Objects
+namespace EnduranceJudge.Gateways.Desktop.Core.Objects;
+
+public class ErrorEvent : PubSubEvent<string>
 {
-    public class ErrorEvent : PubSubEvent<string>
-    {
-    }
 }

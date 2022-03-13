@@ -1,7 +1,6 @@
-﻿namespace EnduranceJudge.Application.Contracts
+﻿namespace EnduranceJudge.Application.Contracts;
+
+public interface IStorageInitializer
 {
-    public interface IStorageInitializer
-    {
-        IStorageResult Initialize(string directoryPath);
-    }
+    IStorageResult Initialize(string directoryPath);
 }
