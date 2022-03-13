@@ -9,7 +9,7 @@
             <TextBlock Style="{StaticResource Text}"
                        Text="{Binding Name}" />
 
-            <Button Style="{StaticResource Button}" HorizontalAlignment="Right"
+            <Button Style="{StaticResource Button-List-Item}"
                     Command="{Binding NavigateToUpdate}"
                     Content="{x:Static localization:Strings.UPDATE}" />
         </DockPanel>

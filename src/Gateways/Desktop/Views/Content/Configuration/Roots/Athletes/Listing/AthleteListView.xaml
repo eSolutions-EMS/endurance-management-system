@@ -46,7 +46,7 @@
                 Grid.Row="3">
             <ScrollViewer Style="{StaticResource Scroll}"
                           PreviewMouseWheel="HandleScroll">
-                <ListBox Style="{StaticResource ListBox-Vertical-Border}"
+                <ListBox Style="{StaticResource ListBox-Vertical}"
                          ItemsSource="{Binding ListItems}" />
             </ScrollViewer>
         </Border>

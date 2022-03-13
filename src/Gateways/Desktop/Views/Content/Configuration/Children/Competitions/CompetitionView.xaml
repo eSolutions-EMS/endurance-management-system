@@ -12,11 +12,12 @@
         <Grid Style="{StaticResource Grid}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Style="{StaticResource Content-Left}" />
-                <ColumnDefinition Style="{StaticResource Layout-Main}" />
+                <ColumnDefinition Style="{StaticResource Content-Center}" />
+                <ColumnDefinition Style="{StaticResource Content-Right}" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
+                <RowDefinition Style="{StaticResource Row-Collapsed}" />
+                <RowDefinition Style="{StaticResource Row-Title}" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -25,108 +26,129 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-
-            <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="0" Grid.Column="0">
-                <TextBox Style="{StaticResource Input-Id}"
-                         Text="{Binding Id}" />
-            </Border>
-            <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="0" Grid.Column="1">
-                <TextBlock Style="{StaticResource Text-H1}"
+            <!-- ID -->
+            <TextBox Style="{StaticResource Input-Id}"
+                     Text="{Binding Id}" />
+            <!-- Title -->
+            <TextBlock Style="{StaticResource Text-H1}"
+                       Grid.Row="1" Grid.Column="1"
                        Text="{x:Static localization:Strings.COMPETITION_ENTITY}" />
-            </Border>
 
+            <!-- Content Left Labels -->
+            <!-- Name -->
             <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="1" Grid.Column="0">
+                    Grid.Row="2" Grid.Column="0">
                 <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=Name}"
                        Content="{x:Static localization:Strings.NAME}"/>
             </Border>
+            <!-- Type -->
             <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="1" Grid.Column="1">
-                <TextBox Style="{StaticResource Input}"
-                         Text="{Binding Name}"
-                         Name="Name" />
-            </Border>
-
-            <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="2" Grid.Column="0">
+                    Grid.Row="3" Grid.Column="0">
                 <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=Type}"
                        Content="{x:Static localization:Strings.TYPE}" />
             </Border>
+            <!-- StartTime -->
+            <Border Style="{StaticResource Border-Vertical}"
+                    Grid.Row="4" Grid.Column="0">
+                <Label Style="{StaticResource Label-Primary}"
+                       Target="{Binding ElementName=StartTime}"
+                       Content="{x:Static localization:Strings.START_TIME}" />
+            </Border>
+            <!-- Separator -->
+            <Border Style="{StaticResource Border-Separator}"
+                    Grid.Row="5" Grid.Column="0" />
+            <!-- Laps -->
+            <Border Style="{StaticResource Border-Vertical}"
+                    Grid.Row="5" Grid.Column="0">
+                <Label Style="{StaticResource Label-Primary}"
+                       Target="{Binding ElementName=CreateLap}"
+                       Content="{x:Static localization:Strings.LAPS_ENTITY}" />
+            </Border>
+            <!-- Separator -->
+                <Border Style="{StaticResource Border-Separator}"
+                        Grid.Row="7" Grid.Column="0" />
+            <!-- Participants -->
+            <Border Style="{StaticResource Border-Vertical}"
+                    Grid.Row="7" Grid.Column="0">
+                <Label Style="{StaticResource Label-Primary}"
+                       Target="{Binding ElementName=Personnel}"
+                       Content="{x:Static localization:Strings.PARTICIPANTS_ENTITY}" />
+            </Border>
+
+            <!-- Content Center Form -->
+            <!-- Name -->
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="2" Grid.Column="1">
+                <TextBox Style="{StaticResource Input}"
+                         Text="{Binding Name}"
+                         Name="Name" />
+            </Border>
+            <!-- Type -->
+            <Border Style="{StaticResource Border-Vertical}"
+                    Grid.Row="3" Grid.Column="1">
                 <ComboBox Style="{StaticResource Combo-Box}"
                           ItemsSource="{Binding TypeItems}"
                           SelectedValue="{Binding TypeValue}"
                           SelectedIndex="{Binding TypeValue}"
                           Name="Type" />
             </Border>
-
+            <!-- StartTime -->
             <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="3" Grid.Column="0">
-                <Label Style="{StaticResource Label-Primary}"
-                       Target="{Binding ElementName=StartTime}"
-                       Content="{x:Static localization:Strings.START_TIME}" />
-            </Border>
-            <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="3" Grid.Column="1">
+                    Grid.Row="4" Grid.Column="1">
                 <xctk:DateTimePicker Style="{StaticResource DateTime}"
                                      Value="{Binding StartTime}" />
             </Border>
-
+            <!-- Separator -->
+            <Border Style="{StaticResource Border-Separator}"
+                    Grid.Row="5" Grid.Column="1" />
+            <!-- Create Lap button -->
             <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="4" Grid.Column="0">
-                <Label Style="{StaticResource Label-Primary}"
-                       Target="{Binding ElementName=CreateLap}"
-                       Content="{x:Static localization:Strings.LAPS_ENTITY}" />
-            </Border>
-            <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="4" Grid.Column="1">
+                    Grid.Row="5" Grid.Column="1">
                 <Button Style="{StaticResource Button-Form-Create}"
                         Command="{Binding CreateLap}"
                         Name="CreateLap"/>
             </Border>
-
-            <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="5" Grid.Column="1">
-                <ListBox Style="{StaticResource ListBox-Vertical-Border}"
-                         ItemsSource="{Binding Laps}" />
-            </Border>
-
-            <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="6" Grid.Column="0">
-                <Label Style="{StaticResource Label-Primary}"
-                       Target="{Binding ElementName=Personnel}"
-                       Content="{x:Static localization:Strings.PARTICIPANTS_ENTITY}" />
-            </Border>
+            <!-- Lap list -->
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="6" Grid.Column="1">
+                <ListBox Style="{StaticResource ListBox-Vertical}"
+                         ItemsSource="{Binding Laps}" />
+            </Border>
+            <!-- Separator -->
+            <Border Style="{StaticResource Border-Separator}"
+                    Grid.Row="7" Grid.Column="1" />
+            <!-- Add Participation button-->
+            <Border Style="{StaticResource Border-Vertical}"
+                    Grid.Row="7" Grid.Column="1">
                 <Button Style="{StaticResource Button-Form}"
                         Command="{Binding AddParticipants}"
                         Content="{x:Static localization:Strings.ADD}"
                         Name="AddParticipants"/>
             </Border>
+            <!-- Participations list -->
             <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="7" Grid.Column="1" >
-                <DockPanel Style="{StaticResource Stretch-Last}">
-                    <ListBox Style="{StaticResource ListBox-Vertical-Border}"
-                             ItemsSource="{Binding Participants}"
-                             Name="Personnel"/>
-                </DockPanel>
+                    Grid.Row="8" Grid.Column="1" >
+                <ListBox Style="{StaticResource ListBox-Vertical}"
+                         ItemsSource="{Binding Participants}"
+                         Name="Personnel"/>
             </Border>
 
+            <!-- Content Right Controls  -->
+            <!-- Save -->
             <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="8" Grid.Column="0">
-                <Button Style="{StaticResource Button-Form-Back}"
-                        Command="{Binding NavigateBack}" />
+                    Grid.Row="2" Grid.Column="2">
+                <Button Style="{StaticResource Button-Big-Vertical}"
+                        Command="{Binding Submit}"
+                        Content="{x:Static localization:Strings.SAVE}"/>
             </Border>
+            <!-- Back -->
             <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="8" Grid.Column="1">
-                <Button Style="{StaticResource Button-Form-Save}"
-                        Command="{Binding Submit}" />
+                    Grid.Row="3" Grid.Column="2">
+                <Button Style="{StaticResource Button-Big-Vertical}"
+                        Command="{Binding NavigateBack}"
+                        Content="{x:Static localization:Strings.BACK}"/>
             </Border>
         </Grid>
     </ScrollViewer>
