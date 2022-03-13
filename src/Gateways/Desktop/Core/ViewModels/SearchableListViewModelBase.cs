@@ -38,7 +38,6 @@ public abstract class SearchableListViewModelBase<TView> : ListViewModelBase<TVi
     private void SearchAction()
     {
         this.SearchableItems.Search(this.searchValue);
-        this.SearchValue = string.Empty;
     }
     private void ClearSearchAction()
     {
