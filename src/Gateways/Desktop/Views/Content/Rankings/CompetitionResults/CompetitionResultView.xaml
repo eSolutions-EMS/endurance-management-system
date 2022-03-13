@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:localization="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization"
+             xmlns:listItem="clr-namespace:EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem"
              prism:ViewModelLocator.AutoWireViewModel="True">
 
     <ScrollViewer Style="{StaticResource Scroll}"
@@ -19,11 +20,14 @@
             </Grid.RowDefinitions>
             <!-- Title -->
             <TextBlock Style="{StaticResource Text-H1}"
-                       Text="{x:Static localization:Strings.RANK_LIST_PAGE}" />
+                       Text="{x:Static localization:Strings.RANK_LIST_PAGE}"
+                       Grid.Row="0" Grid.Column="1" />
             <!-- Content Left Competitions -->
             <Border Style="{StaticResource Border-Content-Left}"
                     Grid.Row="1" Grid.Column="0">
-
+                <ListBox Style="{StaticResource ListBox}"
+                         x:Name="Competitions"
+                         ItemsSource="{Binding Competitions}" />
             </Border>
             <!-- Content Center Ranklist -->
             <Border Style="{StaticResource Border-Content-Center}"
@@ -36,9 +40,6 @@
             <Border Style="{StaticResource Border-Content-Right}"
                     Grid.Row="1" Grid.Column="2">
                 <StackPanel Style="{StaticResource List-Vertical}">
-                    <!-- Category Label -->
-                    <TextBox Style="{StaticResource Readonly}" Height="28px" Margin="1px 5px 5px 5px"
-                             Text="{Binding CategoryName, Mode=OneWay}" />
                     <!-- Kids Button-->
                     <Button Style="{StaticResource Button-Big-Vertical}"
                             IsEnabled="{Binding HasKidsClassification}"
@@ -49,6 +50,9 @@
                             IsEnabled="{Binding HasAdultsClassification}"
                             Command="{Binding SelectAdultsCategory}"
                             Content="{x:Static localization:Strings.ADULTS}"/>
+                    <!-- Category Label -->
+                    <TextBox Style="{StaticResource Readonly}" Height="28px" Margin="1px 5px 5px 5px"
+                             Text="{Binding CategoryName, Mode=OneWay}" />
                     <!-- Print Button -->
                     <Button Style="{StaticResource Button-Big-Vertical}" Margin="0 50px"
                             Command="{Binding Print}"

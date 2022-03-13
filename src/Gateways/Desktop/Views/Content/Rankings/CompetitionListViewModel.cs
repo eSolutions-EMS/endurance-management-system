@@ -24,24 +24,7 @@ public class CompetitionListViewModel : ViewModelBase
         this.rankingRoot = rankingRoot;
     }
 
-    public ObservableCollection<ListItemViewModel> Competitions { get; } = new();
 
-    public override void OnNavigatedTo(NavigationContext context)
-    {
-        foreach (var competition in this.rankingRoot.Competitions)
-        {
-            var viewModel = this.ToListItem(competition);
-            this.Competitions.Add(viewModel);
-        }
-        base.OnNavigatedTo(context);
-    }
-
-    private ListItemViewModel ToListItem(CompetitionResultAggregate resultAggregate)
-    {
-        var command = new DelegateCommand<int?>(this.NavigateToClassification);
-        var listItem = new ListItemViewModel(resultAggregate.Id, resultAggregate.CompetitionName, command, VIEW);
-        return listItem;
-    }
 
     private void NavigateToClassification(int? id)
     {

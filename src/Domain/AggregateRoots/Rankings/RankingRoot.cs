@@ -33,6 +33,12 @@ public class RankingRoot : IAggregate, IAggregateRoot
         }
     }
 
+    public CompetitionResultAggregate GetCompetition(int competitionId)
+    {
+        var aggregate = this.competitions.First(x => x.Id == competitionId);
+        return aggregate;
+    }
+
     public IReadOnlyList<CompetitionResultAggregate> Competitions => this.competitions.AsReadOnly();
 }
 // TODO: remove
