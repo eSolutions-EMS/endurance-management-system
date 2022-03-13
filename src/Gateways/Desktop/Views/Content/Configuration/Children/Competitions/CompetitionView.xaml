@@ -106,9 +106,10 @@
             <!-- Create Lap button -->
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="5" Grid.Column="1">
-                <Button Style="{StaticResource Button-Form-Create}"
+                <Button Style="{StaticResource Button-Form}"
                         Command="{Binding CreateLap}"
-                        Name="CreateLap"/>
+                        Name="CreateLap"
+                        Content="{x:Static localization:Strings.CREATE}"  />
             </Border>
             <!-- Lap list -->
             <Border Style="{StaticResource Border-Vertical}"

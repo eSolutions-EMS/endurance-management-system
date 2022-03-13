@@ -2,7 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:localization="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization">
 
-    <Style x:Key="Button-Base" TargetType="Button">
+    <Style x:Key="Button" TargetType="Button">
+        <Setter Property="Height" Value="30px" />
         <Setter Property="Padding" Value="10px 0" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="MaxWidth" Value="300px" />
@@ -10,78 +11,61 @@
         <Setter Property="HorizontalAlignment" Value="Left" />
     </Style>
 
-    <Style x:Key="Button" TargetType="Button" BasedOn="{StaticResource Button-Base}">
-        <Setter Property="Height" Value="30px" />
+    <Style x:Key="Button-Accent" TargetType="Button" BasedOn="{StaticResource Button}">
+        <Setter Property="Background" Value="White" />
     </Style>
 
-    <Style x:Key="Button-Table" TargetType="Button" BasedOn="{StaticResource Button-Base}">
+    <!-- Size -->
+    <Style x:Key="Button-Big" TargetType="Button" BasedOn="{StaticResource Button}">
+        <Setter Property="Width" Value="200px" />
+        <Setter Property="MinWidth" Value="100px" />
+        <Setter Property="FontSize" Value="16px" />
     </Style>
 
-    <Style x:Key="Button-Back" TargetType="Button" BasedOn="{StaticResource Button}">
-        <Setter Property="Content" Value="{x:Static localization:Strings.BACK}" />
+    <Style x:Key="Button-Big-Accent" TargetType="Button" BasedOn="{StaticResource Button-Accent}">
+        <Setter Property="Width" Value="200px" />
+        <Setter Property="MinWidth" Value="100px" />
+        <Setter Property="FontSize" Value="16px" />
+    </Style>
+    <!-- end Size -->
+
+    <Style x:Key="Button-Table" TargetType="Button" BasedOn="{StaticResource Button}">
     </Style>
 
+    <!-- Margin -->
     <Style x:Key="Button-Vertical" TargetType="Button" BasedOn="{StaticResource Button}">
         <Setter Property="Margin" Value="0 0 0 5px" />
     </Style>
-
     <Style x:Key="Button-Horizontal" TargetType="Button" BasedOn="{StaticResource Button}">
         <Setter Property="Margin" Value="0 0 5px 0" />
     </Style>
-
-    <Style x:Key="Button-Big-Vertical" TargetType="Button" BasedOn="{StaticResource Button-Vertical}">
-        <Setter Property="MinWidth" Value="200px" />
-        <Setter Property="FontSize" Value="16px" />
+    <Style x:Key="Button-Big-Vertical" TargetType="Button" BasedOn="{StaticResource Button-Big}">
+        <Setter Property="Margin" Value="0 0 0 5px" />
         <Setter Property="HorizontalAlignment" Value="Center" />
     </Style>
-
-    <Style x:Key="Button-Big-Horizontal" TargetType="Button" BasedOn="{StaticResource Button-Horizontal}">
-        <Setter Property="MinWidth" Value="150px" />
-        <Setter Property="MaxWidth" Value="150px" />
-        <Setter Property="FontSize" Value="16px" />
-    </Style>
-
-    <Style x:Key="Button-Header-Horizontal" TargetType="Button" BasedOn="{StaticResource Button-Big-Horizontal}">
-        <Setter Property="HorizontalAlignment" Value="Center" />
-    </Style>
-
-    <Style x:Key="Button-Header-Vertical" TargetType="Button" BasedOn="{StaticResource Button-Big-Vertical}">
+    <Style x:Key="Button-Big-Horizontal" TargetType="Button" BasedOn="{StaticResource Button-Big}">
+        <Setter Property="Margin" Value="0 0 5px 0" />
         <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
-
-    <Style x:Key="Button-Create" TargetType="Button" BasedOn="{StaticResource Button-Big-Vertical}">
-        <Setter Property="Content" Value="{x:Static localization:Strings.CREATE}" />
+    <Style x:Key="Button-Header-Horizontal" TargetType="Button" BasedOn="{StaticResource Button-Big-Accent}">
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="Margin" Value="0 0 5px 0" />
+        <Setter Property="FontSize" Value="18px" />
+        <Setter Property="Foreground" Value="DimGray" />
+        <Setter Property="FontWeight" Value="Bold" />
     </Style>
+    <!-- end Margin-->
 
     <Style x:Key="Button-Form" TargetType="Button" BasedOn="{StaticResource Button}">
         <Setter Property="Width" Value="150px" />
         <Setter Property="Margin" Value="0 10px 0 0" />
+        <Setter Property="Padding" Value="5px 0" />
     </Style>
 
     <Style x:Key="Button-List-Item" TargetType="Button" BasedOn="{StaticResource Button-Horizontal}">
         <Setter Property="Width" Value="150px" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="HorizontalAlignment" Value="Right" />
-    </Style>
-
-    <Style x:Key="Button-Form-Create" TargetType="Button" BasedOn="{StaticResource Button-Form}">
-        <Setter Property="Content" Value="{x:Static localization:Strings.CREATE}" />
-    </Style>
-
-    <Style x:Key="Button-Form-Back" TargetType="Button" BasedOn="{StaticResource Button-Form}">
-        <Setter Property="Content" Value="{x:Static localization:Strings.BACK}" />
-    </Style>
-
-    <Style x:Key="Button-Form-Save" TargetType="Button" BasedOn="{StaticResource Button-Form}">
-        <Setter Property="Content" Value="{x:Static localization:Strings.SAVE}" />
-    </Style>
-
-    <Style x:Key="Button-Form-Update" TargetType="Button" BasedOn="{StaticResource Button-Form}">
-        <Setter Property="Content" Value="{x:Static localization:Strings.UPDATE}" />
-    </Style>
-
-    <Style x:Key="Button-Form-Remove" TargetType="Button" BasedOn="{StaticResource Button-Form}">
-        <Setter Property="Content" Value="{x:Static localization:Strings.REMOVE}" />
     </Style>
 
 </ResourceDictionary>

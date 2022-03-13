@@ -27,7 +27,7 @@ public class NavigationService : NavigationServiceBase, INavigationService
     public void NavigateToImport()
     {
         this.ChangeTo<ImportView>();
-        this.ClearRegion(Regions.CONTENT_RIGHT);
+        this.ChangeTo<ConfigurationMenuView>(Regions.CONTENT_RIGHT);
     }
 
     public void NavigateToEvent()
