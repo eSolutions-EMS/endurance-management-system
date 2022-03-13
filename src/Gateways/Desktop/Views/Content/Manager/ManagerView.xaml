@@ -20,7 +20,7 @@
             </Grid.RowDefinitions>
             <!-- Title -->
             <TextBlock Style="{StaticResource Text-H1}"
-                       Text="{x:Static localization:Strings.MANAGER}"
+                       Text="{x:Static localization:Strings.MANAGER_PAGE}"
                        Grid.Row="0" Grid.Column="1"/>
             <!-- Content Left Time Controls -->
             <Border Style="{StaticResource Border-Content-Left}"
