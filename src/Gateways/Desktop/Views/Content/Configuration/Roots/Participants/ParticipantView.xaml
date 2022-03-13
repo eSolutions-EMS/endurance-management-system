@@ -9,8 +9,8 @@
                   PreviewMouseWheel="HandleScroll">
         <Grid Style="{StaticResource Grid}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Style="{StaticResource Layout-Left}" />
-                <ColumnDefinition Style="{StaticResource Layout-Center}" />
+                <ColumnDefinition Style="{StaticResource Content-Left}" />
+                <ColumnDefinition Style="{StaticResource Layout-Main}" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />

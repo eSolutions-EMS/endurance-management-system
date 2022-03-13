@@ -9,8 +9,8 @@
                   PreviewMouseWheel="HandleScroll">
         <Grid Style="{StaticResource Grid}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Style="{StaticResource Layout-Left}" />
-                <ColumnDefinition Style="{StaticResource Layout-Center}" />
+                <ColumnDefinition Style="{StaticResource Content-Left}" />
+                <ColumnDefinition Style="{StaticResource Layout-Main}" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -18,7 +18,6 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-
             <!-- Title -->
             <TextBlock Style="{StaticResource Text-H1}"
                        Text="{x:Static localization:Strings.MANAGER}"
