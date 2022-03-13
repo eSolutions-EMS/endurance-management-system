@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
 
-namespace EnduranceJudge.Core.Mappings
+namespace EnduranceJudge.Core.Mappings;
+
+public interface ICustomMapConfiguration
 {
-    public interface ICustomMapConfiguration
-    {
-        void AddFromMaps(IProfileExpression profile);
-        void AddToMaps(IProfileExpression profile);
-    }
+    void AddFromMaps(IProfileExpression profile);
+    void AddToMaps(IProfileExpression profile);
 }

@@ -12,61 +12,60 @@ using Prism.Ioc;
 using System.Linq;
 using System.Reflection;
 
-namespace EnduranceJudge.Gateways.Desktop.Startup
+namespace EnduranceJudge.Gateways.Desktop.Startup;
+
+public static class DesktopServices
 {
-    public static class DesktopServices
+    public static IContainerRegistry AddServices(this IContainerRegistry container)
     {
-        public static IContainerRegistry AddServices(this IContainerRegistry container)
-        {
-            new ServiceCollection()
-                .AddApplicationServices()
-                .AdaptToDesktop(container);
+        new ServiceCollection()
+            .AddApplicationServices()
+            .AdaptToDesktop(container);
 
-            return container;
+        return container;
+    }
+
+    private static IServiceCollection AddApplicationServices(this IServiceCollection services)
+    {
+        var assemblies = CoreConstants.Assemblies
+            .Concat(LocalizationConstants.Assemblies)
+            .Concat(DomainConstants.Assemblies)
+            .Concat(ApplicationConstants.Assemblies)
+            .Concat(PersistenceConstants.Assemblies)
+            .Concat(DesktopConstants.Assemblies)
+            .ToArray();
+
+        return services
+            .AddCore(assemblies)
+            .AddDomain(assemblies)
+            .AddPersistence(assemblies)
+            .AddDesktop(assemblies)
+            .AddInitializers(assemblies);
+    }
+
+    private static IServiceCollection AddInitializers(this IServiceCollection services, Assembly[] assemblies)
+        => services
+            .Scan(scan => scan
+                .FromAssemblies(assemblies)
+                .AddClasses(classes =>
+                    classes.AssignableTo<IInitializer>())
+                .AsSelfWithInterfaces()
+                .WithSingletonLifetime());
+
+    private static IServiceCollection AddDesktop(this IServiceCollection services, Assembly[] assemblies)
+        => services
+            .AddTransient(typeof(IExecutor<>), typeof(Executor<>));
+
+    private static IServiceCollection AdaptToDesktop(
+        this IServiceCollection services,
+        IContainerRegistry desktopContainer)
+    {
+        var adapter = new DesktopContainerAdapter(desktopContainer);
+        foreach (var serviceDescriptor in services)
+        {
+            adapter.Register(serviceDescriptor);
         }
 
-        private static IServiceCollection AddApplicationServices(this IServiceCollection services)
-        {
-            var assemblies = CoreConstants.Assemblies
-                .Concat(LocalizationConstants.Assemblies)
-                .Concat(DomainConstants.Assemblies)
-                .Concat(ApplicationConstants.Assemblies)
-                .Concat(PersistenceConstants.Assemblies)
-                .Concat(DesktopConstants.Assemblies)
-                .ToArray();
-
-            return services
-                .AddCore(assemblies)
-                .AddDomain(assemblies)
-                .AddPersistence(assemblies)
-                .AddDesktop(assemblies)
-                .AddInitializers(assemblies);
-        }
-
-        private static IServiceCollection AddInitializers(this IServiceCollection services, Assembly[] assemblies)
-            => services
-                .Scan(scan => scan
-                    .FromAssemblies(assemblies)
-                    .AddClasses(classes =>
-                        classes.AssignableTo<IInitializer>())
-                    .AsSelfWithInterfaces()
-                    .WithSingletonLifetime());
-
-        private static IServiceCollection AddDesktop(this IServiceCollection services, Assembly[] assemblies)
-            => services
-                .AddTransient(typeof(IExecutor<>), typeof(Executor<>));
-
-        private static IServiceCollection AdaptToDesktop(
-            this IServiceCollection services,
-            IContainerRegistry desktopContainer)
-        {
-            var adapter = new DesktopContainerAdapter(desktopContainer);
-            foreach (var serviceDescriptor in services)
-            {
-                adapter.Register(serviceDescriptor);
-            }
-
-            return services;
-        }
+        return services;
     }
 }

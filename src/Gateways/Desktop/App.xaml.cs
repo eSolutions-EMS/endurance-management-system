@@ -13,67 +13,66 @@ using System.Linq;
 using System.Reflection;
 using System.Windows;
 
-namespace EnduranceJudge.Gateways.Desktop
+namespace EnduranceJudge.Gateways.Desktop;
+
+public partial class App : PrismApplication
 {
-    public partial class App : PrismApplication
+    protected override void RegisterTypes(IContainerRegistry container)
+        => container.AddServices();
+
+    protected override Window CreateShell()
     {
-        protected override void RegisterTypes(IContainerRegistry container)
-            => container.AddServices();
+        this.InitializeApplication();
 
-        protected override Window CreateShell()
+        return this.Container.Resolve<ShellWindow>();
+    }
+
+    protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
+    {
+        base.ConfigureModuleCatalog(moduleCatalog);
+
+        var moduleDescriptors = ReflectionUtilities.GetDescriptors<ModuleBase>(Assembly.GetExecutingAssembly());
+        foreach (var descriptor in moduleDescriptors)
         {
-            this.InitializeApplication();
-
-            return this.Container.Resolve<ShellWindow>();
+            moduleCatalog.AddModule(descriptor.Type);
         }
+    }
 
-        protected override void ConfigureModuleCatalog(IModuleCatalog moduleCatalog)
+    private void InitializeApplication()
+    {
+        var aspNetProvider = this.Container.Resolve<IServiceProvider>();
+        InitializeStaticServices(aspNetProvider);
+
+        var initializers = aspNetProvider.GetServices<IInitializer>();
+        foreach (var initializer in initializers.OrderBy(x => x.RunningOrder))
         {
-            base.ConfigureModuleCatalog(moduleCatalog);
-
-            var moduleDescriptors = ReflectionUtilities.GetDescriptors<ModuleBase>(Assembly.GetExecutingAssembly());
-            foreach (var descriptor in moduleDescriptors)
-            {
-                moduleCatalog.AddModule(descriptor.Type);
-            }
+            initializer.Run(aspNetProvider);
         }
+    }
 
-        private void InitializeApplication()
+    protected override void ConfigureViewModelLocator()
+    {
+        base.ConfigureViewModelLocator();
+
+        ViewModelLocationProvider.SetDefaultViewTypeToViewModelTypeResolver(viewType =>
         {
-            var aspNetProvider = this.Container.Resolve<IServiceProvider>();
-            InitializeStaticServices(aspNetProvider);
+            var viewNamespace = viewType.Namespace;
+            var assembly = viewType.Assembly;
 
-            var initializers = aspNetProvider.GetServices<IInitializer>();
-            foreach (var initializer in initializers.OrderBy(x => x.RunningOrder))
-            {
-                initializer.Run(aspNetProvider);
-            }
-        }
+            var typesInNamespace = assembly
+                .GetExportedTypes()
+                .Where(t => t.Namespace == viewNamespace)
+                .ToList();
 
-        protected override void ConfigureViewModelLocator()
-        {
-            base.ConfigureViewModelLocator();
+            var viewModelType = typesInNamespace.FirstOrDefault(t =>
+                typeof(ViewModelBase).IsAssignableFrom(t));
 
-            ViewModelLocationProvider.SetDefaultViewTypeToViewModelTypeResolver(viewType =>
-            {
-                var viewNamespace = viewType.Namespace;
-                var assembly = viewType.Assembly;
+            return viewModelType;
+        });
+    }
 
-                var typesInNamespace = assembly
-                    .GetExportedTypes()
-                    .Where(t => t.Namespace == viewNamespace)
-                    .ToList();
-
-                var viewModelType = typesInNamespace.FirstOrDefault(t =>
-                    typeof(ViewModelBase).IsAssignableFrom(t));
-
-                return viewModelType;
-            });
-        }
-
-        private static void InitializeStaticServices(IServiceProvider provider)
-        {
-            StaticProvider.Initialize(provider);
-        }
+    private static void InitializeStaticServices(IServiceProvider provider)
+    {
+        StaticProvider.Initialize(provider);
     }
 }

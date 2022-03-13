@@ -1,6 +1,5 @@
-﻿namespace EnduranceJudge.Gateways.Persistence.Core
+﻿namespace EnduranceJudge.Gateways.Persistence.Core;
+
+internal interface IQuery
 {
-    internal interface IQuery
-    {
-    }
 }

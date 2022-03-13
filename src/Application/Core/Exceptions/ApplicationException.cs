@@ -1,11 +1,10 @@
 ﻿using System;
 
-namespace EnduranceJudge.Application.Core.Exceptions
+namespace EnduranceJudge.Application.Core.Exceptions;
+
+public class AppException : Exception
 {
-    public class AppException : Exception
+    public AppException(string message) : base(message)
     {
-        public AppException(string message) : base(message)
-        {
-        }
     }
 }

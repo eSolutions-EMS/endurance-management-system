@@ -1,9 +1,8 @@
-﻿namespace EnduranceJudge.Gateways.Desktop.Core.Objects
+﻿namespace EnduranceJudge.Gateways.Desktop.Core.Objects;
+
+public enum MessageSeverity
 {
-    public enum MessageSeverity
-    {
-        Success = 0,
-        Warning = 1,
-        Error = 2,
-    }
+    Success = 0,
+    Warning = 1,
+    Error = 2,
 }

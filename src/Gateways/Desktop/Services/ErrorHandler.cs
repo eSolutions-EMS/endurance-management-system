@@ -4,43 +4,42 @@ using EnduranceJudge.Domain.Core.Exceptions;
 using EnduranceJudge.Gateways.Desktop.Core.Services;
 using System;
 
-namespace EnduranceJudge.Gateways.Desktop.Services
+namespace EnduranceJudge.Gateways.Desktop.Services;
+
+public class ErrorHandler : IErrorHandler
 {
-    public class ErrorHandler : IErrorHandler
+    private readonly IPopupService popupService;
+
+    public ErrorHandler(IPopupService popupService)
     {
-        private readonly IPopupService popupService;
+        this.popupService = popupService;
+        this.popupService = popupService;
+    }
 
-        public ErrorHandler(IPopupService popupService)
+    public void Handle(Exception exception)
+    {
+        exception = GetInnermostException(exception);
+        if (exception is DomainExceptionBase or DomainExceptionBase or AppException)
         {
-            this.popupService = popupService;
-            this.popupService = popupService;
+            this.popupService.RenderValidation(exception.Message);
         }
-
-        public void Handle(Exception exception)
+        else
         {
-            exception = GetInnermostException(exception);
-            if (exception is DomainExceptionBase or DomainExceptionBase or AppException)
-            {
-                this.popupService.RenderValidation(exception.Message);
-            }
-            else
-            {
-                this.popupService.RenderError(exception.ToString());
-            }
-        }
-
-        protected static Exception GetInnermostException(Exception exception)
-        {
-            if (exception.InnerException != null)
-            {
-                return GetInnermostException(exception.InnerException);
-            }
-            return exception;
+            this.popupService.RenderError(exception.ToString());
         }
     }
 
-    public interface IErrorHandler : IService
+    protected static Exception GetInnermostException(Exception exception)
     {
-        void Handle(Exception exception);
+        if (exception.InnerException != null)
+        {
+            return GetInnermostException(exception.InnerException);
+        }
+        return exception;
     }
+}
+
+public interface IErrorHandler : IService
+{
+    void Handle(Exception exception);
 }

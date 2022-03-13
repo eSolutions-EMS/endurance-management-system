@@ -1,11 +1,10 @@
 ﻿using EnduranceJudge.Core.ConventionalServices;
 
-namespace EnduranceJudge.Gateways.Desktop.Core.Services
-{
-    public interface IExplorerService : IService
-    {
-        string SelectDirectory();
+namespace EnduranceJudge.Gateways.Desktop.Core.Services;
 
-        string SelectFile();
-    }
+public interface IExplorerService : IService
+{
+    string SelectDirectory();
+
+    string SelectFile();
 }

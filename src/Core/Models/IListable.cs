@@ -1,8 +1,7 @@
-﻿namespace EnduranceJudge.Core.Models
+﻿namespace EnduranceJudge.Core.Models;
+
+public interface IListable
 {
-    public interface IListable
-    {
-        public int Id { get; }
-        public string Name { get; }
-    }
+    public int Id { get; }
+    public string Name { get; }
 }

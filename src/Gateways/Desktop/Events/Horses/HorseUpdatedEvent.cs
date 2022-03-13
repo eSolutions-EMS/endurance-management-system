@@ -1,9 +1,8 @@
 ﻿using EnduranceJudge.Domain.State.Horses;
 using Prism.Events;
 
-namespace EnduranceJudge.Gateways.Desktop.Events.Horses
+namespace EnduranceJudge.Gateways.Desktop.Events.Horses;
+
+public class HorseUpdatedEvent : PubSubEvent<IHorseState>
 {
-    public class HorseUpdatedEvent : PubSubEvent<IHorseState>
-    {
-    }
 }

@@ -1,9 +1,8 @@
 using EnduranceJudge.Domain.Core.Exceptions;
 
-namespace EnduranceJudge.Domain.State.Athletes
+namespace EnduranceJudge.Domain.State.Athletes;
+
+public class AthleteException : DomainExceptionBase
 {
-    public class AthleteException : DomainExceptionBase
-    {
-        protected override string Entity { get; } = nameof(Athlete);
-    }
+    protected override string Entity { get; } = nameof(Athlete);
 }

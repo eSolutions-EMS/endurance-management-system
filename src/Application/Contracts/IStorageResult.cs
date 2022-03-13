@@ -1,7 +1,6 @@
-﻿namespace EnduranceJudge.Application.Contracts
+﻿namespace EnduranceJudge.Application.Contracts;
+
+public interface IStorageResult
 {
-    public interface IStorageResult
-    {
-        bool IsExistingFile { get; }
-    }
+    bool IsExistingFile { get; }
 }

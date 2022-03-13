@@ -1,9 +1,8 @@
 ﻿using EnduranceJudge.Domain.Core.Exceptions;
 
-namespace EnduranceJudge.Domain.State.Participations
+namespace EnduranceJudge.Domain.State.Participations;
+
+public class ParticipationException : DomainExceptionBase
 {
-    public class ParticipationException : DomainExceptionBase
-    {
-        protected override string Entity { get; } = nameof(Participation);
-    }
+    protected override string Entity { get; } = nameof(Participation);
 }

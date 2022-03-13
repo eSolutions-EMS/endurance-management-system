@@ -1,6 +1,5 @@
-﻿namespace EnduranceJudge.Core.ConventionalServices
+﻿namespace EnduranceJudge.Core.ConventionalServices;
+
+public interface IService
 {
-    public interface IService
-    {
-    }
 }

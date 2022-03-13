@@ -1,11 +1,10 @@
 using EnduranceJudge.Core.Models;
 
-namespace EnduranceJudge.Domain.State.Results
-{
-    public interface IResultState : IIdentifiable
-    {
-        bool IsRanked { get; }
+namespace EnduranceJudge.Domain.State.Results;
 
-        string Code { get; }
-    }
+public interface IResultState : IIdentifiable
+{
+    bool IsRanked { get; }
+
+    string Code { get; }
 }

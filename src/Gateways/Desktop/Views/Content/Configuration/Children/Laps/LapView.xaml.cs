@@ -3,27 +3,26 @@ using EnduranceJudge.Gateways.Desktop.Core.Services;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Laps
+namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Laps;
+
+public partial class LapView : UserControl, IView
 {
-    public partial class LapView : UserControl, IView
+    private readonly IInputHandler inputInput;
+
+    public LapView()
     {
-        private readonly IInputHandler inputInput;
+        InitializeComponent();
+    }
 
-        public LapView()
-        {
-            InitializeComponent();
-        }
+    public LapView(IInputHandler inputInput) : this()
+    {
+        this.inputInput = inputInput;
+    }
 
-        public LapView(IInputHandler inputInput) : this()
-        {
-            this.inputInput = inputInput;
-        }
+    public string RegionName { get; } = Regions.CONTENT_LEFT;
 
-        public string RegionName { get; } = Regions.CONTENT_LEFT;
-
-        public void HandleScroll(object sender, MouseWheelEventArgs mouseEvent)
-        {
-            this.inputInput.HandleScroll(sender, mouseEvent);
-        }
+    public void HandleScroll(object sender, MouseWheelEventArgs mouseEvent)
+    {
+        this.inputInput.HandleScroll(sender, mouseEvent);
     }
 }

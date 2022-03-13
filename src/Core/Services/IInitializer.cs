@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace EnduranceJudge.Core.Services
-{
-    public interface IInitializer
-    {
-        int RunningOrder { get; }
+namespace EnduranceJudge.Core.Services;
 
-        void Run(IServiceProvider serviceProvider);
-    }
+public interface IInitializer
+{
+    int RunningOrder { get; }
+
+    void Run(IServiceProvider serviceProvider);
 }

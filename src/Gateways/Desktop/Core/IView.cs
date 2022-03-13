@@ -1,10 +1,9 @@
 ﻿using System.Windows.Input;
 
-namespace EnduranceJudge.Gateways.Desktop.Core
+namespace EnduranceJudge.Gateways.Desktop.Core;
+
+public interface IView
 {
-    public interface IView
-    {
-        string RegionName { get; }
-        void HandleScroll(object sender, MouseWheelEventArgs args);
-    }
+    string RegionName { get; }
+    void HandleScroll(object sender, MouseWheelEventArgs args);
 }

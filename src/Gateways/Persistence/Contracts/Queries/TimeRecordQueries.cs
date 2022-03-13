@@ -5,17 +5,16 @@ using EnduranceJudge.Gateways.Persistence.Core;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EnduranceJudge.Gateways.Persistence.Contracts.Queries
-{
-    public class TimeRecordQueries : QueriesBase<LapRecord>
-    {
-        public TimeRecordQueries(IState state) : base(state)
-        {
-        }
+namespace EnduranceJudge.Gateways.Persistence.Contracts.Queries;
 
-        protected override List<LapRecord> Set => this.State
-            .Participants
-            .SelectMany(part => part.LapRecords)
-            .ToList();
+public class TimeRecordQueries : QueriesBase<LapRecord>
+{
+    public TimeRecordQueries(IState state) : base(state)
+    {
     }
+
+    protected override List<LapRecord> Set => this.State
+        .Participants
+        .SelectMany(part => part.LapRecords)
+        .ToList();
 }

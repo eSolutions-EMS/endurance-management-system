@@ -1,7 +1,6 @@
-﻿namespace EnduranceJudge.Application.Contracts
+﻿namespace EnduranceJudge.Application.Contracts;
+
+public interface IPersistence
 {
-    public interface IPersistence
-    {
-        void Snapshot();
-    }
+    void Snapshot();
 }

@@ -1,12 +1,11 @@
 ﻿using System.Windows.Controls;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Dialogs.Message
+namespace EnduranceJudge.Gateways.Desktop.Views.Dialogs.Message;
+
+public partial class MessageDialog : UserControl
 {
-    public partial class MessageDialog : UserControl
+    public MessageDialog()
     {
-        public MessageDialog()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

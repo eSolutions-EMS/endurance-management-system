@@ -9,35 +9,34 @@ using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
 using EnduranceJudge.Gateways.Desktop.Services;
 using System.Collections.Generic;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Participants.Listing
+namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Participants.Listing;
+
+public class ParticipantListViewModel : SearchableListViewModelBase<ParticipantView>
 {
-    public class ParticipantListViewModel : SearchableListViewModelBase<ParticipantView>
+    private readonly ConfigurationRoot aggregate;
+    private readonly IQueries<Participant> participants;
+
+    public ParticipantListViewModel(
+        IPopupService popupService,
+        ConfigurationRoot aggregate,
+        IQueries<Participant> participants,
+        IPersistence persistence,
+        INavigationService navigation) : base(navigation, persistence, popupService)
     {
-        private readonly ConfigurationRoot aggregate;
-        private readonly IQueries<Participant> participants;
+        this.aggregate = aggregate;
+        this.participants = participants;
+    }
 
-        public ParticipantListViewModel(
-            IPopupService popupService,
-            ConfigurationRoot aggregate,
-            IQueries<Participant> participants,
-            IPersistence persistence,
-            INavigationService navigation) : base(navigation, persistence, popupService)
-        {
-            this.aggregate = aggregate;
-            this.participants = participants;
-        }
+    protected override IEnumerable<ListItemModel> LoadData()
+    {
+        var participants = this.participants
+            .GetAll()
+            .MapEnumerable<ListItemModel>();
+        return participants;
+    }
 
-        protected override IEnumerable<ListItemModel> LoadData()
-        {
-            var participants = this.participants
-                .GetAll()
-                .MapEnumerable<ListItemModel>();
-            return participants;
-        }
-
-        protected override void RemoveDomain(int id)
-        {
-            this.aggregate.Participants.Remove(id);
-        }
+    protected override void RemoveDomain(int id)
+    {
+        this.aggregate.Participants.Remove(id);
     }
 }

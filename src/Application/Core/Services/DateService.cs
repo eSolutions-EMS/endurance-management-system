@@ -4,29 +4,28 @@ using static EnduranceJudge.Localization.Strings;
 using System;
 using System.Globalization;
 
-namespace EnduranceJudge.Application.Core.Services
+namespace EnduranceJudge.Application.Core.Services;
+
+public class DateService : IDateService
 {
-    public class DateService : IDateService
+    public DateTime Parse(string date, string format)
     {
-        public DateTime Parse(string date, string format)
+        var hasParsed = DateTime.TryParseExact(
+            date,
+            format,
+            CultureInfo.InvariantCulture,
+            DateTimeStyles.None, out var result);
+        if (!hasParsed)
         {
-            var hasParsed = DateTime.TryParseExact(
-                date,
-                format,
-                CultureInfo.InvariantCulture,
-                DateTimeStyles.None, out var result);
-            if (!hasParsed)
-            {
-                var message = string.Format(INVALID_DATE_FORMAT_MESSAGE, date, format);
-                throw new AppException(message);
-            }
-            return result;
+            var message = string.Format(INVALID_DATE_FORMAT_MESSAGE, date, format);
+            throw new AppException(message);
         }
+        return result;
     }
+}
 
-    public interface IDateService : IService
-    {
-        DateTime Parse(string date, string format);
+public interface IDateService : IService
+{
+    DateTime Parse(string date, string format);
 
-    }
 }

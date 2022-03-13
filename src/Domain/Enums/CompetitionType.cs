@@ -1,9 +1,8 @@
-namespace EnduranceJudge.Domain.Enums
+namespace EnduranceJudge.Domain.Enums;
+
+public enum CompetitionType
 {
-    public enum CompetitionType
-    {
-        Invalid = 0,
-        National = 1,
-        International = 2,
-    }
+    Invalid = 0,
+    National = 1,
+    International = 2,
 }

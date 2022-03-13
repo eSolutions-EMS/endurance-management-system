@@ -1,17 +1,16 @@
 using EnduranceJudge.Core.Utilities;
 using System.Reflection;
 
-namespace EnduranceJudge.Core
+namespace EnduranceJudge.Core;
+
+public static class CoreConstants
 {
-    public static class CoreConstants
+    public static Assembly[] Assemblies
     {
-        public static Assembly[] Assemblies
+        get
         {
-            get
-            {
-                var assemblies = ReflectionUtilities.GetAssemblies("EnduranceJudge.Core");
-                return assemblies;
-            }
+            var assemblies = ReflectionUtilities.GetAssemblies("EnduranceJudge.Core");
+            return assemblies;
         }
     }
 }

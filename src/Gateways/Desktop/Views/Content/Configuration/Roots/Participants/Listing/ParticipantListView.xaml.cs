@@ -3,27 +3,26 @@ using EnduranceJudge.Gateways.Desktop.Core.Services;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Participants.Listing
+namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Participants.Listing;
+
+public partial class ParticipantListView : UserControl, IView
 {
-    public partial class ParticipantListView : UserControl, IView
+    private readonly IInputHandler inputInput;
+
+    public ParticipantListView()
     {
-        private readonly IInputHandler inputInput;
+        InitializeComponent();
+    }
 
-        public ParticipantListView()
-        {
-            InitializeComponent();
-        }
+    public ParticipantListView(IInputHandler inputInput) : this()
+    {
+        this.inputInput = inputInput;
+    }
 
-        public ParticipantListView(IInputHandler inputInput) : this()
-        {
-            this.inputInput = inputInput;
-        }
+    public string RegionName { get; } = Regions.CONTENT_LEFT;
 
-        public string RegionName { get; } = Regions.CONTENT_LEFT;
-
-        public void HandleScroll(object sender, MouseWheelEventArgs mouseEvent)
-        {
-            this.inputInput.HandleScroll(sender, mouseEvent);
-        }
+    public void HandleScroll(object sender, MouseWheelEventArgs mouseEvent)
+    {
+        this.inputInput.HandleScroll(sender, mouseEvent);
     }
 }
