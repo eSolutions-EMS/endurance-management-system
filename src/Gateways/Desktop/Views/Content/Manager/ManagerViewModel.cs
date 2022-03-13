@@ -15,13 +15,13 @@ using System.Windows;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager;
 
-public class ContestManagerViewModel : ViewModelBase
+public class ManagerViewModel : ViewModelBase
 {
     private static readonly DateTime Today = DateTime.Today;
     private readonly IExecutor<ManagerRoot> managerExecutor;
     private readonly IQueries<Participant> participants;
 
-    public ContestManagerViewModel(
+    public ManagerViewModel(
         IPopupService popupService,
         IExecutor<ManagerRoot> managerExecutor,
         IQueries<Participant> participants)

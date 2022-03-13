@@ -5,15 +5,15 @@ using System.Windows.Input;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager
 {
-    public partial class ContestManagerView : UserControl, IView
+    public partial class ManagerView : UserControl, IView
     {
         private readonly IInputHandler inputInput;
 
-        public ContestManagerView(IInputHandler inputInput) : this()
+        public ManagerView(IInputHandler inputInput) : this()
         {
             this.inputInput = inputInput;
         }
-        public ContestManagerView()
+        public ManagerView()
         {
             InitializeComponent();
         }

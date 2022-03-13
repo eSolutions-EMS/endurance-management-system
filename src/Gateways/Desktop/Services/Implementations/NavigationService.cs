@@ -47,7 +47,7 @@ namespace EnduranceJudge.Gateways.Desktop.Services.Implementations
             {
                 throw new AppException(SELECT_WORK_DIRECTORY_MESSAGE);
             }
-            this.ChangeTo<ContestManagerView>();
+            this.ChangeTo<ManagerView>();
         }
         public void NavigateToRanking()
         {
