@@ -32,7 +32,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Views\Content\Rankings\CompetitionResults" />
+      <Folder Include="Views\Content\Ranking\CompetitionResults" />
     </ItemGroup>
 
 </Project>

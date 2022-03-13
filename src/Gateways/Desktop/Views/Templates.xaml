@@ -11,8 +11,8 @@
         <ResourceDictionary Source="Content/Configuration/Children/Personnel/Configuration/PersonnelTemplate.xaml" />
         <ResourceDictionary Source="Content/Common/Performances/PerformanceTemplate.xaml" />
         <ResourceDictionary Source="Content/Common/Participations/ParticipationTemplate.xaml" />
-        <ResourceDictionary Source="Content/Rankings/RankLists/RankListTemplate.xaml" />
-        <ResourceDictionary Source="Content/Rankings/ParticipantResults/ParticipantResultTemplate.xaml" />
+        <ResourceDictionary Source="Content/Ranking/RankLists/RankListTemplate.xaml" />
+        <ResourceDictionary Source="Content/Ranking/ParticipantResults/ParticipantResultTemplate.xaml" />
         <ResourceDictionary Source="Dialogs/Startlists/StartTemplate.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
