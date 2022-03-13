@@ -2,7 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Style x:Key="Label-Primary" TargetType="Label">
-        <Setter Property="FontSize" Value="14px"></Setter>
+        <Setter Property="FontSize" Value="14px" />
+        <Setter Property="FontWeight" Value="Bold" />
     </Style>
 
 </ResourceDictionary>

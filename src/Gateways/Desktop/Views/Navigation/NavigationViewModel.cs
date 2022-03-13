@@ -6,6 +6,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Navigation;
 
 public class NavigationViewModel : ViewModelBase
 {
+    // TODO: add executor
     public NavigationViewModel(INavigationService navigation)
     {
         this.NavigateToImport = new DelegateCommand(navigation.NavigateToImport);

@@ -18,6 +18,7 @@
         <ResourceDictionary Source="Styles/DateTimePicker.xaml" />
         <ResourceDictionary Source="Styles/CheckBox.xaml" />
         <ResourceDictionary Source="Styles/ColumnDefinitions.xaml" />
+        <ResourceDictionary Source="Styles/RowDefinitions.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

@@ -5,7 +5,7 @@ using EnduranceJudge.Gateways.Desktop.Views.Content.Import;
 using EnduranceJudge.Gateways.Desktop.Core.Services.Implementations;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Events;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Manager;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Rankings;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Ranking;
 using EnduranceJudge.Gateways.Desktop.Views.Dialogs.Message;
 using Prism.Regions;
 using System;
@@ -27,7 +27,7 @@ public class NavigationService : NavigationServiceBase, INavigationService
     public void NavigateToImport()
     {
         this.ChangeTo<ImportView>();
-        this.ClearRegion(Regions.CONTENT_RIGHT);
+        this.ChangeTo<ConfigurationMenuView>(Regions.CONTENT_RIGHT);
     }
 
     public void NavigateToEvent()
@@ -55,8 +55,7 @@ public class NavigationService : NavigationServiceBase, INavigationService
         {
             throw new AppException(SELECT_WORK_DIRECTORY_MESSAGE);
         }
-        this.ChangeTo<CompetitionListView>(Regions.CONTENT_RIGHT);
-        this.ClearRegion(Regions.CONTENT_LEFT);
+        this.ChangeTo<RankingView>(Regions.CONTENT_LEFT);
     }
 
     public void ChangeTo<T>()

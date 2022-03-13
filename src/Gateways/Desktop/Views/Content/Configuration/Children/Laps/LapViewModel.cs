@@ -7,6 +7,7 @@ using static EnduranceJudge.Localization.Strings;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Laps;
 
+// TODO: Change IsFinal to checkbox
 public class LapViewModel : NestedConfigurationBase<LapView, Lap>, ILapState
 {
     private readonly ConfigurationRoot aggregate;

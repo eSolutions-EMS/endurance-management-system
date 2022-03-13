@@ -1,0 +1,12 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style x:Key="Row-Title" TargetType="RowDefinition">
+        <Setter Property="Height" Value="60px" />
+    </Style>
+
+    <Style x:Key="Row-Collapsed" TargetType="RowDefinition">
+        <Setter Property="Height" Value="0" />
+    </Style>
+
+</ResourceDictionary>

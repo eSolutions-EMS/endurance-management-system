@@ -3,16 +3,16 @@ using EnduranceJudge.Gateways.Desktop.Core.Services;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.CompetitionResults;
+namespace EnduranceJudge.Gateways.Desktop.Views.Content.Ranking;
 
-public partial class CompetitionResultView : UserControl, IView
+public partial class RankingView : UserControl, IView
 {
     private readonly IInputHandler handler;
-    public CompetitionResultView(IInputHandler handler) : this()
+    public RankingView(IInputHandler handler) : this()
     {
         this.handler = handler;
     }
-    public CompetitionResultView()
+    public RankingView()
     {
         InitializeComponent();
     }

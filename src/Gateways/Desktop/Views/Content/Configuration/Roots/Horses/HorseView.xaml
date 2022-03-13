@@ -7,8 +7,8 @@
 
     <Grid Style="{StaticResource Grid}">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Style="{StaticResource Layout-Left}" />
-            <ColumnDefinition Style="{StaticResource Layout-Center}" />
+            <ColumnDefinition Style="{StaticResource Content-Left}" />
+            <ColumnDefinition Style="{StaticResource Layout-Main}" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
@@ -124,13 +124,15 @@
 
         <Border Style="{StaticResource Border-Vertical}"
                 Grid.Row="9" Grid.Column="0">
-            <Button Style="{StaticResource Button-Form-Back}"
-                    Command="{Binding NavigateBack}" />
+            <Button Style="{StaticResource Button-Form}"
+                    Command="{Binding NavigateBack}"
+                    Content="{x:Static localization:Strings.BACK}"  />
         </Border>
         <Border Style="{StaticResource Border-Vertical}"
                 Grid.Row="9" Grid.Column="1">
-            <Button Style="{StaticResource Button-Form-Save}"
-                    Command="{Binding Submit}" />
+            <Button Style="{StaticResource Button-Form}"
+                    Command="{Binding Submit}"
+                    Content="{x:Static localization:Strings.SAVE}" />
         </Border>
     </Grid>
 </UserControl>

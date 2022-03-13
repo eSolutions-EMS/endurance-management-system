@@ -6,19 +6,26 @@
     <DataTemplate DataType="{x:Type local:ListItemViewModel}">
         <StackPanel>
             <DockPanel Style="{StaticResource Dock-Horizontal}">
+                <!-- Text -->
+                <Border Style="{StaticResource Border-Horizontal}">
+                    <TextBlock Style="{StaticResource Text}"
+                               Text="{Binding Name}" />
+                </Border>
+                <!-- Controls -->
+                <Border Style="{StaticResource Border-Horizontal}">
+                    <StackPanel Style="{StaticResource List-Horizontal}" HorizontalAlignment="Right">
 
-                <Button Style="{StaticResource Button}" Visibility="{Binding RemoveVisibility}"
-                        Content="{x:Static localization:Strings.REMOVE}"
-                        Command="{Binding Remove}"
-                        CommandParameter="{Binding Id}" />
+                        <Button Style="{StaticResource Button-List-Item}" Visibility="{Binding RemoveVisibility}"
+                                Content="{x:Static localization:Strings.REMOVE}"
+                                Command="{Binding Remove}"
+                                CommandParameter="{Binding Id}" />
 
-                <TextBlock Style="{StaticResource Text}"
-                           Text="{Binding Name}" />
-
-                <Button Style="{StaticResource Button}" HorizontalAlignment="Right"
-                        Content="{Binding ActionName}"
-                        Command="{Binding Action}"
-                        CommandParameter="{Binding Id}" />
+                        <Button Style="{StaticResource Button-List-Item}"
+                                Content="{Binding ActionName}"
+                                Command="{Binding Action}"
+                                CommandParameter="{Binding Id}" />
+                    </StackPanel>
+                </Border>
             </DockPanel>
         </StackPanel>
     </DataTemplate>

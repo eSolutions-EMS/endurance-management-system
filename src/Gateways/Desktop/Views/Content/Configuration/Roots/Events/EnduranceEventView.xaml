@@ -11,12 +11,13 @@
 
         <Grid Style="{StaticResource Grid}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Style="{StaticResource Layout-Left}" />
-                <ColumnDefinition Style="{StaticResource Layout-Center}" />
+                <ColumnDefinition Style="{StaticResource Content-Left}" />
+                <ColumnDefinition Style="{StaticResource Content-Center}" />
+                <ColumnDefinition Style="{StaticResource Content-Right}" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
+                <RowDefinition Style="{StaticResource Row-Collapsed}" />
+                <RowDefinition Style="{StaticResource Row-Title}" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
@@ -26,95 +27,116 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-
+            <!-- ID -->
             <TextBox Style="{StaticResource Input-Id}"
                      Text="{Binding Id}"
-                     Grid.Row="0" Grid.Column="0"/>
-
+                     Grid.Row="0" Grid.Column="1"/>
+            <!-- Title -->
             <TextBlock Style="{StaticResource Text-H1}"
                        Text="{x:Static localization:Strings.ENDURANCE_EVENT_ENTITY}"
                        Grid.Row="1" Grid.Column="1" />
-
-            <Border Style="{StaticResource Border-Vertical}"
+            <!-- Content Left Labels -->
+            <!-- Name label-->
+            <Border Style="{StaticResource Border-Content-Left}"
                     Grid.Row="2" Grid.Column="0">
-                <TextBlock Style="{StaticResource Text-Label}"
-                           Text ="{x:Static localization:Strings.NAME}" />
+                <Label Style="{StaticResource Label-Primary}"
+                       Content="{x:Static localization:Strings.NAME}" />
             </Border>
-            <Border Style="{StaticResource Border-Vertical}"
+            <!-- Populated Place label -->
+            <Border Style="{StaticResource Border-Content-Left}"
+                    Grid.Row="3" Grid.Column="0" >
+                <Label Style="{StaticResource Label-Primary}"
+                       Content ="{x:Static localization:Strings.POPULATED_PLACE}"/>
+            </Border>
+            <!-- Country label -->
+            <Border Style="{StaticResource Border-Content-Left}"
+                    Grid.Row="4" Grid.Column="0" >
+                <Label Style="{StaticResource Label-Primary}"
+                       Content="{x:Static localization:Strings.COUNTRY_ENTITY}" />
+            </Border>
+            <!-- Separator  -->
+            <Border Style="{StaticResource Border-Separator}"
+                    Grid.Row="5" Grid.Column="0" />
+            <!-- Personnel label -->
+            <Border Style="{StaticResource Border-Content-Left}" BorderThickness="0 2px 0 0"
+                    Grid.Row="5" Grid.Column="0">
+                <Label Style="{StaticResource Label-Primary}"
+                       Content ="{x:Static localization:Strings.PERSONNEL_ENTITY}" />
+            </Border>
+            <!-- Separator -->
+            <Border Style="{StaticResource Border-Separator}"
+                    Grid.Row="7" Grid.Column="0" />
+            <!-- Competitions label -->
+            <Border Style="{StaticResource Border-Content-Left}"
+                    Grid.Row="7" Grid.Column="0" >
+                <Label Style="{StaticResource Label-Primary}"
+                       Content ="{x:Static localization:Strings.COMPETITIONS_ENTITY}" />
+            </Border>
+            <!-- Colum Content Center -->
+            <!-- Name -->
+            <Border Style="{StaticResource Border-Content-Center}"
                     Grid.Row="2" Grid.Column="1">
                 <TextBox Style="{StaticResource Input}"
                          Text="{Binding Name}" />
             </Border>
-
-            <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="2" Grid.Column="1">
-            </Border>
-
-            <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="3" Grid.Column="0" >
-                <TextBlock Style="{StaticResource Text-Label}"
-                           Text ="{x:Static localization:Strings.POPULATED_PLACE}"/>
-            </Border>
-            <Border Style="{StaticResource Border-Vertical}"
+            <!-- Populated Place -->
+            <Border Style="{StaticResource Border-Content-Center}"
                     Grid.Row="3" Grid.Column="1" >
                 <TextBox Style="{StaticResource Input}"
                          Text="{Binding PopulatedPlace}"/>
             </Border>
-
-            <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="4" Grid.Column="0" >
-                <TextBlock Style="{StaticResource Text-Label}"
-                           Text="{x:Static localization:Strings.COUNTRY_ENTITY}" />
-            </Border>
-            <Border Style="{StaticResource Border-Vertical}"
+            <!-- Country -->
+            <Border Style="{StaticResource Border-Content-Center}"
                     Grid.Row="4" Grid.Column="1" >
                 <ComboBox Style="{StaticResource Combo-Box}"
                           ItemsSource="{Binding Countries}"
-                          SelectedValue="{Binding CountryId}"/>
+                          SelectedValue="{Binding CountryId}" />
             </Border>
-
-            <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="5" Grid.Column="0">
-                <TextBlock Style="{StaticResource Text-Label}"
-                           Text ="{x:Static localization:Strings.PERSONNEL_ENTITY}" />
-            </Border>
-            <Border Style="{StaticResource Border-Vertical}"
+            <!-- Personnel content -->
+            <!-- Separator -->
+            <Border Style="{StaticResource Border-Separator}"
+                    Grid.Row="5" Grid.Column="1" />
+            <!-- Personnel Create -->
+            <Border Style="{StaticResource Border-Content-Left}"
                     Grid.Row="5" Grid.Column="1">
-                <Button Style="{StaticResource Button-Form-Create}"
-                        Command="{Binding CreatePersonnel}" />
+                <Button Style="{StaticResource Button-Form}"
+                        Command="{Binding CreatePersonnel}"
+                        Content="{x:Static localization:Strings.CREATE}" />
             </Border>
-
-            <Border Style="{StaticResource Border-Vertical}"
+            <!-- Personnel List -->
+            <Border Style="{StaticResource Border-Content-Center}" Margin="0 1px 0 0"
                     Grid.Row="6" Grid.Column="1" >
                 <DockPanel Style="{StaticResource Stretch-Last}">
                     <ListBox Style="{StaticResource ListBox-Vertical}"
                              ItemsSource="{Binding Personnel}" />
                 </DockPanel>
             </Border>
-
-            <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="7" Grid.Column="0" >
-                <TextBlock Style="{StaticResource Text-Label}"
-                           Text ="{x:Static localization:Strings.COMPETITIONS_ENTITY}" />
-            </Border>
-            <Border Style="{StaticResource Border-Vertical}"
+            <!-- Competitions content -->
+            <!-- Separator -->
+            <Border Style="{StaticResource Border-Separator}"
+                    Grid.Row="7" Grid.Column="1" />
+            <!-- Competition Create -->
+            <Border Style="{StaticResource Border-Content-Center}"
                     Grid.Row="7" Grid.Column="1">
-                <Button Style="{StaticResource Button-Form-Create}"
-                        Command="{Binding CreateCompetition}" />
+                <Button Style="{StaticResource Button-Form}"
+                        Command="{Binding CreateCompetition}"
+                        Content="{x:Static localization:Strings.CREATE}"  />
             </Border>
-
-            <Border Style="{StaticResource Border-Vertical}"
+            <!-- Competitions -->
+            <Border Style="{StaticResource Border-Content-Center}" Margin="0 1px 0 0"
                     Grid.Row="8" Grid.Column="1">
                 <DockPanel Style="{StaticResource Stretch-Last}">
-                    <ListBox Style="{StaticResource ListBox-Vertical-Border}"
+                    <ListBox Style="{StaticResource ListBox-Vertical}"
                              ItemsSource="{Binding Competitions}" />
                 </DockPanel>
             </Border>
-
-            <Border Style="{StaticResource Wrapper-Form-Buttons}"
-                    Grid.Row="9" Grid.Column="1">
-                <Button Style="{StaticResource Button-Form-Save}"
-                        Command="{Binding Submit}" />
+            <!-- Layout Right Controls -->
+            <!-- Save -->
+            <Border Style="{StaticResource Border-Content-Right}"
+                    Grid.Row="2" Grid.Column="2">
+                <Button Style="{StaticResource Button-Big-Vertical}"
+                        Command="{Binding Submit}"
+                        Content="{x:Static localization:Strings.SAVE}" />
             </Border>
         </Grid>
     </ScrollViewer>

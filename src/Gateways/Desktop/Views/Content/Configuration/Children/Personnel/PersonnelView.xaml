@@ -9,64 +9,69 @@
                   PreviewMouseWheel="HandleScroll">
         <Grid Style="{StaticResource Grid}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Style="{StaticResource Layout-Left}" />
-                <ColumnDefinition Style="{StaticResource Layout-Center}" />
+                <ColumnDefinition Style="{StaticResource Content-Left}" />
+                <ColumnDefinition Style="{StaticResource Content-Center}" />
+                <ColumnDefinition Style="{StaticResource Content-Right}" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
+                <RowDefinition Style="{StaticResource Row-Collapsed}" />
+                <RowDefinition Style="{StaticResource Row-Title}" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="0" Grid.Column="0">
-                <TextBox Style="{StaticResource Input-Id}"
+            <TextBox Style="{StaticResource Input-Id}"
                      Text="{Binding Id}" />
-            </Border>
-            <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="0" Grid.Column="1">
-                <TextBlock Style="{StaticResource Text-H1}"
+            <!-- Title -->
+            <TextBlock Style="{StaticResource Text-H1}"
+                       Grid.Row="1" Grid.Column="1"
                        Text="{x:Static localization:Strings.PERSONNEL_ENTITY}" />
-            </Border>
-
-            <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="1" Grid.Column="0">
+            <!-- Content Left Labels -->
+            <!-- Name-->
+            <Border Style="{StaticResource Border-Content-Left}"
+                    Grid.Row="2" Grid.Column="0">
                 <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=Name}"
                        Content="{x:Static localization:Strings.NAME}" />
             </Border>
-            <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="1" Grid.Column="1">
-                <TextBox Style="{StaticResource Input}"
-                         Text="{Binding Name}"
-                         Name="Name" />
-            </Border>
-
-            <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="2" Grid.Column="0">
+            <!-- Role-->
+            <Border Style="{StaticResource Border-Content-Left}"
+                    Grid.Row="3" Grid.Column="0">
                 <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=RoleId}"
                        Content="{x:Static localization:Strings.ROLE}" />
             </Border>
-            <Border Style="{StaticResource Border-Vertical}"
+            <!-- Content Center Form -->
+            <!-- Name-->
+            <Border Style="{StaticResource Border-Content-Center}"
                     Grid.Row="2" Grid.Column="1">
+                <TextBox Style="{StaticResource Input}"
+                         Text="{Binding Name}"
+                         Name="Name" />
+            </Border>
+            <!-- Role-->
+            <Border Style="{StaticResource Border-Content-Center}"
+                    Grid.Row="3" Grid.Column="1">
                 <ComboBox Style="{StaticResource Combo-Box}"
                           ItemsSource="{Binding RoleItems}"
                           SelectedValue="{Binding RoleId}"
                           SelectedIndex="{Binding RoleId}"
                           Name="RoleId" />
             </Border>
-
-            <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="3" Grid.Column="0">
-                <Button Style="{StaticResource Button-Form-Back}"
-                        Command="{Binding NavigateBack}"/>
+            <!-- Content Right Controls  -->
+            <!-- Save -->
+            <Border Style="{StaticResource Border-Content-Right}"
+                    Grid.Row="2" Grid.Column="2">
+                <Button Style="{StaticResource Button-Big-Vertical}"
+                        Command="{Binding Submit}"
+                        Content="{x:Static localization:Strings.SAVE}"/>
             </Border>
-            <Border Style="{StaticResource Wrapper-Form-Buttons}"
-                    Grid.Row="3" Grid.Column="1">
-                <Button Style="{StaticResource Button-Form-Save}"
-                        Command="{Binding Submit}" />
+            <!-- Back -->
+            <Border Style="{StaticResource Border-Content-Right}"
+                    Grid.Row="3" Grid.Column="2">
+                <Button Style="{StaticResource Button-Big-Vertical}"
+                        Command="{Binding NavigateBack}"
+                        Content="{x:Static localization:Strings.BACK}"/>
             </Border>
         </Grid>
     </ScrollViewer>

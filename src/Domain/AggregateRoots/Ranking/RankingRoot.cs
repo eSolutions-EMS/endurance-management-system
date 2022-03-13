@@ -1,11 +1,11 @@
-using EnduranceJudge.Domain.AggregateRoots.Rankings.Aggregates;
+using EnduranceJudge.Domain.AggregateRoots.Ranking.Aggregates;
 using EnduranceJudge.Domain.Core.Extensions;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EnduranceJudge.Domain.AggregateRoots.Rankings;
+namespace EnduranceJudge.Domain.AggregateRoots.Ranking;
 
 public class RankingRoot : IAggregate, IAggregateRoot
 {
@@ -31,6 +31,12 @@ public class RankingRoot : IAggregate, IAggregateRoot
             var listing = new CompetitionResultAggregate(state.Event, competition, participations);
             this.competitions.Add(listing);
         }
+    }
+
+    public CompetitionResultAggregate GetCompetition(int competitionId)
+    {
+        var aggregate = this.competitions.First(x => x.Id == competitionId);
+        return aggregate;
     }
 
     public IReadOnlyList<CompetitionResultAggregate> Competitions => this.competitions.AsReadOnly();

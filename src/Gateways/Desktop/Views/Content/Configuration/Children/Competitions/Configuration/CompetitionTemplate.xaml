@@ -5,32 +5,36 @@
 
     <DataTemplate DataType="{x:Type competitions:CompetitionViewModel}">
         <StackPanel Style="{StaticResource List-Vertical}">
-
+            <!-- Header -->
             <Border Style="{StaticResource Border-Vertical}">
                 <DockPanel Style="{StaticResource Dock-Horizontal}">
-                    <TextBlock Style="{StaticResource Text-Bold}"
-                               Text="{Binding Name}"/>
-
+                    <!-- Type -->
                     <TextBlock Style="{StaticResource Text-Bold}"
                                Text="{Binding TypeString}" />
-
-                    <Button Style="{StaticResource Button-Form}"
-                            Command="{Binding ToggleVisibility}"
-                            Content="{Binding ToggleText}" />
-
-                    <Button Style="{StaticResource Button-Form}" HorizontalAlignment="Right"
-                            Command="{Binding NavigateToUpdate}"
-                            Content="{x:Static localization:Strings.UPDATE_COMPETITION}" />
+                    <!-- Name -->
+                    <TextBlock Style="{StaticResource Text}"
+                               Text="{Binding Name}"/>
+                    <!-- Controls -->
+                    <StackPanel Style="{StaticResource List-Horizontal}" HorizontalAlignment="Right">
+                        <!-- Expand/Collapse button-->
+                        <Button Style="{StaticResource Button-List-Item}"
+                                Command="{Binding ToggleVisibility}"
+                                Content="{Binding ToggleText}" />
+                        <!-- Update button -->
+                        <Button Style="{StaticResource Button-List-Item}"
+                                Command="{Binding NavigateToUpdate}"
+                                Content="{x:Static localization:Strings.UPDATE_COMPETITION}" />
+                    </StackPanel>
                 </DockPanel>
             </Border>
-
+            <!-- Laps -->
             <StackPanel Visibility="{Binding Visibility}">
-
+                <!-- label -->
                 <Border Style="{StaticResource Border-Vertical}">
                     <TextBlock Style="{StaticResource Text}"
                                Text="{x:Static localization:Strings.LAPS_ENTITY}" />
                 </Border>
-
+                <!-- Laps list -->
                 <Border Style="{StaticResource Border-Vertical}">
                     <ListBox Style="{StaticResource ListBox-Vertical}"
                              ItemsSource="{Binding Laps}" />
