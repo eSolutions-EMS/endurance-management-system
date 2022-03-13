@@ -32,6 +32,7 @@
     <Style x:Key="Button-Big-Vertical" TargetType="Button" BasedOn="{StaticResource Button-Vertical}">
         <Setter Property="MinWidth" Value="200px" />
         <Setter Property="FontSize" Value="16px" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
     </Style>
 
     <Style x:Key="Button-Big-Horizontal" TargetType="Button" BasedOn="{StaticResource Button-Horizontal}">
@@ -54,7 +55,13 @@
 
     <Style x:Key="Button-Form" TargetType="Button" BasedOn="{StaticResource Button}">
         <Setter Property="Width" Value="150px" />
-        <Setter Property="Margin" Value="5px 5px" />
+        <Setter Property="Margin" Value="0 10px 0 0" />
+    </Style>
+
+    <Style x:Key="Button-List-Item" TargetType="Button" BasedOn="{StaticResource Button-Horizontal}">
+        <Setter Property="Width" Value="150px" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Right" />
     </Style>
 
     <Style x:Key="Button-Form-Create" TargetType="Button" BasedOn="{StaticResource Button-Form}">

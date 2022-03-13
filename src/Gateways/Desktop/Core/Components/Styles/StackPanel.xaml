@@ -12,6 +12,10 @@
         <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
 
+    <Style x:Key="List-Horizontal-Right" TargetType="StackPanel" BasedOn="{StaticResource List-Horizontal}">
+        <Setter Property="HorizontalAlignment" Value="Right" />
+    </Style>
+
     <Style x:Key="List-Vertical" BasedOn="{StaticResource Wrapper}" TargetType="StackPanel">
         <Setter Property="Orientation" Value="Vertical" />
     </Style>
