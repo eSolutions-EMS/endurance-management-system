@@ -9,11 +9,10 @@ using Prism.Regions;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows.Documents;
 using System.Windows.Media;
 using static EnduranceJudge.Localization.Strings;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.CompetitionResults;
+namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings;
 
 public class RankingViewModel : ViewModelBase
 {
