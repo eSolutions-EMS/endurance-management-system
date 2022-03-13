@@ -3,7 +3,7 @@ using EnduranceJudge.Gateways.Desktop.Core.Services;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings;
+namespace EnduranceJudge.Gateways.Desktop.Views.Content.Ranking;
 
 public partial class RankingView : UserControl, IView
 {

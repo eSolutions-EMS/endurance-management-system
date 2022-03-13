@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using static EnduranceJudge.Localization.Strings;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.ParticipantResults;
+namespace EnduranceJudge.Gateways.Desktop.Views.Content.Ranking.ParticipantResults;
 
 // TODO: rename to Participation
 public class ParticipantResultTemplateModel : ParticipantTemplateModelBase

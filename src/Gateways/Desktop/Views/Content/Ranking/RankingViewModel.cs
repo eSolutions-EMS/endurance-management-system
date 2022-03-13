@@ -1,9 +1,9 @@
-﻿using EnduranceJudge.Domain.AggregateRoots.Rankings;
-using EnduranceJudge.Domain.AggregateRoots.Rankings.Aggregates;
+﻿using EnduranceJudge.Domain.AggregateRoots.Ranking;
+using EnduranceJudge.Domain.AggregateRoots.Ranking.Aggregates;
 using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem;
 using EnduranceJudge.Gateways.Desktop.Services;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Rankings.RankLists;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Ranking.RankLists;
 using Prism.Commands;
 using Prism.Regions;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ using System.Linq;
 using System.Windows.Media;
 using static EnduranceJudge.Localization.Strings;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Rankings;
+namespace EnduranceJudge.Gateways.Desktop.Views.Content.Ranking;
 
 public class RankingViewModel : ViewModelBase
 {
