@@ -1,9 +1,7 @@
-﻿using EnduranceJudge.Domain.Core;
-using EnduranceJudge.Domain.Core.Models;
+﻿using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.Enums;
 using EnduranceJudge.Domain.State.Competitions;
 using EnduranceJudge.Domain.State.EnduranceEvents;
-using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Domain.State.Participations;
 using System;
 using System.Collections.Generic;
@@ -18,7 +16,7 @@ public class CompetitionResultAggregate : IAggregate, ICompetitionData
         Competition competition,
         IList<Participation> participations)
     {
-        this.Id = DomainIdProvider.Generate();
+        this.Id = competition.Id;
         this.CompetitionLengthInKm = competition.Laps.Aggregate(0d, (total, x) => total + x.LengthInKm);
         this.CompetitionName = competition.Name;
         this.EventName = enduranceEvent.Name;
