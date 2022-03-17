@@ -49,8 +49,8 @@ public class RankList : IAggregate, IEnumerable<Participation>
                 .All(performance => performance.Result?.IsRanked ?? false))
             .ThenBy(participation => participation.Participant
                 .LapRecords
-                .Last()
-                .ArrivalTime);
+                .LastOrDefault()
+                ?.ArrivalTime);
 
     private (TimeSpan, Participation) CalculateTotalRecovery(Participation participation)
     {
