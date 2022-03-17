@@ -1,4 +1,5 @@
-﻿using EnduranceJudge.Domain.State.Athletes;
+﻿using EnduranceJudge.Core.ConventionalServices;
+using EnduranceJudge.Domain.State.Athletes;
 using EnduranceJudge.Domain.State.Countries;
 using EnduranceJudge.Domain.State.EnduranceEvents;
 using EnduranceJudge.Domain.State.Horses;
@@ -8,7 +9,7 @@ using System.Collections.Generic;
 
 namespace EnduranceJudge.Domain.State;
 
-public interface IState
+public interface IState : ISingletonService
 {
     EnduranceEvent Event { get; set; }
     List<Horse> Horses { get; }

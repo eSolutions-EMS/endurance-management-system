@@ -7,7 +7,6 @@ using EnduranceJudge.Domain;
 using EnduranceJudge.Domain.AggregateRoots.Configuration;
 using EnduranceJudge.Domain.State;
 using System;
-using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace EnduranceJudge.Gateways.Persistence.Contracts;
@@ -17,18 +16,18 @@ public class Storage : IStorage
     private const string STORAGE_FILE_NAME = "endurance-judge-data";
 
     private string storageFilePath;
-    private readonly IStateContext context;
+    private readonly State appState;
     private readonly IEncryptionService encryption;
     private readonly IFileService file;
     private readonly IJsonSerializationService serialization;
 
     public Storage(
-        IStateContext context,
+        State appState,
         IEncryptionService encryption,
         IFileService file,
         IJsonSerializationService serialization)
     {
-        this.context = context;
+        this.appState = appState;
         this.encryption = encryption;
         this.file = file;
         this.serialization = serialization;
@@ -60,13 +59,13 @@ public class Storage : IStorage
         ReferenceNormalizer.Normalize(state);
         this.FixDatesForToday(state);
         // this.__REVERT_START_PARTICIPATIONS__();
-        this.context.Populate(state);
+        this.appState.Restore(state);
         ;
     }
 
     private void Create()
     {
-        var serialized = this.serialization.Serialize(this.context);
+        var serialized = this.serialization.Serialize(this.appState);
         this.file.Create(this.storageFilePath, serialized);
     }
 

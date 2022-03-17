@@ -16,14 +16,23 @@ namespace EnduranceJudge.Gateways.Persistence.Contracts;
 public class State : IState
 {
     public EnduranceEvent Event { get; set; }
-    public List<Horse> Horses { get; } = new();
-    public List<Athlete> Athletes { get; } = new();
-    public List<Participant> Participants { get; } = new();
-    public List<Participation> Participations { get; } = new();
+    public List<Horse> Horses { get; private set; } = new();
+    public List<Athlete> Athletes { get; private set; } = new();
+    public List<Participant> Participants { get; private set; } = new();
+    public List<Participation> Participations { get; private set; } = new();
 
     [JsonIgnore]
     public IReadOnlyList<Country> Countries
         => PersistenceConstants.Countries.List.AsReadOnly();
+
+    internal void Restore(IState state)
+    {
+        this.Event = state.Event;
+        this.Horses = state.Horses;
+        this.Athletes = state.Athletes;
+        this.Participants = state.Participants;
+        this.Participations = state.Participations;
+    }
 }
 
 // TODO: remove
