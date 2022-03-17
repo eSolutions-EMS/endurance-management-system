@@ -92,7 +92,7 @@
 
     <Style x:Key="Border-Heading" BasedOn="{StaticResource Border-Table-Cell}" TargetType="Border">
         <Setter Property="Background" Value="DimGray" />
-        <Setter Property="Height" Value="50px" />
+        <Setter Property="Height" Value="30px" />
     </Style>
 
     <Style  x:Key="Border-Left" BasedOn="{StaticResource Border-Horizontal}" TargetType="Border">

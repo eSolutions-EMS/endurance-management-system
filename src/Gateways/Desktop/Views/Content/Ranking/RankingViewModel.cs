@@ -1,15 +1,20 @@
-﻿using EnduranceJudge.Domain.AggregateRoots.Ranking;
+﻿using EnduranceJudge.Application.Aggregates.Configurations.Contracts;
+using EnduranceJudge.Core.Services;
+using EnduranceJudge.Domain.AggregateRoots.Ranking;
 using EnduranceJudge.Domain.AggregateRoots.Ranking.Aggregates;
 using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem;
 using EnduranceJudge.Gateways.Desktop.Services;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Ranking.RankLists;
+using EnduranceJudge.Gateways.Desktop.Print;
+using EnduranceJudge.Gateways.Desktop.Print.Performances;
 using Prism.Commands;
 using Prism.Regions;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows.Media;
+using System.Windows;
+using System.Xaml;
 using static EnduranceJudge.Localization.Strings;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Ranking;
@@ -23,14 +28,14 @@ public class RankingViewModel : ViewModelBase
     public RankingViewModel(IPrinter printer, Executor<RankingRoot> rankingExecutor)
     {
         this.rankingExecutor = rankingExecutor;
-        this.Print = new DelegateCommand<Visual>(printer.Print);
+        this.Print = new DelegateCommand(this.PrintAction);
         this.SelectKidsCategory = new DelegateCommand(this.SelectKidsCategoryAction);
         this.SelectAdultsCategory = new DelegateCommand(this.SelectAdultsCategoryAction);
         this.SelectCompetition = new DelegateCommand<int?>(x => this.SelectCompetitionAction(x!.Value));
     }
 
     public DelegateCommand<int?> SelectCompetition { get; }
-    public DelegateCommand<Visual> Print { get; }
+    public DelegateCommand Print { get; }
     public DelegateCommand SelectKidsCategory { get; }
     public DelegateCommand SelectAdultsCategory { get; }
 
@@ -64,11 +69,12 @@ public class RankingViewModel : ViewModelBase
 
     private void SelectCompetitionAction(int competitionId)
     {
+        // TODO: Select competition only if Event has started
         var competition = this.rankingExecutor.Execute(ranking => ranking.GetCompetition(competitionId));
         this.selectedCompetition = competition;
         this.HasAdultsClassification = competition.AdultsRankList != null;
         this.HasKidsClassification = competition.KidsRankList != null;
-        this.SelectDefault();
+        this.SelectDefault(); // TODO: rename to select category.
     }
 
     private ListItemViewModel ToListItem(CompetitionResultAggregate resultAggregate)
@@ -85,6 +91,11 @@ public class RankingViewModel : ViewModelBase
     private void SelectAdultsCategoryAction()
     {
         this.Select(this.selectedCompetition.AdultsRankList);
+    }
+    private void PrintAction()
+    {
+        var printer = new PrintRanklist(this.selectedCompetition.CompetitionName, this.RankList.SelectMany(x => x.RankList));
+        printer.PreviewDocument();
     }
     private void SelectDefault()
     {

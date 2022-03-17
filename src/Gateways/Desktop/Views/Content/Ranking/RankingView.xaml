@@ -4,6 +4,7 @@
              xmlns:prism="http://prismlibrary.com/"
              xmlns:localization="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization"
              xmlns:listItem="clr-namespace:EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem"
+             xmlns:manager="clr-namespace:EnduranceJudge.Gateways.Desktop.Views.Content.Manager"
              prism:ViewModelLocator.AutoWireViewModel="True">
 
     <ScrollViewer Style="{StaticResource Scroll}"
@@ -40,6 +41,8 @@
             <Border Style="{StaticResource Border-Content-Right}"
                     Grid.Row="1" Grid.Column="2">
                 <StackPanel Style="{StaticResource List-Vertical}">
+                    <manager:ManagerView>
+                    </manager:ManagerView>
                     <!-- Kids Button-->
                     <Button Style="{StaticResource Button-Big-Vertical}"
                             IsEnabled="{Binding HasKidsClassification}"
@@ -56,7 +59,6 @@
                     <!-- Print Button -->
                     <Button Style="{StaticResource Button-Big-Vertical}" Margin="0 50px"
                             Command="{Binding Print}"
-                            CommandParameter="{Binding ElementName=RankList}"
                             Content="{x:Static localization:Strings.PRINT}" />
                 </StackPanel>
             </Border>

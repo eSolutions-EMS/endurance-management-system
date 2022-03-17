@@ -12,6 +12,7 @@ public static class LocalizationConstants
 
     internal static readonly Dictionary<string, string> PLACEHOLDERS_VALUES = new()
     {
+        // TODO: fix {entities-country} replacing
         { "{entities-athlete}",                ATHLETE_ENTITY },
         { "{entities-athlete-plurals}",        ATHLETES_ENTITY },
         { "{entities-competition}",            COMPETITION_ENTITY },

@@ -1,0 +1,39 @@
+﻿<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Border Style="{StaticResource Padding}" Padding="0" BorderThickness="3,3,3,3" BorderBrush="DimGray">
+        <StackPanel Style="{StaticResource List-Vertical}">
+            <!-- Header -->
+            <Border Style="{StaticResource Border-Vertical}"
+                    Grid.Row="0">
+                <DockPanel Style="{StaticResource Dock-Horizontal}">
+                    <!-- Event  -->
+                    <StackPanel Style="{StaticResource List-Vertical}">
+                        <TextBlock Style="{StaticResource Text-Bold}"
+                                   Name="EventName"/><!-- Placeholder -->
+                        <TextBlock Style="{StaticResource Text-Bold}">
+                            <Run Style="{StaticResource Run-Bold}"
+                                 Name="PopulatedPlace" /><!-- Placeholder -->
+                            <Run Style="{StaticResource Run-Bold}"
+                                 Text=" - " />
+                            <Run Style="{StaticResource Run-Bold}"
+                                 Name="CountryName" /><!-- Placeholder -->
+                        </TextBlock>
+                        <TextBlock Style="{StaticResource Text-Bold}"
+                                   Name="Date" /><!-- Placeholder -->
+                    </StackPanel>
+                    <!-- Organizers -->
+                    <TextBlock Style="{StaticResource Text-H3-Right}"
+                               Name="Organizer"/><!-- Placeholder -->
+                </DockPanel>
+            </Border>
+            <!-- Title -->
+            <Border Style="{StaticResource Border-Heading}"
+                    Grid.Row="1">
+                <TextBlock Style="{StaticResource Text-H1}"
+                           Name="Title" /><!-- Placeholder -->
+            </Border>
+        </StackPanel>
+    </Border>
+
+</UserControl>

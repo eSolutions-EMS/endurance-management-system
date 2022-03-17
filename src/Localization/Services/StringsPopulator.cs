@@ -21,7 +21,7 @@ public class StringsPopulator : IStringsPopulator
             var value = values[name];
             if (value == null)
             {
-                continue;
+                continue; // TODO: uncomment this
                 // throw new Exception($"Missing entry {name} in translations file");
             }
             var processed = Replace(value);

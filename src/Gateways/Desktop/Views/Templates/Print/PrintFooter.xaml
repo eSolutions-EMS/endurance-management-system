@@ -1,0 +1,25 @@
+﻿<UserControl xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Border Style="{StaticResource Padding}" Padding="0" BorderThickness="3,3,3,3" BorderBrush="DimGray">
+           <StackPanel Style="{StaticResource List-Vertical}">
+                <Border Style="{StaticResource Border-Heading}"
+                        Grid.Row="3">
+                    <DockPanel Style="{StaticResource Dock-Horizontal}">
+                        <!-- President Ground Jury -->
+                        <TextBlock Style="{StaticResource Text-Align-Left}"
+                                   Name="PresidentGroundJury" /><!-- Placeholder -->
+                        <!-- Chief Steward -->
+                        <TextBlock Style="{StaticResource Text-Align-Right}"
+                                   Name="ChiefSteward" /><!-- Placeholder -->
+                    </DockPanel>
+                </Border>
+                <Border Style="{StaticResource Border-Vertical}"
+                        Grid.Row="4">
+                    <TextBlock Style="{StaticResource Text-Align-Right}"
+                               Name="Date" /><!-- Placeholder -->
+                </Border>
+           </StackPanel>
+    </Border>
+
+</UserControl>

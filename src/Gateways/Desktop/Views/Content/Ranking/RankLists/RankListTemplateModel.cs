@@ -1,7 +1,6 @@
 ﻿using EnduranceJudge.Domain.AggregateRoots.Common.Performances;
 using EnduranceJudge.Domain.AggregateRoots.Ranking;
 using EnduranceJudge.Domain.AggregateRoots.Ranking.Aggregates;
-using EnduranceJudge.Domain.State.Participations;
 using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Ranking.ParticipantResults;
 using System;
