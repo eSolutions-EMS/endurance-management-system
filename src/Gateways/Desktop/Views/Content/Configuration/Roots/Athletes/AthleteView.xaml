@@ -108,6 +108,7 @@
         <Border Style="{StaticResource Border-Vertical}"
                 Grid.Row="7" Grid.Column="1">
             <Button Style="{StaticResource Button-Form}"
+                    Command="{Binding Submit}"
                     Content="{x:Static localization:Strings.SAVE}"/>
         </Border>
     </Grid>
