@@ -33,7 +33,12 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Views\Content\Ranking\CompetitionResults" />
+      <Content Include="Views\Templates\Print\PrintFooter.xaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
+      <Content Include="Views\Templates\Print\PrintHeader.xaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
 </Project>

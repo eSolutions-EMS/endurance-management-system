@@ -2,7 +2,6 @@
 using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Common.Performances;
-using ImTools;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -21,6 +20,14 @@ public abstract class ParticipantTemplateModelBase : ViewModelBase
     }
 
     public ObservableCollection<PerformanceTemplateModel> Performances { get; } = new();
+
+    protected void ToggleEditPerformanceVisibility()
+    {
+        foreach (var performance in this.Performances)
+        {
+            performance.ToggleEditVisibility();
+        }
+    }
 
     protected Participant Participant { get; }
 

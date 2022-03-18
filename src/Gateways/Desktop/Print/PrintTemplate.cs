@@ -1,10 +1,13 @@
 ﻿using EnduranceJudge.Core.Services;
 using EnduranceJudge.Core.Utilities;
 using EnduranceJudge.Domain.State;
+using Mairegger.Printing.Content;
 using Mairegger.Printing.Definition;
 using Mairegger.Printing.PrintProcessor;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -33,15 +36,20 @@ public abstract class PrintTemplate : PrintProcessor
     protected IState State { get; }
     protected int HeaderOffset { get; set; } = 0;
     protected SolidColorBrush BorderBrush { get; set; } = Brushes.DimGray;
+    protected List<IPrintContent> PrintItems { get; set; } = new();
 
     public override UIElement GetHeader()
         => this.header;
 
     public override UIElement GetFooter()
         => this.footer;
+
+    public override IEnumerable<IPrintContent> ItemCollection()
+        => this.PrintItems;
+
     private UIElement PrepareHeader()
     {
-        var xaml = this.file.Read("Views/Templates/Print/Header.xaml");
+        var xaml = this.file.Read("Views/Templates/Print/PrintHeader.xaml");
         var control = (UserControl)XamlServices.Parse(xaml);
         var eventNameBlock = (TextBlock)control.FindName("EventName")!;
         var populatedPlaceBlock = (Run)control.FindName("PopulatedPlace")!;
@@ -62,7 +70,7 @@ public abstract class PrintTemplate : PrintProcessor
 
     private UIElement PrepareFooter()
     {
-        var xaml = this.file.Read("Views/Templates/Print/Footer.xaml");
+        var xaml = this.file.Read("Views/Templates/Print/PrintFooter.xaml");
         var control = (UserControl)XamlServices.Parse(xaml);
         var presidentGjBlock = (TextBlock)control.FindName("PresidentGroundJury")!;
         var chiefStewBlock = (TextBlock)control.FindName("ChiefSteward")!;
@@ -73,6 +81,12 @@ public abstract class PrintTemplate : PrintProcessor
         dateBlock.Text = DateTime.Now.ToString(CultureInfo.InvariantCulture);;
 
         return control;
+    }
+
+    protected void AddPrintContent(UIElement element)
+    {
+        var content = new PrintContentItem(element);
+        this.PrintItems.Add(content);
     }
 
     protected override void PreparePrint()
