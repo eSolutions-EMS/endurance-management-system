@@ -5,9 +5,9 @@ using System.Windows.Media;
 
 namespace EnduranceJudge.Gateways.Desktop.Print.Performances;
 
-public class PrintPerformance : PrintTemplate
+public class PerfomancePrinter : PrintTemplate
 {
-    public PrintPerformance(ParticipationTemplateModel participation) : base(participation.Number.ToString())
+    public PerfomancePrinter(ParticipationTemplateModel participation) : base(participation.Number.ToString())
     {
         var control = new ContentControl { Content = participation };
         this.AddPrintContent(control);

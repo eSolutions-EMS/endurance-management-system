@@ -6,9 +6,9 @@ using System.Windows.Media;
 
 namespace EnduranceJudge.Gateways.Desktop.Print.Performances;
 
-public class PrintRanklist : PrintTemplate
+public class RanklistPrinter : PrintTemplate
 {
-    public PrintRanklist(string competitionName, IEnumerable<ParticipantResultTemplateModel> participations)
+    public RanklistPrinter(string competitionName, IEnumerable<ParticipantResultTemplateModel> participations)
         : base(competitionName)
     {
         foreach (var participation in participations)

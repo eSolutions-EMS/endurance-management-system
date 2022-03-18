@@ -94,7 +94,7 @@ public class RankingViewModel : ViewModelBase
     }
     private void PrintAction()
     {
-        var printer = new PrintRanklist(this.selectedCompetition.CompetitionName, this.RankList.SelectMany(x => x.RankList));
+        var printer = new RanklistPrinter(this.selectedCompetition.CompetitionName, this.RankList.SelectMany(x => x.RankList));
         printer.PreviewDocument();
     }
     private void SelectDefault()

@@ -33,7 +33,7 @@ public class ParticipationTemplateModel : ParticipantTemplateModelBase
     private void PrintAction()
     {
         this.ToggleEditPerformanceVisibility();
-        var printer = new PrintPerformance(this);
+        var printer = new PerfomancePrinter(this);
         printer.PreviewDocument();
         this.ToggleEditPerformanceVisibility();
     }
