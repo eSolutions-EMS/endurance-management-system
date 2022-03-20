@@ -1,6 +1,4 @@
 ﻿using EnduranceJudge.Core.Utilities;
-using static EnduranceJudge.Localization.Strings;
-using System.Collections.Generic;
 using System.Reflection;
 
 namespace EnduranceJudge.Localization;
@@ -10,32 +8,31 @@ public static class LocalizationConstants
     public const string DEFAULT_COUNTRY_CODE = "BGR";
     public const string STRINGS_FILENAME = "strings.txt";
 
-    internal static readonly Dictionary<string, string> PLACEHOLDERS_VALUES = new()
+    internal static class Placeholders
     {
-        // TODO: fix {entities-country} replacing
-        { "{entities-athlete}",                ATHLETE_ENTITY },
-        { "{entities-athlete-plurals}",        ATHLETES_ENTITY },
-        { "{entities-competition}",            COMPETITION_ENTITY },
-        { "{entities-competition-plurals}",    COMPETITIONS_ENTITY },
-        { "{entities-country}",                COUNTRY_ENTITY },
-        { "{entities-country-plurals}",        COUNTRIES_ENTITY },
-        { "{entities-event}",                  ENDURANCE_EVENT_ENTITY },
-        { "{entities-event-plurals}",          ENDURANCE_EVENTS_ENTITY },
-        { "{entities-horse}",                  HORSE_ENTITY },
-        { "{entities-horse-plurals}",          HORSES_ENTITY },
-        { "{entities-participant}",            PARTICIPANT_ENTITY },
-        { "{entities-participant-plurals}",    PARTICIPANTS_ENTITY },
-        { "{entities-participation}",          PARTICIPATION_ENTITY },
-        { "{entities-participation-plurals}",  PARTICIPATIONS_ENTITY },
-        { "{entities-performance}",            PERFORMANCE_ENTITY },
-        { "{entities-performance-plurals}",    PERFORMANCES_ENTITY },
-        { "{entities-personnel}",              PERSONNEL_ENTITY },
-        { "{entities-result}",                 RESULT_ENTITY },
-        { "{entities-result-plurals}",         RESULTS_ENTITY },
-        { "{entities-lap}",                    LAP_ENTITY },
-        { "{entities-lap-plurals}",            LAPS_ENTITY },
-        { "{words-update}",                    UPDATE },
-        { "{words-import}",                    IMPORT },
+        public const string ATHLETE =          "{entities-athlete}";
+        public const string ATHLETES =         "{entities-athlete-plurals}";
+        public const string COMPETITION =      "{entities-competition}";
+        public const string COMPETITIONS =     "{entities-competition-plurals}";
+        public const string COUNTRY =          "{entities-country}";
+        public const string COUNTRIES =        "{entities-country-plurals}";
+        public const string EVENT =            "{entities-event}";
+        public const string EVENTS =           "{entities-event-plurals}";
+        public const string HORSE =            "{entities-horse}";
+        public const string HORSES =           "{entities-horse-plurals}";
+        public const string PARTICIPANT =      "{entities-participant}";
+        public const string PARTICIPANTS =     "{entities-participant-plurals}";
+        public const string PARTICIPATION =    "{entities-participation}";
+        public const string PARTICIPATIONS =   "{entities-participation-plurals}";
+        public const string PERFORMANCE =      "{entities-performance}";
+        public const string PERFORMANCES =     "{entities-performance-plurals}";
+        public const string PERSONNEL =        "{entities-personnel}";
+        public const string RESULT =           "{entities-result}";
+        public const string RESULTS =          "{entities-result-plurals}";
+        public const string LAP =              "{entities-lap}";
+        public const string LAPS =             "{entities-lap-plurals}";
+        public const string WORDS_UPDATE =     "{words-update}";
+        public const string WORDS_IMPORT =     "{words-import}";
     };
 
     public static Assembly[] Assemblies

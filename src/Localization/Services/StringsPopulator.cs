@@ -14,28 +14,20 @@ public class StringsPopulator : IStringsPopulator
         {
             throw new Exception("Translation values are empty");
         }
-        var fields = type.GetProperties(BindingFlags.Public | BindingFlags.Static);
+        var fields = type
+            .GetProperties(BindingFlags.Public | BindingFlags.Static)
+            .OrderByDescending(x => x.Name.EndsWith("ENTITY"))
+            .ThenByDescending(x => x.Name.EndsWith("TERM"));
         foreach (var info in fields)
         {
             var name = info.Name;
             var value = values[name];
             if (value == null)
             {
-                continue; // TODO: uncomment this
-                // throw new Exception($"Missing entry {name} in translations file");
+                throw new Exception($"Missing entry {name} in translations file");
             }
-            var processed = Replace(value);
-            info.SetValue(null, processed);
+            info.SetValue(null, value);
         }
-    }
-
-    private static string Replace(string template)
-    {
-        foreach (var (placeholder, value) in LocalizationConstants.PLACEHOLDERS_VALUES)
-        {
-            template = template.Replace(placeholder, value);
-        }
-        return template;
     }
 }
 

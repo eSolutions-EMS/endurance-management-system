@@ -73,6 +73,7 @@ public class ManagerRoot : IAggregateRoot
         return Performance.GetCurrent(participation);
     }
 
+    // TODO : fix validations
     public void ReInspection(int number, bool isRequired)
     {
         var participation = this.GetParticipation(number);
@@ -147,6 +148,7 @@ public class ManagerRoot : IAggregateRoot
                     INVALID_PARTICIPANT_NO_PARTICIPATIONS_MESSAGE,
                     participation.Participant.Number);
             }
+
             if (participation.Participant.Athlete.Country == null)
             {
                 throw Helper.Create<ParticipantException>(

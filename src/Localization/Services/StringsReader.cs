@@ -41,21 +41,21 @@ public class StringsReader : IStringsReader
     private (string key, string translation) ProcessLine(string line, int lineNumber)
     {
         var (key, baseline, translation) = this.ParseColumnValues(line, lineNumber);
-        this.ValidatePlaceholders(baseline, translation);
+        // this.ValidatePlaceholders(baseline, translation);
         return (key, translation);
     }
 
-    private void ValidatePlaceholders(string baseline, string translation)
-    {
-        foreach (var (placeholder, _) in LocalizationConstants.PLACEHOLDERS_VALUES)
-        {
-            if (baseline.Contains(placeholder) != translation.Contains(placeholder))
-            {
-                var message = $"Baseline '{baseline}' and it's translation equivalent '{translation}' have not-matching placeholders. ";
-                this.Throw(message);
-            }
-        }
-    }
+    // private void ValidatePlaceholders(string baseline, string translation)
+    // {
+    //     foreach (var (placeholder, _) in LocalizationConstants.PLACEHOLDERS)
+    //     {
+    //         if (baseline.Contains(placeholder) != translation.Contains(placeholder))
+    //         {
+    //             var message = $"Baseline '{baseline}' and it's translation equivalent '{translation}' have not-matching placeholders. ";
+    //             this.Throw(message);
+    //         }
+    //     }
+    // }
 
     private (string key, string baseline, string translation) ParseColumnValues(string line, int lineNumber)
     {
