@@ -4,7 +4,8 @@
              xmlns:prism="http://prismlibrary.com/"
              xmlns:localization="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization"
              xmlns:manager="clr-namespace:EnduranceJudge.Gateways.Desktop.Views.Content.Manager"
-             prism:ViewModelLocator.AutoWireViewModel="True">
+             prism:ViewModelLocator.AutoWireViewModel="True"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors">
 
     <ScrollViewer Style="{StaticResource Scroll}"
                   PreviewMouseWheel="HandleScroll">
@@ -135,6 +136,12 @@
                                            Text="{Binding Number}" />
                             </DataTemplate>
                         </TabControl.ItemTemplate>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <prism:InvokeCommandAction Command="{Binding Select}"
+                                                           TriggerParameterPath="AddedItems" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
                     </TabControl>
                 </StackPanel>
             </Border>

@@ -2,6 +2,7 @@
 using EnduranceJudge.Domain.AggregateRoots.Common.Performances;
 using EnduranceJudge.Domain.AggregateRoots.Manager;
 using EnduranceJudge.Domain.State.Participants;
+using EnduranceJudge.Domain.State.Participations;
 using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Core.Services;
 using EnduranceJudge.Gateways.Desktop.Events;
@@ -43,8 +44,14 @@ public class ManagerViewModel : ViewModelBase
         this.ReInspection = new DelegateCommand(this.ReInspectionAction);
         this.RequireInspection = new DelegateCommand(this.RequireInspectionAction);
         this.StartList = new DelegateCommand(popupService.RenderStartList);
+        this.Select = new DelegateCommand<object[]>(list =>
+        {
+            var participation = list.First();
+            this.SelectParticipation(participation as ParticipationTemplateModel);
+        });
     }
 
+    public DelegateCommand<object[]> Select { get; }
     public DelegateCommand Start { get; }
     public DelegateCommand Update { get; }
     public DelegateCommand CompleteUnsuccessful { get; }
@@ -164,7 +171,12 @@ public class ManagerViewModel : ViewModelBase
             this.popupService.RenderValidation(message);
             return;
         }
+        this.SelectParticipation(participation);
         this.eventAggregator.GetEvent<SelectTabEvent>().Publish(participation);
+    }
+
+    private void SelectParticipation(ParticipationTemplateModel participation)
+    {
         this.SelectedParticipation = participation;
         var performance = this.SelectedParticipation.Performances.LastOrDefault();
         if (performance != null)
@@ -172,6 +184,7 @@ public class ManagerViewModel : ViewModelBase
             this.ReInspectionValue = performance.IsReInspectionRequired;
             this.RequireInspectionValue = performance.IsRequiredInspectionRequired;
         }
+        this.InputNumber = participation.Number;
     }
 
     private void LoadParticipations()

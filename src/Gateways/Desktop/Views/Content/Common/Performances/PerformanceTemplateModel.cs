@@ -17,7 +17,6 @@ public class PerformanceTemplateModel : ViewModelBase, IMapFrom<Performance>, IP
 {
     private readonly IExecutor<ManagerRoot> managerExecutor;
     private readonly IDateService dateService;
-    private bool isReadonly;
 
     public PerformanceTemplateModel(Performance performance)
     {
@@ -48,11 +47,6 @@ public class PerformanceTemplateModel : ViewModelBase, IMapFrom<Performance>, IP
     private double? averageSpeedForLoopKpH;
     private double? averageSpeedTotalKpH;
     public DateTime? nextStartTime;
-
-    public void ToggleControlsVisibility()
-    {
-        this.isReadonly = !this.isReadonly;
-    }
 
     public void EditAction()
     {
