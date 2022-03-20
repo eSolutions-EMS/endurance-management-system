@@ -49,7 +49,7 @@ public static class Strings
     public static string FINAL                             { get; internal set; }
     public static string UPDATE_COMPETITION                { get; internal set; }
     public static string UPDATE_PHASE_TEXT                 { get; internal set; }
-    public static string SELECT_WORK_DIRECTORY             { get; internal set; }
+    public static string SELECT_DIRECTORY             { get; internal set; }
     public static string SELECT_IMPORT_FILE                { get; internal set; }
     public static string NAME                              { get; internal set; }
     public static string START_TIME                        { get; internal set; }

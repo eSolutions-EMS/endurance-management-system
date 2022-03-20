@@ -30,7 +30,7 @@
             <Border Style="{StaticResource Border-Horizontal}">
                 <Button Style="{StaticResource Button}"
                         Command="{Binding OpenFolderDialog}"
-                        Content="{x:Static localization:Strings.SELECT_WORK_DIRECTORY}" />
+                        Content="{x:Static localization:Strings.SELECT_DIRECTORY}" />
             </Border>
             <!-- Directory path -->
             <Border Style="{StaticResource Border-Horizontal}">
