@@ -31,13 +31,13 @@ public class RankListTemplateModel : ViewModelBase, ICompetitionData
         foreach (var participation in rankList)
         {
             var performances = Performance.GetAll(participation);
-            var entry = new ParticipantResultTemplateModel(rank, performances);
+            var entry = new ParticipationResultTemplateModel(rank, performances);
             this.RankList.Add(entry);
             rank++;
         }
     }
 
-    public ObservableCollection<ParticipantResultTemplateModel> RankList { get; } = new();
+    public ObservableCollection<ParticipationResultTemplateModel> RankList { get; } = new();
 
     public string Title => $"{this.CompetitionName} * {this.CompetitionLengthInKm} {KM.ToUpper()}";
     public string EventName { get; }

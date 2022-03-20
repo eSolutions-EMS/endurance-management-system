@@ -8,7 +8,7 @@ namespace EnduranceJudge.Gateways.Desktop.Print.Performances;
 
 public class RanklistPrinter : PrintTemplate
 {
-    public RanklistPrinter(string competitionName, IEnumerable<ParticipantResultTemplateModel> participations)
+    public RanklistPrinter(string competitionName, IEnumerable<ParticipationResultTemplateModel> participations)
         : base(competitionName)
     {
         foreach (var participation in participations)

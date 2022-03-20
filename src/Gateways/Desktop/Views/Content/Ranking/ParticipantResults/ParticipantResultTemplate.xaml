@@ -3,7 +3,7 @@
                     xmlns:participations="clr-namespace:EnduranceJudge.Gateways.Desktop.Views.Content.Ranking.ParticipantResults"
                     xmlns:localization="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization">
 
-    <DataTemplate DataType="{x:Type participations:ParticipantResultTemplateModel}">
+    <DataTemplate DataType="{x:Type participations:ParticipationResultTemplateModel}">
         <Border Style="{StaticResource Cell-No-Padding}" Margin="0 5px">
             <StackPanel Style="{StaticResource List-Vertical}">
                 <!-- Participant data -->

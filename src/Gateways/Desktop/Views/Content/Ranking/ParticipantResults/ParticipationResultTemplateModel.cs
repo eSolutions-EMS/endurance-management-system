@@ -7,10 +7,9 @@ using static EnduranceJudge.Localization.Strings;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Ranking.ParticipantResults;
 
-// TODO: rename to Participation
-public class ParticipantResultTemplateModel : ParticipantTemplateModelBase
+public class ParticipationResultTemplateModel : ParticipantTemplateModelBase
 {
-    public ParticipantResultTemplateModel(int rank, IEnumerable<Performance> performances) : base(performances)
+    public ParticipationResultTemplateModel(int rank, IEnumerable<Performance> performances) : base(performances)
     {
         this.Rank = rank;
         this.ParticipantNumber = this.Participant.Number;
@@ -23,7 +22,7 @@ public class ParticipantResultTemplateModel : ParticipantTemplateModelBase
         this.HorseBreed = this.Participant.Horse.Breed;
         this.TrainerFeiId = this.Participant.Horse.TrainerFeiId;
         this.TrainerName = this.Participant.Horse.TrainerName;
-        this.AverageSpeedInKm = performances.Sum(x => x.AverageSpeed) / performances.Count();
+        this.AverageSpeedInKm = this.Performances.Sum(perf => perf.AverageSpeed) / this.Performances.Count;
     }
 
     public int Rank { get; }
@@ -41,5 +40,5 @@ public class ParticipantResultTemplateModel : ParticipantTemplateModelBase
     public double? AverageSpeedInKm { get; }
 
     public string HorseGenderString => this.HorseIsStallion ? STALLION : MARE;
-    public string TotalLoopSpanString => this.TotalLoopSpan.ToString(@"hh\:mm\:ss");
+    public string TotalLoopSpanString => this.TotalLoopSpan.ToString(@"hh\:mm\:ss"); // TODO: date formats
 }
