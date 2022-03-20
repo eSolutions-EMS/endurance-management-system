@@ -127,13 +127,11 @@ public class ImportRoot : IAggregateRoot
         {
             return;
         }
+        this.state.Horses.Clear();
         if (!this.state.Horses.Any() || !this.state.Athletes.Any())
         {
-            // TODO: constant
-            throw Helper.Create<ParticipantException>(
-                "Cannot import Participants - empty horses and/or athletes.");
+            throw Helper.Create<ParticipantException>(PARTICIPANTS_CANNOT_BE_IMPORTED_MESSAGE);
         }
-
         foreach (var participantData in participantsData)
         {
             var athlete = this.state.Athletes.FirstOrDefault(x => x.FeiId == participantData.FEIID);

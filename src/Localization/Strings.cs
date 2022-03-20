@@ -156,4 +156,5 @@ public static class Strings
     /// {0}: Competition name
     /// </summary>
     public static string COMPETITION_CANNOT_START_WITHOUT_PHASES_MESSAGES         { get; internal set; }
+    public static string PARTICIPANTS_CANNOT_BE_IMPORTED_MESSAGE                  { get; internal set; }
 }
