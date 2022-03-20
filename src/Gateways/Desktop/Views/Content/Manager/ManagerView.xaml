@@ -128,7 +128,7 @@
             <Border Style="{StaticResource Border-Content-Center}"
                     Grid.Row="1" Grid.Column="1">
                 <StackPanel Style="{StaticResource List-Vertical}">
-                    <TabControl ItemsSource="{Binding Participations}"
+                    <TabControl ItemsSource="{Binding Participations}" TabStripPlacement="Bottom"
                                 Name="Participations">
                         <TabControl.ItemTemplate>
                             <DataTemplate>

@@ -17,8 +17,8 @@
 
     <!-- Size -->
     <Style x:Key="Button-Big" TargetType="Button" BasedOn="{StaticResource Button}">
-        <Setter Property="Width" Value="200px" />
-        <Setter Property="MinWidth" Value="100px" />
+        <Setter Property="MaxWidth" Value="200px" />
+        <Setter Property="MinWidth" Value="150px" />
         <Setter Property="FontSize" Value="16px" />
     </Style>
 

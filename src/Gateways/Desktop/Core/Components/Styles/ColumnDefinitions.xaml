@@ -14,7 +14,7 @@
     </Style>
 
     <Style x:Key="Layout-Left" TargetType="ColumnDefinition">
-        <Setter Property="Width" Value="60px" />
+        <Setter Property="Width" Value="30px" />
     </Style>
 
     <Style x:Key="Layout-Main" TargetType="ColumnDefinition">
