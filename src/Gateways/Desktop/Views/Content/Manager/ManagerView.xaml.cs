@@ -1,5 +1,7 @@
 ﻿using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Core.Services;
+using EnduranceJudge.Gateways.Desktop.Events;
+using Prism.Events;
 using System.Windows.Controls;
 using System.Windows.Input;
 
@@ -9,9 +11,13 @@ public partial class ManagerView : UserControl, IView
 {
     private readonly IInputHandler inputInput;
 
-    public ManagerView(IInputHandler inputInput) : this()
+    public ManagerView(IInputHandler inputInput, IEventAggregator eventAggregator) : this()
     {
         this.inputInput = inputInput;
+        eventAggregator.GetEvent<SelectTabEvent>().Subscribe(item =>
+        {
+            ((TabControl) this.FindName("Participations")!).SelectedItem = item;
+        });
     }
     public ManagerView()
     {

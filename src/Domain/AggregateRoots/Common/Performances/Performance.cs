@@ -130,4 +130,9 @@ public class Performance : IAggregate, IPerformance
             index++;
         }
     }
+    public static Performance GetCurrent(Participation participation)
+    {
+        var index = participation.Participant.LapRecords.Count - 1;
+        return new Performance(participation, index);
+    }
 }

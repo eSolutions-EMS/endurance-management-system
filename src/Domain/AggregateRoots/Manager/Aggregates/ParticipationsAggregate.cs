@@ -28,15 +28,6 @@ public class ParticipationsAggregate : IAggregate
 
     public int Number { get; }
 
-    internal IEnumerable<Performance> GetAllPerformances()
-    {
-        for (var i = 0; i < this.participation.Participant.LapRecords.Count; i++)
-        {
-            var performance = new Performance(this.participation, i);
-            yield return performance;
-        }
-    }
-
     // TODO: Move in StartNext?
     internal void Start()
     {
@@ -103,5 +94,13 @@ public class ParticipationsAggregate : IAggregate
         today = today.AddSeconds(date.Second);
         today = today.AddMilliseconds(date.Millisecond);
         return today;
+    }
+}
+
+public static partial class AggregateExtensions
+{
+    public static ParticipationsAggregate Aggregate(this Participation participation)
+    {
+        return new ParticipationsAggregate(participation);
     }
 }

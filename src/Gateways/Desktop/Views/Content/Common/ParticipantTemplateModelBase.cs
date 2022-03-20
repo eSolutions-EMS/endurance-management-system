@@ -5,27 +5,34 @@ using EnduranceJudge.Gateways.Desktop.Views.Content.Common.Performances;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Common;
 
 public abstract class ParticipantTemplateModelBase : ViewModelBase
 {
-    protected ParticipantTemplateModelBase(IEnumerable<Performance> performances, bool allowEdit = false)
+    private Visibility controlsVisibility;
+
+    protected ParticipantTemplateModelBase(IEnumerable<Performance> performances)
     {
         var list = performances.ToList();
         this.Participant = list.First().Participant;
         this.Number = Participant.Number;
-        var viewModels = list.Select(perf => new PerformanceTemplateModel(perf, allowEdit));
+        var viewModels = list.Select(perf => new PerformanceTemplateModel(perf));
         this.Performances.AddRange(viewModels);
     }
 
     public ObservableCollection<PerformanceTemplateModel> Performances { get; } = new();
-
-    protected void ToggleEditPerformanceVisibility()
+    public Visibility ControlsVisibility
     {
-        foreach (var performance in this.Performances)
+        get => this.controlsVisibility;
+        protected set
         {
-            performance.ToggleEditVisibility();
+            this.controlsVisibility = value;
+            foreach (var performance in this.Performances)
+            {
+                performance.EditVisibility = value;
+            }
         }
     }
 

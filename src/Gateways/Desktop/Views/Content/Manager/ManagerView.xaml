@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:localization="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization"
+             xmlns:manager="clr-namespace:EnduranceJudge.Gateways.Desktop.Views.Content.Manager"
              prism:ViewModelLocator.AutoWireViewModel="True">
 
     <ScrollViewer Style="{StaticResource Scroll}"
@@ -125,8 +126,17 @@
             <!-- Content Center Participations -->
             <Border Style="{StaticResource Border-Content-Center}"
                     Grid.Row="1" Grid.Column="1">
-                <ListBox Style="{StaticResource ListBox-Vertical}"
-                         ItemsSource="{Binding Participations}" />
+                <StackPanel Style="{StaticResource List-Vertical}">
+                    <TabControl ItemsSource="{Binding Participations}"
+                                Name="Participations">
+                        <TabControl.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock Style="{StaticResource Text-Bold}" Width="30px" TextAlignment="Center" Padding="5px"
+                                           Text="{Binding Number}" />
+                            </DataTemplate>
+                        </TabControl.ItemTemplate>
+                    </TabControl>
+                </StackPanel>
             </Border>
             <!-- Content Right Buttons  -->
             <Border Style="{StaticResource Border-Content-Right}"

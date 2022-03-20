@@ -54,43 +54,45 @@ public class ManagerRoot : IAggregateRoot
     public IEnumerable<Performance> GetPerformances(int participantNumber)
     {
         var participation = this.state.Participations.First(x => x.Participant.Number == participantNumber);
-        var aggregate = new ParticipationsAggregate(participation);
-        return aggregate.GetAllPerformances();
+        var performances = Performance.GetAll(participation);
+        return performances;
     }
 
-    public void UpdateRecord(int number, DateTime time)
+    public Performance UpdateRecord(int number, DateTime time)
     {
         var participation = this.GetParticipation(number);
-        participation.Update(time);
+        participation.Aggregate().Update(time);
+        return Performance.GetCurrent(participation);
     }
 
-    public void CompletePerformance(int number, string code)
+    public Performance CompletePerformance(int number, string code)
     {
         var participation = this.GetParticipation(number);
-        var record = participation.GetCurrent();
-        record.Complete(code);
+        var recordsAggregate = participation.Aggregate().GetCurrent();
+        recordsAggregate.Complete(code);
+        return Performance.GetCurrent(participation);
     }
 
     public void ReInspection(int number, bool isRequired)
     {
         var participation = this.GetParticipation(number);
-        var record = participation.GetCurrent();
-        if (record == null)
+        var recordsAggregate = participation.Aggregate().GetCurrent();
+        if (recordsAggregate == null)
         {
             throw Helper.Create<ParticipantException>(NOT_FOUND_MESSAGE, NUMBER, number);
         }
-        record!.ReInspection(isRequired);
+        recordsAggregate!.ReInspection(isRequired);
     }
 
     public void RequireInspection(int number, bool isRequired)
     {
-        var participant = this.GetParticipation(number);
-        var performance = participant.GetCurrent();
-        if (performance == null)
+        var participation = this.GetParticipation(number);
+        var lapRecord = participation.Aggregate().GetCurrent();
+        if (lapRecord == null)
         {
             throw Helper.Create<ParticipationException>(NOT_FOUND_MESSAGE, NUMBER, number);
         }
-        performance!.RequireInspection(isRequired);
+        lapRecord.RequireInspection(isRequired);
     }
 
     public Performance EditRecord(ILapRecordState state)
@@ -114,7 +116,7 @@ public class ManagerRoot : IAggregateRoot
         return startList;
     }
 
-    private ParticipationsAggregate GetParticipation(int number)
+    private Participation GetParticipation(int number)
     {
         var participation = this.state
             .Participations
@@ -123,8 +125,7 @@ public class ManagerRoot : IAggregateRoot
         {
             throw Helper.Create<ParticipantException>(NOT_FOUND_MESSAGE, number);
         }
-        var aggregate = new ParticipationsAggregate(participation);
-        return aggregate;
+        return participation;
     }
 
     private void ValidateConfiguration()

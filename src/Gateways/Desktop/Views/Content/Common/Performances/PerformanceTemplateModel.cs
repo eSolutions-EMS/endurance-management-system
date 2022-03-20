@@ -17,11 +17,11 @@ public class PerformanceTemplateModel : ViewModelBase, IMapFrom<Performance>, IP
 {
     private readonly IExecutor<ManagerRoot> managerExecutor;
     private readonly IDateService dateService;
-    private bool showEdit;
+    private bool isReadonly;
 
-    public PerformanceTemplateModel(Performance performance, bool showEdit)
+    public PerformanceTemplateModel(Performance performance)
     {
-        this.showEdit = showEdit;
+        this.EditVisibility = Visibility.Visible;
         this.managerExecutor = StaticProvider.GetService<IExecutor<ManagerRoot>>();
         this.dateService = StaticProvider.GetService<IDateService>();
         this.Edit = new DelegateCommand(this.EditAction);
@@ -29,12 +29,10 @@ public class PerformanceTemplateModel : ViewModelBase, IMapFrom<Performance>, IP
         this.MapFrom(performance); // TODO probably remove
     }
 
-    public Visibility EditVisibility => this.showEdit
+    public Visibility EditVisibility { get; set; }
+    public Visibility ReadonlyVisibility => this.EditVisibility == Visibility.Collapsed
         ? Visibility.Visible
         : Visibility.Collapsed;
-    public Visibility ReadonlyVisibility => this.showEdit
-        ? Visibility.Collapsed
-        : Visibility.Visible;
 
     public DelegateCommand Edit { get; }
 
@@ -51,15 +49,20 @@ public class PerformanceTemplateModel : ViewModelBase, IMapFrom<Performance>, IP
     private double? averageSpeedTotalKpH;
     public DateTime? nextStartTime;
 
-    public void ToggleEditVisibility()
+    public void ToggleControlsVisibility()
     {
-        this.showEdit = !this.showEdit;
+        this.isReadonly = !this.isReadonly;
     }
 
     public void EditAction()
     {
         var result = this.managerExecutor.Execute(x => x.EditRecord(this));
-        this.MapFrom(result);
+        this.Update(result);
+    }
+
+    public void Update(Performance performance)
+    {
+        this.MapFrom(performance);
     }
 
     #region IPerformanceState implementation

@@ -5,21 +5,7 @@
 
     <DataTemplate DataType="{x:Type participations:ParticipationTemplateModel}">
         <Border Style="{StaticResource Border-Vertical}">
-            <StackPanel Style="{StaticResource List-Horizontal}">
-                <!-- Controls -->
-                <Border Style="{StaticResource Border-Horizontal}">
-                    <StackPanel Style="{StaticResource List-Vertical}">
-                        <!-- Select Button -->
-                        <Button Style="{StaticResource Button-Vertical}"
-                                Command="{Binding Select}"
-                                Content="{x:Static localization:Strings.SELECT}" />
-                        <!-- Print Button -->
-                        <Button Style="{StaticResource Button-Vertical}"
-                                Command="{Binding Print}"
-                                CommandParameter="{Binding ElementName=PerformanceTable}"
-                                Content="{x:Static localization:Strings.PRINT}" />
-                    </StackPanel>
-                </Border>
+            <DockPanel Style="{StaticResource Dock-Horizontal}">
                 <!-- Performance table -->
                 <StackPanel Style="{StaticResource List-Performance-Labels}"
                             Name="PerformanceTable" >
@@ -85,7 +71,14 @@
                 <!-- Performances -->
                 <ListBox Style="{StaticResource ListBox-Horizontal}" Padding="0" Margin="0"
                          ItemsSource="{Binding Performances}" />
-            </StackPanel>
+                <!-- Controls -->
+                <!-- Print Button -->
+                <Button Style="{StaticResource Button-Horizontal}" HorizontalAlignment="Right" VerticalAlignment="Top"
+                        Visibility="{Binding ControlsVisibility}"
+                        Command="{Binding Print}"
+                        CommandParameter="{Binding ElementName=PerformanceTable}"
+                        Content="{x:Static localization:Strings.PRINT}" />
+            </DockPanel>
         </Border>
     </DataTemplate>
 
