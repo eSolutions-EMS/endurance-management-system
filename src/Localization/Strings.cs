@@ -152,4 +152,8 @@ public static class Strings
     public static string INVALID_FULL_NAME_MESSAGE                                { get; internal set; }
     public static string NOT_FOUND_BY_ID_MESSAGE                                  { get; internal set; }
     public static string PARTICIPATION_HAS_ENDED_MESSAGE                          { get; internal set; }
+    /// <summary>
+    /// {0}: Competition name
+    /// </summary>
+    public static string COMPETITION_CANNOT_START_WITHOUT_PHASES_MESSAGES         { get; internal set; }
 }

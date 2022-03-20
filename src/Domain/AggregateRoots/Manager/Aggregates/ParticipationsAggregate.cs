@@ -18,7 +18,6 @@ public class ParticipationsAggregate : IAggregate
     private readonly Competition competitionConstraint;
     private readonly Participation participation;
 
-    // TODO: Rename to ParticipationsAggregate
     internal ParticipationsAggregate(Participation participation)
     {
         this.Number = participation.Participant.Number;
@@ -28,20 +27,8 @@ public class ParticipationsAggregate : IAggregate
 
     public int Number { get; }
 
-    // TODO: Move in StartNext?
     internal void Start()
     {
-        // TODO: remove
-        if (this.participation.Participant.LapRecords.Any())
-        {
-            throw new Exception(PARTICIPANT_HAS_ALREADY_STARTED);
-        }
-        // TODO: Move check in validation
-        var firstLap = this.competitionConstraint.Laps.FirstOrDefault();
-        if (firstLap == null)
-        {
-            throw new Exception(CANNOT_START_COMPETITION_WITHOUT_PHASES);
-        }
         this.AddRecord(this.competitionConstraint.StartTime);
     }
     internal void Update(DateTime time)

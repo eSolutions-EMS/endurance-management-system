@@ -9,6 +9,7 @@ using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Domain.State.Participations;
 using EnduranceJudge.Domain.AggregateRoots.Common.Performances;
 using EnduranceJudge.Domain.State.LapRecords;
+using Microsoft.EntityFrameworkCore.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -130,6 +131,13 @@ public class ManagerRoot : IAggregateRoot
 
     private void ValidateConfiguration()
     {
+        var competitionWithoutLaps = this.state.Event.Competitions.FirstOrDefault(comp => comp.Laps.Count == 0);
+        if (competitionWithoutLaps != null)
+        {
+            throw Helper.Create<CompetitionException>(
+                COMPETITION_CANNOT_START_WITHOUT_PHASES_MESSAGES,
+                competitionWithoutLaps.Name);
+        }
         foreach (var competition in this.state.Event.Competitions)
         {
             if (competition.Laps.All(x => !x.IsFinal))
