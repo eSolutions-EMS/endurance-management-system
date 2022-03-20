@@ -7,6 +7,7 @@ using EnduranceJudge.Gateways.Desktop.Core.Services;
 using EnduranceJudge.Gateways.Desktop.Events;
 using EnduranceJudge.Gateways.Desktop.Services;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Common.Participations;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Common.Performances;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Regions;
@@ -61,6 +62,7 @@ public class ManagerViewModel : ViewModelBase
     private bool reInspectionValue = false;
 
     public ObservableCollection<ParticipationTemplateModel> Participations { get; } = new();
+    public ParticipationTemplateModel SelectedParticipation { get; set; }
 
     public override void OnNavigatedTo(NavigationContext context)
     {
@@ -93,7 +95,7 @@ public class ManagerViewModel : ViewModelBase
         this.managerExecutor.Execute(manager =>
         {
             var performance = manager.UpdateRecord(this.InputNumber!.Value, this.InputTime);
-            this.RenderUpdate(performance);
+            this.RenderPerformanceUpdate(performance);
         });
     }
     private void CompleteUnsuccessfulAction()
@@ -106,15 +108,23 @@ public class ManagerViewModel : ViewModelBase
         this.managerExecutor.Execute(manager =>
         {
             var performance = manager.CompletePerformance(this.InputNumber!.Value, this.DeQualificationCode);
-            this.RenderUpdate(performance);
+            this.RenderPerformanceUpdate(performance);
         });
     }
-    private void RenderUpdate(Performance performance)
+    private void RenderPerformanceUpdate(Performance performance)
     {
-        var viewModel = this.Participations
+        var existing = this.Participations
             .SelectMany(part => part.Performances)
-            .First(perf => perf.Id == performance.Id);
-        viewModel.Update(performance);
+            .FirstOrDefault(perf => perf.Id == performance.Id);
+        if (existing == null)
+        {
+            var template = new PerformanceTemplateModel(performance);
+            this.SelectedParticipation.Performances.Add(template);
+        }
+        else
+        {
+            existing.Update(performance);
+        }
     }
     private void ReInspectionAction() // TODO extract common
     {
@@ -125,8 +135,9 @@ public class ManagerViewModel : ViewModelBase
         this.SelectParticipation(this.InputNumber.Value);
         this.managerExecutor.Execute(manager =>
         {
-            manager.ReInspection(this.InputNumber!.Value, this.ReInspectionValue);
-            this.ReInspectionValue = true;
+            var opposite = !this.ReInspectionValue;
+            manager.ReInspection(this.InputNumber!.Value, opposite);
+            this.ReInspectionValue = opposite;
         });
     }
     private void RequireInspectionAction()
@@ -138,8 +149,9 @@ public class ManagerViewModel : ViewModelBase
         this.SelectParticipation(this.InputNumber.Value);
         this.managerExecutor.Execute(manager =>
         {
-            manager.RequireInspection(this.InputNumber!.Value, this.RequireInspectionValue);
-            this.RequireInspectionValue = true;
+            var opposite = !this.RequireInspectionValue;
+            manager.RequireInspection(this.InputNumber!.Value, opposite);
+            this.RequireInspectionValue = opposite;
         });
     }
 
@@ -153,7 +165,8 @@ public class ManagerViewModel : ViewModelBase
             return;
         }
         this.eventAggregator.GetEvent<SelectTabEvent>().Publish(participation);
-        var performance = participation.Performances.LastOrDefault();
+        this.SelectedParticipation = participation;
+        var performance = this.SelectedParticipation.Performances.LastOrDefault();
         if (performance != null)
         {
             this.ReInspectionValue = performance.IsReInspectionRequired;

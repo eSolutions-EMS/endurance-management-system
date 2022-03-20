@@ -76,12 +76,12 @@ public class ManagerRoot : IAggregateRoot
     public void ReInspection(int number, bool isRequired)
     {
         var participation = this.GetParticipation(number);
-        var recordsAggregate = participation.Aggregate().GetCurrent();
-        if (recordsAggregate == null)
+        var currentAggregate = participation.Aggregate().GetCurrent();
+        if (currentAggregate == null)
         {
             throw Helper.Create<ParticipantException>(NOT_FOUND_MESSAGE, NUMBER, number);
         }
-        recordsAggregate!.ReInspection(isRequired);
+        currentAggregate!.ReInspection(isRequired);
     }
 
     public void RequireInspection(int number, bool isRequired)
