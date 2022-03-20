@@ -38,7 +38,6 @@ public class ManagerRoot : IAggregateRoot
 
     public void Start()
     {
-        // TODO: fix exeption in endurance-judge-data - start exception file.
         this.ValidateConfiguration();
         var participations = this.state
             .Participations

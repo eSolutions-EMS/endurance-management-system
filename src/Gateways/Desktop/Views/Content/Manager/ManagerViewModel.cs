@@ -1,7 +1,6 @@
 ﻿using EnduranceJudge.Application.Aggregates.Configurations.Contracts;
 using EnduranceJudge.Domain.AggregateRoots.Common.Performances;
 using EnduranceJudge.Domain.AggregateRoots.Manager;
-using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Domain.State.Participations;
 using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Core.Services;
@@ -26,18 +25,18 @@ public class ManagerViewModel : ViewModelBase
     private readonly IEventAggregator eventAggregator;
     private readonly IPopupService popupService;
     private readonly IExecutor<ManagerRoot> managerExecutor;
-    private readonly IQueries<Participant> participants;
+    private readonly IQueries<Participation> participations;
 
     public ManagerViewModel(
         IEventAggregator eventAggregator,
         IPopupService popupService,
         IExecutor<ManagerRoot> managerExecutor,
-        IQueries<Participant> participants)
+        IQueries<Participation> participations)
     {
         this.eventAggregator = eventAggregator;
         this.popupService = popupService;
         this.managerExecutor = managerExecutor;
-        this.participants = participants;
+        this.participations = participations;
         this.Update = new DelegateCommand(this.UpdateAction);
         this.Start = new DelegateCommand(this.StartAction);
         this.CompleteUnsuccessful = new DelegateCommand(this.CompleteUnsuccessfulAction);
@@ -190,11 +189,11 @@ public class ManagerViewModel : ViewModelBase
     private void LoadParticipations()
     {
         this.StartVisibility = Visibility.Collapsed;
-        var participations = this.participants.GetAll();
+        var participations = this.participations.GetAll();
         foreach (var participation in participations)
         {
             var performances = this.managerExecutor
-                .Execute(x => x.GetPerformances(participation.Number))
+                .Execute(x => x.GetPerformances(participation.Participant.Number))
                 .ToList();
             var viewModel = new ParticipationTemplateModel(performances);
             this.Participations.Add(viewModel);
