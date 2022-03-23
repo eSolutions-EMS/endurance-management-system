@@ -48,7 +48,7 @@ public class PlaceholderProcessor : IPlaceholderProcessor
     }
 }
 
-public interface IPlaceholderProcessor : IService
+public interface IPlaceholderProcessor : ITransientService
 {
     Dictionary<string, string> Process(Dictionary<string, string> values);
 }

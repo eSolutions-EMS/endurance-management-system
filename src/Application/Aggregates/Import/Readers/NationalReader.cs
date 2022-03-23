@@ -62,7 +62,7 @@ public class NationalReader : ExcelServiceBase, INationalReader
     }
 }
 
-public interface INationalReader : IService
+public interface INationalReader : ITransientService
 {
     public NationalData Read(string filePath);
 }

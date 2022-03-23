@@ -2,7 +2,7 @@
 
 namespace EnduranceJudge.Gateways.Desktop.Core.Services;
 
-public interface IExplorerService : IService
+public interface IExplorerService : ITransientService
 {
     string SelectDirectory();
 

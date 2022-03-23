@@ -20,7 +20,7 @@ public abstract class ListViewModelBase<TView> : ViewModelBase
     private readonly IPopupService popupService;
     protected ListViewModelBase(INavigationService navigation, IPersistence persistence, IPopupService popupService)
     {
-        this.Executor = StaticProvider.GetService<IBasicExecutor>();
+        this.Executor = StaticProvider.GetService<IExecutor>();
         this.persistence = persistence;
         this.popupService = popupService;
         this.Navigation = navigation;
@@ -30,7 +30,7 @@ public abstract class ListViewModelBase<TView> : ViewModelBase
     protected bool AllowDelete { get; init; } = true;
     protected bool AllowCreate { get; init; } = true;
     protected INavigationService Navigation { get; }
-    protected IBasicExecutor Executor { get; }
+    protected IExecutor Executor { get; }
 
     public ObservableCollection<ListItemViewModel> ListItems { get; protected init; }
         = new (Enumerable.Empty<ListItemViewModel>());

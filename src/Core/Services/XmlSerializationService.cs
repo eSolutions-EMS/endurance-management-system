@@ -23,7 +23,7 @@ public class XmlSerializationService : IXmlSerializationService
     }
 }
 
-public interface IXmlSerializationService : IService
+public interface IXmlSerializationService : ITransientService
 {
     T Deserialize<T>(string filePath);
 }

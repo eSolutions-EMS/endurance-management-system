@@ -50,7 +50,7 @@ public class FileService : IFileService
         => Path.GetExtension(path);
 }
 
-public interface IFileService : IService
+public interface IFileService : ITransientService
 {
     FileInfo Get(string path);
     bool Exists(string path);

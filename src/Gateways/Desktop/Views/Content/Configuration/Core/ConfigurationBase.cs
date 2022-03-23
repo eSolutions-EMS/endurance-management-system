@@ -18,14 +18,14 @@ public abstract class ConfigurationBase<TView, TDomain> : ViewModelBase
 {
     private readonly IQueries<TDomain> queries;
     protected INavigationService Navigation { get; }
-    protected IBasicExecutor BasicExecutor { get; }
+    protected IExecutor Executor { get; }
     protected bool BackOnSubmit { get; init; } = true;
 
     protected ConfigurationBase(IQueries<TDomain> queries)
     {
         this.queries = queries;
         this.Navigation = StaticProvider.GetService<INavigationService>();
-        this.BasicExecutor = StaticProvider.GetService<IBasicExecutor>();
+        this.Executor = StaticProvider.GetService<IExecutor>();
 
         this.BoolItems = SimpleListItemViewModel.FromBool();
 
@@ -58,7 +58,7 @@ public abstract class ConfigurationBase<TView, TDomain> : ViewModelBase
     }
     private void SubmitAction()
     {
-        var isSuccessful = this.BasicExecutor.Execute(() =>
+        var isSuccessful = this.Executor.Execute(() =>
         {
             this.Persist();
             if (this.BackOnSubmit)

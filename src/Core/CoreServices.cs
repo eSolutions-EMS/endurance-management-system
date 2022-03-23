@@ -23,7 +23,7 @@ public static class CoreServices
     private static IServiceCollection AddTransientServices(this IServiceCollection services, Assembly[] assemblies)
         => services.Scan(scan => scan
             .FromAssemblies(assemblies)
-            .AddClasses(classes => classes.AssignableTo<IService>())
+            .AddClasses(classes => classes.AssignableTo<ITransientService>())
             .AsSelfWithInterfaces()
             .WithTransientLifetime());
 

@@ -52,7 +52,7 @@ public abstract class NestedConfigurationBase<TView, TDomain> : ConfigurationBas
     }
 
     protected void NewForm<T>()
-        where T : IView => this.BasicExecutor.Execute(() =>
+        where T : IView => this.Executor.Execute(() =>
     {
         this.Persist();
         var childViewId = Random.Next();

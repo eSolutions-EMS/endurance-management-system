@@ -31,7 +31,7 @@ public class InputHandler : IInputHandler
     }
 }
 
-public interface IInputHandler : IService
+public interface IInputHandler : ITransientService
 {
     void HandleScroll(object sender, MouseWheelEventArgs scrollEvent);
 }

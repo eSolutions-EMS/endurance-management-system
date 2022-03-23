@@ -31,7 +31,7 @@ public class StringsPopulator : IStringsPopulator
     }
 }
 
-public interface IStringsPopulator : IService
+public interface IStringsPopulator : ITransientService
 {
     void Populate(Type type, Dictionary<string, string> values);
 }

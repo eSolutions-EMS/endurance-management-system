@@ -24,7 +24,7 @@ public class DateService : IDateService
     }
 }
 
-public interface IDateService : IService
+public interface IDateService : ITransientService
 {
     DateTime Parse(string date, string format);
 

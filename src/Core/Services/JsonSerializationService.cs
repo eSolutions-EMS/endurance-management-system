@@ -38,7 +38,7 @@ public class JsonSerializationService : IJsonSerializationService
     }
 }
 
-public interface IJsonSerializationService : IService
+public interface IJsonSerializationService : ITransientService
 {
     string Serialize(object data);
     T Deserialize<T>(string serialized);

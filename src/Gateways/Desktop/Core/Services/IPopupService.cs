@@ -65,7 +65,7 @@ public class PopupService : IPopupService
     }
 }
 
-public interface IPopupService : IService
+public interface IPopupService : ITransientService
 {
     void RenderError(string message);
     void RenderValidation(string message);

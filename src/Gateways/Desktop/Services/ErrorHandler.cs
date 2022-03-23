@@ -39,7 +39,7 @@ public class ErrorHandler : IErrorHandler
     }
 }
 
-public interface IErrorHandler : IService
+public interface IErrorHandler : ITransientService
 {
     void Handle(Exception exception);
 }

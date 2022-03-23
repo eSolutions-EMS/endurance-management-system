@@ -97,7 +97,7 @@ public class StringsReader : IStringsReader
     }
 }
 
-public interface IStringsReader : IService
+public interface IStringsReader : ITransientService
 {
     Dictionary<string, string> Read();
 }

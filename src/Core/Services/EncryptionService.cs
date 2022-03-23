@@ -26,7 +26,7 @@ public class EncryptionService : IEncryptionService
     }
 }
 
-public interface IEncryptionService : IService
+public interface IEncryptionService : ITransientService
 {
     string Encrypt(string content);
     string Decrypt(string encrypted);

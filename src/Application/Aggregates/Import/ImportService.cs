@@ -30,7 +30,8 @@ public class ImportService : IImportService
     public void Import(string filePath)
     {
         var fileExtension = this.file.GetExtension(filePath);
-        if (fileExtension != ApplicationConstants.FileExtensions.Xml && fileExtension != ApplicationConstants.FileExtensions.SupportedExcel)
+        if (fileExtension != ApplicationConstants.FileExtensions.Xml
+            && fileExtension != ApplicationConstants.FileExtensions.SupportedExcel)
         {
             var message = string.Format(
                 UNSUPPORTED_IMPORT_FILE_MESSAGE,
@@ -57,7 +58,7 @@ public class ImportService : IImportService
     }
 }
 
-public interface IImportService : IService
+public interface IImportService : ITransientService
 {
     void Import(string filePath);
 }

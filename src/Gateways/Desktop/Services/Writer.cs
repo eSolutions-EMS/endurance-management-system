@@ -7,24 +7,24 @@ public class Executor<T> : IExecutor<T>
     where T : IService
 {
     private readonly T service;
-    private readonly IBasicExecutor basicExecutor;
+    private readonly IExecutor executor;
 
-    public Executor(T service, IBasicExecutor basicExecutor)
+    public Executor(T service, IExecutor executor)
     {
         this.service = service;
-        this.basicExecutor = basicExecutor;
+        this.executor = executor;
     }
 
     public bool Execute(Action<T> action)
     {
         var innerAction = () => action(this.service);
-        return this.basicExecutor.Execute(innerAction);
+        return this.executor.Execute(innerAction);
     }
 
     public TResult Execute<TResult>(Func<T, TResult> action)
     {
         var innerAction = () => action(this.service);
-        return this.basicExecutor.Execute(innerAction);
+        return this.executor.Execute(innerAction);
     }
 }
 

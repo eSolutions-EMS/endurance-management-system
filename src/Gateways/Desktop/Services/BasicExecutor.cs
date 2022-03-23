@@ -4,12 +4,12 @@ using System;
 
 namespace EnduranceJudge.Gateways.Desktop.Services;
 
-public class BasicExecutor : IBasicExecutor
+public class Executor : IExecutor
 {
     private readonly IErrorHandler errorHandler;
     private readonly IPersistence persistence;
 
-    public BasicExecutor(IErrorHandler errorHandler, IPersistence persistence)
+    public Executor(IErrorHandler errorHandler, IPersistence persistence)
     {
         this.errorHandler = errorHandler;
         this.persistence = persistence;
@@ -46,7 +46,7 @@ public class BasicExecutor : IBasicExecutor
     }
 }
 
-public interface IBasicExecutor : IService
+public interface IExecutor : IService
 {
     public bool Execute(Action action);
     TResult Execute<TResult>(Func<TResult> action);

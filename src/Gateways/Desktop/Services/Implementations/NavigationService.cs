@@ -16,10 +16,10 @@ namespace EnduranceJudge.Gateways.Desktop.Services.Implementations;
 
 public class NavigationService : NavigationServiceBase, INavigationService
 {
-    private readonly IBasicExecutor executor;
+    private readonly IExecutor executor;
     private readonly IApplicationContext context;
     public NavigationService(
-        IBasicExecutor executor,
+        IExecutor executor,
         IRegionManager regionManager,
         IApplicationContext context) : base(regionManager)
     {

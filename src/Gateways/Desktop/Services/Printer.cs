@@ -47,7 +47,7 @@ public class Printer : IPrinter
     }
 }
 
-public interface IPrinter : IService
+public interface IPrinter : ITransientService
 {
     void Print(Visual visual);
 }

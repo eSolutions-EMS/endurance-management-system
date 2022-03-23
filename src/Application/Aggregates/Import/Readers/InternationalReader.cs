@@ -48,7 +48,7 @@ public class InternationalReader : IInternationalReader
     }
 }
 
-public interface IInternationalReader : IService
+public interface IInternationalReader : ITransientService
 {
     InternationalData Read(string filePath);
 }

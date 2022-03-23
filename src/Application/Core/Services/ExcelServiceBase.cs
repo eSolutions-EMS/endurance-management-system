@@ -5,7 +5,7 @@ using System.IO;
 
 namespace EnduranceJudge.Application.Core.Services;
 
-public abstract class ExcelServiceBase : IService, IDisposable
+public abstract class ExcelServiceBase : ITransientService, IDisposable
 {
     protected ExcelServiceBase()
     {

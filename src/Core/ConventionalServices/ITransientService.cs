@@ -1,5 +1,5 @@
 ﻿namespace EnduranceJudge.Core.ConventionalServices;
 
-public interface ISingletonService : IService
+public interface ITransientService : IService
 {
 }
