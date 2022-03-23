@@ -6,12 +6,12 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Navigation;
 
 public class NavigationViewModel : ViewModelBase
 {
-    public NavigationViewModel(IExecutor<INavigationService> navigation)
+    public NavigationViewModel(INavigationService navigation)
     {
-        this.NavigateToImport = new DelegateCommand(() => navigation.Execute(nav =>  nav.NavigateToImport()));
-        this.NavigateToEvent = new DelegateCommand(() => navigation.Execute(nav =>  nav.NavigateToEvent()));
-        this.NavigateToManager = new DelegateCommand(() => navigation.Execute(nav =>  nav.NavigateToManager()));
-        this.NavigateToRanking = new DelegateCommand(() => navigation.Execute(nav =>  nav.NavigateToRanking()));
+        this.NavigateToImport = new DelegateCommand(navigation.NavigateToImport);
+        this.NavigateToEvent = new DelegateCommand(navigation.NavigateToEvent);
+        this.NavigateToManager = new DelegateCommand(navigation.NavigateToManager);
+        this.NavigateToRanking = new DelegateCommand(navigation.NavigateToRanking);
     }
 
     public DelegateCommand NavigateToImport { get; }

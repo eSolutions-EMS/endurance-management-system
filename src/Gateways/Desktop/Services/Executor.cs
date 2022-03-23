@@ -71,13 +71,13 @@ public class Executor : IExecutor
     }
 }
 
-public interface IExecutor<out T>
+public interface IExecutor<out T> : ITransientService
     where T : IService
 {
     bool Execute(Action<T> action);
     TResult Execute<TResult>(Func<T, TResult> action);
 }
-public interface IExecutor : IService
+public interface IExecutor : ITransientService
 {
     public bool Execute(Action action);
     TResult Execute<TResult>(Func<TResult> action);
