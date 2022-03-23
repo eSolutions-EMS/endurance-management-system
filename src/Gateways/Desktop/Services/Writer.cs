@@ -1,71 +1,36 @@
-﻿using EnduranceJudge.Application.Contracts;
-using EnduranceJudge.Domain.Core.Models;
+﻿using EnduranceJudge.Core.ConventionalServices;
 using System;
 
 namespace EnduranceJudge.Gateways.Desktop.Services;
 
 public class Executor<T> : IExecutor<T>
+    where T : IService
 {
     private readonly T service;
-    private readonly IErrorHandler errorHandler;
-    private readonly IPersistence persistence;
+    private readonly IBasicExecutor basicExecutor;
 
-    public Executor(T service, IErrorHandler errorHandler, IPersistence persistence)
+    public Executor(T service, IBasicExecutor basicExecutor)
     {
         this.service = service;
-        this.errorHandler = errorHandler;
-        this.persistence = persistence;
+        this.basicExecutor = basicExecutor;
     }
 
     public bool Execute(Action<T> action)
     {
-        try
-        {
-            action(this.service);
-            this.persistence.Snapshot();
-            return true;
-        }
-        catch (Exception exception)
-        {
-            this.errorHandler.Handle(exception);
-            return false;
-        }
+        var innerAction = () => action(this.service);
+        return this.basicExecutor.Execute(innerAction);
     }
 
     public TResult Execute<TResult>(Func<T, TResult> action)
     {
-        try
-        {
-            var result = action(this.service);
-            this.persistence.Snapshot();
-            return result;
-        }
-        catch (Exception exception)
-        {
-            this.errorHandler.Handle(exception);
-            return default;
-        }
-    }
-
-    public (bool, IDomain) Execute(Func<T, IDomain> action)
-    {
-        try
-        {
-            var result = action(this.service);
-            this.persistence.Snapshot();
-            return (true, result);
-        }
-        catch (Exception exception)
-        {
-            this.errorHandler.Handle(exception);
-            return (false, null);
-        }
+        var innerAction = () => action(this.service);
+        return this.basicExecutor.Execute(innerAction);
     }
 }
 
-public interface IExecutor<T>
+public interface IExecutor<out T>
+    where T : IService
 {
     bool Execute(Action<T> action);
     TResult Execute<TResult>(Func<T, TResult> action);
-    (bool, IDomain) Execute(Func<T, IDomain> action);
 }

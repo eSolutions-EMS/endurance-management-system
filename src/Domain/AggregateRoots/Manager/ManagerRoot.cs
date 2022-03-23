@@ -9,7 +9,6 @@ using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Domain.State.Participations;
 using EnduranceJudge.Domain.AggregateRoots.Common.Performances;
 using EnduranceJudge.Domain.State.LapRecords;
-using Microsoft.EntityFrameworkCore.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,14 +23,6 @@ public class ManagerRoot : IAggregateRoot
     public ManagerRoot()
     {
         this.state = StaticProvider.GetService<IState>();
-        // TODO: think this is no longer necessary.
-        // Check is necessary due to Prism's initialization logic which uses reflection
-        // to generate instances of views as part of the startup process.
-        // These views are not used in the actual views during the application use cycle
-        if (this.state?.Event == null)
-        {
-            return;
-        }
     }
 
     public bool HasStarted()

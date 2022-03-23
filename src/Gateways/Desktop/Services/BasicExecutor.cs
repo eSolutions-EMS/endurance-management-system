@@ -29,9 +29,25 @@ public class BasicExecutor : IBasicExecutor
             return false;
         }
     }
+
+    public TResult Execute<TResult>(Func<TResult> action)
+    {
+        try
+        {
+            var result = action();
+            this.persistence.Snapshot();
+            return result;
+        }
+        catch (Exception exception)
+        {
+            this.errorHandler.Handle(exception);
+            return default;
+        }
+    }
 }
 
 public interface IBasicExecutor : IService
 {
     public bool Execute(Action action);
+    TResult Execute<TResult>(Func<TResult> action);
 }
