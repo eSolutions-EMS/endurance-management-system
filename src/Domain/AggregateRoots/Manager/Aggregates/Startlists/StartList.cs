@@ -1,4 +1,5 @@
-﻿using EnduranceJudge.Domain.State.Participations;
+﻿using EnduranceJudge.Domain.AggregateRoots.Common.Performances;
+using EnduranceJudge.Domain.State.Participations;
 using EnduranceJudge.Domain.State.LapRecords;
 using System;
 using System.Collections.Generic;
@@ -18,26 +19,26 @@ public class Startlist : List<StartModel>
 
     private void Handle(Participation participation, bool includePast)
     {
-        var performances = participation.Participant.LapRecords;
+        var performances = Performance.GetAll(participation);
         if (!includePast)
         {
-            var current = performances.FirstOrDefault(x => x.StartTime > DateTime.Now);
+            var current = performances.FirstOrDefault(x => x.NextStartTime > DateTime.Now);
             if (current == null)
             {
                 return;
             }
-            this.AddStart(participation, current);
+            this.AddStart(participation, current.NextStartTime!.Value);
         }
         else
         {
             foreach (var record in participation.Participant.LapRecords.Where(x => x.Result != null))
             {
-                this.AddStart(participation, record);
+                this.AddStart(participation, record.StartTime);
             }
         }
     }
 
-    private void AddStart(Participation participation, LapRecord record)
+    private void AddStart(Participation participation, DateTime startTime)
     {
         var start = new StartModel
         {
@@ -45,8 +46,8 @@ public class Startlist : List<StartModel>
             Name = participation.Participant.Name,
             CountryName = participation.Participant.Athlete.Country.Name,
             Distance = participation.Distance!.Value,
-            StartTime = record.StartTime,
-            HasStarted = record.StartTime < DateTime.Now,
+            StartTime = startTime,
+            HasStarted = startTime < DateTime.Now,
         };
         this.Add(start);
     }

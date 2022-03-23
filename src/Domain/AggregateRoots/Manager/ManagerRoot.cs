@@ -102,7 +102,6 @@ public class ManagerRoot : IAggregateRoot
 
     public IEnumerable<StartModel> GetStartList(bool includePast)
     {
-        // TODO: check
         var participations = this.state.Participations;
         var startList = new Startlist(participations, includePast);
         return startList;
