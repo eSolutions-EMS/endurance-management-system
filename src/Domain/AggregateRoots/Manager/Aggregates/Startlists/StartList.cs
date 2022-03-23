@@ -1,15 +1,14 @@
 ﻿using EnduranceJudge.Domain.AggregateRoots.Common.Performances;
 using EnduranceJudge.Domain.State.Participations;
-using EnduranceJudge.Domain.State.LapRecords;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 
-public class Startlist : List<StartModel>
+public class Startlist : SortedSet<StartModel>
 {
-    internal Startlist(IEnumerable<Participation> participation, bool includePast)
+    internal Startlist(IEnumerable<Participation> participation, bool includePast) : base(new StartlistComparer())
     {
         foreach (var participant in participation)
         {
@@ -20,18 +19,14 @@ public class Startlist : List<StartModel>
     private void Handle(Participation participation, bool includePast)
     {
         var performances = Performance.GetAll(participation);
-        if (!includePast)
+        var upcoming = performances.FirstOrDefault(x => x.NextStartTime > DateTime.Now);
+        if (upcoming != null)
         {
-            var current = performances.FirstOrDefault(x => x.NextStartTime > DateTime.Now);
-            if (current == null)
-            {
-                return;
-            }
-            this.AddStart(participation, current.NextStartTime!.Value);
+            this.AddStart(participation, upcoming.NextStartTime!.Value);
         }
-        else
+        if (includePast)
         {
-            foreach (var record in participation.Participant.LapRecords.Where(x => x.Result != null))
+            foreach (var record in participation.Participant.LapRecords.Where(x => x.StartTime < DateTime.Now))
             {
                 this.AddStart(participation, record.StartTime);
             }
@@ -50,5 +45,21 @@ public class Startlist : List<StartModel>
             HasStarted = startTime < DateTime.Now,
         };
         this.Add(start);
+    }
+}
+
+public class StartlistComparer : IComparer<StartModel>
+{
+    public int Compare(StartModel x, StartModel y)
+    {
+        if (ReferenceEquals(null, y))
+            return 1;
+        if (ReferenceEquals(null, x))
+            return -1;
+        if (x.StartTime > y.StartTime)
+            return -1;
+        if (x.StartTime < y.StartTime)
+            return 1;
+        return x.Number > y.Number ? 1 : -1;
     }
 }
