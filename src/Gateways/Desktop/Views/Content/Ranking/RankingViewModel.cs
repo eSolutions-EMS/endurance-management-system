@@ -80,7 +80,7 @@ public class RankingViewModel : ViewModelBase
     private ListItemViewModel ToListItem(CompetitionResultAggregate resultAggregate)
     {
         var command = new DelegateCommand<int?>(x => this.SelectCompetitionAction(x!.Value));
-        var listItem = new ListItemViewModel(resultAggregate.Id, resultAggregate.CompetitionName, command, VIEW);
+        var listItem = new ListItemViewModel(resultAggregate.Id, resultAggregate.Name, command, VIEW);
         return listItem;
     }
 
@@ -94,7 +94,7 @@ public class RankingViewModel : ViewModelBase
     }
     private void PrintAction()
     {
-        var printer = new RanklistPrinter(this.selectedCompetition.CompetitionName, this.RankList.SelectMany(x => x.RankList));
+        var printer = new RanklistPrinter(this.selectedCompetition.Name, this.RankList.SelectMany(x => x.RankList));
         printer.PreviewDocument();
     }
     private void SelectDefault()

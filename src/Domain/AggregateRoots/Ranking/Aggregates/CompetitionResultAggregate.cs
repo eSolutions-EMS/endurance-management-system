@@ -18,13 +18,13 @@ public class CompetitionResultAggregate : IAggregate, ICompetitionData
     {
         this.Id = competition.Id;
         this.CompetitionLengthInKm = competition.Laps.Aggregate(0d, (total, x) => total + x.LengthInKm);
-        this.CompetitionName = competition.Name;
+        this.Name = competition.Name;
         this.EventName = enduranceEvent.Name;
         this.PopulatedPlace = enduranceEvent.PopulatedPlace;
         this.CountryName = enduranceEvent.Country.Name;
         this.PresidentGroundJuryName = enduranceEvent.PresidentGroundJury?.Name;
         this.ChiefStewardName = enduranceEvent.Stewards.FirstOrDefault()?.Name;
-        this.CompetitionName = competition.Name;
+        this.Name = competition.Name;
         this.CompetitionDate = competition.StartTime;
         this.DateNow = DateTime.Now;
         this.Organizer = "BFKS";
@@ -49,7 +49,7 @@ public class CompetitionResultAggregate : IAggregate, ICompetitionData
     public string PresidentGroundJuryName { get; }
     public string ChiefStewardName { get; }
     public DateTime DateNow { get; }
-    public string CompetitionName { get; }
+    public string Name { get; }
     public DateTime CompetitionDate { get; }
     public double CompetitionLengthInKm { get; }
     public RankList KidsRankList { get; }

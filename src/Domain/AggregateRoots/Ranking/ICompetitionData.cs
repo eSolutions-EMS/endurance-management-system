@@ -10,7 +10,7 @@ public interface ICompetitionData
     public string Organizer { get; } // ?
     public string ChiefStewardName { get; }
     public DateTime DateNow { get; }
-    public string CompetitionName { get; } // TODO: rename to Name
+    public string Name { get; }
     public DateTime CompetitionDate { get; }
     public double CompetitionLengthInKm { get; }
     public string PresidentGroundJuryName { get; }

@@ -21,7 +21,7 @@ public class RankListTemplateModel : ViewModelBase, ICompetitionData
         this.CountryName = competitionData.CountryName;
         this.CompetitionDate = competitionData.CompetitionDate;
         this.Organizer = competitionData.Organizer;
-        this.CompetitionName = competitionData.CompetitionName;
+        this.Name = competitionData.Name;
         this.CompetitionLengthInKm = competitionData.CompetitionLengthInKm;
         this.PresidentGroundJuryName = competitionData.PresidentGroundJuryName;
         this.ChiefStewardName = competitionData.ChiefStewardName;
@@ -39,13 +39,13 @@ public class RankListTemplateModel : ViewModelBase, ICompetitionData
 
     public ObservableCollection<ParticipationResultTemplateModel> RankList { get; } = new();
 
-    public string Title => $"{this.CompetitionName} * {this.CompetitionLengthInKm} {KM.ToUpper()}";
+    public string Title => $"{this.Name} * {this.CompetitionLengthInKm} {KM.ToUpper()}";
     public string EventName { get; }
     public string PopulatedPlace { get; }
     public string CountryName { get; }
     public DateTime CompetitionDate { get; }
     public string Organizer { get; }
-    public string CompetitionName { get; }
+    public string Name { get; }
     public double CompetitionLengthInKm { get; }
     public string PresidentGroundJuryName { get; }
     public string ChiefStewardName { get; }
