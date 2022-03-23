@@ -3,7 +3,6 @@ using EnduranceJudge.Core.Models;
 using EnduranceJudge.Domain.AggregateRoots.Configuration;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Horses;
-using EnduranceJudge.Gateways.Desktop.Services;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Horses;
@@ -11,10 +10,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Hors
 public class HorseViewModel : ConfigurationBase<HorseView, Horse>, IHorseState, IListable
 {
     private readonly ConfigurationRoot configuration;
-    private HorseViewModel(
-        ConfigurationRoot configuration,
-        IQueries<Horse> horses,
-        IExecutor<ConfigurationRoot> executor) : base(horses)
+    private HorseViewModel(ConfigurationRoot configuration, IQueries<Horse> horses) : base(horses)
     {
         this.configuration = configuration;
     }
@@ -30,7 +26,6 @@ public class HorseViewModel : ConfigurationBase<HorseView, Horse>, IHorseState, 
 
     protected override IDomain Persist()
     {
-        // TODO: use executor
         var result = this.configuration.Horses.Save(this);
         return result;
     }
