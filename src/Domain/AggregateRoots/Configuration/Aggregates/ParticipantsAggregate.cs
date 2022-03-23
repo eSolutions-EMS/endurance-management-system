@@ -1,4 +1,5 @@
 ﻿using EnduranceJudge.Domain.AggregateRoots.Configuration.Extensions;
+using EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates;
 using EnduranceJudge.Domain.Core.Exceptions;
 using EnduranceJudge.Domain.Core.Extensions;
 using EnduranceJudge.Domain.Core.Models;
@@ -72,7 +73,7 @@ public class ParticipantsAggregate : IAggregate
             var participant = this.state.Participants.FindDomain(participantId);
             participation = new Participation(participant, competition);
         }
-        participation.Add(competition);
+        participation.Aggregate().Add(competition);
         this.state.Participations.Add(participation);
     }
 

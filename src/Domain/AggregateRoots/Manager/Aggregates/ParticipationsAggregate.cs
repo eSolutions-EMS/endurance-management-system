@@ -5,6 +5,7 @@ using EnduranceJudge.Domain.AggregateRoots.Common.Performances;
 using EnduranceJudge.Domain.Core.Exceptions;
 using EnduranceJudge.Domain.State.Laps;
 using EnduranceJudge.Domain.State.LapRecords;
+using EnduranceJudge.Domain.State.Participants;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,6 +46,35 @@ public class ParticipationsAggregate : IAggregate
         }
         var recordsAggregate = new LapRecordsAggregate(record);
         return recordsAggregate;
+    }
+    internal void Add(Competition competition)
+    {
+        if (this.participation.CompetitionsIds.Any())
+        {
+            if (this.participation.CompetitionConstraint.Laps.Count != competition.Laps.Count)
+            {
+                throw Helper.Create<ParticipantException>(
+                    CANNOT_ADD_PARTICIPATION_DIFFERENT_PHASE_COUNT_MESSAGE,
+                    competition.Name);
+            }
+            for (var lapIndex = 0; lapIndex < this.participation.CompetitionConstraint.Laps.Count; lapIndex++)
+            {
+                var lapConstraint = this.participation.CompetitionConstraint.Laps[lapIndex];
+                var lap = competition.Laps[lapIndex];
+                // ReSharper disable once CompareOfFloatsByEqualityOperator
+                if (lapConstraint.LengthInKm != lap.LengthInKm)
+                {
+                    throw Helper.Create<ParticipantException>(
+                        CANNOT_ADD_PARTICIPATION_DIFFERENT_PHASE_LENGTHS_MESSAGE,
+                        competition.Name,
+                        this.participation.CompetitionConstraint.Name,
+                        lapIndex + 1,
+                        lap.LengthInKm,
+                        lapConstraint.LengthInKm);
+                }
+            }
+        }
+        this.participation.Add(competition.Id);
     }
 
     private LapRecordsAggregate CreateNext()
