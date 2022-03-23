@@ -16,6 +16,10 @@ public abstract class ParticipantTemplateModelBase : ViewModelBase
     protected ParticipantTemplateModelBase(IEnumerable<Performance> performances)
     {
         var list = performances.ToList();
+        if (list.Count == 0)
+        {
+            return;
+        }
         this.Participant = list.First().Participant;
         this.Number = Participant.Number;
         var viewModels = list.Select(perf => new PerformanceTemplateModel(perf));

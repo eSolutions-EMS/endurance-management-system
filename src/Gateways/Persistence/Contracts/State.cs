@@ -1,7 +1,4 @@
-﻿using AutoMapper;
-using EnduranceJudge.Core.ConventionalServices;
-using EnduranceJudge.Core.Mappings;
-using EnduranceJudge.Domain.State;
+﻿using EnduranceJudge.Domain.State;
 using EnduranceJudge.Domain.State.Athletes;
 using EnduranceJudge.Domain.State.Countries;
 using EnduranceJudge.Domain.State.EnduranceEvents;
@@ -32,19 +29,5 @@ public class State : IState
         this.Athletes = state.Athletes;
         this.Participants = state.Participants;
         this.Participations = state.Participations;
-    }
-}
-
-// TODO: remove
-public class StateMaps : ICustomMapConfiguration
-{
-    public void AddFromMaps(IProfileExpression profile)
-    {
-        profile.CreateMap<State, State>()
-            .ForMember(x => x.Countries, opt => opt.Ignore());
-    }
-
-    public void AddToMaps(IProfileExpression profile)
-    {
     }
 }

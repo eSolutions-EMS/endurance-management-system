@@ -41,18 +41,5 @@ public class ReferenceNormalizer
                 }
             }
         }
-        // foreach (var lap in state.Event.Competitions.SelectMany(x => x.Laps))
-        // {
-        //     foreach (var participation in state.Participants.Select(x => x.Participation))
-        //     {
-        //         foreach (var performance in participation.Performances)
-        //         {
-        //             if (performance.Lap == lap)
-        //             {
-        //                 performance.Lap = lap;
-        //             }
-        //         }
-        //     }
-        // }
     }
 }
