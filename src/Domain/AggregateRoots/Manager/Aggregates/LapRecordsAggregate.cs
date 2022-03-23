@@ -22,9 +22,10 @@ public class LapRecordsAggregate : IAggregate
 
     internal void Update(DateTime time)
     {
-        // TODO: Probably throw error as well
-        this.validator.IsRequired(time, nameof(time));
-
+        if (time == default)
+        {
+            throw new ArgumentException(ARGUMENT_DEFAULT_VALUE, nameof(time));
+        }
         if (this.record.ArrivalTime == null)
         {
             this.Arrive(time);
