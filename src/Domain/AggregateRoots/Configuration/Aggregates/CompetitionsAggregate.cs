@@ -45,10 +45,10 @@ public class CompetitionsAggregate : IAggregate
         return competition;
     }
 
-    public void RemoveParticipation(int competitionId, int participantId)
+    public void RemoveParticipation(int competitionId, int id)
     {
         this.state.ValidateThatEventHasNotStarted();
-        var participation = this.state.Participations.FirstOrDefault(x => x.Participant.Id == participantId);
+        var participation = this.state.Participations.FindDomain(id);
         if (participation == null)
         {
             throw Helper.Create<ParticipantException>(NOT_FOUND_BY_ID_MESSAGE);

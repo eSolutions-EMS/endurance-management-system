@@ -72,10 +72,10 @@ public class CompetitionViewModel : NestedConfigurationBase<CompetitionView, Com
         return result;
     }
 
-    private void RemoveParticipantAction(int? participantId)
+    private void RemoveParticipantAction(int? participation)
     {
         this.configurationExecutor.Execute(x =>
-            x.Competitions.RemoveParticipation(this.Id, participantId!.Value));
+            x.Competitions.RemoveParticipation(this.Id, participation!.Value));
         this.LoadParticipations();
     }
 
