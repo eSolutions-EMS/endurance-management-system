@@ -152,13 +152,13 @@
         <!-- Save -->
         <Border Style="{StaticResource Border-Content-Right}"
                 Grid.Row="2" Grid.Column="2">
-            <Button Style="{StaticResource Button-Form}"
+            <Button Style="{StaticResource Button-Big-Vertical}"
                     Command="{Binding Submit}"
                     Content="{x:Static localization:Strings.SAVE}" />
         </Border>
         <Border Style="{StaticResource Border-Content-Right}"
                 Grid.Row="3" Grid.Column="2">
-            <Button Style="{StaticResource Button-Form}"
+            <Button Style="{StaticResource Button-Big-Vertical}"
                     Command="{Binding NavigateBack}"
                     Content="{x:Static localization:Strings.BACK}"  />
         </Border>

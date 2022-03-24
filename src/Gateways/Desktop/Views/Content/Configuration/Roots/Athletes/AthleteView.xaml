@@ -5,14 +5,15 @@
              xmlns:localization="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization"
              prism:ViewModelLocator.AutoWireViewModel="True">
 
-       <Grid Style="{StaticResource Grid}">
-        <Grid.ColumnDefinitions>
+    <Grid Style="{StaticResource Grid}">
+            <Grid.ColumnDefinitions>
             <ColumnDefinition Style="{StaticResource Content-Left}" />
-            <ColumnDefinition Style="{StaticResource Layout-Main}" />
+            <ColumnDefinition Style="{StaticResource Content-Center}" />
+            <ColumnDefinition Style="{StaticResource Content-Right}" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
+            <RowDefinition Style="{StaticResource Row-Collapsed}" />
+            <RowDefinition Style="{StaticResource Row-Title}" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
@@ -20,96 +21,115 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-
+        <!-- ID -->
         <TextBox Style="{StaticResource Input-Id}"
                 Text="{Binding Id}" />
-
-        <Border Style="{StaticResource Border-Vertical}"
-                Grid.Row="0" Grid.Column="1">
-            <TextBlock Style="{StaticResource Text-H1}"
-                       Text="{x:Static localization:Strings.ATHLETE_ENTITY}" />
+        <!-- Title -->
+        <TextBlock Style="{StaticResource Text-H1}"
+                   Text="{x:Static localization:Strings.ATHLETE_ENTITY}"
+                   Grid.Row="1" Grid.Column="1" />
+        <!-- Content Left Labels -->
+        <!-- FeiId Label-->
+        <Border Style="{StaticResource Border-Content-Left}"
+                Grid.Row="2" Grid.Column="0">
+             <Label Style="{StaticResource Label-Primary}"
+                    Target="{Binding ElementName=FeiId}"
+                    Content="{x:Static localization:Strings.FEI_ID}" />
         </Border>
-
-        <Border Style="{StaticResource Border-Vertical}"
-                Grid.Row="1" Grid.Column="0">
-             <TextBlock Style="{StaticResource Text-Bold}"
-                    Text="{x:Static localization:Strings.FEI_ID}" />
+        <!-- FirstName label -->
+        <Border Style="{StaticResource Border-Content-Left}"
+                Grid.Row="3" Grid.Column="0">
+            <Label Style="{StaticResource Label-Primary}"
+                   Target="{Binding ElementName=FirstName}"
+                   Content="{x:Static localization:Strings.FIRST_NAME}" />
         </Border>
-        <Border Style="{StaticResource Border-Vertical}"
-                Grid.Row="1" Grid.Column="1">
+        <!-- LastName label -->
+        <Border Style="{StaticResource Border-Content-Left}"
+                Grid.Row="4" Grid.Column="0">
+            <Label Style="{StaticResource Label-Primary}"
+                   Target="{Binding ElementName=LastName}"
+                   Content="{x:Static localization:Strings.LAST_NAME}" />
+        </Border>
+        <!-- Club label-->
+        <Border Style="{StaticResource Border-Content-Left}"
+                Grid.Row="5" Grid.Column="0">
+            <Label Style="{StaticResource Label-Primary}"
+                   Target="{Binding ElementName=Club}"
+                   Content="{x:Static localization:Strings.CLUB}" />
+        </Border>
+        <!-- Country label -->
+        <Border Style="{StaticResource Border-Content-Left}"
+                Grid.Row="6" Grid.Column="0">
+            <Label Style="{StaticResource Label-Primary}"
+                   Target="{Binding ElementName=Country}"
+                   Content="{x:Static localization:Strings.COUNTRY_ENTITY}" />
+        </Border>
+        <!-- Category label -->
+        <Border Style="{StaticResource Border-Content-Left}"
+                Grid.Row="7" Grid.Column="0">
+            <Label Style="{StaticResource Label-Primary}"
+                   Target="{Binding ElementName=Category}"
+                   Content="{x:Static localization:Strings.CATEGORY}" />
+        </Border>
+        <!-- Content Center Fields -->
+        <!-- FeiId field -->
+        <Border Style="{StaticResource Border-Content-Center}"
+                Grid.Row="2" Grid.Column="1">
              <TextBox Style="{StaticResource Input}"
+                      Name="FeiId"
                       Text="{Binding FeiId}" />
         </Border>
-
-        <Border Style="{StaticResource Border-Vertical}"
-                Grid.Row="2" Grid.Column="0">
-            <TextBlock Style="{StaticResource Text-Bold}"
-                   Text="{x:Static localization:Strings.FIRST_NAME}" />
-        </Border>
-        <Border Style="{StaticResource Border-Vertical}"
-                Grid.Row="2" Grid.Column="1">
-            <TextBox Style="{StaticResource Input}"
-                     Text="{Binding FirstName}"/>
-        </Border>
-
-        <Border Style="{StaticResource Border-Vertical}"
-                Grid.Row="3" Grid.Column="0">
-            <TextBlock Style="{StaticResource Text-Bold}"
-                   Text="{x:Static localization:Strings.LAST_NAME}" />
-        </Border>
-        <Border Style="{StaticResource Border-Vertical}"
+        <!-- FirstName field-->
+        <Border Style="{StaticResource Border-Content-Center}"
                 Grid.Row="3" Grid.Column="1">
             <TextBox Style="{StaticResource Input}"
-                     Text="{Binding LastName}" />
+                     Name="FirstName"
+                     Text="{Binding FirstName}"/>
         </Border>
-
-        <Border Style="{StaticResource Border-Vertical}"
-                Grid.Row="4" Grid.Column="0">
-            <TextBlock Style="{StaticResource Text-Bold}"
-                   Text="{x:Static localization:Strings.CLUB}" />
-        </Border>
-        <Border Style="{StaticResource Border-Vertical}"
+        <!-- LastName field -->
+        <Border Style="{StaticResource Border-Content-Center}"
                 Grid.Row="4" Grid.Column="1">
             <TextBox Style="{StaticResource Input}"
+                     Name="LastName"
+                     Text="{Binding LastName}" />
+        </Border>
+        <!-- Club field-->
+        <Border Style="{StaticResource Border-Content-Center}"
+                Grid.Row="5" Grid.Column="1">
+            <TextBox Style="{StaticResource Input}"
+                     Name="Club"
                      Text="{Binding Club}" />
         </Border>
-
-        <Border Style="{StaticResource Border-Vertical}"
-                Grid.Row="5" Grid.Column="0">
-            <TextBlock Style="{StaticResource Text-Bold}"
-                   Text="{x:Static localization:Strings.COUNTRY_ENTITY}" />
-        </Border>
-        <Border Style="{StaticResource Border-Vertical}"
-                Grid.Row="5" Grid.Column="1">
+        <!-- Country field -->
+        <Border Style="{StaticResource Border-Content-Center}"
+                Grid.Row="6" Grid.Column="1">
             <ComboBox Style="{StaticResource Combo-Box}"
+                      Name="Country"
                       ItemsSource="{Binding CountryItems}"
                       SelectedValue="{Binding CountryId}"/>
         </Border>
-
-        <Border Style="{StaticResource Border-Vertical}"
-                Grid.Row="6" Grid.Column="0">
-            <TextBlock Style="{StaticResource Text-Bold}"
-                   Text="{x:Static localization:Strings.CATEGORY}" />
-        </Border>
-        <Border Style="{StaticResource Border-Vertical}"
-                Grid.Row="6" Grid.Column="1">
+        <!-- Category field -->
+        <Border Style="{StaticResource Border-Content-Center}"
+                Grid.Row="7" Grid.Column="1">
             <ComboBox Style="{StaticResource Combo-Box}"
+                      Name="Category"
                       ItemsSource="{Binding CategoryItems}"
                       SelectedValue="{Binding CategoryId}" />
         </Border>
-
-        <Border Style="{StaticResource Border-Vertical}"
-                Grid.Row="7" Grid.Column="0">
-            <Button Style="{StaticResource Button-Form}"
-                    Command="{Binding NavigateBack}"
-                    Content="{x:Static localization:Strings.BACK}"/>
-
-        </Border>
-        <Border Style="{StaticResource Border-Vertical}"
-                Grid.Row="7" Grid.Column="1">
-            <Button Style="{StaticResource Button-Form}"
+        <!-- Content Right Controls-->
+        <!-- Save -->
+        <Border Style="{StaticResource Border-Content-Right}"
+                Grid.Row="2" Grid.Column="2">
+            <Button Style="{StaticResource Button-Big-Vertical}"
                     Command="{Binding Submit}"
                     Content="{x:Static localization:Strings.SAVE}"/>
+        </Border>
+        <!-- Back -->
+        <Border Style="{StaticResource Border-Content-Right}"
+                Grid.Row="3" Grid.Column="2">
+            <Button Style="{StaticResource Button-Big-Vertical}"
+                    Command="{Binding NavigateBack}"
+                    Content="{x:Static localization:Strings.BACK}"/>
         </Border>
     </Grid>
 </UserControl>
