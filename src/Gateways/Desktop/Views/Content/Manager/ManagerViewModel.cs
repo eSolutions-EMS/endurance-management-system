@@ -7,7 +7,6 @@ using EnduranceJudge.Gateways.Desktop.Core.Services;
 using EnduranceJudge.Gateways.Desktop.Events;
 using EnduranceJudge.Gateways.Desktop.Services;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Common.Participations;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Common.Performances;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Regions;
@@ -15,7 +14,6 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using static EnduranceJudge.Localization.Strings;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager;
 
@@ -23,7 +21,6 @@ public class ManagerViewModel : ViewModelBase
 {
     private static readonly DateTime Today = DateTime.Today;
     private readonly IEventAggregator eventAggregator;
-    private readonly IPopupService popupService;
     private readonly IExecutor<ManagerRoot> managerExecutor;
     private readonly IQueries<Participation> participations;
 
@@ -34,7 +31,6 @@ public class ManagerViewModel : ViewModelBase
         IQueries<Participation> participations)
     {
         this.eventAggregator = eventAggregator;
-        this.popupService = popupService;
         this.managerExecutor = managerExecutor;
         this.participations = participations;
         this.Update = new DelegateCommand(this.UpdateAction);
@@ -45,8 +41,11 @@ public class ManagerViewModel : ViewModelBase
         this.StartList = new DelegateCommand(popupService.RenderStartList);
         this.Select = new DelegateCommand<object[]>(list =>
         {
-            var participation = list.First();
-            this.SelectParticipation(participation as ParticipationTemplateModel);
+            var participation = list.FirstOrDefault();
+            if (participation != null)
+            {
+                this.SelectBy(participation as ParticipationTemplateModel);
+            }
         });
     }
 
@@ -79,7 +78,7 @@ public class ManagerViewModel : ViewModelBase
         var hasStarted = this.managerExecutor.Execute(x => x.HasStarted());
         if (hasStarted)
         {
-            this.LoadParticipations();
+            this.ReloadParticipations();
         }
     }
 
@@ -88,7 +87,7 @@ public class ManagerViewModel : ViewModelBase
         this.managerExecutor.Execute(manager =>
         {
             manager.Start();
-            this.LoadParticipations();
+            this.ReloadParticipations();
         });
     }
     private void UpdateAction()
@@ -97,12 +96,13 @@ public class ManagerViewModel : ViewModelBase
         {
             return;
         }
-        this.SelectParticipation(this.InputNumber.Value);
+        var number = this.InputNumber.Value;
         this.managerExecutor.Execute(manager =>
         {
-            var performance = manager.UpdateRecord(this.InputNumber!.Value, this.InputTime);
-            this.RenderPerformanceUpdate(performance);
+            manager.UpdateRecord(number, this.InputTime);
+            this.ReloadParticipations();
         });
+        this.SelectBy(number);
     }
     private void CompleteUnsuccessfulAction()
     {
@@ -110,27 +110,13 @@ public class ManagerViewModel : ViewModelBase
         {
             return;
         }
-        this.SelectParticipation(this.InputNumber.Value);
+        var number = this.InputNumber.Value;
         this.managerExecutor.Execute(manager =>
         {
-            var performance = manager.CompletePerformance(this.InputNumber!.Value, this.DeQualificationCode);
-            this.RenderPerformanceUpdate(performance);
+            manager.CompletePerformance(number, this.DeQualificationCode);
+            this.ReloadParticipations();
         });
-    }
-    private void RenderPerformanceUpdate(Performance performance)
-    {
-        var existing = this.Participations
-            .SelectMany(part => part.Performances)
-            .FirstOrDefault(perf => perf.Id == performance.Id);
-        if (existing == null)
-        {
-            var template = new PerformanceTemplateModel(performance);
-            this.SelectedParticipation.Performances.Add(template);
-        }
-        else
-        {
-            existing.Update(performance);
-        }
+        this.SelectBy(number);
     }
     private void ReInspectionAction() // TODO extract common
     {
@@ -138,13 +124,13 @@ public class ManagerViewModel : ViewModelBase
         {
             return;
         }
-        this.SelectParticipation(this.InputNumber.Value);
+        var number = this.InputNumber.Value;
         this.managerExecutor.Execute(manager =>
         {
-            var opposite = !this.ReInspectionValue;
-            manager.ReInspection(this.InputNumber!.Value, opposite);
-            this.ReInspectionValue = opposite;
+            manager.ReInspection(number, this.ReInspectionValue);
+            this.ReloadParticipations();
         });
+        this.SelectBy(number);
     }
     private void RequireInspectionAction()
     {
@@ -152,29 +138,23 @@ public class ManagerViewModel : ViewModelBase
         {
             return;
         }
-        this.SelectParticipation(this.InputNumber.Value);
+        var number = this.InputNumber.Value;
         this.managerExecutor.Execute(manager =>
         {
-            var opposite = !this.RequireInspectionValue;
-            manager.RequireInspection(this.InputNumber!.Value, opposite);
-            this.RequireInspectionValue = opposite;
+            manager.RequireInspection(number, this.RequireInspectionValue);
+            this.ReloadParticipations();
         });
+        this.SelectBy(number);
     }
 
-    private void SelectParticipation(int number)
+    private void SelectBy(int number)
     {
         var participation = this.Participations.FirstOrDefault(x => x.Number == number);
-        if (participation == null)
-        {
-            var message = string.Format(NOT_FOUND_MESSAGE, NUMBER, number);
-            this.popupService.RenderValidation(message);
-            return;
-        }
-        this.SelectParticipation(participation);
+        this.SelectBy(participation);
         this.eventAggregator.GetEvent<SelectTabEvent>().Publish(participation);
     }
 
-    private void SelectParticipation(ParticipationTemplateModel participation)
+    private void SelectBy(ParticipationTemplateModel participation)
     {
         this.SelectedParticipation = participation;
         var performance = this.SelectedParticipation.Performances.LastOrDefault();
@@ -186,21 +166,20 @@ public class ManagerViewModel : ViewModelBase
         this.InputNumber = participation.Number;
     }
 
-    private void LoadParticipations()
+    private void ReloadParticipations()
     {
+        this.Participations.Clear();
         this.StartVisibility = Visibility.Collapsed;
         var participations = this.participations.GetAll();
         foreach (var participation in participations)
         {
-            var performances = this.managerExecutor
-                .Execute(x => x.GetPerformances(participation.Participant.Number))
-                .ToList();
+            var performances = Performance.GetAll(participation);
             var viewModel = new ParticipationTemplateModel(performances);
             this.Participations.Add(viewModel);
         }
     }
 
-    #region setters
+#region setters
     public Visibility StartVisibility
     {
         get => this.startVisibility;
@@ -241,7 +220,7 @@ public class ManagerViewModel : ViewModelBase
         get => this.requireInspectionValue;
         set => this.SetProperty(ref this.requireInspectionValue, value);
     }
-    #endregion
+#endregion
 
     private DateTime InputTime
     {
