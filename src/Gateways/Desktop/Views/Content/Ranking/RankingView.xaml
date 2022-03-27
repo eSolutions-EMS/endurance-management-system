@@ -41,8 +41,6 @@
             <Border Style="{StaticResource Border-Content-Right}"
                     Grid.Row="1" Grid.Column="2">
                 <StackPanel Style="{StaticResource List-Vertical}">
-                    <manager:ManagerView>
-                    </manager:ManagerView>
                     <!-- Kids Button-->
                     <Button Style="{StaticResource Button-Big-Vertical}"
                             IsEnabled="{Binding HasKidsClassification}"
