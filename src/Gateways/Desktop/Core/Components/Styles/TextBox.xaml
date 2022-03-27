@@ -4,6 +4,7 @@
     <Style x:Key="Input" TargetType="TextBox">
         <Setter Property="BorderThickness" Value="0 0 0 2px" />
         <Setter Property="FontSize" Value="14px" />
+        <Setter Property="Padding" Value="10px 0 0 0" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
     </Style>
 

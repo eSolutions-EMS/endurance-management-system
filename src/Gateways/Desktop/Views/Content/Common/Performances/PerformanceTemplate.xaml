@@ -95,7 +95,7 @@
             </Border>
             <!-- Edit button -->
             <Border Style="{StaticResource Border-Table-Cell}" Visibility="{Binding EditVisibility}">
-                <Button Style="{StaticResource Button-Table}" Width="90px"
+                <Button Style="{StaticResource Button-Table}" Width="100px"
                         Command="{Binding Edit}"
                         Content="{x:Static localization:Strings.EDIT}" />
             </Border>
