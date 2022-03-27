@@ -37,6 +37,10 @@ public class ValueSerializer
     public static string FormatSpan(TimeSpan? span)
     {
         var spanString = span?.ToString(TIME_SPAN_FORMAT) ?? DEFAULT_SPAN;
+        if (spanString.EndsWith('.'))
+        {
+            spanString += "000";
+        }
         return spanString;
     }
     public static string FormatTime(DateTime? time)
