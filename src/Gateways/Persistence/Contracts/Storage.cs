@@ -61,7 +61,7 @@ public class Storage : IStorage
         };
         var serialized = this.serialization.Serialize(log);
         var filename = $"{timestamp}.err";
-        var path = $"{this.dirPath}/{filename}";
+        var path = $"{this.dirPath}/errors/{filename}";
         this.file.Create(path, serialized);
         return path;
     }

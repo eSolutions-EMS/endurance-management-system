@@ -29,9 +29,13 @@ public class ErrorHandler : IErrorHandler
         }
         else
         {
-            var logFile = this.persistence.LogError(exception.ToString());
-            var message = string.Format(UNEXPECTED_ERROR_MESSAGE, logFile);
-            this.popupService.RenderError(message);
+            # if DEBUG
+                this.popupService.RenderError(exception.ToString());
+            # else
+                var logFile = this.persistence.LogError(exception.ToString());
+                var message = string.Format(UNEXPECTED_ERROR_MESSAGE, logFile);
+                this.popupService.RenderError(message);
+            # endif
         }
     }
 
