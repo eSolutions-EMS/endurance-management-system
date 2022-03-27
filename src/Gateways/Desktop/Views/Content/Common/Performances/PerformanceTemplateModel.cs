@@ -1,20 +1,19 @@
 ﻿using EnduranceJudge.Application.Core.Services;
-using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Core.Utilities;
 using EnduranceJudge.Domain.AggregateRoots.Manager;
 using EnduranceJudge.Domain.AggregateRoots.Common.Performances;
+using EnduranceJudge.Domain.State.LapRecords;
 using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Services;
 using Prism.Commands;
 using System;
-using System.Globalization;
 using System.Windows;
 using static EnduranceJudge.Gateways.Desktop.DesktopConstants;
 using static EnduranceJudge.Localization.Strings;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Common.Performances;
 
-public class PerformanceTemplateModel : ViewModelBase, IMapFrom<Performance>, IPerformance
+public class PerformanceTemplateModel : ViewModelBase, ILapRecordState
 {
     private readonly IExecutor<ManagerRoot> managerExecutor;
     private readonly IDateService dateService;
@@ -57,8 +56,26 @@ public class PerformanceTemplateModel : ViewModelBase, IMapFrom<Performance>, IP
 
     public void Update(Performance performance)
     {
-        // TODO: remove AutoMapper
-        this.MapFrom(performance);
+        this.Id = performance.Id;
+        this.RequiredInspectionTimeString = this.FormatTime(performance.RequiredInspectionTime);
+        this.RecoverySpanString = this.FormatSpan(performance.RecoverySpan);
+        this.TimeString = this.FormatSpan(performance.Time);
+        this.AverageSpeed = performance.AverageSpeed;
+        this.AverageSpeedTotalString = this.FormatDouble(performance.AverageSpeedTotal);
+        this.TotalLength = performance.TotalLength;
+        this.NextStartTimeString = this.FormatTime(performance.NextStartTime);
+        this.StartTime = performance.StartTime;
+        this.ArrivalTime = performance.ArrivalTime;
+        this.InspectionTime = performance.InspectionTime;
+        this.IsReInspectionRequired = performance.IsReInspectionRequired;
+        this.IsRequiredInspectionRequired = performance.IsRequiredInspectionRequired;
+        var requiredInspectionTime = this.FormatTime(performance.RequiredInspectionTime);
+        this.RequiredInspectionTimeString = performance.Lap.IsCompulsoryInspectionRequired
+            ? string.Empty
+            : requiredInspectionTime;
+        this.CompulsoryRequiredInspectionTimeString = performance.Lap.IsCompulsoryInspectionRequired
+            ? requiredInspectionTime
+            : string.Empty;
     }
 
 #region IPerformanceState implementation
@@ -78,45 +95,14 @@ public class PerformanceTemplateModel : ViewModelBase, IMapFrom<Performance>, IP
         get => this.ParseTime(this.ReInspectionTimeString);
         private set => this.ReInspectionTimeString = this.FormatTime(value);
     }
-    public int Index { get; }
-    public DateTime? RequiredInspectionTime
-    {
-        get => this.ParseTime(this.RequiredInspectionTimeString);
-        private set => this.RequiredInspectionTimeString = this.FormatTime(value);
-    }
-    public DateTime? CompulsoryRequiredInspectionTime // Possibly remove
-    {
-        get => this.ParseTime(this.CompulsoryRequiredInspectionTimeString);
-        private set => this.CompulsoryRequiredInspectionTimeString = this.FormatTime(value);
-    }
-    public TimeSpan? RecoverySpan
-    {
-        get => this.ParseSpan(this.RecoverySpanString);
-        private set => this.RecoverySpanString = this.FormatSpan(value);
-    }
-    public TimeSpan? Time
-    {
-        get => this.ParseSpan(this.TimeString);
-        private set => this.TimeString = this.FormatSpan(value);
-    }
     public double? AverageSpeed
     {
         get => double.Parse(this.AverageSpeedString);
         private set => this.AverageSpeedString = value?.ToString("#.###");
     }
-    public double? AverageSpeedTotal
-    {
-        get => double.Parse(this.AverageSpeedTotalString);
-        private set => this.AverageSpeedTotalString = value?.ToString("#.###");
-    }
-    public DateTime? NextStartTime
-    {
-        get => this.ParseTime(this.NextStartTimeString);
-        private set => this.NextStartTimeString = this.FormatTime(value);
-    }
     public bool IsReInspectionRequired { get; private set; }
     public bool IsRequiredInspectionRequired { get; private set; }
-    public double TotalLength { get; private set;  }
+    public double TotalLength { get; private set; }
     public int Id { get; private set; }
 
 #endregion
@@ -148,6 +134,11 @@ public class PerformanceTemplateModel : ViewModelBase, IMapFrom<Performance>, IP
     {
         var timeString = time?.ToString(TIME_FORMAT);
         return timeString;
+    }
+    private string FormatDouble(double? value)
+    {
+        var doubleString = value?.ToString(DOUBLE_FORMAT) ?? string.Empty;
+        return doubleString;
     }
 
 #region Setters

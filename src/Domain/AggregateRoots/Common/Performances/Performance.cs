@@ -37,7 +37,7 @@ public class Performance : IAggregate, IPerformance
                 return null;
             }
             var inspection = this.CurrentRecord.VetGateTime
-                ?.AddMinutes(this.CurrentLap.RestTimeInMins)
+                ?.AddMinutes(this.Lap.RestTimeInMins)
                 .AddMinutes(COMPULSORY_INSPECTION_TIME_OFFSET);
             return inspection;
         }
@@ -47,13 +47,13 @@ public class Performance : IAggregate, IPerformance
         => this.CurrentRecord.VetGateTime - this.CurrentRecord.ArrivalTime;
 
     public TimeSpan? Time
-        => this.CalculateLapTime(this.CurrentRecord, this.CurrentLap);
+        => this.CalculateLapTime(this.CurrentRecord, this.Lap);
 
     public double? AverageSpeed
     {
         get
         {
-            var lapLengthInKm = this.CurrentLap.LengthInKm;
+            var lapLengthInKm = this.Lap.LengthInKm;
             var totalHours = this.Time?.TotalHours;
             return  lapLengthInKm / totalHours;
         }
@@ -99,7 +99,7 @@ public class Performance : IAggregate, IPerformance
         return totalHours;
     }
 
-    private Lap CurrentLap => this.laps[this.Index];
+    public Lap Lap => this.laps[this.Index];
     private LapRecord CurrentRecord => this.timeRecords[this.Index];
     private IEnumerable<Lap> TotalLaps => this.laps.Take(this.Index + 1);
     private IEnumerable<LapRecord> TotalRecords => this.timeRecords.Take(this.Index + 1);

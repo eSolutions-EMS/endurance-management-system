@@ -7,6 +7,7 @@ public static class DesktopConstants
 {
     public const string TIME_FORMAT = "HH:mm:ss.fff";
     public const string TIME_SPAN_FORMAT = @"h\:mm\:ss\.FFF";
+    public const string DOUBLE_FORMAT = "#.###";
 
     public static Assembly[] Assemblies
     {
