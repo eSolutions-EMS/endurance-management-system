@@ -1,5 +1,4 @@
-﻿using EnduranceJudge.Application.Core.Services;
-using EnduranceJudge.Core.Utilities;
+﻿using EnduranceJudge.Core.Utilities;
 using EnduranceJudge.Domain.AggregateRoots.Manager;
 using EnduranceJudge.Domain.AggregateRoots.Common.Performances;
 using EnduranceJudge.Domain.State.LapRecords;
@@ -8,7 +7,6 @@ using EnduranceJudge.Gateways.Desktop.Services;
 using Prism.Commands;
 using System;
 using System.Windows;
-using static EnduranceJudge.Gateways.Desktop.DesktopConstants;
 using static EnduranceJudge.Localization.Strings;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Common.Performances;
@@ -16,13 +14,10 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Common.Performances;
 public class PerformanceTemplateModel : ViewModelBase, ILapRecordState
 {
     private readonly IExecutor<ManagerRoot> managerExecutor;
-    private readonly IDateService dateService;
-
     public PerformanceTemplateModel(Performance performance)
     {
         this.EditVisibility = Visibility.Visible;
         this.managerExecutor = StaticProvider.GetService<IExecutor<ManagerRoot>>();
-        this.dateService = StaticProvider.GetService<IDateService>();
         this.Edit = new DelegateCommand(this.EditAction);
         this.HeaderValue = $"{GATE.ToUpper()}{performance.Index}/{this.TotalLength} {KM}";
         this.Update(performance);
@@ -57,19 +52,19 @@ public class PerformanceTemplateModel : ViewModelBase, ILapRecordState
     public void Update(Performance performance)
     {
         this.Id = performance.Id;
-        this.RequiredInspectionTimeString = this.FormatTime(performance.RequiredInspectionTime);
-        this.RecoverySpanString = this.FormatSpan(performance.RecoverySpan);
-        this.TimeString = this.FormatSpan(performance.Time);
+        this.RequiredInspectionTimeString = ValueSerializer.FormatTime(performance.RequiredInspectionTime);
+        this.RecoverySpanString = ValueSerializer.FormatSpan(performance.RecoverySpan);
+        this.TimeString = ValueSerializer.FormatSpan(performance.Time);
         this.AverageSpeed = performance.AverageSpeed;
-        this.AverageSpeedTotalString = this.FormatDouble(performance.AverageSpeedTotal);
+        this.AverageSpeedTotalString = ValueSerializer.FormatDouble(performance.AverageSpeedTotal);
         this.TotalLength = performance.TotalLength;
-        this.NextStartTimeString = this.FormatTime(performance.NextStartTime);
+        this.NextStartTimeString = ValueSerializer.FormatTime(performance.NextStartTime);
         this.StartTime = performance.StartTime;
         this.ArrivalTime = performance.ArrivalTime;
         this.InspectionTime = performance.InspectionTime;
         this.IsReInspectionRequired = performance.IsReInspectionRequired;
         this.IsRequiredInspectionRequired = performance.IsRequiredInspectionRequired;
-        var requiredInspectionTime = this.FormatTime(performance.RequiredInspectionTime);
+        var requiredInspectionTime = ValueSerializer.FormatTime(performance.RequiredInspectionTime);
         this.RequiredInspectionTimeString = performance.Lap.IsCompulsoryInspectionRequired
             ? string.Empty
             : requiredInspectionTime;
@@ -82,23 +77,23 @@ public class PerformanceTemplateModel : ViewModelBase, ILapRecordState
 
     public DateTime? ArrivalTime
     {
-        get => this.ParseTime(this.ArrivalTimeString);
-        private set => this.ArrivalTimeString = this.FormatTime(value);
+        get => ValueSerializer.ParseTime(this.ArrivalTimeString);
+        private set => this.ArrivalTimeString = ValueSerializer.FormatTime(value);
     }
     public DateTime? InspectionTime
     {
-        get => this.ParseTime(this.InspectionTimeString);
-        private set => this.InspectionTimeString = this.FormatTime(value);
+        get => ValueSerializer.ParseTime(this.InspectionTimeString);
+        private set => this.InspectionTimeString = ValueSerializer.FormatTime(value);
     }
     public DateTime? ReInspectionTime
     {
-        get => this.ParseTime(this.ReInspectionTimeString);
-        private set => this.ReInspectionTimeString = this.FormatTime(value);
+        get => ValueSerializer.ParseTime(this.ReInspectionTimeString);
+        private set => this.ReInspectionTimeString = ValueSerializer.FormatTime(value);
     }
     public double? AverageSpeed
     {
-        get => double.Parse(this.AverageSpeedString);
-        private set => this.AverageSpeedString = value?.ToString("#.###");
+        get => ValueSerializer.ParseDouble(this.AverageSpeedString);
+        private set => this.AverageSpeedString = ValueSerializer.FormatDouble(value);
     }
     public bool IsReInspectionRequired { get; private set; }
     public bool IsRequiredInspectionRequired { get; private set; }
@@ -106,40 +101,6 @@ public class PerformanceTemplateModel : ViewModelBase, ILapRecordState
     public int Id { get; private set; }
 
 #endregion
-
-    private DateTime? ParseTime(string value)
-    {
-        if (string.IsNullOrEmpty(value))
-        {
-            return null;
-        }
-        var date = this.dateService.Parse(value, TIME_FORMAT);
-        return date;
-    }
-    private TimeSpan? ParseSpan(string value)
-    {
-        if (string.IsNullOrEmpty(value))
-        {
-            return null;
-        }
-        var span = TimeSpan.Parse(value);
-        return span;
-    }
-    private string FormatSpan(TimeSpan? span)
-    {
-        var spanString = span?.ToString(TIME_SPAN_FORMAT);
-        return spanString;
-    }
-    private string FormatTime(DateTime? time)
-    {
-        var timeString = time?.ToString(TIME_FORMAT);
-        return timeString;
-    }
-    private string FormatDouble(double? value)
-    {
-        var doubleString = value?.ToString(DOUBLE_FORMAT) ?? string.Empty;
-        return doubleString;
-    }
 
 #region Setters
 
