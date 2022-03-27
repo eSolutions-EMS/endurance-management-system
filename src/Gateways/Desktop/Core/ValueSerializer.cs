@@ -8,6 +8,10 @@ namespace EnduranceJudge.Gateways.Desktop.Core;
 
 public class ValueSerializer
 {
+    private const string DEFAULT_TIME = "--:--:--";
+    private const string DEFAULT_SPAN = "-:-:-.-";
+    private const string DEFAULT_DOUBLE = "-.---";
+
     public static DateTime? ParseTime(string value)
     {
         var hasParsed = DateTime.TryParseExact(
@@ -32,17 +36,17 @@ public class ValueSerializer
     }
     public static string FormatSpan(TimeSpan? span)
     {
-        var spanString = span?.ToString(TIME_SPAN_FORMAT);
+        var spanString = span?.ToString(TIME_SPAN_FORMAT) ?? DEFAULT_SPAN;
         return spanString;
     }
     public static string FormatTime(DateTime? time)
     {
-        var timeString = time?.ToString(TIME_FORMAT);
+        var timeString = time?.ToString(TIME_FORMAT) ?? DEFAULT_TIME;
         return timeString;
     }
     public static string FormatDouble(double? value)
     {
-        var doubleString = value?.ToString(DOUBLE_FORMAT) ?? string.Empty;
+        var doubleString = value?.ToString(DOUBLE_FORMAT) ?? DEFAULT_DOUBLE;
         return doubleString;
     }
     public static double? ParseDouble(string value)
