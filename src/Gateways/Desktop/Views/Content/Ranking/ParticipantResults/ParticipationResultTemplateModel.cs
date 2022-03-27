@@ -1,15 +1,17 @@
 ﻿using EnduranceJudge.Domain.AggregateRoots.Common.Performances;
+using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using static EnduranceJudge.Localization.Strings;
+using static EnduranceJudge.Gateways.Desktop.DesktopConstants;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Ranking.ParticipantResults;
 
 public class ParticipationResultTemplateModel : ParticipantTemplateModelBase
 {
-    public ParticipationResultTemplateModel(int rank, IEnumerable<Performance> performances) : base(performances)
+    public ParticipationResultTemplateModel(int rank, List<Performance> performances) : base(performances)
     {
         this.Rank = rank;
         this.ParticipantNumber = this.Participant.Number;
@@ -22,7 +24,12 @@ public class ParticipationResultTemplateModel : ParticipantTemplateModelBase
         this.HorseBreed = this.Participant.Horse.Breed;
         this.TrainerFeiId = this.Participant.Horse.TrainerFeiId;
         this.TrainerName = this.Participant.Horse.TrainerName;
-        this.AverageSpeedInKm = this.Performances.Sum(perf => perf.AverageSpeed) / this.Performances.Count;
+        var totalAverageSpeed = performances.Sum(perf => perf.AverageSpeed) / this.Performances.Count;
+        var totalTime = performances
+            .Where(x => x.Time.HasValue)
+            .Aggregate(TimeSpan.Zero, (ag, perf) => ag + perf.Time!.Value);
+        this.TotalAverageSpeedString = ValueSerializer.FormatDouble(totalAverageSpeed);
+        this.TotalTime = ValueSerializer.FormatSpan(totalTime);
     }
 
     public int Rank { get; }
@@ -36,9 +43,8 @@ public class ParticipationResultTemplateModel : ParticipantTemplateModelBase
     public string HorseBreed { get; }
     public string TrainerFeiId { get; }
     public string TrainerName { get; }
-    public TimeSpan TotalLoopSpan { get; }
-    public double? AverageSpeedInKm { get; }
+    public string TotalAverageSpeedString { get; }
 
     public string HorseGenderString => this.HorseIsStallion ? STALLION : MARE;
-    public string TotalLoopSpanString => this.TotalLoopSpan.ToString(@"hh\:mm\:ss"); // TODO: date formats
+    public string TotalTime { get; }
 }

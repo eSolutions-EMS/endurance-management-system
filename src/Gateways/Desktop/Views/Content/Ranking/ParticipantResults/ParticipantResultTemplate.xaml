@@ -62,15 +62,19 @@
                             </Border>
                             <!-- Total rows -->
                             <StackPanel Style="{StaticResource List-Vertical}">
-                                <!-- Total Loop Span -->
+                                <!-- TotalTime -->
                                 <Border Style="{StaticResource Border-Vertical}">
-                                    <TextBlock Style="{StaticResource Text-Bold}"
-                                               Text="{Binding TotalLoopSpanString, Mode=OneWay}" />
+                                    <TextBlock Style="{StaticResource Text-Bold}">
+                                        <Run Style="{StaticResource Run}"
+                                             Text="{Binding TotalTime, Mode=OneWay}" />
+                                        <Run Style="{StaticResource Run}"
+                                             Text="{x:Static localization:Strings.HOURS_SYMBOL}" />
+                                    </TextBlock>
                                 </Border>
                                 <!-- Average speed -->
                                 <Border Style="{StaticResource Border-Vertical}">
                                     <TextBlock Style="{StaticResource Text-Bold}">
-                                        <Run Text="{Binding AverageSpeedInKm, Mode=OneWay}" />
+                                        <Run Text="{Binding TotalAverageSpeedString, Mode=OneWay}" />
                                         <Run Text=" " />
                                         <Run Text="{x:Static localization:Strings.KM_PER_HOUR}" />
                                     </TextBlock>
