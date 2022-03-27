@@ -7,9 +7,7 @@ using EnduranceJudge.Domain.State.Laps;
 using EnduranceJudge.Domain.State.LapRecords;
 using EnduranceJudge.Domain.State.Participants;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using static EnduranceJudge.Domain.DomainConstants.ErrorMessages;
 using static EnduranceJudge.Localization.Strings;
 
 namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates;

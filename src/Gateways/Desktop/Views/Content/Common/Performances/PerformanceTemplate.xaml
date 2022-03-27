@@ -8,7 +8,7 @@
             <!-- Header -->
             <Border Style="{StaticResource Border-Table-Cell}">
                 <TextBlock Style="{StaticResource Text}"
-                           Text="{Binding HeaderValue, Mode=OneWay, StringFormat=HH:mm}" />
+                           Text="{Binding HeaderValue}" />
             </Border>
             <!-- EDITABLE TIMES -->
             <!-- Arrival Time -->
@@ -67,33 +67,29 @@
             <!-- Next Performance Start Time -->
             <Border Style="{StaticResource Border-Table-Cell}">
                 <TextBlock Style="{StaticResource Text-Bold}"
-                           Text="{Binding NextStartTime, Mode=OneWay, StringFormat=HH:mm}" />
+                           Text="{Binding NextStartTimeString, Mode=OneWay}" />
             </Border>
             <!-- Recovery Span -->
             <Border Style="{StaticResource Border-Table-Cell}">
-                <TextBlock Style="{StaticResource Text}">
-                    <Run Text="{Binding RecoverySpan, Mode=OneWay, StringFormat=hh\\:mm}" />
-                    <Run Text="{x:Static localization:Strings.HOURS_SYMBOL}" />
-                </TextBlock>
+                <TextBlock Style="{StaticResource Text}"
+                           Text="{Binding RecoverySpanString, Mode=OneWay}" />
             </Border>
             <!-- Time -->
             <Border Style="{StaticResource Border-Table-Cell}">
-                <TextBlock Style="{StaticResource Text}">
-                    <Run Text="{Binding Time, Mode=OneWay, StringFormat=hh\\:mm}" />
-                    <Run Text="{x:Static localization:Strings.HOURS_SYMBOL}" />
-                </TextBlock>
+                <TextBlock Style="{StaticResource Text}"
+                           Text="{Binding TimeString, Mode=OneWay}" />
             </Border>
             <!-- Average Speed Loop -->
             <Border Style="{StaticResource Border-Table-Cell}">
                 <TextBlock Style="{StaticResource Text}">
-                    <Run Text="{Binding AverageSpeed, Mode=OneWay, StringFormat=N2}" />
+                    <Run Text="{Binding AverageSpeedString, Mode=OneWay}" />
                     <Run Text="{x:Static localization:Strings.KM_PER_HOUR}" />
                 </TextBlock>
             </Border>
             <!-- Average Speed Total -->
             <Border Style="{StaticResource Border-Table-Cell}">
                 <TextBlock Style="{StaticResource Text}">
-                    <Run Text="{Binding AverageSpeedTotal, Mode=OneWay, StringFormat=N2}" />
+                    <Run Text="{Binding AverageSpeedTotalString, Mode=OneWay}" />
                     <Run Text="{x:Static localization:Strings.KM_PER_HOUR}" />
                 </TextBlock>
             </Border>
