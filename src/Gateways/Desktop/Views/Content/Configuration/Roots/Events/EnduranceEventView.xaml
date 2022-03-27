@@ -97,7 +97,7 @@
             <Border Style="{StaticResource Border-Separator}"
                     Grid.Row="5" Grid.Column="1" />
             <!-- Personnel Create -->
-            <Border Style="{StaticResource Border-Content-Left}"
+            <Border Style="{StaticResource Border-Content-Center}"
                     Grid.Row="5" Grid.Column="1">
                 <Button Style="{StaticResource Button-Form}"
                         Command="{Binding CreatePersonnel}"
