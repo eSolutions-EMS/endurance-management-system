@@ -157,4 +157,8 @@ public static class Strings
     /// </summary>
     public static string COMPETITION_CANNOT_START_WITHOUT_PHASES_MESSAGES         { get; internal set; }
     public static string PARTICIPANTS_CANNOT_BE_IMPORTED_MESSAGE                  { get; internal set; }
+    /// <summary>
+    /// {0}: Logfile path
+    /// </summary>
+    public static string UNEXPECTED_ERROR_MESSAGE                                 { get; internal set; }
 }

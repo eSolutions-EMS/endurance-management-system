@@ -3,4 +3,5 @@
 public interface IPersistence
 {
     void Snapshot();
+    string LogError(string error);
 }

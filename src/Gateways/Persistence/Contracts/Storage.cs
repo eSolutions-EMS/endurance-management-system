@@ -1,12 +1,12 @@
 ﻿using EnduranceJudge.Application.Contracts;
 using EnduranceJudge.Application.Core.Services;
 using EnduranceJudge.Core.ConventionalServices;
-using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Core.Services;
 using EnduranceJudge.Domain;
 using EnduranceJudge.Domain.AggregateRoots.Configuration;
 using EnduranceJudge.Domain.State;
 using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace EnduranceJudge.Gateways.Persistence.Contracts;
@@ -15,7 +15,7 @@ public class Storage : IStorage
 {
     private const string STORAGE_FILE_NAME = "endurance-judge-data";
 
-    private string storageFilePath;
+    private string dirPath;
     private readonly State appState;
     private readonly IEncryptionService encryption;
     private readonly IFileService file;
@@ -35,9 +35,9 @@ public class Storage : IStorage
 
     public IStorageResult Initialize(string directoryPath)
     {
-        this.storageFilePath = BuildStorageFilePath(directoryPath);
-
-        if (this.file.Exists(this.storageFilePath))
+        this.dirPath = directoryPath;
+        var database = BuildStorageFilePath(directoryPath);
+        if (this.file.Exists(database))
         {
             this.Restore();
             return StorageResult.Existing;
@@ -51,9 +51,25 @@ public class Storage : IStorage
 
     public void Snapshot() => this.Create();
 
+    public string LogError(string error)
+    {
+        var timestamp = DateTime.Now.ToString("yyyy-mm-ddTHH-mm-ss");
+        var log = new Dictionary<string, object>
+        {
+            { "error", error },
+            { "state", this.appState }
+        };
+        var serialized = this.serialization.Serialize(log);
+        var filename = $"{timestamp}.err";
+        var path = $"{this.dirPath}/{filename}";
+        this.file.Create(path, serialized);
+        return path;
+    }
+
     private void Restore()
     {
-        var contents = this.file.Read(this.storageFilePath);
+        var dataPath = BuildStorageFilePath(this.dirPath);
+        var contents = this.file.Read(dataPath);
         contents = this.NormalizeStorageFileContents(contents);
         var state = this.serialization.Deserialize<State>(contents);
         ReferenceNormalizer.Normalize(state);
@@ -66,7 +82,8 @@ public class Storage : IStorage
     private void Create()
     {
         var serialized = this.serialization.Serialize(this.appState);
-        this.file.Create(this.storageFilePath, serialized);
+        var databasePath = BuildStorageFilePath(this.dirPath);
+        this.file.Create(databasePath, serialized);
     }
 
     // TODO: Remove after testing lap
