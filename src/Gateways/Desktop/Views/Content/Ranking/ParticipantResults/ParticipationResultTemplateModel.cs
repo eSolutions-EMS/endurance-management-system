@@ -1,18 +1,19 @@
 ﻿using EnduranceJudge.Domain.AggregateRoots.Common.Performances;
+using EnduranceJudge.Domain.State.Participations;
 using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using static EnduranceJudge.Localization.Strings;
-using static EnduranceJudge.Gateways.Desktop.DesktopConstants;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Ranking.ParticipantResults;
 
 public class ParticipationResultTemplateModel : ParticipantTemplateModelBase
 {
-    public ParticipationResultTemplateModel(int rank, List<Performance> performances) : base(performances)
+    public ParticipationResultTemplateModel(int rank, Participation participation) : base(participation)
     {
+        var performances = Performance.GetAll(participation).ToList();
         this.Rank = rank;
         this.ParticipantNumber = this.Participant.Number;
         this.AthleteName = this.Participant.Athlete.Name;
@@ -24,7 +25,7 @@ public class ParticipationResultTemplateModel : ParticipantTemplateModelBase
         this.HorseBreed = this.Participant.Horse.Breed;
         this.TrainerFeiId = this.Participant.Horse.TrainerFeiId;
         this.TrainerName = this.Participant.Horse.TrainerName;
-        var totalAverageSpeed = performances.Sum(perf => perf.AverageSpeed) / this.Performances.Count;
+        var totalAverageSpeed = performances.Sum(perf => perf.AverageSpeed) / performances.Count;
         var totalTime = performances
             .Where(x => x.Time.HasValue)
             .Aggregate(TimeSpan.Zero, (ag, perf) => ag + perf.Time!.Value);

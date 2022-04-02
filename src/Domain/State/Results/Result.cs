@@ -7,10 +7,9 @@ public class Result : DomainBase<ResultException>, IResultState
     private Result() {}
     internal Result(string code = null) : base(default)
     {
-        this.IsRanked = code == null;
         this.Code = code;
     }
 
-    public bool IsRanked { get; private set; }
+    public bool IsDisqualified => this.Code is not null;
     public string Code { get; private set; }
 }

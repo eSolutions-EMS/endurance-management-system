@@ -1,11 +1,13 @@
 ﻿using EnduranceJudge.Domain.AggregateRoots.Common.Performances;
+using EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates;
 using EnduranceJudge.Domain.State.Participants;
+using EnduranceJudge.Domain.State.Participations;
 using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Common.Performances;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
+using System.Windows.Media;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Common;
 
@@ -13,17 +15,20 @@ public abstract class ParticipantTemplateModelBase : ViewModelBase
 {
     private Visibility controlsVisibility;
 
-    protected ParticipantTemplateModelBase(IEnumerable<Performance> performances)
+    protected ParticipantTemplateModelBase(Participation participation)
     {
-        var list = performances.ToList();
-        if (list.Count == 0)
-        {
-            return;
-        }
-        this.Participant = list.First().Participant;
+        this.Participant = participation.Participant;
         this.Number = Participant.Number;
-        var viewModels = list.Select(perf => new PerformanceTemplateModel(perf));
+        var viewModels = Performance
+            .GetAll(participation)
+            .Select(perf => new PerformanceTemplateModel(perf));
         this.Performances.AddRange(viewModels);
+        var aggregate = participation.Aggregate();
+        if (aggregate.IsDisqualified)
+        {
+            this.Color = new SolidColorBrush(Colors.Red);
+            this.DisqualifyCode = aggregate.DisqualifiedCode;
+        }
     }
 
     public ObservableCollection<PerformanceTemplateModel> Performances { get; } = new();
@@ -39,6 +44,8 @@ public abstract class ParticipantTemplateModelBase : ViewModelBase
             }
         }
     }
+    public SolidColorBrush Color { get; } = new(Colors.Black);
+    public string DisqualifyCode { get; }
 
     protected Participant Participant { get; }
 

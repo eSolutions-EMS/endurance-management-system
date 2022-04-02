@@ -20,11 +20,17 @@ public class ParticipationsAggregate : IAggregate
     internal ParticipationsAggregate(Participation participation)
     {
         this.Number = participation.Participant.Number;
+        var disqualifiedResult = participation.Participant.LapRecords.FirstOrDefault(
+            rec => rec.Result?.IsDisqualified ?? false);
+        this.IsDisqualified = disqualifiedResult != null;
+        this.DisqualifiedCode = disqualifiedResult?.Result.Code;
         this.participation = participation;
         this.competitionConstraint = participation.CompetitionConstraint;
     }
 
     public int Number { get; }
+    public bool IsDisqualified { get; }
+    public string DisqualifiedCode { get; }
 
     internal void Start()
     {

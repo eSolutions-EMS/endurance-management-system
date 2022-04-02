@@ -133,7 +133,7 @@
                         <TabControl.ItemTemplate>
                             <DataTemplate>
                                 <TextBlock Style="{StaticResource Text-Bold}" Width="30px" TextAlignment="Center" Padding="5px"
-                                           Text="{Binding Number}" />
+                                           Text="{Binding Number}" Foreground="{Binding Color}" />
                             </DataTemplate>
                         </TabControl.ItemTemplate>
                         <i:Interaction.Triggers>

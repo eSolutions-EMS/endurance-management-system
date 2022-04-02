@@ -11,8 +11,8 @@
                             Name="PerformanceTable" >
                     <!-- Label Column -->
                     <!-- Number -->
-                    <Border Style="{StaticResource Border-Table-Cell}">
-                        <TextBlock Style="{StaticResource Text-Bold}">
+                    <Border Style="{StaticResource Border-Table-Cell}" >
+                        <TextBlock Style="{StaticResource Text-Bold}" Foreground="{Binding Color}">
                             <Run>#</Run>
                             <Run Text="{Binding Number, Mode=OneWay}" />
                         </TextBlock>
@@ -69,7 +69,7 @@
                     </Border>
                 </StackPanel>
                 <!-- Performances -->
-                <ListBox Style="{StaticResource ListBox-Horizontal}" Padding="0" Margin="0"
+                <ListBox Style="{StaticResource ListBox-Horizontal}" Padding="0" Margin="0" Foreground="{Binding Color}"
                          ItemsSource="{Binding Performances}" />
                 <!-- Controls -->
                 <!-- Print Button -->

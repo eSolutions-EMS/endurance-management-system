@@ -76,7 +76,6 @@ public class ParticipantsAggregate : IAggregate
         participation.Aggregate().Add(competition);
         this.state.Participations.Add(participation);
     }
-
     private bool IsPartOfAnotherParticipant(Athlete athlete, int participantId)
         => this.state.Participants.Any(x => x.Athlete.Equals(athlete) && x.Id != participantId);
 

@@ -46,7 +46,7 @@ public class RankList : IAggregate, IEnumerable<Participation>
         => adults
             .OrderByDescending(participation => participation.Participant
                 .LapRecords
-                .All(performance => performance.Result?.IsRanked ?? false))
+                .All(performance => performance.Result?.IsDisqualified ?? false))
             .ThenBy(participation => participation.Participant
                 .LapRecords
                 .LastOrDefault()

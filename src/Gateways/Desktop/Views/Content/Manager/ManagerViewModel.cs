@@ -162,6 +162,7 @@ public class ManagerViewModel : ViewModelBase
         {
             this.ReInspectionValue = performance.IsReInspectionRequired;
             this.RequireInspectionValue = performance.IsRequiredInspectionRequired;
+            this.DeQualificationCode = participation.DisqualifyCode;
         }
         this.InputNumber = participation.Number;
     }
@@ -171,11 +172,14 @@ public class ManagerViewModel : ViewModelBase
         this.Participations.Clear();
         this.StartVisibility = Visibility.Collapsed;
         var participations = this.participations.GetAll();
-        foreach (var participation in participations)
+        if (participations.Any())
         {
-            var performances = Performance.GetAll(participation);
-            var viewModel = new ParticipationTemplateModel(performances);
-            this.Participations.Add(viewModel);
+            foreach (var participation in participations)
+            {
+                var viewModel = new ParticipationTemplateModel(participation);
+                this.Participations.Add(viewModel);
+            }
+            this.SelectBy(this.Participations.First());
         }
     }
 
