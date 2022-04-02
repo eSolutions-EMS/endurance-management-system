@@ -38,6 +38,10 @@ public class ParticipationsAggregate : IAggregate
     }
     internal void Update(DateTime time)
     {
+        if (this.IsDisqualified)
+        {
+            throw Helper.Create<ParticipantException>(PARTICIPATION_IS_DISQUALIFIED, this.Number);
+        }
         var record = this.GetCurrent() ?? this.CreateNext();
         record.Update(time);
     }

@@ -137,3 +137,4 @@ PARTICIPATION_HAS_ENDED_MESSAGE                          | has ended | has
 COMPETITION_CANNOT_START_WITHOUT_PHASES_MESSAGES         | '{0}' cannot start without {entities-lap-plurals} | '{0}' cannot start without {entities-lap-plurals}
 PARTICIPANTS_CANNOT_BE_IMPORTED_MESSAGE                  | cannot be imported - no {entities-horse-plurals} or {entities-athlete-plurals} | cannot be imported - no {entities-horse-plurals} or {entities-athlete-plurals}
 UNEXPECTED_ERROR_MESSAGE                                 | Unexpected error occured. Log file '{0}' has been created. Please contact the developer and send them the file | Unexpected error occured. Log file '{0}' has been created. Please contact the developer and send them the file
+PARTICIPATION_IS_DISQUALIFIED                            | '{0}' is disqualified | '{0}' is disqualified

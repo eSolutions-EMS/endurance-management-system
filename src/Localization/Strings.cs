@@ -161,4 +161,8 @@ public static class Strings
     /// {0}: Logfile path
     /// </summary>
     public static string UNEXPECTED_ERROR_MESSAGE                                 { get; internal set; }
+    /// <summary>
+    /// {0}: Participant Number
+    /// </summary>
+    public static string PARTICIPATION_IS_DISQUALIFIED                            { get; internal set; }
 }
