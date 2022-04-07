@@ -22,6 +22,6 @@
                     Command="{Binding NavigateToRanking}"
                     Content="{x:Static localization:Strings.RANK_LIST_PAGE}" />
 
-            <TextBlock Style="{StaticResource Text}">Version 2.0.12</TextBlock>
+            <TextBlock Style="{StaticResource Text}">Version 2.0.13</TextBlock>
         </StackPanel>
 </UserControl>
