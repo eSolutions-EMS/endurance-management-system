@@ -72,9 +72,9 @@ public class ParticipantsAggregate : IAggregate
         {
             var participant = this.state.Participants.FindDomain(participantId);
             participation = new Participation(participant, competition);
+            this.state.Participations.Add(participation);
         }
         participation.Aggregate().Add(competition);
-        this.state.Participations.Add(participation);
     }
     private bool IsPartOfAnotherParticipant(Athlete athlete, int participantId)
         => this.state.Participants.Any(x => x.Athlete.Equals(athlete) && x.Id != participantId);
