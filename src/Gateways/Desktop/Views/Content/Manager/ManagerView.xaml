@@ -129,6 +129,7 @@
                     Grid.Row="1" Grid.Column="1">
                 <StackPanel Style="{StaticResource List-Vertical}">
                     <TabControl ItemsSource="{Binding Participations}" TabStripPlacement="Bottom"
+                                MaxWidth="750px"
                                 Name="Participations">
                         <TabControl.ItemTemplate>
                             <DataTemplate>
