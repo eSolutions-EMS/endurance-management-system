@@ -19,7 +19,6 @@ public class PerformanceTemplateModel : ViewModelBase, ILapRecordState
         this.EditVisibility = Visibility.Visible;
         this.managerExecutor = StaticProvider.GetService<IExecutor<ManagerRoot>>();
         this.Edit = new DelegateCommand(this.EditAction);
-        this.HeaderValue = $"{GATE.ToUpper()}{performance.Index}/{this.TotalLength} {KM}";
         this.Update(performance);
     }
 
@@ -30,7 +29,7 @@ public class PerformanceTemplateModel : ViewModelBase, ILapRecordState
 
     public DelegateCommand Edit { get; }
 
-    public string HeaderValue { get; }
+    public string HeaderValue { get; private set; }
     private DateTime startTime;
     private string arrivalTimeString;
     private string inspectionTimeString;
@@ -52,12 +51,12 @@ public class PerformanceTemplateModel : ViewModelBase, ILapRecordState
     public void Update(Performance performance)
     {
         this.Id = performance.Id;
+        this.HeaderValue = $"{GATE.ToUpper()}{performance.Index + 1}/{performance.TotalLength} {KM}";
         this.RequiredInspectionTimeString = ValueSerializer.FormatTime(performance.RequiredInspectionTime);
         this.RecoverySpanString = ValueSerializer.FormatSpan(performance.RecoverySpan);
         this.TimeString = ValueSerializer.FormatSpan(performance.Time);
         this.AverageSpeed = performance.AverageSpeed;
         this.AverageSpeedTotalString = ValueSerializer.FormatDouble(performance.AverageSpeedTotal);
-        this.TotalLength = performance.TotalLength;
         this.NextStartTimeString = ValueSerializer.FormatTime(performance.NextStartTime);
         this.StartTime = performance.StartTime;
         this.ArrivalTime = performance.ArrivalTime;
@@ -97,7 +96,6 @@ public class PerformanceTemplateModel : ViewModelBase, ILapRecordState
     }
     public bool IsReInspectionRequired { get; private set; }
     public bool IsRequiredInspectionRequired { get; private set; }
-    public double TotalLength { get; private set; }
     public int Id { get; private set; }
 
 #endregion
