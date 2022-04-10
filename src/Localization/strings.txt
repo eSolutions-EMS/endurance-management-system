@@ -82,7 +82,7 @@ KM_PER_HOUR                         | km/h | km/h
 KIDS                                | Kids | Kids
 ADULTS                              | Adults | Adults
 CATEGORY                            | Category | Category
-COMPLETE_UNSUCCESSFULLY             | Disqualify | Disqualify
+COMPLETE_UNSUCCESSFULLY             | Fail to Qualify | Fail to Qualify
 UPDATE_PERSONNEL                    | Update Personnel | Update Personnel
 _YES                                | _Yes | _Yes
 _NO                                 | _No | _No
@@ -109,7 +109,7 @@ HAS_STARTED                         | Has Started | Has Started
 DISTANCE                            | Distance | Distance
 STARTLIST                           | Startlist | Startlist
 INCLUDE_PAST                        | Include Past | Include Past
-_DQ                                 | _DQ | _DQ
+_DQ                                 | _FTQ | _FTQ
 IMPORT                              | Import | Import
 CANNOT_REMOVE_USED_IN_PARTICIPANT_MESSAGE                | cannot be removed because it is used in an existing {entities-participant} | cannot be removed because it is used in an existing {entities-participant}
 ALREADY_PARTICIPATING_MESSAGE                            | cannot be created - '{0}' is already participating. | cannot be created - '{0}' is already participating.
