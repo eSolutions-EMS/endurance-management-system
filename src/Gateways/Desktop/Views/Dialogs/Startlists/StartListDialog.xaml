@@ -5,65 +5,68 @@
              xmlns:localization="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization"
              mvvm:ViewModelLocator.AutoWireViewModel="True"
              Height="Auto">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="50px" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <!-- Controls -->
-        <StackPanel Style="{StaticResource List-Horizontal}"
-                    Grid.Row="0">
-            <Border Style="{StaticResource Border-Horizontal}">
-                <CheckBox Style="{StaticResource CheckBox}"
-                          IsChecked="{Binding IncludePast}"
-                          Content="{x:Static localization:Strings.INCLUDE_PAST}" />
-            </Border>
-            <Border Style="{StaticResource Border-Horizontal}">
-                <Button Style="{StaticResource Button-Big-Horizontal}"
-                        Command="{Binding GetList}"
-                        Content="{x:Static localization:Strings.CREATE}"/>
-            </Border>
-            <Border Style="{StaticResource Border-Horizontal}" HorizontalAlignment="Right">
-                <Button Style="{StaticResource Button-Big-Horizontal}"
-                        Command="{Binding Print}"
-                        CommandParameter="{Binding ElementName=StartList}"
-                        Content="{x:Static localization:Strings.PRINT}" />
-            </Border>
-        </StackPanel>
-        <!-- List -->
-        <StackPanel Style="{StaticResource List-Vertical}" Margin="1px 0 0 0"
-                    Name="StartList"
-                    Grid.Row="1">
-            <!-- Header -->
-            <StackPanel Style="{StaticResource List-Horizontal}">
-                <Border Style="{StaticResource Border-StartList}">
-                    <TextBlock Style="{StaticResource Text}"
-                               Text="{x:Static localization:Strings.NUMBER}" />
+
+    <ScrollViewer Style="{StaticResource Scroll-Wrapper}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50px" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <!-- Controls -->
+            <StackPanel Style="{StaticResource List-Horizontal}"
+                        Grid.Row="0">
+                <Border Style="{StaticResource Border-Horizontal}">
+                    <CheckBox Style="{StaticResource CheckBox}"
+                              IsChecked="{Binding IncludePast}"
+                              Content="{x:Static localization:Strings.INCLUDE_PAST}" />
                 </Border>
-                <Border Style="{StaticResource Border-StartList}" Width="400px">
-                    <TextBlock Style="{StaticResource Text}"
-                               Text="{x:Static localization:Strings.NAME}" />
+                <Border Style="{StaticResource Border-Horizontal}">
+                    <Button Style="{StaticResource Button-Big-Horizontal}"
+                            Command="{Binding GetList}"
+                            Content="{x:Static localization:Strings.CREATE}"/>
                 </Border>
-                <Border Style="{StaticResource Border-StartList}">
-                    <TextBlock Style="{StaticResource Text}"
-                               Text="{x:Static localization:Strings.COUNTRY_ENTITY}" />
-                </Border>
-                <Border Style="{StaticResource Border-StartList}">
-                    <TextBlock Style="{StaticResource Text}"
-                               Text="{x:Static localization:Strings.DISTANCE}" />
-                </Border>
-                <Border Style="{StaticResource Border-StartList}">
-                    <TextBlock Style="{StaticResource Text}"
-                               Text="{x:Static localization:Strings.START_TIME}" />
-                </Border>
-                <Border Style="{StaticResource Border-StartList}">
-                    <TextBlock Style="{StaticResource Text}"
-                               Text="{x:Static localization:Strings.HAS_STARTED}" />
+                <Border Style="{StaticResource Border-Horizontal}" HorizontalAlignment="Right">
+                    <Button Style="{StaticResource Button-Big-Horizontal}"
+                            Command="{Binding Print}"
+                            CommandParameter="{Binding ElementName=StartList}"
+                            Content="{x:Static localization:Strings.PRINT}" />
                 </Border>
             </StackPanel>
-            <!-- Entries -->
-            <ListBox Style="{StaticResource ListBox-Vertical}"
-                     ItemsSource="{Binding List}" />
-        </StackPanel>
-    </Grid>
+            <!-- List -->
+            <StackPanel Style="{StaticResource List-Vertical}" Margin="1px 0 0 0"
+                        Name="StartList"
+                        Grid.Row="1">
+                <!-- Header -->
+                <StackPanel Style="{StaticResource List-Horizontal}">
+                    <Border Style="{StaticResource Border-StartList}">
+                        <TextBlock Style="{StaticResource Text}"
+                                   Text="{x:Static localization:Strings.NUMBER}" />
+                    </Border>
+                    <Border Style="{StaticResource Border-StartList}" Width="400px">
+                        <TextBlock Style="{StaticResource Text}"
+                                   Text="{x:Static localization:Strings.NAME}" />
+                    </Border>
+                    <Border Style="{StaticResource Border-StartList}">
+                        <TextBlock Style="{StaticResource Text}"
+                                   Text="{x:Static localization:Strings.COUNTRY_ENTITY}" />
+                    </Border>
+                    <Border Style="{StaticResource Border-StartList}">
+                        <TextBlock Style="{StaticResource Text}"
+                                   Text="{x:Static localization:Strings.DISTANCE}" />
+                    </Border>
+                    <Border Style="{StaticResource Border-StartList}">
+                        <TextBlock Style="{StaticResource Text}"
+                                   Text="{x:Static localization:Strings.START_TIME}" />
+                    </Border>
+                    <Border Style="{StaticResource Border-StartList}">
+                        <TextBlock Style="{StaticResource Text}"
+                                   Text="{x:Static localization:Strings.HAS_STARTED}" />
+                    </Border>
+                </StackPanel>
+                <!-- Entries -->
+                <ListBox Style="{StaticResource ListBox-Vertical}"
+                         ItemsSource="{Binding List}" />
+            </StackPanel>
+        </Grid>
+    </ScrollViewer>
 </UserControl>
