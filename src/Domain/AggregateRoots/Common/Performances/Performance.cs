@@ -83,8 +83,8 @@ public class Performance : IAggregate, IPerformance
 
     private TimeSpan? CalculateLapTime(LapRecord record, Lap lap)
         => lap.IsFinal
-            ? record.VetGateTime - record.StartTime
-            : record.ArrivalTime - record.StartTime;
+            ? record.ArrivalTime - record.StartTime
+            : record.VetGateTime - record.StartTime;
 
     private TimeSpan CalculateTotalTime()
     {
