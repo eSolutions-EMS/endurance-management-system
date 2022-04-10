@@ -88,7 +88,7 @@
                         </StackPanel>
                     </Border>
                     <!-- Label rows-->
-                    <StackPanel Style="{StaticResource List-Performance-Labels}">
+                    <StackPanel Style="{StaticResource Performance-Column}">
                         <!-- Number -->
                         <Border Style="{StaticResource Border-Table-Cell}">
                             <TextBlock Style="{StaticResource Text}">

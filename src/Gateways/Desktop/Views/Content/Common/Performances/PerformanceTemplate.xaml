@@ -4,7 +4,7 @@
                     xmlns:localization="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization">
 
     <DataTemplate DataType="{x:Type local:PerformanceTemplateModel}">
-        <StackPanel Style="{StaticResource List-Vertical}" Margin="0 -3px 0 0" Width="100px">
+        <StackPanel Style="{StaticResource Performance-Column}" Margin="0 -3px 0 0">
             <!-- Header -->
             <Border Style="{StaticResource Border-Table-Cell}">
                 <TextBlock Style="{StaticResource Text}"
@@ -95,7 +95,7 @@
             </Border>
             <!-- Edit button -->
             <Border Style="{StaticResource Border-Table-Cell}" Visibility="{Binding EditVisibility}">
-                <Button Style="{StaticResource Button-Table}" Width="100px"
+                <Button Style="{StaticResource Button-Table}"
                         Command="{Binding Edit}"
                         Content="{x:Static localization:Strings.EDIT}" />
             </Border>

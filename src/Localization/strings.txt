@@ -48,7 +48,6 @@ NO                                  | No | No
 RECOVERY_IN_MINUTES_TEXT            | Recovery (min) | Recovery (min)
 LENGTH_IN_KM_TEXT                   | Length (km) | Length (km)
 FINAL                               | Final | Final
-UPDATE_COMPETITION                  | Update Competition | Update Competition
 UPDATE_PHASE_TEXT                   | Update Lap | Update Lap
 SELECT_DIRECTORY                    | Select Directory | Select Directory
 SELECT_IMPORT_FILE                  | Select Import File | Select Import File

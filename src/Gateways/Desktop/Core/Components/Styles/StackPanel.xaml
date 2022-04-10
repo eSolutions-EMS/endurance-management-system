@@ -24,8 +24,8 @@
         <Setter Property="VerticalAlignment" Value="Center" />
     </Style>
 
-    <Style x:Key="List-Performance-Labels" TargetType="StackPanel" BasedOn="{StaticResource List-Vertical}">
-        <Setter Property="Width" Value="110px" />
+    <Style x:Key="Performance-Column" TargetType="StackPanel" BasedOn="{StaticResource List-Vertical}">
+        <Setter Property="Width" Value="135px" />
     </Style>
 
 </ResourceDictionary>

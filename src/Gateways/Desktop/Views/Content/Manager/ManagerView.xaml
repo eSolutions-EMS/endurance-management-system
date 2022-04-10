@@ -34,7 +34,7 @@
                             <Label Style="{StaticResource Label-Primary}"
                                    Target="{Binding ElementName=InputNumber}"
                                    Content="{x:Static localization:Strings._NUMBER}" />
-                            <TextBox Style="{StaticResource Input}" Width="124px"
+                            <TextBox Style="{StaticResource Input}" Width="222px" HorizontalContentAlignment="Center"
                                      Text="{Binding InputNumber}"
                                      Name="InputNumber" />
                         </StackPanel>
@@ -87,7 +87,7 @@
                     <Border Style="{StaticResource Border-Vertical}">
                         <StackPanel Style="{StaticResource List-Horizontal}">
                             <!-- Re Inspection checkbox -->
-                            <CheckBox Style="{StaticResource CheckBox}"
+                            <CheckBox Style="{StaticResource CheckBox}" Margin="5px 0 0 0"
                                       Command="{Binding ReInspection}"
                                       IsChecked="{Binding ReInspectionValue}"
                                       Name="ReInspectionCheckbox" />
@@ -95,7 +95,7 @@
                                    Target="{Binding ElementName=ReInspectionCheckbox}"
                                    Content="{x:Static localization:Strings._RE_INSPECTION}"/>
                             <!-- Require Inspection checkbox -->
-                            <CheckBox Style="{StaticResource CheckBox}"
+                            <CheckBox Style="{StaticResource CheckBox}" Margin="15px 0 0 0"
                                       Command="{Binding RequireInspection}"
                                       IsChecked="{Binding RequireInspectionValue}"
                                       Name="RequireInspectionCheckbox" />
@@ -133,7 +133,7 @@
                                 Name="Participations">
                         <TabControl.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Style="{StaticResource Text-Bold}" Width="30px" TextAlignment="Center" Padding="5px"
+                                <TextBlock Style="{StaticResource Text-Bold}" Width="40px" TextAlignment="Center" Padding="5px"
                                            Text="{Binding Number}" Foreground="{Binding Color}" />
                             </DataTemplate>
                         </TabControl.ItemTemplate>

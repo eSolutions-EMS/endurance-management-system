@@ -23,7 +23,7 @@
                         <!-- Update button -->
                         <Button Style="{StaticResource Button-List-Item}"
                                 Command="{Binding NavigateToUpdate}"
-                                Content="{x:Static localization:Strings.UPDATE_COMPETITION}" />
+                                Content="{x:Static localization:Strings.UPDATE}" />
                     </StackPanel>
                 </DockPanel>
             </Border>
