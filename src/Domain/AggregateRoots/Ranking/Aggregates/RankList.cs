@@ -1,6 +1,5 @@
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.Enums;
-using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Domain.State.Participations;
 using EnduranceJudge.Domain.State.LapRecords;
 using System;

@@ -20,16 +20,19 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager;
 public class ManagerViewModel : ViewModelBase
 {
     private static readonly DateTime Today = DateTime.Today;
+    private readonly IExecutor executor;
     private readonly IEventAggregator eventAggregator;
     private readonly IExecutor<ManagerRoot> managerExecutor;
     private readonly IQueries<Participation> participations;
 
     public ManagerViewModel(
+        IExecutor executor,
         IEventAggregator eventAggregator,
         IPopupService popupService,
         IExecutor<ManagerRoot> managerExecutor,
         IQueries<Participation> participations)
     {
+        this.executor = executor;
         this.eventAggregator = eventAggregator;
         this.managerExecutor = managerExecutor;
         this.participations = participations;
@@ -176,7 +179,7 @@ public class ManagerViewModel : ViewModelBase
         {
             foreach (var participation in participations)
             {
-                var viewModel = new ParticipationTemplateModel(participation);
+                var viewModel = new ParticipationTemplateModel(participation, this.executor);
                 this.Participations.Add(viewModel);
             }
             this.SelectBy(this.Participations.First());

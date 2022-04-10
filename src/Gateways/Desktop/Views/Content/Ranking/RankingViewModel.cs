@@ -16,13 +16,15 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Ranking;
 
 public class RankingViewModel : ViewModelBase
 {
-    private readonly Executor<RankingRoot> rankingExecutor;
+    private readonly IExecutor<RankingRoot> rankingExecutor;
+    private readonly IExecutor basicExecutor;
     private CompetitionResultAggregate selectedCompetition;
     private List<CompetitionResultAggregate> competitions;
 
-    public RankingViewModel(IPrinter printer, Executor<RankingRoot> rankingExecutor)
+    public RankingViewModel(IPrinter printer, IExecutor<RankingRoot> rankingExecutor, IExecutor basicExecutor)
     {
         this.rankingExecutor = rankingExecutor;
+        this.basicExecutor = basicExecutor;
         this.Print = new DelegateCommand(this.PrintAction);
         this.SelectKidsCategory = new DelegateCommand(this.SelectKidsCategoryAction);
         this.SelectAdultsCategory = new DelegateCommand(this.SelectAdultsCategoryAction);
@@ -86,8 +88,11 @@ public class RankingViewModel : ViewModelBase
     }
     private void PrintAction()
     {
-        var printer = new RanklistPrinter(this.selectedCompetition.Name, this.RankList);
-        printer.PreviewDocument();
+        this.basicExecutor.Execute(() =>
+        {
+            var printer = new RanklistPrinter(this.selectedCompetition.Name, this.RankList);
+            printer.PreviewDocument();
+        });
     }
     private void SelectDefault()
     {
