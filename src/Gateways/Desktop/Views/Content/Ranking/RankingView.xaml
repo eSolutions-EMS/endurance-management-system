@@ -52,7 +52,7 @@
                             Command="{Binding SelectAdultsCategory}"
                             Content="{x:Static localization:Strings.ADULTS}"/>
                     <!-- Category Label -->
-                    <TextBox Style="{StaticResource Readonly}" Height="28px" Margin="1px 5px 5px 5px" Width="135px"
+                    <TextBox Style="{StaticResource Readonly}" Height="28px" Margin="1px 5px 5px 5px" Width="200px"
                              Text="{Binding CategoryName, Mode=OneWay}" />
                     <!-- Print Button -->
                     <Button Style="{StaticResource Button-Big-Vertical}" Margin="0 50px"
