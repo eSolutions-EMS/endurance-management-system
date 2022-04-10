@@ -1,5 +1,4 @@
-﻿using EnduranceJudge.Core.Mappings;
-using EnduranceJudge.Core.Services;
+﻿using EnduranceJudge.Core.Services;
 using EnduranceJudge.Core.Utilities;
 using EnduranceJudge.Domain.State;
 using Mairegger.Printing.Content;
@@ -8,13 +7,12 @@ using Mairegger.Printing.PrintProcessor;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 using System.Xaml;
-using static EnduranceJudge.Gateways.Desktop.DesktopConstants;
+using Brushes = System.Windows.Media.Brushes;
 
 namespace EnduranceJudge.Gateways.Desktop.Print;
 

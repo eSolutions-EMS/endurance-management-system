@@ -1,20 +1,15 @@
-﻿using EnduranceJudge.Application.Aggregates.Configurations.Contracts;
-using EnduranceJudge.Core.Services;
-using EnduranceJudge.Domain.AggregateRoots.Ranking;
+﻿using EnduranceJudge.Domain.AggregateRoots.Ranking;
 using EnduranceJudge.Domain.AggregateRoots.Ranking.Aggregates;
 using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem;
 using EnduranceJudge.Gateways.Desktop.Services;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Ranking.RankLists;
-using EnduranceJudge.Gateways.Desktop.Print;
 using EnduranceJudge.Gateways.Desktop.Print.Performances;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Ranking.ParticipantResults;
 using Prism.Commands;
 using Prism.Regions;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows;
-using System.Xaml;
 using static EnduranceJudge.Localization.Strings;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Ranking;
@@ -39,10 +34,7 @@ public class RankingViewModel : ViewModelBase
     public DelegateCommand SelectKidsCategory { get; }
     public DelegateCommand SelectAdultsCategory { get; }
 
-    // This should not be a collection and should always have only a single instance
-    // It is defined as collection in order to work-around
-    // my inability to render a template outside of a list.
-    public ObservableCollection<RankListTemplateModel> RankList { get; } = new();
+    public ObservableCollection<ParticipationResultTemplateModel> RankList { get; } = new();
     public ObservableCollection<ListItemViewModel> Competitions { get; } = new();
     private string totalLengthInKm;
     private string categoryName;
@@ -94,7 +86,7 @@ public class RankingViewModel : ViewModelBase
     }
     private void PrintAction()
     {
-        var printer = new RanklistPrinter(this.selectedCompetition.Name, this.RankList.SelectMany(x => x.RankList));
+        var printer = new RanklistPrinter(this.selectedCompetition.Name, this.RankList);
         printer.PreviewDocument();
     }
     private void SelectDefault()
@@ -106,8 +98,13 @@ public class RankingViewModel : ViewModelBase
     private void Select(RankList rankList)
     {
         this.RankList.Clear();
-        var template = new RankListTemplateModel(rankList, this.selectedCompetition);
-        this.RankList.Add(template);
+        var rank = 1;
+        foreach (var participation in rankList)
+        {
+            var entry = new ParticipationResultTemplateModel(rank, participation);
+            this.RankList.Add(entry);
+            rank++;
+        }
         this.CategoryName = rankList.Category.ToString();
     }
 
