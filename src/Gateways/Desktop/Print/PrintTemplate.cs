@@ -1,4 +1,5 @@
-﻿using EnduranceJudge.Core.Services;
+﻿using EnduranceJudge.Core.Mappings;
+using EnduranceJudge.Core.Services;
 using EnduranceJudge.Core.Utilities;
 using EnduranceJudge.Domain.State;
 using Mairegger.Printing.Content;
@@ -13,6 +14,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 using System.Xaml;
+using static EnduranceJudge.Gateways.Desktop.DesktopConstants;
 
 namespace EnduranceJudge.Gateways.Desktop.Print;
 
@@ -54,15 +56,20 @@ public abstract class PrintTemplate : PrintProcessor
         var eventNameBlock = (TextBlock)control.FindName("EventName")!;
         var populatedPlaceBlock = (Run)control.FindName("PopulatedPlace")!;
         var countryBlock = (Run)control.FindName("CountryName")!;
-        var dateBlock = (TextBlock)control.FindName("Date")!;
-        var organizerBlock = (TextBlock)control.FindName("Organizer")!;
-        var titleBlock = (TextBlock)control.FindName("Title")!;
+        var titleBlock = (Run)control.FindName("Title")!;
+        var juryBlock = (Run) control.FindName("PresidentGroundJuryName")!;
+        var feiTechBlock = (Run) control.FindName("FeiTechDelegateName")!;
+        var feiVetBlock = (Run) control.FindName("FeiVetDelegateName")!;
+        var presidentVetBlock = (Run) control.FindName("PresidentVetCommitteeName")!;
 
         eventNameBlock.Text = this.State.Event.Name;
         populatedPlaceBlock.Text = this.State.Event.PopulatedPlace;
         countryBlock.Text = this.State.Event.Country.Name;
-        dateBlock.Text = DateTime.Now.ToString(CultureInfo.InvariantCulture); // TODO fix date
-        organizerBlock.Text = "BFKS"; // TODO attach on Event
+        juryBlock.Text = this.State.Event.PresidentGroundJury?.Name;
+        feiTechBlock.Text = this.State.Event.FeiTechDelegate?.Name;
+        feiVetBlock.Text = this.State.Event.FeiVetDelegate?.Name;
+        presidentVetBlock.Text = this.State.Event.PresidentVetCommittee?.Name;
+
         titleBlock.Text = title;
 
         return control;

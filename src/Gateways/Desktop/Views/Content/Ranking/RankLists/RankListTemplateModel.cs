@@ -5,14 +5,11 @@ using EnduranceJudge.Gateways.Desktop.Views.Content.Ranking.ParticipantResults;
 using System;
 using System.Collections.ObjectModel;
 using static EnduranceJudge.Localization.Strings;
-
+using static EnduranceJudge.Gateways.Desktop.DesktopConstants;
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Ranking.RankLists;
 
 public class RankListTemplateModel : ViewModelBase, ICompetitionData
 {
-    public const string DATE_TIME_FORMAT = "dd.mm.yyyy / HH:mm:ss";
-    public const string DATE_ONLY_FORMAT = "dd.MM.yyyy";
-
     public RankListTemplateModel(RankList rankList, ICompetitionData competitionData)
     {
         this.EventName = competitionData.EventName;

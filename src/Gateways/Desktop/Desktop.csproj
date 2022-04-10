@@ -39,15 +39,14 @@
       <Content Include="Views\Templates\Print\PrintHeader.xaml">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </Content>
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Update="Assets\logo-bfks.JPG">
+      <None Remove="Assets\logo-fei.JPG" />
+      <Resource Include="Assets\logo-fei.JPG">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-      <None Update="Assets\logo-fei.JPG">
+      </Resource>
+      <None Remove="Assets\logo-bfks.JPG" />
+      <Resource Include="Assets\logo-bfks.JPG">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
+      </Resource>
     </ItemGroup>
 
 </Project>

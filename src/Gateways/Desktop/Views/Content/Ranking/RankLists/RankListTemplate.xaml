@@ -14,15 +14,31 @@
                     <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <!-- Header -->
-                <Border Style="{StaticResource Border-Vertical}" MinWidth="600px"
+                <Border Style="{StaticResource Border-Vertical}" Height="120px"
                         Grid.Row="0">
-                    <DockPanel Style="{StaticResource Dock-Horizontal}" HorizontalAlignment="Center">
+                    <DockPanel Style="{StaticResource Dock-Horizontal}" LastChildFill="True">
                         <!-- Logo left-->
-                        <Border Style="{StaticResource Border-Horizontal}" HorizontalAlignment="Left" Width="100px">
-                            <TextBlock>LOGO LEFT</TextBlock>
+                        <Border Style="{StaticResource Border-Horizontal}"
+                                DockPanel.Dock="Left"
+                                Margin="50px 0 0 0"
+                                VerticalAlignment="Center">
+                            <Image VerticalAlignment="Top"
+                                   MinWidth="100px"
+                                   MaxWidth="200px"
+                                   Source="../../../../Assets/logo-fei.JPG"  />
+                        </Border>
+                        <!-- Logo right-->
+                        <Border Style="{StaticResource Border-Horizontal}"
+                                DockPanel.Dock="Right"
+                                Margin="0 0 50px 0"
+                                VerticalAlignment="Center">
+                            <Image VerticalAlignment="Top"
+                                   MinWidth="100px"
+                                   MaxWidth="200px"
+                                   Source="../../../../Assets/logo-bfks.JPG"  />
                         </Border>
                         <!-- Competition -->
-                        <Border Style="{StaticResource Border-Horizontal}" MinWidth="500px">
+                        <Border Style="{StaticResource Border-Horizontal}" MaxWidth="600px">
                             <StackPanel Style="{StaticResource List-Vertical}">
                                 <!-- Name -->
                                 <TextBlock Style="{StaticResource Text-H2}"
@@ -63,10 +79,6 @@
                                     </StackPanel>
                                 </DockPanel>
                             </StackPanel>
-                        </Border>
-                        <!-- Logo right-->
-                        <Border Style="{StaticResource Border-Horizontal}"  HorizontalAlignment="Right" Width="100px">
-                            <TextBlock>LOGO Right</TextBlock>
                         </Border>
                     </DockPanel>
                 </Border>
