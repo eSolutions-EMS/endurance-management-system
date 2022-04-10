@@ -25,7 +25,9 @@
     </Style>
 
     <Style x:Key="Input-Time" TargetType="TextBox" BasedOn="{StaticResource Input}">
-        <Setter Property="Width" Value="30px" />
+        <Setter Property="Width" Value="45px" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
     </Style>
 
 </ResourceDictionary>

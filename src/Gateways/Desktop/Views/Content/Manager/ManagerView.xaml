@@ -43,38 +43,32 @@
                     <Border Style="{StaticResource Border-Vertical}">
                         <StackPanel Style="{StaticResource List-Horizontal}">
                         <!-- Hours -->
-                        <Border Style="{StaticResource Border-Horizontal}">
-                            <StackPanel Style="{StaticResource List-Horizontal}">
-                                <Label Style="{StaticResource Label-Primary}"
-                                       Target="{Binding ElementName=InputHours}"
-                                       Content="_H:" />
-                                <TextBox Style="{StaticResource Input-Time}"
-                                         Text="{Binding InputHours}"
-                                         Name="InputHours"/>
-                            </StackPanel>
-                        </Border>
+                        <StackPanel Style="{StaticResource List-Horizontal}">
+                            <Label Style="{StaticResource Label-Primary}"
+                                   Target="{Binding ElementName=InputHours}"
+                                   Content="{x:Static localization:Strings._HOUR_SYMBOL}" />
+                            <TextBox Style="{StaticResource Input-Time}"
+                                     Text="{Binding InputHours}"
+                                     Name="InputHours"/>
+                        </StackPanel>
                         <!-- Minutes-->
-                        <Border Style="{StaticResource Border-Horizontal}">
-                            <StackPanel Style="{StaticResource List-Horizontal}">
-                                <Label Style="{StaticResource Label-Primary}"
-                                       Target="{Binding ElementName=InputMinutes}"
-                                       Content="_M:" />
-                                <TextBox Style="{StaticResource Input-Time}"
-                                         Text="{Binding InputMinutes}"
-                                         Name="InputMinutes" />
-                            </StackPanel>
-                        </Border>
+                        <StackPanel Style="{StaticResource List-Horizontal}">
+                            <Label Style="{StaticResource Label-Primary}"
+                                   Target="{Binding ElementName=InputMinutes}"
+                                   Content="{x:Static localization:Strings._MINUTE_SYMBOL}" />
+                            <TextBox Style="{StaticResource Input-Time}"
+                                     Text="{Binding InputMinutes}"
+                                     Name="InputMinutes" />
+                        </StackPanel>
                         <!-- Seconds -->
-                        <Border Style="{StaticResource Border-Horizontal}">
-                            <StackPanel Style="{StaticResource List-Horizontal}">
-                                <Label Style="{StaticResource Label-Primary}"
-                                       Target="{Binding ElementName=InputSeconds}"
-                                       Content="_S:" />
-                                <TextBox Style="{StaticResource Input-Time}"
-                                         Text="{Binding InputSeconds}"
-                                         Name="InputSeconds" />
-                            </StackPanel>
-                        </Border>
+                        <StackPanel Style="{StaticResource List-Horizontal}">
+                            <Label Style="{StaticResource Label-Primary}"
+                                   Target="{Binding ElementName=InputSeconds}"
+                                   Content="{x:Static localization:Strings._SECOND_SYMBOL}" />
+                            <TextBox Style="{StaticResource Input-Time}"
+                                     Text="{Binding InputSeconds}"
+                                     Name="InputSeconds" />
+                        </StackPanel>
                         <!-- Update button -->
                         <Border Style="{StaticResource Border-Vertical}">
                             <Button Style="{StaticResource Button-Horizontal}" Margin="4px 0 0 0"
@@ -111,7 +105,7 @@
                             <Label Style="{StaticResource Label-Primary}"
                                    Target="{Binding ElementName=DeQualificationCode}"
                                    Content="{x:Static localization:Strings._DQ}"/>
-                            <TextBox Style="{StaticResource Input}" MinWidth="158px"
+                            <TextBox Style="{StaticResource Input}" MinWidth="128px"
                                      Text="{Binding DeQualificationCode}"
                                      Name="DeQualificationCode"/>
                             <!-- DQ Button -->

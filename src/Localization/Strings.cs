@@ -110,6 +110,9 @@ public static class Strings
     public static string INCLUDE_PAST                      { get; internal set; }
     public static string _DQ                               { get; internal set; }
     public static string IMPORT                            { get; internal set; }
+    public static string _HOUR_SYMBOL                      { get; internal set; }
+    public static string _MINUTE_SYMBOL                    { get; internal set; }
+    public static string _SECOND_SYMBOL                    { get; internal set; }
 
     /* Terms */
     public static string ARRIVAL_TERM                          { get; internal set; }
