@@ -30,7 +30,7 @@ public class EnduranceEvent : DomainBase<EnduranceEventException>, IEnduranceEve
     public bool HasStarted { get; internal set; }
     public Country Country { get; internal set; }
     public Personnel PresidentGroundJury { get; internal set; }
-    public Personnel PresidentVetCommission { get; internal set; }
+    public Personnel PresidentVetCommittee { get; internal set; }
     public Personnel ForeignJudge { get; internal set; }
     public Personnel FeiTechDelegate { get; internal set; }
     public Personnel FeiVetDelegate { get; internal set; }
@@ -48,7 +48,7 @@ public class EnduranceEvent : DomainBase<EnduranceEventException>, IEnduranceEve
                 this.PresidentGroundJury = personnel;
                 break;
             case PersonnelRole.PresidentVetCommission:
-                this.PresidentVetCommission = personnel;
+                this.PresidentVetCommittee = personnel;
                 break;
             case PersonnelRole.ForeignJudge:
                 this.ForeignJudge = personnel;

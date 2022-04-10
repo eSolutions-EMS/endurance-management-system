@@ -41,4 +41,13 @@
       </Content>
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="Assets\logo-bfks.JPG">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="Assets\logo-fei.JPG">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>

@@ -32,6 +32,12 @@ public class ParticipationResultTemplateModel : ParticipantTemplateModelBase
         this.TotalAverageSpeedString = ValueSerializer.FormatDouble(totalAverageSpeed);
         this.TotalTime = ValueSerializer.FormatSpan(totalTime);
         this.ControlsVisibility = Visibility.Collapsed;
+        var disqualifiedRecord = participation.Participant.LapRecords.FirstOrDefault(x =>
+            x.Result?.IsDisqualified ?? false);
+        this.DisqualifiedVisibility = disqualifiedRecord != null
+            ? Visibility.Visible
+            : Visibility.Collapsed;
+        this.DisqualifiedReason = disqualifiedRecord?.Result.Code;
     }
 
     public int Rank { get; }
@@ -49,4 +55,6 @@ public class ParticipationResultTemplateModel : ParticipantTemplateModelBase
 
     public string HorseGenderString => this.HorseIsStallion ? STALLION : MARE;
     public string TotalTime { get; }
+    public Visibility DisqualifiedVisibility { get; }
+    public string DisqualifiedReason { get; }
 }

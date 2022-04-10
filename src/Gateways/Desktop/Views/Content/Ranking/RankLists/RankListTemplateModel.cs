@@ -11,7 +11,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Ranking.RankLists;
 public class RankListTemplateModel : ViewModelBase, ICompetitionData
 {
     public const string DATE_TIME_FORMAT = "dd.mm.yyyy / HH:mm:ss";
-    public const string DATE_ONLY_FORMAT = "dd.mm.yyyy";
+    public const string DATE_ONLY_FORMAT = "dd.MM.yyyy";
 
     public RankListTemplateModel(RankList rankList, ICompetitionData competitionData)
     {
@@ -23,7 +23,9 @@ public class RankListTemplateModel : ViewModelBase, ICompetitionData
         this.Name = competitionData.Name;
         this.CompetitionLengthInKm = competitionData.CompetitionLengthInKm;
         this.PresidentGroundJuryName = competitionData.PresidentGroundJuryName;
-        this.ChiefStewardName = competitionData.ChiefStewardName;
+        this.FeiTechDelegateName = competitionData.FeiTechDelegateName;
+        this.PresidentVetCommitteeName = competitionData.PresidentVetCommitteeName;
+        this.FeiVetDelegateName = competitionData.FeiVetDelegateName;
         this.DateNow = competitionData.DateNow;
 
         var rank = 1;
@@ -46,9 +48,10 @@ public class RankListTemplateModel : ViewModelBase, ICompetitionData
     public string Name { get; }
     public double CompetitionLengthInKm { get; }
     public string PresidentGroundJuryName { get; }
-    public string ChiefStewardName { get; }
+    public string FeiTechDelegateName { get; }
     public DateTime DateNow { get; }
-
+    public string PresidentVetCommitteeName { get; }
+    public string FeiVetDelegateName { get; }
     public string CompetitionDateString => this.CompetitionDate.ToString(DATE_ONLY_FORMAT);
-    public string DateNowString => this.DateNow.ToString(DATE_TIME_FORMAT);
+    public string DateNowString => this.DateNow.ToString(DATE_ONLY_FORMAT);
 }

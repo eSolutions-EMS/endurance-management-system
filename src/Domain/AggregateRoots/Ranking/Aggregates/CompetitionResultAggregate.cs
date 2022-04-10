@@ -23,7 +23,9 @@ public class CompetitionResultAggregate : IAggregate, ICompetitionData
         this.PopulatedPlace = enduranceEvent.PopulatedPlace;
         this.CountryName = enduranceEvent.Country.Name;
         this.PresidentGroundJuryName = enduranceEvent.PresidentGroundJury?.Name;
-        this.ChiefStewardName = enduranceEvent.Stewards.FirstOrDefault()?.Name;
+        this.FeiTechDelegateName = enduranceEvent.FeiTechDelegate?.Name;
+        this.PresidentVetCommitteeName = enduranceEvent.PresidentVetCommittee?.Name;
+        this.FeiVetDelegateName = enduranceEvent.FeiVetDelegate?.Name;
         this.Name = competition.Name;
         this.CompetitionDate = competition.StartTime;
         this.DateNow = DateTime.Now;
@@ -47,7 +49,9 @@ public class CompetitionResultAggregate : IAggregate, ICompetitionData
     public string Organizer { get; }
     public string CountryName { get; }
     public string PresidentGroundJuryName { get; }
-    public string ChiefStewardName { get; }
+    public string PresidentVetCommitteeName { get; }
+    public string FeiVetDelegateName { get; }
+    public string FeiTechDelegateName { get; }
     public DateTime DateNow { get; }
     public string Name { get; }
     public DateTime CompetitionDate { get; }

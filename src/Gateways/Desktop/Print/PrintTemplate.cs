@@ -77,7 +77,7 @@ public abstract class PrintTemplate : PrintProcessor
         var dateBlock = (TextBlock)control.FindName("Date")!;
 
         presidentGjBlock.Text = this.State.Event.PresidentGroundJury?.Name;
-        chiefStewBlock.Text = this.State.Event.PresidentVetCommission?.Name; // TODO: add chief steward personnel?
+        chiefStewBlock.Text = this.State.Event.PresidentVetCommittee?.Name; // TODO: add chief steward personnel?
         dateBlock.Text = DateTime.Now.ToString(CultureInfo.InvariantCulture);;
 
         return control;

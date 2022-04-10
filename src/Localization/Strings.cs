@@ -109,10 +109,16 @@ public static class Strings
     public static string STARTLIST                         { get; internal set; }
     public static string INCLUDE_PAST                      { get; internal set; }
     public static string _DQ                               { get; internal set; }
+    public static string DQ                                { get; internal set; }
     public static string IMPORT                            { get; internal set; }
     public static string _HOUR_SYMBOL                      { get; internal set; }
     public static string _MINUTE_SYMBOL                    { get; internal set; }
     public static string _SECOND_SYMBOL                    { get; internal set; }
+    public static string RESULTS_COMPETITION               { get; internal set; }
+    public static string JURY                              { get; internal set; }
+    public static string FEI_TECH_DELEGATE                 { get; internal set; }
+    public static string FEI_VET_DELEGATE                  { get; internal set; }
+    public static string PRESIDENT_VET_COMMITTEE           { get; internal set; }
 
     /* Terms */
     public static string ARRIVAL_TERM                          { get; internal set; }

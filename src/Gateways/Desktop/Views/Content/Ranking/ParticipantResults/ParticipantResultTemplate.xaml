@@ -79,10 +79,13 @@
                                         <Run Text="{x:Static localization:Strings.KM_PER_HOUR}" />
                                     </TextBlock>
                                 </Border>
-                                <!-- ?? -->
-                                <Border Style="{StaticResource Border-Vertical}">
-                                    <TextBlock Style="{StaticResource Text}"
-                                               Text="??" />
+                                <!-- Disqualified -->
+                                <Border Style="{StaticResource Border-Vertical}" Visibility="{Binding DisqualifiedVisibility}">
+                                    <TextBlock Style="{StaticResource Text}" Background="LightGoldenrodYellow">
+                                        <Run Text="{x:Static localization:Strings.DQ}" />
+                                        <Run Text="{Binding DisqualifiedReason, Mode=OneWay}" />
+                                    </TextBlock>
+
                                 </Border>
                             </StackPanel>
                         </StackPanel>

@@ -110,10 +110,16 @@ DISTANCE                            | Distance | Distance
 STARTLIST                           | Startlist | Startlist
 INCLUDE_PAST                        | Include Past | Include Past
 _DQ                                 | _FTQ | _FTQ
+DQ                                  | FTQ | FTQ
 IMPORT                              | Import | Import
 _HOUR_SYMBOL                        | _h | _h
 _MINUTE_SYMBOL                      | _m | _m
 _SECOND_SYMBOL                      | _s | _s
+RESULTS_COMPETITION                 | Results Competition | Results Competition
+JURY                                | Jury | Jury
+FEI_TECH_DELEGATE                   | FEI Tech.Delegate | FEI Tech.Delegate
+FEI_VET_DELEGATE                    | FEI Vet.Delegate | FEI Vet.Delegate
+PRESIDENT_VET_COMMITTEE             | Pres. Vet. Comm. | Pres. Vet. Comm.
 CANNOT_REMOVE_USED_IN_PARTICIPANT_MESSAGE                | cannot be removed because it is used in an existing {entities-participant} | cannot be removed because it is used in an existing {entities-participant}
 ALREADY_PARTICIPATING_MESSAGE                            | cannot be created - '{0}' is already participating. | cannot be created - '{0}' is already participating.
 CANNOT_ADD_PARTICIPATION_DIFFERENT_PHASE_COUNT_MESSAGE   | cannot be added, because they already participate in '{0}' with different amount of {entities-lap-plurals}  | cannot be added, because they already participate in '{0}' with different amount of {entities-lap-plurals}
