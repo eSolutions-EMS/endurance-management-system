@@ -56,11 +56,12 @@ public class ManagerRoot : IAggregateRoot
         return Performance.GetCurrent(participation);
     }
 
-    public Performance CompletePerformance(int number, string code)
+    public Performance Disqualify(int number, string code)
     {
         var participation = this.GetParticipation(number);
-        var recordsAggregate = participation.Aggregate().GetCurrent();
-        recordsAggregate.Complete(code);
+        var aggregate = participation.Aggregate();
+        var lap = aggregate.GetCurrent() ?? aggregate.CreateNext();
+        lap.Complete(code);
         return Performance.GetCurrent(participation);
     }
 

@@ -85,7 +85,7 @@ public class ParticipationsAggregate : IAggregate
         this.participation.Add(competition.Id);
     }
 
-    private LapRecordsAggregate CreateNext()
+    public LapRecordsAggregate CreateNext()
     {
         var currentRecord = this.participation.Participant.LapRecords.LastOrDefault();
         if (this.NextLap == null)

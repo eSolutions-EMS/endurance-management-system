@@ -113,7 +113,7 @@ public class ManagerViewModel : ViewModelBase
         var number = this.InputNumber.Value;
         this.managerExecutor.Execute(manager =>
         {
-            manager.CompletePerformance(number, this.DeQualificationCode);
+            manager.Disqualify(number, this.DeQualificationCode);
             this.ReloadParticipations();
         });
         this.SelectBy(number);
