@@ -54,7 +54,7 @@ public class PerformanceTemplateModel : ViewModelBase, ILapRecordState
     public void Update(Performance performance)
     {
         this.Id = performance.Id;
-        this.HeaderValue = $"{GATE.ToUpper()}{performance.Index + 1}/{performance.TotalLength} {KM}";
+        this.HeaderValue = this.CreateHeader(performance);
         this.RequiredInspectionTimeString = ValueSerializer.FormatTime(performance.RequiredInspectionTime);
         this.RecoverySpanString = ValueSerializer.FormatSpan(performance.RecoverySpan);
         this.TimeString = ValueSerializer.FormatSpan(performance.Time);
@@ -73,6 +73,15 @@ public class PerformanceTemplateModel : ViewModelBase, ILapRecordState
         this.CompulsoryRequiredInspectionTimeString = performance.Lap.IsCompulsoryInspectionRequired
             ? requiredInspectionTime
             : string.Empty;
+    }
+
+    private string CreateHeader(Performance performance)
+    {
+        var lap = performance.Lap.IsFinal
+            ? $"{FINAL}"
+            : $"{GATE.ToUpper()}{performance.Index + 1}";
+        var header = $"{lap}/{performance.TotalLength} {KM}";
+        return header;
     }
 
 #region IPerformanceState implementation
