@@ -44,8 +44,11 @@ public class PerformanceTemplateModel : ViewModelBase, ILapRecordState
 
     public void EditAction()
     {
-        var result = this.managerExecutor.Execute(x => x.EditRecord(this));
-        this.Update(result);
+        this.managerExecutor.Execute(manager =>
+        {
+            var result = manager.EditRecord(this);
+            this.Update(result);
+        });
     }
 
     public void Update(Performance performance)

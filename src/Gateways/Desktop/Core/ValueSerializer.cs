@@ -14,6 +14,10 @@ public class ValueSerializer
 
     public static DateTime? ParseTime(string value)
     {
+        if (value == null)
+        {
+            return null;
+        }
         var hasParsed = DateTime.TryParseExact(
             value,
             TIME_FORMAT,
@@ -28,6 +32,10 @@ public class ValueSerializer
     }
     public static TimeSpan? ParseSpan(string value)
     {
+        if (value == null)
+        {
+            return null;
+        }
         if (TimeSpan.TryParse(value, out var timeSpan))
         {
             return timeSpan;
