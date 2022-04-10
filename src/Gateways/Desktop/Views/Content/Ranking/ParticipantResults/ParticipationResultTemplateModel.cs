@@ -3,8 +3,8 @@ using EnduranceJudge.Domain.State.Participations;
 using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Common;
 using System;
-using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using static EnduranceJudge.Localization.Strings;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Ranking.ParticipantResults;
@@ -31,6 +31,7 @@ public class ParticipationResultTemplateModel : ParticipantTemplateModelBase
             .Aggregate(TimeSpan.Zero, (ag, perf) => ag + perf.Time!.Value);
         this.TotalAverageSpeedString = ValueSerializer.FormatDouble(totalAverageSpeed);
         this.TotalTime = ValueSerializer.FormatSpan(totalTime);
+        this.ControlsVisibility = Visibility.Collapsed;
     }
 
     public int Rank { get; }
