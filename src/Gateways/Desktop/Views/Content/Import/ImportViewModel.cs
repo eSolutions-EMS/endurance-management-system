@@ -1,6 +1,7 @@
 ﻿using EnduranceJudge.Application.Aggregates.Import;
 using EnduranceJudge.Application.Contracts;
 using EnduranceJudge.Gateways.Desktop.Core;
+using EnduranceJudge.Gateways.Desktop.Core.Components.XML;
 using EnduranceJudge.Gateways.Desktop.Core.Services;
 using EnduranceJudge.Gateways.Desktop.Services;
 using Prism.Commands;
@@ -34,8 +35,16 @@ public class ImportViewModel : ViewModelBase
         this.navigation = navigation;
         this.OpenFolderDialog = new DelegateCommand(this.OpenFolderDialogAction);
         this.OpenImportFileDialog = new DelegateCommand(this.OpenImportFileDialogAction);
+        var a = true;
+        this.Test = new DelegateCommand<MyButton>(button =>
+        {
+            var scale = a ? 50 : 200;
+            a = !a;
+            button.Scale(scale);
+        });
     }
 
+    public DelegateCommand<MyButton> Test { get; }
     public DelegateCommand OpenFolderDialog { get; }
     public DelegateCommand OpenImportFileDialog { get; }
 
