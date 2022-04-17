@@ -1,7 +1,7 @@
 ﻿using System.Drawing;
 using System.Windows.Controls;
 
-namespace EnduranceJudge.Gateways.Desktop.Core.Components.XML;
+namespace EnduranceJudge.Gateways.Desktop.Core.Components.XAML;
 
 public partial class MyButton : Button
 {

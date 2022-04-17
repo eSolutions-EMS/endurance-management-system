@@ -1,7 +1,7 @@
 ﻿using EnduranceJudge.Application.Aggregates.Import;
 using EnduranceJudge.Application.Contracts;
 using EnduranceJudge.Gateways.Desktop.Core;
-using EnduranceJudge.Gateways.Desktop.Core.Components.XML;
+using EnduranceJudge.Gateways.Desktop.Core.Components.XAML;
 using EnduranceJudge.Gateways.Desktop.Core.Services;
 using EnduranceJudge.Gateways.Desktop.Services;
 using Prism.Commands;

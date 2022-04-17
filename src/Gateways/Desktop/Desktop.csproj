@@ -50,7 +50,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Update="Core\Components\XML\MyButton.cs">
+      <Compile Update="Core\Components\XAML\MyButton.cs">
         <SubType>UserControl</SubType>
       </Compile>
     </ItemGroup>
