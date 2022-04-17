@@ -40,7 +40,7 @@ public class ImportViewModel : ViewModelBase
         {
             var scale = a ? 50 : 200;
             a = !a;
-            button.Scale(scale);
+            button.ScaleDown(scale);
         });
     }
 

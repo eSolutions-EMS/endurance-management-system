@@ -1,31 +1,38 @@
-﻿using System.Drawing;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
 namespace EnduranceJudge.Gateways.Desktop.Core.Components.XAML;
 
-public partial class MyButton : Button
+public class MyButton : Button, IScalableElement
 {
+    private double? originalWidth;
+    private double? originalHeight;
+    private double? originalFontSize;
+
     public MyButton()
     {
         this.FontSize = 15;
     }
 
-    // Scaling up doesn't work, because element is always cropped to it's original size.
-    // However scaling down and back up to it's original size works well, at least for
-    // buttons.
-    public void Scale(int percent)
+    public void ScaleDown(int percent)
     {
+        this.originalHeight ??= this.ActualHeight;
+        this.originalWidth ??= this.ActualWidth;
+        this.originalFontSize ??= this.FontSize;
+
         var coefficient = percent / 100d;
-        var currentFontSize = this.FontSize;
-        var currentWidth = this.ActualWidth;
-        var currentHeight = this.ActualHeight;
+        this.Height = this.originalHeight.Value * coefficient;
+        this.Width = this.originalWidth.Value * coefficient;
+        this.FontSize = this.originalFontSize.Value * coefficient;
+    }
 
-        var newFontSize = currentFontSize * coefficient;
-        var newHeight = currentHeight * coefficient;
-        var newWidth = currentWidth * coefficient;
-
-        this.FontSize = newFontSize;
-        this.Height = newHeight;
-        this.Width = newWidth;
+    public void Restore()
+    {
+        if (this.originalFontSize is null || this.originalWidth == null || this.originalHeight == null)
+        {
+            return;
+        }
+        this.Height = this.originalHeight.Value;
+        this.Width = this.originalWidth.Value;
+        this.FontSize = this.originalFontSize.Value;
     }
 }
