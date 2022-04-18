@@ -1,104 +1,105 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:local="clr-namespace:EnduranceJudge.Gateways.Desktop.Views.Content.Common.Performances"
-                    xmlns:localization="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization">
+                    xmlns:localization="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization"
+                    xmlns:xaml="clr-namespace:EnduranceJudge.Gateways.Desktop.Core.Components.XAML">
 
     <DataTemplate DataType="{x:Type local:PerformanceTemplateModel}">
-        <StackPanel Style="{StaticResource Performance-Column}" Margin="0 -3px 0 0">
+        <xaml:ScalableStackPanel Style="{StaticResource Performance-Column}" Margin="0 -3px 0 0" Name="Kur">
             <!-- Header -->
-            <Border Style="{StaticResource Border-Table-Cell}">
-                <TextBlock Style="{StaticResource Text}"
+            <xaml:ScalableBorder Style="{StaticResource Border-Table-Cell}">
+                <xaml:ScalableTextBlock Style="{StaticResource Text}"
                            Text="{Binding HeaderValue}" />
-            </Border>
+            </xaml:ScalableBorder>
             <!-- EDITABLE TIMES -->
             <!-- Arrival Time -->
-            <Border Style="{StaticResource Border-Table-Cell}" Visibility="{Binding EditVisibility}">
+            <xaml:ScalableBorder Style="{StaticResource Border-Table-Cell}" Visibility="{Binding EditVisibility}">
                 <TextBox Style="{StaticResource TextBox-Table}"
                          Text="{Binding ArrivalTimeString}" BorderThickness="0" />
-            </Border>
+            </xaml:ScalableBorder>
             <!-- Inspection Time -->
-            <Border Style="{StaticResource Border-Table-Cell}" Visibility="{Binding EditVisibility}">
+            <xaml:ScalableBorder Style="{StaticResource Border-Table-Cell}" Visibility="{Binding EditVisibility}">
                 <TextBox Style="{StaticResource TextBox-Table}"
                          Text="{Binding InspectionTimeString}" BorderThickness="0" />
-            </Border>
+            </xaml:ScalableBorder>
             <!-- ReInspection Time -->
-            <Border Style="{StaticResource Border-Table-Cell}" Visibility="{Binding EditVisibility}">
+            <xaml:ScalableBorder Style="{StaticResource Border-Table-Cell}" Visibility="{Binding EditVisibility}">
                 <TextBox Style="{StaticResource TextBox-Table}"
                          Text="{Binding ReInspectionTimeString}" BorderThickness="0" />
-            </Border>
+            </xaml:ScalableBorder>
             <!-- Required Inspection Time -->
-            <Border Style="{StaticResource Border-Table-Cell}" Visibility="{Binding EditVisibility}">
+            <xaml:ScalableBorder Style="{StaticResource Border-Table-Cell}" Visibility="{Binding EditVisibility}">
                 <TextBox Style="{StaticResource TextBox-Table}"
                          Text="{Binding RequiredInspectionTimeString}" />
-            </Border>
+            </xaml:ScalableBorder>
             <!-- Compulsory Required Inspection Time -->
-            <Border Style="{StaticResource Border-Table-Cell}" Visibility="{Binding EditVisibility}">
+            <xaml:ScalableBorder Style="{StaticResource Border-Table-Cell}" Visibility="{Binding EditVisibility}">
                 <TextBox Style="{StaticResource TextBox-Table-Bold}"
                          Text="{Binding CompulsoryRequiredInspectionTimeString}" />
-            </Border>
+            </xaml:ScalableBorder>
             <!-- END EDITABLE TIMES -->
             <!-- READONLY TIMES -->
             <!-- Arrival Time-->
-            <Border Style="{StaticResource Border-Table-Cell}" Visibility="{Binding ReadonlyVisibility}">
-                <TextBlock Style="{StaticResource Text}"
+            <xaml:ScalableBorder Style="{StaticResource Border-Table-Cell}" Visibility="{Binding ReadonlyVisibility}">
+                <xaml:ScalableTextBlock Style="{StaticResource Text}"
                            Text="{Binding ArrivalTimeString}" />
-            </Border>
+            </xaml:ScalableBorder>
             <!-- Inspection Time -->
-            <Border Style="{StaticResource Border-Table-Cell}" Visibility="{Binding ReadonlyVisibility}">
-                <TextBlock Style="{StaticResource Text}"
+            <xaml:ScalableBorder Style="{StaticResource Border-Table-Cell}" Visibility="{Binding ReadonlyVisibility}">
+                <xaml:ScalableTextBlock Style="{StaticResource Text}"
                            Text="{Binding InspectionTimeString}" />
-            </Border>
+            </xaml:ScalableBorder>
             <!-- Re-inspection Time -->
-            <Border Style="{StaticResource Border-Table-Cell}" Visibility="{Binding ReadonlyVisibility}">
-                <TextBlock Style="{StaticResource Text}"
+            <xaml:ScalableBorder Style="{StaticResource Border-Table-Cell}" Visibility="{Binding ReadonlyVisibility}">
+                <xaml:ScalableTextBlock Style="{StaticResource Text}"
                            Text="{Binding ReInspectionTimeString}" />
-            </Border>
+            </xaml:ScalableBorder>
             <!-- Required Inspection Time -->
-            <Border Style="{StaticResource Border-Table-Cell}" Visibility="{Binding ReadonlyVisibility}">
-                <TextBlock Style="{StaticResource Text}"
+            <xaml:ScalableBorder Style="{StaticResource Border-Table-Cell}" Visibility="{Binding ReadonlyVisibility}">
+                <xaml:ScalableTextBlock Style="{StaticResource Text}"
                            Text="{Binding RequiredInspectionTimeString}" />
-            </Border>
+            </xaml:ScalableBorder>
             <!-- Compulsory Required Inspection Time -->
-            <Border Style="{StaticResource Border-Table-Cell}" Visibility="{Binding ReadonlyVisibility}">
-                <TextBlock Style="{StaticResource Text-Bold}"
+            <xaml:ScalableBorder Style="{StaticResource Border-Table-Cell}" Visibility="{Binding ReadonlyVisibility}">
+                <xaml:ScalableTextBlock Style="{StaticResource Text-Bold}"
                          Text="{Binding CompulsoryRequiredInspectionTimeString}" />
-            </Border>
+            </xaml:ScalableBorder>
             <!-- END READONLY TIMES -->
             <!-- Next Performance Start Time -->
-            <Border Style="{StaticResource Border-Table-Cell}">
-                <TextBlock Style="{StaticResource Text-Bold}"
+            <xaml:ScalableBorder Style="{StaticResource Border-Table-Cell}">
+                <xaml:ScalableTextBlock Style="{StaticResource Text-Bold}"
                            Text="{Binding NextStartTimeString, Mode=OneWay}" />
-            </Border>
+            </xaml:ScalableBorder>
             <!-- Recovery Span -->
-            <Border Style="{StaticResource Border-Table-Cell}">
-                <TextBlock Style="{StaticResource Text}"
+            <xaml:ScalableBorder Style="{StaticResource Border-Table-Cell}">
+                <xaml:ScalableTextBlock Style="{StaticResource Text}"
                            Text="{Binding RecoverySpanString, Mode=OneWay}" />
-            </Border>
+            </xaml:ScalableBorder>
             <!-- Time -->
-            <Border Style="{StaticResource Border-Table-Cell}">
-                <TextBlock Style="{StaticResource Text}"
+            <xaml:ScalableBorder Style="{StaticResource Border-Table-Cell}">
+                <xaml:ScalableTextBlock Style="{StaticResource Text}"
                            Text="{Binding TimeString, Mode=OneWay}" />
-            </Border>
+            </xaml:ScalableBorder>
             <!-- Average Speed Loop -->
-            <Border Style="{StaticResource Border-Table-Cell}">
-                <TextBlock Style="{StaticResource Text}">
+            <xaml:ScalableBorder Style="{StaticResource Border-Table-Cell}">
+                <xaml:ScalableTextBlock Style="{StaticResource Text}">
                     <Run Text="{Binding AverageSpeedString, Mode=OneWay}" />
                     <Run Text="{x:Static localization:Strings.KM_PER_HOUR}" />
-                </TextBlock>
-            </Border>
+                </xaml:ScalableTextBlock>
+            </xaml:ScalableBorder>
             <!-- Average Speed Total -->
-            <Border Style="{StaticResource Border-Table-Cell}">
-                <TextBlock Style="{StaticResource Text}">
+            <xaml:ScalableBorder Style="{StaticResource Border-Table-Cell}">
+                <xaml:ScalableTextBlock Style="{StaticResource Text}">
                     <Run Text="{Binding AverageSpeedTotalString, Mode=OneWay}" />
                     <Run Text="{x:Static localization:Strings.KM_PER_HOUR}" />
-                </TextBlock>
-            </Border>
+                </xaml:ScalableTextBlock>
+            </xaml:ScalableBorder>
             <!-- Edit button -->
-            <Border Style="{StaticResource Border-Table-Cell}" Visibility="{Binding EditVisibility}">
+            <xaml:ScalableBorder Style="{StaticResource Border-Table-Cell}" Visibility="{Binding EditVisibility}">
                 <Button Style="{StaticResource Button-Table}"
                         Command="{Binding Edit}"
                         Content="{x:Static localization:Strings.EDIT}" />
-            </Border>
-        </StackPanel>
+            </xaml:ScalableBorder>
+        </xaml:ScalableStackPanel>
     </DataTemplate>
 </ResourceDictionary>

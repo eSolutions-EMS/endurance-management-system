@@ -7,4 +7,5 @@ public interface IScalableElement
 {
     void ScaleDown(int percent);
     void Restore();
+    double GetCoefficient(int percent) => percent / 100d;
 }

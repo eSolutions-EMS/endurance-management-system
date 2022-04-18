@@ -1,8 +1,11 @@
 ﻿using EnduranceJudge.Domain.State.Participations;
+using EnduranceJudge.Gateways.Desktop.Core.Components.XAML;
 using EnduranceJudge.Gateways.Desktop.Print.Performances;
 using EnduranceJudge.Gateways.Desktop.Services;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Common.Performances;
 using Prism.Commands;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Common.Participations;
 
@@ -14,8 +17,63 @@ public class ParticipationTemplateModel : ParticipantTemplateModelBase
     {
         this.executor = executor;
         this.Print = new DelegateCommand(this.PrintAction);
+        this.Shrink = new DelegateCommand<UIElement>(this.ShrinkAction);
     }
 
+    private void ShrinkAction(UIElement root)
+    {
+        var debel = ((FrameworkElement)root).FindName("Kur");
+        var key = new DataTemplateKey(typeof(PerformanceTemplateModel));
+        var template = (DataTemplate)System.Windows.Application.Current.FindResource(key);
+        var performanceRoot = (ScalableStackPanel)template!.LoadContent();
+        foreach (var child in performanceRoot.Children)
+        {
+            if (child is UIElement uiElement)
+            {
+                this.RecursiveShrink(uiElement);
+            }
+        }
+        // this.RecursiveShrink(root);
+    }
+
+    private void RecursiveShrink(UIElement element)
+    {
+        this.HandleScalable(element);
+        if (element is Decorator decorator)
+        {
+            this.RecursiveShrink(decorator.Child);
+        }
+        else if (element is Panel panel)
+        {
+            foreach (var child in panel.Children)
+            {
+                if (child is UIElement uiElement)
+                {
+                    this.RecursiveShrink(uiElement);
+                }
+            }
+        }
+        else if (element is ItemsControl itemsControl)
+        {
+            foreach (var item in itemsControl.Items)
+            {
+                if (item is UIElement uiElement)
+                {
+                    this.RecursiveShrink(uiElement);
+                }
+            }
+        }
+    }
+
+    private void HandleScalable(UIElement element)
+    {
+        if (element is IScalableElement scalableElement)
+        {
+            scalableElement.ScaleDown(50);
+        }
+    }
+
+    public DelegateCommand<UIElement> Shrink { get; }
     public DelegateCommand Print { get; }
 
     private void PrintAction()
