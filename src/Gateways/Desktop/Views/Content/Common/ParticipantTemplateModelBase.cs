@@ -21,7 +21,7 @@ public abstract class ParticipantTemplateModelBase : ViewModelBase
         this.Number = Participant.Number;
         var viewModels = Performance
             .GetAll(participation)
-            .Select(perf => new PerformanceTemplateModel(perf));
+            .Select(perf => new PerformanceControlModel(perf));
         this.Performances.AddRange(viewModels);
         var aggregate = participation.Aggregate();
         if (aggregate.IsDisqualified)
@@ -31,8 +31,8 @@ public abstract class ParticipantTemplateModelBase : ViewModelBase
         }
     }
 
-    public ObservableCollection<PerformanceTemplateModel> Performances { get; } = new();
-    public PerformanceTemplateModel Kur => Performances.FirstOrDefault();
+    public ObservableCollection<PerformanceControlModel> Performances { get; } = new();
+    public PerformanceControlModel Kur => Performances.FirstOrDefault();
     public Visibility ControlsVisibility
     {
         get => this.controlsVisibility;

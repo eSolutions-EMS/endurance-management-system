@@ -71,7 +71,7 @@
                     </xaml:ScalableBorder>
                 </xaml:ScalableStackPanel>
                 <!-- Performances -->
-                <performances:PerformanceColumn Performance="{Binding Kur}" />
+                <performances:PerformanceControl Performance="{Binding Kur}" />
                 <!-- Controls -->
                 <!-- Print Button -->
                 <Button Style="{StaticResource Button-Horizontal}" HorizontalAlignment="Right" VerticalAlignment="Top"

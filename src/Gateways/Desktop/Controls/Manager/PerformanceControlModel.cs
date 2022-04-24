@@ -11,10 +11,10 @@ using static EnduranceJudge.Localization.Strings;
 
 namespace EnduranceJudge.Gateways.Desktop.Controls.Manager;
 
-public class PerformanceTemplateModel : ViewModelBase, ILapRecordState
+public class PerformanceControlModel : ViewModelBase, ILapRecordState
 {
     private readonly IExecutor<ManagerRoot> managerExecutor;
-    public PerformanceTemplateModel(Performance performance)
+    public PerformanceControlModel(Performance performance)
     {
         this.EditVisibility = Visibility.Visible;
         this.managerExecutor = StaticProvider.GetService<IExecutor<ManagerRoot>>();

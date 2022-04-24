@@ -7,32 +7,32 @@ using static EnduranceJudge.Localization.Strings;
 
 namespace EnduranceJudge.Gateways.Desktop.Controls.Manager;
 
-public class PerformanceColumn : ScalableStackPanel
+public class PerformanceControl : ScalableStackPanel
 {
-    private PerformanceTemplateModel performance;
+    private PerformanceControlModel performance;
 
-    public PerformanceTemplateModel Performance
+    public PerformanceControlModel Performance
     {
-        get => (PerformanceTemplateModel)GetValue(PERFORMANCE_PROPERTY);
+        get => (PerformanceControlModel)GetValue(PERFORMANCE_PROPERTY);
         set => SetValue(PERFORMANCE_PROPERTY, value);
     }
 
     public static readonly DependencyProperty PERFORMANCE_PROPERTY =
         DependencyProperty.Register(
             nameof(Performance),
-            typeof(PerformanceTemplateModel),
-            typeof(PerformanceColumn),
+            typeof(PerformanceControlModel),
+            typeof(PerformanceControl),
             new PropertyMetadata(null, OnPerformanceChanged));
 
     private static void OnPerformanceChanged(object sender, DependencyPropertyChangedEventArgs args)
     {
-        var column = (PerformanceColumn)sender;
-        var performance = (PerformanceTemplateModel) args.NewValue;
+        var column = (PerformanceControl)sender;
+        var performance = (PerformanceControlModel) args.NewValue;
 
         column.Construct(performance);
     }
 
-    private void Construct(PerformanceTemplateModel performance)
+    private void Construct(PerformanceControlModel performance)
     {
         this.performance = performance;
         var isEditable = performance.EditVisibility == Visibility.Visible;
