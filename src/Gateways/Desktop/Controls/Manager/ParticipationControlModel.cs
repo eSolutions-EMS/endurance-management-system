@@ -2,7 +2,6 @@
 using EnduranceJudge.Gateways.Desktop.Core.Components.XAML;
 using EnduranceJudge.Gateways.Desktop.Print.Performances;
 using EnduranceJudge.Gateways.Desktop.Services;
-using EnduranceJudge.Gateways.Desktop.Controls.Manager;
 using Prism.Commands;
 using System.Windows;
 using System.Windows.Controls;
