@@ -9,10 +9,10 @@ using System.Windows.Controls;
 
 namespace EnduranceJudge.Gateways.Desktop.Controls.Manager;
 
-public class ParticipationControlModel : ParticipantTemplateModelBase
+public class ParticipationGridControlModel : ParticipantTemplateModelBase
 {
     private readonly IExecutor executor;
-    public ParticipationControlModel(Participation participation, IExecutor executor)
+    public ParticipationGridControlModel(Participation participation, IExecutor executor)
         : base(participation)
     {
         this.executor = executor;
