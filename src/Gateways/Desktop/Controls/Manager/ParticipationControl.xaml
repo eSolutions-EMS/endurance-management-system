@@ -1,0 +1,82 @@
+﻿<DockPanel x:Class="EnduranceJudge.Gateways.Desktop.Controls.Manager.ParticipationControl"
+     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+     xmlns:local="clr-namespace:EnduranceJudge.Gateways.Desktop.Controls.Manager"
+     xmlns:xaml="clr-namespace:EnduranceJudge.Gateways.Desktop.Core.Components.XAML"
+     xmlns:localization="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization">
+
+    <!-- Labels -->
+    <xaml:ScalableStackPanel Style="{StaticResource Performance-Column}">
+        <!-- Label Column -->
+        <!-- Number -->
+        <xaml:ScalableBorder Style="{StaticResource Border-Table-Cell}" >
+            <xaml:ScalableTextBlock Style="{StaticResource Text-Bold}" Foreground="{Binding Color}">
+                <Run>#</Run>
+                <Run Text="{Binding Number, Mode=OneWay}" />
+            </xaml:ScalableTextBlock>
+        </xaml:ScalableBorder>
+        <!-- Arrive -->
+        <xaml:ScalableBorder Style="{StaticResource Border-Table-Cell}">
+            <xaml:ScalableTextBlock Style="{StaticResource Text}"
+                       Text="{x:Static localization:Strings.ARRIVAL_TERM}"/>
+        </xaml:ScalableBorder>
+        <!-- Inspection -->
+        <xaml:ScalableBorder Style="{StaticResource Border-Table-Cell}">
+            <xaml:ScalableTextBlock Style="{StaticResource Text}"
+                       Text="{x:Static localization:Strings.INSPECTION_TERM}"/>
+        </xaml:ScalableBorder>
+        <!-- ReInspection -->
+        <xaml:ScalableBorder Style="{StaticResource Border-Table-Cell}">
+            <xaml:ScalableTextBlock Style="{StaticResource Text}"
+                       Text="{x:Static localization:Strings.RE_INSPECTION_TERM}"/>
+        </xaml:ScalableBorder>
+        <!-- RequiredInspection -->
+        <xaml:ScalableBorder Style="{StaticResource Border-Table-Cell}">
+            <xaml:ScalableTextBlock Style="{StaticResource Text}"
+                       Text="{x:Static localization:Strings.REQUIRED_INSPECTION_TERM}"/>
+        </xaml:ScalableBorder>
+        <!-- Compulsory Required Inspection -->
+        <xaml:ScalableBorder Style="{StaticResource Border-Table-Cell}">
+            <xaml:ScalableTextBlock Style="{StaticResource Text}"
+                       Text="{x:Static localization:Strings.COMPULSORY_REQUIRED_INSPECTION_TERM}"/>
+        </xaml:ScalableBorder>
+        <!-- Next Start Time -->
+        <xaml:ScalableBorder Style="{StaticResource Border-Table-Cell}">
+            <xaml:ScalableTextBlock Style="{StaticResource Text}"
+                       Text="{x:Static localization:Strings.NEXT_START_TIME_TERM}"/>
+        </xaml:ScalableBorder>
+        <!-- Recovery Span -->
+        <xaml:ScalableBorder Style="{StaticResource Border-Table-Cell}">
+            <xaml:ScalableTextBlock Style="{StaticResource Text}"
+                       Text="{x:Static localization:Strings.RECOVERY_SPAN_TERM}"/>
+        </xaml:ScalableBorder>
+        <!-- Time -->
+        <xaml:ScalableBorder Style="{StaticResource Border-Table-Cell}">
+            <xaml:ScalableTextBlock Style="{StaticResource Text}"
+                       Text="{x:Static localization:Strings.TIME_TERM}"/>
+        </xaml:ScalableBorder>
+        <!-- Average Speed Loop -->
+        <xaml:ScalableBorder Style="{StaticResource Border-Table-Cell}">
+            <xaml:ScalableTextBlock Style="{StaticResource Text}"
+                       Text="{x:Static localization:Strings.AVERAGE_SPEED_LOOP_TERM}"/>
+        </xaml:ScalableBorder>
+        <!-- Average Speed Total -->
+        <xaml:ScalableBorder Style="{StaticResource Border-Table-Cell}">
+            <xaml:ScalableTextBlock Style="{StaticResource Text}"
+                       Text="{x:Static localization:Strings.AVERAGE_SPEED_TOTAL_TERM}"/>
+        </xaml:ScalableBorder>
+    </xaml:ScalableStackPanel>
+    <!-- Performances -->
+    <StackPanel Style="{StaticResource List-Horizontal}" Name="Performances" />
+    <!-- Print Button -->
+    <Button Style="{StaticResource Button-Horizontal}" HorizontalAlignment="Right" VerticalAlignment="Top"
+            Command="{Binding Shrink}"
+            CommandParameter="{Binding ElementName=ParticipationGrid}"
+            Content="Shrink" />
+    <!-- Controls -->
+    <!-- Print Button -->
+    <Button Style="{StaticResource Button-Horizontal}" HorizontalAlignment="Right" VerticalAlignment="Top"
+            Visibility="{Binding ControlsVisibility}"
+            Command="{Binding Print}"
+            Content="{x:Static localization:Strings.PRINT}" />
+</DockPanel>

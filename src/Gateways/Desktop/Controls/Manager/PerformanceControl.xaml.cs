@@ -28,9 +28,12 @@ public class PerformanceControl : ScalableStackPanel
     {
         var column = (PerformanceControl)sender;
         var performance = (PerformanceControlModel) args.NewValue;
-
         column.Construct(performance);
     }
+
+    public PerformanceControl() {}
+    public PerformanceControl(PerformanceControlModel performance)
+        => this.Construct(performance);
 
     private void Construct(PerformanceControlModel performance)
     {

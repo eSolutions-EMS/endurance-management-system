@@ -70,6 +70,7 @@ public class ManagerRoot : IAggregateRoot
     {
         var participation = this.GetParticipation(number);
         var currentAggregate = participation.Aggregate().GetCurrent();
+        // TODO: fix Error message - should be LapRecord not found or Participation has concluded.
         if (currentAggregate == null)
         {
             throw Helper.Create<ParticipantException>(NOT_FOUND_MESSAGE, NUMBER, number);

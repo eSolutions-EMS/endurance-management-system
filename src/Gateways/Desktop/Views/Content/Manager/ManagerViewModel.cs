@@ -147,6 +147,7 @@ public class ManagerViewModel : ViewModelBase
             manager.RequireInspection(number, this.RequireInspectionValue);
             this.ReloadParticipations();
         });
+        // TODO: fix selection when participant not found.
         this.SelectBy(number);
     }
 
