@@ -3,7 +3,8 @@
      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
      xmlns:local="clr-namespace:EnduranceJudge.Gateways.Desktop.Controls.Manager"
      xmlns:xaml="clr-namespace:EnduranceJudge.Gateways.Desktop.Core.Components.XAML"
-     xmlns:localization="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization">
+     xmlns:localization="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization"
+     x:Name="Grid">
 
     <!-- Labels -->
     <xaml:ScalableStackPanel Style="{StaticResource Performance-Column}">
@@ -71,7 +72,7 @@
     <!-- Print Button -->
     <Button Style="{StaticResource Button-Horizontal}" HorizontalAlignment="Right" VerticalAlignment="Top"
             Command="{Binding Shrink}"
-            CommandParameter="{Binding ElementName=ParticipationGrid}"
+            CommandParameter="{Binding ElementName=Grid}"
             Content="Shrink" />
     <!-- Controls -->
     <!-- Print Button -->
