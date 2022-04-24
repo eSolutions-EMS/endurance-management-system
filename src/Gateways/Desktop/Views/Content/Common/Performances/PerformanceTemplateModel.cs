@@ -4,6 +4,7 @@ using EnduranceJudge.Domain.AggregateRoots.Common.Performances;
 using EnduranceJudge.Domain.State.LapRecords;
 using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Services;
+using EnduranceJudge.Localization;
 using Prism.Commands;
 using System;
 using System.Windows;
@@ -39,8 +40,8 @@ public class PerformanceTemplateModel : ViewModelBase, ILapRecordState
     private string recoverySpanString;
     private string timeString;
     public string nextStartTimeString;
-    private string averageSpeedForLoopKpHString;
-    private string averageSpeedTotalKpHString;
+    private string averageSpeed;
+    private string averageSpeedTotal;
 
     public void EditAction()
     {
@@ -156,19 +157,21 @@ public class PerformanceTemplateModel : ViewModelBase, ILapRecordState
     }
     public string AverageSpeedString
     {
-        get => this.averageSpeedForLoopKpHString;
-        private set => this.SetProperty(ref this.averageSpeedForLoopKpHString, value);
+        get => this.averageSpeed;
+        private set => this.SetProperty(ref this.averageSpeed, AddKmSuffix(value));
     }
     public string AverageSpeedTotalString
     {
-        get => this.averageSpeedTotalKpHString;
-        private set => this.SetProperty(ref this.averageSpeedTotalKpHString, value);
+        get => this.averageSpeedTotal;
+        private set => this.SetProperty(ref this.averageSpeedTotal, AddKmSuffix(value));
     }
     public string NextStartTimeString
     {
         get => this.nextStartTimeString;
         private set => this.SetProperty(ref this.nextStartTimeString, value);
     }
+
+    private static string AddKmSuffix(string value) => $"{value} {KM_PER_HOUR}";
 
 #endregion Setters;
 }
