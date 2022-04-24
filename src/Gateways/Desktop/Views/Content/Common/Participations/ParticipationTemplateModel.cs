@@ -22,18 +22,7 @@ public class ParticipationTemplateModel : ParticipantTemplateModelBase
 
     private void ShrinkAction(UIElement root)
     {
-        var debel = ((FrameworkElement)root).FindName("Kur");
-        var key = new DataTemplateKey(typeof(PerformanceTemplateModel));
-        var template = (DataTemplate)System.Windows.Application.Current.FindResource(key);
-        var performanceRoot = (ScalableStackPanel)template!.LoadContent();
-        foreach (var child in performanceRoot.Children)
-        {
-            if (child is UIElement uiElement)
-            {
-                this.RecursiveShrink(uiElement);
-            }
-        }
-        // this.RecursiveShrink(root);
+        this.RecursiveShrink(root);
     }
 
     private void RecursiveShrink(UIElement element)

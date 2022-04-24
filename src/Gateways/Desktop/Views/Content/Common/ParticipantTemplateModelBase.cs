@@ -32,6 +32,7 @@ public abstract class ParticipantTemplateModelBase : ViewModelBase
     }
 
     public ObservableCollection<PerformanceTemplateModel> Performances { get; } = new();
+    public PerformanceTemplateModel Kur => Performances.FirstOrDefault();
     public Visibility ControlsVisibility
     {
         get => this.controlsVisibility;

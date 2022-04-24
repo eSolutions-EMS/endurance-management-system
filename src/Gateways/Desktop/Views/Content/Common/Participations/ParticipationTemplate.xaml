@@ -2,7 +2,8 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:participations="clr-namespace:EnduranceJudge.Gateways.Desktop.Views.Content.Common.Participations"
                     xmlns:localization="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization"
-                    xmlns:xaml="clr-namespace:EnduranceJudge.Gateways.Desktop.Core.Components.XAML">
+                    xmlns:xaml="clr-namespace:EnduranceJudge.Gateways.Desktop.Core.Components.XAML"
+                    xmlns:performances="clr-namespace:EnduranceJudge.Gateways.Desktop.Views.Content.Common.Performances">
 
     <DataTemplate DataType="{x:Type participations:ParticipationTemplateModel}">
         <Border Style="{StaticResource Border-Vertical}">
@@ -70,8 +71,7 @@
                     </xaml:ScalableBorder>
                 </xaml:ScalableStackPanel>
                 <!-- Performances -->
-                <ListBox Style="{StaticResource ListBox-Horizontal}" Padding="0" Margin="0" Foreground="{Binding Color}"
-                         ItemsSource="{Binding Performances}" />
+                <performances:PerformanceColumn Performance="{Binding Kur}" />
                 <!-- Controls -->
                 <!-- Print Button -->
                 <Button Style="{StaticResource Button-Horizontal}" HorizontalAlignment="Right" VerticalAlignment="Top"

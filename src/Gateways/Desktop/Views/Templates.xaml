@@ -9,7 +9,6 @@
         <ResourceDictionary Source="Content/Configuration/Children/Laps/Configuration/LapTemplate.xaml" />
         <ResourceDictionary Source="Content/Configuration/Roots/Participants/Configuration/ParticipantTemplate.xaml" />
         <ResourceDictionary Source="Content/Configuration/Children/Personnel/Configuration/PersonnelTemplate.xaml" />
-        <ResourceDictionary Source="Content/Common/Performances/PerformanceTemplate.xaml" />
         <ResourceDictionary Source="Content/Common/Participations/ParticipationTemplate.xaml" />
         <ResourceDictionary Source="Content/Ranking/ParticipantResults/ParticipantResultTemplate.xaml" />
         <ResourceDictionary Source="Dialogs/Startlists/StartTemplate.xaml" />
