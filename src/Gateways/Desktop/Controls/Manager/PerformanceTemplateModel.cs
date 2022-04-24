@@ -4,13 +4,12 @@ using EnduranceJudge.Domain.AggregateRoots.Common.Performances;
 using EnduranceJudge.Domain.State.LapRecords;
 using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Services;
-using EnduranceJudge.Localization;
 using Prism.Commands;
 using System;
 using System.Windows;
 using static EnduranceJudge.Localization.Strings;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Common.Performances;
+namespace EnduranceJudge.Gateways.Desktop.Controls.Manager;
 
 public class PerformanceTemplateModel : ViewModelBase, ILapRecordState
 {

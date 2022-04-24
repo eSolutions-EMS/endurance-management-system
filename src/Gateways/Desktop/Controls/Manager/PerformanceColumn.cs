@@ -5,7 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using static EnduranceJudge.Localization.Strings;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Common.Performances;
+namespace EnduranceJudge.Gateways.Desktop.Controls.Manager;
 
 public class PerformanceColumn : ScalableStackPanel
 {

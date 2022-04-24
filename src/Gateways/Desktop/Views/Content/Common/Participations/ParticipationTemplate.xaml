@@ -3,7 +3,7 @@
                     xmlns:participations="clr-namespace:EnduranceJudge.Gateways.Desktop.Views.Content.Common.Participations"
                     xmlns:localization="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization"
                     xmlns:xaml="clr-namespace:EnduranceJudge.Gateways.Desktop.Core.Components.XAML"
-                    xmlns:performances="clr-namespace:EnduranceJudge.Gateways.Desktop.Views.Content.Common.Performances">
+                    xmlns:performances="clr-namespace:EnduranceJudge.Gateways.Desktop.Controls.Manager">
 
     <DataTemplate DataType="{x:Type participations:ParticipationTemplateModel}">
         <Border Style="{StaticResource Border-Vertical}">

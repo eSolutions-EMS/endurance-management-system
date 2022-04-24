@@ -3,7 +3,7 @@ using EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates;
 using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Domain.State.Participations;
 using EnduranceJudge.Gateways.Desktop.Core;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Common.Performances;
+using EnduranceJudge.Gateways.Desktop.Controls.Manager;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
