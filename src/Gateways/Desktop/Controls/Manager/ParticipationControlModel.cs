@@ -2,16 +2,17 @@
 using EnduranceJudge.Gateways.Desktop.Core.Components.XAML;
 using EnduranceJudge.Gateways.Desktop.Print.Performances;
 using EnduranceJudge.Gateways.Desktop.Services;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Common;
 using Prism.Commands;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Common.Participations;
+namespace EnduranceJudge.Gateways.Desktop.Controls.Manager;
 
-public class ParticipationTemplateModel : ParticipantTemplateModelBase
+public class ParticipationControlModel : ParticipantTemplateModelBase
 {
     private readonly IExecutor executor;
-    public ParticipationTemplateModel(Participation participation, IExecutor executor)
+    public ParticipationControlModel(Participation participation, IExecutor executor)
         : base(participation)
     {
         this.executor = executor;

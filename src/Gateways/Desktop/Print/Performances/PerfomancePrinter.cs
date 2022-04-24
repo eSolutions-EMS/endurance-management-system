@@ -1,4 +1,4 @@
-﻿using EnduranceJudge.Gateways.Desktop.Views.Content.Common.Participations;
+﻿using EnduranceJudge.Gateways.Desktop.Controls.Manager;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -8,7 +8,7 @@ namespace EnduranceJudge.Gateways.Desktop.Print.Performances;
 public class PerfomancePrinter : PrintTemplate
 {
     // TODO: add error handling
-    public PerfomancePrinter(ParticipationTemplateModel participation) : base(participation.Number.ToString())
+    public PerfomancePrinter(ParticipationControlModel participation) : base(participation.Number.ToString())
     {
         var control = new ContentControl { Content = participation };
         this.AddPrintContent(control);

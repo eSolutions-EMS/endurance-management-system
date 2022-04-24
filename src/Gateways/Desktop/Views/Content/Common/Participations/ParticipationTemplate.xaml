@@ -1,11 +1,11 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:participations="clr-namespace:EnduranceJudge.Gateways.Desktop.Views.Content.Common.Participations"
+                    xmlns:participations="clr-namespace:EnduranceJudge.Gateways.Desktop.Controls.Manager"
                     xmlns:localization="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization"
                     xmlns:xaml="clr-namespace:EnduranceJudge.Gateways.Desktop.Core.Components.XAML"
                     xmlns:performances="clr-namespace:EnduranceJudge.Gateways.Desktop.Controls.Manager">
 
-    <DataTemplate DataType="{x:Type participations:ParticipationTemplateModel}">
+    <DataTemplate DataType="{x:Type participations:ParticipationControlModel}">
         <Border Style="{StaticResource Border-Vertical}">
             <DockPanel Style="{StaticResource Dock-Horizontal}"
                        Name="ParticipationGrid">

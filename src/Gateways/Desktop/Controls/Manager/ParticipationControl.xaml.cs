@@ -1,26 +1,26 @@
-﻿using EnduranceJudge.Gateways.Desktop.Views.Content.Common.Participations;
+﻿using EnduranceJudge.Gateways.Desktop.Controls.Manager;
 using System.Windows;
 
 namespace EnduranceJudge.Gateways.Desktop.Controls.Manager;
 
 public partial class ParticipationControl
 {
-    public ParticipationTemplateModel Participation
+    public ParticipationControlModel Participation
     {
-        get => (ParticipationTemplateModel)this.GetValue(PARTICIPATION_PROPERTY);
+        get => (ParticipationControlModel)this.GetValue(PARTICIPATION_PROPERTY);
         set => this.SetValue(PARTICIPATION_PROPERTY, value);
     }
 
     public static readonly DependencyProperty PARTICIPATION_PROPERTY =
         DependencyProperty.Register(
             nameof(Participation),
-            typeof(ParticipationTemplateModel),
+            typeof(ParticipationControlModel),
             typeof(ParticipationControl),
             new PropertyMetadata(OnParticipationChanged));
     private static void OnParticipationChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
     {
         var grid = (ParticipationControl)sender;
-        var participation = (ParticipationTemplateModel) args.NewValue;
+        var participation = (ParticipationControlModel) args.NewValue;
         grid.Construct(participation);
     }
 
@@ -30,7 +30,7 @@ public partial class ParticipationControl
         this.Style = (Style)System.Windows.Application.Current.FindResource("Dock-Horizontal");
     }
 
-    private void Construct(ParticipationTemplateModel participation)
+    private void Construct(ParticipationControlModel participation)
     {
         this.Performances.Children.Clear();
         foreach (var performance in participation.Performances)

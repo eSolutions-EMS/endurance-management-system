@@ -6,7 +6,7 @@ using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Core.Services;
 using EnduranceJudge.Gateways.Desktop.Events;
 using EnduranceJudge.Gateways.Desktop.Services;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Common.Participations;
+using EnduranceJudge.Gateways.Desktop.Controls.Manager;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Regions;
@@ -47,7 +47,7 @@ public class ManagerViewModel : ViewModelBase
             var participation = list.FirstOrDefault();
             if (participation != null)
             {
-                this.SelectBy(participation as ParticipationTemplateModel);
+                this.SelectBy(participation as ParticipationControlModel);
             }
         });
     }
@@ -69,8 +69,8 @@ public class ManagerViewModel : ViewModelBase
     private bool requireInspectionValue = false;
     private bool reInspectionValue = false;
 
-    public ObservableCollection<ParticipationTemplateModel> Participations { get; } = new();
-    public ParticipationTemplateModel SelectedParticipation { get; set; }
+    public ObservableCollection<ParticipationControlModel> Participations { get; } = new();
+    public ParticipationControlModel SelectedParticipation { get; set; }
 
     public override void OnNavigatedTo(NavigationContext context)
     {
@@ -158,7 +158,7 @@ public class ManagerViewModel : ViewModelBase
         this.eventAggregator.GetEvent<SelectTabEvent>().Publish(participation);
     }
 
-    private void SelectBy(ParticipationTemplateModel participation)
+    private void SelectBy(ParticipationControlModel participation)
     {
         this.SelectedParticipation = participation;
         var performance = this.SelectedParticipation.Performances.LastOrDefault();
@@ -180,7 +180,7 @@ public class ManagerViewModel : ViewModelBase
         {
             foreach (var participation in participations)
             {
-                var viewModel = new ParticipationTemplateModel(participation, this.executor);
+                var viewModel = new ParticipationControlModel(participation, this.executor);
                 this.Participations.Add(viewModel);
             }
             this.SelectBy(this.Participations.First());
