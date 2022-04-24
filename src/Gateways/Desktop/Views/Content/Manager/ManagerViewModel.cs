@@ -47,7 +47,7 @@ public class ManagerViewModel : ViewModelBase
             var participation = list.FirstOrDefault();
             if (participation != null)
             {
-                this.SelectBy(participation as ParticipationControlModel);
+                this.SelectBy(participation as ParticipationGridModel);
             }
         });
     }
@@ -69,8 +69,8 @@ public class ManagerViewModel : ViewModelBase
     private bool requireInspectionValue = false;
     private bool reInspectionValue = false;
 
-    public ObservableCollection<ParticipationControlModel> Participations { get; } = new();
-    public ParticipationControlModel SelectedParticipation { get; set; }
+    public ObservableCollection<ParticipationGridModel> Participations { get; } = new();
+    public ParticipationGridModel SelectedParticipation { get; set; }
 
     public override void OnNavigatedTo(NavigationContext context)
     {
@@ -158,7 +158,7 @@ public class ManagerViewModel : ViewModelBase
         this.eventAggregator.GetEvent<SelectTabEvent>().Publish(participation);
     }
 
-    private void SelectBy(ParticipationControlModel participation)
+    private void SelectBy(ParticipationGridModel participation)
     {
         this.SelectedParticipation = participation;
         var performance = this.SelectedParticipation.Performances.LastOrDefault();
@@ -180,7 +180,7 @@ public class ManagerViewModel : ViewModelBase
         {
             foreach (var participation in participations)
             {
-                var viewModel = new ParticipationControlModel(participation, this.executor);
+                var viewModel = new ParticipationGridModel(participation, this.executor);
                 this.Participations.Add(viewModel);
             }
             this.SelectBy(this.Participations.First());

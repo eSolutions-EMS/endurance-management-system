@@ -5,7 +5,7 @@
                     xmlns:xaml="clr-namespace:EnduranceJudge.Gateways.Desktop.Core.Components.XAML"
                     xmlns:performances="clr-namespace:EnduranceJudge.Gateways.Desktop.Controls.Manager">
 
-    <DataTemplate DataType="{x:Type participations:ParticipationControlModel}">
+    <DataTemplate DataType="{x:Type participations:ParticipationGridModel}">
         <Border Style="{StaticResource Border-Vertical}">
             <DockPanel Style="{StaticResource Dock-Horizontal}"
                        Name="ParticipationGrid">
@@ -71,7 +71,7 @@
                     </xaml:ScalableBorder>
                 </xaml:ScalableStackPanel>
                 <!-- Performances -->
-                <performances:PerformanceControl Performance="{Binding Kur}" />
+                <performances:PerformanceColumnControl Performance="{Binding Kur}" />
                 <!-- Controls -->
                 <!-- Print Button -->
                 <Button Style="{StaticResource Button-Horizontal}" HorizontalAlignment="Right" VerticalAlignment="Top"

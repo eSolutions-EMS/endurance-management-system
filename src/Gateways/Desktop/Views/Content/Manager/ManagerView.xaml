@@ -134,7 +134,7 @@
                         <TabControl.ContentTemplate>
                             <DataTemplate>
                                 <StackPanel Style="{StaticResource List-Vertical}">
-                                    <controls:ParticipationControl Participation="{Binding}" />
+                                    <controls:ParticipationGridControl Participation="{Binding}" />
                                 </StackPanel>
                             </DataTemplate>
                         </TabControl.ContentTemplate>

@@ -8,7 +8,7 @@ namespace EnduranceJudge.Gateways.Desktop.Print.Performances;
 public class PerfomancePrinter : PrintTemplate
 {
     // TODO: add error handling
-    public PerfomancePrinter(ParticipationControlModel participation) : base(participation.Number.ToString())
+    public PerfomancePrinter(ParticipationGridModel participation) : base(participation.Number.ToString())
     {
         var control = new ContentControl { Content = participation };
         this.AddPrintContent(control);
