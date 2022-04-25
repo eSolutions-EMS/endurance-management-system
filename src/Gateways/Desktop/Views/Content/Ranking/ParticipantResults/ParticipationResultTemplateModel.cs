@@ -31,7 +31,6 @@ public class ParticipationResultTemplateModel : ParticipantTemplateModelBase
             .Aggregate(TimeSpan.Zero, (ag, perf) => ag + perf.Time!.Value);
         this.TotalAverageSpeedString = ValueSerializer.FormatDouble(totalAverageSpeed);
         this.TotalTime = ValueSerializer.FormatSpan(totalTime);
-        this.ControlsVisibility = Visibility.Collapsed;
         var disqualifiedRecord = participation.Participant.LapRecords.FirstOrDefault(x =>
             x.Result?.IsDisqualified ?? false);
         this.DisqualifiedVisibility = disqualifiedRecord != null

@@ -6,15 +6,12 @@ using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Controls.Manager;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows;
 using System.Windows.Media;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Common;
 
 public abstract class ParticipantTemplateModelBase : ViewModelBase
 {
-    private Visibility controlsVisibility;
-
     protected ParticipantTemplateModelBase(Participation participation)
     {
         this.Participant = participation.Participant;
@@ -32,19 +29,6 @@ public abstract class ParticipantTemplateModelBase : ViewModelBase
     }
 
     public ObservableCollection<PerformanceColumnModel> Performances { get; } = new();
-    public PerformanceColumnModel Kur => Performances.FirstOrDefault();
-    public Visibility ControlsVisibility
-    {
-        get => this.controlsVisibility;
-        protected set
-        {
-            this.controlsVisibility = value;
-            foreach (var performance in this.Performances)
-            {
-                performance.EditVisibility = value;
-            }
-        }
-    }
     public SolidColorBrush Color { get; } = new(Colors.Black);
     public string DisqualifyCode { get; }
 
