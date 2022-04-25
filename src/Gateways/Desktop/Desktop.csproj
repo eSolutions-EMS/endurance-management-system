@@ -49,10 +49,4 @@
       </Resource>
     </ItemGroup>
 
-    <ItemGroup>
-      <Compile Update="Core\Components\XAML\MyButton.cs">
-        <SubType>UserControl</SubType>
-      </Compile>
-    </ItemGroup>
-
 </Project>

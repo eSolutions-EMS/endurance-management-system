@@ -1,5 +1,4 @@
-﻿using EnduranceJudge.Gateways.Desktop.Core.Components.XAML;
-using Prism.Commands;
+﻿using Prism.Commands;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -7,7 +6,7 @@ using static EnduranceJudge.Localization.Strings;
 
 namespace EnduranceJudge.Gateways.Desktop.Controls.Manager;
 
-public class PerformanceColumnControl : ScalableStackPanel
+public class PerformanceColumnControl : StackPanel
 {
     private PerformanceColumnModel performance;
 
@@ -116,10 +115,10 @@ public class PerformanceColumnControl : ScalableStackPanel
         this.Children.Add(border);
     }
 
-    private ScalableBorder CreateCell(UIElement content)
+    private Border CreateCell(UIElement content)
     {
         var style = ControlsHelper.GetStyle("Border-Table-Cell");
-        var border = new ScalableBorder
+        var border = new Border
         {
             Style = style,
             Child = content,
@@ -130,7 +129,7 @@ public class PerformanceColumnControl : ScalableStackPanel
     private void CreateText(string value, bool bold = false)
     {
         var style = ControlsHelper.GetStyle("Text");
-        var text = new ScalableTextBlock
+        var text = new TextBlock
         {
             Text = value,
             Style = style,

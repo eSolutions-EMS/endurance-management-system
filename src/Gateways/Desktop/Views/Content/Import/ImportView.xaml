@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:localization="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization"
-             xmlns:xaml="clr-namespace:EnduranceJudge.Gateways.Desktop.Core.Components.XAML"
              prism:ViewModelLocator.AutoWireViewModel="True"
              HorizontalContentAlignment="Stretch">
 
@@ -17,10 +16,7 @@
             <RowDefinition Style="{StaticResource Row-Title}" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-
-        <xaml:MyButton Grid.Row="3" Command="{Binding Test}" x:Name="Test" CommandParameter="{Binding ElementName=Test}" Content="Test" />
 
         <!-- Title -->
         <TextBlock Style="{StaticResource Text-H1}"
