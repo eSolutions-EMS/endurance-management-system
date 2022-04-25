@@ -1,4 +1,5 @@
-﻿using EnduranceJudge.Gateways.Desktop.Controls.Manager;
+﻿using EnduranceJudge.Gateways.Desktop.Controls;
+using EnduranceJudge.Gateways.Desktop.Controls.Manager;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -11,6 +12,8 @@ public class PerfomancePrinter : PrintTemplate
     public PerfomancePrinter(ParticipationGridModel participation) : base(participation.Number.ToString())
     {
         var control = new ParticipationGridControl(participation, true);
+        control.Arrange(new Rect());
+        control.Scale(0.75);
         this.AddPrintContent(control);
     }
 

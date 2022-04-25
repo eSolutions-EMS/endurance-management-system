@@ -3,13 +3,13 @@ using System.Windows.Controls;
 
 namespace EnduranceJudge.Gateways.Desktop.Controls;
 
-public class ControlsHelper
+public static class ControlsHelper
 {
     public static Style GetStyle(string key)
         => (Style) System.Windows.Application.Current.FindResource(key);
 
-    public static void Scale(UIElement element, double coefficient)
-        => ScaleElementTree(element, coefficient);
+    public static void Scale(this UIElement control, double coefficient)
+        => ScaleElementTree(control, coefficient);
 
     /// <summary>
     /// Limited functionality.
