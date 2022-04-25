@@ -80,6 +80,7 @@
 
     <Style x:Key="Border-Table-Cell" TargetType="Border" BasedOn="{StaticResource Border-Cell}">
         <Setter Property="Height" Value="25px"/>
+        <Setter Property="Padding" Value="0 0 10px 0" />
     </Style>
 
     <Style x:Key="Cell-Thick-Right" TargetType="Border" BasedOn="{StaticResource Border-Table-Cell}">

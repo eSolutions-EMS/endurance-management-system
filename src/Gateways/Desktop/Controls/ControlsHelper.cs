@@ -39,6 +39,12 @@ public static class ControlsHelper
     {
         if (element is Border border)
         {
+            var padding = new Thickness(
+                border.Padding.Left * coefficient,
+                border.Padding.Top * coefficient,
+                border.Padding.Right * coefficient,
+                border.Padding.Bottom * coefficient);
+            border.Padding = padding;
             border.Height = border.ActualHeight * coefficient;
             border.Width = border.ActualWidth * coefficient;
         }
