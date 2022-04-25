@@ -94,7 +94,7 @@ public class PerformanceColumnControl : ScalableStackPanel
     private void AddCompulsoryInspectionText()
         => this.CreateText(this.performance.CompulsoryRequiredInspectionTimeString);
     private void AddNextStartTime()
-        => this.CreateText(this.performance.NextStartTimeString);
+        => this.CreateText(this.performance.NextStartTimeString, true);
     private void AddRecovery()
         => this.CreateText(this.performance.RecoverySpanString);
     private void AddTime()
@@ -127,7 +127,7 @@ public class PerformanceColumnControl : ScalableStackPanel
         return border;
     }
 
-    private void CreateText(string value)
+    private void CreateText(string value, bool bold = false)
     {
         var style = ControlsHelper.GetStyle("Text");
         var text = new ScalableTextBlock
@@ -135,6 +135,10 @@ public class PerformanceColumnControl : ScalableStackPanel
             Text = value,
             Style = style,
         };
+        if (bold)
+        {
+            text.FontWeight = FontWeights.Bold;
+        }
         var border = this.CreateCell(text);
         this.Children.Add(border);
     }

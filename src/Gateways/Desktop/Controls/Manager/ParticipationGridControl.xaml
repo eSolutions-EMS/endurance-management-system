@@ -41,7 +41,7 @@
         </xaml:ScalableBorder>
         <!-- Next Start Time -->
         <xaml:ScalableBorder Style="{StaticResource Border-Table-Cell}">
-            <xaml:ScalableTextBlock Style="{StaticResource Text}"
+            <xaml:ScalableTextBlock Style="{StaticResource Text-Bold}"
                        Text="{x:Static localization:Strings.NEXT_START_TIME_TERM}"/>
         </xaml:ScalableBorder>
         <!-- Recovery Span -->
