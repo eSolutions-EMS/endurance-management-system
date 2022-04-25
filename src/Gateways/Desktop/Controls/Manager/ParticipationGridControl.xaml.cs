@@ -40,13 +40,15 @@ public partial class ParticipationGridControl
         this.Construct(participation);
     }
 
+    private UIElementCollection Columns => this.Table.Children;
     private void Construct(ParticipationGridModel participation)
     {
-        this.Performances.Children.Clear();
+        // First column is static labels and is defined in the .xaml file
+        this.Columns.RemoveRange(1, this.Table.Children.Count - 1);
         foreach (var performance in participation.Performances)
         {
             var control = new PerformanceColumnControl(performance, this.IsReadonly);
-            this.Performances.Children.Add(control);
+            this.Table.Children.Add(control);
         }
         if (!this.IsReadonly)
         {
