@@ -6,10 +6,9 @@ using System.Windows.Media;
 
 namespace EnduranceJudge.Gateways.Desktop.Print.Performances;
 
-public class PerfomancePrinter : PrintTemplate
+public class ParticipationPrinter : PrintTemplate
 {
-    // TODO: add error handling
-    public PerfomancePrinter(ParticipationGridModel participation) : base(participation.Number.ToString())
+    public ParticipationPrinter(ParticipationGridModel participation) : base(participation.Number.ToString())
     {
         var control = new ParticipationGridControl(participation, true);
         control.Arrange(new Rect());

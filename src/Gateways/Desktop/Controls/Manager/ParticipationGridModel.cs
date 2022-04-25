@@ -68,7 +68,7 @@ public class ParticipationGridModel : ParticipantTemplateModelBase
         this.executor.Execute(() =>
         {
             this.ControlsVisibility = Visibility.Collapsed;
-            var printer = new PerfomancePrinter(this);
+            var printer = new ParticipationPrinter(this);
             printer.PreviewDocument();
         });
         this.ControlsVisibility = Visibility.Visible;
