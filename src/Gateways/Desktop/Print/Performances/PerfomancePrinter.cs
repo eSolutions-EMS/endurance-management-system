@@ -10,7 +10,7 @@ public class PerfomancePrinter : PrintTemplate
     // TODO: add error handling
     public PerfomancePrinter(ParticipationGridModel participation) : base(participation.Number.ToString())
     {
-        var control = new ContentControl { Content = participation };
+        var control = new ParticipationGridControl(participation, true);
         this.AddPrintContent(control);
     }
 

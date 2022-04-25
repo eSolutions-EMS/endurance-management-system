@@ -16,7 +16,6 @@ public class ParticipationGridModel : ParticipantTemplateModelBase
         : base(participation)
     {
         this.executor = executor;
-        this.Print = new DelegateCommand(this.PrintAction);
         this.Shrink = new DelegateCommand<UIElement>(this.ShrinkAction);
     }
 
@@ -63,9 +62,8 @@ public class ParticipationGridModel : ParticipantTemplateModelBase
     }
 
     public DelegateCommand<UIElement> Shrink { get; }
-    public DelegateCommand Print { get; }
 
-    private void PrintAction()
+    public void PrintAction()
     {
         this.executor.Execute(() =>
         {

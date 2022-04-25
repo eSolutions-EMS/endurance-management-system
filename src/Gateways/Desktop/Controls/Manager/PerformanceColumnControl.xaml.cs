@@ -16,6 +16,7 @@ public class PerformanceColumnControl : ScalableStackPanel
         get => (PerformanceColumnModel)GetValue(PERFORMANCE_PROPERTY);
         set => SetValue(PERFORMANCE_PROPERTY, value);
     }
+    public bool IsReadonly { get; set; }
 
     public static readonly DependencyProperty PERFORMANCE_PROPERTY =
         DependencyProperty.Register(
@@ -32,26 +33,39 @@ public class PerformanceColumnControl : ScalableStackPanel
     }
 
     public PerformanceColumnControl() {}
-    public PerformanceColumnControl(PerformanceColumnModel performance)
-        => this.Construct(performance);
+    public PerformanceColumnControl(PerformanceColumnModel performance, bool isReadonly)
+    {
+        this.IsReadonly = isReadonly;
+        this.Construct(performance);
+    }
 
     private void Construct(PerformanceColumnModel performance)
     {
         this.performance = performance;
-        var isEditable = performance.EditVisibility == Visibility.Visible;
 
         this.AddHeader();
-        this.AddArrival(isEditable);
-        this.AddInspection(isEditable);
-        this.AddReInspection(isEditable);
-        this.AddRequiredInspection(isEditable);
-        this.AddCompulsoryInspection(isEditable);
+        if (this.IsReadonly)
+        {
+            this.AddArrivalText();
+            this.AddInspectionText();
+            this.AddReInspectionText();
+            this.AddRequiredInspectionText();
+            this.AddCompulsoryInspectionText();
+        }
+        else
+        {
+            this.AddArrivalInput();
+            this.AddInspectionInput();
+            this.AddReInspectionInput();
+            this.AddRequiredInspectionInput();
+            this.AddCompulsoryInspectionInput();
+        }
         this.AddNextStartTime();
         this.AddRecovery();
         this.AddTime();
         this.AddAverageSpeed();
         this.AddAverageSpeedTotal();
-        if (isEditable)
+        if (!this.IsReadonly)
         {
             this.AddEdit();
         }
@@ -59,16 +73,26 @@ public class PerformanceColumnControl : ScalableStackPanel
 
     private void AddHeader()
         => this.CreateText(this.performance.HeaderValue);
-    private void AddArrival(bool isEditable)
-        => this.CreateEditable(nameof(this.performance.ArrivalTimeString), isEditable);
-    private void AddInspection(bool isEditable)
-        => this.CreateEditable(nameof(this.performance.InspectionTimeString), isEditable);
-    private void AddReInspection(bool isEditable)
-        => this.CreateEditable(nameof(this.performance.ReInspectionTimeString), isEditable);
-    private void AddRequiredInspection(bool isEditable)
-        => this.CreateEditable(nameof(this.performance.RequiredInspectionTimeString), isEditable);
-    private void AddCompulsoryInspection(bool isEditable)
-        => this.CreateEditable(nameof(this.performance.CompulsoryRequiredInspectionTimeString), isEditable);
+    private void AddArrivalInput()
+        => this.CreateInput(nameof(this.performance.ArrivalTimeString));
+    private void AddInspectionInput()
+        => this.CreateInput(nameof(this.performance.InspectionTimeString));
+    private void AddReInspectionInput()
+        => this.CreateInput(nameof(this.performance.ReInspectionTimeString));
+    private void AddRequiredInspectionInput()
+        => this.CreateInput(nameof(this.performance.RequiredInspectionTimeString));
+    private void AddCompulsoryInspectionInput()
+        => this.CreateInput(nameof(this.performance.CompulsoryRequiredInspectionTimeString));
+    private void AddArrivalText()
+        => this.CreateText(this.performance.ArrivalTimeString);
+    private void AddInspectionText()
+        => this.CreateText(this.performance.InspectionTimeString);
+    private void AddReInspectionText()
+        => this.CreateText(this.performance.ReInspectionTimeString);
+    private void AddRequiredInspectionText()
+        => this.CreateText(this.performance.RequiredInspectionTimeString);
+    private void AddCompulsoryInspectionText()
+        => this.CreateText(this.performance.CompulsoryRequiredInspectionTimeString);
     private void AddNextStartTime()
         => this.CreateText(this.performance.NextStartTimeString);
     private void AddRecovery()
@@ -81,7 +105,7 @@ public class PerformanceColumnControl : ScalableStackPanel
         => this.CreateText(this.performance.AverageSpeedTotalString);
     private void AddEdit()
     {
-        var style = this.GetResource("Button-Table");
+        var style = ControlsHelper.GetStyle("Button-Table");
         var button = new Button
         {
             Style = style,
@@ -92,21 +116,9 @@ public class PerformanceColumnControl : ScalableStackPanel
         this.Children.Add(border);
     }
 
-    private void CreateEditable(string propertyName, bool isEditable)
-    {
-        if (isEditable)
-        {
-            this.CreateInput(propertyName);
-        }
-        else
-        {
-            this.CreateText(propertyName);
-        }
-    }
-
     private ScalableBorder CreateCell(UIElement content)
     {
-        var style = this.GetResource("Border-Table-Cell");
+        var style = ControlsHelper.GetStyle("Border-Table-Cell");
         var border = new ScalableBorder
         {
             Style = style,
@@ -117,7 +129,7 @@ public class PerformanceColumnControl : ScalableStackPanel
 
     private void CreateText(string value)
     {
-        var style = this.GetResource("Text");
+        var style = ControlsHelper.GetStyle("Text");
         var text = new ScalableTextBlock
         {
             Text = value,
@@ -129,7 +141,7 @@ public class PerformanceColumnControl : ScalableStackPanel
 
     private void CreateInput(string propertyName)
     {
-        var style = this.GetResource("TextBox-Table");
+        var style = ControlsHelper.GetStyle("TextBox-Table");
         var input = new TextBox
         {
             Style = style,
@@ -140,7 +152,4 @@ public class PerformanceColumnControl : ScalableStackPanel
         var border = this.CreateCell(input);
         this.Children.Add(border);
     }
-
-    private Style GetResource(string key)
-        => (Style) System.Windows.Application.Current.FindResource(key);
 }
