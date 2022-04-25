@@ -17,11 +17,4 @@ public class RanklistPrinter : PrintTemplate
             this.AddPrintContent(control);
         }
     }
-
-    public override UIElement GetTable(out double reserveHeightOf, out Brush borderBrush)
-    {
-        reserveHeightOf = this.HeaderOffset;
-        borderBrush = this.BorderBrush;
-        return new Border();
-    }
 }

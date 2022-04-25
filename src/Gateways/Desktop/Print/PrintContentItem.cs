@@ -1,5 +1,4 @@
-﻿using EnduranceJudge.Gateways.Desktop.Controls;
-using Mairegger.Printing.Content;
+﻿using Mairegger.Printing.Content;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -9,11 +8,11 @@ public class PrintContentItem : IPrintContent
 {
     public PrintContentItem(UIElement content)
     {
-        var style = ControlsHelper.GetStyle("Padding");
         var container = new Border
         {
-            Style = style,
+            Padding = new Thickness(10),
             Child = content,
+            HorizontalAlignment = HorizontalAlignment.Center,
         };
         this.Content = container;
     }
