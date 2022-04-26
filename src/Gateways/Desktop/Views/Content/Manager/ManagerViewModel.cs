@@ -1,5 +1,4 @@
 ﻿using EnduranceJudge.Application.Aggregates.Configurations.Contracts;
-using EnduranceJudge.Domain.AggregateRoots.Common.Performances;
 using EnduranceJudge.Domain.AggregateRoots.Manager;
 using EnduranceJudge.Domain.State.Participations;
 using EnduranceJudge.Gateways.Desktop.Core;
@@ -20,19 +19,16 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager;
 public class ManagerViewModel : ViewModelBase
 {
     private static readonly DateTime Today = DateTime.Today;
-    private readonly IExecutor executor;
     private readonly IEventAggregator eventAggregator;
     private readonly IExecutor<ManagerRoot> managerExecutor;
     private readonly IQueries<Participation> participations;
 
     public ManagerViewModel(
-        IExecutor executor,
         IEventAggregator eventAggregator,
         IPopupService popupService,
         IExecutor<ManagerRoot> managerExecutor,
         IQueries<Participation> participations)
     {
-        this.executor = executor;
         this.eventAggregator = eventAggregator;
         this.managerExecutor = managerExecutor;
         this.participations = participations;
@@ -180,7 +176,7 @@ public class ManagerViewModel : ViewModelBase
         {
             foreach (var participation in participations)
             {
-                var viewModel = new ParticipationGridModel(participation, this.executor);
+                var viewModel = new ParticipationGridModel(participation);
                 this.Participations.Add(viewModel);
             }
             this.SelectBy(this.Participations.First());

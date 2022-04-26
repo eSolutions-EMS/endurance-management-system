@@ -7,6 +7,8 @@ namespace EnduranceJudge.Gateways.Desktop.Controls.Manager;
 
 public partial class ParticipationGridControl
 {
+    private bool isPrintButtonAdded;
+
     public ParticipationGridModel Participation
     {
         get => (ParticipationGridModel)this.GetValue(PARTICIPATION_PROPERTY);
@@ -29,15 +31,15 @@ public partial class ParticipationGridControl
         grid.Construct(participation);
     }
 
-    public ParticipationGridControl()
-    {
-        this.InitializeComponent();
-        this.Style = (Style)System.Windows.Application.Current.FindResource("Dock-Horizontal");
-    }
     public ParticipationGridControl(ParticipationGridModel participation, bool isReadonly) : this()
     {
         this.IsReadonly = isReadonly;
         this.Construct(participation);
+    }
+    public ParticipationGridControl()
+    {
+        this.InitializeComponent();
+        this.Style = (Style)System.Windows.Application.Current.FindResource("Dock-Horizontal");
     }
 
     private UIElementCollection Columns => this.Table.Children;
@@ -50,7 +52,7 @@ public partial class ParticipationGridControl
             var control = new PerformanceColumnControl(performance, this.IsReadonly);
             this.Table.Children.Add(control);
         }
-        if (!this.IsReadonly)
+        if (!this.IsReadonly && !this.isPrintButtonAdded)
         {
             this.AddPrintButton();
         }
@@ -68,5 +70,6 @@ public partial class ParticipationGridControl
             VerticalAlignment = VerticalAlignment.Top,
         };
         this.Children.Add(button);
+        this.isPrintButtonAdded = true;
     }
 }
