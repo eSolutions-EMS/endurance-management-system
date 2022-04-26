@@ -7,10 +7,6 @@ namespace EnduranceJudge.Gateways.Desktop.Controls.Ranking;
 
 public partial class RanklistControl
 {
-    public RanklistControl(RankList rankList) : this()
-    {
-        this.Populate(rankList);
-    }
     public RanklistControl()
     {
         this.InitializeComponent();
@@ -38,13 +34,24 @@ public partial class RanklistControl
 
     private void Populate(RankList rankList)
     {
+        foreach (var control in CreateResultControls(rankList))
+        {
+            this.Children.Add(control);
+        }
+    }
+
+    public static IEnumerable<ParticipationResultControl> CreateResultControls(RankList rankList)
+    {
+        var maxColumns = rankList
+            .Select(x => x.Participant.LapRecords.Count)
+            .Max();
         for (var i = 0; i < rankList.Count; i++)
         {
             var rank = i + 1;
             var participation = rankList[i];
-            var result = new ParticipationResultModel(rank, participation);
+            var result = new ParticipationResultModel(rank, maxColumns, participation);
             var control = new ParticipationResultControl(result);
-            this.Children.Add(control);
+            yield return control;
         }
     }
 }

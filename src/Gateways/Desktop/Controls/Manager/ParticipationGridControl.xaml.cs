@@ -52,6 +52,11 @@ public partial class ParticipationGridControl
             var control = new PerformanceColumnControl(performance, this.IsReadonly);
             this.Table.Children.Add(control);
         }
+        for (var i = 0; i < participation.EmptyColumns; i++)
+        {
+            var empty = new EmptyColumnControl();
+            this.Table.Children.Add(empty);
+        }
         if (!this.IsReadonly && !this.isPrintButtonAdded)
         {
             this.AddPrintButton();

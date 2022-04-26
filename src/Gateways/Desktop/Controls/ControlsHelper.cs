@@ -47,10 +47,6 @@ public static class ControlsHelper
             border.Padding = padding;
             border.Height = border.ActualHeight * coefficient;
             border.Width = border.ActualWidth * coefficient;
-            // if (border.Name == "RootBorder")
-            // {
-            //     border.Width = 1000;
-            // }
         }
         else if (element is TextBlock textBlock)
         {

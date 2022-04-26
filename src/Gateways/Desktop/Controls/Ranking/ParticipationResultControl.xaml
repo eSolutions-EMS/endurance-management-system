@@ -56,7 +56,7 @@
         <Border Style="{StaticResource Border-Cell}">
             <StackPanel Style="{StaticResource List-Vertical}">
                 <!-- Total header -->
-                <Border Style="{StaticResource Border-Table-Cell}" BorderThickness="0 0 0 1">
+                <Border Style="{StaticResource Border-Performance-Cell}" BorderThickness="0 0 0 1">
                     <TextBlock Style="{StaticResource Text-Bold}"
                                Text="{x:Static localization:Strings.TOTAL}" />
                 </Border>

@@ -11,7 +11,7 @@ public class PrintContentItem : IPrintContent
     {
         var container = new Border
         {
-            Margin = new Thickness(10),
+            Margin = new Thickness(10, 0, 10, 0),
             Child = content,
             HorizontalAlignment = HorizontalAlignment.Center,
             BorderBrush = new SolidColorBrush(Colors.Black),

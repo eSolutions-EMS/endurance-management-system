@@ -10,13 +10,12 @@ public class RanklistPrinter : PrintTemplate
     public RanklistPrinter(string competitionName, RankList rankList)
         : base(competitionName)
     {
-        foreach (var participation in rankList)
+        var controls = RanklistControl.CreateResultControls(rankList);
+        foreach (var control in controls)
         {
-            var model = new ParticipationResultModel(1, participation);
-            var control = new ParticipationResultControl(model);
             control.Measure(this.PrintDimension.PageSize);
             control.Arrange(new Rect());
-            control.Scale(0.75);
+            control.Scale(0.7);
             this.AddPrintContent(control);
         }
     }

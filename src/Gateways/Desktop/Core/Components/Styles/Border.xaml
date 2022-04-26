@@ -83,7 +83,11 @@
         <Setter Property="Padding" Value="0 0 10px 0" />
     </Style>
 
-    <Style x:Key="Cell-Thick-Right" TargetType="Border" BasedOn="{StaticResource Border-Table-Cell}">
+    <Style x:Key="Border-Performance-Cell" TargetType="Border" BasedOn="{StaticResource Border-Table-Cell}">
+        <Setter Property="Width" Value="135px" />
+    </Style>
+
+    <Style x:Key="Cell-Thick-Right" TargetType="Border" BasedOn="{StaticResource Border-Performance-Cell}">
         <Setter Property="BorderThickness" Value="0,0,0,1" />
     </Style>
 
@@ -91,13 +95,12 @@
         <Setter Property="Padding" Value="0" />
     </Style>
 
-    <Style x:Key="Border-Heading" BasedOn="{StaticResource Border-Table-Cell}" TargetType="Border">
+    <Style x:Key="Border-Heading" BasedOn="{StaticResource Border}" TargetType="Border">
         <Setter Property="Background" Value="DimGray" />
         <Setter Property="Height" Value="30px" />
     </Style>
 
-    <Style x:Key="Border-Ranking-Location" BasedOn="{StaticResource Border-Table-Cell}" TargetType="Border">
-        <Setter Property="BorderBrush" Value="DimGray" />
+    <Style x:Key="Border-Ranking-Location" BasedOn="{StaticResource Border}" TargetType="Border">
         <Setter Property="BorderThickness" Value="0 2px 0 2px" />
         <Setter Property="Height" Value="30px" />
         <Setter Property="Margin" Value="0 5px 0 0" />

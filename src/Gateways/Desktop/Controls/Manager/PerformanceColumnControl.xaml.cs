@@ -32,7 +32,7 @@ public class PerformanceColumnControl : StackPanel
     }
 
     public PerformanceColumnControl() {}
-    public PerformanceColumnControl(PerformanceColumnModel performance, bool isReadonly)
+    public PerformanceColumnControl(PerformanceColumnModel performance, bool isReadonly) : this()
     {
         this.IsReadonly = isReadonly;
         this.Construct(performance);

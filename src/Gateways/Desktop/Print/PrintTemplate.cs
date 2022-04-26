@@ -30,11 +30,11 @@ public abstract class PrintTemplate : PrintProcessor
         this.State = StaticProvider.GetService<IState>();
 
         this.header = this.PrepareHeader();
-        this.footer = this.PrepareFooter();
+        // this.footer = this.PrepareFooter();
     }
 
     protected IState State { get; }
-    protected int HeaderOffset { get; set; } = 0;
+    protected int HeaderOffset { get; set; } = 10;
     protected SolidColorBrush BorderBrush { get; set; } = Brushes.DimGray;
     protected List<IPrintContent> PrintItems { get; set; } = new();
 
@@ -47,9 +47,9 @@ public abstract class PrintTemplate : PrintProcessor
         borderBrush = this.BorderBrush;
         return new Border();
     }
-
-    public override UIElement GetFooter()
-        => this.footer;
+    //
+    // public override UIElement GetFooter()
+    //     => this.footer;
 
     public override IEnumerable<IPrintContent> ItemCollection()
         => this.PrintItems;
@@ -103,7 +103,7 @@ public abstract class PrintTemplate : PrintProcessor
 
     protected override void PreparePrint()
     {
-        PrintDefinition.SetPrintAttribute(new PrintOnAllPagesAttribute(PrintAppendixes.Footer));
+        // PrintDefinition.SetPrintAttribute(new PrintOnAllPagesAttribute(PrintAppendixes.Footer));
         PrintDefinition.SetPrintAttribute(new PrintOnAllPagesAttribute(PrintAppendixes.Header));
     }
 }

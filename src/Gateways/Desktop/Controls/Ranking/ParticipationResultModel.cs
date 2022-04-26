@@ -13,7 +13,7 @@ namespace EnduranceJudge.Gateways.Desktop.Controls.Ranking;
 
 public class ParticipationResultModel : ParticipationGridModel
 {
-    public ParticipationResultModel(int rank, Participation participation) : base(participation)
+    public ParticipationResultModel(int rank, int columns, Participation participation) : base(participation, columns)
     {
         this.Rank = rank;
         this.HorseGenderString = participation.Participant.Horse.IsStallion ? STALLION : MARE; // TODO: move in domain
