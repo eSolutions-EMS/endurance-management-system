@@ -3,7 +3,6 @@ using EnduranceJudge.Domain.Enums;
 using EnduranceJudge.Domain.State.Participations;
 using EnduranceJudge.Domain.State.LapRecords;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 

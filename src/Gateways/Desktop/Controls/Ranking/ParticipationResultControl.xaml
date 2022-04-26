@@ -92,7 +92,7 @@
                     </StackPanel>
                 </Border>
                 <!-- Participation Grid-->
-                <local:ParticipationGridControl Name="ParticipationGrid" />
+                <local:ParticipationGridControl x:Name="ParticipationGrid" />
             </StackPanel>
         </StackPanel>
     </Border>

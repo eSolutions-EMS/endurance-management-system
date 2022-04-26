@@ -19,7 +19,8 @@ public class ParticipationGridModel
         this.executor = StaticProvider.GetService<IExecutor>();
         this.Participant = participation.Participant;
 
-        this.Number = Participant.Number;
+        // TODO: remove
+        this.Number = this.Participant.Number;
         var viewModels = Performance
             .GetAll(participation)
             .Select(perf => new PerformanceColumnModel(perf));
