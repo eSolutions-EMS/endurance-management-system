@@ -56,34 +56,40 @@
         <Border Style="{StaticResource Border-Cell}">
             <StackPanel Style="{StaticResource List-Vertical}">
                 <!-- Total header -->
-                <Border Style="{StaticResource Border-Table-Cell}">
+                <Border Style="{StaticResource Border-Table-Cell}" BorderThickness="0 0 0 1">
                     <TextBlock Style="{StaticResource Text-Bold}"
                                Text="{x:Static localization:Strings.TOTAL}" />
                 </Border>
                 <!-- TotalTime -->
-                <Border Style="{StaticResource Border-Vertical}">
-                    <TextBlock Style="{StaticResource Text-Bold}">
-                        <Run Style="{StaticResource Run}"
-                             Name="TotalTime" />
-                        <Run Style="{StaticResource Run}"
-                             Text="{x:Static localization:Strings.HOURS_SYMBOL}" />
-                    </TextBlock>
+                <Border Style="{StaticResource Border-Padding}">
+                    <StackPanel Style="{StaticResource List-Horizontal}">
+                        <TextBlock Style="{StaticResource Text-Small}" FontWeight="Bold"
+                                   Name="TotalTime" />
+                        <TextBlock Text=" " />
+                        <TextBlock Style="{StaticResource Text-Small}" FontWeight="Bold"
+                                   Text="{x:Static localization:Strings.HOURS_SYMBOL}" />
+                    </StackPanel>
                 </Border>
                 <!-- Average speed -->
-                <Border Style="{StaticResource Border-Vertical}">
-                    <TextBlock Style="{StaticResource Text-Bold}">
-                        <Run Name="TotalAverageSpeedString" />
-                        <Run Text=" " />
-                        <Run Text="{x:Static localization:Strings.KM_PER_HOUR}" />
-                    </TextBlock>
+                <Border Style="{StaticResource Border-Padding}">
+                    <StackPanel Style="{StaticResource List-Horizontal}">
+                        <TextBlock Style="{StaticResource Text-Small}"
+                                   Name="TotalAverageSpeedString" />
+                        <TextBlock Text=" " />
+                        <TextBlock Style="{StaticResource Text-Small}"
+                                   Text="{x:Static localization:Strings.KM_PER_HOUR}" />
+                    </StackPanel>
                 </Border>
                 <!-- Disqualified -->
-                <Border Style="{StaticResource Border-Vertical}"
+                <Border Style="{StaticResource Border-Padding}"
                         Name="DisqualifiedContainer">
-                    <TextBlock Style="{StaticResource Text}" Background="LightGoldenrodYellow">
-                        <Run Text="{x:Static localization:Strings.DQ}" />
-                        <Run Name="DisqualifiedReason" />
-                    </TextBlock>
+                    <StackPanel Style="{StaticResource List-Horizontal}" Background="LightGoldenrodYellow">
+                        <TextBlock Style="{StaticResource Text-Small}"
+                                   Text="{x:Static localization:Strings.DQ}" />
+                        <TextBlock Text=" " />
+                        <TextBlock Style="{StaticResource Text-Small}"
+                                   Name="DisqualifiedReason" />
+                    </StackPanel>
                 </Border>
             </StackPanel>
         </Border>
