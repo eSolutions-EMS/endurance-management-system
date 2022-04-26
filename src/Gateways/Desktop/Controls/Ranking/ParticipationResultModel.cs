@@ -9,11 +9,11 @@ using System.Linq;
 using System.Windows;
 using static EnduranceJudge.Localization.Strings;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Ranking.ParticipantResults;
+namespace EnduranceJudge.Gateways.Desktop.Controls.Ranking;
 
-public class ParticipationResultTemplateModel : ParticipationGridModel
+public class ParticipationResultModel : ParticipationGridModel
 {
-    public ParticipationResultTemplateModel(int rank, Participation participation) : base(participation)
+    public ParticipationResultModel(int rank, Participation participation) : base(participation)
     {
         this.Rank = rank;
         this.HorseGenderString = participation.Participant.Horse.IsStallion ? STALLION : MARE;

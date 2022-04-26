@@ -4,7 +4,7 @@ using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem;
 using EnduranceJudge.Gateways.Desktop.Services;
 using EnduranceJudge.Gateways.Desktop.Print.Performances;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Ranking.ParticipantResults;
+using EnduranceJudge.Gateways.Desktop.Controls.Ranking;
 using Prism.Commands;
 using Prism.Regions;
 using System.Collections.Generic;
@@ -36,7 +36,7 @@ public class RankingViewModel : ViewModelBase
     public DelegateCommand SelectKidsCategory { get; }
     public DelegateCommand SelectAdultsCategory { get; }
 
-    public ObservableCollection<ParticipationResultTemplateModel> RankList { get; } = new();
+    public ObservableCollection<ParticipationResultModel> RankList { get; } = new();
     public ObservableCollection<ListItemViewModel> Competitions { get; } = new();
     private string totalLengthInKm;
     private string categoryName;
@@ -106,7 +106,7 @@ public class RankingViewModel : ViewModelBase
         var rank = 1;
         foreach (var participation in rankList)
         {
-            var entry = new ParticipationResultTemplateModel(rank, participation);
+            var entry = new ParticipationResultModel(rank, participation);
             this.RankList.Add(entry);
             rank++;
         }

@@ -1,4 +1,4 @@
-﻿using EnduranceJudge.Gateways.Desktop.Views.Content.Ranking.ParticipantResults;
+﻿using EnduranceJudge.Gateways.Desktop.Controls.Ranking;
 using System.Windows;
 
 namespace EnduranceJudge.Gateways.Desktop.Controls.Ranking;
@@ -10,27 +10,27 @@ public partial class ParticipationResultControl
         InitializeComponent();
     }
 
-    public ParticipationResultTemplateModel Participation
+    public ParticipationResultModel Participation
     {
-        get => (ParticipationResultTemplateModel)this.GetValue(PARTICIPATION_PROPERTY);
+        get => (ParticipationResultModel)this.GetValue(PARTICIPATION_PROPERTY);
         set => this.SetValue(PARTICIPATION_PROPERTY, value);
     }
 
     public static readonly DependencyProperty PARTICIPATION_PROPERTY =
         DependencyProperty.Register(
             nameof(Participation),
-            typeof(ParticipationResultTemplateModel),
+            typeof(ParticipationResultModel),
             typeof(ParticipationResultControl),
             new PropertyMetadata(OnParticipationChanged));
 
     private static void OnParticipationChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
     {
         var grid = (ParticipationResultControl)sender;
-        var participation = (ParticipationResultTemplateModel) args.NewValue;
+        var participation = (ParticipationResultModel) args.NewValue;
         grid.Populate(participation);
     }
 
-    private void Populate(ParticipationResultTemplateModel participation)
+    private void Populate(ParticipationResultModel participation)
     {
         this.ParticipantNumber.Text = participation.Participant.Number.ToString();
         this.AthleteName.Text = participation.Participant.Athlete.Name;

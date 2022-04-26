@@ -1,4 +1,4 @@
-﻿using EnduranceJudge.Gateways.Desktop.Views.Content.Ranking.ParticipantResults;
+﻿using EnduranceJudge.Gateways.Desktop.Controls.Ranking;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
@@ -8,7 +8,7 @@ namespace EnduranceJudge.Gateways.Desktop.Print.Performances;
 
 public class RanklistPrinter : PrintTemplate
 {
-    public RanklistPrinter(string competitionName, IEnumerable<ParticipationResultTemplateModel> participations)
+    public RanklistPrinter(string competitionName, IEnumerable<ParticipationResultModel> participations)
         : base(competitionName)
     {
         foreach (var participation in participations)
