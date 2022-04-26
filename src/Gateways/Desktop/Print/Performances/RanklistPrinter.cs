@@ -15,7 +15,7 @@ public class RanklistPrinter : PrintTemplate
         {
             control.Measure(this.PrintDimension.PageSize);
             control.Arrange(new Rect());
-            control.Scale(0.7);
+            control.Scale(0.75);
             this.AddPrintContent(control);
         }
     }

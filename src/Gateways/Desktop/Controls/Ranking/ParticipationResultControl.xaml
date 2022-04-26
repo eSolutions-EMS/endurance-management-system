@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:local="clr-namespace:EnduranceJudge.Gateways.Desktop.Controls.Manager"
         xmlns:localization="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization"
-        Style="{StaticResource List-Vertical}">
+        Style="{StaticResource List-Vertical}" Margin="0 2px 0 0">
 
     <StackPanel Style="{StaticResource List-Horizontal}">
         <!-- Participant -->
@@ -13,12 +13,12 @@
                 <DockPanel Style="{StaticResource Dock-Horizontal}" LastChildFill="False">
                     <Border Style="{StaticResource Border-Table-Cell}"
                             DockPanel.Dock="Left">
-                        <TextBlock Style="{StaticResource Text-Bold}"
+                        <TextBlock Style="{StaticResource Text-Bold}" Padding="2px"
                                    Name="RankText" />
                     </Border>
                     <Border Style="{StaticResource Border-Table-Cell}"
                             DockPanel.Dock="Right">
-                        <TextBlock Style="{StaticResource Text}"
+                        <TextBlock Style="{StaticResource Text}" Padding="2px"
                                    Name="NumberText" />
                     </Border>
                 </DockPanel>

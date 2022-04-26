@@ -117,7 +117,7 @@ public class PerformanceColumnControl : StackPanel
 
     private Border CreateCell(UIElement content)
     {
-        var style = ControlsHelper.GetStyle("Border-Table-Cell");
+        var style = ControlsHelper.GetStyle("Border-Performance-Cell");
         var border = new Border
         {
             Style = style,

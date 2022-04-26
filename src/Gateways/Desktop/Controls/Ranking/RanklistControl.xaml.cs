@@ -34,6 +34,7 @@ public partial class RanklistControl
 
     private void Populate(RankList rankList)
     {
+        this.Children.Clear();
         foreach (var control in CreateResultControls(rankList))
         {
             this.Children.Add(control);
