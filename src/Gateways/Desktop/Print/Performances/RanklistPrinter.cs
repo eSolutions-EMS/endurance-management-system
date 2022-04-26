@@ -1,19 +1,22 @@
-﻿using EnduranceJudge.Gateways.Desktop.Controls.Ranking;
-using System.Collections.Generic;
+﻿using EnduranceJudge.Domain.AggregateRoots.Ranking.Aggregates;
+using EnduranceJudge.Gateways.Desktop.Controls;
+using EnduranceJudge.Gateways.Desktop.Controls.Ranking;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Media;
 
 namespace EnduranceJudge.Gateways.Desktop.Print.Performances;
 
 public class RanklistPrinter : PrintTemplate
 {
-    public RanklistPrinter(string competitionName, IEnumerable<ParticipationResultModel> participations)
+    public RanklistPrinter(string competitionName, RankList rankList)
         : base(competitionName)
     {
-        foreach (var participation in participations)
+        foreach (var participation in rankList)
         {
-            var control = new ContentControl { Content = participation };
+            var model = new ParticipationResultModel(1, participation);
+            var control = new ParticipationResultControl(model);
+            control.Measure(this.PrintDimension.PageSize);
+            control.Arrange(new Rect());
+            control.Scale(0.75);
             this.AddPrintContent(control);
         }
     }

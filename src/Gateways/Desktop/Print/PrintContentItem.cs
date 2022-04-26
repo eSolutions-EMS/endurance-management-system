@@ -1,6 +1,7 @@
 ﻿using Mairegger.Printing.Content;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace EnduranceJudge.Gateways.Desktop.Print;
 
@@ -10,9 +11,11 @@ public class PrintContentItem : IPrintContent
     {
         var container = new Border
         {
-            Padding = new Thickness(10),
+            Margin = new Thickness(10),
             Child = content,
             HorizontalAlignment = HorizontalAlignment.Center,
+            BorderBrush = new SolidColorBrush(Colors.Black),
+            BorderThickness = new Thickness(1),
         };
         this.Content = container;
     }

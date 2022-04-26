@@ -1,99 +1,90 @@
 ﻿<StackPanel x:Class="EnduranceJudge.Gateways.Desktop.Controls.Ranking.ParticipationResultControl"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:EnduranceJudge.Gateways.Desktop.Controls.Manager"
-             xmlns:localization="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization"
-             Style="{StaticResource List-Vertical}">
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:local="clr-namespace:EnduranceJudge.Gateways.Desktop.Controls.Manager"
+        xmlns:localization="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization"
+        Style="{StaticResource List-Vertical}">
 
-    <Border Style="{StaticResource Cell-No-Padding}" Margin="0 5px">
-        <StackPanel Style="{StaticResource List-Vertical}">
-            <!-- Participant data -->
-            <Border Style="{StaticResource Border-Cell}" Padding="5px">
-                <StackPanel Style="{StaticResource List-Horizontal}">
-                    <!-- Rank -->
-                    <Border Style="{StaticResource Border-Left}">
-                        <TextBlock Style="{StaticResource Text-H2}"
-                                   Name="RankText" />
-                    </Border>
-                    <!-- Athlete / Horse -->
-                    <Border Style="{StaticResource Border-Horizontal}" Width="300px">
-                        <StackPanel Style="{StaticResource List-Vertical}">
-                            <!-- Athlete -->
-                            <TextBlock Style="{StaticResource Text-Bold}">
-                                <Run Name="ParticipantNumber" />
-                                <Run Text="/" />
-                                <Run Name="AthleteName" />
-                                <Run Style="{StaticResource Run}"
-                                     Name="AthleteFeiId" />
-                            </TextBlock>
-                            <!-- Horse -->
-                            <TextBlock Style="{StaticResource Text}">
-                                <Run Name="HorseName" Style="{StaticResource Run-Bold}"/>
-                                <Run Text=" / " />
-                                <Run Name="HorseFeiId" />
-                                <Run Text=" / " />
-                                <Run Name="HorseGenderString" />
-                            </TextBlock>
-                            <!-- Trainer -->
-                            <TextBlock Style="{StaticResource Text-Small}">
-                                <Run Text="Trainer : " />
-                                <Run Name="TrainerFeiId" />
-                                <Run Text=" " />
-                                <Run Name="TrainerName" />
-                            </TextBlock>
-                        </StackPanel>
-                    </Border>
-                    <!-- Country -->
-                    <Border Style="{StaticResource Border-Right}">
-                        <TextBlock Style="{StaticResource Text-H2}"
-                                   Name="AthleteCountryName" />
-                    </Border>
-                </StackPanel>
-            </Border>
-
-            <!-- Columns  -->
-            <StackPanel Style="{StaticResource List-Horizontal}">
-                <!-- First column -->
-                <Border Style="{StaticResource Cell-No-Padding}">
-                    <StackPanel Style="{StaticResource List-Vertical}" Width="140px">
-                        <!-- Total header -->
-                        <Border Style="{StaticResource Border-Table-Cell}">
-                            <TextBlock Style="{StaticResource Text-Bold}"
-                                       Text="{x:Static localization:Strings.TOTAL}" />
-                        </Border>
-                        <!-- Total rows -->
-                        <StackPanel Style="{StaticResource List-Vertical}">
-                            <!-- TotalTime -->
-                            <Border Style="{StaticResource Border-Vertical}">
-                                <TextBlock Style="{StaticResource Text-Bold}">
-                                    <Run Style="{StaticResource Run}"
-                                         Name="TotalTime" />
-                                    <Run Style="{StaticResource Run}"
-                                         Text="{x:Static localization:Strings.HOURS_SYMBOL}" />
-                                </TextBlock>
-                            </Border>
-                            <!-- Average speed -->
-                            <Border Style="{StaticResource Border-Vertical}">
-                                <TextBlock Style="{StaticResource Text-Bold}">
-                                    <Run Name="TotalAverageSpeedString" />
-                                    <Run Text=" " />
-                                    <Run Text="{x:Static localization:Strings.KM_PER_HOUR}" />
-                                </TextBlock>
-                            </Border>
-                            <!-- Disqualified -->
-                            <Border Style="{StaticResource Border-Vertical}"
-                                    Name="DisqualifiedContainer">
-                                <TextBlock Style="{StaticResource Text}" Background="LightGoldenrodYellow">
-                                    <Run Text="{x:Static localization:Strings.DQ}" />
-                                    <Run Name="DisqualifiedReason" />
-                                </TextBlock>
-                            </Border>
-                        </StackPanel>
-                    </StackPanel>
-                </Border>
-                <!-- Participation Grid-->
-                <local:ParticipationGridControl x:Name="ParticipationGrid" />
+    <!-- Participant data -->
+    <StackPanel Style="{StaticResource List-Horizontal}">
+        <!-- Rank -->
+        <Border Style="{StaticResource Border-Left}">
+            <TextBlock Style="{StaticResource Text-H2}"
+                       Name="RankText" />
+        </Border>
+        <!-- Athlete / Horse -->
+        <Border Style="{StaticResource Border-Horizontal}" Width="300px">
+            <StackPanel Style="{StaticResource List-Vertical}">
+                <!-- Athlete -->
+                <TextBlock Style="{StaticResource Text-Bold}">
+                    <Run Name="ParticipantNumber" />
+                    <Run Text="/" />
+                    <Run Name="AthleteName" />
+                    <Run Style="{StaticResource Run}"
+                         Name="AthleteFeiId" />
+                </TextBlock>
+                <!-- Horse -->
+                <TextBlock Style="{StaticResource Text}">
+                    <Run Name="HorseName" Style="{StaticResource Run-Bold}"/>
+                    <Run Text=" / " />
+                    <Run Name="HorseFeiId" />
+                    <Run Text=" / " />
+                    <Run Name="HorseGenderString" />
+                </TextBlock>
+                <!-- Trainer -->
+                <TextBlock Style="{StaticResource Text-Small}">
+                    <Run Text="Trainer : " />
+                    <Run Name="TrainerFeiId" />
+                    <Run Text=" " />
+                    <Run Name="TrainerName" />
+                </TextBlock>
             </StackPanel>
-        </StackPanel>
-    </Border>
+        </Border>
+        <!-- Country -->
+        <Border Style="{StaticResource Border-Right}">
+            <TextBlock Style="{StaticResource Text-H2}"
+                       Name="AthleteCountryName" />
+        </Border>
+    </StackPanel>
+
+    <!-- Columns  -->
+    <StackPanel Style="{StaticResource List-Horizontal}">
+        <!-- First column -->
+        <Border Style="{StaticResource Border-Cell}">
+            <StackPanel Style="{StaticResource List-Vertical}">
+                <!-- Total header -->
+                <Border Style="{StaticResource Border-Table-Cell}">
+                    <TextBlock Style="{StaticResource Text-Bold}"
+                               Text="{x:Static localization:Strings.TOTAL}" />
+                </Border>
+                <!-- TotalTime -->
+                <Border Style="{StaticResource Border-Vertical}">
+                    <TextBlock Style="{StaticResource Text-Bold}">
+                        <Run Style="{StaticResource Run}"
+                             Name="TotalTime" />
+                        <Run Style="{StaticResource Run}"
+                             Text="{x:Static localization:Strings.HOURS_SYMBOL}" />
+                    </TextBlock>
+                </Border>
+                <!-- Average speed -->
+                <Border Style="{StaticResource Border-Vertical}">
+                    <TextBlock Style="{StaticResource Text-Bold}">
+                        <Run Name="TotalAverageSpeedString" />
+                        <Run Text=" " />
+                        <Run Text="{x:Static localization:Strings.KM_PER_HOUR}" />
+                    </TextBlock>
+                </Border>
+                <!-- Disqualified -->
+                <Border Style="{StaticResource Border-Vertical}"
+                        Name="DisqualifiedContainer">
+                    <TextBlock Style="{StaticResource Text}" Background="LightGoldenrodYellow">
+                        <Run Text="{x:Static localization:Strings.DQ}" />
+                        <Run Name="DisqualifiedReason" />
+                    </TextBlock>
+                </Border>
+            </StackPanel>
+        </Border>
+        <!-- Participation Grid-->
+        <local:ParticipationGridControl x:Name="ParticipationGrid" />
+    </StackPanel>
 </StackPanel>

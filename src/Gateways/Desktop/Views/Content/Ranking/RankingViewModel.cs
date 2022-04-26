@@ -85,11 +85,11 @@ public class RankingViewModel : ViewModelBase
     {
         this.SelectCategory(this.selectedCompetition.AdultsRankList);
     }
-    private void PrintAction(RanklistControl ranklist)
+    private void PrintAction(RanklistControl control)
     {
         this.basicExecutor.Execute(() =>
         {
-            var printer = new RanklistPrinter(this.selectedCompetition.Name, ranklist.Results);
+            var printer = new RanklistPrinter(this.selectedCompetition.Name, control.Ranklist);
             printer.PreviewDocument();
         });
     }

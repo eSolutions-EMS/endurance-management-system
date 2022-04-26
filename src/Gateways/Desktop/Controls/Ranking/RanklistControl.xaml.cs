@@ -7,6 +7,15 @@ namespace EnduranceJudge.Gateways.Desktop.Controls.Ranking;
 
 public partial class RanklistControl
 {
+    public RanklistControl(RankList rankList) : this()
+    {
+        this.Populate(rankList);
+    }
+    public RanklistControl()
+    {
+        this.InitializeComponent();
+    }
+
     public RankList Ranklist
     {
         get => (RankList)this.GetValue(RANKLIST_PROPERTY);
@@ -38,10 +47,4 @@ public partial class RanklistControl
             this.Children.Add(control);
         }
     }
-
-    public List<ParticipationResultModel> Results
-        => this.Children
-            .Cast<ParticipationResultControl>()
-            .Select(x => x.Participation)
-            .ToList();
 }
