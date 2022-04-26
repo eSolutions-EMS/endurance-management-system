@@ -8,11 +8,11 @@ using System.Windows.Xps.Packaging;
 
 namespace EnduranceJudge.Gateways.Desktop.Services;
 
-public class Printer : IPrinter
+public class SimplePrinter : ISimplePrinter
 {
     private readonly IFileService fileService;
 
-    public Printer(IFileService fileService)
+    public SimplePrinter(IFileService fileService)
     {
         this.fileService = fileService;
     }
@@ -47,7 +47,7 @@ public class Printer : IPrinter
     }
 }
 
-public interface IPrinter : ITransientService
+public interface ISimplePrinter : ITransientService
 {
     void Print(Visual visual);
 }

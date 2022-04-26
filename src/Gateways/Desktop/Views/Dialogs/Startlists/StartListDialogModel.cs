@@ -16,12 +16,12 @@ public class StartlistDialogModel : DialogBase
     private readonly IExecutor<ManagerRoot> contestExecutor;
     private readonly IInputHandler input;
 
-    public StartlistDialogModel(IExecutor<ManagerRoot> contestExecutor, IPrinter printer, IInputHandler input)
+    public StartlistDialogModel(IExecutor<ManagerRoot> contestExecutor, ISimplePrinter simplePrinter, IInputHandler input)
     {
         this.contestExecutor = contestExecutor;
         this.input = input;
         this.GetList = new DelegateCommand(this.RenderList);
-        this.Print = new DelegateCommand<Visual>(printer.Print);
+        this.Print = new DelegateCommand<Visual>(simplePrinter.Print);
     }
 
     public ObservableCollection<StartTemplateModel> List { get; } = new();

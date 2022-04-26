@@ -21,7 +21,7 @@ public class RankingViewModel : ViewModelBase
     private CompetitionResultAggregate selectedCompetition;
     private List<CompetitionResultAggregate> competitions;
 
-    public RankingViewModel(IPrinter printer, IExecutor<RankingRoot> rankingExecutor, IExecutor basicExecutor)
+    public RankingViewModel(ISimplePrinter simplePrinter, IExecutor<RankingRoot> rankingExecutor, IExecutor basicExecutor)
     {
         this.rankingExecutor = rankingExecutor;
         this.basicExecutor = basicExecutor;
