@@ -16,8 +16,9 @@ public class ParticipationResultModel : ParticipationGridModel
     public ParticipationResultModel(int rank, Participation participation) : base(participation)
     {
         this.Rank = rank;
-        this.HorseGenderString = participation.Participant.Horse.IsStallion ? STALLION : MARE;
+        this.HorseGenderString = participation.Participant.Horse.IsStallion ? STALLION : MARE; // TODO: move in domain
 
+        // TODO: move in domain
         var (averageSpeed, time) = this.CalculateTotalValues(participation);
         this.TotalAverageSpeed = ValueSerializer.FormatDouble(averageSpeed);
         this.TotalTime = ValueSerializer.FormatSpan(time);

@@ -1,10 +1,13 @@
-﻿using EnduranceJudge.Gateways.Desktop.Controls.Ranking;
-using System.Windows;
+﻿using System.Windows;
 
 namespace EnduranceJudge.Gateways.Desktop.Controls.Ranking;
 
 public partial class ParticipationResultControl
 {
+    public ParticipationResultControl(ParticipationResultModel participation) : this()
+    {
+        this.Populate(participation);
+    }
     public ParticipationResultControl()
     {
         InitializeComponent();

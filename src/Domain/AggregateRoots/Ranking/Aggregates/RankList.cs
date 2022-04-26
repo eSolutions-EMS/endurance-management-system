@@ -9,10 +9,9 @@ using System.Linq;
 
 namespace EnduranceJudge.Domain.AggregateRoots.Ranking.Aggregates;
 
-public class RankList : IAggregate, IEnumerable<Participation>
+// TODO: Rename to Ranklist
+public class RankList : List<Participation>, IAggregate
 {
-    private readonly IEnumerable<Participation> participants;
-
     internal RankList(Category category, IEnumerable<Participation> participations)
     {
         if (category == default)
@@ -21,7 +20,8 @@ public class RankList : IAggregate, IEnumerable<Participation>
         }
 
         this.Category = category;
-        this.participants = this.Rank(category, participations);
+        var ranklist = this.Rank(category, participations);
+        this.AddRange(ranklist);
     }
 
     public Category Category { get; }
@@ -74,8 +74,4 @@ public class RankList : IAggregate, IEnumerable<Participation>
         var recovery = inspection - arrival;
         return recovery.Value;
     }
-
-
-    public IEnumerator<Participation> GetEnumerator() => this.participants.GetEnumerator();
-    IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 }
