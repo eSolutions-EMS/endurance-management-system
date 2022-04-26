@@ -14,16 +14,16 @@
         <Setter Property="Background" Value="DimGray" />
     </Style>
 
-    <Style x:Key="Padding" TargetType="Border">
-        <Setter Property="Padding" Value="10px" />
+    <Style x:Key="Border-Padding" TargetType="Border">
+        <Setter Property="Padding" Value="5px" />
         <Setter Property="BorderThickness" Value="0" />
     </Style>
 
-    <Style x:Key="Padding-Thick" TargetType="Border" BasedOn="{StaticResource Padding}">
+    <Style x:Key="Padding-Thick" TargetType="Border" BasedOn="{StaticResource Border-Padding}">
         <Setter Property="Padding" Value="20px" />
     </Style>
 
-    <Style x:Key="Border-Vertical" TargetType="Border" BasedOn="{StaticResource Padding}">
+    <Style x:Key="Border-Vertical" TargetType="Border" BasedOn="{StaticResource Border-Padding}">
         <Setter Property="Padding" Value="0 5px" />
     </Style>
 
@@ -40,15 +40,15 @@
     <Style x:Key="Border-Content-Right" TargetType="Border" BasedOn="{StaticResource Border}">
     </Style>
 
-    <Style x:Key="Border-Horizontal" TargetType="Border" BasedOn="{StaticResource Padding}">
+    <Style x:Key="Border-Horizontal" TargetType="Border" BasedOn="{StaticResource Border-Padding}">
         <Setter Property="Padding" Value="5px 0" />
     </Style>
 
-    <Style x:Key="Wrapper-Form-Buttons" TargetType="Border" BasedOn="{StaticResource Padding}">
+    <Style x:Key="Wrapper-Form-Buttons" TargetType="Border" BasedOn="{StaticResource Border-Padding}">
         <Setter Property="Padding" Value="0 20px 0 0" />
     </Style>
 
-    <Style x:Key="Border-Layout-Header" TargetType="Border" BasedOn="{StaticResource Padding}">
+    <Style x:Key="Border-Layout-Header" TargetType="Border" BasedOn="{StaticResource Border-Padding}">
         <Setter Property="Background" Value="#ffe9c2" />
         <Setter Property="BorderThickness" Value="0 0 0 3px" />
         <Setter Property="BorderBrush" Value="DimGray" />
@@ -58,7 +58,7 @@
         <Setter Property="Padding" Value="0 60px 0 0" />
     </Style>
 
-    <Style x:Key="Wrapper-Error" TargetType="Border" BasedOn="{StaticResource Padding}">
+    <Style x:Key="Wrapper-Error" TargetType="Border" BasedOn="{StaticResource Border-Padding}">
         <Setter Property="Background" Value="DarkRed" />
         <Setter Property="MinWidth" Value="300px" />
         <Setter Property="MinHeight" Value="150px" />

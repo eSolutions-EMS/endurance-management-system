@@ -35,15 +35,12 @@ public partial class ParticipationResultControl
 
     private void Populate(ParticipationResultModel participation)
     {
-        this.ParticipantNumber.Text = participation.Participant.Number.ToString();
-        this.AthleteName.Text = participation.Participant.Athlete.Name;
-        this.AthleteCountryName.Text = participation.Participant.Athlete.FeiId;
-        this.AthleteFeiId.Text = participation.Participant.Athlete.Country.Name;
-        this.HorseName.Text = participation.Participant.Horse.Name;
-        this.HorseFeiId.Text = participation.Participant.Horse.FeiId;
-        this.TrainerFeiId.Text = participation.Participant.Horse.Breed;
-        this.TrainerName.Text = participation.Participant.Horse.TrainerFeiId;
-        this.HorseGenderString.Text = participation.HorseGenderString;
+        this.NumberText.Text = participation.Participant.Number.ToString();
+        this.AthleteNameText.Text = participation.Participant.Athlete.Name;
+        this.AthleteFeiIdText.Text = participation.Participant.Athlete.FeiId;
+        this.CountryText.Text = participation.Participant.Athlete.Country.Name;
+        this.HorseNameText.Text = participation.Participant.Horse.Name;
+        this.HorseFeiIdText.Text = participation.Participant.Horse.FeiId;
         this.RankText.Text = participation.Rank.ToString();
         this.TotalTime.Text = participation.TotalTime;
         this.TotalAverageSpeedString.Text = participation.TotalAverageSpeed;

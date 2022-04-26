@@ -5,51 +5,54 @@
         xmlns:localization="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization"
         Style="{StaticResource List-Vertical}">
 
-    <!-- Participant data -->
     <StackPanel Style="{StaticResource List-Horizontal}">
-        <!-- Rank -->
-        <Border Style="{StaticResource Border-Left}">
-            <TextBlock Style="{StaticResource Text-H2}"
-                       Name="RankText" />
-        </Border>
-        <!-- Athlete / Horse -->
-        <Border Style="{StaticResource Border-Horizontal}" Width="300px">
+        <!-- Participant -->
+        <Border Style="{StaticResource Border-Cell}" Width="150px">
             <StackPanel Style="{StaticResource List-Vertical}">
-                <!-- Athlete -->
-                <TextBlock Style="{StaticResource Text-Bold}">
-                    <Run Name="ParticipantNumber" />
-                    <Run Text="/" />
-                    <Run Name="AthleteName" />
-                    <Run Style="{StaticResource Run}"
-                         Name="AthleteFeiId" />
-                </TextBlock>
-                <!-- Horse -->
-                <TextBlock Style="{StaticResource Text}">
-                    <Run Name="HorseName" Style="{StaticResource Run-Bold}"/>
-                    <Run Text=" / " />
-                    <Run Name="HorseFeiId" />
-                    <Run Text=" / " />
-                    <Run Name="HorseGenderString" />
-                </TextBlock>
-                <!-- Trainer -->
-                <TextBlock Style="{StaticResource Text-Small}">
-                    <Run Text="Trainer : " />
-                    <Run Name="TrainerFeiId" />
-                    <Run Text=" " />
-                    <Run Name="TrainerName" />
-                </TextBlock>
+                <!-- Rank & Number -->
+                <DockPanel Style="{StaticResource Dock-Horizontal}" LastChildFill="False">
+                    <Border Style="{StaticResource Border-Table-Cell}"
+                            DockPanel.Dock="Left">
+                        <TextBlock Style="{StaticResource Text-Bold}"
+                                   Name="RankText" />
+                    </Border>
+                    <Border Style="{StaticResource Border-Table-Cell}"
+                            DockPanel.Dock="Right">
+                        <TextBlock Style="{StaticResource Text}"
+                                   Name="NumberText" />
+                    </Border>
+                </DockPanel>
+                <!-- Athlete Name -->
+                <Border Style="{StaticResource Border-Padding}" HorizontalAlignment="Center">
+                    <TextBlock Style="{StaticResource Text-Small}"
+                               Name="AthleteNameText" />
+                </Border>
+                <!-- Athlete FEI ID -->
+                <Border Style="{StaticResource Border-Padding}" HorizontalAlignment="Right">
+                    <TextBlock Style="{StaticResource Text-Small}"
+                               Name="AthleteFeiIdText" />
+                </Border>
+                <!-- Horse Name -->
+                <Border Style="{StaticResource Border-Padding}">
+                    <TextBlock Style="{StaticResource Text-Small}"
+                               Name="HorseNameText" />
+                </Border>
+                <!-- Horse FEI ID -->
+                <Border Style="{StaticResource Border-Padding}" HorizontalAlignment="Right">
+                    <TextBlock Style="{StaticResource Text-Small}"
+                               Name="HorseFeiIdText" />
+                </Border>
+                <!-- Country -->
+                <Border Style="{StaticResource Border-Padding}">
+                    <TextBlock Style="{StaticResource Text-Small}"
+                               Name="CountryText" />
+                </Border>
             </StackPanel>
         </Border>
-        <!-- Country -->
-        <Border Style="{StaticResource Border-Right}">
-            <TextBlock Style="{StaticResource Text-H2}"
-                       Name="AthleteCountryName" />
-        </Border>
-    </StackPanel>
-
-    <!-- Columns  -->
-    <StackPanel Style="{StaticResource List-Horizontal}">
-        <!-- First column -->
+        <!-- Participation Grid-->
+        <local:ParticipationGridControl x:Name="ParticipationGrid"
+                                        IsReadonly="True" />
+        <!-- Totals -->
         <Border Style="{StaticResource Border-Cell}">
             <StackPanel Style="{StaticResource List-Vertical}">
                 <!-- Total header -->
@@ -84,7 +87,5 @@
                 </Border>
             </StackPanel>
         </Border>
-        <!-- Participation Grid-->
-        <local:ParticipationGridControl x:Name="ParticipationGrid" />
     </StackPanel>
 </StackPanel>
