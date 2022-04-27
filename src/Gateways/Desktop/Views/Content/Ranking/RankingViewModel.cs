@@ -4,7 +4,7 @@ using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem;
 using EnduranceJudge.Gateways.Desktop.Services;
 using EnduranceJudge.Gateways.Desktop.Print.Performances;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Ranking.ParticipantResults;
+using EnduranceJudge.Gateways.Desktop.Controls.Ranking;
 using Prism.Commands;
 using Prism.Regions;
 using System.Collections.Generic;
@@ -21,28 +21,26 @@ public class RankingViewModel : ViewModelBase
     private CompetitionResultAggregate selectedCompetition;
     private List<CompetitionResultAggregate> competitions;
 
-    public RankingViewModel(IPrinter printer, IExecutor<RankingRoot> rankingExecutor, IExecutor basicExecutor)
+    public RankingViewModel(IExecutor<RankingRoot> rankingExecutor, IExecutor basicExecutor)
     {
         this.rankingExecutor = rankingExecutor;
         this.basicExecutor = basicExecutor;
-        this.Print = new DelegateCommand(this.PrintAction);
+        this.Print = new DelegateCommand<RanklistControl>(this.PrintAction);
         this.SelectKidsCategory = new DelegateCommand(this.SelectKidsCategoryAction);
         this.SelectAdultsCategory = new DelegateCommand(this.SelectAdultsCategoryAction);
         this.SelectCompetition = new DelegateCommand<int?>(x => this.SelectCompetitionAction(x!.Value));
     }
 
     public DelegateCommand<int?> SelectCompetition { get; }
-    public DelegateCommand Print { get; }
+    public DelegateCommand<RanklistControl> Print { get; }
     public DelegateCommand SelectKidsCategory { get; }
     public DelegateCommand SelectAdultsCategory { get; }
-
-    public ObservableCollection<ParticipationResultTemplateModel> RankList { get; } = new();
     public ObservableCollection<ListItemViewModel> Competitions { get; } = new();
     private string totalLengthInKm;
     private string categoryName;
     private bool hasKidsClassification;
     private bool hasAdultsClassification;
-
+    private RankList ranklist;
 
     public override void OnNavigatedTo(NavigationContext context)
     {
@@ -68,7 +66,8 @@ public class RankingViewModel : ViewModelBase
         this.selectedCompetition = competition;
         this.HasAdultsClassification = competition.AdultsRankList != null;
         this.HasKidsClassification = competition.KidsRankList != null;
-        this.SelectDefault(); // TODO: rename to select category.
+
+        this.SelectCategory(competition.DefaultRanklist);
     }
 
     private ListItemViewModel ToListItem(CompetitionResultAggregate resultAggregate)
@@ -80,40 +79,27 @@ public class RankingViewModel : ViewModelBase
 
     private void SelectKidsCategoryAction()
     {
-        this.Select(this.selectedCompetition.KidsRankList);
+        this.SelectCategory(this.selectedCompetition.KidsRankList);
     }
     private void SelectAdultsCategoryAction()
     {
-        this.Select(this.selectedCompetition.AdultsRankList);
+        this.SelectCategory(this.selectedCompetition.AdultsRankList);
     }
-    private void PrintAction()
+    private void PrintAction(RanklistControl control)
     {
         this.basicExecutor.Execute(() =>
         {
-            var printer = new RanklistPrinter(this.selectedCompetition.Name, this.RankList);
+            var printer = new RanklistPrinter(this.selectedCompetition.Name, control.Ranklist);
             printer.PreviewDocument();
         });
     }
-    private void SelectDefault()
+    private void SelectCategory(RankList rankList)
     {
-        var rankList = this.selectedCompetition.AdultsRankList
-            ?? this.selectedCompetition.KidsRankList;
-        this.Select(rankList);
-    }
-    private void Select(RankList rankList)
-    {
-        this.RankList.Clear();
-        var rank = 1;
-        foreach (var participation in rankList)
-        {
-            var entry = new ParticipationResultTemplateModel(rank, participation);
-            this.RankList.Add(entry);
-            rank++;
-        }
+        this.Ranklist = rankList;
         this.CategoryName = rankList.Category.ToString();
     }
 
-    #region Setters
+#region Setters
     public string TotalLengthInKm
     {
         get => this.totalLengthInKm;
@@ -134,5 +120,10 @@ public class RankingViewModel : ViewModelBase
         get => this.hasAdultsClassification;
         set => this.SetProperty(ref this.hasAdultsClassification, value);
     }
-    #endregion
+    public RankList Ranklist
+    {
+        get => this.ranklist;
+        private set => this.SetProperty(ref this.ranklist, value);
+    }
+#endregion
 }

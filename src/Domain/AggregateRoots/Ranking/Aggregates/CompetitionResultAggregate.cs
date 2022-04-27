@@ -58,4 +58,5 @@ public class CompetitionResultAggregate : IAggregate, ICompetitionData
     public double CompetitionLengthInKm { get; }
     public RankList KidsRankList { get; }
     public RankList AdultsRankList { get; }
+    public RankList DefaultRanklist => this.AdultsRankList ?? this.KidsRankList;
 }

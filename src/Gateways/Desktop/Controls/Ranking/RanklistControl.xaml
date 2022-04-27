@@ -1,0 +1,6 @@
+﻿<StackPanel x:Class="EnduranceJudge.Gateways.Desktop.Controls.Ranking.RanklistControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             Style="{StaticResource List-Vertical}">
+
+</StackPanel>

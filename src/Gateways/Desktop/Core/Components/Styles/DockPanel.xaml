@@ -21,8 +21,4 @@
         <Setter Property="HorizontalAlignment" Value="Center" />
     </Style>
 
-    <Style x:Key="Dock-Vertical" TargetType="DockPanel">
-        <Setter Property="HorizontalAlignment" Value="Left" />
-    </Style>
-
 </ResourceDictionary>

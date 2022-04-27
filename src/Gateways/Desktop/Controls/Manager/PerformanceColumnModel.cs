@@ -9,12 +9,12 @@ using System;
 using System.Windows;
 using static EnduranceJudge.Localization.Strings;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Common.Performances;
+namespace EnduranceJudge.Gateways.Desktop.Controls.Manager;
 
-public class PerformanceTemplateModel : ViewModelBase, ILapRecordState
+public class PerformanceColumnModel : ViewModelBase, ILapRecordState
 {
     private readonly IExecutor<ManagerRoot> managerExecutor;
-    public PerformanceTemplateModel(Performance performance)
+    public PerformanceColumnModel(Performance performance)
     {
         this.EditVisibility = Visibility.Visible;
         this.managerExecutor = StaticProvider.GetService<IExecutor<ManagerRoot>>();
@@ -39,8 +39,8 @@ public class PerformanceTemplateModel : ViewModelBase, ILapRecordState
     private string recoverySpanString;
     private string timeString;
     public string nextStartTimeString;
-    private string averageSpeedForLoopKpHString;
-    private string averageSpeedTotalKpHString;
+    private string averageSpeed;
+    private string averageSpeedTotal;
 
     public void EditAction()
     {
@@ -156,19 +156,21 @@ public class PerformanceTemplateModel : ViewModelBase, ILapRecordState
     }
     public string AverageSpeedString
     {
-        get => this.averageSpeedForLoopKpHString;
-        private set => this.SetProperty(ref this.averageSpeedForLoopKpHString, value);
+        get => this.averageSpeed;
+        private set => this.SetProperty(ref this.averageSpeed, AddKmSuffix(value));
     }
     public string AverageSpeedTotalString
     {
-        get => this.averageSpeedTotalKpHString;
-        private set => this.SetProperty(ref this.averageSpeedTotalKpHString, value);
+        get => this.averageSpeedTotal;
+        private set => this.SetProperty(ref this.averageSpeedTotal, AddKmSuffix(value));
     }
     public string NextStartTimeString
     {
         get => this.nextStartTimeString;
         private set => this.SetProperty(ref this.nextStartTimeString, value);
     }
+
+    private static string AddKmSuffix(string value) => $"{value} {KM_PER_HOUR}";
 
 #endregion Setters;
 }

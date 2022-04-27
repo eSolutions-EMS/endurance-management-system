@@ -1,12 +1,11 @@
 ﻿using EnduranceJudge.Application.Aggregates.Configurations.Contracts;
-using EnduranceJudge.Domain.AggregateRoots.Common.Performances;
 using EnduranceJudge.Domain.AggregateRoots.Manager;
 using EnduranceJudge.Domain.State.Participations;
 using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Core.Services;
 using EnduranceJudge.Gateways.Desktop.Events;
 using EnduranceJudge.Gateways.Desktop.Services;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Common.Participations;
+using EnduranceJudge.Gateways.Desktop.Controls.Manager;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Regions;
@@ -20,19 +19,16 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager;
 public class ManagerViewModel : ViewModelBase
 {
     private static readonly DateTime Today = DateTime.Today;
-    private readonly IExecutor executor;
     private readonly IEventAggregator eventAggregator;
     private readonly IExecutor<ManagerRoot> managerExecutor;
     private readonly IQueries<Participation> participations;
 
     public ManagerViewModel(
-        IExecutor executor,
         IEventAggregator eventAggregator,
         IPopupService popupService,
         IExecutor<ManagerRoot> managerExecutor,
         IQueries<Participation> participations)
     {
-        this.executor = executor;
         this.eventAggregator = eventAggregator;
         this.managerExecutor = managerExecutor;
         this.participations = participations;
@@ -47,7 +43,7 @@ public class ManagerViewModel : ViewModelBase
             var participation = list.FirstOrDefault();
             if (participation != null)
             {
-                this.SelectBy(participation as ParticipationTemplateModel);
+                this.SelectBy(participation as ParticipationGridModel);
             }
         });
     }
@@ -69,8 +65,8 @@ public class ManagerViewModel : ViewModelBase
     private bool requireInspectionValue = false;
     private bool reInspectionValue = false;
 
-    public ObservableCollection<ParticipationTemplateModel> Participations { get; } = new();
-    public ParticipationTemplateModel SelectedParticipation { get; set; }
+    public ObservableCollection<ParticipationGridModel> Participations { get; } = new();
+    public ParticipationGridModel SelectedParticipation { get; set; }
 
     public override void OnNavigatedTo(NavigationContext context)
     {
@@ -147,6 +143,7 @@ public class ManagerViewModel : ViewModelBase
             manager.RequireInspection(number, this.RequireInspectionValue);
             this.ReloadParticipations();
         });
+        // TODO: fix selection when participant not found.
         this.SelectBy(number);
     }
 
@@ -157,7 +154,7 @@ public class ManagerViewModel : ViewModelBase
         this.eventAggregator.GetEvent<SelectTabEvent>().Publish(participation);
     }
 
-    private void SelectBy(ParticipationTemplateModel participation)
+    private void SelectBy(ParticipationGridModel participation)
     {
         this.SelectedParticipation = participation;
         var performance = this.SelectedParticipation.Performances.LastOrDefault();
@@ -179,7 +176,7 @@ public class ManagerViewModel : ViewModelBase
         {
             foreach (var participation in participations)
             {
-                var viewModel = new ParticipationTemplateModel(participation, this.executor);
+                var viewModel = new ParticipationGridModel(participation);
                 this.Participations.Add(viewModel);
             }
             this.SelectBy(this.Participations.First());

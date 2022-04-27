@@ -3,9 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:localization="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization"
-             xmlns:manager="clr-namespace:EnduranceJudge.Gateways.Desktop.Views.Content.Manager"
              prism:ViewModelLocator.AutoWireViewModel="True"
-             xmlns:i="http://schemas.microsoft.com/xaml/behaviors">
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:controls="clr-namespace:EnduranceJudge.Gateways.Desktop.Controls.Manager">
 
     <ScrollViewer Style="{StaticResource Scroll}"
                   PreviewMouseWheel="HandleScroll">
@@ -131,6 +131,13 @@
                                            Text="{Binding Number}" Foreground="{Binding Color}" />
                             </DataTemplate>
                         </TabControl.ItemTemplate>
+                        <TabControl.ContentTemplate>
+                            <DataTemplate>
+                                <StackPanel Style="{StaticResource List-Vertical}">
+                                    <controls:ParticipationGridControl Participation="{Binding}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </TabControl.ContentTemplate>
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="SelectionChanged">
                                 <prism:InvokeCommandAction Command="{Binding Select}"

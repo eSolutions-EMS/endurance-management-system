@@ -3,8 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"
              xmlns:localization="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization"
-             xmlns:listItem="clr-namespace:EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem"
-             xmlns:manager="clr-namespace:EnduranceJudge.Gateways.Desktop.Views.Content.Manager"
+             xmlns:ranking="clr-namespace:EnduranceJudge.Gateways.Desktop.Controls.Ranking"
              prism:ViewModelLocator.AutoWireViewModel="True">
 
     <ScrollViewer Style="{StaticResource Scroll}"
@@ -33,9 +32,8 @@
             <!-- Content Center Ranklist -->
             <Border Style="{StaticResource Border-Content-Center}"
                     Grid.Row="1" Grid.Column="1">
-                <ListBox Style="{StaticResource ListBox-Vertical}"
-                         ItemsSource="{Binding RankList}"
-                         Name="RankList"/>
+                <ranking:RanklistControl Ranklist="{Binding Ranklist, Mode=OneWay}"
+                                         x:Name="RanklistElement"/>
             </Border>
             <!-- Content Right Controls  -->
             <Border Style="{StaticResource Border-Content-Right}"
@@ -57,6 +55,7 @@
                     <!-- Print Button -->
                     <Button Style="{StaticResource Button-Big-Vertical}" Margin="0 50px"
                             Command="{Binding Print}"
+                            CommandParameter="{Binding ElementName=RanklistElement}"
                             Content="{x:Static localization:Strings.PRINT}" />
                 </StackPanel>
             </Border>
