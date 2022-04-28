@@ -33,15 +33,17 @@ public class RankList : List<Participation>, IAggregate
         return ranked;
     }
 
-    private IEnumerable<Participation> RankKids(IEnumerable<Participation> kids)
-        => kids
+    private IEnumerable<Participation> RankKids(IEnumerable<Participation> participations)
+        => participations
+            .Where(x => x.Participant.Athlete.Category == Category.Kids)
             .Select(this.CalculateTotalRecovery)
             .OrderByDescending(tuple => tuple.Item1)
             .Select(tuple => tuple.Item2)
             .ToList();
 
-    private IEnumerable<Participation> RankAdults(IEnumerable<Participation> adults)
-        => adults
+    private IEnumerable<Participation> RankAdults(IEnumerable<Participation> participations)
+        => participations
+            .Where(x => x.Participant.Athlete.Category == Category.Adults)
             .OrderByDescending(participation => participation.Participant
                 .LapRecords
                 .All(performance => performance.Result?.IsDisqualified ?? false))

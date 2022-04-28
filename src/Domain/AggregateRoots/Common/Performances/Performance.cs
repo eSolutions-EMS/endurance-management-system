@@ -106,7 +106,6 @@ public class Performance : IAggregate, IPerformance
     public Lap Lap => this.laps[this.Index];
     private LapRecord CurrentRecord => this.timeRecords[this.Index];
     private IEnumerable<Lap> TotalLaps => this.laps.Take(this.Index + 1);
-    private IEnumerable<LapRecord> TotalRecords => this.timeRecords.Take(this.Index + 1);
 
     public static DateTime CalculateStartTime(LapRecord record, Lap lap)
     {
