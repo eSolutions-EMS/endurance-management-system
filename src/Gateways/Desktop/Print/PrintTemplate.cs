@@ -20,44 +20,23 @@ public abstract class PrintTemplate : PrintProcessor
 {
     private readonly string title;
     private readonly IFileService file;
-    private readonly UIElement header;
-    private readonly UIElement footer;
 
     protected PrintTemplate(string title)
     {
         this.title = title;
         this.file = StaticProvider.GetService<IFileService>();
         this.State = StaticProvider.GetService<IState>();
-
-        this.header = this.PrepareHeader();
-        // this.footer = this.PrepareFooter();
     }
 
     protected IState State { get; }
-    protected int HeaderOffset { get; set; } = 10;
-    protected SolidColorBrush BorderBrush { get; set; } = Brushes.DimGray;
-    protected List<IPrintContent> PrintItems { get; set; } = new();
+    protected int HeaderOffset => 10;
+    protected SolidColorBrush BorderBrush { get; } = Brushes.DimGray;
+    protected List<IPrintContent> PrintItems { get; } = new();
 
     public override UIElement GetHeader()
-        => this.header;
-
-    public override UIElement GetTable(out double reserveHeightOf, out Brush borderBrush)
-    {
-        reserveHeightOf = this.HeaderOffset;
-        borderBrush = this.BorderBrush;
-        return new Border();
-    }
-    //
-    // public override UIElement GetFooter()
-    //     => this.footer;
-
-    public override IEnumerable<IPrintContent> ItemCollection()
-        => this.PrintItems;
-
-    private UIElement PrepareHeader()
     {
         var xaml = this.file.Read("Views/Templates/Print/PrintHeader.xaml");
-        var control = (UserControl)XamlServices.Parse(xaml);
+        var control = (StackPanel)XamlServices.Parse(xaml);
         var eventNameBlock = (TextBlock)control.FindName("EventName")!;
         var populatedPlaceBlock = (Run)control.FindName("PopulatedPlace")!;
         var countryBlock = (Run)control.FindName("CountryName")!;
@@ -79,6 +58,16 @@ public abstract class PrintTemplate : PrintProcessor
 
         return control;
     }
+
+    public override UIElement GetTable(out double reserveHeightOf, out Brush borderBrush)
+    {
+        reserveHeightOf = this.HeaderOffset;
+        borderBrush = this.BorderBrush;
+        return new Border();
+    }
+
+    public override IEnumerable<IPrintContent> ItemCollection()
+        => this.PrintItems;
 
     private UIElement PrepareFooter()
     {
@@ -103,7 +92,6 @@ public abstract class PrintTemplate : PrintProcessor
 
     protected override void PreparePrint()
     {
-        // PrintDefinition.SetPrintAttribute(new PrintOnAllPagesAttribute(PrintAppendixes.Footer));
         PrintDefinition.SetPrintAttribute(new PrintOnAllPagesAttribute(PrintAppendixes.Header));
     }
 }
