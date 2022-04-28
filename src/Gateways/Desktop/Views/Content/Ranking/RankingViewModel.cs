@@ -40,7 +40,7 @@ public class RankingViewModel : ViewModelBase
     private string categoryName;
     private bool hasKidsClassification;
     private bool hasAdultsClassification;
-    private RankList ranklist;
+    private RanklistAggregate ranklist;
 
     public override void OnNavigatedTo(NavigationContext context)
     {
@@ -64,8 +64,8 @@ public class RankingViewModel : ViewModelBase
         // TODO: Select competition only if Event has started
         var competition = this.rankingExecutor.Execute(ranking => ranking.GetCompetition(competitionId));
         this.selectedCompetition = competition;
-        this.HasAdultsClassification = competition.AdultsRankList != null;
-        this.HasKidsClassification = competition.KidsRankList != null;
+        this.HasAdultsClassification = competition.AdultsRanklist != null;
+        this.HasKidsClassification = competition.KidsRanklist != null;
 
         this.SelectCategory(competition.DefaultRanklist);
     }
@@ -79,11 +79,11 @@ public class RankingViewModel : ViewModelBase
 
     private void SelectKidsCategoryAction()
     {
-        this.SelectCategory(this.selectedCompetition.KidsRankList);
+        this.SelectCategory(this.selectedCompetition.KidsRanklist);
     }
     private void SelectAdultsCategoryAction()
     {
-        this.SelectCategory(this.selectedCompetition.AdultsRankList);
+        this.SelectCategory(this.selectedCompetition.AdultsRanklist);
     }
     private void PrintAction(RanklistControl control)
     {
@@ -93,7 +93,7 @@ public class RankingViewModel : ViewModelBase
             printer.PreviewDocument();
         });
     }
-    private void SelectCategory(RankList rankList)
+    private void SelectCategory(RanklistAggregate rankList)
     {
         this.Ranklist = rankList;
         this.CategoryName = rankList.Category.ToString();
@@ -120,7 +120,7 @@ public class RankingViewModel : ViewModelBase
         get => this.hasAdultsClassification;
         set => this.SetProperty(ref this.hasAdultsClassification, value);
     }
-    public RankList Ranklist
+    public RanklistAggregate Ranklist
     {
         get => this.ranklist;
         private set => this.SetProperty(ref this.ranklist, value);

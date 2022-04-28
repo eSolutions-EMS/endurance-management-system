@@ -7,7 +7,7 @@ namespace EnduranceJudge.Gateways.Desktop.Print.Performances;
 
 public class RanklistPrinter : PrintTemplate
 {
-    public RanklistPrinter(string competitionName, RankList rankList)
+    public RanklistPrinter(string competitionName, RanklistAggregate rankList)
         : base(competitionName)
     {
         var controls = RanklistControl.CreateResultControls(rankList);

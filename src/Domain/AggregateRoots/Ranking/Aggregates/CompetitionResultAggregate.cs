@@ -31,15 +31,15 @@ public class CompetitionResultAggregate : IAggregate, ICompetitionData
         this.DateNow = DateTime.Now;
         this.Organizer = "BFKS";
 
-        var kidsRankList = new RankList(Category.Kids, participations);
-        var adultsRankList = new RankList(Category.Adults, participations);
+        var kidsRankList = new RanklistAggregate(Category.Kids, participations);
+        var adultsRankList = new RanklistAggregate(Category.Adults, participations);
         if (kidsRankList.Any())
         {
-            this.KidsRankList = kidsRankList;
+            this.KidsRanklist = kidsRankList;
         }
         if (adultsRankList.Any())
         {
-            this.AdultsRankList = adultsRankList;
+            this.AdultsRanklist = adultsRankList;
         }
     }
 
@@ -56,7 +56,7 @@ public class CompetitionResultAggregate : IAggregate, ICompetitionData
     public string Name { get; }
     public DateTime CompetitionDate { get; }
     public double CompetitionLengthInKm { get; }
-    public RankList KidsRankList { get; }
-    public RankList AdultsRankList { get; }
-    public RankList DefaultRanklist => this.AdultsRankList ?? this.KidsRankList;
+    public RanklistAggregate KidsRanklist { get; }
+    public RanklistAggregate AdultsRanklist { get; }
+    public RanklistAggregate DefaultRanklist => this.AdultsRanklist ?? this.KidsRanklist;
 }

@@ -9,9 +9,9 @@ using System.Linq;
 namespace EnduranceJudge.Domain.AggregateRoots.Ranking.Aggregates;
 
 // TODO: Rename to Ranklist
-public class RankList : List<Participation>, IAggregate
+public class RanklistAggregate : List<Participation>, IAggregate
 {
-    internal RankList(Category category, IEnumerable<Participation> participations)
+    internal RanklistAggregate(Category category, IEnumerable<Participation> participations)
     {
         if (category == default)
         {
