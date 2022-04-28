@@ -1,4 +1,6 @@
 ﻿using EnduranceJudge.Domain.Core.Models;
+using EnduranceJudge.Domain.Enums;
+using EnduranceJudge.Domain.State.Competitions;
 using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Domain.State.Laps;
 using EnduranceJudge.Domain.State.LapRecords;
@@ -15,10 +17,12 @@ public class Performance : IAggregate, IPerformance
 
     private readonly List<Lap> laps;
     private readonly List<LapRecord> timeRecords;
+    private readonly Competition competitionConstraint;
 
     public Performance(Participation participation, int index)
     {
         this.Participant = participation.Participant;
+        this.competitionConstraint = participation.CompetitionConstraint;
         this.timeRecords = this.Participant.LapRecords.ToList();
         this.Index = index;
         this.laps = participation.CompetitionConstraint.Laps.ToList();
@@ -82,7 +86,7 @@ public class Performance : IAggregate, IPerformance
         => this.CurrentRecord.VetGateTime?.AddMinutes(this.CurrentRecord.Lap.RestTimeInMins);
 
     private TimeSpan? CalculateLapTime(LapRecord record, Lap lap)
-        => lap.IsFinal
+        => this.competitionConstraint.Type == CompetitionType.National || lap.IsFinal
             ? record.ArrivalTime - record.StartTime
             : record.VetGateTime - record.StartTime;
 
