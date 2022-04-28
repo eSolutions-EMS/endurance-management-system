@@ -7,7 +7,6 @@ using EnduranceJudge.Domain.State;
 using EnduranceJudge.Domain.State.Athletes;
 using static EnduranceJudge.Localization.Strings;
 
-
 namespace EnduranceJudge.Domain.AggregateRoots.Configuration.Aggregates;
 
 public class AthletesAggregate : IAggregate
@@ -41,9 +40,9 @@ public class AthletesAggregate : IAggregate
         {
             athlete.Category = athleteState.Category;
             athlete.Club = athleteState.Club;
-            athlete.FirstName = athlete.FirstName;
-            athlete.LastName = athlete.LastName;
-            athlete.FeiId = athlete.FeiId;
+            athlete.FirstName = athleteState.FirstName;
+            athlete.LastName = athleteState.LastName;
+            athlete.FeiId = athleteState.FeiId;
             if (athlete.Country?.Id != countryId)
             {
                 var country = this.state.Countries.FindDomain(countryId);
