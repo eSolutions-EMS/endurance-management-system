@@ -1,9 +1,6 @@
-﻿using System.Windows.Input;
+﻿namespace EnduranceJudge.Gateways.Desktop.Core;
 
-namespace EnduranceJudge.Gateways.Desktop.Core;
-
-public interface IView
+public interface IView : IScrollableVisual
 {
     string RegionName { get; }
-    void HandleScroll(object sender, MouseWheelEventArgs args);
 }
