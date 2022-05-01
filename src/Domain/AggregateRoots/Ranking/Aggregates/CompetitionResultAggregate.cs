@@ -11,10 +11,11 @@ namespace EnduranceJudge.Domain.AggregateRoots.Ranking.Aggregates;
 
 public class CompetitionResultAggregate : IAggregate, ICompetitionData
 {
+    private readonly List<Participation> participations;
     internal CompetitionResultAggregate(
         EnduranceEvent enduranceEvent,
         Competition competition,
-        IList<Participation> participations)
+        List<Participation> participations)
     {
         this.Id = competition.Id;
         this.CompetitionLengthInKm = competition.Laps.Aggregate(0d, (total, x) => total + x.LengthInKm);
@@ -30,17 +31,7 @@ public class CompetitionResultAggregate : IAggregate, ICompetitionData
         this.CompetitionDate = competition.StartTime;
         this.DateNow = DateTime.Now;
         this.Organizer = "BFKS";
-
-        var kidsRankList = new RanklistAggregate(Category.Kids, participations);
-        var adultsRankList = new RanklistAggregate(Category.Adults, participations);
-        if (kidsRankList.Any())
-        {
-            this.KidsRanklist = kidsRankList;
-        }
-        if (adultsRankList.Any())
-        {
-            this.AdultsRanklist = adultsRankList;
-        }
+        this.participations = participations;
     }
 
     public int Id { get; }
@@ -56,7 +47,7 @@ public class CompetitionResultAggregate : IAggregate, ICompetitionData
     public string Name { get; }
     public DateTime CompetitionDate { get; }
     public double CompetitionLengthInKm { get; }
-    public RanklistAggregate KidsRanklist { get; }
-    public RanklistAggregate AdultsRanklist { get; }
-    public RanklistAggregate DefaultRanklist => this.AdultsRanklist ?? this.KidsRanklist;
+
+    public RanklistAggregate Rank(Category category)
+        => new(category, this.participations);
 }

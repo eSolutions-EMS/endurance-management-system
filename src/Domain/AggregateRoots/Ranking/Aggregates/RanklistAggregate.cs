@@ -9,7 +9,6 @@ using System.Threading;
 
 namespace EnduranceJudge.Domain.AggregateRoots.Ranking.Aggregates;
 
-// TODO: Rename to Ranklist
 public class RanklistAggregate : List<Participation>, IAggregate
 {
     internal RanklistAggregate(Category category, IEnumerable<Participation> participations)
