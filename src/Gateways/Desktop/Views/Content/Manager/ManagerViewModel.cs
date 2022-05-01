@@ -34,7 +34,9 @@ public class ManagerViewModel : ViewModelBase
         this.participations = participations;
         this.Update = new DelegateCommand(this.UpdateAction);
         this.Start = new DelegateCommand(this.StartAction);
-        this.CompleteUnsuccessful = new DelegateCommand(this.CompleteUnsuccessfulAction);
+        this.Disqualify = new DelegateCommand(this.DisqualifyAction);
+        this.FailToQualify = new DelegateCommand(this.FailToQualifyAction);
+        this.Resign = new DelegateCommand(this.ResignAction);
         this.ReInspection = new DelegateCommand(this.ReInspectionAction);
         this.RequireInspection = new DelegateCommand(this.RequireInspectionAction);
         this.StartList = new DelegateCommand(popupService.RenderStartList);
@@ -51,7 +53,9 @@ public class ManagerViewModel : ViewModelBase
     public DelegateCommand<object[]> Select { get; }
     public DelegateCommand Start { get; }
     public DelegateCommand Update { get; }
-    public DelegateCommand CompleteUnsuccessful { get; }
+    public DelegateCommand Disqualify { get; }
+    public DelegateCommand FailToQualify { get; }
+    public DelegateCommand Resign { get; }
     public DelegateCommand ReInspection { get; }
     public DelegateCommand RequireInspection { get; }
     public DelegateCommand StartList { get; }
@@ -61,7 +65,7 @@ public class ManagerViewModel : ViewModelBase
     private int? inputHours;
     private int? inputMinutes;
     private int? inputSeconds;
-    private string deQualificationCode;
+    private string notQualifiedReason;
     private bool requireInspectionValue = false;
     private bool reInspectionValue = false;
 
@@ -90,48 +94,18 @@ public class ManagerViewModel : ViewModelBase
         });
     }
     private void UpdateAction()
-    {
-        if (!this.InputNumber.HasValue)
-        {
-            return;
-        }
-        var number = this.InputNumber.Value;
-        this.managerExecutor.Execute(manager =>
-        {
-            manager.UpdateRecord(number, this.InputTime);
-            this.ReloadParticipations();
-        });
-        this.SelectBy(number);
-    }
-    private void CompleteUnsuccessfulAction()
-    {
-        if (!this.InputNumber.HasValue)
-        {
-            return;
-        }
-        var number = this.InputNumber.Value;
-        this.managerExecutor.Execute(manager =>
-        {
-            manager.Disqualify(number, this.DeQualificationCode);
-            this.ReloadParticipations();
-        });
-        this.SelectBy(number);
-    }
-    private void ReInspectionAction() // TODO extract common
-    {
-        if (!this.InputNumber.HasValue)
-        {
-            return;
-        }
-        var number = this.InputNumber.Value;
-        this.managerExecutor.Execute(manager =>
-        {
-            manager.ReInspection(number, this.ReInspectionValue);
-            this.ReloadParticipations();
-        });
-        this.SelectBy(number);
-    }
+        => this.ExecuteAndRender((manager, number) => manager.UpdateRecord(number, this.InputTime));
+    private void DisqualifyAction()
+        => this.ExecuteAndRender((manager, number) => manager.Disqualify(number, this.NotQualifiedReason));
+    private void FailToQualifyAction()
+        => this.ExecuteAndRender((manager, number) => manager.FailToQualify(number, this.NotQualifiedReason));
+    private void ResignAction()
+        => this.ExecuteAndRender((manager, number) => manager.Resign(number, this.NotQualifiedReason));
+    private void ReInspectionAction()
+        => this.ExecuteAndRender((manager, number) => manager.ReInspection(number, this.ReInspectionValue));
     private void RequireInspectionAction()
+        => this.ExecuteAndRender((manager, number) => manager.RequireInspection(number, this.RequireInspectionValue));
+    private void ExecuteAndRender(Action<ManagerRoot, int> action)
     {
         if (!this.InputNumber.HasValue)
         {
@@ -140,18 +114,20 @@ public class ManagerViewModel : ViewModelBase
         var number = this.InputNumber.Value;
         this.managerExecutor.Execute(manager =>
         {
-            manager.RequireInspection(number, this.RequireInspectionValue);
+            action(manager, number);
             this.ReloadParticipations();
         });
-        // TODO: fix selection when participant not found.
         this.SelectBy(number);
     }
 
     private void SelectBy(int number)
     {
         var participation = this.Participations.FirstOrDefault(x => x.Number == number);
-        this.SelectBy(participation);
-        this.eventAggregator.GetEvent<SelectTabEvent>().Publish(participation);
+        if (participation != null)
+        {
+            this.SelectBy(participation);
+            this.eventAggregator.GetEvent<SelectTabEvent>().Publish(participation);
+        }
     }
 
     private void SelectBy(ParticipationGridModel participation)
@@ -162,7 +138,7 @@ public class ManagerViewModel : ViewModelBase
         {
             this.ReInspectionValue = performance.IsReInspectionRequired;
             this.RequireInspectionValue = performance.IsRequiredInspectionRequired;
-            this.DeQualificationCode = participation.DisqualifyCode;
+            this.NotQualifiedReason = participation.DisqualifyCode;
         }
         this.InputNumber = participation.Number;
     }
@@ -194,10 +170,10 @@ public class ManagerViewModel : ViewModelBase
         get => this.inputNumber;
         set => this.SetProperty(ref this.inputNumber, value);
     }
-    public string DeQualificationCode
+    public string NotQualifiedReason
     {
-        get => this.deQualificationCode;
-        set => this.SetProperty(ref this.deQualificationCode, value);
+        get => this.notQualifiedReason;
+        set => this.SetProperty(ref this.notQualifiedReason, value);
     }
     public int? InputHours
     {

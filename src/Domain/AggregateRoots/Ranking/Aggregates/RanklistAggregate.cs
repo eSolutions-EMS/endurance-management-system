@@ -5,13 +5,13 @@ using EnduranceJudge.Domain.State.LapRecords;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace EnduranceJudge.Domain.AggregateRoots.Ranking.Aggregates;
 
-// TODO: Rename to Ranklist
-public class RankList : List<Participation>, IAggregate
+public class RanklistAggregate : List<Participation>, IAggregate
 {
-    internal RankList(Category category, IEnumerable<Participation> participations)
+    internal RanklistAggregate(Category category, IEnumerable<Participation> participations)
     {
         if (category == default)
         {
@@ -33,22 +33,28 @@ public class RankList : List<Participation>, IAggregate
         return ranked;
     }
 
-    private IEnumerable<Participation> RankKids(IEnumerable<Participation> kids)
-        => kids
+    private IEnumerable<Participation> RankKids(IEnumerable<Participation> participations)
+        => participations
+            .Where(x => x.Participant.Athlete.Category == Category.Kids)
             .Select(this.CalculateTotalRecovery)
-            .OrderByDescending(tuple => tuple.Item1)
-            .Select(tuple => tuple.Item2)
+            .OrderBy(x => this.IsNotQualifiedPredicate(x.Item2))
+            .ThenByDescending(x => x.Item1)
+            .Select(x => x.Item2)
             .ToList();
 
-    private IEnumerable<Participation> RankAdults(IEnumerable<Participation> adults)
-        => adults
-            .OrderByDescending(participation => participation.Participant
-                .LapRecords
-                .All(performance => performance.Result?.IsDisqualified ?? false))
+    private IEnumerable<Participation> RankAdults(IEnumerable<Participation> participations)
+        => participations
+            .Where(x => x.Participant.Athlete.Category == Category.Adults)
+            .OrderBy(this.IsNotQualifiedPredicate)
             .ThenBy(participation => participation.Participant
                 .LapRecords
                 .LastOrDefault()
                 ?.ArrivalTime);
+
+    private Func<Participation, bool> IsNotQualifiedPredicate
+        => participation => participation.Participant
+            .LapRecords
+            .Any(performance => performance.Result?.IsNotQualified ?? true);
 
     private (TimeSpan, Participation) CalculateTotalRecovery(Participation participation)
     {

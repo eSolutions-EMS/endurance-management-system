@@ -12,27 +12,27 @@ public partial class RanklistControl
         this.InitializeComponent();
     }
 
-    public RankList Ranklist
+    public RanklistAggregate Ranklist
     {
-        get => (RankList)this.GetValue(RANKLIST_PROPERTY);
+        get => (RanklistAggregate)this.GetValue(RANKLIST_PROPERTY);
         set => this.SetValue(RANKLIST_PROPERTY, value);
     }
 
     public static readonly DependencyProperty RANKLIST_PROPERTY =
         DependencyProperty.Register(
             nameof(Ranklist),
-            typeof(RankList),
+            typeof(RanklistAggregate),
             typeof(RanklistControl),
             new PropertyMetadata(OnRanklistChanged));
 
     private static void OnRanklistChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
     {
         var control = (RanklistControl)sender;
-        var participation = (RankList)args.NewValue;
+        var participation = (RanklistAggregate)args.NewValue;
         control.Populate(participation);
     }
 
-    private void Populate(RankList rankList)
+    private void Populate(RanklistAggregate rankList)
     {
         this.Children.Clear();
         foreach (var control in CreateResultControls(rankList))
@@ -41,7 +41,7 @@ public partial class RanklistControl
         }
     }
 
-    public static IEnumerable<ParticipationResultControl> CreateResultControls(RankList rankList)
+    public static IEnumerable<ParticipationResultControl> CreateResultControls(RanklistAggregate rankList)
     {
         var maxColumns = rankList
             .Select(x => x.Participant.LapRecords.Count)

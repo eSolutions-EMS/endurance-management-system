@@ -82,7 +82,9 @@ KM_PER_HOUR                         | km/h | km/h
 KIDS                                | Kids | Kids
 ADULTS                              | Adults | Adults
 CATEGORY                            | Category | Category
-COMPLETE_UNSUCCESSFULLY             | Fail to Qualify | Fail to Qualify
+_DQ                                 | DQ | DQ
+_FTQ                                | FTQ | FTQ
+_RET                                | Ret | Ret
 UPDATE_PERSONNEL                    | Update Personnel | Update Personnel
 _YES                                | _Yes | _Yes
 _NO                                 | _No | _No
@@ -109,8 +111,6 @@ HAS_STARTED                         | Has Started | Has Started
 DISTANCE                            | Distance | Distance
 STARTLIST                           | Startlist | Startlist
 INCLUDE_PAST                        | Include Past | Include Past
-_DQ                                 | _FTQ | _FTQ
-DQ                                  | FTQ | FTQ
 IMPORT                              | Import | Import
 _HOUR_SYMBOL                        | _h | _h
 _MINUTE_SYMBOL                      | _m | _m
@@ -141,7 +141,7 @@ REMOVE_CONFIRMATION_MESSAGE                              | Are you sure you want
 INVALID_DATE_FORMAT_MESSAGE                              | Invalid date: '{0}'. Expected format: '{1}' | Invalid date: '{0}'. Expected format: '{1}'
 UNSUPPORTED_IMPORT_FILE_MESSAGE                          | Unsupported file. Please use '{0}' or '{1}' | Unsupported file. Please use '{0}' or '{1}'
 NOT_FOUND_BY_ID_MESSAGE                                  | with ID '{0}' not found | with ID '{0}' not found
-PARTICIPATION_HAS_ENDED_MESSAGE                          | has ended | has
+PARTICIPATION_HAS_ENDED_MESSAGE                          | is complete and could not be updated | is complete and could not be updated
 COMPETITION_CANNOT_START_WITHOUT_PHASES_MESSAGES         | '{0}' cannot start without {entities-lap-plurals} | '{0}' cannot start without {entities-lap-plurals}
 PARTICIPANTS_CANNOT_BE_IMPORTED_MESSAGE                  | cannot be imported - no {entities-horse-plurals} or {entities-athlete-plurals} | cannot be imported - no {entities-horse-plurals} or {entities-athlete-plurals}
 UNEXPECTED_ERROR_MESSAGE                                 | Unexpected error occured. Log file '{0}' has been created. Please contact the developer and send them the file | Unexpected error occured. Log file '{0}' has been created. Please contact the developer and send them the file

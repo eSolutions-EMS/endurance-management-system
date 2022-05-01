@@ -23,9 +23,9 @@ public class ParticipationResultModel : ParticipationGridModel
         this.TotalAverageSpeed = ValueSerializer.FormatDouble(averageSpeed);
         this.TotalTime = ValueSerializer.FormatSpan(time);
 
-        var (reason, visibility) = this.HandleDisqualified(participation.Participant.LapRecords.ToList());
+        var (notQualified, visibility) = this.HandleNotQualified(participation.Participant.LapRecords.ToList());
         this.DisqualifiedVisibility = visibility;
-        this.DisqualifiedReason = reason;
+        this.NotQualifiedText = notQualified;
     }
 
     private (double? averageSpeed, TimeSpan time) CalculateTotalValues(Participation participation)
@@ -39,15 +39,15 @@ public class ParticipationResultModel : ParticipationGridModel
         return (totalAverageSpeed, totalTime);
     }
 
-    private (string reason, Visibility) HandleDisqualified(List<LapRecord> records)
+    private (string notQualified, Visibility) HandleNotQualified(List<LapRecord> records)
     {
-        var disqualifiedRecord = records.FirstOrDefault(x => x.Result?.IsDisqualified ?? false);
+        var disqualifiedRecord = records.FirstOrDefault(x => x.Result?.IsNotQualified ?? false);
         var visibility = disqualifiedRecord != null
             ? Visibility.Visible
             : Visibility.Collapsed;
-        var reason = disqualifiedRecord?.Result.Code;
+        var text = disqualifiedRecord?.Result.ToString();
 
-        return (reason, visibility);
+        return (text, visibility);
     }
 
     public int Rank { get; }
@@ -55,5 +55,5 @@ public class ParticipationResultModel : ParticipationGridModel
     public string TotalAverageSpeed { get; }
     public string TotalTime { get; }
     public Visibility DisqualifiedVisibility { get; }
-    public string DisqualifiedReason { get; }
+    public string NotQualifiedText { get; }
 }

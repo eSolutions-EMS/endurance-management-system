@@ -41,12 +41,10 @@
                 <StackPanel Style="{StaticResource List-Vertical}">
                     <!-- Kids Button-->
                     <Button Style="{StaticResource Button-Big-Vertical}"
-                            IsEnabled="{Binding HasKidsClassification}"
                             Command="{Binding SelectKidsCategory}"
                             Content="{x:Static localization:Strings.KIDS}"/>
                     <!-- Adults Button -->
                     <Button Style="{StaticResource Button-Big-Vertical}"
-                            IsEnabled="{Binding HasAdultsClassification}"
                             Command="{Binding SelectAdultsCategory}"
                             Content="{x:Static localization:Strings.ADULTS}"/>
                     <!-- Category Label -->

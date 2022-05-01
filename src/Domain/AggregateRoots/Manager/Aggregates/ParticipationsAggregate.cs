@@ -21,7 +21,7 @@ public class ParticipationsAggregate : IAggregate
     {
         this.Number = participation.Participant.Number;
         var disqualifiedResult = participation.Participant.LapRecords.FirstOrDefault(
-            rec => rec.Result?.IsDisqualified ?? false);
+            rec => rec.Result?.IsNotQualified ?? false);
         this.IsDisqualified = disqualifiedResult != null;
         this.DisqualifiedCode = disqualifiedResult?.Result.Code;
         this.participation = participation;
@@ -42,10 +42,10 @@ public class ParticipationsAggregate : IAggregate
         {
             throw Helper.Create<ParticipantException>(PARTICIPATION_IS_DISQUALIFIED, this.Number);
         }
-        var record = this.GetCurrent() ?? this.CreateNext();
+        var record = this.GetActive() ?? this.CreateNext();
         record.Update(time);
     }
-    internal LapRecordsAggregate GetCurrent()
+    internal LapRecordsAggregate GetActive()
     {
         var record = this.participation.Participant.LapRecords.SingleOrDefault(x => x.Result == null);
         if (record == null)
@@ -55,6 +55,13 @@ public class ParticipationsAggregate : IAggregate
         var recordsAggregate = new LapRecordsAggregate(record);
         return recordsAggregate;
     }
+    internal LapRecordsAggregate GetLast()
+    {
+        var record = this.participation.Participant.LapRecords.Last();
+        var aggregate = new LapRecordsAggregate(record);
+        return aggregate;
+    }
+
     internal void Add(Competition competition)
     {
         if (this.participation.CompetitionsIds.Any())

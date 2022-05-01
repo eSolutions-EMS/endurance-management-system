@@ -44,9 +44,17 @@ public class LapRecordsAggregate : IAggregate
             this.Complete();
         }
     }
-    internal void Complete(string code)
+    internal void Disqualify(string reason)
     {
-        this.record.Result = new Result(code);
+        this.record.Result = new Result(ResultType.Disqualified, reason);
+    }
+    internal void FailToQualify(string reason)
+    {
+        this.record.Result = new Result(ResultType.FailedToQualify, reason);
+    }
+    internal void Resign(string reason)
+    {
+        this.record.Result = new Result(ResultType.Resigned, reason);
     }
     internal void ReInspection(bool isRequired)
     {
@@ -113,7 +121,7 @@ public class LapRecordsAggregate : IAggregate
         {
             throw new Exception(PERFORMANCE_INVALID_COMPLETE);
         }
-        this.record.Result = new Result();
+        this.record.Result = new Result(ResultType.Successful);
     }
 
     // TODO: remove after testing lap

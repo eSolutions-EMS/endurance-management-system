@@ -1,5 +1,6 @@
 ﻿using EnduranceJudge.Domain.AggregateRoots.Ranking;
 using EnduranceJudge.Domain.AggregateRoots.Ranking.Aggregates;
+using EnduranceJudge.Domain.Enums;
 using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem;
 using EnduranceJudge.Gateways.Desktop.Services;
@@ -40,7 +41,7 @@ public class RankingViewModel : ViewModelBase
     private string categoryName;
     private bool hasKidsClassification;
     private bool hasAdultsClassification;
-    private RankList ranklist;
+    private RanklistAggregate ranklist;
 
     public override void OnNavigatedTo(NavigationContext context)
     {
@@ -64,10 +65,8 @@ public class RankingViewModel : ViewModelBase
         // TODO: Select competition only if Event has started
         var competition = this.rankingExecutor.Execute(ranking => ranking.GetCompetition(competitionId));
         this.selectedCompetition = competition;
-        this.HasAdultsClassification = competition.AdultsRankList != null;
-        this.HasKidsClassification = competition.KidsRankList != null;
 
-        this.SelectCategory(competition.DefaultRanklist);
+        this.SelectAdultsCategoryAction();
     }
 
     private ListItemViewModel ToListItem(CompetitionResultAggregate resultAggregate)
@@ -79,11 +78,11 @@ public class RankingViewModel : ViewModelBase
 
     private void SelectKidsCategoryAction()
     {
-        this.SelectCategory(this.selectedCompetition.KidsRankList);
+        this.SelectCategory(Category.Kids);
     }
     private void SelectAdultsCategoryAction()
     {
-        this.SelectCategory(this.selectedCompetition.AdultsRankList);
+        this.SelectCategory(Category.Adults);
     }
     private void PrintAction(RanklistControl control)
     {
@@ -93,10 +92,10 @@ public class RankingViewModel : ViewModelBase
             printer.PreviewDocument();
         });
     }
-    private void SelectCategory(RankList rankList)
+    private void SelectCategory(Category category)
     {
-        this.Ranklist = rankList;
-        this.CategoryName = rankList.Category.ToString();
+        this.Ranklist = this.selectedCompetition.Rank(category);
+        this.CategoryName = category.ToString();
     }
 
 #region Setters
@@ -110,17 +109,7 @@ public class RankingViewModel : ViewModelBase
         get => this.categoryName;
         set => this.SetProperty(ref this.categoryName, value);
     }
-    public bool HasKidsClassification
-    {
-        get => this.hasKidsClassification;
-        set => this.SetProperty(ref this.hasKidsClassification, value);
-    }
-    public bool HasAdultsClassification
-    {
-        get => this.hasAdultsClassification;
-        set => this.SetProperty(ref this.hasAdultsClassification, value);
-    }
-    public RankList Ranklist
+    public RanklistAggregate Ranklist
     {
         get => this.ranklist;
         private set => this.SetProperty(ref this.ranklist, value);

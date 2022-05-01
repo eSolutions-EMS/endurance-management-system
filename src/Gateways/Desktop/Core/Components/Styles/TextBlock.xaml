@@ -12,6 +12,11 @@
         <Setter Property="FontSize" Value="14" />
     </Style>
 
+    <Style x:Key="Text-Big" TargetType="TextBlock" BasedOn="{StaticResource Text}">
+        <Setter Property="Padding" Value="0px" />
+        <Setter Property="FontSize" Value="20" />
+    </Style>
+
     <Style x:Key="Interval" TargetType="TextBlock">
         <Setter Property="Text" Value="   " />
     </Style>

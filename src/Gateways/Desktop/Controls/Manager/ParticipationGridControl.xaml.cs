@@ -27,14 +27,21 @@ public partial class ParticipationGridControl
     private static void OnParticipationChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
     {
         var grid = (ParticipationGridControl)sender;
-        var participation = (ParticipationGridModel) args.NewValue;
-        grid.Construct(participation);
+        if (args.NewValue is null)
+        {
+            grid.Empty();
+        }
+        else
+        {
+            var participation = (ParticipationGridModel) args.NewValue;
+            grid.Populate(participation);
+        }
     }
 
     public ParticipationGridControl(ParticipationGridModel participation, bool isReadonly) : this()
     {
         this.IsReadonly = isReadonly;
-        this.Construct(participation);
+        this.Populate(participation);
     }
     public ParticipationGridControl()
     {
@@ -43,7 +50,7 @@ public partial class ParticipationGridControl
     }
 
     private UIElementCollection Columns => this.Table.Children;
-    private void Construct(ParticipationGridModel participation)
+    private void Populate(ParticipationGridModel participation)
     {
         // First column is static labels and is defined in the .xaml file
         this.Columns.RemoveRange(1, this.Table.Children.Count - 1);
@@ -62,6 +69,8 @@ public partial class ParticipationGridControl
             this.AddPrintButton();
         }
     }
+    private void Empty()
+        => this.Columns.Clear();
 
     private void AddPrintButton()
     {

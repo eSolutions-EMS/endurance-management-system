@@ -1,4 +1,6 @@
 ﻿using EnduranceJudge.Domain.Core.Models;
+using EnduranceJudge.Domain.Enums;
+using EnduranceJudge.Domain.State.Competitions;
 using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Domain.State.Laps;
 using EnduranceJudge.Domain.State.LapRecords;
@@ -15,10 +17,12 @@ public class Performance : IAggregate, IPerformance
 
     private readonly List<Lap> laps;
     private readonly List<LapRecord> timeRecords;
+    private readonly Competition competitionConstraint;
 
     public Performance(Participation participation, int index)
     {
         this.Participant = participation.Participant;
+        this.competitionConstraint = participation.CompetitionConstraint;
         this.timeRecords = this.Participant.LapRecords.ToList();
         this.Index = index;
         this.laps = participation.CompetitionConstraint.Laps.ToList();
@@ -36,9 +40,7 @@ public class Performance : IAggregate, IPerformance
             {
                 return null;
             }
-            var inspection = this.CurrentRecord.VetGateTime
-                ?.AddMinutes(this.Lap.RestTimeInMins)
-                .AddMinutes(COMPULSORY_INSPECTION_TIME_OFFSET);
+            var inspection = this.NextStartTime?.AddMinutes(COMPULSORY_INSPECTION_TIME_OFFSET);
             return inspection;
         }
     }
@@ -82,7 +84,7 @@ public class Performance : IAggregate, IPerformance
         => this.CurrentRecord.VetGateTime?.AddMinutes(this.CurrentRecord.Lap.RestTimeInMins);
 
     private TimeSpan? CalculateLapTime(LapRecord record, Lap lap)
-        => lap.IsFinal
+        => this.competitionConstraint.Type == CompetitionType.National || lap.IsFinal
             ? record.ArrivalTime - record.StartTime
             : record.VetGateTime - record.StartTime;
 
@@ -102,7 +104,6 @@ public class Performance : IAggregate, IPerformance
     public Lap Lap => this.laps[this.Index];
     private LapRecord CurrentRecord => this.timeRecords[this.Index];
     private IEnumerable<Lap> TotalLaps => this.laps.Take(this.Index + 1);
-    private IEnumerable<LapRecord> TotalRecords => this.timeRecords.Take(this.Index + 1);
 
     public static DateTime CalculateStartTime(LapRecord record, Lap lap)
     {

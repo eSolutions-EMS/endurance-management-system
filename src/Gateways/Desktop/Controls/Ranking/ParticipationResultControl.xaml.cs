@@ -44,7 +44,7 @@ public partial class ParticipationResultControl
         this.RankText.Text = participation.Rank.ToString();
         this.TotalTime.Text = participation.TotalTime;
         this.TotalAverageSpeedString.Text = participation.TotalAverageSpeed;
-        this.DisqualifiedReason.Text = participation.DisqualifiedReason;
+        this.NotQualifiedText.Text = participation.NotQualifiedText;
         this.DisqualifiedContainer.Visibility = participation.DisqualifiedVisibility;
         this.ParticipationGrid.Participation = participation;
     }

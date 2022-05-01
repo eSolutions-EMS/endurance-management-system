@@ -42,34 +42,40 @@ public class ManagerRoot : IAggregateRoot
         this.state.Event.HasStarted = true;
     }
 
-    public IEnumerable<Performance> GetPerformances(int participantNumber)
-    {
-        var participation = this.state.Participations.First(x => x.Participant.Number == participantNumber);
-        var performances = Performance.GetAll(participation);
-        return performances;
-    }
-
-    public Performance UpdateRecord(int number, DateTime time)
+    public void UpdateRecord(int number, DateTime time)
     {
         var participation = this.GetParticipation(number);
         participation.Aggregate().Update(time);
-        return Performance.GetCurrent(participation);
+    }
+    public void Disqualify(int number, string reason)
+    {
+        var lap = this.GetActiveLap(number);
+        lap.Disqualify(reason);
+    }
+    public void FailToQualify(int number, string reason)
+    {
+        var lap = this.GetActiveLap(number);
+        lap.FailToQualify(reason);
+    }
+    public void Resign(int number, string reason)
+    {
+        var lap = this.GetActiveLap(number);
+        lap.Resign(reason);
     }
 
-    public Performance Disqualify(int number, string code)
+    private LapRecordsAggregate GetActiveLap(int participantNumber)
     {
-        var participation = this.GetParticipation(number);
+        var participation = this.GetParticipation(participantNumber);
         var aggregate = participation.Aggregate();
-        var lap = aggregate.GetCurrent() ?? aggregate.CreateNext();
-        lap.Complete(code);
-        return Performance.GetCurrent(participation);
+        var lap = aggregate.GetActive() ?? aggregate.CreateNext();
+        return lap;
     }
 
     // TODO : fix validations
     public void ReInspection(int number, bool isRequired)
     {
         var participation = this.GetParticipation(number);
-        var currentAggregate = participation.Aggregate().GetCurrent();
+        var currentAggregate = participation.Aggregate().GetActive();
         // TODO: fix Error message - should be LapRecord not found or Participation has concluded.
         if (currentAggregate == null)
         {
@@ -81,12 +87,12 @@ public class ManagerRoot : IAggregateRoot
     public void RequireInspection(int number, bool isRequired)
     {
         var participation = this.GetParticipation(number);
-        var lapRecord = participation.Aggregate().GetCurrent();
-        if (lapRecord == null)
+        var last = participation.Aggregate().GetLast();
+        if (last == null)
         {
             throw Helper.Create<ParticipationException>(NOT_FOUND_MESSAGE, NUMBER, number);
         }
-        lapRecord.RequireInspection(isRequired);
+        last.RequireInspection(isRequired);
     }
 
     public Performance EditRecord(ILapRecordState state)
