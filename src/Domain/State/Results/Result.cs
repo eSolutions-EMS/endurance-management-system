@@ -10,6 +10,6 @@ public class Result : DomainBase<ResultException>, IResultState
         this.Code = code;
     }
 
-    public bool IsDisqualified => this.Code is not null;
+    public bool IsNotQualified => this.Code is not null;
     public string Code { get; private set; }
 }

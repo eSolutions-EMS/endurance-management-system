@@ -41,7 +41,7 @@ public class ParticipationResultModel : ParticipationGridModel
 
     private (string reason, Visibility) HandleDisqualified(List<LapRecord> records)
     {
-        var disqualifiedRecord = records.FirstOrDefault(x => x.Result?.IsDisqualified ?? false);
+        var disqualifiedRecord = records.FirstOrDefault(x => x.Result?.IsNotQualified ?? false);
         var visibility = disqualifiedRecord != null
             ? Visibility.Visible
             : Visibility.Collapsed;

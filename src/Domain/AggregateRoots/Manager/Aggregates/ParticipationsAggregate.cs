@@ -21,7 +21,7 @@ public class ParticipationsAggregate : IAggregate
     {
         this.Number = participation.Participant.Number;
         var disqualifiedResult = participation.Participant.LapRecords.FirstOrDefault(
-            rec => rec.Result?.IsDisqualified ?? false);
+            rec => rec.Result?.IsNotQualified ?? false);
         this.IsDisqualified = disqualifiedResult != null;
         this.DisqualifiedCode = disqualifiedResult?.Result.Code;
         this.participation = participation;

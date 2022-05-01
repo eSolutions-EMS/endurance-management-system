@@ -5,6 +5,7 @@ using EnduranceJudge.Domain.State.LapRecords;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace EnduranceJudge.Domain.AggregateRoots.Ranking.Aggregates;
 
@@ -37,20 +38,24 @@ public class RanklistAggregate : List<Participation>, IAggregate
         => participations
             .Where(x => x.Participant.Athlete.Category == Category.Kids)
             .Select(this.CalculateTotalRecovery)
-            .OrderByDescending(tuple => tuple.Item1)
-            .Select(tuple => tuple.Item2)
+            .OrderBy(x => this.IsNotQualifiedPredicate(x.Item2))
+            .ThenByDescending(x => x.Item1)
+            .Select(x => x.Item2)
             .ToList();
 
     private IEnumerable<Participation> RankAdults(IEnumerable<Participation> participations)
         => participations
             .Where(x => x.Participant.Athlete.Category == Category.Adults)
-            .OrderByDescending(participation => participation.Participant
-                .LapRecords
-                .All(performance => performance.Result?.IsDisqualified ?? false))
+            .OrderBy(this.IsNotQualifiedPredicate)
             .ThenBy(participation => participation.Participant
                 .LapRecords
                 .LastOrDefault()
                 ?.ArrivalTime);
+
+    private Func<Participation, bool> IsNotQualifiedPredicate
+        => participation => participation.Participant
+            .LapRecords
+            .Any(performance => performance.Result?.IsNotQualified ?? true);
 
     private (TimeSpan, Participation) CalculateTotalRecovery(Participation participation)
     {

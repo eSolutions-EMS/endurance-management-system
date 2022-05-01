@@ -4,7 +4,7 @@ namespace EnduranceJudge.Domain.State.Results;
 
 public interface IResultState : IIdentifiable
 {
-    bool IsDisqualified { get; }
+    bool IsNotQualified { get; }
 
     string Code { get; }
 }
