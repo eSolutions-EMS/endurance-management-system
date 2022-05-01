@@ -60,7 +60,7 @@ public class ManagerRoot : IAggregateRoot
     {
         var participation = this.GetParticipation(number);
         var aggregate = participation.Aggregate();
-        var lap = aggregate.GetCurrent() ?? aggregate.CreateNext();
+        var lap = aggregate.GetActive() ?? aggregate.CreateNext();
         lap.Complete(code);
         return Performance.GetCurrent(participation);
     }
@@ -69,7 +69,7 @@ public class ManagerRoot : IAggregateRoot
     public void ReInspection(int number, bool isRequired)
     {
         var participation = this.GetParticipation(number);
-        var currentAggregate = participation.Aggregate().GetCurrent();
+        var currentAggregate = participation.Aggregate().GetActive();
         // TODO: fix Error message - should be LapRecord not found or Participation has concluded.
         if (currentAggregate == null)
         {
@@ -81,12 +81,12 @@ public class ManagerRoot : IAggregateRoot
     public void RequireInspection(int number, bool isRequired)
     {
         var participation = this.GetParticipation(number);
-        var lapRecord = participation.Aggregate().GetCurrent();
-        if (lapRecord == null)
+        var last = participation.Aggregate().GetLast();
+        if (last == null)
         {
             throw Helper.Create<ParticipationException>(NOT_FOUND_MESSAGE, NUMBER, number);
         }
-        lapRecord.RequireInspection(isRequired);
+        last.RequireInspection(isRequired);
     }
 
     public Performance EditRecord(ILapRecordState state)

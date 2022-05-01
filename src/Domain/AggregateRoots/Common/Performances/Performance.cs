@@ -40,9 +40,7 @@ public class Performance : IAggregate, IPerformance
             {
                 return null;
             }
-            var inspection = this.CurrentRecord.VetGateTime
-                ?.AddMinutes(this.Lap.RestTimeInMins)
-                .AddMinutes(COMPULSORY_INSPECTION_TIME_OFFSET);
+            var inspection = this.NextStartTime?.AddMinutes(COMPULSORY_INSPECTION_TIME_OFFSET);
             return inspection;
         }
     }
