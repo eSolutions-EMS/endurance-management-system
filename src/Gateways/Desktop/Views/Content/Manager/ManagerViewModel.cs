@@ -150,8 +150,11 @@ public class ManagerViewModel : ViewModelBase
     private void SelectBy(int number)
     {
         var participation = this.Participations.FirstOrDefault(x => x.Number == number);
-        this.SelectBy(participation);
-        this.eventAggregator.GetEvent<SelectTabEvent>().Publish(participation);
+        if (participation != null)
+        {
+            this.SelectBy(participation);
+            this.eventAggregator.GetEvent<SelectTabEvent>().Publish(participation);
+        }
     }
 
     private void SelectBy(ParticipationGridModel participation)
