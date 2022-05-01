@@ -42,27 +42,33 @@ public class ManagerRoot : IAggregateRoot
         this.state.Event.HasStarted = true;
     }
 
-    public IEnumerable<Performance> GetPerformances(int participantNumber)
-    {
-        var participation = this.state.Participations.First(x => x.Participant.Number == participantNumber);
-        var performances = Performance.GetAll(participation);
-        return performances;
-    }
-
-    public Performance UpdateRecord(int number, DateTime time)
+    public void UpdateRecord(int number, DateTime time)
     {
         var participation = this.GetParticipation(number);
         participation.Aggregate().Update(time);
-        return Performance.GetCurrent(participation);
+    }
+    public void Disqualify(int number, string reason)
+    {
+        var lap = this.GetActiveLap(number);
+        lap.Disqualify(reason);
+    }
+    public void FailToQualify(int number, string reason)
+    {
+        var lap = this.GetActiveLap(number);
+        lap.FailToQualify(reason);
+    }
+    public void Resign(int number, string reason)
+    {
+        var lap = this.GetActiveLap(number);
+        lap.Resign(reason);
     }
 
-    public Performance Disqualify(int number, string code)
+    private LapRecordsAggregate GetActiveLap(int participantNumber)
     {
-        var participation = this.GetParticipation(number);
+        var participation = this.GetParticipation(participantNumber);
         var aggregate = participation.Aggregate();
         var lap = aggregate.GetActive() ?? aggregate.CreateNext();
-        lap.Complete(code);
-        return Performance.GetCurrent(participation);
+        return lap;
     }
 
     // TODO : fix validations

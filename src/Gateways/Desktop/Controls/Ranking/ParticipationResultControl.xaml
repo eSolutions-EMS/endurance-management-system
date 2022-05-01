@@ -83,13 +83,8 @@
                 <!-- Disqualified -->
                 <Border Style="{StaticResource Border-Padding}"
                         Name="DisqualifiedContainer">
-                    <StackPanel Style="{StaticResource List-Horizontal}" Background="LightGoldenrodYellow">
-                        <TextBlock Style="{StaticResource Text-Small}"
-                                   Text="{x:Static localization:Strings.DQ}" />
-                        <TextBlock Text=" " />
-                        <TextBlock Style="{StaticResource Text-Small}"
-                                   Name="DisqualifiedReason" />
-                    </StackPanel>
+                    <TextBlock Style="{StaticResource Text-Small}" Background="LightGoldenrodYellow"
+                               Name="NotQualifiedText" />
                 </Border>
             </StackPanel>
         </Border>

@@ -81,7 +81,9 @@ public static class Strings
     public static string KIDS                              { get; internal set; }
     public static string ADULTS                            { get; internal set; }
     public static string CATEGORY                          { get; internal set; }
-    public static string COMPLETE_UNSUCCESSFULLY           { get; internal set; }
+    public static string _DQ                                { get; internal set; }
+    public static string _FTQ                               { get; internal set; }
+    public static string _RET                               { get; internal set; }
     public static string UPDATE_PERSONNEL                  { get; internal set; }
     public static string _YES                              { get; internal set; }
     public static string _NO                               { get; internal set; }
@@ -108,8 +110,6 @@ public static class Strings
     public static string DISTANCE                          { get; internal set; }
     public static string STARTLIST                         { get; internal set; }
     public static string INCLUDE_PAST                      { get; internal set; }
-    public static string _DQ                               { get; internal set; }
-    public static string DQ                                { get; internal set; }
     public static string IMPORT                            { get; internal set; }
     public static string _HOUR_SYMBOL                      { get; internal set; }
     public static string _MINUTE_SYMBOL                    { get; internal set; }

@@ -12,7 +12,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <None Update="strings.txt" CopyToOutputDirectory="PreserveNewest" />
+        <None Update="strings.txt">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 
 </Project>

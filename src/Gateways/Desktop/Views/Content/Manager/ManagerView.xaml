@@ -100,21 +100,27 @@
                     </Border>
                     <!-- DQ -->
                     <Border Style="{StaticResource Border-Vertical}">
-                        <DockPanel Style="{StaticResource Dock-Horizontal}">
-                            <!-- DQ Input -->
-                            <Label Style="{StaticResource Label-Primary}"
-                                   Target="{Binding ElementName=DeQualificationCode}"
-                                   Content="{x:Static localization:Strings._DQ}"/>
+                        <StackPanel Style="{StaticResource List-Vertical}">
+                            <!-- Reason -->
                             <TextBox Style="{StaticResource Input}" MinWidth="128px"
-                                     Text="{Binding DeQualificationCode}"
-                                     Name="DeQualificationCode"/>
-                            <!-- DQ Button -->
-                            <Border Style="{StaticResource Border-Horizontal}">
-                                <Button Style="{StaticResource Button-Horizontal}" Margin="4px 0 0 0" HorizontalAlignment="Right"
+                                     Text="{Binding NotQualifiedReason}"
+                                     Name="NotQualifiedReasonText"/>
+                            <!-- Buttons -->
+                            <DockPanel Style="{StaticResource Dock-Horizontal}">
+                            <!-- DQ -->
+                                <Button Style="{StaticResource Button-Horizontal}" Margin="4px 0 0 0"
                                         Command="{Binding Disqualify}"
-                                        Content="{x:Static localization:Strings.COMPLETE_UNSUCCESSFULLY}" />
-                            </Border>
-                        </DockPanel>
+                                        Content="{x:Static localization:Strings._DQ}" />
+                                <!-- FTQ -->
+                                <Button Style="{StaticResource Button-Horizontal}" Margin="4px 0 0 0"
+                                        Command="{Binding FailToQualify}"
+                                        Content="{x:Static localization:Strings._FTQ}" />
+                                <!-- Ret -->
+                                <Button Style="{StaticResource Button-Horizontal}" Margin="4px 0 0 0"
+                                        Command="{Binding Resign}"
+                                        Content="{x:Static localization:Strings._RET}" />
+                            </DockPanel>
+                        </StackPanel>
                     </Border>
                 </StackPanel>
             </Border>
