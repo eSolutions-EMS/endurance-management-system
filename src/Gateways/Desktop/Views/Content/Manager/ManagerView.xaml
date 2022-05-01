@@ -111,7 +111,7 @@
                             <!-- DQ Button -->
                             <Border Style="{StaticResource Border-Horizontal}">
                                 <Button Style="{StaticResource Button-Horizontal}" Margin="4px 0 0 0" HorizontalAlignment="Right"
-                                        Command="{Binding CompleteUnsuccessful}"
+                                        Command="{Binding Disqualify}"
                                         Content="{x:Static localization:Strings.COMPLETE_UNSUCCESSFULLY}" />
                             </Border>
                         </DockPanel>
