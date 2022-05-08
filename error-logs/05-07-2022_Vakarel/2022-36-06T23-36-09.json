@@ -1,0 +1,173 @@
+{
+    "$id": "1",
+    "error": "System.Exception: Cannot save Lap - competition with id '0' does not exit\r\n   at EnduranceJudge.Domain.AggregateRoots.Configuration.Aggregates.LapsAggregate.Create(Int32 competitionId, ILapState lapState)\r\n   at EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Laps.LapViewModel.Persist()\r\n   at EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core.ConfigurationBase`2.<SubmitAction>b__25_0()\r\n   at EnduranceJudge.Gateways.Desktop.Services.Executor.Execute(Action action)",
+    "state": {
+        "$id": "2",
+        "Event": {
+            "$id": "3",
+            "Name": "Квалификационен турнир",
+            "PopulatedPlace": "с. Вакарел, ",
+            "HasStarted": false,
+            "Country": {
+                "$id": "4",
+                "IsoCode": "BGR",
+                "Name": "Bulgaria",
+                "Id": 35
+            },
+            "PresidentGroundJury": {
+                "$id": "5",
+                "Name": "Лили Димитрова",
+                "Role": 1,
+                "Id": 315738967
+            },
+            "PresidentVetCommittee": {
+                "$id": "6",
+                "Name": "Д-р Никола Грънчаров",
+                "Role": 2,
+                "Id": 1467739333
+            },
+            "ForeignJudge": null,
+            "FeiTechDelegate": {
+                "$id": "7",
+                "Name": "Лили Димитрова",
+                "Role": 4,
+                "Id": 1770754270
+            },
+            "FeiVetDelegate": null,
+            "ActiveVet": null,
+            "MembersOfVetCommittee": [
+                {
+                    "$id": "8",
+                    "Name": "Д-р Жанина Иванова",
+                    "Role": 10,
+                    "Id": 258471371
+                },
+                {
+                    "$id": "9",
+                    "Name": "Д-р Георги Димитров",
+                    "Role": 10,
+                    "Id": 242640927
+                }
+            ],
+            "MembersOfJudgeCommittee": [
+                {
+                    "$id": "10",
+                    "Name": "Виктория Чобанова",
+                    "Role": 11,
+                    "Id": 147198514
+                }
+            ],
+            "Stewards": [
+                {
+                    "$id": "11",
+                    "Name": "Норма Кроу",
+                    "Role": 12,
+                    "Id": 1985613288
+                }
+            ],
+            "Competitions": [
+                {
+                    "$id": "12",
+                    "Type": 1,
+                    "Name": "Квалификационен турнир 80 км",
+                    "StartTime": "2022-05-07T08:00:00+03:00",
+                    "Laps": [
+                        {
+                            "$id": "13",
+                            "IsFinal": false,
+                            "OrderBy": 1,
+                            "LengthInKm": 20.0,
+                            "MaxRecoveryTimeInMins": 15,
+                            "RestTimeInMins": 30,
+                            "IsCompulsoryInspectionRequired": false,
+                            "Id": 1818569663
+                        },
+                        {
+                            "$id": "14",
+                            "IsFinal": false,
+                            "OrderBy": 2,
+                            "LengthInKm": 20.0,
+                            "MaxRecoveryTimeInMins": 15,
+                            "RestTimeInMins": 30,
+                            "IsCompulsoryInspectionRequired": false,
+                            "Id": 1498091850
+                        },
+                        {
+                            "$id": "15",
+                            "IsFinal": false,
+                            "OrderBy": 3,
+                            "LengthInKm": 20.0,
+                            "MaxRecoveryTimeInMins": 15,
+                            "RestTimeInMins": 40,
+                            "IsCompulsoryInspectionRequired": false,
+                            "Id": 598434287
+                        },
+                        {
+                            "$id": "16",
+                            "IsFinal": true,
+                            "OrderBy": 4,
+                            "LengthInKm": 20.0,
+                            "MaxRecoveryTimeInMins": 15,
+                            "RestTimeInMins": 0,
+                            "IsCompulsoryInspectionRequired": false,
+                            "Id": 1627024504
+                        }
+                    ],
+                    "Id": 264067075
+                },
+                {
+                    "$id": "17",
+                    "Type": 1,
+                    "Name": "Квалификационен турнир 60 км",
+                    "StartTime": "2022-05-07T08:30:00+03:00",
+                    "Laps": [
+                        {
+                            "$id": "18",
+                            "IsFinal": false,
+                            "OrderBy": 1,
+                            "LengthInKm": 20.0,
+                            "MaxRecoveryTimeInMins": 15,
+                            "RestTimeInMins": 30,
+                            "IsCompulsoryInspectionRequired": false,
+                            "Id": 285077588
+                        },
+                        {
+                            "$id": "19",
+                            "IsFinal": false,
+                            "OrderBy": 2,
+                            "LengthInKm": 20.0,
+                            "MaxRecoveryTimeInMins": 15,
+                            "RestTimeInMins": 40,
+                            "IsCompulsoryInspectionRequired": false,
+                            "Id": 1560308378
+                        },
+                        {
+                            "$id": "20",
+                            "IsFinal": true,
+                            "OrderBy": 3,
+                            "LengthInKm": 20.0,
+                            "MaxRecoveryTimeInMins": 15,
+                            "RestTimeInMins": 0,
+                            "IsCompulsoryInspectionRequired": false,
+                            "Id": 1884767262
+                        }
+                    ],
+                    "Id": 1584273351
+                },
+                {
+                    "$id": "21",
+                    "Type": 1,
+                    "Name": "Квалификационен турнир 40 км",
+                    "StartTime": "2022-05-07T09:00:00+03:00",
+                    "Laps": [],
+                    "Id": 94029105
+                }
+            ],
+            "Id": 259184182
+        },
+        "Horses": [],
+        "Athletes": [],
+        "Participants": [],
+        "Participations": []
+    }
+}
