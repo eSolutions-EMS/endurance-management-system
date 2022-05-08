@@ -128,7 +128,7 @@ public class ManagerRoot : IAggregateRoot
             .FirstOrDefault(x => x.Participant.Number == number);
         if (participation == null)
         {
-            throw Helper.Create<ParticipantException>(NOT_FOUND_MESSAGE, number);
+            throw Helper.Create<ParticipantException>(NOT_FOUND_MESSAGE, NUMBER, number);
         }
         return participation;
     }
