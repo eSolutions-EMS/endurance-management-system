@@ -61,7 +61,7 @@ public class Storage : IStorage
             { "state", this.appState }
         };
         var serialized = this.serialization.Serialize(log);
-        var filename = $"{timestamp}.err";
+        var filename = $"{timestamp}_error.json";
         var path = $"{this.dirPath}/{filename}";
         this.file.Create(path, serialized);
         return path;
