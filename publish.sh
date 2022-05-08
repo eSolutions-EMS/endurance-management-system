@@ -1,12 +1,16 @@
-echo PUBLISHING
+echo clearing release directory...
+rm -rf ./release/*
+echo release directory cleared.
 echo =======================================================================================================================================
-dotnet publish -c Release -o ./endurance-judge src/
+echo DOTNET PUBLISH
+dotnet publish -c Release -o ./release src/
 echo =======================================================================================================================================
 echo copying Views...
-echo =======================================================================================================================================
-cp -r src/Gateways/Desktop/bin/Release/net5.0-windows/win-x64/Views ./endurance-judge/Views
+mkdir ./release/Views
+mkdir ./release/Views/Templates
+cp -r src/Gateways/Desktop/Views/Templates/* ./release/Views/Templates
 echo Views directory copied.
 echo =======================================================================================================================================
 echo opening explorer...
 explorer .
-echo PUBLISHED
+echo publish complete.
