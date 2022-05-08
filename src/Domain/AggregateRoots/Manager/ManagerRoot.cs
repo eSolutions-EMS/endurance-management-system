@@ -74,32 +74,28 @@ public class ManagerRoot : IAggregateRoot
     private LapRecordsAggregate GetLastLap(int participantNumber)
     {
         var participation = this.GetParticipation(participantNumber);
-        var aggregate = participation.Aggregate();
-        var lap = aggregate.GetLast();
-        return lap;
+        var participationsAggregate = participation.Aggregate();
+        var lap = participationsAggregate.Latest;
+        return lap.Aggregate();
     }
 
-    // TODO : fix validations
     public void ReInspection(int number, bool isRequired)
     {
         var participation = this.GetParticipation(number);
-        var currentAggregate = participation.Aggregate().GetLast();
-        // TODO: fix Error message - should be LapRecord not found or Participation has concluded.
-        if (currentAggregate == null)
-        {
-            throw Helper.Create<ParticipantException>(NOT_FOUND_MESSAGE, NUMBER, number);
-        }
-        currentAggregate!.ReInspection(isRequired);
+        var lastRecord = participation
+            .Aggregate()
+            .Latest
+            .Aggregate();
+        lastRecord!.ReInspection(isRequired);
     }
 
     public void RequireInspection(int number, bool isRequired)
     {
         var participation = this.GetParticipation(number);
-        var last = participation.Aggregate().GetLast();
-        if (last == null)
-        {
-            throw Helper.Create<ParticipationException>(NOT_FOUND_MESSAGE, NUMBER, number);
-        }
+        var last = participation
+            .Aggregate()
+            .Latest
+            .Aggregate();
         last.RequireInspection(isRequired);
     }
 

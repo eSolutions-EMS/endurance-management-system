@@ -66,6 +66,7 @@ public class PerformanceColumnModel : ViewModelBase, ILapRecordState
         this.InspectionTime = performance.InspectionTime;
         this.IsReInspectionRequired = performance.IsReInspectionRequired;
         this.IsRequiredInspectionRequired = performance.IsRequiredInspectionRequired;
+        this.ReInspectionTimeString = ValueSerializer.FormatTime(performance.ReInspectionTime);
         var requiredInspectionTime = ValueSerializer.FormatTime(performance.RequiredInspectionTime);
         this.RequiredInspectionTimeString = performance.Lap.IsCompulsoryInspectionRequired
             ? string.Empty

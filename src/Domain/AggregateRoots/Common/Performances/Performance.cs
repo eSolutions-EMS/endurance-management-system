@@ -35,8 +35,8 @@ public class Performance : IAggregate, IPerformance
     {
         get
         {
-            if (!this.CurrentRecord.IsRequiredInspectionRequired
-                && !this.CurrentRecord.Lap.IsCompulsoryInspectionRequired)
+            if (!this.LatestRecord.IsRequiredInspectionRequired
+                && !this.LatestRecord.Lap.IsCompulsoryInspectionRequired)
             {
                 return null;
             }
@@ -46,10 +46,10 @@ public class Performance : IAggregate, IPerformance
     }
 
     public TimeSpan? RecoverySpan
-        => this.CurrentRecord.VetGateTime - this.CurrentRecord.ArrivalTime;
+        => this.LatestRecord.VetGateTime - this.LatestRecord.ArrivalTime;
 
     public TimeSpan? Time
-        => this.CalculateLapTime(this.CurrentRecord, this.Lap);
+        => this.CalculateLapTime(this.LatestRecord, this.Lap);
 
     public double? AverageSpeed
     {
@@ -81,7 +81,7 @@ public class Performance : IAggregate, IPerformance
             .Sum();
 
     public DateTime? NextStartTime
-        => this.CurrentRecord.VetGateTime?.AddMinutes(this.CurrentRecord.Lap.RestTimeInMins);
+        => this.LatestRecord.NextStarTime;
 
     private TimeSpan? CalculateLapTime(LapRecord record, Lap lap)
         => this.competitionConstraint.Type == CompetitionType.National || lap.IsFinal
@@ -102,25 +102,16 @@ public class Performance : IAggregate, IPerformance
     }
 
     public Lap Lap => this.laps[this.Index];
-    private LapRecord CurrentRecord => this.timeRecords[this.Index];
+    private LapRecord LatestRecord => this.timeRecords[this.Index];
     private IEnumerable<Lap> TotalLaps => this.laps.Take(this.Index + 1);
 
-    public static DateTime CalculateStartTime(LapRecord record, Lap lap)
-    {
-        if (!record.VetGateTime.HasValue)
-        {
-            throw new Exception("Cannot calculate Start Time for next Lap, because the current is not complete.");
-        }
-        return record.VetGateTime.Value.AddMinutes(lap.RestTimeInMins);
-    }
-
-    public int Id => this.CurrentRecord.Id;
-    public DateTime StartTime => this.CurrentRecord.StartTime;
-    public DateTime? ArrivalTime => this.CurrentRecord.ArrivalTime;
-    public DateTime? InspectionTime => this.CurrentRecord.InspectionTime;
-    public DateTime? ReInspectionTime => this.CurrentRecord.ReInspectionTime;
-    public bool IsReInspectionRequired => this.CurrentRecord.IsReInspectionRequired;
-    public bool IsRequiredInspectionRequired => this.CurrentRecord.IsRequiredInspectionRequired;
+    public int Id => this.LatestRecord.Id;
+    public DateTime StartTime => this.LatestRecord.StartTime;
+    public DateTime? ArrivalTime => this.LatestRecord.ArrivalTime;
+    public DateTime? InspectionTime => this.LatestRecord.InspectionTime;
+    public DateTime? ReInspectionTime => this.LatestRecord.ReInspectionTime;
+    public bool IsReInspectionRequired => this.LatestRecord.IsReInspectionRequired;
+    public bool IsRequiredInspectionRequired => this.LatestRecord.IsRequiredInspectionRequired;
 
     public static IEnumerable<Performance> GetAll(Participation participation)
     {
@@ -130,10 +121,5 @@ public class Performance : IAggregate, IPerformance
             yield return new Performance(participation, index);
             index++;
         }
-    }
-    public static Performance GetCurrent(Participation participation)
-    {
-        var index = participation.Participant.LapRecords.Count - 1;
-        return new Performance(participation, index);
     }
 }

@@ -11,86 +11,97 @@ namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates;
 
 public class LapRecordsAggregate : IAggregate
 {
-    private readonly LapRecord record;
+    /// <summary>
+    /// Update was not performed.
+    /// The Update sequence must continue in a new LapRecord
+    /// </summary>
+    private bool ContinueUpdateSequence => true;
+    /// <summary>
+    /// Update was performed in this record.
+    /// End Update sequence.
+    /// </summary>
+    private bool StopUpdateSequence => false;
+
     private readonly Validator<LapRecordException> validator;
 
     internal LapRecordsAggregate(LapRecord record)
     {
-        this.record = record;
+        this.Record = record;
         this.validator = new Validator<LapRecordException>();
     }
 
-    public bool IsComplete => this.record.Result != null;
+    public LapRecord Record { get; }
 
-    internal void Update(DateTime time)
+    internal bool Update(DateTime time)
     {
         if (time == default)
         {
             throw new ArgumentException(ARGUMENT_DEFAULT_VALUE, nameof(time));
         }
-        if (this.record.ArrivalTime == null)
+        if (this.Record.ArrivalTime == null)
         {
             this.Arrive(time);
+            return this.StopUpdateSequence;
         }
-        else if (this.record.InspectionTime == null)
+        if (this.Record.InspectionTime == null)
         {
             this.Inspect(time);
-            if (!this.record.IsReInspectionRequired)
-            {
-                this.Complete();
-            }
+            this.Complete();
+            return this.StopUpdateSequence;
         }
-        else if (this.record.IsReInspectionRequired && this.record.ReInspectionTime == null)
+        if (this.Record.IsReInspectionRequired && !this.Record.ReInspectionTime.HasValue)
         {
             this.CompleteReInspection(time);
-            this.Complete();
+            return this.StopUpdateSequence;
         }
+        return this.ContinueUpdateSequence;
     }
+
     internal void Disqualify(string reason)
     {
-        this.record.Result = new Result(ResultType.Disqualified, reason);
+        this.Record.Result = new Result(ResultType.Disqualified, reason);
     }
     internal void FailToQualify(string reason)
     {
-        this.record.Result = new Result(ResultType.FailedToQualify, reason);
+        this.Record.Result = new Result(ResultType.FailedToQualify, reason);
     }
     internal void Resign(string reason)
     {
-        this.record.Result = new Result(ResultType.Resigned, reason);
+        this.Record.Result = new Result(ResultType.Resigned, reason);
     }
     internal void ReInspection(bool isRequired)
     {
-        this.record.IsReInspectionRequired = isRequired;
+        this.Record.IsReInspectionRequired = isRequired;
     }
     internal void RequireInspection(bool isRequired)
     {
-        if (this.record.Lap.IsCompulsoryInspectionRequired)
+        if (this.Record.Lap.IsCompulsoryInspectionRequired)
         {
             throw Helper.Create<LapRecordException>(REQUIRED_INSPECTION_IS_NOT_ALLOWED_MESSAGE);
         }
-        this.record.IsRequiredInspectionRequired = isRequired;
+        this.Record.IsRequiredInspectionRequired = isRequired;
     }
     internal void Edit(ILapRecordState state)
     {
-        if (state.ArrivalTime.HasValue && this.record.ArrivalTime != state.ArrivalTime)
+        if (state.ArrivalTime.HasValue && this.Record.ArrivalTime != state.ArrivalTime)
         {
-            if (this.record.ArrivalTime == null)
+            if (this.Record.ArrivalTime == null)
             {
                 throw Helper.Create<LapRecordException>(CANNOT_EDIT_PERFORMANCE_MESSAGE, ARRIVAL_TERM);
             }
             this.Arrive(state.ArrivalTime.Value);
         }
-        if (state.InspectionTime.HasValue && this.record.InspectionTime != state.InspectionTime)
+        if (state.InspectionTime.HasValue && this.Record.InspectionTime != state.InspectionTime)
         {
-            if (this.record.InspectionTime == null)
+            if (this.Record.InspectionTime == null)
             {
                 throw Helper.Create<LapRecordException>(CANNOT_EDIT_PERFORMANCE_MESSAGE, INSPECTION_TERM);
             }
             this.Inspect(state.InspectionTime.Value);
         }
-        if (state.ReInspectionTime.HasValue && this.record.ReInspectionTime != state.ReInspectionTime)
+        if (state.ReInspectionTime.HasValue && this.Record.ReInspectionTime != state.ReInspectionTime)
         {
-            if (this.record.ReInspectionTime == null)
+            if (this.Record.ReInspectionTime == null)
             {
                 throw Helper.Create<LapRecordException>(CANNOT_EDIT_PERFORMANCE_MESSAGE, RE_INSPECTION_TERM);
             }
@@ -101,29 +112,29 @@ public class LapRecordsAggregate : IAggregate
     private void Arrive(DateTime time)
     {
         time = FixDateForToday(time);
-        this.validator.IsLaterThan(time, this.record.StartTime, ARRIVAL_TERM);
-        this.record.ArrivalTime = time;
+        this.validator.IsLaterThan(time, this.Record.StartTime, ARRIVAL_TERM);
+        this.Record.ArrivalTime = time;
     }
     private void Inspect(DateTime time)
     {
         time = FixDateForToday(time);
-        this.validator.IsLaterThan(time, this.record.ArrivalTime, INSPECTION_TERM);
-        this.record.InspectionTime = time;
+        this.validator.IsLaterThan(time, this.Record.ArrivalTime, INSPECTION_TERM);
+        this.Record.InspectionTime = time;
     }
     private void CompleteReInspection(DateTime time)
     {
         time = FixDateForToday(time);
-        this.validator.IsLaterThan(time, this.record.InspectionTime, RE_INSPECTION_TERM);
+        this.validator.IsLaterThan(time, this.Record.InspectionTime, RE_INSPECTION_TERM);
 
-        this.record.ReInspectionTime = time;
+        this.Record.ReInspectionTime = time;
     }
     private void Complete()
     {
-        if (!this.record.ArrivalTime.HasValue || !this.record.InspectionTime.HasValue)
+        if (!this.Record.ArrivalTime.HasValue || !this.Record.InspectionTime.HasValue)
         {
             throw new Exception(PERFORMANCE_INVALID_COMPLETE);
         }
-        this.record.Result = new Result(ResultType.Successful);
+        this.Record.Result = new Result(ResultType.Successful);
     }
 
     // TODO: remove after testing lap

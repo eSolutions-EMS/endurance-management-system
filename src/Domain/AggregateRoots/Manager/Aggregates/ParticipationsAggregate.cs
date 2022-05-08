@@ -1,7 +1,6 @@
 ﻿using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Competitions;
 using EnduranceJudge.Domain.State.Participations;
-using EnduranceJudge.Domain.AggregateRoots.Common.Performances;
 using EnduranceJudge.Domain.Core.Exceptions;
 using EnduranceJudge.Domain.State.Laps;
 using EnduranceJudge.Domain.State.LapRecords;
@@ -31,10 +30,11 @@ public class ParticipationsAggregate : IAggregate
     public int Number { get; }
     public bool IsDisqualified { get; }
     public string DisqualifiedCode { get; }
+    public LapRecord Latest => this.participation.Participant.LapRecords.Last();
 
     internal void Start()
     {
-        this.AddRecord(this.competitionConstraint.StartTime);
+        this.CreateRecord(this.competitionConstraint.StartTime);
     }
     internal void Update(DateTime time)
     {
@@ -42,18 +42,12 @@ public class ParticipationsAggregate : IAggregate
         {
             throw Helper.Create<ParticipantException>(PARTICIPATION_IS_DISQUALIFIED, this.Number);
         }
-        var record = this.GetLast();
-        if (record.IsComplete)
+        var record = this.Latest.Aggregate();
+        var continueSequence = record.Update(time);
+        if (continueSequence)
         {
-            record = this.CreateNext();
+            this.CreateNext(time);
         }
-        record.Update(time);
-    }
-    internal LapRecordsAggregate GetLast()
-    {
-        var record = this.participation.Participant.LapRecords.Last();
-        var aggregate = new LapRecordsAggregate(record);
-        return aggregate;
     }
 
     internal void Add(Competition competition)
@@ -86,26 +80,23 @@ public class ParticipationsAggregate : IAggregate
         this.participation.Add(competition.Id);
     }
 
-    public LapRecordsAggregate CreateNext()
+    public void CreateNext(DateTime arrivalTime)
     {
-        var currentRecord = this.participation.Participant.LapRecords.Last();
         if (this.NextLap == null)
         {
             throw Helper.Create<ParticipationException>(PARTICIPATION_HAS_ENDED_MESSAGE);
         }
-        var startTime = Performance.CalculateStartTime(currentRecord, this.CurrentLap);
-        return this.AddRecord(startTime);
+        var record = this.CreateRecord(this.Latest.NextStarTime!.Value);
+        record.Aggregate().Update(arrivalTime);
     }
 
-    private LapRecordsAggregate AddRecord(DateTime startTime)
+    private LapRecord CreateRecord(DateTime startTime)
     {
         var record = new LapRecord(FixDateForToday(startTime), this.NextLap);
         this.participation.Participant.Add(record);
-        var lapsAggregate = new LapRecordsAggregate(record);
-        return lapsAggregate;
+        return record;
     }
 
-    private Lap CurrentLap => this.competitionConstraint.Laps[this.participation.Participant.LapRecords.Count - 1];
     private Lap NextLap
         => this.competitionConstraint.Laps.Count > this.participation.Participant.LapRecords.Count
             ? this.competitionConstraint.Laps[this.participation.Participant.LapRecords.Count]

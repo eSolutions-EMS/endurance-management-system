@@ -1,4 +1,5 @@
-﻿using EnduranceJudge.Domain.Core.Models;
+﻿using EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates;
+using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Laps;
 using EnduranceJudge.Domain.State.Results;
 using System;
@@ -25,4 +26,12 @@ public class LapRecord : DomainBase<LapRecordException>, ILapRecordState
 
     public DateTime? VetGateTime
         => this.ReInspectionTime ?? this.InspectionTime;
+    public DateTime? NextStarTime
+        => this.VetGateTime?.AddMinutes(this.Lap.RestTimeInMins);
+}
+
+public static partial class AggregateExtensions
+{
+    public static LapRecordsAggregate Aggregate(this LapRecord record)
+        => new (record);
 }
