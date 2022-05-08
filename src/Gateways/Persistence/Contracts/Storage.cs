@@ -51,12 +51,13 @@ public class Storage : IStorage
 
     public void Snapshot() => this.Create();
 
-    public string LogError(string error)
+    public string LogError(string message, string stackTrace)
     {
         var timestamp = DateTime.Now.ToString("yyyy-mm-ddTHH-mm-ss");
         var log = new Dictionary<string, object>
         {
-            { "error", error },
+            { "error-message", message },
+            { "error-stack-trance", stackTrace },
             { "state", this.appState }
         };
         var serialized = this.serialization.Serialize(log);
