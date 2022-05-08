@@ -46,7 +46,7 @@
                         <TextBlock Style="{StaticResource Text}"
                                    Text="{x:Static localization:Strings.NAME}" />
                     </Border>
-                    <Border Style="{StaticResource Border-StartList}">
+                    <Border Style="{StaticResource Border-StartList}" Width="120px">
                         <TextBlock Style="{StaticResource Text}"
                                    Text="{x:Static localization:Strings.COUNTRY_ENTITY}" />
                     </Border>

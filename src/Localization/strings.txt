@@ -107,7 +107,7 @@ TOTAL                               | Total | Total
 SELECT                              | Select | Select
 GATE                                | Gate | Gate
 RE_QUIRED_INSPECTION                | Re_quired Inspection | Re_quired Inspection
-HAS_STARTED                         | Has Started | Has Started
+HAS_STARTED                         | Started | Started
 DISTANCE                            | Distance | Distance
 STARTLIST                           | Startlist | Startlist
 INCLUDE_PAST                        | Include Past | Include Past

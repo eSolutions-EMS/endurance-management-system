@@ -7,34 +7,34 @@
         <StackPanel Style="{StaticResource List-Horizontal}" Margin="-5px -2px 0 0">
             <!-- Number -->
             <Border Style="{StaticResource Border-StartList}">
-                <TextBlock Style="{StaticResource Text}"
+                <TextBlock Style="{StaticResource Text-Small}"
                            Text="{Binding Number}" />
             </Border>
             <!-- Name -->
             <Border Style="{StaticResource Border-StartList}" Width="400px">
-                <TextBlock Style="{StaticResource Text}"
+                <TextBlock Style="{StaticResource Text-Small}"
                            Text="{Binding Name}" />
             </Border>
             <!-- Country Name -->
-            <Border Style="{StaticResource Border-StartList}">
-                <TextBlock Style="{StaticResource Text}"
+            <Border Style="{StaticResource Border-StartList}" Width="120px">
+                <TextBlock Style="{StaticResource Text-Small}"
                            Text="{Binding CountryName}" />
             </Border>
             <!-- Distance -->
             <Border Style="{StaticResource Border-StartList}">
-                <TextBlock Style="{StaticResource Text}">
+                <TextBlock Style="{StaticResource Text-Small}">
                     <Run Text="{Binding Distance, Mode=OneWay}" />
                     <Run Text="{x:Static localization:Strings.KM}" />
                 </TextBlock>
             </Border>
             <!-- StartTime -->
             <Border Style="{StaticResource Border-StartList}">
-                <TextBlock Style="{StaticResource Text}"
+                <TextBlock Style="{StaticResource Text-Small}"
                            Text="{Binding StartTimeString}" />
             </Border>
             <!-- HasStarted -->
             <Border Style="{StaticResource Border-StartList}">
-                <TextBlock Style="{StaticResource Text}"
+                <TextBlock Style="{StaticResource Text-Small}"
                            Text="{Binding HasStarted}" />
             </Border>
         </StackPanel>
