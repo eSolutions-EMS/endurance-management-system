@@ -42,18 +42,12 @@ public class ParticipationsAggregate : IAggregate
         {
             throw Helper.Create<ParticipantException>(PARTICIPATION_IS_DISQUALIFIED, this.Number);
         }
-        var record = this.GetActive() ?? this.CreateNext();
-        record.Update(time);
-    }
-    internal LapRecordsAggregate GetActive()
-    {
-        var record = this.participation.Participant.LapRecords.SingleOrDefault(x => x.Result == null);
-        if (record == null)
+        var record = this.GetLast();
+        if (record.IsComplete)
         {
-            return null;
+            record = this.CreateNext();
         }
-        var recordsAggregate = new LapRecordsAggregate(record);
-        return recordsAggregate;
+        record.Update(time);
     }
     internal LapRecordsAggregate GetLast()
     {
@@ -94,7 +88,7 @@ public class ParticipationsAggregate : IAggregate
 
     public LapRecordsAggregate CreateNext()
     {
-        var currentRecord = this.participation.Participant.LapRecords.LastOrDefault();
+        var currentRecord = this.participation.Participant.LapRecords.Last();
         if (this.NextLap == null)
         {
             throw Helper.Create<ParticipationException>(PARTICIPATION_HAS_ENDED_MESSAGE);

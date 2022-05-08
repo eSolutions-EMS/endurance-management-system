@@ -44,13 +44,15 @@ public class ManagerRoot : IAggregateRoot
 
     public void UpdateRecord(int number, DateTime time)
     {
-        var participation = this.GetParticipation(number);
-        participation.Aggregate().Update(time);
+        var participation = this
+            .GetParticipation(number)
+            .Aggregate();
+        participation.Update(time);
     }
     public void Disqualify(int number, string reason)
     {
         reason ??= nameof(_DQ);
-        var lap = this.GetActiveLap(number);
+        var lap = this.GetLastLap(number);
         lap.Disqualify(reason);
     }
     public void FailToQualify(int number, string reason)
@@ -59,21 +61,21 @@ public class ManagerRoot : IAggregateRoot
         {
             throw Helper.Create<ParticipantException>(PARTICIPANT_CANNOT_FTQ_WITHOUT_REASON_MESSAGE, _FTQ);
         }
-        var lap = this.GetActiveLap(number);
+        var lap = this.GetLastLap(number);
         lap.FailToQualify(reason);
     }
     public void Resign(int number, string reason)
     {
         reason ??= nameof(_RET);
-        var lap = this.GetActiveLap(number);
+        var lap = this.GetLastLap(number);
         lap.Resign(reason);
     }
 
-    private LapRecordsAggregate GetActiveLap(int participantNumber)
+    private LapRecordsAggregate GetLastLap(int participantNumber)
     {
         var participation = this.GetParticipation(participantNumber);
         var aggregate = participation.Aggregate();
-        var lap = aggregate.GetActive() ?? aggregate.CreateNext();
+        var lap = aggregate.GetLast();
         return lap;
     }
 
@@ -81,7 +83,7 @@ public class ManagerRoot : IAggregateRoot
     public void ReInspection(int number, bool isRequired)
     {
         var participation = this.GetParticipation(number);
-        var currentAggregate = participation.Aggregate().GetActive();
+        var currentAggregate = participation.Aggregate().GetLast();
         // TODO: fix Error message - should be LapRecord not found or Participation has concluded.
         if (currentAggregate == null)
         {

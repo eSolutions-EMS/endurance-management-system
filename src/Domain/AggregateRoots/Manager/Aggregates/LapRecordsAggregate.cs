@@ -20,6 +20,8 @@ public class LapRecordsAggregate : IAggregate
         this.validator = new Validator<LapRecordException>();
     }
 
+    public bool IsComplete => this.record.Result != null;
+
     internal void Update(DateTime time)
     {
         if (time == default)
