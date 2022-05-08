@@ -49,6 +49,7 @@ public class ManagerRoot : IAggregateRoot
     }
     public void Disqualify(int number, string reason)
     {
+        reason ??= nameof(_DQ);
         var lap = this.GetActiveLap(number);
         lap.Disqualify(reason);
     }
@@ -59,6 +60,7 @@ public class ManagerRoot : IAggregateRoot
     }
     public void Resign(int number, string reason)
     {
+        reason ??= nameof(_RET);
         var lap = this.GetActiveLap(number);
         lap.Resign(reason);
     }
