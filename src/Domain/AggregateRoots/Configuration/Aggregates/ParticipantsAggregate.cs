@@ -58,9 +58,10 @@ public class ParticipantsAggregate : IAggregate
     public void Remove(int id)
     {
         this.state.ValidateThatEventHasNotStarted();
-
-        var participant = this.state.Participations.FindDomain(id);
-        this.state.Participations.Remove(participant);
+        var participant = this.state.Participants.FindDomain(id);
+        var participation = this.state.Participations.FirstOrDefault(p => p.Participant.Id == id);
+        this.state.Participations.Remove(participation);
+        this.state.Participants.Remove(participant);
     }
     public void AddParticipation(int competitionId, int participantId)
     {
