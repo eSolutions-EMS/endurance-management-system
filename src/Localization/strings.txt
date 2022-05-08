@@ -120,6 +120,9 @@ JURY                                | Jury | Jury
 FEI_TECH_DELEGATE                   | FEI Tech.Delegate | FEI Tech.Delegate
 FEI_VET_DELEGATE                    | FEI Vet.Delegate | FEI Vet.Delegate
 PRESIDENT_VET_COMMITTEE             | Pres. Vet. Comm. | Pres. Vet. Comm.
+FINAL_LAP_ALREADY_EXISTS_MESSAGE                         | cannot be saved as final. Final {entities-lap} already exists | cannot be saved as final. Final {entities-lap} already exists
+FINAL_LAP_MUST_HAVE_HIGHEST_ORDER_MESSAGE                | cannot be saved as final. Final {entities-lap} must have the highest {words-order-by} | cannot be saved as final. Final {entities-lap} must have the highest {words-order-by}
+LAP_MUST_HAVE_LOWER_ORDER_THAN_FINAL_LAP_MESSAGE         | cannot be saved. A final {entities-lap} already exists with lower {words-order-by} | cannot be saved. A final {entities-lap} already exists with lower {words-order-by}
 CANNOT_REMOVE_USED_IN_PARTICIPANT_MESSAGE                | cannot be removed because it is used in an existing {entities-participant} | cannot be removed because it is used in an existing {entities-participant}
 ALREADY_PARTICIPATING_MESSAGE                            | cannot be created - '{0}' is already participating. | cannot be created - '{0}' is already participating.
 CANNOT_ADD_PARTICIPATION_DIFFERENT_PHASE_COUNT_MESSAGE   | cannot be added, because they already participate in '{0}' with different amount of {entities-lap-plurals}  | cannot be added, because they already participate in '{0}' with different amount of {entities-lap-plurals}

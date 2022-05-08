@@ -77,13 +77,32 @@ public class LapsAggregate : IAggregate
     private void Validate(ILapState lapState, int competitionId)
     {
         var competition = this.state.Event.Competitions.FindDomain(competitionId);
+        var otherLaps = competition.Laps
+            .Where(x => x.Id != lapState.Id)
+            .ToList();
+        if (lapState.IsFinal)
+        {
+            if (otherLaps.Any(x => x.IsFinal))
+            {
+                throw Helper.Create<LapException>(FINAL_LAP_ALREADY_EXISTS_MESSAGE);
+            }
+            if (otherLaps.Any(x => x.OrderBy >= lapState.OrderBy))
+            {
+                throw Helper.Create<LapException>(FINAL_LAP_MUST_HAVE_HIGHEST_ORDER_MESSAGE);
+            }
+        }
+        else
+        {
+            var final = otherLaps.FirstOrDefault(x => x.IsFinal);
+            if (final is not null)
+            {
+                throw Helper.Create<LapException>(LAP_MUST_HAVE_LOWER_ORDER_THAN_FINAL_LAP_MESSAGE);
+            }
+            this.validator.IsRequired(lapState.RestTimeInMins, REST_TIME_IN_MINS);
+        }
         if (competition.Laps.Any(x => x.OrderBy == lapState.OrderBy && x.Id != lapState.Id))
         {
             throw Helper.Create<LapException>(INVALID_ORDER_BY_MESSAGE, lapState.OrderBy);
-        }
-        if (!lapState.IsFinal)
-        {
-            this.validator.IsRequired(lapState.RestTimeInMins, REST_TIME_IN_MINS);
         }
         this.validator.IsRequired(lapState.OrderBy, ORDER);
         this.validator.IsRequired(lapState.LengthInKm, LENGTH_IN_KM);

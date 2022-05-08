@@ -33,6 +33,7 @@ public static class LocalizationConstants
         public const string LAPS =                     "{entities-lap-plurals}";
         public const string WORDS_UPDATE =             "{words-update}";
         public const string WORDS_SELECT_DIRECTORY =   "{words-select-directory}";
+        public const string WORDS_ORDER =              "{words-order-by}";
     };
 
     public static Assembly[] Assemblies

@@ -43,6 +43,7 @@ public class PlaceholderProcessor : IPlaceholderProcessor
         template = template.Replace(LAPS,                     values[nameof(Strings.LAPS_ENTITY)]);
         template = template.Replace(WORDS_UPDATE,             values[nameof(Strings.UPDATE)]);
         template = template.Replace(WORDS_SELECT_DIRECTORY,   values[nameof(Strings.SELECT_DIRECTORY)]);
+        template = template.Replace(WORDS_ORDER,              values[nameof(Strings.ORDER)]);
 
         return template;
     }

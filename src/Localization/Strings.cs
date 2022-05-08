@@ -158,6 +158,9 @@ public static class Strings
     public static string CHANGE_NOT_ALLOWED_WHEN_EVENT_HAS_STARTED_MESSAGE        { get; internal set; }
     public static string REQUIRED_INSPECTION_IS_NOT_ALLOWED_MESSAGE               { get; internal set; }
     public static string INVALID_ORDER_BY_MESSAGE                                 { get; internal set; }
+    public static string FINAL_LAP_ALREADY_EXISTS_MESSAGE                         { get; internal set; }
+    public static string FINAL_LAP_MUST_HAVE_HIGHEST_ORDER_MESSAGE                { get; internal set; }
+    public static string LAP_MUST_HAVE_LOWER_ORDER_THAN_FINAL_LAP_MESSAGE         { get; internal set; }
     public static string INVALID_COMPETITION_NO_FINAL_PHASE_MESSAGE               { get; internal set; }
     public static string INVALID_PARTICIPANT_NO_PARTICIPATIONS_MESSAGE            { get; internal set; }
     public static string INVALID_PARTICIPANT_NO_COUNTRY_MESSAGE                   { get; internal set; }
