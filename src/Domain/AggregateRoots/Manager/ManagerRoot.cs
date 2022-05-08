@@ -55,6 +55,10 @@ public class ManagerRoot : IAggregateRoot
     }
     public void FailToQualify(int number, string reason)
     {
+        if (string.IsNullOrEmpty(reason))
+        {
+            throw Helper.Create<ParticipantException>(PARTICIPANT_CANNOT_FTQ_WITHOUT_REASON_MESSAGE, _FTQ);
+        }
         var lap = this.GetActiveLap(number);
         lap.FailToQualify(reason);
     }

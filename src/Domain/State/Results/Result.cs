@@ -13,7 +13,7 @@ public class Result : DomainBase<ResultException>, IResultState
         this.Type = type;
     }
 
-    public bool IsNotQualified => this.Code is not null;
+    public bool IsNotQualified => this.Type != ResultType.Successful;
     public string Code { get; private set; }
     public ResultType Type { get; private set; } = ResultType.Successful;
 

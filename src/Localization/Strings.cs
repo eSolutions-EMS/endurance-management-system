@@ -151,6 +151,10 @@ public static class Strings
     /// {1}: Property value
     /// </summary>
     public static string NOT_FOUND_MESSAGE                                        { get; internal set; }
+    /// <summary>
+    /// {0}: FTQ string
+    /// </summary>
+    public static string PARTICIPANT_CANNOT_FTQ_WITHOUT_REASON_MESSAGE            { get; internal set; }
     public static string CHANGE_NOT_ALLOWED_WHEN_EVENT_HAS_STARTED_MESSAGE        { get; internal set; }
     public static string REQUIRED_INSPECTION_IS_NOT_ALLOWED_MESSAGE               { get; internal set; }
     public static string INVALID_ORDER_BY_MESSAGE                                 { get; internal set; }
