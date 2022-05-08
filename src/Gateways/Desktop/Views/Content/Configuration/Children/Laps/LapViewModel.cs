@@ -2,6 +2,7 @@
 using EnduranceJudge.Domain.AggregateRoots.Configuration;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Laps;
+using EnduranceJudge.Gateways.Desktop.Services;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core;
 using static EnduranceJudge.Localization.Strings;
 
@@ -10,7 +11,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.L
 // TODO: Change IsFinal to checkbox
 public class LapViewModel : NestedConfigurationBase<LapView, Lap>, ILapState
 {
-    private readonly ConfigurationRoot aggregate;
+    private readonly IExecutor<ConfigurationRoot> executor;
     private string isFinalText;
     private int isFinalValue;
     private double? lengthInKm;
@@ -20,22 +21,20 @@ public class LapViewModel : NestedConfigurationBase<LapView, Lap>, ILapState
     private bool requireCompulsoryInspection;
 
     private LapViewModel() : this(null, null) { }
-    public LapViewModel(
-        ConfigurationRoot aggregate,
-        IQueries<Lap> laps) : base(laps)
+    public LapViewModel(IExecutor<ConfigurationRoot> executor, IQueries<Lap> laps) : base(laps)
     {
-        this.aggregate = aggregate;
+        this.executor = executor;
     }
 
     protected override IDomain Persist()
     {
         if (this.ParentId.HasValue)
         {
-            return this.aggregate.Laps.Create(this.ParentId.Value, this);
+            return this.executor.Execute(config => config.Laps.Create(this.ParentId.Value, this));
         }
         else
         {
-            return this.aggregate.Laps.Update(this);
+            return this.executor.Execute(config => config.Laps.Update(this));
         }
     }
 

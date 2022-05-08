@@ -27,19 +27,16 @@ public class CompetitionViewModel : NestedConfigurationBase<CompetitionView, Com
     ICompetitionState,
     ICollapsable
 {
-    private readonly IExecutor<ConfigurationRoot> configurationExecutor;
+    private readonly IExecutor<ConfigurationRoot> executor;
     private readonly IQueries<Participation> participations;
-    private readonly ConfigurationRoot configuration;
-    public CompetitionViewModel() : this(null, null, null, null) { }
+    public CompetitionViewModel() : this(null, null, null) { }
     public CompetitionViewModel(
-        IExecutor<ConfigurationRoot> configurationExecutor,
+        IExecutor<ConfigurationRoot> executor,
         IQueries<Participation> participations,
-        ConfigurationRoot configuration,
         IQueries<Competition> competitions) : base(competitions)
     {
-        this.configurationExecutor = configurationExecutor;
+        this.executor = executor;
         this.participations = participations;
-        this.configuration = configuration;
         this.AddParticipants = new DelegateCommand(this.NavigateToAddParticipants);
         this.ToggleVisibility = new DelegateCommand(this.ToggleVisibilityAction);
         this.CreateLap = new DelegateCommand(this.NewForm<LapView>);
@@ -68,13 +65,14 @@ public class CompetitionViewModel : NestedConfigurationBase<CompetitionView, Com
     }
     protected override IDomain Persist()
     {
-        var result = this.configuration.Competitions.Save(this);
+        var result = this.executor.Execute(config =>
+            config.Competitions.Save(this));
         return result;
     }
 
     private void RemoveParticipantAction(int? participation)
     {
-        this.configurationExecutor.Execute(x =>
+        this.executor.Execute(x =>
             x.Competitions.RemoveParticipation(this.Id, participation!.Value));
         this.LoadParticipations();
     }

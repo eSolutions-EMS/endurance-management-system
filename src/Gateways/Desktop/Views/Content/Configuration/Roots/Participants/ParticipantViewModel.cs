@@ -6,6 +6,7 @@ using EnduranceJudge.Domain.State.Athletes;
 using EnduranceJudge.Domain.State.Horses;
 using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
+using EnduranceJudge.Gateways.Desktop.Services;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core;
 using Prism.Commands;
 using Prism.Regions;
@@ -18,17 +19,17 @@ public class ParticipantViewModel : ConfigurationBase<ParticipantView, Participa
     IParticipantState,
     IMapFrom<Participant>
 {
-    private readonly ConfigurationRoot aggregate;
+    private readonly IExecutor<ConfigurationRoot> executor;
     private readonly IQueries<Athlete> athletes;
     private readonly IQueries<Horse> horses;
     private ParticipantViewModel() : base(null) {}
     public ParticipantViewModel(
-        ConfigurationRoot aggregate,
+        IExecutor<ConfigurationRoot> executor,
         IQueries<Athlete> athletes,
         IQueries<Horse> horses,
         IQueries<Participant> participants) : base(participants)
     {
-        this.aggregate = aggregate;
+        this.executor = executor;
         this.athletes = athletes;
         this.horses = horses;
         this.ToggleIsAverageSpeedInKmPhVisibility = new DelegateCommand(
@@ -59,7 +60,8 @@ public class ParticipantViewModel : ConfigurationBase<ParticipantView, Participa
 
     protected override IDomain Persist()
     {
-        var result = this.aggregate.Participants.Save(this, this.AthleteId, this.HorseId);
+        var result = this.executor.Execute(config =>
+            config.Participants.Save(this, this.AthleteId, this.HorseId));
         return result;
     }
 

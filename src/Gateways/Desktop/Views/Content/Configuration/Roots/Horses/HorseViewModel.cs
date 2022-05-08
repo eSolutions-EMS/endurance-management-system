@@ -3,16 +3,17 @@ using EnduranceJudge.Core.Models;
 using EnduranceJudge.Domain.AggregateRoots.Configuration;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Horses;
+using EnduranceJudge.Gateways.Desktop.Services;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Horses;
 
 public class HorseViewModel : ConfigurationBase<HorseView, Horse>, IHorseState, IListable
 {
-    private readonly ConfigurationRoot configuration;
-    private HorseViewModel(ConfigurationRoot configuration, IQueries<Horse> horses) : base(horses)
+    private readonly IExecutor<ConfigurationRoot> executor;
+    private HorseViewModel(IExecutor<ConfigurationRoot> executor, IQueries<Horse> horses) : base(horses)
     {
-        this.configuration = configuration;
+        this.executor = executor;
     }
 
     private int isStallionValue;
@@ -26,7 +27,8 @@ public class HorseViewModel : ConfigurationBase<HorseView, Horse>, IHorseState, 
 
     protected override IDomain Persist()
     {
-        var result = this.configuration.Horses.Save(this);
+        var result = this.executor.Execute(config =>
+            config.Horses.Save(this));
         return result;
     }
 

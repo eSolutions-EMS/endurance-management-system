@@ -6,6 +6,7 @@ using EnduranceJudge.Domain.State.Countries;
 using EnduranceJudge.Domain.State.EnduranceEvents;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
 using EnduranceJudge.Gateways.Desktop.Core.Services;
+using EnduranceJudge.Gateways.Desktop.Services;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Competitions;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Personnel;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core;
@@ -19,19 +20,19 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Even
 public class EnduranceEventViewModel : NestedConfigurationBase<EnduranceEventView, EnduranceEvent>
 {
     private readonly IPopupService popupService;
-    private readonly ConfigurationRoot aggregate;
+    private readonly IExecutor<ConfigurationRoot> executor;
     private readonly IEnduranceEventQuery enduranceEventQuery;
     private readonly IQueries<Country> countryQueries;
 
     public EnduranceEventViewModel(
         IPopupService popupService,
-        ConfigurationRoot aggregate,
+        IExecutor<ConfigurationRoot> executor,
         IEnduranceEventQuery enduranceEventQuery,
         IQueries<Country> countryQueries) : base (enduranceEventQuery)
     {
         this.BackOnSubmit = false;
         this.popupService = popupService;
-        this.aggregate = aggregate;
+        this.executor = executor;
         this.enduranceEventQuery = enduranceEventQuery;
         this.countryQueries = countryQueries;
         this.CreateCompetition = new DelegateCommand(this.NewForm<CompetitionView>);
@@ -66,7 +67,8 @@ public class EnduranceEventViewModel : NestedConfigurationBase<EnduranceEventVie
     }
     protected override IDomain Persist()
     {
-        var result = this.aggregate.Update(this.Name, this.CountryId, this.PopulatedPlace);
+        var result = this.executor.Execute(config =>
+            config.Update(this.Name, this.CountryId, this.PopulatedPlace));
         this.popupService.RenderOk();
         return result;
     }

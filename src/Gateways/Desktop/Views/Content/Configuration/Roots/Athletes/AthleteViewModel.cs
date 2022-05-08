@@ -8,6 +8,7 @@ using EnduranceJudge.Domain.State.Athletes;
 using EnduranceJudge.Domain.Enums;
 using EnduranceJudge.Domain.State.Countries;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
+using EnduranceJudge.Gateways.Desktop.Services;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core;
 using Prism.Regions;
 using System.Collections.ObjectModel;
@@ -18,16 +19,16 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Athl
 
 public class AthleteViewModel : ConfigurationBase<AthleteView, Athlete>, IAthleteState, IListable
 {
-    private readonly ConfigurationRoot aggregate;
+    private readonly IExecutor<ConfigurationRoot> executor;
     private readonly IQueries<Country> countries;
     private readonly IQueries<Athlete> athletes;
 
     private AthleteViewModel(
-        ConfigurationRoot aggregate,
+        IExecutor<ConfigurationRoot> executor,
         IQueries<Country> countries,
         IQueries<Athlete> athletes) : base(athletes)
     {
-        this.aggregate = aggregate;
+        this.executor = executor;
         this.countries = countries;
         this.athletes = athletes;
         this.CategoryId = (int)Category.Adults;
@@ -57,7 +58,8 @@ public class AthleteViewModel : ConfigurationBase<AthleteView, Athlete>, IAthlet
     }
     protected override IDomain Persist()
     {
-        var result = this.aggregate.Athletes.Save(this, this.CountryId);
+        var result = this.executor.Execute(config =>
+            config.Athletes.Save(this, this.CountryId));
         return result;
     }
     private void LoadCountries()

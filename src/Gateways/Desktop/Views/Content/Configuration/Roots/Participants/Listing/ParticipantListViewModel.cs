@@ -13,17 +13,17 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Part
 
 public class ParticipantListViewModel : SearchableListViewModelBase<ParticipantView>
 {
-    private readonly ConfigurationRoot aggregate;
+    private readonly IExecutor<ConfigurationRoot> executor;
     private readonly IQueries<Participant> participants;
 
     public ParticipantListViewModel(
         IPopupService popupService,
-        ConfigurationRoot aggregate,
+        IExecutor<ConfigurationRoot> executor,
         IQueries<Participant> participants,
         IPersistence persistence,
         INavigationService navigation) : base(navigation, persistence, popupService)
     {
-        this.aggregate = aggregate;
+        this.executor = executor;
         this.participants = participants;
     }
 
@@ -36,7 +36,6 @@ public class ParticipantListViewModel : SearchableListViewModelBase<ParticipantV
     }
 
     protected override void RemoveDomain(int id)
-    {
-        this.aggregate.Participants.Remove(id);
-    }
+        => this.executor.Execute(config =>
+            config.Participants.Remove(id));
 }
