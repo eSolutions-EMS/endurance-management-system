@@ -38,7 +38,7 @@ public class RanklistAggregate : List<Participation>, IAggregate
             .Where(x => x.Participant.Athlete.Category == Category.Kids)
             .Select(this.CalculateTotalRecovery)
             .OrderBy(x => this.IsNotQualifiedPredicate(x.Item2))
-            .ThenByDescending(x => x.Item1)
+            .ThenBy(x => x.Item1)
             .Select(x => x.Item2)
             .ToList();
 
@@ -60,10 +60,10 @@ public class RanklistAggregate : List<Participation>, IAggregate
     {
         var totalRecovery = participation.Participant
             .LapRecords
-            .Where(x => x.Result != null)
+            .Where(rec => rec.Result != null)
             .Aggregate(
                 TimeSpan.Zero,
-                (total, x) => total + this.GetRecoveryTime(x));
+                (total, rec) => total + this.GetRecoveryTime(rec));
 
         return (totalRecovery, participation);
     }
