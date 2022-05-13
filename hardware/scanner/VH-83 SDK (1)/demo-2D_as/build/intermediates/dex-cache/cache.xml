@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="E:\AndroidStudioSimple\BarCode2DS2\app\build\intermediates\exploded-aar\com.android.support\support-media-compat\26.0.0-alpha1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.2"
+        sha1="9935891f23923f39d002087085d9696568a9f657">
+        <dex dex="E:\AndroidStudioSimple\BarCode2DS2\app\build\intermediates\pre-dexed\debug\com.android.support-support-media-compat-26.0.0-alpha1_b743cac8700e89a1d81b7ba5bfbefd442379f3de.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\AndroidStudioSimple\BarCode2DS2\app\libs\IGLBarDecoder.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.2"
+        sha1="44f126001cf963fc22d1aa2fce4d1e0da49f99d3">
+        <dex dex="E:\AndroidStudioSimple\BarCode2DS2\app\build\intermediates\pre-dexed\debug\IGLBarDecoder_93bff5d24b1dcd83676b80c9d4c1b6e7b9404a97.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\AndroidStudioSimple\BarCode2DS2\app\build\intermediates\exploded-aar\com.android.support\support-core-ui\26.0.0-alpha1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.2"
+        sha1="fcd01fd11233459f546c437ec927e9b61bf7caf1">
+        <dex dex="E:\AndroidStudioSimple\BarCode2DS2\app\build\intermediates\pre-dexed\debug\com.android.support-support-core-ui-26.0.0-alpha1_aa5baa952dc51d190df033f21d2611c4e7b7e913.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="F:\android\adt-bundle-android_studio\android-sdk_r24.4.1-windows\android-sdk-windows\extras\android\m2repository\com\android\support\support-annotations\26.0.0-alpha1\support-annotations-26.0.0-alpha1.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.2"
+        sha1="023ee503b631f69511e335a061ea008f8da60f40">
+        <dex dex="E:\AndroidStudioSimple\BarCode2DS2\app\build\intermediates\pre-dexed\debug\support-annotations-26.0.0-alpha1_9db2d944da84fb767e363d7499d512b48a6fc3bf.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\AndroidStudioSimple\BarCode2DS2\app\build\intermediates\exploded-aar\com.android.support\support-compat\26.0.0-alpha1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.2"
+        sha1="8df0e365e40beb151bc42dee20817721a6cab7b0">
+        <dex dex="E:\AndroidStudioSimple\BarCode2DS2\app\build\intermediates\pre-dexed\debug\com.android.support-support-compat-26.0.0-alpha1_110b3cf310138b298d734e446d1df767193b398a.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\AndroidStudioSimple\BarCode2DS2\app\build\intermediates\exploded-aar\com.android.support\support-v4\26.0.0-alpha1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.2"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="E:\AndroidStudioSimple\BarCode2DS2\app\build\intermediates\pre-dexed\debug\com.android.support-support-v4-26.0.0-alpha1_85c006f0b9c94df26f37884794722212bc332f86.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\AndroidStudioSimple\BarCode2DS2\app\build\intermediates\exploded-aar\com.android.support\support-vector-drawable\26.0.0-alpha1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.2"
+        sha1="952944218ecedea1554a513dec0c14d570642843">
+        <dex dex="E:\AndroidStudioSimple\BarCode2DS2\app\build\intermediates\pre-dexed\debug\com.android.support-support-vector-drawable-26.0.0-alpha1_30211dcdd96e060cf58123283a9ce3dbf3721a1c.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\AndroidStudioSimple\BarCode2DS2\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\26.0.0-alpha1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.2"
+        sha1="47471eb19df288158b00b8d9cfa41bce7373f5cc">
+        <dex dex="E:\AndroidStudioSimple\BarCode2DS2\app\build\intermediates\pre-dexed\debug\com.android.support-appcompat-v7-26.0.0-alpha1_61c684ae33238b1fc116e5ce08c20f5182ed29ee.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\AndroidStudioSimple\BarCode2DS2\app\libs\cw-deviceapi20180918.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.2"
+        sha1="f2bca85bd41606d6743c2f04dae72bc5ac3f027c">
+        <dex dex="E:\AndroidStudioSimple\BarCode2DS2\app\build\intermediates\pre-dexed\debug\cw-deviceapi20180918_3335886b5835bca5c500307fa79e5789ae7b88db.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\AndroidStudioSimple\BarCode2DS2\app\build\intermediates\exploded-aar\com.android.support\animated-vector-drawable\26.0.0-alpha1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.2"
+        sha1="88246166d5afb106f532f6e6deae683c66b42c89">
+        <dex dex="E:\AndroidStudioSimple\BarCode2DS2\app\build\intermediates\pre-dexed\debug\com.android.support-animated-vector-drawable-26.0.0-alpha1_37aa358a541abc8ef6b47af88f7af9875b7510c7.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\AndroidStudioSimple\BarCode2DS2\app\build\intermediates\exploded-aar\com.android.support\support-fragment\26.0.0-alpha1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.2"
+        sha1="18d31838aa4fcc768a8a0516e22cc13b94655d89">
+        <dex dex="E:\AndroidStudioSimple\BarCode2DS2\app\build\intermediates\pre-dexed\debug\com.android.support-support-fragment-26.0.0-alpha1_c61f1bfe78624979bad28b916ac05f7de700e4d3.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="E:\AndroidStudioSimple\BarCode2DS2\app\build\intermediates\exploded-aar\com.android.support\support-core-utils\26.0.0-alpha1\jars\classes.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.2"
+        sha1="2e92aa0163544a804a0b34f169ca61801770839a">
+        <dex dex="E:\AndroidStudioSimple\BarCode2DS2\app\build\intermediates\pre-dexed\debug\com.android.support-support-core-utils-26.0.0-alpha1_ce0c294ee4f7017f5cabbf9b8e9ccf6e116a06ec.jar" />
+    </item>
+
+</items>
