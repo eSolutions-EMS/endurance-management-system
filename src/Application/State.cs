@@ -15,20 +15,20 @@ namespace EnduranceJudge.Application;
 
 public class State : IState
 {
-    public State()
-    {
-        var dataService = StaticProvider.GetService<IDataService>();
-        var existingState = dataService.Get();
-        if (existingState != null)
-        {
-            FixDatesForToday(existingState); // TODO: configuration and check
-            this.Event = existingState.Event;
-            this.Horses = existingState.Horses;
-            this.Athletes = existingState.Athletes;
-            this.Participants = existingState.Participants;
-            this.Participations = existingState.Participations;
-        }
-    }
+    // public State()
+    // {
+        // var dataService = StaticProvider.GetService<IDataService>();
+        // var existingState = dataService.Get();
+        // if (existingState != null)
+        // {
+        //     FixDatesForToday(existingState); // TODO: configuration and check
+        //     this.Event = existingState.Event;
+        //     this.Horses = existingState.Horses;
+        //     this.Athletes = existingState.Athletes;
+        //     this.Participants = existingState.Participants;
+        //     this.Participations = existingState.Participations;
+        // }
+    // }
     
     public EnduranceEvent Event { get; set; }
     public List<Horse> Horses { get; private set; } = new();

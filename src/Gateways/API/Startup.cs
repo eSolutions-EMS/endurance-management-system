@@ -1,6 +1,9 @@
+using AutoMapper;
 using Endurance.Judge.Gateways.API.Jobs;
 using Endurance.Judge.Gateways.API.Services;
+using EnduranceJudge.Application.Core.Services;
 using EnduranceJudge.Core;
+using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Domain;
 using EnduranceJudge.Domain.State;
 using Microsoft.AspNetCore.Builder;
@@ -8,6 +11,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 using System.Linq;
 using System.Reflection;
 
@@ -52,7 +56,9 @@ namespace Endurance.Judge.Gateways.API
     {
         public static IServiceCollection AddApi(this IServiceCollection services, Assembly[] assemblies)
         {
-            services.AddControllers();
+            services
+                .AddControllers()
+                .AddNewtonsoftJson(opt => JsonSerializationService.Configure(opt.SerializerSettings));
             services.AddHostedService<StateUpdateJob>();
             services.AddSingleton<Context, Context>();
             services.AddSingleton<IReadonlyContext>(provider => provider.GetRequiredService<Context>());
