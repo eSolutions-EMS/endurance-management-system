@@ -49,6 +49,20 @@ public class ManagerRoot : IAggregateRoot
             .Aggregate();
         participation.Update(time);
     }
+    public void RecordArrive(string rfid, DateTime time)
+    {
+        var participation = this
+            .GetParticipation(rfid)
+            .Aggregate();
+        participation.Arrive(time);
+    }
+    public void RecordInspect(string rfid, DateTime time)
+    {
+        var participation = this
+            .GetParticipation(rfid)
+            .Aggregate();
+        participation.Inspect(time);
+    }
     public void Disqualify(int number, string reason)
     {
         reason ??= nameof(_DQ);
@@ -127,6 +141,18 @@ public class ManagerRoot : IAggregateRoot
         if (participation == null)
         {
             throw Helper.Create<ParticipantException>(NOT_FOUND_MESSAGE, NUMBER, number);
+        }
+        return participation;
+    }
+
+    private Participation GetParticipation(string rfid)
+    {
+        var participation = this.state
+            .Participations
+            .FirstOrDefault(x => x.Participant.RfId == rfid);
+        if (participation == null)
+        {
+            throw Helper.Create<ParticipantException>(NOT_FOUND_MESSAGE, RFID_NUMBER, rfid);
         }
         return participation;
     }
