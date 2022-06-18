@@ -1,9 +1,15 @@
+using EnduranceJudge.Core;
+using EnduranceJudge.Domain;
+using EnduranceJudge.Gateways.Persistence;
+using EnduranceJudge.Gateways.Persistence.Startup;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using System.Linq;
+using System.Reflection;
 
 namespace API
 {
@@ -18,8 +24,17 @@ namespace API
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
-            services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" }); });
+            var assemblies = CoreConstants.Assemblies
+                .Concat(DomainConstants.Assemblies)
+                .Concat(PersistenceConstants.Assemblies)
+                .Concat(ApiConstants.Assemblies)
+                .ToArray();
+
+            services
+                .AddCore(assemblies)
+                .AddDomain(assemblies)
+                .AddPersistence(assemblies)
+                .AddApi(assemblies);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -27,13 +42,21 @@ namespace API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "API v1"));
             }
             app.UseHttpsRedirection();
             app.UseRouting();
             app.UseAuthorization();
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+        }
+    }
+    
+    public static class ApiServices
+    {
+        public static IServiceCollection AddApi(this IServiceCollection services, Assembly[] assemblies)
+        {
+            services.AddControllers();
+            services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" }); });
+            return services;
         }
     }
 }
