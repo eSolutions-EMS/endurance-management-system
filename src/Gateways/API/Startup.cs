@@ -1,9 +1,6 @@
-using AutoMapper;
-using Endurance.Judge.Gateways.API.Jobs;
 using Endurance.Judge.Gateways.API.Services;
 using EnduranceJudge.Application.Core.Services;
 using EnduranceJudge.Core;
-using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Core.Utilities;
 using EnduranceJudge.Domain;
 using EnduranceJudge.Domain.State;
@@ -63,9 +60,8 @@ namespace Endurance.Judge.Gateways.API
                 .AddControllers()
                 .AddNewtonsoftJson(opt => JsonSerializationService.Configure(opt.SerializerSettings));
             
-            services.AddHostedService<StateUpdateJob>();
             services.AddSingleton<Context, Context>();
-            services.AddSingleton<IReadonlyContext>(provider => provider.GetRequiredService<Context>());
+            services.AddSingleton<IContext>(provider => provider.GetRequiredService<Context>());
             services.AddTransient<IState>(provider => provider.GetRequiredService<Context>().State);
             
             return services;
