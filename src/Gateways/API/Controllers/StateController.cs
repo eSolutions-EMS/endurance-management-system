@@ -8,17 +8,17 @@ namespace Endurance.Judge.Gateways.API.Controllers
     [Route("[controller]")]
     public class StateController : ControllerBase
     {
-        private readonly IReadonlyContext context;
-        private readonly IStateChangesQueue stateChangesQueue;
+        private readonly IContext context;
         private readonly IJudgeEventQueue judgeEventQueue;
+        private readonly IStateManager stateManager;
         public StateController(
-            IReadonlyContext context,
-            IStateChangesQueue stateChangesQueue,
-            IJudgeEventQueue judgeEventQueue)
+            IContext context,
+            IJudgeEventQueue judgeEventQueue,
+            IStateManager stateManager)
         {
             this.context = context;
-            this.stateChangesQueue = stateChangesQueue;
             this.judgeEventQueue = judgeEventQueue;
+            this.stateManager = stateManager;
         }
         
         [HttpGet]
@@ -31,7 +31,7 @@ namespace Endurance.Judge.Gateways.API.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] State state)
         {
-            this.stateChangesQueue.Enqueue(state);
+            this.stateManager.Set(state);
             return this.Ok();
         }
     }
