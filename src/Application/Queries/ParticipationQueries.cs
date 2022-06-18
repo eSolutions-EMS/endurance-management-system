@@ -1,10 +1,10 @@
-﻿using EnduranceJudge.Domain.State;
+﻿using EnduranceJudge.Application.Core;
+using EnduranceJudge.Domain.State;
 using EnduranceJudge.Domain.State.Participations;
-using EnduranceJudge.Gateways.Persistence.Core;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EnduranceJudge.Gateways.Persistence.Contracts.Queries;
+namespace EnduranceJudge.Application.Queries;
 
 public class ParticipationQueries : QueriesBase<Participation>
 {

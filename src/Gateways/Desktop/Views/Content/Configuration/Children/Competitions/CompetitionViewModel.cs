@@ -1,9 +1,8 @@
-﻿using EnduranceJudge.Application.Aggregates.Configurations.Contracts;
+﻿using EnduranceJudge.Application.Core;
 using EnduranceJudge.Domain.AggregateRoots.Configuration;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Competitions;
 using EnduranceJudge.Domain.Enums;
-using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Domain.State.Participations;
 using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem;

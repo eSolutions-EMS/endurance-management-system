@@ -1,10 +1,10 @@
 ﻿using EnduranceJudge.Application.Aggregates.Configurations;
+using EnduranceJudge.Application.Core;
 using EnduranceJudge.Domain.State;
 using EnduranceJudge.Domain.State.Personnels;
-using EnduranceJudge.Gateways.Persistence.Core;
 using System.Collections.Generic;
 
-namespace EnduranceJudge.Gateways.Persistence.Contracts.Queries;
+namespace EnduranceJudge.Application.Queries;
 
 public class PersonnelQueries : QueriesBase<Personnel>
 {

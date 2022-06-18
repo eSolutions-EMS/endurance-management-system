@@ -1,4 +1,4 @@
-﻿using EnduranceJudge.Application.Aggregates.Configurations.Contracts;
+﻿using EnduranceJudge.Application.Core;
 using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Core.Utilities;
 using EnduranceJudge.Domain.Core.Models;

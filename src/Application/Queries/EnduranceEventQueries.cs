@@ -1,13 +1,12 @@
-﻿using EnduranceJudge.Application.Aggregates.Configurations.Contracts;
+﻿using EnduranceJudge.Application.Core;
 using EnduranceJudge.Domain.State;
 using EnduranceJudge.Domain.State.EnduranceEvents;
-using EnduranceJudge.Gateways.Persistence.Core;
 using System;
 using System.Collections.Generic;
 
-namespace EnduranceJudge.Gateways.Persistence.Contracts.Queries;
+namespace EnduranceJudge.Application.Queries;
 
-public class EnduranceEventQueries : IEnduranceEventQuery, IQuery
+public class EnduranceEventQueries : IEnduranceEventQuery
 {
     private readonly IState state;
     public EnduranceEventQueries(IState state)
@@ -23,4 +22,9 @@ public class EnduranceEventQueries : IEnduranceEventQuery, IQuery
     public EnduranceEvent GetOne(Predicate<EnduranceEvent> predicate) => throw new NotImplementedException();
     public EnduranceEvent GetOne(int id) => throw new NotImplementedException();
     public List<EnduranceEvent> GetAll() => throw new NotImplementedException();
+}
+
+public interface IEnduranceEventQuery : IQueries<EnduranceEvent>
+{
+    EnduranceEvent Get();
 }

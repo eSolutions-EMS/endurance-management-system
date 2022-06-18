@@ -9,7 +9,7 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace EnduranceJudge.Gateways.Persistence.Contracts;
+namespace EnduranceJudge.Application.Models;
 
 public class Storage : IStorage
 {
