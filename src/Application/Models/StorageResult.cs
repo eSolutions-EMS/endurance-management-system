@@ -1,6 +1,6 @@
 ﻿using EnduranceJudge.Application.Contracts;
 
-namespace EnduranceJudge.Gateways.Persistence.Contracts;
+namespace EnduranceJudge.Application.Models;
 
 public class StorageResult : IStorageResult
 {

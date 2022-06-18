@@ -1,13 +1,12 @@
-﻿using EnduranceJudge.Application.Aggregates.Configurations.Contracts;
-using EnduranceJudge.Domain.Core.Models;
+﻿using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EnduranceJudge.Gateways.Persistence.Core;
+namespace EnduranceJudge.Application.Core;
 
-public abstract class QueriesBase<T> : IQueries<T>, IQuery
+public abstract class QueriesBase<T> : IQueries<T>
     where T : IDomain
 {
     protected QueriesBase(IState state)
@@ -22,4 +21,11 @@ public abstract class QueriesBase<T> : IQueries<T>, IQuery
     public virtual T GetOne(Predicate<T> predicate) => this.Set.Find(predicate);
     public virtual T GetOne(int id) => this.Set.Find(x => x.Id == id);
     public virtual List<T> GetAll() => this.Set.ToList();
+}
+
+public interface IQueries<T>
+    where T : IDomain
+{
+    T GetOne(int id);
+    List<T> GetAll();
 }

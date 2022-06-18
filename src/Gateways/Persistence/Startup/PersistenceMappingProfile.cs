@@ -1,6 +1,7 @@
-﻿using EnduranceJudge.Core.Mappings;
+﻿using EnduranceJudge.Application;
+using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Domain.State;
-using EnduranceJudge.Gateways.Persistence.Contracts;
+using EnduranceJudge.Application.Models;
 using System.Reflection;
 
 namespace EnduranceJudge.Gateways.Persistence.Startup;

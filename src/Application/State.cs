@@ -8,7 +8,7 @@ using EnduranceJudge.Domain.State.Participations;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace EnduranceJudge.Gateways.Persistence.Contracts;
+namespace EnduranceJudge.Application;
 
 public class State : IState
 {
@@ -20,7 +20,7 @@ public class State : IState
 
     [JsonIgnore]
     public IReadOnlyList<Country> Countries
-        => PersistenceConstants.Countries.List.AsReadOnly();
+        => ApplicationConstants.Countries.List.AsReadOnly();
 
     internal void Restore(IState state)
     {

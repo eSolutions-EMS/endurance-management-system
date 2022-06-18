@@ -38,6 +38,7 @@ public static class DesktopServices
         return services
             .AddCore(assemblies)
             .AddDomain(assemblies)
+            .AddApplication(assemblies)
             .AddPersistence(assemblies)
             .AddDesktop(assemblies)
             .AddInitializers(assemblies);
