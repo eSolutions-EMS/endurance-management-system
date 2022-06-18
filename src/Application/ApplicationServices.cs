@@ -17,6 +17,8 @@ public static class ApplicationServices
             .AsSelfWithInterfaces()
             .WithTransientLifetime());
 
+        // TODO: register state
+        
         return services;
     }
 }

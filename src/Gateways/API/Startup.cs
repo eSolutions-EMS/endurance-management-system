@@ -1,6 +1,8 @@
 using Endurance.Judge.Gateways.API.Jobs;
+using Endurance.Judge.Gateways.API.Services;
 using EnduranceJudge.Core;
 using EnduranceJudge.Domain;
+using EnduranceJudge.Domain.State;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -52,6 +54,9 @@ namespace Endurance.Judge.Gateways.API
         {
             services.AddControllers();
             services.AddHostedService<StateUpdateJob>();
+            services.AddSingleton<Context, Context>();
+            services.AddSingleton<IReadonlyContext>(provider => provider.GetRequiredService<Context>());
+            services.AddTransient<IState>(provider => provider.GetRequiredService<Context>().State);
             return services;
         }
     }
