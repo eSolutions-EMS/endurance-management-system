@@ -1,14 +1,11 @@
 using Endurance.Judge.Gateways.API.Jobs;
 using EnduranceJudge.Core;
 using EnduranceJudge.Domain;
-using EnduranceJudge.Gateways.Persistence;
-using EnduranceJudge.Gateways.Persistence.Startup;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.OpenApi.Models;
 using System.Linq;
 using System.Reflection;
 
@@ -27,14 +24,12 @@ namespace Endurance.Judge.Gateways.API
         {
             var assemblies = CoreConstants.Assemblies
                 .Concat(DomainConstants.Assemblies)
-                .Concat(PersistenceConstants.Assemblies)
                 .Concat(ApiConstants.Assemblies)
                 .ToArray();
 
             services
                 .AddCore(assemblies)
                 .AddDomain(assemblies)
-                .AddPersistence(assemblies)
                 .AddApi(assemblies);
         }
 
