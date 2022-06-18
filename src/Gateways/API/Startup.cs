@@ -1,3 +1,4 @@
+using Endurance.Judge.Gateways.API.Jobs;
 using EnduranceJudge.Core;
 using EnduranceJudge.Domain;
 using EnduranceJudge.Gateways.Persistence;
@@ -55,7 +56,7 @@ namespace Endurance.Judge.Gateways.API
         public static IServiceCollection AddApi(this IServiceCollection services, Assembly[] assemblies)
         {
             services.AddControllers();
-            services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "API", Version = "v1" }); });
+            services.AddHostedService<StateUpdateJob>();
             return services;
         }
     }

@@ -7,16 +7,16 @@ namespace Endurance.Judge.Gateways.API.Controllers
     [Route("/")]
     public class HomeController : ControllerBase
     {
-        private readonly ILanService lanService;
-        public HomeController(ILanService lanService)
+        private readonly INetwork network;
+        public HomeController(INetwork network)
         {
-            this.lanService = lanService;
+            this.network = network;
         }
         
         [HttpGet]
         public IActionResult Get()
         {
-            var ip = this.lanService.GetIpAddress();
+            var ip = this.network.GetIpAddress();
             var content = $"IP: {ip}";
             return this.Ok(content);
         }
