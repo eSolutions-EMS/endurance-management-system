@@ -12,20 +12,26 @@ public class Persistence : IPersistence
 {
     private static string dataDirectoryPath;
 
-    private readonly IState appState;
+    private readonly IDataService dataService;
+    private readonly State state;
     private readonly IFileService file;
     private readonly IJsonSerializationService serialization;
     
-    public Persistence(IState appState, IFileService file, IJsonSerializationService serialization)
+    public Persistence(
+        IDataService dataService,
+        State state,
+        IFileService file,
+        IJsonSerializationService serialization)
     {
-        this.appState = appState;
+        this.dataService = dataService;
+        this.state = state;
         this.file = file;
         this.serialization = serialization;
     }
     
     public void Snapshot()
     {
-        // TODO: call API
+        this.dataService.Post(this.state);
     }
 
     public string LogError(string message, string stackTrace)
@@ -35,7 +41,7 @@ public class Persistence : IPersistence
         {
             { "error-message", message },
             { "error-stack-trance", stackTrace },
-            { "state", this.appState },
+            { "state", this.state },
         };
         var serialized = this.serialization.Serialize(log);
         var filename = $"{timestamp}_error.json";
@@ -51,46 +57,8 @@ public class Persistence : IPersistence
             throw new Exception("Application data configuration is already initialized");
         }
         dataDirectoryPath = directoryPath;
-        // Call API
+        
         return PersistenceResult.New;
-    }
-    
-    // TODO: Remove after testing lap
-    private void FixDatesForToday(IState state)
-    {
-        foreach (var competition in state.Event.Competitions)
-        {
-            competition.StartTime = FixDateForToday(competition.StartTime);
-        }
-        foreach (var participant in state.Participants)
-        {
-            foreach (var performance in participant.LapRecords)
-            {
-                performance.StartTime = FixDateForToday(performance.StartTime);
-                if (performance.ArrivalTime.HasValue)
-                {
-                    performance.ArrivalTime = FixDateForToday(performance.ArrivalTime.Value);
-                }
-                if (performance.InspectionTime.HasValue)
-                {
-                    performance.InspectionTime = FixDateForToday(performance.InspectionTime.Value);
-                }
-                if (performance.ReInspectionTime.HasValue)
-                {
-                    performance.ReInspectionTime = FixDateForToday(performance.ReInspectionTime.Value);
-                }
-            }
-        }
-    }
-
-    private DateTime FixDateForToday(DateTime date)
-    {
-        var today = DateTime.Today;
-        today = today.AddHours(date.Hour);
-        today = today.AddMinutes(date.Minute);
-        today = today.AddSeconds(date.Second);
-        today = today.AddMilliseconds(date.Millisecond);
-        return today;
     }
 }
 
