@@ -1,14 +1,13 @@
 ﻿using EnduranceJudge.Application;
-using EnduranceJudge.Core.ConventionalServices;
 
 namespace Endurance.Judge.Gateways.API.Services
 {
-    public class Context : IContext
+    public class Context : IReadonlyContext
     {
         public State State { get; set; }
     }
 
-    public interface IContext : ISingletonService
+    public interface IReadonlyContext
     {
         State State { get; }
     }
