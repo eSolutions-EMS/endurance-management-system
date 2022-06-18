@@ -4,8 +4,6 @@ using EnduranceJudge.Gateways.Desktop.Core.Objects;
 using EnduranceJudge.Core.Services;
 using EnduranceJudge.Domain;
 using EnduranceJudge.Gateways.Desktop.Services;
-using EnduranceJudge.Gateways.Persistence;
-using EnduranceJudge.Gateways.Persistence.Startup;
 using EnduranceJudge.Localization;
 using Microsoft.Extensions.DependencyInjection;
 using Prism.Ioc;
@@ -31,7 +29,6 @@ public static class DesktopServices
             .Concat(LocalizationConstants.Assemblies)
             .Concat(DomainConstants.Assemblies)
             .Concat(ApplicationConstants.Assemblies)
-            .Concat(PersistenceConstants.Assemblies)
             .Concat(DesktopConstants.Assemblies)
             .ToArray();
 
@@ -39,7 +36,6 @@ public static class DesktopServices
             .AddCore(assemblies)
             .AddDomain(assemblies)
             .AddApplication(assemblies)
-            .AddPersistence(assemblies)
             .AddDesktop(assemblies)
             .AddInitializers(assemblies);
     }
