@@ -4,6 +4,7 @@ using Endurance.Judge.Gateways.API.Services;
 using EnduranceJudge.Application.Core.Services;
 using EnduranceJudge.Core;
 using EnduranceJudge.Core.Mappings;
+using EnduranceJudge.Core.Utilities;
 using EnduranceJudge.Domain;
 using EnduranceJudge.Domain.State;
 using Microsoft.AspNetCore.Builder;
@@ -39,7 +40,7 @@ namespace Endurance.Judge.Gateways.API
                 .AddApi(assemblies);
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider provider)
         {
             if (env.IsDevelopment())
             {
@@ -49,6 +50,8 @@ namespace Endurance.Judge.Gateways.API
             app.UseRouting();
             app.UseAuthorization();
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+            
+            StaticProvider.Initialize(provider);
         }
     }
     
@@ -59,10 +62,12 @@ namespace Endurance.Judge.Gateways.API
             services
                 .AddControllers()
                 .AddNewtonsoftJson(opt => JsonSerializationService.Configure(opt.SerializerSettings));
+            
             services.AddHostedService<StateUpdateJob>();
             services.AddSingleton<Context, Context>();
             services.AddSingleton<IReadonlyContext>(provider => provider.GetRequiredService<Context>());
             services.AddTransient<IState>(provider => provider.GetRequiredService<Context>().State);
+            
             return services;
         }
     }
