@@ -3,59 +3,56 @@ using EnduranceJudge.Application.Core.Services;
 using EnduranceJudge.Core.ConventionalServices;
 using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Core.Services;
-using System;
+using System.IO;
 
 namespace Endurance.Judge.Gateways.API.Services
 {
     public class StateManager : IStateManager
     {
-        private string dataFilePath;
+        private const string DATA_FILE = "judge.data";
 
         private readonly IFileService fileService;
         private readonly IJsonSerializationService serializationService;
+        private readonly Context context;
 
-        public StateManager(IFileService fileService, IJsonSerializationService serializationService)
+        public StateManager(IFileService fileService, IJsonSerializationService serializationService, Context context)
         {
             this.fileService = fileService;
             this.serializationService = serializationService;
+            this.context = context;
         }
-
-        public void Initialize(string filePath)
+        
+        public string GetRaw()
         {
-            this.dataFilePath = filePath;
+            var path = this.GetDateFilePath();
+            var contents = this.fileService.Read(path);
+            return contents;
         }
         
         public State Get()
         {
-            this.Validate();
-            
-            var contents = this.fileService.Read(this.dataFilePath);
+            var contents = this.GetRaw();
             var state = this.serializationService.Deserialize<State>(contents);
             return state;
         }
 
         public void Update(State update)
         {
-            this.Validate();
-            
             var current = this.Get();
             current.MapFrom(update);
+            this.context.State = current;
+            
             var serialized = this.serializationService.Serialize(current);
-            this.fileService.Create(this.dataFilePath, serialized);
+            this.fileService.Create(this.GetDateFilePath(), serialized);
         }
 
-        private void Validate()
-        {
-            if (this.dataFilePath is null)
-            {
-                throw new Exception("State storage not initialized");
-            }
-        }
+        private string GetDateFilePath()
+            => Path.Combine(Directory.GetCurrentDirectory(), DATA_FILE);
     }
 
     public interface IStateManager : ISingletonService
     { 
-        State Get();
+        string GetRaw();
         void Update(State update);
     }
 }
