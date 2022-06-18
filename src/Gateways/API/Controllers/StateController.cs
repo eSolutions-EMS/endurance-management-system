@@ -1,6 +1,5 @@
 ﻿using Endurance.Judge.Gateways.API.Services;
 using EnduranceJudge.Application;
-using EnduranceJudge.Domain.State;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Endurance.Judge.Gateways.API.Controllers
@@ -11,17 +10,22 @@ namespace Endurance.Judge.Gateways.API.Controllers
     {
         private readonly IReadonlyContext context;
         private readonly IStateChangesQueue stateChangesQueue;
-        public StateController(IReadonlyContext context, IStateChangesQueue stateChangesQueue)
+        private readonly IJudgeEventQueue judgeEventQueue;
+        public StateController(
+            IReadonlyContext context,
+            IStateChangesQueue stateChangesQueue,
+            IJudgeEventQueue judgeEventQueue)
         {
             this.context = context;
             this.stateChangesQueue = stateChangesQueue;
+            this.judgeEventQueue = judgeEventQueue;
         }
         
         [HttpGet]
         public IActionResult Get()
         {
-            var raw = this.context.State;
-            return this.Ok(raw);
+            this.judgeEventQueue.ExecuteEvents();
+            return this.Ok(this.context.State);
         }
 
         [HttpPost]
