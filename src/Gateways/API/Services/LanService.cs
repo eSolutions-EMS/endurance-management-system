@@ -3,7 +3,7 @@ using System;
 using System.Net;
 using System.Net.Sockets;
 
-namespace API.Services
+namespace Endurance.Judge.Gateways.API.Services
 {
     public class LanService : ILanService
     {

@@ -1,7 +1,7 @@
-﻿using API.Services;
+﻿using Endurance.Judge.Gateways.API.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace API.Controllers
+namespace Endurance.Judge.Gateways.API.Controllers
 {
     [ApiController]
     [Route("/")]

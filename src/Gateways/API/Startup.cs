@@ -11,7 +11,7 @@ using Microsoft.OpenApi.Models;
 using System.Linq;
 using System.Reflection;
 
-namespace API
+namespace Endurance.Judge.Gateways.API
 {
     public class Startup
     {

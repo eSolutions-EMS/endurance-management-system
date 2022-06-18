@@ -1,4 +1,4 @@
-﻿namespace API.Requests
+﻿namespace Endurance.Judge.Gateways.API.Requests
 {
     public class TagRequest
     {
