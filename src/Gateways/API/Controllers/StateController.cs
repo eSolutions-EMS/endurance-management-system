@@ -8,9 +8,9 @@ namespace Endurance.Judge.Gateways.API.Controllers
     [Route("[controller]")]
     public class StateController : ControllerBase
     {
-        private readonly IContext context;
+        private readonly IReadonlyContext context;
         private readonly IStateChangesQueue stateChangesQueue;
-        public StateController(IContext context, IStateChangesQueue stateChangesQueue)
+        public StateController(IReadonlyContext context, IStateChangesQueue stateChangesQueue)
         {
             this.context = context;
             this.stateChangesQueue = stateChangesQueue;
