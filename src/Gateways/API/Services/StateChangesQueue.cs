@@ -8,6 +8,9 @@ namespace Endurance.Judge.Gateways.API.Services
     public class StateChangesQueue : IStateChangesQueue
     {
         private readonly List<State> queue = new();
+
+        public bool IsEmpty()
+            => !this.queue.Any();
         
         public void Enqueue(State state)
         {
@@ -17,16 +20,14 @@ namespace Endurance.Judge.Gateways.API.Services
         public State Dequeue()
         {
             var state = this.queue.FirstOrDefault();
-            if (state != null)
-            {
-                this.queue.Remove(state);
-            }
+            this.queue.Remove(state);
             return state;
         }
     }
 
     public interface IStateChangesQueue : ISingletonService
     {
+        bool IsEmpty();
         void Enqueue(State state);
         State Dequeue();
     }
