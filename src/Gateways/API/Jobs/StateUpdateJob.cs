@@ -21,9 +21,9 @@ namespace Endurance.Judge.Gateways.API.Jobs
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                var state = this.stateChangesQueue.Dequeue();
-                if (state != null)
+                if (!this.stateChangesQueue.IsEmpty())
                 {
+                    var state = this.stateChangesQueue.Dequeue();
                     this.stateManager.Update(state);
                 }
                 await Task.Delay(TimeSpan.FromSeconds(1), stoppingToken);

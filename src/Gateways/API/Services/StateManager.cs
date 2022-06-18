@@ -22,9 +22,13 @@ namespace Endurance.Judge.Gateways.API.Services
             this.context = context;
         }
         
-        public string GetRaw()
+        public string ReadFromFile()
         {
             var path = this.GetDateFilePath();
+            if (!this.fileService.Exists(path))
+            {
+                return null;
+            }
             var contents = this.fileService.Read(path);
             return contents;
         }
@@ -39,7 +43,11 @@ namespace Endurance.Judge.Gateways.API.Services
         {
             if (this.context.State == null)
             {
-                var contents = this.GetRaw();
+                var contents = this.ReadFromFile();
+                if (contents == null)
+                {
+                    return new State();
+                }
                 this.context.State = this.serializationService.Deserialize<State>(contents);
             }
             return this.context.State;
@@ -48,7 +56,8 @@ namespace Endurance.Judge.Gateways.API.Services
         public void Update(State update)
         {
             var current = this.Get();
-            current.MapFrom(update);
+            update.MapFrom(this.context.State);
+            this.context.State = update;
             
             this.Persist();
         }
@@ -59,7 +68,7 @@ namespace Endurance.Judge.Gateways.API.Services
 
     public interface IStateManager : ISingletonService
     { 
-        string GetRaw();
+        string ReadFromFile();
         void Persist();
         void Update(State update);
     }
