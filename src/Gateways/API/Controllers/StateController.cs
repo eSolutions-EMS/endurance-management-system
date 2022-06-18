@@ -1,5 +1,6 @@
-﻿using Endurance.Judge.Gateways.API.Requests;
-using Endurance.Judge.Gateways.API.Services;
+﻿using Endurance.Judge.Gateways.API.Services;
+using EnduranceJudge.Application;
+using EnduranceJudge.Domain.State;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Endurance.Judge.Gateways.API.Controllers
@@ -24,9 +25,9 @@ namespace Endurance.Judge.Gateways.API.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] StateRequest request)
+        public IActionResult Post([FromBody] State state)
         {
-            this.stateChangesQueue.Enqueue(request.State);
+            this.stateChangesQueue.Enqueue(state);
             return this.Ok();
         }
     }
