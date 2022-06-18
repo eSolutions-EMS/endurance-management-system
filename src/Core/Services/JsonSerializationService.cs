@@ -7,15 +7,19 @@ namespace EnduranceJudge.Application.Core.Services;
 
 public class JsonSerializationService : IJsonSerializationService
 {
+    public static void Configure(JsonSerializerSettings settings)
+    {
+        settings.ContractResolver = new PrivatePropertySetterResolver();
+        settings.ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor;
+        settings.PreserveReferencesHandling = PreserveReferencesHandling.Objects;
+    }
+
     private readonly JsonSerializerSettings settings;
 
     public JsonSerializationService()
     {
-        this.settings = new JsonSerializerSettings
-        {
-            ContractResolver = new PrivatePropertySetterResolver(),
-            ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
-        };
+        this.settings = new JsonSerializerSettings();
+        Configure(this.settings);
     }
 
     public string Serialize(object data)
