@@ -5,7 +5,7 @@ using System.Net.Sockets;
 
 namespace Endurance.Judge.Gateways.API.Services
 {
-    public class LanService : ILanService
+    public class Network : INetwork
     {
         public string GetIpAddress()
         {
@@ -21,7 +21,7 @@ namespace Endurance.Judge.Gateways.API.Services
         }
     }
 
-    public interface ILanService : ITransientService
+    public interface INetwork : ITransientService
     {
         string GetIpAddress();
     }

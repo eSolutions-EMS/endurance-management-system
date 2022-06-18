@@ -76,44 +76,6 @@ public class Storage : IStorage
     }
 
     // TODO: Remove after testing lap
-    private void FixDatesForToday(IState state)
-    {
-        foreach (var competition in state.Event.Competitions)
-        {
-            competition.StartTime = FixDateForToday(competition.StartTime);
-        }
-        foreach (var participant in state.Participants)
-        {
-            foreach (var performance in participant.LapRecords)
-            {
-                performance.StartTime = FixDateForToday(performance.StartTime);
-                if (performance.ArrivalTime.HasValue)
-                {
-                    performance.ArrivalTime = FixDateForToday(performance.ArrivalTime.Value);
-                }
-                if (performance.InspectionTime.HasValue)
-                {
-                    performance.InspectionTime = FixDateForToday(performance.InspectionTime.Value);
-                }
-                if (performance.ReInspectionTime.HasValue)
-                {
-                    performance.ReInspectionTime = FixDateForToday(performance.ReInspectionTime.Value);
-                }
-            }
-        }
-    }
-
-    private DateTime FixDateForToday(DateTime date)
-    {
-        var today = DateTime.Today;
-        today = today.AddHours(date.Hour);
-        today = today.AddMinutes(date.Minute);
-        today = today.AddSeconds(date.Second);
-        today = today.AddMilliseconds(date.Millisecond);
-        return today;
-    }
-
-    // TODO: Remove after testing lap
     private void __REVERT_START_PARTICIPATIONS__()
     {
         var manager = new ConfigurationRoot();
