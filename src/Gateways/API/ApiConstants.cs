@@ -1,7 +1,7 @@
 ﻿using EnduranceJudge.Core.Utilities;
 using System.Reflection;
 
-namespace API
+namespace Endurance.Judge.Gateways.API
 {
     public class ApiConstants
     {
@@ -9,7 +9,7 @@ namespace API
         {
             get
             {
-                var assemblies = ReflectionUtilities.GetAssemblies("API");
+                var assemblies = ReflectionUtilities.GetAssemblies("Endurance.Judge.Gateways.API");
                 return assemblies;
             }
         }

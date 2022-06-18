@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace API
+namespace Endurance.Judge.Gateways.API
 {
     public class Program
     {
