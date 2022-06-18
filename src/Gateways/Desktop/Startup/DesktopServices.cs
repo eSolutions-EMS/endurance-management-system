@@ -8,6 +8,7 @@ using EnduranceJudge.Localization;
 using Microsoft.Extensions.DependencyInjection;
 using Prism.Ioc;
 using System.Linq;
+using System.Net.Http;
 using System.Reflection;
 
 namespace EnduranceJudge.Gateways.Desktop.Startup;
