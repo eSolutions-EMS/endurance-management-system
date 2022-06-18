@@ -1,18 +1,24 @@
-﻿using API.Requests;
-using System;
+﻿using API.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("/")]
     public class HomeController : ControllerBase
     {
-        [HttpGet]
-        public IActionResult Get([FromBody] TagRequest tag)
+        private readonly ILanService lanService;
+        public HomeController(ILanService lanService)
         {
-            Console.WriteLine($"Received: {tag.Id}");
-            return this.Ok();
+            this.lanService = lanService;
+        }
+        
+        [HttpGet]
+        public IActionResult Get()
+        {
+            var ip = this.lanService.GetIpAddress();
+            var content = $"IP: {ip}";
+            return this.Ok(content);
         }
     }
 }
