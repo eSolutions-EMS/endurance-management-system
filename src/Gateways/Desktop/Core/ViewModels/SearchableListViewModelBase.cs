@@ -1,4 +1,4 @@
-﻿using EnduranceJudge.Application.Contracts;
+﻿using EnduranceJudge.Application.Services;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem;
 using EnduranceJudge.Gateways.Desktop.Core.Objects;
 using EnduranceJudge.Gateways.Desktop.Core.Services;

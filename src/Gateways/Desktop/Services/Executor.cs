@@ -1,4 +1,4 @@
-﻿using EnduranceJudge.Application.Contracts;
+﻿using EnduranceJudge.Application.Services;
 using EnduranceJudge.Core.ConventionalServices;
 using System;
 

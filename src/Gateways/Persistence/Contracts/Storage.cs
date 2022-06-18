@@ -1,4 +1,4 @@
-﻿using EnduranceJudge.Application.Contracts;
+﻿using EnduranceJudge.Application.Services;
 using EnduranceJudge.Application.Core.Services;
 using EnduranceJudge.Core.ConventionalServices;
 using EnduranceJudge.Core.Services;
@@ -6,15 +6,12 @@ using EnduranceJudge.Domain;
 using EnduranceJudge.Domain.AggregateRoots.Configuration;
 using EnduranceJudge.Domain.State;
 using System;
-using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace EnduranceJudge.Application.Models;
 
 public class Storage : IStorage
 {
-    private const string STORAGE_FILE_NAME = "endurance-judge-data";
-
     private string dirPath;
     private readonly State appState;
     private readonly IEncryptionService encryption;
@@ -33,38 +30,20 @@ public class Storage : IStorage
         this.serialization = serialization;
     }
 
-    public IStorageResult Initialize(string directoryPath)
+    public PersistenceResult Initialize(string directoryPath)
     {
         this.dirPath = directoryPath;
         var database = BuildStorageFilePath(directoryPath);
         if (this.file.Exists(database))
         {
             this.Restore();
-            return StorageResult.Existing;
+            return PersistenceResult.Existing;
         }
         else
         {
             this.Create();
-            return StorageResult.New;
+            return PersistenceResult.New;
         }
-    }
-
-    public void Snapshot() => this.Create();
-
-    public string LogError(string message, string stackTrace)
-    {
-        var timestamp = DateTime.Now.ToString("yyyy-mm-ddTHH-mm-ss");
-        var log = new Dictionary<string, object>
-        {
-            { "error-message", message },
-            { "error-stack-trance", stackTrace },
-            { "state", this.appState }
-        };
-        var serialized = this.serialization.Serialize(log);
-        var filename = $"{timestamp}_error.json";
-        var path = $"{this.dirPath}/{filename}";
-        this.file.Create(path, serialized);
-        return path;
     }
 
     private void Restore()
@@ -134,8 +113,6 @@ public class Storage : IStorage
         return today;
     }
 
-    private static string BuildStorageFilePath(string directory) => $"{directory}\\{STORAGE_FILE_NAME}";
-
     // TODO: Remove after testing lap
     private void __REVERT_START_PARTICIPATIONS__()
     {
@@ -144,6 +121,6 @@ public class Storage : IStorage
     }
 }
 
-public interface IStorage : IStorageInitializer, IPersistence, ISingletonService
+public interface IStorage : IStorageInitializer, ISingletonService
 {
 }

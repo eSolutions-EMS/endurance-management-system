@@ -1,5 +1,5 @@
 ﻿using EnduranceJudge.Application.Aggregates.Import;
-using EnduranceJudge.Application.Contracts;
+using EnduranceJudge.Application.Services;
 using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Core.Services;
 using EnduranceJudge.Gateways.Desktop.Services;
@@ -13,7 +13,7 @@ public class ImportViewModel : ViewModelBase
 {
     private readonly IExecutor<IImportService> importExecutor;
     private readonly IApplicationContext context;
-    private readonly IStorageInitializer storageInitializer;
+    private readonly IPersistence persistence;
     private readonly IImportService importService;
     private readonly IExplorerService explorer;
     private readonly INavigationService navigation;
@@ -21,14 +21,14 @@ public class ImportViewModel : ViewModelBase
     public ImportViewModel(
         IExecutor<IImportService> importExecutor,
         IApplicationContext context,
-        IStorageInitializer storageInitializer,
+        IPersistence persistence,
         IImportService importService,
         IExplorerService explorer,
         INavigationService navigation)
     {
         this.importExecutor = importExecutor;
         this.context = context;
-        this.storageInitializer = storageInitializer;
+        this.persistence = persistence;
         this.importService = importService;
         this.explorer = explorer;
         this.navigation = navigation;
@@ -87,7 +87,7 @@ public class ImportViewModel : ViewModelBase
         this.WorkDirectoryVisibility = Visibility.Collapsed;
         this.ImportFilePathVisibility = Visibility.Visible;
 
-        var result = this.storageInitializer.Initialize(selectedPath);
+        var result = this.persistence.Initialize(selectedPath);
         this.context.Initialize();
 
         if (result.IsExistingFile)
