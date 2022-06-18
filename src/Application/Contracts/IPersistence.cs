@@ -1,7 +1,3 @@
-﻿namespace EnduranceJudge.Application.Contracts;
+﻿using EnduranceJudge.Application.Models;
 
-public interface IPersistence
-{
-    void Snapshot();
-    string LogError(string message, string stackTrace);
-}
+namespace EnduranceJudge.Application.Services;
