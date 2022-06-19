@@ -5,6 +5,7 @@ using EnduranceJudge.Core.Services;
 using EnduranceJudge.Core.Utilities;
 using EnduranceJudge.Domain;
 using EnduranceJudge.Domain.State;
+using EnduranceJudge.Localization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -28,6 +29,7 @@ namespace Endurance.Judge.Gateways.API
         public void ConfigureServices(IServiceCollection services)
         {
             var assemblies = CoreConstants.Assemblies
+                .Concat(LocalizationConstants.Assemblies)
                 .Concat(DomainConstants.Assemblies)
                 .Concat(ApiConstants.Assemblies)
                 .ToArray();
@@ -71,8 +73,6 @@ namespace Endurance.Judge.Gateways.API
             services.AddSingleton<IState>(provider => provider.GetRequiredService<Context>().State);
             services.AddInitializers(assemblies);
 
-            var provider = services.BuildServiceProvider();
-            
             return services;
         }
         
