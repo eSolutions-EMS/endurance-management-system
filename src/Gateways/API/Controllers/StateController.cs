@@ -1,6 +1,7 @@
 ﻿using Endurance.Judge.Gateways.API.Services;
 using EnduranceJudge.Application;
 using Microsoft.AspNetCore.Mvc;
+using System;
 
 namespace Endurance.Judge.Gateways.API.Controllers
 {
@@ -24,6 +25,7 @@ namespace Endurance.Judge.Gateways.API.Controllers
         [HttpGet]
         public IActionResult Get()
         {
+            throw new Exception();
             this.judgeEventQueue.ExecuteEvents();
             return this.Ok(this.context.State);
         }

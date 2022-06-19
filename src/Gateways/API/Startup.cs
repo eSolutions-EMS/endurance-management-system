@@ -1,3 +1,4 @@
+using Endurance.Judge.Gateways.API.Middlewares;
 using Endurance.Judge.Gateways.API.Services;
 using EnduranceJudge.Application.Core.Services;
 using EnduranceJudge.Core;
@@ -8,6 +9,7 @@ using EnduranceJudge.Domain.State;
 using EnduranceJudge.Localization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -44,11 +46,14 @@ namespace Endurance.Judge.Gateways.API
         {
             if (env.IsDevelopment())
             {
+                app.UseMiddleware<ErrorLogger>();
+            }
+            else
+            {
                 app.UseDeveloperExceptionPage();
             }
             app.UseHttpsRedirection();
             app.UseRouting();
-            app.UseAuthorization();
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 
             // TODO: extract this logic
@@ -67,6 +72,8 @@ namespace Endurance.Judge.Gateways.API
             services
                 .AddControllers()
                 .AddNewtonsoftJson(opt => JsonSerializationService.Configure(opt.SerializerSettings));
+
+            services.AddTransient<ErrorLogger, ErrorLogger>();
             
             services.AddSingleton<Context, Context>();
             services.AddSingleton<IContext>(provider => provider.GetRequiredService<Context>());
