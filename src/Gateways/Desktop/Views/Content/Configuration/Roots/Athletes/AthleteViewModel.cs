@@ -58,8 +58,9 @@ public class AthleteViewModel : ConfigurationBase<AthleteView, Athlete>, IAthlet
     }
     protected override IDomain Persist()
     {
-        var result = this.executor.Execute(config =>
-            config.Athletes.Save(this, this.CountryId));
+        var result = this.executor.Execute(
+            config => config.Athletes.Save(this, this.CountryId),
+            true);
         return result;
     }
     private void LoadCountries()

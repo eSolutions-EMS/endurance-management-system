@@ -27,8 +27,9 @@ public class HorseViewModel : ConfigurationBase<HorseView, Horse>, IHorseState, 
 
     protected override IDomain Persist()
     {
-        var result = this.executor.Execute(config =>
-            config.Horses.Save(this));
+        var result = this.executor.Execute(
+            config => config.Horses.Save(this),
+            true);
         return result;
     }
 

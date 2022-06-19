@@ -36,6 +36,7 @@ public class ParticipantListViewModel : SearchableListViewModelBase<ParticipantV
     }
 
     protected override void RemoveDomain(int id)
-        => this.executor.Execute(config =>
-            config.Participants.Remove(id));
+        => this.executor.Execute(
+            config => config.Participants.Remove(id),
+            true);
 }

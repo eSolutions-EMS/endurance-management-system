@@ -35,7 +35,8 @@ public class AthleteListViewModel : SearchableListViewModelBase<AthleteView>
     }
     protected override void RemoveDomain(int id)
     {
-        this.configurationExecutor.Execute(x =>
-            x.Athletes.Remove(id));
+        this.configurationExecutor.Execute(
+            x => x.Athletes.Remove(id),
+            true);
     }
 }

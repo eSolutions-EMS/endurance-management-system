@@ -46,7 +46,7 @@ public class RankingViewModel : ViewModelBase
     public override void OnNavigatedTo(NavigationContext context)
     {
         this.competitions = this.rankingExecutor
-            .Execute(ranking => ranking.Competitions)
+            .Execute(ranking => ranking.Competitions, false)
             .ToList();
         if (this.competitions.Count != 0)
         {
@@ -63,7 +63,9 @@ public class RankingViewModel : ViewModelBase
     private void SelectCompetitionAction(int competitionId)
     {
         // TODO: Select competition only if Event has started
-        var competition = this.rankingExecutor.Execute(ranking => ranking.GetCompetition(competitionId));
+        var competition = this.rankingExecutor.Execute(
+            ranking => ranking.GetCompetition(competitionId),
+            false);
         this.selectedCompetition = competition;
 
         this.SelectAdultsCategoryAction();
@@ -90,7 +92,7 @@ public class RankingViewModel : ViewModelBase
         {
             var printer = new RanklistPrinter(this.selectedCompetition.Name, control.Ranklist);
             printer.PreviewDocument();
-        });
+        }, false);
     }
     private void SelectCategory(Category category)
     {

@@ -64,15 +64,17 @@ public class CompetitionViewModel : NestedConfigurationBase<CompetitionView, Com
     }
     protected override IDomain Persist()
     {
-        var result = this.executor.Execute(config =>
-            config.Competitions.Save(this));
+        var result = this.executor.Execute(
+            config => config.Competitions.Save(this),
+            true);
         return result;
     }
 
     private void RemoveParticipantAction(int? participation)
     {
-        this.executor.Execute(x =>
-            x.Competitions.RemoveParticipation(this.Id, participation!.Value));
+        this.executor.Execute(
+            x => x.Competitions.RemoveParticipation(this.Id, participation!.Value),
+            true);
         this.LoadParticipations();
     }
 

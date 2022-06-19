@@ -31,7 +31,9 @@ public class PersonnelViewModel : NestedConfigurationBase<PersonnelView, Domain.
 
     protected override IDomain Persist()
     {
-        var result = this.executor.Execute(config => config.Save(this));
+        var result = this.executor.Execute(
+            config => config.Save(this),
+            true);
         return result;
     }
 

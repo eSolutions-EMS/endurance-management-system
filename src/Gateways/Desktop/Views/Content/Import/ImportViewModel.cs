@@ -105,7 +105,7 @@ public class ImportViewModel : ViewModelBase
         }
 
         this.ImportFilePath = path;
-        var isSuccessful = this.importExecutor.Execute(x => x.Import(path));
+        var isSuccessful = this.importExecutor.Execute(x => x.Import(path), true);
         if (isSuccessful)
         {
             this.context.Initialize();

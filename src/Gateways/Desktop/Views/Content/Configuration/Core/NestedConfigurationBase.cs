@@ -57,5 +57,5 @@ public abstract class NestedConfigurationBase<TView, TDomain> : ConfigurationBas
         this.Persist();
         var childViewId = Random.Next();
         this.Navigation.ChangeToNewConfiguration<T>(this.Id, childViewId);
-    });
+    }, true);
 }

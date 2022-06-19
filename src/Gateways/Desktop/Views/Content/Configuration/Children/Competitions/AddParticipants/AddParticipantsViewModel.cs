@@ -77,7 +77,7 @@ public class AddParticipantsViewModel : SearchableListViewModelBase<AddParticipa
             configuration.Participants.AddParticipation(this.competitionId, participantId!.Value);
             var listItem = this.ListItems.FirstOrDefault(x => x.Id == participantId!.Value);
             this.ListItems.Remove(listItem);
-        });
+        }, true);
     }
 
     public string CompetitionName

@@ -59,7 +59,8 @@ public abstract class ListViewModelBase<TView> : ViewModelBase
 
         this.ListItems.Clear();
         this.ListItems.AddRange(viewModels);
-    });
+    }, false);
+    
     protected virtual void CreateAction()
     {
         if (this.AllowCreate)
@@ -80,9 +81,8 @@ public abstract class ListViewModelBase<TView> : ViewModelBase
                 this.RemoveDomain(id!.Value);
                 var item = this.ListItems.FirstOrDefault(i => i.Id == id!.Value);
                 this.ListItems.Remove(item);
-                this.persistence.Snapshot();
             }
-        });
+        }, true);
         this.popupService.RenderConfirmation(REMOVE_CONFIRMATION_MESSAGE, action);
     }
 

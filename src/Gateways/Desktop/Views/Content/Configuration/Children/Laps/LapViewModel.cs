@@ -30,11 +30,15 @@ public class LapViewModel : NestedConfigurationBase<LapView, Lap>, ILapState
     {
         if (this.ParentId.HasValue)
         {
-            return this.executor.Execute(config => config.Laps.Create(this.ParentId.Value, this));
+            return this.executor.Execute(
+                config => config.Laps.Create(this.ParentId.Value, this),
+                true);
         }
         else
         {
-            return this.executor.Execute(config => config.Laps.Update(this));
+            return this.executor.Execute(
+                config => config.Laps.Update(this),
+                true);
         }
     }
 

@@ -35,6 +35,7 @@ public class HorseListViewModel : SearchableListViewModelBase<HorseView>
         return horses;
     }
     protected override void RemoveDomain(int id)
-        => this.executor.Execute(config =>
-            config.Horses.Remove(id));
+        => this.executor.Execute(
+            config => config.Horses.Remove(id),
+            true);
 }

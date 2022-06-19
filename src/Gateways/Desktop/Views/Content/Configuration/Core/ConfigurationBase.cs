@@ -58,6 +58,7 @@ public abstract class ConfigurationBase<TView, TDomain> : ViewModelBase
     }
     private void SubmitAction()
     {
+        // TODO: Probably remove this execute
         var isSuccessful = this.Executor.Execute(() =>
         {
             this.Persist();
@@ -65,7 +66,7 @@ public abstract class ConfigurationBase<TView, TDomain> : ViewModelBase
             {
                 this.NavigateBackAction();
             }
-        });
+        }, true);
         if (!isSuccessful)
         {
             this.Load(this.Id);

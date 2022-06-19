@@ -68,8 +68,9 @@ public class EnduranceEventViewModel : NestedConfigurationBase<EnduranceEventVie
     }
     protected override IDomain Persist()
     {
-        var result = this.executor.Execute(config =>
-            config.Update(this.Name, this.CountryId, this.PopulatedPlace));
+        var result = this.executor.Execute(
+            config => config.Update(this.Name, this.CountryId, this.PopulatedPlace),
+            true);
         this.popupService.RenderOk();
         return result;
     }

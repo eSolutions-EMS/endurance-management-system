@@ -48,7 +48,7 @@ public class PerformanceColumnModel : ViewModelBase, ILapRecordState
         {
             var result = manager.EditRecord(this);
             this.Update(result);
-        });
+        }, true);
     }
 
     public void Update(Performance performance)

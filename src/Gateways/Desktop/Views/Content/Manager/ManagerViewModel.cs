@@ -78,7 +78,7 @@ public class ManagerViewModel : ViewModelBase
         {
             return;
         }
-        var hasStarted = this.managerExecutor.Execute(x => x.HasStarted());
+        var hasStarted = this.managerExecutor.Execute(x => x.HasStarted(), false);
         if (hasStarted)
         {
             this.ReloadParticipations();
@@ -91,7 +91,7 @@ public class ManagerViewModel : ViewModelBase
         {
             manager.Start();
             this.ReloadParticipations();
-        });
+        }, true);
     }
     private void UpdateAction()
         => this.ExecuteAndRender((manager, number) => manager.UpdateRecord(number, this.InputTime));
@@ -116,7 +116,7 @@ public class ManagerViewModel : ViewModelBase
         {
             action(manager, number);
             this.ReloadParticipations();
-        });
+        }, true);
         this.SelectBy(number);
     }
 

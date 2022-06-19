@@ -56,6 +56,6 @@ public class ParticipationGridModel
         {
             var printer = new ParticipationPrinter(this);
             printer.PreviewDocument();
-        });
+        }, false);
     }
 }

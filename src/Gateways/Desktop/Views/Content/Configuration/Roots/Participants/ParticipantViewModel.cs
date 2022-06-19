@@ -60,8 +60,9 @@ public class ParticipantViewModel : ConfigurationBase<ParticipantView, Participa
 
     protected override IDomain Persist()
     {
-        var result = this.executor.Execute(config =>
-            config.Participants.Save(this, this.AthleteId, this.HorseId));
+        var result = this.executor.Execute(
+            config => config.Participants.Save(this, this.AthleteId, this.HorseId),
+            true);
         return result;
     }
 
