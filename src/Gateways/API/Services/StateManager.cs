@@ -22,6 +22,16 @@ namespace Endurance.Judge.Gateways.API.Services
             this.context = context;
         }
 
+        public void Load()
+        {
+            var path = this.GetDataFilePath();
+            if (File.Exists(path))
+            {
+                var contents = this.fileService.Read(path);
+                this.context.State = this.serializationService.Deserialize<State>(contents);
+            }
+        }
+        
         public void Set(State update)
         {
             this.context.State = update;
@@ -34,15 +44,16 @@ namespace Endurance.Judge.Gateways.API.Services
         private void Persist()
         {
             var serialized = this.serializationService.Serialize(this.context.State);
-            this.fileService.Create(this.GetDateFilePath(), serialized);
+            this.fileService.Create(this.GetDataFilePath(), serialized);
         }
 
-        private string GetDateFilePath()
+        private string GetDataFilePath()
             => Path.Combine(Directory.GetCurrentDirectory(), DATA_FILE);
     }
 
     public interface IStateManager : ISingletonService
     {
+        void Load();
         void Set(State state);
     }
 }
