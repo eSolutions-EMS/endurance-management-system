@@ -40,7 +40,7 @@ namespace Endurance.Judge.Gateways.API.Services
         private DateTime GetSnapshotTime(long epoch)
         {
             var offset = DateTimeOffset.FromUnixTimeMilliseconds(epoch);
-            return offset.DateTime;
+            return offset.LocalDateTime;
         }
     }
 
