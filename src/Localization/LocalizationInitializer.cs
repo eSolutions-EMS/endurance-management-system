@@ -19,9 +19,9 @@ public class LocalizationInitializer : IInitializer
         this.stringsPopulator = stringsPopulator;
     }
 
-    public int RunningOrder { get; }
+    public int RunningOrder => 10;
 
-    public void Run(IServiceProvider serviceProvider)
+    public void Run()
     {
         var values = this.stringsReader.Read();
         var processed = this.placeholderProcessor.Process(values);

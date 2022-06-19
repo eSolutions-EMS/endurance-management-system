@@ -8,7 +8,6 @@ using EnduranceJudge.Localization;
 using Microsoft.Extensions.DependencyInjection;
 using Prism.Ioc;
 using System.Linq;
-using System.Net.Http;
 using System.Reflection;
 
 namespace EnduranceJudge.Gateways.Desktop.Startup;
@@ -41,6 +40,7 @@ public static class DesktopServices
             .AddInitializers(assemblies);
     }
 
+    // TODO: Move in Core
     private static IServiceCollection AddInitializers(this IServiceCollection services, Assembly[] assemblies)
         => services
             .Scan(scan => scan
