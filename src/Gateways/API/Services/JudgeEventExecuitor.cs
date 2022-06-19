@@ -7,9 +7,10 @@ namespace Endurance.Judge.Gateways.API.Services
 {
     public class JudgeEventExecutor : IJudgeEventExecutor
     {
-        public JudgeEventExecutor()
+        private readonly ILogger logger;
+        public JudgeEventExecutor(ILogger logger)
         {
-            new ManagerRoot();
+            this.logger = logger;
         }
         
         public void Execute(JudgeEvent judgeEvent)
@@ -20,7 +21,7 @@ namespace Endurance.Judge.Gateways.API.Services
             }
             catch (Exception exception)
             {
-                // TODO: proper handling. Some sort of notification.
+                this.logger.LogEventError(exception, judgeEvent);
             }
         }
 
