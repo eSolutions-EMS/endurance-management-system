@@ -23,7 +23,7 @@ namespace Endurance.Judge.Gateways.API.Services
             var judgeEvent = new JudgeEvent
             {
                 Type = type,
-                TagId = request.Id,
+                TagId = request.Id.Replace("0", string.Empty),
                 Time = time,
             };
             this.events.Enqueue(judgeEvent);
