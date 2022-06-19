@@ -58,16 +58,22 @@ public abstract class ConfigurationBase<TView, TDomain> : ViewModelBase
     }
     private void SubmitAction()
     {
-        // TODO: Probably remove this execute
-        var isSuccessful = this.Executor.Execute(() =>
+        var result = this.Persist();
+        if (this.BackOnSubmit)
         {
-            this.Persist();
-            if (this.BackOnSubmit)
-            {
-                this.NavigateBackAction();
-            }
-        }, true);
-        if (!isSuccessful)
+            this.NavigateBackAction();
+        }
+        if (result != null)
+        // // TODO: Probably remove this execute
+        // var isSuccessful = this.Executor.Execute(() =>
+        // {
+        //     this.Persist();
+        //     if (this.BackOnSubmit)
+        //     {
+        //         this.NavigateBackAction();
+        //     }
+        // }, true);
+        // if (!isSuccessful)
         {
             this.Load(this.Id);
         }

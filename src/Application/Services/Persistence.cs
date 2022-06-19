@@ -13,18 +13,18 @@ public class Persistence : IPersistence
     private static string dataDirectoryPath;
 
     private readonly IDataService dataService;
-    private readonly State state;
+    private readonly IState state;
     private readonly IFileService file;
     private readonly IJsonSerializationService serialization;
     
     public Persistence(
         IDataService dataService,
-        State state,
+        IStateContext context,
         IFileService file,
         IJsonSerializationService serialization)
     {
         this.dataService = dataService;
-        this.state = state;
+        this.state = context.State;
         this.file = file;
         this.serialization = serialization;
     }

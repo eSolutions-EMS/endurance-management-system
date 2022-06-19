@@ -1,5 +1,6 @@
 ﻿using EnduranceJudge.Application.Core.Services;
 using EnduranceJudge.Core.ConventionalServices;
+using EnduranceJudge.Domain.State;
 using System;
 using System.Net.Http;
 using System.Text;
@@ -51,7 +52,7 @@ public class DataService : IDataService
         return state;
     }
     
-    public void Post(State state)
+    public void Post(IState state)
     {
         using var client = new HttpClient();
         var contents = this.serializationService.Serialize(state);
@@ -68,5 +69,5 @@ public class DataService : IDataService
 public interface IDataService : ITransientService
 {
     State Get();
-    void Post(State state);
+    void Post(IState state);
 }
