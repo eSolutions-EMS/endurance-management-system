@@ -8,7 +8,7 @@ namespace EnduranceJudge.Application.Queries;
 
 public class CountryQueries : QueriesBase<Country>
 {
-    public CountryQueries(IState state) : base(state)
+    public CountryQueries(IStateContext context) : base(context)
     {
     }
 

@@ -9,9 +9,9 @@ namespace EnduranceJudge.Application.Core;
 public abstract class QueriesBase<T> : IQueries<T>
     where T : IDomain
 {
-    protected QueriesBase(IState state)
+    protected QueriesBase(IStateContext context)
     {
-        this.State = state;
+        this.State = context.State;
     }
 
     protected IState State { get; }

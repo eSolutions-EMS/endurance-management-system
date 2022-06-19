@@ -22,7 +22,7 @@ public class ManagerRoot : IAggregateRoot
 
     public ManagerRoot()
     {
-        this.state = StaticProvider.GetService<IState>();
+        this.state = StaticProvider.GetService<IStateContext>().State;
     }
 
     public bool HasStarted()

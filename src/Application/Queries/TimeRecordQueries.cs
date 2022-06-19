@@ -8,7 +8,7 @@ namespace EnduranceJudge.Application.Queries;
 
 public class TimeRecordQueries : QueriesBase<LapRecord>
 {
-    public TimeRecordQueries(IState state) : base(state)
+    public TimeRecordQueries(IStateContext context) : base(context)
     {
     }
 

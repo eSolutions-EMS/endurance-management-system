@@ -13,13 +13,13 @@ namespace Endurance.Judge.Gateways.API.Services
 
         private readonly IFileService fileService;
         private readonly IJsonSerializationService serializationService;
-        private readonly Context context;
+        private readonly ApiContext apiContext;
 
-        public StateManager(IFileService fileService, IJsonSerializationService serializationService, Context context)
+        public StateManager(IFileService fileService, IJsonSerializationService serializationService, ApiContext apiContext)
         {
             this.fileService = fileService;
             this.serializationService = serializationService;
-            this.context = context;
+            this.apiContext = apiContext;
         }
 
         public void Load()
@@ -28,22 +28,22 @@ namespace Endurance.Judge.Gateways.API.Services
             if (File.Exists(path))
             {
                 var contents = this.fileService.Read(path);
-                this.context.State = this.serializationService.Deserialize<State>(contents);
+                this.apiContext.ApiState = this.serializationService.Deserialize<State>(contents);
             }
         }
         
         public void Set(State update)
         {
-            this.context.State = update;
-            update.MapFrom(this.context.State);
-            this.context.State = update;
+            this.apiContext.ApiState = update;
+            update.MapFrom(this.apiContext.ApiState);
+            this.apiContext.ApiState = update;
             
             this.Persist();
         }
         
         private void Persist()
         {
-            var serialized = this.serializationService.Serialize(this.context.State);
+            var serialized = this.serializationService.Serialize(this.apiContext.ApiState);
             this.fileService.Create(this.GetDataFilePath(), serialized);
         }
 

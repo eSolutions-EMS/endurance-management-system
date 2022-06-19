@@ -8,7 +8,7 @@ namespace EnduranceJudge.Application.Queries;
 
 public class LapQueries : QueriesBase<Lap>
 {
-    public LapQueries(IState state) : base(state)
+    public LapQueries(IStateContext context) : base(context)
     {
     }
     protected override List<Lap> Set

@@ -8,7 +8,7 @@ namespace EnduranceJudge.Application.Queries;
 
 public class ParticipantQueries : QueriesBase<Participant>
 {
-    public ParticipantQueries(IState state) : base(state)
+    public ParticipantQueries(IStateContext context) : base(context)
     {
     }
 

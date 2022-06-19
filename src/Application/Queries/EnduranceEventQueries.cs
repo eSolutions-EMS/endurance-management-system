@@ -9,9 +9,9 @@ namespace EnduranceJudge.Application.Queries;
 public class EnduranceEventQueries : IEnduranceEventQuery
 {
     private readonly IState state;
-    public EnduranceEventQueries(IState state)
+    public EnduranceEventQueries(IStateContext context)
     {
-        this.state = state;
+        this.state = context.State;
     }
 
     public EnduranceEvent Get()

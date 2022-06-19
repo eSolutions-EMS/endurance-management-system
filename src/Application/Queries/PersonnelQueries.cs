@@ -10,7 +10,7 @@ public class PersonnelQueries : QueriesBase<Personnel>
 {
     private List<Personnel> personnel;
 
-    public PersonnelQueries(IState state) : base(state)
+    public PersonnelQueries(IStateContext context) : base(context)
     {
     }
 

@@ -21,9 +21,6 @@ public static class ApplicationServices
         // TODO: get that working
         // services.AddHttpClient();
         // var kur = services.FirstOrDefault(x => x.ServiceType == typeof(IServiceScopeFactory));
-
-        services.AddTransient<State, State>();
-        services.AddTransient<IState>(x => x.GetService<State>());
         
         return services;
     }

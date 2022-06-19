@@ -75,9 +75,9 @@ namespace Endurance.Judge.Gateways.API
 
             services.AddTransient<ErrorLogger, ErrorLogger>();
             
-            services.AddSingleton<Context, Context>();
-            services.AddSingleton<IContext>(provider => provider.GetRequiredService<Context>());
-            services.AddSingleton<IState>(provider => provider.GetRequiredService<Context>().State);
+            services.AddSingleton<ApiContext, ApiContext>();
+            services.AddSingleton<IApiContext>(provider => provider.GetRequiredService<ApiContext>());
+            services.AddSingleton<IStateContext>(provider => provider.GetRequiredService<ApiContext>());
             services.AddInitializers(assemblies);
 
             return services;

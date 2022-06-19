@@ -8,7 +8,7 @@ namespace EnduranceJudge.Application.Queries;
 
 public class CompetitionQueries : QueriesBase<Competition>
 {
-    public CompetitionQueries(IState state) : base(state)
+    public CompetitionQueries(IStateContext context) : base(context)
     {
     }
     protected override List<Competition> Set => this.State.Event.Competitions.ToList();

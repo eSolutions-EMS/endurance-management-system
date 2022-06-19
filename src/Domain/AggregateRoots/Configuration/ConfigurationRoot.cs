@@ -17,7 +17,7 @@ public class ConfigurationRoot : IAggregateRoot
 
     public ConfigurationRoot()
     {
-        this.state = StaticProvider.GetService<IState>();
+        this.state = StaticProvider.GetService<IStateContext>().State;
         this.Competitions = new CompetitionsAggregate(this.state);
         this.Laps = new LapsAggregate(this.state);
         this.Athletes = new AthletesAggregate(this.state);
