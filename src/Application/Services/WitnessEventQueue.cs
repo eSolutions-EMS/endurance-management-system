@@ -1,5 +1,7 @@
 ﻿using EnduranceJudge.Application.Models;
 using EnduranceJudge.Core.ConventionalServices;
+using EnduranceJudge.Domain.AggregateRoots.Manager;
+using EnduranceJudge.Domain.AggregateRoots.Manager.WitnessEvents;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,12 +9,10 @@ namespace EnduranceJudge.Application.Services
 {
     public class WitnessEventQueue : IWitnessEventQueue
     {
-        private readonly IWitnessEventExecutor eventExecutor;
         private readonly Queue<WitnessEvent> events = new();
 
-        public WitnessEventQueue(IWitnessEventExecutor eventExecutor)
+        public WitnessEventQueue()
         {
-            this.eventExecutor = eventExecutor;
         }
         
         public void AddEvent(WitnessEvent witnessEvent)
@@ -25,7 +25,7 @@ namespace EnduranceJudge.Application.Services
             while (this.events.Any())
             {
                 var judgeEvent = this.events.Dequeue();
-                this.eventExecutor.Execute(judgeEvent);
+                Witness.Raise(judgeEvent);
             }
         }
     }

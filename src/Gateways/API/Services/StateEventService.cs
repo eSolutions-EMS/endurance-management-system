@@ -1,6 +1,6 @@
 ﻿using Endurance.Judge.Gateways.API.Requests;
-using EnduranceJudge.Application.Models;
 using EnduranceJudge.Core.ConventionalServices;
+using EnduranceJudge.Domain.AggregateRoots.Manager;
 using System;
 using System.Collections.Generic;
 

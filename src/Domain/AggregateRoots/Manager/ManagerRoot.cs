@@ -7,6 +7,7 @@ using EnduranceJudge.Domain.State.Competitions;
 using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Domain.State.Participations;
 using EnduranceJudge.Domain.AggregateRoots.Common.Performances;
+using EnduranceJudge.Domain.AggregateRoots.Manager.WitnessEvents;
 using EnduranceJudge.Domain.State.LapRecords;
 using System;
 using System.Collections.Generic;
@@ -22,8 +23,22 @@ public class ManagerRoot : IAggregateRoot
     public ManagerRoot(IStateContext context)
     {
         this.state = context.State;
+        Witness.Events += this.Handle;
     }
 
+    private void Handle(object sender, WitnessEvent witnessEvent)
+    {
+        if (witnessEvent.Type == WitnessEventType.Finish)
+        {
+            this.RecordArrive(witnessEvent.TagId, witnessEvent.Time);
+        }
+        if (witnessEvent.Type == WitnessEventType.EnterVet)
+        {
+            this.RecordInspect(witnessEvent.TagId, witnessEvent.Time);
+        }
+        // TODO: Make sure save is persisted. Maybe transition to event-driven persistance?
+    }
+    
     public bool HasStarted()
         => this.state.Participations.Any(x => x.Participant.LapRecords.Any());
 

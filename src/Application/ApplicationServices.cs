@@ -56,10 +56,11 @@ public static class ApplicationServices
                 $"It has to be registered before calling '{nameof(AddApplication)}' in order to configure" +
                 $"{nameof(IWitnessAwareContext)}.");
         }
+        // TODO: Remove this
         var newDescriptor = new ServiceDescriptor(
             typeof(ManagerRoot),
             x => new ManagerRoot(x.GetRequiredService<IWitnessAwareContext>()),
-            ServiceLifetime.Transient);
+            ServiceLifetime.Singleton);
 
         services.Replace(newDescriptor);
         return services;

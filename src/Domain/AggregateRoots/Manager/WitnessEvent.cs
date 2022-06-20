@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EnduranceJudge.Application.Models
+namespace EnduranceJudge.Domain.AggregateRoots.Manager
 {
     public class WitnessEvent
     {

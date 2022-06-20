@@ -67,7 +67,9 @@ public class WitnessPollingService : IWitnessPollingService
             .Select(x => x.Value);
         foreach (var witnessEvent in events)
         {
+            // TODO: remove queue and publish events directly
             this.witnessEventQueue.AddEvent(witnessEvent);
+            this.ApplyEvents();
         }
     }
 }

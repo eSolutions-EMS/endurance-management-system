@@ -20,7 +20,6 @@ public class StringsReader : IStringsReader
 
     public Dictionary<string, string> Read()
     {
-        // TODO: test/fix in Desktop. Also create pre-build smthing to copy to API dir
         var filePath = Path.Combine(Directory.GetCurrentDirectory(), STRINGS_FILENAME);
         using var stream = this.fileService.ReadStream(filePath);
         var line = stream.ReadLine(); // header line

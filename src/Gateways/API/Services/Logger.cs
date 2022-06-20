@@ -1,6 +1,7 @@
 ﻿using EnduranceJudge.Application.Models;
 using EnduranceJudge.Core.ConventionalServices;
 using EnduranceJudge.Core.Services;
+using EnduranceJudge.Domain.AggregateRoots.Manager;
 using System;
 using System.IO;
 
@@ -26,6 +27,7 @@ namespace Endurance.Judge.Gateways.API.Services
             this.Log(message);
         }
 
+        // TODO: remove
         public void LogEventError(Exception exception, WitnessEvent witnessEvent)
         {
             var now = DateTime.Now;
