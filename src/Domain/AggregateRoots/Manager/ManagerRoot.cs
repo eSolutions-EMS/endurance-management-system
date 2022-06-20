@@ -62,6 +62,9 @@ public class ManagerRoot : IAggregateRoot
             .GetParticipation(rfid)
             .Aggregate();
         participation.Inspect(time);
+        // TODO: why not Update again?
+        // TODO: create next record if complete
+        // TODO: allow reinspect as well.
     }
     public void Disqualify(int number, string reason)
     {
