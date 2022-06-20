@@ -356,4 +356,4 @@ files/*
 samples/*
 endurance-judge/*
 endurance-judge.zip
-judge.data
+data/*
