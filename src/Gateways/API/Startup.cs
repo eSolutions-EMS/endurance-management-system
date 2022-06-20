@@ -3,13 +3,10 @@ using Endurance.Judge.Gateways.API.Services;
 using EnduranceJudge.Application.Core.Services;
 using EnduranceJudge.Core;
 using EnduranceJudge.Core.Services;
-using EnduranceJudge.Core.Utilities;
 using EnduranceJudge.Domain;
 using EnduranceJudge.Domain.State;
-using EnduranceJudge.Localization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -31,7 +28,6 @@ namespace Endurance.Judge.Gateways.API
         public void ConfigureServices(IServiceCollection services)
         {
             var assemblies = CoreConstants.Assemblies
-                .Concat(LocalizationConstants.Assemblies)
                 .Concat(DomainConstants.Assemblies)
                 .Concat(ApiConstants.Assemblies)
                 .ToArray();
@@ -39,7 +35,8 @@ namespace Endurance.Judge.Gateways.API
             services
                 .AddCore(assemblies)
                 .AddApi(assemblies)
-                .AddDomain(assemblies);
+                .AddDomain(assemblies)
+                .AddInitializers(assemblies);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider provider)
@@ -78,12 +75,11 @@ namespace Endurance.Judge.Gateways.API
             services.AddSingleton<ApiContext, ApiContext>();
             services.AddSingleton<IApiContext>(provider => provider.GetRequiredService<ApiContext>());
             services.AddSingleton<IStateContext>(provider => provider.GetRequiredService<ApiContext>());
-            services.AddInitializers(assemblies);
 
             return services;
         }
         
-        private static IServiceCollection AddInitializers(this IServiceCollection services, Assembly[] assemblies)
+        public static IServiceCollection AddInitializers(this IServiceCollection services, Assembly[] assemblies)
             => services
                 .Scan(scan => scan
                     .FromAssemblies(assemblies)

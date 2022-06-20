@@ -1,4 +1,4 @@
-﻿using Endurance.Judge.Gateways.API.Models;
+﻿using EnduranceJudge.Application.Models;
 using Endurance.Judge.Gateways.API.Requests;
 using Endurance.Judge.Gateways.API.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -9,23 +9,23 @@ namespace Endurance.Judge.Gateways.API.Controllers
     [Route("[controller]")]
     public class WitnessController : ControllerBase
     {
-        private readonly IJudgeEventQueue judgeEventQueue;
-        public WitnessController(IJudgeEventQueue judgeEventQueue)
+        private readonly IStateEventService stateEventService;
+        public WitnessController(IStateEventService stateEventService)
         {
-            this.judgeEventQueue = judgeEventQueue;
+            this.stateEventService = stateEventService;
         }
         
         [HttpPost("vet")]
         public IActionResult Vet([FromBody] TagRequest request)
         {
-            this.judgeEventQueue.AddEvent(JudgeEventType.EnterVet, request);
+            this.stateEventService.AddEvent(WitnessEventType.EnterVet, request);
             return this.Ok();
         }
         
         [HttpPost("finish")]
         public IActionResult Finish([FromBody] TagRequest request)
         {
-            this.judgeEventQueue.AddEvent(JudgeEventType.Finish, request);
+            this.stateEventService.AddEvent(WitnessEventType.Finish, request);
             return this.Ok();
         }
     }

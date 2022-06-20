@@ -1,4 +1,4 @@
-﻿using Endurance.Judge.Gateways.API.Models;
+﻿using EnduranceJudge.Application.Models;
 using EnduranceJudge.Core.ConventionalServices;
 using EnduranceJudge.Core.Services;
 using System;
@@ -26,14 +26,14 @@ namespace Endurance.Judge.Gateways.API.Services
             this.Log(message);
         }
 
-        public void LogEventError(Exception exception, JudgeEvent judgeEvent)
+        public void LogEventError(Exception exception, WitnessEvent witnessEvent)
         {
             var now = DateTime.Now;
             var message =
                 $"{now}: Error while executing Witness Event" + Environment.NewLine +
-                $"Event: {judgeEvent.Type}" + Environment.NewLine +
-                $"TagId: {judgeEvent.TagId}" + Environment.NewLine +
-                $"TimeStamp: {judgeEvent.Time}" + Environment.NewLine +
+                $"Event: {witnessEvent.Type}" + Environment.NewLine +
+                $"TagId: {witnessEvent.TagId}" + Environment.NewLine +
+                $"TimeStamp: {witnessEvent.Time}" + Environment.NewLine +
                 exception.Message + Environment.NewLine +
                 exception.StackTrace + Environment.NewLine;
 
@@ -51,5 +51,5 @@ namespace Endurance.Judge.Gateways.API.Services
 public interface ILogger : ITransientService
 {
     void LogError(Exception exception);
-    void LogEventError(Exception exception, JudgeEvent judgeEvent);
+    void LogEventError(Exception exception, WitnessEvent witnessEvent);
 }
