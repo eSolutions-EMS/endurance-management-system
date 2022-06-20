@@ -3,28 +3,23 @@ using EnduranceJudge.Core.ConventionalServices;
 using EnduranceJudge.Domain.AggregateRoots.Manager;
 using System;
 
-namespace Endurance.Judge.Gateways.API.Services
+namespace EnduranceJudge.Application.Services
 {
-    public class JudgeEventExecutor : IJudgeEventExecutor
+    public class WitnessEventExecutor : IWitnessEventExecutor
     {
-        private readonly ILogger logger;
-        public JudgeEventExecutor(ILogger logger)
-        {
-            this.logger = logger;
-        }
-        
         public void Execute(WitnessEvent witnessEvent)
         {
             try
             {
                 this.InnerExecute(witnessEvent);
             }
-            catch (Exception exception)
+            catch (Exception exception) 
             {
-                this.logger.LogEventError(exception, witnessEvent);
+                // Throw WitnessException
             }
         }
 
+        // TODO: create WitnessRoot class and maybe remove this file completely
         private void InnerExecute(WitnessEvent witnessEvent)
         {
             var manager = new ManagerRoot();
@@ -41,7 +36,7 @@ namespace Endurance.Judge.Gateways.API.Services
         }
     }
     
-    public interface IJudgeEventExecutor : ITransientService
+    public interface IWitnessEventExecutor : ITransientService
     {
         void Execute(WitnessEvent witnessEvent);
     }

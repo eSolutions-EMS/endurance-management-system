@@ -1,15 +1,15 @@
 ﻿using System;
 
-namespace Endurance.Judge.Gateways.API.Models
+namespace EnduranceJudge.Application.Models
 {
-    public class JudgeEvent
+    public class WitnessEvent
     {
-        public JudgeEventType Type { get; init; }
+        public WitnessEventType Type { get; init; }
         public string TagId { get; init; }
         public DateTime Time { get; init; }
     }
 
-    public enum JudgeEventType
+    public enum WitnessEventType
     {
         Invalid = 0,
         EnterVet = 1,
