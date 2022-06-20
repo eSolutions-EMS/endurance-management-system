@@ -10,28 +10,24 @@ namespace EnduranceJudge.Application.Services;
 
 public class Persistence : IPersistence
 {
-    private static string dataDirectoryPath;
+    private const string STORAGE_FILE_NAME = "judge.data";
+    private static string stateDirectoryPath;
 
-    private readonly IDataService dataService;
+    private readonly IStateSetter stateSetter;
     private readonly IState state;
     private readonly IFileService file;
     private readonly IJsonSerializationService serialization;
     
     public Persistence(
-        IDataService dataService,
         IStateContext context,
+        IStateSetter stateSetter,
         IFileService file,
         IJsonSerializationService serialization)
     {
-        this.dataService = dataService;
+        this.stateSetter = stateSetter;
         this.state = context.State;
         this.file = file;
         this.serialization = serialization;
-    }
-    
-    public void Snapshot()
-    {
-        this.dataService.Post(this.state);
     }
 
     public string LogError(string message, string stackTrace)
@@ -45,27 +41,94 @@ public class Persistence : IPersistence
         };
         var serialized = this.serialization.Serialize(log);
         var filename = $"{timestamp}_error.json";
-        var path = $"{dataDirectoryPath}/{filename}";
+        var path = $"{stateDirectoryPath}/{filename}";
         this.file.Create(path, serialized);
         return path;
     }
-    
-    public PersistenceResult Initialize(string directoryPath)
+
+    public PersistenceResult Configure(string directoryPath)
     {
-        if (dataDirectoryPath is not null)
+        stateDirectoryPath = directoryPath;
+        var database = BuildStorageFilePath(directoryPath);
+        if (this.file.Exists(database))
         {
-            throw new Exception("Application data configuration is already initialized");
+            this.SetState();
+            return PersistenceResult.Existing;
         }
-        dataDirectoryPath = directoryPath;
         
+        this.SaveState();
         return PersistenceResult.New;
+    }
+    
+    public void SaveState()
+    {
+        var serialized = this.serialization.Serialize(this.state);
+        var databasePath = BuildStorageFilePath(stateDirectoryPath);
+        this.file.Create(databasePath, serialized);
+    }
+    
+    private void SetState()
+    {
+        var dataPath = BuildStorageFilePath(stateDirectoryPath);
+        var contents = this.file.Read(dataPath);
+        var state = this.serialization.Deserialize<State>(contents);
+        this.FixDatesForToday(state);
+        this.stateSetter.Set(state);
+    }
+
+    private static string BuildStorageFilePath(string directory) => $"{directory}\\{STORAGE_FILE_NAME}";
+    
+     
+    // TODO: add opt-in configuration
+    private void FixDatesForToday(State state)
+    {
+        if (state == null)
+        {
+            return;
+        }
+        if (state.Event != null)
+        {
+            foreach (var competition in state.Event.Competitions)
+            {
+                competition.StartTime = FixDateForToday(competition.StartTime);
+            }
+        }
+        foreach (var participant in state.Participants)
+        {
+            foreach (var performance in participant.LapRecords)
+            {
+                performance.StartTime = FixDateForToday(performance.StartTime);
+                if (performance.ArrivalTime.HasValue)
+                {
+                    performance.ArrivalTime = FixDateForToday(performance.ArrivalTime.Value);
+                }
+                if (performance.InspectionTime.HasValue)
+                {
+                    performance.InspectionTime = FixDateForToday(performance.InspectionTime.Value);
+                }
+                if (performance.ReInspectionTime.HasValue)
+                {
+                    performance.ReInspectionTime = FixDateForToday(performance.ReInspectionTime.Value);
+                }
+            }
+        }
+    }
+
+    private DateTime FixDateForToday(DateTime date)
+    {
+        var today = DateTime.Today;
+        today = today.AddHours(date.Hour);
+        today = today.AddMinutes(date.Minute);
+        today = today.AddSeconds(date.Second);
+        today = today.AddMilliseconds(date.Millisecond);
+        return today;
     }
 }
 
 
 public interface IPersistence : ITransientService
 {
-    void Snapshot();
+    void SaveState();
     string LogError(string message, string stackTrace);
-    PersistenceResult Initialize(string directoryPath);
+    PersistenceResult Configure(string directoryPath);
 }

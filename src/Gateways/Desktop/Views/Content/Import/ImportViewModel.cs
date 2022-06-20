@@ -87,7 +87,7 @@ public class ImportViewModel : ViewModelBase
         this.WorkDirectoryVisibility = Visibility.Collapsed;
         this.ImportFilePathVisibility = Visibility.Visible;
 
-        var result = this.persistence.Initialize(selectedPath);
+        var result = this.persistence.Configure(selectedPath);
         this.context.Initialize();
 
         if (result.IsExistingFile)

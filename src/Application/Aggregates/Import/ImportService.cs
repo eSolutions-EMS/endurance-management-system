@@ -54,7 +54,7 @@ public class ImportService : IImportService
             manager.Import(data);
         }
 
-        this.persistence.Snapshot();
+        this.persistence.SaveState();
     }
 }
 

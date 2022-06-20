@@ -47,7 +47,7 @@ public class Executor : IExecutor
             action();
             if (persist)
             {
-                this.persistence.Snapshot();
+                this.persistence.SaveState();
             }
             return true;
         }
@@ -65,7 +65,7 @@ public class Executor : IExecutor
             var result = action();
             if (persist)
             {
-                this.persistence.Snapshot();
+                this.persistence.SaveState();
             }
             return result;
         }

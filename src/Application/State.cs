@@ -1,4 +1,4 @@
-﻿using EnduranceJudge.Domain.State;
+﻿using EnduranceJudge.Application.Services;
 using EnduranceJudge.Domain.State.Athletes;
 using EnduranceJudge.Domain.State.Countries;
 using EnduranceJudge.Domain.State.EnduranceEvents;
@@ -10,15 +10,22 @@ using System.Collections.Generic;
 
 namespace EnduranceJudge.Application;
 
-public class State : IState
+public class State : IStateSetter
 {
     public EnduranceEvent Event { get; set; }
-    public List<Horse> Horses { get; set; } = new();
-    public List<Athlete> Athletes { get; set; } = new();
-    public List<Participant> Participants { get; set; } = new();
-    public List<Participation> Participations { get; set; } = new();
-
+    public List<Horse> Horses { get; private set; } = new();
+    public List<Athlete> Athletes { get; private set; } = new();
+    public List<Participant> Participants { get; private set; } = new();
+    public List<Participation> Participations { get; private set; } = new();
     [JsonIgnore]
     public IReadOnlyList<Country> Countries
         => ApplicationConstants.Countries.List.AsReadOnly();
+    void IStateSetter.Set(State initial)
+    {
+        this.Event = initial.Event;
+        this.Horses = initial.Horses;
+        this.Athletes = initial.Athletes;
+        this.Participants = initial.Participants;
+        this.Participations = initial.Participations;
+    }
 }

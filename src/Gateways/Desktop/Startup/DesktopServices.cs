@@ -3,7 +3,6 @@ using EnduranceJudge.Core;
 using EnduranceJudge.Gateways.Desktop.Core.Objects;
 using EnduranceJudge.Core.Services;
 using EnduranceJudge.Domain;
-using EnduranceJudge.Domain.State;
 using EnduranceJudge.Gateways.Desktop.Services;
 using EnduranceJudge.Localization;
 using Microsoft.Extensions.DependencyInjection;
@@ -54,7 +53,6 @@ public static class DesktopServices
     private static IServiceCollection AddDesktop(this IServiceCollection services, Assembly[] assemblies)
     {
         services.AddTransient(typeof(IExecutor<>), typeof(Executor<>));
-        services.AddTransient<IStateContext, DesktopStateContext>();
         return services;
     }
 
