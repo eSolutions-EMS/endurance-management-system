@@ -1,4 +1,4 @@
-﻿using Endurance.Judge.Gateways.API.Models;
+﻿using EnduranceJudge.Application.Models;
 using Endurance.Judge.Gateways.API.Requests;
 using EnduranceJudge.Core.ConventionalServices;
 using System;
@@ -10,17 +10,17 @@ namespace Endurance.Judge.Gateways.API.Services
     public class JudgeEventQueue : IJudgeEventQueue
     {
         private readonly IJudgeEventExecutor eventExecutor;
-        private readonly Queue<JudgeEvent> events = new();
+        private readonly Queue<WitnessEvent> events = new();
 
         public JudgeEventQueue(IJudgeEventExecutor eventExecutor)
         {
             this.eventExecutor = eventExecutor;
         }
         
-        public void AddEvent(JudgeEventType type, TagRequest request)
+        public void AddEvent(WitnessEventType type, TagRequest request)
         {
             var time = this.GetSnapshotTime(request.Epoch);
-            var judgeEvent = new JudgeEvent
+            var judgeEvent = new WitnessEvent
             {
                 Type = type,
                 TagId = request.Id.Replace("0", string.Empty),
@@ -46,7 +46,7 @@ namespace Endurance.Judge.Gateways.API.Services
 
     public interface IJudgeEventQueue : ISingletonService
     {
-        void AddEvent(JudgeEventType type, TagRequest request);
+        void AddEvent(WitnessEventType type, TagRequest request);
         void ExecuteEvents();
     }
 }

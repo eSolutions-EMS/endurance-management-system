@@ -1,4 +1,4 @@
-﻿using Endurance.Judge.Gateways.API.Models;
+﻿using EnduranceJudge.Application.Models;
 using EnduranceJudge.Core.ConventionalServices;
 using EnduranceJudge.Domain.AggregateRoots.Manager;
 using System;
@@ -13,28 +13,28 @@ namespace Endurance.Judge.Gateways.API.Services
             this.logger = logger;
         }
         
-        public void Execute(JudgeEvent judgeEvent)
+        public void Execute(WitnessEvent witnessEvent)
         {
             try
             {
-                this.InnerExecute(judgeEvent);
+                this.InnerExecute(witnessEvent);
             }
             catch (Exception exception)
             {
-                this.logger.LogEventError(exception, judgeEvent);
+                this.logger.LogEventError(exception, witnessEvent);
             }
         }
 
-        private void InnerExecute(JudgeEvent judgeEvent)
+        private void InnerExecute(WitnessEvent witnessEvent)
         {
             var manager = new ManagerRoot();
-            switch (judgeEvent.Type)
+            switch (witnessEvent.Type)
             {
-                case JudgeEventType.Finish: manager.RecordArrive(judgeEvent.TagId, judgeEvent.Time);
+                case WitnessEventType.Finish: manager.RecordArrive(witnessEvent.TagId, witnessEvent.Time);
                     break;
-                case JudgeEventType.EnterVet: manager.RecordInspect(judgeEvent.TagId, judgeEvent.Time);
+                case WitnessEventType.EnterVet: manager.RecordInspect(witnessEvent.TagId, witnessEvent.Time);
                     break;
-                case JudgeEventType.Invalid:
+                case WitnessEventType.Invalid:
                 default:
                     break;
             }
@@ -43,6 +43,6 @@ namespace Endurance.Judge.Gateways.API.Services
     
     public interface IJudgeEventExecutor : ITransientService
     {
-        void Execute(JudgeEvent judgeEvent);
+        void Execute(WitnessEvent witnessEvent);
     }
 }
