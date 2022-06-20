@@ -1,4 +1,5 @@
 ﻿using EnduranceJudge.Application.Core.Services;
+using EnduranceJudge.Application.State;
 using EnduranceJudge.Core.ConventionalServices;
 using EnduranceJudge.Domain.State;
 using System;
@@ -11,7 +12,7 @@ public class DataService : IDataService
 {
     private const string ENDPOINT = "http://192.168.0.230:11337/state";
     
-    private State cache;
+    private StateModel cache;
     private DateTime lastRequestAt;
     private readonly IJsonSerializationService serializationService;
     
@@ -20,7 +21,7 @@ public class DataService : IDataService
         this.serializationService = serializationService;
     }
 
-    public State Get()
+    public StateModel Get()
     {
         if (this.cache == null)
         {
@@ -38,7 +39,7 @@ public class DataService : IDataService
         return this.cache;
     }
 
-    private State Request()
+    private StateModel Request()
     {
         using var client = new HttpClient();
         // var client = this.clientFactory.CreateClient();
@@ -48,7 +49,7 @@ public class DataService : IDataService
             throw new Exception("Could not connect to Judge API");
         }
         var body = response.Content.ReadAsStringAsync().Result;
-        var state = this.serializationService.Deserialize<State>(body);
+        var state = this.serializationService.Deserialize<StateModel>(body);
         return state;
     }
     
@@ -68,6 +69,6 @@ public class DataService : IDataService
 
 public interface IDataService : ITransientService
 {
-    State Get();
+    StateModel Get();
     void Post(IState state);
 }

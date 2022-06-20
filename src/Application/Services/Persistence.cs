@@ -1,5 +1,6 @@
 ﻿using EnduranceJudge.Application.Core.Services;
 using EnduranceJudge.Application.Models;
+using EnduranceJudge.Application.State;
 using EnduranceJudge.Core.ConventionalServices;
 using EnduranceJudge.Core.Services;
 using EnduranceJudge.Domain.State;
@@ -71,7 +72,7 @@ public class Persistence : IPersistence
     {
         var dataPath = BuildStorageFilePath(stateDirectoryPath);
         var contents = this.file.Read(dataPath);
-        var state = this.serialization.Deserialize<State>(contents);
+        var state = this.serialization.Deserialize<StateModel>(contents);
         this.FixDatesForToday(state);
         this.stateSetter.Set(state);
     }
@@ -80,7 +81,7 @@ public class Persistence : IPersistence
     
      
     // TODO: add opt-in configuration
-    private void FixDatesForToday(State state)
+    private void FixDatesForToday(StateModel state)
     {
         if (state == null)
         {
