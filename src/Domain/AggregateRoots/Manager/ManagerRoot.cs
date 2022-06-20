@@ -1,5 +1,4 @@
-﻿using EnduranceJudge.Core.Utilities;
-using EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates;
+﻿using EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates;
 using EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 using EnduranceJudge.Domain.Core.Exceptions;
 using EnduranceJudge.Domain.Core.Models;
@@ -20,9 +19,9 @@ public class ManagerRoot : IAggregateRoot
 {
     private readonly IState state;
 
-    public ManagerRoot()
+    public ManagerRoot(IStateContext context)
     {
-        this.state = StaticProvider.GetService<IStateContext>().State;
+        this.state = context.State;
     }
 
     public bool HasStarted()

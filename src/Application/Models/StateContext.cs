@@ -1,9 +1,8 @@
-﻿using EnduranceJudge.Core.ConventionalServices;
-using EnduranceJudge.Domain.State;
+﻿using EnduranceJudge.Domain.State;
 
 namespace EnduranceJudge.Application.Models;
 
-public class StateContext : IStateContext, ITransientService
+public class StateContext : IStateContext
 {
     public StateContext(IState state)
     {
