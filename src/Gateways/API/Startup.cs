@@ -1,10 +1,8 @@
 using Endurance.Judge.Gateways.API.Middlewares;
-using Endurance.Judge.Gateways.API.Services;
 using EnduranceJudge.Application.Core.Services;
 using EnduranceJudge.Core;
 using EnduranceJudge.Core.Services;
 using EnduranceJudge.Domain;
-using EnduranceJudge.Domain.State;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -72,10 +70,6 @@ namespace Endurance.Judge.Gateways.API
 
             services.AddTransient<ErrorLogger, ErrorLogger>();
             
-            services.AddSingleton<ApiContext, ApiContext>();
-            services.AddSingleton<IApiContext>(provider => provider.GetRequiredService<ApiContext>());
-            services.AddSingleton<IStateContext>(provider => provider.GetRequiredService<ApiContext>());
-
             return services;
         }
         
