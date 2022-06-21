@@ -1,17 +1,23 @@
-﻿using EnduranceJudge.Domain.Core.Models;
+﻿using EnduranceJudge.Domain.Annotations;
+using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.Enums;
 using EnduranceJudge.Domain.State.Competitions;
 using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Domain.State.Laps;
 using EnduranceJudge.Domain.State.LapRecords;
 using EnduranceJudge.Domain.State.Participations;
+using Microsoft.AspNetCore.DataProtection;
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace EnduranceJudge.Domain.AggregateRoots.Common.Performances;
 
-public class Performance : IAggregate, IPerformance
+public class Performance : IAggregate, IPerformance, INotifyPropertyChanged
 {
     public const int COMPULSORY_INSPECTION_TIME_OFFSET = -15;
 
@@ -26,53 +32,86 @@ public class Performance : IAggregate, IPerformance
         this.timeRecords = this.Participant.LapRecords.ToList();
         this.Index = index;
         this.laps = participation.CompetitionConstraint.Laps.ToList();
+
+        var notifyLapRecordsCollectionChanged = (INotifyCollectionChanged)this.Participant.LapRecords;
+        notifyLapRecordsCollectionChanged.CollectionChanged += (_, args) =>
+        {
+            if (args.Action is NotifyCollectionChangedAction.Add or NotifyCollectionChangedAction.Replace)
+            {
+                this.Sub(args.NewItems!.Cast<INotifyPropertyChanged>());
+            }
+            this.UpdateValues();
+        };
+        this.UpdateValues();
+        this.Sub(this.Participant.LapRecords);
+    }
+
+    private void Sub(IEnumerable<INotifyPropertyChanged> items)
+    {
+        foreach (var item in items)
+        {
+            item.PropertyChanged += (_, _) => this.UpdateValues();
+        }
+    }
+
+    private void UpdateValues()
+    {
+        this.RequiredInspectionTime = this.UpdateRequiredInspectionTime();
+        this.RecoverySpan = this.UpdateRecoverySpan();
+        this.Time = this.UpdateTime();
+        this.AverageSpeed = this.UpdateAverageSpeed();
+        this.AverageSpeedTotal = this.UpdateAverageSpeedTotal();
+        this.NextStartTime = DateTime.Now.AddHours(1); // TODO: fix
+        this.RaisePropertyChanged(nameof(this.RequiredInspectionTime));
+        this.RaisePropertyChanged(nameof(this.RecoverySpan));
+        this.RaisePropertyChanged(nameof(this.Time));
+        this.RaisePropertyChanged(nameof(this.AverageSpeed));
+        this.RaisePropertyChanged(nameof(this.AverageSpeedTotal));
+        this.RaisePropertyChanged(nameof(this.NextStartTime));
     }
 
     public Participant Participant { get; }
 
     public int Index { get; }
-    public DateTime? RequiredInspectionTime
+    public DateTime? RequiredInspectionTime { get; private set; }
+
+    private DateTime? UpdateRequiredInspectionTime()
     {
-        get
+        if (!this.LatestRecord.IsRequiredInspectionRequired
+            && !this.LatestRecord.Lap.IsCompulsoryInspectionRequired)
         {
-            if (!this.LatestRecord.IsRequiredInspectionRequired
-                && !this.LatestRecord.Lap.IsCompulsoryInspectionRequired)
-            {
-                return null;
-            }
-            var inspection = this.NextStartTime?.AddMinutes(COMPULSORY_INSPECTION_TIME_OFFSET);
-            return inspection;
+            return null;
         }
+        var inspection = this.NextStartTime?.AddMinutes(COMPULSORY_INSPECTION_TIME_OFFSET);
+        return inspection;
     }
 
-    public TimeSpan? RecoverySpan
+    public TimeSpan? RecoverySpan { get; private set; }
+    private TimeSpan? UpdateRecoverySpan()
         => this.LatestRecord.VetGateTime - this.LatestRecord.ArrivalTime;
 
-    public TimeSpan? Time
-        => this.CalculateLapTime(this.LatestRecord, this.Lap);
+    public TimeSpan? Time { get; private set; }
+    private TimeSpan? UpdateTime()
+        => this.CalculateLapTime(this.LatestRecord, this.LatestLap);
 
-    public double? AverageSpeed
+    public double? AverageSpeed { get; private set; }
+    private double? UpdateAverageSpeed()
     {
-        get
-        {
-            var lapLengthInKm = this.Lap.LengthInKm;
-            var totalHours = this.Time?.TotalHours;
-            return  lapLengthInKm / totalHours;
-        }
+        var lapLengthInKm = this.LatestLap.LengthInKm;
+        var totalHours = this.Time?.TotalHours;
+        return  lapLengthInKm / totalHours;
     }
 
-    public double? AverageSpeedTotal
+    public double? AverageSpeedTotal { get; private set; }
+    public double? UpdateAverageSpeedTotal()
     {
-        get
+        if (!this.Time.HasValue)
         {
-            if (!this.Time.HasValue)
-            {
-                return null;
-            }
-            var totalTime = this.CalculateTotalTime();
-            var totalAverageSpeed = this.TotalLength / totalTime.TotalHours;
-            return totalAverageSpeed;
+            return null;
         }
+        var totalTime = this.CalculateTotalTime();
+        var totalAverageSpeed = this.TotalLength / totalTime.TotalHours;
+        return totalAverageSpeed;
     }
 
     public double TotalLength
@@ -80,7 +119,8 @@ public class Performance : IAggregate, IPerformance
             .Select(x => x.LengthInKm)
             .Sum();
 
-    public DateTime? NextStartTime
+    public DateTime? NextStartTime { get; private set; } 
+    public DateTime? UpdateNextStartTime()
         => this.LatestRecord.NextStarTime;
 
     private TimeSpan? CalculateLapTime(LapRecord record, Lap lap)
@@ -101,8 +141,10 @@ public class Performance : IAggregate, IPerformance
         return totalHours;
     }
 
-    public Lap Lap => this.laps[this.Index];
-    private LapRecord LatestRecord => this.timeRecords[this.Index];
+    public Lap LatestLap => this.laps[this.Index];
+    private LapRecord LatestRecord 
+        => this.timeRecords[this.Index];
+    
     private IEnumerable<Lap> TotalLaps => this.laps.Take(this.Index + 1);
 
     public int Id => this.LatestRecord.Id;
@@ -121,5 +163,11 @@ public class Performance : IAggregate, IPerformance
             yield return new Performance(participation, index);
             index++;
         }
+    }
+    public event PropertyChangedEventHandler PropertyChanged;
+    [NotifyPropertyChangedInvocator]
+    protected virtual void RaisePropertyChanged(string propertyName = null)
+    {
+        this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

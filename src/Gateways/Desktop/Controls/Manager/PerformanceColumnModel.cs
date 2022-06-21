@@ -68,17 +68,17 @@ public class PerformanceColumnModel : ViewModelBase, ILapRecordState
         this.IsRequiredInspectionRequired = performance.IsRequiredInspectionRequired;
         this.ReInspectionTimeString = ValueSerializer.FormatTime(performance.ReInspectionTime);
         var requiredInspectionTime = ValueSerializer.FormatTime(performance.RequiredInspectionTime);
-        this.RequiredInspectionTimeString = performance.Lap.IsCompulsoryInspectionRequired
+        this.RequiredInspectionTimeString = performance.LatestLap.IsCompulsoryInspectionRequired
             ? string.Empty
             : requiredInspectionTime;
-        this.CompulsoryRequiredInspectionTimeString = performance.Lap.IsCompulsoryInspectionRequired
+        this.CompulsoryRequiredInspectionTimeString = performance.LatestLap.IsCompulsoryInspectionRequired
             ? requiredInspectionTime
             : string.Empty;
     }
 
     private string CreateHeader(Performance performance)
     {
-        var lap = performance.Lap.IsFinal
+        var lap = performance.LatestLap.IsFinal
             ? $"{FINAL}"
             : $"{GATE.ToUpper()}{performance.Index + 1}";
         var header = $"{lap}/{performance.TotalLength} {KM}";

@@ -2,7 +2,7 @@ using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Athletes;
 using EnduranceJudge.Domain.State.Horses;
 using EnduranceJudge.Domain.State.LapRecords;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace EnduranceJudge.Domain.State.Participants;
@@ -12,21 +12,21 @@ public class Participant : DomainBase<ParticipantException>, IParticipantState
     public const int DEFAULT_MAX_AVERAGE_SPEED = 16;
     private const string NAME_FORMAT = "{0} - {1} with {2}";
 
-    private List<LapRecord> timeRecords = new();
+    private ObservableCollection<LapRecord> lapRecords = new();
+    private readonly ReadOnlyObservableCollection<LapRecord> lapRecordsReadonly;
 
-    private Participant() {}
-    public Participant(Athlete athlete, Horse horse) : base(GENERATE_ID)
+    private Participant()
     {
-        this.Horse = horse;
-        this.Athlete = athlete;
+        this.lapRecordsReadonly = new(this.lapRecords);
     }
-    public Participant(Athlete athlete, Horse horse, IParticipantState state) : base(GENERATE_ID)
+    public Participant(Athlete athlete, Horse horse, IParticipantState state = null) : base(GENERATE_ID)
     {
-        this.RfId = state.RfId;
-        this.MaxAverageSpeedInKmPh = state.MaxAverageSpeedInKmPh;
-        this.Number = state.Number;
+        this.lapRecordsReadonly = new ReadOnlyObservableCollection<LapRecord>(this.lapRecords);
         this.Athlete = athlete;
         this.Horse = horse;
+        this.RfId = state?.RfId;
+        this.MaxAverageSpeedInKmPh = state?.MaxAverageSpeedInKmPh;
+        this.Number = state?.Number ?? 0;
     }
 
     public string RfId { get; internal set; }
@@ -34,14 +34,14 @@ public class Participant : DomainBase<ParticipantException>, IParticipantState
     public int? MaxAverageSpeedInKmPh { get; internal set; }
     public Horse Horse { get; internal set; }
     public Athlete Athlete { get; internal set; }
-    public IReadOnlyList<LapRecord> LapRecords
+    public ObservableCollection<LapRecord> LapRecords
     {
-        get => this.timeRecords.AsReadOnly();
-        private set => this.timeRecords = value.ToList();
+        get => this.lapRecords;
+        private set => this.lapRecords = new ObservableCollection<LapRecord>(value.ToList());
     }
 
     public void Add(LapRecord record)
-        => this.timeRecords.Add(record);
+        => this.lapRecords.Add(record);
 
     public string Name => FormatName(this.Number, this.Athlete.Name, this.Horse.Name);
 
@@ -52,6 +52,6 @@ public class Participant : DomainBase<ParticipantException>, IParticipantState
 
     public void __REMOVE_RECORDS__()
     {
-        this.timeRecords.Clear();
+        this.lapRecords.Clear();
     }
 }
