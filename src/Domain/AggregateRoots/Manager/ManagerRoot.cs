@@ -74,7 +74,8 @@ public class ManagerRoot : IAggregateRoot
             Helper.Create<ParticipantException>("cannot finish. 'ArriveTime' is not null and Lap is not completed");
         }
         participation.Update(time);
-    } 
+        Witness.RaiseStateChanged();
+    }
     public void HandleWitnessVet(string rfid, DateTime time)
     {
         var participation = this
@@ -93,6 +94,7 @@ public class ManagerRoot : IAggregateRoot
             Helper.Create<ParticipantException>(message);
         }
         participation.Update(time);
+        Witness.RaiseStateChanged();
     }
     public void Disqualify(int number, string reason)
     {

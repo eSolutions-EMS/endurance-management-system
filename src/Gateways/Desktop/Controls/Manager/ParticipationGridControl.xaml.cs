@@ -52,7 +52,7 @@ public partial class ParticipationGridControl
             this.AddPrintButton();
         }
     }
-
+    
     private void AddPrintButton()
     {
         var style = ControlsHelper.GetStyle("Button-Horizontal");

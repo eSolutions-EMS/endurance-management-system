@@ -3,6 +3,7 @@ using EnduranceJudge.Application.Models;
 using EnduranceJudge.Application.State;
 using EnduranceJudge.Core.ConventionalServices;
 using EnduranceJudge.Core.Services;
+using EnduranceJudge.Domain.AggregateRoots.Manager.WitnessEvents;
 using EnduranceJudge.Domain.State;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace EnduranceJudge.Application.Services;
 public class Persistence : IPersistence
 {
     private const string STORAGE_FILE_NAME = "judge.data";
-    private static string stateDirectoryPath;
+    private string stateDirectoryPath;
 
     private readonly IStateSetter stateSetter;
     private readonly IState state;
@@ -29,6 +30,7 @@ public class Persistence : IPersistence
         this.state = context.State;
         this.file = file;
         this.serialization = serialization;
+        Witness.StateChanged += (_, _) => this.SaveState();
     }
 
     public string LogError(string message, string stackTrace)
@@ -42,14 +44,14 @@ public class Persistence : IPersistence
         };
         var serialized = this.serialization.Serialize(log);
         var filename = $"{timestamp}_error.json";
-        var path = $"{stateDirectoryPath}/{filename}";
+        var path = $"{this.stateDirectoryPath}/{filename}";
         this.file.Create(path, serialized);
         return path;
     }
 
     public PersistenceResult Configure(string directoryPath)
     {
-        stateDirectoryPath = directoryPath;
+        this.stateDirectoryPath = directoryPath;
         var database = BuildStorageFilePath(directoryPath);
         if (this.file.Exists(database))
         {
@@ -64,13 +66,13 @@ public class Persistence : IPersistence
     public void SaveState()
     {
         var serialized = this.serialization.Serialize(this.state);
-        var databasePath = BuildStorageFilePath(stateDirectoryPath);
+        var databasePath = BuildStorageFilePath(this.stateDirectoryPath);
         this.file.Create(databasePath, serialized);
     }
     
     private void SetState()
     {
-        var dataPath = BuildStorageFilePath(stateDirectoryPath);
+        var dataPath = BuildStorageFilePath(this.stateDirectoryPath);
         var contents = this.file.Read(dataPath);
         var state = this.serialization.Deserialize<StateModel>(contents);
         this.FixDatesForToday(state);
@@ -127,7 +129,7 @@ public class Persistence : IPersistence
 }
 
 
-public interface IPersistence : ITransientService
+public interface IPersistence : ISingletonService
 {
     void SaveState();
     string LogError(string message, string stackTrace);
