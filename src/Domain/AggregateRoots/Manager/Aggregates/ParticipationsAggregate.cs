@@ -49,24 +49,6 @@ public class ParticipationsAggregate : IAggregate
             this.CreateNext(time);
         }
     }
-    internal void Arrive(DateTime time)
-    {
-        if (this.IsDisqualified)
-        {
-            throw Helper.Create<ParticipantException>(PARTICIPATION_IS_DISQUALIFIED, this.Number);
-        }
-        var record = this.CurrentLap.Aggregate();
-        record.Arrive(time);
-    }
-    internal void Inspect(DateTime time)
-    {
-        if (this.IsDisqualified)
-        {
-            throw Helper.Create<ParticipantException>(PARTICIPATION_IS_DISQUALIFIED, this.Number);
-        }
-        var record = this.CurrentLap.Aggregate();
-        record.Inspect(time);
-    }
     
     internal void Add(Competition competition)
     {

@@ -8,7 +8,6 @@ using EnduranceJudge.Domain.State.LapRecords;
 using EnduranceJudge.Domain.State.Participations;
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 
@@ -30,20 +29,11 @@ public class Performance : IAggregate, IPerformance, INotifyPropertyChanged
         this.Index = index;
         this.laps = participation.CompetitionConstraint.Laps.ToList();
 
-        var notifyLapRecordsCollectionChanged = (INotifyCollectionChanged)this.Participant.LapRecords;
-        notifyLapRecordsCollectionChanged.CollectionChanged += (_, args) =>
-        {
-            if (args.Action is NotifyCollectionChangedAction.Add or NotifyCollectionChangedAction.Replace)
-            {
-                this.Sub(args.NewItems!.Cast<INotifyPropertyChanged>());
-            }
-            this.UpdateValues();
-        };
+        this.SubscribeToLapRecordChanges(this.Participant.LapRecords);
         this.UpdateValues();
-        this.Sub(this.Participant.LapRecords);
     }
 
-    private void Sub(IEnumerable<INotifyPropertyChanged> items)
+    private void SubscribeToLapRecordChanges(IEnumerable<INotifyPropertyChanged> items)
     {
         foreach (var item in items)
         {
