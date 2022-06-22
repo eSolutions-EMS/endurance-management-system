@@ -111,19 +111,19 @@ public class LapRecordsAggregate : IAggregate
 
     private void Arrive(DateTime time)
     {
-        time = FixDateForToday(time);
+        // time = FixDateForToday(time);
         this.validator.IsLaterThan(time, this.Record.StartTime, ARRIVAL_TERM);
         this.Record.ArrivalTime = time;
     }
     private void Inspect(DateTime time)
     {
-        time = FixDateForToday(time);
+        // time = FixDateForToday(time);
         this.validator.IsLaterThan(time, this.Record.ArrivalTime, INSPECTION_TERM);
         this.Record.InspectionTime = time;
     }
     private void CompleteReInspection(DateTime time)
     {
-        time = FixDateForToday(time);
+        // time = FixDateForToday(time);
         this.validator.IsLaterThan(time, this.Record.InspectionTime, RE_INSPECTION_TERM);
 
         this.Record.ReInspectionTime = time;
