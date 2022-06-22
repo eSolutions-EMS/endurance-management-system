@@ -30,7 +30,7 @@ public class ParticipationsAggregate : IAggregate
     public int Number { get; }
     public bool IsDisqualified { get; }
     public string DisqualifiedCode { get; }
-    public LapRecord Latest => this.participation.Participant.LapRecords.Last();
+    public LapRecord CurrentLap => this.participation.Participant.LapRecords.Last();
 
     internal void Start()
     {
@@ -42,7 +42,7 @@ public class ParticipationsAggregate : IAggregate
         {
             throw Helper.Create<ParticipantException>(PARTICIPATION_IS_DISQUALIFIED, this.Number);
         }
-        var record = this.Latest.Aggregate();
+        var record = this.CurrentLap.Aggregate();
         var continueSequence = record.Update(time);
         if (continueSequence)
         {
@@ -55,7 +55,7 @@ public class ParticipationsAggregate : IAggregate
         {
             throw Helper.Create<ParticipantException>(PARTICIPATION_IS_DISQUALIFIED, this.Number);
         }
-        var record = this.Latest.Aggregate();
+        var record = this.CurrentLap.Aggregate();
         record.Arrive(time);
     }
     internal void Inspect(DateTime time)
@@ -64,7 +64,7 @@ public class ParticipationsAggregate : IAggregate
         {
             throw Helper.Create<ParticipantException>(PARTICIPATION_IS_DISQUALIFIED, this.Number);
         }
-        var record = this.Latest.Aggregate();
+        var record = this.CurrentLap.Aggregate();
         record.Inspect(time);
     }
     
@@ -104,7 +104,7 @@ public class ParticipationsAggregate : IAggregate
         {
             throw Helper.Create<ParticipationException>(PARTICIPATION_HAS_ENDED_MESSAGE);
         }
-        var record = this.CreateRecord(this.Latest.NextStarTime!.Value);
+        var record = this.CreateRecord(this.CurrentLap.NextStarTime!.Value);
         record.Aggregate().Update(arrivalTime);
     }
 

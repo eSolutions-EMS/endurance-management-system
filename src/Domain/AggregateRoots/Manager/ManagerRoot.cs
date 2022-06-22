@@ -30,11 +30,11 @@ public class ManagerRoot : IAggregateRoot
     {
         if (witnessEvent.Type == WitnessEventType.Finish)
         {
-            this.RecordArrive(witnessEvent.TagId, witnessEvent.Time);
+            this.HandleWitnessFinish(witnessEvent.TagId, witnessEvent.Time);
         }
         if (witnessEvent.Type == WitnessEventType.EnterVet)
         {
-            this.RecordInspect(witnessEvent.TagId, witnessEvent.Time);
+            this.HandleWitnessVet(witnessEvent.TagId, witnessEvent.Time);
         }
         // TODO: Make sure save is persisted. Maybe transition to event-driven persistance?
     }
@@ -63,23 +63,36 @@ public class ManagerRoot : IAggregateRoot
             .Aggregate();
         participation.Update(time);
     }
-    public void RecordArrive(string rfid, DateTime time)
+    public void HandleWitnessFinish(string rfid, DateTime time)
     {
         var participation = this
             .GetParticipation(rfid)
             .Aggregate();
-        
-        participation.Arrive(time);
+        if (participation.CurrentLap.ArrivalTime != null && participation.CurrentLap.Result == null)
+        {
+            // TODO: fix/remove
+            Helper.Create<ParticipantException>("cannot finish. 'ArriveTime' is not null and Lap is not completed");
+        }
+        participation.Update(time);
     }
-    public void RecordInspect(string rfid, DateTime time)
+    public void HandleWitnessVet(string rfid, DateTime time)
     {
         var participation = this
             .GetParticipation(rfid)
             .Aggregate();
-        participation.Inspect(time);
-        // TODO: why not Update again?
-        // TODO: create next record if complete
-        // TODO: allow reinspect as well.
+
+        if (participation.CurrentLap.Result != null)
+        {
+            // TODO fix/remove
+            Helper.Create<ParticipantException>("cannot record VET. 'CurrentLap' is completed");
+        }
+        if (participation.CurrentLap.InspectionTime != null && participation.CurrentLap.ReInspectionTime != null)
+        {
+            // TODO fix/remove
+            var message = "cannot record VET. 'InspectionTime' amd 'ReInspectionTime' are not null"; 
+            Helper.Create<ParticipantException>(message);
+        }
+        participation.Update(time);
     }
     public void Disqualify(int number, string reason)
     {
@@ -107,7 +120,7 @@ public class ManagerRoot : IAggregateRoot
     {
         var participation = this.GetParticipation(participantNumber);
         var participationsAggregate = participation.Aggregate();
-        var lap = participationsAggregate.Latest;
+        var lap = participationsAggregate.CurrentLap;
         return lap.Aggregate();
     }
 
@@ -116,7 +129,7 @@ public class ManagerRoot : IAggregateRoot
         var participation = this.GetParticipation(number);
         var lastRecord = participation
             .Aggregate()
-            .Latest
+            .CurrentLap
             .Aggregate();
         lastRecord!.ReInspection(isRequired);
     }
@@ -126,7 +139,7 @@ public class ManagerRoot : IAggregateRoot
         var participation = this.GetParticipation(number);
         var last = participation
             .Aggregate()
-            .Latest
+            .CurrentLap
             .Aggregate();
         last.RequireInspection(isRequired);
     }
