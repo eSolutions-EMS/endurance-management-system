@@ -43,6 +43,7 @@ public class WitnessPollingService : IWitnessPollingService
         {
             try
             {
+                // TODO: check if initialized
                 if (cancellationToken.IsCancellationRequested)
                 {
                     break;
@@ -53,8 +54,6 @@ public class WitnessPollingService : IWitnessPollingService
             catch (Exception exception)
             {
                 // TODO: error hadnling
-                this.isPolling = false;
-                break;
             }
         }
     }

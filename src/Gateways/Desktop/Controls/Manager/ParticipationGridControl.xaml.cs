@@ -27,11 +27,7 @@ public partial class ParticipationGridControl
     private static void OnParticipationChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
     {
         var grid = (ParticipationGridControl)sender;
-        if (args.NewValue is null)
-        {
-            grid.Empty();
-        }
-        else
+        if (args.NewValue is not null)
         {
             var participation = (ParticipationGridModel) args.NewValue;
             grid.Populate(participation);
@@ -49,28 +45,13 @@ public partial class ParticipationGridControl
         this.Style = (Style)System.Windows.Application.Current.FindResource("Dock-Horizontal");
     }
 
-    private UIElementCollection Columns => this.Table.Children;
     private void Populate(ParticipationGridModel participation)
     {
-        // First column is static labels and is defined in the .xaml file
-        this.Columns.RemoveRange(1, this.Table.Children.Count - 1);
-        foreach (var performance in participation.Performances)
-        {
-            var control = new PerformanceColumnControl(performance, this.IsReadonly);
-            this.Table.Children.Add(control);
-        }
-        for (var i = 0; i < participation.EmptyColumns; i++)
-        {
-            var empty = new EmptyColumnControl();
-            this.Table.Children.Add(empty);
-        }
         if (!this.IsReadonly && !this.isPrintButtonAdded)
         {
             this.AddPrintButton();
         }
     }
-    private void Empty()
-        => this.Columns.Clear();
 
     private void AddPrintButton()
     {

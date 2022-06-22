@@ -74,7 +74,7 @@ public class ManagerRoot : IAggregateRoot
             Helper.Create<ParticipantException>("cannot finish. 'ArriveTime' is not null and Lap is not completed");
         }
         participation.Update(time);
-    }
+    } 
     public void HandleWitnessVet(string rfid, DateTime time)
     {
         var participation = this

@@ -5,37 +5,38 @@ using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Domain.State.Participations;
 using EnduranceJudge.Gateways.Desktop.Print.Performances;
 using EnduranceJudge.Gateways.Desktop.Services;
+using Prism.Mvvm;
 using System;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using System.Windows.Media;
 
 namespace EnduranceJudge.Gateways.Desktop.Controls.Manager;
 
-public class ParticipationGridModel
+public class ParticipationGridModel : BindableBase
 {
+    public static int StaticCounter = 1;
+    public int Counter { get; }
+    private readonly int? columns;
     private readonly IExecutor executor;
     public ParticipationGridModel(Participation participation, int? columns = null)
     {
+        this.Counter = StaticCounter;
+        StaticCounter++;
+        this.columns = columns;
         this.executor = StaticProvider.GetService<IExecutor>();
         this.Participant = participation.Participant;
 
         // TODO: remove
         this.Number = this.Participant.Number;
-        var viewModels = Performance
-            .GetAll(participation)
-            .Select(perf => new PerformanceColumnModel(perf))
-            .ToList();
-        this.Performances.AddRange(viewModels);
-        if (columns.HasValue)
+        this.CreatePerformanceColumns(participation);
+        var notifyCollectionChanged = (INotifyCollectionChanged) this.Participant.LapRecords;
+        notifyCollectionChanged.CollectionChanged += (sender, args) =>
         {
-            this.EmptyColumns = columns.Value - viewModels.Count;
-        }
-        if (this.EmptyColumns < 0)
-        {
-            throw new Exception($"Participant {this.Number} as more performances than columns.");
-        }
-
+            this.CreatePerformanceColumns(participation);
+        };
+  
         var aggregate = participation.Aggregate();
         if (aggregate.IsDisqualified)
         {
@@ -43,12 +44,35 @@ public class ParticipationGridModel
             this.DisqualifyCode = aggregate.DisqualifiedCode;
         }
     }
-    public int EmptyColumns { get; }
+
+    private void CreatePerformanceColumns(Participation participation)
+    {
+        var viewModels = Performance
+            .GetAll(participation)
+            .Select(perf => new PerformanceColumnModel(perf))
+            .ToList();
+        if (this.columns.HasValue)
+        {
+            this.EmptyColumns = columns.Value - viewModels.Count;
+        }
+        if (this.EmptyColumns < 0)
+        {
+            throw new Exception($"Participant {this.Number} has more performances than columns.");
+        }
+        App.Current.Dispatcher.Invoke((Action) delegate
+        {
+            this.Performances.Clear();
+            this.Performances.AddRange(viewModels);
+        });
+        this.RaisePropertyChanged(nameof(Performances));
+    } 
+    
+    public int EmptyColumns { get; private set; }
     public int Number { get; }
     public string DisqualifyCode { get; }
     public Participant Participant { get; }
     public SolidColorBrush Color { get; } = new(Colors.Black);
-    public ObservableCollection<PerformanceColumnModel> Performances { get; } = new();
+    public ObservableCollection<PerformanceColumnModel> Performances { get; private set; } = new();
 
     public void PrintAction()
     {
