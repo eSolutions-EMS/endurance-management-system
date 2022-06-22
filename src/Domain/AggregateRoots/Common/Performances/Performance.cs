@@ -6,14 +6,11 @@ using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Domain.State.Laps;
 using EnduranceJudge.Domain.State.LapRecords;
 using EnduranceJudge.Domain.State.Participations;
-using Microsoft.AspNetCore.DataProtection;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 
 namespace EnduranceJudge.Domain.AggregateRoots.Common.Performances;
 
@@ -50,7 +47,7 @@ public class Performance : IAggregate, IPerformance, INotifyPropertyChanged
     {
         foreach (var item in items)
         {
-            item.PropertyChanged += (_, _) => this.UpdateValues();
+            item.PropertyChanged += (_, _) =>  this.UpdateValues();
         }
     }
 
@@ -61,7 +58,12 @@ public class Performance : IAggregate, IPerformance, INotifyPropertyChanged
         this.Time = this.UpdateTime();
         this.AverageSpeed = this.UpdateAverageSpeed();
         this.AverageSpeedTotal = this.UpdateAverageSpeedTotal();
-        this.NextStartTime = DateTime.Now.AddHours(1); // TODO: fix
+        this.NextStartTime = this.UpdateNextStartTime();
+        // this.ArrivalTime = this.LatestRecord.StartTime;
+        this.RaisePropertyChanged(nameof(this.StartTime));
+        this.RaisePropertyChanged(nameof(this.ArrivalTime));
+        this.RaisePropertyChanged(nameof(this.InspectionTime));
+        this.RaisePropertyChanged(nameof(this.ReInspectionTime));
         this.RaisePropertyChanged(nameof(this.RequiredInspectionTime));
         this.RaisePropertyChanged(nameof(this.RecoverySpan));
         this.RaisePropertyChanged(nameof(this.Time));

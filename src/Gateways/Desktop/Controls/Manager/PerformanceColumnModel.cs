@@ -20,6 +20,10 @@ public class PerformanceColumnModel : ViewModelBase, ILapRecordState
         this.managerExecutor = StaticProvider.GetService<IExecutor<ManagerRoot>>();
         this.Edit = new DelegateCommand(this.EditAction);
         this.Update(performance);
+        performance.PropertyChanged += (obj, args) =>
+        {
+            this.Update(performance);
+        };
     }
 
     public Visibility EditVisibility { get; set; }
@@ -74,6 +78,18 @@ public class PerformanceColumnModel : ViewModelBase, ILapRecordState
         this.CompulsoryRequiredInspectionTimeString = performance.LatestLap.IsCompulsoryInspectionRequired
             ? requiredInspectionTime
             : string.Empty;
+        
+        this.RaisePropertyChanged(nameof(this.ReInspectionTimeString));
+        this.RaisePropertyChanged(nameof(this.RecoverySpanString));
+        this.RaisePropertyChanged(nameof(this.TimeString));
+        this.RaisePropertyChanged(nameof(this.AverageSpeed));
+        this.RaisePropertyChanged(nameof(this.AverageSpeedTotalString));
+        this.RaisePropertyChanged(nameof(this.NextStartTimeString));
+        this.RaisePropertyChanged(nameof(this.ArrivalTimeString));
+        this.RaisePropertyChanged(nameof(this.InspectionTimeString));
+        this.RaisePropertyChanged(nameof(this.ReInspectionTimeString));
+        this.RaisePropertyChanged(nameof(this.RequiredInspectionTimeString));
+        this.RaisePropertyChanged(nameof(this.CompulsoryRequiredInspectionTimeString));
     }
 
     private string CreateHeader(Performance performance)
@@ -90,7 +106,10 @@ public class PerformanceColumnModel : ViewModelBase, ILapRecordState
     public DateTime? ArrivalTime
     {
         get => ValueSerializer.ParseTime(this.ArrivalTimeString);
-        private set => this.ArrivalTimeString = ValueSerializer.FormatTime(value);
+        private set 
+        {
+            this.ArrivalTimeString = ValueSerializer.FormatTime(value);
+        }
     }
     public DateTime? InspectionTime
     {

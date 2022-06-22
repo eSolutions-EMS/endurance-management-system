@@ -68,6 +68,7 @@ public class ManagerRoot : IAggregateRoot
         var participation = this
             .GetParticipation(rfid)
             .Aggregate();
+        
         participation.Arrive(time);
     }
     public void RecordInspect(string rfid, DateTime time)
