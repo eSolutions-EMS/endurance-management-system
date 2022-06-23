@@ -12,5 +12,5 @@ cp -r src/Gateways/Desktop/Views/Templates/* ./release/Views/Templates
 echo Views directory copied.
 echo =======================================================================================================================================
 echo opening explorer...
-explorer .
+explorer release
 echo publish complete.
