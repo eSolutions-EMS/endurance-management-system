@@ -27,7 +27,6 @@ namespace Endurance.Judge.Gateways.API.Services
             this.Log(message);
         }
 
-        // TODO: remove
         public void LogEventError(Exception exception, WitnessEvent witnessEvent)
         {
             var now = DateTime.Now;
@@ -44,7 +43,8 @@ namespace Endurance.Judge.Gateways.API.Services
 
         private void Log(string message)
         {
-            var path = Path.Combine(Directory.GetCurrentDirectory(), FILE_NAME);
+            var dir = $"{Directory.GetCurrentDirectory()}/logs";
+            var path = Path.Combine(dir, FILE_NAME);
             this.fileService.Append(path, message);
         }
     }

@@ -33,7 +33,10 @@ public class Logger : ILogger
     }
 
     private string BuildFilePath(string filename)
-        => Path.Combine(Directory.GetCurrentDirectory(), filename);
+    {
+        var dir = $"{Directory.GetCurrentDirectory()}/logs";
+        return Path.Combine(dir, filename);
+    }
 }
 
 public interface ILogger : ITransientService
