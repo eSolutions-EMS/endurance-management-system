@@ -3,7 +3,7 @@ rm -rf ./release/*
 echo release directory cleared.
 echo =======================================================================================================================================
 echo DOTNET PUBLISH
-dotnet publish -c Release -o ./release src/
+dotnet publish -c Release -o ./release src
 echo =======================================================================================================================================
 echo copying Views...
 mkdir ./release/Views

@@ -30,8 +30,9 @@ public class ErrorHandler : IErrorHandler
         else
         {
             # if DEBUG
-                var logFile = this.persistence.LogError(exception.Message, exception.StackTrace);
+                this.popupService.RenderError(exception.ToString());
             # else
+                var logFile = this.persistence.LogError(exception.Message, exception.StackTrace);
                 var message = string.Format(UNEXPECTED_ERROR_MESSAGE, logFile);
                 this.popupService.RenderError(message);
                 this.popupService.RenderError(exception.ToString());
