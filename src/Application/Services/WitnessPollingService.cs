@@ -57,7 +57,6 @@ public class WitnessPollingService : IWitnessPollingService
                     break;
                 }
                 this.AddEvents();
-                throw new Exception();
                 await Task.Delay(5000, cancellationToken);
             }
             catch (Exception exception)
