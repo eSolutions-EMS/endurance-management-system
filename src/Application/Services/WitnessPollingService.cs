@@ -49,22 +49,38 @@ public class WitnessPollingService : IWitnessPollingService
         this.isPolling = true;
         while (true)
         {
+            if (cancellationToken.IsCancellationRequested)
+            {
+                break;
+            }
             try
             {
-                // TODO: check if initialized
-                if (cancellationToken.IsCancellationRequested)
-                {
-                    break;
-                }
-                this.AddEvents();
-                await Task.Delay(5000, cancellationToken);
+                await Task.Run(this.Execute, cancellationToken);
             }
             catch (Exception exception)
             {
-                // this.persistence.SaveState();
-                this.logger.LogEventError(exception);
+                // We don't want to break the loop even if logging fails
+                // perhaps add another type of log here later on
+                Console.WriteLine(exception.Message);
+                Console.WriteLine(exception.StackTrace);
                 await Task.Delay(5000, cancellationToken);
             }
+        }
+    }
+
+    private async Task Execute()
+    {
+        try
+        {
+            // TODO: check if initialized
+            this.AddEvents();
+            await Task.Delay(5000);
+        }
+        catch (Exception exception)
+        {
+            // this.persistence.SaveState();
+            this.logger.LogEventError(exception);
+            await Task.Delay(5000);
         }
     }
 

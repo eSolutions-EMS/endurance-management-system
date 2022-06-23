@@ -48,6 +48,9 @@ public partial class App : PrismApplication
         {
             initializer.Run();
         }
+        Console.WriteLine("================================================");
+        Console.WriteLine("=        ENDURANCE JUDGE UI running             ");
+        Console.WriteLine("================================================");
     }
 
     protected override void ConfigureViewModelLocator()
