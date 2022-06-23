@@ -33,7 +33,7 @@ public class Validator<T> where T : DomainExceptionBase, new()
     {
         if (value <= compareTo)
         {
-            throw Helper.Create<T>(DATE_TIME_HAS_TO_BE_LATER_MESSAGE, name, compareTo);
+            throw Helper.Create<T>(DATE_TIME_HAS_TO_BE_LATER_MESSAGE, name, value, compareTo);
         }
     }
 }

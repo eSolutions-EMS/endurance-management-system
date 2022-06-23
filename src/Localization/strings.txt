@@ -127,7 +127,7 @@ CANNOT_REMOVE_USED_IN_PARTICIPANT_MESSAGE                | cannot be removed bec
 ALREADY_PARTICIPATING_MESSAGE                            | cannot be created - '{0}' is already participating. | cannot be created - '{0}' is already participating.
 CANNOT_ADD_PARTICIPATION_DIFFERENT_PHASE_COUNT_MESSAGE   | cannot be added, because they already participate in '{0}' with different amount of {entities-lap-plurals}  | cannot be added, because they already participate in '{0}' with different amount of {entities-lap-plurals}
 CANNOT_ADD_PARTICIPATION_DIFFERENT_PHASE_LENGTHS_MESSAGE | cannot be added in '{0}'- they already participate in '{1}' and difference is detected in '{entities-lap} {2}' lengths: '{3}' and '{4} | cannot be added in '{0}'- they already participate in '{1}' and difference is detected in '{entities-lap} {2}' lengths: '{3}' and '{4}
-DATE_TIME_HAS_TO_BE_LATER_MESSAGE                        | {0} has to be later than {1} | {0} has to be later than {1}
+DATE_TIME_HAS_TO_BE_LATER_MESSAGE                        | : invalid '{0}' with '{1}'. Has to be later than '{1}' | : invalid '{0}' with '{1}'. Has to be later than '{1}'
 CANNOT_EDIT_PERFORMANCE_MESSAGE                          | - INVALID edit. Value does not exist for '{0}'. 'Edit' button should only be used to correct errors. Please use '{words-update}' button above when setting Times.  | - INVALID edit. Value does not exist for '{0}'. 'Edit' button should only be used to correct errors. Please use '{words-update}' button above when setting Times.
 IS_REQUIRED_MESSAGE                                      | '{0}' is required. | '{0}' is required.
 NOT_FOUND_MESSAGE                                        | with {0} '{1}' not found | with {0} '{1}' not found
