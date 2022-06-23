@@ -8,14 +8,22 @@ namespace EnduranceJudge.Application.Services;
 public class WitnessPollingService : IWitnessPollingService
 {
     private readonly CancellationTokenSource polling = new();
+    private readonly ILogger logger;
     private readonly IDataService dataService;
     private readonly IWitnessEventQueue witnessEventQueue;
+    private readonly IPersistence persistence;
     private bool isPolling;
 
-    public WitnessPollingService(IDataService dataService, IWitnessEventQueue witnessEventQueue)
+    public WitnessPollingService(
+        ILogger logger,
+        IDataService dataService,
+        IWitnessEventQueue witnessEventQueue,
+        IPersistence persistence)
     {
+        this.logger = logger;
         this.dataService = dataService;
         this.witnessEventQueue = witnessEventQueue;
+        this.persistence = persistence;
     }
 
     public void ApplyEvents()
@@ -53,7 +61,8 @@ public class WitnessPollingService : IWitnessPollingService
             }
             catch (Exception exception)
             {
-                // TODO: error hadnling
+                this.persistence.SaveState();
+                this.logger.LogEventError(exception);
             }
         }
     }
@@ -67,6 +76,7 @@ public class WitnessPollingService : IWitnessPollingService
         foreach (var witnessEvent in events)
         {
             // TODO: remove queue and publish events directly
+            this.logger.LogEvent(witnessEvent);
             this.witnessEventQueue.AddEvent(witnessEvent);
             this.ApplyEvents();
         }
