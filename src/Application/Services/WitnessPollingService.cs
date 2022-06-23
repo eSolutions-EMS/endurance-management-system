@@ -61,7 +61,7 @@ public class WitnessPollingService : IWitnessPollingService
             }
             catch (Exception exception)
             {
-                this.persistence.SaveState();
+                // this.persistence.SaveState();
                 this.logger.LogEventError(exception);
             }
         }

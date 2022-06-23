@@ -46,7 +46,7 @@ public class ParticipationsAggregate : IAggregate
         var continueSequence = record.Update(time);
         if (continueSequence)
         {
-            this.CreateNext(time);
+            this.CreateRecord(this.CurrentLap.NextStarTime!.Value, time);
         }
     }
     
@@ -80,19 +80,19 @@ public class ParticipationsAggregate : IAggregate
         this.participation.Add(competition.Id);
     }
 
-    public void CreateNext(DateTime arrivalTime)
+    private LapRecord CreateRecord(DateTime startTime, DateTime? arriveTime = null)
     {
         if (this.NextLap == null)
         {
             throw Helper.Create<ParticipationException>(PARTICIPATION_HAS_ENDED_MESSAGE);
         }
-        var record = this.CreateRecord(this.CurrentLap.NextStarTime!.Value);
-        record.Aggregate().Update(arrivalTime);
-    }
-
-    private LapRecord CreateRecord(DateTime startTime)
-    {
-        var record = new LapRecord(FixDateForToday(startTime), this.NextLap);
+        // startTime = FixDateForToday(startTime);
+        var record = new LapRecord(startTime, this.NextLap);
+        if (arriveTime.HasValue)
+        {
+            // arriveTime = FixDateForToday(arriveTime.Value);
+            record.Aggregate().Arrive(arriveTime.Value);
+        }
         this.participation.Participant.Add(record);
         return record;
     }

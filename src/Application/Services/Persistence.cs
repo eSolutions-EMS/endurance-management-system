@@ -75,7 +75,7 @@ public class Persistence : IPersistence
         var dataPath = BuildStorageFilePath(this.stateDirectoryPath);
         var contents = this.file.Read(dataPath);
         var state = this.serialization.Deserialize<StateModel>(contents);
-        this.FixDatesForToday(state);
+        // this.FixDatesForToday(state);
         this.stateSetter.Set(state);
     }
 
