@@ -35,6 +35,10 @@ public class Logger : ILogger
     private string BuildFilePath(string filename)
     {
         var dir = $"{Directory.GetCurrentDirectory()}/logs";
+        if (!Directory.Exists(dir))
+        {
+            Directory.CreateDirectory(dir);
+        }
         return Path.Combine(dir, filename);
     }
 }
