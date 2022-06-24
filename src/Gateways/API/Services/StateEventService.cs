@@ -16,7 +16,7 @@ namespace Endurance.Judge.Gateways.API.Services
             var witnessEvent = new WitnessEvent
             {
                 Type = type,
-                TagId = request.Id.Replace("0", string.Empty),
+                TagId = request.Id,
                 Time = time,
             };
             Events.Enqueue(witnessEvent);
