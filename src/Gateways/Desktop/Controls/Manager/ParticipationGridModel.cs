@@ -68,7 +68,7 @@ public class ParticipationGridModel : BindableBase
     } 
     
     public int EmptyColumns { get; private set; }
-    public int Number { get; }
+    public string Number { get; }
     public string DisqualifyCode { get; }
     public Participant Participant { get; }
     public SolidColorBrush Color { get; } = new(Colors.Black);

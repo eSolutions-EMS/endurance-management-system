@@ -27,7 +27,7 @@ public class ParticipationsAggregate : IAggregate
         this.competitionConstraint = participation.CompetitionConstraint;
     }
 
-    public int Number { get; }
+    public string Number { get; }
     public bool IsDisqualified { get; }
     public string DisqualifiedCode { get; }
     public LapRecord CurrentLap => this.participation.Participant.LapRecords.Last();

@@ -60,6 +60,7 @@ public class StartlistComparer : IComparer<StartModel>
             return -1;
         if (x.StartTime < y.StartTime)
             return 1;
-        return x.Number > y.Number ? 1 : -1;
+        return 1;
+        // return x.Number > y.Number ? 1 : -1;
     }
 }
