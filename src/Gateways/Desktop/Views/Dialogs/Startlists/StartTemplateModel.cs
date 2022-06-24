@@ -17,7 +17,7 @@ public class StartTemplateModel
         this.StartTimeString = start.StartTime.ToString(DesktopConstants.TIME_FORMAT);
     }
 
-    public int Number { get; }
+    public string Number { get; }
     public string Name { get; }
     public string CountryName { get; }
     public double Distance { get; }

@@ -83,7 +83,7 @@
         <Border Style="{StaticResource Border-Content-Center}"
                 Grid.Row="3" Grid.Column="1">
             <TextBox Style="{StaticResource Input}"
-                     Text="{Binding NumberDisplay}"
+                     Text="{Binding Number}"
                      Name="Number" />
         </Border>
         <!-- HasAverageSpeedLimit field -->

@@ -44,7 +44,7 @@ public class ParticipationGridModel
         }
     }
     public int EmptyColumns { get; }
-    public int Number { get; }
+    public string Number { get; }
     public string DisqualifyCode { get; }
     public Participant Participant { get; }
     public SolidColorBrush Color { get; } = new(Colors.Black);

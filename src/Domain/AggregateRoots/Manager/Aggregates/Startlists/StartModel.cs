@@ -4,7 +4,7 @@ namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 
 public class StartModel
 {
-    public int Number { get; internal init; }
+    public string Number { get; internal init; }
     public string Name { get; internal init; }
     public string CountryName { get; internal init; }
     public double Distance { get; internal init; }

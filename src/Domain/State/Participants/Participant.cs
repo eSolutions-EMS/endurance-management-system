@@ -30,7 +30,7 @@ public class Participant : DomainBase<ParticipantException>, IParticipantState
     }
 
     public string RfId { get; internal set; }
-    public int Number { get; internal set; }
+    public string Number { get; internal set; }
     public int? MaxAverageSpeedInKmPh { get; internal set; }
     public Horse Horse { get; internal set; }
     public Athlete Athlete { get; internal set; }
@@ -45,7 +45,7 @@ public class Participant : DomainBase<ParticipantException>, IParticipantState
 
     public string Name => FormatName(this.Number, this.Athlete.Name, this.Horse.Name);
 
-    public static string FormatName(int number, string athleteName, string horseName)
+    public static string FormatName(string number, string athleteName, string horseName)
     {
         return string.Format(NAME_FORMAT, number, athleteName, horseName);
     }

@@ -61,7 +61,7 @@ public class ManagerViewModel : ViewModelBase
     public DelegateCommand StartList { get; }
 
     private Visibility startVisibility;
-    private int? inputNumber;
+    private string inputNumber;
     private int? inputHours;
     private int? inputMinutes;
     private int? inputSeconds;
@@ -105,13 +105,13 @@ public class ManagerViewModel : ViewModelBase
         => this.ExecuteAndRender((manager, number) => manager.ReInspection(number, this.ReInspectionValue));
     private void RequireInspectionAction()
         => this.ExecuteAndRender((manager, number) => manager.RequireInspection(number, this.RequireInspectionValue));
-    private void ExecuteAndRender(Action<ManagerRoot, int> action)
+    private void ExecuteAndRender(Action<ManagerRoot, string> action)
     {
-        if (!this.InputNumber.HasValue)
+        if (string.IsNullOrWhiteSpace(this.InputNumber))
         {
             return;
         }
-        var number = this.InputNumber.Value;
+        var number = this.InputNumber;
         this.managerExecutor.Execute(manager =>
         {
             action(manager, number);
@@ -120,7 +120,7 @@ public class ManagerViewModel : ViewModelBase
         this.SelectBy(number);
     }
 
-    private void SelectBy(int number)
+    private void SelectBy(string number)
     {
         var participation = this.Participations.FirstOrDefault(x => x.Number == number);
         if (participation != null)
@@ -165,7 +165,7 @@ public class ManagerViewModel : ViewModelBase
         get => this.startVisibility;
         set => this.SetProperty(ref this.startVisibility, value);
     }
-    public int? InputNumber
+    public string InputNumber
     {
         get => this.inputNumber;
         set => this.SetProperty(ref this.inputNumber, value);

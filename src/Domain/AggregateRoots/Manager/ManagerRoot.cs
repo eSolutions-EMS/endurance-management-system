@@ -42,20 +42,20 @@ public class ManagerRoot : IAggregateRoot
         this.state.Event.HasStarted = true;
     }
 
-    public void UpdateRecord(int number, DateTime time)
+    public void UpdateRecord(string number, DateTime time)
     {
         var participation = this
             .GetParticipation(number)
             .Aggregate();
         participation.Update(time);
     }
-    public void Disqualify(int number, string reason)
+    public void Disqualify(string number, string reason)
     {
         reason ??= nameof(_DQ);
         var lap = this.GetLastLap(number);
         lap.Disqualify(reason);
     }
-    public void FailToQualify(int number, string reason)
+    public void FailToQualify(string number, string reason)
     {
         if (string.IsNullOrEmpty(reason))
         {
@@ -64,14 +64,14 @@ public class ManagerRoot : IAggregateRoot
         var lap = this.GetLastLap(number);
         lap.FailToQualify(reason);
     }
-    public void Resign(int number, string reason)
+    public void Resign(string number, string reason)
     {
         reason ??= nameof(_RET);
         var lap = this.GetLastLap(number);
         lap.Resign(reason);
     }
 
-    private LapRecordsAggregate GetLastLap(int participantNumber)
+    private LapRecordsAggregate GetLastLap(string participantNumber)
     {
         var participation = this.GetParticipation(participantNumber);
         var participationsAggregate = participation.Aggregate();
@@ -79,7 +79,7 @@ public class ManagerRoot : IAggregateRoot
         return lap.Aggregate();
     }
 
-    public void ReInspection(int number, bool isRequired)
+    public void ReInspection(string number, bool isRequired)
     {
         var participation = this.GetParticipation(number);
         var lastRecord = participation
@@ -89,7 +89,7 @@ public class ManagerRoot : IAggregateRoot
         lastRecord!.ReInspection(isRequired);
     }
 
-    public void RequireInspection(int number, bool isRequired)
+    public void RequireInspection(string number, bool isRequired)
     {
         var participation = this.GetParticipation(number);
         var last = participation
@@ -119,7 +119,7 @@ public class ManagerRoot : IAggregateRoot
         return startList;
     }
 
-    private Participation GetParticipation(int number)
+    private Participation GetParticipation(string number)
     {
         var participation = this.state
             .Participations
