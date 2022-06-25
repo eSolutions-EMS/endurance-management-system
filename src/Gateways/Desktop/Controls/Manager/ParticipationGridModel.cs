@@ -57,6 +57,9 @@ public class ParticipationGridModel : BindableBase
         if (this.columns.HasValue)
         {
             this.EmptyColumns = columns.Value - viewModels.Count;
+            // TODO fix this.
+            // It does not work, because we only render columns using the 
+            // ItemsControl with ItemsSource set to Performances
         }
         if (this.EmptyColumns < 0)
         {
