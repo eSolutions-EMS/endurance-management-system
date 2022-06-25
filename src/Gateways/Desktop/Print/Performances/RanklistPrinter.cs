@@ -10,9 +10,10 @@ public class RanklistPrinter : PrintTemplate
     public RanklistPrinter(string competitionName, RanklistAggregate rankList)
         : base(competitionName)
     {
-        var controls = RanklistControl.CreateResultControls(rankList);
-        foreach (var control in controls)
+        var models = RanklistControl.CreateResultControls(rankList);
+        foreach (var model in models)
         {
+            var control = new ParticipationResultControl(model);
             control.Measure(this.PrintDimension.PageSize);
             control.Arrange(new Rect());
             control.Scale(0.75);

@@ -15,7 +15,17 @@ public partial class ParticipationGridControl
         set => this.SetValue(PARTICIPATION_PROPERTY, value);
     }
 
-    public bool IsReadonly { get; set; }
+    public bool IsReadonly
+    {
+        get => (bool)this.GetValue(IS_READONLY_PROPERTY); 
+        set => this.SetValue(IS_READONLY_PROPERTY, value);
+    }
+
+    public static readonly DependencyProperty IS_READONLY_PROPERTY =
+        DependencyProperty.Register(
+            nameof(IsReadonly),
+            typeof(bool),
+            typeof(ParticipationGridControl));
 
     public static readonly DependencyProperty PARTICIPATION_PROPERTY =
         DependencyProperty.Register(

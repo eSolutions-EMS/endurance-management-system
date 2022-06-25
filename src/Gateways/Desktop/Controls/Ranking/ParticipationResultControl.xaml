@@ -51,6 +51,7 @@
         </Border>
         <!-- Participation Grid-->
         <local:ParticipationGridControl x:Name="ParticipationGrid"
+                                        Participation="{Binding}"
                                         IsReadonly="True" />
         <!-- Totals -->
         <Border Style="{StaticResource Border-Cell}">

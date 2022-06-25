@@ -152,7 +152,7 @@ public class ManagerViewModel : ViewModelBase
         {
             foreach (var participation in participations)
             {
-                var viewModel = new ParticipationGridModel(participation);
+                var viewModel = new ParticipationGridModel(participation, false);
                 this.Participations.Add(viewModel);
             }
             this.SelectBy(this.Participations.First());

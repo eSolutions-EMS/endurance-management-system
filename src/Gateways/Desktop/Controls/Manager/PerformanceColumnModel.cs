@@ -14,8 +14,9 @@ namespace EnduranceJudge.Gateways.Desktop.Controls.Manager;
 public class PerformanceColumnModel : ViewModelBase, ILapRecordState
 {
     private readonly IExecutor<ManagerRoot> managerExecutor;
-    public PerformanceColumnModel(Performance performance)
+    public PerformanceColumnModel(Performance performance, bool isReadonly)
     {
+        this.IsReadonly = isReadonly;
         this.EditVisibility = Visibility.Visible;
         this.managerExecutor = StaticProvider.GetService<IExecutor<ManagerRoot>>();
         this.Edit = new DelegateCommand(this.EditAction);
@@ -25,6 +26,8 @@ public class PerformanceColumnModel : ViewModelBase, ILapRecordState
             this.Update(performance);
         };
     }
+    
+    public bool IsReadonly { get; }
 
     public Visibility EditVisibility { get; set; }
     public Visibility ReadonlyVisibility => this.EditVisibility == Visibility.Collapsed

@@ -15,7 +15,17 @@ public class PerformanceColumnControl : StackPanel
         get => (PerformanceColumnModel)GetValue(PERFORMANCE_PROPERTY);
         set => SetValue(PERFORMANCE_PROPERTY, value);
     }
-    public bool IsReadonly { get; set; }
+    public bool IsReadonly
+    {
+        get => (bool)this.GetValue(IS_READONLY_PROPERTY); 
+        set => this.SetValue(IS_READONLY_PROPERTY, value);
+    }
+
+    public static readonly DependencyProperty IS_READONLY_PROPERTY =
+        DependencyProperty.Register(
+            nameof(IsReadonly),
+            typeof(bool),
+            typeof(PerformanceColumnControl));
 
     public static readonly DependencyProperty PERFORMANCE_PROPERTY =
         DependencyProperty.Register(

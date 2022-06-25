@@ -1,6 +1,17 @@
-﻿<StackPanel x:Class="EnduranceJudge.Gateways.Desktop.Controls.Ranking.RanklistControl"
+﻿<ItemsControl x:Class="EnduranceJudge.Gateways.Desktop.Controls.Ranking.RanklistControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             Style="{StaticResource List-Vertical}">
+             xmlns:ranking="clr-namespace:EnduranceJudge.Gateways.Desktop.Controls.Ranking">
 
-</StackPanel>
+    <ItemsControl.ItemsPanel>
+        <ItemsPanelTemplate>
+            <StackPanel Style="{StaticResource List-Vertical}"  />
+        </ItemsPanelTemplate>
+    </ItemsControl.ItemsPanel>
+    <ItemsControl.ItemTemplate>
+        <DataTemplate>
+            <ranking:ParticipationResultControl Participation="{Binding}" />
+        </DataTemplate>
+    </ItemsControl.ItemTemplate>
+    
+</ItemsControl>

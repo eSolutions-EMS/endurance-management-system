@@ -20,8 +20,9 @@ public class ParticipationGridModel : BindableBase
     public int Counter { get; }
     private readonly int? columns;
     private readonly IExecutor executor;
-    public ParticipationGridModel(Participation participation, int? columns = null)
+    public ParticipationGridModel(Participation participation, bool isReadonly, int? columns = null)
     {
+        this.IsReadonly = isReadonly;
         this.Counter = StaticCounter;
         StaticCounter++;
         this.columns = columns;
@@ -45,11 +46,13 @@ public class ParticipationGridModel : BindableBase
         }
     }
 
+    public bool IsReadonly { get; protected set; }
+    
     private void CreatePerformanceColumns(Participation participation)
     {
         var viewModels = Performance
             .GetAll(participation)
-            .Select(perf => new PerformanceColumnModel(perf))
+            .Select(perf => new PerformanceColumnModel(perf, this.IsReadonly))
             .ToList();
         if (this.columns.HasValue)
         {
