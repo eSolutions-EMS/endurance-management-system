@@ -43,12 +43,12 @@ public class Performance : IAggregate, IPerformance, INotifyPropertyChanged
 
     private void UpdateValues()
     {
+        this.NextStartTime = this.UpdateNextStartTime();
         this.RequiredInspectionTime = this.UpdateRequiredInspectionTime();
         this.RecoverySpan = this.UpdateRecoverySpan();
         this.Time = this.UpdateTime();
         this.AverageSpeed = this.UpdateAverageSpeed();
         this.AverageSpeedTotal = this.UpdateAverageSpeedTotal();
-        this.NextStartTime = this.UpdateNextStartTime();
         // this.ArrivalTime = this.LatestRecord.StartTime;
         this.RaisePropertyChanged(nameof(this.StartTime));
         this.RaisePropertyChanged(nameof(this.ArrivalTime));
