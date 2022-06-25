@@ -2,6 +2,7 @@
 using EnduranceJudge.Gateways.Desktop.Controls.Manager;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace EnduranceJudge.Gateways.Desktop.Print.Performances;
 

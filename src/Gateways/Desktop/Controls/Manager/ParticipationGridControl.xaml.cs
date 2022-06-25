@@ -38,6 +38,10 @@ public partial class ParticipationGridControl
     {
         this.IsReadonly = isReadonly;
         this.Participation = participation;
+        foreach (var perf in participation.Performances)
+        {
+            this.Table.Items.Add(new PerformanceColumnControl(perf, true));
+        }
     }
     public ParticipationGridControl()
     {
