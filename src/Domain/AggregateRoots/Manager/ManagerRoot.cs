@@ -28,6 +28,10 @@ public class ManagerRoot : IAggregateRoot
 
     private void Handle(object sender, WitnessEvent witnessEvent)
     {
+        if (witnessEvent.TagId == "test")
+        {
+            return;
+        }
         if (witnessEvent.Type == WitnessEventType.Finish)
         {
             this.HandleWitnessFinish(witnessEvent.TagId, witnessEvent.Time);
