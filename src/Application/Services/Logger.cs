@@ -18,7 +18,10 @@ public class Logger : ILogger
     {
         var filename = "witness-events.log";
         var now = DateTime.Now;
-        var message = $"{now}: type-{witnessEvent.Type} rfid-{witnessEvent.TagId} time-{witnessEvent.Time}";
+        var message = $"{now}: Event+" + Environment.NewLine + 
+            $"  Type: {witnessEvent.Type} +" + Environment.NewLine + 
+            $"  RFID: {witnessEvent.TagId} +" + Environment.NewLine +
+            $"  Time: {witnessEvent.Time}" + Environment.NewLine;
         this.fileService.Append(this.BuildFilePath(filename), message);
     }
 
