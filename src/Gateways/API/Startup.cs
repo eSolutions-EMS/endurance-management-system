@@ -1,8 +1,10 @@
 using Endurance.Judge.Gateways.API.Middlewares;
 using EnduranceJudge.Application.Core.Services;
+using EnduranceJudge.Application.Models;
 using EnduranceJudge.Core;
 using EnduranceJudge.Core.Services;
 using EnduranceJudge.Domain;
+using EnduranceJudge.Domain.State;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -26,14 +28,12 @@ namespace Endurance.Judge.Gateways.API
         public void ConfigureServices(IServiceCollection services)
         {
             var assemblies = CoreConstants.Assemblies
-                .Concat(DomainConstants.Assemblies)
                 .Concat(ApiConstants.Assemblies)
                 .ToArray();
 
             services
                 .AddCore(assemblies)
                 .AddApi(assemblies)
-                .AddDomain(assemblies)
                 .AddInitializers(assemblies);
         }
 

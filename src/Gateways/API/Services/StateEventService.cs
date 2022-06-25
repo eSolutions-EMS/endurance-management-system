@@ -3,6 +3,7 @@ using EnduranceJudge.Core.ConventionalServices;
 using EnduranceJudge.Domain.AggregateRoots.Manager;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Endurance.Judge.Gateways.API.Services
 {
@@ -13,6 +14,11 @@ namespace Endurance.Judge.Gateways.API.Services
         public void AddEvent(WitnessEventType type, TagRequest request)
         {
             var time = this.GetSnapshotTime(request.Epoch);
+            var previous = Events.FirstOrDefault(x => x.TagId == request.Id);
+            if (previous is not null && time - previous.Time < TimeSpan.FromMinutes(1))
+            {
+                return;
+            }
             var witnessEvent = new WitnessEvent
             {
                 Type = type,

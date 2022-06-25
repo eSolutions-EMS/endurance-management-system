@@ -37,7 +37,7 @@ public partial class ParticipationGridControl
     public ParticipationGridControl(ParticipationGridModel participation, bool isReadonly) : this()
     {
         this.IsReadonly = isReadonly;
-        this.Populate(participation);
+        this.Participation = participation;
     }
     public ParticipationGridControl()
     {
