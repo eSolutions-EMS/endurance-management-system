@@ -71,7 +71,8 @@ public class EnduranceEventViewModel : NestedConfigurationBase<EnduranceEventVie
         var result = this.executor.Execute(
             config => config.Update(this.Name, this.CountryId, this.PopulatedPlace),
             true);
-        this.popupService.RenderOk();
+        // TODO: probably remove
+        // this.popupService.RenderOk();
         return result;
     }
 
