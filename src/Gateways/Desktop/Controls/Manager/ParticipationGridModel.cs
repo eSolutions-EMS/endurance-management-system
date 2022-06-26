@@ -5,11 +5,13 @@ using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Domain.State.Participations;
 using EnduranceJudge.Gateways.Desktop.Print.Performances;
 using EnduranceJudge.Gateways.Desktop.Services;
+using Prism.Commands;
 using Prism.Mvvm;
 using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
+using System.Windows;
 using System.Windows.Media;
 
 namespace EnduranceJudge.Gateways.Desktop.Controls.Manager;
@@ -44,7 +46,10 @@ public class ParticipationGridModel : BindableBase
             this.Color = new SolidColorBrush(Colors.Red);
             this.DisqualifyCode = aggregate.DisqualifiedCode;
         }
+        this.Print = new DelegateCommand(this.PrintAction);
     }
+    
+    public DelegateCommand Print { get; }
 
     public bool IsReadonly { get; protected set; }
     
@@ -79,13 +84,17 @@ public class ParticipationGridModel : BindableBase
     public Participant Participant { get; }
     public SolidColorBrush Color { get; } = new(Colors.Black);
     public ObservableCollection<PerformanceColumnModel> Performances { get; private set; } = new();
-
+    public Visibility PrintVisibility => this.IsReadonly
+        ? Visibility.Collapsed
+        : Visibility.Visible;
     public void PrintAction()
     {
         this.executor.Execute(() =>
         {
+            this.IsReadonly = true;
             var printer = new ParticipationPrinter(this);
             printer.PreviewDocument();
+            this.IsReadonly = false;
         }, false);
     }
 }

@@ -16,11 +16,19 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <manager:PerformanceColumnControl Performance="{Binding}"
-                                                      IsReadonly="{Binding IsReadonly}"/>
+                    <manager:PerformanceColumnControl
+                        Performance="{Binding}"
+                        IsReadonly="{Binding IsReadonly}" />
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
     </StackPanel>
+    
+    <Button Style="{StaticResource Button-Horizontal}"
+            DockPanel.Dock="Right"
+            Visibility="{Binding PrintVisibility}"
+            VerticalAlignment="Top"
+            Content="Print"
+            Command="{Binding Print}"/>
     
 </DockPanel>

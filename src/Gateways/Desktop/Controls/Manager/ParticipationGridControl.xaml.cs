@@ -61,10 +61,10 @@ public partial class ParticipationGridControl
 
     private void Populate(ParticipationGridModel participation)
     {
-        if (!this.IsReadonly && !this.isPrintButtonAdded)
-        {
-            this.AddPrintButton();
-        }
+        // if (!this.IsReadonly && !this.isPrintButtonAdded)
+        // {
+        //     this.AddPrintButton();
+        // }
     }
     
     private void AddPrintButton()
