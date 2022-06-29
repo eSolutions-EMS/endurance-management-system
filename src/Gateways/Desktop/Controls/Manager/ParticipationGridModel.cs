@@ -18,21 +18,16 @@ namespace EnduranceJudge.Gateways.Desktop.Controls.Manager;
 
 public class ParticipationGridModel : BindableBase
 {
-    public static int StaticCounter = 1;
-    public int Counter { get; }
     private readonly int? columns;
     private readonly IExecutor executor;
     public ParticipationGridModel(Participation participation, bool isReadonly, int? columns = null)
     {
         this.IsReadonly = isReadonly;
-        this.Counter = StaticCounter;
-        StaticCounter++;
         this.columns = columns;
         this.executor = StaticProvider.GetService<IExecutor>();
         this.Participant = participation.Participant;
-
-        // TODO: remove
         this.Number = this.Participant.Number;
+        
         this.CreatePerformanceColumns(participation);
         var notifyCollectionChanged = (INotifyCollectionChanged) this.Participant.LapRecords;
         notifyCollectionChanged.CollectionChanged += (sender, args) =>
