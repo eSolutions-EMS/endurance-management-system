@@ -1,5 +1,4 @@
-﻿using EnduranceJudge.Core.Utilities;
-using EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates;
+﻿using EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates;
 using EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 using EnduranceJudge.Domain.Core.Exceptions;
 using EnduranceJudge.Domain.Core.Models;
@@ -8,6 +7,7 @@ using EnduranceJudge.Domain.State.Competitions;
 using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Domain.State.Participations;
 using EnduranceJudge.Domain.AggregateRoots.Common.Performances;
+using EnduranceJudge.Domain.AggregateRoots.Manager.WitnessEvents;
 using EnduranceJudge.Domain.State.LapRecords;
 using System;
 using System.Collections.Generic;
@@ -20,11 +20,29 @@ public class ManagerRoot : IAggregateRoot
 {
     private readonly IState state;
 
-    public ManagerRoot()
+    public ManagerRoot(IStateContext context)
     {
-        this.state = StaticProvider.GetService<IState>();
+        this.state = context.State;
+        Witness.Events += this.Handle;
     }
 
+    private void Handle(object sender, WitnessEvent witnessEvent)
+    {
+        if (witnessEvent.TagId == "test")
+        {
+            return;
+        }
+        if (witnessEvent.Type == WitnessEventType.Finish)
+        {
+            this.HandleWitnessFinish(witnessEvent.TagId, witnessEvent.Time);
+        }
+        if (witnessEvent.Type == WitnessEventType.EnterVet)
+        {
+            this.HandleWitnessVet(witnessEvent.TagId, witnessEvent.Time);
+        }
+        Witness.RaiseStateChanged();
+    }
+    
     public bool HasStarted()
         => this.state.Participations.Any(x => x.Participant.LapRecords.Any());
 
@@ -42,20 +60,51 @@ public class ManagerRoot : IAggregateRoot
         this.state.Event.HasStarted = true;
     }
 
-    public void UpdateRecord(int number, DateTime time)
+    public void UpdateRecord(string number, DateTime time)
     {
         var participation = this
             .GetParticipation(number)
             .Aggregate();
         participation.Update(time);
     }
-    public void Disqualify(int number, string reason)
+    public void HandleWitnessFinish(string rfid, DateTime time)
+    {
+        var participation = this
+            .GetParticipationByRfid(rfid)
+            .Aggregate();
+        if (participation.CurrentLap.ArrivalTime != null && participation.CurrentLap.Result == null)
+        {
+            // TODO: fix/remove
+            Helper.Create<ParticipantException>("cannot finish. 'ArriveTime' is not null and Lap is not completed");
+        }
+        participation.Update(time);
+    }
+    public void HandleWitnessVet(string rfid, DateTime time)
+    {
+        var participation = this
+            .GetParticipationByRfid(rfid)
+            .Aggregate();
+
+        if (participation.CurrentLap.Result != null)
+        {
+            // TODO fix/remove
+            Helper.Create<ParticipantException>("cannot record VET. 'CurrentLap' is completed");
+        }
+        if (participation.CurrentLap.InspectionTime != null && participation.CurrentLap.ReInspectionTime != null)
+        {
+            // TODO fix/remove
+            var message = "cannot record VET. 'InspectionTime' amd 'ReInspectionTime' are not null"; 
+            Helper.Create<ParticipantException>(message);
+        }
+        participation.Update(time);
+    }
+    public void Disqualify(string number, string reason)
     {
         reason ??= nameof(_DQ);
         var lap = this.GetLastLap(number);
         lap.Disqualify(reason);
     }
-    public void FailToQualify(int number, string reason)
+    public void FailToQualify(string number, string reason)
     {
         if (string.IsNullOrEmpty(reason))
         {
@@ -64,37 +113,37 @@ public class ManagerRoot : IAggregateRoot
         var lap = this.GetLastLap(number);
         lap.FailToQualify(reason);
     }
-    public void Resign(int number, string reason)
+    public void Resign(string number, string reason)
     {
         reason ??= nameof(_RET);
         var lap = this.GetLastLap(number);
         lap.Resign(reason);
     }
 
-    private LapRecordsAggregate GetLastLap(int participantNumber)
+    private LapRecordsAggregate GetLastLap(string participantNumber)
     {
         var participation = this.GetParticipation(participantNumber);
         var participationsAggregate = participation.Aggregate();
-        var lap = participationsAggregate.Latest;
+        var lap = participationsAggregate.CurrentLap;
         return lap.Aggregate();
     }
 
-    public void ReInspection(int number, bool isRequired)
+    public void ReInspection(string number, bool isRequired)
     {
         var participation = this.GetParticipation(number);
         var lastRecord = participation
             .Aggregate()
-            .Latest
+            .CurrentLap
             .Aggregate();
         lastRecord!.ReInspection(isRequired);
     }
 
-    public void RequireInspection(int number, bool isRequired)
+    public void RequireInspection(string number, bool isRequired)
     {
         var participation = this.GetParticipation(number);
         var last = participation
             .Aggregate()
-            .Latest
+            .CurrentLap
             .Aggregate();
         last.RequireInspection(isRequired);
     }
@@ -119,7 +168,7 @@ public class ManagerRoot : IAggregateRoot
         return startList;
     }
 
-    private Participation GetParticipation(int number)
+    private Participation GetParticipation(string number)
     {
         var participation = this.state
             .Participations
@@ -127,6 +176,18 @@ public class ManagerRoot : IAggregateRoot
         if (participation == null)
         {
             throw Helper.Create<ParticipantException>(NOT_FOUND_MESSAGE, NUMBER, number);
+        }
+        return participation;
+    }
+
+    private Participation GetParticipationByRfid(string rfid)
+    {
+        var participation = this.state
+            .Participations
+            .FirstOrDefault(x => x.Participant.RfId == rfid);
+        if (participation == null)
+        {
+            throw Helper.Create<ParticipantException>(NOT_FOUND_MESSAGE, RFID_NUMBER, rfid);
         }
         return participation;
     }

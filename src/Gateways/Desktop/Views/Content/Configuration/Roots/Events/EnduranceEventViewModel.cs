@@ -1,4 +1,5 @@
-﻿using EnduranceJudge.Application.Aggregates.Configurations.Contracts;
+﻿using EnduranceJudge.Application.Core;
+using EnduranceJudge.Application.Queries;
 using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Domain.AggregateRoots.Configuration;
 using EnduranceJudge.Domain.Core.Models;
@@ -67,9 +68,11 @@ public class EnduranceEventViewModel : NestedConfigurationBase<EnduranceEventVie
     }
     protected override IDomain Persist()
     {
-        var result = this.executor.Execute(config =>
-            config.Update(this.Name, this.CountryId, this.PopulatedPlace));
-        this.popupService.RenderOk();
+        var result = this.executor.Execute(
+            config => config.Update(this.Name, this.CountryId, this.PopulatedPlace),
+            true);
+        // TODO: probably remove
+        // this.popupService.RenderOk();
         return result;
     }
 

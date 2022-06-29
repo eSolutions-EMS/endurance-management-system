@@ -46,8 +46,11 @@ public partial class App : PrismApplication
         var initializers = aspNetProvider.GetServices<IInitializer>();
         foreach (var initializer in initializers.OrderBy(x => x.RunningOrder))
         {
-            initializer.Run(aspNetProvider);
+            initializer.Run();
         }
+        Console.WriteLine("================================================");
+        Console.WriteLine("=        ENDURANCE JUDGE UI running             ");
+        Console.WriteLine("================================================");
     }
 
     protected override void ConfigureViewModelLocator()

@@ -1,4 +1,4 @@
-﻿using EnduranceJudge.Application.Aggregates.Configurations.Contracts;
+﻿using EnduranceJudge.Application.Core;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Core.Extensions;
@@ -57,5 +57,5 @@ public abstract class NestedConfigurationBase<TView, TDomain> : ConfigurationBas
         this.Persist();
         var childViewId = Random.Next();
         this.Navigation.ChangeToNewConfiguration<T>(this.Id, childViewId);
-    });
+    }, true);
 }

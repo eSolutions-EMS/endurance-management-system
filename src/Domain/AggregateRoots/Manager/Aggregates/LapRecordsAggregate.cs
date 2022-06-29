@@ -109,13 +109,13 @@ public class LapRecordsAggregate : IAggregate
         }
     }
 
-    private void Arrive(DateTime time)
+    internal void Arrive(DateTime time)
     {
         // time = FixDateForToday(time);
         this.validator.IsLaterThan(time, this.Record.StartTime, ARRIVAL_TERM);
         this.Record.ArrivalTime = time;
     }
-    private void Inspect(DateTime time)
+    internal void Inspect(DateTime time)
     {
         // time = FixDateForToday(time);
         this.validator.IsLaterThan(time, this.Record.ArrivalTime, INSPECTION_TERM);

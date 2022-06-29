@@ -37,7 +37,7 @@ public class StartlistDialogModel : DialogBase
     private void RenderList()
     {
         var participants = this.contestExecutor
-            .Execute(x => x.GetStartList(this.IncludePast))
+            .Execute(x => x.GetStartList(this.IncludePast), false)
             .Select(x => new StartTemplateModel(x));
         this.List.Clear();
         this.List.AddRange(participants);

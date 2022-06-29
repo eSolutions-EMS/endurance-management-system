@@ -1,5 +1,5 @@
-﻿using EnduranceJudge.Application.Aggregates.Configurations.Contracts;
-using EnduranceJudge.Application.Contracts;
+﻿using EnduranceJudge.Application.Services;
+using EnduranceJudge.Application.Core;
 using EnduranceJudge.Application.Core.Models;
 using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Domain.AggregateRoots.Configuration;
@@ -77,7 +77,7 @@ public class AddParticipantsViewModel : SearchableListViewModelBase<AddParticipa
             configuration.Participants.AddParticipation(this.competitionId, participantId!.Value);
             var listItem = this.ListItems.FirstOrDefault(x => x.Id == participantId!.Value);
             this.ListItems.Remove(listItem);
-        });
+        }, true);
     }
 
     public string CompetitionName

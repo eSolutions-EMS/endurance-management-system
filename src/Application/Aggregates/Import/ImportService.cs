@@ -1,4 +1,4 @@
-﻿using EnduranceJudge.Application.Contracts;
+﻿using EnduranceJudge.Application.Services;
 using EnduranceJudge.Application.Core.Exceptions;
 using EnduranceJudge.Application.Aggregates.Import.Readers;
 using EnduranceJudge.Core.ConventionalServices;
@@ -54,7 +54,7 @@ public class ImportService : IImportService
             manager.Import(data);
         }
 
-        this.persistence.Snapshot();
+        this.persistence.SaveState();
     }
 }
 

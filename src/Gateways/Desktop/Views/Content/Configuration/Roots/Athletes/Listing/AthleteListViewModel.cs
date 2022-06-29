@@ -1,5 +1,5 @@
-﻿using EnduranceJudge.Application.Aggregates.Configurations.Contracts;
-using EnduranceJudge.Application.Contracts;
+﻿using EnduranceJudge.Application.Services;
+using EnduranceJudge.Application.Core;
 using EnduranceJudge.Application.Core.Models;
 using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Domain.AggregateRoots.Configuration;
@@ -35,7 +35,8 @@ public class AthleteListViewModel : SearchableListViewModelBase<AthleteView>
     }
     protected override void RemoveDomain(int id)
     {
-        this.configurationExecutor.Execute(x =>
-            x.Athletes.Remove(id));
+        this.configurationExecutor.Execute(
+            x => x.Athletes.Remove(id),
+            true);
     }
 }

@@ -5,7 +5,30 @@
      xmlns:manager="clr-namespace:EnduranceJudge.Gateways.Desktop.Controls.Manager">
 
     <!-- Performances -->
-    <StackPanel Style="{StaticResource List-Horizontal}" Name="Table">
+    <StackPanel Style="{StaticResource List-Horizontal}" Name="Root">
         <manager:PerformanceLabelsControl Number="{Binding Number}" />
+        
+        <ItemsControl x:Name="Table" ItemsSource="{Binding Performances}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Style="{StaticResource List-Horizontal}"  />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <manager:PerformanceColumnControl
+                        Performance="{Binding}"
+                        IsReadonly="{Binding IsReadonly}" />
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </StackPanel>
+    
+    <Button Style="{StaticResource Button-Horizontal}"
+            DockPanel.Dock="Right"
+            Visibility="{Binding PrintVisibility}"
+            VerticalAlignment="Top"
+            Content="Print"
+            Command="{Binding Print}"/>
+    
 </DockPanel>

@@ -1,4 +1,4 @@
-﻿using EnduranceJudge.Application.Aggregates.Configurations.Contracts;
+﻿using EnduranceJudge.Application.Core;
 using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Domain.AggregateRoots.Configuration;
 using EnduranceJudge.Domain.Core.Models;
@@ -42,7 +42,7 @@ public class ParticipantViewModel : ConfigurationBase<ParticipantView, Participa
     public ObservableCollection<SimpleListItemViewModel> AthleteItems { get; } = new();
 
     private string rfId;
-    public int? number;
+    public string number;
     public int? maxAverageSpeedInKmPh;
     private Visibility maxAverageSpeedInKmPhVisibility = Visibility.Hidden;
     private int horseId;
@@ -60,8 +60,9 @@ public class ParticipantViewModel : ConfigurationBase<ParticipantView, Participa
 
     protected override IDomain Persist()
     {
-        var result = this.executor.Execute(config =>
-            config.Participants.Save(this, this.AthleteId, this.HorseId));
+        var result = this.executor.Execute(
+            config => config.Participants.Save(this, this.AthleteId, this.HorseId),
+            true);
         return result;
     }
 
@@ -117,7 +118,7 @@ public class ParticipantViewModel : ConfigurationBase<ParticipantView, Participa
         get => this.rfId;
         set => this.SetProperty(ref this.rfId, value);
     }
-    public int? NumberDisplay
+    public string Number
     {
         get => this.number;
         set => this.SetProperty(ref this.number, value);
@@ -159,11 +160,5 @@ public class ParticipantViewModel : ConfigurationBase<ParticipantView, Participa
     {
         get => this.name;
         private set => this.SetProperty(ref this.name, value);
-    }
-
-    public int Number
-    {
-        get => this.NumberDisplay ?? default;
-        set => this.NumberDisplay = value;
     }
 }

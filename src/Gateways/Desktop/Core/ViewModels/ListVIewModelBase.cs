@@ -1,4 +1,4 @@
-﻿using EnduranceJudge.Application.Contracts;
+﻿using EnduranceJudge.Application.Services;
 using EnduranceJudge.Application.Core.Models;
 using EnduranceJudge.Core.Utilities;
 using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem;
@@ -59,7 +59,8 @@ public abstract class ListViewModelBase<TView> : ViewModelBase
 
         this.ListItems.Clear();
         this.ListItems.AddRange(viewModels);
-    });
+    }, false);
+    
     protected virtual void CreateAction()
     {
         if (this.AllowCreate)
@@ -80,9 +81,8 @@ public abstract class ListViewModelBase<TView> : ViewModelBase
                 this.RemoveDomain(id!.Value);
                 var item = this.ListItems.FirstOrDefault(i => i.Id == id!.Value);
                 this.ListItems.Remove(item);
-                this.persistence.Snapshot();
             }
-        });
+        }, true);
         this.popupService.RenderConfirmation(REMOVE_CONFIRMATION_MESSAGE, action);
     }
 

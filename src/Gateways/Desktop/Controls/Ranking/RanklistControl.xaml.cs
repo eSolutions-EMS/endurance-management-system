@@ -1,5 +1,6 @@
 ﻿using EnduranceJudge.Domain.AggregateRoots.Ranking.Aggregates;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 
@@ -34,25 +35,23 @@ public partial class RanklistControl
 
     private void Populate(RanklistAggregate rankList)
     {
-        this.Children.Clear();
-        foreach (var control in CreateResultControls(rankList))
-        {
-            this.Children.Add(control);
-        }
+        var models = CreateResultControls(rankList);
+        this.ItemsSource = models;
     }
 
-    public static IEnumerable<ParticipationResultControl> CreateResultControls(RanklistAggregate rankList)
+    public static IEnumerable<ParticipationResultModel> CreateResultControls(RanklistAggregate rankList)
     {
         var maxColumns = rankList
             .Select(x => x.Participant.LapRecords.Count)
             .Max();
+        var list = new List<ParticipationResultModel>();
         for (var i = 0; i < rankList.Count; i++)
         {
             var rank = i + 1;
             var participation = rankList[i];
             var result = new ParticipationResultModel(rank, maxColumns, participation);
-            var control = new ParticipationResultControl(result);
-            yield return control;
+            list.Add(result);
         }
+        return list;
     }
 }

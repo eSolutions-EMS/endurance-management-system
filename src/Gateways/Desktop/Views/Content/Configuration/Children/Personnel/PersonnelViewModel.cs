@@ -1,4 +1,4 @@
-﻿using EnduranceJudge.Application.Aggregates.Configurations.Contracts;
+﻿using EnduranceJudge.Application.Core;
 using EnduranceJudge.Domain.AggregateRoots.Configuration;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.Enums;
@@ -31,7 +31,9 @@ public class PersonnelViewModel : NestedConfigurationBase<PersonnelView, Domain.
 
     protected override IDomain Persist()
     {
-        var result = this.executor.Execute(config => config.Save(this));
+        var result = this.executor.Execute(
+            config => config.Save(this),
+            true);
         return result;
     }
 

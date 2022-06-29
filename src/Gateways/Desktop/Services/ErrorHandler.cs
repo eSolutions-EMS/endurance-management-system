@@ -1,10 +1,10 @@
-﻿using EnduranceJudge.Application.Contracts;
+﻿using EnduranceJudge.Application.Services;
 using EnduranceJudge.Application.Core.Exceptions;
 using EnduranceJudge.Core.ConventionalServices;
 using EnduranceJudge.Domain.Core.Exceptions;
 using EnduranceJudge.Gateways.Desktop.Core.Services;
 using System;
-using static EnduranceJudge.Localization.Strings;
+using static EnduranceJudge.Gateways.Desktop.DesktopConstants;
 
 namespace EnduranceJudge.Gateways.Desktop.Services;
 
@@ -35,6 +35,7 @@ public class ErrorHandler : IErrorHandler
                 var logFile = this.persistence.LogError(exception.Message, exception.StackTrace);
                 var message = string.Format(UNEXPECTED_ERROR_MESSAGE, logFile);
                 this.popupService.RenderError(message);
+                this.popupService.RenderError(exception.ToString());
             # endif
         }
     }

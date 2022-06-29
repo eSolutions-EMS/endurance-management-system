@@ -15,7 +15,17 @@ public class PerformanceColumnControl : StackPanel
         get => (PerformanceColumnModel)GetValue(PERFORMANCE_PROPERTY);
         set => SetValue(PERFORMANCE_PROPERTY, value);
     }
-    public bool IsReadonly { get; set; }
+    public bool IsReadonly
+    {
+        get => (bool)this.GetValue(IS_READONLY_PROPERTY); 
+        set => this.SetValue(IS_READONLY_PROPERTY, value);
+    }
+
+    public static readonly DependencyProperty IS_READONLY_PROPERTY =
+        DependencyProperty.Register(
+            nameof(IsReadonly),
+            typeof(bool),
+            typeof(PerformanceColumnControl));
 
     public static readonly DependencyProperty PERFORMANCE_PROPERTY =
         DependencyProperty.Register(
@@ -71,7 +81,7 @@ public class PerformanceColumnControl : StackPanel
     }
 
     private void AddHeader()
-        => this.CreateText(this.performance.HeaderValue);
+        => this.CreateText(nameof(this.performance.HeaderValue));
     private void AddArrivalInput()
         => this.CreateInput(nameof(this.performance.ArrivalTimeString));
     private void AddInspectionInput()
@@ -83,25 +93,25 @@ public class PerformanceColumnControl : StackPanel
     private void AddCompulsoryInspectionInput()
         => this.CreateInput(nameof(this.performance.CompulsoryRequiredInspectionTimeString));
     private void AddArrivalText()
-        => this.CreateText(this.performance.ArrivalTimeString);
+        => this.CreateText(nameof(this.performance.ArrivalTimeString));
     private void AddInspectionText()
-        => this.CreateText(this.performance.InspectionTimeString);
+        => this.CreateText(nameof(this.performance.InspectionTimeString));
     private void AddReInspectionText()
-        => this.CreateText(this.performance.ReInspectionTimeString);
+        => this.CreateText(nameof(this.performance.ReInspectionTimeString));
     private void AddRequiredInspectionText()
-        => this.CreateText(this.performance.RequiredInspectionTimeString);
+        => this.CreateText(nameof(this.performance.RequiredInspectionTimeString));
     private void AddCompulsoryInspectionText()
-        => this.CreateText(this.performance.CompulsoryRequiredInspectionTimeString);
+        => this.CreateText(nameof(this.performance.CompulsoryRequiredInspectionTimeString));
     private void AddNextStartTime()
-        => this.CreateText(this.performance.NextStartTimeString, true);
+        => this.CreateText(nameof(this.performance.NextStartTimeString), true);
     private void AddRecovery()
-        => this.CreateText(this.performance.RecoverySpanString);
+        => this.CreateText(nameof(this.performance.RecoverySpanString));
     private void AddTime()
-        => this.CreateText(this.performance.TimeString);
+        => this.CreateText(nameof(this.performance.TimeString));
     private void AddAverageSpeed()
-        => this.CreateText(this.performance.AverageSpeedString);
+        => this.CreateText(nameof(this.performance.AverageSpeedString));
     private void AddAverageSpeedTotal()
-        => this.CreateText(this.performance.AverageSpeedTotalString);
+        => this.CreateText(nameof(this.performance.AverageSpeedTotalString));
     private void AddEdit()
     {
         var style = ControlsHelper.GetStyle("Button-Table");
@@ -131,13 +141,14 @@ public class PerformanceColumnControl : StackPanel
         var style = ControlsHelper.GetStyle("Text");
         var text = new TextBlock
         {
-            Text = value,
             Style = style,
         };
         if (bold)
         {
             text.FontWeight = FontWeights.Bold;
         }
+        var binding = new Binding(value) { Source = this.performance };
+        text.SetBinding(TextBlock.TextProperty, binding);
         var border = this.CreateCell(text);
         this.Children.Add(border);
     }

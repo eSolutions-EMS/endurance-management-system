@@ -14,13 +14,20 @@ namespace EnduranceJudge.Gateways.Desktop.Controls.Manager;
 public class PerformanceColumnModel : ViewModelBase, ILapRecordState
 {
     private readonly IExecutor<ManagerRoot> managerExecutor;
-    public PerformanceColumnModel(Performance performance)
+    public PerformanceColumnModel(Performance performance, bool isReadonly)
     {
+        this.IsReadonly = isReadonly;
         this.EditVisibility = Visibility.Visible;
         this.managerExecutor = StaticProvider.GetService<IExecutor<ManagerRoot>>();
         this.Edit = new DelegateCommand(this.EditAction);
         this.Update(performance);
+        performance.PropertyChanged += (obj, args) =>
+        {
+            this.Update(performance);
+        };
     }
+    
+    public bool IsReadonly { get; }
 
     public Visibility EditVisibility { get; set; }
     public Visibility ReadonlyVisibility => this.EditVisibility == Visibility.Collapsed
@@ -48,7 +55,7 @@ public class PerformanceColumnModel : ViewModelBase, ILapRecordState
         {
             var result = manager.EditRecord(this);
             this.Update(result);
-        });
+        }, true);
     }
 
     public void Update(Performance performance)
@@ -68,17 +75,29 @@ public class PerformanceColumnModel : ViewModelBase, ILapRecordState
         this.IsRequiredInspectionRequired = performance.IsRequiredInspectionRequired;
         this.ReInspectionTimeString = ValueSerializer.FormatTime(performance.ReInspectionTime);
         var requiredInspectionTime = ValueSerializer.FormatTime(performance.RequiredInspectionTime);
-        this.RequiredInspectionTimeString = performance.Lap.IsCompulsoryInspectionRequired
+        this.RequiredInspectionTimeString = performance.LatestLap.IsCompulsoryInspectionRequired
             ? string.Empty
             : requiredInspectionTime;
-        this.CompulsoryRequiredInspectionTimeString = performance.Lap.IsCompulsoryInspectionRequired
+        this.CompulsoryRequiredInspectionTimeString = performance.LatestLap.IsCompulsoryInspectionRequired
             ? requiredInspectionTime
             : string.Empty;
+        
+        this.RaisePropertyChanged(nameof(this.ReInspectionTimeString));
+        this.RaisePropertyChanged(nameof(this.RecoverySpanString));
+        this.RaisePropertyChanged(nameof(this.TimeString));
+        this.RaisePropertyChanged(nameof(this.AverageSpeed));
+        this.RaisePropertyChanged(nameof(this.AverageSpeedTotalString));
+        this.RaisePropertyChanged(nameof(this.NextStartTimeString));
+        this.RaisePropertyChanged(nameof(this.ArrivalTimeString));
+        this.RaisePropertyChanged(nameof(this.InspectionTimeString));
+        this.RaisePropertyChanged(nameof(this.ReInspectionTimeString));
+        this.RaisePropertyChanged(nameof(this.RequiredInspectionTimeString));
+        this.RaisePropertyChanged(nameof(this.CompulsoryRequiredInspectionTimeString));
     }
 
     private string CreateHeader(Performance performance)
     {
-        var lap = performance.Lap.IsFinal
+        var lap = performance.LatestLap.IsFinal
             ? $"{FINAL}"
             : $"{GATE.ToUpper()}{performance.Index + 1}";
         var header = $"{lap}/{performance.TotalLength} {KM}";
@@ -90,7 +109,10 @@ public class PerformanceColumnModel : ViewModelBase, ILapRecordState
     public DateTime? ArrivalTime
     {
         get => ValueSerializer.ParseTime(this.ArrivalTimeString);
-        private set => this.ArrivalTimeString = ValueSerializer.FormatTime(value);
+        private set 
+        {
+            this.ArrivalTimeString = ValueSerializer.FormatTime(value);
+        }
     }
     public DateTime? InspectionTime
     {

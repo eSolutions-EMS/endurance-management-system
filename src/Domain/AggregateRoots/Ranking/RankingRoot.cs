@@ -11,8 +11,9 @@ public class RankingRoot : IAggregateRoot
 {
     private readonly List<CompetitionResultAggregate> competitions = new();
 
-    public RankingRoot(IState state)
+    public RankingRoot(IStateContext stateContext)
     {
+        var state = stateContext.State;
         if (state.Event == default)
         {
             return;

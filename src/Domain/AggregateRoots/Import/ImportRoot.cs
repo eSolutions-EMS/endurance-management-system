@@ -28,7 +28,7 @@ public class ImportRoot : IAggregateRoot
 
     public ImportRoot()
     {
-        this.state = StaticProvider.GetService<IState>();
+        this.state = StaticProvider.GetService<IStateContext>().State;
         this.validator = new Validator<CompetitionException>();
     }
 

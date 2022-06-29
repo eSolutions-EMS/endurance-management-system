@@ -1,4 +1,4 @@
-﻿using EnduranceJudge.Application.Aggregates.Configurations.Contracts;
+﻿using EnduranceJudge.Application.Core;
 using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Core.Utilities;
 using EnduranceJudge.Domain.Core.Models;
@@ -58,15 +58,22 @@ public abstract class ConfigurationBase<TView, TDomain> : ViewModelBase
     }
     private void SubmitAction()
     {
-        var isSuccessful = this.Executor.Execute(() =>
+        var result = this.Persist();
+        if (this.BackOnSubmit)
         {
-            this.Persist();
-            if (this.BackOnSubmit)
-            {
-                this.NavigateBackAction();
-            }
-        });
-        if (!isSuccessful)
+            this.NavigateBackAction();
+        }
+        if (result != null)
+        // // TODO: Probably remove this execute
+        // var isSuccessful = this.Executor.Execute(() =>
+        // {
+        //     this.Persist();
+        //     if (this.BackOnSubmit)
+        //     {
+        //         this.NavigateBackAction();
+        //     }
+        // }, true);
+        // if (!isSuccessful)
         {
             this.Load(this.Id);
         }

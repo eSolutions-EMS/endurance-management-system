@@ -1,4 +1,4 @@
-﻿using EnduranceJudge.Application.Aggregates.Configurations.Contracts;
+﻿using EnduranceJudge.Application.Core;
 using EnduranceJudge.Core.Models;
 using EnduranceJudge.Domain.AggregateRoots.Configuration;
 using EnduranceJudge.Domain.Core.Models;
@@ -27,8 +27,9 @@ public class HorseViewModel : ConfigurationBase<HorseView, Horse>, IHorseState, 
 
     protected override IDomain Persist()
     {
-        var result = this.executor.Execute(config =>
-            config.Horses.Save(this));
+        var result = this.executor.Execute(
+            config => config.Horses.Save(this),
+            true);
         return result;
     }
 
@@ -74,5 +75,4 @@ public class HorseViewModel : ConfigurationBase<HorseView, Horse>, IHorseState, 
     }
 
     public bool IsStallion => this.isStallionValue != 0;
-
 }

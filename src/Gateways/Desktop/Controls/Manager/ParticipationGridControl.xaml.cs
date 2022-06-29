@@ -15,7 +15,17 @@ public partial class ParticipationGridControl
         set => this.SetValue(PARTICIPATION_PROPERTY, value);
     }
 
-    public bool IsReadonly { get; set; }
+    public bool IsReadonly
+    {
+        get => (bool)this.GetValue(IS_READONLY_PROPERTY); 
+        set => this.SetValue(IS_READONLY_PROPERTY, value);
+    }
+
+    public static readonly DependencyProperty IS_READONLY_PROPERTY =
+        DependencyProperty.Register(
+            nameof(IsReadonly),
+            typeof(bool),
+            typeof(ParticipationGridControl));
 
     public static readonly DependencyProperty PARTICIPATION_PROPERTY =
         DependencyProperty.Register(
@@ -27,11 +37,7 @@ public partial class ParticipationGridControl
     private static void OnParticipationChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
     {
         var grid = (ParticipationGridControl)sender;
-        if (args.NewValue is null)
-        {
-            grid.Empty();
-        }
-        else
+        if (args.NewValue is not null)
         {
             var participation = (ParticipationGridModel) args.NewValue;
             grid.Populate(participation);
@@ -41,7 +47,11 @@ public partial class ParticipationGridControl
     public ParticipationGridControl(ParticipationGridModel participation, bool isReadonly) : this()
     {
         this.IsReadonly = isReadonly;
-        this.Populate(participation);
+        this.Participation = participation;
+        foreach (var perf in participation.Performances)
+        {
+            this.Table.Items.Add(new PerformanceColumnControl(perf, true));
+        }
     }
     public ParticipationGridControl()
     {
@@ -49,29 +59,14 @@ public partial class ParticipationGridControl
         this.Style = (Style)System.Windows.Application.Current.FindResource("Dock-Horizontal");
     }
 
-    private UIElementCollection Columns => this.Table.Children;
     private void Populate(ParticipationGridModel participation)
     {
-        // First column is static labels and is defined in the .xaml file
-        this.Columns.RemoveRange(1, this.Table.Children.Count - 1);
-        foreach (var performance in participation.Performances)
-        {
-            var control = new PerformanceColumnControl(performance, this.IsReadonly);
-            this.Table.Children.Add(control);
-        }
-        for (var i = 0; i < participation.EmptyColumns; i++)
-        {
-            var empty = new EmptyColumnControl();
-            this.Table.Children.Add(empty);
-        }
-        if (!this.IsReadonly && !this.isPrintButtonAdded)
-        {
-            this.AddPrintButton();
-        }
+        // if (!this.IsReadonly && !this.isPrintButtonAdded)
+        // {
+        //     this.AddPrintButton();
+        // }
     }
-    private void Empty()
-        => this.Columns.Clear();
-
+    
     private void AddPrintButton()
     {
         var style = ControlsHelper.GetStyle("Button-Horizontal");

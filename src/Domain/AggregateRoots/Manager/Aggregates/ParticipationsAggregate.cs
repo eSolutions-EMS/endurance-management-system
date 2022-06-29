@@ -27,10 +27,10 @@ public class ParticipationsAggregate : IAggregate
         this.competitionConstraint = participation.CompetitionConstraint;
     }
 
-    public int Number { get; }
+    public string Number { get; }
     public bool IsDisqualified { get; }
     public string DisqualifiedCode { get; }
-    public LapRecord Latest => this.participation.Participant.LapRecords.Last();
+    public LapRecord CurrentLap => this.participation.Participant.LapRecords.Last();
 
     internal void Start()
     {
@@ -42,14 +42,14 @@ public class ParticipationsAggregate : IAggregate
         {
             throw Helper.Create<ParticipantException>(PARTICIPATION_IS_DISQUALIFIED, this.Number);
         }
-        var record = this.Latest.Aggregate();
+        var record = this.CurrentLap.Aggregate();
         var continueSequence = record.Update(time);
         if (continueSequence)
         {
-            this.CreateNext(time);
+            this.CreateRecord(this.CurrentLap.NextStarTime!.Value, time);
         }
     }
-
+    
     internal void Add(Competition competition)
     {
         if (this.participation.CompetitionsIds.Any())
@@ -80,19 +80,19 @@ public class ParticipationsAggregate : IAggregate
         this.participation.Add(competition.Id);
     }
 
-    public void CreateNext(DateTime arrivalTime)
+    private LapRecord CreateRecord(DateTime startTime, DateTime? arriveTime = null)
     {
         if (this.NextLap == null)
         {
             throw Helper.Create<ParticipationException>(PARTICIPATION_HAS_ENDED_MESSAGE);
         }
-        var record = this.CreateRecord(this.Latest.NextStarTime!.Value);
-        record.Aggregate().Update(arrivalTime);
-    }
-
-    private LapRecord CreateRecord(DateTime startTime)
-    {
-        var record = new LapRecord(FixDateForToday(startTime), this.NextLap);
+        // startTime = FixDateForToday(startTime);
+        var record = new LapRecord(startTime, this.NextLap);
+        if (arriveTime.HasValue)
+        {
+            // arriveTime = FixDateForToday(arriveTime.Value);
+            record.Aggregate().Arrive(arriveTime.Value);
+        }
         this.participation.Participant.Add(record);
         return record;
     }

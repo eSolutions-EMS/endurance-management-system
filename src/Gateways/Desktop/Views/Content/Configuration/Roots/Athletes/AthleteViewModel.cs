@@ -1,4 +1,4 @@
-﻿using EnduranceJudge.Application.Aggregates.Configurations.Contracts;
+﻿using EnduranceJudge.Application.Core;
 using EnduranceJudge.Application.Core.Models;
 using EnduranceJudge.Core.Mappings;
 using EnduranceJudge.Core.Models;
@@ -58,8 +58,9 @@ public class AthleteViewModel : ConfigurationBase<AthleteView, Athlete>, IAthlet
     }
     protected override IDomain Persist()
     {
-        var result = this.executor.Execute(config =>
-            config.Athletes.Save(this, this.CountryId));
+        var result = this.executor.Execute(
+            config => config.Athletes.Save(this, this.CountryId),
+            true);
         return result;
     }
     private void LoadCountries()

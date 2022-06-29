@@ -2,6 +2,7 @@
 using EnduranceJudge.Gateways.Desktop.Controls.Manager;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 
 namespace EnduranceJudge.Gateways.Desktop.Print.Performances;
 
@@ -13,8 +14,8 @@ public class ParticipationPrinter : PrintTemplate
     {
         this.participation = participation;
         var control = new ParticipationGridControl(participation, true);
-        control.Arrange(new Rect());
-        control.Scale(0.75);
+        // control.Arrange(new Rect());
+        // control.Scale(0.75);
         this.AddPrintContent(control);
     }
 

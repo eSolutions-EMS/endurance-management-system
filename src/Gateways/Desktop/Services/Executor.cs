@@ -1,4 +1,4 @@
-﻿using EnduranceJudge.Application.Contracts;
+﻿using EnduranceJudge.Application.Services;
 using EnduranceJudge.Core.ConventionalServices;
 using System;
 
@@ -16,16 +16,16 @@ public class Executor<T> : IExecutor<T>
         this.executor = executor;
     }
 
-    public bool Execute(Action<T> action)
+    public bool Execute(Action<T> action, bool persist)
     {
         var innerAction = () => action(this.service);
-        return this.executor.Execute(innerAction);
+        return this.executor.Execute(innerAction, persist);
     }
 
-    public TResult Execute<TResult>(Func<T, TResult> action)
+    public TResult Execute<TResult>(Func<T, TResult> action, bool persist)
     {
         var innerAction = () => action(this.service);
-        return this.executor.Execute(innerAction);
+        return this.executor.Execute(innerAction, persist);
     }
 }
 
@@ -40,12 +40,15 @@ public class Executor : IExecutor
         this.persistence = persistence;
     }
 
-    public bool Execute(Action action)
+    public bool Execute(Action action, bool persist)
     {
         try
         {
             action();
-            this.persistence.Snapshot();
+            if (persist)
+            {
+                this.persistence.SaveState();
+            }
             return true;
         }
         catch (Exception exception)
@@ -55,12 +58,15 @@ public class Executor : IExecutor
         }
     }
 
-    public TResult Execute<TResult>(Func<TResult> action)
+    public TResult Execute<TResult>(Func<TResult> action, bool persist)
     {
         try
         {
             var result = action();
-            this.persistence.Snapshot();
+            if (persist)
+            {
+                this.persistence.SaveState();
+            }
             return result;
         }
         catch (Exception exception)
@@ -74,11 +80,11 @@ public class Executor : IExecutor
 public interface IExecutor<out T> : ITransientService
     where T : IService
 {
-    bool Execute(Action<T> action);
-    TResult Execute<TResult>(Func<T, TResult> action);
+    bool Execute(Action<T> action, bool persist);
+    TResult Execute<TResult>(Func<T, TResult> action, bool persist);
 }
 public interface IExecutor : ITransientService
 {
-    public bool Execute(Action action);
-    TResult Execute<TResult>(Func<TResult> action);
+    public bool Execute(Action action, bool persist);
+    TResult Execute<TResult>(Func<TResult> action, bool persist);
 }

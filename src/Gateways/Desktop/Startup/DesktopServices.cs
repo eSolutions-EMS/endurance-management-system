@@ -4,8 +4,6 @@ using EnduranceJudge.Gateways.Desktop.Core.Objects;
 using EnduranceJudge.Core.Services;
 using EnduranceJudge.Domain;
 using EnduranceJudge.Gateways.Desktop.Services;
-using EnduranceJudge.Gateways.Persistence;
-using EnduranceJudge.Gateways.Persistence.Startup;
 using EnduranceJudge.Localization;
 using Microsoft.Extensions.DependencyInjection;
 using Prism.Ioc;
@@ -31,18 +29,18 @@ public static class DesktopServices
             .Concat(LocalizationConstants.Assemblies)
             .Concat(DomainConstants.Assemblies)
             .Concat(ApplicationConstants.Assemblies)
-            .Concat(PersistenceConstants.Assemblies)
             .Concat(DesktopConstants.Assemblies)
             .ToArray();
 
         return services
             .AddCore(assemblies)
             .AddDomain(assemblies)
-            .AddPersistence(assemblies)
+            .AddApplication(assemblies)
             .AddDesktop(assemblies)
             .AddInitializers(assemblies);
     }
 
+    // TODO: Move in Core
     private static IServiceCollection AddInitializers(this IServiceCollection services, Assembly[] assemblies)
         => services
             .Scan(scan => scan
@@ -53,8 +51,10 @@ public static class DesktopServices
                 .WithSingletonLifetime());
 
     private static IServiceCollection AddDesktop(this IServiceCollection services, Assembly[] assemblies)
-        => services
-            .AddTransient(typeof(IExecutor<>), typeof(Executor<>));
+    {
+        services.AddTransient(typeof(IExecutor<>), typeof(Executor<>));
+        return services;
+    }
 
     private static IServiceCollection AdaptToDesktop(
         this IServiceCollection services,

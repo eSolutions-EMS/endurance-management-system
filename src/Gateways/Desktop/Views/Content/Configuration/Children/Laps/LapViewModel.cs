@@ -1,4 +1,4 @@
-﻿using EnduranceJudge.Application.Aggregates.Configurations.Contracts;
+﻿using EnduranceJudge.Application.Core;
 using EnduranceJudge.Domain.AggregateRoots.Configuration;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Laps;
@@ -30,11 +30,15 @@ public class LapViewModel : NestedConfigurationBase<LapView, Lap>, ILapState
     {
         if (this.ParentId.HasValue)
         {
-            return this.executor.Execute(config => config.Laps.Create(this.ParentId.Value, this));
+            return this.executor.Execute(
+                config => config.Laps.Create(this.ParentId.Value, this),
+                true);
         }
         else
         {
-            return this.executor.Execute(config => config.Laps.Update(this));
+            return this.executor.Execute(
+                config => config.Laps.Update(this),
+                true);
         }
     }
 

@@ -1,4 +1,4 @@
-﻿using EnduranceJudge.Application.Aggregates.Configurations.Contracts;
+﻿using EnduranceJudge.Application.Core;
 using EnduranceJudge.Domain.AggregateRoots.Manager;
 using EnduranceJudge.Domain.State.Participations;
 using EnduranceJudge.Gateways.Desktop.Core;
@@ -61,7 +61,7 @@ public class ManagerViewModel : ViewModelBase
     public DelegateCommand StartList { get; }
 
     private Visibility startVisibility;
-    private int? inputNumber;
+    private string inputNumber;
     private int? inputHours;
     private int? inputMinutes;
     private int? inputSeconds;
@@ -78,7 +78,7 @@ public class ManagerViewModel : ViewModelBase
         {
             return;
         }
-        var hasStarted = this.managerExecutor.Execute(x => x.HasStarted());
+        var hasStarted = this.managerExecutor.Execute(x => x.HasStarted(), false);
         if (hasStarted)
         {
             this.ReloadParticipations();
@@ -91,7 +91,7 @@ public class ManagerViewModel : ViewModelBase
         {
             manager.Start();
             this.ReloadParticipations();
-        });
+        }, true);
     }
     private void UpdateAction()
         => this.ExecuteAndRender((manager, number) => manager.UpdateRecord(number, this.InputTime));
@@ -105,22 +105,22 @@ public class ManagerViewModel : ViewModelBase
         => this.ExecuteAndRender((manager, number) => manager.ReInspection(number, this.ReInspectionValue));
     private void RequireInspectionAction()
         => this.ExecuteAndRender((manager, number) => manager.RequireInspection(number, this.RequireInspectionValue));
-    private void ExecuteAndRender(Action<ManagerRoot, int> action)
+    private void ExecuteAndRender(Action<ManagerRoot, string> action)
     {
-        if (!this.InputNumber.HasValue)
+        if (string.IsNullOrWhiteSpace(this.InputNumber))
         {
             return;
         }
-        var number = this.InputNumber.Value;
+        var number = this.InputNumber;
         this.managerExecutor.Execute(manager =>
         {
             action(manager, number);
             this.ReloadParticipations();
-        });
+        }, true);
         this.SelectBy(number);
     }
 
-    private void SelectBy(int number)
+    private void SelectBy(string number)
     {
         var participation = this.Participations.FirstOrDefault(x => x.Number == number);
         if (participation != null)
@@ -152,7 +152,7 @@ public class ManagerViewModel : ViewModelBase
         {
             foreach (var participation in participations)
             {
-                var viewModel = new ParticipationGridModel(participation);
+                var viewModel = new ParticipationGridModel(participation, false);
                 this.Participations.Add(viewModel);
             }
             this.SelectBy(this.Participations.First());
@@ -165,7 +165,7 @@ public class ManagerViewModel : ViewModelBase
         get => this.startVisibility;
         set => this.SetProperty(ref this.startVisibility, value);
     }
-    public int? InputNumber
+    public string InputNumber
     {
         get => this.inputNumber;
         set => this.SetProperty(ref this.inputNumber, value);
