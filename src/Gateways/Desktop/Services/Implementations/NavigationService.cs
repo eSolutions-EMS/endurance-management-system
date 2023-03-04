@@ -74,14 +74,7 @@ public class NavigationService : NavigationServiceBase, INavigationService
     }
     public void NavigateToHardware()
     {
-        this.executor.Execute(() =>
-        {
-            if (!this.context.IsInitialized)
-            {
-                throw new AppException(SELECT_WORK_DIRECTORY_MESSAGE);
-            }
-            this.ChangeTo<HardwareView>(Regions.CONTENT_LEFT);
-        });
+        this.executor.Execute(() => this.ChangeTo<HardwareView>(Regions.CONTENT_LEFT));
     }
 
     public void ChangeTo<T>()

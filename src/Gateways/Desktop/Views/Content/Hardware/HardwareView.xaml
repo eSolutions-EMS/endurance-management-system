@@ -18,11 +18,21 @@
                         <!-- Start -->
                         <Button Style="{StaticResource Button-Header-Horizontal}"
                                 Command="{Binding Start}"
+                                IsEnabled="{Binding IsNotListing}"
                                 Content="Start" />
                         <!-- Stop -->
                         <Button Style="{StaticResource Button-Header-Horizontal}"
                                 Command="{Binding Stop}"
+                                IsEnabled="{Binding IsListing}"
                                 Content="Stop" />
+                        <TextBox FontSize="16" Padding="10px 0"
+                                 Text="{Binding Power}"/>
+                        <Button Style="{StaticResource Button-Header-Horizontal}"
+                                Command="{Binding SetPower}"
+                                Content="Set Power" />
+                        <Button Style="{StaticResource Button-Header-Horizontal}"
+                                Command="{Binding Reset}"
+                                Content="Reset Count" />
                 </StackPanel>
                 <TextBlock Style="{StaticResource Text}"
                            Text="{Binding Message}" />

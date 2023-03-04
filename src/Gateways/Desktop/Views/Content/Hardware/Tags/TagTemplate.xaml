@@ -5,10 +5,10 @@
 
     <DataTemplate DataType="{x:Type tags:TagViewModel}">
         <StackPanel Style="{StaticResource List-Horizontal}">
-            <Border Style="{StaticResource Border-Cell}">
-                <TextBlock Text="{Binding DetectedCount}" />
+            <Border Style="{StaticResource Border-Cell}" Padding="10px 5px">
+                <TextBlock Text="{Binding DetectedCount}" FontSize="16" />
             </Border>
-            <TextBlock Text="{Binding Id}" />
+            <TextBlock Text="{Binding Id}" FontSize="16" Padding="10px 0 0 0" />
         </StackPanel>
     </DataTemplate> 
 </ResourceDictionary>
