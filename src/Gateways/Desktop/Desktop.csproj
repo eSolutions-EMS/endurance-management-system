@@ -30,6 +30,7 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
     <PackageReference Include="Prism.DryIoc" Version="8.0.0.1909" />
     <PackageReference Include="Prism.Core" Version="8.0.0.1909" />
+<!--    <PackageReference Include="System.IO.Ports" Version="7.0.0-preview.4.22229.4"/>-->
   </ItemGroup>
 
   <ItemGroup>
@@ -47,6 +48,38 @@
     <Resource Include="Assets\logo-bfks.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="Views\Content\Hardware\RankingView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <XamlRuntime>Wpf</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\Content\Hardware\Tags\TagTemplate.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <XamlRuntime>Wpf</XamlRuntime>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  
+  
+  <ItemGroup>
+    <Content Include="rfid.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="rfid_core.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Vup.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Vup">
+      <HintPath>netstandard2.0\Vup.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

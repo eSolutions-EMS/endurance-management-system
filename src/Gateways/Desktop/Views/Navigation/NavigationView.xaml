@@ -21,5 +21,9 @@
             <Button Style="{StaticResource Button-Header-Horizontal}"
                     Command="{Binding NavigateToRanking}"
                     Content="{x:Static localization:Strings.RANK_LIST_PAGE}" />
+
+            <Button Style="{StaticResource Button-Header-Horizontal}"
+                    Command="{Binding NavigateToHardware}"
+                    Content="Hardware" />
         </StackPanel>
 </UserControl>

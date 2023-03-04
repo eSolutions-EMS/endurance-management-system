@@ -26,6 +26,7 @@ IMPORT_PAGE                                | Import | Import
 EVENT_PAGE                                 | Event | Event
 MANAGER_PAGE                               | Manager | Manager
 RANK_LIST_PAGE                             | Ranking | Ranking
+HARDWARE_PAGE                              | Hardware | Hardware
 ARRIVAL_TERM                               | ARR | ARR
 INSPECTION_TERM                            | IN | IN
 RE_INSPECTION_TERM                         | ReIN | ReIN

@@ -8,6 +8,7 @@ public static class Strings
     public static string EVENT_PAGE     { get; internal set; }
     public static string MANAGER_PAGE   { get; internal set; }
     public static string RANK_LIST_PAGE { get; internal set; }
+    public static string HARDWARE_PAGE { get; internal set; }
 
     /* Entities */
     public static string ATHLETE_ENTITY                { get; internal set; }

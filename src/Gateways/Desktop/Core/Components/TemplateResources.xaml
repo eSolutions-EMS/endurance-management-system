@@ -3,6 +3,7 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="Templates/ListItem/ListItemTemplate.xaml" />
+        <ResourceDictionary Source="../../../Views/Content/Hardware/Tags/TagTemplate.xaml"></ResourceDictionary>
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>
