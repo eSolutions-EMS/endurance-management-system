@@ -41,7 +41,8 @@ public class ParticipantViewModel : ConfigurationBase<ParticipantView, Participa
     public ObservableCollection<SimpleListItemViewModel> HorseItems { get; } = new();
     public ObservableCollection<SimpleListItemViewModel> AthleteItems { get; } = new();
 
-    private string rfId;
+    private string rfidHead;
+    private string rfidNeck;
     public string number;
     public int? maxAverageSpeedInKmPh;
     private Visibility maxAverageSpeedInKmPhVisibility = Visibility.Hidden;
@@ -113,10 +114,15 @@ public class ParticipantViewModel : ConfigurationBase<ParticipantView, Participa
         return Participant.FormatName(this.Number, this.AthleteName, this.horseName);
     }
 
-    public string RfId
+    public string RfIdHead
     {
-        get => this.rfId;
-        set => this.SetProperty(ref this.rfId, value);
+        get => this.rfidHead;
+        set => this.SetProperty(ref this.rfidHead, value);
+    }
+    public string RfIdNeck
+    {
+        get => this.rfidNeck;
+        set => this.SetProperty(ref this.rfidNeck, value);
     }
     public string Number
     {

@@ -47,7 +47,8 @@ public class ParticipantsAggregate : IAggregate
         {
             participant.Athlete = athlete;
             participant.Horse = horse;
-            participant.RfId = participantState.RfId;
+            participant.RfIdHead = participantState.RfIdHead;
+            participant.RfIdNeck = participantState.RfIdNeck;
             participant.MaxAverageSpeedInKmPh = participantState.MaxAverageSpeedInKmPh;
             participant.Number = participantState.Number;
         }

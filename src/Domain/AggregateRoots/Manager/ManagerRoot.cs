@@ -67,6 +67,9 @@ public class ManagerRoot : IAggregateRoot
             .Aggregate();
         participation.Update(time);
     }
+
+    private readonly Dictionary<ParticipationsAggregate, DateTime> cache = new();
+
     public void HandleWitnessFinish(string rfid, DateTime time)
     {
         var participation = this
@@ -77,6 +80,14 @@ public class ManagerRoot : IAggregateRoot
             // TODO: fix/remove
             Helper.Create<ParticipantException>("cannot finish. 'ArriveTime' is not null and Lap is not completed");
         }
+        // Make sure that we only finish once even if we detect both tags
+        // TODO: extract deduplication logic in common utility
+        var now = DateTime.Now;
+        if (this.cache.ContainsKey(participation) && now - this.cache[participation] < TimeSpan.FromMinutes(1))
+        {
+            return;
+        }
+        this.cache.Add(participation, now);
         participation.Update(time);
     }
     public void HandleWitnessVet(string rfid, DateTime time)
@@ -184,10 +195,10 @@ public class ManagerRoot : IAggregateRoot
     {
         var participation = this.state
             .Participations
-            .FirstOrDefault(x => x.Participant.RfId == rfid);
+            .FirstOrDefault(x => x.Participant.RfIdHead == rfid || x.Participant.RfIdNeck == rfid);
         if (participation == null)
         {
-            throw Helper.Create<ParticipantException>(NOT_FOUND_MESSAGE, RFID_NUMBER, rfid);
+            throw Helper.Create<ParticipantException>(NOT_FOUND_MESSAGE, "RFID", rfid);
         }
         return participation;
     }

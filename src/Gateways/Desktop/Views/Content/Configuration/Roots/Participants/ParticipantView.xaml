@@ -29,12 +29,19 @@
                Text="{x:Static localization:Strings.PARTICIPANT_ENTITY}"
                Grid.Row="1" Grid.Column="1" />
         <!-- Content Left Label -->
-        <!-- RFID label -->
+        <!-- RFID Head label -->
         <Border Style="{StaticResource Border-Content-Left}"
                 Grid.Row="2" Grid.Column="0">
             <Label Style="{StaticResource Label-Primary}"
-                   Target="{Binding ElementName=RfId}"
-                   Content="{x:Static localization:Strings.RFID_NUMBER}" />
+                   Target="{Binding ElementName=RfIdHead}"
+                   Content="{x:Static localization:Strings.RFID_HEAD_NUMBER}" />
+        </Border>
+        <!-- RFID Neck label -->
+        <Border Style="{StaticResource Border-Content-Left}"
+                Grid.Row="2" Grid.Column="0">
+            <Label Style="{StaticResource Label-Primary}"
+                   Target="{Binding ElementName=RfIdNeck}"
+                   Content="{x:Static localization:Strings.RFID_NECK_NUMBER}" />
         </Border>
         <!-- Number label -->
         <Border Style="{StaticResource Border-Content-Left}"

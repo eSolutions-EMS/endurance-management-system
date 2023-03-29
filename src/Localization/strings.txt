@@ -59,7 +59,8 @@ TYPE                                | Type | Type
 ROLE                                | Role | Role
 ORDER                               | Order | Order
 IS_FINAL                            | Is Final {entities-lap} | Is Final {entities-lap}
-RFID_NUMBER                         | RFID Number | RFID Number
+RFID_HEAD_NUMBER                    | Head Tag ID | Head Tag ID
+RFID_NECK_NUMBER                    | Neck Tag ID | Neck Tag ID
 MAX_AVERAGE_SPEED_IN_KMH            | Max Average Speed (km/h) | Max Average Speed (km/h)
 HAS_AVERAGE_SPEED_LIMIT             | Has Average Speed Limit | Has Average Speed Limit
 MAX_RECOVERY_TIME_IN_MINS           | Max Recovery Time (mins) | Max Recovery Time (mins)
