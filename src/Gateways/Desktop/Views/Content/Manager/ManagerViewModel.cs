@@ -22,6 +22,7 @@ public class ManagerViewModel : ViewModelBase
     private readonly IEventAggregator eventAggregator;
     private readonly IExecutor<ManagerRoot> managerExecutor;
     private readonly IQueries<Participation> participations;
+    private readonly FinishWitness finishWitness;
 
     public ManagerViewModel(
         IEventAggregator eventAggregator,
@@ -32,6 +33,7 @@ public class ManagerViewModel : ViewModelBase
         this.eventAggregator = eventAggregator;
         this.managerExecutor = managerExecutor;
         this.participations = participations;
+        this.finishWitness = new FinishWitness();
         this.Update = new DelegateCommand(this.UpdateAction);
         this.Start = new DelegateCommand(this.StartAction);
         this.Disqualify = new DelegateCommand(this.DisqualifyAction);
@@ -82,6 +84,10 @@ public class ManagerViewModel : ViewModelBase
         if (hasStarted)
         {
             this.ReloadParticipations();
+        }
+        if (!this.finishWitness.IsStarted())
+        {
+            this.finishWitness.Start();
         }
     }
 
