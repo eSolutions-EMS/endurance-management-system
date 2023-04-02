@@ -58,7 +58,8 @@ public static class Strings
     public static string ROLE                              { get; internal set; }
     public static string ORDER                             { get; internal set; }
     public static string IS_FINAL                          { get; internal set; }
-    public static string RFID_NUMBER                       { get; internal set; }
+    public static string RFID_HEAD_NUMBER                  { get; internal set; }
+    public static string RFID_NECK_NUMBER                  { get; internal set; }
     public static string MAX_AVERAGE_SPEED_IN_KMH          { get; internal set; }
     public static string HAS_AVERAGE_SPEED_LIMIT           { get; internal set; }
     public static string MAX_RECOVERY_TIME_IN_MINS         { get; internal set; }

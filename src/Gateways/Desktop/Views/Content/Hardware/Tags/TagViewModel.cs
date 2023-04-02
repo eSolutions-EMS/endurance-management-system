@@ -1,35 +1,20 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
+﻿using Prism.Mvvm;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Hardware.Tags;
 
-public class TagViewModel : INotifyPropertyChanged
+public class TagViewModel : BindableBase
 {
-    private string _id;
-    private int _detectedCount;
+    private string id;
+    private int detectedCount;
 
     public string Id
     {
-        get => this._id;
-        set => this.SetField(ref this._id, value);
+        get => this.id;
+        set => this.SetProperty(ref this.id, value);
     }
     public int DetectedCount
     {
-        get => this._detectedCount; 
-        set => this.SetField(ref this._detectedCount, value);
-    }
-    
-    public event PropertyChangedEventHandler PropertyChanged;
-    protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-    {
-        this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
-    protected bool SetField<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
-    {
-        if (EqualityComparer<T>.Default.Equals(field, value)) return false;
-        field = value;
-        OnPropertyChanged(propertyName);
-        return true;
+        get => this.detectedCount; 
+        set => this.SetProperty(ref this.detectedCount, value);
     }
 }

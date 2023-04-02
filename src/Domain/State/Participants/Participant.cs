@@ -24,12 +24,14 @@ public class Participant : DomainBase<ParticipantException>, IParticipantState
         this.lapRecordsReadonly = new ReadOnlyObservableCollection<LapRecord>(this.lapRecords);
         this.Athlete = athlete;
         this.Horse = horse;
-        this.RfId = state?.RfId;
+        this.RfIdHead = state?.RfIdHead;
+        this.RfIdNeck = state?.RfIdNeck;
         this.MaxAverageSpeedInKmPh = state?.MaxAverageSpeedInKmPh;
         this.Number = state?.Number;
     }
 
-    public string RfId { get; internal set; }
+    public string RfIdHead { get; internal set; }
+    public string RfIdNeck { get; internal set; }
     public string Number { get; internal set; }
     public int? MaxAverageSpeedInKmPh { get; internal set; }
     public Horse Horse { get; internal set; }
