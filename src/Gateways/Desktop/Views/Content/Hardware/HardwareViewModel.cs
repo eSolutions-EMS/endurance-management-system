@@ -28,12 +28,12 @@ public class HardwareViewModel : ViewModelBase
     }
 
     public ObservableCollection<TagViewModel> Tags { get; } = new();
-    public DelegateCommand Connect { get; } 
-    public DelegateCommand Start { get; } 
+    public DelegateCommand Connect { get; }
+    public DelegateCommand Start { get; }
     public DelegateCommand Stop { get; }
     public DelegateCommand SetPower { get; }
     public DelegateCommand Reset { get; }
-    
+
     private string _message = "";
     private int _power = 27;
     public string Message
@@ -62,10 +62,10 @@ public class HardwareViewModel : ViewModelBase
 
     private bool _isListing;
     private VupReader _reader;
-    
+
     public void ConnectAction()
     {
-        this._reader = new NetVupReader("192.168.68.120", 1969, transport_protocol.tcp);
+        this._reader = new NetVupReader("192.168.68.128", 1969, transport_protocol.tcp);
         var ret = this._reader.Connect();
         this.Message = ret.Success
             ? "Connection Successful"
@@ -107,12 +107,14 @@ public class HardwareViewModel : ViewModelBase
                         SynchronizationContext.Current.Post(pl =>
                         {
                             var result = ret.Result;
-                            foreach (var t in result.Where(x =>
-                                         x.Id[0] != 250 || x.Id[1] != 209 || x.Id[2] != 0 || x.Id[3] != 0 || x.Id[4] != 0 ||
-                                         x.Id[5] != 0 || x.Id[6] != 0 || x.Id[7] != 0 || x.Id[8] != 0 || x.Id[9] != 0))
+                            // result = result.Where(x =>
+                            //     x.Id[0] != 250 || x.Id[1] != 209 || x.Id[2] != 0 || x.Id[3] != 0 || x.Id[4] != 0 ||
+                            //     x.Id[5] != 0 || x.Id[6] != 0 || x.Id[7] != 0 || x.Id[8] != 0 || x.Id[9] != 0)
+                            //     .ToList();
+                            foreach (var t in result)
                             {
-                                SystemSounds.Beep.Play();
                                 var hex = Convert.ToHexString(t.Id);
+                                SystemSounds.Beep.Play();
                                 var existingTag = this.Tags.FirstOrDefault(x => x.Id == hex);
                                 if (existingTag != null)
                                 {
@@ -126,7 +128,7 @@ public class HardwareViewModel : ViewModelBase
                             }
                         }, null);
                     }));
-                    
+
                 }
                 await Task.Delay(TimeSpan.FromMilliseconds(1));
             }
