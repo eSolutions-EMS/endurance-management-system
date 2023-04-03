@@ -8,7 +8,7 @@
     <StackPanel Style="{StaticResource List-Horizontal}" Name="Root">
         <manager:PerformanceLabelsControl Number="{Binding Number}" />
         
-        <ItemsControl x:Name="Table" ItemsSource="{Binding Performances}">
+        <ItemsControl x:Name="Table">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Style="{StaticResource List-Horizontal}"  />
@@ -24,7 +24,8 @@
         </ItemsControl>
     </StackPanel>
     
-    <Button Style="{StaticResource Button-Horizontal}"
+    <Button x:Name="PrintButton"
+            Style="{StaticResource Button-Horizontal}"
             DockPanel.Dock="Right"
             Visibility="{Binding PrintVisibility}"
             VerticalAlignment="Top"

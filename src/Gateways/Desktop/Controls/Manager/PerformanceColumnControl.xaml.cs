@@ -45,6 +45,7 @@ public class PerformanceColumnControl : StackPanel
     public PerformanceColumnControl(PerformanceColumnModel performance, bool isReadonly) : this()
     {
         this.IsReadonly = isReadonly;
+        this.Performance = performance;
         this.Construct(performance);
     }
 

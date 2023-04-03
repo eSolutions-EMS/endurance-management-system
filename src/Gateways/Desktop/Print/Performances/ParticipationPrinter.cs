@@ -13,7 +13,11 @@ public class ParticipationPrinter : PrintTemplate
     public ParticipationPrinter(ParticipationGridModel participation) : base(participation.Number.ToString())
     {
         this.participation = participation;
-        var control = new ParticipationGridControl(participation, true);
+        var control = new ParticipationGridControl
+        {
+            Participation = participation,
+            IsReadonly = true
+        };
         // control.Arrange(new Rect());
         // control.Scale(0.75);
         this.AddPrintContent(control);
