@@ -1,5 +1,4 @@
-﻿using EnduranceJudge.Application.Models;
-using Endurance.Judge.Gateways.API.Requests;
+﻿using Endurance.Judge.Gateways.API.Requests;
 using Endurance.Judge.Gateways.API.Services;
 using EnduranceJudge.Domain.AggregateRoots.Manager;
 using Microsoft.AspNetCore.Mvc;

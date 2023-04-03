@@ -8,7 +8,7 @@
 
     <ScrollViewer Style="{StaticResource Scroll}"
                   PreviewMouseWheel="HandleScroll">
-        
+
         <StackPanel Style="{StaticResource List-Vertical}">
                 <StackPanel Style="{StaticResource List-Horizontal}">
                         <!-- Connect -->
@@ -20,6 +20,9 @@
                                 Command="{Binding Start}"
                                 IsEnabled="{Binding IsNotListing}"
                                 Content="Start" />
+                        <Button Style="{StaticResource Button-Header-Horizontal}"
+                                Command="{Binding Reset}"
+                                Content="Reset Count" />
                         <!-- Stop -->
                         <Button Style="{StaticResource Button-Header-Horizontal}"
                                 Command="{Binding Stop}"
@@ -30,9 +33,6 @@
                         <Button Style="{StaticResource Button-Header-Horizontal}"
                                 Command="{Binding SetPower}"
                                 Content="Set Power" />
-                        <Button Style="{StaticResource Button-Header-Horizontal}"
-                                Command="{Binding Reset}"
-                                Content="Reset Count" />
                 </StackPanel>
                 <TextBlock Style="{StaticResource Text}"
                            Text="{Binding Message}" />
@@ -40,6 +40,6 @@
                          ItemsSource="{Binding Tags}" />
         </StackPanel>
 
-        
+
     </ScrollViewer>
 </UserControl>

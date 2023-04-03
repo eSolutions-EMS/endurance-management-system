@@ -24,7 +24,7 @@ public class HardwareViewModel : ViewModelBase
         this.controller.Error += (_, message) => this.Message = message;
         this.controller.Read += this.HandleReadTag;
         this.isListing = this.controller.IsPolling;
-        
+
         this.Connect = new DelegateCommand(this.ConnectAction);
         this.Start = new DelegateCommand(this.StartAction);
         this.Stop = new DelegateCommand(this.StopAction);
@@ -33,12 +33,12 @@ public class HardwareViewModel : ViewModelBase
     }
 
     public ObservableCollection<TagViewModel> Tags { get; } = new();
-    public DelegateCommand Connect { get; } 
-    public DelegateCommand Start { get; } 
+    public DelegateCommand Connect { get; }
+    public DelegateCommand Start { get; }
     public DelegateCommand Stop { get; }
     public DelegateCommand SetPower { get; }
     public DelegateCommand Reset { get; }
-    
+
     public string Message
     {
         get => this.message;
@@ -92,7 +92,7 @@ public class HardwareViewModel : ViewModelBase
             tag.DetectedCount = 0;
         }
     }
-    
+
     private void HandleReadTag(object sender, IEnumerable<string> tagIds)
     {
         SystemSounds.Beep.Play();
