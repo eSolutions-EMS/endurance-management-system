@@ -4,7 +4,7 @@ rm -rf *
 echo release directory cleared.
 echo =======================================================================================================================================
 echo DOTNET PUBLISH
-dotnet publish -c Release -o . ../src
+dotnet publish -c Release -o . ../src/EnduranceJudge.sln
 echo =======================================================================================================================================
 echo copying Views...
 mkdir ./Views
