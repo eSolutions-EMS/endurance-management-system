@@ -12,7 +12,7 @@ public partial class ParticipationGridControl
 
     public bool IsReadonly
     {
-        get => (bool)this.GetValue(IS_READONLY_PROPERTY); 
+        get => (bool)this.GetValue(IS_READONLY_PROPERTY);
         set => this.SetValue(IS_READONLY_PROPERTY, value);
     }
 
@@ -26,7 +26,18 @@ public partial class ParticipationGridControl
         DependencyProperty.Register(
             nameof(Participation),
             typeof(ParticipationGridModel),
-            typeof(ParticipationGridControl));
+            typeof(ParticipationGridControl),
+            new PropertyMetadata(OnParticipationChanged));
+
+    private static void OnParticipationChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+    {
+        var grid = (ParticipationGridControl)sender;
+        if (args.NewValue is not null)
+        {
+            var participation = (ParticipationGridModel) args.NewValue;
+            grid.Table.ItemsSource = participation.Performances;
+        }
+    }
 
     public ParticipationGridControl()
     {
