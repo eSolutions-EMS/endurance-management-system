@@ -1,4 +1,5 @@
-﻿using EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates;
+﻿using EnduranceJudge.Core.Events;
+using EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates;
 using EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 using EnduranceJudge.Domain.Core.Exceptions;
 using EnduranceJudge.Domain.Core.Models;
@@ -32,17 +33,24 @@ public class ManagerRoot : IAggregateRoot
         {
             return;
         }
-        if (witnessEvent.Type == WitnessEventType.Finish)
+        try
         {
-            this.HandleWitnessFinish(witnessEvent.TagId, witnessEvent.Time);
+            if (witnessEvent.Type == WitnessEventType.Finish)
+            {
+                this.HandleWitnessFinish(witnessEvent.TagId, witnessEvent.Time);
+            }
+            if (witnessEvent.Type == WitnessEventType.EnterVet)
+            {
+                this.HandleWitnessVet(witnessEvent.TagId, witnessEvent.Time);
+            }
+            Witness.RaiseStateChanged();
         }
-        if (witnessEvent.Type == WitnessEventType.EnterVet)
+        catch (Exception exception)
         {
-            this.HandleWitnessVet(witnessEvent.TagId, witnessEvent.Time);
+            CoreEvents.RaiseError(exception);
         }
-        Witness.RaiseStateChanged();
     }
-    
+
     public bool HasStarted()
         => this.state.Participations.Any(x => x.Participant.LapRecords.Any());
 
@@ -68,7 +76,7 @@ public class ManagerRoot : IAggregateRoot
         participation.Update(time);
     }
 
-    private readonly Dictionary<ParticipationsAggregate, DateTime> cache = new();
+    private readonly Dictionary<string, DateTime> cache = new();
 
     public void HandleWitnessFinish(string rfid, DateTime time)
     {
@@ -83,11 +91,11 @@ public class ManagerRoot : IAggregateRoot
         // Make sure that we only finish once even if we detect both tags
         // TODO: extract deduplication logic in common utility
         var now = DateTime.Now;
-        if (this.cache.ContainsKey(participation) && now - this.cache[participation] < TimeSpan.FromMinutes(1))
+        if (this.cache.ContainsKey(participation.Number) && now - this.cache[participation.Number] < TimeSpan.FromMinutes(1))
         {
             return;
         }
-        this.cache.Add(participation, now);
+        this.cache.Add(participation.Number, now);
         participation.Update(time);
     }
     public void HandleWitnessVet(string rfid, DateTime time)
@@ -104,7 +112,7 @@ public class ManagerRoot : IAggregateRoot
         if (participation.CurrentLap.InspectionTime != null && participation.CurrentLap.ReInspectionTime != null)
         {
             // TODO fix/remove
-            var message = "cannot record VET. 'InspectionTime' amd 'ReInspectionTime' are not null"; 
+            var message = "cannot record VET. 'InspectionTime' amd 'ReInspectionTime' are not null";
             Helper.Create<ParticipantException>(message);
         }
         participation.Update(time);

@@ -1,6 +1,7 @@
 ﻿using EnduranceJudge.Application.Services;
 using EnduranceJudge.Application.Core.Exceptions;
 using EnduranceJudge.Core.ConventionalServices;
+using EnduranceJudge.Core.Events;
 using EnduranceJudge.Domain.Core.Exceptions;
 using EnduranceJudge.Gateways.Desktop.Core.Services;
 using System;
@@ -18,6 +19,7 @@ public class ErrorHandler : IErrorHandler
         this.popupService = popupService;
         this.persistence = persistence;
         this.popupService = popupService;
+        CoreEvents.ErrorEvent += (_, exception) => this.Handle(exception);
     }
 
     public void Handle(Exception exception)
@@ -50,7 +52,7 @@ public class ErrorHandler : IErrorHandler
     }
 }
 
-public interface IErrorHandler : ITransientService
+public interface IErrorHandler : ISingletonService
 {
     void Handle(Exception exception);
 }
