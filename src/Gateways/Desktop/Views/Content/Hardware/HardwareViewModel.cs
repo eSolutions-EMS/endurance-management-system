@@ -7,7 +7,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Media;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Hardware;
 
@@ -21,8 +23,8 @@ public class HardwareViewModel : ViewModelBase
     public HardwareViewModel()
     {
         this.controller = new VupRfidController(FinishWitness.FINISH_DEVICE_IP);
-        this.controller.Error += (_, message) => this.Message = message;
-        this.controller.Read += this.HandleReadTag;
+        this.controller.MessageEvent += (_, message) => this.Message = message;
+        this.controller.ReadEvent += this.HandleReadEventTag;
         this.isListing = this.controller.IsPolling;
 
         this.Connect = new DelegateCommand(this.ConnectAction);
@@ -93,21 +95,30 @@ public class HardwareViewModel : ViewModelBase
         }
     }
 
-    private void HandleReadTag(object sender, IEnumerable<string> tagIds)
+    private void HandleReadEventTag(object sender, IEnumerable<string> tagIds)
     {
-        SystemSounds.Beep.Play();
-        foreach (var tagId in tagIds)
+        ThreadPool.QueueUserWorkItem(delegate
         {
-            var existingTag = this.Tags.FirstOrDefault(x => x.Id == tagId);
-            if (existingTag != null)
+            SynchronizationContext.SetSynchronizationContext(new
+                DispatcherSynchronizationContext(System.Windows.Application.Current.Dispatcher));
+
+            SynchronizationContext.Current!.Post(_ =>
             {
-                existingTag.DetectedCount++;
-            }
-            else
-            {
-                var tag = new TagViewModel { DetectedCount = 1, Id = tagId };
-                this.Tags.Add(tag);
-            }
-        }
+                SystemSounds.Beep.Play();
+                foreach (var tagId in tagIds)
+                {
+                    var existingTag = this.Tags.FirstOrDefault(x => x.Id == tagId);
+                    if (existingTag != null)
+                    {
+                        existingTag.DetectedCount++;
+                    }
+                    else
+                    {
+                        var tag = new TagViewModel { DetectedCount = 1, Id = tagId };
+                        this.Tags.Add(tag);
+                    }
+                }
+            }, null);
+        });
     }
 }

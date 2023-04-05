@@ -10,21 +10,22 @@ public class VupRfidController
 {
     private const int MAX_POWER = 27;
     private readonly NetVupReader reader;
-    
+    private bool isConnected;
+
     public VupRfidController(string ipAddress)
     {
         this.reader = new NetVupReader(ipAddress, 1969, transport_protocol.tcp);
     }
 
-    public event EventHandler<IEnumerable<string>> Read;
+    public event EventHandler<IEnumerable<string>> ReadEvent;
     public void RaiseRead(IEnumerable<string> tagId)
     {
-        this.Read!.Invoke(this, tagId);
+        this.ReadEvent!.Invoke(this, tagId);
     }
-    public event EventHandler<string> Error;
-    public void RaiseError(string message)
+    public event EventHandler<string> MessageEvent;
+    public void RaiseMessage(string message)
     {
-        this.Error!.Invoke(this, message);
+        this.MessageEvent!.Invoke(this, message);
     }
     public bool IsPolling { get; private set; }
 
@@ -33,13 +34,19 @@ public class VupRfidController
         var connectionResult = this.reader.Connect();
         if (!connectionResult.Success)
         {
-            this.RaiseError(connectionResult.Message ?? "Unknown failure. Please try again");
+            this.RaiseMessage(connectionResult.Message ?? "Unknown failure. Please try again");
         }
+        this.isConnected = true;
         this.SetPower(MAX_POWER);
     }
 
     public async Task StartPolling()
     {
+        if (!this.isConnected)
+        {
+            this.Connect();
+        }
+
         var antennaIndices = this.GetAntennaIndices();
         this.IsPolling = true;
 
@@ -53,15 +60,11 @@ public class VupRfidController
                     0,
                     12,
                     Convert.FromHexString("00000000"));
-                if (!tagRead.Success)
+                if (tagRead.Success)
                 {
-                    var message = $"Error in tags read: {tagRead.Message}";
-                    this.RaiseError(message);
-                    return;
+                    var tags = tagRead.Result.Select(x => Convert.ToHexString(x.Id));
+                    this.RaiseRead(tags);
                 }
-
-                var tags = tagRead.Result.Select(x => Convert.ToHexString(x.Id));
-                this.RaiseRead(tags);
             }
             await Task.Delay(TimeSpan.FromMilliseconds(1));
         }
@@ -72,16 +75,26 @@ public class VupRfidController
         this.IsPolling = false;
     }
 
+    public void Disconnect()
+    {
+        if (this.isConnected)
+        {
+            this.reader.Disconnect();
+            this.isConnected = false;
+            this.RaiseMessage("Disconnected!");
+        }
+    }
+
     public void SetPower(int power)
     {
         var antennaIndices = this.GetAntennaIndices();
         foreach (var i in antennaIndices)
         {
-            var setPowerResult = this.reader.SetAntPower(i, MAX_POWER);
+            var setPowerResult = this.reader.SetAntPower(i, power);
             if (!setPowerResult.Success)
             {
                 var message = $"Error while setting antenna power: {setPowerResult.Message}";
-                this.RaiseError(message);
+                this.RaiseMessage(message);
             }
         }
     }
@@ -92,7 +105,7 @@ public class VupRfidController
         if (!antennaRead.Success)
         {
             var message = $"Error in antenna read: {antennaRead.Message}";
-            this.RaiseError(message);
+            this.RaiseMessage(message);
             return Array.Empty<int>();
         }
         var indices = new List<int>();
@@ -100,6 +113,7 @@ public class VupRfidController
         {
             indices.Add(i);
         }
+        this.RaiseMessage($"Connected!");
         return indices.ToArray();
     }
 }

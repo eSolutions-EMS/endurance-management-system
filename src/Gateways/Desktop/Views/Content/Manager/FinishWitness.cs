@@ -13,8 +13,8 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager;
 public class FinishWitness : BindableBase
 {
     //TODO: provide the ability for users to configure this IP.
-    public const string FINISH_DEVICE_IP = "192.168.68.120";
-    
+    public const string FINISH_DEVICE_IP = "192.168.68.128";
+
     private readonly Dictionary<string, DateTime> cache = new();
     private readonly VupRfidController controller;
     private string message;
@@ -22,8 +22,8 @@ public class FinishWitness : BindableBase
     public FinishWitness()
     {
         this.controller = new VupRfidController(FINISH_DEVICE_IP);
-        this.controller.Error += (_, message) => this.Message = message;
-        this.controller.Read += this.RaiseWitnessEvent;
+        this.controller.MessageEvent += (_, message) => this.Message = message;
+        this.controller.ReadEvent += this.RaiseWitnessEvent;
     }
 
     public string Message
@@ -50,6 +50,11 @@ public class FinishWitness : BindableBase
         this.controller.StopPolling();
     }
 
+    public void Disconnect()
+    {
+        Task.Run(() => this.controller.Disconnect());
+    }
+
     public bool IsStarted()
     {
         return this.controller.IsPolling;
@@ -72,7 +77,7 @@ public class FinishWitness : BindableBase
                         continue;
                     }
                     this.cache[tagId] = now;
-                    
+
                     var witnessEvent = new WitnessEvent
                     {
                         Type = WitnessEventType.Finish,
