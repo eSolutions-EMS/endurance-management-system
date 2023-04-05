@@ -4,10 +4,6 @@ namespace EnduranceJudge.Gateways.Desktop.Controls.Ranking;
 
 public partial class ParticipationResultControl
 {
-    public ParticipationResultControl(ParticipationResultModel participation) : this()
-    {
-        this.Populate(participation);
-    }
     public ParticipationResultControl()
     {
         InitializeComponent();
@@ -35,7 +31,7 @@ public partial class ParticipationResultControl
 
     private void Populate(ParticipationResultModel participation)
     {
-        this.NumberText.Text = participation.Participant.Number.ToString();
+        this.NumberText.Text = participation.Participant.Number;
         this.AthleteNameText.Text = participation.Participant.Athlete.Name;
         this.AthleteFeiIdText.Text = participation.Participant.Athlete.FeiId;
         this.CountryText.Text = participation.Participant.Athlete.Country.Name;
@@ -46,6 +42,7 @@ public partial class ParticipationResultControl
         this.TotalAverageSpeedString.Text = participation.TotalAverageSpeed;
         this.NotQualifiedText.Text = participation.NotQualifiedText;
         this.DisqualifiedContainer.Visibility = participation.DisqualifiedVisibility;
-        this.ParticipationGrid.Participation = participation;
+        this.ParticipationGrid.Table.ItemsSource = participation.Performances;
+        this.ParticipationGrid.PrintButton.Visibility = Visibility.Collapsed;
     }
 }
