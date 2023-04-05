@@ -1,6 +1,7 @@
 ﻿using EnduranceJudge.Core.Utilities;
 using EnduranceJudge.Domain.AggregateRoots.Common.Performances;
 using EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates;
+using EnduranceJudge.Domain.AggregateRoots.Manager.WitnessEvents;
 using EnduranceJudge.Domain.State.Participants;
 using EnduranceJudge.Domain.State.Participations;
 using EnduranceJudge.Gateways.Desktop.Print.Performances;
@@ -40,6 +41,15 @@ public class ParticipationGridModel : BindableBase
         {
             this.Color = new SolidColorBrush(Colors.Red);
             this.DisqualifyCode = aggregate.DisqualifiedCode;
+        }
+        else if (participation.HasUnseenUpdate)
+        {
+            this.Color = new SolidColorBrush(Colors.Green);
+            // TODO: fix this mess of an API
+            // Should or shouldn't aggregate methods be called outside of AggregateRoot context?
+            // RaiseStateChanged should not be called directly here. Maybe internally in SeeUpdate?
+            aggregate.SeeUpdate();
+            Witness.RaiseStateChanged();
         }
         this.Print = new DelegateCommand(this.PrintAction);
     }
