@@ -95,7 +95,7 @@ public class ManagerRoot : IAggregateRoot
         {
             return;
         }
-        this.cache.Add(participation.Number, now);
+        this.cache[participation.Number] = now;
         participation.Update(time);
     }
     public void HandleWitnessVet(string rfid, DateTime time)
