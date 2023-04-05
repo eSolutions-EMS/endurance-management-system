@@ -12,14 +12,14 @@ namespace EnduranceJudge.Application.Services;
 
 public class Persistence : IPersistence
 {
-    private const string STORAGE_FILE_NAME = "judge.data";
+    private const string STORAGE_FILE_NAME = "judge.json";
     private string stateDirectoryPath;
 
     private readonly IStateSetter stateSetter;
     private readonly IState state;
     private readonly IFileService file;
     private readonly IJsonSerializationService serialization;
-    
+
     public Persistence(
         IStateContext context,
         IStateSetter stateSetter,
@@ -58,18 +58,18 @@ public class Persistence : IPersistence
             this.SetState();
             return PersistenceResult.Existing;
         }
-        
+
         this.SaveState();
         return PersistenceResult.New;
     }
-    
+
     public void SaveState()
     {
         var serialized = this.serialization.Serialize(this.state);
         var databasePath = BuildStorageFilePath(this.stateDirectoryPath);
         this.file.Create(databasePath, serialized);
     }
-    
+
     private void SetState()
     {
         var dataPath = BuildStorageFilePath(this.stateDirectoryPath);
@@ -80,8 +80,8 @@ public class Persistence : IPersistence
     }
 
     private static string BuildStorageFilePath(string directory) => $"{directory}\\{STORAGE_FILE_NAME}";
-    
-     
+
+
     // TODO: add opt-in configuration
     private void FixDatesForToday(StateModel state)
     {
