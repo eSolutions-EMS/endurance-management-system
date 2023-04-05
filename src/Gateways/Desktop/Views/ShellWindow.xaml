@@ -36,7 +36,7 @@
         <Border Style="{StaticResource Border-Layout-Header}"
                 Grid.Row="0" Grid.Column="2">
             <TextBlock Style="{StaticResource Text}" HorizontalAlignment="Right" Margin="0 0 20px 0">
-                Version 3.0.1
+                Version 3.1.0
             </TextBlock>
         </Border>
         <!-- Content Left -->
