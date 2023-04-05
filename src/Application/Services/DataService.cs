@@ -9,10 +9,10 @@ namespace EnduranceJudge.Application.Services;
 
 public class DataService : IDataService
 {
-    private const string ENDPOINT = "http://192.168.68.110:11337/judge/events";
-    
+    private const string ENDPOINT = "http://192.168.68.3:11337/judge/events";
+
     private readonly IJsonSerializationService serializationService;
-    
+
     public DataService(IJsonSerializationService serializationService)
     {
         this.serializationService = serializationService;
