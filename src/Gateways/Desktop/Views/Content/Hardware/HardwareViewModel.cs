@@ -32,6 +32,7 @@ public class HardwareViewModel : ViewModelBase
         this.Stop = new DelegateCommand(this.StopAction);
         this.SetPower = new DelegateCommand(this.SetPowerAction);
         this.Reset = new DelegateCommand(this.ResetAction);
+        this.Disconnect = new DelegateCommand(this.DisconnectAction);
     }
 
     public ObservableCollection<TagViewModel> Tags { get; } = new();
@@ -40,6 +41,7 @@ public class HardwareViewModel : ViewModelBase
     public DelegateCommand Stop { get; }
     public DelegateCommand SetPower { get; }
     public DelegateCommand Reset { get; }
+    public DelegateCommand Disconnect { get; }
 
     public string Message
     {
@@ -93,6 +95,11 @@ public class HardwareViewModel : ViewModelBase
         {
             tag.DetectedCount = 0;
         }
+    }
+
+    public void DisconnectAction()
+    {
+        Task.Run(() => this.controller.Disconnect());
     }
 
     private void HandleReadEventTag(object sender, IEnumerable<string> tagIds)

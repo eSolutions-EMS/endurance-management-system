@@ -12,6 +12,7 @@ using Prism.Regions;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading;
 using System.Windows;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager;
@@ -42,6 +43,7 @@ public class ManagerViewModel : ViewModelBase
         this.ReInspection = new DelegateCommand(this.ReInspectionAction);
         this.RequireInspection = new DelegateCommand(this.RequireInspectionAction);
         this.StartList = new DelegateCommand(popupService.RenderStartList);
+        this.ReconnectHardware = new DelegateCommand(this.ReconnectHardwareAction);
         this.Select = new DelegateCommand<object[]>(list =>
         {
             var participation = list.FirstOrDefault();
@@ -61,6 +63,7 @@ public class ManagerViewModel : ViewModelBase
     public DelegateCommand ReInspection { get; }
     public DelegateCommand RequireInspection { get; }
     public DelegateCommand StartList { get; }
+    public DelegateCommand ReconnectHardware { get; }
 
     private Visibility startVisibility;
     private string inputNumber;
@@ -124,6 +127,13 @@ public class ManagerViewModel : ViewModelBase
             this.ReloadParticipations();
         }, true);
         this.SelectBy(number);
+    }
+
+    private void ReconnectHardwareAction()
+    {
+        this.finishWitness.Disconnect();
+        Thread.Sleep(TimeSpan.FromSeconds(1));
+        this.finishWitness.Connect();
     }
 
     private void SelectBy(string number)

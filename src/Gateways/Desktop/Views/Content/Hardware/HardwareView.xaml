@@ -23,6 +23,9 @@
                         <Button Style="{StaticResource Button-Header-Horizontal}"
                                 Command="{Binding Reset}"
                                 Content="Reset Count" />
+                        <Button Style="{StaticResource Button-Header-Horizontal}"
+                                Command="{Binding Disconnect}"
+                                Content="Disconnect" />
                         <!-- Stop -->
                         <Button Style="{StaticResource Button-Header-Horizontal}"
                                 Command="{Binding Stop}"
