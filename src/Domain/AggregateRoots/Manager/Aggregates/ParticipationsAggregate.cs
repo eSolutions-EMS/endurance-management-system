@@ -32,11 +32,6 @@ public class ParticipationsAggregate : IAggregate
     public string DisqualifiedCode { get; }
     public LapRecord CurrentLap => this.participation.Participant.LapRecords.Last();
 
-    public void SeeUpdate()
-    {
-        this.participation.HasUnseenUpdate = false;
-    }
-    
     internal void Start()
     {
         this.CreateRecord(this.competitionConstraint.StartTime);
@@ -53,7 +48,6 @@ public class ParticipationsAggregate : IAggregate
         {
             this.CreateRecord(this.CurrentLap.NextStarTime!.Value, time);
         }
-        this.participation.HasUnseenUpdate = true;
     }
     
     internal void Add(Competition competition)

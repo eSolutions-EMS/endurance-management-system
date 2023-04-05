@@ -18,7 +18,6 @@ public class Participation : DomainBase<ParticipationException>
     private List<int> competitionsIds = new();
     public Participant Participant { get; private set; }
     public Competition CompetitionConstraint { get; private set; }
-    public bool HasUnseenUpdate { get; internal set; }
 
     public double? Distance
 
