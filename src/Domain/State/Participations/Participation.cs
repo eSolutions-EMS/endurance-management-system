@@ -1,6 +1,8 @@
-﻿using EnduranceJudge.Domain.Core.Models;
+﻿using EnduranceJudge.Domain.AggregateRoots.Manager;
+using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Competitions;
 using EnduranceJudge.Domain.State.Participants;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -15,10 +17,16 @@ public class Participation : DomainBase<ParticipationException>
         this.CompetitionConstraint = competition;
     }
 
+    public static EventHandler<Participation> UpdateEvent;
+    internal void RaiseUpdate()
+    {
+        UpdateEvent?.Invoke(null, this);
+    }
+
     private List<int> competitionsIds = new();
     public Participant Participant { get; private set; }
     public Competition CompetitionConstraint { get; private set; }
-    public bool HasUnseenUpdate { get; internal set; }
+    public WitnessEventType UpdateType { get; internal set; }
 
     public double? Distance
 

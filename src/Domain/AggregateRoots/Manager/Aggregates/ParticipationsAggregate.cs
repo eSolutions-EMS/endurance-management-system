@@ -32,11 +32,6 @@ public class ParticipationsAggregate : IAggregate
     public string DisqualifiedCode { get; }
     public LapRecord CurrentLap => this.participation.Participant.LapRecords.Last();
 
-    public void SeeUpdate()
-    {
-        this.participation.HasUnseenUpdate = false;
-    }
-    
     internal void Start()
     {
         this.CreateRecord(this.competitionConstraint.StartTime);
@@ -48,14 +43,15 @@ public class ParticipationsAggregate : IAggregate
             throw Helper.Create<ParticipantException>(PARTICIPATION_IS_DISQUALIFIED, this.Number);
         }
         var record = this.CurrentLap.Aggregate();
-        var continueSequence = record.Update(time);
+        var (continueSequence, updateType) = record.Update(time);
         if (continueSequence)
         {
             this.CreateRecord(this.CurrentLap.NextStarTime!.Value, time);
         }
-        this.participation.HasUnseenUpdate = true;
+        this.participation.UpdateType = updateType;
+        this.participation.RaiseUpdate(); // This is only used for HasUnseenUpdate, but it could be a PoC for event driven updates
     }
-    
+
     internal void Add(Competition competition)
     {
         if (this.participation.CompetitionsIds.Any())

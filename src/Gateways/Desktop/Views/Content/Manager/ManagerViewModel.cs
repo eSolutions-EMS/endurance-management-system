@@ -1,5 +1,6 @@
 ﻿using EnduranceJudge.Application.Core;
 using EnduranceJudge.Domain.AggregateRoots.Manager;
+using EnduranceJudge.Domain.AggregateRoots.Manager.WitnessEvents;
 using EnduranceJudge.Domain.State.Participations;
 using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Core.Services;
@@ -13,7 +14,9 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager;
 
@@ -52,6 +55,7 @@ public class ManagerViewModel : ViewModelBase
                 this.SelectBy(participation as ParticipationGridModel);
             }
         });
+        Participation.UpdateEvent += (_, participation) => this.HandleParticipationUpdate(participation);
     }
 
     public DelegateCommand<object[]> Select { get; }
@@ -74,9 +78,10 @@ public class ManagerViewModel : ViewModelBase
     private bool requireInspectionValue = false;
     private bool reInspectionValue = false;
 
+    public ObservableCollection<string> DetectedFinishes { get; } = new();
+    public ObservableCollection<string> DetectedVets { get; } = new();
     public ObservableCollection<ParticipationGridModel> Participations { get; } = new();
     public ParticipationGridModel SelectedParticipation { get; set; }
-
     public override void OnNavigatedTo(NavigationContext context)
     {
         if (this.Participations.Any())
@@ -89,6 +94,43 @@ public class ManagerViewModel : ViewModelBase
             this.ReloadParticipations();
             this.StartWitness();
         }
+    }
+
+    private void HandleParticipationUpdate(Participation participation)
+    {
+        if (participation.UpdateType == WitnessEventType.Finish)
+        {
+            this.DetectedFinishes.Add(participation.Participant.Number);
+            Task.Run(() => this.ExpireParticipationUpdate(participation.UpdateType, participation.Participant.Number));
+        }
+        else if (participation.UpdateType == WitnessEventType.EnterVet)
+        {
+            this.DetectedVets.Add(participation.Participant.Number);
+            Task.Run(() => this.ExpireParticipationUpdate(participation.UpdateType, participation.Participant.Number));
+        }
+    }
+
+    private async Task ExpireParticipationUpdate(WitnessEventType type, string number)
+    {
+        await Task.Delay(TimeSpan.FromSeconds(20));
+        // TODO: probably extract as utility? Also see RFID handlers
+        ThreadPool.QueueUserWorkItem(delegate
+        {
+            SynchronizationContext.SetSynchronizationContext(new
+                DispatcherSynchronizationContext(System.Windows.Application.Current.Dispatcher));
+
+            SynchronizationContext.Current!.Post(pl =>
+            {
+                if (type == WitnessEventType.Finish)
+                {
+                    this.DetectedFinishes.Remove(number);
+                }
+                else if (type == WitnessEventType.EnterVet)
+                {
+                    this.DetectedVets.Remove(number);
+                }
+            }, null);
+        });
     }
 
     private void StartWitness()

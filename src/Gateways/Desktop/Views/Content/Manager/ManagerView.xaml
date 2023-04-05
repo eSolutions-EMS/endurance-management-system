@@ -127,9 +127,8 @@
             <!-- Content Center Participations -->
             <Border Style="{StaticResource Border-Content-Center}"
                     Grid.Row="1" Grid.Column="1">
-                <StackPanel Style="{StaticResource List-Vertical}">
+                <StackPanel Style="{StaticResource List-Vertical}" Width="750px">
                     <TabControl ItemsSource="{Binding Participations}" TabStripPlacement="Bottom"
-                                MaxWidth="750px"
                                 Name="Participations">
                         <TabControl.ItemTemplate>
                             <DataTemplate>
@@ -151,6 +150,46 @@
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </TabControl>
+                    <!-- RFID Finish detection indicator -->
+                    <Border Style="{StaticResource Border}" BorderThickness="0 0 0 1" Margin="0 60 0 0">
+                        <TextBlock Style="{StaticResource Text-H2}" Padding="10" Foreground="Black"
+                                   Text="Detected on Finish" />
+                    </Border>
+                    <ItemsControl ItemsSource="{Binding DetectedFinishes}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Style="{StaticResource List-Horizontal}"  />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Style="{StaticResource Border-Cell}" Background="Green" Padding="10">
+                                    <TextBlock Style="{StaticResource Text-H3}" Foreground="Black" VerticalAlignment="Center" MinWidth="15"
+                                               Text="{Binding}" />
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                    <!-- RFID VET detection indicator -->
+                    <Border Style="{StaticResource Border}" BorderThickness="0 0 0 1" Margin="0 60 0 0">
+                        <TextBlock Style="{StaticResource Text-H2}" Padding="10" Foreground="Black"
+                                   Text="Detected on Vet" />
+                    </Border>
+                    <ItemsControl ItemsSource="{Binding DetectedVets}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <StackPanel Style="{StaticResource List-Horizontal}"  />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Border Style="{StaticResource Border}" BorderThickness="0" Background="SandyBrown" Padding="15">
+                                    <TextBlock Style="{StaticResource Text-H3}" Foreground="Black" VerticalAlignment="Center" MinWidth="15"
+                                               Text="{Binding}" />
+                                </Border>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
                 </StackPanel>
             </Border>
             <!-- Content Right Buttons  -->

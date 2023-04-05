@@ -32,7 +32,8 @@ public class LapRecordsAggregate : IAggregate
 
     public LapRecord Record { get; }
 
-    internal bool Update(DateTime time)
+    // TODO: probably split into Finish and Vet gate
+    internal (bool, WitnessEventType) Update(DateTime time)
     {
         if (time == default)
         {
@@ -41,20 +42,20 @@ public class LapRecordsAggregate : IAggregate
         if (this.Record.ArrivalTime == null)
         {
             this.Arrive(time);
-            return this.StopUpdateSequence;
+            return (this.StopUpdateSequence, WitnessEventType.Finish);
         }
         if (this.Record.InspectionTime == null)
         {
             this.Inspect(time);
             this.Complete();
-            return this.StopUpdateSequence;
+            return (this.StopUpdateSequence, WitnessEventType.EnterVet);
         }
         if (this.Record.IsReInspectionRequired && !this.Record.ReInspectionTime.HasValue)
         {
             this.CompleteReInspection(time);
-            return this.StopUpdateSequence;
+            return (this.StopUpdateSequence, WitnessEventType.EnterVet);
         }
-        return this.ContinueUpdateSequence;
+        return (this.ContinueUpdateSequence, WitnessEventType.Finish);
     }
 
     internal void Disqualify(string reason)

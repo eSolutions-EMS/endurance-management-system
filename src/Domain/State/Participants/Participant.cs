@@ -2,6 +2,7 @@ using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Athletes;
 using EnduranceJudge.Domain.State.Horses;
 using EnduranceJudge.Domain.State.LapRecords;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 
