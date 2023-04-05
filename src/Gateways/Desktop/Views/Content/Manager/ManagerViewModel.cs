@@ -87,7 +87,12 @@ public class ManagerViewModel : ViewModelBase
         if (hasStarted)
         {
             this.ReloadParticipations();
+            this.StartWitness();
         }
+    }
+
+    private void StartWitness()
+    {
         if (!this.finishWitness.IsStarted())
         {
             this.finishWitness.Start();
@@ -99,6 +104,7 @@ public class ManagerViewModel : ViewModelBase
         this.managerExecutor.Execute(manager =>
         {
             manager.Start();
+            this.StartWitness();
             this.ReloadParticipations();
         }, true);
     }
