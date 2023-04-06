@@ -163,8 +163,8 @@
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Border Style="{StaticResource Border-Cell}" Background="Green" Padding="10">
-                                    <TextBlock Style="{StaticResource Text-H3}" Foreground="Black" VerticalAlignment="Center" MinWidth="15"
+                                <Border Style="{StaticResource Border-Cell}" Background="GreenYellow" Padding="5" Margin="2.5 10">
+                                    <TextBlock Style="{StaticResource Text-H3}" Foreground="Black" VerticalAlignment="Center" MinWidth="10"
                                                Text="{Binding}" />
                                 </Border>
                             </DataTemplate>
@@ -183,13 +183,19 @@
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Border Style="{StaticResource Border}" BorderThickness="0" Background="SandyBrown" Padding="15">
-                                    <TextBlock Style="{StaticResource Text-H3}" Foreground="Black" VerticalAlignment="Center" MinWidth="15"
+                                <Border Style="{StaticResource Border}" BorderThickness="0" Background="SandyBrown" Padding="5" Margin="2.5 10">
+                                    <TextBlock Style="{StaticResource Text-H3}" Foreground="Black" VerticalAlignment="Center" MinWidth="10"
                                                Text="{Binding}" />
                                 </Border>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
+                    <!-- Reset lists-->
+                    <Border Style="{StaticResource Border}" Margin="0 30 0 0">
+                        <Button Style="{StaticResource Button-Big-Vertical}"
+                                Command="{Binding ResetDetectedLists}"
+                                Content="{x:Static localization:Strings.RESET_DETECTED_LISTS}" />
+                    </Border>
                 </StackPanel>
             </Border>
             <!-- Content Right Buttons  -->

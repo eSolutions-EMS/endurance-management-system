@@ -47,6 +47,7 @@ public class ManagerViewModel : ViewModelBase
         this.RequireInspection = new DelegateCommand(this.RequireInspectionAction);
         this.StartList = new DelegateCommand(popupService.RenderStartList);
         this.ReconnectHardware = new DelegateCommand(this.ReconnectHardwareAction);
+        this.ResetDetectedLists = new DelegateCommand(this.ResetDetectedListsAction);
         this.Select = new DelegateCommand<object[]>(list =>
         {
             var participation = list.FirstOrDefault();
@@ -68,6 +69,7 @@ public class ManagerViewModel : ViewModelBase
     public DelegateCommand RequireInspection { get; }
     public DelegateCommand StartList { get; }
     public DelegateCommand ReconnectHardware { get; }
+    public DelegateCommand ResetDetectedLists { get; }
 
     private Visibility startVisibility;
     private string inputNumber;
@@ -96,6 +98,12 @@ public class ManagerViewModel : ViewModelBase
         }
     }
 
+    private void ResetDetectedListsAction()
+    {
+        this.DetectedFinishes.Clear();
+        this.DetectedVets.Clear();
+    }
+
     private void HandleParticipationUpdate(Participation participation)
     {
         if (participation.UpdateType == WitnessEventType.Finish)
@@ -112,7 +120,7 @@ public class ManagerViewModel : ViewModelBase
 
     private async Task ExpireParticipationUpdate(WitnessEventType type, string number)
     {
-        await Task.Delay(TimeSpan.FromSeconds(20));
+        await Task.Delay(TimeSpan.FromSeconds(300));
         // TODO: probably extract as utility? Also see RFID handlers
         ThreadPool.QueueUserWorkItem(delegate
         {

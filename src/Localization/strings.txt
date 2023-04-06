@@ -112,6 +112,7 @@ RE_QUIRED_INSPECTION                | Re_quired Inspection | Re_quired Inspectio
 HAS_STARTED                         | Started | Started
 DISTANCE                            | Distance | Distance
 STARTLIST                           | Startlist | Startlist
+RESET_DETECTED_LISTS                | Reset Detected | Reset Detected
 RECONNECT_HARDWARE                  | Reconnect Hardware | Reconnect Hardware
 INCLUDE_PAST                        | Include Past | Include Past
 IMPORT                              | Import | Import

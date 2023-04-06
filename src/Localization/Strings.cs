@@ -111,6 +111,7 @@ public static class Strings
     public static string HAS_STARTED                       { get; internal set; }
     public static string DISTANCE                          { get; internal set; }
     public static string STARTLIST                         { get; internal set; }
+    public static string RESET_DETECTED_LISTS                         { get; internal set; }
     public static string RECONNECT_HARDWARE                { get; internal set; }
     public static string INCLUDE_PAST                      { get; internal set; }
     public static string IMPORT                            { get; internal set; }
