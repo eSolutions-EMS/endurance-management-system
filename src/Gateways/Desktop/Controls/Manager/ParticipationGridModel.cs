@@ -11,7 +11,6 @@ using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
-using System.Windows;
 using System.Windows.Media;
 
 namespace EnduranceJudge.Gateways.Desktop.Controls.Manager;
@@ -79,9 +78,6 @@ public class ParticipationGridModel : BindableBase
     public Participant Participant { get; }
     public SolidColorBrush Color { get; } = new(Colors.Black);
     public ObservableCollection<PerformanceColumnModel> Performances { get; private set; } = new();
-    public Visibility PrintVisibility => this.IsReadonly
-        ? Visibility.Collapsed
-        : Visibility.Visible;
     public void PrintAction()
     {
         this.executor.Execute(() =>
