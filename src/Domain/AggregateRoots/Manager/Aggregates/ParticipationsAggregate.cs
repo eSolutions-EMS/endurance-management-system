@@ -38,9 +38,21 @@ public class ParticipationsAggregate : IAggregate
     }
     internal void Update(DateTime time)
     {
+        if (!this.participation.Participant.LapRecords.Any())
+        {
+            // The Participation is not yet started.
+            return;
+        }
         if (this.IsDisqualified)
         {
             throw Helper.Create<ParticipantException>(PARTICIPATION_IS_DISQUALIFIED, this.Number);
+        }
+        var lastRecord = this.participation.Participant.LapRecords.Last();
+        // Do not capture finish if it is within less then 30 minutes of the NextLapStart
+        // This prevents errors on tracks with same star/finish line.
+        if ((time - lastRecord.NextStarTime)?.Duration() <= TimeSpan.FromMinutes(30))
+        {
+            return;
         }
         var record = this.CurrentLap.Aggregate();
         var (continueSequence, updateType) = record.Update(time);
