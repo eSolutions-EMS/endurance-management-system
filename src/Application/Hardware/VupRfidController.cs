@@ -66,7 +66,7 @@ public class VupRfidController
                     this.RaiseRead(tags);
                 }
             }
-            await Task.Delay(TimeSpan.FromMilliseconds(1));
+            await Task.Delay(TimeSpan.FromMilliseconds(100));
         }
     }
 
