@@ -1,5 +1,6 @@
 ﻿using EnduranceJudge.Application.Aggregates.Import;
 using EnduranceJudge.Application.Services;
+using EnduranceJudge.Domain.AggregateRoots.Manager;
 using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Core.Services;
 using EnduranceJudge.Gateways.Desktop.Services;
@@ -88,6 +89,7 @@ public class ImportViewModel : ViewModelBase
         this.ImportFilePathVisibility = Visibility.Visible;
 
         var result = this.persistence.Configure(selectedPath);
+        ManagerRoot.DataDirectoryPath = selectedPath;
         this.context.Initialize();
 
         if (result.IsExistingFile)

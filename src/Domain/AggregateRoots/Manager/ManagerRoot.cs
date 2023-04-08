@@ -1,4 +1,7 @@
-﻿using EnduranceJudge.Core.Events;
+﻿using EnduranceJudge.Application.Core.Services;
+using EnduranceJudge.Core.Events;
+using EnduranceJudge.Core.Services;
+using EnduranceJudge.Core.Utilities;
 using EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates;
 using EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 using EnduranceJudge.Domain.Core.Exceptions;
@@ -19,10 +22,15 @@ namespace EnduranceJudge.Domain.AggregateRoots.Manager;
 
 public class ManagerRoot : IAggregateRoot
 {
+    public static string DataDirectoryPath;
     private readonly IState state;
-
+    private readonly IFileService file;
+    private readonly IJsonSerializationService serialization;
     public ManagerRoot(IStateContext context)
     {
+        // TODO: fix log
+        this.file = StaticProvider.GetService<IFileService>();
+        this.serialization = StaticProvider.GetService<IJsonSerializationService>();
         this.state = context.State;
         Witness.Events += this.Handle;
     }
@@ -33,6 +41,7 @@ public class ManagerRoot : IAggregateRoot
         {
             return;
         }
+        this.Log(witnessEvent);
         try
         {
             if (witnessEvent.Type == WitnessEventType.Finish)
@@ -49,6 +58,21 @@ public class ManagerRoot : IAggregateRoot
         {
             CoreEvents.RaiseError(exception);
         }
+    }
+
+    private void Log(WitnessEvent witnessEvent)
+    {
+        var timestamp = DateTime.Now.ToString("HH-mm-ss");
+        var log = new Dictionary<string, object>
+        {
+            { "tag-id", witnessEvent.TagId },
+            { "type", witnessEvent.Type.ToString() },
+            { "time", witnessEvent.Time },
+        };
+        var serialized = this.serialization.Serialize(log);
+        var filename = $"witness_{timestamp}-{witnessEvent.Type}-{witnessEvent.TagId}.json";
+        var path = $"{DataDirectoryPath}/{filename}";
+        this.file.Create(path, serialized);
     }
 
     public bool HasStarted()

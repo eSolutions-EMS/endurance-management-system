@@ -53,17 +53,17 @@ public class ParticipationGridModel : BindableBase
             .GetAll(participation)
             .Select(perf => new PerformanceColumnModel(perf, this.IsReadonly))
             .ToList();
-        if (this.columns.HasValue)
-        {
-            this.EmptyColumns = columns.Value - viewModels.Count;
-            // TODO fix this.
-            // It does not work, because we only render columns using the
-            // ItemsControl with ItemsSource set to Performances
-        }
-        if (this.EmptyColumns < 0)
-        {
-            throw new Exception($"Participant {this.Number} has more performances than columns.");
-        }
+        // if (this.columns.HasValue)
+        // {
+        //     this.EmptyColumns = columns.Value - viewModels.Count;
+        //     // TODO fix this.
+        //     // It does not work, because we only render columns using the
+        //     // ItemsControl with ItemsSource set to Performances
+        // }
+        // if (this.EmptyColumns < 0)
+        // {
+        //     throw new Exception($"Participant {this.Number} has more performances than columns.");
+        // }
         App.Current.Dispatcher.Invoke((Action) delegate
         {
             this.Performances.Clear();
