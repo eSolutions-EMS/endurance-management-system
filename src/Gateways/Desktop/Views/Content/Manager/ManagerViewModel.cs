@@ -106,16 +106,25 @@ public class ManagerViewModel : ViewModelBase
 
     private void HandleParticipationUpdate(Participation participation)
     {
-        if (participation.UpdateType == WitnessEventType.Finish)
+        ThreadPool.QueueUserWorkItem(delegate
         {
-            this.DetectedFinishes.Add(participation.Participant.Number);
-            Task.Run(() => this.ExpireParticipationUpdate(participation.UpdateType, participation.Participant.Number));
-        }
-        else if (participation.UpdateType == WitnessEventType.EnterVet)
-        {
-            this.DetectedVets.Add(participation.Participant.Number);
-            Task.Run(() => this.ExpireParticipationUpdate(participation.UpdateType, participation.Participant.Number));
-        }
+            SynchronizationContext.SetSynchronizationContext(new
+                DispatcherSynchronizationContext(System.Windows.Application.Current.Dispatcher));
+
+            SynchronizationContext.Current!.Post(pl =>
+            {
+                if (participation.UpdateType == WitnessEventType.Finish)
+                {
+                    this.DetectedFinishes.Add(participation.Participant.Number);
+                    Task.Run(() => this.ExpireParticipationUpdate(participation.UpdateType, participation.Participant.Number));
+                }
+                else if (participation.UpdateType == WitnessEventType.EnterVet)
+                {
+                    this.DetectedVets.Add(participation.Participant.Number);
+                    Task.Run(() => this.ExpireParticipationUpdate(participation.UpdateType, participation.Participant.Number));
+                }
+            }, null);
+        });
     }
 
     private async Task ExpireParticipationUpdate(WitnessEventType type, string number)
