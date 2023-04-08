@@ -355,5 +355,6 @@ MigrationBackup/
 files/*
 samples/*
 endurance-judge/*
+endurance-judge-*
 endurance-judge.zip
 data/*
