@@ -180,24 +180,24 @@ public class ManagerRoot : IAggregateRoot
         return lap.Aggregate();
     }
 
-    public void ReInspection(string number, bool isRequired)
+    public void RequireReInspection(string number, bool isRequired)
     {
         var participation = this.GetParticipation(number);
         var lastRecord = participation
             .Aggregate()
             .CurrentLap
             .Aggregate();
-        lastRecord!.ReInspection(isRequired);
+        lastRecord!.RequireReInspection(isRequired);
     }
 
-    public void RequireInspection(string number, bool isRequired)
+    public void RequireCompulsoryInspection(string number, bool isRequired)
     {
         var participation = this.GetParticipation(number);
         var last = participation
             .Aggregate()
             .CurrentLap
             .Aggregate();
-        last.RequireInspection(isRequired);
+        last.RequireCompulsoryInspection(isRequired);
     }
 
     public Performance EditRecord(ILapRecordState state)

@@ -60,11 +60,11 @@ public class LapRecordsAggregate : IAggregate
     {
         this.Record.Result = new Result(ResultType.Resigned, reason);
     }
-    internal void ReInspection(bool isRequired)
+    internal void RequireReInspection(bool isRequired)
     {
         this.Record.IsReinspectionRequired = isRequired;
     }
-    internal void RequireInspection(bool isRequired)
+    internal void RequireCompulsoryInspection(bool isRequired)
     {
         if (this.Record.Lap.IsCompulsoryInspectionRequired)
         {

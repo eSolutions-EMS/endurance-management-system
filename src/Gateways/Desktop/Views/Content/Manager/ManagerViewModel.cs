@@ -176,9 +176,9 @@ public class ManagerViewModel : ViewModelBase
     private void ResignAction()
         => this.ExecuteAndRender((manager, number) => manager.Resign(number, this.NotQualifiedReason));
     private void ReInspectionAction()
-        => this.ExecuteAndRender((manager, number) => manager.ReInspection(number, this.ReInspectionValue));
+        => this.ExecuteAndRender((manager, number) => manager.RequireReInspection(number, this.ReInspectionValue));
     private void RequireInspectionAction()
-        => this.ExecuteAndRender((manager, number) => manager.RequireInspection(number, this.RequireInspectionValue));
+        => this.ExecuteAndRender((manager, number) => manager.RequireCompulsoryInspection(number, this.RequireInspectionValue));
     private void ExecuteAndRender(Action<ManagerRoot, string> action)
     {
         if (string.IsNullOrWhiteSpace(this.InputNumber))
