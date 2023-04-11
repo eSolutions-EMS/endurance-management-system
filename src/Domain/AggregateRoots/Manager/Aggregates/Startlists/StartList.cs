@@ -35,7 +35,7 @@ public class Startlist
         }
         else
         {
-            var performance = performances.Last();
+            var performance = performances.Last(x => x.NextStartTime.HasValue);
             yield return this.CreateModel(participation, performance.NextStartTime!.Value);
         }
     }
