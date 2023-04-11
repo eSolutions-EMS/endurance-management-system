@@ -18,18 +18,18 @@ public class Startlist : SortedSet<StartModel>
 
     private void Handle(Participation participation, bool includePast)
     {
-        var performances = Performance.GetAll(participation);
-        var upcoming = performances.FirstOrDefault(x => x.NextStartTime > DateTime.Now);
-        if (upcoming != null)
-        {
-            this.AddStart(participation, upcoming.NextStartTime!.Value);
-        }
+        var performances = Performance.GetAll(participation).ToList();
         if (includePast)
         {
-            foreach (var record in participation.Participant.LapRecords.Where(x => x.StartTime < DateTime.Now))
+            foreach (var record in performances.Where(x => x.NextStartTime.HasValue))
             {
-                this.AddStart(participation, record.StartTime);
+                this.AddStart(participation, record.NextStartTime!.Value);
             }
+        }
+        else
+        {
+            var performance = performances.Last();
+            this.AddStart(participation, performance.NextStartTime!.Value);
         }
     }
 
@@ -37,12 +37,10 @@ public class Startlist : SortedSet<StartModel>
     {
         var start = new StartModel
         {
-            Number = participation.Participant.Number,
             Name = participation.Participant.Name,
             CountryName = participation.Participant.Athlete.Country.Name,
             Distance = participation.Distance!.Value,
             StartTime = startTime,
-            HasStarted = startTime < DateTime.Now,
         };
         this.Add(start);
     }
