@@ -18,28 +18,28 @@ public class LapRecord : DomainBase<LapRecordException>, ILapRecordState, INotif
         this.Lap = lap;
     }
 
-    private DateTime? _arrivalTime;
-    private DateTime? _inspectionTime;
-    private DateTime? _reInspectionTime;
-    
+    private DateTime? arrivalTime;
+    private DateTime? inspectionTime;
+    private DateTime? reInspectionTime;
+
     public Lap Lap { get; private set; }
     public DateTime StartTime { get; set; } // TODO: set to private/internal after testing
     public DateTime? ArrivalTime
     {
-        get => this._arrivalTime;
-        set => this.SetProperty(ref this._arrivalTime, value, nameof(this.ArrivalTime)); // TODO: set to private/internal after testing
+        get => this.arrivalTime;
+        set => this.SetProperty(ref this.arrivalTime, value, nameof(this.ArrivalTime)); // TODO: set to private/internal after testing
     }
     public DateTime? InspectionTime
     {
-        get => this._inspectionTime;
-        set => this.SetProperty(ref this._inspectionTime, value, nameof(this.InspectionTime)); // TODO: set to private/internal after testing
+        get => this.inspectionTime;
+        set => this.SetProperty(ref this.inspectionTime, value, nameof(this.InspectionTime)); // TODO: set to private/internal after testing
     }
     public DateTime? ReInspectionTime
     {
-        get => this._reInspectionTime; 
-        set => this.SetProperty(ref this._reInspectionTime, value, nameof(this.ReInspectionTime)); // TODO: set to private/internal after testing
+        get => this.reInspectionTime;
+        set => this.SetProperty(ref this.reInspectionTime, value, nameof(this.ReInspectionTime)); // TODO: set to private/internal after testing
     }
-    public bool IsReInspectionRequired { get; internal set; }
+    public bool IsReinspectionRequired { get; internal set; }
     public bool IsRequiredInspectionRequired { get; internal set; }
     public Result Result { get; internal set; }
 
@@ -48,7 +48,7 @@ public class LapRecord : DomainBase<LapRecordException>, ILapRecordState, INotif
     public DateTime? NextStarTime
         => this.VetGateTime?.AddMinutes(this.Lap.RestTimeInMins);
     public event PropertyChangedEventHandler PropertyChanged;
-    
+
     [NotifyPropertyChangedInvocator]
     protected virtual void RaisePropertyChanged(string propertyName = null)
     {

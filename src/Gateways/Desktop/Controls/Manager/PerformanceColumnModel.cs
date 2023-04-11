@@ -26,7 +26,7 @@ public class PerformanceColumnModel : ViewModelBase, ILapRecordState
             this.Update(performance);
         };
     }
-    
+
     public bool IsReadonly { get; }
 
     public Visibility EditVisibility { get; set; }
@@ -71,7 +71,7 @@ public class PerformanceColumnModel : ViewModelBase, ILapRecordState
         this.StartTime = performance.StartTime;
         this.ArrivalTime = performance.ArrivalTime;
         this.InspectionTime = performance.InspectionTime;
-        this.IsReInspectionRequired = performance.IsReInspectionRequired;
+        this.IsReinspectionRequired = performance.IsReinspectionRequired;
         this.IsRequiredInspectionRequired = performance.IsRequiredInspectionRequired;
         this.ReInspectionTimeString = ValueSerializer.FormatTime(performance.ReInspectionTime);
         var requiredInspectionTime = ValueSerializer.FormatTime(performance.RequiredInspectionTime);
@@ -81,7 +81,7 @@ public class PerformanceColumnModel : ViewModelBase, ILapRecordState
         this.CompulsoryRequiredInspectionTimeString = performance.LatestLap.IsCompulsoryInspectionRequired
             ? requiredInspectionTime
             : string.Empty;
-        
+
         this.RaisePropertyChanged(nameof(this.ReInspectionTimeString));
         this.RaisePropertyChanged(nameof(this.RecoverySpanString));
         this.RaisePropertyChanged(nameof(this.TimeString));
@@ -109,7 +109,7 @@ public class PerformanceColumnModel : ViewModelBase, ILapRecordState
     public DateTime? ArrivalTime
     {
         get => ValueSerializer.ParseTime(this.ArrivalTimeString);
-        private set 
+        private set
         {
             this.ArrivalTimeString = ValueSerializer.FormatTime(value);
         }
@@ -129,7 +129,7 @@ public class PerformanceColumnModel : ViewModelBase, ILapRecordState
         get => ValueSerializer.ParseDouble(this.AverageSpeedString);
         private set => this.AverageSpeedString = ValueSerializer.FormatDouble(value);
     }
-    public bool IsReInspectionRequired { get; private set; }
+    public bool IsReinspectionRequired { get; private set; }
     public bool IsRequiredInspectionRequired { get; private set; }
     public int Id { get; private set; }
 

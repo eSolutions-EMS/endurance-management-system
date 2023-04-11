@@ -113,12 +113,12 @@ public class ManagerViewModel : ViewModelBase
 
             SynchronizationContext.Current!.Post(pl =>
             {
-                if (participation.UpdateType == WitnessEventType.Finish)
+                if (participation.UpdateType == WitnessEventType.Arrival)
                 {
                     this.DetectedFinishes.Add(participation.Participant.Number);
                     Task.Run(() => this.ExpireParticipationUpdate(participation.UpdateType, participation.Participant.Number));
                 }
-                else if (participation.UpdateType == WitnessEventType.EnterVet)
+                else if (participation.UpdateType == WitnessEventType.VetIn)
                 {
                     this.DetectedVets.Add(participation.Participant.Number);
                     Task.Run(() => this.ExpireParticipationUpdate(participation.UpdateType, participation.Participant.Number));
@@ -138,11 +138,11 @@ public class ManagerViewModel : ViewModelBase
 
             SynchronizationContext.Current!.Post(pl =>
             {
-                if (type == WitnessEventType.Finish)
+                if (type == WitnessEventType.Arrival)
                 {
                     this.DetectedFinishes.Remove(number);
                 }
-                else if (type == WitnessEventType.EnterVet)
+                else if (type == WitnessEventType.VetIn)
                 {
                     this.DetectedVets.Remove(number);
                 }
@@ -217,7 +217,7 @@ public class ManagerViewModel : ViewModelBase
         var performance = this.SelectedParticipation.Performances.LastOrDefault();
         if (performance != null)
         {
-            this.ReInspectionValue = performance.IsReInspectionRequired;
+            this.ReInspectionValue = performance.IsReinspectionRequired;
             this.RequireInspectionValue = performance.IsRequiredInspectionRequired;
             this.NotQualifiedReason = participation.DisqualifyCode;
         }

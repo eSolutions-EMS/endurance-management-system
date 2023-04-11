@@ -12,7 +12,7 @@ namespace EnduranceJudge.Domain.AggregateRoots.Manager
     public enum WitnessEventType
     {
         Invalid = 0,
-        EnterVet = 1,
-        Finish = 2,
+        VetIn = 1,
+        Arrival = 2,
     }
 }

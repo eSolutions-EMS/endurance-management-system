@@ -16,6 +16,7 @@ using EnduranceJudge.Domain.State.LapRecords;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using static EnduranceJudge.Localization.Strings;
 
 namespace EnduranceJudge.Domain.AggregateRoots.Manager;
@@ -44,13 +45,13 @@ public class ManagerRoot : IAggregateRoot
         this.Log(witnessEvent);
         try
         {
-            if (witnessEvent.Type == WitnessEventType.Finish)
+            if (witnessEvent.Type == WitnessEventType.Arrival)
             {
-                this.HandleWitnessFinish(witnessEvent.TagId, witnessEvent.Time);
+                this.HandleArrive(witnessEvent.TagId, witnessEvent.Time);
             }
-            if (witnessEvent.Type == WitnessEventType.EnterVet)
+            if (witnessEvent.Type == WitnessEventType.VetIn)
             {
-                this.HandleWitnessVet(witnessEvent.TagId, witnessEvent.Time);
+                this.HandleVet(witnessEvent.TagId, witnessEvent.Time);
             }
             Witness.RaiseStateChanged();
         }
@@ -97,12 +98,20 @@ public class ManagerRoot : IAggregateRoot
         var participation = this
             .GetParticipation(number)
             .Aggregate();
-        participation.Update(time);
+        var currentLap = participation.CurrentLap.Aggregate();
+        if (currentLap.IsComplete || participation.CurrentLap.ArrivalTime == null)
+        {
+            participation.Arrive(time);
+        }
+        else
+        {
+            participation.Vet(time);
+        }
     }
 
     private readonly Dictionary<string, DateTime> cache = new();
 
-    public void HandleWitnessFinish(string rfid, DateTime time)
+    public void HandleArrive(string rfid, DateTime time)
     {
         var participation = this
             .GetParticipationByRfid(rfid)
@@ -120,9 +129,9 @@ public class ManagerRoot : IAggregateRoot
             return;
         }
         this.cache[participation.Number] = now;
-        participation.Update(time);
+        participation.Arrive(time);
     }
-    public void HandleWitnessVet(string rfid, DateTime time)
+    public void HandleVet(string rfid, DateTime time)
     {
         var participation = this
             .GetParticipationByRfid(rfid)
@@ -139,7 +148,7 @@ public class ManagerRoot : IAggregateRoot
             var message = "cannot record VET. 'InspectionTime' amd 'ReInspectionTime' are not null";
             Helper.Create<ParticipantException>(message);
         }
-        participation.Update(time);
+        participation.Vet(time);
     }
     public void Disqualify(string number, string reason)
     {

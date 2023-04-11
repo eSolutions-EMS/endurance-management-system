@@ -111,7 +111,7 @@ public class Performance : IAggregate, IPerformance, INotifyPropertyChanged
             .Select(x => x.LengthInKm)
             .Sum();
 
-    public DateTime? NextStartTime { get; private set; } 
+    public DateTime? NextStartTime { get; private set; }
     public DateTime? UpdateNextStartTime()
         => this.LatestRecord.NextStarTime;
 
@@ -134,9 +134,9 @@ public class Performance : IAggregate, IPerformance, INotifyPropertyChanged
     }
 
     public Lap LatestLap => this.laps[this.Index];
-    private LapRecord LatestRecord 
+    private LapRecord LatestRecord
         => this.timeRecords[this.Index];
-    
+
     private IEnumerable<Lap> TotalLaps => this.laps.Take(this.Index + 1);
 
     public int Id => this.LatestRecord.Id;
@@ -144,7 +144,7 @@ public class Performance : IAggregate, IPerformance, INotifyPropertyChanged
     public DateTime? ArrivalTime => this.LatestRecord.ArrivalTime;
     public DateTime? InspectionTime => this.LatestRecord.InspectionTime;
     public DateTime? ReInspectionTime => this.LatestRecord.ReInspectionTime;
-    public bool IsReInspectionRequired => this.LatestRecord.IsReInspectionRequired;
+    public bool IsReinspectionRequired => this.LatestRecord.IsReinspectionRequired;
     public bool IsRequiredInspectionRequired => this.LatestRecord.IsRequiredInspectionRequired;
 
     public static IEnumerable<Performance> GetAll(Participation participation)

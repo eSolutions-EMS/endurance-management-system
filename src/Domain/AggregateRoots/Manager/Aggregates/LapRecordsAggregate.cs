@@ -31,31 +31,21 @@ public class LapRecordsAggregate : IAggregate
     }
 
     public LapRecord Record { get; }
+    public bool IsComplete =>
+        this.Record.ArrivalTime != null && this.Record.InspectionTime != null && !this.Record.IsReinspectionRequired
+        || this.Record.ArrivalTime != null && this.Record.ReInspectionTime != null && this.Record.IsReinspectionRequired;
 
-    // TODO: probably split into Finish and Vet gate
-    internal (bool, WitnessEventType) Update(DateTime time)
+    internal void Vet(DateTime time)
     {
-        if (time == default)
-        {
-            throw new ArgumentException(ARGUMENT_DEFAULT_VALUE, nameof(time));
-        }
-        if (this.Record.ArrivalTime == null)
-        {
-            this.Arrive(time);
-            return (this.StopUpdateSequence, WitnessEventType.Finish);
-        }
         if (this.Record.InspectionTime == null)
         {
-            this.Inspect(time);
+            this.EnterIn(time);
             this.Complete();
-            return (this.StopUpdateSequence, WitnessEventType.EnterVet);
         }
-        if (this.Record.IsReInspectionRequired && !this.Record.ReInspectionTime.HasValue)
+        else if (this.Record.ReInspectionTime == null && this.Record.IsReinspectionRequired)
         {
-            this.CompleteReInspection(time);
-            return (this.StopUpdateSequence, WitnessEventType.EnterVet);
+            this.EnterReIn(time);
         }
-        return (this.ContinueUpdateSequence, WitnessEventType.Finish);
     }
 
     internal void Disqualify(string reason)
@@ -72,7 +62,7 @@ public class LapRecordsAggregate : IAggregate
     }
     internal void ReInspection(bool isRequired)
     {
-        this.Record.IsReInspectionRequired = isRequired;
+        this.Record.IsReinspectionRequired = isRequired;
     }
     internal void RequireInspection(bool isRequired)
     {
@@ -84,29 +74,14 @@ public class LapRecordsAggregate : IAggregate
     }
     internal void Edit(ILapRecordState state)
     {
-        if (state.ArrivalTime.HasValue && this.Record.ArrivalTime != state.ArrivalTime)
+        this.Arrive(state.ArrivalTime!.Value);
+        if (state.InspectionTime.HasValue)
         {
-            if (this.Record.ArrivalTime == null)
-            {
-                throw Helper.Create<LapRecordException>(CANNOT_EDIT_PERFORMANCE_MESSAGE, ARRIVAL_TERM);
-            }
-            this.Arrive(state.ArrivalTime.Value);
+            this.EnterIn(state.InspectionTime!.Value);
         }
-        if (state.InspectionTime.HasValue && this.Record.InspectionTime != state.InspectionTime)
+        if (state.ReInspectionTime.HasValue)
         {
-            if (this.Record.InspectionTime == null)
-            {
-                throw Helper.Create<LapRecordException>(CANNOT_EDIT_PERFORMANCE_MESSAGE, INSPECTION_TERM);
-            }
-            this.Inspect(state.InspectionTime.Value);
-        }
-        if (state.ReInspectionTime.HasValue && this.Record.ReInspectionTime != state.ReInspectionTime)
-        {
-            if (this.Record.ReInspectionTime == null)
-            {
-                throw Helper.Create<LapRecordException>(CANNOT_EDIT_PERFORMANCE_MESSAGE, RE_INSPECTION_TERM);
-            }
-            this.CompleteReInspection(state.ReInspectionTime.Value);
+            this.EnterReIn(state.ReInspectionTime!.Value);
         }
     }
 
@@ -116,13 +91,13 @@ public class LapRecordsAggregate : IAggregate
         this.validator.IsLaterThan(time, this.Record.StartTime, ARRIVAL_TERM);
         this.Record.ArrivalTime = time;
     }
-    internal void Inspect(DateTime time)
+    internal void EnterIn(DateTime time)
     {
         // time = FixDateForToday(time);
         this.validator.IsLaterThan(time, this.Record.ArrivalTime, INSPECTION_TERM);
         this.Record.InspectionTime = time;
     }
-    private void CompleteReInspection(DateTime time)
+    private void EnterReIn(DateTime time)
     {
         // time = FixDateForToday(time);
         this.validator.IsLaterThan(time, this.Record.InspectionTime, RE_INSPECTION_TERM);
