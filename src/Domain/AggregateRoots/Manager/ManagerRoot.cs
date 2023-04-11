@@ -208,7 +208,7 @@ public class ManagerRoot : IAggregateRoot
     {
         var participations = this.state.Participations;
         var startList = new Startlist(participations, includePast);
-        return startList;
+        return startList.List;
     }
 
     private Participation GetParticipation(string number)
