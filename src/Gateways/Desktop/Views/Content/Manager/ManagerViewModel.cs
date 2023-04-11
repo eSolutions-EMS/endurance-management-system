@@ -231,7 +231,7 @@ public class ManagerViewModel : ViewModelBase
         var participations = this.participations.GetAll();
         if (participations.Any())
         {
-            foreach (var participation in participations)
+            foreach (var participation in participations.OrderBy(x => int.Parse(x.Participant.Number)))
             {
                 var viewModel = new ParticipationGridModel(participation, false);
                 this.Participations.Add(viewModel);
