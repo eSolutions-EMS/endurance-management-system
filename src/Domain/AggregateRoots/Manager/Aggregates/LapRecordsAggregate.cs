@@ -37,14 +37,22 @@ public class LapRecordsAggregate : IAggregate
 
     internal void Vet(DateTime time)
     {
+        var isDisqualified = false;
         if (this.Record.InspectionTime == null)
         {
-            this.EnterIn(time);
-            this.Complete();
+            isDisqualified = this.EnterIn(time);
         }
         else if (this.Record.ReInspectionTime == null && this.Record.IsReinspectionRequired)
         {
-            this.EnterReIn(time);
+            isDisqualified = this.EnterReIn(time);
+        }
+        if (isDisqualified)
+        {
+            this.Disqualify("Failed to Recover");
+        }
+        else
+        {
+            this.Complete();
         }
     }
 
@@ -91,19 +99,27 @@ public class LapRecordsAggregate : IAggregate
         this.validator.IsLaterThan(time, this.Record.StartTime, ARRIVAL_TERM);
         this.Record.ArrivalTime = time;
     }
-    internal void EnterIn(DateTime time)
+    internal bool EnterIn(DateTime time)
     {
         // time = FixDateForToday(time);
         this.validator.IsLaterThan(time, this.Record.ArrivalTime, INSPECTION_TERM);
         this.Record.InspectionTime = time;
+        return this.IsDisqualified(time);
     }
-    private void EnterReIn(DateTime time)
+    private bool EnterReIn(DateTime time)
     {
         // time = FixDateForToday(time);
         this.validator.IsLaterThan(time, this.Record.InspectionTime, RE_INSPECTION_TERM);
-
         this.Record.ReInspectionTime = time;
+        return this.IsDisqualified(time);
     }
+
+    private bool IsDisqualified(DateTime inTime)
+    {
+        var recoverySpan = TimeSpan.FromMinutes(this.Record.Lap.MaxRecoveryTimeInMins);
+        return inTime - this.Record.ArrivalTime > recoverySpan;
+    }
+
     private void Complete()
     {
         if (!this.Record.ArrivalTime.HasValue || !this.Record.InspectionTime.HasValue)
