@@ -17,6 +17,7 @@ namespace EnduranceJudge.Gateways.Desktop.Controls.Manager;
 
 public class ParticipationGridModel : BindableBase
 {
+    private bool isReadonly;
     private readonly int? columns;
     private readonly IExecutor executor;
     public ParticipationGridModel(Participation participation, bool isReadonly, int? columns = null)
@@ -45,7 +46,11 @@ public class ParticipationGridModel : BindableBase
 
     public DelegateCommand Print { get; }
 
-    public bool IsReadonly { get; protected set; }
+    public bool IsReadonly
+    {
+        get => this.isReadonly;
+        protected set => this.SetProperty(ref this.isReadonly, value);
+    }
 
     private void CreatePerformanceColumns(Participation participation)
     {
@@ -80,12 +85,8 @@ public class ParticipationGridModel : BindableBase
     public ObservableCollection<PerformanceColumnModel> Performances { get; private set; } = new();
     public void PrintAction()
     {
-        this.executor.Execute(() =>
-        {
-            this.IsReadonly = true;
-            var printer = new ParticipationPrinter(this);
-            printer.PreviewDocument();
-            this.IsReadonly = false;
-        }, false);
+        this.executor.Execute(
+            () => { new ParticipationPrinter(this).PrintDocument(); },
+            false);
     }
 }
