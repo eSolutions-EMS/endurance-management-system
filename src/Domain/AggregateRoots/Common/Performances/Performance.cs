@@ -144,7 +144,7 @@ public class Performance : IAggregate, IPerformance, INotifyPropertyChanged
     public DateTime? ArrivalTime => this.LatestRecord.ArrivalTime;
     public DateTime? InspectionTime => this.LatestRecord.InspectionTime;
     public DateTime? ReInspectionTime => this.LatestRecord.ReInspectionTime;
-    public bool IsReinspectionRequired => this.LatestRecord.IsReinspectionRequired;
+    public bool IsReinspectionRequired => this.LatestRecord.IsReinspectionRequired; //TODO: fix name in v4
     public bool IsRequiredInspectionRequired => this.LatestRecord.IsRequiredInspectionRequired;
 
     public static IEnumerable<Performance> GetAll(Participation participation)

@@ -37,16 +37,15 @@ public class LapRecordsAggregate : IAggregate
 
     internal void Vet(DateTime time)
     {
-        var isDisqualified = false;
         if (this.Record.InspectionTime == null)
         {
-            isDisqualified = this.EnterIn(time);
+            this.EnterIn(time);
         }
         else if (this.Record.ReInspectionTime == null && this.Record.IsReinspectionRequired)
         {
-            isDisqualified = this.EnterReIn(time);
+            this.EnterReIn(time);
         }
-        if (isDisqualified)
+        if (this.IsDisqualified(time))
         {
             this.Disqualify("Failed to Recover");
         }
@@ -82,14 +81,13 @@ public class LapRecordsAggregate : IAggregate
     }
     internal void Edit(ILapRecordState state)
     {
-        this.Arrive(state.ArrivalTime!.Value);
-        if (state.InspectionTime.HasValue)
+        this.Record.ArrivalTime = state.ArrivalTime;
+        this.Record.InspectionTime = state.InspectionTime;
+        this.Record.ReInspectionTime = state.ReInspectionTime;
+        if (state.ReInspectionTime.HasValue && this.IsDisqualified(state.ReInspectionTime.Value)
+            || state.InspectionTime.HasValue && this.IsDisqualified(state.InspectionTime.Value))
         {
-            this.EnterIn(state.InspectionTime!.Value);
-        }
-        if (state.ReInspectionTime.HasValue)
-        {
-            this.EnterReIn(state.ReInspectionTime!.Value);
+            this.Disqualify("Failed to Recover");
         }
     }
 
@@ -99,19 +97,17 @@ public class LapRecordsAggregate : IAggregate
         this.validator.IsLaterThan(time, this.Record.StartTime, ARRIVAL_TERM);
         this.Record.ArrivalTime = time;
     }
-    internal bool EnterIn(DateTime time)
+    internal void EnterIn(DateTime time)
     {
         // time = FixDateForToday(time);
         this.validator.IsLaterThan(time, this.Record.ArrivalTime, INSPECTION_TERM);
         this.Record.InspectionTime = time;
-        return this.IsDisqualified(time);
     }
-    private bool EnterReIn(DateTime time)
+    private void EnterReIn(DateTime time)
     {
         // time = FixDateForToday(time);
         this.validator.IsLaterThan(time, this.Record.InspectionTime, RE_INSPECTION_TERM);
         this.Record.ReInspectionTime = time;
-        return this.IsDisqualified(time);
     }
 
     private bool IsDisqualified(DateTime inTime)
