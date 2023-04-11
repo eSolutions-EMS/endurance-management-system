@@ -15,6 +15,7 @@ public class Participation : DomainBase<ParticipationException>
     {
         this.Participant = participant;
         this.CompetitionConstraint = competition;
+        this.competitionsIds.Add(competition.Id);
     }
 
     public static EventHandler<Participation> UpdateEvent;
@@ -25,7 +26,7 @@ public class Participation : DomainBase<ParticipationException>
 
     private List<int> competitionsIds = new();
     public Participant Participant { get; private set; }
-    public Competition CompetitionConstraint { get; private set; }
+    public Competition CompetitionConstraint { get; internal set; }
     public WitnessEventType UpdateType { get; internal set; }
 
     public double? Distance
@@ -35,13 +36,21 @@ public class Participation : DomainBase<ParticipationException>
             .Select(x => x.LengthInKm)
             .Sum();
 
-    internal void Add(int competitionId)
+    internal void Add(Competition competition)
     {
-        this.competitionsIds.Add(competitionId);
+        if (this.CompetitionConstraint == null)
+        {
+            this.CompetitionConstraint = competition;
+        }
+        this.competitionsIds.Add(competition.Id);
     }
     internal void Remove(int competitionId)
     {
         this.competitionsIds.Remove(competitionId);
+        if (!this.CompetitionsIds.Any())
+        {
+            this.CompetitionConstraint = null;
+        }
     }
 
     public IReadOnlyList<int> CompetitionsIds

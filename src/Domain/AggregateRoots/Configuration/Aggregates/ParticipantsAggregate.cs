@@ -75,6 +75,7 @@ public class ParticipantsAggregate : IAggregate
             var participant = this.state.Participants.FindDomain(participantId);
             participation = new Participation(participant, competition);
             this.state.Participations.Add(participation);
+            return;
         }
         participation.Aggregate().Add(competition);
     }

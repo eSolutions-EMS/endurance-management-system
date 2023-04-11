@@ -91,7 +91,7 @@ public class ParticipationsAggregate : IAggregate
                 }
             }
         }
-        this.participation.Add(competition.Id);
+        this.participation.Add(competition);
     }
 
     private LapRecord CreateRecord(DateTime startTime, DateTime? arriveTime = null)
