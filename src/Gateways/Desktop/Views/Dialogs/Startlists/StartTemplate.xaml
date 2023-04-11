@@ -5,11 +5,6 @@
 
     <DataTemplate DataType="{x:Type printStartList:StartTemplateModel}">
         <StackPanel Style="{StaticResource List-Horizontal}" Margin="-5px -2px 0 0">
-            <!-- Number -->
-            <Border Style="{StaticResource Border-StartList}">
-                <TextBlock Style="{StaticResource Text-Small}"
-                           Text="{Binding Number}" />
-            </Border>
             <!-- Name -->
             <Border Style="{StaticResource Border-StartList}" Width="400px">
                 <TextBlock Style="{StaticResource Text-Small}"
@@ -31,11 +26,6 @@
             <Border Style="{StaticResource Border-StartList}">
                 <TextBlock Style="{StaticResource Text-Small}"
                            Text="{Binding StartTimeString}" />
-            </Border>
-            <!-- HasStarted -->
-            <Border Style="{StaticResource Border-StartList}">
-                <TextBlock Style="{StaticResource Text-Small}"
-                           Text="{Binding HasStarted}" />
             </Border>
         </StackPanel>
     </DataTemplate>
