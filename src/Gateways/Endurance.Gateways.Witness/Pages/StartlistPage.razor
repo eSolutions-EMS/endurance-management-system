@@ -1,0 +1,37 @@
+﻿@page "/startlist"
+@using EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates.Startlists
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>Participant</th>
+			<th>Distance</th>
+			<th>Start Time</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var start in this._startlist)
+		{
+			<tr>
+				<td>@start.Number</td>
+				<td>@start.Distance</td>
+				<td>@start.StartTime</td>
+			</tr>
+		}
+	</tbody>
+</table>
+
+@code {
+	private IEnumerable<StartModel> _startlist;
+
+	protected override async Task OnInitializedAsync()
+	{
+		this._startlist = new List<StartModel>
+		{
+			new() { Name = "32 - Pesho Goshov", Distance = 32.1, StartTime = DateTime.Now.AddMinutes(-30) },
+			new() { Name = "77 - Ceca Igreva", Distance = 16, StartTime = DateTime.Now.AddMinutes(6) },
+			new() { Name = "14 - Marmot Tonev", Distance = 22.5, StartTime = DateTime.Now.AddMinutes(6) },
+			new() { Name = "19 - Kur za Liteks", Distance = 16, StartTime = DateTime.Now.AddMinutes(1.5) },
+		}.OrderBy(x => x.StartTime <= DateTime.Now).ThenBy(x => x.StartTime);
+	}
+}

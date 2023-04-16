@@ -13,7 +13,7 @@
         <ApplicationTitle>eWitness</ApplicationTitle>
 
         <!-- App Identifier -->
-        <ApplicationId>com.ems.endurance.witness</ApplicationId>
+        <ApplicationId>com.ems.witness</ApplicationId>
         <ApplicationIdGuid>E28F87C5-E076-4180-AB84-DBE4E9E99526</ApplicationIdGuid>
 
         <!-- Versions -->
@@ -81,6 +81,10 @@
 
         <!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
         <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Domain\Domain.csproj" />
     </ItemGroup>
 
 </Project>
