@@ -4,12 +4,14 @@ using EnduranceJudge.Domain.AggregateRoots.Manager;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace EnduranceJudge.Application.Services;
 
 public class DataService : IDataService
 {
-    private const string ENDPOINT = "http://192.168.68.3:11337/judge/events";
+    private const string HOST = "http://192.168.68.3:11337";
+    private const string EVENTS_ENDPOINT = "judge/events";
 
     private readonly IJsonSerializationService serializationService;
 
@@ -18,16 +20,16 @@ public class DataService : IDataService
         this.serializationService = serializationService;
     }
 
-    public Dictionary<int, WitnessEvent> Get()
+    public async Task<Dictionary<int, WitnessEvent>> GetWitnessEvents()
     {
         using var client = new HttpClient();
-        var response = client.GetAsync(ENDPOINT).Result;
+        var response = await client.GetAsync($"{HOST}/{EVENTS_ENDPOINT}");
         if (!response.IsSuccessStatusCode)
         {
             // TODO: better validation
             throw new Exception($"Failed to fetch Witness events: {response.StatusCode}");
         }
-        var body = response.Content.ReadAsStringAsync().Result;
+        var body = await response.Content.ReadAsStringAsync();
         var state = this.serializationService.Deserialize<Dictionary<int, WitnessEvent>>(body);
         return state;
     }
@@ -35,5 +37,5 @@ public class DataService : IDataService
 
 public interface IDataService : ITransientService
 {
-    Dictionary<int, WitnessEvent> Get();
+    Task<Dictionary<int, WitnessEvent>> GetWitnessEvents();
 }
