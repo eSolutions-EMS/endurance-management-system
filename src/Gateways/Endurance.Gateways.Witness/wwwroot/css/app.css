@@ -67,6 +67,16 @@ a, .btn-link {
     display: none;
 }
 
+.time-delimiter {
+    font-size: 1.5rem;
+    margin: 0 0.5rem;
+}
+
+.btn-table {
+    padding-top:1px;
+    padding-bottom:1px;
+}
+
 @supports (-webkit-touch-callout: none) {
     .status-bar-safe-area {
         display: flex;
