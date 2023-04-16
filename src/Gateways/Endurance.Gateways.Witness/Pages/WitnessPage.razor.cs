@@ -1,9 +1,14 @@
-﻿using EnduranceJudge.Domain.AggregateRoots.Manager;
+﻿using Endurance.Gateways.Witness.Services;
+using Endurance.Gateways.Witness.Shared.Toasts;
+using EnduranceJudge.Domain.AggregateRoots.Manager;
 using Microsoft.AspNetCore.Components;
 
 namespace Endurance.Gateways.Witness.Pages;
 public partial class WitnessPage : ComponentBase
 {
+    [Inject]
+    private ToasterService ToasterService { get; set; }
+
     private Model witnessModel = new();
     private Dictionary<int, ManualWitnessEvent> recordedEvents = new();
 
@@ -32,6 +37,8 @@ public partial class WitnessPage : ComponentBase
         var result = new Random().Next(2);
         if (result == 0)
         {
+            var toast = new Toast("Error", $"Failed to save {number}", Shared.Toasts.Color.Danger, 10);
+            this.ToasterService.AddToast(toast);
             return;
         }
         this.recordedEvents.Remove(number);           

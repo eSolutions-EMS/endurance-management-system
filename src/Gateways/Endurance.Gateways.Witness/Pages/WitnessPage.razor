@@ -17,7 +17,7 @@
     </div>
     <div class="mb-3">
 
-        <div class="d-inline-flex">required
+        <div class="d-inline-flex">
             <InputNumber @bind-Value="this.witnessModel.Hour" class="form-control" required onclick="this.select();" placeholder="Hour" />
             <span class="time-delimiter">:</span>
             <InputNumber @bind-Value="this.witnessModel.Minute" class="form-control" required onclick="this.select();" placeholder="Minute" />
@@ -47,7 +47,7 @@
                 <td>@witnessEvent.Type.ToString()</td>
                 <td>@witnessEvent.Time.ToLongTimeString()</td>
                 <td>
-                    <button class="btn btn-success btn-table" @onclick="@(_ => this.Save(witnessEvent.Number))">Save</button>
+                    <button class="btn btn-success btn-table" @onclick="_ => this.Save(witnessEvent.Number)">Save</button>
                 </td>
             </tr>
         }
