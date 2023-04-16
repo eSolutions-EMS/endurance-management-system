@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates.Startlists;
+using System;
 
 namespace EnduranceJudge.Domain.AggregateRoots.Manager.WitnessEvents;
 
@@ -14,5 +15,11 @@ public class Witness
     public static void RaiseStateChanged()
     {
         StateChanged?.Invoke(null, EventArgs.Empty);
+    }
+
+    public static event EventHandler StartlistChanged;
+    public static void RaiseStartlistChanged()
+    {
+        StateChanged!.Invoke(null, EventArgs.Empty);
     }
 }

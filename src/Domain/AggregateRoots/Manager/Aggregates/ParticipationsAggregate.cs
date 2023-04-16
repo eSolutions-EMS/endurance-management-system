@@ -1,4 +1,5 @@
-﻿using EnduranceJudge.Domain.Core.Models;
+﻿using EnduranceJudge.Domain.AggregateRoots.Manager.WitnessEvents;
+using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Competitions;
 using EnduranceJudge.Domain.State.Participations;
 using EnduranceJudge.Domain.Core.Exceptions;
@@ -65,6 +66,7 @@ public class ParticipationsAggregate : IAggregate
         currentLap.Vet(time);
         this.participation.UpdateType = WitnessEventType.VetIn;
         this.participation.RaiseUpdate();
+        Witness.RaiseStartlistChanged();
     }
 
     internal void Add(Competition competition)

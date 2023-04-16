@@ -27,6 +27,7 @@ public class ManagerRoot : IAggregateRoot
     private readonly IState state;
     private readonly IFileService file;
     private readonly IJsonSerializationService serialization;
+    
     public ManagerRoot(IStateContext context)
     {
         // TODO: fix log
