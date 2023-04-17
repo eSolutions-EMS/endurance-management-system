@@ -5,7 +5,7 @@ using static EnduranceJudge.Application.ApplicationConstants;
 namespace Endurance.Judge.Gateways.API.Controllers
 {
     [ApiController]
-    [Route(Api.Startlist.CONTROLLER)]
+    [Route(Api.STARTLIST)]
     public class StartlistController : ControllerBase
     {
         private readonly IStartlistStateService startlistStateService;

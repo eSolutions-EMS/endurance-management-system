@@ -7,7 +7,7 @@ using static EnduranceJudge.Application.ApplicationConstants;
 namespace Endurance.Judge.Gateways.API.Controllers
 {
     [ApiController]
-    [Route(Api.Witness.CONTROLLER)]
+    [Route(Api.WITNESS)]
     public class WitnessController : ControllerBase
     {
         private readonly IStateEventService stateEventService;

@@ -20,16 +20,8 @@ public static class ApplicationConstants
 
     public static class Api
     {
-        public static class Witness
-        {
-            public const string CONTROLLER = "witness";
-            public const string VET_IN = "vet-in";
-            public const string ARRIVAL = "arrival";
-        }
-        public static class Startlist
-        {
-            public const string CONTROLLER = "startlist";
-        }
+        public const string WITNESS = "witness";
+        public const string STARTLIST = "startlist";
     }
     
     public static class FileExtensions

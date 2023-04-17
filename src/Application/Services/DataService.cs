@@ -46,7 +46,7 @@ public class DataService : IDataService
         using var client = new HttpClient();
         try
         {
-            var response = await client.PostAsJsonAsync($"{API_HOST}/{Api.Startlist.CONTROLLER}", startlist);
+            var response = await client.PostAsJsonAsync($"{API_HOST}/{Api.STARTLIST}", startlist);
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception(
