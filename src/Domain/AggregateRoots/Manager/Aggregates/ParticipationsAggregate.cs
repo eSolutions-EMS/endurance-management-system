@@ -66,7 +66,6 @@ public class ParticipationsAggregate : IAggregate
         currentLap.Vet(time);
         this.participation.UpdateType = WitnessEventType.VetIn;
         this.participation.RaiseUpdate();
-        Witness.RaiseStartlistChanged();
     }
 
     internal void Add(Competition competition)

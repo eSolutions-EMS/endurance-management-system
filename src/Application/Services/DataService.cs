@@ -1,5 +1,6 @@
 ﻿using EnduranceJudge.Application.Core.Services;
 using EnduranceJudge.Core.ConventionalServices;
+using EnduranceJudge.Core.Events;
 using EnduranceJudge.Domain.AggregateRoots.Manager;
 using EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 using EnduranceJudge.Domain.AggregateRoots.Manager.WitnessEvents;
@@ -18,13 +19,11 @@ public class DataService : IDataService
     private const string EVENTS_ENDPOINT = "judge/events";
 
     private readonly IJsonSerializationService serializationService;
-    private readonly ManagerRoot managerRoot;
 
-    public DataService(IJsonSerializationService serializationService, ManagerRoot managerRoot)
+    public DataService(IJsonSerializationService serializationService)
     {
         this.serializationService = serializationService;
-        this.managerRoot = managerRoot;
-        Witness.StartlistChanged += async (_, _) => await this.PostStartlist();
+        Witness.StartlistChanged += async (_, startlist) => await this.PostStartlist(startlist);
     }
 
     public async Task<Dictionary<int, WitnessEvent>> GetWitnessEvents()
@@ -42,17 +41,24 @@ public class DataService : IDataService
         return state;
     }
 
-    public async Task PostStartlist()
+    public async Task PostStartlist(IEnumerable<StartModel> startlist)
     {
-        var startlistModels = this.managerRoot.GetStartList(false);
         using var client = new HttpClient();
-        var response = await client.PostAsJsonAsync($"{API_HOST}/{Api.Startlist.CONTROLLER}", startlistModels);
-        if (!response.IsSuccessStatusCode)
+        try
         {
-            throw new Exception(
-                $"Failed to send Startlist data to API: {response.StatusCode}" +
-                Environment.NewLine +
-                response.Content);
+            var response = await client.PostAsJsonAsync($"{API_HOST}/{Api.Startlist.CONTROLLER}", startlist);
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception(
+                    $"Failed to send Startlist data to API: {response.StatusCode}" +
+                    Environment.NewLine +
+                    response.Content);
+            }
+        }
+        catch (Exception exception)
+        {
+            var error  = new Exception("Failed to update Startlist in API", exception);
+            CoreEvents.RaiseError(error);
         }
     }
 }

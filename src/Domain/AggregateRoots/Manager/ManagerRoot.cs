@@ -106,6 +106,7 @@ public class ManagerRoot : IAggregateRoot
         else
         {
             participation.Vet(time);
+            Witness.RaiseStartlistChanged(this.GetStartList(false));
         }
     }
 
@@ -150,6 +151,7 @@ public class ManagerRoot : IAggregateRoot
         }
         this.vetCache[participation.Number] = now;
         participation.Vet(time);
+        Witness.RaiseStartlistChanged(this.GetStartList(false));
     }
     
     public void Disqualify(string number, string reason)
