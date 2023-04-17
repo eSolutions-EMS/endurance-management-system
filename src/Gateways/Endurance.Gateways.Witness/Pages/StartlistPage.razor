@@ -1,5 +1,8 @@
 ﻿@page "/startlist"
 @using EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates.Startlists
+@using System.Text.Json
+
+<button class="btn btn-primary" @onclick="() => this.GetStartlist()">Load</button>
 
 <table class="table">
 	<thead>
@@ -22,16 +25,20 @@
 </table>
 
 @code {
-	private IEnumerable<StartModel> _startlist;
+	private List<StartModel> _startlist = new();
 
-	protected override void OnInitialized()
+	private async Task GetStartlist()
 	{
-		this._startlist = new List<StartModel>
+		var client = new HttpClient();
+		try
 		{
-			new() { Name = "32 - Pesho Goshov", Distance = 32.1, StartTime = DateTime.Now.AddMinutes(-30) },
-			new() { Name = "77 - Ceca Igreva", Distance = 16, StartTime = DateTime.Now.AddMinutes(6) },
-			new() { Name = "14 - Marmot Tonev", Distance = 22.5, StartTime = DateTime.Now.AddMinutes(6) },
-			new() { Name = "19 - Kur za Liteks", Distance = 16, StartTime = DateTime.Now.AddMinutes(1.5) },
-		}.OrderBy(x => x.StartTime <= DateTime.Now).ThenBy(x => x.StartTime);
+			var response = await client.GetStringAsync("http://192.168.0.230:11337/startlist");
+			var startlist = JsonSerializer.Deserialize<IEnumerable<StartModel>>(response);
+			this._startlist = startlist.ToList();
+		}
+		catch (Exception exception)
+		{
+			return;
+		}
 	}
 }
