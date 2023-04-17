@@ -89,7 +89,7 @@ public class ImportViewModel : ViewModelBase
         this.ImportFilePathVisibility = Visibility.Visible;
 
         var result = this.persistence.Configure(selectedPath);
-        ManagerRoot.DataDirectoryPath = selectedPath;
+        ManagerRoot.dataDirectoryPath = selectedPath;
         this.context.Initialize();
 
         if (result.IsExistingFile)
