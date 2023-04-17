@@ -18,14 +18,14 @@ namespace Endurance.Judge.Gateways.API.Controllers
         [HttpPost("vet")]
         public IActionResult Vet([FromBody] TagRequest request)
         {
-            this.stateEventService.AddEvent(WitnessEventType.EnterVet, request);
+            this.stateEventService.AddEvent(WitnessEventType.VetIn, request);
             return this.Ok();
         }
         
         [HttpPost("finish")]
         public IActionResult Finish([FromBody] TagRequest request)
         {
-            this.stateEventService.AddEvent(WitnessEventType.Finish, request);
+            this.stateEventService.AddEvent(WitnessEventType.Arrival, request);
             return this.Ok();
         }
     }
