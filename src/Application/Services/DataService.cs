@@ -8,14 +8,14 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using static EnduranceJudge.Application.ApplicationConstants;
 
 namespace EnduranceJudge.Application.Services;
 
 public class DataService : IDataService
 {
-    private const string HOST = "http://192.168.68.3:11337";
+    private const string API_HOST = "http://192.168.68.3:11337";
     private const string EVENTS_ENDPOINT = "judge/events";
-    private const string STARTLIST_ENDPOINT = "judge/startlist";
 
     private readonly IJsonSerializationService serializationService;
     private readonly ManagerRoot managerRoot;
@@ -31,7 +31,7 @@ public class DataService : IDataService
     {
         //TODO: use IHttpClientFactory
         using var client = new HttpClient();
-        var response = await client.GetAsync($"{HOST}/{EVENTS_ENDPOINT}");
+        var response = await client.GetAsync($"{API_HOST}/{EVENTS_ENDPOINT}");
         if (!response.IsSuccessStatusCode)
         {
             // TODO: better validation
@@ -46,7 +46,7 @@ public class DataService : IDataService
     {
         var startlistModels = this.managerRoot.GetStartList(false);
         using var client = new HttpClient();
-        var response = await client.PostAsJsonAsync($"{HOST}/{EVENTS_ENDPOINT}", startlistModels);
+        var response = await client.PostAsJsonAsync($"{API_HOST}/{Api.Startlist.CONTROLLER}", startlistModels);
         if (!response.IsSuccessStatusCode)
         {
             throw new Exception(

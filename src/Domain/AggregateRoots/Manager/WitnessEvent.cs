@@ -2,24 +2,16 @@
 
 namespace EnduranceJudge.Domain.AggregateRoots.Manager
 {
-    public abstract class WitnessEventBase
+    public class WitnessEvent
     {
-        public WitnessEventType Type { get; set; }
-        public DateTime Time { get; set; }
-    }
-
-    public class WitnessEvent : WitnessEventBase
-    {
+        public WitnessEventType Type { get; init; }
         public string TagId { get; init; }
-    }
-
-    public class ManualWitnessEvent : WitnessEventBase
-    {
-        public int Number { get; set; }
+        public DateTime Time { get; init; }
     }
 
     public enum WitnessEventType
     {
+        Invalid = 0,
         VetIn = 1,
         Arrival = 2,
     }
