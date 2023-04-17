@@ -24,8 +24,8 @@ namespace Endurance.Judge.Gateways.API.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] StartlistRequest request)
         {
-            this.startlistStateService.Set(request.Startlist);
+            this.startlistStateService.Set(request);
             return this.Ok();
-        }  
+        }
     }
 }

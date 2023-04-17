@@ -3,8 +3,7 @@ using System.Collections.Generic;
 
 namespace Endurance.Judge.Gateways.API.Requests
 {
-    public class StartlistRequest
+    public class StartlistRequest : List<StartModel>
     {
-        public IEnumerable<StartModel> Startlist { get; init; }
     }
 }
