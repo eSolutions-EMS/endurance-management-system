@@ -37,22 +37,18 @@ public class ManagerRoot : IAggregateRoot
         Witness.Events += this.Handle;
     }
 
-    private void Handle(object sender, WitnessEvent witnessEvent)
+    private void Handle(object sender, WitnessEventBase witnessEvent)
     {
-        if (witnessEvent.TagId == "test")
-        {
-            return;
-        }
-        this.Log(witnessEvent);
+        // this.Log(witnessEvent);
         try
         {
             if (witnessEvent.Type == WitnessEventType.Arrival)
             {
-                this.HandleArrive(witnessEvent.TagId, witnessEvent.Time);
+                this.HandleArrive(witnessEvent);
             }
             if (witnessEvent.Type == WitnessEventType.VetIn)
             {
-                this.HandleVet(witnessEvent.TagId, witnessEvent.Time);
+                this.HandleVet(witnessEvent);
             }
             Witness.RaiseStateChanged();
         }
@@ -62,20 +58,21 @@ public class ManagerRoot : IAggregateRoot
         }
     }
 
-    private void Log(WitnessEvent witnessEvent)
-    {
-        var timestamp = DateTime.Now.ToString("HH-mm-ss");
-        var log = new Dictionary<string, object>
-        {
-            { "tag-id", witnessEvent.TagId },
-            { "type", witnessEvent.Type.ToString() },
-            { "time", witnessEvent.Time },
-        };
-        var serialized = this.serialization.Serialize(log);
-        var filename = $"witness_{timestamp}-{witnessEvent.Type}-{witnessEvent.TagId}.json";
-        var path = $"{DataDirectoryPath}/{filename}";
-        this.file.Create(path, serialized);
-    }
+    // private void Log(WitnessEventBase witnessEvent)
+    // {
+    //     var timestamp = DateTime.Now.ToString("HH-mm-ss");
+    //     var identifier = witnessEvent is WitnessEvent automatic
+    //     var log = new Dictionary<string, object>
+    //     {
+    //         { "tag-id", witnessEvent.TagId },
+    //         { "type", witnessEvent.Type.ToString() },
+    //         { "time", witnessEvent.Time },
+    //     };
+    //     var serialized = this.serialization.Serialize(log);
+    //     var filename = $"witness_{timestamp}-{witnessEvent.Type}-{witnessEvent.TagId}.json";
+    //     var path = $"{DataDirectoryPath}/{filename}";
+    //     this.file.Create(path, serialized);
+    // }
 
     public bool HasStarted()
         => this.state.Participations.Any(x => x.Participant.LapRecords.Any());
@@ -112,10 +109,10 @@ public class ManagerRoot : IAggregateRoot
 
     private readonly Dictionary<string, DateTime> cache = new();
 
-    public void HandleArrive(string rfid, DateTime time)
+    public void HandleArrive(WitnessEventBase witnessEvent)
     {
         var participation = this
-            .GetParticipationByRfid(rfid)
+            .GetParticipationByRfid(witnessEvent)
             .Aggregate();
         if (participation.CurrentLap.ArrivalTime != null && participation.CurrentLap.Result == null)
         {
@@ -130,12 +127,12 @@ public class ManagerRoot : IAggregateRoot
             return;
         }
         this.cache[participation.Number] = now;
-        participation.Arrive(time);
+        participation.Arrive(witnessEvent.Time);
     }
-    public void HandleVet(string rfid, DateTime time)
+    public void HandleVet(WitnessEventBase witnessEvent)
     {
         var participation = this
-            .GetParticipationByRfid(rfid)
+            .GetParticipationByRfid(witnessEvent)
             .Aggregate();
 
         if (participation.CurrentLap.Result != null)
@@ -149,7 +146,8 @@ public class ManagerRoot : IAggregateRoot
             var message = "cannot record VET. 'InspectionTime' amd 'ReInspectionTime' are not null";
             Helper.Create<ParticipantException>(message);
         }
-        participation.Vet(time);
+        //TODO: add vet cache
+        participation.Vet(witnessEvent.Time);
     }
     public void Disqualify(string number, string reason)
     {
@@ -233,14 +231,28 @@ public class ManagerRoot : IAggregateRoot
         return participation;
     }
 
-    private Participation GetParticipationByRfid(string rfid)
+    private Participation GetParticipationByRfid(WitnessEventBase witnessEvent)
     {
+        var id = string.Empty;
         var participation = this.state
             .Participations
-            .FirstOrDefault(x => x.Participant.RfIdHead == rfid || x.Participant.RfIdNeck == rfid);
+            .FirstOrDefault(x =>
+            {
+                if (witnessEvent is WitnessEvent tagEvent)
+                {
+                    id = tagEvent.TagId;
+                    return x.Participant.RfIdHead == id || x.Participant.RfIdNeck == id;
+                }
+                if (witnessEvent is ManualWitnessEvent manualEvent)
+                {
+                    id = manualEvent.Number.ToString();
+                    return x.Participant.Number == id;
+                }
+                throw new Exception();
+            });
         if (participation == null)
         {
-            throw Helper.Create<ParticipantException>(NOT_FOUND_MESSAGE, "RFID", rfid);
+            throw Helper.Create<ParticipantException>(NOT_FOUND_MESSAGE, "RFID", id);
         }
         return participation;
     }
