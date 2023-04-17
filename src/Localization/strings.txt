@@ -75,7 +75,7 @@ TRAINER_LAST_NAME                   | Trainer Last Name | Trainer Last Name
 IS_STALLION                         | Is Stallion | Is Stallion
 CLUB                                | Club | Club
 MANAGER                             | Manager | Manager
-NUMBER                              | Number  | Number
+NUMBER                              | Number or Tag  | Number or Tag
 START                               | Start | Start
 KM                                  | Km | Km
 LENGTH_IN_KM                        | Length | Length

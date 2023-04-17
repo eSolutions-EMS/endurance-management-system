@@ -1,4 +1,5 @@
-﻿using EnduranceJudge.Domain.Core.Models;
+﻿using EnduranceJudge.Domain.AggregateRoots.Manager.WitnessEvents;
+using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Competitions;
 using EnduranceJudge.Domain.State.Participations;
 using EnduranceJudge.Domain.Core.Exceptions;

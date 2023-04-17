@@ -8,10 +8,10 @@ namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 
 public class Startlist
 {
-    internal Startlist(IEnumerable<Participation> participation, bool includePast)
+    internal Startlist(IEnumerable<Participation> participations, bool includePast)
     {
         var entries = new List<StartModel>();
-        foreach (var participant in participation)
+        foreach (var participant in participations)
         {
             entries.AddRange(this.AddEntries(participant, includePast));
         }

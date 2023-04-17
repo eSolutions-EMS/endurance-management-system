@@ -18,6 +18,12 @@ public static class ApplicationConstants
 
     public const string STORAGE_FILE_NAME = "endurance-judge-data";
 
+    public static class Api
+    {
+        public const string WITNESS = "witness";
+        public const string STARTLIST = "startlist";
+    }
+    
     public static class FileExtensions
     {
         public const string Xml = ".xml";

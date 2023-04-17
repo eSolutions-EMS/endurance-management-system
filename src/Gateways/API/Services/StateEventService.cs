@@ -27,6 +27,17 @@ namespace Endurance.Judge.Gateways.API.Services
             };
             Events.Enqueue(witnessEvent);
         }
+        
+        public void AddEvent(WitnessRequest request)
+        {
+            var witnessEvent = new WitnessEvent
+            {
+                TagId = request.Number.ToString(),
+                Time = request.Time.LocalDateTime,
+                Type = request.Type
+            };
+            Events.Enqueue(witnessEvent);
+        }
 
         public Dictionary<int, WitnessEvent> GetEvents()
         {
@@ -49,6 +60,7 @@ namespace Endurance.Judge.Gateways.API.Services
     public interface IStateEventService : ITransientService
     {
         void AddEvent(WitnessEventType type, TagRequest request);
+        void AddEvent(WitnessRequest request);
         Dictionary<int, WitnessEvent> GetEvents();
     }
 }

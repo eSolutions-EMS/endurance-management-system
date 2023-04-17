@@ -73,7 +73,7 @@ public class WitnessPollingService : IWitnessPollingService
         try
         {
             // TODO: check if initialized
-            this.AddEvents();
+            await this.AddEvents();
             await Task.Delay(5000);
         }
         catch (Exception exception)
@@ -84,9 +84,9 @@ public class WitnessPollingService : IWitnessPollingService
         }
     }
 
-    private void AddEvents()
+    private async Task AddEvents()
     {
-        var eventsByIndex = this.dataService.Get();
+        var eventsByIndex = await this.dataService.GetWitnessEvents();
         var events = eventsByIndex
             .OrderBy(x => x.Key)
             .Select(x => x.Value);

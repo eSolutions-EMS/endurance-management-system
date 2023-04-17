@@ -16,17 +16,17 @@ using EnduranceJudge.Domain.State.LapRecords;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using static EnduranceJudge.Localization.Strings;
 
 namespace EnduranceJudge.Domain.AggregateRoots.Manager;
 
 public class ManagerRoot : IAggregateRoot
 {
-    public static string DataDirectoryPath;
+    public static string dataDirectoryPath;
     private readonly IState state;
     private readonly IFileService file;
     private readonly IJsonSerializationService serialization;
+    
     public ManagerRoot(IStateContext context)
     {
         // TODO: fix log
@@ -72,7 +72,7 @@ public class ManagerRoot : IAggregateRoot
         };
         var serialized = this.serialization.Serialize(log);
         var filename = $"witness_{timestamp}-{witnessEvent.Type}-{witnessEvent.TagId}.json";
-        var path = $"{DataDirectoryPath}/{filename}";
+        var path = $"{dataDirectoryPath}/{filename}";
         this.file.Create(path, serialized);
     }
 
@@ -106,50 +106,54 @@ public class ManagerRoot : IAggregateRoot
         else
         {
             participation.Vet(time);
+            Witness.RaiseStartlistChanged(this.GetStartList(false));
         }
     }
 
-    private readonly Dictionary<string, DateTime> cache = new();
+    private readonly Dictionary<string, DateTime> arrivalCache = new();
+    private readonly Dictionary<string, DateTime> vetCache = new();
 
     public void HandleArrive(string rfid, DateTime time)
     {
         var participation = this
-            .GetParticipationByRfid(rfid)
+            .GetParticipation(rfid)
             .Aggregate();
         if (participation.CurrentLap.ArrivalTime != null && participation.CurrentLap.Result == null)
         {
-            // TODO: fix/remove
-            Helper.Create<ParticipantException>("cannot finish. 'ArriveTime' is not null and Lap is not completed");
+            return;
         }
-        // Make sure that we only finish once even if we detect both tags
         // TODO: extract deduplication logic in common utility
+        // Make sure that we only finish once even if we detect both tags
         var now = DateTime.Now;
-        if (this.cache.ContainsKey(participation.Number) && now - this.cache[participation.Number] < TimeSpan.FromMinutes(1))
+        if (this.arrivalCache.ContainsKey(participation.Number) 
+            && now - this.arrivalCache[participation.Number] < TimeSpan.FromSeconds(30))
         {
             return;
         }
-        this.cache[participation.Number] = now;
+        this.arrivalCache[participation.Number] = now;
         participation.Arrive(time);
     }
     public void HandleVet(string rfid, DateTime time)
     {
         var participation = this
-            .GetParticipationByRfid(rfid)
+            .GetParticipation(rfid)
             .Aggregate();
-
-        if (participation.CurrentLap.Result != null)
+        if (participation.CurrentLap.Result != null
+            || participation.CurrentLap.InspectionTime != null && participation.CurrentLap.ReInspectionTime != null)
         {
-            // TODO fix/remove
-            Helper.Create<ParticipantException>("cannot record VET. 'CurrentLap' is completed");
+            return;
         }
-        if (participation.CurrentLap.InspectionTime != null && participation.CurrentLap.ReInspectionTime != null)
+        var now = DateTime.Now;
+        if (this.vetCache.ContainsKey(participation.Number) 
+            && now - this.vetCache[participation.Number] < TimeSpan.FromSeconds(30))
         {
-            // TODO fix/remove
-            var message = "cannot record VET. 'InspectionTime' amd 'ReInspectionTime' are not null";
-            Helper.Create<ParticipantException>(message);
+            return;
         }
+        this.vetCache[participation.Number] = now;
         participation.Vet(time);
+        Witness.RaiseStartlistChanged(this.GetStartList(false));
     }
+    
     public void Disqualify(string number, string reason)
     {
         reason ??= nameof(_DQ);
@@ -220,26 +224,16 @@ public class ManagerRoot : IAggregateRoot
         return startList.List;
     }
 
-    private Participation GetParticipation(string number)
+    private Participation GetParticipation(string numberOrTag)
     {
         var participation = this.state
             .Participations
-            .FirstOrDefault(x => x.Participant.Number == number);
+            .FirstOrDefault(x => x.Participant.Number == numberOrTag
+                || x.Participant.RfIdHead == numberOrTag
+                || x.Participant.RfIdNeck == numberOrTag);
         if (participation == null)
         {
-            throw Helper.Create<ParticipantException>(NOT_FOUND_MESSAGE, NUMBER, number);
-        }
-        return participation;
-    }
-
-    private Participation GetParticipationByRfid(string rfid)
-    {
-        var participation = this.state
-            .Participations
-            .FirstOrDefault(x => x.Participant.RfIdHead == rfid || x.Participant.RfIdNeck == rfid);
-        if (participation == null)
-        {
-            throw Helper.Create<ParticipantException>(NOT_FOUND_MESSAGE, "RFID", rfid);
+            throw Helper.Create<ParticipantException>(NOT_FOUND_MESSAGE, NUMBER, numberOrTag);
         }
         return participation;
     }
