@@ -43,6 +43,7 @@ public class Startlist
     private StartModel CreateModel(Participation participation, DateTime startTime)
         =>  new()
         {
+            Number = participation.Participant.Number,
             Name = participation.Participant.Name,
             CountryName = participation.Participant.Athlete.Country.Name,
             Distance = participation.Distance!.Value,
