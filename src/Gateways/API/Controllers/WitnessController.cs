@@ -2,11 +2,12 @@
 using Endurance.Judge.Gateways.API.Services;
 using EnduranceJudge.Domain.AggregateRoots.Manager;
 using Microsoft.AspNetCore.Mvc;
+using static EnduranceJudge.Application.ApplicationConstants;
 
 namespace Endurance.Judge.Gateways.API.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route(Api.Witness.CONTROLLER)]
     public class WitnessController : ControllerBase
     {
         private readonly IStateEventService stateEventService;
@@ -15,13 +16,20 @@ namespace Endurance.Judge.Gateways.API.Controllers
             this.stateEventService = stateEventService;
         }
         
+        [HttpPost]
+        public IActionResult Post([FromBody] WitnessRequest request)
+        {
+            this.stateEventService.AddEvent(request);
+            return this.Ok();
+        }
+        
+        // Backwards compatibility for Android Handheld devices
         [HttpPost("vet")]
         public IActionResult Vet([FromBody] TagRequest request)
         {
             this.stateEventService.AddEvent(WitnessEventType.VetIn, request);
             return this.Ok();
         }
-        
         [HttpPost("finish")]
         public IActionResult Finish([FromBody] TagRequest request)
         {
