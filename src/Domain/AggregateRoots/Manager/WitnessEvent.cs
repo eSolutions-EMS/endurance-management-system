@@ -4,9 +4,9 @@ namespace EnduranceJudge.Domain.AggregateRoots.Manager
 {
     public class WitnessEvent
     {
-        public WitnessEventType Type { get; init; }
-        public string TagId { get; init; }
-        public DateTime Time { get; init; }
+        public WitnessEventType Type { get; set; }
+        public string TagId { get; set; }
+        public DateTime Time { get; set; }
     }
 
     public enum WitnessEventType
