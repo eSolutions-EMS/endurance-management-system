@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Components.WebView.Maui;
-using Endurance.Gateways.Witness.Data;
 using Endurance.Gateways.Witness.Services;
 
 namespace Endurance.Gateways.Witness;
@@ -20,8 +19,6 @@ public static class MauiProgram
 #if DEBUG
 		builder.Services.AddBlazorWebViewDeveloperTools();
 #endif
-
-		builder.Services.AddSingleton<WeatherForecastService>();
 		builder.Services.AddSingleton<ToasterService>();
 
 		return builder.Build();
