@@ -26,7 +26,7 @@ public class ToasterService : IDisposable
         return this.toastList.ToList();
     }
 
-    public void AddToast(Toast toast)
+    public void Add(Toast toast)
     {
         this.toastList.Add(toast);
         if (!this.ClearBurntToast())

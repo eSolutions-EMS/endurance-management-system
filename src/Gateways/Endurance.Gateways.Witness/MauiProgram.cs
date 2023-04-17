@@ -20,6 +20,7 @@ public static class MauiProgram
 		builder.Services.AddBlazorWebViewDeveloperTools();
 #endif
 		builder.Services.AddSingleton<ToasterService>();
+		builder.Services.AddHttpClient<IApiService, ApiService>(client => client.BaseAddress = new Uri($"http://192.168.0.230:11337/"));
 
 		return builder.Build();
 	}

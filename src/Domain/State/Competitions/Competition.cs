@@ -37,6 +37,6 @@ public class Competition : DomainBase<CompetitionException>, ICompetitionState
     public IReadOnlyList<Lap> Laps
     {
         get => this.laps.OrderBy(x => x.OrderBy).ToList().AsReadOnly();
-        private set => this.laps = value.ToList();
+        private set { this.laps = value.ToList(); }
     }
 }

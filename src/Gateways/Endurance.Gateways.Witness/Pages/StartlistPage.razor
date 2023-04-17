@@ -1,4 +1,5 @@
 ﻿@page "/startlist"
+@using Endurance.Gateways.Witness.Services;
 @using EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates.Startlists
 @using System.Text.Json
 
@@ -25,20 +26,13 @@
 </table>
 
 @code {
+	[Inject]
+	private IApiService ApiService { get; set; }
+
 	private List<StartModel> _startlist = new();
 
 	private async Task GetStartlist()
 	{
-		var client = new HttpClient();
-		try
-		{
-			var response = await client.GetStringAsync("http://192.168.0.230:11337/startlist");
-			var startlist = JsonSerializer.Deserialize<IEnumerable<StartModel>>(response);
-			this._startlist = startlist.ToList();
-		}
-		catch (Exception exception)
-		{
-			return;
-		}
+		this._startlist = await this.ApiService.GetStartlist();
 	}
 }
