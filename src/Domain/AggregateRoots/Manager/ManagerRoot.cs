@@ -107,7 +107,8 @@ public class ManagerRoot : IAggregateRoot
         }
     }
 
-    private readonly Dictionary<string, DateTime> cache = new();
+    private readonly Dictionary<string, DateTime> arrivalCache = new();
+    private readonly Dictionary<string, DateTime> vetCache = new();
 
     public void HandleArrive(WitnessEventBase witnessEvent)
     {
@@ -122,11 +123,12 @@ public class ManagerRoot : IAggregateRoot
         // Make sure that we only finish once even if we detect both tags
         // TODO: extract deduplication logic in common utility
         var now = DateTime.Now;
-        if (this.cache.ContainsKey(participation.Number) && now - this.cache[participation.Number] < TimeSpan.FromMinutes(1))
+        if (this.arrivalCache.ContainsKey(participation.Number) 
+            && now - this.arrivalCache[participation.Number] < TimeSpan.FromSeconds(30))
         {
             return;
         }
-        this.cache[participation.Number] = now;
+        this.arrivalCache[participation.Number] = now;
         participation.Arrive(witnessEvent.Time);
     }
     public void HandleVet(WitnessEventBase witnessEvent)
@@ -146,9 +148,16 @@ public class ManagerRoot : IAggregateRoot
             var message = "cannot record VET. 'InspectionTime' amd 'ReInspectionTime' are not null";
             Helper.Create<ParticipantException>(message);
         }
-        //TODO: add vet cache
+        var now = DateTime.Now;
+        if (this.vetCache.ContainsKey(participation.Number) 
+            && now - this.vetCache[participation.Number] < TimeSpan.FromSeconds(30))
+        {
+            return;
+        }
+        this.vetCache[participation.Number] = now;
         participation.Vet(witnessEvent.Time);
     }
+    
     public void Disqualify(string number, string reason)
     {
         reason ??= nameof(_DQ);
