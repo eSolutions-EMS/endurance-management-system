@@ -1,4 +1,5 @@
-﻿@page "/"
+﻿@page "/witness"
+
 @using EnduranceJudge.Domain.AggregateRoots.Manager;
 @using System.Globalization;
 
@@ -16,7 +17,6 @@
         <InputNumber @bind-Value="this.witnessModel.Number" class="form-control" required onclick="this.select();" placeholder="Number" />
     </div>
     <div class="mb-3">
-
         <div class="d-inline-flex">
             <InputNumber @bind-Value="this.witnessModel.Hour" class="form-control" required onclick="this.select();" placeholder="Hour" />
             <span class="time-delimiter">:</span>

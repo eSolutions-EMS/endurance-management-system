@@ -5,8 +5,8 @@ using System;
 namespace Endurance.Gateways.Witness.Shared.Toasts;
 public class Toast
 {
-    private DateTimeOffset posted;
-    public Toast(string title, string message, UiColor color, int secondsToLive = 5)
+    private readonly DateTimeOffset posted;
+    public Toast(string title, string? message, UiColor color, int secondsToLive = 5)
     {
         this.Title = title;
         this.Message = message;
