@@ -2,7 +2,7 @@
 
 namespace Endurance.Gateways.Witness.Services;
 
-public class StateService : IState
+public class State : IState
 {
 	public string? ApiHost { get; set; }
 
