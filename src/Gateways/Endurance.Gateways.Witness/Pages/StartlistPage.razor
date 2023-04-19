@@ -28,7 +28,7 @@
 
 @code {
 	[Inject]
-	private IApiService ApiService { get; set; }
+	private IApiService ApiService { get; set; } = null!;
 
 	private List<StartModel> _startlist = new();
 

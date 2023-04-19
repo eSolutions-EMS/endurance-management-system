@@ -20,8 +20,8 @@ public static class MauiProgram
 		builder.Services.AddBlazorWebViewDeveloperTools();
 #endif
 		builder.Services.AddSingleton<ToasterService>();
-		builder.Services.AddSingleton<ContextService>();
-		builder.Services.AddSingleton<IContext>(provider => provider.GetRequiredService<ContextService>());
+		builder.Services.AddSingleton<StateService>();
+		builder.Services.AddSingleton<IState>(provider => provider.GetRequiredService<StateService>());
 		builder.Services.AddHttpClient<IApiService, ApiService>(client => client.Timeout = TimeSpan.FromSeconds(5));
 
 		return builder.Build();

@@ -11,9 +11,9 @@ public class ApiService : IApiService
 {
     private readonly HttpClient httpClient;
 	private readonly ToasterService toasterService;
-	private readonly IContext context;
+	private readonly IState context;
 
-	public ApiService(HttpClient httpClient, ToasterService toasterService, IContext context)
+	public ApiService(HttpClient httpClient, ToasterService toasterService, IState context)
     {
         this.httpClient = httpClient;
 		this.toasterService = toasterService;

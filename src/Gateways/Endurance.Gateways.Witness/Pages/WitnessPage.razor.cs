@@ -5,12 +5,11 @@ using Microsoft.AspNetCore.Components;
 
 namespace Endurance.Gateways.Witness.Pages;
 public partial class WitnessPage : ComponentBase
-{ 
-    [Inject]
-    private IApiService ApiService { get; set; }
+{
+    [Inject] private IApiService ApiService { get; set; } = null!;
+    [Inject] private IState State { get; set; } = null!;
 
     private Model witnessModel = new();
-    private Dictionary<int, ManualWitnessEvent> recordedEvents = new();
 
     private void HandleSubmit()
     {
@@ -23,22 +22,21 @@ public partial class WitnessPage : ComponentBase
                 .AddSeconds(this.witnessModel.Second.Value),
             Type = Enum.Parse<WitnessEventType>(this.witnessModel.Type),
         };
-        if (this.recordedEvents.ContainsKey(witnessEvent.Number))
+        if (this.State.WitnessRecords.ContainsKey(witnessEvent.Number))
         {
-            this.recordedEvents.Remove(witnessEvent.Number);
+            this.State.WitnessRecords.Remove(witnessEvent.Number);
         }
-        this.recordedEvents.Add(witnessEvent.Number, witnessEvent);
+        this.State.WitnessRecords.Add(witnessEvent.Number, witnessEvent);
     }
 
     private async Task Save(int number)
     {
-        var witnessEvent = this.recordedEvents[number];
+        var witnessEvent = this.State.WitnessRecords[number];
         var isSuccess = await this.ApiService.PostWitnessEvent(witnessEvent);
         if (isSuccess)
         {
-			this.recordedEvents.Remove(number);
+			this.State.WitnessRecords.Remove(number);
         }
-        
     }
 
     private class Model
