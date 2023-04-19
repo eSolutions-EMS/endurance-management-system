@@ -29,11 +29,6 @@
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
     </PropertyGroup>
 
-    <PropertyGroup Condition="'$(TargetFramework)'=='net6.0-ios'">
-      <CodesignKey>Apple Development: Created via API (2BS8477F4M)</CodesignKey>
-      <CodesignProvision>VS: com.ems.witness Development</CodesignProvision>
-    </PropertyGroup>
-
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-android|AnyCPU'">
       <ApplicationId>com.ems.witness</ApplicationId>
     </PropertyGroup>
@@ -44,10 +39,15 @@
 
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-ios|AnyCPU'">
       <ApplicationId>com.ems.witness</ApplicationId>
+      <CreatePackage>false</CreatePackage>
+      <CodesignProvision>Automatic</CodesignProvision>
+      <CodesignKey>iPhone Distribution</CodesignKey>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-ios|AnyCPU'">
       <ApplicationId>com.ems.witness</ApplicationId>
+      <CodesignProvision>Automatic:AppStore</CodesignProvision>
+      <CodesignKey>iPhone Distribution</CodesignKey>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-maccatalyst|AnyCPU'">
