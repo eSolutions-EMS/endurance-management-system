@@ -13,13 +13,14 @@ public partial class WitnessPage : ComponentBase
 
     private void HandleSubmit()
     {
+        var now = DateTime.Now;
         var witnessEvent = new ManualWitnessEvent
         {
-            Number = this.witnessModel.Number.Value,
+            Number = this.witnessModel.Number!.Value,
             Time = DateTime.Today
-                .AddHours(this.witnessModel.Hour.Value)
-                .AddMinutes(this.witnessModel.Minute.Value)
-                .AddSeconds(this.witnessModel.Second.Value),
+                .AddHours(this.witnessModel.Hour ?? now.Hour)
+                .AddMinutes(this.witnessModel.Minute ?? now.Minute)
+                .AddSeconds(this.witnessModel.Second ?? now.Second),
             Type = Enum.Parse<WitnessEventType>(this.witnessModel.Type),
         };
         if (this.State.WitnessRecords.ContainsKey(witnessEvent.Number))
