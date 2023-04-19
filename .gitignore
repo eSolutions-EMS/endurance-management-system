@@ -358,3 +358,6 @@ endurance-judge/*
 endurance-judge-*
 endurance-judge.zip
 data/*
+
+# Mac
+.DS_Store
