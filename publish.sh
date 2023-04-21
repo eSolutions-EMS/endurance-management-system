@@ -6,29 +6,30 @@ while getopts "v:" option; do
    esac
 done
 
-dev_branch=$(git branch --show-current)
-echo "push to dev remote '$dev_branch'"
-git push
-if [ $? -gt 0 ]; then
-  exit 1
-fi
+# dev_branch=$(git branch --show-current)
+# echo "push to dev remote '$dev_branch'"
+# git push
+# if [ $? -gt 0 ]; then
+#   exit 1
+# fi
 
-rel_branch="rel/$branch_version"
-echo "sync with release branch '$rel_branch'"
-git checkout "$rel_branch"
-if [ $? -gt 0 ]; then
-  exit 1
-fi
+# rel_branch="rel/$branch_version"
+# echo "sync with release branch '$rel_branch'"
+# git checkout "$rel_branch"
+# if [ $? -gt 0 ]; then
+#   exit 1
+# fi
 
-git rebase "$dev_branch"
-if [ $? -gt 0 ]; then
-  exit 1
-fi
+# git rebase "$dev_branch"
+# if [ $? -gt 0 ]; then
+#   exit 1
+# fi
 
-echo "push to rel remote '$rel_branch'"
-output_dir="endurance-judge-$branch_version"
+#echo "push to rel remote '$rel_branch'"
+
 
 echo "clearing release directory..."
+output_dir="endurance-judge-$branch_version"
 rm -rf "$output_dir"
 mkdir "$output_dir"
 cd "$output_dir"
