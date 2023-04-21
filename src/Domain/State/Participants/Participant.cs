@@ -1,3 +1,4 @@
+using EnduranceJudge.Domain.Core.Exceptions;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Athletes;
 using EnduranceJudge.Domain.State.Horses;
@@ -28,6 +29,11 @@ public class Participant : DomainBase<ParticipantException>, IParticipantState
         this.RfIdHead = state?.RfIdHead;
         this.RfIdNeck = state?.RfIdNeck;
         this.MaxAverageSpeedInKmPh = state?.MaxAverageSpeedInKmPh;
+        if (!int.TryParse(state?.Number, out var _))
+        {
+            throw Helper.Create<ParticipantException>(
+                $"Invalid '{nameof(Number)}' - '{state?.Number}'. Please enter a valid number");
+        }
         this.Number = state?.Number;
     }
 

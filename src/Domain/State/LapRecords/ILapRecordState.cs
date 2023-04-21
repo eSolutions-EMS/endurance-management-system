@@ -9,6 +9,6 @@ public interface ILapRecordState : IIdentifiable
     DateTime? ArrivalTime { get; }
     DateTime? InspectionTime { get; }
     DateTime? ReInspectionTime { get; }
-    bool IsReInspectionRequired { get; }
+    bool IsReinspectionRequired { get; }
     bool IsRequiredInspectionRequired { get; }
 }

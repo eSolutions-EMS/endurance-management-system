@@ -38,10 +38,6 @@
                         Grid.Row="1">
                 <!-- Header -->
                 <StackPanel Style="{StaticResource List-Horizontal}">
-                    <Border Style="{StaticResource Border-StartList}">
-                        <TextBlock Style="{StaticResource Text}"
-                                   Text="{x:Static localization:Strings.NUMBER}" />
-                    </Border>
                     <Border Style="{StaticResource Border-StartList}" Width="400px">
                         <TextBlock Style="{StaticResource Text}"
                                    Text="{x:Static localization:Strings.NAME}" />
@@ -57,10 +53,6 @@
                     <Border Style="{StaticResource Border-StartList}">
                         <TextBlock Style="{StaticResource Text}"
                                    Text="{x:Static localization:Strings.START_TIME}" />
-                    </Border>
-                    <Border Style="{StaticResource Border-StartList}">
-                        <TextBlock Style="{StaticResource Text}"
-                                   Text="{x:Static localization:Strings.HAS_STARTED}" />
                     </Border>
                 </StackPanel>
                 <!-- Entries -->

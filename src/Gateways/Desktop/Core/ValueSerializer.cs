@@ -14,7 +14,7 @@ public class ValueSerializer
 
     public static DateTime? ParseTime(string value)
     {
-        if (value is null or DEFAULT_TIME)
+        if (value is null or DEFAULT_TIME or "")
         {
             return null;
         }

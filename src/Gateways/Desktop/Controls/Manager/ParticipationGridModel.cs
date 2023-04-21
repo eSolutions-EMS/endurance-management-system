@@ -7,7 +7,6 @@ using EnduranceJudge.Gateways.Desktop.Print.Performances;
 using EnduranceJudge.Gateways.Desktop.Services;
 using Prism.Commands;
 using Prism.Mvvm;
-using System;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
@@ -17,12 +16,11 @@ namespace EnduranceJudge.Gateways.Desktop.Controls.Manager;
 
 public class ParticipationGridModel : BindableBase
 {
-    private readonly int? columns;
+    private bool isReadonly;
     private readonly IExecutor executor;
-    public ParticipationGridModel(Participation participation, bool isReadonly, int? columns = null)
+    public ParticipationGridModel(Participation participation, bool isReadonly)
     {
         this.IsReadonly = isReadonly;
-        this.columns = columns;
         this.executor = StaticProvider.GetService<IExecutor>();
         this.Participant = participation.Participant;
         this.Number = this.Participant.Number;
@@ -45,7 +43,11 @@ public class ParticipationGridModel : BindableBase
 
     public DelegateCommand Print { get; }
 
-    public bool IsReadonly { get; protected set; }
+    public bool IsReadonly
+    {
+        get => this.isReadonly;
+        protected set => this.SetProperty(ref this.isReadonly, value);
+    }
 
     private void CreatePerformanceColumns(Participation participation)
     {
@@ -53,18 +55,7 @@ public class ParticipationGridModel : BindableBase
             .GetAll(participation)
             .Select(perf => new PerformanceColumnModel(perf, this.IsReadonly))
             .ToList();
-        if (this.columns.HasValue)
-        {
-            this.EmptyColumns = columns.Value - viewModels.Count;
-            // TODO fix this.
-            // It does not work, because we only render columns using the
-            // ItemsControl with ItemsSource set to Performances
-        }
-        if (this.EmptyColumns < 0)
-        {
-            throw new Exception($"Participant {this.Number} has more performances than columns.");
-        }
-        App.Current.Dispatcher.Invoke((Action) delegate
+        App.Current.Dispatcher.Invoke(delegate
         {
             this.Performances.Clear();
             this.Performances.AddRange(viewModels);
@@ -72,7 +63,6 @@ public class ParticipationGridModel : BindableBase
         this.RaisePropertyChanged(nameof(Performances));
     }
 
-    public int EmptyColumns { get; private set; }
     public string Number { get; }
     public string DisqualifyCode { get; }
     public Participant Participant { get; }
@@ -80,12 +70,8 @@ public class ParticipationGridModel : BindableBase
     public ObservableCollection<PerformanceColumnModel> Performances { get; private set; } = new();
     public void PrintAction()
     {
-        this.executor.Execute(() =>
-        {
-            this.IsReadonly = true;
-            var printer = new ParticipationPrinter(this);
-            printer.PreviewDocument();
-            this.IsReadonly = false;
-        }, false);
+        this.executor.Execute(
+            () => { new ParticipationPrinter(this).PrintDocument(); },
+            false);
     }
 }

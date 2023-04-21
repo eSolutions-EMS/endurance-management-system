@@ -80,7 +80,7 @@ public class FinishWitness : BindableBase
 
                     var witnessEvent = new WitnessEvent
                     {
-                        Type = WitnessEventType.Finish,
+                        Type = WitnessEventType.Arrival,
                         TagId = tagId,
                         Time = now,
                     };

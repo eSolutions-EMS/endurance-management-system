@@ -3,6 +3,7 @@ using EnduranceJudge.Application.Models;
 using EnduranceJudge.Application.State;
 using EnduranceJudge.Core.ConventionalServices;
 using EnduranceJudge.Core.Services;
+using EnduranceJudge.Domain.AggregateRoots.Manager;
 using EnduranceJudge.Domain.AggregateRoots.Manager.WitnessEvents;
 using EnduranceJudge.Domain.State;
 using System;

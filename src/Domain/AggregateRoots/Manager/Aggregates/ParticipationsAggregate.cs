@@ -1,4 +1,5 @@
-﻿using EnduranceJudge.Domain.Core.Models;
+﻿using EnduranceJudge.Domain.AggregateRoots.Manager.WitnessEvents;
+using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Competitions;
 using EnduranceJudge.Domain.State.Participations;
 using EnduranceJudge.Domain.Core.Exceptions;
@@ -30,38 +31,41 @@ public class ParticipationsAggregate : IAggregate
     public string Number { get; }
     public bool IsDisqualified { get; }
     public string DisqualifiedCode { get; }
+    // TODO maybe initialize Laps here?
     public LapRecord CurrentLap => this.participation.Participant.LapRecords.Last();
 
     internal void Start()
     {
-        this.CreateRecord(this.competitionConstraint.StartTime);
+        this.CreateLapRecord(this.competitionConstraint.StartTime);
     }
-    internal void Update(DateTime time)
+
+    internal void Arrive(DateTime time)
     {
-        if (!this.participation.Participant.LapRecords.Any())
-        {
-            // The Participation is not yet started.
-            return;
-        }
-        if (this.IsDisqualified)
-        {
-            throw Helper.Create<ParticipantException>(PARTICIPATION_IS_DISQUALIFIED, this.Number);
-        }
-        var lastRecord = this.participation.Participant.LapRecords.Last();
-        // Do not capture finish if it is within less then 30 minutes of the NextLapStart
-        // This prevents errors on tracks with same star/finish line.
-        if ((time - lastRecord.NextStarTime)?.Duration() <= TimeSpan.FromMinutes(30))
+        var lap = this.participation.Participant.LapRecords.Last();
+        var durationSinceStart = (time - lap.NextStarTime)?.Duration();
+        if (durationSinceStart < TimeSpan.FromMinutes(30))
         {
             return;
         }
-        var record = this.CurrentLap.Aggregate();
-        var (continueSequence, updateType) = record.Update(time);
-        if (continueSequence)
+        var currentLap = this.CurrentLap.Aggregate();
+        if (currentLap.IsComplete)
         {
-            this.CreateRecord(this.CurrentLap.NextStarTime!.Value, time);
+            this.CreateLapRecord(this.CurrentLap.NextStarTime!.Value, time);
         }
-        this.participation.UpdateType = updateType;
-        this.participation.RaiseUpdate(); // This is only used for HasUnseenUpdate, but it could be a PoC for event driven updates
+        else
+        {
+            currentLap.Arrive(time);
+        }
+        this.participation.UpdateType = WitnessEventType.Arrival;
+        this.participation.RaiseUpdate();
+    }
+
+    internal void Vet(DateTime time)
+    {
+        var currentLap = this.CurrentLap.Aggregate();
+        currentLap.Vet(time);
+        this.participation.UpdateType = WitnessEventType.VetIn;
+        this.participation.RaiseUpdate();
     }
 
     internal void Add(Competition competition)
@@ -91,10 +95,10 @@ public class ParticipationsAggregate : IAggregate
                 }
             }
         }
-        this.participation.Add(competition.Id);
+        this.participation.Add(competition);
     }
 
-    private LapRecord CreateRecord(DateTime startTime, DateTime? arriveTime = null)
+    private void CreateLapRecord(DateTime startTime, DateTime? arriveTime = null)
     {
         if (this.NextLap == null)
         {
@@ -108,7 +112,6 @@ public class ParticipationsAggregate : IAggregate
             record.Aggregate().Arrive(arriveTime.Value);
         }
         this.participation.Participant.Add(record);
-        return record;
     }
 
     private Lap NextLap

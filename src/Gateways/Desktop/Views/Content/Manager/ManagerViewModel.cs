@@ -106,16 +106,25 @@ public class ManagerViewModel : ViewModelBase
 
     private void HandleParticipationUpdate(Participation participation)
     {
-        if (participation.UpdateType == WitnessEventType.Finish)
+        ThreadPool.QueueUserWorkItem(delegate
         {
-            this.DetectedFinishes.Add(participation.Participant.Number);
-            Task.Run(() => this.ExpireParticipationUpdate(participation.UpdateType, participation.Participant.Number));
-        }
-        else if (participation.UpdateType == WitnessEventType.EnterVet)
-        {
-            this.DetectedVets.Add(participation.Participant.Number);
-            Task.Run(() => this.ExpireParticipationUpdate(participation.UpdateType, participation.Participant.Number));
-        }
+            SynchronizationContext.SetSynchronizationContext(new
+                DispatcherSynchronizationContext(System.Windows.Application.Current.Dispatcher));
+
+            SynchronizationContext.Current!.Post(pl =>
+            {
+                if (participation.UpdateType == WitnessEventType.Arrival)
+                {
+                    this.DetectedFinishes.Add(participation.Participant.Number);
+                    Task.Run(() => this.ExpireParticipationUpdate(participation.UpdateType, participation.Participant.Number));
+                }
+                else if (participation.UpdateType == WitnessEventType.VetIn)
+                {
+                    this.DetectedVets.Add(participation.Participant.Number);
+                    Task.Run(() => this.ExpireParticipationUpdate(participation.UpdateType, participation.Participant.Number));
+                }
+            }, null);
+        });
     }
 
     private async Task ExpireParticipationUpdate(WitnessEventType type, string number)
@@ -129,11 +138,11 @@ public class ManagerViewModel : ViewModelBase
 
             SynchronizationContext.Current!.Post(pl =>
             {
-                if (type == WitnessEventType.Finish)
+                if (type == WitnessEventType.Arrival)
                 {
                     this.DetectedFinishes.Remove(number);
                 }
-                else if (type == WitnessEventType.EnterVet)
+                else if (type == WitnessEventType.VetIn)
                 {
                     this.DetectedVets.Remove(number);
                 }
@@ -167,9 +176,9 @@ public class ManagerViewModel : ViewModelBase
     private void ResignAction()
         => this.ExecuteAndRender((manager, number) => manager.Resign(number, this.NotQualifiedReason));
     private void ReInspectionAction()
-        => this.ExecuteAndRender((manager, number) => manager.ReInspection(number, this.ReInspectionValue));
+        => this.ExecuteAndRender((manager, number) => manager.RequireReInspection(number, this.ReInspectionValue));
     private void RequireInspectionAction()
-        => this.ExecuteAndRender((manager, number) => manager.RequireInspection(number, this.RequireInspectionValue));
+        => this.ExecuteAndRender((manager, number) => manager.RequireCompulsoryInspection(number, this.RequireInspectionValue));
     private void ExecuteAndRender(Action<ManagerRoot, string> action)
     {
         if (string.IsNullOrWhiteSpace(this.InputNumber))
@@ -208,7 +217,7 @@ public class ManagerViewModel : ViewModelBase
         var performance = this.SelectedParticipation.Performances.LastOrDefault();
         if (performance != null)
         {
-            this.ReInspectionValue = performance.IsReInspectionRequired;
+            this.ReInspectionValue = performance.IsReinspectionRequired;
             this.RequireInspectionValue = performance.IsRequiredInspectionRequired;
             this.NotQualifiedReason = participation.DisqualifyCode;
         }
@@ -222,7 +231,7 @@ public class ManagerViewModel : ViewModelBase
         var participations = this.participations.GetAll();
         if (participations.Any())
         {
-            foreach (var participation in participations)
+            foreach (var participation in participations.OrderBy(x => int.Parse(x.Participant.Number)))
             {
                 var viewModel = new ParticipationGridModel(participation, false);
                 this.Participations.Add(viewModel);
