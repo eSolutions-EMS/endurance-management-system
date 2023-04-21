@@ -36,7 +36,7 @@ public partial class ParticipationResultControl
         this.AthleteFeiIdText.Text = participation.Participant.Athlete.FeiId;
         this.CountryText.Text = participation.Participant.Athlete.Country.Name;
         this.HorseNameText.Text = participation.Participant.Horse.Name;
-        this.HorseFeiIdText.Text = participation.Participant.Horse.FeiId;
+        this.AthleteClub.Text = "ККС Буцефал Ендюрънс";
         this.RankText.Text = participation.Rank.ToString();
         this.TotalTime.Text = participation.TotalTime;
         this.TotalAverageSpeedString.Text = participation.TotalAverageSpeed;

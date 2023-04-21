@@ -37,15 +37,15 @@
                     <TextBlock Style="{StaticResource Text-Small}"
                                Name="HorseNameText" />
                 </Border>
-                <!-- Horse FEI ID -->
-                <Border Style="{StaticResource Border-Padding}" HorizontalAlignment="Right">
-                    <TextBlock Style="{StaticResource Text-Small}"
-                               Name="HorseFeiIdText" />
-                </Border>
                 <!-- Country -->
                 <Border Style="{StaticResource Border-Padding}">
                     <TextBlock Style="{StaticResource Text-Small}"
                                Name="CountryText" />
+                </Border>
+                <!-- Athlete Club  -->
+                <Border Style="{StaticResource Border-Padding}" HorizontalAlignment="Right">
+                    <TextBlock Style="{StaticResource Text-Small}" FontSize="12px"
+                               Name="AthleteClub" />
                 </Border>
             </StackPanel>
         </Border>
