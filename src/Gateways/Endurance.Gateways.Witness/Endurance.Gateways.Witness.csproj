@@ -39,9 +39,9 @@
 
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-ios|AnyCPU'">
       <ApplicationId>com.ems.witness</ApplicationId>
-      <CreatePackage>false</CreatePackage>
-      <CodesignProvision>Automatic</CodesignProvision>
-      <CodesignKey>iPhone Distribution</CodesignKey>
+      <!-- <CreatePackage>false</CreatePackage> -->
+      <!-- <CodesignProvision>Automatic</CodesignProvision> -->
+      <!-- <CodesignKey>iPhone Distribution</CodesignKey> -->
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-ios|AnyCPU'">
