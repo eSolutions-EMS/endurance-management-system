@@ -11,7 +11,8 @@ public class Startlist
     internal Startlist(IEnumerable<Participation> participations, bool includePast)
     {
         var entries = new List<StartModel>();
-        foreach (var participant in participations)
+        foreach (var participant in participations.Where(x =>
+                     x.Participant.LapRecords.Any(y => y.NextStarTime.HasValue)))
         {
             entries.AddRange(this.AddEntries(participant, includePast));
         }
