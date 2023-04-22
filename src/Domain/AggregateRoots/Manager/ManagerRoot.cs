@@ -26,7 +26,7 @@ public class ManagerRoot : IAggregateRoot
     private readonly IState state;
     private readonly IFileService file;
     private readonly IJsonSerializationService serialization;
-    
+
     public ManagerRoot(IStateContext context)
     {
         // TODO: fix log
@@ -42,7 +42,8 @@ public class ManagerRoot : IAggregateRoot
         {
             return;
         }
-        this.Log(witnessEvent);
+        var number = this.GetParticipation(witnessEvent.TagId)?.Participant.Number;
+        this.Log(witnessEvent, number);
         try
         {
             if (witnessEvent.Type == WitnessEventType.Arrival)
@@ -61,7 +62,7 @@ public class ManagerRoot : IAggregateRoot
         }
     }
 
-    private void Log(WitnessEvent witnessEvent)
+    private void Log(WitnessEvent witnessEvent, string number)
     {
         var timestamp = DateTime.Now.ToString("HH-mm-ss");
         var log = new Dictionary<string, object>
@@ -71,7 +72,7 @@ public class ManagerRoot : IAggregateRoot
             { "time", witnessEvent.Time },
         };
         var serialized = this.serialization.Serialize(log);
-        var filename = $"witness_{timestamp}-{witnessEvent.Type}-{witnessEvent.TagId}.json";
+        var filename = $"witness_{timestamp}-{witnessEvent.Type}-{number}-{witnessEvent.TagId}.json";
         var path = $"{dataDirectoryPath}/{filename}";
         this.file.Create(path, serialized);
     }
@@ -125,7 +126,7 @@ public class ManagerRoot : IAggregateRoot
         // TODO: extract deduplication logic in common utility
         // Make sure that we only finish once even if we detect both tags
         var now = DateTime.Now;
-        if (this.arrivalCache.ContainsKey(participation.Number) 
+        if (this.arrivalCache.ContainsKey(participation.Number)
             && now - this.arrivalCache[participation.Number] < TimeSpan.FromSeconds(30))
         {
             return;
@@ -144,7 +145,7 @@ public class ManagerRoot : IAggregateRoot
             return;
         }
         var now = DateTime.Now;
-        if (this.vetCache.ContainsKey(participation.Number) 
+        if (this.vetCache.ContainsKey(participation.Number)
             && now - this.vetCache[participation.Number] < TimeSpan.FromSeconds(30))
         {
             return;
@@ -153,7 +154,7 @@ public class ManagerRoot : IAggregateRoot
         participation.Vet(time);
         Witness.RaiseStartlistChanged(this.GetStartList(false));
     }
-    
+
     public void Disqualify(string number, string reason)
     {
         reason ??= nameof(_DQ);
