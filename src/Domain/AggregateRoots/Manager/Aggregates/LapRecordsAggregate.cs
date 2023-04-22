@@ -45,14 +45,7 @@ public class LapRecordsAggregate : IAggregate
         {
             this.EnterReIn(time);
         }
-        if (this.IsDisqualified(time))
-        {
-            this.Disqualify("Failed to Recover");
-        }
-        else
-        {
-            this.Complete();
-        }
+        this.CheckForResult();
     }
 
     internal void Disqualify(string reason)
@@ -84,8 +77,8 @@ public class LapRecordsAggregate : IAggregate
         this.Record.ArrivalTime = state.ArrivalTime;
         this.Record.InspectionTime = state.InspectionTime;
         this.Record.ReInspectionTime = state.ReInspectionTime;
-        if (state.ReInspectionTime.HasValue && this.IsDisqualified(state.ReInspectionTime.Value)
-            || state.InspectionTime.HasValue && this.IsDisqualified(state.InspectionTime.Value))
+        if (state.ReInspectionTime.HasValue && this.HasRecovered(state.ReInspectionTime.Value)
+            || state.InspectionTime.HasValue && this.HasRecovered(state.InspectionTime.Value))
         {
             this.Disqualify("Failed to Recover");
         }
@@ -96,8 +89,9 @@ public class LapRecordsAggregate : IAggregate
         // time = FixDateForToday(time);
         this.validator.IsLaterThan(time, this.Record.StartTime, ARRIVAL_TERM);
         this.Record.ArrivalTime = time;
+        this.CheckForResult();
     }
-    internal void EnterIn(DateTime time)
+    private void EnterIn(DateTime time)
     {
         // time = FixDateForToday(time);
         this.validator.IsLaterThan(time, this.Record.ArrivalTime, INSPECTION_TERM);
@@ -110,19 +104,32 @@ public class LapRecordsAggregate : IAggregate
         this.Record.ReInspectionTime = time;
     }
 
-    private bool IsDisqualified(DateTime inTime)
+    private bool HasRecovered(DateTime inTime)
     {
         var recoverySpan = TimeSpan.FromMinutes(this.Record.Lap.MaxRecoveryTimeInMins);
-        return inTime - this.Record.ArrivalTime > recoverySpan;
+        return inTime - this.Record.ArrivalTime <= recoverySpan;
     }
 
-    private void Complete()
+    private void CheckForResult()
     {
         if (!this.Record.ArrivalTime.HasValue || !this.Record.InspectionTime.HasValue)
         {
-            throw new Exception(PERFORMANCE_INVALID_COMPLETE);
+            return;
         }
-        this.Record.Result = new Result(ResultType.Successful);
+        var isRecoveredReInspection = this.Record.IsReinspectionRequired
+            && this.Record.ReInspectionTime.HasValue
+            && this.HasRecovered(this.Record.ReInspectionTime.Value);
+        var isRecoveredInspection = !this.Record.IsReinspectionRequired
+            && this.Record.InspectionTime.HasValue
+            && this.HasRecovered(this.Record.InspectionTime.Value);
+        if (isRecoveredReInspection || isRecoveredInspection)
+        {
+            this.Record.Result = new Result(ResultType.Successful);
+        }
+        else
+        {
+            this.FailToQualify("FTQ MET");
+        }
     }
 
     // TODO: remove after testing lap
