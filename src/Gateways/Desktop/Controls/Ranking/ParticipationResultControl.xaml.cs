@@ -40,6 +40,10 @@ public partial class ParticipationResultControl
         this.RankText.Text = participation.Rank.ToString();
         this.TotalTime.Text = participation.TotalTime;
         this.TotalAverageSpeedString.Text = participation.TotalAverageSpeed;
+        if (participation.DisqualifiedVisibility == Visibility.Visible)
+        {
+            this.TotalAverageSpeedBorder.Visibility = Visibility.Collapsed;
+        }
         this.NotQualifiedText.Text = participation.NotQualifiedText;
         this.DisqualifiedContainer.Visibility = participation.DisqualifiedVisibility;
         this.ParticipationGrid.Table.ItemsSource = participation.Performances;

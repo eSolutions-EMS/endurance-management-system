@@ -72,7 +72,7 @@
                     </StackPanel>
                 </Border>
                 <!-- Average speed -->
-                <Border Style="{StaticResource Border-Padding}">
+                <Border Style="{StaticResource Border-Padding}" Name="TotalAverageSpeedBorder">
                     <StackPanel Style="{StaticResource List-Horizontal}">
                         <TextBlock Style="{StaticResource Text-Small}"
                                    Name="TotalAverageSpeedString" />
