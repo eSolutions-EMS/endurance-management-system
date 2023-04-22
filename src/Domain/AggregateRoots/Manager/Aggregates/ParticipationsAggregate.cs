@@ -50,7 +50,7 @@ public class ParticipationsAggregate : IAggregate
         var currentLap = this.CurrentLap.Aggregate();
         if (currentLap.IsComplete)
         {
-            this.CreateLapRecord(this.CurrentLap.NextStarTime!.Value, time);
+            this.CreateLapRecord(this.CurrentLap.NextStarTime!.Value, arriveTime: time);
         }
         else
         {
@@ -63,7 +63,14 @@ public class ParticipationsAggregate : IAggregate
     internal void Vet(DateTime time)
     {
         var currentLap = this.CurrentLap.Aggregate();
-        currentLap.Vet(time);
+        if (currentLap.IsComplete)
+        {
+            this.CreateLapRecord(this.CurrentLap.NextStarTime!.Value, vetTime: time);
+        }
+        else
+        {
+            currentLap.Vet(time);
+        }
         this.participation.UpdateType = WitnessEventType.VetIn;
         this.participation.RaiseUpdate();
     }
@@ -98,7 +105,7 @@ public class ParticipationsAggregate : IAggregate
         this.participation.Add(competition);
     }
 
-    private void CreateLapRecord(DateTime startTime, DateTime? arriveTime = null)
+    private void CreateLapRecord(DateTime startTime, DateTime? arriveTime = null, DateTime? vetTime = null)
     {
         if (this.NextLap == null)
         {
@@ -110,6 +117,10 @@ public class ParticipationsAggregate : IAggregate
         {
             // arriveTime = FixDateForToday(arriveTime.Value);
             record.Aggregate().Arrive(arriveTime.Value);
+        }
+        else if (vetTime.HasValue)
+        {
+            record.Aggregate().Vet(vetTime.Value);
         }
         this.participation.Participant.Add(record);
     }
