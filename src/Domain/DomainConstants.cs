@@ -39,7 +39,6 @@ public static class DomainConstants
         public const string CANNOT_CREATE_PHASE_COMPETITION_DOES_NOT_EXIST = $"Cannot save {nameof(Lap)} - competition with id '{{0}}' does not exit";
         public const string CANNOT_CREATE_PHASE_IT_ALREADY_EXISTS = $"Cannot create {nameof(Lap)}. A {nameof(Lap)} with Id '{{0}}' already exists";
         public const string CANNOT_UPDATE_PHASE_IT_DOES_NOT_EXIST = $"Cannot update {nameof(Lap)} with Id '{{0}}' does not exist";
-        public const string PERFORMANCE_INVALID_COMPLETE = $"Performance has invalid state and cannot complete.";
         public const string ARGUMENT_DEFAULT_VALUE = "Value cannot be default";
     }
 }
