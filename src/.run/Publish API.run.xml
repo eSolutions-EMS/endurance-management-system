@@ -1,6 +1,6 @@
 ﻿<component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Publish API" type="DotNetFolderPublish" factoryName="Publish to folder">
-    <riderPublish configuration="Release" platform="Any CPU" runtime="Portable" target_folder="$USER_HOME$/servers/endurance-judge-api" target_framework="net5.0" uuid_high="9071915133061973983" uuid_low="-8935691359645165236" />
+    <riderPublish configuration="Release" platform="Any CPU" runtime="Portable" target_folder="C:/IIS/EMS.API" target_framework="net5.0" uuid_high="1260339595840865637" uuid_low="-5996865492691285239" />
     <method v="2" />
   </configuration>
 </component>
