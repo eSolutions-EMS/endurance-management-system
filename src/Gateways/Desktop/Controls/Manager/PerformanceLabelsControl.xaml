@@ -53,10 +53,10 @@
         <TextBlock Style="{StaticResource Text}"
                    Text="{x:Static localization:Strings.AVERAGE_SPEED_LOOP_TERM}"/>
     </Border>
-    <!-- Average Speed Total -->
+    <!-- Average Speed Phase -->
     <Border Style="{StaticResource Border-Performance-Cell}">
         <TextBlock Style="{StaticResource Text}"
-                   Text="{x:Static localization:Strings.AVERAGE_SPEED_TOTAL_TERM}"/>
+                   Text="{x:Static localization:Strings.AVERAGE_SPEED_PHASE_TERM}"/>
     </Border>
 
 </StackPanel>

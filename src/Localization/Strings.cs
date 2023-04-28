@@ -134,7 +134,7 @@ public static class Strings
     public static string RECOVERY_SPAN_TERM                    { get; internal set; }
     public static string TIME_TERM                             { get; internal set; }
     public static string AVERAGE_SPEED_LOOP_TERM               { get; internal set; }
-    public static string AVERAGE_SPEED_TOTAL_TERM              { get; internal set; }
+    public static string AVERAGE_SPEED_PHASE_TERM              { get; internal set; }
 
     /* Messages */
     public static string SELECT_WORK_DIRECTORY_MESSAGE            { get; internal set; }

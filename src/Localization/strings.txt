@@ -36,7 +36,7 @@ NEXT_START_TIME_TERM                       | OUT | OUT
 RECOVERY_SPAN_TERM                         | REC | REC
 TIME_TERM                                  | TIME | TIME
 AVERAGE_SPEED_LOOP_TERM                    | Speed (loop) | Speed (loop)
-AVERAGE_SPEED_TOTAL_TERM                   | Speed (comp) | Speed (comp)
+AVERAGE_SPEED_PHASE_TERM                   | Speed (phase) | Speed (phase)
 SAVE                                | Save | Save
 UPDATE                              | Update | Update
 REMOVE                              | Remove | Remove
