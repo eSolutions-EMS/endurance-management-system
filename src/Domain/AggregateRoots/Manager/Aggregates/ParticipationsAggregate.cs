@@ -70,6 +70,7 @@ public class ParticipationsAggregate : IAggregate
         else
         {
             currentLap.Vet(time);
+            // TODO: DQ Overtime
         }
         this.participation.UpdateType = WitnessEventType.VetIn;
         this.participation.RaiseUpdate();

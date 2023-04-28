@@ -57,6 +57,10 @@ public class ParticipantViewModel : ConfigurationBase<ParticipantView, Participa
         this.LoadAthletes();
         this.LoadHorses();
         base.OnNavigatedTo(context);
+        if (this.MaxAverageSpeedInKmPh.HasValue)
+        {
+            this.ShowMaxAverageSpeedInKmPh();
+        }
     }
 
     protected override IDomain Persist()
@@ -90,18 +94,17 @@ public class ParticipantViewModel : ConfigurationBase<ParticipantView, Participa
         }
         else
         {
-            this.HideMaxAverageSpeedInKmPh();
+            this.RemoveMaxAverageSpeedInKmPh();
         }
     }
     private void ShowMaxAverageSpeedInKmPh()
     {
         this.MaxAverageSpeedInKmPhVisibility = Visibility.Visible;
-        this.MaxAverageSpeedInKmPh = Participant.DEFAULT_MAX_AVERAGE_SPEED;
     }
-    private void HideMaxAverageSpeedInKmPh()
+    private void RemoveMaxAverageSpeedInKmPh()
     {
         this.MaxAverageSpeedInKmPhVisibility = Visibility.Hidden;
-        this.MaxAverageSpeedInKmPh = default;
+        this.MaxAverageSpeedInKmPh = null;
     }
     public Visibility MaxAverageSpeedInKmPhVisibility
     {
