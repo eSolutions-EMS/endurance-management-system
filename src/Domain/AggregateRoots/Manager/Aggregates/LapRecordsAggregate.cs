@@ -1,11 +1,12 @@
-﻿using EnduranceJudge.Domain.Core.Exceptions;
+﻿using EnduranceJudge.Domain.AggregateRoots.Common.Performances;
+using EnduranceJudge.Domain.Core.Exceptions;
 using EnduranceJudge.Domain.Core.Models;
+using EnduranceJudge.Domain.Enums;
 using EnduranceJudge.Domain.Validation;
 using EnduranceJudge.Domain.State.Results;
 using EnduranceJudge.Domain.State.LapRecords;
 using System;
 using static EnduranceJudge.Localization.Strings;
-using static EnduranceJudge.Domain.DomainConstants.ErrorMessages;
 
 namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates;
 
@@ -45,7 +46,6 @@ public class LapRecordsAggregate : IAggregate
         {
             this.EnterReIn(time);
         }
-        this.CheckForResult();
     }
 
     internal void Disqualify(string reason)
@@ -74,14 +74,11 @@ public class LapRecordsAggregate : IAggregate
     }
     internal void Edit(ILapRecordState state)
     {
+        var inTime = state.InspectionTime;
+        var reInTime = state.ReInspectionTime;
         this.Record.ArrivalTime = state.ArrivalTime;
-        this.Record.InspectionTime = state.InspectionTime;
-        this.Record.ReInspectionTime = state.ReInspectionTime;
-        if (state.ReInspectionTime.HasValue && this.HasRecovered(state.ReInspectionTime.Value)
-            || state.InspectionTime.HasValue && this.HasRecovered(state.InspectionTime.Value))
-        {
-            this.Disqualify("Failed to Recover");
-        }
+        this.Record.InspectionTime = inTime;
+        this.Record.ReInspectionTime = reInTime;
     }
 
     internal void Arrive(DateTime time)
@@ -89,7 +86,6 @@ public class LapRecordsAggregate : IAggregate
         // time = FixDateForToday(time);
         this.validator.IsLaterThan(time, this.Record.StartTime, ARRIVAL_TERM);
         this.Record.ArrivalTime = time;
-        this.CheckForResult();
     }
     private void EnterIn(DateTime time)
     {
@@ -110,25 +106,33 @@ public class LapRecordsAggregate : IAggregate
         return inTime - this.Record.ArrivalTime <= recoverySpan;
     }
 
-    private void CheckForResult()
+    internal void CheckForResult(double? averageSpeedLimit, CompetitionType type)
     {
         if (!this.Record.ArrivalTime.HasValue || !this.Record.InspectionTime.HasValue)
         {
             return;
         }
-        var isRecoveredReInspection = this.Record.IsReinspectionRequired
-            && this.Record.ReInspectionTime.HasValue
-            && this.HasRecovered(this.Record.ReInspectionTime.Value);
-        var isRecoveredInspection = !this.Record.IsReinspectionRequired
-            && this.Record.InspectionTime.HasValue
-            && this.HasRecovered(this.Record.InspectionTime.Value);
-        if (isRecoveredReInspection || isRecoveredInspection)
+        if (averageSpeedLimit.HasValue && Performance.GetSpeed(this.Record, type) > averageSpeedLimit)
         {
-            this.Record.Result = new Result(ResultType.Successful);
+            this.Disqualify("Overtime");
+            return;
+        }
+        var vetTime = this.Record.InspectionTime;
+        if (this.Record.IsReinspectionRequired)
+        {
+            if (!this.Record.ReInspectionTime.HasValue)
+            {
+                return;
+            }
+            vetTime = this.Record.ReInspectionTime;
+        }
+        if (!this.HasRecovered(vetTime.Value))
+        {
+            this.FailToQualify("MET");
         }
         else
         {
-            this.FailToQualify("FTQ MET");
+            this.Record.Result = new Result(ResultType.Successful);
         }
     }
 

@@ -64,27 +64,24 @@ public class Performance : IAggregate, IPerformance, INotifyPropertyChanged
 
     public TimeSpan? Time { get; private set; }
     private TimeSpan? UpdateTime()
-        => this.type == CompetitionType.National || this.Record.Lap.IsFinal
-            ? this.CalculateLoopTime()
-            : this.CalculatePhaseTime();
+        => Performance.GetCorrectTime(this.Record, this.type);
 
     public double? AverageSpeed { get; private set; }
     private double? UpdateAverageSpeed()
     {
         var lapLengthInKm = this.Record.Lap.LengthInKm;
-        var totalHours = this.Time?.TotalHours;
+        var totalHours = this.CalculateLoopTime()?.TotalHours;
         return  lapLengthInKm / totalHours;
     }
 
-    // TODO: Rename ot AverageSpeedPhase
     public double? AverageSpeedPhase { get; private set; }
     public double? UpdateAverageSpeedPhase()
     {
-        if (!this.Time.HasValue)
+        var phaseTime = this.CalculatePhaseTime();
+        if (phaseTime == null)
         {
             return null;
         }
-        var phaseTime = this.CalculatePhaseTime();
         var averageSpeedPhase = this.Record.Lap.LengthInKm / phaseTime!.Value.TotalHours;
         return averageSpeedPhase;
     }
@@ -117,6 +114,19 @@ public class Performance : IAggregate, IPerformance, INotifyPropertyChanged
             yield return performance;
         }
     }
+
+    internal static double? GetSpeed(LapRecord record, CompetitionType type)
+    {
+        var lapLengthInKm = record.Lap.LengthInKm;
+        var totalHours = GetCorrectTime(record, type)?.TotalHours;
+        return  lapLengthInKm / totalHours;
+    }
+
+    private static TimeSpan? GetCorrectTime(LapRecord record, CompetitionType type)
+        => type == CompetitionType.National || record.Lap.IsFinal
+            ? record.ArrivalTime - record.StartTime
+            : record.VetGateTime - record.StartTime;
+
     public event PropertyChangedEventHandler PropertyChanged;
     [NotifyPropertyChangedInvocator]
     protected virtual void RaisePropertyChanged(string propertyName = null)

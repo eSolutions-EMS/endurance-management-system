@@ -19,7 +19,6 @@ using System.Windows;
 using System.Windows.Threading;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager;
-
 public class ManagerViewModel : ViewModelBase
 {
     private static readonly DateTime Today = DateTime.Today;
