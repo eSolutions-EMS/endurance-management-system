@@ -112,7 +112,7 @@ public class PerformanceColumnControl : StackPanel
     private void AddAverageSpeed()
         => this.CreateText(nameof(this.performance.AverageSpeedString));
     private void AddAverageSpeedTotal()
-        => this.CreateText(nameof(this.performance.AverageSpeedTotalString));
+        => this.CreateText(nameof(this.performance.AverageSpeedPhaseString));
     private void AddEdit()
     {
         var style = ControlsHelper.GetStyle("Button-Table");

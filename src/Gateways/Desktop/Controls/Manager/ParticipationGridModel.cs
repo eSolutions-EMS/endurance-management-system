@@ -7,6 +7,7 @@ using EnduranceJudge.Gateways.Desktop.Print.Performances;
 using EnduranceJudge.Gateways.Desktop.Services;
 using Prism.Commands;
 using Prism.Mvvm;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
@@ -51,14 +52,17 @@ public class ParticipationGridModel : BindableBase
 
     private void CreatePerformanceColumns(Participation participation)
     {
-        var viewModels = Performance
-            .GetAll(participation)
-            .Select(perf => new PerformanceColumnModel(perf, this.IsReadonly))
-            .ToList();
+        var performances = Performance.GetAll(participation).ToList();
+        var columnModels = new List<PerformanceColumnModel>();
+        for (var i = 0; i < performances.Count; i++)
+        {
+            var model = new PerformanceColumnModel(performances[i], i + 1, this.IsReadonly);
+            columnModels.Add(model);
+        }
         App.Current.Dispatcher.Invoke(delegate
         {
             this.Performances.Clear();
-            this.Performances.AddRange(viewModels);
+            this.Performances.AddRange(columnModels);
         });
         this.RaisePropertyChanged(nameof(Performances));
     }
