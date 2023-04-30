@@ -1,44 +1,27 @@
 ﻿using EnduranceJudge.Domain.Annotations;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.Enums;
-using EnduranceJudge.Domain.State.Competitions;
-using EnduranceJudge.Domain.State.Participants;
-using EnduranceJudge.Domain.State.Laps;
 using EnduranceJudge.Domain.State.LapRecords;
 using EnduranceJudge.Domain.State.Participations;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 
 namespace EnduranceJudge.Domain.AggregateRoots.Common.Performances;
 
 public class Performance : IAggregate, IPerformance, INotifyPropertyChanged
 {
+    public LapRecord Record { get; private set; }
+    private readonly CompetitionType type;
     public const int COMPULSORY_INSPECTION_TIME_OFFSET = -15;
 
-    private readonly List<Lap> laps;
-    private readonly List<LapRecord> timeRecords;
-    private readonly Competition competitionConstraint;
-
-    public Performance(Participation participation, int index)
+    public Performance(LapRecord record, CompetitionType type, double previousLength)
     {
-        this.Participant = participation.Participant;
-        this.competitionConstraint = participation.CompetitionConstraint;
-        this.timeRecords = this.Participant.LapRecords.ToList();
-        this.Index = index;
-        this.laps = participation.CompetitionConstraint.Laps.ToList();
-
-        this.SubscribeToLapRecordChanges(this.Participant.LapRecords);
+        this.Record = record;
+        this.type = type;
+        this.TotalLength = this.Record.Lap.LengthInKm + previousLength;
+        record.PropertyChanged += (_, _) => this.UpdateValues();
         this.UpdateValues();
-    }
-
-    private void SubscribeToLapRecordChanges(IEnumerable<INotifyPropertyChanged> items)
-    {
-        foreach (var item in items)
-        {
-            item.PropertyChanged += (_, _) =>  this.UpdateValues();
-        }
     }
 
     private void UpdateValues()
@@ -48,8 +31,7 @@ public class Performance : IAggregate, IPerformance, INotifyPropertyChanged
         this.RecoverySpan = this.UpdateRecoverySpan();
         this.Time = this.UpdateTime();
         this.AverageSpeed = this.UpdateAverageSpeed();
-        this.AverageSpeedTotal = this.UpdateAverageSpeedTotal();
-        // this.ArrivalTime = this.LatestRecord.StartTime;
+        this.AverageSpeedPhase = this.UpdateAverageSpeedPhase();
         this.RaisePropertyChanged(nameof(this.StartTime));
         this.RaisePropertyChanged(nameof(this.ArrivalTime));
         this.RaisePropertyChanged(nameof(this.InspectionTime));
@@ -58,19 +40,15 @@ public class Performance : IAggregate, IPerformance, INotifyPropertyChanged
         this.RaisePropertyChanged(nameof(this.RecoverySpan));
         this.RaisePropertyChanged(nameof(this.Time));
         this.RaisePropertyChanged(nameof(this.AverageSpeed));
-        this.RaisePropertyChanged(nameof(this.AverageSpeedTotal));
+        this.RaisePropertyChanged(nameof(this.AverageSpeedPhase));
         this.RaisePropertyChanged(nameof(this.NextStartTime));
     }
-
-    public Participant Participant { get; }
-
-    public int Index { get; }
     public DateTime? RequiredInspectionTime { get; private set; }
 
     private DateTime? UpdateRequiredInspectionTime()
     {
-        if (!this.LatestRecord.IsRequiredInspectionRequired
-            && !this.LatestRecord.Lap.IsCompulsoryInspectionRequired)
+        if (!this.Record.IsRequiredInspectionRequired
+            && !this.Record.Lap.IsCompulsoryInspectionRequired)
         {
             return null;
         }
@@ -78,84 +56,77 @@ public class Performance : IAggregate, IPerformance, INotifyPropertyChanged
         return inspection;
     }
 
+    public double TotalLength { get; private set; }
+
     public TimeSpan? RecoverySpan { get; private set; }
     private TimeSpan? UpdateRecoverySpan()
-        => this.LatestRecord.VetGateTime - this.LatestRecord.ArrivalTime;
+        => this.Record.VetGateTime - this.Record.ArrivalTime;
 
     public TimeSpan? Time { get; private set; }
     private TimeSpan? UpdateTime()
-        => this.CalculateLapTime(this.LatestRecord, this.LatestLap);
+        => Performance.GetCorrectTime(this.Record, this.type);
 
     public double? AverageSpeed { get; private set; }
     private double? UpdateAverageSpeed()
     {
-        var lapLengthInKm = this.LatestLap.LengthInKm;
-        var totalHours = this.Time?.TotalHours;
+        var lapLengthInKm = this.Record.Lap.LengthInKm;
+        var totalHours = this.CalculateLoopTime()?.TotalHours;
         return  lapLengthInKm / totalHours;
     }
 
-    public double? AverageSpeedTotal { get; private set; }
-    public double? UpdateAverageSpeedTotal()
+    public double? AverageSpeedPhase { get; private set; }
+    public double? UpdateAverageSpeedPhase()
     {
-        if (!this.Time.HasValue)
+        var phaseTime = this.CalculatePhaseTime();
+        if (phaseTime == null)
         {
             return null;
         }
-        var totalTime = this.CalculateTotalTime();
-        var totalAverageSpeed = this.TotalLength / totalTime.TotalHours;
-        return totalAverageSpeed;
+        var averageSpeedPhase = this.Record.Lap.LengthInKm / phaseTime!.Value.TotalHours;
+        return averageSpeedPhase;
     }
-
-    public double TotalLength
-        => this.TotalLaps
-            .Select(x => x.LengthInKm)
-            .Sum();
 
     public DateTime? NextStartTime { get; private set; }
     public DateTime? UpdateNextStartTime()
-        => this.LatestRecord.NextStarTime;
+        => this.Record.NextStarTime;
 
-    private TimeSpan? CalculateLapTime(LapRecord record, Lap lap)
-        => this.competitionConstraint.Type == CompetitionType.National || lap.IsFinal
-            ? record.ArrivalTime - record.StartTime
-            : record.VetGateTime - record.StartTime;
+    private TimeSpan? CalculateLoopTime()
+        => this.Record.ArrivalTime - this.Record.StartTime;
 
-    private TimeSpan CalculateTotalTime()
-    {
-        var totalHours = TimeSpan.Zero;
-        for (var i = 0; i <= this.Index; i++)
-        {
-            var record = this.timeRecords[i];
-            var lap = this.laps[i];
-            var time = this.CalculateLapTime(record, lap);
-            totalHours += time!.Value;
-        }
-        return totalHours;
-    }
+    private TimeSpan? CalculatePhaseTime()
+        => this.Record.VetGateTime - this.Record.StartTime;
 
-    public Lap LatestLap => this.laps[this.Index];
-    private LapRecord LatestRecord
-        => this.timeRecords[this.Index];
-
-    private IEnumerable<Lap> TotalLaps => this.laps.Take(this.Index + 1);
-
-    public int Id => this.LatestRecord.Id;
-    public DateTime StartTime => this.LatestRecord.StartTime;
-    public DateTime? ArrivalTime => this.LatestRecord.ArrivalTime;
-    public DateTime? InspectionTime => this.LatestRecord.InspectionTime;
-    public DateTime? ReInspectionTime => this.LatestRecord.ReInspectionTime;
-    public bool IsReinspectionRequired => this.LatestRecord.IsReinspectionRequired; //TODO: fix name in v4
-    public bool IsRequiredInspectionRequired => this.LatestRecord.IsRequiredInspectionRequired;
+    public int Id => this.Record.Id;
+    public DateTime StartTime => this.Record.StartTime;
+    public DateTime? ArrivalTime => this.Record.ArrivalTime;
+    public DateTime? InspectionTime => this.Record.InspectionTime;
+    public DateTime? ReInspectionTime => this.Record.ReInspectionTime;
+    public bool IsReinspectionRequired => this.Record.IsReinspectionRequired; //TODO: fix name in v4
+    public bool IsRequiredInspectionRequired => this.Record.IsRequiredInspectionRequired;
 
     public static IEnumerable<Performance> GetAll(Participation participation)
     {
-        var index = 0;
-        foreach (var _ in participation.Participant.LapRecords)
+        var previousLength = 0d;
+        foreach (var lapRecord in participation.Participant.LapRecords)
         {
-            yield return new Performance(participation, index);
-            index++;
+            var performance = new Performance(lapRecord, participation.CompetitionConstraint.Type, previousLength);
+            previousLength += lapRecord.Lap.LengthInKm;
+            yield return performance;
         }
     }
+
+    internal static double? GetSpeed(LapRecord record, CompetitionType type)
+    {
+        var lapLengthInKm = record.Lap.LengthInKm;
+        var totalHours = GetCorrectTime(record, type)?.TotalHours;
+        return  lapLengthInKm / totalHours;
+    }
+
+    private static TimeSpan? GetCorrectTime(LapRecord record, CompetitionType type)
+        => type == CompetitionType.National || record.Lap.IsFinal
+            ? record.ArrivalTime - record.StartTime
+            : record.VetGateTime - record.StartTime;
+
     public event PropertyChangedEventHandler PropertyChanged;
     [NotifyPropertyChangedInvocator]
     protected virtual void RaisePropertyChanged(string propertyName = null)

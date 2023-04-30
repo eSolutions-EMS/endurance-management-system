@@ -214,7 +214,14 @@ public class ManagerRoot : IAggregateRoot
         var record = records.First(rec => rec.Equals(state));
         var aggregate = new LapRecordsAggregate(record);
         aggregate.Edit(state);
-        var performance = new Performance(participation, records.IndexOf(record));
+        aggregate.CheckForResult(
+            participation.Participant.MaxAverageSpeedInKmPh,
+            participation.CompetitionConstraint.Type);
+        participation.RaiseUpdate();
+        var previousLength = records
+            .Take(records.IndexOf(record))
+            .Sum(x => x.Lap.LengthInKm);
+        var performance = new Performance(record, participation.CompetitionConstraint.Type, previousLength);
         return performance;
     }
 

@@ -55,6 +55,9 @@ public class ParticipationsAggregate : IAggregate
         else
         {
             currentLap.Arrive(time);
+            currentLap.CheckForResult(
+                this.participation.Participant.MaxAverageSpeedInKmPh,
+                this.participation.CompetitionConstraint.Type);
         }
         this.participation.UpdateType = WitnessEventType.Arrival;
         this.participation.RaiseUpdate();
@@ -70,6 +73,9 @@ public class ParticipationsAggregate : IAggregate
         else
         {
             currentLap.Vet(time);
+            currentLap.CheckForResult(
+                this.participation.Participant.MaxAverageSpeedInKmPh,
+                this.participation.CompetitionConstraint.Type);
         }
         this.participation.UpdateType = WitnessEventType.VetIn;
         this.participation.RaiseUpdate();
