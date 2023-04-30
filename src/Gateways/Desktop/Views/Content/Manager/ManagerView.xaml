@@ -132,8 +132,12 @@
                                 Name="Participations">
                         <TabControl.ItemTemplate>
                             <DataTemplate>
-                                <TextBlock Style="{StaticResource Text-Bold}" Width="40px" TextAlignment="Center" Padding="5px"
-                                           Text="{Binding Number}" Foreground="{Binding Color}" />
+                                <StackPanel Style="{StaticResource List-Horizontal}">
+                                    <TextBlock Style="{StaticResource Text-Small}" FontWeight="Bold"
+                                               Text="{Binding Number}" Foreground="{Binding Color}" />
+                                    <TextBlock Style="{StaticResource Text-Small}"
+                                               Text="{Binding Distance}"/>
+                                </StackPanel>
                             </DataTemplate>
                         </TabControl.ItemTemplate>
                         <TabControl.ContentTemplate>

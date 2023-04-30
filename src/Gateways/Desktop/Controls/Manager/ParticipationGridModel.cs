@@ -26,6 +26,7 @@ public class ParticipationGridModel : BindableBase
         this.executor = StaticProvider.GetService<IExecutor>();
         this.Participant = participation.Participant;
         this.Number = this.Participant.Number;
+        this.Distance = $"({participation.CompetitionConstraint.Laps.Sum(x => x.LengthInKm)})";
 
         this.CreatePerformanceColumns(participation);
         var notifyCollectionChanged = (INotifyCollectionChanged) this.Participant.LapRecords;
@@ -86,6 +87,7 @@ public class ParticipationGridModel : BindableBase
     }
 
     public string Number { get; }
+    public string Distance { get; }
     private string disqualifyCode;
     public string DisqualifyCode
     {
