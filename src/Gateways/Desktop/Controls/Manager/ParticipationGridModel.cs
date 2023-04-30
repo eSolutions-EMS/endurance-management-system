@@ -27,6 +27,8 @@ public class ParticipationGridModel : BindableBase
         this.Participant = participation.Participant;
         this.Number = this.Participant.Number;
         this.Distance = $"({participation.CompetitionConstraint.Laps.Sum(x => x.LengthInKm)})";
+        var completedLaps = participation.Participant.LapRecords.Count(x => x.Result != null); 
+        this.IsComplete = completedLaps == participation.CompetitionConstraint.Laps.Count;
 
         this.CreatePerformanceColumns(participation);
         var notifyCollectionChanged = (INotifyCollectionChanged) this.Participant.LapRecords;
@@ -53,6 +55,10 @@ public class ParticipationGridModel : BindableBase
         {
             this.Color = new SolidColorBrush(Colors.Red);
             this.DisqualifyCode = aggregate.DisqualifiedCode;
+        }
+        else if (this.IsComplete)
+        {
+            this.Color = new SolidColorBrush(Colors.Green);
         }
         else
         {
@@ -86,6 +92,7 @@ public class ParticipationGridModel : BindableBase
         this.RaisePropertyChanged(nameof(Performances));
     }
 
+    public bool IsComplete { get; }
     public string Number { get; }
     public string Distance { get; }
     private string disqualifyCode;

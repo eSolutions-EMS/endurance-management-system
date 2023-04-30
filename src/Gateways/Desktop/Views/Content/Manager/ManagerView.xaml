@@ -135,7 +135,7 @@
                                 <StackPanel Style="{StaticResource List-Horizontal}">
                                     <TextBlock Style="{StaticResource Text-Small}" FontWeight="Bold"
                                                Text="{Binding Number}" Foreground="{Binding Color}" />
-                                    <TextBlock Style="{StaticResource Text-Small}"
+                                    <TextBlock Style="{StaticResource Text-Small}" Margin="5px 0 0 0"
                                                Text="{Binding Distance}"/>
                                 </StackPanel>
                             </DataTemplate>

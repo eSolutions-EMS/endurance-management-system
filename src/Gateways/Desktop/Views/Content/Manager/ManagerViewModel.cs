@@ -11,6 +11,7 @@ using Prism.Commands;
 using Prism.Events;
 using Prism.Regions;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
@@ -230,11 +231,17 @@ public class ManagerViewModel : ViewModelBase
         var participations = this.participations.GetAll();
         if (participations.Any())
         {
+            var models = new List<ParticipationGridModel>();
             foreach (var participation in participations.OrderBy(x => int.Parse(x.Participant.Number)))
             {
                 var viewModel = new ParticipationGridModel(participation, false);
-                this.Participations.Add(viewModel);
+                models.Add(viewModel);
             }
+            models = models
+                .OrderBy(x => x.IsComplete)
+                .ThenBy(x => x.Distance)
+                .ToList();
+            this.Participations.AddRange(models);
             this.SelectBy(this.Participations.First());
         }
     }
