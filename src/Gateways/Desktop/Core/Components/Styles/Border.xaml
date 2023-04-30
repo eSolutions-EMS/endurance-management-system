@@ -83,11 +83,12 @@
         <Setter Property="Padding" Value="0 0 10px 0" />
     </Style>
 
-    <Style x:Key="Border-Performance-Cell" TargetType="Border" BasedOn="{StaticResource Border-Table-Cell}">
-        <Setter Property="Width" Value="135px" />
+    <Style x:Key="Border-Table" TargetType="Border" BasedOn="{StaticResource Border-Table-Cell}">
+        <Setter Property="Height" Value="15px"/>
+        <Setter Property="Width" Value="90px" />
     </Style>
 
-    <Style x:Key="Cell-Thick-Right" TargetType="Border" BasedOn="{StaticResource Border-Performance-Cell}">
+    <Style x:Key="Cell-Thick-Right" TargetType="Border" BasedOn="{StaticResource Border-Table}">
         <Setter Property="BorderThickness" Value="0,0,0,1" />
     </Style>
 
@@ -97,13 +98,14 @@
 
     <Style x:Key="Border-Heading" BasedOn="{StaticResource Border}" TargetType="Border">
         <Setter Property="Background" Value="DimGray" />
-        <Setter Property="Height" Value="30px" />
+        <Setter Property="Height" Value="25px" />
     </Style>
 
     <Style x:Key="Border-Ranking-Location" BasedOn="{StaticResource Border}" TargetType="Border">
-        <Setter Property="BorderThickness" Value="0 2px 0 2px" />
-        <Setter Property="Height" Value="30px" />
-        <Setter Property="Margin" Value="0 5px 0 0" />
+        <Setter Property="BorderThickness" Value="0 1px 0 1px" />
+        <Setter Property="Height" Value="20px" />
+        <Setter Property="Margin" Value="0 3px 0 0" />
+        <Setter Property="BorderBrush" Value="Black" />
     </Style>
 
     <Style  x:Key="Border-Left" BasedOn="{StaticResource Border-Horizontal}" TargetType="Border">
