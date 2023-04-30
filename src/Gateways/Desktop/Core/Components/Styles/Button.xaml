@@ -31,8 +31,9 @@
     <!-- end Size -->
 
     <Style x:Key="Button-Table" TargetType="Button" BasedOn="{StaticResource Button}">
-        <Setter Property="Height" Value="25px"/>
-        <Setter Property="Width" Value="135px" />
+        <Setter Property="Height" Value="15px"/>
+        <Setter Property="FontSize" Value="13px" />
+        <Setter Property="Width" Value="90px" />
         <Setter Property="Margin" Value="0" />
         <Setter Property="Padding" Value="0" />
     </Style>

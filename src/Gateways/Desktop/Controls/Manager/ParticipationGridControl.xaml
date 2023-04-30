@@ -6,7 +6,7 @@
 
     <!-- Performances -->
     <StackPanel Style="{StaticResource List-Horizontal}" Name="Root">
-        <manager:PerformanceLabelsControl Number="{Binding Number}" />
+        <manager:PerformanceLabelsControl />
 
         <ItemsControl x:Name="Table">
             <ItemsControl.ItemsPanel>
