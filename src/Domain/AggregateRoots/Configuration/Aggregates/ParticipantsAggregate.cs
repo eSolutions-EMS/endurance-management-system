@@ -52,6 +52,16 @@ public class ParticipantsAggregate : IAggregate
             participant.MaxAverageSpeedInKmPh = participantState.MaxAverageSpeedInKmPh;
             participant.Number = participantState.Number;
         }
+        var duplicateHead = this.state.Participants.FirstOrDefault(x =>
+            x.RfIdHead == participantState.RfIdHead|| x.RfIdNeck == participantState.RfIdHead);
+        var duplicatedNeck = this.state.Participants.FirstOrDefault(x =>
+            x.RfIdHead == participantState.RfIdNeck || x.RfIdNeck == participantState.RfIdNeck);
+        if (duplicateHead != null || duplicatedNeck != null)
+        {
+            var duplicate = duplicateHead ?? duplicatedNeck;
+            var tag = duplicateHead != null ? participantState.RfIdHead : participantState.RfIdNeck;
+            throw Helper.Create<ParticipantException>($"Tag '{tag}' is already used in Participant '{duplicate.Number}'");
+        }
 
         return participant;
     }
