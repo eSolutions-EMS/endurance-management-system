@@ -1,6 +1,6 @@
 ﻿using EnduranceJudge.Application.Core;
+using EnduranceJudge.Application.Services;
 using EnduranceJudge.Domain.AggregateRoots.Manager;
-using EnduranceJudge.Domain.AggregateRoots.Manager.WitnessEvents;
 using EnduranceJudge.Domain.State.Participations;
 using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Core.Services;
@@ -29,6 +29,7 @@ public class ManagerViewModel : ViewModelBase
     private readonly FinishWitness finishWitness;
 
     public ManagerViewModel(
+        ISettings settings,
         IEventAggregator eventAggregator,
         IPopupService popupService,
         IExecutor<ManagerRoot> managerExecutor,
@@ -37,7 +38,7 @@ public class ManagerViewModel : ViewModelBase
         this.eventAggregator = eventAggregator;
         this.managerExecutor = managerExecutor;
         this.participations = participations;
-        this.finishWitness = new FinishWitness();
+        this.finishWitness = new FinishWitness(settings);
         this.Update = new DelegateCommand(this.UpdateAction);
         this.Start = new DelegateCommand(this.StartAction);
         this.Disqualify = new DelegateCommand(this.DisqualifyAction);

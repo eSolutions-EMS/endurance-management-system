@@ -1,9 +1,10 @@
+using EnduranceJudge.Domain.AggregateRoots.Manager;
 using EnduranceJudge.Domain.Core.Exceptions;
 using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Athletes;
 using EnduranceJudge.Domain.State.Horses;
 using EnduranceJudge.Domain.State.LapRecords;
-using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -63,4 +64,16 @@ public class Participant : DomainBase<ParticipantException>, IParticipantState
     {
         this.lapRecords.Clear();
     }
+
+    // Metadata for stats
+    public Dictionary<WitnessEventType, List<int>> DetectedHead { get; } = new()
+    {
+        { WitnessEventType.Arrival, new List<int>() },
+        { WitnessEventType.VetIn, new List<int>() },
+    };
+    public Dictionary<WitnessEventType, List<int>> DetectedNeck { get; } = new()
+    {
+        { WitnessEventType.Arrival, new List<int>() },
+        { WitnessEventType.VetIn, new List<int>() },
+    };
 }

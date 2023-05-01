@@ -13,6 +13,7 @@ using EnduranceJudge.Domain.State.Participations;
 using EnduranceJudge.Domain.AggregateRoots.Common.Performances;
 using EnduranceJudge.Domain.AggregateRoots.Manager.WitnessEvents;
 using EnduranceJudge.Domain.State.LapRecords;
+using IdentityServer4.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -114,45 +115,59 @@ public class ManagerRoot : IAggregateRoot
     private readonly Dictionary<string, DateTime> arrivalCache = new();
     private readonly Dictionary<string, DateTime> vetCache = new();
 
-    public void HandleArrive(string rfid, DateTime time)
+    public void HandleArrive(string numberOrTag, DateTime time)
     {
-        var participation = this
-            .GetParticipation(rfid)
-            .Aggregate();
-        if (participation.CurrentLap.ArrivalTime != null && participation.CurrentLap.Result == null)
+        var participation = this.GetParticipation(numberOrTag);
+        var aggregate = participation.Aggregate();
+        if (aggregate.CurrentLap.ArrivalTime != null && aggregate.CurrentLap.Result == null)
         {
             return;
         }
         // TODO: extract deduplication logic in common utility
         // Make sure that we only finish once even if we detect both tags
         var now = DateTime.Now;
-        if (this.arrivalCache.ContainsKey(participation.Number)
-            && now - this.arrivalCache[participation.Number] < TimeSpan.FromSeconds(30))
+        if (this.arrivalCache.ContainsKey(aggregate.Number)
+            && now - this.arrivalCache[aggregate.Number] < TimeSpan.FromSeconds(30))
         {
             return;
         }
-        this.arrivalCache[participation.Number] = now;
-        participation.Arrive(time);
+        this.arrivalCache[aggregate.Number] = now;
+        aggregate.Arrive(time);
+        this.AddStats(participation, numberOrTag, WitnessEventType.VetIn);
     }
-    public void HandleVet(string rfid, DateTime time)
+    public void HandleVet(string numberOrTag, DateTime time)
     {
-        var participation = this
-            .GetParticipation(rfid)
-            .Aggregate();
-        if (participation.CurrentLap.Result != null
-            || participation.CurrentLap.InspectionTime != null && participation.CurrentLap.ReInspectionTime != null)
+        var participation = this.GetParticipation(numberOrTag);
+        var aggregate = participation.Aggregate();
+        if (aggregate.CurrentLap.Result != null
+            || aggregate.CurrentLap.InspectionTime != null && aggregate.CurrentLap.ReInspectionTime != null)
         {
             return;
         }
         var now = DateTime.Now;
-        if (this.vetCache.ContainsKey(participation.Number)
-            && now - this.vetCache[participation.Number] < TimeSpan.FromSeconds(30))
+        if (this.vetCache.ContainsKey(aggregate.Number)
+            && now - this.vetCache[aggregate.Number] < TimeSpan.FromSeconds(30))
         {
             return;
         }
-        this.vetCache[participation.Number] = now;
-        participation.Vet(time);
+        this.vetCache[aggregate.Number] = now;
+        aggregate.Vet(time);
+        this.AddStats(participation, numberOrTag, WitnessEventType.VetIn);
         Witness.RaiseStartlistChanged(this.GetStartList(false));
+    }
+
+    private void AddStats(Participation participation, string numberOrTag, WitnessEventType type)
+    {
+        var lastLap = participation.Participant.LapRecords.Last();
+        var index = participation.Participant.LapRecords.IndexOf(lastLap);
+        if (participation.Participant.RfIdNeck == numberOrTag)
+        {
+            participation.Participant.DetectedNeck[type].Add(index);
+        }
+        if (participation.Participant.RfIdHead == numberOrTag)
+        {
+            participation.Participant.DetectedHead[type].Add(index);
+        }
     }
 
     public void Disqualify(string number, string reason)

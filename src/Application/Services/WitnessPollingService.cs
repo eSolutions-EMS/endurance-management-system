@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,22 +9,22 @@ namespace EnduranceJudge.Application.Services;
 public class WitnessPollingService : IWitnessPollingService
 {
     private readonly CancellationTokenSource polling = new();
+    private readonly ISettings settings;
     private readonly ILogger logger;
     private readonly IDataService dataService;
     private readonly IWitnessEventQueue witnessEventQueue;
-    private readonly IPersistence persistence;
     private bool isPolling;
 
     public WitnessPollingService(
+        ISettings settings,
         ILogger logger,
         IDataService dataService,
-        IWitnessEventQueue witnessEventQueue,
-        IPersistence persistence)
+        IWitnessEventQueue witnessEventQueue)
     {
+        this.settings = settings;
         this.logger = logger;
         this.dataService = dataService;
         this.witnessEventQueue = witnessEventQueue;
-        this.persistence = persistence; // test
     }
 
     public void ApplyEvents()
@@ -49,7 +50,11 @@ public class WitnessPollingService : IWitnessPollingService
         this.isPolling = true;
         while (true)
         {
-            if (cancellationToken.IsCancellationRequested)
+            if (!this.settings.IsConfigured)
+            {
+                continue;
+            }
+            if (this.settings.IsSandboxMode || cancellationToken.IsCancellationRequested)
             {
                 break;
             }
