@@ -137,6 +137,7 @@ public static class Strings
     public static string AVERAGE_SPEED_PHASE_TERM              { get; internal set; }
 
     /* Messages */
+    public static string _IS_SANDBOX_MODE { get; internal set; }
     public static string SELECT_WORK_DIRECTORY_MESSAGE            { get; internal set; }
     public static string REMOVE_CONFIRMATION_MESSAGE              { get; internal set; }
     public static string INVALID_DATE_FORMAT_MESSAGE              { get; internal set; }
