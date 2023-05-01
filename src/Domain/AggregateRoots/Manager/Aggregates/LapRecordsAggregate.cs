@@ -68,7 +68,7 @@ public class LapRecordsAggregate : IAggregate
     {
         if (this.Record.Lap.IsCompulsoryInspectionRequired)
         {
-            throw Helper.Create<LapRecordException>(REQUIRED_INSPECTION_IS_NOT_ALLOWED_MESSAGE);
+            throw Helper.Create<LapRecordException>(REQUIRED_INSPECTION_IS_NOT_ALLOWED_ON_FINAL_MESSAGE);
         }
         this.Record.IsRequiredInspectionRequired = isRequired;
     }
