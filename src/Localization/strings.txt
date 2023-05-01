@@ -136,7 +136,7 @@ CANNOT_EDIT_PERFORMANCE_MESSAGE                          | - INVALID edit. Value
 IS_REQUIRED_MESSAGE                                      | '{0}' is required. | '{0}' is required.
 NOT_FOUND_MESSAGE                                        | with {0} '{1}' not found | with {0} '{1}' not found
 CHANGE_NOT_ALLOWED_WHEN_EVENT_HAS_STARTED_MESSAGE        | changes are not allowed after {entities-participation-plurals} have started | changes are not allowed after {entities-participation-plurals} have started
-REQUIRED_INSPECTION_IS_NOT_ALLOWED_MESSAGE               | 's Individual Required Inspection is not allowed, because CRI is enabled on this '{entities-lap}' | 's Individual Required Inspection is not allowed, because CRI is enabled on this '{entities-lap}'
+REQUIRED_INSPECTION_IS_NOT_ALLOWED_ON_FINAL_MESSAGE      | CRI is not allowed on Final stage | CRI is not allowed on Final stage
 INVALID_ORDER_BY_MESSAGE                                 | with order '{0}' already exists | with order '{0}' already exists
 INVALID_COMPETITION_NO_FINAL_PHASE_MESSAGE               | {0} has no final {entities-lap} | {0} has no final {entities-lap}
 INVALID_PARTICIPANT_NO_PARTICIPATIONS_MESSAGE            | '{0}' is not included in any {entities-competition} | '{0}' is not included in any {entities-competition}

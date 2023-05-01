@@ -160,7 +160,7 @@ public static class Strings
     /// </summary>
     public static string PARTICIPANT_CANNOT_FTQ_WITHOUT_REASON_MESSAGE            { get; internal set; }
     public static string CHANGE_NOT_ALLOWED_WHEN_EVENT_HAS_STARTED_MESSAGE        { get; internal set; }
-    public static string REQUIRED_INSPECTION_IS_NOT_ALLOWED_MESSAGE               { get; internal set; }
+    public static string REQUIRED_INSPECTION_IS_NOT_ALLOWED_ON_FINAL_MESSAGE      { get; internal set; }
     public static string INVALID_ORDER_BY_MESSAGE                                 { get; internal set; }
     public static string FINAL_LAP_ALREADY_EXISTS_MESSAGE                         { get; internal set; }
     public static string FINAL_LAP_MUST_HAVE_HIGHEST_ORDER_MESSAGE                { get; internal set; }
