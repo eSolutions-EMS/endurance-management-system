@@ -12,6 +12,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Import;
 
 public class ImportViewModel : ViewModelBase
 {
+    private readonly SettingsService settings;
     private readonly IExecutor<IImportService> importExecutor;
     private readonly IApplicationContext context;
     private readonly IPersistence persistence;
@@ -19,7 +20,10 @@ public class ImportViewModel : ViewModelBase
     private readonly IExplorerService explorer;
     private readonly INavigationService navigation;
 
+    private bool isSandboxMode;
+
     public ImportViewModel(
+        SettingsService settings,
         IExecutor<IImportService> importExecutor,
         IApplicationContext context,
         IPersistence persistence,
@@ -27,6 +31,7 @@ public class ImportViewModel : ViewModelBase
         IExplorerService explorer,
         INavigationService navigation)
     {
+        this.settings = settings;
         this.importExecutor = importExecutor;
         this.context = context;
         this.persistence = persistence;
@@ -44,6 +49,12 @@ public class ImportViewModel : ViewModelBase
     private string importFilePath;
     private Visibility workDirectoryVisibility = Visibility.Visible;
     private Visibility importFilePathVisibility = Visibility.Hidden;
+
+    public bool IsSandboxMode
+    {
+        get => this.isSandboxMode;
+        set => this.SetProperty(ref this.isSandboxMode, value);
+    }
 
     public override void OnNavigatedTo(NavigationContext context)
     {
@@ -78,6 +89,7 @@ public class ImportViewModel : ViewModelBase
 
     private void OpenFolderDialogAction()
     {
+        this.settings.IsSandboxMode = this.IsSandboxMode;
         var selectedPath = this.explorer.SelectDirectory();
         if (selectedPath == null)
         {
@@ -91,7 +103,7 @@ public class ImportViewModel : ViewModelBase
         var result = this.persistence.Configure(selectedPath);
         ManagerRoot.dataDirectoryPath = selectedPath;
         this.context.Initialize();
-
+        this.settings.IsConfigured = true;
         if (result.IsExistingFile)
         {
             this.Redirect();

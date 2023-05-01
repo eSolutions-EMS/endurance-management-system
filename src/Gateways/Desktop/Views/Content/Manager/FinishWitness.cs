@@ -1,4 +1,5 @@
 ﻿using EnduranceJudge.Application.Hardware;
+using EnduranceJudge.Application.Services;
 using EnduranceJudge.Domain.AggregateRoots.Manager;
 using EnduranceJudge.Domain.AggregateRoots.Manager.WitnessEvents;
 using Prism.Mvvm;
@@ -12,6 +13,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager;
 
 public class FinishWitness : BindableBase
 {
+    private readonly ISettings settings;
     //TODO: provide the ability for users to configure this IP.
     public const string FINISH_DEVICE_IP = "192.168.68.128";
 
@@ -19,8 +21,13 @@ public class FinishWitness : BindableBase
     private readonly VupRfidController controller;
     private string message;
 
-    public FinishWitness()
+    public FinishWitness(ISettings settings)
     {
+        this.settings = settings;
+        if (this.settings.IsSandboxMode)
+        {
+            return;
+        }
         this.controller = new VupRfidController(FINISH_DEVICE_IP);
         this.controller.MessageEvent += (_, message) => this.Message = message;
         this.controller.ReadEvent += this.RaiseWitnessEvent;
@@ -34,6 +41,10 @@ public class FinishWitness : BindableBase
 
     public void Connect()
     {
+        if (this.settings.IsSandboxMode)
+        {
+            return;
+        }
         this.controller.Connect();
     }
 
@@ -42,21 +53,37 @@ public class FinishWitness : BindableBase
     /// </summary>
     public void Start()
     {
+        if (this.settings.IsSandboxMode)
+        {
+            return;
+        }
         Task.Run(() => this.controller.StartPolling());
     }
 
     public void Stop()
     {
+        if (this.settings.IsSandboxMode)
+        {
+            return;
+        }
         this.controller.StopPolling();
     }
 
     public void Disconnect()
     {
+        if (this.settings.IsSandboxMode)
+        {
+            return;
+        }
         Task.Run(() => this.controller.Disconnect());
     }
 
     public bool IsStarted()
     {
+        if (this.settings.IsSandboxMode)
+        {
+            return false;
+        }
         return this.controller.IsPolling;
     }
 

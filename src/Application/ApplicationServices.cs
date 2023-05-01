@@ -24,10 +24,9 @@ public static class ApplicationServices
             .AddClasses(classes => classes.AssignableTo(typeof(IQueries<>)))
             .AsSelfWithInterfaces()
             .WithTransientLifetime());
-        
-        // TODO: get that working
-        // services.AddHttpClient();
-        // var kur = services.FirstOrDefault(x => x.ServiceType == typeof(IServiceScopeFactory));
+
+        services.AddSingleton<SettingsService>();
+        services.AddSingleton<ISettings>(x => x.GetRequiredService<SettingsService>());
 
         services.AddState();
         
