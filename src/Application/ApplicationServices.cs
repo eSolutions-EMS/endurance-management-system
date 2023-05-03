@@ -25,9 +25,6 @@ public static class ApplicationServices
             .AsSelfWithInterfaces()
             .WithTransientLifetime());
 
-        services.AddSingleton<SettingsService>();
-        services.AddSingleton<ISettings>(x => x.GetRequiredService<SettingsService>());
-
         services.AddState();
         
         return services;

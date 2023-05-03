@@ -1,4 +1,5 @@
 using EnduranceJudge.Application;
+using EnduranceJudge.Application.Services;
 using EnduranceJudge.Core;
 using EnduranceJudge.Gateways.Desktop.Core.Objects;
 using EnduranceJudge.Core.Services;
@@ -6,9 +7,13 @@ using EnduranceJudge.Domain;
 using EnduranceJudge.Gateways.Desktop.Services;
 using EnduranceJudge.Localization;
 using Microsoft.Extensions.DependencyInjection;
+using Newtonsoft.Json;
 using Prism.Ioc;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text.Json;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace EnduranceJudge.Gateways.Desktop.Startup;
 
@@ -53,6 +58,7 @@ public static class DesktopServices
     private static IServiceCollection AddDesktop(this IServiceCollection services, Assembly[] assemblies)
     {
         services.AddTransient(typeof(IExecutor<>), typeof(Executor<>));
+        services.AddJudgeSettings();
         return services;
     }
 
@@ -67,5 +73,13 @@ public static class DesktopServices
         }
 
         return services;
+    }
+
+    private static void AddJudgeSettings(this IServiceCollection services)
+    {
+        var contents = File.ReadAllText(DesktopConstants.SETTINGS_FILE);
+        var config = JsonSerializer.Deserialize<Settings>(contents, new JsonSerializerOptions { PropertyNameCaseInsensitive = true});
+        services.AddSingleton(config);
+        services.AddSingleton<ISettings>(x => x.GetRequiredService<Settings>());
     }
 }
