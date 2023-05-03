@@ -16,7 +16,7 @@ public class HorseViewModel : ConfigurationBase<HorseView, Horse>, IHorseState, 
         this.executor = executor;
     }
 
-    private int isStallionValue;
+    private bool isStallion;
     private string feiId;
     private string name;
     private string breed;
@@ -48,10 +48,10 @@ public class HorseViewModel : ConfigurationBase<HorseView, Horse>, IHorseState, 
         get => this.club;
         set => this.SetProperty(ref this.club, value);
     }
-    public int IsStallionValue
+    public bool IsStallion
     {
-        get => this.isStallionValue;
-        set => this.SetProperty(ref this.isStallionValue, value);
+        get => this.isStallion;
+        set => this.SetProperty(ref this.isStallion, value);
     }
     public string Breed
     {
@@ -73,6 +73,4 @@ public class HorseViewModel : ConfigurationBase<HorseView, Horse>, IHorseState, 
         get => this.trainerLastName;
         set => this.SetProperty(ref this.trainerLastName, value);
     }
-
-    public bool IsStallion => this.isStallionValue != 0;
 }
