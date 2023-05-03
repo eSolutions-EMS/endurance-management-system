@@ -1,32 +1,37 @@
-while getopts "v:" option; do
+while getopts "lv:" option; do
   case $option in
+    l) remote=false;;
     v) branch_version=$OPTARG;;
     \?) echo "Error: Invalid option"
       exit;;
    esac
 done
 
-# dev_branch=$(git branch --show-current)
-# echo "push to dev remote '$dev_branch'"
-# git push
-# if [ $? -gt 0 ]; then
-#   exit 1
-# fi
+if ! git checkout main
+then 
+  exit 1
+fi
 
-# rel_branch="rel/$branch_version"
-# echo "sync with release branch '$rel_branch'"
-# git checkout "$rel_branch"
-# if [ $? -gt 0 ]; then
-#   exit 1
-# fi
-
-# git rebase "$dev_branch"
-# if [ $? -gt 0 ]; then
-#   exit 1
-# fi
-
-#echo "push to rel remote '$rel_branch'"
-
+if [ $remote ]; then
+  if ! git pull
+  then
+   exit 1
+  fi
+fi
+ 
+echo "bumping version"
+settings_path=src/Gateways/Desktop/settings.json
+cat $settings_path | sed -r "s/([0-9]+\.[0-9]+\.[0-9]+)/3.3.3/" > temp && mv temp $settings_path
+git add .
+git commit -m "Set Judge version to $branch_version"
+  
+if [ $remote ]; then
+  echo "pushing to remote 'main'"
+  if ! git push
+  then
+    exit 1
+  fi
+fi
 
 echo "clearing release directory..."
 output_dir="endurance-judge-$branch_version"
@@ -37,8 +42,8 @@ cd "$output_dir"
 echo "release directory cleared."
 echo "======================================================================================================================================="
 echo "DOTNET PUBLISH"
-dotnet publish -c Release -o . ../src/EnduranceJudge.sln
-if [ $? -gt 0 ]; then
+if ! dotnet publish -c Release -o . ../src/EnduranceJudge.sln
+then
   exit 1
 fi
 
