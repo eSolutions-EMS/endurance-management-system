@@ -16,18 +16,14 @@ public class ImportViewModel : ViewModelBase
     private readonly IExecutor<IImportService> importExecutor;
     private readonly IApplicationContext context;
     private readonly IPersistence persistence;
-    private readonly IImportService importService;
     private readonly IExplorerService explorer;
     private readonly INavigationService navigation;
-
-    private bool isSandboxMode;
 
     public ImportViewModel(
         Settings settings,
         IExecutor<IImportService> importExecutor,
         IApplicationContext context,
         IPersistence persistence,
-        IImportService importService,
         IExplorerService explorer,
         INavigationService navigation)
     {
@@ -35,7 +31,6 @@ public class ImportViewModel : ViewModelBase
         this.importExecutor = importExecutor;
         this.context = context;
         this.persistence = persistence;
-        this.importService = importService;
         this.explorer = explorer;
         this.navigation = navigation;
         this.OpenFolderDialog = new DelegateCommand(this.OpenFolderDialogAction);
@@ -49,12 +44,6 @@ public class ImportViewModel : ViewModelBase
     private string importFilePath;
     private Visibility workDirectoryVisibility = Visibility.Visible;
     private Visibility importFilePathVisibility = Visibility.Hidden;
-
-    public bool IsSandboxMode
-    {
-        get => this.isSandboxMode;
-        set => this.SetProperty(ref this.isSandboxMode, value);
-    }
 
     public override void OnNavigatedTo(NavigationContext context)
     {
@@ -89,7 +78,6 @@ public class ImportViewModel : ViewModelBase
 
     private void OpenFolderDialogAction()
     {
-        this.settings.IsSandboxMode = this.IsSandboxMode;
         var selectedPath = this.explorer.SelectDirectory();
         if (selectedPath == null)
         {
