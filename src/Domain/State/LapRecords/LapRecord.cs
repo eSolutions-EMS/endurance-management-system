@@ -46,7 +46,9 @@ public class LapRecord : DomainBase<LapRecordException>, ILapRecordState, INotif
     public DateTime? VetGateTime
         => this.ReInspectionTime ?? this.InspectionTime;
     public DateTime? NextStarTime
-        => this.VetGateTime?.AddMinutes(this.Lap.RestTimeInMins);
+        => this.Lap.IsFinal
+            ? null
+            : this.VetGateTime?.AddMinutes(this.Lap.RestTimeInMins);
     public event PropertyChangedEventHandler PropertyChanged;
 
     [NotifyPropertyChangedInvocator]
