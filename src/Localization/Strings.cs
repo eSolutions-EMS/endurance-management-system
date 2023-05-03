@@ -36,13 +36,13 @@ public static class Strings
     public static string LAP_RECORDS_ENTITY            { get; internal set; }
 
    /* Words */
-    public static string SAVE                              { get; internal set; }
+    public static string _SAVE                              { get; internal set; }
     public static string UPDATE                            { get; internal set; }
     public static string REMOVE                            { get; internal set; }
     public static string SEARCH                            { get; internal set; }
     public static string CLEAR                             { get; internal set; }
-    public static string CREATE                            { get; internal set; }
-    public static string BACK                              { get; internal set; }
+    public static string _CREATE                            { get; internal set; }
+    public static string _BACK                              { get; internal set; }
     public static string YES                               { get; internal set; }
     public static string NO                                { get; internal set; }
     public static string RECOVERY_IN_MINUTES_TEXT          { get; internal set; }

@@ -37,13 +37,13 @@ RECOVERY_SPAN_TERM                         | REC | REC
 TIME_TERM                                  | TIME | TIME
 AVERAGE_SPEED_LOOP_TERM                    | Speed (loop) | Speed (loop)
 AVERAGE_SPEED_PHASE_TERM                   | Speed (phase) | Speed (phase)
-SAVE                                | Save | Save
+_SAVE                                | _Save | _Save
 UPDATE                              | Update | Update
 REMOVE                              | Remove | Remove
 SEARCH                              | Search | Search
 CLEAR                               | Clear | Clear
-CREATE                              | Create | Create
-BACK                                | Back | Back
+_CREATE                              | _Create | _Create
+_BACK                                | _Back | _Back
 YES                                 | Yes | Yes
 NO                                  | No | No
 RECOVERY_IN_MINUTES_TEXT            | Recovery (min) | Recovery (min)
