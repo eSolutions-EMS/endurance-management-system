@@ -16,7 +16,6 @@
             <RowDefinition Style="{StaticResource Row-Title}" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <!-- Title -->
@@ -57,10 +56,5 @@
                          IsReadOnly="True"/>
             </Border>
         </DockPanel>
-        
-        <CheckBox Grid.Row="3" Grid.Column="1"
-                  Style="{StaticResource CheckBox}"
-                  IsChecked="{Binding IsSandboxMode}"
-                  Content="{x:Static localization:Strings._IS_SANDBOX_MODE}" />
     </Grid>
 </UserControl>
