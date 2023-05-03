@@ -21,7 +21,7 @@ fi
  
 echo "bumping version"
 settings_path=src/Gateways/Desktop/settings.json
-cat $settings_path | sed -r "s/([0-9]+\.[0-9]+\.[0-9]+)/3.3.3/" > temp && mv temp $settings_path
+cat $settings_path | sed -r "s/([0-9]+\.[0-9]+\.[0-9]+)/$branch_version/" > temp && mv temp $settings_path
 git add .
 git commit -m "Set Judge version to $branch_version"
   
