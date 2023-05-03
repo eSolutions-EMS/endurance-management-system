@@ -59,7 +59,7 @@ public abstract class ConfigurationBase<TView, TDomain> : ViewModelBase
     private void SubmitAction()
     {
         var result = this.Persist();
-        if (this.BackOnSubmit)
+        if (this.BackOnSubmit && result is not null)
         {
             this.NavigateBackAction();
         }
