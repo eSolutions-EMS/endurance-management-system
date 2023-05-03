@@ -113,11 +113,10 @@
         <!-- Is Stallion field -->
         <Border Style="{StaticResource Border-Content-Center}"
                 Grid.Row="5" Grid.Column="1">
-            <ComboBox Style="{StaticResource Combo-Box}"
+            <CheckBox Style="{StaticResource CheckBox}"
+                      IsChecked="{Binding IsStallion}"
                       Name="IsStallion"
-                      ItemsSource="{Binding BoolItems}"
-                      SelectedValue="{Binding IsStallionValue}"
-                      SelectedIndex="{Binding IsStallionValue}" />
+                      Content="{x:Static localization:Strings._YES}" />
         </Border>
         <!-- Trainer FeiId field -->
         <Border Style="{StaticResource Border-Content-Center}"
