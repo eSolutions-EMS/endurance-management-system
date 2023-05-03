@@ -36,7 +36,17 @@ public class ParticipantsAggregate : IAggregate
         {
             throw Helper.Create<ParticipantException>(ALREADY_PARTICIPATING_MESSAGE, horse.Name);
         }
-
+        var duplicateHead = this.state.Participants.FirstOrDefault(x =>
+            x.RfIdHead == participantState.RfIdHead|| x.RfIdNeck == participantState.RfIdHead);
+        var duplicatedNeck = this.state.Participants.FirstOrDefault(x =>
+            x.RfIdHead == participantState.RfIdNeck || x.RfIdNeck == participantState.RfIdNeck);
+        if (duplicateHead != null || duplicatedNeck != null)
+        {
+            var duplicate = duplicateHead ?? duplicatedNeck;
+            var tag = duplicateHead != null ? participantState.RfIdHead : participantState.RfIdNeck;
+            throw Helper.Create<ParticipantException>($"Tag '{tag}' is already used in Participant '{duplicate.Number}'");
+        }
+        
         var participant = this.state.Participants.FindDomain(participantState.Id);
         if (participant == null)
         {
@@ -52,7 +62,7 @@ public class ParticipantsAggregate : IAggregate
             participant.MaxAverageSpeedInKmPh = participantState.MaxAverageSpeedInKmPh;
             participant.Number = participantState.Number;
         }
-
+        
         return participant;
     }
 

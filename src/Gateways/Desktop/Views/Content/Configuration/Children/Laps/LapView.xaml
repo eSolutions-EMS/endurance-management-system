@@ -93,11 +93,10 @@
             <!-- Is Final -->
             <Border Style="{StaticResource Border-Content-Center}"
                     Grid.Row="4" Grid.Column="1">
-                <ComboBox Style="{StaticResource Combo-Box}"
-                          ItemsSource="{Binding BoolItems}"
-                          SelectedValue="{Binding IsFinalValue}"
-                          SelectedIndex="{Binding IsFinalValue}"
-                          Name="IsFinal" />
+                <CheckBox Style="{StaticResource CheckBox}"
+                          IsChecked="{Binding IsFinal}"
+                          Name="IsFinal"
+                          Content="{x:Static localization:Strings._YES}" />
             </Border>
             <!-- Nax Recovery Timme -->
             <Border Style="{StaticResource Border-Content-Center}"
@@ -127,14 +126,14 @@
                     Grid.Row="2" Grid.Column="2">
                 <Button Style="{StaticResource Button-Big-Vertical}"
                         Command="{Binding Submit}"
-                        Content="{x:Static localization:Strings.SAVE}" />
+                        Content="{x:Static localization:Strings._SAVE}" />
             </Border>
             <!-- Back -->
             <Border Style="{StaticResource Border-Content-Right}"
                     Grid.Row="3" Grid.Column="2">
                 <Button Style="{StaticResource Button-Big-Vertical}"
                         Command="{Binding NavigateBack}"
-                        Content="{x:Static localization:Strings.BACK}" />
+                        Content="{x:Static localization:Strings._BACK}" />
             </Border>
         </Grid>
     </ScrollViewer>

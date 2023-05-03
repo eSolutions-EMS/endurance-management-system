@@ -28,139 +28,137 @@
                 Text="{Binding Id}" />
         <!-- Title-->
         <TextBlock Style="{StaticResource Text-H1}"
-                Grid.Row="0" Grid.Column="1"
+                Grid.Row="1" Grid.Column="1"
                 Text="{x:Static localization:Strings.HORSE_ENTITY}" />
 
         <!-- Content Left Labels -->
-        <!-- FEI ID -->
-        <Border Style="{StaticResource Border-Content-Left}"
-                Grid.Row="2" Grid.Column="0">
-            <Label Style="{StaticResource Label-Primary}"
-                   Tag="{Binding ElementName=FeiId}"
-                   Content="{x:Static localization:Strings.FEI_ID}" />
-        </Border>
         <!-- Name -->
         <Border Style="{StaticResource Border-Content-Left}"
-                Grid.Row="3" Grid.Column="0">
+                Grid.Row="2" Grid.Column="0">
             <Label Style="{StaticResource Label-Primary}"
                     Target="{Binding ElementName=Name}"
                     Content="{x:Static localization:Strings.NAME}" />
         </Border>
-        <!-- Is Stallion  -->
+        <!-- Club label -->
+        <Border Style="{StaticResource Border-Content-Left}"
+                Grid.Row="3" Grid.Column="0">
+            <Label Style="{StaticResource Label-Primary}"
+                   Target="{Binding ElementName=Club}"
+                   Content="{x:Static localization:Strings.CLUB}" />
+        </Border>
+        <!-- FEI ID -->
         <Border Style="{StaticResource Border-Content-Left}"
                 Grid.Row="4" Grid.Column="0">
+            <Label Style="{StaticResource Label-Primary}"
+                   Tag="{Binding ElementName=FeiId}"
+                   Content="{x:Static localization:Strings.FEI_ID}" />
+        </Border>
+        <!-- Is Stallion  -->
+        <Border Style="{StaticResource Border-Content-Left}"
+                Grid.Row="5" Grid.Column="0">
             <Label Style="{StaticResource Label-Primary}"
                     Target="{Binding ElementName=IsStallion}"
                     Content="{x:Static localization:Strings.IS_STALLION}" />
         </Border>
         <!-- Trainer FeiId label -->
         <Border Style="{StaticResource Border-Content-Left}"
-                Grid.Row="5" Grid.Column="0">
+                Grid.Row="6" Grid.Column="0">
             <Label Style="{StaticResource Label-Primary}"
                    Target="{Binding ElementName=TrainerFeiId}"
                    Content="{x:Static localization:Strings.TRAINER_FEI_ID}" />
         </Border>
         <!-- Breed label-->
         <Border Style="{StaticResource Border-Content-Left}"
-                Grid.Row="6" Grid.Column="0">
+                Grid.Row="7" Grid.Column="0">
             <Label Style="{StaticResource Label-Primary}"
                    Target="{Binding ElementName=Breed}"
                    Content="{x:Static localization:Strings.BREED}" />
         </Border>
         <!-- Trainer First Name label -->
         <Border Style="{StaticResource Border-Content-Left}"
-                Grid.Row="7" Grid.Column="0">
+                Grid.Row="8" Grid.Column="0">
             <Label Style="{StaticResource Label-Primary}"
                    Target="{Binding ElementName=TrainerFirstName}"
                    Content="{x:Static localization:Strings.TRAINER_FIRST_NAME}" />
         </Border>
         <!-- Trainer Last Name field -->
         <Border Style="{StaticResource Border-Content-Left}"
-                Grid.Row="8" Grid.Column="0">
+                Grid.Row="9" Grid.Column="0">
             <Label Style="{StaticResource Label-Primary}"
                     Target="{Binding ElementName=TrainerLastName}"
                     Content="{x:Static localization:Strings.TRAINER_LAST_NAME}" />
         </Border>
-        <!-- Club label -->
-        <Border Style="{StaticResource Border-Content-Left}"
-                Grid.Row="9" Grid.Column="0">
-            <Label Style="{StaticResource Label-Primary}"
-                   Target="{Binding ElementName=Club}"
-                   Content="{x:Static localization:Strings.CLUB}" />
-        </Border>
         <!-- Content Center Fields-->
-        <!-- FeiId field -->
-        <Border Style="{StaticResource Border-Content-Center}"
-                Grid.Row="2" Grid.Column="1">
-            <TextBox Style="{StaticResource Input}"
-                     Name="FeiId"
-                     Text="{Binding FeiId}" />
-        </Border>
         <!-- Name field -->
         <Border Style="{StaticResource Border-Content-Center}"
-                Grid.Row="3" Grid.Column="1">
+                Grid.Row="2" Grid.Column="1">
             <TextBox Style="{StaticResource Input}"
                      Name="Name"
                      Text="{Binding Name}" />
         </Border>
-        <!-- Is Stallion field -->
+        <!-- Club field -->
+        <Border Style="{StaticResource Border-Content-Center}"
+                Grid.Row="3" Grid.Column="1">
+            <TextBox Style="{StaticResource Input}"
+                     Name="Club"
+                     Text="{Binding Club}" />
+        </Border>
+        <!-- FeiId field -->
         <Border Style="{StaticResource Border-Content-Center}"
                 Grid.Row="4" Grid.Column="1">
-            <ComboBox Style="{StaticResource Combo-Box}"
+            <TextBox Style="{StaticResource Input}"
+                     Name="FeiId"
+                     Text="{Binding FeiId}" />
+        </Border>
+        <!-- Is Stallion field -->
+        <Border Style="{StaticResource Border-Content-Center}"
+                Grid.Row="5" Grid.Column="1">
+            <CheckBox Style="{StaticResource CheckBox}"
+                      IsChecked="{Binding IsStallion}"
                       Name="IsStallion"
-                      ItemsSource="{Binding BoolItems}"
-                      SelectedValue="{Binding IsStallionValue}"
-                      SelectedIndex="{Binding IsStallionValue}" />
+                      Content="{x:Static localization:Strings._YES}" />
         </Border>
         <!-- Trainer FeiId field -->
         <Border Style="{StaticResource Border-Content-Center}"
-                Grid.Row="5" Grid.Column="1">
+                Grid.Row="6" Grid.Column="1">
             <TextBox Style="{StaticResource Input}"
                      Name="TrainerFeiId"
                      Text="{Binding TrainerFeiId}" />
         </Border>
         <!-- Breed field -->
         <Border Style="{StaticResource Border-Content-Center}"
-                Grid.Row="6" Grid.Column="1">
+                Grid.Row="7" Grid.Column="1">
             <TextBox Style="{StaticResource Input}"
                      Name="Breed"
                      Text="{Binding Breed}" />
         </Border>
         <!-- Trainer First Name field -->
         <Border Style="{StaticResource Border-Content-Center}"
-                Grid.Row="7" Grid.Column="1">
+                Grid.Row="8" Grid.Column="1">
             <TextBox Style="{StaticResource Input}"
                      Name="TrainerFirstName"
                      Text="{Binding TrainerFirstName}" />
         </Border>
         <!-- TrainerLastName field-->
         <Border Style="{StaticResource Border-Content-Center}"
-                Grid.Row="8" Grid.Column="1">
+                Grid.Row="9" Grid.Column="1">
             <TextBox Style="{StaticResource Input}"
                      Name="TrainerLastName"
                      Text="{Binding TrainerLastName}" />
         </Border>
-        <!-- Club field -->
-        <Border Style="{StaticResource Border-Content-Center}"
-                Grid.Row="9" Grid.Column="1">
-            <TextBox Style="{StaticResource Input}"
-                     Name="Club"
-                     Text="{Binding Club}" />
-        </Border>
-
         <!-- Content Right Controls -->
         <!-- Save -->
         <Border Style="{StaticResource Border-Content-Right}"
                 Grid.Row="2" Grid.Column="2">
             <Button Style="{StaticResource Button-Big-Vertical}"
                     Command="{Binding Submit}"
-                    Content="{x:Static localization:Strings.SAVE}" />
+                    Content="{x:Static localization:Strings._SAVE}" />
         </Border>
         <Border Style="{StaticResource Border-Content-Right}"
                 Grid.Row="3" Grid.Column="2">
             <Button Style="{StaticResource Button-Big-Vertical}"
                     Command="{Binding NavigateBack}"
-                    Content="{x:Static localization:Strings.BACK}"  />
+                    Content="{x:Static localization:Strings._BACK}"  />
         </Border>
     </Grid>
 </UserControl>

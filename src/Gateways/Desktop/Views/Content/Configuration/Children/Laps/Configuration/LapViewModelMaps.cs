@@ -9,8 +9,7 @@ public class LapViewModelMaps : ICustomMapConfiguration
 {
     public void AddFromMaps(IProfileExpression profile)
     {
-        profile.CreateMap<Lap, LapViewModel>()
-            .ForMember(x => x.IsFinalValue, opt => opt.ConvertUsing(new BoolToIntConverter(), y => y.IsFinal));
+        profile.CreateMap<Lap, LapViewModel>();
     }
 
     public void AddToMaps(IProfileExpression profile)

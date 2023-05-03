@@ -6,7 +6,8 @@ namespace EnduranceJudge.Application.State;
 
 public class WitnessAwareContext : StateContext, IWitnessAwareContext
 {
-    public WitnessAwareContext(IWitnessPollingService witnessPollingService, IState state) : base(state)
+    public WitnessAwareContext(IWitnessPollingService witnessPollingService, IState state)
+        : base(state)
     {
         witnessPollingService.ApplyEvents();
     }
