@@ -48,6 +48,9 @@
     <Resource Include="Assets\logo-bfks.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <None Update="settings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>

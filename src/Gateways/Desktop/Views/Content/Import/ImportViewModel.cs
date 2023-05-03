@@ -12,7 +12,7 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Import;
 
 public class ImportViewModel : ViewModelBase
 {
-    private readonly SettingsService settings;
+    private readonly Settings settings;
     private readonly IExecutor<IImportService> importExecutor;
     private readonly IApplicationContext context;
     private readonly IPersistence persistence;
@@ -23,7 +23,7 @@ public class ImportViewModel : ViewModelBase
     private bool isSandboxMode;
 
     public ImportViewModel(
-        SettingsService settings,
+        Settings settings,
         IExecutor<IImportService> importExecutor,
         IApplicationContext context,
         IPersistence persistence,
