@@ -1,3 +1,5 @@
+remote=true;
+
 while getopts "lv:" option; do
   case $option in
     l) remote=false;;
