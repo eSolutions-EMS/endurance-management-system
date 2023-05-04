@@ -1,13 +1,16 @@
+remote=true;
+
 while getopts "lv:" option; do
   case $option in
     l) remote=false;;
-    v) branch_version=$OPTARG;;
+    v) version=$OPTARG;;
     \?) echo "Error: Invalid option"
       exit;;
    esac
 done
 
-if ! git checkout main
+branch="dev/main"
+if ! git checkout $branch
 then 
   exit 1
 fi
@@ -21,12 +24,12 @@ fi
  
 echo "bumping version"
 settings_path=src/Gateways/Desktop/settings.json
-cat $settings_path | sed -r "s/([0-9]+\.[0-9]+\.[0-9]+)/$branch_version/" > temp && mv temp $settings_path
+cat $settings_path | sed -r "s/([0-9]+\.[0-9]+\.[0-9]+)/$version/" > temp && mv temp $settings_path
 git add .
-git commit -m "Set Judge version to $branch_version"
+git commit -m "Set Judge version to $version"
   
 if [ $remote ]; then
-  echo "pushing to remote 'main'"
+  echo "pushing to remote '$branch'"
   if ! git push
   then
     exit 1
@@ -34,7 +37,7 @@ if [ $remote ]; then
 fi
 
 echo "clearing release directory..."
-output_dir="endurance-judge-$branch_version"
+output_dir="endurance-judge-$version"
 rm -rf "$output_dir"
 mkdir "$output_dir"
 cd "$output_dir"
