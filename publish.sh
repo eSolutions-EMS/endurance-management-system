@@ -32,6 +32,12 @@ if [ $remote ]; then
   then
     exit 1
   fi
+  echo "updating local 'main'"
+  if ! git checkout main
+  then
+    exit 1
+  fi
+  git pull
 fi
 
 echo "clearing release directory..."
