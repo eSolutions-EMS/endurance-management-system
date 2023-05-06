@@ -28,7 +28,11 @@
 	</array>
 	<key>XSAppIconAssets</key>
 	<string>Assets.xcassets/appicon.appiconset</string>
-  	<key>NSLocalNetworkUsageDescription</key>
+	<key>NSLocalNetworkUsageDescription</key>
 	<string>Needs to connect to Judge Main program to operate</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.1</string>
+	<key>CFBundleVersion</key>
+	<string>1.1</string>
 </dict>
 </plist>
