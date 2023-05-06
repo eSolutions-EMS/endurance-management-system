@@ -20,7 +20,8 @@ public partial class WitnessPage : ComponentBase
             Time = DateTime.Today
                 .AddHours(this.witnessModel.Hour ?? now.Hour)
                 .AddMinutes(this.witnessModel.Minute ?? now.Minute)
-                .AddSeconds(this.witnessModel.Second ?? now.Second),
+                .AddSeconds(this.witnessModel.Second ?? now.Second)
+                .AddMilliseconds(this.witnessModel.Millisecond ?? now.Millisecond),
             Type = Enum.Parse<WitnessEventType>(this.witnessModel.Type),
         };
         if (this.State.WitnessRecords.ContainsKey(witnessEvent.Number))
@@ -47,6 +48,7 @@ public partial class WitnessPage : ComponentBase
         public int? Hour;
         public int? Minute;
         public int? Second;
+        public int? Millisecond;
     }
 }
 
