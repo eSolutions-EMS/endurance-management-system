@@ -1,6 +1,8 @@
 ﻿@page "/startlist"
+@inject IDateService DateService;
 
 @using Endurance.Gateways.Witness.Services;
+@using EnduranceJudge.Application.Services;
 @using EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates.Startlists
 @using System.Text.Json
 
@@ -20,7 +22,7 @@
 			<tr>
 				<td>@start.Number</td>
 				<td>@start.Distance</td>
-				<td>@start.StartTime</td>
+				<td>@this.DateService.FormatTime(start.StartTime)</td>
 			</tr>
 		}
 	</tbody>

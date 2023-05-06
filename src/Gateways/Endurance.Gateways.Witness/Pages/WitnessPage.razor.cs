@@ -1,11 +1,13 @@
 ﻿using Endurance.Gateways.Witness.Models;
 using Endurance.Gateways.Witness.Services;
+using EnduranceJudge.Application.Services;
 using EnduranceJudge.Domain.AggregateRoots.Manager;
 using Microsoft.AspNetCore.Components;
 
 namespace Endurance.Gateways.Witness.Pages;
 public partial class WitnessPage : ComponentBase
 {
+    [Inject] private IDateService DateService { get; set; } = null!;
     [Inject] private IApiService ApiService { get; set; } = null!;
     [Inject] private IState State { get; set; } = null!;
 
@@ -20,7 +22,8 @@ public partial class WitnessPage : ComponentBase
             Time = DateTime.Today
                 .AddHours(this.witnessModel.Hour ?? now.Hour)
                 .AddMinutes(this.witnessModel.Minute ?? now.Minute)
-                .AddSeconds(this.witnessModel.Second ?? now.Second),
+                .AddSeconds(this.witnessModel.Second ?? now.Second)
+                .AddMilliseconds(this.witnessModel.Millisecond ?? now.Millisecond),
             Type = Enum.Parse<WitnessEventType>(this.witnessModel.Type),
         };
         if (this.State.WitnessRecords.ContainsKey(witnessEvent.Number))
@@ -47,6 +50,7 @@ public partial class WitnessPage : ComponentBase
         public int? Hour;
         public int? Minute;
         public int? Second;
+        public int? Millisecond;
     }
 }
 
