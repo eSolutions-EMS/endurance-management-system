@@ -46,7 +46,7 @@
             <tr>
                 <td>@witnessEvent.Number</td>
                 <td>@witnessEvent.Type.ToString()</td>
-                <td>@this.DateService.FormatTime(witnessEvent.Time)</td>
+                <td>@this.DateService.FormatTime(witnessEvent.Time, showMs: true)</td>
                 <td>
                     <button class="btn btn-success btn-table" @onclick="_ => this.Save(witnessEvent.Number)">Save</button>
                 </td>
