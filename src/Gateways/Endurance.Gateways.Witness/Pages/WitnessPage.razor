@@ -1,9 +1,6 @@
 ﻿@page "/witness"
 
-@using EnduranceJudge.Application.Services;
 @using EnduranceJudge.Domain.AggregateRoots.Manager;
-@using System.Globalization;
-
 
 <EditForm Model="@witnessModel" OnSubmit="HandleSubmit">
     <div class="mb-3">
@@ -49,7 +46,7 @@
             <tr>
                 <td>@witnessEvent.Number</td>
                 <td>@witnessEvent.Type.ToString()</td>
-                <td>@witnessEvent.Time.ToLongTimeString()</td>
+                <td>@this.DateService.FormatTime(witnessEvent.Time)</td>
                 <td>
                     <button class="btn btn-success btn-table" @onclick="_ => this.Save(witnessEvent.Number)">Save</button>
                 </td>

@@ -1,11 +1,13 @@
 ﻿using Endurance.Gateways.Witness.Models;
 using Endurance.Gateways.Witness.Services;
+using EnduranceJudge.Application.Services;
 using EnduranceJudge.Domain.AggregateRoots.Manager;
 using Microsoft.AspNetCore.Components;
 
 namespace Endurance.Gateways.Witness.Pages;
 public partial class WitnessPage : ComponentBase
 {
+    [Inject] private IDateService DateService { get; set; } = null!;
     [Inject] private IApiService ApiService { get; set; } = null!;
     [Inject] private IState State { get; set; } = null!;
 

@@ -66,6 +66,11 @@
       <ApplicationId>com.ems.witness</ApplicationId>
     </PropertyGroup>
 
+    <PropertyGroup Condition="'$(TargetFramework)'=='net6.0-ios'">
+      <CodesignKey>Apple Development: Created via API (P9YBGLG69Y)</CodesignKey>
+      <CodesignProvision>VS: com.ems.witness Development</CodesignProvision>
+    </PropertyGroup>
+
     <ItemGroup>
         <!-- App Icon -->
         <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
