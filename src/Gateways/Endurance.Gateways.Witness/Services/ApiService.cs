@@ -1,4 +1,5 @@
 ﻿using Endurance.Gateways.Witness.Models;
+using Endurance.Gateways.Witness.Platforms.iOS.Permissions;
 using Endurance.Gateways.Witness.Shared.Toasts;
 using EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 using System.Net.Http.Json;
@@ -24,12 +25,26 @@ public class ApiService : IApiService
 	{
 		try
 		{
-			var response = await this.httpClient.GetAsync(this.context.ApiHost);
-			if (response.IsSuccessStatusCode)
+			var status = await Permissions.CheckStatusAsync<NetworkAccessPermission>();
+			if (status == PermissionStatus.Granted)
 			{
-				var toast = new Toast("Handshake succesful", "Established connection to the EMS API", UiColor.Success, 10);
+				var response = await this.httpClient.GetAsync(this.context.ApiHost);
+				if (response.IsSuccessStatusCode)
+				{
+					var toast = new Toast("Handshake succesful", "Established connection to the EMS API", UiColor.Success, 10);
+					this.toasterService.Add(toast);
+				}
+			}
+			else
+			{
+				var toast = new Toast(
+					"Network permission rejected",
+					"eWitness app cannot operate without Network permissions. Grant permissions in device settings.",
+					UiColor.Danger,
+					10);
 				this.toasterService.Add(toast);
 			}
+			
 		}
 		catch (Exception exception)
 		{
