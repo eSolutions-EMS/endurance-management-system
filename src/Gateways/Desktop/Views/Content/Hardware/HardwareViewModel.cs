@@ -128,7 +128,7 @@ public class HardwareViewModel : ViewModelBase
                     var existingTag = this.Tags.FirstOrDefault(x => x.Id == tagId);
                     if (existingTag != null)
                     {
-                        existingTag.DetectedCount++;
+                        existingTag.Detect();
                     }
                     else
                     {
