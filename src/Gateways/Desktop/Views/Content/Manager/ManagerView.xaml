@@ -218,6 +218,9 @@
                     <Button Style="{StaticResource Button-Big-Vertical}"
                             Command="{Binding ReconnectHardware}"
                             Content="{x:Static localization:Strings.RECONNECT_HARDWARE}" />
+                    <Button Style="{StaticResource Button-Big-Vertical}"
+                            IsEnabled="False"
+                            Content="{Binding WitnessType}" />
                 </StackPanel>
             </Border>
         </Grid>

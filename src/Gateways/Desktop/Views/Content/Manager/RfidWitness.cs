@@ -11,9 +11,10 @@ using System.Windows.Threading;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager;
 
-public class FinishWitness : BindableBase
+public class RfidWitness : BindableBase
 {
     private readonly ISettings settings;
+    private readonly WitnessEventType type;
     //TODO: provide the ability for users to configure this IP.
     public const string FINISH_DEVICE_IP = "192.168.68.128";
 
@@ -21,9 +22,10 @@ public class FinishWitness : BindableBase
     private readonly VupRfidController controller;
     private string message;
 
-    public FinishWitness(ISettings settings)
+    public RfidWitness(ISettings settings, WitnessEventType type)
     {
         this.settings = settings;
+        this.type = type;
         if (this.settings.IsSandboxMode)
         {
             return;
@@ -107,7 +109,7 @@ public class FinishWitness : BindableBase
 
                     var witnessEvent = new WitnessEvent
                     {
-                        Type = WitnessEventType.VetIn,
+                        Type = this.type,
                         TagId = tagId,
                         Time = now,
                     };

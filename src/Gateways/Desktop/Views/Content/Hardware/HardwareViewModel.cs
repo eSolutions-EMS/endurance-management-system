@@ -31,7 +31,7 @@ public class HardwareViewModel : ViewModelBase
     {
         this.participationQueries = participationQueries;
         this.popupService = popupService;
-        this.controller = new VupRfidController(FinishWitness.FINISH_DEVICE_IP);
+        this.controller = new VupRfidController(RfidWitness.FINISH_DEVICE_IP);
         this.controller.MessageEvent += (_, message) => this.Message = message;
         this.controller.ReadEvent += this.HandleReadEventTag;
         this.isListing = this.controller.IsPolling;
