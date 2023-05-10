@@ -36,17 +36,33 @@ public class ParticipantsAggregate : IAggregate
         {
             throw Helper.Create<ParticipantException>(ALREADY_PARTICIPATING_MESSAGE, horse.Name);
         }
-        var duplicateHead = this.state.Participants.FirstOrDefault(x =>
-            x.RfIdHead == participantState.RfIdHead|| x.RfIdNeck == participantState.RfIdHead);
-        var duplicatedNeck = this.state.Participants.FirstOrDefault(x =>
-            x.RfIdHead == participantState.RfIdNeck || x.RfIdNeck == participantState.RfIdNeck);
-        if (duplicateHead != null || duplicatedNeck != null)
+        if (!string.IsNullOrEmpty(participantState.RfIdHead) && participantState.RfIdHead == participantState.RfIdNeck)
         {
-            var duplicate = duplicateHead ?? duplicatedNeck;
-            var tag = duplicateHead != null ? participantState.RfIdHead : participantState.RfIdNeck;
-            throw Helper.Create<ParticipantException>($"Tag '{tag}' is already used in Participant '{duplicate.Number}'");
+            throw Helper.Create<ParticipantException>($"Identical tags for 'Head  and 'Neck'");
         }
-        
+        if (!string.IsNullOrEmpty(participantState.RfIdHead))
+        {
+            var duplicate = this.state.Participants.FirstOrDefault(x =>
+                x.RfIdHead == participantState.RfIdHead
+                && x.Id != participantState.Id);
+            if (duplicate != null)
+            {
+                throw Helper.Create<ParticipantException>(
+                    $"Tag '{participantState.RfIdHead}' is already used in Participant '{duplicate.Number}'");
+            }
+        }
+        if (!string.IsNullOrEmpty(participantState.RfIdNeck))
+        {
+            var duplicate = this.state.Participants.FirstOrDefault(x =>
+                x.RfIdNeck == participantState.RfIdNeck
+                && x.Id != participantState.Id);
+            if (duplicate != null)
+            {
+                throw Helper.Create<ParticipantException>(
+                    $"Tag '{participantState.RfIdNeck}' is already used in Participant '{duplicate.Number}'");
+            }
+        }
+
         var participant = this.state.Participants.FindDomain(participantState.Id);
         if (participant == null)
         {
@@ -62,7 +78,7 @@ public class ParticipantsAggregate : IAggregate
             participant.MaxAverageSpeedInKmPh = participantState.MaxAverageSpeedInKmPh;
             participant.Number = participantState.Number;
         }
-        
+
         return participant;
     }
 

@@ -57,13 +57,15 @@ public class Persistence : IPersistence
     {
         this.stateDirectoryPath = directoryPath;
         var database = this.GetFilePath();
+        var sandboxDatabase = this.GetSandBoxFilePath();
+        if (this.settings.IsSandboxMode && this.file.Exists(sandboxDatabase))
+        {
+            this.LoadState(sandboxDatabase);
+            return PersistenceResult.Existing;
+        }
         if (this.file.Exists(database))
         {
-            var sandboxDatabase = this.GetSandBoxFilePath();
-            var path = this.settings.IsSandboxMode &&this.file.Exists(sandboxDatabase)
-                ? sandboxDatabase
-                : database;
-            this.SetState(path);
+            this.LoadState(database);
             return PersistenceResult.Existing;
         }
 
@@ -78,7 +80,7 @@ public class Persistence : IPersistence
         this.file.Create(databasePath, serialized);
     }
 
-    private void SetState(string path)
+    private void LoadState(string path)
     {
         var contents = this.file.Read(path);
         var state = this.serialization.Deserialize<StateModel>(contents);
@@ -92,7 +94,7 @@ public class Persistence : IPersistence
 
     private string GetSandBoxFilePath()
         => $"{this.stateDirectoryPath}\\{SANDBOX_STORAGE_FILE_NAME}";
-    
+
     private string GetFilePath()
         => $"{this.stateDirectoryPath}\\{STORAGE_FILE_NAME}";
 }

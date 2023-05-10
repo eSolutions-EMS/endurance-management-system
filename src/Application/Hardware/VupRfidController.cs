@@ -11,9 +11,12 @@ public class VupRfidController
     private const int MAX_POWER = 27;
     private readonly NetVupReader reader;
     private bool isConnected;
+    private readonly string ipAddress;
+    private bool cannotConnect;
 
     public VupRfidController(string ipAddress)
     {
+        this.ipAddress = ipAddress;
         this.reader = new NetVupReader(ipAddress, 1969, transport_protocol.tcp);
     }
 
@@ -34,7 +37,13 @@ public class VupRfidController
         var connectionResult = this.reader.Connect();
         if (!connectionResult.Success)
         {
-            this.RaiseMessage(connectionResult.Message ?? "Unknown failure. Please try again");
+            var message = string.IsNullOrEmpty(connectionResult.Message)
+                ? $"Unable to connect to VUP reader on IP '{this.ipAddress}'." +
+                    $" Make sure it's connected to the network and use 'Reconnect Hardware'"
+                : connectionResult.Message;
+            this.RaiseMessage(message);
+            this.cannotConnect = true;
+            return;
         }
         this.isConnected = true;
         this.SetPower(MAX_POWER);
@@ -45,6 +54,10 @@ public class VupRfidController
         if (!this.isConnected)
         {
             this.Connect();
+        }
+        if (this.cannotConnect)
+        {
+            return;
         }
 
         var antennaIndices = this.GetAntennaIndices();
@@ -66,7 +79,7 @@ public class VupRfidController
                     this.RaiseRead(tags);
                 }
             }
-            await Task.Delay(TimeSpan.FromMilliseconds(100));
+            await Task.Delay(TimeSpan.FromMilliseconds(1));
         }
     }
 
