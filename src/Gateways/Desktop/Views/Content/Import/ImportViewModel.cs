@@ -12,25 +12,25 @@ namespace EnduranceJudge.Gateways.Desktop.Views.Content.Import;
 
 public class ImportViewModel : ViewModelBase
 {
+    private readonly Settings settings;
     private readonly IExecutor<IImportService> importExecutor;
     private readonly IApplicationContext context;
     private readonly IPersistence persistence;
-    private readonly IImportService importService;
     private readonly IExplorerService explorer;
     private readonly INavigationService navigation;
 
     public ImportViewModel(
+        Settings settings,
         IExecutor<IImportService> importExecutor,
         IApplicationContext context,
         IPersistence persistence,
-        IImportService importService,
         IExplorerService explorer,
         INavigationService navigation)
     {
+        this.settings = settings;
         this.importExecutor = importExecutor;
         this.context = context;
         this.persistence = persistence;
-        this.importService = importService;
         this.explorer = explorer;
         this.navigation = navigation;
         this.OpenFolderDialog = new DelegateCommand(this.OpenFolderDialogAction);
@@ -91,7 +91,7 @@ public class ImportViewModel : ViewModelBase
         var result = this.persistence.Configure(selectedPath);
         ManagerRoot.dataDirectoryPath = selectedPath;
         this.context.Initialize();
-
+        this.settings.IsConfigured = true;
         if (result.IsExistingFile)
         {
             this.Redirect();

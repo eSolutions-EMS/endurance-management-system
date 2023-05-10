@@ -4,7 +4,6 @@ using EnduranceJudge.Domain.Core.Models;
 using EnduranceJudge.Domain.State.Laps;
 using EnduranceJudge.Gateways.Desktop.Services;
 using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core;
-using static EnduranceJudge.Localization.Strings;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Laps;
 
@@ -13,7 +12,7 @@ public class LapViewModel : NestedConfigurationBase<LapView, Lap>, ILapState
 {
     private readonly IExecutor<ConfigurationRoot> executor;
     private string isFinalText;
-    private int isFinalValue;
+    private bool isFinal;
     private double? lengthInKm;
     private int? orderBy;
     private int? maxRecoveryTimeInMinutes;
@@ -42,18 +41,11 @@ public class LapViewModel : NestedConfigurationBase<LapView, Lap>, ILapState
         }
     }
 
-    public int IsFinalValue
+    public bool IsFinal
     {
-        get => this.isFinalValue;
-        set
-        {
-            this.SetProperty(ref this.isFinalValue, value);
-            this.IsFinalText = value == 1
-                ? FINAL
-                : string.Empty;
-        }
+        get => this.isFinal;
+        set => this.SetProperty(ref this.isFinal, value);
     }
-    public bool IsFinal => this.IsFinalValue == 1;
     public string IsFinalText
     {
         get => this.isFinalText;

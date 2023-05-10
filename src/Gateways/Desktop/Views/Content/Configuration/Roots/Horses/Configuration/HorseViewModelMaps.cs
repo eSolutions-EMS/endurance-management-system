@@ -9,10 +9,10 @@ public class HorseViewModelMaps : ICustomMapConfiguration
 {
     public void AddFromMaps(IProfileExpression profile)
     {
-        profile.CreateMap<Horse, HorseViewModel>()
-            .ForMember(
-                x => x.IsStallionValue,
-                opt => opt.ConvertUsing(new BoolToIntConverter(), x => x.IsStallion));
+        profile.CreateMap<Horse, HorseViewModel>();
+        //     .ForMember(
+        //         x => x.IsStallion,
+        //         opt => opt.ConvertUsing(new BoolToIntConverter(), x => x.IsStallion));
     }
 
     public void AddToMaps(IProfileExpression profile)

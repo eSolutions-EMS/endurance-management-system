@@ -112,7 +112,7 @@ public class PerformanceColumnControl : StackPanel
     private void AddAverageSpeed()
         => this.CreateText(nameof(this.performance.AverageSpeedString));
     private void AddAverageSpeedTotal()
-        => this.CreateText(nameof(this.performance.AverageSpeedTotalString));
+        => this.CreateText(nameof(this.performance.AverageSpeedPhaseString));
     private void AddEdit()
     {
         var style = ControlsHelper.GetStyle("Button-Table");
@@ -128,7 +128,7 @@ public class PerformanceColumnControl : StackPanel
 
     private Border CreateCell(UIElement content)
     {
-        var style = ControlsHelper.GetStyle("Border-Performance-Cell");
+        var style = ControlsHelper.GetStyle("Border-Table");
         var border = new Border
         {
             Style = style,
@@ -139,7 +139,7 @@ public class PerformanceColumnControl : StackPanel
 
     private void CreateText(string value, bool bold = false)
     {
-        var style = ControlsHelper.GetStyle("Text");
+        var style = ControlsHelper.GetStyle("Text-Table");
         var text = new TextBlock
         {
             Style = style,

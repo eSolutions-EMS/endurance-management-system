@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -7,23 +8,24 @@ namespace EnduranceJudge.Application.Services;
 
 public class WitnessPollingService : IWitnessPollingService
 {
+    private int FREQUENCY_MS = 5000;
     private readonly CancellationTokenSource polling = new();
+    private readonly ISettings settings;
     private readonly ILogger logger;
     private readonly IDataService dataService;
     private readonly IWitnessEventQueue witnessEventQueue;
-    private readonly IPersistence persistence;
     private bool isPolling;
 
     public WitnessPollingService(
+        ISettings settings,
         ILogger logger,
         IDataService dataService,
-        IWitnessEventQueue witnessEventQueue,
-        IPersistence persistence)
+        IWitnessEventQueue witnessEventQueue)
     {
+        this.settings = settings;
         this.logger = logger;
         this.dataService = dataService;
         this.witnessEventQueue = witnessEventQueue;
-        this.persistence = persistence; // test
     }
 
     public void ApplyEvents()
@@ -43,13 +45,17 @@ public class WitnessPollingService : IWitnessPollingService
 
     private void StartPollingInBackground()
         => Task.Run(() => this.PollEventApi(this.polling.Token));
-    
+
     private async Task PollEventApi(CancellationToken cancellationToken)
     {
         this.isPolling = true;
         while (true)
         {
-            if (cancellationToken.IsCancellationRequested)
+            if (!this.settings.IsConfigured)
+            {
+                continue;
+            }
+            if (this.settings.IsSandboxMode || cancellationToken.IsCancellationRequested)
             {
                 break;
             }
@@ -63,7 +69,7 @@ public class WitnessPollingService : IWitnessPollingService
                 // perhaps add another type of log here later on
                 Console.WriteLine(exception.Message);
                 Console.WriteLine(exception.StackTrace);
-                await Task.Delay(5000, cancellationToken);
+                await Task.Delay(FREQUENCY_MS, cancellationToken);
             }
         }
     }
@@ -74,13 +80,13 @@ public class WitnessPollingService : IWitnessPollingService
         {
             // TODO: check if initialized
             await this.AddEvents();
-            await Task.Delay(5000);
+            await Task.Delay(FREQUENCY_MS);
         }
         catch (Exception exception)
         {
             // this.persistence.SaveState();
             this.logger.LogEventError(exception);
-            await Task.Delay(5000);
+            await Task.Delay(FREQUENCY_MS);
         }
     }
 

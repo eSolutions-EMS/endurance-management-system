@@ -101,7 +101,7 @@
                     Grid.Row="5" Grid.Column="1">
                 <Button Style="{StaticResource Button-Form}"
                         Command="{Binding CreatePersonnel}"
-                        Content="{x:Static localization:Strings.CREATE}" />
+                        Content="{x:Static localization:Strings._CREATE}" />
             </Border>
             <!-- Personnel List -->
             <Border Style="{StaticResource Border-Content-Center}" Margin="0 1px 0 0"
@@ -120,7 +120,7 @@
                     Grid.Row="7" Grid.Column="1">
                 <Button Style="{StaticResource Button-Form}"
                         Command="{Binding CreateCompetition}"
-                        Content="{x:Static localization:Strings.CREATE}"  />
+                        Content="{x:Static localization:Strings._CREATE}"  />
             </Border>
             <!-- Competitions -->
             <Border Style="{StaticResource Border-Content-Center}" Margin="0 1px 0 0"
@@ -136,7 +136,7 @@
                     Grid.Row="2" Grid.Column="2">
                 <Button Style="{StaticResource Button-Big-Vertical}"
                         Command="{Binding Submit}"
-                        Content="{x:Static localization:Strings.SAVE}" />
+                        Content="{x:Static localization:Strings._SAVE}" />
             </Border>
         </Grid>
     </ScrollViewer>

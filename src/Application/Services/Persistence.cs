@@ -3,7 +3,6 @@ using EnduranceJudge.Application.Models;
 using EnduranceJudge.Application.State;
 using EnduranceJudge.Core.ConventionalServices;
 using EnduranceJudge.Core.Services;
-using EnduranceJudge.Domain.AggregateRoots.Manager;
 using EnduranceJudge.Domain.AggregateRoots.Manager.WitnessEvents;
 using EnduranceJudge.Domain.State;
 using System;
@@ -14,19 +13,23 @@ namespace EnduranceJudge.Application.Services;
 public class Persistence : IPersistence
 {
     private const string STORAGE_FILE_NAME = "judge.json";
+    private const string SANDBOX_STORAGE_FILE_NAME = "judge-sandbox.json";
     private string stateDirectoryPath;
 
+    private readonly ISettings settings;
     private readonly IStateSetter stateSetter;
     private readonly IState state;
     private readonly IFileService file;
     private readonly IJsonSerializationService serialization;
 
     public Persistence(
+        ISettings settings,
         IStateContext context,
         IStateSetter stateSetter,
         IFileService file,
         IJsonSerializationService serialization)
     {
+        this.settings = settings;
         this.stateSetter = stateSetter;
         this.state = context.State;
         this.file = file;
@@ -53,10 +56,16 @@ public class Persistence : IPersistence
     public PersistenceResult Configure(string directoryPath)
     {
         this.stateDirectoryPath = directoryPath;
-        var database = BuildStorageFilePath(directoryPath);
+        var database = this.GetFilePath();
+        var sandboxDatabase = this.GetSandBoxFilePath();
+        if (this.settings.IsSandboxMode && this.file.Exists(sandboxDatabase))
+        {
+            this.LoadState(sandboxDatabase);
+            return PersistenceResult.Existing;
+        }
         if (this.file.Exists(database))
         {
-            this.SetState();
+            this.LoadState(database);
             return PersistenceResult.Existing;
         }
 
@@ -67,66 +76,27 @@ public class Persistence : IPersistence
     public void SaveState()
     {
         var serialized = this.serialization.Serialize(this.state);
-        var databasePath = BuildStorageFilePath(this.stateDirectoryPath);
+        var databasePath = BuildStorageFilePath();
         this.file.Create(databasePath, serialized);
     }
 
-    private void SetState()
+    private void LoadState(string path)
     {
-        var dataPath = BuildStorageFilePath(this.stateDirectoryPath);
-        var contents = this.file.Read(dataPath);
+        var contents = this.file.Read(path);
         var state = this.serialization.Deserialize<StateModel>(contents);
-        // this.FixDatesForToday(state);
         this.stateSetter.Set(state);
     }
 
-    private static string BuildStorageFilePath(string directory) => $"{directory}\\{STORAGE_FILE_NAME}";
+    private string BuildStorageFilePath()
+        => this.settings.IsSandboxMode
+            ? this.GetSandBoxFilePath()
+            : this.GetFilePath();
 
+    private string GetSandBoxFilePath()
+        => $"{this.stateDirectoryPath}\\{SANDBOX_STORAGE_FILE_NAME}";
 
-    // TODO: add opt-in configuration
-    private void FixDatesForToday(StateModel state)
-    {
-        if (state == null)
-        {
-            return;
-        }
-        if (state.Event != null)
-        {
-            foreach (var competition in state.Event.Competitions)
-            {
-                competition.StartTime = FixDateForToday(competition.StartTime);
-            }
-        }
-        foreach (var participant in state.Participants)
-        {
-            foreach (var performance in participant.LapRecords)
-            {
-                performance.StartTime = FixDateForToday(performance.StartTime);
-                if (performance.ArrivalTime.HasValue)
-                {
-                    performance.ArrivalTime = FixDateForToday(performance.ArrivalTime.Value);
-                }
-                if (performance.InspectionTime.HasValue)
-                {
-                    performance.InspectionTime = FixDateForToday(performance.InspectionTime.Value);
-                }
-                if (performance.ReInspectionTime.HasValue)
-                {
-                    performance.ReInspectionTime = FixDateForToday(performance.ReInspectionTime.Value);
-                }
-            }
-        }
-    }
-
-    private DateTime FixDateForToday(DateTime date)
-    {
-        var today = DateTime.Today;
-        today = today.AddHours(date.Hour);
-        today = today.AddMinutes(date.Minute);
-        today = today.AddSeconds(date.Second);
-        today = today.AddMilliseconds(date.Millisecond);
-        return today;
-    }
+    private string GetFilePath()
+        => $"{this.stateDirectoryPath}\\{STORAGE_FILE_NAME}";
 }
 
 

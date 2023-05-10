@@ -36,13 +36,13 @@ public static class Strings
     public static string LAP_RECORDS_ENTITY            { get; internal set; }
 
    /* Words */
-    public static string SAVE                              { get; internal set; }
+    public static string _SAVE                              { get; internal set; }
     public static string UPDATE                            { get; internal set; }
     public static string REMOVE                            { get; internal set; }
     public static string SEARCH                            { get; internal set; }
     public static string CLEAR                             { get; internal set; }
-    public static string CREATE                            { get; internal set; }
-    public static string BACK                              { get; internal set; }
+    public static string _CREATE                            { get; internal set; }
+    public static string _BACK                              { get; internal set; }
     public static string YES                               { get; internal set; }
     public static string NO                                { get; internal set; }
     public static string RECOVERY_IN_MINUTES_TEXT          { get; internal set; }
@@ -83,9 +83,9 @@ public static class Strings
     public static string KIDS                              { get; internal set; }
     public static string ADULTS                            { get; internal set; }
     public static string CATEGORY                          { get; internal set; }
-    public static string _DQ                                { get; internal set; }
-    public static string _FTQ                               { get; internal set; }
-    public static string _RET                               { get; internal set; }
+    public static string DQ                                { get; internal set; }
+    public static string FTQ                               { get; internal set; }
+    public static string RET                               { get; internal set; }
     public static string UPDATE_PERSONNEL                  { get; internal set; }
     public static string _YES                              { get; internal set; }
     public static string _NO                               { get; internal set; }
@@ -134,9 +134,10 @@ public static class Strings
     public static string RECOVERY_SPAN_TERM                    { get; internal set; }
     public static string TIME_TERM                             { get; internal set; }
     public static string AVERAGE_SPEED_LOOP_TERM               { get; internal set; }
-    public static string AVERAGE_SPEED_TOTAL_TERM              { get; internal set; }
+    public static string AVERAGE_SPEED_PHASE_TERM              { get; internal set; }
 
     /* Messages */
+    public static string _IS_SANDBOX_MODE { get; internal set; }
     public static string SELECT_WORK_DIRECTORY_MESSAGE            { get; internal set; }
     public static string REMOVE_CONFIRMATION_MESSAGE              { get; internal set; }
     public static string INVALID_DATE_FORMAT_MESSAGE              { get; internal set; }
@@ -160,7 +161,7 @@ public static class Strings
     /// </summary>
     public static string PARTICIPANT_CANNOT_FTQ_WITHOUT_REASON_MESSAGE            { get; internal set; }
     public static string CHANGE_NOT_ALLOWED_WHEN_EVENT_HAS_STARTED_MESSAGE        { get; internal set; }
-    public static string REQUIRED_INSPECTION_IS_NOT_ALLOWED_MESSAGE               { get; internal set; }
+    public static string REQUIRED_INSPECTION_IS_NOT_ALLOWED_ON_FINAL_MESSAGE      { get; internal set; }
     public static string INVALID_ORDER_BY_MESSAGE                                 { get; internal set; }
     public static string FINAL_LAP_ALREADY_EXISTS_MESSAGE                         { get; internal set; }
     public static string FINAL_LAP_MUST_HAVE_HIGHEST_ORDER_MESSAGE                { get; internal set; }

@@ -1,6 +1,8 @@
 ﻿using EnduranceJudge.Application.Hardware;
+using EnduranceJudge.Application.Services;
 using EnduranceJudge.Domain.AggregateRoots.Manager;
 using EnduranceJudge.Domain.AggregateRoots.Manager.WitnessEvents;
+using EnduranceJudge.Gateways.Desktop.Core.Services;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
@@ -10,8 +12,11 @@ using System.Windows.Threading;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager;
 
-public class FinishWitness : BindableBase
+public class RfidWitness : BindableBase
 {
+    private readonly ISettings settings;
+    private readonly WitnessEventType type;
+    private readonly IPopupService popupService;
     //TODO: provide the ability for users to configure this IP.
     public const string FINISH_DEVICE_IP = "192.168.68.128";
 
@@ -19,21 +24,26 @@ public class FinishWitness : BindableBase
     private readonly VupRfidController controller;
     private string message;
 
-    public FinishWitness()
+    public RfidWitness(ISettings settings, WitnessEventType type, IPopupService popupService)
     {
+        this.settings = settings;
+        this.type = type;
+        this.popupService = popupService;
+        if (this.settings.IsSandboxMode)
+        {
+            return;
+        }
         this.controller = new VupRfidController(FINISH_DEVICE_IP);
-        this.controller.MessageEvent += (_, message) => this.Message = message;
+        this.controller.MessageEvent += (_, message) => this.RenderMessage(message);
         this.controller.ReadEvent += this.RaiseWitnessEvent;
-    }
-
-    public string Message
-    {
-        get => this.message;
-        set => this.SetProperty(ref this.message, this.message);
     }
 
     public void Connect()
     {
+        if (this.settings.IsSandboxMode)
+        {
+            return;
+        }
         this.controller.Connect();
     }
 
@@ -42,24 +52,48 @@ public class FinishWitness : BindableBase
     /// </summary>
     public void Start()
     {
+        if (this.settings.IsSandboxMode)
+        {
+            return;
+        }
         Task.Run(() => this.controller.StartPolling());
     }
 
     public void Stop()
     {
+        if (this.settings.IsSandboxMode)
+        {
+            return;
+        }
         this.controller.StopPolling();
     }
 
     public void Disconnect()
     {
+        if (this.settings.IsSandboxMode)
+        {
+            return;
+        }
         Task.Run(() => this.controller.Disconnect());
     }
 
     public bool IsStarted()
     {
+        if (this.settings.IsSandboxMode)
+        {
+            return false;
+        }
         return this.controller.IsPolling;
     }
 
+    private void RenderMessage(string message)
+    {
+        App.Current.Dispatcher.Invoke(delegate
+        {
+            this.popupService.RenderError(message);
+        });
+    }
+    
     private void RaiseWitnessEvent(object _, IEnumerable<string> tags)
     {
         ThreadPool.QueueUserWorkItem(delegate
@@ -80,7 +114,7 @@ public class FinishWitness : BindableBase
 
                     var witnessEvent = new WitnessEvent
                     {
-                        Type = WitnessEventType.Arrival,
+                        Type = this.type,
                         TagId = tagId,
                         Time = now,
                     };

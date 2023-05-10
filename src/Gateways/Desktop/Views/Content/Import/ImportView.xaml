@@ -39,7 +39,7 @@
                          IsReadOnly="True"/>
             </Border>
         </DockPanel>
-
+ 
         <DockPanel Style="{StaticResource Stretch-Last}"
                    Visibility="{Binding ImportFilePathVisibility}"
                    Grid.Row="2" Grid.Column="1">

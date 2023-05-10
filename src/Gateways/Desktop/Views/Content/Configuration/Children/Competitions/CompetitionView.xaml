@@ -109,7 +109,7 @@
                 <Button Style="{StaticResource Button-Form}"
                         Command="{Binding CreateLap}"
                         Name="CreateLap"
-                        Content="{x:Static localization:Strings.CREATE}"  />
+                        Content="{x:Static localization:Strings._CREATE}"  />
             </Border>
             <!-- Lap list -->
             <Border Style="{StaticResource Border-Vertical}"
@@ -142,14 +142,14 @@
                     Grid.Row="2" Grid.Column="2">
                 <Button Style="{StaticResource Button-Big-Vertical}"
                         Command="{Binding Submit}"
-                        Content="{x:Static localization:Strings.SAVE}"/>
+                        Content="{x:Static localization:Strings._SAVE}"/>
             </Border>
             <!-- Back -->
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="3" Grid.Column="2">
                 <Button Style="{StaticResource Button-Big-Vertical}"
                         Command="{Binding NavigateBack}"
-                        Content="{x:Static localization:Strings.BACK}"/>
+                        Content="{x:Static localization:Strings._BACK}"/>
             </Border>
         </Grid>
     </ScrollViewer>

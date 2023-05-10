@@ -14,8 +14,10 @@ namespace EnduranceJudge.Gateways.Desktop.Controls.Manager;
 public class PerformanceColumnModel : ViewModelBase, ILapRecordState
 {
     private readonly IExecutor<ManagerRoot> managerExecutor;
-    public PerformanceColumnModel(Performance performance, bool isReadonly)
+    private int index;
+    public PerformanceColumnModel(Performance performance, int index, bool isReadonly)
     {
+        this.index = index;
         this.IsReadonly = isReadonly;
         this.EditVisibility = Visibility.Visible;
         this.managerExecutor = StaticProvider.GetService<IExecutor<ManagerRoot>>();
@@ -47,7 +49,7 @@ public class PerformanceColumnModel : ViewModelBase, ILapRecordState
     private string timeString;
     public string nextStartTimeString;
     private string averageSpeed;
-    private string averageSpeedTotal;
+    private string averageSpeedPhase;
 
     public void EditAction()
     {
@@ -66,7 +68,7 @@ public class PerformanceColumnModel : ViewModelBase, ILapRecordState
         this.RecoverySpanString = ValueSerializer.FormatSpan(performance.RecoverySpan);
         this.TimeString = ValueSerializer.FormatSpan(performance.Time);
         this.AverageSpeed = performance.AverageSpeed;
-        this.AverageSpeedTotalString = ValueSerializer.FormatDouble(performance.AverageSpeedTotal);
+        this.AverageSpeedPhaseString = ValueSerializer.FormatDouble(performance.AverageSpeedPhase);
         this.NextStartTimeString = ValueSerializer.FormatTime(performance.NextStartTime);
         this.StartTime = performance.StartTime;
         this.ArrivalTime = performance.ArrivalTime;
@@ -75,10 +77,10 @@ public class PerformanceColumnModel : ViewModelBase, ILapRecordState
         this.IsRequiredInspectionRequired = performance.IsRequiredInspectionRequired;
         this.ReInspectionTimeString = ValueSerializer.FormatTime(performance.ReInspectionTime);
         var requiredInspectionTime = ValueSerializer.FormatTime(performance.RequiredInspectionTime);
-        this.RequiredInspectionTimeString = performance.LatestLap.IsCompulsoryInspectionRequired
+        this.RequiredInspectionTimeString = performance.Record.Lap.IsCompulsoryInspectionRequired
             ? string.Empty
             : requiredInspectionTime;
-        this.CompulsoryRequiredInspectionTimeString = performance.LatestLap.IsCompulsoryInspectionRequired
+        this.CompulsoryRequiredInspectionTimeString = performance.Record.Lap.IsCompulsoryInspectionRequired
             ? requiredInspectionTime
             : string.Empty;
 
@@ -86,7 +88,7 @@ public class PerformanceColumnModel : ViewModelBase, ILapRecordState
         this.RaisePropertyChanged(nameof(this.RecoverySpanString));
         this.RaisePropertyChanged(nameof(this.TimeString));
         this.RaisePropertyChanged(nameof(this.AverageSpeed));
-        this.RaisePropertyChanged(nameof(this.AverageSpeedTotalString));
+        this.RaisePropertyChanged(nameof(this.AverageSpeedPhaseString));
         this.RaisePropertyChanged(nameof(this.NextStartTimeString));
         this.RaisePropertyChanged(nameof(this.ArrivalTimeString));
         this.RaisePropertyChanged(nameof(this.InspectionTimeString));
@@ -97,9 +99,9 @@ public class PerformanceColumnModel : ViewModelBase, ILapRecordState
 
     private string CreateHeader(Performance performance)
     {
-        var lap = performance.LatestLap.IsFinal
+        var lap = performance.Record.Lap.IsFinal
             ? $"{FINAL}"
-            : $"{GATE.ToUpper()}{performance.Index + 1}";
+            : $"{GATE.ToUpper()}{this.index}";
         var header = $"{lap}/{performance.TotalLength} {KM}";
         return header;
     }
@@ -182,10 +184,10 @@ public class PerformanceColumnModel : ViewModelBase, ILapRecordState
         get => this.averageSpeed;
         private set => this.SetProperty(ref this.averageSpeed, AddKmSuffix(value));
     }
-    public string AverageSpeedTotalString
+    public string AverageSpeedPhaseString
     {
-        get => this.averageSpeedTotal;
-        private set => this.SetProperty(ref this.averageSpeedTotal, AddKmSuffix(value));
+        get => this.averageSpeedPhase;
+        private set => this.SetProperty(ref this.averageSpeedPhase, AddKmSuffix(value));
     }
     public string NextStartTimeString
     {

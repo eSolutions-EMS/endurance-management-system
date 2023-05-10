@@ -1,35 +1,45 @@
-while getopts "v:" option; do
+remote=true;
+
+while getopts "lv:" option; do
   case $option in
-    v) branch_version=$OPTARG;;
+    l) remote=false;;
+    v) version=$OPTARG;;
     \?) echo "Error: Invalid option"
       exit;;
    esac
 done
 
-# dev_branch=$(git branch --show-current)
-# echo "push to dev remote '$dev_branch'"
-# git push
-# if [ $? -gt 0 ]; then
-#   exit 1
-# fi
+branch="dev/main"
+if ! git checkout $branch
+then
+  exit 1
+fi
 
-# rel_branch="rel/$branch_version"
-# echo "sync with release branch '$rel_branch'"
-# git checkout "$rel_branch"
-# if [ $? -gt 0 ]; then
-#   exit 1
-# fi
+if [ $remote ]; then
+  if ! git pull
+  then
+   exit 1
+  fi
+fi
 
-# git rebase "$dev_branch"
-# if [ $? -gt 0 ]; then
-#   exit 1
-# fi
+echo "bumping version"
+settings_path=src/Gateways/Desktop/settings.json
+cat $settings_path | sed -r "s/([0-9]+\.[0-9]+\.[0-9]+)/$version/" > temp && mv temp $settings_path
+# setting isSandBoxMode to FALSE
+cat $settings_path | sed -r "1,//s/true/false/" > temp && mv temp $settings_path
+git add .
+git commit -m "Set Judge version to $version"
 
-#echo "push to rel remote '$rel_branch'"
-
+if [ $remote ]; then
+  echo "pushing to remote '$branch'"
+  if ! git push
+  then
+    exit 1
+  fi
+fi
 
 echo "clearing release directory..."
-output_dir="endurance-judge-$branch_version"
+output_dir="endurance-judge-$version"
 rm -rf "$output_dir"
 mkdir "$output_dir"
 cd "$output_dir"
@@ -37,18 +47,11 @@ cd "$output_dir"
 echo "release directory cleared."
 echo "======================================================================================================================================="
 echo "DOTNET PUBLISH"
-dotnet publish -c Release -o . ../src/EnduranceJudge.sln
-if [ $? -gt 0 ]; then
+if ! dotnet publish -c Release -o . ../src/EnduranceJudge.sln
+then
   exit 1
 fi
 
-echo "======================================================================================================================================="
-echo "copying Views directory..."
-mkdir ./Views
-mkdir ./Views/Templates
-cp -r ../src/Gateways/Desktop/Views/Templates/* ./Views/Templates
-
-echo "Views directory copied."
 echo "======================================================================================================================================="
 echo "opening explorer..."
 mkdir logs

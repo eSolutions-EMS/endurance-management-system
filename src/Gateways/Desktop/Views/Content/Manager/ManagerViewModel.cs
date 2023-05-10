@@ -1,6 +1,6 @@
 ﻿using EnduranceJudge.Application.Core;
+using EnduranceJudge.Application.Services;
 using EnduranceJudge.Domain.AggregateRoots.Manager;
-using EnduranceJudge.Domain.AggregateRoots.Manager.WitnessEvents;
 using EnduranceJudge.Domain.State.Participations;
 using EnduranceJudge.Gateways.Desktop.Core;
 using EnduranceJudge.Gateways.Desktop.Core.Services;
@@ -11,6 +11,7 @@ using Prism.Commands;
 using Prism.Events;
 using Prism.Regions;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
@@ -19,16 +20,16 @@ using System.Windows;
 using System.Windows.Threading;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager;
-
 public class ManagerViewModel : ViewModelBase
 {
     private static readonly DateTime Today = DateTime.Today;
     private readonly IEventAggregator eventAggregator;
     private readonly IExecutor<ManagerRoot> managerExecutor;
     private readonly IQueries<Participation> participations;
-    private readonly FinishWitness finishWitness;
+    private readonly RfidWitness rfidWitness;
 
     public ManagerViewModel(
+        ISettings settings,
         IEventAggregator eventAggregator,
         IPopupService popupService,
         IExecutor<ManagerRoot> managerExecutor,
@@ -37,7 +38,11 @@ public class ManagerViewModel : ViewModelBase
         this.eventAggregator = eventAggregator;
         this.managerExecutor = managerExecutor;
         this.participations = participations;
-        this.finishWitness = new FinishWitness();
+        
+        var type = WitnessEventType.Arrival;
+        this.WitnessType = type.ToString();
+        this.rfidWitness = new RfidWitness(settings, type, popupService);
+        
         this.Update = new DelegateCommand(this.UpdateAction);
         this.Start = new DelegateCommand(this.StartAction);
         this.Disqualify = new DelegateCommand(this.DisqualifyAction);
@@ -58,7 +63,9 @@ public class ManagerViewModel : ViewModelBase
         });
         Participation.UpdateEvent += (_, participation) => this.HandleParticipationUpdate(participation);
     }
-
+    
+    public string WitnessType { get; }
+    
     public DelegateCommand<object[]> Select { get; }
     public DelegateCommand Start { get; }
     public DelegateCommand Update { get; }
@@ -152,9 +159,9 @@ public class ManagerViewModel : ViewModelBase
 
     private void StartWitness()
     {
-        if (!this.finishWitness.IsStarted())
+        if (!this.rfidWitness.IsStarted())
         {
-            this.finishWitness.Start();
+            this.rfidWitness.Start();
         }
     }
 
@@ -196,9 +203,9 @@ public class ManagerViewModel : ViewModelBase
 
     private void ReconnectHardwareAction()
     {
-        this.finishWitness.Disconnect();
+        this.rfidWitness.Disconnect();
         Thread.Sleep(TimeSpan.FromSeconds(1));
-        this.finishWitness.Connect();
+        this.rfidWitness.Connect();
     }
 
     private void SelectBy(string number)
@@ -231,11 +238,17 @@ public class ManagerViewModel : ViewModelBase
         var participations = this.participations.GetAll();
         if (participations.Any())
         {
+            var models = new List<ParticipationGridModel>();
             foreach (var participation in participations.OrderBy(x => int.Parse(x.Participant.Number)))
             {
                 var viewModel = new ParticipationGridModel(participation, false);
-                this.Participations.Add(viewModel);
+                models.Add(viewModel);
             }
+            models = models
+                .OrderBy(x => x.IsComplete)
+                .ThenBy(x => x.Distance)
+                .ToList();
+            this.Participations.AddRange(models);
             this.SelectBy(this.Participations.First());
         }
     }

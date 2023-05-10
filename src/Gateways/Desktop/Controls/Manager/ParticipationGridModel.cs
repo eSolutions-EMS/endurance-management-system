@@ -1,4 +1,5 @@
-﻿using EnduranceJudge.Core.Utilities;
+﻿using Accessibility;
+using EnduranceJudge.Core.Utilities;
 using EnduranceJudge.Domain.AggregateRoots.Common.Performances;
 using EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates;
 using EnduranceJudge.Domain.State.Participants;
@@ -7,6 +8,7 @@ using EnduranceJudge.Gateways.Desktop.Print.Performances;
 using EnduranceJudge.Gateways.Desktop.Services;
 using Prism.Commands;
 using Prism.Mvvm;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
@@ -24,6 +26,9 @@ public class ParticipationGridModel : BindableBase
         this.executor = StaticProvider.GetService<IExecutor>();
         this.Participant = participation.Participant;
         this.Number = this.Participant.Number;
+        this.Distance = $"({participation.CompetitionConstraint.Laps.Sum(x => x.LengthInKm)})";
+        var completedLaps = participation.Participant.LapRecords.Count(x => x.Result != null); 
+        this.IsComplete = completedLaps == participation.CompetitionConstraint.Laps.Count;
 
         this.CreatePerformanceColumns(participation);
         var notifyCollectionChanged = (INotifyCollectionChanged) this.Participant.LapRecords;
@@ -32,13 +37,34 @@ public class ParticipationGridModel : BindableBase
             this.CreatePerformanceColumns(participation);
         };
 
+        Participation.UpdateEvent += (_, x) =>
+        {
+            if (x.Id == participation.Id)
+            {
+                this.CheckColor(x);
+            }
+        };
+        CheckColor(participation);
+        this.Print = new DelegateCommand(this.PrintAction);
+    }
+
+    private void CheckColor(Participation participation)
+    {
         var aggregate = participation.Aggregate();
         if (aggregate.IsDisqualified)
         {
             this.Color = new SolidColorBrush(Colors.Red);
             this.DisqualifyCode = aggregate.DisqualifiedCode;
         }
-        this.Print = new DelegateCommand(this.PrintAction);
+        else if (this.IsComplete)
+        {
+            this.Color = new SolidColorBrush(Colors.Green);
+        }
+        else
+        {
+            this.Color = new SolidColorBrush(Colors.Black);
+            this.DisqualifyCode = null;
+        }
     }
 
     public DelegateCommand Print { get; }
@@ -51,22 +77,37 @@ public class ParticipationGridModel : BindableBase
 
     private void CreatePerformanceColumns(Participation participation)
     {
-        var viewModels = Performance
-            .GetAll(participation)
-            .Select(perf => new PerformanceColumnModel(perf, this.IsReadonly))
-            .ToList();
+        var performances = Performance.GetAll(participation).ToList();
+        var columnModels = new List<PerformanceColumnModel>();
+        for (var i = 0; i < performances.Count; i++)
+        {
+            var model = new PerformanceColumnModel(performances[i], i + 1, this.IsReadonly);
+            columnModels.Add(model);
+        }
         App.Current.Dispatcher.Invoke(delegate
         {
             this.Performances.Clear();
-            this.Performances.AddRange(viewModels);
+            this.Performances.AddRange(columnModels);
         });
         this.RaisePropertyChanged(nameof(Performances));
     }
 
+    public bool IsComplete { get; }
     public string Number { get; }
-    public string DisqualifyCode { get; }
+    public string Distance { get; }
+    private string disqualifyCode;
+    public string DisqualifyCode
+    {
+        get => this.disqualifyCode;
+        private set => this.SetProperty(ref this.disqualifyCode, value);
+    }
     public Participant Participant { get; }
-    public SolidColorBrush Color { get; } = new(Colors.Black);
+    private SolidColorBrush color = new(Colors.Black);
+    public SolidColorBrush Color
+    {
+        get => this.color;
+        private set => this.SetProperty(ref this.color, value);
+    }
     public ObservableCollection<PerformanceColumnModel> Performances { get; private set; } = new();
     public void PrintAction()
     {

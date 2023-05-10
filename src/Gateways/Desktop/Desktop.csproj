@@ -34,13 +34,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Views\Templates\Print\PrintFooter.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Content Include="..\..\..\publish.sh">
+      <Link>publish.sh</Link>
     </Content>
-    <Content Include="Views\Templates\Print\PrintHeader.xaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <None Remove="Assets\logo-fei.JPG" />
+        <None Remove="Assets\logo-fei.JPG" />
     <Resource Include="Assets\logo-fei.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -48,6 +45,21 @@
     <Resource Include="Assets\logo-bfks.JPG">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Content Include="Views\Templates\Print\PrintFooter.xaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Include="Views\Templates\Print\PrintHeader.xaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
+    <Content Include="settings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
