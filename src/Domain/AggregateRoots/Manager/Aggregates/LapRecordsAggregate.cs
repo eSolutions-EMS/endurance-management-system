@@ -12,17 +12,6 @@ namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates;
 
 public class LapRecordsAggregate : IAggregate
 {
-    /// <summary>
-    /// Update was not performed.
-    /// The Update sequence must continue in a new LapRecord
-    /// </summary>
-    private bool ContinueUpdateSequence => true;
-    /// <summary>
-    /// Update was performed in this record.
-    /// End Update sequence.
-    /// </summary>
-    private bool StopUpdateSequence => false;
-
     private readonly Validator<LapRecordException> validator;
 
     internal LapRecordsAggregate(LapRecord record)
@@ -134,16 +123,5 @@ public class LapRecordsAggregate : IAggregate
         {
             this.Record.Result = new Result(ResultType.Successful);
         }
-    }
-
-    // TODO: remove after testing lap
-    private DateTime FixDateForToday(DateTime date)
-    {
-        var today = DateTime.Today;
-        today = today.AddHours(date.Hour);
-        today = today.AddMinutes(date.Minute);
-        today = today.AddSeconds(date.Second);
-        today = today.AddMilliseconds(date.Millisecond);
-        return today;
     }
 }
