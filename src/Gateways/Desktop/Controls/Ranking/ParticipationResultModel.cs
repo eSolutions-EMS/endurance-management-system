@@ -32,12 +32,12 @@ public class ParticipationResultModel : ParticipationGridModel
     private (double? averageSpeed, TimeSpan time) CalculateTotalValues(Participation participation)
     {
         var performances = Performance.GetAll(participation).ToList();
-        var totalAverageSpeed = performances.Sum(perf => perf.AverageSpeed) / performances.Count;
+        var totalLenght = participation.Participant.LapRecords.Sum(x => x.Lap.LengthInKm);
         var totalTime = performances
             .Where(x => x.Time.HasValue)
             .Aggregate(TimeSpan.Zero, (ag, perf) => ag + perf.Time!.Value);
-
-        return (totalAverageSpeed, totalTime);
+        var averageSpeed = totalLenght / totalTime.TotalHours;
+        return (averageSpeed, totalTime);
     }
 
     private (string notQualified, Visibility) HandleNotQualified(List<LapRecord> records)
