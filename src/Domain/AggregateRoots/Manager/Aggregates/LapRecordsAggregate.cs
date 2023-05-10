@@ -114,7 +114,7 @@ public class LapRecordsAggregate : IAggregate
         }
         if (averageSpeedLimit.HasValue && Performance.GetSpeed(this.Record, type) > averageSpeedLimit)
         {
-            this.Disqualify("Overtime");
+            this.FailToQualify("speed");
             return;
         }
         var vetTime = this.Record.InspectionTime;
