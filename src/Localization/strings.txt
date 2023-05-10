@@ -84,9 +84,9 @@ KM_PER_HOUR                         | km/h | km/h
 KIDS                                | Kids | Kids
 ADULTS                              | Adults | Adults
 CATEGORY                            | Category | Category
-_DQ                                 | _DQ | _DQ
-_FTQ                                | _FTQ | _FTQ
-_RET                                | _Ret | R_et
+DQ                                 | DQ | DQ
+FTQ                                | FTQ | FTQ
+RET                                | Ret | Ret
 UPDATE_PERSONNEL                    | Update Personnel | Update Personnel
 _YES                                | _Yes | _Yes
 _NO                                 | _No | _No

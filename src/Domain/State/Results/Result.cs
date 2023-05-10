@@ -26,9 +26,9 @@ public class Result : DomainBase<ResultException>, IResultState
         var typeString = string.Empty;
         switch (this.Type)
         {
-            case ResultType.Resigned: typeString = _RET; break;
-            case ResultType.FailedToQualify: typeString = _FTQ; break;
-            case ResultType.Disqualified: typeString = _DQ; break;
+            case ResultType.Resigned: typeString = RET; break;
+            case ResultType.FailedToQualify: typeString = FTQ; break;
+            case ResultType.Disqualified: typeString = DQ; break;
             case ResultType.Successful:
             case ResultType.Invalid:
             default: break;

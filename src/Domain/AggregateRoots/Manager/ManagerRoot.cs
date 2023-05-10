@@ -172,7 +172,7 @@ public class ManagerRoot : IAggregateRoot
 
     public void Disqualify(string number, string reason)
     {
-        reason ??= nameof(_DQ);
+        reason ??= nameof(DQ);
         var lap = this.GetLastLap(number);
         lap.Disqualify(reason);
     }
@@ -180,14 +180,14 @@ public class ManagerRoot : IAggregateRoot
     {
         if (string.IsNullOrEmpty(reason))
         {
-            throw Helper.Create<ParticipantException>(PARTICIPANT_CANNOT_FTQ_WITHOUT_REASON_MESSAGE, _FTQ);
+            throw Helper.Create<ParticipantException>(PARTICIPANT_CANNOT_FTQ_WITHOUT_REASON_MESSAGE, FTQ);
         }
         var lap = this.GetLastLap(number);
         lap.FailToQualify(reason);
     }
     public void Resign(string number, string reason)
     {
-        reason ??= nameof(_RET);
+        reason ??= nameof(RET);
         var lap = this.GetLastLap(number);
         lap.Resign(reason);
     }

@@ -110,15 +110,15 @@
                             <!-- DQ -->
                                 <Button Style="{StaticResource Button-Horizontal}" Margin="4px 0 0 0"
                                         Command="{Binding Disqualify}"
-                                        Content="{x:Static localization:Strings._DQ}" />
+                                        Content="{x:Static localization:Strings.DQ}" />
                                 <!-- FTQ -->
                                 <Button Style="{StaticResource Button-Horizontal}" Margin="4px 0 0 0"
                                         Command="{Binding FailToQualify}"
-                                        Content="{x:Static localization:Strings._FTQ}" />
+                                        Content="{x:Static localization:Strings.FTQ}" />
                                 <!-- Ret -->
                                 <Button Style="{StaticResource Button-Horizontal}" Margin="4px 0 0 0"
                                         Command="{Binding Resign}"
-                                        Content="{x:Static localization:Strings._RET}" />
+                                        Content="{x:Static localization:Strings.RET}" />
                             </DockPanel>
                         </StackPanel>
                     </Border>

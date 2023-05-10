@@ -83,9 +83,9 @@ public static class Strings
     public static string KIDS                              { get; internal set; }
     public static string ADULTS                            { get; internal set; }
     public static string CATEGORY                          { get; internal set; }
-    public static string _DQ                                { get; internal set; }
-    public static string _FTQ                               { get; internal set; }
-    public static string _RET                               { get; internal set; }
+    public static string DQ                                { get; internal set; }
+    public static string FTQ                               { get; internal set; }
+    public static string RET                               { get; internal set; }
     public static string UPDATE_PERSONNEL                  { get; internal set; }
     public static string _YES                              { get; internal set; }
     public static string _NO                               { get; internal set; }
