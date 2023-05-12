@@ -74,6 +74,10 @@ public class RfidWitness : BindableBase
         {
             return;
         }
+        if (this.IsStarted())
+        {
+            this.Stop();
+        }
         Task.Run(() => this.controller.Disconnect());
     }
 
@@ -93,7 +97,7 @@ public class RfidWitness : BindableBase
             this.popupService.RenderError(message);
         });
     }
-    
+
     private void RaiseWitnessEvent(object _, IEnumerable<string> tags)
     {
         ThreadPool.QueueUserWorkItem(delegate
