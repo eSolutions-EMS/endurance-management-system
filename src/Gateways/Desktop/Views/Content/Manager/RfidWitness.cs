@@ -47,6 +47,18 @@ public class RfidWitness : BindableBase
         this.controller.Connect();
     }
 
+    public void Reconnect()
+    {
+        if (this.settings.IsSandboxMode)
+        {
+            return;
+        }
+        this.Stop();
+        this.controller.Disconnect();
+        this.controller.Connect();
+        Task.Run(() => this.controller.StartPolling());
+    }
+
     /// <summary>
     /// Executed in a separate Thread due to best practices for background services in WPF
     /// </summary>
