@@ -19,7 +19,10 @@ public class ErrorHandler : IErrorHandler
         this.popupService = popupService;
         this.persistence = persistence;
         this.popupService = popupService;
-        CoreEvents.ErrorEvent += (_, exception) => this.Handle(exception);
+        CoreEvents.ErrorEvent += (_, exception) =>
+        {
+            App.Current.Dispatcher.Invoke(() => this.Handle(exception));
+        };
     }
 
     public void Handle(Exception exception)

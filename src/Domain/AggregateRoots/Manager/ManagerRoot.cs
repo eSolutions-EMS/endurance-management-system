@@ -43,10 +43,14 @@ public class ManagerRoot : IAggregateRoot
         {
             return;
         }
-        var number = this.GetParticipation(witnessEvent.TagId)?.Participant.Number;
-        this.Log(witnessEvent, number);
         try
         {
+            var number = this.GetParticipation(witnessEvent.TagId)?.Participant.Number;
+            if (number == null)
+            {
+                return;
+            }
+            this.Log(witnessEvent, number);
             if (witnessEvent.Type == WitnessEventType.Arrival)
             {
                 this.HandleArrive(witnessEvent.TagId, witnessEvent.Time);
@@ -254,10 +258,10 @@ public class ManagerRoot : IAggregateRoot
             .FirstOrDefault(x => x.Participant.Number == numberOrTag
                 || x.Participant.RfIdHead == numberOrTag
                 || x.Participant.RfIdNeck == numberOrTag);
-        if (participation == null)
-        {
-            throw Helper.Create<ParticipantException>(NOT_FOUND_MESSAGE, NUMBER, numberOrTag);
-        }
+        // if (participation == null)
+        // {
+        //     throw Helper.Create<ParticipantException>(NOT_FOUND_MESSAGE, NUMBER, numberOrTag);
+        // }
         return participation;
     }
 
