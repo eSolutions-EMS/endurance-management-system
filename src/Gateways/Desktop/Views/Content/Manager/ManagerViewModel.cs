@@ -38,11 +38,11 @@ public class ManagerViewModel : ViewModelBase
         this.eventAggregator = eventAggregator;
         this.managerExecutor = managerExecutor;
         this.participations = participations;
-        
+
         var type = WitnessEventType.Arrival;
         this.WitnessType = type.ToString();
         this.rfidWitness = new RfidWitness(settings, type, popupService);
-        
+
         this.Update = new DelegateCommand(this.UpdateAction);
         this.Start = new DelegateCommand(this.StartAction);
         this.Disqualify = new DelegateCommand(this.DisqualifyAction);
@@ -63,9 +63,9 @@ public class ManagerViewModel : ViewModelBase
         });
         Participation.UpdateEvent += (_, participation) => this.HandleParticipationUpdate(participation);
     }
-    
+
     public string WitnessType { get; }
-    
+
     public DelegateCommand<object[]> Select { get; }
     public DelegateCommand Start { get; }
     public DelegateCommand Update { get; }
@@ -206,6 +206,7 @@ public class ManagerViewModel : ViewModelBase
         this.rfidWitness.Disconnect();
         Thread.Sleep(TimeSpan.FromSeconds(1));
         this.rfidWitness.Connect();
+        this.rfidWitness.Start();
     }
 
     private void SelectBy(string number)
