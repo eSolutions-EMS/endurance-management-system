@@ -137,7 +137,7 @@ public class ManagerRoot : IAggregateRoot
         }
         this.arrivalCache[aggregate.Number] = now;
         aggregate.Arrive(time);
-        this.AddStats(participation, numberOrTag, WitnessEventType.VetIn);
+        this.AddStats(participation, numberOrTag, WitnessEventType.Arrival);
     }
     public void HandleVet(string numberOrTag, DateTime time)
     {
