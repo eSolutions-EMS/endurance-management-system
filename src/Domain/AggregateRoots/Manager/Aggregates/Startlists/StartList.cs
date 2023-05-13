@@ -14,7 +14,7 @@ public class Startlist
         var entries = new List<StartModel>();
         foreach (var participant in participations.Where(x =>
                      x.Participant.LapRecords.Any(y => y.NextStarTime.HasValue)
-                     && !x.Participant.LapRecords.Any(y => y.Result.IsNotQualified)))
+                     && !x.Participant.LapRecords.Any(y => y.Result == null || y.Result.IsNotQualified)))
         {
             entries.AddRange(this.AddEntries(participant, includePast));
         }
