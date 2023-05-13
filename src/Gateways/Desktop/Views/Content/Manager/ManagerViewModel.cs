@@ -101,7 +101,7 @@ public class ManagerViewModel : ViewModelBase
         if (hasStarted)
         {
             this.ReloadParticipations();
-            this.StartWitness();
+            // this.StartWitness();
         }
     }
 
