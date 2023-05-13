@@ -48,7 +48,7 @@ public class ParticipationsAggregate : IAggregate
             return;
         }
         var currentLap = this.CurrentLap.Aggregate();
-        if (currentLap.IsComplete)
+        if (currentLap.IsComplete && !this.CurrentLap.Lap.IsFinal)
         {
             this.CreateLapRecord(this.CurrentLap.NextStarTime!.Value, arriveTime: time);
         }
