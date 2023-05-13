@@ -155,16 +155,16 @@ public class HardwareViewModel : ViewModelBase
             var INs = laps.Count
                 + laps.Count(x => x.IsReinspectionRequired)
                 + laps.Count(x => x.IsRequiredInspectionRequired);
-            
+
             var neckArrDetections = participation.Participant.DetectedNeck[WitnessEventType.Arrival];
             var headArrDetections = participation.Participant.DetectedHead[WitnessEventType.Arrival];
             var neckVetDetections = participation.Participant.DetectedNeck[WitnessEventType.VetIn];
             var headVetDetections = participation.Participant.DetectedHead[WitnessEventType.VetIn];
-            
-            var headArrRate = (double)headArrDetections.Count / ARRs;
-            var headVetRate = (double) headVetDetections.Count / INs;
-            var neckArrRate = (double)neckArrDetections.Count / ARRs;
-            var neckVetRate = (double) neckVetDetections.Count / INs;
+
+            var headArrRate = (double)headArrDetections.Distinct().Count() / ARRs;
+            var headVetRate = (double) headVetDetections.Distinct().Count() / INs;
+            var neckArrRate = (double)neckArrDetections.Distinct().Count() / ARRs;
+            var neckVetRate = (double) neckVetDetections.Distinct().Count() / INs;
 
             var overallArrRate = (double) headArrDetections.Concat(neckArrDetections).Distinct().Count() / ARRs;
             var overallVetRate = (double) headVetDetections.Concat(neckVetDetections).Distinct().Count() / INs;
@@ -172,7 +172,7 @@ public class HardwareViewModel : ViewModelBase
             overallArrRates.Add(overallArrRate);
             overallVetRates.Add(overallVetRate);
             overallAverages.Add(overallAverage);
-            
+
             sb.AppendLine($"# {participation.Participant.Number} #".PadRight(75, '#'));
             sb.AppendLine($"head - {participation.Participant.RfIdHead,24} " +
                 $" - arr: {headArrDetections.Count}/{ARRs} ({this.FormatRate(headArrRate)})" +
@@ -187,12 +187,12 @@ public class HardwareViewModel : ViewModelBase
         var arrAverage = overallArrRates.Sum() / overallArrRates.Count;
         var vetAverage = overallVetRates.Sum() / overallVetRates.Count;
         var average = (arrAverage + vetAverage) / 2;
-        
+
         sb.AppendLine("TOTAL ".PadRight(150, '='));
-        sb.AppendLine($"arr: {this.FormatRate(arrAverage)}");        
-        sb.AppendLine($"vet: {this.FormatRate(vetAverage)}");        
+        sb.AppendLine($"arr: {this.FormatRate(arrAverage)}");
+        sb.AppendLine($"vet: {this.FormatRate(vetAverage)}");
         sb.AppendLine($"total: {this.FormatRate(average)}");
-        
+
         this.popupService.RenderValidation(sb.ToString());
     }
 
