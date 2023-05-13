@@ -8,12 +8,12 @@ while getopts "lv:" option; do
       exit;;
    esac
 done
-
-branch="dev/main"
-if ! git checkout $branch
-then
-  exit 1
-fi
+#
+#branch="dev/main"
+#if ! git checkout $branch
+#then
+#  exit 1
+#fi
 
 #if [ $remote ]; then
 #  if ! git pull
