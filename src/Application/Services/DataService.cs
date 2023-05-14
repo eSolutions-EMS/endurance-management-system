@@ -4,6 +4,7 @@ using EnduranceJudge.Core.Events;
 using EnduranceJudge.Domain.AggregateRoots.Manager;
 using EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 using EnduranceJudge.Domain.AggregateRoots.Manager.WitnessEvents;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -23,7 +24,8 @@ public class DataService : IDataService
     public DataService(IJsonSerializationService serializationService)
     {
         this.serializationService = serializationService;
-        Witness.StartlistChanged += async (_, startlist) => await this.PostStartlist(startlist);
+        Witness.StartlistChanged += async (_, startlist)
+            => Task.Run(async () => await this.PostStartlist(startlist));
     }
 
     public async Task<Dictionary<int, WitnessEvent>> GetWitnessEvents()

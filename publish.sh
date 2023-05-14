@@ -8,19 +8,19 @@ while getopts "lv:" option; do
       exit;;
    esac
 done
+#
+#branch="dev/main"
+#if ! git checkout $branch
+#then
+#  exit 1
+#fi
 
-branch="dev/main"
-if ! git checkout $branch
-then
-  exit 1
-fi
-
-if [ $remote ]; then
-  if ! git pull
-  then
-   exit 1
-  fi
-fi
+#if [ $remote ]; then
+#  if ! git pull
+#  then
+#   exit 1
+#  fi
+#fi
 
 echo "bumping version"
 settings_path=src/Gateways/Desktop/settings.json
@@ -30,13 +30,13 @@ cat $settings_path | sed -r "1,//s/true/false/" > temp && mv temp $settings_path
 git add .
 git commit -m "Set Judge version to $version"
 
-if [ $remote ]; then
-  echo "pushing to remote '$branch'"
-  if ! git push
-  then
-    exit 1
-  fi
-fi
+#if [ $remote ]; then
+#  echo "pushing to remote '$branch'"
+#  if ! git push
+#  then
+#    exit 1
+#  fi
+#fi
 
 echo "clearing release directory..."
 output_dir="endurance-judge-$version"

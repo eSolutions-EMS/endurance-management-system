@@ -27,7 +27,7 @@ public class ParticipationGridModel : BindableBase
         this.Participant = participation.Participant;
         this.Number = this.Participant.Number;
         this.Distance = $"({participation.CompetitionConstraint.Laps.Sum(x => x.LengthInKm)})";
-        var completedLaps = participation.Participant.LapRecords.Count(x => x.Result != null); 
+        var completedLaps = participation.Participant.LapRecords.Count(x => x.Result != null);
         this.IsComplete = completedLaps == participation.CompetitionConstraint.Laps.Count;
 
         this.CreatePerformanceColumns(participation);
@@ -39,10 +39,13 @@ public class ParticipationGridModel : BindableBase
 
         Participation.UpdateEvent += (_, x) =>
         {
-            if (x.Id == participation.Id)
+            App.Current.Dispatcher.Invoke(delegate
             {
-                this.CheckColor(x);
-            }
+                if (x.Id == participation.Id)
+                {
+                    this.CheckColor(x);
+                }
+            });
         };
         CheckColor(participation);
         this.Print = new DelegateCommand(this.PrintAction);

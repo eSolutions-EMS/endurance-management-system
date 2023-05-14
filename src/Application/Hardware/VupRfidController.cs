@@ -47,6 +47,7 @@ public class VupRfidController
         }
         this.isConnected = true;
         this.SetPower(MAX_POWER);
+        this.RaiseMessage($"Connected!");
     }
 
     public async Task StartPolling()
@@ -126,7 +127,6 @@ public class VupRfidController
         {
             indices.Add(i);
         }
-        this.RaiseMessage($"Connected!");
         return indices.ToArray();
     }
 }
