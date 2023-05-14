@@ -38,13 +38,9 @@
                         Grid.Row="1">
                 <!-- Header -->
                 <StackPanel Style="{StaticResource List-Horizontal}">
-                    <Border Style="{StaticResource Border-StartList}" Width="400px">
+                    <Border Style="{StaticResource Border-StartList}" Width="350px">
                         <TextBlock Style="{StaticResource Text}"
                                    Text="{x:Static localization:Strings.NAME}" />
-                    </Border>
-                    <Border Style="{StaticResource Border-StartList}" Width="120px">
-                        <TextBlock Style="{StaticResource Text}"
-                                   Text="{x:Static localization:Strings.COUNTRY_ENTITY}" />
                     </Border>
                     <Border Style="{StaticResource Border-StartList}">
                         <TextBlock Style="{StaticResource Text}"

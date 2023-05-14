@@ -6,14 +6,9 @@
     <DataTemplate DataType="{x:Type printStartList:StartTemplateModel}">
         <StackPanel Style="{StaticResource List-Horizontal}" Margin="-5px -2px 0 0">
             <!-- Name -->
-            <Border Style="{StaticResource Border-StartList}" Width="400px">
+            <Border Style="{StaticResource Border-StartList}" Width="350px">
                 <TextBlock Style="{StaticResource Text-Small}"
                            Text="{Binding Name}" />
-            </Border>
-            <!-- Country Name -->
-            <Border Style="{StaticResource Border-StartList}" Width="120px">
-                <TextBlock Style="{StaticResource Text-Small}"
-                           Text="{Binding CountryName}" />
             </Border>
             <!-- Distance -->
             <Border Style="{StaticResource Border-StartList}">
