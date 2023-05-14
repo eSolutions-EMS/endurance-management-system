@@ -1,7 +1,9 @@
 ﻿using EnduranceJudge.Application.Hardware;
 using EnduranceJudge.Application.Services;
+using EnduranceJudge.Core.Events;
 using EnduranceJudge.Domain.AggregateRoots.Manager;
 using EnduranceJudge.Domain.AggregateRoots.Manager.WitnessEvents;
+using EnduranceJudge.Domain.State;
 using EnduranceJudge.Gateways.Desktop.Core.Services;
 using Prism.Mvvm;
 using System;
@@ -12,23 +14,23 @@ using System.Windows.Threading;
 
 namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager;
 
-public class RfidWitness : BindableBase
+public class RfidWitness : IRfidWitness
 {
     private readonly ISettings settings;
-    private readonly WitnessEventType type;
     private readonly IPopupService popupService;
+    private readonly IState state;
+
     //TODO: provide the ability for users to configure this IP.
     public const string FINISH_DEVICE_IP = "192.168.68.128";
-
     private readonly Dictionary<string, DateTime> cache = new();
     private readonly VupRfidController controller;
-    private string message;
+    private WitnessEventType type = WitnessEventType.Invalid;
 
-    public RfidWitness(ISettings settings, WitnessEventType type, IPopupService popupService)
+    public RfidWitness(ISettings settings, IPopupService popupService, IState state)
     {
         this.settings = settings;
-        this.type = type;
         this.popupService = popupService;
+        this.state = state;
         if (this.settings.IsSandboxMode)
         {
             return;
@@ -36,6 +38,16 @@ public class RfidWitness : BindableBase
         this.controller = new VupRfidController(FINISH_DEVICE_IP);
         this.controller.MessageEvent += (_, message) => this.RenderMessage(message);
         this.controller.ReadEvent += this.RaiseWitnessEvent;
+        CoreEvents.StateLoadedEvent += this.HandleStateLoaded;
+    }
+
+    public void Configure(WitnessEventType type)
+    {
+        if (this.type != WitnessEventType.Invalid)
+        {
+            return;
+        }
+        this.type = type;
     }
 
     public void Connect()
@@ -68,6 +80,10 @@ public class RfidWitness : BindableBase
         {
             return;
         }
+        if (!this.controller.IsConnected)
+        {
+            this.controller.Connect();
+        }
         Task.Run(() => this.controller.StartPolling());
     }
 
@@ -86,20 +102,24 @@ public class RfidWitness : BindableBase
         {
             return;
         }
-        if (this.IsStarted())
+        if (this.IsNotListening())
         {
             this.Stop();
         }
         Task.Run(() => this.controller.Disconnect());
     }
 
-    public bool IsStarted()
+    public bool IsNotListening()
     {
-        if (this.settings.IsSandboxMode)
+        return !this.controller.IsPolling;
+    }
+
+    private void HandleStateLoaded(object _, EventArgs __)
+    {
+        if (this.state.Event.HasStarted && this.IsNotListening())
         {
-            return false;
+            this.Start();
         }
-        return this.controller.IsPolling;
     }
 
     private void RenderMessage(string message)
@@ -139,4 +159,15 @@ public class RfidWitness : BindableBase
             }, null);
         });
     }
+}
+
+public interface IRfidWitness
+{
+    void Configure(WitnessEventType type);
+    void Connect();
+    void Reconnect();
+    void Start();
+    void Stop();
+    void Disconnect();
+    bool IsNotListening();
 }

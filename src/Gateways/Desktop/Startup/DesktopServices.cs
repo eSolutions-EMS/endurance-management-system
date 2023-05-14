@@ -5,6 +5,7 @@ using EnduranceJudge.Gateways.Desktop.Core.Objects;
 using EnduranceJudge.Core.Services;
 using EnduranceJudge.Domain;
 using EnduranceJudge.Gateways.Desktop.Services;
+using EnduranceJudge.Gateways.Desktop.Views.Content.Manager;
 using EnduranceJudge.Localization;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
@@ -57,6 +58,7 @@ public static class DesktopServices
 
     private static IServiceCollection AddDesktop(this IServiceCollection services, Assembly[] assemblies)
     {
+        services.AddSingleton<IRfidWitness, RfidWitness>();
         services.AddTransient(typeof(IExecutor<>), typeof(Executor<>));
         services.AddJudgeSettings();
         return services;
