@@ -3,6 +3,7 @@ using EnduranceJudge.Application.Services;
 using EnduranceJudge.Core.Events;
 using EnduranceJudge.Domain.AggregateRoots.Manager;
 using EnduranceJudge.Domain.AggregateRoots.Manager.WitnessEvents;
+using EnduranceJudge.Domain.State;
 using EnduranceJudge.Gateways.Desktop.Core.Services;
 using Prism.Mvvm;
 using System;
@@ -17,6 +18,7 @@ public class RfidWitness : IRfidWitness
 {
     private readonly ISettings settings;
     private readonly IPopupService popupService;
+    private readonly IState state;
 
     //TODO: provide the ability for users to configure this IP.
     public const string FINISH_DEVICE_IP = "192.168.68.128";
@@ -24,10 +26,11 @@ public class RfidWitness : IRfidWitness
     private readonly VupRfidController controller;
     private WitnessEventType type = WitnessEventType.Invalid;
 
-    public RfidWitness(ISettings settings, IPopupService popupService)
+    public RfidWitness(ISettings settings, IPopupService popupService, IState state)
     {
         this.settings = settings;
         this.popupService = popupService;
+        this.state = state;
         if (this.settings.IsSandboxMode)
         {
             return;
@@ -35,6 +38,7 @@ public class RfidWitness : IRfidWitness
         this.controller = new VupRfidController(FINISH_DEVICE_IP);
         this.controller.MessageEvent += (_, message) => this.RenderMessage(message);
         this.controller.ReadEvent += this.RaiseWitnessEvent;
+        CoreEvents.StateLoadedEvent += this.HandleStateLoaded;
     }
 
     public void Configure(WitnessEventType type)
@@ -108,6 +112,14 @@ public class RfidWitness : IRfidWitness
     public bool IsNotListening()
     {
         return !this.controller.IsPolling;
+    }
+
+    private void HandleStateLoaded(object _, EventArgs __)
+    {
+        if (this.state.Event.HasStarted && this.IsNotListening())
+        {
+            this.Start();
+        }
     }
 
     private void RenderMessage(string message)

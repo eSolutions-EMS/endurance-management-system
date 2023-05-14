@@ -9,4 +9,10 @@ public static class CoreEvents
     {
         ErrorEvent?.Invoke(null, exception);
     }
+
+    public static event EventHandler StateLoadedEvent;
+    public static void RaiseStateLoaded()
+    {
+        StateLoadedEvent?.Invoke(null, EventArgs.Empty);
+    }
 }
