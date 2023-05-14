@@ -11,7 +11,6 @@ public class VupRfidController
 {
     private const int MAX_POWER = 27;
     private readonly NetVupReader reader;
-    private bool isConnected;
     private readonly string ipAddress;
     private bool cannotConnect;
     private readonly List<long> slowReadTimeMs = new();
@@ -22,6 +21,7 @@ public class VupRfidController
         this.reader = new NetVupReader(ipAddress, 1969, transport_protocol.tcp);
     }
 
+    public bool IsConnected { get; private set; }
     public event EventHandler<IEnumerable<string>> ReadEvent;
     public void RaiseRead(IEnumerable<string> tagId)
     {
@@ -47,7 +47,7 @@ public class VupRfidController
             this.cannotConnect = true;
             return;
         }
-        this.isConnected = true;
+        this.IsConnected = true;
         this.cannotConnect = false;
         this.SetPower(MAX_POWER);
         this.RaiseMessage($"Connected!");
@@ -58,18 +58,12 @@ public class VupRfidController
 
     public async Task StartPolling()
     {
-        if (!this.isConnected)
-        {
-            this.Connect();
-        }
         if (this.cannotConnect)
         {
             return;
         }
-
         var antennaIndices = this.GetAntennaIndices();
         this.IsPolling = true;
-
         while (this.IsPolling)
         {
             var tags = this.ReadTags(antennaIndices);
@@ -85,10 +79,10 @@ public class VupRfidController
 
     public void Disconnect()
     {
-        if (this.isConnected)
+        if (this.IsConnected)
         {
             this.reader.Disconnect();
-            this.isConnected = false;
+            this.IsConnected = false;
             this.RaiseMessage("Disconnected!");
         }
     }
