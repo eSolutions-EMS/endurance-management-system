@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Vup.reader;
@@ -13,6 +14,7 @@ public class VupRfidController
     private bool isConnected;
     private readonly string ipAddress;
     private bool cannotConnect;
+    private readonly List<long> slowReadTimeMs = new();
 
     public VupRfidController(string ipAddress)
     {
@@ -46,8 +48,12 @@ public class VupRfidController
             return;
         }
         this.isConnected = true;
+        this.cannotConnect = false;
         this.SetPower(MAX_POWER);
         this.RaiseMessage($"Connected!");
+        Console.WriteLine("==========================================================================================");
+        Console.WriteLine("= Vup Reader connection established");
+        Console.WriteLine("==========================================================================================");
     }
 
     public async Task StartPolling()
@@ -66,21 +72,9 @@ public class VupRfidController
 
         while (this.IsPolling)
         {
-            foreach (var i in antennaIndices)
-            {
-                this.reader.SetWorkAnt(i);
-                var tagRead = this.reader.List6C(
-                    memory_bank.memory_bank_epc,
-                    0,
-                    12,
-                    Convert.FromHexString("00000000"));
-                if (tagRead.Success)
-                {
-                    var tags = tagRead.Result.Select(x => Convert.ToHexString(x.Id));
-                    this.RaiseRead(tags);
-                }
-            }
-            await Task.Delay(TimeSpan.FromMilliseconds(1));
+            var tags = this.ReadTags(antennaIndices);
+            this.RaiseRead(tags);
+            await Task.Delay(TimeSpan.FromMilliseconds(1000));
         }
     }
 
@@ -128,5 +122,45 @@ public class VupRfidController
             indices.Add(i);
         }
         return indices.ToArray();
+    }
+
+    private DateTime? disconnectedMessageTime;
+    private IEnumerable<string> ReadTags(IEnumerable<int> antennaIndices)
+    {
+        var timer = new Stopwatch();
+        foreach (var i in antennaIndices)
+        {
+            this.reader.SetWorkAnt(i);
+            timer.Start();
+
+            var tagRead = this.reader.List6C(
+                memory_bank.memory_bank_epc,
+                0,
+                12,
+                Convert.FromHexString("00000000"));
+
+            timer.Stop();
+            if (this.disconnectedMessageTime == null
+                || DateTime.Now - this.disconnectedMessageTime > TimeSpan.FromMinutes(1))
+            {
+                if (timer.ElapsedMilliseconds is > 1000 or < 5)
+                {
+                    this.slowReadTimeMs.Add(timer.ElapsedMilliseconds);
+                }
+                if (this.slowReadTimeMs.Count >= 10)
+                {
+                    this.slowReadTimeMs.Clear();
+                    this.disconnectedMessageTime = DateTime.Now;
+                    this.RaiseMessage("RFID tag read responses indicate the Vup " +
+                        "Reader might be disconnected. Look for VUP console logs.");
+                }
+            }
+
+            if (tagRead.Success)
+            {
+                return tagRead.Result.Select(x => Convert.ToHexString(x.Id));
+            }
+        }
+        return Enumerable.Empty<string>();
     }
 }
