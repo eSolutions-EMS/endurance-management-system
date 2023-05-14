@@ -136,8 +136,8 @@ public class ManagerRoot : IAggregateRoot
             return;
         }
         this.arrivalCache[aggregate.Number] = now;
-        aggregate.Arrive(time);
         this.AddStats(participation, numberOrTag, WitnessEventType.Arrival);
+        aggregate.Arrive(time);
     }
     public void HandleVet(string numberOrTag, DateTime time)
     {
@@ -155,8 +155,8 @@ public class ManagerRoot : IAggregateRoot
             return;
         }
         this.vetCache[aggregate.Number] = now;
-        aggregate.Vet(time);
         this.AddStats(participation, numberOrTag, WitnessEventType.VetIn);
+        aggregate.Vet(time);
         Witness.RaiseStartlistChanged(this.GetStartList(false));
     }
 
