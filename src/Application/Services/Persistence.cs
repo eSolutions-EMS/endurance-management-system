@@ -2,6 +2,7 @@
 using EnduranceJudge.Application.Models;
 using EnduranceJudge.Application.State;
 using EnduranceJudge.Core.ConventionalServices;
+using EnduranceJudge.Core.Events;
 using EnduranceJudge.Core.Services;
 using EnduranceJudge.Domain.AggregateRoots.Manager.WitnessEvents;
 using EnduranceJudge.Domain.State;
@@ -85,6 +86,7 @@ public class Persistence : IPersistence
         var contents = this.file.Read(path);
         var state = this.serialization.Deserialize<StateModel>(contents);
         this.stateSetter.Set(state);
+        CoreEvents.RaiseStateLoaded();
     }
 
     private string BuildStorageFilePath()
