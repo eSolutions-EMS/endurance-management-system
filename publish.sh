@@ -1,4 +1,4 @@
-remote=true;
+# remote=true;
 
 while getopts "lv:" option; do
   case $option in
