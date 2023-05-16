@@ -26,22 +26,23 @@ public class ManagerViewModel : ViewModelBase
     private readonly IEventAggregator eventAggregator;
     private readonly IExecutor<ManagerRoot> managerExecutor;
     private readonly IQueries<Participation> participations;
-    private readonly RfidWitness rfidWitness;
+    private readonly IRfidWitness rfidWitness;
 
     public ManagerViewModel(
-        ISettings settings,
+        IRfidWitness rfidWitness,
         IEventAggregator eventAggregator,
         IPopupService popupService,
         IExecutor<ManagerRoot> managerExecutor,
         IQueries<Participation> participations)
     {
+        var type = WitnessEventType.Arrival;
+        this.WitnessType = type.ToString();
+        rfidWitness.Configure(type);
+        this.rfidWitness = rfidWitness;
+
         this.eventAggregator = eventAggregator;
         this.managerExecutor = managerExecutor;
         this.participations = participations;
-
-        var type = WitnessEventType.Arrival;
-        this.WitnessType = type.ToString();
-        this.rfidWitness = new RfidWitness(settings, type, popupService);
 
         this.Update = new DelegateCommand(this.UpdateAction);
         this.Start = new DelegateCommand(this.StartAction);
@@ -101,7 +102,6 @@ public class ManagerViewModel : ViewModelBase
         if (hasStarted)
         {
             this.ReloadParticipations();
-            // this.StartWitness();
         }
     }
 
@@ -157,20 +157,12 @@ public class ManagerViewModel : ViewModelBase
         });
     }
 
-    private void StartWitness()
-    {
-        if (!this.rfidWitness.IsStarted())
-        {
-            this.rfidWitness.Start();
-        }
-    }
-
     private void StartAction()
     {
         this.managerExecutor.Execute(manager =>
         {
             manager.Start();
-            this.StartWitness();
+            this.rfidWitness.Start();
             this.ReloadParticipations();
         }, true);
     }
