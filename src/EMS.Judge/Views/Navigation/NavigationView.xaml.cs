@@ -1,9 +1,9 @@
-using EnduranceJudge.Gateways.Desktop.Core;
-using EnduranceJudge.Gateways.Desktop.Core.Services;
+using EMS.Judge.Core;
+using EMS.Judge.Core.Services;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Navigation;
+namespace EMS.Judge.Views.Navigation;
 
 public partial class NavigationView : UserControl, IView
 {

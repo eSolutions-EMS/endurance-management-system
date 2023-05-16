@@ -1,6 +1,6 @@
 ﻿using Prism.Events;
 
-namespace EnduranceJudge.Gateways.Desktop.Events;
+namespace EMS.Judge.Events;
 
 public class SelectTabEvent : PubSubEvent<object>
 {

@@ -1,11 +1,11 @@
-﻿using System.Reflection;
-using EnduranceJudge.Core.Mappings;
-using EnduranceJudge.Core.Utilities;
-using EnduranceJudge.Domain.Core.Models;
+﻿using EMS.Core.Domain.Core.Models;
+using System.Reflection;
+using EMS.Core.Mappings;
+using EMS.Core.Utilities;
 using System;
 using System.Linq;
 
-namespace EnduranceJudge.Domain.Core;
+namespace EMS.Core.Domain.Core;
 
 public class DomainMappingProfile : MappingProfile
 {

@@ -1,11 +1,11 @@
-﻿using EnduranceJudge.Application.Core;
-using EnduranceJudge.Domain.Core.Models;
-using EnduranceJudge.Gateways.Desktop.Core;
-using EnduranceJudge.Gateways.Desktop.Core.Extensions;
+﻿using EMS.Judge.Core;
+using EMS.Core.Application.Core;
+using EMS.Core.Domain.Core.Models;
+using EMS.Judge.Core.Extensions;
 using Prism.Regions;
 using System;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core;
+namespace EMS.Judge.Views.Content.Configuration.Core;
 
 public abstract class NestedConfigurationBase<TView, TDomain> : ConfigurationBase<TView, TDomain>
     where TView : IView

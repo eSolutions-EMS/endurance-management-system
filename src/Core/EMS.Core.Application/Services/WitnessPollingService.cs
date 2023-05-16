@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace EnduranceJudge.Application.Services;
+namespace EMS.Core.Application.Services;
 
 public class WitnessPollingService : IWitnessPollingService
 {

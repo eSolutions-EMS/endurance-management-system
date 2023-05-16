@@ -1,7 +1,7 @@
-﻿using EnduranceJudge.Core.Utilities;
+﻿using EMS.Core.Utilities;
 using System.Reflection;
 
-namespace EnduranceJudge.Localization;
+namespace EMS.Core.Localization;
 
 public static class LocalizationConstants
 {
@@ -40,7 +40,7 @@ public static class LocalizationConstants
     {
         get
         {
-            var assemblies = ReflectionUtilities.GetAssemblies("EnduranceJudge.Localization");
+            var assemblies = ReflectionUtilities.GetAssemblies("EMS.Core.Localization");
             return assemblies;
         }
     }

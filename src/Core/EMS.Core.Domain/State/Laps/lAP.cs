@@ -1,6 +1,6 @@
-using EnduranceJudge.Domain.Core.Models;
+using EMS.Core.Domain.Core.Models;
 
-namespace EnduranceJudge.Domain.State.Laps;
+namespace EMS.Core.Domain.State.Laps;
 
 public class Lap : DomainBase<LapException>, ILapState
 {

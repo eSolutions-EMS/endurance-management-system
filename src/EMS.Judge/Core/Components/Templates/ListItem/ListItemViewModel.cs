@@ -1,7 +1,7 @@
 ﻿using Prism.Commands;
 using System.Windows;
 
-namespace EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem;
+namespace EMS.Judge.Core.Components.Templates.ListItem;
 
 public class ListItemViewModel
 {

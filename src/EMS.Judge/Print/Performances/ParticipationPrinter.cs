@@ -1,10 +1,10 @@
-﻿using EnduranceJudge.Gateways.Desktop.Controls;
-using EnduranceJudge.Gateways.Desktop.Controls.Manager;
+﻿using EMS.Judge.Controls;
+using EMS.Judge.Controls.Manager;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 
-namespace EnduranceJudge.Gateways.Desktop.Print.Performances;
+namespace EMS.Judge.Print.Performances;
 
 public class ParticipationPrinter : PrintTemplate
 {

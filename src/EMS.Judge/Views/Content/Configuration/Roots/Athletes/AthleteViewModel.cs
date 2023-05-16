@@ -1,21 +1,21 @@
-﻿using EnduranceJudge.Application.Core;
-using EnduranceJudge.Application.Core.Models;
-using EnduranceJudge.Core.Mappings;
-using EnduranceJudge.Core.Models;
-using EnduranceJudge.Domain.AggregateRoots.Configuration;
-using EnduranceJudge.Domain.Core.Models;
-using EnduranceJudge.Domain.State.Athletes;
-using EnduranceJudge.Domain.Enums;
-using EnduranceJudge.Domain.State.Countries;
-using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
-using EnduranceJudge.Gateways.Desktop.Services;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core;
+﻿using EMS.Judge.Core.Components.Templates.SimpleListItem;
+using EMS.Judge.Services;
+using EMS.Judge.Views.Content.Configuration.Core;
+using EMS.Core.Application.Core;
+using EMS.Core.Application.Core.Models;
+using EMS.Core.Mappings;
+using EMS.Core.Models;
+using EMS.Core.Domain.AggregateRoots.Configuration;
+using EMS.Core.Domain.Core.Models;
+using EMS.Core.Domain.State.Athletes;
+using EMS.Core.Domain.Enums;
+using EMS.Core.Domain.State.Countries;
 using Prism.Regions;
 using System.Collections.ObjectModel;
 using System.Linq;
-using static EnduranceJudge.Localization.LocalizationConstants;
+using static EMS.Core.Localization.LocalizationConstants;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Athletes;
+namespace EMS.Judge.Views.Content.Configuration.Roots.Athletes;
 
 public class AthleteViewModel : ConfigurationBase<AthleteView, Athlete>, IAthleteState, IListable
 {

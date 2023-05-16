@@ -1,6 +1,6 @@
-using EnduranceJudge.Domain.Core.Exceptions;
+using EMS.Core.Domain.Core.Exceptions;
 
-namespace EnduranceJudge.Domain.State.Horses;
+namespace EMS.Core.Domain.State.Horses;
 
 public class HorseException : DomainExceptionBase
 {

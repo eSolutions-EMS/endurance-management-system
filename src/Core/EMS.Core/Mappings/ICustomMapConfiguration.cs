@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace EnduranceJudge.Core.Mappings;
+namespace EMS.Core.Mappings;
 
 public interface ICustomMapConfiguration
 {

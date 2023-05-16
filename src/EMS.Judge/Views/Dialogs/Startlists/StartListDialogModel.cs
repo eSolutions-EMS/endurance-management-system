@@ -1,7 +1,7 @@
-﻿using EnduranceJudge.Domain.AggregateRoots.Manager;
-using EnduranceJudge.Gateways.Desktop.Core.Services;
-using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
-using EnduranceJudge.Gateways.Desktop.Services;
+﻿using EMS.Judge.Core.Services;
+using EMS.Judge.Core.ViewModels;
+using EMS.Judge.Services;
+using EMS.Core.Domain.AggregateRoots.Manager;
 using Prism.Commands;
 using Prism.Services.Dialogs;
 using System.Collections.ObjectModel;
@@ -9,7 +9,7 @@ using System.Linq;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Dialogs.Startlists;
+namespace EMS.Judge.Views.Dialogs.Startlists;
 
 public class StartlistDialogModel : DialogBase
 {

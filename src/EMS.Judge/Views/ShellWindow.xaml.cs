@@ -1,7 +1,7 @@
-﻿using EnduranceJudge.Application.Services;
+﻿using EMS.Core.Application.Services;
 using System.Windows;
 
-namespace EnduranceJudge.Gateways.Desktop.Views;
+namespace EMS.Judge.Views;
 
 public partial class ShellWindow : Window
 {

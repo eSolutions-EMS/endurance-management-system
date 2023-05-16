@@ -1,7 +1,7 @@
-using EnduranceJudge.Core.ConventionalServices;
+using EMS.Core.ConventionalServices;
 using Microsoft.AspNetCore.DataProtection;
 
-namespace EnduranceJudge.Core.Services;
+namespace EMS.Core.Services;
 
 public class EncryptionService : IEncryptionService
 {

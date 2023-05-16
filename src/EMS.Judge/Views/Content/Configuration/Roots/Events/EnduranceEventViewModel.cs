@@ -1,22 +1,22 @@
-﻿using EnduranceJudge.Application.Core;
-using EnduranceJudge.Application.Queries;
-using EnduranceJudge.Core.Mappings;
-using EnduranceJudge.Domain.AggregateRoots.Configuration;
-using EnduranceJudge.Domain.Core.Models;
-using EnduranceJudge.Domain.State.Countries;
-using EnduranceJudge.Domain.State.EnduranceEvents;
-using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
-using EnduranceJudge.Gateways.Desktop.Core.Services;
-using EnduranceJudge.Gateways.Desktop.Services;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Competitions;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Personnel;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core;
+﻿using EMS.Judge.Core.Components.Templates.SimpleListItem;
+using EMS.Judge.Core.Services;
+using EMS.Judge.Services;
+using EMS.Judge.Views.Content.Configuration.Children.Competitions;
+using EMS.Judge.Views.Content.Configuration.Children.Personnel;
+using EMS.Judge.Views.Content.Configuration.Core;
+using EMS.Core.Application.Core;
+using EMS.Core.Application.Queries;
+using EMS.Core.Mappings;
+using EMS.Core.Domain.AggregateRoots.Configuration;
+using EMS.Core.Domain.Core.Models;
+using EMS.Core.Domain.State.Countries;
+using EMS.Core.Domain.State.EnduranceEvents;
 using Prism.Commands;
 using Prism.Regions;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Events;
+namespace EMS.Judge.Views.Content.Configuration.Roots.Events;
 
 public class EnduranceEventViewModel : NestedConfigurationBase<EnduranceEventView, EnduranceEvent>
 {

@@ -1,7 +1,7 @@
-﻿using EnduranceJudge.Domain.Core.Exceptions;
-using EnduranceJudge.Localization;
+﻿using EMS.Core.Domain.Core.Exceptions;
+using EMS.Core.Localization;
 
-namespace EnduranceJudge.Domain.State.LapRecords;
+namespace EMS.Core.Domain.State.LapRecords;
 
 public class LapRecordException : DomainExceptionBase
 {

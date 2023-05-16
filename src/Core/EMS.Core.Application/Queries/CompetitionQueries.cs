@@ -1,10 +1,10 @@
-﻿using EnduranceJudge.Application.Core;
-using EnduranceJudge.Domain.State;
-using EnduranceJudge.Domain.State.Competitions;
+﻿using EMS.Core.Application.Core;
+using EMS.Core.Domain.State;
+using EMS.Core.Domain.State.Competitions;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EnduranceJudge.Application.Queries;
+namespace EMS.Core.Application.Queries;
 
 public class CompetitionQueries : QueriesBase<Competition>
 {

@@ -1,10 +1,10 @@
-﻿using EnduranceJudge.Gateways.Desktop.Core.Extensions;
-using EnduranceJudge.Gateways.Desktop.Core.Objects;
-using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
-using static EnduranceJudge.Localization.Strings;
+﻿using EMS.Judge.Core.Objects;
+using EMS.Judge.Core.ViewModels;
+using EMS.Judge.Core.Extensions;
+using static EMS.Core.Localization.Strings;
 using Prism.Services.Dialogs;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Dialogs.Message;
+namespace EMS.Judge.Views.Dialogs.Message;
 
 public class MessageDialogModel : DialogBase
 {

@@ -1,9 +1,9 @@
-﻿<UserControl x:Class="EnduranceJudge.Gateways.Desktop.Views.Content.Ranking.RankingView"
+﻿<UserControl x:Class="EMS.Judge.Views.Content.Ranking.RankingView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"
-             xmlns:localization="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization"
-             xmlns:ranking="clr-namespace:EnduranceJudge.Gateways.Desktop.Controls.Ranking"
+             xmlns:localization="clr-namespace:EMS.Core.Localization;assembly=EMS.Core.Localization"
+             xmlns:ranking="clr-namespace:EMS.Judge.Controls.Ranking"
              prism:ViewModelLocator.AutoWireViewModel="True">
 
     <ScrollViewer Style="{StaticResource Scroll}"

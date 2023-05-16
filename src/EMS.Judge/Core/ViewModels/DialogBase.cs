@@ -1,7 +1,7 @@
 ﻿using Prism.Services.Dialogs;
 using System;
 
-namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels;
+namespace EMS.Judge.Core.ViewModels;
 
 public abstract class DialogBase : ViewModelBase, IDialogAware
 {

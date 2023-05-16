@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace EnduranceJudge.Gateways.Desktop.Controls.Manager;
+namespace EMS.Judge.Controls.Manager;
 
 public partial class ParticipationGridControl
 {

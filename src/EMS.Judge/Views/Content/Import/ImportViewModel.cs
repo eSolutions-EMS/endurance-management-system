@@ -1,14 +1,14 @@
-﻿using EnduranceJudge.Application.Aggregates.Import;
-using EnduranceJudge.Application.Services;
-using EnduranceJudge.Domain.AggregateRoots.Manager;
-using EnduranceJudge.Gateways.Desktop.Core;
-using EnduranceJudge.Gateways.Desktop.Core.Services;
-using EnduranceJudge.Gateways.Desktop.Services;
+﻿using EMS.Judge.Core;
+using EMS.Judge.Core.Services;
+using EMS.Judge.Services;
+using EMS.Core.Application.Aggregates.Import;
+using EMS.Core.Application.Services;
+using EMS.Core.Domain.AggregateRoots.Manager;
 using Prism.Commands;
 using Prism.Regions;
 using System.Windows;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Import;
+namespace EMS.Judge.Views.Content.Import;
 
 public class ImportViewModel : ViewModelBase
 {

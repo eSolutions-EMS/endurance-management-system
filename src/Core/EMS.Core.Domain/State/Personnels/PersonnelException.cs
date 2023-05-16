@@ -1,6 +1,6 @@
-using EnduranceJudge.Domain.Core.Exceptions;
+using EMS.Core.Domain.Core.Exceptions;
 
-namespace EnduranceJudge.Domain.State.Personnels;
+namespace EMS.Core.Domain.State.Personnels;
 
 public class PersonnelException : DomainExceptionBase
 {

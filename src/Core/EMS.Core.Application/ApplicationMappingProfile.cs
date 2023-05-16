@@ -1,9 +1,9 @@
-﻿using EnduranceJudge.Application.State;
-using EnduranceJudge.Core.Mappings;
-using EnduranceJudge.Domain.State;
+﻿using EMS.Core.Application.State;
+using EMS.Core.Mappings;
+using EMS.Core.Domain.State;
 using System.Reflection;
 
-namespace EnduranceJudge.Application;
+namespace EMS.Core.Application;
 
 public class ApplicationMappingProfile : MappingProfile
 {

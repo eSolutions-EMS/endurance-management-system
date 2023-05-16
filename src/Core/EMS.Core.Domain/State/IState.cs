@@ -1,12 +1,12 @@
-﻿using EnduranceJudge.Domain.State.Athletes;
-using EnduranceJudge.Domain.State.Countries;
-using EnduranceJudge.Domain.State.EnduranceEvents;
-using EnduranceJudge.Domain.State.Horses;
-using EnduranceJudge.Domain.State.Participants;
-using EnduranceJudge.Domain.State.Participations;
+﻿using EMS.Core.Domain.State.Athletes;
+using EMS.Core.Domain.State.Countries;
+using EMS.Core.Domain.State.EnduranceEvents;
+using EMS.Core.Domain.State.Horses;
+using EMS.Core.Domain.State.Participants;
+using EMS.Core.Domain.State.Participations;
 using System.Collections.Generic;
 
-namespace EnduranceJudge.Domain.State;
+namespace EMS.Core.Domain.State;
 
 public interface IState
 {

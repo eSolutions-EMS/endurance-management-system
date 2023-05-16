@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace EnduranceJudge.Gateways.Desktop.Core.Objects;
+namespace EMS.Judge.Core.Objects;
 
 public class SearchableCollection<TItem> : ObservableCollection<TItem>
 {

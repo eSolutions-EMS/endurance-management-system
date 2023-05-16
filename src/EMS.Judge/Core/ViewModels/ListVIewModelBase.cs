@@ -1,17 +1,17 @@
-﻿using EnduranceJudge.Application.Services;
-using EnduranceJudge.Application.Core.Models;
-using EnduranceJudge.Core.Utilities;
-using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem;
-using EnduranceJudge.Gateways.Desktop.Core.Services;
-using EnduranceJudge.Gateways.Desktop.Services;
+﻿using EMS.Judge.Core.Components.Templates.ListItem;
+using EMS.Judge.Core.Services;
+using EMS.Judge.Services;
+using EMS.Core.Application.Services;
+using EMS.Core.Application.Core.Models;
+using EMS.Core.Utilities;
 using Prism.Commands;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using static EnduranceJudge.Localization.Strings;
+using static EMS.Core.Localization.Strings;
 
-namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels;
+namespace EMS.Judge.Core.ViewModels;
 
 public abstract class ListViewModelBase<TView> : ViewModelBase
     where TView : IView

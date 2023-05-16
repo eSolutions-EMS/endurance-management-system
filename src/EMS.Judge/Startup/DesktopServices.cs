@@ -1,12 +1,12 @@
-using EnduranceJudge.Application;
-using EnduranceJudge.Application.Services;
-using EnduranceJudge.Core;
-using EnduranceJudge.Gateways.Desktop.Core.Objects;
-using EnduranceJudge.Core.Services;
-using EnduranceJudge.Domain;
-using EnduranceJudge.Gateways.Desktop.Services;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Manager;
-using EnduranceJudge.Localization;
+using EMS.Judge.Core.Objects;
+using EMS.Judge.Services;
+using EMS.Judge.Views.Content.Manager;
+using EMS.Core.Application;
+using EMS.Core.Application.Services;
+using EMS.Core;
+using EMS.Core.Services;
+using EMS.Core.Domain;
+using EMS.Core.Localization;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Prism.Ioc;
@@ -16,7 +16,7 @@ using System.Reflection;
 using System.Text.Json;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
-namespace EnduranceJudge.Gateways.Desktop.Startup;
+namespace EMS.Judge.Startup;
 
 public static class DesktopServices
 {

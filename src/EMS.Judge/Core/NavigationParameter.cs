@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace EnduranceJudge.Gateways.Desktop.Core;
+namespace EMS.Judge.Core;
 
 public readonly struct NavigationParameter
 {

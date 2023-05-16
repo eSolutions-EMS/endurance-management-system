@@ -1,10 +1,10 @@
-using EnduranceJudge.Core.Models;
+using EMS.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace EnduranceJudge.Core.Utilities;
+namespace EMS.Core.Utilities;
 
 public static class ReflectionUtilities
 {

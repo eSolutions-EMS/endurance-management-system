@@ -1,8 +1,8 @@
-﻿using EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates.Startlists;
+﻿using EMS.Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 using System;
 using System.Collections.Generic;
 
-namespace EnduranceJudge.Domain.AggregateRoots.Manager.WitnessEvents;
+namespace EMS.Core.Domain.AggregateRoots.Manager.WitnessEvents;
 
 public class Witness
 {

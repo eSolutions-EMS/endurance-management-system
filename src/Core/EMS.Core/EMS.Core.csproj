@@ -2,8 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <RootNamespace>EnduranceJudge.Core</RootNamespace>
-    <AssemblyName>EnduranceJudge.Core</AssemblyName>
     <Nullable>enable</Nullable>
     <LangVersion>default</LangVersion>
   </PropertyGroup>

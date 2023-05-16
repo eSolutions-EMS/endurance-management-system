@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using EnduranceJudge.Core.Mappings;
-using EnduranceJudge.Core.Mappings.Converters;
-using EnduranceJudge.Domain.State.Laps;
+using EMS.Core.Mappings;
+using EMS.Core.Mappings.Converters;
+using EMS.Core.Domain.State.Laps;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Laps.Configuration;
+namespace EMS.Judge.Views.Content.Configuration.Children.Laps.Configuration;
 
 public class LapViewModelMaps : ICustomMapConfiguration
 {

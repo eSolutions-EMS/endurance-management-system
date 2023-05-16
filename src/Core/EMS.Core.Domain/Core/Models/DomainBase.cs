@@ -1,9 +1,9 @@
-﻿using EnduranceJudge.Core.Models;
-using EnduranceJudge.Domain.Core.Exceptions;
-using EnduranceJudge.Domain.Validation;
+﻿using EMS.Core.Domain.Core.Exceptions;
+using EMS.Core.Domain.Validation;
+using EMS.Core.Models;
 using System;
 
-namespace EnduranceJudge.Domain.Core.Models;
+namespace EMS.Core.Domain.Core.Models;
 
 public abstract class DomainBase<TException> : IDomain, IEquatable<DomainBase<TException>>
     where TException : DomainExceptionBase, new()

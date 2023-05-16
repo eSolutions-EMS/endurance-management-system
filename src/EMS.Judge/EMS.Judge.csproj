@@ -1,8 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <RootNamespace>EnduranceJudge.Gateways.Desktop</RootNamespace>
-    <AssemblyName>EnduranceJudge.Gateways.Desktop</AssemblyName>
     <LangVersion>default</LangVersion>
     <OutputType>Exe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>

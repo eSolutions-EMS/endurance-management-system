@@ -1,6 +1,6 @@
-﻿using EnduranceJudge.Core.ConventionalServices;
+﻿using EMS.Core.ConventionalServices;
 
-namespace EnduranceJudge.Gateways.Desktop.Core.Services;
+namespace EMS.Judge.Core.Services;
 
 public interface IExplorerService : ITransientService
 {

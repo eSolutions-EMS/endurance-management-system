@@ -1,14 +1,14 @@
-﻿using EnduranceJudge.Application.Services;
-using EnduranceJudge.Application.Core;
-using EnduranceJudge.Application.Core.Models;
-using EnduranceJudge.Core.Mappings;
-using EnduranceJudge.Domain.State.Participants;
-using EnduranceJudge.Gateways.Desktop.Core.Services;
-using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
-using EnduranceJudge.Gateways.Desktop.Services;
+﻿using EMS.Judge.Core.Services;
+using EMS.Judge.Core.ViewModels;
+using EMS.Judge.Services;
+using EMS.Core.Application.Services;
+using EMS.Core.Application.Core;
+using EMS.Core.Application.Core.Models;
+using EMS.Core.Mappings;
+using EMS.Core.Domain.State.Participants;
 using System.Collections.Generic;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager.ParticipantsList;
+namespace EMS.Judge.Views.Content.Manager.ParticipantsList;
 
 public class ParticipantListViewModel : SearchableListViewModelBase<ManagerView>
 {

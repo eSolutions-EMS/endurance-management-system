@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace EnduranceJudge.Core.Mappings.Converters;
+namespace EMS.Core.Mappings.Converters;
 
 public class BoolToIntConverter : IValueConverter<bool, int>
 {

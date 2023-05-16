@@ -1,11 +1,11 @@
-﻿using EnduranceJudge.Application.Models;
-using EnduranceJudge.Core.ConventionalServices;
-using EnduranceJudge.Domain.AggregateRoots.Manager;
-using EnduranceJudge.Domain.AggregateRoots.Manager.WitnessEvents;
+﻿using EMS.Core.Application.Models;
+using EMS.Core.ConventionalServices;
+using EMS.Core.Domain.AggregateRoots.Manager;
+using EMS.Core.Domain.AggregateRoots.Manager.WitnessEvents;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EnduranceJudge.Application.Services
+namespace EMS.Core.Application.Services
 {
     public class WitnessEventQueue : IWitnessEventQueue
     {

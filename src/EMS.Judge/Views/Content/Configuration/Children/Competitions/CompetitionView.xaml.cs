@@ -1,9 +1,9 @@
-﻿using EnduranceJudge.Gateways.Desktop.Core;
-using EnduranceJudge.Gateways.Desktop.Core.Services;
+﻿using EMS.Judge.Core;
+using EMS.Judge.Core.Services;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Competitions;
+namespace EMS.Judge.Views.Content.Configuration.Children.Competitions;
 
 public partial class CompetitionView : UserControl, IView
 {

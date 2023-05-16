@@ -1,7 +1,7 @@
-﻿using EnduranceJudge.Domain.AggregateRoots.Ranking.Aggregates;
-using EnduranceJudge.Gateways.Desktop.Controls.Ranking;
+﻿using EMS.Judge.Controls.Ranking;
+using EMS.Core.Domain.AggregateRoots.Ranking.Aggregates;
 
-namespace EnduranceJudge.Gateways.Desktop.Print.Performances;
+namespace EMS.Judge.Print.Performances;
 
 public class RanklistPrinter : PrintTemplate
 {

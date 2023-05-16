@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EnduranceJudge.Core.Models;
+namespace EMS.Core.Models;
 
 public class Result
 {

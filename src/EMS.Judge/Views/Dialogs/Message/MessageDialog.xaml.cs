@@ -1,9 +1,9 @@
-﻿using EnduranceJudge.Gateways.Desktop.Core;
-using EnduranceJudge.Gateways.Desktop.Core.Services;
+﻿using EMS.Judge.Core;
+using EMS.Judge.Core.Services;
 using System.Windows;
 using System.Windows.Input;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Dialogs.Message;
+namespace EMS.Judge.Views.Dialogs.Message;
 
 public partial class MessageDialog : IScrollableVisual
 {

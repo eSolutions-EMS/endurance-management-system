@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace EnduranceJudge.Gateways.Desktop.Core.Components.Converters;
+namespace EMS.Judge.Core.Components.Converters;
 
 [ValueConversion(typeof(Visibility), typeof(bool))]
 public class VisibilityToBooleanConverter : IValueConverter

@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace EnduranceJudge.Gateways.Desktop.Controls.Ranking;
+namespace EMS.Judge.Controls.Ranking;
 
 public partial class ParticipationResultControl
 {

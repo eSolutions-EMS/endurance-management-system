@@ -1,7 +1,7 @@
-﻿using EnduranceJudge.Application.State;
-using EnduranceJudge.Domain.State;
+﻿using EMS.Core.Application.State;
+using EMS.Core.Domain.State;
 
-namespace EnduranceJudge.Application.Services;
+namespace EMS.Core.Application.Services;
 
 public interface IStateSetter : IState
 {

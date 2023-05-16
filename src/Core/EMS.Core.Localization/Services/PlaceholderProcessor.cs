@@ -1,8 +1,8 @@
-﻿using EnduranceJudge.Core.ConventionalServices;
+﻿using EMS.Core.ConventionalServices;
 using System.Collections.Generic;
-using static EnduranceJudge.Localization.LocalizationConstants.Placeholders;
+using static EMS.Core.Localization.LocalizationConstants.Placeholders;
 
-namespace EnduranceJudge.Localization.Services;
+namespace EMS.Core.Localization.Services;
 
 public class PlaceholderProcessor : IPlaceholderProcessor
 {

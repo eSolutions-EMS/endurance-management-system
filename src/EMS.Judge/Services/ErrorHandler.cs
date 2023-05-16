@@ -1,13 +1,13 @@
-﻿using EnduranceJudge.Application.Services;
-using EnduranceJudge.Application.Core.Exceptions;
-using EnduranceJudge.Core.ConventionalServices;
-using EnduranceJudge.Core.Events;
-using EnduranceJudge.Domain.Core.Exceptions;
-using EnduranceJudge.Gateways.Desktop.Core.Services;
+﻿using EMS.Judge.Core.Services;
+using EMS.Core.Application.Services;
+using EMS.Core.Application.Core.Exceptions;
+using EMS.Core.ConventionalServices;
+using EMS.Core.Events;
+using EMS.Core.Domain.Core.Exceptions;
 using System;
-using static EnduranceJudge.Gateways.Desktop.DesktopConstants;
+using static EMS.Judge.DesktopConstants;
 
-namespace EnduranceJudge.Gateways.Desktop.Services;
+namespace EMS.Judge.Services;
 
 public class ErrorHandler : IErrorHandler
 {

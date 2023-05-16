@@ -1,10 +1,10 @@
-﻿using EnduranceJudge.Gateways.Desktop.Core;
-using EnduranceJudge.Gateways.Desktop.Core.Services;
+﻿using EMS.Judge.Core;
+using EMS.Judge.Core.Services;
 using System.Net;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Personnel;
+namespace EMS.Judge.Views.Content.Configuration.Children.Personnel;
 
 public partial class PersonnelView : UserControl, IView
 {

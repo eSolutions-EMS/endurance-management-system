@@ -1,14 +1,14 @@
-﻿using EnduranceJudge.Core.Utilities;
-using EnduranceJudge.Domain.AggregateRoots.Configuration.Aggregates;
-using EnduranceJudge.Domain.Core.Extensions;
-using EnduranceJudge.Domain.Core.Models;
-using EnduranceJudge.Domain.Validation;
-using EnduranceJudge.Domain.State;
-using EnduranceJudge.Domain.State.EnduranceEvents;
-using EnduranceJudge.Domain.State.Personnels;
-using static EnduranceJudge.Localization.Strings;
+﻿using EMS.Core.Domain.AggregateRoots.Configuration.Aggregates;
+using EMS.Core.Domain.Core.Models;
+using EMS.Core.Domain.State;
+using EMS.Core.Domain.State.EnduranceEvents;
+using EMS.Core.Domain.State.Personnels;
+using EMS.Core.Domain.Validation;
+using EMS.Core.Utilities;
+using EMS.Core.Domain.Core.Extensions;
+using static EMS.Core.Localization.Strings;
 
-namespace EnduranceJudge.Domain.AggregateRoots.Configuration;
+namespace EMS.Core.Domain.AggregateRoots.Configuration;
 
 public class ConfigurationRoot : IAggregateRoot
 {

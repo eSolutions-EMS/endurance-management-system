@@ -1,11 +1,11 @@
-using EnduranceJudge.Domain.AggregateRoots.Ranking.Aggregates;
-using EnduranceJudge.Domain.Core.Extensions;
-using EnduranceJudge.Domain.Core.Models;
-using EnduranceJudge.Domain.State;
+using EMS.Core.Domain.AggregateRoots.Ranking.Aggregates;
+using EMS.Core.Domain.Core.Models;
+using EMS.Core.Domain.State;
+using EMS.Core.Domain.Core.Extensions;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EnduranceJudge.Domain.AggregateRoots.Ranking;
+namespace EMS.Core.Domain.AggregateRoots.Ranking;
 
 public class RankingRoot : IAggregateRoot
 {

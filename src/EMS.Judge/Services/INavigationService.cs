@@ -1,8 +1,8 @@
-﻿using EnduranceJudge.Core.ConventionalServices;
-using EnduranceJudge.Gateways.Desktop.Core;
+﻿using EMS.Judge.Core;
+using EMS.Core.ConventionalServices;
 using System;
 
-namespace EnduranceJudge.Gateways.Desktop.Services;
+namespace EMS.Judge.Services;
 
 public interface INavigationService : ISingletonService
 {

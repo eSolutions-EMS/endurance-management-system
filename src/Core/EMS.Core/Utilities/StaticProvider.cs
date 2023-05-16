@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 
-namespace EnduranceJudge.Core.Utilities;
+namespace EMS.Core.Utilities;
 
 public static class StaticProvider
 {

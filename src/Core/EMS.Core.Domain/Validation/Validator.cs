@@ -1,9 +1,9 @@
-﻿using EnduranceJudge.Domain.Core.Exceptions;
+﻿using EMS.Core.Domain.Core.Exceptions;
 using System;
 using System.Linq;
-using static EnduranceJudge.Localization.Strings;
+using static EMS.Core.Localization.Strings;
 
-namespace EnduranceJudge.Domain.Validation;
+namespace EMS.Core.Domain.Validation;
 
 public class Validator<T> where T : DomainExceptionBase, new()
 {

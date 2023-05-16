@@ -1,25 +1,25 @@
-using EnduranceJudge.Core.Utilities;
-using EnduranceJudge.Domain.AggregateRoots.Import.Models;
-using EnduranceJudge.Domain.AggregateRoots.Import.Models.International;
-using EnduranceJudge.Domain.AggregateRoots.Import.Models.National;
-using EnduranceJudge.Domain.Core.Exceptions;
-using EnduranceJudge.Domain.Core.Models;
-using EnduranceJudge.Domain.Validation;
-using EnduranceJudge.Domain.Enums;
-using EnduranceJudge.Domain.State;
-using EnduranceJudge.Domain.State.Athletes;
-using EnduranceJudge.Domain.State.Competitions;
-using EnduranceJudge.Domain.State.EnduranceEvents;
-using EnduranceJudge.Domain.State.Horses;
-using EnduranceJudge.Domain.State.Participants;
+using EMS.Core.Domain.AggregateRoots.Import.Models;
+using EMS.Core.Domain.AggregateRoots.Import.Models.International;
+using EMS.Core.Domain.AggregateRoots.Import.Models.National;
+using EMS.Core.Domain.Core.Exceptions;
+using EMS.Core.Domain.Core.Models;
+using EMS.Core.Domain.Enums;
+using EMS.Core.Domain.State;
+using EMS.Core.Domain.State.Athletes;
+using EMS.Core.Domain.State.Competitions;
+using EMS.Core.Domain.State.EnduranceEvents;
+using EMS.Core.Domain.State.Horses;
+using EMS.Core.Domain.State.Participants;
+using EMS.Core.Domain.Validation;
+using EMS.Core.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using static EnduranceJudge.Localization.Strings;
-using static EnduranceJudge.Domain.DomainConstants;
+using static EMS.Core.Localization.Strings;
+using static EMS.Core.Domain.DomainConstants;
 
-namespace EnduranceJudge.Domain.AggregateRoots.Import;
+namespace EMS.Core.Domain.AggregateRoots.Import;
 
 public class ImportRoot : IAggregateRoot
 {

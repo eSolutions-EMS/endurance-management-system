@@ -1,8 +1,8 @@
-﻿using EnduranceJudge.Domain.AggregateRoots.Ranking.Aggregates;
+﻿using EMS.Core.Domain.AggregateRoots.Ranking.Aggregates;
 using System.Collections.Generic;
 using System.Windows;
 
-namespace EnduranceJudge.Gateways.Desktop.Controls.Ranking;
+namespace EMS.Judge.Controls.Ranking;
 
 public partial class RanklistControl
 {

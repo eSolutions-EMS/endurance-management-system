@@ -1,10 +1,10 @@
-﻿using EnduranceJudge.Application.Hardware;
-using EnduranceJudge.Application.Services;
-using EnduranceJudge.Core.Events;
-using EnduranceJudge.Domain.AggregateRoots.Manager;
-using EnduranceJudge.Domain.AggregateRoots.Manager.WitnessEvents;
-using EnduranceJudge.Domain.State;
-using EnduranceJudge.Gateways.Desktop.Core.Services;
+﻿using EMS.Judge.Core.Services;
+using EMS.Core.Application.Hardware;
+using EMS.Core.Application.Services;
+using EMS.Core.Events;
+using EMS.Core.Domain.AggregateRoots.Manager;
+using EMS.Core.Domain.AggregateRoots.Manager.WitnessEvents;
+using EMS.Core.Domain.State;
 using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
@@ -12,7 +12,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager;
+namespace EMS.Judge.Views.Content.Manager;
 
 public class RfidWitness : IRfidWitness
 {

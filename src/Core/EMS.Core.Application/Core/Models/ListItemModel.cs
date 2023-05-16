@@ -1,8 +1,8 @@
-﻿using EnduranceJudge.Core.Mappings;
-using EnduranceJudge.Domain.State.Horses;
-using EnduranceJudge.Domain.State.Participants;
+﻿using EMS.Core.Mappings;
+using EMS.Core.Domain.State.Horses;
+using EMS.Core.Domain.State.Participants;
 
-namespace EnduranceJudge.Application.Core.Models;
+namespace EMS.Core.Application.Core.Models;
 
 public class ListItemModel
     : IMapFrom<Horse>,

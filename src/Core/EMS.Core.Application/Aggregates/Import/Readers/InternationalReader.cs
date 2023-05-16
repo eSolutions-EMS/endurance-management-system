@@ -1,10 +1,10 @@
-﻿using EnduranceJudge.Core.ConventionalServices;
-using EnduranceJudge.Core.Services;
-using EnduranceJudge.Domain.AggregateRoots.Import.Models;
-using EnduranceJudge.Domain.AggregateRoots.Import.Models.International;
+﻿using EMS.Core.ConventionalServices;
+using EMS.Core.Services;
+using EMS.Core.Domain.AggregateRoots.Import.Models;
+using EMS.Core.Domain.AggregateRoots.Import.Models.International;
 using System.Linq;
 
-namespace EnduranceJudge.Application.Aggregates.Import.Readers;
+namespace EMS.Core.Application.Aggregates.Import.Readers;
 
 public class InternationalReader : IInternationalReader
 {

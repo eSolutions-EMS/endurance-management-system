@@ -1,12 +1,12 @@
-﻿using EnduranceJudge.Application.Core;
-using EnduranceJudge.Application.Services;
-using EnduranceJudge.Domain.AggregateRoots.Manager;
-using EnduranceJudge.Domain.State.Participations;
-using EnduranceJudge.Gateways.Desktop.Core;
-using EnduranceJudge.Gateways.Desktop.Core.Services;
-using EnduranceJudge.Gateways.Desktop.Events;
-using EnduranceJudge.Gateways.Desktop.Services;
-using EnduranceJudge.Gateways.Desktop.Controls.Manager;
+﻿using EMS.Judge.Controls.Manager;
+using EMS.Judge.Core;
+using EMS.Judge.Core.Services;
+using EMS.Judge.Events;
+using EMS.Judge.Services;
+using EMS.Core.Application.Core;
+using EMS.Core.Application.Services;
+using EMS.Core.Domain.AggregateRoots.Manager;
+using EMS.Core.Domain.State.Participations;
 using Prism.Commands;
 using Prism.Events;
 using Prism.Regions;
@@ -19,7 +19,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager;
+namespace EMS.Judge.Views.Content.Manager;
 public class ManagerViewModel : ViewModelBase
 {
     private static readonly DateTime Today = DateTime.Today;

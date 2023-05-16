@@ -2,8 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <RootNamespace>EnduranceJudge.Domain</RootNamespace>
-    <AssemblyName>EnduranceJudge.Domain</AssemblyName>
     <Configurations>Debug;Release</Configurations>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>

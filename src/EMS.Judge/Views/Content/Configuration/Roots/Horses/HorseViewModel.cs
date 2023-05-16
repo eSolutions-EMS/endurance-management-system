@@ -1,12 +1,12 @@
-﻿using EnduranceJudge.Application.Core;
-using EnduranceJudge.Core.Models;
-using EnduranceJudge.Domain.AggregateRoots.Configuration;
-using EnduranceJudge.Domain.Core.Models;
-using EnduranceJudge.Domain.State.Horses;
-using EnduranceJudge.Gateways.Desktop.Services;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core;
+﻿using EMS.Judge.Services;
+using EMS.Judge.Views.Content.Configuration.Core;
+using EMS.Core.Application.Core;
+using EMS.Core.Models;
+using EMS.Core.Domain.AggregateRoots.Configuration;
+using EMS.Core.Domain.Core.Models;
+using EMS.Core.Domain.State.Horses;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Horses;
+namespace EMS.Judge.Views.Content.Configuration.Roots.Horses;
 
 public class HorseViewModel : ConfigurationBase<HorseView, Horse>, IHorseState, IListable
 {

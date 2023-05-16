@@ -1,9 +1,9 @@
-using EnduranceJudge.Core.ConventionalServices;
+using EMS.Core.ConventionalServices;
 using JsonNet.PrivatePropertySetterResolver;
 using Newtonsoft.Json;
 using System;
 
-namespace EnduranceJudge.Application.Core.Services;
+namespace EMS.Core.Application.Core.Services;
 
 public class JsonSerializationService : IJsonSerializationService
 {

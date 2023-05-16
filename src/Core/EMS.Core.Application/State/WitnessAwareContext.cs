@@ -1,8 +1,8 @@
-﻿using EnduranceJudge.Application.Models;
-using EnduranceJudge.Application.Services;
-using EnduranceJudge.Domain.State;
+﻿using EMS.Core.Application.Models;
+using EMS.Core.Application.Services;
+using EMS.Core.Domain.State;
 
-namespace EnduranceJudge.Application.State;
+namespace EMS.Core.Application.State;
 
 public class WitnessAwareContext : StateContext, IWitnessAwareContext
 {

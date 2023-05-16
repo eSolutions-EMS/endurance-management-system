@@ -1,9 +1,9 @@
-﻿using EnduranceJudge.Application.Core;
-using EnduranceJudge.Application.Models;
-using EnduranceJudge.Application.Services;
-using EnduranceJudge.Application.State;
-using EnduranceJudge.Domain.AggregateRoots.Manager;
-using EnduranceJudge.Domain.State;
+﻿using EMS.Core.Application.Core;
+using EMS.Core.Application.Models;
+using EMS.Core.Application.Services;
+using EMS.Core.Application.State;
+using EMS.Core.Domain.AggregateRoots.Manager;
+using EMS.Core.Domain.State;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace EnduranceJudge.Application;
+namespace EMS.Core.Application;
 
 public static class ApplicationServices
 {
@@ -57,7 +57,7 @@ public static class ApplicationServices
             typeof(ManagerRoot),
             x => new ManagerRoot(x.GetRequiredService<IWitnessAwareContext>()),
             ServiceLifetime.Singleton);
-
+ 
         services.Replace(newDescriptor);
         return services;
     }

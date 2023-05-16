@@ -1,6 +1,6 @@
-using EnduranceJudge.Domain.Core.Exceptions;
+using EMS.Core.Domain.Core.Exceptions;
 
-namespace EnduranceJudge.Domain.State.EnduranceEvents;
+namespace EMS.Core.Domain.State.EnduranceEvents;
 
 public class EnduranceEventException : DomainExceptionBase
 {

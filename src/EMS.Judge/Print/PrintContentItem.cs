@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace EnduranceJudge.Gateways.Desktop.Print;
+namespace EMS.Judge.Print;
 
 public class PrintContentItem : IPrintContent
 {

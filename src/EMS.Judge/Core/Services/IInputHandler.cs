@@ -1,9 +1,9 @@
-﻿using EnduranceJudge.Core.ConventionalServices;
+﻿using EMS.Core.ConventionalServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace EnduranceJudge.Gateways.Desktop.Core.Services;
+namespace EMS.Judge.Core.Services;
 
 public class InputHandler : IInputHandler
 {

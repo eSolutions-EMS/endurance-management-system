@@ -1,14 +1,14 @@
-using EnduranceJudge.Domain.AggregateRoots.Manager;
-using EnduranceJudge.Domain.Core.Exceptions;
-using EnduranceJudge.Domain.Core.Models;
-using EnduranceJudge.Domain.State.Athletes;
-using EnduranceJudge.Domain.State.Horses;
-using EnduranceJudge.Domain.State.LapRecords;
+using EMS.Core.Domain.AggregateRoots.Manager;
+using EMS.Core.Domain.Core.Exceptions;
+using EMS.Core.Domain.Core.Models;
+using EMS.Core.Domain.State.Athletes;
+using EMS.Core.Domain.State.Horses;
+using EMS.Core.Domain.State.LapRecords;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace EnduranceJudge.Domain.State.Participants;
+namespace EMS.Core.Domain.State.Participants;
 
 public class Participant : DomainBase<ParticipantException>, IParticipantState
 {

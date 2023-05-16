@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EnduranceJudge.Application.Core.Exceptions;
+namespace EMS.Core.Application.Core.Exceptions;
 
 public class AppException : Exception
 {

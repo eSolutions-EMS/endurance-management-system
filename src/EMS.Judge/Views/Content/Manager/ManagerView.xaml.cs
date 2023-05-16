@@ -1,11 +1,11 @@
-﻿using EnduranceJudge.Gateways.Desktop.Core;
-using EnduranceJudge.Gateways.Desktop.Core.Services;
-using EnduranceJudge.Gateways.Desktop.Events;
+﻿using EMS.Judge.Core;
+using EMS.Judge.Core.Services;
+using EMS.Judge.Events;
 using Prism.Events;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager;
+namespace EMS.Judge.Views.Content.Manager;
 
 public partial class ManagerView : UserControl, IView
 {

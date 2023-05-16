@@ -2,9 +2,9 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using static EnduranceJudge.Localization.Strings;
+using static EMS.Core.Localization.Strings;
 
-namespace EnduranceJudge.Gateways.Desktop.Controls.Manager;
+namespace EMS.Judge.Controls.Manager;
 
 public class PerformanceColumnControl : StackPanel
 {

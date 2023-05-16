@@ -1,7 +1,7 @@
-﻿using EnduranceJudge.Gateways.Desktop.Core.Objects;
+﻿using EMS.Judge.Core.Objects;
 using Prism.Services.Dialogs;
 
-namespace EnduranceJudge.Gateways.Desktop.Core.Extensions;
+namespace EMS.Judge.Core.Extensions;
 
 public static class DialogParameterExtensions
 {

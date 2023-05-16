@@ -1,7 +1,7 @@
 ﻿using Prism.Regions;
 using System;
 
-namespace EnduranceJudge.Gateways.Desktop.Core.Services.Implementations;
+namespace EMS.Judge.Core.Services.Implementations;
 
 public abstract class NavigationServiceBase
 {

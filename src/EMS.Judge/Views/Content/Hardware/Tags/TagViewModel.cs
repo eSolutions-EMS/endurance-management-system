@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Windows.Threading;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Hardware.Tags;
+namespace EMS.Judge.Views.Content.Hardware.Tags;
 
 public class TagViewModel : BindableBase
 {

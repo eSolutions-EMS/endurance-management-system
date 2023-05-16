@@ -1,11 +1,11 @@
-﻿using EnduranceJudge.Application.Core;
-using EnduranceJudge.Application.Hardware;
-using EnduranceJudge.Domain.AggregateRoots.Manager;
-using EnduranceJudge.Domain.State.Participations;
-using EnduranceJudge.Gateways.Desktop.Core;
-using EnduranceJudge.Gateways.Desktop.Core.Services;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Hardware.Tags;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Manager;
+﻿using EMS.Judge.Core;
+using EMS.Judge.Core.Services;
+using EMS.Judge.Views.Content.Hardware.Tags;
+using EMS.Judge.Views.Content.Manager;
+using EMS.Core.Application.Core;
+using EMS.Core.Application.Hardware;
+using EMS.Core.Domain.AggregateRoots.Manager;
+using EMS.Core.Domain.State.Participations;
 using Prism.Commands;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -16,7 +16,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Hardware;
+namespace EMS.Judge.Views.Content.Hardware;
 
 public class HardwareViewModel : ViewModelBase
 {

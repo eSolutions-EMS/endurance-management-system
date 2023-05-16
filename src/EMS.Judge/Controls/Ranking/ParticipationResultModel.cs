@@ -1,15 +1,15 @@
-﻿using EnduranceJudge.Domain.AggregateRoots.Common.Performances;
-using EnduranceJudge.Domain.State.LapRecords;
-using EnduranceJudge.Domain.State.Participations;
-using EnduranceJudge.Gateways.Desktop.Controls.Manager;
-using EnduranceJudge.Gateways.Desktop.Core;
+﻿using EMS.Judge.Controls.Manager;
+using EMS.Judge.Core;
+using EMS.Core.Domain.AggregateRoots.Common.Performances;
+using EMS.Core.Domain.State.LapRecords;
+using EMS.Core.Domain.State.Participations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-using static EnduranceJudge.Localization.Strings;
+using static EMS.Core.Localization.Strings;
 
-namespace EnduranceJudge.Gateways.Desktop.Controls.Ranking;
+namespace EMS.Judge.Controls.Ranking;
 
 public class ParticipationResultModel : ParticipationGridModel
 {

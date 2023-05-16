@@ -1,4 +1,4 @@
-﻿namespace EnduranceJudge.Domain.State;
+﻿namespace EMS.Core.Domain.State;
 
 public interface IStateContext
 {

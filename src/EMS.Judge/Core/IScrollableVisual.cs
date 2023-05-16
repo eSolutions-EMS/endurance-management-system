@@ -1,6 +1,6 @@
 ﻿using System.Windows.Input;
 
-namespace EnduranceJudge.Gateways.Desktop.Core;
+namespace EMS.Judge.Core;
 
 public interface IScrollableVisual
 {

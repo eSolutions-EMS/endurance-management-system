@@ -1,6 +1,6 @@
 ﻿using Microsoft.WindowsAPICodePack.Dialogs;
 
-namespace EnduranceJudge.Gateways.Desktop.Core.Services.Implementations;
+namespace EMS.Judge.Core.Services.Implementations;
 
 public class ExplorerService : IExplorerService
 {

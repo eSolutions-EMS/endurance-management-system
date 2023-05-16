@@ -1,8 +1,8 @@
 using AutoMapper;
-using EnduranceJudge.Core.Services;
-using EnduranceJudge.Core.Mappings;
+using EMS.Core.Mappings;
+using EMS.Core.Services;
 
-namespace EnduranceJudge.Core;
+namespace EMS.Core;
 
 public class CoreInitializer : IInitializer
 {

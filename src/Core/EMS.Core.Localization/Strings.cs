@@ -1,5 +1,5 @@
 ﻿// ReSharper disable InconsistentNaming
-namespace EnduranceJudge.Localization;
+namespace EMS.Core.Localization;
 
 public static class Strings
 {

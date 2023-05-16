@@ -1,6 +1,6 @@
 ﻿using Prism.Events;
 
-namespace EnduranceJudge.Gateways.Desktop.Core.Objects;
+namespace EMS.Judge.Core.Objects;
 
 public class ErrorEvent : PubSubEvent<string>
 {

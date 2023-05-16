@@ -1,23 +1,23 @@
-﻿using EnduranceJudge.Application.Services;
-using EnduranceJudge.Application.Core;
-using EnduranceJudge.Application.Core.Models;
-using EnduranceJudge.Core.Mappings;
-using EnduranceJudge.Domain.AggregateRoots.Configuration;
-using EnduranceJudge.Domain.State.Participants;
-using EnduranceJudge.Domain.State.Participations;
-using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem;
-using EnduranceJudge.Gateways.Desktop.Core.Extensions;
-using EnduranceJudge.Gateways.Desktop.Core.Services;
-using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
-using EnduranceJudge.Gateways.Desktop.Services;
-using static EnduranceJudge.Localization.Strings;
+﻿using EMS.Judge.Core.Components.Templates.ListItem;
+using EMS.Judge.Core.Services;
+using EMS.Judge.Core.ViewModels;
+using EMS.Judge.Services;
+using EMS.Core.Application.Services;
+using EMS.Core.Application.Core;
+using EMS.Core.Application.Core.Models;
+using EMS.Core.Mappings;
+using EMS.Core.Domain.AggregateRoots.Configuration;
+using EMS.Core.Domain.State.Participants;
+using EMS.Core.Domain.State.Participations;
+using EMS.Judge.Core.Extensions;
+using static EMS.Core.Localization.Strings;
 using Prism.Commands;
 using Prism.Regions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Competitions.AddParticipants;
+namespace EMS.Judge.Views.Content.Configuration.Children.Competitions.AddParticipants;
 
 public class AddParticipantsViewModel : SearchableListViewModelBase<AddParticipantsView>
 {

@@ -1,11 +1,11 @@
-﻿using EnduranceJudge.Application.Core.Services;
-using EnduranceJudge.Core.ConventionalServices;
-using EnduranceJudge.Core.Services;
-using EnduranceJudge.Domain.AggregateRoots.Import.Models.National;
+﻿using EMS.Core.Application.Core.Services;
+using EMS.Core.ConventionalServices;
+using EMS.Core.Services;
+using EMS.Core.Domain.AggregateRoots.Import.Models.National;
 using System.Linq;
-using static EnduranceJudge.Application.ApplicationConstants;
+using static EMS.Core.Application.ApplicationConstants;
 
-namespace EnduranceJudge.Application.Aggregates.Import.Readers;
+namespace EMS.Core.Application.Aggregates.Import.Readers;
 
 public class NationalReader : ExcelServiceBase, INationalReader
 {
@@ -27,15 +27,15 @@ public class NationalReader : ExcelServiceBase, INationalReader
             return null;
         }
 
-        var row = ExcelMaps.ImportNational.FIRST_ENTRY_ROW;
+        var row = ApplicationConstants.ExcelMaps.ImportNational.FIRST_ENTRY_ROW;
         var data = new NationalData();
 
         while(true)
         {
-            var name = sheet.Cells[row, ExcelMaps.ImportNational.NAME_COLUMN].Text;
-            var breed = sheet.Cells[row, ExcelMaps.ImportNational.BREED_COLUMN].Text;
-            var feiId = sheet.Cells[row, ExcelMaps.ImportNational.FEI_ID_COLUMN].Text;
-            var club = sheet.Cells[row, ExcelMaps.ImportNational.CLUB_COLUMN].Text;
+            var name = sheet.Cells[row, ApplicationConstants.ExcelMaps.ImportNational.NAME_COLUMN].Text;
+            var breed = sheet.Cells[row, ApplicationConstants.ExcelMaps.ImportNational.BREED_COLUMN].Text;
+            var feiId = sheet.Cells[row, ApplicationConstants.ExcelMaps.ImportNational.FEI_ID_COLUMN].Text;
+            var club = sheet.Cells[row, ApplicationConstants.ExcelMaps.ImportNational.CLUB_COLUMN].Text;
 
             if (string.IsNullOrWhiteSpace(name)
                 && string.IsNullOrWhiteSpace(breed)

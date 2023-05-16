@@ -1,8 +1,8 @@
-﻿using EnduranceJudge.Core.Services;
-using EnduranceJudge.Core.Utilities;
-using EnduranceJudge.Gateways.Desktop.Startup;
-using EnduranceJudge.Gateways.Desktop.Views;
-using EnduranceJudge.Gateways.Desktop.Core;
+﻿using EMS.Judge.Core;
+using EMS.Judge.Views;
+using EMS.Core.Services;
+using EMS.Core.Utilities;
+using EMS.Judge.Startup;
 using Microsoft.Extensions.DependencyInjection;
 using Prism.DryIoc;
 using Prism.Ioc;
@@ -13,7 +13,7 @@ using System.Linq;
 using System.Reflection;
 using System.Windows;
 
-namespace EnduranceJudge.Gateways.Desktop;
+namespace EMS.Judge;
 
 public partial class App : PrismApplication
 {

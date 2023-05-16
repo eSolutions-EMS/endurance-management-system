@@ -2,7 +2,7 @@
 using Prism.Mvvm;
 using Prism.Regions;
 
-namespace EnduranceJudge.Gateways.Desktop.Core;
+namespace EMS.Judge.Core;
 
 public abstract class ViewModelBase : BindableBase, INavigationAware
 {

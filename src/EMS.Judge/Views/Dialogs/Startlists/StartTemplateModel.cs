@@ -1,7 +1,7 @@
-﻿using EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates.Startlists;
-using static EnduranceJudge.Localization.Strings;
+﻿using EMS.Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
+using static EMS.Core.Localization.Strings;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Dialogs.Startlists;
+namespace EMS.Judge.Views.Dialogs.Startlists;
 
 public class StartTemplateModel
 {

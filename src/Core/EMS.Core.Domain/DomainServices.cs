@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
-namespace EnduranceJudge.Domain;
+namespace EMS.Core.Domain;
 
 public static class DomainServices
 {

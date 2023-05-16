@@ -1,9 +1,9 @@
-using EnduranceJudge.Domain.Core.Models;
-using EnduranceJudge.Domain.Enums;
-using EnduranceJudge.Domain.State.Countries;
+using EMS.Core.Domain.Core.Models;
+using EMS.Core.Domain.Enums;
+using EMS.Core.Domain.State.Countries;
 using System;
 
-namespace EnduranceJudge.Domain.State.Athletes;
+namespace EMS.Core.Domain.State.Athletes;
 
 public class Athlete : DomainBase<AthleteException>, IAthleteState
 {

@@ -1,9 +1,9 @@
-﻿using EnduranceJudge.Core.ConventionalServices;
+﻿using EMS.Core.ConventionalServices;
 using OfficeOpenXml;
 using System;
 using System.IO;
 
-namespace EnduranceJudge.Application.Core.Services;
+namespace EMS.Core.Application.Core.Services;
 
 public abstract class ExcelServiceBase : ITransientService, IDisposable
 {

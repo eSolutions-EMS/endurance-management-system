@@ -1,4 +1,4 @@
-﻿namespace EnduranceJudge.Gateways.Desktop.Core.Objects;
+﻿namespace EMS.Judge.Core.Objects;
 
 public enum MessageSeverity
 {

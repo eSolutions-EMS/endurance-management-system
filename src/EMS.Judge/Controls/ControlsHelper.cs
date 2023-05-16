@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
-namespace EnduranceJudge.Gateways.Desktop.Controls;
+namespace EMS.Judge.Controls;
 
 public static class ControlsHelper
 {
