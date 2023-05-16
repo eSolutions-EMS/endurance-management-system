@@ -203,10 +203,7 @@ public class ManagerViewModel : ViewModelBase
 
     private void ReconnectHardwareAction()
     {
-        this.rfidWitness.Disconnect();
-        Thread.Sleep(TimeSpan.FromSeconds(1));
-        this.rfidWitness.Connect();
-        this.rfidWitness.Start();
+        this.rfidWitness.Reconnect();
     }
 
     private void SelectBy(string number)
