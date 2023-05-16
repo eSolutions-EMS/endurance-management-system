@@ -4,13 +4,11 @@ using EMS.Core.Domain.AggregateRoots.Manager;
 using EMS.Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 using EMS.Core.Domain.AggregateRoots.Manager.WitnessEvents;
 using EMS.Judge.Application.Core.Services;
-using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
-using static EMS.Judge.Application.ApplicationConstants;
 
 namespace EMS.Judge.Application.Services;
 

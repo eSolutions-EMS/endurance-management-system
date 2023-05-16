@@ -1,5 +1,5 @@
 using EMS.Core.ConventionalServices;
-using Microsoft.AspNetCore.DataProtection;
+using System;
 
 namespace EMS.Core.Services;
 
@@ -13,12 +13,12 @@ public class EncryptionService : IEncryptionService
 
     public string Encrypt(string content)
     {
-        return content;
+        throw new NotImplementedException();
     }
 
     public string Decrypt(string encrypted)
     {
-        return encrypted;
+        throw new NotImplementedException();
     }
 }
 
