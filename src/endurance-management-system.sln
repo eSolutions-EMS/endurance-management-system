@@ -7,8 +7,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{9732CEF3-9
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EMS.Core", "Core\EMS.Core\EMS.Core.csproj", "{A6CEBD41-21EE-497F-96CE-8E6F3419AA1A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EMS.Core.Application", "Core\EMS.Core.Application\EMS.Core.Application.csproj", "{68211127-B443-46E9-92F0-9E25DE7890CD}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EMS.Core.Domain", "Core\EMS.Core.Domain\EMS.Core.Domain.csproj", "{909B4C0C-6E43-4353-93AC-6ED9FFC99A2E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EMS.Core.Localization", "Core\EMS.Core.Localization\EMS.Core.Localization.csproj", "{E7DC4F40-1856-4FD5-A73D-9F558663B20F}"
@@ -29,6 +27,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "config", "config", "{F272C7
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EMS.Judge.Api", "EMS.Judge.Api\EMS.Judge.Api.csproj", "{96487A96-7599-40DE-B1A4-427DFB8E4445}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EMS.Judge.Application", "EMS.Judge.Application\EMS.Judge.Application.csproj", "{C6E62105-8D7E-465E-AEA1-B4485392D423}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,10 +39,6 @@ Global
 		{A6CEBD41-21EE-497F-96CE-8E6F3419AA1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A6CEBD41-21EE-497F-96CE-8E6F3419AA1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A6CEBD41-21EE-497F-96CE-8E6F3419AA1A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{68211127-B443-46E9-92F0-9E25DE7890CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{68211127-B443-46E9-92F0-9E25DE7890CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{68211127-B443-46E9-92F0-9E25DE7890CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{68211127-B443-46E9-92F0-9E25DE7890CD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{909B4C0C-6E43-4353-93AC-6ED9FFC99A2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{909B4C0C-6E43-4353-93AC-6ED9FFC99A2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{909B4C0C-6E43-4353-93AC-6ED9FFC99A2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -59,13 +55,16 @@ Global
 		{96487A96-7599-40DE-B1A4-427DFB8E4445}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{96487A96-7599-40DE-B1A4-427DFB8E4445}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{96487A96-7599-40DE-B1A4-427DFB8E4445}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6E62105-8D7E-465E-AEA1-B4485392D423}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6E62105-8D7E-465E-AEA1-B4485392D423}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6E62105-8D7E-465E-AEA1-B4485392D423}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6E62105-8D7E-465E-AEA1-B4485392D423}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{A6CEBD41-21EE-497F-96CE-8E6F3419AA1A} = {9732CEF3-94AB-4E1E-9218-2D1E3854D2DB}
-		{68211127-B443-46E9-92F0-9E25DE7890CD} = {9732CEF3-94AB-4E1E-9218-2D1E3854D2DB}
 		{909B4C0C-6E43-4353-93AC-6ED9FFC99A2E} = {9732CEF3-94AB-4E1E-9218-2D1E3854D2DB}
 		{E7DC4F40-1856-4FD5-A73D-9F558663B20F} = {9732CEF3-94AB-4E1E-9218-2D1E3854D2DB}
 	EndGlobalSection

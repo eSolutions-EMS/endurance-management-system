@@ -2,6 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
+        <OutputType>Library</OutputType>
     </PropertyGroup>
 
     <ItemGroup>
@@ -10,10 +11,10 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Core\EMS.Core.Application\EMS.Core.Application.csproj" />
       <ProjectReference Include="..\Core\EMS.Core.Domain\EMS.Core.Domain.csproj" />
       <ProjectReference Include="..\Core\EMS.Core.Localization\EMS.Core.Localization.csproj" />
       <ProjectReference Include="..\Core\EMS.Core\EMS.Core.csproj" />
+      <ProjectReference Include="..\EMS.Judge.Application\EMS.Judge.Application.csproj" />
     </ItemGroup>
 
 </Project>
