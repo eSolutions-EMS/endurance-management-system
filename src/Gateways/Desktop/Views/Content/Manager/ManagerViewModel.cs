@@ -41,7 +41,7 @@ public class ManagerViewModel : ViewModelBase
         
         var type = WitnessEventType.Arrival;
         this.WitnessType = type.ToString();
-        this.rfidWitness = new RfidWitness(settings, type);
+        this.rfidWitness = new RfidWitness(settings, type, popupService);
         
         this.Update = new DelegateCommand(this.UpdateAction);
         this.Start = new DelegateCommand(this.StartAction);
