@@ -27,6 +27,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Core\EMS.Core.Application\EMS.Core.Application.csproj" />
+    <ProjectReference Include="..\Core\EMS.Core.Domain\EMS.Core.Domain.csproj" />
+    <ProjectReference Include="..\Core\EMS.Core.Localization\EMS.Core.Localization.csproj" />
+    <ProjectReference Include="..\Core\EMS.Core\EMS.Core.csproj" />
+  </ItemGroup>
+  
+  <ItemGroup>
     <Content Include="..\..\..\publish.sh">
       <Link>publish.sh</Link>
     </Content>
@@ -66,17 +73,6 @@
       <XamlRuntime>Wpf</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\Core\EMS.Core.Application\EMS.Core.Application.csproj" />
-    <ProjectReference Include="..\..\Core\EMS.Core.Domain\EMS.Core.Domain.csproj" />
-    <ProjectReference Include="..\..\Core\EMS.Core.Localization\EMS.Core.Localization.csproj" />
-    <ProjectReference Include="..\..\Core\EMS.Core\EMS.Core.csproj" />
-    <ProjectReference Include="..\..\EMS\EMS.Core.Application\EMS.Core.Application.csproj" />
-    <ProjectReference Include="..\..\EMS\EMS.Core.Domain\EMS.Core.Domain.csproj" />
-    <ProjectReference Include="..\..\EMS\EMS.Core.Localization\EMS.Core.Localization.csproj" />
-    <ProjectReference Include="..\..\EMS\EMS.Core\EMS.Core.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,26 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-	  <TargetFramework>net6.0-ios</TargetFramework>
-    <RootNamespace>EnduranceJudge.Application</RootNamespace>
-    <AssemblyName>EnduranceJudge.Application</AssemblyName>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <LangVersion>latestmajor</LangVersion>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="EPPlus" Version="5.6.3" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\EMS.Core\EMS.Core.csproj" />
-    <ProjectReference Include="..\EMS.Core.Domain\EMS.Core.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="rfid.dll" />
-    <Content Remove="rfid_core.dll" />
-    <Content Remove="Vup.dll" />
-  </ItemGroup>
 
 </Project>
