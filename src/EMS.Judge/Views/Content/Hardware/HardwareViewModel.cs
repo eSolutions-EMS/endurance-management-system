@@ -2,8 +2,8 @@
 using EMS.Judge.Core.Services;
 using EMS.Judge.Views.Content.Hardware.Tags;
 using EMS.Judge.Views.Content.Manager;
-using EMS.Core.Application.Core;
-using EMS.Core.Application.Hardware;
+using EMS.Judge.Application.Core;
+using EMS.Judge.Application.Hardware;
 using EMS.Core.Domain.AggregateRoots.Manager;
 using EMS.Core.Domain.State.Participations;
 using Prism.Commands;

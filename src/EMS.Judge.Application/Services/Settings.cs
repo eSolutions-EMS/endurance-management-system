@@ -1,4 +1,4 @@
-﻿namespace EMS.Core.Application.Services;
+﻿namespace EMS.Judge.Application.Services;
 
 public class Settings : ISettings
 {

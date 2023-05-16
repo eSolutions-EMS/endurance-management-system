@@ -2,7 +2,7 @@
 using EMS.Core.Domain.State.Horses;
 using EMS.Core.Domain.State.Participants;
 
-namespace EMS.Core.Application.Core.Models;
+namespace EMS.Judge.Application.Core.Models;
 
 public class ListItemModel
     : IMapFrom<Horse>,

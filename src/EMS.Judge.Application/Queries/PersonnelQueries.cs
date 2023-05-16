@@ -1,10 +1,10 @@
-﻿using EMS.Core.Application.Aggregates.Configurations;
-using EMS.Core.Application.Core;
-using EMS.Core.Domain.State;
+﻿using EMS.Core.Domain.State;
 using EMS.Core.Domain.State.Personnels;
+using EMS.Judge.Application.Aggregates.Configurations;
+using EMS.Judge.Application.Core;
 using System.Collections.Generic;
 
-namespace EMS.Core.Application.Queries;
+namespace EMS.Judge.Application.Queries;
 
 public class PersonnelQueries : QueriesBase<Personnel>
 {

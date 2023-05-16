@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EMS.Core.Application.Core.Exceptions;
+namespace EMS.Judge.Application.Core.Exceptions;
 
 public class AppException : Exception
 {

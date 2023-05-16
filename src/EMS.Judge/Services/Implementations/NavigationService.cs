@@ -6,7 +6,7 @@ using EMS.Judge.Views.Content.Hardware;
 using EMS.Judge.Views.Content.Import;
 using EMS.Judge.Views.Content.Manager;
 using EMS.Judge.Views.Content.Ranking;
-using EMS.Core.Application.Core.Exceptions;
+using EMS.Judge.Application.Core.Exceptions;
 using Prism.Regions;
 using System;
 using static EMS.Judge.DesktopConstants;

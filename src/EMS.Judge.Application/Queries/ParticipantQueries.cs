@@ -1,10 +1,10 @@
-﻿using EMS.Core.Application.Core;
-using EMS.Core.Domain.State;
+﻿using EMS.Core.Domain.State;
 using EMS.Core.Domain.State.Participants;
+using EMS.Judge.Application.Core;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EMS.Core.Application.Queries;
+namespace EMS.Judge.Application.Queries;
 
 public class ParticipantQueries : QueriesBase<Participant>
 {

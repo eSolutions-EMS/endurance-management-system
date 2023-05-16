@@ -1,4 +1,4 @@
-﻿using EMS.Core.Application.Core.Exceptions;
+﻿using EMS.Judge.Application.Core.Exceptions;
 using System;
 using System.Globalization;
 using static EMS.Judge.DesktopConstants;

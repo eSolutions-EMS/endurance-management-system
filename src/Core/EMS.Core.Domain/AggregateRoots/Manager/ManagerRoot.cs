@@ -9,7 +9,7 @@ using EMS.Core.Domain.State.Competitions;
 using EMS.Core.Domain.State.LapRecords;
 using EMS.Core.Domain.State.Participants;
 using EMS.Core.Domain.State.Participations;
-using EMS.Core.Application.Core.Services;
+using EMS.Judge.Application.Core.Services;
 using EMS.Core.Events;
 using EMS.Core.Services;
 using EMS.Core.Utilities;

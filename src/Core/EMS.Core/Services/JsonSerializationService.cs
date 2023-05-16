@@ -3,7 +3,7 @@ using JsonNet.PrivatePropertySetterResolver;
 using Newtonsoft.Json;
 using System;
 
-namespace EMS.Core.Application.Core.Services;
+namespace EMS.Judge.Application.Core.Services;
 
 public class JsonSerializationService : IJsonSerializationService
 {

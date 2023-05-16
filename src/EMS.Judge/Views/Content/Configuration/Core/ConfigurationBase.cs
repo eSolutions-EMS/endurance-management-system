@@ -1,7 +1,7 @@
 ﻿using EMS.Judge.Core;
 using EMS.Judge.Core.Components.Templates.SimpleListItem;
 using EMS.Judge.Services;
-using EMS.Core.Application.Core;
+using EMS.Judge.Application.Core;
 using EMS.Core.Mappings;
 using EMS.Core.Utilities;
 using EMS.Core.Domain.Core.Models;

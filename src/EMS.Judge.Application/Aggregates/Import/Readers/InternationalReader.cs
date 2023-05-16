@@ -4,7 +4,7 @@ using EMS.Core.Domain.AggregateRoots.Import.Models;
 using EMS.Core.Domain.AggregateRoots.Import.Models.International;
 using System.Linq;
 
-namespace EMS.Core.Application.Aggregates.Import.Readers;
+namespace EMS.Judge.Application.Aggregates.Import.Readers;
 
 public class InternationalReader : IInternationalReader
 {

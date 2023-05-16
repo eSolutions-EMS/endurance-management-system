@@ -1,14 +1,14 @@
-﻿using EMS.Core.Application.Services;
-using EMS.Core.Domain.State.Athletes;
+﻿using EMS.Core.Domain.State.Athletes;
 using EMS.Core.Domain.State.Countries;
 using EMS.Core.Domain.State.EnduranceEvents;
 using EMS.Core.Domain.State.Horses;
 using EMS.Core.Domain.State.Participants;
 using EMS.Core.Domain.State.Participations;
+using EMS.Judge.Application.Services;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace EMS.Core.Application.State;
+namespace EMS.Judge.Application.State;
 
 public class StateModel : IStateSetter
 {

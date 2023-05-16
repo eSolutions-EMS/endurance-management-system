@@ -1,12 +1,12 @@
-﻿using EMS.Core.Application.Aggregates.Import.Readers;
-using EMS.Core.Application.Core.Exceptions;
-using EMS.Core.Application.Services;
-using EMS.Core.ConventionalServices;
+﻿using EMS.Core.ConventionalServices;
 using EMS.Core.Services;
 using EMS.Core.Domain.AggregateRoots.Import;
+using EMS.Judge.Application.Aggregates.Import.Readers;
+using EMS.Judge.Application.Core.Exceptions;
+using EMS.Judge.Application.Services;
 using static EMS.Core.Localization.Strings;
 
-namespace EMS.Core.Application.Aggregates.Import;
+namespace EMS.Judge.Application.Aggregates.Import;
 
 public class ImportService : IImportService
 {

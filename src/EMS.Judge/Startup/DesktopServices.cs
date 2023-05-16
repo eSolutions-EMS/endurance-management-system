@@ -1,8 +1,8 @@
 using EMS.Judge.Core.Objects;
 using EMS.Judge.Services;
 using EMS.Judge.Views.Content.Manager;
-using EMS.Core.Application;
-using EMS.Core.Application.Services;
+using EMS.Judge.Application;
+using EMS.Judge.Application.Services;
 using EMS.Core;
 using EMS.Core.Services;
 using EMS.Core.Domain;

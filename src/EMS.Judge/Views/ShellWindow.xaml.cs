@@ -1,4 +1,4 @@
-﻿using EMS.Core.Application.Services;
+﻿using EMS.Judge.Application.Services;
 using System.Windows;
 
 namespace EMS.Judge.Views;

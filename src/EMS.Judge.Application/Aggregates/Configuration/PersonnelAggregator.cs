@@ -3,7 +3,7 @@ using EMS.Core.Domain.State.Personnels;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EMS.Core.Application.Aggregates.Configurations;
+namespace EMS.Judge.Application.Aggregates.Configurations;
 
 public static class PersonnelAggregator
 {

@@ -1,6 +1,6 @@
 ﻿using EMS.Judge.Core.Services;
-using EMS.Core.Application.Hardware;
-using EMS.Core.Application.Services;
+using EMS.Judge.Application.Hardware;
+using EMS.Judge.Application.Services;
 using EMS.Core.Events;
 using EMS.Core.Domain.AggregateRoots.Manager;
 using EMS.Core.Domain.AggregateRoots.Manager.WitnessEvents;

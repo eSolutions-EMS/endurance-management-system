@@ -1,15 +1,15 @@
-﻿using EMS.Core.Application.Core.Services;
-using EMS.Core.Application.Models;
-using EMS.Core.Application.State;
-using EMS.Core.ConventionalServices;
+﻿using EMS.Core.ConventionalServices;
 using EMS.Core.Events;
 using EMS.Core.Services;
 using EMS.Core.Domain.AggregateRoots.Manager.WitnessEvents;
 using EMS.Core.Domain.State;
+using EMS.Judge.Application.Core.Services;
+using EMS.Judge.Application.Models;
+using EMS.Judge.Application.State;
 using System;
 using System.Collections.Generic;
 
-namespace EMS.Core.Application.Services;
+namespace EMS.Judge.Application.Services;
 
 public class Persistence : IPersistence
 {

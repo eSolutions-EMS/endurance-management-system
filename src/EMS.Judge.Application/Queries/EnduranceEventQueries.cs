@@ -1,10 +1,10 @@
-﻿using EMS.Core.Application.Core;
-using EMS.Core.Domain.State;
+﻿using EMS.Core.Domain.State;
 using EMS.Core.Domain.State.EnduranceEvents;
+using EMS.Judge.Application.Core;
 using System;
 using System.Collections.Generic;
 
-namespace EMS.Core.Application.Queries;
+namespace EMS.Judge.Application.Queries;
 
 public class EnduranceEventQueries : IEnduranceEventQuery
 {

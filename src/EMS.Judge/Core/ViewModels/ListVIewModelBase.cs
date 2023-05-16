@@ -1,8 +1,8 @@
 ﻿using EMS.Judge.Core.Components.Templates.ListItem;
 using EMS.Judge.Core.Services;
 using EMS.Judge.Services;
-using EMS.Core.Application.Services;
-using EMS.Core.Application.Core.Models;
+using EMS.Judge.Application.Services;
+using EMS.Judge.Application.Core.Models;
 using EMS.Core.Utilities;
 using Prism.Commands;
 using System;

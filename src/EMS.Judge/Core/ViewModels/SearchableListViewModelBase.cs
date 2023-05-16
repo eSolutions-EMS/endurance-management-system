@@ -2,7 +2,7 @@
 using EMS.Judge.Core.Objects;
 using EMS.Judge.Core.Services;
 using EMS.Judge.Services;
-using EMS.Core.Application.Services;
+using EMS.Judge.Application.Services;
 using Prism.Commands;
 using System;
 

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using EMS.Judge.Views.Content.Configuration.Children.Personnel;
-using EMS.Core.Application.Aggregates.Configurations;
-using EMS.Core.Application.Core.Models;
+using EMS.Judge.Application.Aggregates.Configurations;
+using EMS.Judge.Application.Core.Models;
 using EMS.Core.Mappings;
 using EMS.Core.Domain.State.Countries;
 using EMS.Core.Domain.State.EnduranceEvents;
