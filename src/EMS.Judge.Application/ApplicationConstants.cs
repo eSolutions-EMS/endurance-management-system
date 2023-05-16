@@ -11,7 +11,7 @@ public static class ApplicationConstants
     {
         get
         {
-            var assemblies = ReflectionUtilities.GetAssemblies("EMS.Core.Application");
+            var assemblies = ReflectionUtilities.GetAssemblies("EMS.Judge.Application");
             return assemblies;
         }
     }
