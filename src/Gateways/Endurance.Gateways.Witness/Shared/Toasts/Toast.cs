@@ -1,8 +1,4 @@
-﻿using EnduranceJudge.Domain.AggregateRoots.Manager;
-using static EnduranceJudge.Application.ApplicationConstants;
-using System;
-
-namespace Endurance.Gateways.Witness.Shared.Toasts;
+﻿namespace Endurance.Gateways.Witness.Shared.Toasts;
 public class Toast
 {
     private readonly DateTimeOffset posted;

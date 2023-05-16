@@ -31,6 +31,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EMS.Core.Domain", "EMS.Core
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EMS.Core.Localization", "EMS.Core.Localization\EMS.Core.Localization.csproj", "{10548D03-ED16-4778-BBD4-E39931DB0686}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Witness", "Witness", "{4EE12CA9-8D28-4523-A3AA-780E02B6AF19}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Endurance.Gateways.Witness", "Gateways\Endurance.Gateways.Witness\Endurance.Gateways.Witness.csproj", "{EAF89F5F-9AF3-4303-8C8C-50461A91E824}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -65,6 +69,10 @@ Global
 		{10548D03-ED16-4778-BBD4-E39931DB0686}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{10548D03-ED16-4778-BBD4-E39931DB0686}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{10548D03-ED16-4778-BBD4-E39931DB0686}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EAF89F5F-9AF3-4303-8C8C-50461A91E824}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EAF89F5F-9AF3-4303-8C8C-50461A91E824}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EAF89F5F-9AF3-4303-8C8C-50461A91E824}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EAF89F5F-9AF3-4303-8C8C-50461A91E824}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -73,6 +81,7 @@ Global
 		{9807B503-7AF3-4972-A94E-34E208E1BCB9} = {AAF4F31D-28A8-48B7-86A3-E5B3AC61E44D}
 		{F274D231-5E45-4F0F-89E1-8200B7020DAA} = {AAF4F31D-28A8-48B7-86A3-E5B3AC61E44D}
 		{A789D67A-4D7D-40D4-9ACE-21EA327A0DC6} = {AAF4F31D-28A8-48B7-86A3-E5B3AC61E44D}
+		{EAF89F5F-9AF3-4303-8C8C-50461A91E824} = {4EE12CA9-8D28-4523-A3AA-780E02B6AF19}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3CB609D9-5D54-4C11-A371-DAAC8B74E430}

@@ -5,7 +5,6 @@ using EMS.Core.Events;
 using EMS.Core.Domain.AggregateRoots.Manager;
 using EMS.Core.Domain.AggregateRoots.Manager.WitnessEvents;
 using EMS.Core.Domain.State;
-using Prism.Mvvm;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -24,7 +23,7 @@ public class RfidWitness : IRfidWitness
     public const string FINISH_DEVICE_IP = "192.168.68.128";
     private readonly Dictionary<string, DateTime> cache = new();
     private readonly VupRfidController controller;
-    private WitnessEventType type = WitnessEventType.Invalid;
+    private WitnessEventType type;
 
     public RfidWitness(ISettings settings, IPopupService popupService, IState state)
     {
@@ -43,7 +42,7 @@ public class RfidWitness : IRfidWitness
 
     public void Configure(WitnessEventType type)
     {
-        if (this.type != WitnessEventType.Invalid)
+        if (this.type != default)
         {
             return;
         }

@@ -1,4 +1,4 @@
-﻿using EnduranceJudge.Domain.AggregateRoots.Manager;
+﻿using EMS.Core.Domain.AggregateRoots.Manager;
 
 namespace Endurance.Gateways.Witness.Models;
 

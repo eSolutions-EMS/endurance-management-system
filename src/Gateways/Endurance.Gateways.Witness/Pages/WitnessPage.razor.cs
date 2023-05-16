@@ -1,7 +1,7 @@
 ﻿using Endurance.Gateways.Witness.Models;
 using Endurance.Gateways.Witness.Services;
 using EnduranceJudge.Application.Services;
-using EnduranceJudge.Domain.AggregateRoots.Manager;
+using EMS.Core.Domain.AggregateRoots.Manager;
 using Microsoft.AspNetCore.Components;
 
 namespace Endurance.Gateways.Witness.Pages;
@@ -53,5 +53,3 @@ public partial class WitnessPage : ComponentBase
         public int? Millisecond;
     }
 }
-
-

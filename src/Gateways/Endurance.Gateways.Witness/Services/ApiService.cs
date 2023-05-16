@@ -1,10 +1,10 @@
-﻿using Endurance.Gateways.Witness.Models;
+﻿using EMS.Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
+using Endurance.Gateways.Witness.Models;
 using Endurance.Gateways.Witness.Platforms.iOS.Permissions;
 using Endurance.Gateways.Witness.Shared.Toasts;
-using EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 using System.Net.Http.Json;
 using System.Text.Json;
-using static EnduranceJudge.Application.ApplicationConstants;
+using static EMS.Core.Application.CoreApplicationConstants;
 
 namespace Endurance.Gateways.Witness.Services;
 

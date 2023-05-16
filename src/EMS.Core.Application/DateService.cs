@@ -1,4 +1,4 @@
-﻿using EnduranceJudge.Core.ConventionalServices;
+﻿using EMS.Core.ConventionalServices;
 using System;
 
 namespace EnduranceJudge.Application.Services;

@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
+using static EMS.Core.Application.CoreApplicationConstants;
 
 namespace EMS.Judge.Application.Services;
 
@@ -46,7 +47,7 @@ public class DataService : IDataService
         using var client = new HttpClient();
         try
         {
-            var response = await client.PostAsJsonAsync($"{API_HOST}/{ApplicationConstants.Api.STARTLIST}", startlist);
+            var response = await client.PostAsJsonAsync($"{API_HOST}/{Api.STARTLIST}", startlist);
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception(
