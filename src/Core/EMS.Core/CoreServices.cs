@@ -11,8 +11,6 @@ public static class CoreServices
         this IServiceCollection services,
         params Assembly[] assemblies)
     {
-        services.AddDataProtection();
-
         return services
             .AddMapping(assemblies)
             .AddTransientServices(assemblies)

@@ -13,7 +13,6 @@ using EMS.Judge.Application.Core.Services;
 using EMS.Core.Events;
 using EMS.Core.Services;
 using EMS.Core.Utilities;
-using IdentityServer4.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -1,6 +1,5 @@
 ﻿using EMS.Core.Domain.AggregateRoots.Common.Performances;
 using EMS.Core.Domain.State.Participations;
-using Microsoft.EntityFrameworkCore.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
