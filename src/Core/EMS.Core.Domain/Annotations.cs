@@ -551,7 +551,7 @@ namespace EMS.Core.Domain.Annotations
   }
 
   /// <summary>
-  /// This attribute is intended to mark publicly available API,
+  /// This attribute is intended to mark publicly available EMS.Judge.Api,
   /// which should not be removed and so is treated as used.
   /// </summary>
   [MeansImplicitUse(ImplicitUseTargetFlags.WithMembers)]
@@ -1524,7 +1524,7 @@ namespace EMS.Core.Domain.Annotations
   }
 
   /// <summary>
-  /// Indicates that the marked method declares ASP.NET Minimal API endpoint
+  /// Indicates that the marked method declares ASP.NET Minimal EMS.Judge.Api endpoint
   /// </summary>
   /// <remarks>
   /// IDE will analyze all usages of methods marked with this attribute,
@@ -1537,7 +1537,7 @@ namespace EMS.Core.Domain.Annotations
   }
 
   /// <summary>
-  /// Indicates that the marked parameter contains ASP.NET Minimal API endpoint handler
+  /// Indicates that the marked parameter contains ASP.NET Minimal EMS.Judge.Api endpoint handler
   /// </summary>
   [AttributeUsage(AttributeTargets.Parameter)]
   public sealed class AspMinimalApiHandlerAttribute : Attribute { }
