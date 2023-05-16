@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EMS.Core.Application.Core;
+namespace EMS.Judge.Application.Core;
 
 public abstract class QueriesBase<T> : IQueries<T>
     where T : IDomain

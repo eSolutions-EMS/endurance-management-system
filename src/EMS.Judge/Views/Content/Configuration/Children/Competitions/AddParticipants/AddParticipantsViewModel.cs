@@ -2,9 +2,9 @@
 using EMS.Judge.Core.Services;
 using EMS.Judge.Core.ViewModels;
 using EMS.Judge.Services;
-using EMS.Core.Application.Services;
-using EMS.Core.Application.Core;
-using EMS.Core.Application.Core.Models;
+using EMS.Judge.Application.Services;
+using EMS.Judge.Application.Core;
+using EMS.Judge.Application.Core.Models;
 using EMS.Core.Mappings;
 using EMS.Core.Domain.AggregateRoots.Configuration;
 using EMS.Core.Domain.State.Participants;

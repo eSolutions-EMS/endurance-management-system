@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using EMS.Core.Application.Core.Models;
+using EMS.Judge.Application.Core.Models;
 using EMS.Core.Extensions;
 using EMS.Core.Mappings;
 using EMS.Core.Domain.Enums;

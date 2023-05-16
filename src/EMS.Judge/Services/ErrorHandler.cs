@@ -1,6 +1,6 @@
 ﻿using EMS.Judge.Core.Services;
-using EMS.Core.Application.Services;
-using EMS.Core.Application.Core.Exceptions;
+using EMS.Judge.Application.Services;
+using EMS.Judge.Application.Core.Exceptions;
 using EMS.Core.ConventionalServices;
 using EMS.Core.Events;
 using EMS.Core.Domain.Core.Exceptions;

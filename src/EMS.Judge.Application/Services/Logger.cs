@@ -4,7 +4,7 @@ using EMS.Core.Domain.AggregateRoots.Manager;
 using System;
 using System.IO;
 
-namespace EMS.Core.Application.Services;
+namespace EMS.Judge.Application.Services;
 
 public class Logger : ILogger
 {

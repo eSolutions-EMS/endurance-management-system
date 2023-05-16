@@ -1,6 +1,6 @@
 ﻿using EMS.Core.Domain.State;
 
-namespace EMS.Core.Application.Models;
+namespace EMS.Judge.Application.Models;
 
 public class StateContext : IStateContext
 {

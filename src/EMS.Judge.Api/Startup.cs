@@ -1,5 +1,5 @@
-using EMS.Core.Application.Core.Services;
-using EMS.Core.Application.Models;
+using EMS.Judge.Application.Core.Services;
+using EMS.Judge.Application.Models;
 using EMS.Core;
 using EMS.Core.Services;
 using EMS.Core.Domain;

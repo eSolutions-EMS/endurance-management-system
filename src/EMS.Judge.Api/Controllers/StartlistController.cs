@@ -1,8 +1,8 @@
-﻿using EMS.Core.Application;
+﻿using EMS.Judge.Application;
 using EMS.Judge.Api.Requests;
 using EMS.Judge.Api.Services;
 using Microsoft.AspNetCore.Mvc;
-using static EMS.Core.Application.ApplicationConstants;
+using static EMS.Judge.Application.ApplicationConstants;
 
 namespace EMS.Judge.Api.Controllers
 {

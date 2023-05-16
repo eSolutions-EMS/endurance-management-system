@@ -1,9 +1,9 @@
-﻿using EMS.Core.Application.Core;
-using EMS.Core.Application.Models;
-using EMS.Core.Application.Services;
-using EMS.Core.Application.State;
-using EMS.Core.Domain.AggregateRoots.Manager;
+﻿using EMS.Core.Domain.AggregateRoots.Manager;
 using EMS.Core.Domain.State;
+using EMS.Judge.Application.Core;
+using EMS.Judge.Application.Models;
+using EMS.Judge.Application.Services;
+using EMS.Judge.Application.State;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System;
@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace EMS.Core.Application;
+namespace EMS.Judge.Application;
 
 public static class ApplicationServices
 {

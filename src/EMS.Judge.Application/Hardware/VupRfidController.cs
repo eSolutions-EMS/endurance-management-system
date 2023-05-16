@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Vup.reader;
 
-namespace EMS.Core.Application.Hardware;
+namespace EMS.Judge.Application.Hardware;
 
 public class VupRfidController
 {

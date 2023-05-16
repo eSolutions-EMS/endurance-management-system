@@ -1,11 +1,11 @@
-﻿using EMS.Core.Application.Models;
+﻿using EMS.Judge.Application.Models;
 using EMS.Core.ConventionalServices;
 using EMS.Core.Domain.AggregateRoots.Manager;
 using EMS.Core.Domain.AggregateRoots.Manager.WitnessEvents;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EMS.Core.Application.Services
+namespace EMS.Judge.Application.Services
 {
     public class WitnessEventQueue : IWitnessEventQueue
     {

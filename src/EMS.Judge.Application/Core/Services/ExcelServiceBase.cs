@@ -3,7 +3,7 @@ using OfficeOpenXml;
 using System;
 using System.IO;
 
-namespace EMS.Core.Application.Core.Services;
+namespace EMS.Judge.Application.Core.Services;
 
 public abstract class ExcelServiceBase : ITransientService, IDisposable
 {

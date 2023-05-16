@@ -1,18 +1,18 @@
-﻿using EMS.Core.Application.Core.Services;
-using EMS.Core.ConventionalServices;
+﻿using EMS.Core.ConventionalServices;
 using EMS.Core.Events;
 using EMS.Core.Domain.AggregateRoots.Manager;
 using EMS.Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 using EMS.Core.Domain.AggregateRoots.Manager.WitnessEvents;
+using EMS.Judge.Application.Core.Services;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
-using static EMS.Core.Application.ApplicationConstants;
+using static EMS.Judge.Application.ApplicationConstants;
 
-namespace EMS.Core.Application.Services;
+namespace EMS.Judge.Application.Services;
 
 public class DataService : IDataService
 {

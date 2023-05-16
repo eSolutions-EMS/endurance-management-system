@@ -1,8 +1,8 @@
-﻿using EMS.Core.Application.Models;
-using EMS.Core.Application.Services;
-using EMS.Core.Domain.State;
+﻿using EMS.Core.Domain.State;
+using EMS.Judge.Application.Models;
+using EMS.Judge.Application.Services;
 
-namespace EMS.Core.Application.State;
+namespace EMS.Judge.Application.State;
 
 public class WitnessAwareContext : StateContext, IWitnessAwareContext
 {

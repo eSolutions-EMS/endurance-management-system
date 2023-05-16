@@ -1,11 +1,11 @@
-﻿using EMS.Core.Application.Core.Services;
-using EMS.Core.ConventionalServices;
+﻿using EMS.Core.ConventionalServices;
 using EMS.Core.Services;
 using EMS.Core.Domain.AggregateRoots.Import.Models.National;
+using EMS.Judge.Application.Core.Services;
 using System.Linq;
-using static EMS.Core.Application.ApplicationConstants;
+using static EMS.Judge.Application.ApplicationConstants;
 
-namespace EMS.Core.Application.Aggregates.Import.Readers;
+namespace EMS.Judge.Application.Aggregates.Import.Readers;
 
 public class NationalReader : ExcelServiceBase, INationalReader
 {

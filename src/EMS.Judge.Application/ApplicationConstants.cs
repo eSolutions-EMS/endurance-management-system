@@ -3,7 +3,7 @@ using EMS.Core.Domain.State.Countries;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace EMS.Core.Application;
+namespace EMS.Judge.Application;
 
 public static class ApplicationConstants
 {

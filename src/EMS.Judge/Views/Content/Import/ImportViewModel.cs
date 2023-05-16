@@ -1,8 +1,8 @@
 ﻿using EMS.Judge.Core;
 using EMS.Judge.Core.Services;
 using EMS.Judge.Services;
-using EMS.Core.Application.Aggregates.Import;
-using EMS.Core.Application.Services;
+using EMS.Judge.Application.Aggregates.Import;
+using EMS.Judge.Application.Services;
 using EMS.Core.Domain.AggregateRoots.Manager;
 using Prism.Commands;
 using Prism.Regions;
