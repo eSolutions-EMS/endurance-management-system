@@ -1,8 +1,8 @@
-﻿using EnduranceJudge.Core.Services;
-using EnduranceJudge.Core.Utilities;
+﻿using EMS.Core.Services;
+using EMS.Core.Utilities;
 using System;
 
-namespace Endurance.Judge.Gateways.API
+namespace EMS.Judge.Api
 {
     public class ApiInitializer : IInitializer
     {

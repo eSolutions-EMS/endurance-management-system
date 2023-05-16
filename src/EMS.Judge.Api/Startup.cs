@@ -1,10 +1,10 @@
-using Endurance.Judge.Gateways.API.Middlewares;
-using EnduranceJudge.Application.Core.Services;
-using EnduranceJudge.Application.Models;
-using EnduranceJudge.Core;
-using EnduranceJudge.Core.Services;
-using EnduranceJudge.Domain;
-using EnduranceJudge.Domain.State;
+using EMS.Core.Application.Core.Services;
+using EMS.Core.Application.Models;
+using EMS.Core;
+using EMS.Core.Services;
+using EMS.Core.Domain;
+using EMS.Core.Domain.State;
+using EMS.Judge.Api.Middlewares;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -14,7 +14,7 @@ using System;
 using System.Linq;
 using System.Reflection;
 
-namespace Endurance.Judge.Gateways.API
+namespace EMS.Judge.Api
 {
     public class Startup
     {

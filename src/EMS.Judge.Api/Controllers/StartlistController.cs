@@ -1,11 +1,13 @@
-﻿using Endurance.Judge.Gateways.API.Requests;
-using Endurance.Judge.Gateways.API.Services;
+﻿using EMS.Core.Application;
+using EMS.Judge.Api.Requests;
+using EMS.Judge.Api.Services;
 using Microsoft.AspNetCore.Mvc;
-using static EnduranceJudge.Application.ApplicationConstants;
-namespace Endurance.Judge.Gateways.API.Controllers
+using static EMS.Core.Application.ApplicationConstants;
+
+namespace EMS.Judge.Api.Controllers
 {
     [ApiController]
-    [Route(Api.STARTLIST)]
+    [Route(ApplicationConstants.Api.STARTLIST)]
     public class StartlistController : ControllerBase
     {
         private readonly IStartlistStateService startlistStateService;
