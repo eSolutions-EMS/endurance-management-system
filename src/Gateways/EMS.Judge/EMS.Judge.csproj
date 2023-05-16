@@ -17,13 +17,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\EMS.Core.Application\EMS.Core.Application.csproj" />
-    <ProjectReference Include="..\..\EMS.Core\EMS.Core.csproj" />
-    <ProjectReference Include="..\..\EMS.Core.Domain\EMS.Core.Domain.csproj" />
-    <ProjectReference Include="..\..\EMS.Core.Localization\EMS.Core.Localization.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Extended.Wpf.Toolkit" Version="4.1.0" />
     <PackageReference Include="Mairegger.Printing" Version="2.1.0" />
     <PackageReference Include="Microsoft-WindowsAPICodePack-Shell" Version="1.1.4" />
@@ -73,6 +66,13 @@
       <XamlRuntime>Wpf</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\EMS\EMS.Core.Application\EMS.Core.Application.csproj" />
+    <ProjectReference Include="..\..\EMS\EMS.Core.Domain\EMS.Core.Domain.csproj" />
+    <ProjectReference Include="..\..\EMS\EMS.Core.Localization\EMS.Core.Localization.csproj" />
+    <ProjectReference Include="..\..\EMS\EMS.Core\EMS.Core.csproj" />
   </ItemGroup>
 
 </Project>
