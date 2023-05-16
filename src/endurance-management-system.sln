@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EMS.Judge.Api", "EMS.Judge.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EMS.Judge.Application", "EMS.Judge.Application\EMS.Judge.Application.csproj", "{C6E62105-8D7E-465E-AEA1-B4485392D423}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EMS.Core.Application", "Core\EMS.Core.Application\EMS.Core.Application.csproj", "{FD416770-4F2D-4D91-9BBA-78568133F7B6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,10 @@ Global
 		{C6E62105-8D7E-465E-AEA1-B4485392D423}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C6E62105-8D7E-465E-AEA1-B4485392D423}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C6E62105-8D7E-465E-AEA1-B4485392D423}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD416770-4F2D-4D91-9BBA-78568133F7B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD416770-4F2D-4D91-9BBA-78568133F7B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD416770-4F2D-4D91-9BBA-78568133F7B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD416770-4F2D-4D91-9BBA-78568133F7B6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -67,6 +73,7 @@ Global
 		{A6CEBD41-21EE-497F-96CE-8E6F3419AA1A} = {9732CEF3-94AB-4E1E-9218-2D1E3854D2DB}
 		{909B4C0C-6E43-4353-93AC-6ED9FFC99A2E} = {9732CEF3-94AB-4E1E-9218-2D1E3854D2DB}
 		{E7DC4F40-1856-4FD5-A73D-9F558663B20F} = {9732CEF3-94AB-4E1E-9218-2D1E3854D2DB}
+		{FD416770-4F2D-4D91-9BBA-78568133F7B6} = {9732CEF3-94AB-4E1E-9218-2D1E3854D2DB}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3CB609D9-5D54-4C11-A371-DAAC8B74E430}
