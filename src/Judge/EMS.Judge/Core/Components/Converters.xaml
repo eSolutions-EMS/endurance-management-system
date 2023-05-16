@@ -1,0 +1,8 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converters="clr-namespace:EMS.Judge.Core.Components.Converters"
+                    xmlns:converters1="clr-namespace:EMS.Judge.Converters">
+
+    <converters:VisibilityToBooleanConverter x:Key="VisibilityToBooleanConverter" />
+    <converters1:SeverityToColorConverter x:Key="SeverityToColorConverter" />
+</ResourceDictionary>

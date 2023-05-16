@@ -1,0 +1,62 @@
+﻿<UserControl x:Class="EMS.Judge.Views.Content.Configuration.Roots.Participants.Listing.ParticipantListView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:localization="clr-namespace:EMS.Core.Localization;assembly=EMS.Core.Localization"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+
+    <Grid Style="{StaticResource Grid}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Style="{StaticResource Content-Left}" />
+            <ColumnDefinition Style="{StaticResource Content-Center}" />
+            <ColumnDefinition Style="{StaticResource Content-Right}" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Style="{StaticResource Row-Title}" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <!-- Title -->
+        <TextBlock Style="{StaticResource Text-H1}"
+                   Text="{x:Static localization:Strings.PARTICIPANTS_ENTITY}"
+                   Grid.Column="1" />
+        <!-- Content Left Search -->
+        <Border Style="{StaticResource Border-Content-Left}"
+                Grid.Row="1" Grid.Column="0">
+            <StackPanel Style="{StaticResource List-Vertical}">
+                <!-- Search value -->
+                <Border Style="{StaticResource Border-Vertical}">
+                    <TextBox Style="{StaticResource Input}"
+                             Text="{Binding SearchValue}" />
+                </Border>
+                <!-- Search controls -->
+                <StackPanel Style="{StaticResource List-Horizontal}">
+
+                    <Button Style="{StaticResource Button-Horizontal}"
+                            Command="{Binding ClearSearch}"
+                            Content="{x:Static localization:Strings.CLEAR}" />
+
+                    <Button Style="{StaticResource Button-Horizontal}"
+                            Command="{Binding Search}"
+                            Content="{x:Static localization:Strings.SEARCH}" />
+
+                </StackPanel>
+            </StackPanel>
+        </Border>
+        <!-- Content Center List -->
+        <Border Style="{StaticResource Border-Content-Center}"
+                Grid.Row="1" Grid.Column="1">
+            <ScrollViewer Style="{StaticResource Scroll}"
+                          PreviewMouseWheel="HandleScroll">
+                <ListBox Style="{StaticResource ListBox-Vertical}"
+                         ItemsSource="{Binding ListItems}" />
+            </ScrollViewer>
+        </Border>
+        <!-- Content Right Create button  -->
+        <Border Style="{StaticResource Border-Content-Right}" VerticalAlignment="Top" Margin="0 3px 0 0"
+                Grid.Row="1" Grid.Column="2">
+            <Button Style="{StaticResource Button-Big-Vertical}"
+                    Command="{Binding Create}"
+                    Content="{x:Static localization:Strings._CREATE}"/>
+        </Border>
+    </Grid>
+</UserControl>

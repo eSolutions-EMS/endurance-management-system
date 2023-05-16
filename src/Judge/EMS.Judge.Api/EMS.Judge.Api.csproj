@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <OutputType>Library</OutputType>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.17" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\EMS.Core.Domain\EMS.Core.Domain.csproj" />
+      <ProjectReference Include="..\..\EMS.Core.Localization\EMS.Core.Localization.csproj" />
+      <ProjectReference Include="..\..\EMS.Core\EMS.Core.csproj" />
+      <ProjectReference Include="..\EMS.Judge.Application\EMS.Judge.Application.csproj" />
+    </ItemGroup>
+
+</Project>

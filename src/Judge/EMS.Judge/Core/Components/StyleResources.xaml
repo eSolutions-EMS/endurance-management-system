@@ -1,0 +1,24 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Styles/Button.xaml" />
+        <ResourceDictionary Source="Styles/TextBlock.xaml" />
+        <ResourceDictionary Source="Styles/TextBox.xaml" />
+        <ResourceDictionary Source="Styles/Label.xaml" />
+        <ResourceDictionary Source="Styles/DockPanel.xaml" />
+        <ResourceDictionary Source="Styles/StackPanel.xaml" />
+        <ResourceDictionary Source="Styles/ListBox.xaml" />
+        <ResourceDictionary Source="Styles/ComboBox.xaml" />
+        <ResourceDictionary Source="Styles/ListView.xaml" />
+        <ResourceDictionary Source="Styles/Grid.xaml" />
+        <ResourceDictionary Source="Styles/Border.xaml" />
+        <ResourceDictionary Source="Styles/ScrollViewer.xaml" />
+        <ResourceDictionary Source="Styles/Run.xaml" />
+        <ResourceDictionary Source="Styles/DateTimePicker.xaml" />
+        <ResourceDictionary Source="Styles/CheckBox.xaml" />
+        <ResourceDictionary Source="Styles/ColumnDefinitions.xaml" />
+        <ResourceDictionary Source="Styles/RowDefinitions.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+</ResourceDictionary>

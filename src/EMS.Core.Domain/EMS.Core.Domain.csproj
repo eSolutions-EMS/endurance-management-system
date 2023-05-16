@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\EMS.Core\EMS.Core.csproj" />
+    <ProjectReference Include="..\EMS.Core.Localization\EMS.Core.Localization.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="AggregateRoots\Common" />
+  </ItemGroup>
+
+</Project>

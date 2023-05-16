@@ -1,0 +1,78 @@
+﻿<UserControl x:Class="EMS.Judge.Views.Content.Configuration.Children.Personnel.PersonnelView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:localization="clr-namespace:EMS.Core.Localization;assembly=EMS.Core.Localization"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+
+    <ScrollViewer Style="{StaticResource Scroll-Wrapper}"
+                  PreviewMouseWheel="HandleScroll">
+        <Grid Style="{StaticResource Grid}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Style="{StaticResource Content-Left}" />
+                <ColumnDefinition Style="{StaticResource Content-Center}" />
+                <ColumnDefinition Style="{StaticResource Content-Right}" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Style="{StaticResource Row-Collapsed}" />
+                <RowDefinition Style="{StaticResource Row-Title}" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <TextBox Style="{StaticResource Input-Id}"
+                     Text="{Binding Id}" />
+            <!-- Title -->
+            <TextBlock Style="{StaticResource Text-H1}"
+                       Grid.Row="1" Grid.Column="1"
+                       Text="{x:Static localization:Strings.PERSONNEL_ENTITY}" />
+            <!-- Content Left Labels -->
+            <!-- Name-->
+            <Border Style="{StaticResource Border-Content-Left}"
+                    Grid.Row="2" Grid.Column="0">
+                <Label Style="{StaticResource Label-Primary}"
+                       Target="{Binding ElementName=Name}"
+                       Content="{x:Static localization:Strings.NAME}" />
+            </Border>
+            <!-- Role-->
+            <Border Style="{StaticResource Border-Content-Left}"
+                    Grid.Row="3" Grid.Column="0">
+                <Label Style="{StaticResource Label-Primary}"
+                       Target="{Binding ElementName=RoleId}"
+                       Content="{x:Static localization:Strings.ROLE}" />
+            </Border>
+            <!-- Content Center Form -->
+            <!-- Name-->
+            <Border Style="{StaticResource Border-Content-Center}"
+                    Grid.Row="2" Grid.Column="1">
+                <TextBox Style="{StaticResource Input}"
+                         Text="{Binding Name}"
+                         Name="Name" />
+            </Border>
+            <!-- Role-->
+            <Border Style="{StaticResource Border-Content-Center}"
+                    Grid.Row="3" Grid.Column="1">
+                <ComboBox Style="{StaticResource Combo-Box}"
+                          ItemsSource="{Binding RoleItems}"
+                          SelectedValue="{Binding RoleId}"
+                          SelectedIndex="{Binding RoleId}"
+                          Name="RoleId" />
+            </Border>
+            <!-- Content Right Controls  -->
+            <!-- Save -->
+            <Border Style="{StaticResource Border-Content-Right}"
+                    Grid.Row="2" Grid.Column="2">
+                <Button Style="{StaticResource Button-Big-Vertical}"
+                        Command="{Binding Submit}"
+                        Content="{x:Static localization:Strings._SAVE}"/>
+            </Border>
+            <!-- Back -->
+            <Border Style="{StaticResource Border-Content-Right}"
+                    Grid.Row="3" Grid.Column="2">
+                <Button Style="{StaticResource Button-Big-Vertical}"
+                        Command="{Binding NavigateBack}"
+                        Content="{x:Static localization:Strings._BACK}"/>
+            </Border>
+        </Grid>
+    </ScrollViewer>
+</UserControl>
