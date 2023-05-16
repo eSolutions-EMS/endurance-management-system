@@ -1,16 +1,16 @@
-﻿using EnduranceJudge.Application.Core;
-using EnduranceJudge.Core.Mappings;
-using EnduranceJudge.Core.Utilities;
-using EnduranceJudge.Domain.Core.Models;
-using EnduranceJudge.Gateways.Desktop.Core;
-using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
-using EnduranceJudge.Gateways.Desktop.Core.Extensions;
-using EnduranceJudge.Gateways.Desktop.Services;
+﻿using EMS.Judge.Core;
+using EMS.Judge.Core.Components.Templates.SimpleListItem;
+using EMS.Judge.Services;
+using EMS.Core.Application.Core;
+using EMS.Core.Mappings;
+using EMS.Core.Utilities;
+using EMS.Core.Domain.Core.Models;
+using EMS.Judge.Core.Extensions;
 using Prism.Commands;
 using Prism.Regions;
 using System.Collections.Generic;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core;
+namespace EMS.Judge.Views.Content.Configuration.Core;
 
 public abstract class ConfigurationBase<TView, TDomain> : ViewModelBase
     where TView : IView

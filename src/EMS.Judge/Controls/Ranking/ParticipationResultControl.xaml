@@ -1,8 +1,8 @@
-﻿<StackPanel x:Class="EnduranceJudge.Gateways.Desktop.Controls.Ranking.ParticipationResultControl"
+﻿<StackPanel x:Class="EMS.Judge.Controls.Ranking.ParticipationResultControl"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:local="clr-namespace:EnduranceJudge.Gateways.Desktop.Controls.Manager"
-        xmlns:localization="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization"
+        xmlns:local="clr-namespace:EMS.Judge.Controls.Manager"
+        xmlns:localization="clr-namespace:EMS.Core.Localization;assembly=EMS.Core.Localization"
         Style="{StaticResource List-Vertical}" Margin="0 2px 0 0">
 
     <StackPanel Style="{StaticResource List-Horizontal}">

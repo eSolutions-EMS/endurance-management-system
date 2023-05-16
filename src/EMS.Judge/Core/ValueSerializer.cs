@@ -1,10 +1,10 @@
-﻿using EnduranceJudge.Application.Core.Exceptions;
+﻿using EMS.Core.Application.Core.Exceptions;
 using System;
 using System.Globalization;
-using static EnduranceJudge.Gateways.Desktop.DesktopConstants;
-using static EnduranceJudge.Localization.Strings;
+using static EMS.Judge.DesktopConstants;
+using static EMS.Core.Localization.Strings;
 
-namespace EnduranceJudge.Gateways.Desktop.Core;
+namespace EMS.Judge.Core;
 
 public class ValueSerializer
 {

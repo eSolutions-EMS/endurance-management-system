@@ -1,12 +1,12 @@
-﻿using EnduranceJudge.Application.Services;
-using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem;
-using EnduranceJudge.Gateways.Desktop.Core.Objects;
-using EnduranceJudge.Gateways.Desktop.Core.Services;
-using EnduranceJudge.Gateways.Desktop.Services;
+﻿using EMS.Judge.Core.Components.Templates.ListItem;
+using EMS.Judge.Core.Objects;
+using EMS.Judge.Core.Services;
+using EMS.Judge.Services;
+using EMS.Core.Application.Services;
 using Prism.Commands;
 using System;
 
-namespace EnduranceJudge.Gateways.Desktop.Core.ViewModels;
+namespace EMS.Judge.Core.ViewModels;
 
 public abstract class SearchableListViewModelBase<TView> : ListViewModelBase<TView>
     where TView : IView

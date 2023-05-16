@@ -1,6 +1,6 @@
-using EnduranceJudge.Core.Models;
+using EMS.Core.Models;
 
-namespace EnduranceJudge.Domain.State.EnduranceEvents;
+namespace EMS.Core.Domain.State.EnduranceEvents;
 
 public interface IEnduranceEventState : IIdentifiable
 {

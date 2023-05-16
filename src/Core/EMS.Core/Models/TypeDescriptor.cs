@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EnduranceJudge.Core.Models;
+namespace EMS.Core.Models;
 
 public class TypeDescriptor<T>
     where T : class

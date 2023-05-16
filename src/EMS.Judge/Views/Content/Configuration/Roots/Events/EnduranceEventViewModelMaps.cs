@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
-using EnduranceJudge.Application.Aggregates.Configurations;
-using EnduranceJudge.Application.Core.Models;
-using EnduranceJudge.Core.Mappings;
-using EnduranceJudge.Domain.State.Countries;
-using EnduranceJudge.Domain.State.EnduranceEvents;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Personnel;
+using EMS.Judge.Views.Content.Configuration.Children.Personnel;
+using EMS.Core.Application.Aggregates.Configurations;
+using EMS.Core.Application.Core.Models;
+using EMS.Core.Mappings;
+using EMS.Core.Domain.State.Countries;
+using EMS.Core.Domain.State.EnduranceEvents;
 using System.Collections.ObjectModel;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Events;
+namespace EMS.Judge.Views.Content.Configuration.Roots.Events;
 
 public class EnduranceEventViewModelMaps : ICustomMapConfiguration
 {

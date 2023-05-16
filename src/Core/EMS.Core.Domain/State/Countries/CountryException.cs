@@ -1,6 +1,6 @@
-using EnduranceJudge.Domain.Core.Exceptions;
+using EMS.Core.Domain.Core.Exceptions;
 
-namespace EnduranceJudge.Domain.State.Countries;
+namespace EMS.Core.Domain.State.Countries;
 
 public class CountryException : DomainExceptionBase
 {

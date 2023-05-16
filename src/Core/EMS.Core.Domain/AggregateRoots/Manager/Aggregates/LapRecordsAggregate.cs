@@ -1,14 +1,14 @@
-﻿using EnduranceJudge.Domain.AggregateRoots.Common.Performances;
-using EnduranceJudge.Domain.Core.Exceptions;
-using EnduranceJudge.Domain.Core.Models;
-using EnduranceJudge.Domain.Enums;
-using EnduranceJudge.Domain.Validation;
-using EnduranceJudge.Domain.State.Results;
-using EnduranceJudge.Domain.State.LapRecords;
+﻿using EMS.Core.Domain.AggregateRoots.Common.Performances;
+using EMS.Core.Domain.Core.Exceptions;
+using EMS.Core.Domain.Core.Models;
+using EMS.Core.Domain.Enums;
+using EMS.Core.Domain.State.LapRecords;
+using EMS.Core.Domain.State.Results;
+using EMS.Core.Domain.Validation;
 using System;
-using static EnduranceJudge.Localization.Strings;
+using static EMS.Core.Localization.Strings;
 
-namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates;
+namespace EMS.Core.Domain.AggregateRoots.Manager.Aggregates;
 
 public class LapRecordsAggregate : IAggregate
 {

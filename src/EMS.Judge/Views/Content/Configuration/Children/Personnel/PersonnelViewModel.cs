@@ -1,24 +1,24 @@
-﻿using EnduranceJudge.Application.Core;
-using EnduranceJudge.Domain.AggregateRoots.Configuration;
-using EnduranceJudge.Domain.Core.Models;
-using EnduranceJudge.Domain.Enums;
-using EnduranceJudge.Domain.State.Personnels;
-using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
-using EnduranceJudge.Gateways.Desktop.Services;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core;
+﻿using EMS.Judge.Core.Components.Templates.SimpleListItem;
+using EMS.Judge.Services;
+using EMS.Judge.Views.Content.Configuration.Core;
+using EMS.Core.Application.Core;
+using EMS.Core.Domain.AggregateRoots.Configuration;
+using EMS.Core.Domain.Core.Models;
+using EMS.Core.Domain.Enums;
+using EMS.Core.Domain.State.Personnels;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Personnel;
+namespace EMS.Judge.Views.Content.Configuration.Children.Personnel;
 
-public class PersonnelViewModel : NestedConfigurationBase<PersonnelView, Domain.State.Personnels.Personnel>,
+public class PersonnelViewModel : NestedConfigurationBase<PersonnelView, EMS.Core.Domain.State.Personnels.Personnel>,
     IPersonnelState
 {
     private readonly IExecutor<ConfigurationRoot> executor;
     private PersonnelViewModel() : this(null, null) {}
     public PersonnelViewModel(
         IExecutor<ConfigurationRoot> executor,
-        IQueries<Domain.State.Personnels.Personnel> personnel) : base(personnel)
+        IQueries<EMS.Core.Domain.State.Personnels.Personnel> personnel) : base(personnel)
     {
         this.executor = executor;
     }

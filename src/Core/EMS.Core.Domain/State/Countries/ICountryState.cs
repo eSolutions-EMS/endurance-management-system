@@ -1,6 +1,6 @@
-using EnduranceJudge.Core.Models;
+using EMS.Core.Models;
 
-namespace EnduranceJudge.Domain.State.Countries;
+namespace EMS.Core.Domain.State.Countries;
 
 public interface ICountryState : IIdentifiable
 {

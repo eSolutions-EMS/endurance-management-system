@@ -1,6 +1,6 @@
-using EnduranceJudge.Core.ConventionalServices;
+using EMS.Core.ConventionalServices;
 
-namespace EnduranceJudge.Domain.Core.Models;
+namespace EMS.Core.Domain.Core.Models;
 
 // TODO: Make Singleton
 public interface IAggregateRoot : IAggregate, ITransientService

@@ -1,9 +1,9 @@
-﻿using EnduranceJudge.Domain.Core.Exceptions;
-using EnduranceJudge.Domain.State;
-using EnduranceJudge.Domain.State.EnduranceEvents;
-using static EnduranceJudge.Localization.Strings;
+﻿using EMS.Core.Domain.Core.Exceptions;
+using EMS.Core.Domain.State;
+using EMS.Core.Domain.State.EnduranceEvents;
+using static EMS.Core.Localization.Strings;
 
-namespace EnduranceJudge.Domain.AggregateRoots.Configuration.Extensions;
+namespace EMS.Core.Domain.AggregateRoots.Configuration.Extensions;
 
 public static class StateExtensions
 {

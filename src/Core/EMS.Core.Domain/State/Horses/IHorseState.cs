@@ -1,6 +1,6 @@
-using EnduranceJudge.Core.Models;
+using EMS.Core.Models;
 
-namespace EnduranceJudge.Domain.State.Horses;
+namespace EMS.Core.Domain.State.Horses;
 
 public interface IHorseState : IIdentifiable
 {

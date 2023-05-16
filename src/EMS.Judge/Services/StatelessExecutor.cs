@@ -1,7 +1,7 @@
-﻿using EnduranceJudge.Core.ConventionalServices;
+﻿using EMS.Core.ConventionalServices;
 using System;
 
-namespace EnduranceJudge.Gateways.Desktop.Services;
+namespace EMS.Judge.Services;
 
 public class StatelessExecutor : IStatelessExecutor
 {

@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using EnduranceJudge.Application.Core.Models;
-using EnduranceJudge.Core.Mappings;
-using EnduranceJudge.Domain.State.Participants;
+using EMS.Core.Application.Core.Models;
+using EMS.Core.Mappings;
+using EMS.Core.Domain.State.Participants;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Manager.ParticipantsList.Config;
+namespace EMS.Judge.Views.Content.Manager.ParticipantsList.Config;
 
 public class ParticipantMaps : ICustomMapConfiguration
 {

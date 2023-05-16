@@ -1,9 +1,9 @@
-﻿using EnduranceJudge.Domain.State.EnduranceEvents;
-using EnduranceJudge.Domain.State.Personnels;
+﻿using EMS.Core.Domain.State.EnduranceEvents;
+using EMS.Core.Domain.State.Personnels;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EnduranceJudge.Application.Aggregates.Configurations;
+namespace EMS.Core.Application.Aggregates.Configurations;
 
 public static class PersonnelAggregator
 {

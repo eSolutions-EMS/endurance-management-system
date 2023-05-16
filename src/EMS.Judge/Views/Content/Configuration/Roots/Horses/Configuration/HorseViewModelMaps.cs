@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using EnduranceJudge.Core.Mappings;
-using EnduranceJudge.Core.Mappings.Converters;
-using EnduranceJudge.Domain.State.Horses;
+using EMS.Core.Mappings;
+using EMS.Core.Mappings.Converters;
+using EMS.Core.Domain.State.Horses;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Horses.Configuration;
+namespace EMS.Judge.Views.Content.Configuration.Roots.Horses.Configuration;
 
 public class HorseViewModelMaps : ICustomMapConfiguration
 {

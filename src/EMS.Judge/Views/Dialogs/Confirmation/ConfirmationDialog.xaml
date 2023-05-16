@@ -1,8 +1,8 @@
-﻿<UserControl x:Class="EnduranceJudge.Gateways.Desktop.Views.Dialogs.Confirmation.ConfirmationDialog"
+﻿<UserControl x:Class="EMS.Judge.Views.Dialogs.Confirmation.ConfirmationDialog"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mvvm="http://prismlibrary.com/"
-             xmlns:localization="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization"
+             xmlns:localization="clr-namespace:EMS.Core.Localization;assembly=EMS.Core.Localization"
              mvvm:ViewModelLocator.AutoWireViewModel="True">
 
     <Border Style="{StaticResource Padding-Thick}"

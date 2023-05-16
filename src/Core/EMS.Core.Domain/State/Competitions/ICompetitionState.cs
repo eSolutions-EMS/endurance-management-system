@@ -1,8 +1,8 @@
-using EnduranceJudge.Core.Models;
-using EnduranceJudge.Domain.Enums;
+using EMS.Core.Domain.Enums;
+using EMS.Core.Models;
 using System;
 
-namespace EnduranceJudge.Domain.State.Competitions;
+namespace EMS.Core.Domain.State.Competitions;
 
 public interface ICompetitionState : IIdentifiable
 {

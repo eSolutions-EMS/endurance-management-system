@@ -1,4 +1,4 @@
-﻿namespace EnduranceJudge.Core.Enums;
+﻿namespace EMS.Core.Enums;
 
 public enum NotificationSeverity
 {

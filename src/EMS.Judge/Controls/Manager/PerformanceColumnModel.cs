@@ -1,15 +1,15 @@
-﻿using EnduranceJudge.Core.Utilities;
-using EnduranceJudge.Domain.AggregateRoots.Manager;
-using EnduranceJudge.Domain.AggregateRoots.Common.Performances;
-using EnduranceJudge.Domain.State.LapRecords;
-using EnduranceJudge.Gateways.Desktop.Core;
-using EnduranceJudge.Gateways.Desktop.Services;
+﻿using EMS.Judge.Core;
+using EMS.Judge.Services;
+using EMS.Core.Utilities;
+using EMS.Core.Domain.AggregateRoots.Manager;
+using EMS.Core.Domain.AggregateRoots.Common.Performances;
+using EMS.Core.Domain.State.LapRecords;
 using Prism.Commands;
 using System;
 using System.Windows;
-using static EnduranceJudge.Localization.Strings;
+using static EMS.Core.Localization.Strings;
 
-namespace EnduranceJudge.Gateways.Desktop.Controls.Manager;
+namespace EMS.Judge.Controls.Manager;
 
 public class PerformanceColumnModel : ViewModelBase, ILapRecordState
 {

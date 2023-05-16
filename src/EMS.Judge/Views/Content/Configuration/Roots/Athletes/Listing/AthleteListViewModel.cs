@@ -1,15 +1,15 @@
-﻿using EnduranceJudge.Application.Services;
-using EnduranceJudge.Application.Core;
-using EnduranceJudge.Application.Core.Models;
-using EnduranceJudge.Core.Mappings;
-using EnduranceJudge.Domain.AggregateRoots.Configuration;
-using EnduranceJudge.Domain.State.Athletes;
-using EnduranceJudge.Gateways.Desktop.Core.Services;
-using EnduranceJudge.Gateways.Desktop.Core.ViewModels;
-using EnduranceJudge.Gateways.Desktop.Services;
+﻿using EMS.Judge.Core.Services;
+using EMS.Judge.Core.ViewModels;
+using EMS.Judge.Services;
+using EMS.Core.Application.Services;
+using EMS.Core.Application.Core;
+using EMS.Core.Application.Core.Models;
+using EMS.Core.Mappings;
+using EMS.Core.Domain.AggregateRoots.Configuration;
+using EMS.Core.Domain.State.Athletes;
 using System.Collections.Generic;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Athletes.Listing;
+namespace EMS.Judge.Views.Content.Configuration.Roots.Athletes.Listing;
 
 public class AthleteListViewModel : SearchableListViewModelBase<AthleteView>
 {

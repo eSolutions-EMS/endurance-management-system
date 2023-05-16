@@ -1,7 +1,7 @@
 ﻿using Prism.Commands;
 using System.Windows;
 
-namespace EnduranceJudge.Gateways.Desktop.Core;
+namespace EMS.Judge.Core;
 
 public interface ICollapsable
 {

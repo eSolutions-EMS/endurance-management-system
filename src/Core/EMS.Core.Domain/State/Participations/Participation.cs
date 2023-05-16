@@ -1,12 +1,12 @@
-﻿using EnduranceJudge.Domain.AggregateRoots.Manager;
-using EnduranceJudge.Domain.Core.Models;
-using EnduranceJudge.Domain.State.Competitions;
-using EnduranceJudge.Domain.State.Participants;
+﻿using EMS.Core.Domain.AggregateRoots.Manager;
+using EMS.Core.Domain.Core.Models;
+using EMS.Core.Domain.State.Competitions;
+using EMS.Core.Domain.State.Participants;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EnduranceJudge.Domain.State.Participations;
+namespace EMS.Core.Domain.State.Participations;
 
 public class Participation : DomainBase<ParticipationException>
 {

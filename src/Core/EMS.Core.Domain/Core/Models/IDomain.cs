@@ -1,6 +1,6 @@
-using EnduranceJudge.Core.Models;
+using EMS.Core.Models;
 
-namespace EnduranceJudge.Domain.Core.Models;
+namespace EMS.Core.Domain.Core.Models;
 
 public interface IDomain : IIdentifiable
 {

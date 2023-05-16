@@ -1,17 +1,17 @@
-﻿using EnduranceJudge.Domain.AggregateRoots.Configuration.Extensions;
-using EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates;
-using EnduranceJudge.Domain.Core.Exceptions;
-using EnduranceJudge.Domain.Core.Extensions;
-using EnduranceJudge.Domain.Core.Models;
-using EnduranceJudge.Domain.State;
-using EnduranceJudge.Domain.State.Athletes;
-using EnduranceJudge.Domain.State.Horses;
-using EnduranceJudge.Domain.State.Participants;
-using EnduranceJudge.Domain.State.Participations;
+﻿using EMS.Core.Domain.Core.Exceptions;
+using EMS.Core.Domain.Core.Models;
+using EMS.Core.Domain.State;
+using EMS.Core.Domain.State.Athletes;
+using EMS.Core.Domain.State.Horses;
+using EMS.Core.Domain.State.Participants;
+using EMS.Core.Domain.State.Participations;
+using EMS.Core.Domain.AggregateRoots.Configuration.Extensions;
+using EMS.Core.Domain.AggregateRoots.Manager.Aggregates;
+using EMS.Core.Domain.Core.Extensions;
 using System.Linq;
-using static EnduranceJudge.Localization.Strings;
+using static EMS.Core.Localization.Strings;
 
-namespace EnduranceJudge.Domain.AggregateRoots.Configuration.Aggregates;
+namespace EMS.Core.Domain.AggregateRoots.Configuration.Aggregates;
 
 public class ParticipantsAggregate : IAggregate
 {

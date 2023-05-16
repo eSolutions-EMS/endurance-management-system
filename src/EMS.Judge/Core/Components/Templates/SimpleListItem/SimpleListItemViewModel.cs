@@ -1,12 +1,12 @@
-﻿using EnduranceJudge.Application.Core.Models;
-using EnduranceJudge.Core.Mappings;
-using EnduranceJudge.Core.Models;
+﻿using EMS.Core.Application.Core.Models;
+using EMS.Core.Mappings;
+using EMS.Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static EnduranceJudge.Localization.Strings;
+using static EMS.Core.Localization.Strings;
 
-namespace EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
+namespace EMS.Judge.Core.Components.Templates.SimpleListItem;
 
 public class SimpleListItemViewModel : IMapFrom<ListItemModel>
 {

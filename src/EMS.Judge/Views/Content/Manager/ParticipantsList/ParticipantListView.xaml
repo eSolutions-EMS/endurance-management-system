@@ -1,8 +1,8 @@
-﻿<UserControl x:Class="EnduranceJudge.Gateways.Desktop.Views.Content.Manager.ParticipantsList.ParticipantListView"
+﻿<UserControl x:Class="EMS.Judge.Views.Content.Manager.ParticipantsList.ParticipantListView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:prism="http://prismlibrary.com/"
-             xmlns:localization="clr-namespace:EnduranceJudge.Localization;assembly=EnduranceJudge.Localization"
+             xmlns:localization="clr-namespace:EMS.Core.Localization;assembly=EMS.Core.Localization"
              prism:ViewModelLocator.AutoWireViewModel="True">
     <Grid>
         <Grid.RowDefinitions>

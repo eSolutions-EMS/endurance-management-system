@@ -1,10 +1,10 @@
-﻿using EnduranceJudge.Core.ConventionalServices;
+﻿using EMS.Core.ConventionalServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace EnduranceJudge.Localization.Services;
+namespace EMS.Core.Localization.Services;
 
 public class StringsPopulator : IStringsPopulator
 {

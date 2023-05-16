@@ -1,10 +1,10 @@
-﻿using EnduranceJudge.Gateways.Desktop.Core.Objects;
+﻿using EMS.Judge.Core.Objects;
 using System;
 using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace EnduranceJudge.Gateways.Desktop.Converters;
+namespace EMS.Judge.Converters;
 
 public class SeverityToColorConverter : IValueConverter
 {

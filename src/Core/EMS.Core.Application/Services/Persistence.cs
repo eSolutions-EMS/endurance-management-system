@@ -1,15 +1,15 @@
-﻿using EnduranceJudge.Application.Core.Services;
-using EnduranceJudge.Application.Models;
-using EnduranceJudge.Application.State;
-using EnduranceJudge.Core.ConventionalServices;
-using EnduranceJudge.Core.Events;
-using EnduranceJudge.Core.Services;
-using EnduranceJudge.Domain.AggregateRoots.Manager.WitnessEvents;
-using EnduranceJudge.Domain.State;
+﻿using EMS.Core.Application.Core.Services;
+using EMS.Core.Application.Models;
+using EMS.Core.Application.State;
+using EMS.Core.ConventionalServices;
+using EMS.Core.Events;
+using EMS.Core.Services;
+using EMS.Core.Domain.AggregateRoots.Manager.WitnessEvents;
+using EMS.Core.Domain.State;
 using System;
 using System.Collections.Generic;
 
-namespace EnduranceJudge.Application.Services;
+namespace EMS.Core.Application.Services;
 
 public class Persistence : IPersistence
 {

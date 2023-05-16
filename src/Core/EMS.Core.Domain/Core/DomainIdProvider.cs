@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace EnduranceJudge.Domain.Core;
+namespace EMS.Core.Domain.Core;
 
 public static class DomainIdProvider
 {

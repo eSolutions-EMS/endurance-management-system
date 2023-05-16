@@ -1,6 +1,6 @@
-﻿using EnduranceJudge.Domain.State;
+﻿using EMS.Core.Domain.State;
 
-namespace EnduranceJudge.Application.Models;
+namespace EMS.Core.Application.Models;
 
 public class StateContext : IStateContext
 {

@@ -1,13 +1,13 @@
-using EnduranceJudge.Domain.Core.Models;
-using EnduranceJudge.Domain.Enums;
-using EnduranceJudge.Domain.State.Participations;
-using EnduranceJudge.Domain.State.LapRecords;
+using EMS.Core.Domain.Core.Models;
+using EMS.Core.Domain.Enums;
+using EMS.Core.Domain.State.LapRecords;
+using EMS.Core.Domain.State.Participations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
-namespace EnduranceJudge.Domain.AggregateRoots.Ranking.Aggregates;
+namespace EMS.Core.Domain.AggregateRoots.Ranking.Aggregates;
 
 public class RanklistAggregate : List<Participation>, IAggregate
 {

@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
-using EnduranceJudge.Application.Core.Models;
-using EnduranceJudge.Core.Mappings;
-using EnduranceJudge.Domain.State.Athletes;
-using EnduranceJudge.Domain.State.Horses;
-using EnduranceJudge.Domain.State.Participants;
-using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
+using EMS.Judge.Core.Components.Templates.SimpleListItem;
+using EMS.Core.Application.Core.Models;
+using EMS.Core.Mappings;
+using EMS.Core.Domain.State.Athletes;
+using EMS.Core.Domain.State.Horses;
+using EMS.Core.Domain.State.Participants;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Participants.Configuration;
+namespace EMS.Judge.Views.Content.Configuration.Roots.Participants.Configuration;
 
 public class ParticipantMaps : ICustomMapConfiguration
 {

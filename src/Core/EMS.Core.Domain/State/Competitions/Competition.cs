@@ -1,12 +1,12 @@
-using EnduranceJudge.Domain.Core.Extensions;
-using EnduranceJudge.Domain.Core.Models;
-using EnduranceJudge.Domain.Enums;
-using EnduranceJudge.Domain.State.Laps;
+using EMS.Core.Domain.Core.Models;
+using EMS.Core.Domain.Enums;
+using EMS.Core.Domain.State.Laps;
+using EMS.Core.Domain.Core.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EnduranceJudge.Domain.State.Competitions;
+namespace EMS.Core.Domain.State.Competitions;
 
 public class Competition : DomainBase<CompetitionException>, ICompetitionState
 {

@@ -1,25 +1,25 @@
-﻿using EnduranceJudge.Application.Core.Services;
-using EnduranceJudge.Core.Events;
-using EnduranceJudge.Core.Services;
-using EnduranceJudge.Core.Utilities;
-using EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates;
-using EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates.Startlists;
-using EnduranceJudge.Domain.Core.Exceptions;
-using EnduranceJudge.Domain.Core.Models;
-using EnduranceJudge.Domain.State;
-using EnduranceJudge.Domain.State.Competitions;
-using EnduranceJudge.Domain.State.Participants;
-using EnduranceJudge.Domain.State.Participations;
-using EnduranceJudge.Domain.AggregateRoots.Common.Performances;
-using EnduranceJudge.Domain.AggregateRoots.Manager.WitnessEvents;
-using EnduranceJudge.Domain.State.LapRecords;
+﻿using EMS.Core.Domain.AggregateRoots.Common.Performances;
+using EMS.Core.Domain.AggregateRoots.Manager.Aggregates;
+using EMS.Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
+using EMS.Core.Domain.AggregateRoots.Manager.WitnessEvents;
+using EMS.Core.Domain.Core.Exceptions;
+using EMS.Core.Domain.Core.Models;
+using EMS.Core.Domain.State;
+using EMS.Core.Domain.State.Competitions;
+using EMS.Core.Domain.State.LapRecords;
+using EMS.Core.Domain.State.Participants;
+using EMS.Core.Domain.State.Participations;
+using EMS.Core.Application.Core.Services;
+using EMS.Core.Events;
+using EMS.Core.Services;
+using EMS.Core.Utilities;
 using IdentityServer4.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static EnduranceJudge.Localization.Strings;
+using static EMS.Core.Localization.Strings;
 
-namespace EnduranceJudge.Domain.AggregateRoots.Manager;
+namespace EMS.Core.Domain.AggregateRoots.Manager;
 
 public class ManagerRoot : IAggregateRoot
 {

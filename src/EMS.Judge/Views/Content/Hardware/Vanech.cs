@@ -1,4 +1,4 @@
-﻿namespace EnduranceJudge.Gateways.Desktop.Views.Content.Hardware;
+﻿namespace EMS.Judge.Views.Content.Hardware;
 
 public enum ConnectType
 {

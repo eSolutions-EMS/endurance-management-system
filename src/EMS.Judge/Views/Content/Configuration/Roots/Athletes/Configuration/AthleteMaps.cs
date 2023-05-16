@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using EnduranceJudge.Application.Core.Models;
-using EnduranceJudge.Core.Extensions;
-using EnduranceJudge.Core.Mappings;
-using EnduranceJudge.Domain.State.Athletes;
+using EMS.Core.Application.Core.Models;
+using EMS.Core.Extensions;
+using EMS.Core.Mappings;
+using EMS.Core.Domain.State.Athletes;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Athletes.Configuration;
+namespace EMS.Judge.Views.Content.Configuration.Roots.Athletes.Configuration;
 
 public class AthleteMaps : ICustomMapConfiguration
 {

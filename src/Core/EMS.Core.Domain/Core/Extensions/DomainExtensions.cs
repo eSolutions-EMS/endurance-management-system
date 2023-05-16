@@ -1,10 +1,10 @@
-﻿using EnduranceJudge.Core.Mappings;
-using EnduranceJudge.Domain.Core.Models;
+﻿using EMS.Core.Domain.Core.Models;
+using EMS.Core.Mappings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EnduranceJudge.Domain.Core.Extensions;
+namespace EMS.Core.Domain.Core.Extensions;
 
 public static class DomainExtensions
 {

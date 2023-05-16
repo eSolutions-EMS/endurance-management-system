@@ -1,4 +1,4 @@
-namespace EnduranceJudge.Domain.Enums;
+namespace EMS.Core.Domain.Enums;
 
 public enum CompetitionType
 {

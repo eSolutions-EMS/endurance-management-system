@@ -1,9 +1,9 @@
-﻿using EnduranceJudge.Gateways.Desktop.Core;
-using EnduranceJudge.Gateways.Desktop.Core.Services;
+﻿using EMS.Judge.Core;
+using EMS.Judge.Core.Services;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Events;
+namespace EMS.Judge.Views.Content.Configuration.Roots.Events;
 
 public partial class EnduranceEventView : UserControl, IView
 {

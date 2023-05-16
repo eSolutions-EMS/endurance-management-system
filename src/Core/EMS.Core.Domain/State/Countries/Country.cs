@@ -1,7 +1,7 @@
-using EnduranceJudge.Domain.Core.Models;
-using EnduranceJudge.Domain.Validation;
+using EMS.Core.Domain.Core.Models;
+using EMS.Core.Domain.Validation;
 
-namespace EnduranceJudge.Domain.State.Countries;
+namespace EMS.Core.Domain.State.Countries;
 
 public class Country : DomainBase<CountryException>, ICountryState
 {

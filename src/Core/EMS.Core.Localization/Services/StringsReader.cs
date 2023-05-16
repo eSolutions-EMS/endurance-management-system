@@ -1,12 +1,12 @@
-﻿using EnduranceJudge.Core.ConventionalServices;
-using EnduranceJudge.Core.Services;
+﻿using EMS.Core.ConventionalServices;
+using EMS.Core.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using static EnduranceJudge.Localization.LocalizationConstants;
+using static EMS.Core.Localization.LocalizationConstants;
 
-namespace EnduranceJudge.Localization.Services;
+namespace EMS.Core.Localization.Services;
 
 public class StringsReader : IStringsReader
 {

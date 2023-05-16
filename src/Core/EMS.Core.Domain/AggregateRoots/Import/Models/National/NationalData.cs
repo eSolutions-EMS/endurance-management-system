@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace EnduranceJudge.Domain.AggregateRoots.Import.Models.National;
+namespace EMS.Core.Domain.AggregateRoots.Import.Models.National;
 
 public class NationalData
 {

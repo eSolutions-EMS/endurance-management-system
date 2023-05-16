@@ -1,8 +1,8 @@
-using EnduranceJudge.Domain.Core.Models;
-using EnduranceJudge.Domain.Validation;
-using static EnduranceJudge.Localization.Strings;
+using EMS.Core.Domain.Core.Models;
+using EMS.Core.Domain.Validation;
+using static EMS.Core.Localization.Strings;
 
-namespace EnduranceJudge.Domain.State.Horses;
+namespace EMS.Core.Domain.State.Horses;
 
 public class Horse : DomainBase<HorseException>, IHorseState
 {

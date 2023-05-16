@@ -1,7 +1,7 @@
-﻿using EnduranceJudge.Core.Models;
-using EnduranceJudge.Domain.Enums;
+﻿using EMS.Core.Domain.Enums;
+using EMS.Core.Models;
 
-namespace EnduranceJudge.Domain.State.Athletes;
+namespace EMS.Core.Domain.State.Athletes;
 
 public interface IAthleteState : IIdentifiable
 {

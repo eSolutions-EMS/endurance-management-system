@@ -1,11 +1,11 @@
-﻿using EnduranceJudge.Application.Core;
-using EnduranceJudge.Domain.AggregateRoots.Configuration;
-using EnduranceJudge.Domain.Core.Models;
-using EnduranceJudge.Domain.State.Laps;
-using EnduranceJudge.Gateways.Desktop.Services;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core;
+﻿using EMS.Judge.Services;
+using EMS.Judge.Views.Content.Configuration.Core;
+using EMS.Core.Application.Core;
+using EMS.Core.Domain.AggregateRoots.Configuration;
+using EMS.Core.Domain.Core.Models;
+using EMS.Core.Domain.State.Laps;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Laps;
+namespace EMS.Judge.Views.Content.Configuration.Children.Laps;
 
 // TODO: Change IsFinal to checkbox
 public class LapViewModel : NestedConfigurationBase<LapView, Lap>, ILapState

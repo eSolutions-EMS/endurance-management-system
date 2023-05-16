@@ -1,12 +1,12 @@
-﻿using EnduranceJudge.Gateways.Desktop.Core;
-using EnduranceJudge.Gateways.Desktop.Services;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Athletes.Listing;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Events;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Horses.Listing;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Participants.Listing;
+﻿using EMS.Judge.Core;
+using EMS.Judge.Services;
+using EMS.Judge.Views.Content.Configuration.Roots.Athletes.Listing;
+using EMS.Judge.Views.Content.Configuration.Roots.Events;
+using EMS.Judge.Views.Content.Configuration.Roots.Horses.Listing;
+using EMS.Judge.Views.Content.Configuration.Roots.Participants.Listing;
 using Prism.Commands;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.ConfigurationMenu;
+namespace EMS.Judge.Views.Content.Configuration.ConfigurationMenu;
 
 public class EventNavigationStripViewModel : ViewModelBase
 {

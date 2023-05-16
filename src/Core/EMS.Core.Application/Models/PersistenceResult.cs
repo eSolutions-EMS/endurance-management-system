@@ -1,4 +1,4 @@
-﻿namespace EnduranceJudge.Application.Models;
+﻿namespace EMS.Core.Application.Models;
 
 public class PersistenceResult
 {

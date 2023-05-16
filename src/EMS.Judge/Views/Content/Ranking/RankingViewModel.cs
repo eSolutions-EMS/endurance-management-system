@@ -1,19 +1,19 @@
-﻿using EnduranceJudge.Domain.AggregateRoots.Ranking;
-using EnduranceJudge.Domain.AggregateRoots.Ranking.Aggregates;
-using EnduranceJudge.Domain.Enums;
-using EnduranceJudge.Gateways.Desktop.Core;
-using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem;
-using EnduranceJudge.Gateways.Desktop.Services;
-using EnduranceJudge.Gateways.Desktop.Print.Performances;
-using EnduranceJudge.Gateways.Desktop.Controls.Ranking;
+﻿using EMS.Judge.Controls.Ranking;
+using EMS.Judge.Core;
+using EMS.Judge.Core.Components.Templates.ListItem;
+using EMS.Judge.Print.Performances;
+using EMS.Judge.Services;
+using EMS.Core.Domain.AggregateRoots.Ranking;
+using EMS.Core.Domain.AggregateRoots.Ranking.Aggregates;
+using EMS.Core.Domain.Enums;
 using Prism.Commands;
 using Prism.Regions;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using static EnduranceJudge.Localization.Strings;
+using static EMS.Core.Localization.Strings;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Ranking;
+namespace EMS.Judge.Views.Content.Ranking;
 
 public class RankingViewModel : ViewModelBase
 {

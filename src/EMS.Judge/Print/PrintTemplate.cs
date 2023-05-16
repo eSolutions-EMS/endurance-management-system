@@ -1,6 +1,6 @@
-﻿using EnduranceJudge.Core.Services;
-using EnduranceJudge.Core.Utilities;
-using EnduranceJudge.Domain.State;
+﻿using EMS.Core.Services;
+using EMS.Core.Utilities;
+using EMS.Core.Domain.State;
 using Mairegger.Printing.Content;
 using Mairegger.Printing.Definition;
 using Mairegger.Printing.PrintProcessor;
@@ -14,7 +14,7 @@ using System.Windows.Media;
 using System.Xaml;
 using Brushes = System.Windows.Media.Brushes;
 
-namespace EnduranceJudge.Gateways.Desktop.Print;
+namespace EMS.Judge.Print;
 
 public abstract class PrintTemplate : PrintProcessor
 {

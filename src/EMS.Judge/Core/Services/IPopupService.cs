@@ -1,13 +1,13 @@
-﻿using EnduranceJudge.Core.ConventionalServices;
-using EnduranceJudge.Gateways.Desktop.Core.Extensions;
-using EnduranceJudge.Gateways.Desktop.Core.Objects;
-using EnduranceJudge.Gateways.Desktop.Views.Dialogs.Confirmation;
-using EnduranceJudge.Gateways.Desktop.Views.Dialogs.Message;
-using EnduranceJudge.Gateways.Desktop.Views.Dialogs.Startlists;
+﻿using EMS.Judge.Core.Objects;
+using EMS.Judge.Views.Dialogs.Confirmation;
+using EMS.Judge.Views.Dialogs.Message;
+using EMS.Judge.Views.Dialogs.Startlists;
+using EMS.Core.ConventionalServices;
+using EMS.Judge.Core.Extensions;
 using Prism.Services.Dialogs;
 using System;
 
-namespace EnduranceJudge.Gateways.Desktop.Core.Services;
+namespace EMS.Judge.Core.Services;
 
 public class PopupService : IPopupService
 {

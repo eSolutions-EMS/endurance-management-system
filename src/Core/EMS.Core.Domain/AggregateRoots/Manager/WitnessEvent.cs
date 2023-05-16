@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EnduranceJudge.Domain.AggregateRoots.Manager;
+namespace EMS.Core.Domain.AggregateRoots.Manager
 
 public class WitnessEvent
 {

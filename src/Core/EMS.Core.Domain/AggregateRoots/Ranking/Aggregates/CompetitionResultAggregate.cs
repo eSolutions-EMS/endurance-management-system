@@ -1,13 +1,13 @@
-﻿using EnduranceJudge.Domain.Core.Models;
-using EnduranceJudge.Domain.Enums;
-using EnduranceJudge.Domain.State.Competitions;
-using EnduranceJudge.Domain.State.EnduranceEvents;
-using EnduranceJudge.Domain.State.Participations;
+﻿using EMS.Core.Domain.Core.Models;
+using EMS.Core.Domain.Enums;
+using EMS.Core.Domain.State.Competitions;
+using EMS.Core.Domain.State.EnduranceEvents;
+using EMS.Core.Domain.State.Participations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EnduranceJudge.Domain.AggregateRoots.Ranking.Aggregates;
+namespace EMS.Core.Domain.AggregateRoots.Ranking.Aggregates;
 
 public class CompetitionResultAggregate : IAggregate, ICompetitionData
 {

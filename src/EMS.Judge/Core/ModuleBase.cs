@@ -1,15 +1,15 @@
-﻿using EnduranceJudge.Core.Models;
-using EnduranceJudge.Core.Utilities;
-using EnduranceJudge.Gateways.Desktop.Views.Dialogs.Confirmation;
-using EnduranceJudge.Gateways.Desktop.Views.Dialogs.Message;
-using EnduranceJudge.Gateways.Desktop.Views.Dialogs.Startlists;
+﻿using EMS.Judge.Views.Dialogs.Confirmation;
+using EMS.Judge.Views.Dialogs.Message;
+using EMS.Judge.Views.Dialogs.Startlists;
+using EMS.Core.Models;
+using EMS.Core.Utilities;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
 using System;
 using System.Collections.Generic;
 
-namespace EnduranceJudge.Gateways.Desktop.Core;
+namespace EMS.Judge.Core;
 
 public class ModuleBase : IModule
 {

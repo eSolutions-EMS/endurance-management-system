@@ -1,13 +1,13 @@
-﻿using EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates;
-using EnduranceJudge.Domain.Annotations;
-using EnduranceJudge.Domain.Core.Models;
-using EnduranceJudge.Domain.State.Laps;
-using EnduranceJudge.Domain.State.Results;
+﻿using EMS.Core.Domain.AggregateRoots.Manager.Aggregates;
+using EMS.Core.Domain.Annotations;
+using EMS.Core.Domain.Core.Models;
+using EMS.Core.Domain.State.Laps;
+using EMS.Core.Domain.State.Results;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace EnduranceJudge.Domain.State.LapRecords;
+namespace EMS.Core.Domain.State.LapRecords;
 
 public class LapRecord : DomainBase<LapRecordException>, ILapRecordState, INotifyPropertyChanged
 {

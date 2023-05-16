@@ -1,8 +1,8 @@
-using EnduranceJudge.Domain.Core.Models;
+using EMS.Core.Domain.Core.Models;
 using System;
-using static EnduranceJudge.Localization.Strings;
+using static EMS.Core.Localization.Strings;
 
-namespace EnduranceJudge.Domain.State.Results;
+namespace EMS.Core.Domain.State.Results;
 
 public class Result : DomainBase<ResultException>, IResultState
 {

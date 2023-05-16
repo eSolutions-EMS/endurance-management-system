@@ -1,4 +1,4 @@
-﻿<ScrollViewer x:Class="EnduranceJudge.Gateways.Desktop.Views.Dialogs.Message.MessageDialog"
+﻿<ScrollViewer x:Class="EMS.Judge.Views.Dialogs.Message.MessageDialog"
               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
               xmlns:mvvm="http://prismlibrary.com/"

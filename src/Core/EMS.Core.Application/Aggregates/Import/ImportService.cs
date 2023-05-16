@@ -1,12 +1,12 @@
-﻿using EnduranceJudge.Application.Services;
-using EnduranceJudge.Application.Core.Exceptions;
-using EnduranceJudge.Application.Aggregates.Import.Readers;
-using EnduranceJudge.Core.ConventionalServices;
-using EnduranceJudge.Core.Services;
-using EnduranceJudge.Domain.AggregateRoots.Import;
-using static EnduranceJudge.Localization.Strings;
+﻿using EMS.Core.Application.Aggregates.Import.Readers;
+using EMS.Core.Application.Core.Exceptions;
+using EMS.Core.Application.Services;
+using EMS.Core.ConventionalServices;
+using EMS.Core.Services;
+using EMS.Core.Domain.AggregateRoots.Import;
+using static EMS.Core.Localization.Strings;
 
-namespace EnduranceJudge.Application.Aggregates.Import;
+namespace EMS.Core.Application.Aggregates.Import;
 
 public class ImportService : IImportService
 {

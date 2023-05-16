@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EnduranceJudge.Core.Events;
+namespace EMS.Core.Events;
 
 public static class CoreEvents
 {

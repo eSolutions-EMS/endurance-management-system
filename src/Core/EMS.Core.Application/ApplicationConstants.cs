@@ -1,9 +1,9 @@
-using EnduranceJudge.Core.Utilities;
-using EnduranceJudge.Domain.State.Countries;
+using EMS.Core.Utilities;
+using EMS.Core.Domain.State.Countries;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace EnduranceJudge.Application;
+namespace EMS.Core.Application;
 
 public static class ApplicationConstants
 {
@@ -11,7 +11,7 @@ public static class ApplicationConstants
     {
         get
         {
-            var assemblies = ReflectionUtilities.GetAssemblies("EnduranceJudge.Application");
+            var assemblies = ReflectionUtilities.GetAssemblies("EMS.Core.Application");
             return assemblies;
         }
     }

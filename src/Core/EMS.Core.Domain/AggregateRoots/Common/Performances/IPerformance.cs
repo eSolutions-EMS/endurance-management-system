@@ -1,7 +1,7 @@
-using EnduranceJudge.Domain.State.LapRecords;
+using EMS.Core.Domain.State.LapRecords;
 using System;
 
-namespace EnduranceJudge.Domain.AggregateRoots.Common.Performances;
+namespace EMS.Core.Domain.AggregateRoots.Common.Performances;
 
 public interface IPerformance : ILapRecordState
 {

@@ -1,11 +1,11 @@
 ﻿using Accessibility;
-using EnduranceJudge.Core.Utilities;
-using EnduranceJudge.Domain.AggregateRoots.Common.Performances;
-using EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates;
-using EnduranceJudge.Domain.State.Participants;
-using EnduranceJudge.Domain.State.Participations;
-using EnduranceJudge.Gateways.Desktop.Print.Performances;
-using EnduranceJudge.Gateways.Desktop.Services;
+using EMS.Judge.Print.Performances;
+using EMS.Judge.Services;
+using EMS.Core.Utilities;
+using EMS.Core.Domain.AggregateRoots.Common.Performances;
+using EMS.Core.Domain.AggregateRoots.Manager.Aggregates;
+using EMS.Core.Domain.State.Participants;
+using EMS.Core.Domain.State.Participations;
 using Prism.Commands;
 using Prism.Mvvm;
 using System.Collections.Generic;
@@ -14,7 +14,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using System.Windows.Media;
 
-namespace EnduranceJudge.Gateways.Desktop.Controls.Manager;
+namespace EMS.Judge.Controls.Manager;
 
 public class ParticipationGridModel : BindableBase
 {

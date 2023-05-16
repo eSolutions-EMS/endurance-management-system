@@ -1,4 +1,4 @@
-﻿namespace EnduranceJudge.Application.Services;
+﻿namespace EMS.Core.Application.Services;
 
 public class Settings : ISettings
 {

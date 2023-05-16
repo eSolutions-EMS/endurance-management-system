@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using EnduranceJudge.Core.ConventionalServices;
+using EMS.Core.ConventionalServices;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
-namespace EnduranceJudge.Core;
+namespace EMS.Core;
 
 public static class CoreServices
 {

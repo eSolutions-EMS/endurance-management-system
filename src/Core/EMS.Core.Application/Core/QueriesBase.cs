@@ -1,10 +1,10 @@
-﻿using EnduranceJudge.Domain.Core.Models;
-using EnduranceJudge.Domain.State;
+﻿using EMS.Core.Domain.Core.Models;
+using EMS.Core.Domain.State;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EnduranceJudge.Application.Core;
+namespace EMS.Core.Application.Core;
 
 public abstract class QueriesBase<T> : IQueries<T>
     where T : IDomain

@@ -1,8 +1,8 @@
-﻿using EnduranceJudge.Gateways.Desktop.Core;
-using EnduranceJudge.Gateways.Desktop.Services;
+﻿using EMS.Judge.Core;
+using EMS.Judge.Services;
 using Prism.Commands;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Navigation;
+namespace EMS.Judge.Views.Navigation;
 
 public class NavigationViewModel : ViewModelBase
 {

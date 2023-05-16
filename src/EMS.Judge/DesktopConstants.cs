@@ -1,7 +1,7 @@
-using EnduranceJudge.Core.Utilities;
+using EMS.Core.Utilities;
 using System.Reflection;
 
-namespace EnduranceJudge.Gateways.Desktop;
+namespace EMS.Judge;
 
 public static class DesktopConstants
 {
@@ -16,7 +16,7 @@ public static class DesktopConstants
     {
         get
         {
-            var assemblies = ReflectionUtilities.GetAssemblies("EnduranceJudge.Gateways.Desktop");
+            var assemblies = ReflectionUtilities.GetAssemblies("EMS.Judge");
             return assemblies;
         }
     }

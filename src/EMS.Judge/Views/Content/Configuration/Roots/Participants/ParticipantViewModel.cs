@@ -1,19 +1,19 @@
-﻿using EnduranceJudge.Application.Core;
-using EnduranceJudge.Core.Mappings;
-using EnduranceJudge.Domain.AggregateRoots.Configuration;
-using EnduranceJudge.Domain.Core.Models;
-using EnduranceJudge.Domain.State.Athletes;
-using EnduranceJudge.Domain.State.Horses;
-using EnduranceJudge.Domain.State.Participants;
-using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
-using EnduranceJudge.Gateways.Desktop.Services;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core;
+﻿using EMS.Judge.Core.Components.Templates.SimpleListItem;
+using EMS.Judge.Services;
+using EMS.Judge.Views.Content.Configuration.Core;
+using EMS.Core.Application.Core;
+using EMS.Core.Mappings;
+using EMS.Core.Domain.AggregateRoots.Configuration;
+using EMS.Core.Domain.Core.Models;
+using EMS.Core.Domain.State.Athletes;
+using EMS.Core.Domain.State.Horses;
+using EMS.Core.Domain.State.Participants;
 using Prism.Commands;
 using Prism.Regions;
 using System.Collections.ObjectModel;
 using System.Windows;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Roots.Participants;
+namespace EMS.Judge.Views.Content.Configuration.Roots.Participants;
 
 public class ParticipantViewModel : ConfigurationBase<ParticipantView, Participant>,
     IParticipantState,

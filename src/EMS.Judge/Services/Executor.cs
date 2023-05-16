@@ -1,8 +1,8 @@
-﻿using EnduranceJudge.Application.Services;
-using EnduranceJudge.Core.ConventionalServices;
+﻿using EMS.Core.Application.Services;
+using EMS.Core.ConventionalServices;
 using System;
 
-namespace EnduranceJudge.Gateways.Desktop.Services;
+namespace EMS.Judge.Services;
 
 public class Executor<T> : IExecutor<T>
     where T : IService

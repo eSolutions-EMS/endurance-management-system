@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Dialogs.Confirmation;
+namespace EMS.Judge.Views.Dialogs.Confirmation;
 
 public partial class ConfirmationDialog : UserControl
 {

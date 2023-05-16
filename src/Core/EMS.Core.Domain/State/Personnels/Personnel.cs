@@ -1,7 +1,7 @@
-using EnduranceJudge.Domain.Core.Models;
-using EnduranceJudge.Domain.Enums;
+using EMS.Core.Domain.Core.Models;
+using EMS.Core.Domain.Enums;
 
-namespace EnduranceJudge.Domain.State.Personnels;
+namespace EMS.Core.Domain.State.Personnels;
 
 public class Personnel : DomainBase<PersonnelException>, IPersonnelState
 {

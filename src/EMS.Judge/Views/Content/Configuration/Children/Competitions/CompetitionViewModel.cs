@@ -1,26 +1,26 @@
-﻿using EnduranceJudge.Application.Core;
-using EnduranceJudge.Domain.AggregateRoots.Configuration;
-using EnduranceJudge.Domain.Core.Models;
-using EnduranceJudge.Domain.State.Competitions;
-using EnduranceJudge.Domain.Enums;
-using EnduranceJudge.Domain.State.Participations;
-using EnduranceJudge.Gateways.Desktop.Core;
-using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.ListItem;
-using EnduranceJudge.Gateways.Desktop.Core.Components.Templates.SimpleListItem;
-using EnduranceJudge.Gateways.Desktop.Services;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Competitions.AddParticipants;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Laps;
-using EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Core;
-using static EnduranceJudge.Localization.Strings;
+﻿using EMS.Judge.Core;
+using EMS.Judge.Core.Components.Templates.ListItem;
+using EMS.Judge.Core.Components.Templates.SimpleListItem;
+using EMS.Judge.Services;
+using EMS.Judge.Views.Content.Configuration.Children.Competitions.AddParticipants;
+using EMS.Judge.Views.Content.Configuration.Children.Laps;
+using EMS.Judge.Views.Content.Configuration.Core;
+using EMS.Core.Application.Core;
+using EMS.Core.Domain.AggregateRoots.Configuration;
+using EMS.Core.Domain.Core.Models;
+using EMS.Core.Domain.State.Competitions;
+using EMS.Core.Domain.Enums;
+using EMS.Core.Domain.State.Participations;
+using static EMS.Core.Localization.Strings;
 using Prism.Commands;
 using Prism.Regions;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using static EnduranceJudge.Gateways.Desktop.DesktopConstants;
+using static EMS.Judge.DesktopConstants;
 
-namespace EnduranceJudge.Gateways.Desktop.Views.Content.Configuration.Children.Competitions;
+namespace EMS.Judge.Views.Content.Configuration.Children.Competitions;
 
 public class CompetitionViewModel : NestedConfigurationBase<CompetitionView, Competition>,
     ICompetitionState,
@@ -99,7 +99,7 @@ public class CompetitionViewModel : NestedConfigurationBase<CompetitionView, Com
     private void NavigateToAddParticipants()
     {
         var tuple = (this.Id, this.Name);
-        var parameter = new NavigationParameter(NavigationParametersKeys.DATA, tuple);
+        var parameter = new NavigationParameter(DesktopConstants.NavigationParametersKeys.DATA, tuple);
         this.Navigation.ChangeTo<AddParticipantsView>(parameter);
     }
 

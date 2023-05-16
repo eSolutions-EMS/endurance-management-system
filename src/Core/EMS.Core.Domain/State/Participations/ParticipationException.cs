@@ -1,6 +1,6 @@
-﻿using EnduranceJudge.Domain.Core.Exceptions;
+﻿using EMS.Core.Domain.Core.Exceptions;
 
-namespace EnduranceJudge.Domain.State.Participations;
+namespace EMS.Core.Domain.State.Participations;
 
 public class ParticipationException : DomainExceptionBase
 {

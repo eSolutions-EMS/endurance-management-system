@@ -1,7 +1,7 @@
-﻿using EnduranceJudge.Core.Models;
+﻿using EMS.Core.Models;
 using System;
 
-namespace EnduranceJudge.Domain.State.LapRecords;
+namespace EMS.Core.Domain.State.LapRecords;
 
 public interface ILapRecordState : IIdentifiable
 {

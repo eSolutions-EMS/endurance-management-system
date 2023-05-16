@@ -1,12 +1,12 @@
-﻿using EnduranceJudge.Core.ConventionalServices;
-using EnduranceJudge.Core.Services;
+﻿using EMS.Core.ConventionalServices;
+using EMS.Core.Services;
 using System.IO;
 using System.Printing;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Xps.Packaging;
 
-namespace EnduranceJudge.Gateways.Desktop.Services;
+namespace EMS.Judge.Services;
 
 public class SimplePrinter : ISimplePrinter
 {

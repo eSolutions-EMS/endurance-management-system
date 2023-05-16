@@ -1,7 +1,7 @@
-using EnduranceJudge.Core.Mappings;
+using EMS.Core.Mappings;
 using System.Reflection;
 
-namespace EnduranceJudge.Gateways.Desktop.Core;
+namespace EMS.Judge.Core;
 
 public class DesktopMappingProfile : MappingProfile
 {

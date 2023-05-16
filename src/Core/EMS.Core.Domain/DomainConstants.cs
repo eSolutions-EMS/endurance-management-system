@@ -1,12 +1,12 @@
-using EnduranceJudge.Core.Utilities;
-using EnduranceJudge.Domain.State.Competitions;
-using EnduranceJudge.Domain.State.Participants;
-using EnduranceJudge.Domain.State.Participations;
-using EnduranceJudge.Domain.AggregateRoots.Common.Performances;
-using EnduranceJudge.Domain.State.Laps;
+using EMS.Core.Domain.AggregateRoots.Common.Performances;
+using EMS.Core.Domain.State.Competitions;
+using EMS.Core.Domain.State.Laps;
+using EMS.Core.Domain.State.Participants;
+using EMS.Core.Domain.State.Participations;
+using EMS.Core.Utilities;
 using System.Reflection;
 
-namespace EnduranceJudge.Domain;
+namespace EMS.Core.Domain;
 
 public static class DomainConstants
 {
@@ -23,7 +23,7 @@ public static class DomainConstants
     {
         get
         {
-            var assemblies = ReflectionUtilities.GetAssemblies("EnduranceJudge.Domain");
+            var assemblies = ReflectionUtilities.GetAssemblies("EMS.Core.Domain");
             return assemblies;
         }
     }

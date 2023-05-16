@@ -1,8 +1,8 @@
-using EnduranceJudge.Gateways.Desktop.Core;
-using EnduranceJudge.Gateways.Desktop.Services;
+using EMS.Judge.Core;
+using EMS.Judge.Services;
 using Prism.Ioc;
 
-namespace EnduranceJudge.Gateways.Desktop;
+namespace EMS.Judge;
 
 public class EntryModule : ModuleBase
 {

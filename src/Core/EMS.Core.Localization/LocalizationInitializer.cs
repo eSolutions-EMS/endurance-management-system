@@ -1,8 +1,8 @@
-﻿using EnduranceJudge.Core.Services;
-using EnduranceJudge.Localization.Services;
+﻿using EMS.Core.Localization.Services;
+using EMS.Core.Services;
 using System;
 
-namespace EnduranceJudge.Localization;
+namespace EMS.Core.Localization;
 
 public class LocalizationInitializer : IInitializer
 {

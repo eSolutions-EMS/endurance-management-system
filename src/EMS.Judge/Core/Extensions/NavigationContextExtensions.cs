@@ -1,8 +1,8 @@
 ﻿using Prism.Regions;
 using System;
-using static EnduranceJudge.Gateways.Desktop.DesktopConstants;
+using static EMS.Judge.DesktopConstants;
 
-namespace EnduranceJudge.Gateways.Desktop.Core.Extensions;
+namespace EMS.Judge.Core.Extensions;
 
 public static class NavigationContextExtensions
 {

@@ -1,4 +1,4 @@
-﻿namespace EnduranceJudge.Domain.Core.Exceptions;
+﻿namespace EMS.Core.Domain.Core.Exceptions;
 
 public class DomainException : DomainExceptionBase
 {

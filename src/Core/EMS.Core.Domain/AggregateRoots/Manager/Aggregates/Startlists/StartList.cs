@@ -1,11 +1,11 @@
-﻿using EnduranceJudge.Domain.AggregateRoots.Common.Performances;
-using EnduranceJudge.Domain.State.Participations;
+﻿using EMS.Core.Domain.AggregateRoots.Common.Performances;
+using EMS.Core.Domain.State.Participations;
 using Microsoft.EntityFrameworkCore.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates.Startlists;
+namespace EMS.Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 
 public class Startlist
 {

@@ -1,18 +1,18 @@
-﻿using EnduranceJudge.Application.Core.Services;
-using EnduranceJudge.Core.ConventionalServices;
-using EnduranceJudge.Core.Events;
-using EnduranceJudge.Domain.AggregateRoots.Manager;
-using EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates.Startlists;
-using EnduranceJudge.Domain.AggregateRoots.Manager.WitnessEvents;
+﻿using EMS.Core.Application.Core.Services;
+using EMS.Core.ConventionalServices;
+using EMS.Core.Events;
+using EMS.Core.Domain.AggregateRoots.Manager;
+using EMS.Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
+using EMS.Core.Domain.AggregateRoots.Manager.WitnessEvents;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
-using static EnduranceJudge.Application.ApplicationConstants;
+using static EMS.Core.Application.ApplicationConstants;
 
-namespace EnduranceJudge.Application.Services;
+namespace EMS.Core.Application.Services;
 
 public class DataService : IDataService
 {
@@ -48,7 +48,7 @@ public class DataService : IDataService
         using var client = new HttpClient();
         try
         {
-            var response = await client.PostAsJsonAsync($"{API_HOST}/{Api.STARTLIST}", startlist);
+            var response = await client.PostAsJsonAsync($"{API_HOST}/{ApplicationConstants.Api.STARTLIST}", startlist);
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception(
