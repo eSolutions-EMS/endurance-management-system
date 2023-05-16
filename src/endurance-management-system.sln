@@ -19,12 +19,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "config", "config", "{F272C7
 	ProjectSection(SolutionItems) = preProject
 		stylecop.json = stylecop.json
 		Global.ruleset = Global.ruleset
-		EMS.sln.DotSettings = EMS.sln.DotSettings
 		Directory.Build.targets = Directory.Build.targets
 		.editorconfig = .editorconfig
 		..\publish.sh = ..\publish.sh
 		..\README.md = ..\README.md
 		..\global.json = ..\global.json
+		endurance-management-system.sln.DotSettings = endurance-management-system.sln.DotSettings
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EMS.Judge.Api", "EMS.Judge.Api\EMS.Judge.Api.csproj", "{96487A96-7599-40DE-B1A4-427DFB8E4445}"
