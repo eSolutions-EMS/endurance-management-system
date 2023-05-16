@@ -1,9 +1,9 @@
-﻿using EnduranceJudge.Core.ConventionalServices;
+﻿using EMS.Core.ConventionalServices;
 using System;
 using System.Net;
 using System.Net.Sockets;
 
-namespace Endurance.Judge.Gateways.API.Services
+namespace EMS.Judge.Api.Services
 {
     public class Network : INetwork
     {

@@ -1,13 +1,14 @@
-﻿using Endurance.Judge.Gateways.API.Requests;
-using Endurance.Judge.Gateways.API.Services;
-using EnduranceJudge.Domain.AggregateRoots.Manager;
+﻿using EMS.Core.Application;
+using EMS.Core.Domain.AggregateRoots.Manager;
+using EMS.Judge.Api.Requests;
+using EMS.Judge.Api.Services;
 using Microsoft.AspNetCore.Mvc;
-using static EnduranceJudge.Application.ApplicationConstants;
+using static EMS.Core.Application.ApplicationConstants;
 
-namespace Endurance.Judge.Gateways.API.Controllers
+namespace EMS.Judge.Api.Controllers
 {
     [ApiController]
-    [Route(Api.WITNESS)]
+    [Route(ApplicationConstants.Api.WITNESS)]
     public class WitnessController : ControllerBase
     {
         private readonly IStateEventService stateEventService;

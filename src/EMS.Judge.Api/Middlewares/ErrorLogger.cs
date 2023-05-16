@@ -1,9 +1,9 @@
-﻿using Endurance.Judge.Gateways.API.Services;
+﻿using EMS.Judge.Api.Services;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Threading.Tasks;
 
-namespace Endurance.Judge.Gateways.API.Middlewares
+namespace EMS.Judge.Api.Middlewares
 {
     public class ErrorLogger : IMiddleware
     {

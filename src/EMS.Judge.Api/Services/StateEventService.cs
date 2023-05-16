@@ -1,11 +1,11 @@
-﻿using Endurance.Judge.Gateways.API.Requests;
-using EnduranceJudge.Core.ConventionalServices;
-using EnduranceJudge.Domain.AggregateRoots.Manager;
+﻿using EMS.Core.ConventionalServices;
+using EMS.Core.Domain.AggregateRoots.Manager;
+using EMS.Judge.Api.Requests;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Endurance.Judge.Gateways.API.Services
+namespace EMS.Judge.Api.Services
 {
     public class StateEventService : IStateEventService
     {

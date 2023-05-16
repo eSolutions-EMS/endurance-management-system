@@ -1,7 +1,7 @@
-﻿using EnduranceJudge.Domain.AggregateRoots.Manager;
+﻿using EMS.Core.Domain.AggregateRoots.Manager;
 using System;
 
-namespace Endurance.Judge.Gateways.API.Requests
+namespace EMS.Judge.Api.Requests
 {
     public class WitnessRequest
     {

@@ -1,9 +1,9 @@
-﻿using EnduranceJudge.Core.ConventionalServices;
-using EnduranceJudge.Domain.AggregateRoots.Manager.Aggregates.Startlists;
+﻿using EMS.Core.ConventionalServices;
+using EMS.Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Endurance.Judge.Gateways.API.Services
+namespace EMS.Judge.Api.Services
 {
     public class StartlistStateService : IStartlistStateService
     {

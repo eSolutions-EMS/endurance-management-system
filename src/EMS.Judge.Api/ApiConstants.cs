@@ -1,7 +1,7 @@
-﻿using EnduranceJudge.Core.Utilities;
+﻿using EMS.Core.Utilities;
 using System.Reflection;
 
-namespace Endurance.Judge.Gateways.API
+namespace EMS.Judge.Api
 {
     public class ApiConstants
     {

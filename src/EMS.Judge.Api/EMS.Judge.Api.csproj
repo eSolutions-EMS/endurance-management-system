@@ -2,8 +2,6 @@
 
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
-        <RootNamespace>Endurance.Judge.Gateways.API</RootNamespace>
-        <AssemblyName>Endurance.Judge.Gateways.API</AssemblyName>
     </PropertyGroup>
 
     <ItemGroup>
@@ -12,9 +10,10 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Application\Application.csproj" />
-      <ProjectReference Include="..\..\Core\Core.csproj" />
-      <ProjectReference Include="..\..\Domain\Domain.csproj" />
+      <ProjectReference Include="..\Core\EMS.Core.Application\EMS.Core.Application.csproj" />
+      <ProjectReference Include="..\Core\EMS.Core.Domain\EMS.Core.Domain.csproj" />
+      <ProjectReference Include="..\Core\EMS.Core.Localization\EMS.Core.Localization.csproj" />
+      <ProjectReference Include="..\Core\EMS.Core\EMS.Core.csproj" />
     </ItemGroup>
 
 </Project>

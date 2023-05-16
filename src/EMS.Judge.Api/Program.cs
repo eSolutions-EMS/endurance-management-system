@@ -1,8 +1,8 @@
-using EnduranceJudge.Core.Mappings;
+using EMS.Core.Mappings;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace Endurance.Judge.Gateways.API
+namespace EMS.Judge.Api
 {
     public class Program
     {

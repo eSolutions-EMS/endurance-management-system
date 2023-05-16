@@ -1,11 +1,10 @@
-﻿using EnduranceJudge.Application.Models;
-using EnduranceJudge.Core.ConventionalServices;
-using EnduranceJudge.Core.Services;
-using EnduranceJudge.Domain.AggregateRoots.Manager;
+﻿using EMS.Core.ConventionalServices;
+using EMS.Core.Services;
+using EMS.Core.Domain.AggregateRoots.Manager;
 using System;
 using System.IO;
 
-namespace Endurance.Judge.Gateways.API.Services
+namespace EMS.Judge.Api.Services
 {
     public class Logger : ILogger
     {
