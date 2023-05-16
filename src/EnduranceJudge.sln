@@ -15,6 +15,18 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EMS.Core.Localization", "Co
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EMS.Judge", "EMS.Judge\EMS.Judge.csproj", "{4EDE046D-50DE-46DF-84D7-D87A5CDD429A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "config", "config", "{F272C7E7-B2BB-423A-9455-11B38B39A381}"
+	ProjectSection(SolutionItems) = preProject
+		stylecop.json = stylecop.json
+		Global.ruleset = Global.ruleset
+		EnduranceJudge.sln.DotSettings = EnduranceJudge.sln.DotSettings
+		Directory.Build.targets = Directory.Build.targets
+		.editorconfig = .editorconfig
+		..\publish.sh = ..\publish.sh
+		..\README.md = ..\README.md
+		..\global.json = ..\global.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
