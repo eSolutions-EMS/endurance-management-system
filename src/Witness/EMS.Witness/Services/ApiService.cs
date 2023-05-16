@@ -1,12 +1,12 @@
 ﻿using EMS.Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
-using Endurance.Gateways.Witness.Models;
-using Endurance.Gateways.Witness.Platforms.iOS.Permissions;
-using Endurance.Gateways.Witness.Shared.Toasts;
+using EMS.Witness.Models;
+using EMS.Witness.Platforms.iOS.Permissions;
+using EMS.Witness.Shared.Toasts;
 using System.Net.Http.Json;
 using System.Text.Json;
 using static EMS.Core.Application.CoreApplicationConstants;
 
-namespace Endurance.Gateways.Witness.Services;
+namespace EMS.Witness.Services;
 
 public class ApiService : IApiService
 {

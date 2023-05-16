@@ -1,6 +1,6 @@
 ﻿using EMS.Core.Domain.AggregateRoots.Manager;
 
-namespace Endurance.Gateways.Witness.Models;
+namespace EMS.Witness.Models;
 
 public class ManualWitnessEvent : WitnessEvent
 {

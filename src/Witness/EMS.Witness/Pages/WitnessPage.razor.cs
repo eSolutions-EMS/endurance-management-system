@@ -1,10 +1,11 @@
-﻿using Endurance.Gateways.Witness.Models;
-using Endurance.Gateways.Witness.Services;
-using EnduranceJudge.Application.Services;
+﻿using EnduranceJudge.Application.Services;
 using EMS.Core.Domain.AggregateRoots.Manager;
+using EMS.Witness.Models;
+using EMS.Witness.Services;
 using Microsoft.AspNetCore.Components;
 
-namespace Endurance.Gateways.Witness.Pages;
+namespace EMS.Witness.Pages;
+
 public partial class WitnessPage : ComponentBase
 {
     [Inject] private IDateService DateService { get; set; } = null!;

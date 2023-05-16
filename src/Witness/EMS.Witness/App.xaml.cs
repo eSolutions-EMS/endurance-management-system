@@ -1,4 +1,4 @@
-﻿namespace Endurance.Gateways.Witness;
+﻿namespace EMS.Witness;
 
 public partial class App : Application
 {

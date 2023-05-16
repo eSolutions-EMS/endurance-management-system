@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace Endurance.Gateways.Witness;
+namespace EMS.Witness;
 
 [Register("AppDelegate")]
 public class AppDelegate : MauiUIApplicationDelegate

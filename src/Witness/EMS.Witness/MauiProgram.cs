@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Components.WebView.Maui;
-using Endurance.Gateways.Witness.Services;
+﻿using EMS.Witness.Services;
+using Microsoft.AspNetCore.Components.WebView.Maui;
 using EnduranceJudge.Application.Services;
 
-namespace Endurance.Gateways.Witness;
+namespace EMS.Witness;
 
 public static class MauiProgram
 {

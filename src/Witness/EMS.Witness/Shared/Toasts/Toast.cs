@@ -1,4 +1,4 @@
-﻿namespace Endurance.Gateways.Witness.Shared.Toasts;
+﻿namespace EMS.Witness.Shared.Toasts;
 public class Toast
 {
     private readonly DateTimeOffset posted;

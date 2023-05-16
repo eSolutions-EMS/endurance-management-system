@@ -1,7 +1,7 @@
-﻿using Endurance.Gateways.Witness.Shared.Toasts;
+﻿using EMS.Witness.Shared.Toasts;
 using System.Timers;
 
-namespace Endurance.Gateways.Witness.Services;
+namespace EMS.Witness.Services;
 public class ToasterService : IDisposable
 {
     private readonly List<Toast> toastList = new();

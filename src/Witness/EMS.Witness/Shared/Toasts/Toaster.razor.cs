@@ -1,7 +1,7 @@
-﻿using Endurance.Gateways.Witness.Services;
+﻿using EMS.Witness.Services;
 using Microsoft.AspNetCore.Components;
 
-namespace Endurance.Gateways.Witness.Shared.Toasts;
+namespace EMS.Witness.Shared.Toasts;
 
 public partial class Toaster : ComponentBase, IDisposable
 {

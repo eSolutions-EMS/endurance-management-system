@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace Endurance.Gateways.Witness;
+namespace EMS.Witness;
 
 public class Program
 {

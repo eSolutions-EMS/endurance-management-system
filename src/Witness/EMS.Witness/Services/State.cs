@@ -1,6 +1,6 @@
-﻿using Endurance.Gateways.Witness.Models;
+﻿using EMS.Witness.Models;
 
-namespace Endurance.Gateways.Witness.Services;
+namespace EMS.Witness.Services;
 
 public class State : IState
 {
