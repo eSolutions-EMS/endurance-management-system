@@ -27,6 +27,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "config", "config", "{F272C7
 		..\global.json = ..\global.json
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EMS.Judge.Api", "EMS.Judge.Api\EMS.Judge.Api.csproj", "{96487A96-7599-40DE-B1A4-427DFB8E4445}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -53,6 +55,10 @@ Global
 		{4EDE046D-50DE-46DF-84D7-D87A5CDD429A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4EDE046D-50DE-46DF-84D7-D87A5CDD429A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4EDE046D-50DE-46DF-84D7-D87A5CDD429A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96487A96-7599-40DE-B1A4-427DFB8E4445}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96487A96-7599-40DE-B1A4-427DFB8E4445}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96487A96-7599-40DE-B1A4-427DFB8E4445}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96487A96-7599-40DE-B1A4-427DFB8E4445}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

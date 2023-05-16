@@ -9,7 +9,7 @@ namespace Endurance.Judge.Gateways.API
         {
             get
             {
-                var assemblies = ReflectionUtilities.GetAssemblies("Endurance.Judge.Gateways.API");
+                var assemblies = ReflectionUtilities.GetAssemblies("Endurance.Judge.Gateways.EMS.Judge.Api");
                 return assemblies;
             }
         }

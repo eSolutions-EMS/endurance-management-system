@@ -52,14 +52,14 @@ public class DataService : IDataService
             if (!response.IsSuccessStatusCode)
             {
                 throw new Exception(
-                    $"Failed to send Startlist data to API: {response.StatusCode}" +
+                    $"Failed to send Startlist data to EMS.Judge.Api: {response.StatusCode}" +
                     Environment.NewLine +
                     response.Content);
             }
         }
         catch (Exception exception)
         {
-            var error  = new Exception("Failed to update Startlist in API", exception);
+            var error  = new Exception("Failed to update Startlist in EMS.Judge.Api", exception);
             CoreEvents.RaiseError(error);
         }
     }
