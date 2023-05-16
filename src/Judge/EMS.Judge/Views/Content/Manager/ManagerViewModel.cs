@@ -4,7 +4,6 @@ using EMS.Judge.Core.Services;
 using EMS.Judge.Events;
 using EMS.Judge.Services;
 using EMS.Judge.Application.Core;
-using EMS.Judge.Application.Services;
 using EMS.Core.Domain.AggregateRoots.Manager;
 using EMS.Core.Domain.State.Participations;
 using Prism.Commands;

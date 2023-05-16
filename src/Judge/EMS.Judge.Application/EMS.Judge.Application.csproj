@@ -12,9 +12,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\EMS.Core.Application\EMS.Core.Application.csproj" />
-    <ProjectReference Include="..\..\EMS.Core.Domain\EMS.Core.Domain.csproj" />
-    <ProjectReference Include="..\..\EMS.Core.Localization\EMS.Core.Localization.csproj" />
-    <ProjectReference Include="..\..\EMS.Core\EMS.Core.csproj" />
+    <ProjectReference Include="..\..\Core.Domain\Core.Domain.csproj" />
+    <ProjectReference Include="..\..\Core.Localization\Core.Localization.csproj" />
+    <ProjectReference Include="..\..\Core\Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

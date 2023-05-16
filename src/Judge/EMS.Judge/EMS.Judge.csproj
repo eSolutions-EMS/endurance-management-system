@@ -25,9 +25,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\EMS.Core.Domain\EMS.Core.Domain.csproj" />
-    <ProjectReference Include="..\..\EMS.Core.Localization\EMS.Core.Localization.csproj" />
-    <ProjectReference Include="..\..\EMS.Core\EMS.Core.csproj" />
+    <ProjectReference Include="..\..\Core.Domain\Core.Domain.csproj" />
+    <ProjectReference Include="..\..\Core.Localization\Core.Localization.csproj" />
+    <ProjectReference Include="..\..\Core\Core.csproj" />
     <ProjectReference Include="..\EMS.Judge.Api\EMS.Judge.Api.csproj" />
     <ProjectReference Include="..\EMS.Judge.Application\EMS.Judge.Application.csproj" />
   </ItemGroup>

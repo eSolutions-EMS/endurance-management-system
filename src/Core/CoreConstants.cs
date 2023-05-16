@@ -9,7 +9,7 @@ public static class CoreConstants
     {
         get
         {
-            var assemblies = ReflectionUtilities.GetAssemblies("EMS.Core");
+            var assemblies = ReflectionUtilities.GetAssemblies("Core");
             return assemblies;
         }
     }

@@ -40,7 +40,7 @@ public static class LocalizationConstants
     {
         get
         {
-            var assemblies = ReflectionUtilities.GetAssemblies("EMS.Core.Localization");
+            var assemblies = ReflectionUtilities.GetAssemblies("Core.Localization");
             return assemblies;
         }
     }

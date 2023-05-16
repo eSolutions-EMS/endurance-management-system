@@ -23,7 +23,7 @@ public static class DomainConstants
     {
         get
         {
-            var assemblies = ReflectionUtilities.GetAssemblies("EMS.Core.Domain");
+            var assemblies = ReflectionUtilities.GetAssemblies("Core.Domain");
             return assemblies;
         }
     }

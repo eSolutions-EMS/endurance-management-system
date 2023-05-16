@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:laps="clr-namespace:EMS.Judge.Views.Content.Configuration.Children.Laps"
-                    xmlns:localization="clr-namespace:EMS.Core.Localization;assembly=EMS.Core.Localization">
+                    xmlns:localization="clr-namespace:EMS.Core.Localization;assembly=Core.Localization">
 
     <DataTemplate DataType="{x:Type laps:LapViewModel}">
         <DockPanel Style="{StaticResource Stretch-Last}">
