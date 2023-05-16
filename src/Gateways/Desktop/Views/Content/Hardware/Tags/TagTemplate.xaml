@@ -4,11 +4,12 @@
                     xmlns:tags="clr-namespace:EnduranceJudge.Gateways.Desktop.Views.Content.Hardware.Tags">
 
     <DataTemplate DataType="{x:Type tags:TagViewModel}">
-        <StackPanel Style="{StaticResource List-Horizontal}">
+        <StackPanel Style="{StaticResource List-Horizontal}" Background="{Binding Color}">
             <Border Style="{StaticResource Border-Cell}" Padding="10px 5px">
-                <TextBlock Text="{Binding DetectedCount}" FontSize="16" />
+                <TextBlock Text="{Binding DetectedCount}" FontSize="16" Width="30px"/>
             </Border>
-            <TextBlock Text="{Binding Id}" FontSize="16" Padding="10px 0 0 0" />
+            <TextBlock Text="{Binding Id}" FontSize="16" Padding="10px 0 0 0" Width="200px"/>
+            <TextBox Text="{Binding Name}" FontSize="16" Margin="10px 0 0 0" Padding="10px 0 10px 0" Width="200px" />
         </StackPanel>
-    </DataTemplate> 
+    </DataTemplate>
 </ResourceDictionary>

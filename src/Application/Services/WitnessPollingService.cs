@@ -8,6 +8,7 @@ namespace EnduranceJudge.Application.Services;
 
 public class WitnessPollingService : IWitnessPollingService
 {
+    private int FREQUENCY_MS = 5000;
     private readonly CancellationTokenSource polling = new();
     private readonly ISettings settings;
     private readonly ILogger logger;
@@ -44,7 +45,7 @@ public class WitnessPollingService : IWitnessPollingService
 
     private void StartPollingInBackground()
         => Task.Run(() => this.PollEventApi(this.polling.Token));
-    
+
     private async Task PollEventApi(CancellationToken cancellationToken)
     {
         this.isPolling = true;
@@ -68,7 +69,7 @@ public class WitnessPollingService : IWitnessPollingService
                 // perhaps add another type of log here later on
                 Console.WriteLine(exception.Message);
                 Console.WriteLine(exception.StackTrace);
-                await Task.Delay(5000, cancellationToken);
+                await Task.Delay(FREQUENCY_MS, cancellationToken);
             }
         }
     }
@@ -79,13 +80,13 @@ public class WitnessPollingService : IWitnessPollingService
         {
             // TODO: check if initialized
             await this.AddEvents();
-            await Task.Delay(5000);
+            await Task.Delay(FREQUENCY_MS);
         }
         catch (Exception exception)
         {
             // this.persistence.SaveState();
             this.logger.LogEventError(exception);
-            await Task.Delay(5000);
+            await Task.Delay(FREQUENCY_MS);
         }
     }
 
