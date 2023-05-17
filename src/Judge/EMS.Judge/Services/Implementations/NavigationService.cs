@@ -1,5 +1,5 @@
-﻿using EMS.Judge.Core;
-using EMS.Judge.Core.Services.Implementations;
+﻿using EMS.Judge.Common;
+using EMS.Judge.Common.Services.Implementations;
 using EMS.Judge.Views.Content.Configuration.ConfigurationMenu;
 using EMS.Judge.Views.Content.Configuration.Roots.Events;
 using EMS.Judge.Views.Content.Hardware;

@@ -1,4 +1,4 @@
-﻿using EMS.Judge.Core;
+﻿using EMS.Judge.Common;
 using Core.ConventionalServices;
 using System;
 

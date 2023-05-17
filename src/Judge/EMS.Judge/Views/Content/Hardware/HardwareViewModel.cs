@@ -1,5 +1,5 @@
-﻿using EMS.Judge.Core;
-using EMS.Judge.Core.Services;
+﻿using EMS.Judge.Common;
+using EMS.Judge.Common.Services;
 using EMS.Judge.Views.Content.Hardware.Tags;
 using EMS.Judge.Views.Content.Manager;
 using EMS.Judge.Application.Core;

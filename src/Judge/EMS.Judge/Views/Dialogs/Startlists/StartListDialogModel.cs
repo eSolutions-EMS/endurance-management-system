@@ -1,5 +1,5 @@
-﻿using EMS.Judge.Core.Services;
-using EMS.Judge.Core.ViewModels;
+﻿using EMS.Judge.Common.Services;
+using EMS.Judge.Common.ViewModels;
 using EMS.Judge.Services;
 using Core.Domain.AggregateRoots.Manager;
 using Prism.Commands;

@@ -1,5 +1,5 @@
 ﻿using EMS.Judge.Controls.Manager;
-using EMS.Judge.Core;
+using EMS.Judge.Common;
 using Core.Domain.AggregateRoots.Common.Performances;
 using Core.Domain.State.LapRecords;
 using Core.Domain.State.Participations;

@@ -1,4 +1,4 @@
-﻿using EMS.Judge.Core;
+﻿using EMS.Judge.Common;
 using EMS.Judge.Services;
 using Core.Utilities;
 using Core.Domain.AggregateRoots.Manager;

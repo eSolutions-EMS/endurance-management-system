@@ -1,6 +1,6 @@
-﻿using EMS.Judge.Core.Components.Templates.ListItem;
-using EMS.Judge.Core.Services;
-using EMS.Judge.Core.ViewModels;
+﻿using EMS.Judge.Common.Components.Templates.ListItem;
+using EMS.Judge.Common.Services;
+using EMS.Judge.Common.ViewModels;
 using EMS.Judge.Services;
 using EMS.Judge.Application.Services;
 using EMS.Judge.Application.Core;
@@ -9,7 +9,7 @@ using Core.Mappings;
 using Core.Domain.AggregateRoots.Configuration;
 using Core.Domain.State.Participants;
 using Core.Domain.State.Participations;
-using EMS.Judge.Core.Extensions;
+using EMS.Judge.Common.Extensions;
 using static Core.Localization.Strings;
 using Prism.Commands;
 using Prism.Regions;

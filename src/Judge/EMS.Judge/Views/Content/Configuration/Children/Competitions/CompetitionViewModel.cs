@@ -1,6 +1,6 @@
-﻿using EMS.Judge.Core;
-using EMS.Judge.Core.Components.Templates.ListItem;
-using EMS.Judge.Core.Components.Templates.SimpleListItem;
+﻿using EMS.Judge.Common;
+using EMS.Judge.Common.Components.Templates.ListItem;
+using EMS.Judge.Common.Components.Templates.SimpleListItem;
 using EMS.Judge.Services;
 using EMS.Judge.Views.Content.Configuration.Children.Competitions.AddParticipants;
 using EMS.Judge.Views.Content.Configuration.Children.Laps;

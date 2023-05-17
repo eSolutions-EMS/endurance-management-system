@@ -1,4 +1,4 @@
-﻿using EMS.Judge.Core;
+﻿using EMS.Judge.Common;
 using EMS.Judge.Views;
 using Core.Services;
 using Core.Utilities;

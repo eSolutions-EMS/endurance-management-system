@@ -1,5 +1,5 @@
-﻿using EMS.Judge.Core.Components.Templates.SimpleListItem;
-using EMS.Judge.Core.Services;
+﻿using EMS.Judge.Common.Components.Templates.SimpleListItem;
+using EMS.Judge.Common.Services;
 using EMS.Judge.Services;
 using EMS.Judge.Views.Content.Configuration.Children.Competitions;
 using EMS.Judge.Views.Content.Configuration.Children.Personnel;

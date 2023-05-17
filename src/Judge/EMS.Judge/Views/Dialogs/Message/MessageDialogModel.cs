@@ -1,6 +1,6 @@
-﻿using EMS.Judge.Core.Objects;
-using EMS.Judge.Core.ViewModels;
-using EMS.Judge.Core.Extensions;
+﻿using EMS.Judge.Common.Objects;
+using EMS.Judge.Common.ViewModels;
+using EMS.Judge.Common.Extensions;
 using static Core.Localization.Strings;
 using Prism.Services.Dialogs;
 
