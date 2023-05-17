@@ -2,7 +2,7 @@
 using EMS.Judge.Common.Services;
 using EMS.Judge.Views.Content.Hardware.Tags;
 using EMS.Judge.Views.Content.Manager;
-using EMS.Judge.Application.Core;
+using EMS.Judge.Application.Common;
 using Core.Domain.AggregateRoots.Manager;
 using Core.Domain.State.Participations;
 using EMS.Judge.Application.Hardware;

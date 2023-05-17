@@ -1,6 +1,6 @@
 ﻿using EMS.Judge.Services;
 using EMS.Judge.Application.Services;
-using EMS.Judge.Application.Core.Models;
+using EMS.Judge.Application.Common.Models;
 using Core.Utilities;
 using EMS.Judge.Common.Components.Templates.ListItem;
 using EMS.Judge.Common.Services;

@@ -1,8 +1,8 @@
 ﻿using EMS.Judge.Common.Components.Templates.SimpleListItem;
 using EMS.Judge.Services;
 using EMS.Judge.Views.Content.Configuration.Core;
-using EMS.Judge.Application.Core;
-using EMS.Judge.Application.Core.Models;
+using EMS.Judge.Application.Common;
+using EMS.Judge.Application.Common.Models;
 using Core.Mappings;
 using Core.Models;
 using Core.Domain.AggregateRoots.Configuration;

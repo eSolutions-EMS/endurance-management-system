@@ -3,7 +3,7 @@ using EMS.Judge.Common;
 using EMS.Judge.Common.Services;
 using EMS.Judge.Events;
 using EMS.Judge.Services;
-using EMS.Judge.Application.Core;
+using EMS.Judge.Application.Common;
 using Core.Domain.AggregateRoots.Manager;
 using Core.Domain.State.Participations;
 using Prism.Commands;

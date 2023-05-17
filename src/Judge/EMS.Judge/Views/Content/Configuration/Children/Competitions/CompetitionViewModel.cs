@@ -5,7 +5,7 @@ using EMS.Judge.Services;
 using EMS.Judge.Views.Content.Configuration.Children.Competitions.AddParticipants;
 using EMS.Judge.Views.Content.Configuration.Children.Laps;
 using EMS.Judge.Views.Content.Configuration.Core;
-using EMS.Judge.Application.Core;
+using EMS.Judge.Application.Common;
 using Core.Domain.AggregateRoots.Configuration;
 using Core.Domain.Core.Models;
 using Core.Domain.State.Competitions;

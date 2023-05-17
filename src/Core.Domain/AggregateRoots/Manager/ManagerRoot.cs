@@ -12,7 +12,7 @@ using Core.Domain.State.Participations;
 using Core.Events;
 using Core.Services;
 using Core.Utilities;
-using EMS.Judge.Application.Core.Services;
+using EMS.Judge.Application.Common.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;

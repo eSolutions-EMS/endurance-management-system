@@ -1,7 +1,7 @@
 ﻿using Core.Domain.State;
 using Core.Domain.State.Personnels;
 using EMS.Judge.Application.Aggregates.Configurations;
-using EMS.Judge.Application.Core;
+using EMS.Judge.Application.Common;
 using System.Collections.Generic;
 
 namespace EMS.Judge.Application.Queries;

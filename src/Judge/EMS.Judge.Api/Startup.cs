@@ -1,4 +1,4 @@
-using EMS.Judge.Application.Core.Services;
+using EMS.Judge.Application.Common.Services;
 using EMS.Judge.Application.Models;
 using Core;
 using Core.Services;

@@ -3,7 +3,7 @@ using Core.Events;
 using Core.Domain.AggregateRoots.Manager;
 using Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 using Core.Domain.AggregateRoots.Manager.WitnessEvents;
-using EMS.Judge.Application.Core.Services;
+using EMS.Judge.Application.Common.Services;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;

@@ -1,7 +1,7 @@
 ﻿using Core.ConventionalServices;
 using Core.Services;
 using Core.Domain.AggregateRoots.Import.Models.National;
-using EMS.Judge.Application.Core.Services;
+using EMS.Judge.Application.Common.Services;
 using System.Linq;
 using static EMS.Judge.Application.ApplicationConstants;
 

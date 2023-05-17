@@ -1,4 +1,4 @@
-﻿using EMS.Judge.Application.Core.Models;
+﻿using EMS.Judge.Application.Common.Models;
 using Core.Mappings;
 using Core.Models;
 using System;

@@ -2,7 +2,7 @@
 using Core.Services;
 using Core.Domain.AggregateRoots.Import;
 using EMS.Judge.Application.Aggregates.Import.Readers;
-using EMS.Judge.Application.Core.Exceptions;
+using EMS.Judge.Application.Common.Exceptions;
 using EMS.Judge.Application.Services;
 using static Core.Localization.Strings;
 

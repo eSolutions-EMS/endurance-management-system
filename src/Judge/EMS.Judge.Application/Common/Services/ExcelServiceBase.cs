@@ -4,7 +4,7 @@ using System;
 using System.IO;
 using LicenseContext = OfficeOpenXml.LicenseContext;
 
-namespace EMS.Judge.Application.Core.Services;
+namespace EMS.Judge.Application.Common.Services;
 
 public abstract class ExcelServiceBase : ITransientService, IDisposable
 {

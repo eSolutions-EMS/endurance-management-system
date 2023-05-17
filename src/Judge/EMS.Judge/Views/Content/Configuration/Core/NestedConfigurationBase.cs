@@ -1,5 +1,5 @@
 ﻿using EMS.Judge.Common;
-using EMS.Judge.Application.Core;
+using EMS.Judge.Application.Common;
 using Core.Domain.Core.Models;
 using EMS.Judge.Common.Extensions;
 using Prism.Regions;
