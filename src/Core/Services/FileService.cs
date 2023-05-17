@@ -1,8 +1,8 @@
-using EnduranceJudge.Core.ConventionalServices;
+using Core.ConventionalServices;
 using System;
 using System.IO;
 
-namespace EnduranceJudge.Core.Services;
+namespace Core.Services;
 
 public class FileService : IFileService
 {

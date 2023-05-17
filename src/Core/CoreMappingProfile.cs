@@ -1,7 +1,7 @@
-﻿using System.Reflection;
-using EnduranceJudge.Core.Mappings;
+﻿using Core.Mappings;
+using System.Reflection;
 
-namespace EnduranceJudge.Core;
+namespace Core;
 
 public class CoreMappingProfile : MappingProfile
 {

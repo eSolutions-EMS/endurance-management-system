@@ -2,11 +2,11 @@
 using System.Linq;
 using System.Reflection;
 using AutoMapper;
+using Core.Utilities;
 using System.Collections.Generic;
-using EnduranceJudge.Core.Extensions;
-using EnduranceJudge.Core.Utilities;
+using Core.Extensions;
 
-namespace EnduranceJudge.Core.Mappings;
+namespace Core.Mappings;
 
 public abstract class MappingProfile : Profile
 {

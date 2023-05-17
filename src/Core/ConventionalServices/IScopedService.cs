@@ -1,4 +1,4 @@
-﻿namespace EnduranceJudge.Core.ConventionalServices;
+﻿namespace Core.ConventionalServices;
 
 public interface IScopedService : IService
 {

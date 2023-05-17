@@ -1,28 +1,24 @@
-using EnduranceJudge.Core.ConventionalServices;
-using Microsoft.AspNetCore.DataProtection;
+using Core.ConventionalServices;
+using System;
 
-namespace EnduranceJudge.Core.Services;
+namespace Core.Services;
 
 public class EncryptionService : IEncryptionService
 {
     private const string KEY = "E546C8DF278CD5931069B522E695D4F2";
-    private readonly IDataProtector dataProtector;
 
-    public EncryptionService(IDataProtectionProvider dataProtectionProvider)
+    public EncryptionService()
     {
-        this.dataProtector = dataProtectionProvider.CreateProtector(KEY);
     }
 
     public string Encrypt(string content)
     {
-        var encrypted = this.dataProtector.Protect(content);
-        return encrypted;
+        throw new NotImplementedException();
     }
 
     public string Decrypt(string encrypted)
     {
-        var decrypted = this.dataProtector.Unprotect(encrypted);
-        return decrypted;
+        throw new NotImplementedException();
     }
 }
 

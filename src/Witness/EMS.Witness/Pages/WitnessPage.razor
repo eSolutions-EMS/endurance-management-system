@@ -1,0 +1,56 @@
+﻿@page "/witness"
+
+@using Core.Domain.AggregateRoots.Manager
+
+<EditForm Model="@witnessModel" OnSubmit="HandleSubmit">
+    <div class="mb-3">
+        <label for="type" class="form-label">Type</label>
+        <InputSelect @bind-Value="@this.witnessModel.Type" class="form-control">
+            @foreach (var value in Enum.GetValues<WitnessEventType>())
+            {
+                <option value="@value">@value</option>
+            }
+        </InputSelect>
+    </div>
+    <div class="mb-3">
+        <InputNumber @bind-Value="this.witnessModel.Number" class="form-control" required onclick="this.select();" placeholder="Number" />
+    </div>
+    <div class="mb-3">
+        <div class="d-inline-flex">
+            <InputNumber @bind-Value="this.witnessModel.Hour" class="form-control" onclick="this.select();" placeholder="Hour" />
+            <span class="time-delimiter">:</span>
+            <InputNumber @bind-Value="this.witnessModel.Minute" class="form-control" onclick="this.select();" placeholder="Min" />
+            <span class="time-delimiter">:</span>
+            <InputNumber @bind-Value="this.witnessModel.Second" class="form-control" onclick="this.select();" placeholder="Sec" />
+            <span class="time-delimiter">:</span>
+            <InputNumber @bind-Value="this.witnessModel.Millisecond" class="form-control" onclick="this.select();" placeholder="Milsec" />
+        </div>
+    </div>
+    <div class="text-right">
+        <button type="submit" class="btn btn-primary">Add</button>
+    </div>
+</EditForm>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Type</th>
+            <th>Time</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var witnessEvent in this.State.WitnessRecords.Values)
+        {
+            <tr>
+                <td>@witnessEvent.Number</td>
+                <td>@witnessEvent.Type.ToString()</td>
+                <td>@this.DateService.FormatTime(witnessEvent.Time, showMs: true)</td>
+                <td>
+                    <button class="btn btn-success btn-table" @onclick="_ => this.Save(witnessEvent.Number)">Save</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

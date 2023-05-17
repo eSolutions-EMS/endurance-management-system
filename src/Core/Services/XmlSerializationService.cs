@@ -1,7 +1,7 @@
-﻿using EnduranceJudge.Core.ConventionalServices;
+﻿using Core.ConventionalServices;
 using System.Xml.Serialization;
 
-namespace EnduranceJudge.Core.Services;
+namespace Core.Services;
 
 public class XmlSerializationService : IXmlSerializationService
 {

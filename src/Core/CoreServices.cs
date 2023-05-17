@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using EnduranceJudge.Core.ConventionalServices;
+using Core.ConventionalServices;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
-namespace EnduranceJudge.Core;
+namespace Core;
 
 public static class CoreServices
 {
@@ -11,8 +11,6 @@ public static class CoreServices
         this IServiceCollection services,
         params Assembly[] assemblies)
     {
-        services.AddDataProtection();
-
         return services
             .AddMapping(assemblies)
             .AddTransientServices(assemblies)

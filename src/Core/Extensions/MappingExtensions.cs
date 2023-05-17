@@ -2,7 +2,7 @@
 using System;
 using System.Linq.Expressions;
 
-namespace EnduranceJudge.Core.Extensions;
+namespace Core.Extensions;
 
 public static class MappingExtensions
 {

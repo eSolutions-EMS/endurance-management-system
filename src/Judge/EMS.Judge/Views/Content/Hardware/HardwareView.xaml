@@ -1,0 +1,51 @@
+﻿<UserControl x:Class="EMS.Judge.Views.Content.Hardware.HardwareView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:localization="clr-namespace:Core.Localization;assembly=Core.Localization"
+             xmlns:ranking="clr-namespace:EMS.Judge.Controls.Ranking"
+             prism:ViewModelLocator.AutoWireViewModel="True">
+
+    <ScrollViewer Style="{StaticResource Scroll}"
+                  PreviewMouseWheel="HandleScroll">
+
+        <StackPanel Style="{StaticResource List-Vertical}">
+            <Button Content="Stats" Command="{Binding Stats}" />
+            
+            <StackPanel Style="{StaticResource List-Vertical}">
+                <StackPanel Style="{StaticResource List-Horizontal}">
+                    <!-- Connect -->
+                    <Button Style="{StaticResource Button-Header-Horizontal}"
+                            Command="{Binding Connect}"
+                            Content="Connect" />
+                    <!-- Start -->
+                    <Button Style="{StaticResource Button-Header-Horizontal}"
+                            Command="{Binding Start}"
+                            IsEnabled="{Binding IsNotListing}"
+                            Content="Start" />
+                    <Button Style="{StaticResource Button-Header-Horizontal}"
+                            Command="{Binding Reset}"
+                            Content="Reset Count" />
+                    <Button Style="{StaticResource Button-Header-Horizontal}"
+                            Command="{Binding Disconnect}"
+                            Content="Disconnect" />
+                    <!-- Stop -->
+                    <Button Style="{StaticResource Button-Header-Horizontal}"
+                            Command="{Binding Stop}"
+                            IsEnabled="{Binding IsListing}"
+                            Content="Stop" />
+                    <TextBox FontSize="16" Padding="10px 0"
+                             Text="{Binding Power}"/>
+                    <Button Style="{StaticResource Button-Header-Horizontal}"
+                            Command="{Binding SetPower}"
+                            Content="Set Power" />
+                </StackPanel>
+                <TextBlock Style="{StaticResource Text}"
+                           Text="{Binding Message}" />
+                <ListBox Style="{StaticResource ListBox-Vertical}"
+                         ItemsSource="{Binding Tags}" />
+            </StackPanel>        
+        </StackPanel>
+        
+    </ScrollViewer>
+</UserControl>

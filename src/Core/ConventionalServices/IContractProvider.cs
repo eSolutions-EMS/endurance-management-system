@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace EnduranceJudge.Core.ConventionalServices;
+namespace Core.ConventionalServices;
 
 public interface IContractProvider
 {

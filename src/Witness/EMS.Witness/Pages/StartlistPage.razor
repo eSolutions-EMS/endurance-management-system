@@ -1,0 +1,41 @@
+﻿@page "/startlist"
+
+@inject IDateService DateService;
+
+@using EMS.Witness.Services;
+@using Core.Application.Services;
+@using Core.Domain.AggregateRoots.Manager.Aggregates.Startlists
+
+<button class="btn btn-primary" @onclick="() => this.GetStartlist()">Load</button>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>Participant</th>
+			<th>Distance</th>
+			<th>Start Time</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var start in this._startlist)
+		{
+			<tr>
+				<td>@start.Number</td>
+				<td>@start.Distance</td>
+				<td>@this.DateService.FormatTime(start.StartTime)</td>
+			</tr>
+		}
+	</tbody>
+</table>
+
+@code {
+	[Inject]
+	private IApiService ApiService { get; set; } = null!;
+
+	private List<StartModel> _startlist = new();
+
+	private async Task GetStartlist()
+	{
+		this._startlist = await this.ApiService.GetStartlist();
+	}
+}

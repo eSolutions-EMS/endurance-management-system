@@ -1,4 +1,4 @@
-﻿namespace EnduranceJudge.Core.Models;
+﻿namespace Core.Models;
 
 public interface IListable
 {

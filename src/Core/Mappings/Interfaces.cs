@@ -1,4 +1,4 @@
-﻿namespace EnduranceJudge.Core.Mappings;
+﻿namespace Core.Mappings;
 
 public interface IMapFrom<T> : IConventionalMap
 {

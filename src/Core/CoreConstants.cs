@@ -1,7 +1,7 @@
-using EnduranceJudge.Core.Utilities;
+using Core.Utilities;
 using System.Reflection;
 
-namespace EnduranceJudge.Core;
+namespace Core;
 
 public static class CoreConstants
 {
@@ -9,7 +9,7 @@ public static class CoreConstants
     {
         get
         {
-            var assemblies = ReflectionUtilities.GetAssemblies("EnduranceJudge.Core");
+            var assemblies = ReflectionUtilities.GetAssemblies("Core");
             return assemblies;
         }
     }

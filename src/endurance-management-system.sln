@@ -1,0 +1,89 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29319.158
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "config", "config", "{F272C7E7-B2BB-423A-9455-11B38B39A381}"
+	ProjectSection(SolutionItems) = preProject
+		stylecop.json = stylecop.json
+		Global.ruleset = Global.ruleset
+		Directory.Build.targets = Directory.Build.targets
+		.editorconfig = .editorconfig
+		..\publish.sh = ..\publish.sh
+		..\README.md = ..\README.md
+		..\global.json = ..\global.json
+		endurance-management-system.sln.DotSettings = endurance-management-system.sln.DotSettings
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Judge", "Judge", "{AAF4F31D-28A8-48B7-86A3-E5B3AC61E44D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EMS.Judge.Application", "Judge\EMS.Judge.Application\EMS.Judge.Application.csproj", "{9807B503-7AF3-4972-A94E-34E208E1BCB9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EMS.Judge.Api", "Judge\EMS.Judge.Api\EMS.Judge.Api.csproj", "{F274D231-5E45-4F0F-89E1-8200B7020DAA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EMS.Judge", "Judge\EMS.Judge\EMS.Judge.csproj", "{A789D67A-4D7D-40D4-9ACE-21EA327A0DC6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{5A7B807D-BD1E-4004-B511-3EA5E3A2C134}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Domain", "Core.Domain\Core.Domain.csproj", "{E6842EC4-EC2A-4653-94FC-52BEB2B7AE35}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Localization", "Core.Localization\Core.Localization.csproj", "{10548D03-ED16-4778-BBD4-E39931DB0686}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Witness", "Witness", "{4EE12CA9-8D28-4523-A3AA-780E02B6AF19}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EMS.Witness", "Witness\EMS.Witness\EMS.Witness.csproj", "{F65ACC8D-BC3F-4BB0-A075-9CE378BA470E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Application", "Core.Application\Core.Application.csproj", "{6CBBB44C-40A5-4040-A771-C501A3486C1C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9807B503-7AF3-4972-A94E-34E208E1BCB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9807B503-7AF3-4972-A94E-34E208E1BCB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9807B503-7AF3-4972-A94E-34E208E1BCB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9807B503-7AF3-4972-A94E-34E208E1BCB9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F274D231-5E45-4F0F-89E1-8200B7020DAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F274D231-5E45-4F0F-89E1-8200B7020DAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F274D231-5E45-4F0F-89E1-8200B7020DAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F274D231-5E45-4F0F-89E1-8200B7020DAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A789D67A-4D7D-40D4-9ACE-21EA327A0DC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A789D67A-4D7D-40D4-9ACE-21EA327A0DC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A789D67A-4D7D-40D4-9ACE-21EA327A0DC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A789D67A-4D7D-40D4-9ACE-21EA327A0DC6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A7B807D-BD1E-4004-B511-3EA5E3A2C134}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A7B807D-BD1E-4004-B511-3EA5E3A2C134}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A7B807D-BD1E-4004-B511-3EA5E3A2C134}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A7B807D-BD1E-4004-B511-3EA5E3A2C134}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E6842EC4-EC2A-4653-94FC-52BEB2B7AE35}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E6842EC4-EC2A-4653-94FC-52BEB2B7AE35}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E6842EC4-EC2A-4653-94FC-52BEB2B7AE35}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E6842EC4-EC2A-4653-94FC-52BEB2B7AE35}.Release|Any CPU.Build.0 = Release|Any CPU
+		{10548D03-ED16-4778-BBD4-E39931DB0686}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{10548D03-ED16-4778-BBD4-E39931DB0686}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{10548D03-ED16-4778-BBD4-E39931DB0686}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{10548D03-ED16-4778-BBD4-E39931DB0686}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F65ACC8D-BC3F-4BB0-A075-9CE378BA470E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F65ACC8D-BC3F-4BB0-A075-9CE378BA470E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F65ACC8D-BC3F-4BB0-A075-9CE378BA470E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F65ACC8D-BC3F-4BB0-A075-9CE378BA470E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CBBB44C-40A5-4040-A771-C501A3486C1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CBBB44C-40A5-4040-A771-C501A3486C1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CBBB44C-40A5-4040-A771-C501A3486C1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CBBB44C-40A5-4040-A771-C501A3486C1C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9807B503-7AF3-4972-A94E-34E208E1BCB9} = {AAF4F31D-28A8-48B7-86A3-E5B3AC61E44D}
+		{F274D231-5E45-4F0F-89E1-8200B7020DAA} = {AAF4F31D-28A8-48B7-86A3-E5B3AC61E44D}
+		{A789D67A-4D7D-40D4-9ACE-21EA327A0DC6} = {AAF4F31D-28A8-48B7-86A3-E5B3AC61E44D}
+		{F65ACC8D-BC3F-4BB0-A075-9CE378BA470E} = {4EE12CA9-8D28-4523-A3AA-780E02B6AF19}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3CB609D9-5D54-4C11-A371-DAAC8B74E430}
+	EndGlobalSection
+EndGlobal

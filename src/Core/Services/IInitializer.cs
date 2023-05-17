@@ -1,4 +1,4 @@
-﻿namespace EnduranceJudge.Core.Services;
+﻿namespace Core.Services;
 
 public interface IInitializer
 {

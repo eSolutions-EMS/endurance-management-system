@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 
-namespace EnduranceJudge.Core.Mappings;
+namespace Core.Mappings;
 
 public static class MappingApi
 {
