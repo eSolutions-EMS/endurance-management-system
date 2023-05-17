@@ -1,6 +1,6 @@
-﻿using EMS.Core.ConventionalServices;
-using EMS.Core.Services;
-using EMS.Core.Domain.AggregateRoots.Manager;
+﻿using Core.ConventionalServices;
+using Core.Services;
+using Core.Domain.AggregateRoots.Manager;
 using System;
 using System.IO;
 

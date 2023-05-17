@@ -1,4 +1,4 @@
-﻿namespace EMS.Core.ConventionalServices;
+﻿namespace Core.ConventionalServices;
 
 public interface IService
 {

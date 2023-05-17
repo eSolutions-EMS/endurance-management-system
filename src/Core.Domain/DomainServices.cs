@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
-namespace EMS.Core.Domain;
+namespace Core.Domain;
 
 public static class DomainServices
 {

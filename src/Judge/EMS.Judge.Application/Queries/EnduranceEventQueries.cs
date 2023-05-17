@@ -1,5 +1,5 @@
-﻿using EMS.Core.Domain.State;
-using EMS.Core.Domain.State.EnduranceEvents;
+﻿using Core.Domain.State;
+using Core.Domain.State.EnduranceEvents;
 using EMS.Judge.Application.Core;
 using System;
 using System.Collections.Generic;

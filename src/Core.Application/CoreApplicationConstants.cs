@@ -1,4 +1,4 @@
-namespace EMS.Core.Application;
+namespace Core.Application;
 
 public class CoreApplicationConstants
 {

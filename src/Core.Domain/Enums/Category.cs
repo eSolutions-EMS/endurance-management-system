@@ -1,4 +1,4 @@
-namespace EMS.Core.Domain.Enums;
+namespace Core.Domain.Enums;
 
 public enum Category
 {

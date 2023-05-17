@@ -2,7 +2,7 @@
 using System;
 using System.Globalization;
 using static EMS.Judge.DesktopConstants;
-using static EMS.Core.Localization.Strings;
+using static Core.Localization.Strings;
 
 namespace EMS.Judge.Core;
 

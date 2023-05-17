@@ -1,4 +1,4 @@
-using EMS.Core.Mappings;
+using Core.Mappings;
 using System.Reflection;
 
 namespace EMS.Judge.Core;

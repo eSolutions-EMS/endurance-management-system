@@ -1,12 +1,12 @@
-using EMS.Core.Domain.Core.Models;
-using EMS.Core.Domain.Enums;
-using EMS.Core.Domain.State.Laps;
-using EMS.Core.Domain.Core.Extensions;
+using Core.Domain.Core.Models;
+using Core.Domain.Enums;
+using Core.Domain.State.Laps;
+using Core.Domain.Core.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EMS.Core.Domain.State.Competitions;
+namespace Core.Domain.State.Competitions;
 
 public class Competition : DomainBase<CompetitionException>, ICompetitionState
 {

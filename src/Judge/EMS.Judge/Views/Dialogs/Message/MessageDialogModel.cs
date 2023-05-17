@@ -1,7 +1,7 @@
 ﻿using EMS.Judge.Core.Objects;
 using EMS.Judge.Core.ViewModels;
 using EMS.Judge.Core.Extensions;
-using static EMS.Core.Localization.Strings;
+using static Core.Localization.Strings;
 using Prism.Services.Dialogs;
 
 namespace EMS.Judge.Views.Dialogs.Message;

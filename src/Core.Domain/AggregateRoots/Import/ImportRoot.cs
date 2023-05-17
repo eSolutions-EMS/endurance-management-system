@@ -1,25 +1,25 @@
-using EMS.Core.Domain.AggregateRoots.Import.Models;
-using EMS.Core.Domain.AggregateRoots.Import.Models.International;
-using EMS.Core.Domain.AggregateRoots.Import.Models.National;
-using EMS.Core.Domain.Core.Exceptions;
-using EMS.Core.Domain.Core.Models;
-using EMS.Core.Domain.Enums;
-using EMS.Core.Domain.State;
-using EMS.Core.Domain.State.Athletes;
-using EMS.Core.Domain.State.Competitions;
-using EMS.Core.Domain.State.EnduranceEvents;
-using EMS.Core.Domain.State.Horses;
-using EMS.Core.Domain.State.Participants;
-using EMS.Core.Domain.Validation;
-using EMS.Core.Utilities;
+using Core.Domain.AggregateRoots.Import.Models;
+using Core.Domain.AggregateRoots.Import.Models.International;
+using Core.Domain.AggregateRoots.Import.Models.National;
+using Core.Domain.Core.Exceptions;
+using Core.Domain.Core.Models;
+using Core.Domain.Enums;
+using Core.Domain.State;
+using Core.Domain.State.Athletes;
+using Core.Domain.State.Competitions;
+using Core.Domain.State.EnduranceEvents;
+using Core.Domain.State.Horses;
+using Core.Domain.State.Participants;
+using Core.Domain.Validation;
+using Core.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using static EMS.Core.Localization.Strings;
-using static EMS.Core.Domain.DomainConstants;
+using static Core.Localization.Strings;
+using static Core.Domain.DomainConstants;
 
-namespace EMS.Core.Domain.AggregateRoots.Import;
+namespace Core.Domain.AggregateRoots.Import;
 
 public class ImportRoot : IAggregateRoot
 {

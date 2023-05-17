@@ -1,9 +1,9 @@
-﻿using EMS.Core.Domain.Core.Exceptions;
-using EMS.Core.Domain.Validation;
-using EMS.Core.Models;
+﻿using Core.Domain.Core.Exceptions;
+using Core.Domain.Validation;
+using Core.Models;
 using System;
 
-namespace EMS.Core.Domain.Core.Models;
+namespace Core.Domain.Core.Models;
 
 public abstract class DomainBase<TException> : IDomain, IEquatable<DomainBase<TException>>
     where TException : DomainExceptionBase, new()

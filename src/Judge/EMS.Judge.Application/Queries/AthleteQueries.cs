@@ -1,5 +1,5 @@
-﻿using EMS.Core.Domain.State;
-using EMS.Core.Domain.State.Athletes;
+﻿using Core.Domain.State;
+using Core.Domain.State.Athletes;
 using EMS.Judge.Application.Core;
 using System.Collections.Generic;
 using System.Linq;

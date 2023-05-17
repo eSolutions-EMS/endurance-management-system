@@ -1,13 +1,13 @@
 ﻿using EMS.Judge.Core;
 using EMS.Judge.Services;
-using EMS.Core.Utilities;
-using EMS.Core.Domain.AggregateRoots.Manager;
-using EMS.Core.Domain.AggregateRoots.Common.Performances;
-using EMS.Core.Domain.State.LapRecords;
+using Core.Utilities;
+using Core.Domain.AggregateRoots.Manager;
+using Core.Domain.AggregateRoots.Common.Performances;
+using Core.Domain.State.LapRecords;
 using Prism.Commands;
 using System;
 using System.Windows;
-using static EMS.Core.Localization.Strings;
+using static Core.Localization.Strings;
 
 namespace EMS.Judge.Controls.Manager;
 

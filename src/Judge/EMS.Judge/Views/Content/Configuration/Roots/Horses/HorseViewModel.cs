@@ -1,10 +1,10 @@
 ﻿using EMS.Judge.Services;
 using EMS.Judge.Views.Content.Configuration.Core;
 using EMS.Judge.Application.Core;
-using EMS.Core.Models;
-using EMS.Core.Domain.AggregateRoots.Configuration;
-using EMS.Core.Domain.Core.Models;
-using EMS.Core.Domain.State.Horses;
+using Core.Models;
+using Core.Domain.AggregateRoots.Configuration;
+using Core.Domain.Core.Models;
+using Core.Domain.State.Horses;
 
 namespace EMS.Judge.Views.Content.Configuration.Roots.Horses;
 

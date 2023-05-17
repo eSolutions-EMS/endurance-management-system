@@ -1,6 +1,6 @@
-using EMS.Core.Models;
+using Core.Models;
 
-namespace EMS.Core.Domain.Core.Models;
+namespace Core.Domain.Core.Models;
 
 public interface IDomain : IIdentifiable
 {

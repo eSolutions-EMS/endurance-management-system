@@ -1,14 +1,14 @@
-using EMS.Core.Domain.AggregateRoots.Manager;
-using EMS.Core.Domain.Core.Exceptions;
-using EMS.Core.Domain.Core.Models;
-using EMS.Core.Domain.State.Athletes;
-using EMS.Core.Domain.State.Horses;
-using EMS.Core.Domain.State.LapRecords;
+using Core.Domain.AggregateRoots.Manager;
+using Core.Domain.Core.Exceptions;
+using Core.Domain.Core.Models;
+using Core.Domain.State.Athletes;
+using Core.Domain.State.Horses;
+using Core.Domain.State.LapRecords;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace EMS.Core.Domain.State.Participants;
+namespace Core.Domain.State.Participants;
 
 public class Participant : DomainBase<ParticipantException>, IParticipantState
 {

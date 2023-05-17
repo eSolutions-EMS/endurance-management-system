@@ -1,10 +1,10 @@
-﻿using EMS.Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
+﻿using Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 using EMS.Witness.Models;
 using EMS.Witness.Platforms.iOS.Permissions;
 using EMS.Witness.Shared.Toasts;
 using System.Net.Http.Json;
 using System.Text.Json;
-using static EMS.Core.Application.CoreApplicationConstants;
+using static Core.Application.CoreApplicationConstants;
 
 namespace EMS.Witness.Services;
 

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace EMS.Core.ConventionalServices;
+namespace Core.ConventionalServices;
 
 public interface IContractProvider
 {

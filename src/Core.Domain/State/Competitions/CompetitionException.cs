@@ -1,6 +1,6 @@
-using EMS.Core.Domain.Core.Exceptions;
+using Core.Domain.Core.Exceptions;
 
-namespace EMS.Core.Domain.State.Competitions;
+namespace Core.Domain.State.Competitions;
 
 public class CompetitionException : DomainExceptionBase
 {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 
-namespace EMS.Core.Utilities;
+namespace Core.Utilities;
 
 public static class StaticProvider
 {

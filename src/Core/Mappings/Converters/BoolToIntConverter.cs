@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace EMS.Core.Mappings.Converters;
+namespace Core.Mappings.Converters;
 
 public class BoolToIntConverter : IValueConverter<bool, int>
 {

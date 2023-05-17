@@ -1,13 +1,13 @@
-using EMS.Core.Domain.Core.Models;
-using EMS.Core.Domain.Enums;
-using EMS.Core.Domain.State.LapRecords;
-using EMS.Core.Domain.State.Participations;
+using Core.Domain.Core.Models;
+using Core.Domain.Enums;
+using Core.Domain.State.LapRecords;
+using Core.Domain.State.Participations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 
-namespace EMS.Core.Domain.AggregateRoots.Ranking.Aggregates;
+namespace Core.Domain.AggregateRoots.Ranking.Aggregates;
 
 public class RanklistAggregate : List<Participation>, IAggregate
 {

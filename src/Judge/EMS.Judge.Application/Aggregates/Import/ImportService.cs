@@ -1,10 +1,10 @@
-﻿using EMS.Core.ConventionalServices;
-using EMS.Core.Services;
-using EMS.Core.Domain.AggregateRoots.Import;
+﻿using Core.ConventionalServices;
+using Core.Services;
+using Core.Domain.AggregateRoots.Import;
 using EMS.Judge.Application.Aggregates.Import.Readers;
 using EMS.Judge.Application.Core.Exceptions;
 using EMS.Judge.Application.Services;
-using static EMS.Core.Localization.Strings;
+using static Core.Localization.Strings;
 
 namespace EMS.Judge.Application.Aggregates.Import;
 

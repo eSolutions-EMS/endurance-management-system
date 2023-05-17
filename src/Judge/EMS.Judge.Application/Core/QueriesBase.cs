@@ -1,5 +1,5 @@
-﻿using EMS.Core.Domain.Core.Models;
-using EMS.Core.Domain.State;
+﻿using Core.Domain.Core.Models;
+using Core.Domain.State;
 using System;
 using System.Collections.Generic;
 using System.Linq;

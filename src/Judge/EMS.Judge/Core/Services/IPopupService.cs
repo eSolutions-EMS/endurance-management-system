@@ -2,7 +2,7 @@
 using EMS.Judge.Views.Dialogs.Confirmation;
 using EMS.Judge.Views.Dialogs.Message;
 using EMS.Judge.Views.Dialogs.Startlists;
-using EMS.Core.ConventionalServices;
+using Core.ConventionalServices;
 using EMS.Judge.Core.Extensions;
 using Prism.Services.Dialogs;
 using System;

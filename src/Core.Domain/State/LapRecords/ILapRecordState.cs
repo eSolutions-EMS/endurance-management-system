@@ -1,7 +1,7 @@
-﻿using EMS.Core.Models;
+﻿using Core.Models;
 using System;
 
-namespace EMS.Core.Domain.State.LapRecords;
+namespace Core.Domain.State.LapRecords;
 
 public interface ILapRecordState : IIdentifiable
 {

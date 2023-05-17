@@ -1,9 +1,9 @@
-﻿using EMS.Core.Domain.Core.Exceptions;
-using EMS.Core.Domain.State;
-using EMS.Core.Domain.State.EnduranceEvents;
-using static EMS.Core.Localization.Strings;
+﻿using Core.Domain.Core.Exceptions;
+using Core.Domain.State;
+using Core.Domain.State.EnduranceEvents;
+using static Core.Localization.Strings;
 
-namespace EMS.Core.Domain.AggregateRoots.Configuration.Extensions;
+namespace Core.Domain.AggregateRoots.Configuration.Extensions;
 
 public static class StateExtensions
 {

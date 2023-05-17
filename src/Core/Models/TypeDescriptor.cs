@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EMS.Core.Models;
+namespace Core.Models;
 
 public class TypeDescriptor<T>
     where T : class

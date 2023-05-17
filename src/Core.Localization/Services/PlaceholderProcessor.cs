@@ -1,8 +1,8 @@
-﻿using EMS.Core.ConventionalServices;
+﻿using Core.ConventionalServices;
 using System.Collections.Generic;
-using static EMS.Core.Localization.LocalizationConstants.Placeholders;
+using static Core.Localization.LocalizationConstants.Placeholders;
 
-namespace EMS.Core.Localization.Services;
+namespace Core.Localization.Services;
 
 public class PlaceholderProcessor : IPlaceholderProcessor
 {

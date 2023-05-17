@@ -1,13 +1,13 @@
-﻿using EMS.Core.Domain.Annotations;
-using EMS.Core.Domain.Core.Models;
-using EMS.Core.Domain.Enums;
-using EMS.Core.Domain.State.LapRecords;
-using EMS.Core.Domain.State.Participations;
+﻿using Core.Domain.Annotations;
+using Core.Domain.Core.Models;
+using Core.Domain.Enums;
+using Core.Domain.State.LapRecords;
+using Core.Domain.State.Participations;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace EMS.Core.Domain.AggregateRoots.Common.Performances;
+namespace Core.Domain.AggregateRoots.Common.Performances;
 
 public class Performance : IAggregate, IPerformance, INotifyPropertyChanged
 {

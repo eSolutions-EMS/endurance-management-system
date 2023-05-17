@@ -1,5 +1,5 @@
-﻿using EMS.Core.Domain.State.EnduranceEvents;
-using EMS.Core.Domain.State.Personnels;
+﻿using Core.Domain.State.EnduranceEvents;
+using Core.Domain.State.Personnels;
 using System.Collections.Generic;
 using System.Linq;
 

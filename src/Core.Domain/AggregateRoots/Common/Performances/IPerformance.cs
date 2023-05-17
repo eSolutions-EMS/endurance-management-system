@@ -1,7 +1,7 @@
-using EMS.Core.Domain.State.LapRecords;
+using Core.Domain.State.LapRecords;
 using System;
 
-namespace EMS.Core.Domain.AggregateRoots.Common.Performances;
+namespace Core.Domain.AggregateRoots.Common.Performances;
 
 public interface IPerformance : ILapRecordState
 {

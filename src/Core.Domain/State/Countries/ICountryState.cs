@@ -1,6 +1,6 @@
-using EMS.Core.Models;
+using Core.Models;
 
-namespace EMS.Core.Domain.State.Countries;
+namespace Core.Domain.State.Countries;
 
 public interface ICountryState : IIdentifiable
 {

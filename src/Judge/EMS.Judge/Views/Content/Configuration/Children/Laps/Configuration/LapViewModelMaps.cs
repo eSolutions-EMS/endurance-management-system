@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using EMS.Core.Mappings;
-using EMS.Core.Mappings.Converters;
-using EMS.Core.Domain.State.Laps;
+using Core.Mappings;
+using Core.Mappings.Converters;
+using Core.Domain.State.Laps;
 
 namespace EMS.Judge.Views.Content.Configuration.Children.Laps.Configuration;
 

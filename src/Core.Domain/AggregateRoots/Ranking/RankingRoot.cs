@@ -1,11 +1,11 @@
-using EMS.Core.Domain.AggregateRoots.Ranking.Aggregates;
-using EMS.Core.Domain.Core.Models;
-using EMS.Core.Domain.State;
-using EMS.Core.Domain.Core.Extensions;
+using Core.Domain.AggregateRoots.Ranking.Aggregates;
+using Core.Domain.Core.Models;
+using Core.Domain.State;
+using Core.Domain.Core.Extensions;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EMS.Core.Domain.AggregateRoots.Ranking;
+namespace Core.Domain.AggregateRoots.Ranking;
 
 public class RankingRoot : IAggregateRoot
 {

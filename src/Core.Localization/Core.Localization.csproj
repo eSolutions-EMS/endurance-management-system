@@ -3,7 +3,6 @@
     <PropertyGroup>
         <TargetFramework>netstandard2.1</TargetFramework>
         <LangVersion>latestmajor</LangVersion>
-        <RootNamespace>EMS.Core.Localization</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

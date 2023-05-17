@@ -1,6 +1,6 @@
-﻿using EMS.Core.Services;
-using EMS.Core.Utilities;
-using EMS.Core.Domain.State;
+﻿using Core.Services;
+using Core.Utilities;
+using Core.Domain.State;
 using Mairegger.Printing.Content;
 using Mairegger.Printing.Definition;
 using Mairegger.Printing.PrintProcessor;

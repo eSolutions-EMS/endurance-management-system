@@ -1,5 +1,5 @@
-﻿using EMS.Core.Mappings;
-using EMS.Core.Domain.State;
+﻿using Core.Mappings;
+using Core.Domain.State;
 using EMS.Judge.Application.State;
 using System.Reflection;
 

@@ -1,4 +1,4 @@
-﻿namespace EMS.Core.Enums;
+﻿namespace Core.Enums;
 
 public enum NotificationSeverity
 {

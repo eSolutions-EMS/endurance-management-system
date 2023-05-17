@@ -1,6 +1,6 @@
-using EMS.Core.Domain.Core.Exceptions;
+using Core.Domain.Core.Exceptions;
 
-namespace EMS.Core.Domain.State.Personnels;
+namespace Core.Domain.State.Personnels;
 
 public class PersonnelException : DomainExceptionBase
 {

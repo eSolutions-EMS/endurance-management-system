@@ -1,7 +1,7 @@
-using EMS.Core.Utilities;
+using Core.Utilities;
 using System.Reflection;
 
-namespace EMS.Core;
+namespace Core;
 
 public static class CoreConstants
 {

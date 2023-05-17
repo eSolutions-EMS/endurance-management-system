@@ -1,5 +1,5 @@
-﻿using EMS.Core.Domain.State;
-using EMS.Core.Domain.State.Horses;
+﻿using Core.Domain.State;
+using Core.Domain.State.Horses;
 using EMS.Judge.Application.Core;
 using System.Collections.Generic;
 using System.Linq;

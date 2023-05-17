@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EMS.Core.Domain.AggregateRoots.Manager;
+namespace Core.Domain.AggregateRoots.Manager;
 
 public class WitnessEvent
 {

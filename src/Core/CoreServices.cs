@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
-using EMS.Core.ConventionalServices;
+using Core.ConventionalServices;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
-namespace EMS.Core;
+namespace Core;
 
 public static class CoreServices
 {

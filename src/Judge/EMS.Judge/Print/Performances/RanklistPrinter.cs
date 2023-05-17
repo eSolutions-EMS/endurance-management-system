@@ -1,5 +1,5 @@
 ﻿using EMS.Judge.Controls.Ranking;
-using EMS.Core.Domain.AggregateRoots.Ranking.Aggregates;
+using Core.Domain.AggregateRoots.Ranking.Aggregates;
 
 namespace EMS.Judge.Print.Performances;
 

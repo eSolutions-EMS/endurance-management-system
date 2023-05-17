@@ -2,23 +2,24 @@
 using EMS.Judge.Services;
 using EMS.Judge.Views.Content.Configuration.Core;
 using EMS.Judge.Application.Core;
-using EMS.Core.Domain.AggregateRoots.Configuration;
-using EMS.Core.Domain.Core.Models;
-using EMS.Core.Domain.Enums;
-using EMS.Core.Domain.State.Personnels;
+using Core.Domain.AggregateRoots.Configuration;
+using Core.Domain.Core.Models;
+using Core.Domain.Enums;
+using Core.Domain.State.Personnels;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Personnelz = Core.Domain.State.Personnels.Personnel;
 
 namespace EMS.Judge.Views.Content.Configuration.Children.Personnel;
 
-public class PersonnelViewModel : NestedConfigurationBase<PersonnelView, EMS.Core.Domain.State.Personnels.Personnel>,
+public class PersonnelViewModel : NestedConfigurationBase<PersonnelView, Personnelz>,
     IPersonnelState
 {
     private readonly IExecutor<ConfigurationRoot> executor;
     private PersonnelViewModel() : this(null, null) {}
     public PersonnelViewModel(
         IExecutor<ConfigurationRoot> executor,
-        IQueries<EMS.Core.Domain.State.Personnels.Personnel> personnel) : base(personnel)
+        IQueries<Personnelz> personnel) : base(personnel)
     {
         this.executor = executor;
     }

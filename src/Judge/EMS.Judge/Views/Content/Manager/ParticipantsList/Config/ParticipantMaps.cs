@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using EMS.Judge.Application.Core.Models;
-using EMS.Core.Mappings;
-using EMS.Core.Domain.State.Participants;
+using Core.Mappings;
+using Core.Domain.State.Participants;
 
 namespace EMS.Judge.Views.Content.Manager.ParticipantsList.Config;
 

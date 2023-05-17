@@ -1,10 +1,10 @@
 ﻿using EMS.Judge.Application.Core.Models;
-using EMS.Core.Mappings;
-using EMS.Core.Models;
+using Core.Mappings;
+using Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static EMS.Core.Localization.Strings;
+using static Core.Localization.Strings;
 
 namespace EMS.Judge.Core.Components.Templates.SimpleListItem;
 

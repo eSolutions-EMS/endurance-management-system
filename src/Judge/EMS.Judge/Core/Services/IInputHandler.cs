@@ -1,4 +1,4 @@
-﻿using EMS.Core.ConventionalServices;
+﻿using Core.ConventionalServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;

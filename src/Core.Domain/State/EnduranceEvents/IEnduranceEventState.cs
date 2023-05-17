@@ -1,6 +1,6 @@
-using EMS.Core.Models;
+using Core.Models;
 
-namespace EMS.Core.Domain.State.EnduranceEvents;
+namespace Core.Domain.State.EnduranceEvents;
 
 public interface IEnduranceEventState : IIdentifiable
 {

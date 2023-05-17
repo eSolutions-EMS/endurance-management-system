@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace EMS.Core.Domain.AggregateRoots.Import.Models.National;
+namespace Core.Domain.AggregateRoots.Import.Models.National;
 
 public class NationalData
 {

@@ -1,12 +1,12 @@
-﻿using EMS.Core.ConventionalServices;
-using EMS.Core.Services;
+﻿using Core.ConventionalServices;
+using Core.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using static EMS.Core.Localization.LocalizationConstants;
+using static Core.Localization.LocalizationConstants;
 
-namespace EMS.Core.Localization.Services;
+namespace Core.Localization.Services;
 
 public class StringsReader : IStringsReader
 {

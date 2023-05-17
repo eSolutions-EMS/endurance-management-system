@@ -1,10 +1,10 @@
-﻿using EMS.Core.Domain.Core.Models;
-using EMS.Core.Mappings;
+﻿using Core.Domain.Core.Models;
+using Core.Mappings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EMS.Core.Domain.Core.Extensions;
+namespace Core.Domain.Core.Extensions;
 
 public static class DomainExtensions
 {

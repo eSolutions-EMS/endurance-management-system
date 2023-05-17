@@ -1,7 +1,7 @@
-﻿using EMS.Core.Domain.Core.Exceptions;
-using EMS.Core.Localization;
+﻿using Core.Domain.Core.Exceptions;
+using Core.Localization;
 
-namespace EMS.Core.Domain.State.LapRecords;
+namespace Core.Domain.State.LapRecords;
 
 public class LapRecordException : DomainExceptionBase
 {

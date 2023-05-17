@@ -1,6 +1,6 @@
-using EMS.Core.Domain.Core.Exceptions;
+using Core.Domain.Core.Exceptions;
 
-namespace EMS.Core.Domain.State.Results;
+namespace Core.Domain.State.Results;
 
 public class ResultException : DomainExceptionBase
 {

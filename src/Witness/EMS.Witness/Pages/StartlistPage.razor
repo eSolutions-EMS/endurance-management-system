@@ -1,9 +1,10 @@
 ﻿@page "/startlist"
+
 @inject IDateService DateService;
 
 @using EMS.Witness.Services;
-@using EnduranceJudge.Application.Services;
-@using EMS.Core.Domain.AggregateRoots.Manager.Aggregates.Startlists
+@using Core.Application.Services;
+@using Core.Domain.AggregateRoots.Manager.Aggregates.Startlists
 
 <button class="btn btn-primary" @onclick="() => this.GetStartlist()">Load</button>
 

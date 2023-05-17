@@ -2,7 +2,7 @@
 using System;
 using System.Linq.Expressions;
 
-namespace EMS.Core.Extensions;
+namespace Core.Extensions;
 
 public static class MappingExtensions
 {

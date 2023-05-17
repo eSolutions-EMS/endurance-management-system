@@ -2,9 +2,9 @@
 using EMS.Judge.Core.Components.Templates.SimpleListItem;
 using EMS.Judge.Services;
 using EMS.Judge.Application.Core;
-using EMS.Core.Mappings;
-using EMS.Core.Utilities;
-using EMS.Core.Domain.Core.Models;
+using Core.Mappings;
+using Core.Utilities;
+using Core.Domain.Core.Models;
 using EMS.Judge.Core.Extensions;
 using Prism.Commands;
 using Prism.Regions;

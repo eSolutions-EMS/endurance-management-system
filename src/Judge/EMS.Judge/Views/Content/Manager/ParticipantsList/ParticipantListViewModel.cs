@@ -4,8 +4,8 @@ using EMS.Judge.Services;
 using EMS.Judge.Application.Services;
 using EMS.Judge.Application.Core;
 using EMS.Judge.Application.Core.Models;
-using EMS.Core.Mappings;
-using EMS.Core.Domain.State.Participants;
+using Core.Mappings;
+using Core.Domain.State.Participants;
 using System.Collections.Generic;
 
 namespace EMS.Judge.Views.Content.Manager.ParticipantsList;

@@ -1,4 +1,4 @@
-﻿using EMS.Core.Domain.State;
+﻿using Core.Domain.State;
 using EMS.Judge.Application.State;
 
 namespace EMS.Judge.Application.Services;

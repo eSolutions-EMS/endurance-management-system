@@ -1,8 +1,8 @@
-using EMS.Core.Domain.Core.Models;
-using EMS.Core.Domain.Validation;
-using static EMS.Core.Localization.Strings;
+using Core.Domain.Core.Models;
+using Core.Domain.Validation;
+using static Core.Localization.Strings;
 
-namespace EMS.Core.Domain.State.Horses;
+namespace Core.Domain.State.Horses;
 
 public class Horse : DomainBase<HorseException>, IHorseState
 {

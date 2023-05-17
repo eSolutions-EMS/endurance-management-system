@@ -1,4 +1,4 @@
-﻿namespace EMS.Core.Domain.State;
+﻿namespace Core.Domain.State;
 
 public interface IStateContext
 {

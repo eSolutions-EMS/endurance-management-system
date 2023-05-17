@@ -1,7 +1,7 @@
 ﻿using EMS.Judge.Application.Models;
-using EMS.Core.ConventionalServices;
-using EMS.Core.Domain.AggregateRoots.Manager;
-using EMS.Core.Domain.AggregateRoots.Manager.WitnessEvents;
+using Core.ConventionalServices;
+using Core.Domain.AggregateRoots.Manager;
+using Core.Domain.AggregateRoots.Manager.WitnessEvents;
 using System.Collections.Generic;
 using System.Linq;
 

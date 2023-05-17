@@ -1,13 +1,13 @@
-﻿using EMS.Core.Domain.Core.Exceptions;
-using EMS.Core.Domain.Core.Models;
-using EMS.Core.Domain.State;
-using EMS.Core.Domain.State.Horses;
-using EMS.Core.Domain.Validation;
-using EMS.Core.Domain.AggregateRoots.Configuration.Extensions;
-using EMS.Core.Domain.Core.Extensions;
-using static EMS.Core.Localization.Strings;
+﻿using Core.Domain.Core.Exceptions;
+using Core.Domain.Core.Models;
+using Core.Domain.State;
+using Core.Domain.State.Horses;
+using Core.Domain.Validation;
+using Core.Domain.AggregateRoots.Configuration.Extensions;
+using Core.Domain.Core.Extensions;
+using static Core.Localization.Strings;
 
-namespace EMS.Core.Domain.AggregateRoots.Configuration.Aggregates;
+namespace Core.Domain.AggregateRoots.Configuration.Aggregates;
 
 public class HorsesAggregate : IAggregate
 {

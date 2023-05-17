@@ -3,15 +3,15 @@ using EMS.Judge.Core;
 using EMS.Judge.Core.Components.Templates.ListItem;
 using EMS.Judge.Print.Performances;
 using EMS.Judge.Services;
-using EMS.Core.Domain.AggregateRoots.Ranking;
-using EMS.Core.Domain.AggregateRoots.Ranking.Aggregates;
-using EMS.Core.Domain.Enums;
+using Core.Domain.AggregateRoots.Ranking;
+using Core.Domain.AggregateRoots.Ranking.Aggregates;
+using Core.Domain.Enums;
 using Prism.Commands;
 using Prism.Regions;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using static EMS.Core.Localization.Strings;
+using static Core.Localization.Strings;
 
 namespace EMS.Judge.Views.Content.Ranking;
 

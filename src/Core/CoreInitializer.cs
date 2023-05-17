@@ -1,8 +1,8 @@
 using AutoMapper;
-using EMS.Core.Mappings;
-using EMS.Core.Services;
+using Core.Mappings;
+using Core.Services;
 
-namespace EMS.Core;
+namespace Core;
 
 public class CoreInitializer : IInitializer
 {

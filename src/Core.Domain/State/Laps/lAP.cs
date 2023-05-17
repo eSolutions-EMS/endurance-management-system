@@ -1,6 +1,6 @@
-using EMS.Core.Domain.Core.Models;
+using Core.Domain.Core.Models;
 
-namespace EMS.Core.Domain.State.Laps;
+namespace Core.Domain.State.Laps;
 
 public class Lap : DomainBase<LapException>, ILapState
 {

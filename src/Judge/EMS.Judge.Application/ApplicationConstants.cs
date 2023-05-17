@@ -1,5 +1,5 @@
-using EMS.Core.Utilities;
-using EMS.Core.Domain.State.Countries;
+using Core.Utilities;
+using Core.Domain.State.Countries;
 using System.Collections.Generic;
 using System.Reflection;
 

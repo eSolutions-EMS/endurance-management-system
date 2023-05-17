@@ -1,14 +1,14 @@
-﻿using EMS.Core.Domain.AggregateRoots.Common.Performances;
-using EMS.Core.Domain.Core.Exceptions;
-using EMS.Core.Domain.Core.Models;
-using EMS.Core.Domain.Enums;
-using EMS.Core.Domain.State.LapRecords;
-using EMS.Core.Domain.State.Results;
-using EMS.Core.Domain.Validation;
+﻿using Core.Domain.AggregateRoots.Common.Performances;
+using Core.Domain.Core.Exceptions;
+using Core.Domain.Core.Models;
+using Core.Domain.Enums;
+using Core.Domain.State.LapRecords;
+using Core.Domain.State.Results;
+using Core.Domain.Validation;
 using System;
-using static EMS.Core.Localization.Strings;
+using static Core.Localization.Strings;
 
-namespace EMS.Core.Domain.AggregateRoots.Manager.Aggregates;
+namespace Core.Domain.AggregateRoots.Manager.Aggregates;
 
 public class LapRecordsAggregate : IAggregate
 {

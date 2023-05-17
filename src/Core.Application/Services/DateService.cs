@@ -1,7 +1,8 @@
-﻿using EMS.Core.ConventionalServices;
+﻿using Core.ConventionalServices;
 using System;
 
-namespace EnduranceJudge.Application.Services;
+namespace Core.Application.Services;
+
 public class DateService : IDateService
 {
     public string FormatTime(DateTime time, bool showMs = false)

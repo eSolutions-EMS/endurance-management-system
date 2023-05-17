@@ -1,8 +1,8 @@
-using EMS.Core.Domain.Core.Models;
+using Core.Domain.Core.Models;
 using System;
-using static EMS.Core.Localization.Strings;
+using static Core.Localization.Strings;
 
-namespace EMS.Core.Domain.State.Results;
+namespace Core.Domain.State.Results;
 
 public class Result : DomainBase<ResultException>, IResultState
 {

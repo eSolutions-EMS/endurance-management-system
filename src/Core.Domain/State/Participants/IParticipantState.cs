@@ -1,6 +1,6 @@
-using EMS.Core.Models;
+using Core.Models;
 
-namespace EMS.Core.Domain.State.Participants;
+namespace Core.Domain.State.Participants;
 
 public interface IParticipantState : IIdentifiable
 {

@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using EMS.Judge.Application.Core.Models;
-using EMS.Core.Extensions;
-using EMS.Core.Mappings;
-using EMS.Core.Domain.State.Athletes;
+using Core.Extensions;
+using Core.Mappings;
+using Core.Domain.State.Athletes;
 
 namespace EMS.Judge.Views.Content.Configuration.Roots.Athletes.Configuration;
 

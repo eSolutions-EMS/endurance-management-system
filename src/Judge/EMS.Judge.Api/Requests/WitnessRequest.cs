@@ -1,4 +1,4 @@
-﻿using EMS.Core.Domain.AggregateRoots.Manager;
+﻿using Core.Domain.AggregateRoots.Manager;
 using System;
 
 namespace EMS.Judge.Api.Requests

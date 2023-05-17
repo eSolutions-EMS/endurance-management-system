@@ -1,7 +1,7 @@
-﻿using EMS.Core.Domain.Enums;
-using EMS.Core.Models;
+﻿using Core.Domain.Enums;
+using Core.Models;
 
-namespace EMS.Core.Domain.State.Athletes;
+namespace Core.Domain.State.Athletes;
 
 public interface IAthleteState : IIdentifiable
 {

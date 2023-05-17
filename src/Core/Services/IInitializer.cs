@@ -1,4 +1,4 @@
-﻿namespace EMS.Core.Services;
+﻿namespace Core.Services;
 
 public interface IInitializer
 {

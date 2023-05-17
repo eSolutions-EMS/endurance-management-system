@@ -1,6 +1,5 @@
 ﻿using EMS.Witness.Services;
-using Microsoft.AspNetCore.Components.WebView.Maui;
-using EnduranceJudge.Application.Services;
+using Core.Application.Services;
 
 namespace EMS.Witness;
 

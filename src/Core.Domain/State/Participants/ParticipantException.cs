@@ -1,6 +1,6 @@
-using EMS.Core.Domain.Core.Exceptions;
+using Core.Domain.Core.Exceptions;
 
-namespace EMS.Core.Domain.State.Participants;
+namespace Core.Domain.State.Participants;
 
 public class ParticipantException : DomainExceptionBase
 {

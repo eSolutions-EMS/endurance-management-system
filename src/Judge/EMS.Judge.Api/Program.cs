@@ -1,4 +1,4 @@
-using EMS.Core.Mappings;
+using Core.Mappings;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 

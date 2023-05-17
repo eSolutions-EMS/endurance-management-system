@@ -1,15 +1,15 @@
-﻿using EMS.Core.ConventionalServices;
-using EMS.Core.Events;
-using EMS.Core.Domain.AggregateRoots.Manager;
-using EMS.Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
-using EMS.Core.Domain.AggregateRoots.Manager.WitnessEvents;
+﻿using Core.ConventionalServices;
+using Core.Events;
+using Core.Domain.AggregateRoots.Manager;
+using Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
+using Core.Domain.AggregateRoots.Manager.WitnessEvents;
 using EMS.Judge.Application.Core.Services;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
-using static EMS.Core.Application.CoreApplicationConstants;
+using static Core.Application.CoreApplicationConstants;
 
 namespace EMS.Judge.Application.Services;
 

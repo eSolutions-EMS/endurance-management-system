@@ -1,6 +1,6 @@
-using EMS.Core.Models;
+using Core.Models;
 
-namespace EMS.Core.Domain.State.Results;
+namespace Core.Domain.State.Results;
 
 public interface IResultState : IIdentifiable
 {

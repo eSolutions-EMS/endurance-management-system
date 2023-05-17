@@ -1,11 +1,11 @@
 ﻿using Accessibility;
 using EMS.Judge.Print.Performances;
 using EMS.Judge.Services;
-using EMS.Core.Utilities;
-using EMS.Core.Domain.AggregateRoots.Common.Performances;
-using EMS.Core.Domain.AggregateRoots.Manager.Aggregates;
-using EMS.Core.Domain.State.Participants;
-using EMS.Core.Domain.State.Participations;
+using Core.Utilities;
+using Core.Domain.AggregateRoots.Common.Performances;
+using Core.Domain.AggregateRoots.Manager.Aggregates;
+using Core.Domain.State.Participants;
+using Core.Domain.State.Participations;
 using Prism.Commands;
 using Prism.Mvvm;
 using System.Collections.Generic;

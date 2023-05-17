@@ -1,6 +1,6 @@
-using EMS.Core.Models;
+using Core.Models;
 
-namespace EMS.Core.Domain.State.Horses;
+namespace Core.Domain.State.Horses;
 
 public interface IHorseState : IIdentifiable
 {

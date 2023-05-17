@@ -1,5 +1,5 @@
-﻿using EMS.Core.ConventionalServices;
-using EMS.Core.Services;
+﻿using Core.ConventionalServices;
+using Core.Services;
 using System.IO;
 using System.Printing;
 using System.Windows.Controls;

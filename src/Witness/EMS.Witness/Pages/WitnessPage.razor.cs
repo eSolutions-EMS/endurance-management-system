@@ -1,5 +1,5 @@
-﻿using EnduranceJudge.Application.Services;
-using EMS.Core.Domain.AggregateRoots.Manager;
+﻿using Core.Application.Services;
+using Core.Domain.AggregateRoots.Manager;
 using EMS.Witness.Models;
 using EMS.Witness.Services;
 using Microsoft.AspNetCore.Components;

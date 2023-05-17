@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using EMS.Judge.Application.Core.Models;
-using EMS.Core.Extensions;
-using EMS.Core.Mappings;
-using EMS.Core.Domain.Enums;
-using EMS.Core.Domain.State.Competitions;
+using Core.Extensions;
+using Core.Mappings;
+using Core.Domain.Enums;
+using Core.Domain.State.Competitions;
 
 namespace EMS.Judge.Views.Content.Configuration.Children.Competitions.Configuration;
 

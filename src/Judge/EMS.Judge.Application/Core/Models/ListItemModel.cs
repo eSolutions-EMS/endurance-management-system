@@ -1,6 +1,6 @@
-﻿using EMS.Core.Mappings;
-using EMS.Core.Domain.State.Horses;
-using EMS.Core.Domain.State.Participants;
+﻿using Core.Mappings;
+using Core.Domain.State.Horses;
+using Core.Domain.State.Participants;
 
 namespace EMS.Judge.Application.Core.Models;
 

@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace EMS.Core.Mappings;
+namespace Core.Mappings;
 
 public interface ICustomMapConfiguration
 {

@@ -1,14 +1,14 @@
-﻿using EMS.Core.Domain.AggregateRoots.Configuration.Aggregates;
-using EMS.Core.Domain.Core.Models;
-using EMS.Core.Domain.State;
-using EMS.Core.Domain.State.EnduranceEvents;
-using EMS.Core.Domain.State.Personnels;
-using EMS.Core.Domain.Validation;
-using EMS.Core.Utilities;
-using EMS.Core.Domain.Core.Extensions;
-using static EMS.Core.Localization.Strings;
+﻿using Core.Domain.AggregateRoots.Configuration.Aggregates;
+using Core.Domain.Core.Models;
+using Core.Domain.State;
+using Core.Domain.State.EnduranceEvents;
+using Core.Domain.State.Personnels;
+using Core.Domain.Validation;
+using Core.Utilities;
+using Core.Domain.Core.Extensions;
+using static Core.Localization.Strings;
 
-namespace EMS.Core.Domain.AggregateRoots.Configuration;
+namespace Core.Domain.AggregateRoots.Configuration;
 
 public class ConfigurationRoot : IAggregateRoot
 {

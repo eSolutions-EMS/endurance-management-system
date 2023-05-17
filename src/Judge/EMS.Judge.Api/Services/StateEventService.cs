@@ -1,5 +1,5 @@
-﻿using EMS.Core.ConventionalServices;
-using EMS.Core.Domain.AggregateRoots.Manager;
+﻿using Core.ConventionalServices;
+using Core.Domain.AggregateRoots.Manager;
 using EMS.Judge.Api.Requests;
 using System;
 using System.Collections.Generic;

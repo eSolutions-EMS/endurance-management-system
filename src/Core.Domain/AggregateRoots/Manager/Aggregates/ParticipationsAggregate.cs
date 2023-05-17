@@ -1,16 +1,16 @@
-﻿using EMS.Core.Domain.Core.Exceptions;
-using EMS.Core.Domain.Core.Models;
-using EMS.Core.Domain.State.Competitions;
-using EMS.Core.Domain.State.LapRecords;
-using EMS.Core.Domain.State.Laps;
-using EMS.Core.Domain.State.Participants;
-using EMS.Core.Domain.State.Participations;
-using EMS.Core.Domain.AggregateRoots.Manager.WitnessEvents;
+﻿using Core.Domain.Core.Exceptions;
+using Core.Domain.Core.Models;
+using Core.Domain.State.Competitions;
+using Core.Domain.State.LapRecords;
+using Core.Domain.State.Laps;
+using Core.Domain.State.Participants;
+using Core.Domain.State.Participations;
+using Core.Domain.AggregateRoots.Manager.WitnessEvents;
 using System;
 using System.Linq;
-using static EMS.Core.Localization.Strings;
+using static Core.Localization.Strings;
 
-namespace EMS.Core.Domain.AggregateRoots.Manager.Aggregates;
+namespace Core.Domain.AggregateRoots.Manager.Aggregates;
 
 public class ParticipationsAggregate : IAggregate
 {

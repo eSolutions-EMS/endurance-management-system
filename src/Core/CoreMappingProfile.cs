@@ -1,7 +1,7 @@
-﻿using EMS.Core.Mappings;
+﻿using Core.Mappings;
 using System.Reflection;
 
-namespace EMS.Core;
+namespace Core;
 
 public class CoreMappingProfile : MappingProfile
 {

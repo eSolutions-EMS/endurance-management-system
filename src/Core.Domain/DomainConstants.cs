@@ -1,12 +1,12 @@
-using EMS.Core.Domain.AggregateRoots.Common.Performances;
-using EMS.Core.Domain.State.Competitions;
-using EMS.Core.Domain.State.Laps;
-using EMS.Core.Domain.State.Participants;
-using EMS.Core.Domain.State.Participations;
-using EMS.Core.Utilities;
+using Core.Domain.AggregateRoots.Common.Performances;
+using Core.Domain.State.Competitions;
+using Core.Domain.State.Laps;
+using Core.Domain.State.Participants;
+using Core.Domain.State.Participations;
+using Core.Utilities;
 using System.Reflection;
 
-namespace EMS.Core.Domain;
+namespace Core.Domain;
 
 public static class DomainConstants
 {

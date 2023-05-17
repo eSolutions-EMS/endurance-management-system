@@ -1,7 +1,7 @@
 ﻿using EMS.Judge.Core;
 using EMS.Judge.Views;
-using EMS.Core.Services;
-using EMS.Core.Utilities;
+using Core.Services;
+using Core.Utilities;
 using EMS.Judge.Startup;
 using Microsoft.Extensions.DependencyInjection;
 using Prism.DryIoc;

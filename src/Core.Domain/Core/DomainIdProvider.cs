@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace EMS.Core.Domain.Core;
+namespace Core.Domain.Core;
 
 public static class DomainIdProvider
 {

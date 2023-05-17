@@ -1,7 +1,7 @@
-﻿using EMS.Core.Utilities;
+﻿using Core.Utilities;
 using System.Reflection;
 
-namespace EMS.Core.Localization;
+namespace Core.Localization;
 
 public static class LocalizationConstants
 {

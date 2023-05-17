@@ -1,6 +1,6 @@
-using EMS.Core.Domain.Core.Exceptions;
+using Core.Domain.Core.Exceptions;
 
-namespace EMS.Core.Domain.State.Athletes;
+namespace Core.Domain.State.Athletes;
 
 public class AthleteException : DomainExceptionBase
 {

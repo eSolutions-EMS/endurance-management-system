@@ -1,7 +1,7 @@
 ﻿using EMS.Judge.Core.Services;
 using EMS.Judge.Core.ViewModels;
 using EMS.Judge.Services;
-using EMS.Core.Domain.AggregateRoots.Manager;
+using Core.Domain.AggregateRoots.Manager;
 using Prism.Commands;
 using Prism.Services.Dialogs;
 using System.Collections.ObjectModel;

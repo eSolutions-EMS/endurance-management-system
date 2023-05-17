@@ -3,17 +3,17 @@ using EMS.Judge.Services;
 using EMS.Judge.Views.Content.Configuration.Core;
 using EMS.Judge.Application.Core;
 using EMS.Judge.Application.Core.Models;
-using EMS.Core.Mappings;
-using EMS.Core.Models;
-using EMS.Core.Domain.AggregateRoots.Configuration;
-using EMS.Core.Domain.Core.Models;
-using EMS.Core.Domain.State.Athletes;
-using EMS.Core.Domain.Enums;
-using EMS.Core.Domain.State.Countries;
+using Core.Mappings;
+using Core.Models;
+using Core.Domain.AggregateRoots.Configuration;
+using Core.Domain.Core.Models;
+using Core.Domain.State.Athletes;
+using Core.Domain.Enums;
+using Core.Domain.State.Countries;
 using Prism.Regions;
 using System.Collections.ObjectModel;
 using System.Linq;
-using static EMS.Core.Localization.LocalizationConstants;
+using static Core.Localization.LocalizationConstants;
 
 namespace EMS.Judge.Views.Content.Configuration.Roots.Athletes;
 

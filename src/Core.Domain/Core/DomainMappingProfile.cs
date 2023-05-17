@@ -1,11 +1,11 @@
-﻿using EMS.Core.Domain.Core.Models;
+﻿using Core.Domain.Core.Models;
+using Core.Mappings;
+using Core.Utilities;
 using System.Reflection;
-using EMS.Core.Mappings;
-using EMS.Core.Utilities;
 using System;
 using System.Linq;
 
-namespace EMS.Core.Domain.Core;
+namespace Core.Domain.Core;
 
 public class DomainMappingProfile : MappingProfile
 {

@@ -1,8 +1,8 @@
-﻿using EMS.Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
+﻿using Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 using System;
 using System.Collections.Generic;
 
-namespace EMS.Core.Domain.AggregateRoots.Manager.WitnessEvents;
+namespace Core.Domain.AggregateRoots.Manager.WitnessEvents;
 
 public class Witness
 {

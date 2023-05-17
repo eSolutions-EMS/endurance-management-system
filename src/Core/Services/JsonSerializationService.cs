@@ -1,4 +1,4 @@
-using EMS.Core.ConventionalServices;
+using Core.ConventionalServices;
 using JsonNet.PrivatePropertySetterResolver;
 using Newtonsoft.Json;
 using System;

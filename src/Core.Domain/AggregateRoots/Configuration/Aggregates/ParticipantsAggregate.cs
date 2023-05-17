@@ -1,17 +1,17 @@
-﻿using EMS.Core.Domain.Core.Exceptions;
-using EMS.Core.Domain.Core.Models;
-using EMS.Core.Domain.State;
-using EMS.Core.Domain.State.Athletes;
-using EMS.Core.Domain.State.Horses;
-using EMS.Core.Domain.State.Participants;
-using EMS.Core.Domain.State.Participations;
-using EMS.Core.Domain.AggregateRoots.Configuration.Extensions;
-using EMS.Core.Domain.AggregateRoots.Manager.Aggregates;
-using EMS.Core.Domain.Core.Extensions;
+﻿using Core.Domain.Core.Exceptions;
+using Core.Domain.Core.Models;
+using Core.Domain.State;
+using Core.Domain.State.Athletes;
+using Core.Domain.State.Horses;
+using Core.Domain.State.Participants;
+using Core.Domain.State.Participations;
+using Core.Domain.AggregateRoots.Configuration.Extensions;
+using Core.Domain.AggregateRoots.Manager.Aggregates;
+using Core.Domain.Core.Extensions;
 using System.Linq;
-using static EMS.Core.Localization.Strings;
+using static Core.Localization.Strings;
 
-namespace EMS.Core.Domain.AggregateRoots.Configuration.Aggregates;
+namespace Core.Domain.AggregateRoots.Configuration.Aggregates;
 
 public class ParticipantsAggregate : IAggregate
 {

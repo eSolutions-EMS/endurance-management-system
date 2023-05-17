@@ -1,8 +1,8 @@
 ﻿using EMS.Judge.Views.Dialogs.Confirmation;
 using EMS.Judge.Views.Dialogs.Message;
 using EMS.Judge.Views.Dialogs.Startlists;
-using EMS.Core.Models;
-using EMS.Core.Utilities;
+using Core.Models;
+using Core.Utilities;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;

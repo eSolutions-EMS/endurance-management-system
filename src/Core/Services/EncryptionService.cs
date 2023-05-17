@@ -1,7 +1,7 @@
-using EMS.Core.ConventionalServices;
+using Core.ConventionalServices;
 using System;
 
-namespace EMS.Core.Services;
+namespace Core.Services;
 
 public class EncryptionService : IEncryptionService
 {

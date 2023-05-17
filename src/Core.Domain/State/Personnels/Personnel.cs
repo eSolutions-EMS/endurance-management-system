@@ -1,7 +1,7 @@
-using EMS.Core.Domain.Core.Models;
-using EMS.Core.Domain.Enums;
+using Core.Domain.Core.Models;
+using Core.Domain.Enums;
 
-namespace EMS.Core.Domain.State.Personnels;
+namespace Core.Domain.State.Personnels;
 
 public class Personnel : DomainBase<PersonnelException>, IPersonnelState
 {

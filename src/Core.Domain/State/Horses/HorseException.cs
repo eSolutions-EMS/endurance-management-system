@@ -1,6 +1,6 @@
-using EMS.Core.Domain.Core.Exceptions;
+using Core.Domain.Core.Exceptions;
 
-namespace EMS.Core.Domain.State.Horses;
+namespace Core.Domain.State.Horses;
 
 public class HorseException : DomainExceptionBase
 {

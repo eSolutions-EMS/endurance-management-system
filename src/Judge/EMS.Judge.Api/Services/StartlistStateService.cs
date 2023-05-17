@@ -1,5 +1,5 @@
-﻿using EMS.Core.ConventionalServices;
-using EMS.Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
+﻿using Core.ConventionalServices;
+using Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 using System.Collections.Generic;
 using System.Linq;
 

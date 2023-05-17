@@ -1,4 +1,4 @@
-﻿using EMS.Core.Utilities;
+﻿using Core.Utilities;
 using System.Reflection;
 
 namespace EMS.Judge.Api

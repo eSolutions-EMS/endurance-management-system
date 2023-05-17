@@ -1,8 +1,8 @@
-using EMS.Core.Domain.Enums;
-using EMS.Core.Models;
+using Core.Domain.Enums;
+using Core.Models;
 using System;
 
-namespace EMS.Core.Domain.State.Competitions;
+namespace Core.Domain.State.Competitions;
 
 public interface ICompetitionState : IIdentifiable
 {

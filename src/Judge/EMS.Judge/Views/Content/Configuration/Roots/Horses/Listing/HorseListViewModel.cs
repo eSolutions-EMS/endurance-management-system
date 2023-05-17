@@ -4,9 +4,9 @@ using EMS.Judge.Services;
 using EMS.Judge.Application.Services;
 using EMS.Judge.Application.Core;
 using EMS.Judge.Application.Core.Models;
-using EMS.Core.Mappings;
-using EMS.Core.Domain.AggregateRoots.Configuration;
-using EMS.Core.Domain.State.Horses;
+using Core.Mappings;
+using Core.Domain.AggregateRoots.Configuration;
+using Core.Domain.State.Horses;
 using System.Collections.Generic;
 
 namespace EMS.Judge.Views.Content.Configuration.Roots.Horses.Listing;

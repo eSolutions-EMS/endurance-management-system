@@ -1,6 +1,6 @@
-using EMS.Core.Models;
+using Core.Models;
 
-namespace EMS.Core.Domain.State.Laps;
+namespace Core.Domain.State.Laps;
 
 public interface ILapState : IIdentifiable
 {

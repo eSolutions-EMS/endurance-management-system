@@ -1,10 +1,10 @@
 ﻿using EMS.Judge.Core.Services;
 using EMS.Judge.Application.Hardware;
 using EMS.Judge.Application.Services;
-using EMS.Core.Events;
-using EMS.Core.Domain.AggregateRoots.Manager;
-using EMS.Core.Domain.AggregateRoots.Manager.WitnessEvents;
-using EMS.Core.Domain.State;
+using Core.Events;
+using Core.Domain.AggregateRoots.Manager;
+using Core.Domain.AggregateRoots.Manager.WitnessEvents;
+using Core.Domain.State;
 using System;
 using System.Collections.Generic;
 using System.Threading;

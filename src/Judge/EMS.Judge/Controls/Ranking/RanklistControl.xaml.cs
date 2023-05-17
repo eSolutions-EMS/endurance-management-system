@@ -1,4 +1,4 @@
-﻿using EMS.Core.Domain.AggregateRoots.Ranking.Aggregates;
+﻿using Core.Domain.AggregateRoots.Ranking.Aggregates;
 using System.Collections.Generic;
 using System.Windows;
 

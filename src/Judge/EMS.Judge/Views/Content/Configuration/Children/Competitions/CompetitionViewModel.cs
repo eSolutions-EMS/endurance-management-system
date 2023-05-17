@@ -6,12 +6,12 @@ using EMS.Judge.Views.Content.Configuration.Children.Competitions.AddParticipant
 using EMS.Judge.Views.Content.Configuration.Children.Laps;
 using EMS.Judge.Views.Content.Configuration.Core;
 using EMS.Judge.Application.Core;
-using EMS.Core.Domain.AggregateRoots.Configuration;
-using EMS.Core.Domain.Core.Models;
-using EMS.Core.Domain.State.Competitions;
-using EMS.Core.Domain.Enums;
-using EMS.Core.Domain.State.Participations;
-using static EMS.Core.Localization.Strings;
+using Core.Domain.AggregateRoots.Configuration;
+using Core.Domain.Core.Models;
+using Core.Domain.State.Competitions;
+using Core.Domain.Enums;
+using Core.Domain.State.Participations;
+using static Core.Localization.Strings;
 using Prism.Commands;
 using Prism.Regions;
 using System;

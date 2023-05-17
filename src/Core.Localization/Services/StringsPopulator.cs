@@ -1,10 +1,10 @@
-﻿using EMS.Core.ConventionalServices;
+﻿using Core.ConventionalServices;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace EMS.Core.Localization.Services;
+namespace Core.Localization.Services;
 
 public class StringsPopulator : IStringsPopulator
 {

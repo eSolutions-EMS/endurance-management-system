@@ -1,9 +1,9 @@
-﻿using EMS.Core.Domain.State.Athletes;
-using EMS.Core.Domain.State.Countries;
-using EMS.Core.Domain.State.EnduranceEvents;
-using EMS.Core.Domain.State.Horses;
-using EMS.Core.Domain.State.Participants;
-using EMS.Core.Domain.State.Participations;
+﻿using Core.Domain.State.Athletes;
+using Core.Domain.State.Countries;
+using Core.Domain.State.EnduranceEvents;
+using Core.Domain.State.Horses;
+using Core.Domain.State.Participants;
+using Core.Domain.State.Participations;
 using EMS.Judge.Application.Services;
 using Newtonsoft.Json;
 using System.Collections.Generic;

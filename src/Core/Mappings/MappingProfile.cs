@@ -2,11 +2,11 @@
 using System.Linq;
 using System.Reflection;
 using AutoMapper;
-using EMS.Core.Utilities;
+using Core.Utilities;
 using System.Collections.Generic;
-using EMS.Core.Extensions;
+using Core.Extensions;
 
-namespace EMS.Core.Mappings;
+namespace Core.Mappings;
 
 public abstract class MappingProfile : Profile
 {

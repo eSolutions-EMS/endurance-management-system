@@ -1,7 +1,7 @@
-using EMS.Core.Domain.Core.Models;
-using EMS.Core.Domain.Validation;
+using Core.Domain.Core.Models;
+using Core.Domain.Validation;
 
-namespace EMS.Core.Domain.State.Countries;
+namespace Core.Domain.State.Countries;
 
 public class Country : DomainBase<CountryException>, ICountryState
 {

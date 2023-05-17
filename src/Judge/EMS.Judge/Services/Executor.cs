@@ -1,5 +1,5 @@
 ﻿using EMS.Judge.Application.Services;
-using EMS.Core.ConventionalServices;
+using Core.ConventionalServices;
 using System;
 
 namespace EMS.Judge.Services;

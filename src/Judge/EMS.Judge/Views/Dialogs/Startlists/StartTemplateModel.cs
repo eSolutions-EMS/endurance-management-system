@@ -1,5 +1,5 @@
-﻿using EMS.Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
-using static EMS.Core.Localization.Strings;
+﻿using Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
+using static Core.Localization.Strings;
 
 namespace EMS.Judge.Views.Dialogs.Startlists;
 

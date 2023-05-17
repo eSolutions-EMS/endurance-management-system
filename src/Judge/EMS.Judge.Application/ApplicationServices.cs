@@ -1,5 +1,5 @@
-﻿using EMS.Core.Domain.AggregateRoots.Manager;
-using EMS.Core.Domain.State;
+﻿using Core.Domain.AggregateRoots.Manager;
+using Core.Domain.State;
 using EMS.Judge.Application.Core;
 using EMS.Judge.Application.Models;
 using EMS.Judge.Application.Services;

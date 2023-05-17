@@ -10,7 +10,7 @@ using EMS.Judge.Application.Core.Exceptions;
 using Prism.Regions;
 using System;
 using static EMS.Judge.DesktopConstants;
-using static EMS.Core.Localization.Strings;
+using static Core.Localization.Strings;
 using NavigationParameters = Prism.Regions.NavigationParameters;
 
 namespace EMS.Judge.Services.Implementations;

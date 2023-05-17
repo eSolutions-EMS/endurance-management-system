@@ -1,6 +1,6 @@
-using EMS.Core.ConventionalServices;
+using Core.ConventionalServices;
 
-namespace EMS.Core.Domain.Core.Models;
+namespace Core.Domain.Core.Models;
 
 // TODO: Make Singleton
 public interface IAggregateRoot : IAggregate, ITransientService

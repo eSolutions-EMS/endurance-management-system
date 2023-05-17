@@ -1,8 +1,8 @@
-using EMS.Core.ConventionalServices;
+using Core.ConventionalServices;
 using System;
 using System.IO;
 
-namespace EMS.Core.Services;
+namespace Core.Services;
 
 public class FileService : IFileService
 {

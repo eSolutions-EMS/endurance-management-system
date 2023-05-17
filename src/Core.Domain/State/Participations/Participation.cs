@@ -1,12 +1,12 @@
-﻿using EMS.Core.Domain.AggregateRoots.Manager;
-using EMS.Core.Domain.Core.Models;
-using EMS.Core.Domain.State.Competitions;
-using EMS.Core.Domain.State.Participants;
+﻿using Core.Domain.AggregateRoots.Manager;
+using Core.Domain.Core.Models;
+using Core.Domain.State.Competitions;
+using Core.Domain.State.Participants;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EMS.Core.Domain.State.Participations;
+namespace Core.Domain.State.Participations;
 
 public class Participation : DomainBase<ParticipationException>
 {

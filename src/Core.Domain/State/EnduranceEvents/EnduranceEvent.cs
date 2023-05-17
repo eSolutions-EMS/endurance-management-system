@@ -1,15 +1,15 @@
-using EMS.Core.Domain.Core.Models;
-using EMS.Core.Domain.Enums;
-using EMS.Core.Domain.State.Competitions;
-using EMS.Core.Domain.State.Countries;
-using EMS.Core.Domain.State.Personnels;
-using EMS.Core.Domain.Core.Extensions;
-using EMS.Core.Domain.State.Participations;
+using Core.Domain.Core.Models;
+using Core.Domain.Enums;
+using Core.Domain.State.Competitions;
+using Core.Domain.State.Countries;
+using Core.Domain.State.Personnels;
+using Core.Domain.Core.Extensions;
+using Core.Domain.State.Participations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EMS.Core.Domain.State.EnduranceEvents;
+namespace Core.Domain.State.EnduranceEvents;
 
 public class EnduranceEvent : DomainBase<EnduranceEventException>, IEnduranceEventState
 {

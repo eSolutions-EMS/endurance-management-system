@@ -1,13 +1,13 @@
 ﻿using EMS.Judge.Controls.Manager;
 using EMS.Judge.Core;
-using EMS.Core.Domain.AggregateRoots.Common.Performances;
-using EMS.Core.Domain.State.LapRecords;
-using EMS.Core.Domain.State.Participations;
+using Core.Domain.AggregateRoots.Common.Performances;
+using Core.Domain.State.LapRecords;
+using Core.Domain.State.Participations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-using static EMS.Core.Localization.Strings;
+using static Core.Localization.Strings;
 
 namespace EMS.Judge.Controls.Ranking;
 

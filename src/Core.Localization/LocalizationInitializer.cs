@@ -1,8 +1,8 @@
-﻿using EMS.Core.Localization.Services;
-using EMS.Core.Services;
+﻿using Core.Localization.Services;
+using Core.Services;
 using System;
 
-namespace EMS.Core.Localization;
+namespace Core.Localization;
 
 public class LocalizationInitializer : IInitializer
 {

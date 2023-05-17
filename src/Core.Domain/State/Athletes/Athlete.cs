@@ -1,9 +1,9 @@
-using EMS.Core.Domain.Core.Models;
-using EMS.Core.Domain.Enums;
-using EMS.Core.Domain.State.Countries;
+using Core.Domain.Core.Models;
+using Core.Domain.Enums;
+using Core.Domain.State.Countries;
 using System;
 
-namespace EMS.Core.Domain.State.Athletes;
+namespace Core.Domain.State.Athletes;
 
 public class Athlete : DomainBase<AthleteException>, IAthleteState
 {

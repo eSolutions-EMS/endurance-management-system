@@ -1,5 +1,5 @@
-﻿using EMS.Core.Services;
-using EMS.Core.Utilities;
+﻿using Core.Services;
+using Core.Utilities;
 using System;
 
 namespace EMS.Judge.Api

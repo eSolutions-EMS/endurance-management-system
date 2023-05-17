@@ -1,4 +1,4 @@
-﻿using EMS.Core.ConventionalServices;
+﻿using Core.ConventionalServices;
 
 namespace EMS.Judge.Core.Services;
 

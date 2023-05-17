@@ -1,4 +1,4 @@
-﻿namespace EMS.Core.Models;
+﻿namespace Core.Models;
 
 public interface IListable
 {

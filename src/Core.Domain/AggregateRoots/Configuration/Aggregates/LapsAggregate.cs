@@ -1,16 +1,16 @@
-﻿using EMS.Core.Domain.Core.Exceptions;
-using EMS.Core.Domain.Core.Models;
-using EMS.Core.Domain.State;
-using EMS.Core.Domain.State.Laps;
-using EMS.Core.Domain.Validation;
-using EMS.Core.Domain.AggregateRoots.Configuration.Extensions;
-using EMS.Core.Domain.Core.Extensions;
+﻿using Core.Domain.Core.Exceptions;
+using Core.Domain.Core.Models;
+using Core.Domain.State;
+using Core.Domain.State.Laps;
+using Core.Domain.Validation;
+using Core.Domain.AggregateRoots.Configuration.Extensions;
+using Core.Domain.Core.Extensions;
 using System;
 using System.Linq;
-using static EMS.Core.Domain.DomainConstants.ErrorMessages;
-using static EMS.Core.Localization.Strings;
+using static Core.Domain.DomainConstants.ErrorMessages;
+using static Core.Localization.Strings;
 
-namespace EMS.Core.Domain.AggregateRoots.Configuration.Aggregates;
+namespace Core.Domain.AggregateRoots.Configuration.Aggregates;
 
 public class LapsAggregate : IAggregate
 {

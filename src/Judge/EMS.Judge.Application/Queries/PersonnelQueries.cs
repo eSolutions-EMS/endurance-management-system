@@ -1,5 +1,5 @@
-﻿using EMS.Core.Domain.State;
-using EMS.Core.Domain.State.Personnels;
+﻿using Core.Domain.State;
+using Core.Domain.State.Personnels;
 using EMS.Judge.Application.Aggregates.Configurations;
 using EMS.Judge.Application.Core;
 using System.Collections.Generic;

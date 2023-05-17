@@ -3,13 +3,13 @@ using EMS.Judge.Core.Services;
 using EMS.Judge.Services;
 using EMS.Judge.Application.Services;
 using EMS.Judge.Application.Core.Models;
-using EMS.Core.Utilities;
+using Core.Utilities;
 using Prism.Commands;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using static EMS.Core.Localization.Strings;
+using static Core.Localization.Strings;
 
 namespace EMS.Judge.Core.ViewModels;
 

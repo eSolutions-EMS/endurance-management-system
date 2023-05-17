@@ -1,8 +1,8 @@
-﻿using EMS.Core.ConventionalServices;
-using EMS.Core.Events;
-using EMS.Core.Services;
-using EMS.Core.Domain.AggregateRoots.Manager.WitnessEvents;
-using EMS.Core.Domain.State;
+﻿using Core.ConventionalServices;
+using Core.Events;
+using Core.Services;
+using Core.Domain.AggregateRoots.Manager.WitnessEvents;
+using Core.Domain.State;
 using EMS.Judge.Application.Core.Services;
 using EMS.Judge.Application.Models;
 using EMS.Judge.Application.State;

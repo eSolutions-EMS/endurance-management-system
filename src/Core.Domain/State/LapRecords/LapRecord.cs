@@ -1,13 +1,13 @@
-﻿using EMS.Core.Domain.AggregateRoots.Manager.Aggregates;
-using EMS.Core.Domain.Annotations;
-using EMS.Core.Domain.Core.Models;
-using EMS.Core.Domain.State.Laps;
-using EMS.Core.Domain.State.Results;
+﻿using Core.Domain.AggregateRoots.Manager.Aggregates;
+using Core.Domain.Annotations;
+using Core.Domain.Core.Models;
+using Core.Domain.State.Laps;
+using Core.Domain.State.Results;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace EMS.Core.Domain.State.LapRecords;
+namespace Core.Domain.State.LapRecords;
 
 public class LapRecord : DomainBase<LapRecordException>, ILapRecordState, INotifyPropertyChanged
 {

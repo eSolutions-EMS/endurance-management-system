@@ -1,9 +1,9 @@
-﻿using EMS.Core.Domain.Core.Exceptions;
+﻿using Core.Domain.Core.Exceptions;
 using System;
 using System.Linq;
-using static EMS.Core.Localization.Strings;
+using static Core.Localization.Strings;
 
-namespace EMS.Core.Domain.Validation;
+namespace Core.Domain.Validation;
 
 public class Validator<T> where T : DomainExceptionBase, new()
 {

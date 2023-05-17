@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using EMS.Judge.Core.Components.Templates.SimpleListItem;
 using EMS.Judge.Application.Core.Models;
-using EMS.Core.Mappings;
-using EMS.Core.Domain.State.Athletes;
-using EMS.Core.Domain.State.Horses;
-using EMS.Core.Domain.State.Participants;
+using Core.Mappings;
+using Core.Domain.State.Athletes;
+using Core.Domain.State.Horses;
+using Core.Domain.State.Participants;
 
 namespace EMS.Judge.Views.Content.Configuration.Roots.Participants.Configuration;
 

@@ -1,24 +1,24 @@
-﻿using EMS.Core.Domain.AggregateRoots.Common.Performances;
-using EMS.Core.Domain.AggregateRoots.Manager.Aggregates;
-using EMS.Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
-using EMS.Core.Domain.AggregateRoots.Manager.WitnessEvents;
-using EMS.Core.Domain.Core.Exceptions;
-using EMS.Core.Domain.Core.Models;
-using EMS.Core.Domain.State;
-using EMS.Core.Domain.State.Competitions;
-using EMS.Core.Domain.State.LapRecords;
-using EMS.Core.Domain.State.Participants;
-using EMS.Core.Domain.State.Participations;
+﻿using Core.Domain.AggregateRoots.Common.Performances;
+using Core.Domain.AggregateRoots.Manager.Aggregates;
+using Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
+using Core.Domain.AggregateRoots.Manager.WitnessEvents;
+using Core.Domain.Core.Exceptions;
+using Core.Domain.Core.Models;
+using Core.Domain.State;
+using Core.Domain.State.Competitions;
+using Core.Domain.State.LapRecords;
+using Core.Domain.State.Participants;
+using Core.Domain.State.Participations;
+using Core.Events;
+using Core.Services;
+using Core.Utilities;
 using EMS.Judge.Application.Core.Services;
-using EMS.Core.Events;
-using EMS.Core.Services;
-using EMS.Core.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static EMS.Core.Localization.Strings;
+using static Core.Localization.Strings;
 
-namespace EMS.Core.Domain.AggregateRoots.Manager;
+namespace Core.Domain.AggregateRoots.Manager;
 
 public class ManagerRoot : IAggregateRoot
 {

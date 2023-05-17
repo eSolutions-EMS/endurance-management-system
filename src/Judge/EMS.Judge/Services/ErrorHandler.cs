@@ -1,9 +1,9 @@
 ﻿using EMS.Judge.Core.Services;
 using EMS.Judge.Application.Services;
 using EMS.Judge.Application.Core.Exceptions;
-using EMS.Core.ConventionalServices;
-using EMS.Core.Events;
-using EMS.Core.Domain.Core.Exceptions;
+using Core.ConventionalServices;
+using Core.Events;
+using Core.Domain.Core.Exceptions;
 using System;
 using static EMS.Judge.DesktopConstants;
 

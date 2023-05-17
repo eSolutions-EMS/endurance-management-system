@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EMS.Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
+namespace Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 
 public class StartModel
 {

@@ -1,4 +1,4 @@
-﻿namespace EMS.Core.Domain.Core.Exceptions;
+﻿namespace Core.Domain.Core.Exceptions;
 
 public class DomainException : DomainExceptionBase
 {

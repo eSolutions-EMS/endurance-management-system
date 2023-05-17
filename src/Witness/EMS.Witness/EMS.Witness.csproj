@@ -87,11 +87,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Application\Application.csproj" />
-      <ProjectReference Include="..\..\EMS.Core.Application\EMS.Core.Application.csproj" />
+      <ProjectReference Include="..\..\Core.Application\Core.Application.csproj" />
       <ProjectReference Include="..\..\Core.Domain\Core.Domain.csproj" />
-      <ProjectReference Include="..\..\Core.Localization\Core.Localization.csproj" />
-      <ProjectReference Include="..\..\Core\Core.csproj" />
     </ItemGroup>
 
 </Project>

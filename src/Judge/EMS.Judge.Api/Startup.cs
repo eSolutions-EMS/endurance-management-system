@@ -1,9 +1,9 @@
 using EMS.Judge.Application.Core.Services;
 using EMS.Judge.Application.Models;
-using EMS.Core;
-using EMS.Core.Services;
-using EMS.Core.Domain;
-using EMS.Core.Domain.State;
+using Core;
+using Core.Services;
+using Core.Domain;
+using Core.Domain.State;
 using EMS.Judge.Api.Middlewares;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
