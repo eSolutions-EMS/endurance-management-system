@@ -3,7 +3,7 @@ using EMS.Judge.Services;
 using EMS.Judge.Views.Content.Configuration.Core;
 using EMS.Judge.Application.Common;
 using Core.Domain.AggregateRoots.Configuration;
-using Core.Domain.Core.Models;
+using Core.Domain.Common.Models;
 using Core.Domain.Enums;
 using Core.Domain.State.Personnels;
 using System.Collections.ObjectModel;

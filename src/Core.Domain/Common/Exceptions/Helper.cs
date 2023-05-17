@@ -1,4 +1,4 @@
-﻿namespace Core.Domain.Core.Exceptions;
+﻿namespace Core.Domain.Common.Exceptions;
 
 /// <summary>
 /// Shorthand for DomainExceptionBase

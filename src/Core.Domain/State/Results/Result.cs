@@ -1,4 +1,4 @@
-using Core.Domain.Core.Models;
+using Core.Domain.Common.Models;
 using System;
 using static Core.Localization.Strings;
 

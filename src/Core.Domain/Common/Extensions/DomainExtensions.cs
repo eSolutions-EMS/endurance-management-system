@@ -1,10 +1,10 @@
-﻿using Core.Domain.Core.Models;
+﻿using Core.Domain.Common.Models;
 using Core.Mappings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Core.Domain.Core.Extensions;
+namespace Core.Domain.Common.Extensions;
 
 public static class DomainExtensions
 {

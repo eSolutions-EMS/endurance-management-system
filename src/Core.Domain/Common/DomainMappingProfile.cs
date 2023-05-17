@@ -1,11 +1,11 @@
-﻿using Core.Domain.Core.Models;
+﻿using Core.Domain.Common.Models;
 using Core.Mappings;
 using Core.Utilities;
 using System.Reflection;
 using System;
 using System.Linq;
 
-namespace Core.Domain.Core;
+namespace Core.Domain.Common;
 
 public class DomainMappingProfile : MappingProfile
 {

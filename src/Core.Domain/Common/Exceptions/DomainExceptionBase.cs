@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Core.Domain.Core.Exceptions;
+namespace Core.Domain.Common.Exceptions;
 
 public abstract class DomainExceptionBase : Exception
 {

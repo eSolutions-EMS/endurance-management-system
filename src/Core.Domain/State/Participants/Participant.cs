@@ -1,6 +1,6 @@
 using Core.Domain.AggregateRoots.Manager;
-using Core.Domain.Core.Exceptions;
-using Core.Domain.Core.Models;
+using Core.Domain.Common.Exceptions;
+using Core.Domain.Common.Models;
 using Core.Domain.State.Athletes;
 using Core.Domain.State.Horses;
 using Core.Domain.State.LapRecords;

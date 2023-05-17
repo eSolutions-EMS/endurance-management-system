@@ -1,8 +1,8 @@
 using Core.Domain.AggregateRoots.Import.Models;
 using Core.Domain.AggregateRoots.Import.Models.International;
 using Core.Domain.AggregateRoots.Import.Models.National;
-using Core.Domain.Core.Exceptions;
-using Core.Domain.Core.Models;
+using Core.Domain.Common.Exceptions;
+using Core.Domain.Common.Models;
 using Core.Domain.Enums;
 using Core.Domain.State;
 using Core.Domain.State.Athletes;

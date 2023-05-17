@@ -2,8 +2,8 @@
 using Core.Domain.AggregateRoots.Manager.Aggregates;
 using Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 using Core.Domain.AggregateRoots.Manager.WitnessEvents;
-using Core.Domain.Core.Exceptions;
-using Core.Domain.Core.Models;
+using Core.Domain.Common.Exceptions;
+using Core.Domain.Common.Models;
 using Core.Domain.State;
 using Core.Domain.State.Competitions;
 using Core.Domain.State.LapRecords;

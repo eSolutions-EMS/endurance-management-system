@@ -3,7 +3,7 @@ using EMS.Judge.Views.Content.Configuration.Core;
 using EMS.Judge.Application.Common;
 using Core.Models;
 using Core.Domain.AggregateRoots.Configuration;
-using Core.Domain.Core.Models;
+using Core.Domain.Common.Models;
 using Core.Domain.State.Horses;
 
 namespace EMS.Judge.Views.Content.Configuration.Roots.Horses;

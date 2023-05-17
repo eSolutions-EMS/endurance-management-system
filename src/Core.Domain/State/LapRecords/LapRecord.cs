@@ -1,6 +1,6 @@
 ﻿using Core.Domain.AggregateRoots.Manager.Aggregates;
 using Core.Domain.Annotations;
-using Core.Domain.Core.Models;
+using Core.Domain.Common.Models;
 using Core.Domain.State.Laps;
 using Core.Domain.State.Results;
 using System;

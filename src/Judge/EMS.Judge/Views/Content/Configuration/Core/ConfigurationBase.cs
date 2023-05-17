@@ -4,7 +4,7 @@ using EMS.Judge.Services;
 using EMS.Judge.Application.Common;
 using Core.Mappings;
 using Core.Utilities;
-using Core.Domain.Core.Models;
+using Core.Domain.Common.Models;
 using EMS.Judge.Common.Extensions;
 using Prism.Commands;
 using Prism.Regions;

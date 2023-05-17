@@ -1,4 +1,4 @@
-﻿namespace Core.Domain.Core.Models;
+﻿namespace Core.Domain.Common.Models;
 
 public interface IAggregate
 {

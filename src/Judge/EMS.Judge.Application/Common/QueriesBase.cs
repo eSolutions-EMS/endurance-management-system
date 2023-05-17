@@ -1,4 +1,4 @@
-﻿using Core.Domain.Core.Models;
+﻿using Core.Domain.Common.Models;
 using Core.Domain.State;
 using System;
 using System.Collections.Generic;

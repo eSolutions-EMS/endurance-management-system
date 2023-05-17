@@ -1,4 +1,4 @@
-using Core.Domain.Core.Models;
+using Core.Domain.Common.Models;
 using Core.Domain.Enums;
 
 namespace Core.Domain.State.Personnels;

@@ -8,7 +8,7 @@ using EMS.Judge.Application.Common;
 using EMS.Judge.Application.Queries;
 using Core.Mappings;
 using Core.Domain.AggregateRoots.Configuration;
-using Core.Domain.Core.Models;
+using Core.Domain.Common.Models;
 using Core.Domain.State.Countries;
 using Core.Domain.State.EnduranceEvents;
 using Prism.Commands;

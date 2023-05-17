@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Core.Domain.Core;
+namespace Core.Domain.Common;
 
 public static class DomainIdProvider
 {

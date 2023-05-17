@@ -1,7 +1,7 @@
 using Core.Domain.AggregateRoots.Ranking.Aggregates;
-using Core.Domain.Core.Models;
+using Core.Domain.Common.Models;
 using Core.Domain.State;
-using Core.Domain.Core.Extensions;
+using Core.Domain.Common.Extensions;
 using System.Collections.Generic;
 using System.Linq;
 

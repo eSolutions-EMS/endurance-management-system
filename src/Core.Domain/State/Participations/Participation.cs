@@ -1,5 +1,5 @@
 ﻿using Core.Domain.AggregateRoots.Manager;
-using Core.Domain.Core.Models;
+using Core.Domain.Common.Models;
 using Core.Domain.State.Competitions;
 using Core.Domain.State.Participants;
 using System;

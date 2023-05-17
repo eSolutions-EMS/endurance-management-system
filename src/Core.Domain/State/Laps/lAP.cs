@@ -1,4 +1,4 @@
-using Core.Domain.Core.Models;
+using Core.Domain.Common.Models;
 
 namespace Core.Domain.State.Laps;
 

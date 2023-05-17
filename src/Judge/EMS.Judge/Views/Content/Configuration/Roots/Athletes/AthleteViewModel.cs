@@ -6,7 +6,7 @@ using EMS.Judge.Application.Common.Models;
 using Core.Mappings;
 using Core.Models;
 using Core.Domain.AggregateRoots.Configuration;
-using Core.Domain.Core.Models;
+using Core.Domain.Common.Models;
 using Core.Domain.State.Athletes;
 using Core.Domain.Enums;
 using Core.Domain.State.Countries;

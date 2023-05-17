@@ -3,7 +3,7 @@ using EMS.Judge.Application.Services;
 using EMS.Judge.Application.Common.Exceptions;
 using Core.ConventionalServices;
 using Core.Events;
-using Core.Domain.Core.Exceptions;
+using Core.Domain.Common.Exceptions;
 using System;
 using static EMS.Judge.DesktopConstants;
 

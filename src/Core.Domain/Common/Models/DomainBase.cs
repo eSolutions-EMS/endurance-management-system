@@ -1,9 +1,9 @@
-﻿using Core.Domain.Core.Exceptions;
+﻿using Core.Domain.Common.Exceptions;
 using Core.Domain.Validation;
 using Core.Models;
 using System;
 
-namespace Core.Domain.Core.Models;
+namespace Core.Domain.Common.Models;
 
 public abstract class DomainBase<TException> : IDomain, IEquatable<DomainBase<TException>>
     where TException : DomainExceptionBase, new()
