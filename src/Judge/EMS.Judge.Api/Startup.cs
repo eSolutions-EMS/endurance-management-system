@@ -5,7 +5,6 @@ using Core.Services;
 using Core.Domain;
 using Core.Domain.State;
 using EMS.Judge.Api.Middlewares;
-using EMS.Judge.Api.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -28,15 +27,14 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddApi();
-        // var assemblies = CoreConstants.Assemblies
-        //     .Concat(ApiConstants.Assemblies)
-        //     .ToArray();
-        //
-        // services
-        //     // .AddCore(assemblies)
-        //     .AddApi(assemblies);
-        // .AddInitializers(assemblies);
+        var assemblies = CoreConstants.Assemblies
+            .Concat(ApiConstants.Assemblies)
+            .ToArray();
+
+        services
+            .AddCore(assemblies)
+            .AddApi(assemblies)
+            .AddInitializers(assemblies);
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider provider)
@@ -53,28 +51,24 @@ public class Startup
         app.UseRouting();
         app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 
-        // // TODO: extract this logic
-        // var initializers = provider.GetServices<IInitializer>();
-        // foreach (var initializer in initializers.OrderBy(x => x.RunningOrder))
-        // {
-        //     initializer.Run();
-        // }
+        // TODO: extract this logic
+        var initializers = provider.GetServices<IInitializer>();
+        foreach (var initializer in initializers.OrderBy(x => x.RunningOrder))
+        {
+            initializer.Run();
+        }
     }
 }
     
 public static class ApiServices
 {
-    public static IServiceCollection AddApi(this IServiceCollection services)
+    public static IServiceCollection AddApi(this IServiceCollection services, Assembly[] assemblies)
     {
         services
             .AddControllers()
             .AddNewtonsoftJson(opt => JsonSerializationService.Configure(opt.SerializerSettings));
 
-        services
-            .AddTransient<ErrorLogger, ErrorLogger>()
-            .AddTransient<INetwork, Network>()
-            .AddTransient<IStartlistStateService, StartlistStateService>()
-            .AddTransient<IStateEventService, StateEventService>();
+        services.AddTransient<ErrorLogger, ErrorLogger>();
             
         return services;
     }

@@ -16,7 +16,7 @@ public class StartlistStateService : IStartlistStateService
         => startlist.ToList();
 }
 
-public interface IStartlistStateService
+public interface IStartlistStateService : ITransientService
 {
     void Set(IEnumerable<StartModel> startModels);
     List<StartModel> Get();

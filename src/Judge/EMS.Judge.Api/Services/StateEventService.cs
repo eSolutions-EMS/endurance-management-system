@@ -57,7 +57,7 @@ public class StateEventService : IStateEventService
     }
 }
 
-public interface IStateEventService
+public interface IStateEventService : ITransientService
 {
     void AddEvent(WitnessEventType type, TagRequest request);
     void AddEvent(WitnessRequest request);
