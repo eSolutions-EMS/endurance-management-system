@@ -2,21 +2,20 @@
 using Core.Utilities;
 using System;
 
-namespace EMS.Judge.Api
+namespace EMS.Judge.Api;
+
+public class ApiInitializer : IInitializer
 {
-    public class ApiInitializer : IInitializer
+    private readonly IServiceProvider serviceProvider;
+
+    public ApiInitializer(IServiceProvider serviceProvider)
     {
-        private readonly IServiceProvider serviceProvider;
+        this.serviceProvider = serviceProvider;
+    }
 
-        public ApiInitializer(IServiceProvider serviceProvider)
-        {
-            this.serviceProvider = serviceProvider;
-        }
-
-        public int RunningOrder => 20;
-        public void Run()
-        {
-            StaticProvider.Initialize(this.serviceProvider);
-        }
+    public int RunningOrder => 20;
+    public void Run()
+    {
+        StaticProvider.Initialize(this.serviceProvider);
     }
 }

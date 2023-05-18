@@ -1,12 +1,11 @@
 ﻿using Core.Domain.AggregateRoots.Manager;
 using System;
 
-namespace EMS.Judge.Api.Requests
+namespace EMS.Judge.Api.Requests;
+
+public class WitnessRequest
 {
-    public class WitnessRequest
-    {
-        public int Number { get; set; }
-        public DateTimeOffset Time { get; set; }
-        public WitnessEventType Type { get; set; }
-    }
+    public int Number { get; set; }
+    public DateTimeOffset Time { get; set; }
+    public WitnessEventType Type { get; set; }
 }

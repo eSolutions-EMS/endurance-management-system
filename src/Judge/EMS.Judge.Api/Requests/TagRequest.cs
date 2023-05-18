@@ -1,8 +1,7 @@
-﻿namespace EMS.Judge.Api.Requests
+﻿namespace EMS.Judge.Api.Requests;
+
+public class TagRequest
 {
-    public class TagRequest
-    {
-        public string Id { get; set; }
-        public long Epoch { get; set; }
-    }
+    public string Id { get; set; }
+    public long Epoch { get; set; }
 }

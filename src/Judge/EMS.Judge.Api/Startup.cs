@@ -14,72 +14,71 @@ using System;
 using System.Linq;
 using System.Reflection;
 
-namespace EMS.Judge.Api
+namespace EMS.Judge.Api;
+
+public class Startup
 {
-    public class Startup
+    public Startup(IConfiguration configuration)
     {
-        public Startup(IConfiguration configuration)
+        Configuration = configuration;
+    }
+
+    public IConfiguration Configuration { get; }
+
+    public void ConfigureServices(IServiceCollection services)
+    {
+        var assemblies = CoreConstants.Assemblies
+            .Concat(ApiConstants.Assemblies)
+            .ToArray();
+
+        services
+            .AddCore(assemblies)
+            .AddApi(assemblies)
+            .AddInitializers(assemblies);
+    }
+
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider provider)
+    {
+        if (env.IsDevelopment())
         {
-            Configuration = configuration;
+            app.UseMiddleware<ErrorLogger>();
         }
-
-        public IConfiguration Configuration { get; }
-
-        public void ConfigureServices(IServiceCollection services)
+        else
         {
-            var assemblies = CoreConstants.Assemblies
-                .Concat(ApiConstants.Assemblies)
-                .ToArray();
-
-            services
-                .AddCore(assemblies)
-                .AddApi(assemblies)
-                .AddInitializers(assemblies);
+            app.UseDeveloperExceptionPage();
         }
+        app.UseHttpsRedirection();
+        app.UseRouting();
+        app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider provider)
+        // TODO: extract this logic
+        var initializers = provider.GetServices<IInitializer>();
+        foreach (var initializer in initializers.OrderBy(x => x.RunningOrder))
         {
-            if (env.IsDevelopment())
-            {
-                app.UseMiddleware<ErrorLogger>();
-            }
-            else
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            app.UseHttpsRedirection();
-            app.UseRouting();
-            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
-
-            // TODO: extract this logic
-            var initializers = provider.GetServices<IInitializer>();
-            foreach (var initializer in initializers.OrderBy(x => x.RunningOrder))
-            {
-                initializer.Run();
-            }
+            initializer.Run();
         }
     }
+}
     
-    public static class ApiServices
+public static class ApiServices
+{
+    public static IServiceCollection AddApi(this IServiceCollection services, Assembly[] assemblies)
     {
-        public static IServiceCollection AddApi(this IServiceCollection services, Assembly[] assemblies)
-        {
-            services
-                .AddControllers()
-                .AddNewtonsoftJson(opt => JsonSerializationService.Configure(opt.SerializerSettings));
+        services
+            .AddControllers()
+            .AddNewtonsoftJson(opt => JsonSerializationService.Configure(opt.SerializerSettings));
 
-            services.AddTransient<ErrorLogger, ErrorLogger>();
+        services.AddTransient<ErrorLogger, ErrorLogger>();
             
-            return services;
-        }
-        
-        public static IServiceCollection AddInitializers(this IServiceCollection services, Assembly[] assemblies)
-            => services
-                .Scan(scan => scan
-                    .FromAssemblies(assemblies)
-                    .AddClasses(classes =>
-                        classes.AssignableTo<IInitializer>())
-                    .AsSelfWithInterfaces()
-                    .WithSingletonLifetime());
+        return services;
     }
+        
+    public static IServiceCollection AddInitializers(this IServiceCollection services, Assembly[] assemblies)
+        => services
+            .Scan(scan => scan
+                .FromAssemblies(assemblies)
+                .AddClasses(classes =>
+                    classes.AssignableTo<IInitializer>())
+                .AsSelfWithInterfaces()
+                .WithSingletonLifetime());
 }
