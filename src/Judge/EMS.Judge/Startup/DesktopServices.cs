@@ -7,6 +7,7 @@ using Core;
 using Core.Services;
 using Core.Domain;
 using Core.Localization;
+using EMS.Judge.Api;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Prism.Ioc;
@@ -35,6 +36,7 @@ public static class DesktopServices
             .Concat(LocalizationConstants.Assemblies)
             .Concat(DomainConstants.Assemblies)
             .Concat(ApplicationConstants.Assemblies)
+            .Concat(ApiConstants.Assemblies)
             .Concat(DesktopConstants.Assemblies)
             .ToArray();
 

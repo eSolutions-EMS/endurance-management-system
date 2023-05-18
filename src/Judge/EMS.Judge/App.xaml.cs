@@ -2,6 +2,7 @@
 using EMS.Judge.Views;
 using Core.Services;
 using Core.Utilities;
+using EMS.Judge.Api;
 using EMS.Judge.Startup;
 using Microsoft.Extensions.DependencyInjection;
 using Prism.DryIoc;
@@ -11,6 +12,7 @@ using Prism.Mvvm;
 using System;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace EMS.Judge;
@@ -40,16 +42,18 @@ public partial class App : PrismApplication
 
     private void InitializeApplication()
     {
-        var aspNetProvider = this.Container.Resolve<IServiceProvider>();
-        InitializeStaticServices(aspNetProvider);
+        var dotnetProvider = this.Container.Resolve<IServiceProvider>();
+        
+        StartApi(dotnetProvider);
+        InitializeStaticServices(dotnetProvider);
 
-        var initializers = aspNetProvider.GetServices<IInitializer>();
+        var initializers = dotnetProvider.GetServices<IInitializer>();
         foreach (var initializer in initializers.OrderBy(x => x.RunningOrder))
         {
             initializer.Run();
         }
         Console.WriteLine("================================================");
-        Console.WriteLine("=        ENDURANCE JUDGE UI running             ");
+        Console.WriteLine("=               JUDGE UI running                ");
         Console.WriteLine("================================================");
     }
 
@@ -77,5 +81,10 @@ public partial class App : PrismApplication
     private static void InitializeStaticServices(IServiceProvider provider)
     {
         StaticProvider.Initialize(provider);
+    }
+
+    private static void StartApi(IServiceProvider provider)
+    {
+        Task.Run(() => JudgeApi.Start(provider));
     }
 }
