@@ -26,6 +26,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core.Domain\Core.Domain.csproj" />
+    <ProjectReference Include="..\EMS.Judge.Api\EMS.Judge.Api.csproj" />
     <ProjectReference Include="..\EMS.Judge.Application\EMS.Judge.Application.csproj" />
   </ItemGroup>
   

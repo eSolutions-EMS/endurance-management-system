@@ -9,7 +9,7 @@ public class ApiConstants
     {
         get
         {
-            var assemblies = ReflectionUtilities.GetAssemblies("Endurance.Judge.Gateways.EMS.Judge.Api");
+            var assemblies = ReflectionUtilities.GetAssemblies("EMS.Judge.Api");
             return assemblies;
         }
     }

@@ -21,7 +21,7 @@ public class Network : INetwork
     }
 }
 
-public interface INetwork : ITransientService
+public interface INetwork
 {
     string GetIpAddress();
 }
