@@ -21,6 +21,7 @@ public class HomeController : ControllerBase
     [HttpGet]
     public IActionResult Get()
     {
+        var a = IPAddress.Broadcast.ToString();
         var hostName = Dns.GetHostName();
         var ipHostInfo = Dns.GetHostEntry(hostName);
         var ip = ipHostInfo.AddressList.First(x =>

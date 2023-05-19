@@ -4,6 +4,7 @@ using EMS.Judge.Views.Content.Manager;
 using EMS.Judge.Application;
 using EMS.Judge.Application.Services;
 using Core;
+using Core.Application;
 using Core.Services;
 using Core.Domain;
 using Core.Localization;
@@ -43,7 +44,8 @@ public static class DesktopServices
         return services
             .AddCore(assemblies)
             .AddDomain(assemblies)
-            .AddApplication(assemblies)
+            .AddCoreApplication(assemblies)
+            .AddJudgeApplication(assemblies)
             .AddDesktop(assemblies)
             .AddInitializers(assemblies);
     }

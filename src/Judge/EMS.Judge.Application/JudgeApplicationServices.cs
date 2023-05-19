@@ -11,7 +11,7 @@ namespace EMS.Judge.Application;
 
 public static class ApplicationServices
 {
-    public static IServiceCollection AddApplication(
+    public static IServiceCollection AddJudgeApplication(
         this IServiceCollection services,
         IEnumerable<Assembly> assemblies)
     {
@@ -22,7 +22,7 @@ public static class ApplicationServices
             .WithTransientLifetime());
 
         services.AddState();
-        
+
         return services;
     }
 
