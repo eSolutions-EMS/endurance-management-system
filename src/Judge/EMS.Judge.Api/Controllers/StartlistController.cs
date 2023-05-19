@@ -8,16 +8,16 @@ namespace EMS.Judge.Api.Controllers;
 [Route(ApplicationConstants.Api.STARTLIST)]
 public class StartlistController : ControllerBase
 {
-    private readonly IStartlistStateService startlistStateService;
-    public StartlistController(IStartlistStateService startlistStateService)
+    private readonly IStartlistService _startlistService;
+    public StartlistController(IStartlistService startlistService)
     {
-        this.startlistStateService = startlistStateService;
+        this._startlistService = startlistService;
     }
 
     [HttpGet]
     public IActionResult Get()
     {
-        var startlist = this.startlistStateService.Get();
+        var startlist = this._startlistService.Get();
         return this.Ok(startlist);
     }
 }

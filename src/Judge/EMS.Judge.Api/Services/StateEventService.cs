@@ -5,7 +5,7 @@ using System;
 
 namespace EMS.Judge.Api.Services;
 
-public class StateEventService : IStateEventService
+public class WitnessEventService : IWitnessEventService
 {
     public void AddEvent(WitnessEventType type, TagRequest request)
     {
@@ -37,7 +37,7 @@ public class StateEventService : IStateEventService
     }
 }
 
-public interface IStateEventService
+public interface IWitnessEventService
 {
     void AddEvent(WitnessEventType type, TagRequest request);
     void AddEvent(WitnessRequest request);

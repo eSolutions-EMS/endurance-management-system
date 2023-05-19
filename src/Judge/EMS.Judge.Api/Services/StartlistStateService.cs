@@ -6,10 +6,10 @@ using System.Collections.Generic;
 
 namespace EMS.Judge.Api.Services;
 
-public class StartlistStateService : IStartlistStateService
+public class StartlistService : IStartlistService
 {
     private readonly ManagerRoot managerRoot;
-    public StartlistStateService(IJudgeServiceProvider judgeServiceProvider)
+    public StartlistService(IJudgeServiceProvider judgeServiceProvider)
     {
         this.managerRoot = judgeServiceProvider.GetRequiredService<ManagerRoot>();
     }
@@ -18,7 +18,7 @@ public class StartlistStateService : IStartlistStateService
         => this.managerRoot.GetStartList(false);
 }
 
-public interface IStartlistStateService
+public interface IStartlistService
 {
     IEnumerable<StartModel> Get();
 }

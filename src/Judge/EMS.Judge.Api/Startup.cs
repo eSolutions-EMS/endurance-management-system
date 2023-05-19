@@ -73,8 +73,8 @@ public static class ApiServices
         services
             .AddTransient<ErrorLogger, ErrorLogger>()
             .AddTransient<INetwork, Network>()
-            .AddTransient<IStartlistStateService, StartlistStateService>()
-            .AddTransient<IStateEventService, StateEventService>();
+            .AddTransient<IStartlistService, StartlistService>()
+            .AddTransient<IWitnessEventService, WitnessEventService>();
             
         return services;
     }

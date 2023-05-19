@@ -10,16 +10,16 @@ namespace EMS.Judge.Api.Controllers;
 [Route(ApplicationConstants.Api.WITNESS)]
 public class WitnessController : ControllerBase
 {
-    private readonly IStateEventService stateEventService;
-    public WitnessController(IStateEventService stateEventService)
+    private readonly IWitnessEventService _witnessEventService;
+    public WitnessController(IWitnessEventService witnessEventService)
     {
-        this.stateEventService = stateEventService;
+        this._witnessEventService = witnessEventService;
     }
         
     [HttpPost]
     public IActionResult Post([FromBody] WitnessRequest request)
     {
-        this.stateEventService.AddEvent(request);
+        this._witnessEventService.AddEvent(request);
         return this.Ok();
     }
         
@@ -27,13 +27,13 @@ public class WitnessController : ControllerBase
     [HttpPost("vet")]
     public IActionResult Vet([FromBody] TagRequest request)
     {
-        this.stateEventService.AddEvent(WitnessEventType.VetIn, request);
+        this._witnessEventService.AddEvent(WitnessEventType.VetIn, request);
         return this.Ok();
     }
     [HttpPost("finish")]
     public IActionResult Finish([FromBody] TagRequest request)
     {
-        this.stateEventService.AddEvent(WitnessEventType.Arrival, request);
+        this._witnessEventService.AddEvent(WitnessEventType.Arrival, request);
         return this.Ok();
     }
 }
