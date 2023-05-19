@@ -1,8 +1,10 @@
 ﻿using Core.Domain.State;
 using EMS.Judge.Api.Configuration;
-using EMS.Judge.Api.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
+using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 
 namespace EMS.Judge.Api.Controllers;
 
@@ -10,19 +12,22 @@ namespace EMS.Judge.Api.Controllers;
 [Route("/")]
 public class HomeController : ControllerBase
 {
-    private readonly INetwork network;
     private readonly IJudgeServiceProvider _judgeServiceProvider;
-    public HomeController(INetwork network, IJudgeServiceProvider judgeServiceProvider)
+    public HomeController(IJudgeServiceProvider judgeServiceProvider)
     {
-        this.network = network;
         this._judgeServiceProvider = judgeServiceProvider;
     }
-        
+
     [HttpGet]
     public IActionResult Get()
     {
+        var hostName = Dns.GetHostName();
+        var ipHostInfo = Dns.GetHostEntry(hostName);
+        var ip = ipHostInfo.AddressList.First(x =>
+            x.AddressFamily == AddressFamily.InterNetwork
+            && x.ToString().StartsWith("192.168"));
+
         var state = this._judgeServiceProvider.GetRequiredService<IState>();
-        var ip = this.network.GetIpAddress();
         var content = $"IP: {ip} - {state?.Event?.Name}";
         return this.Ok(content);
     }
