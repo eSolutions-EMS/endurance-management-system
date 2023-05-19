@@ -21,6 +21,6 @@ public class Witness
     public static event EventHandler<IEnumerable<StartModel>> StartlistChanged;
     public static void RaiseStartlistChanged(IEnumerable<StartModel> startlist)
     {
-        StartlistChanged!.Invoke(null, startlist);
+        StartlistChanged?.Invoke(null, startlist);
     }
 }
