@@ -3,6 +3,7 @@ using EMS.Judge.Views;
 using Core.Services;
 using Core.Utilities;
 using EMS.Judge.Api;
+using EMS.Judge.Application.Services;
 using EMS.Judge.Startup;
 using Microsoft.Extensions.DependencyInjection;
 using Prism.DryIoc;
@@ -43,8 +44,12 @@ public partial class App : PrismApplication
     private void InitializeApplication()
     {
         var dotnetProvider = this.Container.Resolve<IServiceProvider>();
-        
-        StartApi(dotnetProvider);
+
+        var settings = dotnetProvider.GetRequiredService<ISettings>();
+        if (!settings.IsSandboxMode)
+        {
+            StartApi(dotnetProvider);
+        }
         InitializeStaticServices(dotnetProvider);
 
         var initializers = dotnetProvider.GetServices<IInitializer>();
