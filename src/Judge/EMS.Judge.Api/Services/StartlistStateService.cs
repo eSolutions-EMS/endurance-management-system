@@ -1,23 +1,24 @@
-﻿using Core.ConventionalServices;
+﻿using Core.Domain.AggregateRoots.Manager;
 using Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
+using EMS.Judge.Api.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace EMS.Judge.Api.Services;
 
 public class StartlistStateService : IStartlistStateService
 {
-    private static List<StartModel> startlist = new();
+    private readonly ManagerRoot managerRoot;
+    public StartlistStateService(IJudgeServiceProvider judgeServiceProvider)
+    {
+        this.managerRoot = judgeServiceProvider.GetRequiredService<ManagerRoot>();
+    }
 
-    public void Set(IEnumerable<StartModel> startModels)
-        => startlist = startModels.ToList();
-
-    public List<StartModel> Get()
-        => startlist.ToList();
+    public IEnumerable<StartModel> Get()
+        => this.managerRoot.GetStartList(false);
 }
 
 public interface IStartlistStateService
 {
-    void Set(IEnumerable<StartModel> startModels);
-    List<StartModel> Get();
+    IEnumerable<StartModel> Get();
 }
