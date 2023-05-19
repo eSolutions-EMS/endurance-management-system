@@ -36,6 +36,7 @@ public static class DesktopServices
         var assemblies = CoreConstants.Assemblies
             .Concat(LocalizationConstants.Assemblies)
             .Concat(DomainConstants.Assemblies)
+            .Concat(CoreApplicationConstants.Assemblies)
             .Concat(ApplicationConstants.Assemblies)
             .Concat(ApiConstants.Assemblies)
             .Concat(DesktopConstants.Assemblies)

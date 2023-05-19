@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using Core.Application.Services;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Net;
 using System.Net.Sockets;
@@ -11,20 +12,40 @@ namespace EMS.Judge.Api.Services;
 
 public class NetworkBroadcastService : BackgroundService
 {
+    private readonly IHandshakeService handshakeService;
+    public NetworkBroadcastService(IHandshakeService handshakeService)
+    {
+        this.handshakeService = handshakeService;
+    }
+
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        using var server = new UdpClient(NETWORK_BROADCAST_PORT);
-        var payload = "Huston"u8.ToArray();
-
-        while (!stoppingToken.IsCancellationRequested)
+        Console.WriteLine("Broadcasting");
+        try
         {
-            var clientEndpoint = new IPEndPoint(IPAddress.Any, 0);
-            var clientData = server.Receive(ref clientEndpoint);
-            var clientPayload = Encoding.ASCII.GetString(clientData);
+            using var server = new UdpClient(NETWORK_BROADCAST_PORT);
+            var serverPayload = this.handshakeService.CreatePayload(Apps.JUDGE);
 
-            Console.WriteLine($"Received {clientPayload} from {clientEndpoint.Address}, sending response");
-            server.Send(payload, payload.Length, clientEndpoint);
+            while (!stoppingToken.IsCancellationRequested)
+            {
+                var clientEndpoint = new IPEndPoint(IPAddress.Any, 0);
+                var clientPayload = server.Receive(ref clientEndpoint);
+                if (this.handshakeService.ValidatePayload(clientPayload, Apps.WITNESS))
+                {
+                    Console.WriteLine($"Handshake with '{Apps.WITNESS}' on  '{clientEndpoint.Address}'");
+                    server.Send(serverPayload, serverPayload.Length, clientEndpoint);
+                }
+                var contents = Encoding.UTF8.GetString(clientPayload);
+                Console.WriteLine($"Invalid handshake attempt '{contents}' from '{clientEndpoint.Address}'");
+            }
+        }
+        catch (Exception exception)
+        {
+            Console.WriteLine("Error while broadcasting!");
+            Console.WriteLine(exception.Message);
+            Console.WriteLine(exception.StackTrace);
         }
         return Task.CompletedTask;
+
     }
 }

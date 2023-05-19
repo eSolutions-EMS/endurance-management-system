@@ -1,13 +1,19 @@
+using Core;
+using Core.Application;
+using Core.Domain;
+using Core.Localization;
 using EMS.Judge.Application.Common.Services;
 using Core.Services;
 using EMS.Judge.Api.Middlewares;
 using EMS.Judge.Api.Services;
+using EMS.Judge.Application;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using System.Linq;
 using System.Reflection;
 
 namespace EMS.Judge.Api;
@@ -23,7 +29,16 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddApi();
+        var assemblies = CoreConstants.Assemblies
+            .Concat(LocalizationConstants.Assemblies)
+            .Concat(DomainConstants.Assemblies)
+            .Concat(CoreApplicationConstants.Assemblies)
+            .Concat(ApplicationConstants.Assemblies)
+            .Concat(ApiConstants.Assemblies)
+            .ToArray();
+        services
+            .AddCore(assemblies)
+            .AddApi();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider provider)
