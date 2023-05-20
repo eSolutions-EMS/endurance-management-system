@@ -47,7 +47,7 @@ public class NetworkService : INetworkBroadcastService, INetworkHandshakeService
         while (!token.IsCancellationRequested)
         {
             client.EnableBroadcast = true;
-            client.Send(payload, payload.Length, new IPEndPoint(IPAddress.Parse("172.20.10.5"), NETWORK_BROADCAST_PORT));
+            client.Send(payload, payload.Length, new IPEndPoint(IPAddress.Broadcast, NETWORK_BROADCAST_PORT));
             var responsePayload = client.Receive(ref serverEndpoint);
             if (this.handshakeValidatorService.ValidatePayload(responsePayload, Apps.JUDGE))
             {

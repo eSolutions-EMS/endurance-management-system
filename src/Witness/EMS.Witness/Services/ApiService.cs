@@ -1,30 +1,32 @@
-﻿using Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
+﻿using Core.Application.Services;
+using Core.ConventionalServices;
+using Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 using EMS.Witness.Models;
 using EMS.Witness.Shared.Toasts;
 using System.Net.Http.Json;
-using System.Text.Json;
 using static Core.Application.CoreApplicationConstants;
 
 namespace EMS.Witness.Services;
 
 public class ApiService : IApiService
 {
-    private readonly IPermissionsService permissionsService;
+	private static string host = string.Empty;
     private readonly HttpClient httpClient;
 	private readonly ToasterService toasterService;
-	private readonly IState context;
+	private readonly INetworkHandshakeService handshakeService;
+    private readonly IPermissionsService permissionsService;
 
 	public ApiService(
-        IPermissionsService permissionsService,
+		IPermissionsService permissionsService,
+		INetworkHandshakeService handshakeService,
 		HttpClient httpClient,
-		ToasterService toasterService,
-		IState context)
+		ToasterService toasterService)
     {
         this.permissionsService = permissionsService;
         this.httpClient = httpClient;
 		this.toasterService = toasterService;
-		this.context = context;
-	}
+		this.handshakeService = handshakeService;
+    }
 
 	public async Task Handshake()
 	{
@@ -32,23 +34,30 @@ public class ApiService : IApiService
 		{
 			if (await this.permissionsService.HasNetworkPermissions())
 			{
-				var response = await this.httpClient.GetAsync(this.context.ApiHost);
-				if (response.IsSuccessStatusCode)
+				var ip = await this.handshakeService.Handshake(Apps.WITNESS, new CancellationToken());
+				if (ip == null)
 				{
-					var toast = new Toast("Handshake succesful", "Established connection to the EMS API", UiColor.Success, 10);
-					this.toasterService.Add(toast);
+					var error = new Toast("Could not handshake", "Judge API address is null", UiColor.Danger, 10);
+					this.toasterService.Add(error);
+					return;
 				}
+				ConfigureApiHost(ip.ToString());
+				var toast = new Toast(
+					"Handshake successful",
+					$"Connected to Judge API on '{ip}'",
+					UiColor.Success,
+					10);
+				this.toasterService.Add(toast);
 			}
 			else
 			{
-				var toast = new Toast(
+				var error = new Toast(
 					"Network permission rejected",
 					"eWitness app cannot operate without Network permissions. Grant permissions in device settings.",
 					UiColor.Danger,
 					10);
-				this.toasterService.Add(toast);
+				this.toasterService.Add(error);
 			}
-			
 		}
 		catch (Exception exception)
 		{
@@ -60,7 +69,7 @@ public class ApiService : IApiService
     {
         try
         {
-			return await this.httpClient.GetFromJsonAsync<List<StartModel>>(this.context.ApiHost + Api.STARTLIST)
+			return await this.httpClient.GetFromJsonAsync<List<StartModel>>(this.BuildUrl(Api.STARTLIST))
 				?? new List<StartModel>();
 		}
         catch (Exception exception)
@@ -74,8 +83,7 @@ public class ApiService : IApiService
     {
 		try
 		{
-			var test = JsonSerializer.Serialize(witnessEvent);
-			var result = await this.httpClient.PostAsJsonAsync(this.context.ApiHost+ Api.WITNESS, witnessEvent);
+			var result = await this.httpClient.PostAsJsonAsync(this.BuildUrl(Api.WITNESS), witnessEvent);
 			if (!result.IsSuccessStatusCode)
 			{
 				throw new Exception($"Unsuccessful response: {result.StatusCode}");
@@ -94,9 +102,26 @@ public class ApiService : IApiService
 		var toast = new Toast(exception.Message, exception.StackTrace, UiColor.Danger, 30);
 		this.toasterService.Add(toast);
 	}
+
+	private string BuildUrl(string uri)
+	{
+		if (host == string.Empty)
+		{
+			var toast = new Toast(
+				"Connection problem",
+				"Cannot connect to Judge, handshake is not performed or was not successful",
+				UiColor.Danger,
+				10);
+			this.toasterService.Add(toast);
+		}
+		return $"{host}/{uri}";
+	}
+
+	private static void ConfigureApiHost(string ipAddress)
+		=> host = $"http://{ipAddress}:{NETWORK_API_PORT}";
 }
 
-public interface IApiService
+public interface IApiService : ISingletonService
 {
 	Task Handshake();
 	Task<List<StartModel>> GetStartlist();
