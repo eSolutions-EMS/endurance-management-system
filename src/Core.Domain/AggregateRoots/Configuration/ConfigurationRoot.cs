@@ -1,11 +1,11 @@
 ﻿using Core.Domain.AggregateRoots.Configuration.Aggregates;
-using Core.Domain.Core.Models;
+using Core.Domain.Common.Models;
 using Core.Domain.State;
 using Core.Domain.State.EnduranceEvents;
 using Core.Domain.State.Personnels;
 using Core.Domain.Validation;
 using Core.Utilities;
-using Core.Domain.Core.Extensions;
+using Core.Domain.Common.Extensions;
 using static Core.Localization.Strings;
 
 namespace Core.Domain.AggregateRoots.Configuration;

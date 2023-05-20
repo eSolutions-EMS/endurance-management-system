@@ -1,4 +1,4 @@
-﻿using Core.Domain.Core.Exceptions;
+﻿using Core.Domain.Common.Exceptions;
 using System;
 using System.Linq;
 using static Core.Localization.Strings;

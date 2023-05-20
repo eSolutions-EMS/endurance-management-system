@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <LangVersion>default</LangVersion>
+    <LangVersion>latestmajor</LangVersion>
     <OutputType>Exe</OutputType>
     <TargetFramework>net5.0-windows</TargetFramework>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
@@ -26,6 +26,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core.Domain\Core.Domain.csproj" />
+    <ProjectReference Include="..\EMS.Judge.Api\EMS.Judge.Api.csproj" />
     <ProjectReference Include="..\EMS.Judge.Application\EMS.Judge.Application.csproj" />
   </ItemGroup>
   

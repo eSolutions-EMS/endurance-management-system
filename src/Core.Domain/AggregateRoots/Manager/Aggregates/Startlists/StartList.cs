@@ -47,6 +47,7 @@ public class Startlist
         {
             Number = participation.Participant.Number,
             Name = participation.Participant.Name,
+            AthleteName = participation.Participant.Athlete.Name,
             CountryName = participation.Participant.Athlete.Country.Name,
             Distance = participation.Distance!.Value,
             StartTime = startTime,

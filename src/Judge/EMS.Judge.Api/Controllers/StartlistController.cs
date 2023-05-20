@@ -1,33 +1,23 @@
 ﻿using EMS.Judge.Application;
-using EMS.Judge.Api.Requests;
 using EMS.Judge.Api.Services;
 using Microsoft.AspNetCore.Mvc;
-using static EMS.Judge.Application.ApplicationConstants;
 
-namespace EMS.Judge.Api.Controllers
+namespace EMS.Judge.Api.Controllers;
+
+[ApiController]
+[Route(ApplicationConstants.Api.STARTLIST)]
+public class StartlistController : ControllerBase
 {
-    [ApiController]
-    [Route(ApplicationConstants.Api.STARTLIST)]
-    public class StartlistController : ControllerBase
+    private readonly IStartlistService _startlistService;
+    public StartlistController(IStartlistService startlistService)
     {
-        private readonly IStartlistStateService startlistStateService;
-        public StartlistController(IStartlistStateService startlistStateService)
-        {
-            this.startlistStateService = startlistStateService;
-        }
+        this._startlistService = startlistService;
+    }
 
-        [HttpGet]
-        public IActionResult Get()
-        {
-            var startlist = this.startlistStateService.Get();
-            return this.Ok(startlist);
-        }
-
-        [HttpPost]
-        public IActionResult Post([FromBody] StartlistRequest request)
-        {
-            this.startlistStateService.Set(request);
-            return this.Ok();
-        }
+    [HttpGet]
+    public IActionResult Get()
+    {
+        var startlist = this._startlistService.Get();
+        return this.Ok(startlist);
     }
 }

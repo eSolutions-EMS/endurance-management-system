@@ -1,11 +1,9 @@
 ﻿using Core.Domain.AggregateRoots.Manager.Aggregates;
-using Core.Domain.Annotations;
-using Core.Domain.Core.Models;
+using Core.Domain.Common.Models;
 using Core.Domain.State.Laps;
 using Core.Domain.State.Results;
 using System;
 using System.ComponentModel;
-using System.Runtime.CompilerServices;
 
 namespace Core.Domain.State.LapRecords;
 
@@ -51,7 +49,6 @@ public class LapRecord : DomainBase<LapRecordException>, ILapRecordState, INotif
             : this.VetGateTime?.AddMinutes(this.Lap.RestTimeInMins);
     public event PropertyChangedEventHandler PropertyChanged;
 
-    [NotifyPropertyChangedInvocator]
     protected virtual void RaisePropertyChanged(string propertyName = null)
     {
         this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

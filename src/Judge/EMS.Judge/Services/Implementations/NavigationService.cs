@@ -1,12 +1,12 @@
-﻿using EMS.Judge.Core;
-using EMS.Judge.Core.Services.Implementations;
+﻿using EMS.Judge.Common;
+using EMS.Judge.Common.Services.Implementations;
 using EMS.Judge.Views.Content.Configuration.ConfigurationMenu;
 using EMS.Judge.Views.Content.Configuration.Roots.Events;
 using EMS.Judge.Views.Content.Hardware;
 using EMS.Judge.Views.Content.Import;
 using EMS.Judge.Views.Content.Manager;
 using EMS.Judge.Views.Content.Ranking;
-using EMS.Judge.Application.Core.Exceptions;
+using EMS.Judge.Application.Common.Exceptions;
 using Prism.Regions;
 using System;
 using static EMS.Judge.DesktopConstants;

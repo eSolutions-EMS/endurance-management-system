@@ -1,6 +1,6 @@
 ﻿using EMS.Judge.Controls.Ranking;
-using EMS.Judge.Core;
-using EMS.Judge.Core.Components.Templates.ListItem;
+using EMS.Judge.Common;
+using EMS.Judge.Common.Components.Templates.ListItem;
 using EMS.Judge.Print.Performances;
 using EMS.Judge.Services;
 using Core.Domain.AggregateRoots.Ranking;

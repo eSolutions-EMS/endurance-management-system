@@ -1,6 +1,6 @@
 ﻿using Core.Domain.State;
 using Core.Domain.State.EnduranceEvents;
-using EMS.Judge.Application.Core;
+using EMS.Judge.Application.Common;
 using System;
 using System.Collections.Generic;
 

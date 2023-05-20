@@ -1,4 +1,4 @@
-﻿using EMS.Judge.Core.Objects;
+﻿using EMS.Judge.Common.Objects;
 using System;
 using System.Globalization;
 using System.Windows.Data;

@@ -1,5 +1,6 @@
 ﻿using EMS.Witness.Services;
 using Core.Application.Services;
+using EMS.Witness.Platforms.Services;
 
 namespace EMS.Witness;
 
@@ -19,11 +20,7 @@ public static class MauiProgram
 #if DEBUG
 		builder.Services.AddBlazorWebViewDeveloperTools();
 #endif
-		builder.Services.AddSingleton<ToasterService>();
-		builder.Services.AddSingleton<State>();
-		builder.Services.AddSingleton<IState>(provider => provider.GetRequiredService<State>());
-		builder.Services.AddHttpClient<IApiService, ApiService>(client => client.Timeout = TimeSpan.FromSeconds(5));
-		builder.Services.AddTransient<IDateService, DateService>();
+		builder.Services.AddWitnessServices();
 
 		return builder.Build();
 	}

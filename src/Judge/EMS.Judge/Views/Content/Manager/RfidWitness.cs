@@ -1,4 +1,4 @@
-﻿using EMS.Judge.Core.Services;
+﻿using EMS.Judge.Common.Services;
 using EMS.Judge.Application.Hardware;
 using EMS.Judge.Application.Services;
 using Core.Events;

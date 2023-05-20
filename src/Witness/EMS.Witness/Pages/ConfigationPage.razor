@@ -4,38 +4,16 @@
 
 <h1>Configuration</h1>
 
-<form>
-	<div class="mb-3">
-		<label class="form-label" for="ip-address">API IP Address</label>
-		<div class="d-inline-flex" id="ip-address">
-			<input type="number" @bind-value="this.First" class="form-control" required onclick="this.select();" />
-			<span class="time-delimiter">.</span>
-			<input type="number" @bind-value="this.Second" class="form-control" required onclick="this.select();" />
-			<span class="time-delimiter">.</span>
-			<input type="number" @bind-value="this.Third" class="form-control" required onclick="this.select();" />
-			<span class="time-delimiter">.</span>
-			<input type="number" @bind-value="this.Fourth" class="form-control" required onclick="this.select();" />
-		</div>
-	</div>
-	<div class="mb-3">
-		<a @onclick="this.Handshake" class="btn btn-primary">Connect</a>
-	</div>
-</form>
-
 @code {
-	[Inject]
-	private State ContextService { get; set; } = null!;
 	[Inject]
 	private IApiService ApiService { get; set; } = null!;
 
-	private int First = 192;
-	private int Second = 168;
-	private int Third = 68;
-	private int Fourth = 3;
-
-	private async Task Handshake()
+	protected override async Task OnInitializedAsync()
 	{
-		this.ContextService.ApiHost = $"http://{this.First}.{this.Second}.{this.Third}.{this.Fourth}:11337/";
-		await this.ApiService.Handshake();
+		await base.OnInitializedAsync();
+		if (!this.ApiService.IsSuccessfulHandshake())
+		{
+			await this.ApiService.Handshake();
+		}
 	}
 }

@@ -1,4 +1,4 @@
-﻿using EMS.Judge.Core;
+﻿using EMS.Judge.Common;
 using EMS.Judge.Services;
 using EMS.Judge.Views.Content.Configuration.Roots.Athletes.Listing;
 using EMS.Judge.Views.Content.Configuration.Roots.Events;

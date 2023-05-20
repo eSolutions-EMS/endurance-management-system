@@ -1,5 +1,4 @@
-﻿using Core.Domain.Annotations;
-using Core.Domain.Core.Models;
+﻿using Core.Domain.Common.Models;
 using Core.Domain.Enums;
 using Core.Domain.State.LapRecords;
 using Core.Domain.State.Participations;
@@ -128,7 +127,6 @@ public class Performance : IAggregate, IPerformance, INotifyPropertyChanged
             : record.VetGateTime - record.StartTime;
 
     public event PropertyChangedEventHandler PropertyChanged;
-    [NotifyPropertyChangedInvocator]
     protected virtual void RaisePropertyChanged(string propertyName = null)
     {
         this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

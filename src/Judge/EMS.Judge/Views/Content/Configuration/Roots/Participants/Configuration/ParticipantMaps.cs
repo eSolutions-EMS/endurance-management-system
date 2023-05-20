@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
-using EMS.Judge.Core.Components.Templates.SimpleListItem;
-using EMS.Judge.Application.Core.Models;
+using EMS.Judge.Common.Components.Templates.SimpleListItem;
+using EMS.Judge.Application.Common.Models;
 using Core.Mappings;
 using Core.Domain.State.Athletes;
 using Core.Domain.State.Horses;

@@ -1,5 +1,5 @@
-﻿using EMS.Judge.Core;
-using EMS.Judge.Core.Services;
+﻿using EMS.Judge.Common;
+using EMS.Judge.Common.Services;
 using System.Windows.Controls;
 using System.Windows.Input;
 

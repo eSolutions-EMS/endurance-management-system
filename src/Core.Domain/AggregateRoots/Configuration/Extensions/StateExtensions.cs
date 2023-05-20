@@ -1,4 +1,4 @@
-﻿using Core.Domain.Core.Exceptions;
+﻿using Core.Domain.Common.Exceptions;
 using Core.Domain.State;
 using Core.Domain.State.EnduranceEvents;
 using static Core.Localization.Strings;

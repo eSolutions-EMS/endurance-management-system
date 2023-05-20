@@ -1,6 +1,6 @@
 ﻿using Core.Domain.AggregateRoots.Common.Performances;
-using Core.Domain.Core.Exceptions;
-using Core.Domain.Core.Models;
+using Core.Domain.Common.Exceptions;
+using Core.Domain.Common.Models;
 using Core.Domain.Enums;
 using Core.Domain.State.LapRecords;
 using Core.Domain.State.Results;

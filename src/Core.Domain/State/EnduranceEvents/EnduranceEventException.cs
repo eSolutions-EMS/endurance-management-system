@@ -1,4 +1,4 @@
-using Core.Domain.Core.Exceptions;
+using Core.Domain.Common.Exceptions;
 
 namespace Core.Domain.State.EnduranceEvents;
 

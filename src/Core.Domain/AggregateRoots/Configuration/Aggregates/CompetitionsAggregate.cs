@@ -1,11 +1,11 @@
-﻿using Core.Domain.Core.Exceptions;
-using Core.Domain.Core.Models;
+﻿using Core.Domain.Common.Exceptions;
+using Core.Domain.Common.Models;
 using Core.Domain.State;
 using Core.Domain.State.Competitions;
 using Core.Domain.State.Participants;
 using Core.Domain.Validation;
 using Core.Domain.AggregateRoots.Configuration.Extensions;
-using Core.Domain.Core.Extensions;
+using Core.Domain.Common.Extensions;
 using System.Linq;
 using static Core.Localization.Strings;
 

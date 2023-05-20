@@ -1,7 +1,7 @@
-using Core.Domain.Core.Models;
+using Core.Domain.Common.Models;
 using Core.Domain.Enums;
 using Core.Domain.State.Laps;
-using Core.Domain.Core.Extensions;
+using Core.Domain.Common.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;

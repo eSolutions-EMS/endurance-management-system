@@ -1,9 +1,9 @@
-using Core.Domain.Core.Models;
+using Core.Domain.Common.Models;
 using Core.Domain.Enums;
 using Core.Domain.State.Competitions;
 using Core.Domain.State.Countries;
 using Core.Domain.State.Personnels;
-using Core.Domain.Core.Extensions;
+using Core.Domain.Common.Extensions;
 using Core.Domain.State.Participations;
 using System;
 using System.Collections.Generic;

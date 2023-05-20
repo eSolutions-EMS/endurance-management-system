@@ -11,7 +11,8 @@
 <table class="table">
 	<thead>
 		<tr>
-			<th>Participant</th>
+			<th>#</th>
+			<th>Name</th>
 			<th>Distance</th>
 			<th>Start Time</th>
 		</tr>
@@ -21,6 +22,7 @@
 		{
 			<tr>
 				<td>@start.Number</td>
+				<td>@start.AthleteName</td>
 				<td>@start.Distance</td>
 				<td>@this.DateService.FormatTime(start.StartTime)</td>
 			</tr>

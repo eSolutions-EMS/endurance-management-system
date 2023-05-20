@@ -1,4 +1,4 @@
-﻿using Core.Domain.Core.Exceptions;
+﻿using Core.Domain.Common.Exceptions;
 using Core.Localization;
 
 namespace Core.Domain.State.LapRecords;

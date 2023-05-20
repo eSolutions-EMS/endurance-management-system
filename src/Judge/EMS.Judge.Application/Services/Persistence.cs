@@ -3,7 +3,7 @@ using Core.Events;
 using Core.Services;
 using Core.Domain.AggregateRoots.Manager.WitnessEvents;
 using Core.Domain.State;
-using EMS.Judge.Application.Core.Services;
+using EMS.Judge.Application.Common.Services;
 using EMS.Judge.Application.Models;
 using EMS.Judge.Application.State;
 using System;

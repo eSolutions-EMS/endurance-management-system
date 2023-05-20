@@ -1,17 +1,16 @@
 ﻿using Core.Utilities;
 using System.Reflection;
 
-namespace EMS.Judge.Api
+namespace EMS.Judge.Api;
+
+public class ApiConstants
 {
-    public class ApiConstants
+    public static Assembly[] Assemblies
     {
-        public static Assembly[] Assemblies
+        get
         {
-            get
-            {
-                var assemblies = ReflectionUtilities.GetAssemblies("Endurance.Judge.Gateways.EMS.Judge.Api");
-                return assemblies;
-            }
+            var assemblies = ReflectionUtilities.GetAssemblies("EMS.Judge.Api");
+            return assemblies;
         }
     }
 }

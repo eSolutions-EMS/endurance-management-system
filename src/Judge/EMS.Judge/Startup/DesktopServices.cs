@@ -1,12 +1,14 @@
-using EMS.Judge.Core.Objects;
+using EMS.Judge.Common.Objects;
 using EMS.Judge.Services;
 using EMS.Judge.Views.Content.Manager;
 using EMS.Judge.Application;
 using EMS.Judge.Application.Services;
 using Core;
+using Core.Application;
 using Core.Services;
 using Core.Domain;
 using Core.Localization;
+using EMS.Judge.Api;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Prism.Ioc;
@@ -34,14 +36,17 @@ public static class DesktopServices
         var assemblies = CoreConstants.Assemblies
             .Concat(LocalizationConstants.Assemblies)
             .Concat(DomainConstants.Assemblies)
+            .Concat(CoreApplicationConstants.Assemblies)
             .Concat(ApplicationConstants.Assemblies)
+            .Concat(ApiConstants.Assemblies)
             .Concat(DesktopConstants.Assemblies)
             .ToArray();
 
         return services
             .AddCore(assemblies)
             .AddDomain(assemblies)
-            .AddApplication(assemblies)
+            .AddCoreApplication(assemblies)
+            .AddJudgeApplication(assemblies)
             .AddDesktop(assemblies)
             .AddInitializers(assemblies);
     }
