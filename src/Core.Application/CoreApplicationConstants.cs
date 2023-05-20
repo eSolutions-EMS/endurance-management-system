@@ -5,6 +5,7 @@ namespace Core.Application;
 
 public class CoreApplicationConstants
 {
+    public const int NETWORK_API_PORT = 11337;
     public const int NETWORK_BROADCAST_PORT = 21337;
 
     public static class Apps

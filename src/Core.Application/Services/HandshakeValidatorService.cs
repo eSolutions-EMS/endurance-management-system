@@ -27,7 +27,17 @@ public class HandshakeValidatorService : IHandshakeValidatorService
     {
         using var stream = new MemoryStream(this.GetBytes(remoteApp));
         var expectedPayload = this._sha.ComputeHash(stream);
-        return payload == expectedPayload;
+        return this.Compare(payload, expectedPayload);
+    }
+
+    private bool Compare(byte[] first, byte[] second)
+    {
+        if (first.Length != second.Length)
+            return false;
+        for (var i = 0; i < first.Length; i++)
+            if (first[i] != second[i])
+                return false;
+        return true;
     }
 
     private byte[] GetBytes(string content)
