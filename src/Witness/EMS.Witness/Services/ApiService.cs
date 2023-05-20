@@ -83,7 +83,8 @@ public class ApiService : IApiService
     {
 		try
 		{
-			var result = await this.httpClient.PostAsJsonAsync(this.BuildUrl(Api.WITNESS), witnessEvent);
+			var url = this.BuildUrl(Api.WITNESS);
+            var result = await this.httpClient.PostAsJsonAsync(url, witnessEvent);
 			if (!result.IsSuccessStatusCode)
 			{
 				throw new Exception($"Unsuccessful response: {result.StatusCode}");

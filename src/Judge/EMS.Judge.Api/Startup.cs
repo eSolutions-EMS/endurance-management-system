@@ -1,5 +1,6 @@
 using Core;
 using Core.Application;
+using Core.Application.Services;
 using Core.Domain;
 using Core.Localization;
 using EMS.Judge.Application.Common.Services;
@@ -15,6 +16,8 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace EMS.Judge.Api;
 
@@ -54,6 +57,10 @@ public class Startup
         app.UseHttpsRedirection();
         app.UseRouting();
         app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+
+        var broadcastService = provider.GetRequiredService<INetworkBroadcastService>();
+        // TODO: is termination logic necessary. Does not seem so, but should be tested.
+        Task.Run(() => new NetworkBroadcastService(broadcastService).StartAsync(new CancellationToken()));
     }
 }
 
@@ -68,8 +75,7 @@ public static class ApiServices
         services
             .AddTransient<ErrorLogger, ErrorLogger>()
             .AddTransient<IStartlistService, StartlistService>()
-            .AddTransient<IWitnessEventService, WitnessEventService>()
-            .AddHostedService<NetworkBroadcastService>();
+            .AddTransient<IWitnessEventService, WitnessEventService>();
 
         return services;
     }
