@@ -1,6 +1,5 @@
 ﻿using Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 using EMS.Witness.Models;
-using EMS.Witness.Platforms.iOS.Permissions;
 using EMS.Witness.Shared.Toasts;
 using System.Net.Http.Json;
 using System.Text.Json;
@@ -10,12 +9,18 @@ namespace EMS.Witness.Services;
 
 public class ApiService : IApiService
 {
+    private readonly IPermissionsService permissionsService;
     private readonly HttpClient httpClient;
 	private readonly ToasterService toasterService;
 	private readonly IState context;
 
-	public ApiService(HttpClient httpClient, ToasterService toasterService, IState context)
+	public ApiService(
+        IPermissionsService permissionsService,
+		HttpClient httpClient,
+		ToasterService toasterService,
+		IState context)
     {
+        this.permissionsService = permissionsService;
         this.httpClient = httpClient;
 		this.toasterService = toasterService;
 		this.context = context;
@@ -25,8 +30,7 @@ public class ApiService : IApiService
 	{
 		try
 		{
-			var status = await Permissions.CheckStatusAsync<NetworkAccessPermission>();
-			if (status == PermissionStatus.Granted)
+			if (await this.permissionsService.HasNetworkPermissions())
 			{
 				var response = await this.httpClient.GetAsync(this.context.ApiHost);
 				if (response.IsSuccessStatusCode)
