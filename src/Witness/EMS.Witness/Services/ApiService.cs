@@ -120,10 +120,14 @@ public class ApiService : IApiService
 
 	private static void ConfigureApiHost(string ipAddress)
 		=> host = $"http://{ipAddress}:{NETWORK_API_PORT}";
+
+	public bool IsSuccessfulHandshake()
+		=> host != string.Empty;
 }
 
 public interface IApiService : ISingletonService
 {
+	bool IsSuccessfulHandshake();
 	Task Handshake();
 	Task<List<StartModel>> GetStartlist();
 	Task<bool> PostWitnessEvent(ManualWitnessEvent witnessEvent);

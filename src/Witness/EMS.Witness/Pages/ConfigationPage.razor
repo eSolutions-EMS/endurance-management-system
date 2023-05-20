@@ -11,6 +11,9 @@
 	protected override async Task OnInitializedAsync()
 	{
 		await base.OnInitializedAsync();
-		await this.ApiService.Handshake();
+		if (!this.ApiService.IsSuccessfulHandshake())
+		{
+			await this.ApiService.Handshake();
+		}
 	}
 }
