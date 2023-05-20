@@ -6,6 +6,7 @@ public class StartModel
 {
     public string Number { get; init; }
     public string Name { get; init; }
+    public string AthleteName { get; init; }
     public string CountryName { get; init; }
     public double Distance { get; init; }
     public DateTime StartTime { get; init; }
