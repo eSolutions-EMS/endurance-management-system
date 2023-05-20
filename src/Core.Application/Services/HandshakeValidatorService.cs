@@ -5,13 +5,13 @@ using System.Text;
 
 namespace Core.Application.Services;
 
-public class HandshakeService : IHandshakeService
+public class HandshakeValidatorService : IHandshakeValidatorService
 {
     // TODO: move key in the secrets repo
     private const string KEY = "psst-secret-dont-tell-anyone";
     private HMACSHA256 _sha;
 
-    public HandshakeService()
+    public HandshakeValidatorService()
     {
         this._sha = new HMACSHA256(this.GetBytes(KEY));
     }
@@ -34,7 +34,7 @@ public class HandshakeService : IHandshakeService
         => Encoding.UTF8.GetBytes(content);
 }
 
-public interface IHandshakeService : ITransientService
+public interface IHandshakeValidatorService : ITransientService
 {
     byte[] CreatePayload(string thisApp);
     bool ValidatePayload(byte[] payload, string remoteApp);

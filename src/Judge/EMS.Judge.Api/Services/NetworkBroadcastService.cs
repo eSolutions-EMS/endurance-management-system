@@ -12,10 +12,10 @@ namespace EMS.Judge.Api.Services;
 
 public class NetworkBroadcastService : BackgroundService
 {
-    private readonly IHandshakeService handshakeService;
-    public NetworkBroadcastService(IHandshakeService handshakeService)
+    private readonly IHandshakeValidatorService handshakeValidatorService;
+    public NetworkBroadcastService(IHandshakeValidatorService handshakeValidatorService)
     {
-        this.handshakeService = handshakeService;
+        this.handshakeValidatorService = handshakeValidatorService;
     }
 
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
@@ -24,13 +24,13 @@ public class NetworkBroadcastService : BackgroundService
         try
         {
             using var server = new UdpClient(NETWORK_BROADCAST_PORT);
-            var serverPayload = this.handshakeService.CreatePayload(Apps.JUDGE);
+            var serverPayload = this.handshakeValidatorService.CreatePayload(Apps.JUDGE);
 
             while (!stoppingToken.IsCancellationRequested)
             {
                 var clientEndpoint = new IPEndPoint(IPAddress.Any, 0);
                 var clientPayload = server.Receive(ref clientEndpoint);
-                if (this.handshakeService.ValidatePayload(clientPayload, Apps.WITNESS))
+                if (this.handshakeValidatorService.ValidatePayload(clientPayload, Apps.WITNESS))
                 {
                     Console.WriteLine($"Handshake with '{Apps.WITNESS}' on  '{clientEndpoint.Address}'");
                     server.Send(serverPayload, serverPayload.Length, clientEndpoint);
