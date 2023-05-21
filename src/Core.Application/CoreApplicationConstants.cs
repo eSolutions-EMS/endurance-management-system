@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace Core.Application;
 
-public class CoreApplicationConstants
+public static class CoreApplicationConstants
 {
     public const int NETWORK_API_PORT = 11337;
     public const int NETWORK_BROADCAST_PORT = 21337;
@@ -18,6 +18,7 @@ public class CoreApplicationConstants
     {
         public const string WITNESS = "witness";
         public const string STARTLIST = "startlist";
+        public const string STARTLIST_ENTRY = "ReceiveStartlistEntry";
     }
 
     public static Assembly[] Assemblies

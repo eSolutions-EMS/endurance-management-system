@@ -1,10 +1,15 @@
-﻿using Core.Domain.State;
+﻿using Core.Application.Api;
+using Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
+using Core.Domain.State;
 using EMS.Judge.Api.Configuration;
+using EMS.Judge.Api.Hubs;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
+using System.Threading.Tasks;
 
 namespace EMS.Judge.Api.Controllers;
 
@@ -13,9 +18,13 @@ namespace EMS.Judge.Api.Controllers;
 public class HomeController : ControllerBase
 {
     private readonly IJudgeServiceProvider _judgeServiceProvider;
-    public HomeController(IJudgeServiceProvider judgeServiceProvider)
+    private readonly IHubContext<StartlistHub, IStartlistClient> hubContext;
+    public HomeController(
+        IJudgeServiceProvider judgeServiceProvider,
+        IHubContext<StartlistHub, IStartlistClient> hubContext)
     {
         this._judgeServiceProvider = judgeServiceProvider;
+        this.hubContext = hubContext;
     }
 
     [HttpGet]
@@ -31,5 +40,15 @@ public class HomeController : ControllerBase
         var state = this._judgeServiceProvider.GetRequiredService<IState>();
         var content = $"IP: {ip} - {state?.Event?.Name}";
         return this.Ok(content);
+    }
+
+    [HttpGet("hub")]
+    public async Task<IActionResult> Hub()
+    {
+        await this.hubContext.Clients.All.AddEntry(new StartModel
+        {
+            Name = "text",
+        });
+        return this.Ok();
     }
 }

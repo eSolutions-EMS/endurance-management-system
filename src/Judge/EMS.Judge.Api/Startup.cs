@@ -3,7 +3,6 @@ using Core.Application;
 using Core.Application.Services;
 using Core.Domain;
 using Core.Localization;
-using EMS.Judge.Application.Common.Services;
 using Core.Services;
 using EMS.Judge.Api.Middlewares;
 using EMS.Judge.Api.Services;
@@ -18,6 +17,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using EMS.Judge.Api.Hubs;
 
 namespace EMS.Judge.Api;
 
@@ -56,7 +56,11 @@ public class Startup
         }
         app.UseHttpsRedirection();
         app.UseRouting();
-        app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapControllers();
+            endpoints.MapHub<StartlistHub>("/startlist-hub");
+        });
 
         var broadcastService = provider.GetRequiredService<INetworkBroadcastService>();
         // TODO: is termination logic necessary. Does not seem so, but should be tested.
@@ -68,11 +72,9 @@ public static class ApiServices
 {
     public static IServiceCollection AddApi(this IServiceCollection services)
     {
-        services
-            .AddControllers()
-            .AddNewtonsoftJson(opt => JsonSerializationService.Configure(opt.SerializerSettings));
-
-        services
+        services.AddSignalR();
+        services.AddControllers();
+		services
             .AddTransient<ErrorLogger, ErrorLogger>()
             .AddTransient<IStartlistService, StartlistService>()
             .AddTransient<IWitnessEventService, WitnessEventService>();
