@@ -24,7 +24,7 @@ public class HomeController : ControllerBase
         var a = IPAddress.Broadcast.ToString();
         var hostName = Dns.GetHostName();
         var ipHostInfo = Dns.GetHostEntry(hostName);
-        var ip = ipHostInfo.AddressList.First(x =>
+        var ip = ipHostInfo.AddressList.FirstOrDefault(x =>
             x.AddressFamily == AddressFamily.InterNetwork
             && x.ToString().StartsWith("192.168"));
 
