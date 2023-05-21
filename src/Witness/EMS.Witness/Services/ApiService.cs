@@ -1,4 +1,5 @@
-﻿using Core.Application.Services;
+﻿using Core.Application.Rpc;
+using Core.Application.Services;
 using Core.ConventionalServices;
 using Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 using EMS.Witness.Models;
@@ -14,15 +15,18 @@ public class ApiService : IApiService
     private readonly HttpClient httpClient;
 	private readonly ToasterService toasterService;
 	private readonly INetworkHandshakeService handshakeService;
-    private readonly IPermissionsService permissionsService;
+	private readonly IRpcClient rpcClient;
+	private readonly IPermissionsService permissionsService;
 
 	public ApiService(
+		IRpcClient rpcClient,
 		IPermissionsService permissionsService,
 		INetworkHandshakeService handshakeService,
 		HttpClient httpClient,
 		ToasterService toasterService)
     {
-        this.permissionsService = permissionsService;
+		this.rpcClient = rpcClient;
+		this.permissionsService = permissionsService;
         this.httpClient = httpClient;
 		this.toasterService = toasterService;
 		this.handshakeService = handshakeService;
@@ -58,6 +62,8 @@ public class ApiService : IApiService
 					10);
 				this.toasterService.Add(error);
 			}
+			this.rpcClient.Configure(host);
+			await this.rpcClient.Start();
 		}
 		catch (Exception exception)
 		{
@@ -118,8 +124,11 @@ public class ApiService : IApiService
 		return $"{host}/{uri}";
 	}
 
-	private static void ConfigureApiHost(string ipAddress)
-		=> host = $"http://{ipAddress}:{NETWORK_API_PORT}";
+	private void ConfigureApiHost(string ipAddress)
+	{
+		host = $"http://{ipAddress}:{NETWORK_API_PORT}";
+	}
+		
 
 	public bool IsSuccessfulHandshake()
 		=> host != string.Empty;

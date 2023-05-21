@@ -6,8 +6,6 @@
 @using Core.Application.Services;
 @using Core.Domain.AggregateRoots.Manager.Aggregates.Startlists
 
-<button class="btn btn-primary" @onclick="() => this.GetStartlist()">Load</button>
-
 <table class="table">
 	<thead>
 		<tr>
@@ -18,7 +16,7 @@
 		</tr>
 	</thead>
 	<tbody>
-		@foreach (var start in this._startlist)
+		@foreach (var start in this.State.Startlist)
 		{
 			<tr>
 				<td>@start.Number</td>
@@ -32,12 +30,5 @@
 
 @code {
 	[Inject]
-	private IApiService ApiService { get; set; } = null!;
-
-	private List<StartModel> _startlist = new();
-
-	private async Task GetStartlist()
-	{
-		this._startlist = await this.ApiService.GetStartlist();
-	}
+	private IState State { get; set; } = null!;
 }
