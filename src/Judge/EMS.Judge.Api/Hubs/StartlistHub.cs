@@ -1,4 +1,4 @@
-﻿using Core.Application.Api;
+﻿using Core.Application.Rpc.Procedures;
 using Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 using Microsoft.AspNetCore.SignalR;
 using System;
@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EMS.Judge.Api.Hubs
 {
-	public class StartlistHub : Hub<IStartlistClient>
+	public class StartlistHub : Hub<IStartlistProcedures>
 	{
 		public async Task SendEntry(StartModel entry)
 		{

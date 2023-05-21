@@ -1,4 +1,4 @@
-﻿using Core.Application.Api;
+﻿using Core.Application.Rpc.Procedures;
 using Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 using Core.Domain.State;
 using EMS.Judge.Api.Configuration;
@@ -6,6 +6,7 @@ using EMS.Judge.Api.Hubs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -18,10 +19,10 @@ namespace EMS.Judge.Api.Controllers;
 public class HomeController : ControllerBase
 {
     private readonly IJudgeServiceProvider _judgeServiceProvider;
-    private readonly IHubContext<StartlistHub, IStartlistClient> hubContext;
+    private readonly IHubContext<StartlistHub, IStartlistProcedures> hubContext;
     public HomeController(
         IJudgeServiceProvider judgeServiceProvider,
-        IHubContext<StartlistHub, IStartlistClient> hubContext)
+        IHubContext<StartlistHub, IStartlistProcedures> hubContext)
     {
         this._judgeServiceProvider = judgeServiceProvider;
         this.hubContext = hubContext;
@@ -47,7 +48,9 @@ public class HomeController : ControllerBase
     {
         await this.hubContext.Clients.All.AddEntry(new StartModel
         {
+            Number = "11",
             Name = "text",
+            StartTime = DateTime.Now,
         });
         return this.Ok();
     }
