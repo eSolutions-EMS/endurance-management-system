@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
-using WitnessState = EMS.Witness.Services.State;
+﻿using Core.Events;
+using Microsoft.AspNetCore.Components;
 
 namespace EMS.Witness.Common;
 
@@ -11,7 +11,7 @@ public abstract class StatefulComponent<T> : ComponentBase
 
     public StatefulComponent()
     {
-        WitnessState.StateChanged += OnStateChanged;
+        AppState.Changed += OnStateChanged;
     }
 
     /// <summary>

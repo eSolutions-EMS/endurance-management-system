@@ -1,25 +1,19 @@
 ﻿using Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
+using Core.Models;
 using EMS.Witness.Models;
 
 namespace EMS.Witness.Services;
 
-public class State : IState
+public class State : Observable, IState
 {
-	public static EventHandler<object>? StateChanged;
-
 	public string? ApiHost { get; set; }
 	public Dictionary<int, ManualWitnessEvent> WitnessRecords { get; } = new();
-	public List<StartModel> Startlist { get; set; } = new();
-
-	public void RaiseStateChanged(object obj)
-	{
-		StateChanged?.Invoke(this, obj);
-	}
+	public ObservableCollection<StartModel> Startlist { get; } = new();
 }
 
 public interface IState
 {
 	string? ApiHost { get; }
 	Dictionary<int, ManualWitnessEvent> WitnessRecords { get; }
-	public List<StartModel> Startlist { get; }
+	public ObservableCollection<StartModel> Startlist { get; }
 }

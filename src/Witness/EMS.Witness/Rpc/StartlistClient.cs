@@ -4,6 +4,7 @@ using Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 using EMS.Witness.Services;
 
 namespace EMS.Witness.Rpc;
+
 public class StartlistClient : RpcClient, IStartlistProcedures
 {
 	private readonly State state;
@@ -17,6 +18,5 @@ public class StartlistClient : RpcClient, IStartlistProcedures
     public async Task AddEntry(StartModel entry)
 	{
 		this.state.Startlist.Add(entry);
-		this.state.RaiseStateChanged(this.state.Startlist);
 	}
 }
