@@ -6,9 +6,9 @@ using EMS.Witness.Services;
 namespace EMS.Witness.Rpc;
 public class StartlistClient : RpcClient, IStartlistProcedures
 {
-	private readonly IState state;
+	private readonly State state;
 
-	public StartlistClient(IState state) : base("startlist-hub")
+	public StartlistClient(State state) : base("startlist-hub")
     {
         this.AddProcedure<StartModel>(nameof(this.AddEntry), this.AddEntry);
 		this.state = state;
@@ -17,5 +17,6 @@ public class StartlistClient : RpcClient, IStartlistProcedures
     public async Task AddEntry(StartModel entry)
 	{
 		this.state.Startlist.Add(entry);
+		this.state.RaiseStateChanged(this.state.Startlist);
 	}
 }
