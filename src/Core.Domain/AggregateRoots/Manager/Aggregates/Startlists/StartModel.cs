@@ -4,11 +4,11 @@ namespace Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 
 public class StartModel
 {
-    public string Number { get; init; }
-    public string Name { get; init; }
-    public string AthleteName { get; init; }
-    public string CountryName { get; init; }
-    public double Distance { get; init; }
-    public DateTime StartTime { get; init; }
-    public bool HasStarted { get; init; }
+    public string Number { get; set; }
+    public string Name { get; set; }
+    public string AthleteName { get; set; }
+    public string CountryName { get; set; }
+    public double Distance { get; set; }
+    public DateTime StartTime { get; set; }
+    public bool HasStarted { get; set; }
 }

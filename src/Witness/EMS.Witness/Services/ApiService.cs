@@ -132,6 +132,23 @@ public class ApiService : IApiService
 
 	public bool IsSuccessfulHandshake()
 		=> host != string.Empty;
+
+	public async Task FetchInitialState()
+	{
+		try
+		{
+			if (!this.IsSuccessfulHandshake())
+			{
+				await this.Handshake();
+			}
+			await this.rpcClient.FetchInitialState();
+		}
+		catch (Exception exception)
+		{
+			this.ToastError(exception);
+		}
+		
+	}
 }
 
 public interface IApiService : ISingletonService
@@ -140,4 +157,5 @@ public interface IApiService : ISingletonService
 	Task Handshake();
 	Task<List<StartModel>> GetStartlist();
 	Task<bool> PostWitnessEvent(ManualWitnessEvent witnessEvent);
+	Task FetchInitialState();
 }

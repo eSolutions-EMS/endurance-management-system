@@ -4,9 +4,5 @@ namespace EMS.Witness.Components;
 
 public partial class StartlistComponent
 {
-    public StartlistComponent()
-    {
-	}
-
-	public override List<StartModel> State { get; set; } = new List<StartModel>();
+    public override List<StartModel> State { get; set; } = new List<StartModel>();
 }

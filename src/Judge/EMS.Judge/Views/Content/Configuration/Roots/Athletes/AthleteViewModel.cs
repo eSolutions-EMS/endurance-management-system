@@ -34,9 +34,9 @@ public class AthleteViewModel : ConfigurationBase<AthleteView, Athlete>, IAthlet
         this.CategoryId = (int)Category.Adults;
     }
 
-    public ObservableCollection<SimpleListItemViewModel> CategoryItems { get; }
+    public System.Collections.ObjectModel.ObservableCollection<SimpleListItemViewModel> CategoryItems { get; }
         = new(SimpleListItemViewModel.FromEnum<Category>());
-    public ObservableCollection<ListItemModel> CountryItems { get; } = new();
+    public System.Collections.ObjectModel.ObservableCollection<ListItemModel> CountryItems { get; } = new();
 
     private string feiId;
     private string firstName;

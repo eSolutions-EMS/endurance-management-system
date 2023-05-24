@@ -19,10 +19,10 @@ namespace EMS.Judge.Api.Controllers;
 public class HomeController : ControllerBase
 {
     private readonly IJudgeServiceProvider _judgeServiceProvider;
-    private readonly IHubContext<StartlistHub, IStartlistProcedures> hubContext;
+    private readonly IHubContext<StartlistHub, IStartlistClientProcedures> hubContext;
     public HomeController(
         IJudgeServiceProvider judgeServiceProvider,
-        IHubContext<StartlistHub, IStartlistProcedures> hubContext)
+        IHubContext<StartlistHub, IStartlistClientProcedures> hubContext)
     {
         this._judgeServiceProvider = judgeServiceProvider;
         this.hubContext = hubContext;
@@ -46,7 +46,7 @@ public class HomeController : ControllerBase
     [HttpGet("hub")]
     public async Task<IActionResult> Hub()
     {
-        await this.hubContext.Clients.All.AddEntry(new StartModel
+        this.hubContext.Clients.All.AddEntry(new StartModel
         {
             Number = "11",
             Name = "text",

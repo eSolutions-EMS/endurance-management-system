@@ -54,7 +54,12 @@ public class RpcClient : IRpcClient, IAsyncDisposable
         await this.Connection.StopAsync();
     }
 
-    public async ValueTask DisposeAsync()
+	public virtual Task FetchInitialState()
+	{
+        return Task.CompletedTask;
+	}
+
+	public async ValueTask DisposeAsync()
     {
         if (this.Connection == null)
         {
@@ -63,24 +68,41 @@ public class RpcClient : IRpcClient, IAsyncDisposable
         await this.Connection.DisposeAsync();
     }
 
-    protected void AddProcedure<T>(string name, Func<T, Task> action)
-    {
-        this.procedureRegistrations.Add(connection =>
-        {
-            connection.On<T>(name, a =>
-            {
-                try
-                {
-                    action(a);
-                }
-                catch (Exception exception)
-                {
-                    this.HandleError(exception, name, a);
-                }
-            });
-        });
-    }
-    protected void AddProcedure<T1, T2>(string name, Func<T1, T2, Task> action)
+	protected void AddProcedure(string name, Func<Task> action)
+	{
+		this.procedureRegistrations.Add(connection =>
+		{
+			connection.On(name, () =>
+			{
+				try
+				{
+					action();
+				}
+				catch (Exception exception)
+				{
+					this.HandleError(exception, name);
+				}
+			});
+		});
+	}
+	protected void AddProcedure<T>(string name, Action<T> action)
+	{
+		this.procedureRegistrations.Add(connection =>
+		{
+			connection.On<T>(name, a =>
+			{
+				try
+				{
+					action(a);
+				}
+				catch (Exception exception)
+				{
+					this.HandleError(exception, name, a);
+				}
+			});
+		});
+	}
+    protected void AddProcedure<T1, T2>(string name, Action<T1, T2> action)
     {
 		this.procedureRegistrations.Add(connection =>
 		{
@@ -97,7 +119,7 @@ public class RpcClient : IRpcClient, IAsyncDisposable
 			});
 		});
 	}
-    protected void AddProcedure<T1, T2, T3>(string name, Func<T1, T2, T3, Task> action)
+    protected void AddProcedure<T1, T2, T3>(string name, Action<T1, T2, T3> action)
     {
 		this.procedureRegistrations.Add(connection =>
 		{
@@ -124,9 +146,10 @@ public class RpcClient : IRpcClient, IAsyncDisposable
     }
 }
 
-public interface IRpcClient : ITransientService
+public interface IRpcClient : ISingletonService
 {
     void Configure(string host);
 	Task Start();
     Task Stop();
+    Task FetchInitialState();
 }
