@@ -92,7 +92,7 @@ public class RpcClient : IRpcClient, IAsyncDisposable
 			});
 		});
 	}
-	protected void AddProcedure<T>(string name, Action<T> action)
+	protected void AddProcedure<T>(string name, Func<T, Task> action)
 	{
 		this.procedureRegistrations.Add(connection =>
 		{
@@ -109,7 +109,7 @@ public class RpcClient : IRpcClient, IAsyncDisposable
 			});
 		});
 	}
-    protected void AddProcedure<T1, T2>(string name, Action<T1, T2> action)
+    protected void AddProcedure<T1, T2>(string name, Func<T1, T2, Task> action)
     {
 		this.procedureRegistrations.Add(connection =>
 		{
@@ -126,7 +126,7 @@ public class RpcClient : IRpcClient, IAsyncDisposable
 			});
 		});
 	}
-    protected void AddProcedure<T1, T2, T3>(string name, Action<T1, T2, T3> action)
+    protected void AddProcedure<T1, T2, T3>(string name, Func<T1, T2, T3, Task> action)
     {
 		this.procedureRegistrations.Add(connection =>
 		{

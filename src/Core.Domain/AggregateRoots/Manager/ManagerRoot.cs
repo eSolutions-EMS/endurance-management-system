@@ -81,6 +81,13 @@ public class ManagerRoot : IAggregateRoot
         this.file.Create(path, serialized);
     }
 
+    public StartModel GetStarlistEntry(string number)
+    {
+        var participation = this.state.Participations.Find(x => x.Participant.Number == number);
+        var entry = Startlist.CreateModel(participation);
+        return entry;
+    }
+
     public bool HasStarted()
         => this.state.Participations.Any(x => x.Participant.LapRecords.Any());
 
@@ -111,7 +118,6 @@ public class ManagerRoot : IAggregateRoot
         else
         {
             participation.Vet(time);
-            Witness.RaiseStartlistChanged(this.GetStartList(false));
         }
     }
 
@@ -156,7 +162,6 @@ public class ManagerRoot : IAggregateRoot
         this.vetCache[aggregate.Number] = now;
         this.AddStats(participation, numberOrTag, WitnessEventType.VetIn);
         aggregate.Vet(time);
-        Witness.RaiseStartlistChanged(this.GetStartList(false));
     }
 
     private void AddStats(Participation participation, string numberOrTag, WitnessEventType type)
@@ -177,7 +182,7 @@ public class ManagerRoot : IAggregateRoot
     {
         reason ??= nameof(DQ);
         var lap = this.GetLastLap(number);
-        lap.Disqualify(reason);
+        lap.Disqualify(number, reason);
     }
     public void FailToQualify(string number, string reason)
     {
@@ -186,7 +191,7 @@ public class ManagerRoot : IAggregateRoot
             throw Helper.Create<ParticipantException>(PARTICIPANT_CANNOT_FTQ_WITHOUT_REASON_MESSAGE, FTQ);
         }
         var lap = this.GetLastLap(number);
-        lap.FailToQualify(reason);
+        lap.FailToQualify(number, reason);
     }
     public void Resign(string number, string reason)
     {
@@ -232,9 +237,7 @@ public class ManagerRoot : IAggregateRoot
         var record = records.First(rec => rec.Equals(state));
         var aggregate = new LapRecordsAggregate(record);
         aggregate.Edit(state);
-        aggregate.CheckForResult(
-            participation.Participant.MaxAverageSpeedInKmPh,
-            participation.CompetitionConstraint.Type);
+        aggregate.CheckForResult(participation);
         participation.RaiseUpdate();
         var previousLength = records
             .Take(records.IndexOf(record))

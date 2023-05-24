@@ -1,6 +1,8 @@
 ﻿using Core.Application.Rpc.Procedures;
 using Core.Domain.AggregateRoots.Manager;
 using Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
+using Core.Domain.AggregateRoots.Manager.WitnessEvents;
+using Core.Enums;
 using EMS.Judge.Api.Configuration;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,13 +19,8 @@ namespace EMS.Judge.Api.Hubs
 		public StartlistHub(IJudgeServiceProvider provider)
         {
 			this.managerRoot = provider.GetRequiredService<ManagerRoot>();
-		}
-
-        public void SendEntry(StartModel entry)
-		{
-			this.Clients.All.AddEntry(entry);
-		}
-
+        }
+		
         public IEnumerable<StartModel> Get()
         {
 	        var startlist = this.managerRoot.GetStartList(false);

@@ -11,6 +11,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
+using Core.Enums;
 
 namespace EMS.Judge.Api.Controllers;
 
@@ -46,12 +47,12 @@ public class HomeController : ControllerBase
     [HttpGet("hub")]
     public async Task<IActionResult> Hub()
     {
-        this.hubContext.Clients.All.AddEntry(new StartModel
+        this.hubContext.Clients.All.Update(new StartModel
         {
             Number = "11",
             Name = "text",
             StartTime = DateTime.Now,
-        });
+        }, CollectionAction.AddOrUpdate);
         return this.Ok();
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Core.Application.Rpc;
 using Core.Application.Rpc.Procedures;
 using Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
+using Core.Enums;
 using EMS.Witness.Services;
 using Microsoft.AspNetCore.SignalR.Client;
 
@@ -12,13 +13,21 @@ public class StartlistClient : RpcClient, IStartlistClientProcedures
  
     public StartlistClient(State state) : base("startlist-hub")
     {
-        this.AddProcedure<StartModel>(nameof(this.AddEntry), this.AddEntry);
+        this.AddProcedure<StartModel, CollectionAction>(nameof(this.Update), this.Update);
 		this.state = state;
 	}
 
-    public void AddEntry(StartModel entry)
+    public Task Update(StartModel entry, CollectionAction action)
 	{
-		this.state.Startlist.Add(entry);
+		var exising = this.state.Startlist.FirstOrDefault(x => x.Number == entry.Number); // TODO: use domain euqlas
+		if (exising!= null)
+		{
+		}
+		if (action == CollectionAction.AddOrUpdate)
+		{
+			this.state.Startlist.Add(entry);
+		}
+		return Task.CompletedTask;
 	}
 
 	public override async Task FetchInitialState()

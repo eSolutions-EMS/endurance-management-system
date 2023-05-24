@@ -18,6 +18,8 @@ using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using EMS.Judge.Api.Hubs;
+using EMS.Judge.Api.Rpc;
+using System.Collections.Generic;
 
 namespace EMS.Judge.Api;
 
@@ -44,7 +46,10 @@ public class Startup
             .AddApi();
     }
 
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider provider)
+    public void Configure(
+        IApplicationBuilder app,
+        IWebHostEnvironment env,
+        IServiceProvider provider)
     {
         if (env.IsDevelopment())
         {
@@ -65,6 +70,8 @@ public class Startup
         var broadcastService = provider.GetRequiredService<INetworkBroadcastService>();
         // TODO: is termination logic necessary. Does not seem so, but should be tested.
         Task.Run(() => new NetworkBroadcastService(broadcastService).StartAsync(new CancellationToken()));
+        // attach event listeners that make RPCs
+        provider.GetRequiredService<IEnumerable<IClientRpcService>>();
     }
 }
 
@@ -74,7 +81,7 @@ public static class ApiServices
     {
         services.AddSignalR();
         services.AddControllers();
-		services
+        services
             .AddTransient<ErrorLogger, ErrorLogger>()
             .AddTransient<IStartlistService, StartlistService>()
             .AddTransient<IWitnessEventService, WitnessEventService>();
