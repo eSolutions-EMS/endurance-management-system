@@ -17,10 +17,10 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using EMS.Judge.Api.Hubs;
 using EMS.Judge.Api.Rpc;
 using EMS.Judge.Api.Rpc.Hubs;
 using System.Collections.Generic;
+using static Core.Application.CoreApplicationConstants;
 
 namespace EMS.Judge.Api;
 
@@ -65,7 +65,8 @@ public class Startup
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();
-            endpoints.MapHub<StartlistHub>("/startlist-hub");
+            endpoints.MapHub<StartlistHub>($"/{RpcEndpoints.STARTLIST}");
+            endpoints.MapHub<WitnessEventsHub>($"/{RpcEndpoints.WITNESS_EVENTS}");
         });
 
         var broadcastService = provider.GetRequiredService<INetworkBroadcastService>();

@@ -1,8 +1,8 @@
 ﻿using Core.Application.Rpc;
 using Core.Application.Services;
 using Core.ConventionalServices;
+using Core.Domain.AggregateRoots.Manager;
 using Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
-using EMS.Witness.Models;
 using EMS.Witness.Shared.Toasts;
 using System.Net.Http.Json;
 using static Core.Application.CoreApplicationConstants;
@@ -93,7 +93,7 @@ public class ApiService : IApiService
         }
     }
 
-	public async Task<bool> PostWitnessEvent(ManualWitnessEvent witnessEvent)
+	public async Task<bool> PostWitnessEvent(WitnessEvent witnessEvent)
     {
 		try
 		{
@@ -167,6 +167,6 @@ public interface IApiService : ISingletonService
 	bool IsSuccessfulHandshake();
 	Task Handshake();
 	Task<List<StartModel>> GetStartlist();
-	Task<bool> PostWitnessEvent(ManualWitnessEvent witnessEvent);
+	Task<bool> PostWitnessEvent(WitnessEvent witnessEvent);
 	Task FetchInitialState();
 }

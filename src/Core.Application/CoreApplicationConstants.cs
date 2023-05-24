@@ -14,6 +14,12 @@ public static class CoreApplicationConstants
         public const string WITNESS = "Witness";
     }
 
+    public static class RpcEndpoints
+    {
+        public const string STARTLIST = "startlist-hub";
+        public const string WITNESS_EVENTS = "witness-events-hub";
+    }
+
     public static class Api
     {
         public const string WITNESS = "witness";

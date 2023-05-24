@@ -4,6 +4,7 @@ using Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 using Core.Enums;
 using EMS.Witness.Services;
 using Microsoft.AspNetCore.SignalR.Client;
+using static Core.Application.CoreApplicationConstants;
 
 namespace EMS.Witness.Rpc;
 
@@ -11,7 +12,7 @@ public class StartlistClient : RpcClient, IStartlistClientProcedures
 {
 	private readonly State state;
  
-    public StartlistClient(State state) : base("startlist-hub")
+    public StartlistClient(State state) : base(RpcEndpoints.STARTLIST)
     {
         this.AddProcedure<StartModel, CollectionAction>(nameof(this.Update), this.Update);
 		this.state = state;
