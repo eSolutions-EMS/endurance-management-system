@@ -27,13 +27,19 @@ public class ManagerRoot : IAggregateRoot
     private readonly IFileService file;
     private readonly IJsonSerializationService serialization;
 
+    private static bool isRegisted;
+    
     public ManagerRoot(IStateContext context)
     {
         // TODO: fix log
         this.file = StaticProvider.GetService<IFileService>();
         this.serialization = StaticProvider.GetService<IJsonSerializationService>();
         this.state = context.State;
-        Witness.Events += this.Handle;
+        if (!isRegisted)
+        {
+            Witness.Events += this.Handle;
+            isRegisted = true;
+        }
     }
 
     private void Handle(object sender, WitnessEvent witnessEvent)
@@ -255,6 +261,10 @@ public class ManagerRoot : IAggregateRoot
 
     private Participation GetParticipation(string numberOrTag)
     {
+        if (string.IsNullOrEmpty(numberOrTag))
+        {
+            return null;
+        }
         var participation = this.state
             .Participations
             .FirstOrDefault(x => x.Participant.Number == numberOrTag
