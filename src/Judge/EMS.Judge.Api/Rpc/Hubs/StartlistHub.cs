@@ -10,7 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace EMS.Judge.Api.Hubs
+namespace EMS.Judge.Api.Rpc.Hubs
 {
 	public class StartlistHub : Hub<IStartlistClientProcedures>, IStartlistHubProcedures
 	{

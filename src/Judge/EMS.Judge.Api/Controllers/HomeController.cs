@@ -2,7 +2,6 @@
 using Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 using Core.Domain.State;
 using EMS.Judge.Api.Configuration;
-using EMS.Judge.Api.Hubs;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
@@ -12,6 +11,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Threading.Tasks;
 using Core.Enums;
+using EMS.Judge.Api.Rpc.Hubs;
 
 namespace EMS.Judge.Api.Controllers;
 

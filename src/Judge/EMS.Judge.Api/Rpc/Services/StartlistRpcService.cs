@@ -3,7 +3,7 @@ using Core.Domain.AggregateRoots.Manager;
 using Core.Domain.AggregateRoots.Manager.WitnessEvents;
 using Core.Enums;
 using EMS.Judge.Api.Configuration;
-using EMS.Judge.Api.Hubs;
+using EMS.Judge.Api.Rpc.Hubs;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
 

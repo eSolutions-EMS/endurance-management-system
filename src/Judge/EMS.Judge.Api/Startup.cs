@@ -19,6 +19,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using EMS.Judge.Api.Hubs;
 using EMS.Judge.Api.Rpc;
+using EMS.Judge.Api.Rpc.Hubs;
 using System.Collections.Generic;
 
 namespace EMS.Judge.Api;
