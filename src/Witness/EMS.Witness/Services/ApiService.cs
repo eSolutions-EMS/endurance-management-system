@@ -15,17 +15,17 @@ public class ApiService : IApiService
     private readonly HttpClient httpClient;
 	private readonly ToasterService toasterService;
 	private readonly INetworkHandshakeService handshakeService;
-	private readonly IRpcClient rpcClient;
+	private readonly IEnumerable<IRpcClient> rpcClients;
 	private readonly IPermissionsService permissionsService;
 
 	public ApiService(
-		IRpcClient rpcClient,
+		IEnumerable<IRpcClient> rpcClients,
 		IPermissionsService permissionsService,
 		INetworkHandshakeService handshakeService,
 		HttpClient httpClient,
 		ToasterService toasterService)
     {
-		this.rpcClient = rpcClient;
+		this.rpcClients = rpcClients;
 		this.permissionsService = permissionsService;
         this.httpClient = httpClient;
 		this.toasterService = toasterService;
@@ -62,8 +62,11 @@ public class ApiService : IApiService
 					10);
 				this.toasterService.Add(error);
 			}
-			this.rpcClient.Configure(host);
-			await this.rpcClient.Start();
+			foreach (var client in this.rpcClients)
+			{
+				client.Configure(host);
+				await client.Start();
+			}
 		}
 		catch (Exception exception)
 		{
@@ -141,7 +144,10 @@ public class ApiService : IApiService
 			{
 				await this.Handshake();
 			}
-			await this.rpcClient.FetchInitialState();
+			foreach (var client in this.rpcClients)
+			{
+				await client.FetchInitialState();
+			}
 		}
 		catch (Exception exception)
 		{

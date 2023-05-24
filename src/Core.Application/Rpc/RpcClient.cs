@@ -146,7 +146,7 @@ public class RpcClient : IRpcClient, IAsyncDisposable
     }
 }
 
-public interface IRpcClient : ISingletonService
+public interface IRpcClient
 {
     void Configure(string host);
 	Task Start();
