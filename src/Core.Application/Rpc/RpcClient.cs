@@ -13,9 +13,9 @@ public class RpcClient : IRpcClient, IAsyncDisposable
     // when procedures are reigstered in the child constructor
     private List<Action<HubConnection>> procedureRegistrations = new();
 
-    public RpcClient(string url)
+    public RpcClient(string endpoint)
     {
-        this.endpoint = url;
+        this.endpoint = endpoint;
     }
     
     protected HubConnection? Connection { get; private set; }
@@ -42,7 +42,14 @@ public class RpcClient : IRpcClient, IAsyncDisposable
         {
             return;
         }
-        await this.Connection.StartAsync();
+		try
+		{
+			await this.Connection.StartAsync();
+		}
+        catch (Exception ex)
+		{
+			this.HandleError(ex, this.endpoint);
+		}
     }
 
     public virtual async Task Stop()
@@ -148,6 +155,7 @@ public class RpcClient : IRpcClient, IAsyncDisposable
 
 public interface IRpcClient
 {
+	event EventHandler<RpcError>? Error;
     void Configure(string host);
 	Task Start();
     Task Stop();
