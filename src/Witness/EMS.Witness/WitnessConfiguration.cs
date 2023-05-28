@@ -5,6 +5,8 @@ using Core.Domain;
 using Core.Localization;
 using EMS.Witness.Services;
 using EMS.Witness.Platforms.Services;
+using EMS.Witness.Rpc;
+using Core.Application.Rpc;
 
 namespace EMS.Witness;
 
@@ -22,11 +24,14 @@ public static class WitnessConfiguration
         services.AddHttpClient<IApiService, ApiService>(client => client.Timeout = TimeSpan.FromSeconds(5));
         services
             .AddCore(assemblies)
-		    .AddTransient<IPermissionsService, PermissionsService>()
+            .AddTransient<IPermissionsService, PermissionsService>()
             .AddSingleton<ToasterService>()
             .AddSingleton<State>()
             .AddSingleton<IState>(provider => provider.GetRequiredService<State>())
-            .AddTransient<IDateService, DateService>();
+            .AddTransient<IDateService, DateService>()
+            .AddSingleton<IWitnessEventClient, WitnessEventsClient>()
+            .AddSingleton<IRpcClient>(p => p.GetRequiredService<IWitnessEventClient>())
+            .AddSingleton<IRpcClient, StartlistClient>();
 
         return services;
     }

@@ -1,19 +1,6 @@
 ﻿@page "/"
 
+@using Core.Application.Rpc;
 @using EMS.Witness.Services;
 
 <h1>Configuration</h1>
-
-@code {
-	[Inject]
-	private IApiService ApiService { get; set; } = null!;
-
-	protected override async Task OnInitializedAsync()
-	{
-		await base.OnInitializedAsync();
-		if (!this.ApiService.IsSuccessfulHandshake())
-		{
-			await this.ApiService.Handshake();
-		}
-	}
-}

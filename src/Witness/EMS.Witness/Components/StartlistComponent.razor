@@ -1,0 +1,30 @@
+﻿@inherits StatefulComponent<List<StartModel>>;
+
+@inject IDateService DateService;
+
+@using EMS.Witness.Common;
+@using EMS.Witness.Services;
+@using Core.Application.Services;
+@using Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
+
+<table class="table">
+	<thead>
+		<tr>
+			<th>#</th>
+			<th>Name</th>
+			<th>Distance</th>
+			<th>Start Time</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var entry in this.State)
+		{
+			<tr>
+				<td>@entry.Number</td>
+				<td>@entry.AthleteName</td>
+				<td>@entry.Distance</td>
+				<td>@this.DateService.FormatTime(entry.StartTime)</td>
+			</tr>
+		}
+	</tbody>
+</table>

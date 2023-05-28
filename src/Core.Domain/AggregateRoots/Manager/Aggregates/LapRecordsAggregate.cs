@@ -1,8 +1,10 @@
 ﻿using Core.Domain.AggregateRoots.Common.Performances;
+using Core.Domain.AggregateRoots.Manager.WitnessEvents;
 using Core.Domain.Common.Exceptions;
 using Core.Domain.Common.Models;
 using Core.Domain.Enums;
 using Core.Domain.State.LapRecords;
+using Core.Domain.State.Participations;
 using Core.Domain.State.Results;
 using Core.Domain.Validation;
 using System;
@@ -37,18 +39,25 @@ public class LapRecordsAggregate : IAggregate
         }
     }
 
-    internal void Disqualify(string reason)
+    internal void Disqualify(string number, string reason)
     {
         this.Record.Result = new Result(ResultType.Disqualified, reason);
-    }
-    internal void FailToQualify(string reason)
+		Witness.RaiseStartlistChanged(number, Core.Enums.CollectionAction.Remove);
+	}
+    internal void FailToQualify(string number, string reason)
     {
         this.Record.Result = new Result(ResultType.FailedToQualify, reason);
-    }
+		Witness.RaiseStartlistChanged(number, Core.Enums.CollectionAction.Remove);
+	}
     internal void Resign(string reason)
     {
         this.Record.Result = new Result(ResultType.Resigned, reason);
     }
+    internal void Complete(string number)
+    {
+		this.Record.Result = new Result(ResultType.Successful);
+		Witness.RaiseStartlistChanged(number, Core.Enums.CollectionAction.AddOrUpdate);
+	}
     internal void RequireReInspection(bool isRequired)
     {
         this.Record.IsReinspectionRequired = isRequired;
@@ -95,15 +104,17 @@ public class LapRecordsAggregate : IAggregate
         return inTime - this.Record.ArrivalTime <= recoverySpan;
     }
 
-    internal void CheckForResult(double? averageSpeedLimit, CompetitionType type)
+    internal void CheckForResult(Participation participation)
     {
+        var averageSpeedLimit = participation.Participant.MaxAverageSpeedInKmPh;
+        var type = participation.CompetitionConstraint.Type;
         if (!this.Record.ArrivalTime.HasValue || !this.Record.InspectionTime.HasValue)
         {
             return;
         }
         if (averageSpeedLimit.HasValue && Performance.GetSpeed(this.Record, type) > averageSpeedLimit)
         {
-            this.FailToQualify("speed");
+            this.FailToQualify(participation.Participant.Number, "speed");
             return;
         }
         var vetTime = this.Record.InspectionTime;
@@ -117,11 +128,13 @@ public class LapRecordsAggregate : IAggregate
         }
         if (!this.HasRecovered(vetTime.Value))
         {
-            this.FailToQualify("MET");
+            this.FailToQualify(participation.Participant.Number, "MET");
+            return;
         }
         else
         {
-            this.Record.Result = new Result(ResultType.Successful);
+            this.Complete(participation.Participant.Number);
+            return;
         }
     }
 }

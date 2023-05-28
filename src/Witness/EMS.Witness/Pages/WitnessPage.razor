@@ -44,11 +44,11 @@
         @foreach (var witnessEvent in this.State.WitnessRecords.Values)
         {
             <tr>
-                <td>@witnessEvent.Number</td>
+                <td>@witnessEvent.TagId</td>
                 <td>@witnessEvent.Type.ToString()</td>
                 <td>@this.DateService.FormatTime(witnessEvent.Time, showMs: true)</td>
                 <td>
-                    <button class="btn btn-success btn-table" @onclick="_ => this.Save(witnessEvent.Number)">Save</button>
+                    <button class="btn btn-success btn-table" @onclick="_ => this.Save(witnessEvent.TagId)">Save</button>
                 </td>
             </tr>
         }

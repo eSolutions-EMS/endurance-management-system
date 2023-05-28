@@ -1,7 +1,8 @@
-﻿using Core.Application.Services;
+﻿using Core.Application.Rpc;
+using Core.Application.Services;
 using Core.ConventionalServices;
+using Core.Domain.AggregateRoots.Manager;
 using Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
-using EMS.Witness.Models;
 using EMS.Witness.Shared.Toasts;
 using System.Net.Http.Json;
 using static Core.Application.CoreApplicationConstants;
@@ -14,15 +15,18 @@ public class ApiService : IApiService
     private readonly HttpClient httpClient;
 	private readonly ToasterService toasterService;
 	private readonly INetworkHandshakeService handshakeService;
-    private readonly IPermissionsService permissionsService;
+	private readonly IEnumerable<IRpcClient> rpcClients;
+	private readonly IPermissionsService permissionsService;
 
 	public ApiService(
+		IEnumerable<IRpcClient> rpcClients,
 		IPermissionsService permissionsService,
 		INetworkHandshakeService handshakeService,
 		HttpClient httpClient,
 		ToasterService toasterService)
     {
-        this.permissionsService = permissionsService;
+		this.rpcClients = rpcClients;
+		this.permissionsService = permissionsService;
         this.httpClient = httpClient;
 		this.toasterService = toasterService;
 		this.handshakeService = handshakeService;
@@ -58,6 +62,16 @@ public class ApiService : IApiService
 					10);
 				this.toasterService.Add(error);
 			}
+			foreach (var client in this.rpcClients)
+			{
+				client.Configure(host);
+				client.Error += (sender, error) =>
+				{
+					var toast = new Toast("RPC client error", $"{error.Procedure}:{error.Exception.Message}", UiColor.Danger, 20);
+					this.toasterService.Add(toast);
+				};
+				await client.Start();
+			}
 		}
 		catch (Exception exception)
 		{
@@ -79,7 +93,7 @@ public class ApiService : IApiService
         }
     }
 
-	public async Task<bool> PostWitnessEvent(ManualWitnessEvent witnessEvent)
+	public async Task<bool> PostWitnessEvent(WitnessEvent witnessEvent)
     {
 		try
 		{
@@ -118,11 +132,34 @@ public class ApiService : IApiService
 		return $"{host}/{uri}";
 	}
 
-	private static void ConfigureApiHost(string ipAddress)
-		=> host = $"http://{ipAddress}:{NETWORK_API_PORT}";
+	private void ConfigureApiHost(string ipAddress)
+	{
+		host = $"http://{ipAddress}:{NETWORK_API_PORT}";
+	}
+		
 
 	public bool IsSuccessfulHandshake()
 		=> host != string.Empty;
+
+	public async Task FetchInitialState()
+	{
+		try
+		{
+			if (!this.IsSuccessfulHandshake())
+			{
+				await this.Handshake();
+			}
+			foreach (var client in this.rpcClients)
+			{
+				await client.FetchInitialState();
+			}
+		}
+		catch (Exception exception)
+		{
+			this.ToastError(exception);
+		}
+		
+	}
 }
 
 public interface IApiService : ISingletonService
@@ -130,5 +167,6 @@ public interface IApiService : ISingletonService
 	bool IsSuccessfulHandshake();
 	Task Handshake();
 	Task<List<StartModel>> GetStartlist();
-	Task<bool> PostWitnessEvent(ManualWitnessEvent witnessEvent);
+	Task<bool> PostWitnessEvent(WitnessEvent witnessEvent);
+	Task FetchInitialState();
 }

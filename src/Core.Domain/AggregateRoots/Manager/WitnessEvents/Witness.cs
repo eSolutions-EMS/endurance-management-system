@@ -1,4 +1,5 @@
 ﻿using Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
+using Core.Enums;
 using System;
 using System.Collections.Generic;
 
@@ -18,9 +19,9 @@ public class Witness
         StateChanged?.Invoke(null, EventArgs.Empty);
     }
 
-    public static event EventHandler<IEnumerable<StartModel>> StartlistChanged;
-    public static void RaiseStartlistChanged(IEnumerable<StartModel> startlist)
+    public static event EventHandler<(string number, CollectionAction action)> StartlistChanged;
+    public static void RaiseStartlistChanged(string number, CollectionAction action)
     {
-        StartlistChanged?.Invoke(null, startlist);
+        StartlistChanged?.Invoke(null, (number, action));
     }
 }
