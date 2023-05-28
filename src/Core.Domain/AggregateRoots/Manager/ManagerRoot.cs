@@ -87,7 +87,7 @@ public class ManagerRoot : IAggregateRoot
         this.file.Create(path, serialized);
     }
 
-    public StartModel GetStarlistEntry(string number)
+    public StartlistEntry GetStarlistEntry(string number)
     {
         var participation = this.state.Participations.Find(x => x.Participant.Number == number);
         var entry = Startlist.CreateModel(participation);
@@ -252,7 +252,7 @@ public class ManagerRoot : IAggregateRoot
         return performance;
     }
 
-    public IEnumerable<StartModel> GetStartList(bool includePast)
+    public IEnumerable<StartlistEntry> GetStartList(bool includePast)
     {
         var participations = this.state.Participations;
         var startList = new Startlist(participations, includePast);

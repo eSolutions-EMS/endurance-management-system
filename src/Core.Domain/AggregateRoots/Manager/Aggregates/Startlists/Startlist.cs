@@ -10,7 +10,7 @@ public class Startlist
 {
     internal Startlist(IEnumerable<Participation> participations, bool includePast)
     {
-        var entries = new List< StartModel>();
+        var entries = new List< StartlistEntry>();
         foreach (var participant in participations.Where(x =>
                      x.Participant.LapRecords.Any(y => y.NextStarTime.HasValue)
                      && !x.Participant.LapRecords.Any(y => y.Result == null || y.Result.IsNotQualified)))
@@ -23,9 +23,9 @@ public class Startlist
             .ToList();
     }
 
-    public List<StartModel> List = new();
+    public List<StartlistEntry> List = new();
 
-    private IEnumerable<StartModel> AddEntries(Participation participation, bool includePast)
+    private IEnumerable<StartlistEntry> AddEntries(Participation participation, bool includePast)
     {
         var performances = Performance.GetAll(participation).ToList();
         if (includePast)
@@ -42,7 +42,7 @@ public class Startlist
         }
     }
 
-    public static StartModel? CreateModel(Participation participation, DateTime? startTime = null)
+    public static StartlistEntry? CreateModel(Participation participation, DateTime? startTime = null)
     {
         if (participation.Participant.LapRecords.Last()?.Lap.IsFinal ?? false)
         {

@@ -47,7 +47,7 @@ public class HomeController : ControllerBase
     [HttpGet("hub")]
     public async Task<IActionResult> Hub()
     {
-        this.hubContext.Clients.All.Update(new StartModel
+        this.hubContext.Clients.All.Update(new StartlistEntry
         {
             Number = "11",
             Name = "text",

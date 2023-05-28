@@ -2,7 +2,7 @@
 
 namespace Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 
-public class StartModel
+public class StartlistEntry
 {
     public string Number { get; set; }
     public string Name { get; set; }

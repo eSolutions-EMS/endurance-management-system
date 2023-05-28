@@ -5,7 +5,7 @@ namespace EMS.Judge.Views.Dialogs.Startlists;
 
 public class StartTemplateModel
 {
-    public StartTemplateModel(StartModel start)
+    public StartTemplateModel(StartlistEntry start)
     {
         this.Name = start.Name;
         this.CountryName = start.CountryName;

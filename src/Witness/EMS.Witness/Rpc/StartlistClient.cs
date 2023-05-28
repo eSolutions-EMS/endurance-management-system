@@ -14,11 +14,11 @@ public class StartlistClient : RpcClient, IStartlistClientProcedures
  
     public StartlistClient(State state) : base(RpcEndpoints.STARTLIST)
     {
-        this.AddProcedure<StartModel, CollectionAction>(nameof(this.Update), this.Update);
+        this.AddProcedure<StartlistEntry, CollectionAction>(nameof(this.Update), this.Update);
 		this.state = state;
 	}
 
-    public Task Update(StartModel entry, CollectionAction action)
+    public Task Update(StartlistEntry entry, CollectionAction action)
 	{
 		var exising = this.state.Startlist.FirstOrDefault(x => x.Number == entry.Number); // TODO: use domain euqlas
 		if (exising!= null)
@@ -33,7 +33,7 @@ public class StartlistClient : RpcClient, IStartlistClientProcedures
 
 	public override async Task FetchInitialState()
 	{
-		var startlist = await this.Connection.InvokeAsync<List<StartModel>>(nameof(IStartlistHubProcedures.Get));
+		var startlist = await this.Connection.InvokeAsync<List<StartlistEntry>>(nameof(IStartlistHubProcedures.Get));
 		this.state.Startlist.AddRange(startlist);
 	}
 }

@@ -21,7 +21,7 @@ namespace EMS.Judge.Api.Rpc.Hubs
 			this.managerRoot = provider.GetRequiredService<ManagerRoot>();
         }
 		
-        public IEnumerable<StartModel> Get()
+        public IEnumerable<StartlistEntry> Get()
         {
 	        var startlist = this.managerRoot.GetStartList(false);
 	        return startlist;

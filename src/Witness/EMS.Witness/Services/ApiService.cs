@@ -79,17 +79,17 @@ public class ApiService : IApiService
 		}
 	}
 
-	public async Task<List<StartModel>> GetStartlist()
+	public async Task<List<StartlistEntry>> GetStartlist()
     {
         try
         {
-			return await this.httpClient.GetFromJsonAsync<List<StartModel>>(this.BuildUrl(Api.STARTLIST))
-				?? new List<StartModel>();
+			return await this.httpClient.GetFromJsonAsync<List<StartlistEntry>>(this.BuildUrl(Api.STARTLIST))
+				?? new List<StartlistEntry>();
 		}
         catch (Exception exception)
         {
 			this.ToastError(exception);
-			return new List<StartModel>();
+			return new List<StartlistEntry>();
         }
     }
 
@@ -166,7 +166,7 @@ public interface IApiService : ISingletonService
 {
 	bool IsSuccessfulHandshake();
 	Task Handshake();
-	Task<List<StartModel>> GetStartlist();
+	Task<List<StartlistEntry>> GetStartlist();
 	Task<bool> PostWitnessEvent(WitnessEvent witnessEvent);
 	Task FetchInitialState();
 }
