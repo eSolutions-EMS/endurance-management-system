@@ -361,3 +361,7 @@ data/*
 
 # Mac
 .DS_Store
+
+# Ignore Judge API Properties
+src/*Judge.Api/Properties
+src/*Judge.Rpc/Properties
