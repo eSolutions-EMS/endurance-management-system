@@ -31,7 +31,9 @@ public static class WitnessConfiguration
             .AddTransient<IDateService, DateService>()
             .AddSingleton<IWitnessEventClient, WitnessEventsClient>()
             .AddSingleton<IRpcClient>(p => p.GetRequiredService<IWitnessEventClient>())
-            .AddSingleton<IRpcClient, StartlistClient>();
+            .AddSingleton<IRpcClient, StartlistClient>()
+            .AddSingleton<IArrivelistClient, ArrivelistClient>()
+            .AddSingleton<IRpcClient>(x => x.GetRequiredService<IArrivelistClient>());
 
         return services;
     }

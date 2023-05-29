@@ -35,6 +35,15 @@ public class ObservableCollection<T> : List<T>
 		this.OnCollectionChanged();
 	}
 
+	public void Remove(IEnumerable<T> items)
+	{
+		foreach (var item in items)
+		{
+			base.Remove(item);
+		}
+		this.OnCollectionChanged();
+	}
+
 	public new void AddRange(IEnumerable<T> collection)
 	{
 		base.AddRange(collection);

@@ -1,5 +1,4 @@
-﻿using Core.Application.Services;
-using Core.Domain.AggregateRoots.Manager;
+﻿using Core.Domain.AggregateRoots.Manager;
 using EMS.Witness.Rpc;
 using EMS.Witness.Services;
 using Microsoft.AspNetCore.Components;
@@ -8,14 +7,20 @@ namespace EMS.Witness.Pages;
 
 public partial class WitnessPage : ComponentBase
 {
-    [Inject] 
-    private IDateService DateService { get; set; } = null!;
     [Inject]
-    private IState State { get; set; } = null!;
-    [Inject]
-    private IWitnessEventClient WitnessEventClient { get; set; } = default!;
-
+    private State State { get; set; } = null!;
     private Model witnessModel = new();
+
+    protected override void OnInitialized()
+    {
+        this.witnessModel.Type = this.state.Type.ToString();
+    }
+
+    private void SetType(ChangeEventArgs args)
+    {
+        var value = (WitnessEventType)args.Value!;
+        this.State.Type = value;
+    }
 
     private void HandleSubmit()
     {
@@ -37,16 +42,9 @@ public partial class WitnessPage : ComponentBase
         this.State.WitnessRecords.Add(witnessEvent.TagId, witnessEvent);
     }
 
-    private async Task Save(string number)
-    {
-		var witnessEvent = this.State.WitnessRecords[number];
-		await this.WitnessEventClient.Add(witnessEvent);
-		this.State.WitnessRecords.Remove(number);
-    }
-
     private class Model
     {
-        public string Type = WitnessEventType.Arrival.ToString();
+        public string Type;
         public int? Number;
         public int? Hour;
         public int? Minute;

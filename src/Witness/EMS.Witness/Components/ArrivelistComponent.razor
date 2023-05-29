@@ -1,0 +1,42 @@
+﻿@inherits StatefulComponent<SortedCollection<ArrivelistEntry>>;
+
+@using Core.Application.Services;
+@using Core.Domain.AggregateRoots.Manager.Aggregates.Arrivelists;
+@using Core.Models;
+@using EMS.Witness.Common;
+
+@inject IDateService DateService;
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Type</th>
+            <th>Time</th>
+            <th>Snapshot</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var arrive in this.State)
+        {
+            <tr>
+                <td>@arrive.Number</td>
+                <td>@arrive.Name</td>
+                <td>
+                    @if (arrive.ArriveTime.HasValue)
+                    {
+                        this.DateService.FormatTime(arrive.ArriveTime.Value, showMs: true);
+                    }
+                    else
+                    {
+                        <span>...</span>
+                    }
+                </td>
+                <td><button class="btn btn-success btn-table" @onclick="_ => this.Snapshot(arrive)"></button></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<button class="btn btn-warning btn-table" @onclick="this.Save">Save</button>
+

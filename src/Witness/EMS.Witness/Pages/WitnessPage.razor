@@ -1,11 +1,14 @@
 ﻿@page "/witness"
 
 @using Core.Domain.AggregateRoots.Manager
+@using EMS.Witness.Components
+@using EMS.Witness.Services;
+@inject IState state;
 
 <EditForm Model="@witnessModel" OnSubmit="HandleSubmit">
     <div class="mb-3">
         <label for="type" class="form-label">Type</label>
-        <InputSelect @bind-Value="@this.witnessModel.Type" class="form-control">
+        <InputSelect @bind-Value="@this.witnessModel.Type" @onchange="this.SetType" class="form-control">
             @foreach (var value in Enum.GetValues<WitnessEventType>())
             {
                 <option value="@value">@value</option>
@@ -31,26 +34,4 @@
     </div>
 </EditForm>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>#</th>
-            <th>Type</th>
-            <th>Time</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var witnessEvent in this.State.WitnessRecords.Values)
-        {
-            <tr>
-                <td>@witnessEvent.TagId</td>
-                <td>@witnessEvent.Type.ToString()</td>
-                <td>@this.DateService.FormatTime(witnessEvent.Time, showMs: true)</td>
-                <td>
-                    <button class="btn btn-success btn-table" @onclick="_ => this.Save(witnessEvent.TagId)">Save</button>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<ArrivelistComponent State="this.state.Arrivelist" />

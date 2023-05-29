@@ -28,6 +28,7 @@ public class RpcClient : IRpcClient, IAsyncDisposable
 		}
 		var url = $"{host}/{endpoint}";
 		this.Connection = new HubConnectionBuilder()
+			.WithAutomaticReconnect()
 			.WithUrl(url)
 			.Build();
 		foreach (var registerProcedure in procedureRegistrations)
