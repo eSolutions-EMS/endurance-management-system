@@ -21,8 +21,9 @@ public class StartlistClient : RpcClient, IStartlistClientProcedures
     public Task Update(StartlistEntry entry, CollectionAction action)
 	{
 		var exising = this.state.Startlist.FirstOrDefault(x => x.Number == entry.Number); // TODO: use domain euqlas
-		if (exising!= null)
+		if (exising != null)
 		{
+			this.state.Startlist.Remove(exising);
 		}
 		if (action == CollectionAction.AddOrUpdate)
 		{
