@@ -90,7 +90,7 @@ public class ManagerRoot : IAggregateRoot
     public StartlistEntry GetStarlistEntry(string number)
     {
         var participation = this.state.Participations.Find(x => x.Participant.Number == number);
-        var entry = Startlist.CreateModel(participation);
+        var entry = new StartlistEntry(participation);
         return entry;
     }
 
@@ -252,11 +252,13 @@ public class ManagerRoot : IAggregateRoot
         return performance;
     }
 
-    public IEnumerable<StartlistEntry> GetStartList(bool includePast)
+    public Startlist GetStartList()
     {
-        var participations = this.state.Participations;
-        var startList = new Startlist(participations, includePast);
-        return startList.List;
+        var entries = this.state.Participations
+            .Where(x => x.Participant.LapRecords.All(y => y.NextStarTime.HasValue))
+            .Select(x => new StartlistEntry(x));
+        var startlist = new Startlist(entries);
+        return startlist;
     }
 
     private Participation GetParticipation(string numberOrTag)

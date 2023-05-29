@@ -15,7 +15,7 @@ public class StartlistService : IStartlistService
     }
 
     public IEnumerable<StartlistEntry> Get()
-        => this.managerRoot.GetStartList(false);
+        => this.managerRoot.GetStartList();
 }
 
 public interface IStartlistService

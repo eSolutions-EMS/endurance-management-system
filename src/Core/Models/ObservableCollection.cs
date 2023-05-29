@@ -8,47 +8,47 @@ public class ObservableCollection<T> : List<T>
 	public new void Add(T item)
 	{
 		base.Add(item);
-		this.RaiseChanged();
+		this.OnCollectionChanged();
 	}
 
 	public new void Clear()
 	{
 		base.Clear();
-		this.RaiseChanged();
+		this.OnCollectionChanged();
 	}
 
 	public new void Insert(int index, T item)
 	{
 		base.Insert(index, item);
-		this.RaiseChanged();
+		this.OnCollectionChanged();
 	}
 
 	public new void RemoveAt(int index)
 	{
 		base.RemoveAt(index);
-		this.RaiseChanged();
+		this.OnCollectionChanged();
 	}
 
 	public new void Remove(T item)
 	{
 		base.Remove(item);
-		this.RaiseChanged();
+		this.OnCollectionChanged();
 	}
 
 	public new void AddRange(IEnumerable<T> collection)
 	{
 		base.AddRange(collection);
-		this.RaiseChanged();
+		this.OnCollectionChanged();
 	}
 
 	public new void RemoveAll(Predicate<T> predicate) 
 	{ 
 		base.RemoveAll(predicate); 
-		this.RaiseChanged();
+		this.OnCollectionChanged();
 	}
 
 
-	private void RaiseChanged()
+	protected virtual void OnCollectionChanged()
 	{
 		AppState.RaiseChanged(null, this);
 	}

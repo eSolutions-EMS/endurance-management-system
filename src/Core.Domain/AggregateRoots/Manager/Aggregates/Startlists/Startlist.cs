@@ -1,66 +1,22 @@
-﻿using Core.Domain.AggregateRoots.Common.Performances;
-using Core.Domain.State.Participations;
-using System;
+﻿using Core.Models;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 
-public class Startlist
+public class Startlist : ObservableCollection<StartlistEntry>
 {
-    internal Startlist(IEnumerable<Participation> participations, bool includePast)
+    public Startlist()
     {
-        var entries = new List< StartlistEntry>();
-        foreach (var participant in participations.Where(x =>
-                     x.Participant.LapRecords.Any(y => y.NextStarTime.HasValue)
-                     && !x.Participant.LapRecords.Any(y => y.Result == null || y.Result.IsNotQualified)))
-        {
-            entries.AddRange(this.AddEntries(participant, includePast));
-        }
-        this.List = entries
-            .OrderByDescending(x => x.StartTime > DateTime.Now)
-            .ThenBy(x => x.StartTime)
-            .ToList();
     }
 
-    public List<StartlistEntry> List = new();
-
-    private IEnumerable<StartlistEntry> AddEntries(Participation participation, bool includePast)
+    public Startlist(IEnumerable<StartlistEntry> entries)
     {
-        var performances = Performance.GetAll(participation).ToList();
-        if (includePast)
-        {
-            foreach (var record in performances.Where(x => x.NextStartTime.HasValue))
-            {
-                yield return CreateModel(participation, record.NextStartTime!.Value);
-            }
-        }
-        else
-        {
-            var performance = performances.Last(x => x.NextStartTime.HasValue);
-            yield return CreateModel(participation, performance.NextStartTime!.Value);
-        }
+        this.AddRange(entries);
     }
 
-    public static StartlistEntry? CreateModel(Participation participation, DateTime? startTime = null)
+    protected override void OnCollectionChanged()
     {
-        if (participation.Participant.LapRecords.Last()?.Lap.IsFinal ?? false)
-        {
-            return null;
-        }
-        if (startTime == null)
-        {
-            startTime = participation.Participant.LapRecords.Last().NextStarTime;
-        }
-        return new()
-		{
-			Number = participation.Participant.Number,
-			Name = participation.Participant.Name,
-			AthleteName = participation.Participant.Athlete.Name,
-			CountryName = participation.Participant.Athlete.Country.Name,
-			Distance = participation.Distance!.Value,
-			StartTime = startTime.Value,
-		};
-	}
-        
+        this.Sort();
+        base.OnCollectionChanged();
+    }
 }

@@ -27,8 +27,6 @@ public class StartlistDialogModel : DialogBase
     public ObservableCollection<StartTemplateModel> List { get; } = new();
     public DelegateCommand GetList { get; }
     public DelegateCommand<Visual> Print { get; }
-    public bool IncludePast { get; set; } = false;
-
     public override void OnDialogOpened(IDialogParameters parameters)
     {
         this.RenderList();
@@ -37,7 +35,7 @@ public class StartlistDialogModel : DialogBase
     private void RenderList()
     {
         var participants = this.contestExecutor
-            .Execute(x => x.GetStartList(this.IncludePast), false)
+            .Execute(x => x.GetStartList(), false)
             .Select(x => new StartTemplateModel(x));
         this.List.Clear();
         this.List.AddRange(participants);

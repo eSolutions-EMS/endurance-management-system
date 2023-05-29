@@ -5,6 +5,7 @@ using Core.Domain.State.Participations;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 
 namespace Core.Domain.AggregateRoots.Common.Performances;
 
@@ -112,6 +113,13 @@ public class Performance : IAggregate, IPerformance, INotifyPropertyChanged
             previousLength += lapRecord.Lap.LengthInKm;
             yield return performance;
         }
+    }
+
+    public static DateTime GetStartTime(Participation participation)
+    {
+        var lastRecord = participation.Participant.LapRecords.Last();
+        var performance = new Performance(lastRecord, participation.CompetitionConstraint.Type, 0);
+        return performance.NextStartTime.Value!;
     }
 
     internal static double? GetSpeed(LapRecord record, CompetitionType type)

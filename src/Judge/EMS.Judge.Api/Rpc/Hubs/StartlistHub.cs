@@ -23,7 +23,7 @@ namespace EMS.Judge.Api.Rpc.Hubs
 		
         public IEnumerable<StartlistEntry> Get()
         {
-	        var startlist = this.managerRoot.GetStartList(false);
+	        var startlist = this.managerRoot.GetStartList();
 	        return startlist;
         }
 
