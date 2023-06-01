@@ -3,7 +3,6 @@ using Core.Application.Rpc.Procedures;
 using Core.Domain.AggregateRoots.Manager.Aggregates.Arrivelists;
 using Core.Enums;
 using EMS.Witness.Services;
-using Microsoft.AspNetCore.SignalR.Client;
 using static Core.Application.CoreApplicationConstants;
 
 namespace EMS.Witness.Rpc;
@@ -34,15 +33,17 @@ public class ArrivelistClient : RpcClient, IArrivelistClient, IArrivelistClientP
 
 	public override async Task FetchInitialState()
 	{
-		var arrivelist = await this.Connection.InvokeAsync<IEnumerable<ArrivelistEntry>>(nameof(IArrivelistHubProcedures.Get));
-		this.state.Arrivelist.Clear();
-		this.state.Arrivelist.AddRange(arrivelist);
+		var arrivelist = await this.InvokeAsync<IEnumerable<ArrivelistEntry>>(nameof(IArrivelistHubProcedures.Get));
+		if (arrivelist is not null)
+		{
+            this.state.Arrivelist.Clear();
+            this.state.Arrivelist.AddRange(arrivelist);
+        }
 	}
 
     public async Task Save(IEnumerable<ArrivelistEntry> entries)
     {
-		//TODO: Create base method and handle errors same as procedures
-		await this.Connection.InvokeAsync(nameof(IArrivelistHubProcedures.Save), entries);
+		await this.InvokeAsync(nameof(IArrivelistHubProcedures.Save), entries);
     }
 }
 

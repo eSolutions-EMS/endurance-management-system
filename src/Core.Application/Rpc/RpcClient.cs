@@ -145,6 +145,31 @@ public class RpcClient : IRpcClient, IAsyncDisposable
 		});
 	}
 
+	protected async Task InvokeAsync<T>(string name, T parameter)
+	{
+		try
+		{
+			await this.Connection.InvokeAsync(name, parameter);
+		}
+		catch (Exception exception)
+		{
+			this.HandleError(exception, name, parameter);
+		}
+	}
+
+	protected async Task<T?> InvokeAsync<T>(string name)
+	{
+		try
+		{
+			return await this.Connection.InvokeAsync<T>(name);
+		}
+		catch (Exception exception)
+		{
+			this.HandleError(exception, name);
+			return default;
+		}
+	}
+
     public event EventHandler<RpcError>? Error;
     private void HandleError(Exception exception, string procedure, params object[] arguments)
     {

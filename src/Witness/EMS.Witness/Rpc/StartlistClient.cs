@@ -3,7 +3,6 @@ using Core.Application.Rpc.Procedures;
 using Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 using Core.Enums;
 using EMS.Witness.Services;
-using Microsoft.AspNetCore.SignalR.Client;
 using static Core.Application.CoreApplicationConstants;
 
 namespace EMS.Witness.Rpc;
@@ -34,7 +33,10 @@ public class StartlistClient : RpcClient, IStartlistClientProcedures
 
 	public override async Task FetchInitialState()
 	{
-		var startlist = await this.Connection.InvokeAsync<Startlist>(nameof(IStartlistHubProcedures.Get));
-		this.state.Startlist.AddRange(startlist);
-	}
+		var startlist = await this.InvokeAsync<Startlist>(nameof(IStartlistHubProcedures.Get));
+		if (startlist is not null)
+		{
+            this.state.Startlist.AddRange(startlist);
+        }
+    }
 }
