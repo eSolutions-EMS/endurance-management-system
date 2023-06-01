@@ -30,7 +30,7 @@ public class RfidWitness : IRfidWitness
         this.settings = settings;
         this.popupService = popupService;
         this.state = state;
-        if (this.settings.IsSandboxMode)
+        if (this.settings.ShouldUseVupRfid)
         {
             return;
         }
@@ -51,7 +51,7 @@ public class RfidWitness : IRfidWitness
 
     public void Connect()
     {
-        if (this.settings.IsSandboxMode)
+        if (this.settings.ShouldUseVupRfid)
         {
             return;
         }
@@ -60,7 +60,7 @@ public class RfidWitness : IRfidWitness
 
     public void Reconnect()
     {
-        if (this.settings.IsSandboxMode)
+        if (this.settings.ShouldUseVupRfid)
         {
             return;
         }
@@ -75,7 +75,7 @@ public class RfidWitness : IRfidWitness
     /// </summary>
     public void Start()
     {
-        if (this.settings.IsSandboxMode)
+        if (this.settings.ShouldUseVupRfid)
         {
             return;
         }
@@ -88,7 +88,7 @@ public class RfidWitness : IRfidWitness
 
     public void Stop()
     {
-        if (this.settings.IsSandboxMode)
+        if (this.settings.ShouldUseVupRfid)
         {
             return;
         }
@@ -97,7 +97,7 @@ public class RfidWitness : IRfidWitness
 
     public void Disconnect()
     {
-        if (this.settings.IsSandboxMode)
+        if (this.settings.ShouldUseVupRfid)
         {
             return;
         }
