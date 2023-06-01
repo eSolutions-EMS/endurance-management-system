@@ -4,5 +4,8 @@ namespace EMS.Witness.Components;
 
 public partial class StartlistComponent
 {
-    public override List<StartlistEntry> State { get; set; } = new List<StartlistEntry>();
+    public StartlistComponent()
+    {
+        this.State = new();
+    }
 }

@@ -35,11 +35,13 @@ public class ArrivelistClient : RpcClient, IArrivelistClient, IArrivelistClientP
 	public override async Task FetchInitialState()
 	{
 		var arrivelist = await this.Connection.InvokeAsync<IEnumerable<ArrivelistEntry>>(nameof(IArrivelistHubProcedures.Get));
+		this.state.Arrivelist.Clear();
 		this.state.Arrivelist.AddRange(arrivelist);
 	}
 
     public async Task Save(IEnumerable<ArrivelistEntry> entries)
     {
+		//TODO: Create base method and handle errors same as procedures
 		await this.Connection.InvokeAsync(nameof(IArrivelistHubProcedures.Save), entries);
     }
 }

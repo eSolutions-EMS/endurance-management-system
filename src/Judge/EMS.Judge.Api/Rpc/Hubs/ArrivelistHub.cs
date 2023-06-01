@@ -5,7 +5,9 @@ using Core.Domain.AggregateRoots.Manager.WitnessEvents;
 using EMS.Judge.Api.Configuration;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace EMS.Judge.Api.Rpc.Hubs;
