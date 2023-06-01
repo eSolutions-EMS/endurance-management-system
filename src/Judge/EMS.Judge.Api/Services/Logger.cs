@@ -26,6 +26,16 @@ namespace EMS.Judge.Api.Services
             this.Log(message);
         }
 
+        public void LogRpcError(Exception exception)
+        {
+            var now = DateTime.Now;
+            var message = 
+                $"{now}: " + exception.Message + Environment.NewLine
+                + exception.StackTrace + Environment.NewLine;
+            var filename = $"T{now:HH-mm-ss}_rpc-error.log";
+            this.Log(message, filename);
+        }
+
         public void LogEventError(Exception exception, WitnessEvent witnessEvent)
         {
             var now = DateTime.Now;
@@ -40,10 +50,10 @@ namespace EMS.Judge.Api.Services
             this.Log(message);
         }
 
-        private void Log(string message)
+        private void Log(string message, string filename = FILE_NAME)
         {
             var dir = $"{Directory.GetCurrentDirectory()}/logs";
-            var path = Path.Combine(dir, FILE_NAME);
+            var path = Path.Combine(dir, filename);
             this.fileService.Append(path, message);
         }
     }
@@ -52,5 +62,6 @@ namespace EMS.Judge.Api.Services
 public interface ILogger : ITransientService
 {
     void LogError(Exception exception);
+    void LogRpcError(Exception exception);
     void LogEventError(Exception exception, WitnessEvent witnessEvent);
 }

@@ -19,6 +19,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using EMS.Judge.Api.Rpc;
 using EMS.Judge.Api.Rpc.Hubs;
+using Microsoft.AspNetCore.SignalR;
 using System.Collections.Generic;
 using static Core.Application.CoreApplicationConstants;
 
@@ -83,7 +84,7 @@ public static class ApiServices
     public static IServiceCollection AddApi(this IServiceCollection services)
     {
         services
-            .AddSignalR()
+            .AddSignalR(options => options.AddFilter<ErrorHandlerFilter>())
             .AddJsonProtocol(options => options.PayloadSerializerOptions.IncludeFields = true);
         services.AddControllers();
         services
