@@ -1,4 +1,5 @@
-﻿using EMS.Witness.Shared.Toasts;
+﻿using Core.Events;
+using EMS.Witness.Shared.Toasts;
 using System.Timers;
 
 namespace EMS.Witness.Services;
@@ -13,6 +14,11 @@ public class ToasterService : IDisposable
         this.timer.AutoReset = true;
         this.timer.Elapsed += this.HandleTimerElapsed;
         this.timer.Start();
+        CoreEvents.ErrorEvent += (sender, exception) =>
+        {
+            var toast = new Toast(exception.Message, exception.StackTrace, UiColor.Danger, 60);
+            this.Add(toast);
+        };
     }
 
     public event EventHandler? ToasterChanged;

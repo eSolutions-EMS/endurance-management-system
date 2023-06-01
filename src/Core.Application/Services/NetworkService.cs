@@ -1,4 +1,5 @@
 ﻿using Core.ConventionalServices;
+using Core.Events;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -41,23 +42,29 @@ public class NetworkService : INetworkBroadcastService, INetworkHandshakeService
 
     public async Task<IPAddress> Handshake(string app, CancellationToken token)
     {
-        //TODO: Perhaps try-catch?
-        var payload = this.handshakeValidatorService.CreatePayload(app);
-        var socket = this.OpenHandshakeSocket(payload);
-        var handshake = await this.AttemptHandshake(socket);
-        while (handshake.IsTimeout && !token.IsCancellationRequested)
+        try
         {
-            socket.Close();
-            socket = this.OpenHandshakeSocket(payload);
-            handshake = await this.AttemptHandshake(socket);
-        }
+            var payload = this.handshakeValidatorService.CreatePayload(app);
+            var socket = this.OpenHandshakeSocket(payload);
+            var handshake = await this.AttemptHandshake(socket);
+            while (handshake.IsTimeout && !token.IsCancellationRequested)
+            {
+                socket.Close();
+                socket = this.OpenHandshakeSocket(payload);
+                handshake = await this.AttemptHandshake(socket);
+            }
 
-        var response = handshake.Result!.Value;
-        if (this.handshakeValidatorService.ValidatePayload(response.Buffer, Apps.JUDGE))
+            var response = handshake.Result!.Value;
+            if (this.handshakeValidatorService.ValidatePayload(response.Buffer, Apps.JUDGE))
+            {
+                Console.WriteLine($"Handshake completed with '{Apps.JUDGE}' on '{response.RemoteEndPoint.Address}'");
+                socket.Close();
+                return response.RemoteEndPoint.Address;
+            }
+        }
+        catch (Exception exception)
         {
-            Console.WriteLine($"Handshake completed with '{Apps.JUDGE}' on '{response.RemoteEndPoint.Address}'");
-            socket.Close();
-            return response.RemoteEndPoint.Address;
+            CoreEvents.RaiseError(exception);
         }
 
         return (IPAddress)null!;
