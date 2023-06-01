@@ -52,7 +52,17 @@ public class ApiService : IApiService
 					UiColor.Success,
 					10);
 				this.toasterService.Add(toast);
-			}
+                foreach (var client in this.rpcClients)
+                {
+                    client.Configure(host);
+                    client.Error += (sender, error) =>
+                    {
+                        var toast = new Toast("RPC client error", $"{error.Procedure}:{error.Exception.Message}", UiColor.Danger, 20);
+                        this.toasterService.Add(toast);
+                    };
+                    await client.Start();
+                }
+            }
 			else
 			{
 				var error = new Toast(
@@ -61,16 +71,6 @@ public class ApiService : IApiService
 					UiColor.Danger,
 					10);
 				this.toasterService.Add(error);
-			}
-			foreach (var client in this.rpcClients)
-			{
-				client.Configure(host);
-				client.Error += (sender, error) =>
-				{
-					var toast = new Toast("RPC client error", $"{error.Procedure}:{error.Exception.Message}", UiColor.Danger, 20);
-					this.toasterService.Add(toast);
-				};
-				await client.Start();
 			}
 		}
 		catch (Exception exception)

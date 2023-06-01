@@ -1,4 +1,5 @@
-﻿using EMS.Judge.Common;
+﻿using Core.Events;
+using EMS.Judge.Common;
 using EMS.Judge.Views;
 using Core.Services;
 using Core.Utilities;
@@ -46,10 +47,6 @@ public partial class App : PrismApplication
         var dotnetProvider = this.Container.Resolve<IServiceProvider>();
 
         var settings = dotnetProvider.GetRequiredService<ISettings>();
-        if (!settings.IsSandboxMode)
-        {
-            StartApi(dotnetProvider);
-        }
         InitializeStaticServices(dotnetProvider);
 
         var initializers = dotnetProvider.GetServices<IInitializer>();
@@ -60,6 +57,10 @@ public partial class App : PrismApplication
         Console.WriteLine("================================================");
         Console.WriteLine("=               JUDGE UI running                ");
         Console.WriteLine("================================================");
+        if (!settings.IsSandboxMode)
+        {
+            StartApi(dotnetProvider);
+        }
     }
 
     protected override void ConfigureViewModelLocator()
@@ -90,6 +91,6 @@ public partial class App : PrismApplication
 
     private static void StartApi(IServiceProvider provider)
     {
-        Task.Run(() => JudgeApi.Start(provider));
+        CoreEvents.StateLoadedEvent += (_, __) => Task.Run(() => JudgeApi.Start(provider));
     }
 }
