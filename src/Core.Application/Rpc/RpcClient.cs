@@ -62,6 +62,7 @@ public class RpcClient : IRpcClient, IAsyncDisposable
         try
 		{
 			await this.Connection.StartAsync();
+			this.RaiseConnected();
 		}
         catch (Exception ex)
 		{

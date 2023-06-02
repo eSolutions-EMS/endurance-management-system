@@ -1,9 +1,27 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@using Core.Application.Rpc;
+
+<div class="top-row ps-3 navbar navbar-dark">
 	<div class="container-fluid">
-		<a class="navbar-brand" href="">eWitness</a>
-		<button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
-			<span class="navbar-toggler-icon"></span>
-		</button>
+		@if (!this.IsConnected)
+		{
+			<div class="col-5 navbar-brand">Disconnected...</div>
+			<div class="col-3">
+				<div class="spinner-border text-danger" role="status">
+					<span class="visually-hidden">Loading...</span>
+				</div>
+			</div>
+		}
+		else
+		{
+			<div class="col-8">
+				<a class="navbar-brand" href="">eWitness</a>
+			</div>
+		}
+		<div class="col-3">
+			<button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+		</div>
 	</div>
 </div>
 
@@ -28,12 +46,27 @@
 </div>
 
 @code {
-	private bool collapseNavMenu = true;
+	private bool CollapseNavMenu = true;
 
-	private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+	private string NavMenuCssClass
+		=> this.CollapseNavMenu ? "collapse" : string.Empty;
 
 	private void ToggleNavMenu()
 	{
-		collapseNavMenu = !collapseNavMenu;
+		this.CollapseNavMenu = !this.CollapseNavMenu;
+	}
+
+	private bool IsConnected;
+
+	protected override void OnInitialized()
+	{
+		RpcClient.ServerConnectionChanged += async (sender, isConnected) =>
+		{
+			if (this.IsConnected != isConnected)
+			{
+				this.IsConnected = isConnected;
+				await this.InvokeAsync(this.StateHasChanged);
+			}
+		};
 	}
 }
