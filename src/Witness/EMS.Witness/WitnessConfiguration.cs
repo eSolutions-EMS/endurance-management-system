@@ -21,7 +21,7 @@ public static class WitnessConfiguration
             .Concat(WitnessConstants.Assemblies)
             .ToArray();
 
-        services.AddHttpClient<IApiService, ApiService>(client => client.Timeout = TimeSpan.FromSeconds(5));
+        services.AddHttpClient<IRpcService, ApiService>(client => client.Timeout = TimeSpan.FromSeconds(5));
         services
             .AddCore(assemblies)
             .AddTransient<IPermissionsService, PermissionsService>()

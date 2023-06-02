@@ -9,7 +9,7 @@ using static Core.Application.CoreApplicationConstants;
 
 namespace EMS.Witness.Services;
 
-public class ApiService : IApiService
+public class RpcService: IRpcService
 {
 	private static string host = string.Empty;
     private readonly HttpClient httpClient;
@@ -18,7 +18,7 @@ public class ApiService : IApiService
 	private readonly IEnumerable<IRpcClient> rpcClients;
 	private readonly IPermissionsService permissionsService;
 
-	public ApiService(
+	public RpcService(
 		IEnumerable<IRpcClient> rpcClients,
 		IPermissionsService permissionsService,
 		INetworkHandshakeService handshakeService,
@@ -157,7 +157,7 @@ public class ApiService : IApiService
 	}
 }
 
-public interface IApiService : ISingletonService
+public interface IRpcService : ISingletonService
 {
 	bool IsSuccessfulHandshake();
 	Task Handshake();

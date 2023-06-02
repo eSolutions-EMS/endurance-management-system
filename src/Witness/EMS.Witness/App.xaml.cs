@@ -7,11 +7,11 @@ namespace EMS.Witness;
 
 public partial class App : Application
 {
-	private readonly IApiService apiService;
+	private readonly IRpcService apiService;
     private readonly ToasterService toaster;
     private readonly IEnumerable<IRpcClient> rpcClients;
 
-    public App(IApiService apiService, ToasterService toaster, IEnumerable<IRpcClient> rpcClients)
+    public App(IRpcService apiService, ToasterService toaster, IEnumerable<IRpcClient> rpcClients)
 	{
 		this.InitializeComponent();
         this.MainPage = new MainPage();
