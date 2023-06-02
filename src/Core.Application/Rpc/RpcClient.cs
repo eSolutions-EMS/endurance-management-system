@@ -1,22 +1,29 @@
 ﻿using Core.Application.Rpc.Procedures;
-using Core.ConventionalServices;
 using Microsoft.AspNetCore.SignalR.Client;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Core.Application.Rpc;
 
 public class RpcClient : IRpcClient, IAsyncDisposable
 {
+	/// <summary>
+	/// 'true' means connected; 'false' - disconnected;
+	/// </summary>
+	public static event EventHandler<bool>? ServerConnectionChanged;
+
     private readonly string endpoint;
     // Necessary because this.Connection instance is not intialized 
     // when procedures are reigstered in the child constructor
     private List<Action<HubConnection>> procedureRegistrations = new();
+	private CancellationTokenSource cancellationTokenSource;
 
     public RpcClient(string endpoint)
     {
         this.endpoint = endpoint;
+		this.cancellationTokenSource = new CancellationTokenSource();
     }
     
     protected HubConnection? Connection { get; private set; }
@@ -29,10 +36,14 @@ public class RpcClient : IRpcClient, IAsyncDisposable
 		}
 		var url = $"{host}/{endpoint}";
 		this.Connection = new HubConnectionBuilder()
-			.WithAutomaticReconnect()
 			.WithUrl(url)
 			.Build();
-		foreach (var registerProcedure in procedureRegistrations)
+		this.Connection.Closed += ex =>
+		{
+			this.BeginReconnecting(this.cancellationTokenSource.Token);
+			return Task.CompletedTask;
+		};
+        foreach (var registerProcedure in procedureRegistrations)
 		{
 			registerProcedure(this.Connection);
 		}
@@ -40,11 +51,15 @@ public class RpcClient : IRpcClient, IAsyncDisposable
 
     public virtual async Task Start()
     {
-        if (this.Connection == null)
+		if (this.Connection == null)
         {
             return;
         }
-		try
+        if (this.cancellationTokenSource.IsCancellationRequested)
+        {
+            this.cancellationTokenSource = new CancellationTokenSource();
+        }
+        try
 		{
 			await this.Connection.StartAsync();
 		}
@@ -60,6 +75,7 @@ public class RpcClient : IRpcClient, IAsyncDisposable
         {
             return;
         }
+		this.cancellationTokenSource.Cancel();
         await this.Connection.StopAsync();
     }
 
@@ -75,6 +91,7 @@ public class RpcClient : IRpcClient, IAsyncDisposable
             return;
         }
         await this.Connection.DisposeAsync();
+		this.cancellationTokenSource.Dispose();
     }
 
 	protected void AddProcedure(string name, Func<Task> action)
@@ -181,6 +198,43 @@ public class RpcClient : IRpcClient, IAsyncDisposable
         var error = new RpcError(exception, procedure, arguments);
         this.Error?.Invoke(this, error);
     }
+
+    private void BeginReconnecting(CancellationToken cancellationToken)
+    {
+		this.RaiseDisconnected();
+        var timer = new System.Timers.Timer(5000);
+        timer.Elapsed += async (s, e) =>
+        {
+            if (cancellationToken.IsCancellationRequested)
+            {
+                timer.Stop();
+                timer.Dispose();
+            }
+            try
+            {
+                await this.Connection!.StartAsync();
+                if (this.Connection.State == HubConnectionState.Connected)
+                {
+                    await this.FetchInitialState();
+					this.RaiseConnected();
+                    timer.Stop();
+                    timer.Dispose();
+                }
+            }
+            catch (Exception) { }
+        };
+        timer.Start();
+    }
+
+	private void RaiseDisconnected()
+	{
+		ServerConnectionChanged?.Invoke(this, false);
+	}
+
+	private void RaiseConnected()
+	{
+		ServerConnectionChanged?.Invoke(this, true);
+	}
 }
 
 public interface IRpcClient

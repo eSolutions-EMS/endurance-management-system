@@ -39,7 +39,7 @@ public partial class App : Application
 		{
             client.Error += (sender, error) =>
             {
-                var toast = new Toast("RPC client error", $"{error.Procedure}:{error.Exception.Message}", UiColor.Danger, 20);
+                var toast = new Toast("RPC client error", $"{error.Procedure}: {error.Exception.Message}", UiColor.Danger, 20);
                 this.toaster.Add(toast);
             };
         }

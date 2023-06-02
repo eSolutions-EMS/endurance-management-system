@@ -272,7 +272,9 @@ public class ManagerRoot : IAggregateRoot
     public IEnumerable<ArrivelistEntry> GetArrivelist()
     {
         var entries = this.state.Participations
-            .Where(x => x.Participant.LapRecords.All(y => y.NextStarTime.HasValue))
+            .Where(x =>
+                x.Participant.LapRecords.Count == 1 ||
+                x.Participant.LapRecords.All(y => y.NextStarTime.HasValue))
             .Select(x => new ArrivelistEntry(x));
         return entries;
     }
