@@ -1,4 +1,5 @@
-﻿using Core.ConventionalServices;
+﻿using Core.Application.Rpc.Procedures;
+using Core.ConventionalServices;
 using Microsoft.AspNetCore.SignalR.Client;
 using System;
 using System.Collections.Generic;
@@ -145,29 +146,32 @@ public class RpcClient : IRpcClient, IAsyncDisposable
 		});
 	}
 
-	protected async Task InvokeAsync<T>(string name, T parameter)
+	protected async Task<RpcInvokeResult> InvokeAsync<T>(string name, T parameter)
 	{
 		try
 		{
 			await this.Connection.InvokeAsync(name, parameter);
+			return RpcInvokeResult.Success;
 		}
 		catch (Exception exception)
 		{
 			this.HandleError(exception, name, parameter);
+			return RpcInvokeResult.Error;
 		}
 	}
 
-	protected async Task<T?> InvokeAsync<T>(string name)
+	protected async Task<RpcInvokeResult<T>> InvokeAsync<T>(string name)
 	{
 		try
 		{
-			return await this.Connection.InvokeAsync<T>(name);
+			var result = await this.Connection.InvokeAsync<T>(name);
+			return RpcInvokeResult<T>.Success(result);
 		}
 		catch (Exception exception)
 		{
 			this.HandleError(exception, name);
-			return default;
-		}
+			return RpcInvokeResult<T>.Error;
+        }
 	}
 
     public event EventHandler<RpcError>? Error;

@@ -13,7 +13,7 @@ public partial class WitnessPage : ComponentBase
 
     protected override void OnInitialized()
     {
-        this.witnessModel.Type = this.state.Type.ToString();
+        this.witnessModel.Type = this.State.Type.ToString();
     }
 
     private void SetType(ChangeEventArgs args)

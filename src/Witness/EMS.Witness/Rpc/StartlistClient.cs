@@ -33,10 +33,10 @@ public class StartlistClient : RpcClient, IStartlistClientProcedures
 
 	public override async Task FetchInitialState()
 	{
-		var startlist = await this.InvokeAsync<Startlist>(nameof(IStartlistHubProcedures.Get));
-		if (startlist is not null)
+		var result = await this.InvokeAsync<Startlist>(nameof(IStartlistHubProcedures.Get));
+		if (result.IsSuccessful)
 		{
-            this.state.Startlist.AddRange(startlist);
+            this.state.Startlist.AddRange(result.Data!);
         }
     }
 }

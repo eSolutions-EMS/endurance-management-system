@@ -44,9 +44,12 @@ public class WitnessService : IWitnessService
 
     public async Task Save()
     {
-        await this.arrivelistClient.Save(this.Snapshots);
-        this.History.AddRange(this.Snapshots);
-        this.Snapshots.Clear();
+        var result = await this.arrivelistClient.Save(this.Snapshots);
+        if (result.IsSuccessful)
+        {
+            this.History.AddRange(this.Snapshots);
+            this.Snapshots.Clear();
+        }
     }
 
     public void Snapshot(ArrivelistEntry entry)

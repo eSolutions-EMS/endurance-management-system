@@ -33,21 +33,21 @@ public class ArrivelistClient : RpcClient, IArrivelistClient, IArrivelistClientP
 
 	public override async Task FetchInitialState()
 	{
-		var arrivelist = await this.InvokeAsync<IEnumerable<ArrivelistEntry>>(nameof(IArrivelistHubProcedures.Get));
-		if (arrivelist is not null)
+		var result = await this.InvokeAsync<IEnumerable<ArrivelistEntry>>(nameof(IArrivelistHubProcedures.Get));
+		if (result.IsSuccessful)
 		{
             this.state.Arrivelist.Clear();
-            this.state.Arrivelist.AddRange(arrivelist);
+            this.state.Arrivelist.AddRange(result.Data!);
         }
 	}
 
-    public async Task Save(IEnumerable<ArrivelistEntry> entries)
+    public async Task<RpcInvokeResult> Save(IEnumerable<ArrivelistEntry> entries)
     {
-		await this.InvokeAsync(nameof(IArrivelistHubProcedures.Save), entries);
+		return await this.InvokeAsync(nameof(IArrivelistHubProcedures.Save), entries);
     }
 }
 
 public interface IArrivelistClient : IRpcClient
 {
-	Task Save(IEnumerable<ArrivelistEntry> entries);
+	Task<RpcInvokeResult> Save(IEnumerable<ArrivelistEntry> entries);
 }
