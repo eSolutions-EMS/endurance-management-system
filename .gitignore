@@ -365,4 +365,4 @@ data/*
 # Ignore Judge API Properties
 src/*Judge.Api/Properties
 src/*Judge.Rpc/Properties
-**/judge-settings.json
+src/**/judge-settings.json
