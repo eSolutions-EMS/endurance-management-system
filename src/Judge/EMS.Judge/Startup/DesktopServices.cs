@@ -85,8 +85,8 @@ public static class DesktopServices
     private static void AddJudgeSettings(this IServiceCollection services)
     {
         var contents = File.ReadAllText(DesktopConstants.SETTINGS_FILE);
-        var config = JsonSerializer.Deserialize<Settings>(contents, new JsonSerializerOptions { PropertyNameCaseInsensitive = true});
+        var config = JsonSerializer.Deserialize<JudgeSettings>(contents, new JsonSerializerOptions { PropertyNameCaseInsensitive = true});
         services.AddSingleton(config);
-        services.AddSingleton<ISettings>(x => x.GetRequiredService<Settings>());
+        services.AddSingleton<ISettings>(x => x.GetRequiredService<JudgeSettings>());
     }
 }

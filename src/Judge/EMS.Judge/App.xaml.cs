@@ -57,7 +57,7 @@ public partial class App : PrismApplication
         Console.WriteLine("================================================");
         Console.WriteLine("=               JUDGE UI running                ");
         Console.WriteLine("================================================");
-        if (settings.ShouldUseServer)
+        if (settings.StartServer)
         {
             StartApi(dotnetProvider);
         }
