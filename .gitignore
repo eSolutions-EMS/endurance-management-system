@@ -363,6 +363,6 @@ data/*
 .DS_Store
 
 # Ignore Judge API Properties
-src/*Judge.Api/Properties
-src/*Judge.Rpc/Properties
+src/**/Properties
+# Ignore Judge settings
 src/**/judge-settings.json
