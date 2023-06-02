@@ -55,11 +55,6 @@ public class ApiService : IApiService
                 foreach (var client in this.rpcClients)
                 {
                     client.Configure(host);
-                    client.Error += (sender, error) =>
-                    {
-                        var toast = new Toast("RPC client error", $"{error.Procedure}:{error.Exception.Message}", UiColor.Danger, 20);
-                        this.toasterService.Add(toast);
-                    };
                     await client.Start();
                 }
             }
