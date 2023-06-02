@@ -20,10 +20,13 @@ public class ArrivelistEntry : IComparable<ArrivelistEntry>
             .Where(x => x.AverageSpeed.HasValue)
             .Aggregate(0d, (total, next) => total += next.AverageSpeed.Value);
         this.StartTime = record.StartTime;
-        this.AverageSpeed = averageSpeed;
+        this.AverageSpeed = averageSpeed != 0
+            ? averageSpeed
+            : 16;
         this.LapDistance = record.Lap.LengthInKm;
     }
     
+    public int MaxAverageSpeed { get; init; }
     public string Number { get; init; }
     public string Name { get; init; }
     public DateTime? ArriveTime { get; set; }
