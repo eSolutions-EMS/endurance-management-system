@@ -9,10 +9,7 @@ namespace Core.Application.Rpc;
 
 public class RpcClient : IRpcClient, IAsyncDisposable
 {
-	/// <summary>
-	/// 'true' means connected; 'false' - disconnected;
-	/// </summary>
-	public static event EventHandler<bool>? ServerConnectionChanged;
+	public event EventHandler<bool>? ServerConnectionChanged;
 
     private readonly string endpoint;
     // Necessary because this.Connection instance is not intialized 
@@ -79,11 +76,6 @@ public class RpcClient : IRpcClient, IAsyncDisposable
 		this.cancellationTokenSource.Cancel();
         await this.Connection.StopAsync();
     }
-
-	public virtual Task FetchInitialState()
-	{
-        return Task.CompletedTask;
-	}
 
 	public async ValueTask DisposeAsync()
     {
@@ -216,7 +208,6 @@ public class RpcClient : IRpcClient, IAsyncDisposable
                 await this.Connection!.StartAsync();
                 if (this.Connection.State == HubConnectionState.Connected)
                 {
-                    await this.FetchInitialState();
 					this.RaiseConnected();
                     timer.Stop();
                     timer.Dispose();
@@ -240,9 +231,12 @@ public class RpcClient : IRpcClient, IAsyncDisposable
 
 public interface IRpcClient
 {
+	/// <summary>
+	/// 'true' means connected; 'false' - disconnected;
+	/// </summary>
+	event EventHandler<bool>? ServerConnectionChanged;
 	event EventHandler<RpcError>? Error;
     void Configure(string host);
 	Task Start();
     Task Stop();
-    Task FetchInitialState();
 }

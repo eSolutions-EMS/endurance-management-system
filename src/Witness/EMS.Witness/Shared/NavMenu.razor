@@ -46,6 +46,9 @@
 </div>
 
 @code {
+	[Inject]
+	private IEnumerable<IRpcClient> RpcClients { get; set; } = default!;
+
 	private bool CollapseNavMenu = true;
 
 	private string NavMenuCssClass
@@ -60,13 +63,16 @@
 
 	protected override void OnInitialized()
 	{
-		RpcClient.ServerConnectionChanged += async (sender, isConnected) =>
+		foreach (var client in this.RpcClients)
 		{
-			if (this.IsConnected != isConnected)
+			client.ServerConnectionChanged += async (sender, isConnected) =>
 			{
-				this.IsConnected = isConnected;
-				await this.InvokeAsync(this.StateHasChanged);
-			}
-		};
+				if (this.IsConnected != isConnected)
+				{
+					this.IsConnected = isConnected;
+					await this.InvokeAsync(this.StateHasChanged);
+				}
+			};
+		}
 	}
 }

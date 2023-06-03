@@ -31,7 +31,7 @@ public class StartlistClient : RpcClient, IStartlistClientProcedures
 		return Task.CompletedTask;
 	}
 
-	public override async Task FetchInitialState()
+	public async Task FetchInitialState()
 	{
 		var result = await this.InvokeAsync<Startlist>(nameof(IStartlistHubProcedures.Get));
 		if (result.IsSuccessful)

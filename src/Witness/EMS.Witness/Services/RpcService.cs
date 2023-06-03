@@ -135,26 +135,6 @@ public class RpcService: IRpcService
 
 	public bool IsSuccessfulHandshake()
 		=> host != string.Empty;
-
-	public async Task FetchInitialState()
-	{
-		try
-		{
-			if (!this.IsSuccessfulHandshake())
-			{
-				await this.Handshake();
-			}
-			foreach (var client in this.rpcClients)
-			{
-				await client.FetchInitialState();
-			}
-		}
-		catch (Exception exception)
-		{
-			this.ToastError(exception);
-		}
-		
-	}
 }
 
 public interface IRpcService : ISingletonService
@@ -163,5 +143,4 @@ public interface IRpcService : ISingletonService
 	Task Handshake();
 	Task<List<StartlistEntry>> GetStartlist();
 	Task<bool> PostWitnessEvent(WitnessEvent witnessEvent);
-	Task FetchInitialState();
 }

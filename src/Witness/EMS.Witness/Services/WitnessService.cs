@@ -18,6 +18,8 @@ public class WitnessService : IWitnessService
         this.state = state;
         this.arrivelistClient = arrivelistClient;
         this.toaster = toaster;
+        arrivelistClient.Updated += (sender, args) => this.UpdateArrivelist(args.entry, args.action);
+        arrivelistClient.ServerConnectionChanged += async (sender, isConnected) => { if (isConnected) await this.Load(); };
     }
 
     public SortedCollection<ArrivelistEntry> Arrivelist => this.state.Arrivelist;
@@ -36,10 +38,14 @@ public class WitnessService : IWitnessService
         entry.ArriveTime = time;
     }
 
-    public void Load(IEnumerable<ArrivelistEntry> entries)
+    public async Task Load()
     {
-        this.Arrivelist.Clear();
-        this.Arrivelist.AddRange(entries);
+        var result = await this.arrivelistClient.Load();
+        if (result.IsSuccessful)
+        {
+			this.Arrivelist.Clear();
+			this.Arrivelist.AddRange(result.Data!);
+		}
     }
 
     public async Task Save()
@@ -80,7 +86,7 @@ public interface IWitnessService : ISingletonService
     SortedCollection<ArrivelistEntry> Arrivelist { get; }
     List<ArrivelistEntry> Snapshots { get; }
     List<ArrivelistEntry> History { get; }
-    public void Load(IEnumerable<ArrivelistEntry> entries);
+    public Task Load();
     public void UpdateArrivelist(ArrivelistEntry entry, CollectionAction action);
     public void Edit(string number, DateTime time);
     public void Snapshot(ArrivelistEntry entry);

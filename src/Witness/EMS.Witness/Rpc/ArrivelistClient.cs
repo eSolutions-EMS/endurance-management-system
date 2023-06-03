@@ -2,43 +2,29 @@
 using Core.Application.Rpc.Procedures;
 using Core.Domain.AggregateRoots.Manager.Aggregates.Arrivelists;
 using Core.Enums;
-using EMS.Witness.Services;
 using static Core.Application.CoreApplicationConstants;
 
 namespace EMS.Witness.Rpc;
 
 public class ArrivelistClient : RpcClient, IArrivelistClient, IArrivelistClientProcedures
 {
-	private readonly IState state;
+	public event EventHandler<(ArrivelistEntry entry, CollectionAction action)>? Updated;
+	public event EventHandler<IEnumerable<ArrivelistEntry>>? Loaded;
 
-	public ArrivelistClient(IState state) : base(RpcEndpoints.ARRIVELIST)
+	public ArrivelistClient() : base(RpcEndpoints.ARRIVELIST)
     {
-		this.state = state;
 		this.AddProcedure<ArrivelistEntry, CollectionAction>(nameof(this.Update), this.Update);
 	}
 
     public Task Update(ArrivelistEntry entry, CollectionAction action)
 	{
-		var exising = this.state.Arrivelist.FirstOrDefault(x => x.Number == entry.Number); // TODO: use domain euqlas
-		if (exising != null)
-		{
-			this.state.Arrivelist.Remove(exising);
-		}
-		if (action == CollectionAction.AddOrUpdate)
-		{
-			this.state.Arrivelist.Add(entry);
-		}
+		this.Updated?.Invoke(this, (entry, action));
 		return Task.CompletedTask;
 	}
 
-	public override async Task FetchInitialState()
+	public async Task<RpcInvokeResult<IEnumerable<ArrivelistEntry>>> Load()
 	{
-		var result = await this.InvokeAsync<IEnumerable<ArrivelistEntry>>(nameof(IArrivelistHubProcedures.Get));
-		if (result.IsSuccessful)
-		{
-            this.state.Arrivelist.Clear();
-            this.state.Arrivelist.AddRange(result.Data!);
-        }
+		return await this.InvokeAsync<IEnumerable<ArrivelistEntry>>(nameof(IArrivelistHubProcedures.Get));
 	}
 
     public async Task<RpcInvokeResult> Save(IEnumerable<ArrivelistEntry> entries)
@@ -49,5 +35,7 @@ public class ArrivelistClient : RpcClient, IArrivelistClient, IArrivelistClientP
 
 public interface IArrivelistClient : IRpcClient
 {
+	event EventHandler<(ArrivelistEntry entry, CollectionAction action)>? Updated;
+	Task<RpcInvokeResult<IEnumerable<ArrivelistEntry>>> Load();
 	Task<RpcInvokeResult> Save(IEnumerable<ArrivelistEntry> entries);
 }
