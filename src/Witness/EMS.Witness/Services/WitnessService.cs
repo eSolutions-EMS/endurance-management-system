@@ -7,18 +7,18 @@ using EMS.Witness.Shared.Toasts;
 
 namespace EMS.Witness.Services;
 
-public class WitnessService : IWitnessService
+public class ArrivelistService : IArrivelistService
 {
     private readonly IState state;
     private readonly IArrivelistClient arrivelistClient;
     private readonly ToasterService toaster;
 
-    public WitnessService(IState state, IArrivelistClient arrivelistClient, ToasterService toaster)
+    public ArrivelistService(IState state, IArrivelistClient arrivelistClient, ToasterService toaster)
     {
         this.state = state;
         this.arrivelistClient = arrivelistClient;
         this.toaster = toaster;
-        arrivelistClient.Updated += (sender, args) => this.UpdateArrivelist(args.entry, args.action);
+        arrivelistClient.Updated += (sender, args) => this.Update(args.entry, args.action);
         arrivelistClient.ServerConnectionChanged += async (sender, isConnected) => { if (isConnected) await this.Load(); };
     }
 
@@ -67,7 +67,7 @@ public class WitnessService : IWitnessService
         this.Snapshots.Add(entry);
     }
 
-    public void UpdateArrivelist(ArrivelistEntry entry, CollectionAction action)
+    public void Update(ArrivelistEntry entry, CollectionAction action)
     {
         var existing = this.Snapshots.FirstOrDefault(x => x.Number == entry.Number);
         if (existing is not null)
@@ -81,13 +81,13 @@ public class WitnessService : IWitnessService
     }
 }
 
-public interface IWitnessService : ISingletonService
+public interface IArrivelistService : ISingletonService
 {
     SortedCollection<ArrivelistEntry> Arrivelist { get; }
     List<ArrivelistEntry> Snapshots { get; }
     List<ArrivelistEntry> History { get; }
     public Task Load();
-    public void UpdateArrivelist(ArrivelistEntry entry, CollectionAction action);
+    public void Update(ArrivelistEntry entry, CollectionAction action);
     public void Edit(string number, DateTime time);
     public void Snapshot(ArrivelistEntry entry);
     public Task Save();
