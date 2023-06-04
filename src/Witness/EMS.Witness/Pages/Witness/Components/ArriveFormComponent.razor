@@ -15,17 +15,15 @@
         </div>
         <div class="mb-3">
             <div class="d-inline-flex">
-                <InputNumber @bind-Value="this.witnessModel.Hour" class="form-control" onclick="this.select();" placeholder="Hour" />
-                <span class="time-delimiter">:</span>
+                <InputNumber @bind-Value="this.witnessModel.Hour" class="form-control" onclick="this.select();" placeholder="Hr" />
+                <span class="time-delimiter mx-1">:</span>
                 <InputNumber @bind-Value="this.witnessModel.Minute" class="form-control" onclick="this.select();" placeholder="Min" />
-                <span class="time-delimiter">:</span>
+                <span class="time-delimiter mx-1">:</span>
                 <InputNumber @bind-Value="this.witnessModel.Second" class="form-control" onclick="this.select();" placeholder="Sec" />
-                <span class="time-delimiter">:</span>
-                <InputNumber @bind-Value="this.witnessModel.Millisecond" class="form-control" onclick="this.select();" placeholder="Milsec" />
+                <span class="time-delimiter mx-1">:</span>
+                <InputNumber @bind-Value="this.witnessModel.Millisecond" class="form-control" onclick="this.select();" placeholder="Mil" />
+                <button class="btn btn-primary ms-2" type="submit">Edit</button>
             </div>
-        </div>
-        <div class="text-right">
-            <button type="submit" class="btn btn-primary">Edit</button>
         </div>
     </EditForm>
 </div>
