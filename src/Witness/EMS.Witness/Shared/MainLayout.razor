@@ -2,14 +2,30 @@
 @inherits LayoutComponentBase
 
 <div class="page">
-	<div class="sidebar">
-		<NavMenu />
-	</div>
+    <ErrorHandlerComponent @ref="this.errorBoundary">
+        <ChildContent>
+            <div class="sidebar">
+                <NavMenu />
+            </div>
 
-	<main>
-		<article class="content px-4">
-			@Body
-		</article>
-	</main>
-	<Toaster />
+            <main>
+                <article class="content px-4">
+                    @Body
+                </article>
+            </main>
+        </ChildContent>
+
+        <ErrorContent>
+            <div class="container">
+                <p>@this.errorBoundary!.Exception!.Message</p>
+                <p>@this.errorBoundary!.Exception!.StackTrace</p>
+            </div>
+        </ErrorContent>
+    </ErrorHandlerComponent>
 </div>
+
+<Toaster />
+
+@code {
+    private ErrorHandlerComponent? errorBoundary;
+}
