@@ -4,18 +4,19 @@ using System;
 
 namespace Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 
-public class StartlistEntry : IComparable<StartlistEntry>
+public class StartlistEntry : IComparable<StartlistEntry>, IEquatable<StartlistEntry>
 {
     public StartlistEntry() { }
 
     internal StartlistEntry(Participation participation)
     {
-        Number = participation.Participant.Number;
-        Name = participation.Participant.Name;
-        AthleteName = participation.Participant.Athlete.Name;
-        CountryName = participation.Participant.Athlete.Country.Name;
-        Distance = participation.Distance!.Value;
-        StartTime = Performance.GetStartTime(participation);
+        this.Number = participation.Participant.Number;
+        this.Name = participation.Participant.Name;
+        this.AthleteName = participation.Participant.Athlete.Name;
+        this.CountryName = participation.Participant.Athlete.Country.Name;
+        this.Distance = participation.Distance!.Value;
+        this.StartTime = Performance.GetStartTime(participation);
+        this.Stage = participation.Participant.LapRecords.Count;
     }
     
     public string Number { get; init; }
@@ -23,6 +24,7 @@ public class StartlistEntry : IComparable<StartlistEntry>
     public string AthleteName { get; init; }
     public string CountryName { get; init; }
     public double Distance { get; init; }
+    public int Stage { get; init; }
     public DateTime StartTime { get; init; }
     public bool HasStarted { get; init; }
 
@@ -46,5 +48,10 @@ public class StartlistEntry : IComparable<StartlistEntry>
             return -1;
         }
         return 1;
+    }
+
+    public bool Equals(StartlistEntry other)
+    {
+        return this.Number == other?.Number;
     }
 }

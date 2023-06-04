@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Core.Domain.AggregateRoots.Manager.Aggregates.Arrivelists;
 
-public class ArrivelistEntry : IComparable<ArrivelistEntry>
+public class ArrivelistEntry : IComparable<ArrivelistEntry>, IEquatable<ArrivelistEntry>
 {
     public ArrivelistEntry() { }
     
@@ -47,5 +47,10 @@ public class ArrivelistEntry : IComparable<ArrivelistEntry>
             return -1;
         }
         return 1;
+    }
+
+    public bool Equals(ArrivelistEntry other)
+    {
+        return this.Number == other?.Number;
     }
 }

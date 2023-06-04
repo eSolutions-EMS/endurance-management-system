@@ -8,12 +8,16 @@ namespace EMS.Witness;
 
 public partial class App : Application
 {
+    private readonly IStartlistClient startlistClient;
+    private readonly IStartlistService startlistService;
     private readonly ToasterService toaster;
     private readonly IRpcService rpcService;
     private readonly IArrivelistClient arrivelistClient;
     private readonly IArrivelistService arrivelistService;
 
     public App(
+		IStartlistClient startlistClient,
+		IStartlistService startlistService,
 		ToasterService toaster,
 		IEnumerable<IRpcClient> rpcClients,
 		IRpcService rpcService,
@@ -22,7 +26,8 @@ public partial class App : Application
 	{
 		this.InitializeComponent();
         this.MainPage = new MainPage();
-
+        this.startlistClient = startlistClient;
+        this.startlistService = startlistService;
         this.toaster = toaster;
         this.rpcService = rpcService;
         this.arrivelistClient = arrivelistClient;
@@ -51,6 +56,15 @@ public partial class App : Application
 			{
 				await this.arrivelistService.Load();
 			}
+        };
+
+		this.startlistClient.Updated += (s, a) => this.startlistService.Update(a.entry, a.action);
+        this.startlistClient.ServerConnectionChanged += async (sender, isConnected) =>
+        {
+            if (isConnected)
+            {
+                await this.startlistService.Load();
+            }
         };
     }
 

@@ -1,10 +1,27 @@
-﻿using Core.Events;
+﻿using Core.Enums;
+using Core.Events;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Core.Models;
 public class ObservableCollection<T> : List<T>
+	where T : IEquatable<T>
 {
+	public void Update(T item, CollectionAction action)
+	{
+        var existing = this.FirstOrDefault(x => x.Equals(item));
+        if (existing is not null)
+        {
+            base.Remove(existing);
+        }
+        if (action == CollectionAction.AddOrUpdate)
+        {
+            base.Add(item);
+        }
+		this.OnCollectionChanged();
+    }
+
 	public new void Add(T item)
 	{
 		base.Add(item);

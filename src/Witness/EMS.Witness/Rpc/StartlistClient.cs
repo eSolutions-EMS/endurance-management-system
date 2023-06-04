@@ -7,9 +7,10 @@ using static Core.Application.CoreApplicationConstants;
 
 namespace EMS.Witness.Rpc;
 
-public class StartlistClient : RpcClient, IStartlistClientProcedures
+public class StartlistClient : RpcClient, IStartlistClientProcedures, IStartlistClient
 {
 	private readonly WitnessState state;
+	public event EventHandler<(StartlistEntry entry, CollectionAction action)>? Updated;
  
     public StartlistClient(WitnessState state) : base(RpcEndpoints.STARTLIST)
     {
@@ -19,24 +20,18 @@ public class StartlistClient : RpcClient, IStartlistClientProcedures
 
     public Task Update(StartlistEntry entry, CollectionAction action)
 	{
-		var exising = this.state.Startlist.FirstOrDefault(x => x.Number == entry.Number); // TODO: use domain euqlas
-		if (exising != null)
-		{
-			this.state.Startlist.Remove(exising);
-		}
-		if (action == CollectionAction.AddOrUpdate)
-		{
-			this.state.Startlist.Add(entry);
-		}
+		this.Updated?.Invoke(this, (entry, action));
 		return Task.CompletedTask;
 	}
 
-	public async Task FetchInitialState()
+	public async Task<RpcInvokeResult<IEnumerable<StartlistEntry>>> Load()
 	{
-		var result = await this.InvokeAsync<Startlist>(nameof(IStartlistHubProcedures.Get));
-		if (result.IsSuccessful)
-		{
-            this.state.Startlist.AddRange(result.Data!);
-        }
+		return await this.InvokeAsync<IEnumerable<StartlistEntry>>(nameof(IStartlistHubProcedures.Get));
     }
+}
+
+public interface IStartlistClient : IRpcClient
+{
+    event EventHandler<(StartlistEntry entry, CollectionAction action)>? Updated;
+    Task<RpcInvokeResult<IEnumerable<StartlistEntry>>> Load();
 }

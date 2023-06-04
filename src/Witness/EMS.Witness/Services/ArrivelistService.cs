@@ -31,7 +31,7 @@ public class ArrivelistService : IArrivelistService
     public ObservableCollection<ArrivelistEntry> Selected { get; } = new();
     public List<ArrivelistEntry> History { get; } = new();
 
-    public void Edit(string number, DateTime time)
+    public void EditSnapshot(string number, DateTime time)
     {
         var entry = this.Snapshots.FirstOrDefault(x => x.Number == number);
         if (entry is null)
@@ -93,15 +93,7 @@ public class ArrivelistService : IArrivelistService
 
     public void Update(ArrivelistEntry entry, CollectionAction action)
     {
-        var existing = this.Snapshots.FirstOrDefault(x => x.Number == entry.Number);
-        if (existing is not null)
-        {
-            this.Snapshots.Remove(existing);
-        }
-        if (action == CollectionAction.AddOrUpdate)
-        {
-            this.Snapshots.Add(entry);
-        }
+        this.Arrivelist.Update(entry, action);
     }
 }
 
@@ -116,7 +108,7 @@ public interface IArrivelistService : ISingletonService
     public void Update(ArrivelistEntry entry, CollectionAction action);
     public void Select(ArrivelistEntry entry);
     public void Unselect(ArrivelistEntry entry);
-    public void Edit(string number, DateTime time);
+    public void EditSnapshot(string number, DateTime time);
     public void Snapshot(ArrivelistEntry entry);
     public void RemoveSnapshot(ArrivelistEntry entry);
     public Task Save();

@@ -21,9 +21,14 @@ public abstract class StatefulComponent<T> : ComponentBase
     /// <returns></returns>
     protected virtual async void OnStateChanged(object? sender, object changedState)
     {
-        if (changedState.Equals(this.State))
+        if (this.ShouldRender())
         {
             await this.InvokeAsync(this.StateHasChanged);
         }
+    }
+
+    protected virtual bool ShouldRender(object changedState) 
+    {
+        return true;
     }
 }

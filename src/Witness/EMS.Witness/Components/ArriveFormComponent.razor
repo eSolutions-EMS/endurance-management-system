@@ -77,7 +77,7 @@
             .AddMinutes(this.witnessModel.Minute ?? now.Minute)
             .AddSeconds(this.witnessModel.Second ?? now.Second)
             .AddMilliseconds(this.witnessModel.Millisecond ?? now.Millisecond);
-        this.ArrivelistService.Edit(this.witnessModel.Number.ToString(), time);
+        this.ArrivelistService.EditSnapshot(this.witnessModel.Number.ToString(), time);
     }
 
     private class ArriveEditModel

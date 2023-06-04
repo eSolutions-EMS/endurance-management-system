@@ -36,6 +36,11 @@ public class RpcService: IRpcService
 	{
 		try
 		{
+			if (host != string.Empty)
+			{
+				var toast = new Toast("RPC is configured", $"Clients are attempting to connect to '{host}'", UiColor.Success, 10);
+				return;
+			}
 			if (await this.permissionsService.HasNetworkPermissions())
 			{
 				var ip = await this.handshakeService.Handshake(Apps.WITNESS, new CancellationToken());

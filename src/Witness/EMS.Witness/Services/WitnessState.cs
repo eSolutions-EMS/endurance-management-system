@@ -10,7 +10,7 @@ public class WitnessState : Observable, IWitnessState
 	public string? ApiHost { get; set; }
 	public WitnessEventType Type { get; set; } = WitnessEventType.Arrival;
 	public Dictionary<string, WitnessEvent> WitnessRecords { get; } = new();
-	public Startlist Startlist { get; } = new();
+	public SortedCollection<StartlistEntry> Startlist { get; } = new();
 	public SortedCollection<ArrivelistEntry> Arrivelist { get; } = new();
 }
 
@@ -19,6 +19,6 @@ public interface IWitnessState
 	string? ApiHost { get; }
 	WitnessEventType Type { get; set; }
 	Dictionary<string, WitnessEvent> WitnessRecords { get; }
-	public Startlist Startlist { get; }
+	public SortedCollection<StartlistEntry> Startlist { get; }
 	public SortedCollection<ArrivelistEntry> Arrivelist { get; }
 }
