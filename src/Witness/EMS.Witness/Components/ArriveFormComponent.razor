@@ -9,7 +9,7 @@
 @inject IArrivelistService ArrivelistService;
 @inject IDateService DateService;
 
-<div class="row">
+<div class="row mb-1">
     <EditForm Model="@witnessModel" OnSubmit="HandleSubmit">
         <div class="mb-3">
             <InputNumber @bind-Value="this.witnessModel.Number" class="form-control" required onclick="this.select();" placeholder="Number" />
@@ -30,7 +30,7 @@
         </div>
     </EditForm>
 </div>
-<div class="row">
+<div class="row mb-1">
     <table class="table">
         <thead>
             <tr>
@@ -55,7 +55,7 @@
         </tbody>
     </table>
 </div>
-<div class="row">
+<div class="row mb-1">
     <div class="d-grid gap-2">
         <button class="btn btn-warning" @onclick="_ => this.ArrivelistService.Save()">Save</button>
     </div>

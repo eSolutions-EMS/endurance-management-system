@@ -13,7 +13,7 @@
         <tr>
             <th>#</th>
             <th>Name</th>
-            <th>Snapshot</th>
+            <th>Action</th>
         </tr>
     </thead>
     <tbody>
@@ -23,11 +23,9 @@
                 <td>@arrive.Number</td>
                 <td>@arrive.Name</td>
                 <td>
-                    <button class="btn btn-success btn-table" @onclick="_ => this.WitnessService.Snapshot(arrive)">Record</button>
+                    <button class="btn btn-success btn-table" @onclick="_ => this.WitnessService.Snapshot(arrive)">Snapshot</button>
                 </td>
             </tr>
         }
     </tbody>
 </table>
-
-<button class="btn btn-warning btn-table" @onclick="_ => this.WitnessService.Save()">Save</button>
