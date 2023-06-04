@@ -1,4 +1,4 @@
-﻿@inherits StatefulComponent<ObservableCollection<ArrivelistEntry>>
+﻿@inherits StatefulComponent
 @using Core.Application.Services;
 @using Core.Domain.AggregateRoots.Manager
 @using Core.Domain.AggregateRoots.Manager.Aggregates.Arrivelists;
@@ -41,7 +41,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var entry in this.State)
+            @foreach (var entry in this.ArrivelistService.Snapshots)
             {
                 <tr>
                     <td>
@@ -64,9 +64,9 @@
 @code {
     private ArriveEditModel witnessModel = new();
 
-    protected override void OnInitialized()
+    protected override bool ShouldRender(object changedState)
     {
-        this.State = this.ArrivelistService.Snapshots;
+        return changedState == this.ArrivelistService.Snapshots;
     }
 
     private void HandleSubmit()

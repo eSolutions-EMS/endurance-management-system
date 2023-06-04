@@ -1,11 +1,11 @@
-﻿@inherits StatefulComponent<SortedCollection<ArrivelistEntry>>;
+﻿@inherits StatefulComponent;
 
 @using Core.Application.Services;
 @using Core.Domain.AggregateRoots.Manager.Aggregates.Arrivelists;
 @using Core.Models;
 @using EMS.Witness.Common;
 @using EMS.Witness.Services;
-
+@inject IArrivelistService ArrivelistService;
 @inject IDateService DateService;
 
 <div class="row">
@@ -45,7 +45,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var arrive in this.State)
+            @foreach (var arrive in this.ArrivelistService.Arrivelist)
             {
                 <tr>
                     <td>@arrive.Number</td>
@@ -58,3 +58,10 @@
         </tbody>
     </table>
 </div>
+
+@code {
+    protected override bool ShouldRender(object changedState)
+    {
+        return changedState == this.ArrivelistService.Arrivelist || changedState == this.ArrivelistService.Selected;
+    }
+}
