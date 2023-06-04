@@ -1,0 +1,91 @@
+﻿@inherits StatefulComponent<ObservableCollection<ArrivelistEntry>>
+@using Core.Application.Services;
+@using Core.Domain.AggregateRoots.Manager
+@using Core.Domain.AggregateRoots.Manager.Aggregates.Arrivelists;
+@using Core.Models;
+@using EMS.Witness.Common;
+@using EMS.Witness.Components
+@using EMS.Witness.Services;
+@inject IArrivelistService ArrivelistService;
+@inject IDateService DateService;
+
+<div class="row">
+    <EditForm Model="@witnessModel" OnSubmit="HandleSubmit">
+        <div class="mb-3">
+            <InputNumber @bind-Value="this.witnessModel.Number" class="form-control" required onclick="this.select();" placeholder="Number" />
+        </div>
+        <div class="mb-3">
+            <div class="d-inline-flex">
+                <InputNumber @bind-Value="this.witnessModel.Hour" class="form-control" onclick="this.select();" placeholder="Hour" />
+                <span class="time-delimiter">:</span>
+                <InputNumber @bind-Value="this.witnessModel.Minute" class="form-control" onclick="this.select();" placeholder="Min" />
+                <span class="time-delimiter">:</span>
+                <InputNumber @bind-Value="this.witnessModel.Second" class="form-control" onclick="this.select();" placeholder="Sec" />
+                <span class="time-delimiter">:</span>
+                <InputNumber @bind-Value="this.witnessModel.Millisecond" class="form-control" onclick="this.select();" placeholder="Milsec" />
+            </div>
+        </div>
+        <div class="text-right">
+            <button type="submit" class="btn btn-primary">Edit</button>
+        </div>
+    </EditForm>
+</div>
+<div class="row">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Time</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var entry in this.State)
+            {
+                <tr>
+                    <td>@entry.Number</td>
+                    <td>@entry.Name</td>
+                    <td>@this.DateService.FormatTime(entry.ArriveTime!.Value)</td>
+                    <td>
+                        <button class="btn btn-danger btn-table" @onclick="_ => this.ArrivelistService.RemoveSnapshot(entry)">Remove</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div class="row">
+    <div class="d-grid gap-2">
+        <button class="btn btn-warning" @onclick="_ => this.ArrivelistService.Save()">Save</button>
+    </div>
+</div>
+
+@code {
+    private ArriveEditModel witnessModel = new();
+
+    protected override void OnInitialized()
+    {
+        this.State = this.ArrivelistService.Snapshots;
+    }
+
+    private void HandleSubmit()
+    {
+        var now = DateTime.Now;
+        var time = DateTime.Today
+            .AddHours(this.witnessModel.Hour ?? now.Hour)
+            .AddMinutes(this.witnessModel.Minute ?? now.Minute)
+            .AddSeconds(this.witnessModel.Second ?? now.Second)
+            .AddMilliseconds(this.witnessModel.Millisecond ?? now.Millisecond);
+        this.ArrivelistService.Edit(this.witnessModel.Number.ToString(), time);
+    }
+
+    private class ArriveEditModel
+    {
+        public int Number;
+        public int? Hour;
+        public int? Minute;
+        public int? Second;
+        public int? Millisecond;
+    }
+}

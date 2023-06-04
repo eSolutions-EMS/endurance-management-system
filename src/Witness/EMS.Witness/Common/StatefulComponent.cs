@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Components;
 namespace EMS.Witness.Common;
 
 public abstract class StatefulComponent<T> : ComponentBase
-    where T : class, new()
+    where T : class
 {
-    public T State { get; set; } = new();
+    public T State { get; protected set; }
 
     public StatefulComponent()
     {

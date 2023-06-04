@@ -6,6 +6,7 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "config", "config", "{F272C7E7-B2BB-423A-9455-11B38B39A381}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
+		..\.gitignore = ..\.gitignore
 		Directory.Build.targets = Directory.Build.targets
 		endurance-management-system.sln.DotSettings = endurance-management-system.sln.DotSettings
 		..\global.json = ..\global.json
@@ -13,7 +14,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "config", "config", "{F272C7
 		..\publish.sh = ..\publish.sh
 		..\README.md = ..\README.md
 		stylecop.json = stylecop.json
-		..\.gitignore = ..\.gitignore
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Judge", "Judge", "{AAF4F31D-28A8-48B7-86A3-E5B3AC61E44D}"

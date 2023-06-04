@@ -1,4 +1,5 @@
 ﻿using Core.ConventionalServices;
+using Core.Domain.AggregateRoots.Manager;
 using Core.Domain.AggregateRoots.Manager.Aggregates.Arrivelists;
 using Core.Enums;
 using Core.Models;
@@ -18,12 +19,15 @@ public class ArrivelistService : IArrivelistService
         this.state = state;
         this.arrivelistClient = arrivelistClient;
         this.toaster = toaster;
-        arrivelistClient.Updated += (sender, args) => this.Update(args.entry, args.action);
-        arrivelistClient.ServerConnectionChanged += async (sender, isConnected) => { if (isConnected) await this.Load(); };
     }
 
+    public WitnessEventType Type
+    {
+        get => this.state.Type;
+        set => this.state.Type = value; 
+    }
     public SortedCollection<ArrivelistEntry> Arrivelist => this.state.Arrivelist;
-    public List<ArrivelistEntry> Snapshots { get; } = new();
+    public ObservableCollection<ArrivelistEntry> Snapshots { get; } = new();
     public List<ArrivelistEntry> History { get; } = new();
         
     public void Edit(string number, DateTime time)
@@ -46,6 +50,13 @@ public class ArrivelistService : IArrivelistService
 			this.Arrivelist.Clear();
 			this.Arrivelist.AddRange(result.Data!);
 		}
+    }
+
+    public void RemoveSnapshot(ArrivelistEntry entry)
+    {
+        entry.ArriveTime = null;
+        this.Snapshots.Remove(entry);
+        this.Arrivelist.Add(entry);
     }
 
     public async Task Save()
@@ -83,12 +94,14 @@ public class ArrivelistService : IArrivelistService
 
 public interface IArrivelistService : ISingletonService
 {
+    WitnessEventType Type { get; set; }
     SortedCollection<ArrivelistEntry> Arrivelist { get; }
-    List<ArrivelistEntry> Snapshots { get; }
+    ObservableCollection<ArrivelistEntry> Snapshots { get; }
     List<ArrivelistEntry> History { get; }
     public Task Load();
     public void Update(ArrivelistEntry entry, CollectionAction action);
     public void Edit(string number, DateTime time);
     public void Snapshot(ArrivelistEntry entry);
+    public void RemoveSnapshot(ArrivelistEntry entry);
     public Task Save();
 }

@@ -17,7 +17,7 @@ public class State : Observable, IState
 public interface IState
 {
 	string? ApiHost { get; }
-	WitnessEventType Type { get; }
+	WitnessEventType Type { get; set; }
 	Dictionary<string, WitnessEvent> WitnessRecords { get; }
 	public Startlist Startlist { get; }
 	public SortedCollection<ArrivelistEntry> Arrivelist { get; }
