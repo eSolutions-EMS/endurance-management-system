@@ -34,22 +34,22 @@
     <table class="table">
         <thead>
             <tr>
+                <th>-</th>
                 <th>#</th>
                 <th>Name</th>
                 <th>Time</th>
-                <th>Action</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var entry in this.State)
             {
                 <tr>
+                    <td>
+                        <button class="btn btn-danger btn-table" @onclick="_ => this.ArrivelistService.RemoveSnapshot(entry)">-</button>
+                    </td>
                     <td>@entry.Number</td>
                     <td>@entry.Name</td>
                     <td>@this.DateService.FormatTime(entry.ArriveTime!.Value)</td>
-                    <td>
-                        <button class="btn btn-danger btn-table" @onclick="_ => this.ArrivelistService.RemoveSnapshot(entry)">Remove</button>
-                    </td>
                 </tr>
             }
         </tbody>

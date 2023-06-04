@@ -28,8 +28,9 @@ public class ArrivelistService : IArrivelistService
     }
     public SortedCollection<ArrivelistEntry> Arrivelist => this.state.Arrivelist;
     public ObservableCollection<ArrivelistEntry> Snapshots { get; } = new();
+    public ObservableCollection<ArrivelistEntry> Selected { get; } = new();
     public List<ArrivelistEntry> History { get; } = new();
-        
+
     public void Edit(string number, DateTime time)
     {
         var entry = this.Snapshots.FirstOrDefault(x => x.Number == number);
@@ -59,6 +60,12 @@ public class ArrivelistService : IArrivelistService
         this.Arrivelist.Add(entry);
     }
 
+    public void Unselect(ArrivelistEntry entry)
+    {
+        this.Selected.Remove(entry);
+        this.Arrivelist.Add(entry);
+    }
+
     public async Task Save()
     {
         var result = await this.arrivelistClient.Save(this.Snapshots);
@@ -67,6 +74,12 @@ public class ArrivelistService : IArrivelistService
             this.History.AddRange(this.Snapshots);
             this.Snapshots.Clear();
         }
+    }
+
+    public void Select(ArrivelistEntry entry)
+    {
+        this.Selected.Add(entry);
+        this.Arrivelist.Remove(entry);
     }
 
     public void Snapshot(ArrivelistEntry entry)
@@ -96,10 +109,13 @@ public interface IArrivelistService : ISingletonService
 {
     WitnessEventType Type { get; set; }
     SortedCollection<ArrivelistEntry> Arrivelist { get; }
+    ObservableCollection<ArrivelistEntry> Selected { get; }
     ObservableCollection<ArrivelistEntry> Snapshots { get; }
     List<ArrivelistEntry> History { get; }
     public Task Load();
     public void Update(ArrivelistEntry entry, CollectionAction action);
+    public void Select(ArrivelistEntry entry);
+    public void Unselect(ArrivelistEntry entry);
     public void Edit(string number, DateTime time);
     public void Snapshot(ArrivelistEntry entry);
     public void RemoveSnapshot(ArrivelistEntry entry);

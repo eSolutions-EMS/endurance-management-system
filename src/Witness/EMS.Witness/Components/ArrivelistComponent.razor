@@ -8,24 +8,53 @@
 
 @inject IDateService DateService;
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>#</th>
-            <th>Name</th>
-            <th>Action</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var arrive in this.State)
-        {
+<div class="row">
+    <table class="table">
+        <thead>
             <tr>
-                <td>@arrive.Number</td>
-                <td>@arrive.Name</td>
-                <td>
-                    <button class="btn btn-success btn-table" @onclick="_ => this.WitnessService.Snapshot(arrive)">Snapshot</button>
-                </td>
+                <th>-</th>
+                <th>#</th>
+                <th>Name</th>
+                <th>Action</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var arrive in this.ArrivelistService.Selected)
+            {
+                <tr>
+                    <td>
+                        <button class="btn btn-danger btn-table" @onclick="_ => this.ArrivelistService.Unselect(arrive)">-</button>
+                    </td>
+                    <td>@arrive.Number</td>
+                    <td>@arrive.Name</td>
+                    <td>
+                        <button class="btn btn-success btn-table" @onclick="_ => this.ArrivelistService.Snapshot(arrive)">Snapshot</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div class="row">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var arrive in this.State)
+            {
+                <tr>
+                    <td>@arrive.Number</td>
+                    <td>@arrive.Name</td>
+                    <td>
+                        <button class="btn btn-success btn-table" @onclick="_ => this.ArrivelistService.Select(arrive)">Select</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

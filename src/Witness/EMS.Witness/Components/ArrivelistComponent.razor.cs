@@ -6,10 +6,10 @@ namespace EMS.Witness.Components;
 public partial class ArrivelistComponent
 {
     [Inject]
-    private IArrivelistService WitnessService { get; set; } = null!;
+    private IArrivelistService ArrivelistService { get; set; } = null!;
 
     protected override void OnInitialized()
     {
-        this.State = this.WitnessService.Arrivelist;
+        this.State = this.ArrivelistService.Arrivelist;
     }
 }
