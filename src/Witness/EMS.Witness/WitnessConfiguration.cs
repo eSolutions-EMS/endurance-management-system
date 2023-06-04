@@ -25,12 +25,9 @@ public static class WitnessConfiguration
         services
             .AddCore(assemblies)
             .AddTransient<IPermissionsService, PermissionsService>()
-            .AddSingleton<ToasterService>()
             .AddSingleton<WitnessState>()
             .AddSingleton<IWitnessState>(provider => provider.GetRequiredService<WitnessState>())
             .AddTransient<IDateService, DateService>()
-            .AddSingleton<IWitnessEventClient, WitnessEventsClient>()
-            .AddSingleton<IRpcClient>(p => p.GetRequiredService<IWitnessEventClient>())
             .AddSingleton<IStartlistClient, StartlistClient>()
             .AddSingleton<IRpcClient>(p => p.GetRequiredService<IStartlistClient>())
             .AddSingleton<IArrivelistClient, ArrivelistClient>()

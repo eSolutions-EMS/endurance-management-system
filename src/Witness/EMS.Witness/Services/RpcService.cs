@@ -14,7 +14,7 @@ public class RpcService: IRpcService
 {
 	private static string host = string.Empty;
     private readonly HttpClient httpClient;
-	private readonly ToasterService toasterService;
+	private readonly IToaster toaster;
 	private readonly INetworkHandshakeService handshakeService;
 	private readonly IEnumerable<IRpcClient> rpcClients;
 	private readonly IPermissionsService permissionsService;
@@ -24,12 +24,12 @@ public class RpcService: IRpcService
 		IPermissionsService permissionsService,
 		INetworkHandshakeService handshakeService,
 		HttpClient httpClient,
-		ToasterService toasterService)
+		IToaster toaster)
     {
 		this.rpcClients = rpcClients;
 		this.permissionsService = permissionsService;
         this.httpClient = httpClient;
-		this.toasterService = toasterService;
+		this.toaster = toaster;
 		this.handshakeService = handshakeService;
     }
 
@@ -48,7 +48,7 @@ public class RpcService: IRpcService
 				if (ip == null)
 				{
 					var error = new Toast("Could not handshake", "Judge API address is null", UiColor.Danger, 10);
-					this.toasterService.Add(error);
+					this.toaster.Add(error);
 					return;
 				}
 				ConfigureApiHost(ip.ToString());
@@ -65,7 +65,7 @@ public class RpcService: IRpcService
 					"eWitness app cannot operate without Network permissions. Grant permissions in device settings.",
 					UiColor.Danger,
 					10);
-				this.toasterService.Add(error);
+				this.toaster.Add(error);
 			}
 		}
 		catch (Exception exception)
@@ -110,7 +110,7 @@ public class RpcService: IRpcService
 	private void ToastError(Exception exception)
 	{
 		var toast = new Toast(exception.Message, exception.StackTrace, UiColor.Danger, 30);
-		this.toasterService.Add(toast);
+		this.toaster.Add(toast);
 	}
 
 	private string BuildUrl(string uri)
@@ -122,7 +122,7 @@ public class RpcService: IRpcService
 				"Cannot connect to Judge, handshake is not performed or was not successful",
 				UiColor.Danger,
 				10);
-			this.toasterService.Add(toast);
+			this.toaster.Add(toast);
 		}
 		return $"{host}/{uri}";
 	}

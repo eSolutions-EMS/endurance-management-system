@@ -10,7 +10,7 @@ public partial class App : Application
 {
     private readonly IStartlistClient startlistClient;
     private readonly IStartlistService startlistService;
-    private readonly ToasterService toaster;
+    private readonly Services.Toaster toaster;
     private readonly IRpcService rpcService;
     private readonly IArrivelistClient arrivelistClient;
     private readonly IArrivelistService arrivelistService;
@@ -18,7 +18,7 @@ public partial class App : Application
     public App(
 		IStartlistClient startlistClient,
 		IStartlistService startlistService,
-		ToasterService toaster,
+		Services.Toaster toaster,
 		IEnumerable<IRpcClient> rpcClients,
 		IRpcService rpcService,
 		IArrivelistClient arrivelistClient,

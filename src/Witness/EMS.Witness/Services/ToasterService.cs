@@ -1,14 +1,15 @@
-﻿using Core.Events;
+﻿using Core.ConventionalServices;
+using Core.Events;
 using EMS.Witness.Shared.Toasts;
 using System.Timers;
 
 namespace EMS.Witness.Services;
-public class ToasterService : IDisposable
+public class Toaster : IToaster, IDisposable
 {
     private readonly List<Toast> toastList = new();
     private readonly System.Timers.Timer timer = new();
 
-    public ToasterService()
+    public Toaster()
     {
         this.timer.Interval = 1000;
         this.timer.AutoReset = true;
@@ -81,4 +82,11 @@ public class ToasterService : IDisposable
         this.ClearBurntToast();
         this.ToasterTimerElapsed?.Invoke(this, EventArgs.Empty);
     }
+}
+
+public interface IToaster : ISingletonService
+{
+	void Add(Toast toast);
+	List<Toast> GetToasts();
+    void ClearToast(Toast toast);
 }

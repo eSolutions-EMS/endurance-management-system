@@ -12,9 +12,9 @@ public class ArrivelistService : IArrivelistService
 {
     private readonly IWitnessState state;
     private readonly IArrivelistClient arrivelistClient;
-    private readonly ToasterService toaster;
+    private readonly Toaster toaster;
 
-    public ArrivelistService(IWitnessState state, IArrivelistClient arrivelistClient, ToasterService toaster)
+    public ArrivelistService(IWitnessState state, IArrivelistClient arrivelistClient, Toaster toaster)
     {
         this.state = state;
         this.arrivelistClient = arrivelistClient;
