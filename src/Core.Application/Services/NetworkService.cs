@@ -33,10 +33,12 @@ public class NetworkService : INetworkBroadcastService, INetworkHandshakeService
             {
                 Console.WriteLine($"Handshake with '{Apps.WITNESS}' on  '{clientEndpoint.Address}'");
                 server.Send(serverPayload, serverPayload.Length, clientEndpoint);
-                return Task.CompletedTask;
             }
-            var contents = Encoding.UTF8.GetString(clientPayload);
-            Console.WriteLine($"Invalid handshake attempt '{contents}' from '{clientEndpoint.Address}'");
+            else
+            {
+                var contents = Encoding.UTF8.GetString(clientPayload);
+                Console.WriteLine($"Invalid handshake attempt '{contents}' from '{clientEndpoint.Address}'");
+            }
         }
         return Task.CompletedTask;
     }
