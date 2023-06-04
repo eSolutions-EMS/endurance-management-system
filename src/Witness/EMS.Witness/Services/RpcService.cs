@@ -51,12 +51,6 @@ public class RpcService: IRpcService
 					return;
 				}
 				ConfigureApiHost(ip.ToString());
-				var toast = new Toast(
-					"Handshake successful",
-					$"Connected to Judge API on '{ip}'",
-					UiColor.Success,
-					10);
-				this.toasterService.Add(toast);
                 foreach (var client in this.rpcClients)
                 {
                     client.Configure(host);
