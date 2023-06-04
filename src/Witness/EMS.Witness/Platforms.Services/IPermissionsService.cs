@@ -1,4 +1,4 @@
-﻿namespace EMS.Witness.Services;
+﻿namespace EMS.Witness.Platforms.Services;
 
 public interface IPermissionsService
 {

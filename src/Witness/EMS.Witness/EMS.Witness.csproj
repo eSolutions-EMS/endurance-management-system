@@ -96,4 +96,8 @@
       <ProjectReference Include="..\..\Core.Domain\Core.Domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Platforms\Services\" />
+    </ItemGroup>
+
 </Project>
