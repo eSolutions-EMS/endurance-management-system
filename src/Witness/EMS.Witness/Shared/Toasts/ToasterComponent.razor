@@ -11,7 +11,7 @@
                     <div class="toast-header @toastClass">
                         <strong class="me-auto">@toast.Title</strong>
                         <small class="@toastClass">@toast.ElapsedTimeText</small>
-                        <button type="button" class="btn-close btn-close-white" aria-label="Close" @onclick="() => this.ToasterService.ClearToast(toast)"></button>
+                        <button type="button" class="btn-close btn-close-white" aria-label="Close" @onclick="() => this.Toaster.ClearToast(toast)"></button>
                     </div>
                     <div class="toast-body">
                         @toast.Message
