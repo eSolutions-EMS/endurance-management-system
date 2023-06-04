@@ -10,11 +10,11 @@ namespace EMS.Witness.Services;
 
 public class ArrivelistService : IArrivelistService
 {
-    private readonly IState state;
+    private readonly IWitnessState state;
     private readonly IArrivelistClient arrivelistClient;
     private readonly ToasterService toaster;
 
-    public ArrivelistService(IState state, IArrivelistClient arrivelistClient, ToasterService toaster)
+    public ArrivelistService(IWitnessState state, IArrivelistClient arrivelistClient, ToasterService toaster)
     {
         this.state = state;
         this.arrivelistClient = arrivelistClient;

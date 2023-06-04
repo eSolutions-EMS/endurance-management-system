@@ -9,9 +9,9 @@ namespace EMS.Witness.Rpc;
 
 public class StartlistClient : RpcClient, IStartlistClientProcedures
 {
-	private readonly State state;
+	private readonly WitnessState state;
  
-    public StartlistClient(State state) : base(RpcEndpoints.STARTLIST)
+    public StartlistClient(WitnessState state) : base(RpcEndpoints.STARTLIST)
     {
         this.AddProcedure<StartlistEntry, CollectionAction>(nameof(this.Update), this.Update);
 		this.state = state;

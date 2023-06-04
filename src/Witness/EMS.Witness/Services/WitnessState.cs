@@ -5,7 +5,7 @@ using Core.Models;
 
 namespace EMS.Witness.Services;
 
-public class State : Observable, IState
+public class WitnessState : Observable, IWitnessState
 {
 	public string? ApiHost { get; set; }
 	public WitnessEventType Type { get; set; } = WitnessEventType.Arrival;
@@ -14,7 +14,7 @@ public class State : Observable, IState
 	public SortedCollection<ArrivelistEntry> Arrivelist { get; } = new();
 }
 
-public interface IState
+public interface IWitnessState
 {
 	string? ApiHost { get; }
 	WitnessEventType Type { get; set; }
