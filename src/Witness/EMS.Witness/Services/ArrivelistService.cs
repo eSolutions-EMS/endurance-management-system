@@ -84,7 +84,7 @@ public class ArrivelistService : IArrivelistService
 
     public void Snapshot(ArrivelistEntry entry)
     {
-        this.Arrivelist.Remove(entry);
+        this.Selected.Remove(entry);
 
         entry.ArriveTime = DateTime.Now;
         entry.Type = this.state.Type;
