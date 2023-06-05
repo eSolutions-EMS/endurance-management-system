@@ -21,11 +21,6 @@ public class ArrivelistService : IArrivelistService
         this.toaster = toaster;
     }
 
-    public WitnessEventType Type
-    {
-        get => this.state.Type;
-        set => this.state.Type = value; 
-    }
     public SortedCollection<ArrivelistEntry> Arrivelist => this.state.Arrivelist;
     public ObservableCollection<ArrivelistEntry> Snapshots { get; } = new();
     public ObservableCollection<ArrivelistEntry> Selected { get; } = new();
@@ -66,8 +61,12 @@ public class ArrivelistService : IArrivelistService
         this.Arrivelist.Add(entry);
     }
 
-    public async Task Save()
+    public async Task Save(WitnessEventType type)
     {
+        foreach (var entry in this.Snapshots)
+        {
+            entry.Type = type;
+        }
         var result = await this.arrivelistClient.Save(this.Snapshots);
         if (result.IsSuccessful)
         {
@@ -87,7 +86,6 @@ public class ArrivelistService : IArrivelistService
         this.Selected.Remove(entry);
 
         entry.ArriveTime = DateTime.Now;
-        entry.Type = this.state.Type;
         this.Snapshots.Add(entry);
     }
 
@@ -99,7 +97,6 @@ public class ArrivelistService : IArrivelistService
 
 public interface IArrivelistService : ISingletonService
 {
-    WitnessEventType Type { get; set; }
     SortedCollection<ArrivelistEntry> Arrivelist { get; }
     ObservableCollection<ArrivelistEntry> Selected { get; }
     ObservableCollection<ArrivelistEntry> Snapshots { get; }
@@ -111,5 +108,5 @@ public interface IArrivelistService : ISingletonService
     public void EditSnapshot(string number, DateTime time);
     public void Snapshot(ArrivelistEntry entry);
     public void RemoveSnapshot(ArrivelistEntry entry);
-    public Task Save();
+    public Task Save(WitnessEventType type);
 }
