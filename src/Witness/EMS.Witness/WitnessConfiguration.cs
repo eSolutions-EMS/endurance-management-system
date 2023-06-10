@@ -7,6 +7,7 @@ using EMS.Witness.Services;
 using EMS.Witness.Platforms.Services;
 using EMS.Witness.Rpc;
 using Core.Application.Rpc;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace EMS.Witness;
 
@@ -24,6 +25,8 @@ public static class WitnessConfiguration
         services.AddHttpClient<IRpcService, RpcService>(client => client.Timeout = TimeSpan.FromSeconds(5));
         services
             .AddCore(assemblies)
+            .AddSingleton(new Toaster())
+            .AddSingleton<IToaster>(x => x.GetRequiredService<Toaster>())
             .AddTransient<IPermissionsService, PermissionsService>()
             .AddSingleton<WitnessState>()
             .AddSingleton<IWitnessState>(provider => provider.GetRequiredService<WitnessState>())

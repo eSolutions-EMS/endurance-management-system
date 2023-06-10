@@ -12,9 +12,9 @@ public class ArrivelistService : IArrivelistService
 {
     private readonly IWitnessState state;
     private readonly IArrivelistClient arrivelistClient;
-    private readonly Toaster toaster;
+    private readonly IToaster toaster;
 
-    public ArrivelistService(IWitnessState state, IArrivelistClient arrivelistClient, Toaster toaster)
+    public ArrivelistService(IWitnessState state, IArrivelistClient arrivelistClient, IToaster toaster)
     {
         this.state = state;
         this.arrivelistClient = arrivelistClient;
@@ -31,8 +31,7 @@ public class ArrivelistService : IArrivelistService
         var entry = this.Snapshots.FirstOrDefault(x => x.Number == number);
         if (entry is null)
         {
-            var toast = new Toast("Not found", $"Entry with number '{number}' not found.", UiColor.Warning, 15);
-            this.toaster.Add(toast);
+            this.toaster.Add("Not found", $"Entry with number '{number}' not found.", UiColor.Warning);
             return;
         }
         entry.ArriveTime = time;

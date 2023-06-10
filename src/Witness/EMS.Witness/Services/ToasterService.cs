@@ -1,5 +1,4 @@
-﻿using Core.ConventionalServices;
-using Core.Events;
+﻿using Core.Events;
 using EMS.Witness.Shared.Toasts;
 using System.Timers;
 
@@ -33,6 +32,12 @@ public class Toaster : IToaster, IDisposable
         return this.toastList.ToList();
     }
 
+    public void Add(string header, string? message, UiColor color, int seconds = 10)
+    {
+        var toast = new Toast(header, message, color, seconds);
+        this.Add(toast);
+    }
+
     public void Add(Toast toast)
     {
         this.toastList.Add(toast);
@@ -51,7 +56,6 @@ public class Toaster : IToaster, IDisposable
             {
                 this.ToasterChanged?.Invoke(this, EventArgs.Empty);
             }
-
         }
     }
 
@@ -84,9 +88,9 @@ public class Toaster : IToaster, IDisposable
     }
 }
 
-public interface IToaster : ISingletonService
+public interface IToaster
 {
-	void Add(Toast toast);
+    void Add(string header, string? message, UiColor color, int seconds = 10);
 	List<Toast> GetToasts();
     void ClearToast(Toast toast);
 }

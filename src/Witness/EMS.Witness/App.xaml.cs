@@ -10,7 +10,7 @@ public partial class App : Application
 {
     private readonly IStartlistClient startlistClient;
     private readonly IStartlistService startlistService;
-    private readonly Services.Toaster toaster;
+    private readonly IToaster toaster;
     private readonly IRpcService rpcService;
     private readonly IArrivelistClient arrivelistClient;
     private readonly IArrivelistService arrivelistService;
@@ -18,7 +18,7 @@ public partial class App : Application
     public App(
 		IStartlistClient startlistClient,
 		IStartlistService startlistService,
-		Services.Toaster toaster,
+		IToaster toaster,
 		IEnumerable<IRpcClient> rpcClients,
 		IRpcService rpcService,
 		IArrivelistClient arrivelistClient,
@@ -74,8 +74,7 @@ public partial class App : Application
 		{
             client.Error += (sender, error) =>
             {
-                var toast = new Toast("RPC client error", $"{error.Procedure}: {error.Exception.Message}", UiColor.Danger, 20);
-                this.toaster.Add(toast);
+                this.toaster.Add("RPC client error", $"{error.Procedure}: {error.Exception.Message}", UiColor.Danger, 30);
             };
         }
 	}
@@ -84,8 +83,7 @@ public partial class App : Application
 	{
 		CoreEvents.ErrorEvent += (sender, error) =>
 		{
-			var toast = new Toast(error.Message, error.StackTrace, UiColor.Danger, 30);
-			this.toaster.Add(toast);
+			this.toaster.Add(error.Message, error.StackTrace, UiColor.Danger, 30);
 		};
 	}
 }

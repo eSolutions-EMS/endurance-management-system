@@ -47,8 +47,7 @@ public class RpcService: IRpcService
 				var ip = await this.handshakeService.Handshake(Apps.WITNESS, new CancellationToken());
 				if (ip == null)
 				{
-					var error = new Toast("Could not handshake", "Judge API address is null", UiColor.Danger, 10);
-					this.toaster.Add(error);
+					this.toaster.Add("Could not handshake", "Judge API address is null", UiColor.Danger);
 					return;
 				}
 				ConfigureApiHost(ip.ToString());
@@ -60,12 +59,10 @@ public class RpcService: IRpcService
             }
 			else
 			{
-				var error = new Toast(
+				this.toaster.Add(
 					"Network permission rejected",
-					"eWitness app cannot operate without Network permissions. Grant permissions in device settings.",
-					UiColor.Danger,
-					10);
-				this.toaster.Add(error);
+                    "eWitness app cannot operate without Network permissions. Grant permissions in device settings.",
+                    UiColor.Danger);
 			}
 		}
 		catch (Exception exception)
@@ -109,20 +106,17 @@ public class RpcService: IRpcService
 
 	private void ToastError(Exception exception)
 	{
-		var toast = new Toast(exception.Message, exception.StackTrace, UiColor.Danger, 30);
-		this.toaster.Add(toast);
+		this.toaster.Add(exception.Message, exception?.StackTrace, UiColor.Danger, 30);
 	}
 
 	private string BuildUrl(string uri)
 	{
 		if (host == string.Empty)
 		{
-			var toast = new Toast(
+			this.toaster.Add(
 				"Connection problem",
-				"Cannot connect to Judge, handshake is not performed or was not successful",
-				UiColor.Danger,
-				10);
-			this.toaster.Add(toast);
+                "Cannot connect to Judge, handshake is not performed or was not successful",
+                UiColor.Danger);
 		}
 		return $"{host}/{uri}";
 	}
