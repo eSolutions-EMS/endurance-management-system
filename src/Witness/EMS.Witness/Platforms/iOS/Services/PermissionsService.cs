@@ -1,5 +1,4 @@
-﻿using EMS.Witness.Services;
-using EMS.Witness.Platforms.iOS.Permissions;
+﻿using EMS.Witness.Platforms.iOS.Permissions;
 using MauiPermissions = Microsoft.Maui.ApplicationModel.Permissions;
 
 namespace EMS.Witness.Platforms.Services;

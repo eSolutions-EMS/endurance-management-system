@@ -1,18 +1,30 @@
 ﻿@inherits LayoutComponentBase
 
 <div class="page">
-	<div class="sidebar">
-		<NavMenu />
-	</div>
+    <ErrorHandlerComponent @ref="this.errorBoundary">
+        <ChildContent>
+            <div class="sidebar">
+                <NavMenu />
+            </div>
 
-	<main>
-		<div class="top-row px-4">
-			<a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-		</div>
+            <main>
+                <article class="content px-4">
+                    @Body
+                </article>
+            </main>
+        </ChildContent>
 
-		<article class="content px-4">
-			@Body
-		</article>
-	</main>
-	<Toaster />
+        <ErrorContent>
+            <div class="container">
+                <p>@this.errorBoundary!.Exception!.Message</p>
+                <p>@this.errorBoundary!.Exception!.StackTrace</p>
+            </div>
+        </ErrorContent>
+    </ErrorHandlerComponent>
 </div>
+
+<ToasterComponent />
+
+@code {
+    private ErrorHandlerComponent? errorBoundary;
+}

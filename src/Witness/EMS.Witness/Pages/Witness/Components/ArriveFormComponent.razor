@@ -1,0 +1,131 @@
+﻿@inherits StatefulComponent
+@using Core.Application.Services;
+@using Core.Domain.AggregateRoots.Manager
+@using Core.Domain.AggregateRoots.Manager.Aggregates.Arrivelists;
+@using Core.Models;
+@using EMS.Witness.Common;
+@using EMS.Witness.Services;
+@inject IArrivelistService ArrivelistService;
+@inject IDateService DateService;
+
+<div class="row mb-1">
+    <EditForm Model="@witnessModel" OnSubmit="EditSnapshot">
+        <div class="mb-3">
+            <InputNumber @bind-Value="this.witnessModel.Number" class="form-control" required onclick="this.select();" placeholder="Number" />
+        </div>
+        <div class="mb-3">
+            <div class="d-inline-flex">
+                <InputNumber @bind-Value="this.witnessModel.Hour" class="form-control" onclick="this.select();" placeholder="Hr" />
+                <span class="time-delimiter mx-1">:</span>
+                <InputNumber @bind-Value="this.witnessModel.Minute" class="form-control" onclick="this.select();" placeholder="Min" />
+                <span class="time-delimiter mx-1">:</span>
+                <InputNumber @bind-Value="this.witnessModel.Second" class="form-control" onclick="this.select();" placeholder="Sec" />
+                <span class="time-delimiter mx-1">:</span>
+                <InputNumber @bind-Value="this.witnessModel.Millisecond" class="form-control" onclick="this.select();" placeholder="Mil" />
+                <button class="btn btn-primary ms-2" type="submit">Edit</button>
+            </div>
+        </div>
+    </EditForm>
+</div>
+<div class="row mb-1">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>-</th>
+                <th>#</th>
+                <th>Name</th>
+                <th>Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var entry in this.ArrivelistService.Snapshots)
+            {
+                <tr>
+                    <td>
+                        <button class="btn btn-danger btn-table" @onclick="_ => this.ArrivelistService.RemoveSnapshot(entry)">-</button>
+                    </td>
+                    <td>@entry.Number</td>
+                    <td>@entry.Name</td>
+                    <td>@this.DateService.FormatTime(entry.ArriveTime!.Value)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<div class="row mb-1">
+    <div class="btn-group">
+        <button class="btn btn-warning" @onclick="_ => this.Save()" disabled="@(this.type == default)">@this.buttonText</button>
+        <button class="btn btn-primary dropdown-toggle dropdown-toggle-split" @onclick="this.ToggleSaveClass" data-bs-toggle="dropdown" aria-expanded="false">
+            <span class="visually-hidden">Toggle Dropdown</span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end @this.saveDropdownClass" aria-labelledby="save-button" style="position:relative;">
+            <li><a class="dropdown-item" href="" @onclick="this.SelectArr">@ARR_TEXT</a></li>
+            <li><a class="dropdown-item" href="" @onclick="this.SelectIn">@IN_TEXT</a></li>
+        </ul>
+    </div>
+</div>
+
+@code {
+    private const string ARR_TEXT = "ARR (Arrive)";
+    private const string IN_TEXT = "IN (Vetgate)";
+    private string buttonText = "Save";
+    private WitnessEventType type;
+    private string saveDropdownClass = "";
+    private ArriveEditModel witnessModel = new();
+
+    protected override bool ShouldRender(object changedState)
+    {
+        return changedState == this.ArrivelistService.Snapshots;
+    }
+
+    private void SelectArr()
+    {
+        this.buttonText = ARR_TEXT;
+        this.type = WitnessEventType.Arrival;
+        this.ToggleSaveClass();
+    }
+
+    private void SelectIn()
+    {
+        this.buttonText = IN_TEXT;
+        this.type = WitnessEventType.VetIn;
+        this.ToggleSaveClass();
+    }
+
+    private void ToggleSaveClass()
+    {
+        if (this.saveDropdownClass == "show")
+        {
+            this.saveDropdownClass = "";
+        }
+        else
+        {
+            this.saveDropdownClass = "show";
+        }
+    }
+
+    private void Save()
+    {
+        this.ArrivelistService.Save(this.type);
+    }
+
+    private void EditSnapshot()
+    {
+        var now = DateTime.Now;
+        var time = DateTime.Today
+            .AddHours(this.witnessModel.Hour ?? now.Hour)
+            .AddMinutes(this.witnessModel.Minute ?? now.Minute)
+            .AddSeconds(this.witnessModel.Second ?? now.Second)
+            .AddMilliseconds(this.witnessModel.Millisecond ?? now.Millisecond);
+        this.ArrivelistService.EditSnapshot(this.witnessModel.Number.ToString(), time);
+    }
+
+    private class ArriveEditModel
+    {
+        public int Number;
+        public int? Hour;
+        public int? Minute;
+        public int? Second;
+        public int? Millisecond;
+    }
+}

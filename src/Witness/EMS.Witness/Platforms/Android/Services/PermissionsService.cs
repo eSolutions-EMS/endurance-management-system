@@ -1,6 +1,4 @@
-﻿using EMS.Witness.Services;
-
-namespace EMS.Witness.Platforms.Services
+﻿namespace EMS.Witness.Platforms.Services
 {
     public class PermissionsService : IPermissionsService
     {

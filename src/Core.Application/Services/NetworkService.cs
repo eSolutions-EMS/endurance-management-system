@@ -1,5 +1,7 @@
 ﻿using Core.ConventionalServices;
+using Core.Events;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -32,31 +34,63 @@ public class NetworkService : INetworkBroadcastService, INetworkHandshakeService
                 Console.WriteLine($"Handshake with '{Apps.WITNESS}' on  '{clientEndpoint.Address}'");
                 server.Send(serverPayload, serverPayload.Length, clientEndpoint);
             }
-            var contents = Encoding.UTF8.GetString(clientPayload);
-            Console.WriteLine($"Invalid handshake attempt '{contents}' from '{clientEndpoint.Address}'");
+            else
+            {
+                var contents = Encoding.UTF8.GetString(clientPayload);
+                Console.WriteLine($"Invalid handshake attempt '{contents}' from '{clientEndpoint.Address}'");
+            }
         }
         return Task.CompletedTask;
     }
 
-    public Task<IPAddress> Handshake(string app, CancellationToken token)
+    public async Task<IPAddress> Handshake(string app, CancellationToken token)
     {
-        var client = new UdpClient();
-        var payload = this.handshakeValidatorService.CreatePayload(app);
-        var serverEndpoint = new IPEndPoint(IPAddress.Any, 0);
-
-        while (!token.IsCancellationRequested)
+        try
         {
-            client.EnableBroadcast = true;
-            client.Send(payload, payload.Length, new IPEndPoint(IPAddress.Broadcast, NETWORK_BROADCAST_PORT));
-            var responsePayload = client.Receive(ref serverEndpoint);
-            if (this.handshakeValidatorService.ValidatePayload(responsePayload, Apps.JUDGE))
+            var payload = this.handshakeValidatorService.CreatePayload(app);
+            var socket = this.OpenHandshakeSocket(payload);
+            var handshake = await this.AttemptHandshake(socket);
+            while (handshake.IsTimeout && !token.IsCancellationRequested)
             {
-                Console.WriteLine($"Handshake completed with '{Apps.JUDGE}' on '{serverEndpoint.Address}'");
-                client.Close();
-                return Task.FromResult(serverEndpoint.Address);
+                socket.Close();
+                socket = this.OpenHandshakeSocket(payload);
+                handshake = await this.AttemptHandshake(socket);
+            }
+
+            var response = handshake.Result!.Value;
+            if (this.handshakeValidatorService.ValidatePayload(response.Buffer, Apps.JUDGE))
+            {
+                Console.WriteLine($"Handshake completed with '{Apps.JUDGE}' on '{response.RemoteEndPoint.Address}'");
+                socket.Close();
+                return response.RemoteEndPoint.Address;
             }
         }
-        return Task.FromResult((IPAddress)null!);
+        catch (Exception exception)
+        {
+            CoreEvents.RaiseError(exception);
+        }
+
+        return (IPAddress)null!;
+    }
+
+    private UdpClient OpenHandshakeSocket(byte[] payload)
+    {
+        var socket = new UdpClient();
+        socket.EnableBroadcast = true;
+        socket.Send(payload, payload.Length, new IPEndPoint(IPAddress.Broadcast, NETWORK_BROADCAST_PORT));
+        return socket;
+    }
+
+    private async Task<HandshakeResult> AttemptHandshake(UdpClient client)
+    {
+        var timeout = Task.Delay(TimeSpan.FromSeconds(5));
+        var result = client.ReceiveAsync();
+        var first = await Task.WhenAny(new List<Task> { timeout, result });
+        if (first is Task<UdpReceiveResult> success)
+        {
+            return new HandshakeResult(success.Result);
+        }
+        else return new HandshakeResult();
     }
 }
 
@@ -68,4 +102,16 @@ public interface INetworkBroadcastService : ITransientService
 public interface INetworkHandshakeService : ITransientService
 {
     Task<IPAddress> Handshake(string app, CancellationToken token);
+}
+
+
+internal class HandshakeResult
+{
+    public HandshakeResult(UdpReceiveResult? result = null)
+    {
+        this.Result = result;
+    }
+
+    public bool IsTimeout => this.Result == null;
+    public UdpReceiveResult? Result { get; }
 }

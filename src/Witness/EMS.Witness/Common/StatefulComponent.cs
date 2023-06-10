@@ -3,12 +3,8 @@ using Microsoft.AspNetCore.Components;
 
 namespace EMS.Witness.Common;
 
-public abstract class StatefulComponent<T> : ComponentBase
-    where T : class
+public abstract class StatefulComponent : ComponentBase
 {
-    [Parameter]
-    public abstract T State { get; set; }
-
     public StatefulComponent()
     {
         AppState.Changed += OnStateChanged;
@@ -22,9 +18,11 @@ public abstract class StatefulComponent<T> : ComponentBase
     /// <returns></returns>
     protected virtual async void OnStateChanged(object? sender, object changedState)
     {
-        if (changedState.Equals(this.State))
+        if (this.ShouldRender())
         {
             await this.InvokeAsync(this.StateHasChanged);
         }
     }
+
+    protected abstract bool ShouldRender(object changedState);
 }

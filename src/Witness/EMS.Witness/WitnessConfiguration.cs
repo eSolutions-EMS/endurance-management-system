@@ -7,6 +7,7 @@ using EMS.Witness.Services;
 using EMS.Witness.Platforms.Services;
 using EMS.Witness.Rpc;
 using Core.Application.Rpc;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace EMS.Witness;
 
@@ -21,17 +22,19 @@ public static class WitnessConfiguration
             .Concat(WitnessConstants.Assemblies)
             .ToArray();
 
-        services.AddHttpClient<IApiService, ApiService>(client => client.Timeout = TimeSpan.FromSeconds(5));
+        services.AddHttpClient<IRpcService, RpcService>(client => client.Timeout = TimeSpan.FromSeconds(5));
         services
             .AddCore(assemblies)
+            .AddSingleton(new Toaster())
+            .AddSingleton<IToaster>(x => x.GetRequiredService<Toaster>())
             .AddTransient<IPermissionsService, PermissionsService>()
-            .AddSingleton<ToasterService>()
-            .AddSingleton<State>()
-            .AddSingleton<IState>(provider => provider.GetRequiredService<State>())
+            .AddSingleton<WitnessState>()
+            .AddSingleton<IWitnessState>(provider => provider.GetRequiredService<WitnessState>())
             .AddTransient<IDateService, DateService>()
-            .AddSingleton<IWitnessEventClient, WitnessEventsClient>()
-            .AddSingleton<IRpcClient>(p => p.GetRequiredService<IWitnessEventClient>())
-            .AddSingleton<IRpcClient, StartlistClient>();
+            .AddSingleton<IStartlistClient, StartlistClient>()
+            .AddSingleton<IRpcClient>(p => p.GetRequiredService<IStartlistClient>())
+            .AddSingleton<IArrivelistClient, ArrivelistClient>()
+            .AddSingleton<IRpcClient>(x => x.GetRequiredService<IArrivelistClient>());
 
         return services;
     }

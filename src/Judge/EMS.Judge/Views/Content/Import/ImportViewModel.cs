@@ -12,7 +12,7 @@ namespace EMS.Judge.Views.Content.Import;
 
 public class ImportViewModel : ViewModelBase
 {
-    private readonly Settings settings;
+    private readonly JudgeSettings judgeSettings;
     private readonly IExecutor<IImportService> importExecutor;
     private readonly IApplicationContext context;
     private readonly IPersistence persistence;
@@ -20,14 +20,14 @@ public class ImportViewModel : ViewModelBase
     private readonly INavigationService navigation;
 
     public ImportViewModel(
-        Settings settings,
+        JudgeSettings judgeSettings,
         IExecutor<IImportService> importExecutor,
         IApplicationContext context,
         IPersistence persistence,
         IExplorerService explorer,
         INavigationService navigation)
     {
-        this.settings = settings;
+        this.judgeSettings = judgeSettings;
         this.importExecutor = importExecutor;
         this.context = context;
         this.persistence = persistence;
@@ -91,7 +91,7 @@ public class ImportViewModel : ViewModelBase
         var result = this.persistence.Configure(selectedPath);
         ManagerRoot.dataDirectoryPath = selectedPath;
         this.context.Initialize();
-        this.settings.IsConfigured = true;
+        this.judgeSettings.IsConfigured = true;
         if (result.IsExistingFile)
         {
             this.Redirect();

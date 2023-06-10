@@ -19,6 +19,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using EMS.Judge.Api.Rpc;
 using EMS.Judge.Api.Rpc.Hubs;
+using Microsoft.AspNetCore.SignalR;
 using System.Collections.Generic;
 using static Core.Application.CoreApplicationConstants;
 
@@ -67,6 +68,7 @@ public class Startup
             endpoints.MapControllers();
             endpoints.MapHub<StartlistHub>($"/{RpcEndpoints.STARTLIST}");
             endpoints.MapHub<WitnessEventsHub>($"/{RpcEndpoints.WITNESS_EVENTS}");
+            endpoints.MapHub<ArrivelistHub>($"/{RpcEndpoints.ARRIVELIST}");
         });
 
         var broadcastService = provider.GetRequiredService<INetworkBroadcastService>();
@@ -81,7 +83,9 @@ public static class ApiServices
 {
     public static IServiceCollection AddApi(this IServiceCollection services)
     {
-        services.AddSignalR();
+        services
+            .AddSignalR(options => options.AddFilter<ErrorHandlerFilter>())
+            .AddJsonProtocol(options => options.PayloadSerializerOptions.IncludeFields = true);
         services.AddControllers();
         services
             .AddTransient<ErrorLogger, ErrorLogger>()

@@ -1,9 +1,27 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@using Core.Application.Rpc;
+
+<div class="top-row ps-3 navbar navbar-dark">
 	<div class="container-fluid">
-		<a class="navbar-brand" href="">eWitness</a>
-		<button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
-			<span class="navbar-toggler-icon"></span>
-		</button>
+		@if (!this.IsConnected)
+		{
+			<div class="col-5 navbar-brand">Disconnected...</div>
+			<div class="col-3">
+				<div class="spinner-border text-danger" role="status">
+					<span class="visually-hidden">Loading...</span>
+				</div>
+			</div>
+		}
+		else
+		{
+			<div class="col-8">
+				<a class="navbar-brand" href="">eWitness</a>
+			</div>
+		}
+		<div class="col-3">
+			<button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+		</div>
 	</div>
 </div>
 
@@ -11,7 +29,7 @@
 	<nav class="flex-column">
 		<div class="nav-item px-3">
 			<NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-				<span class="oi oi-home" aria-hidden="true"></span> Configuration
+				<span class="oi oi-home" aria-hidden="true"></span> Witness
 			</NavLink>
 		</div>
 		<div class="nav-item px-3">
@@ -19,21 +37,37 @@
 				<span class="oi oi-list-rich" aria-hidden="true"></span> Startlist
 			</NavLink>
 		</div>
-		<div class="nav-item px-3">
-			<NavLink class="nav-link" href="witness">
-				<span class="oi oi-list-rich" aria-hidden="true"></span> Witness
-			</NavLink>
-		</div>
 	</nav>
 </div>
 
 @code {
-	private bool collapseNavMenu = true;
+	[Inject]
+	private IEnumerable<IRpcClient> RpcClients { get; set; } = default!;
 
-	private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+	private bool CollapseNavMenu = true;
+
+	private string NavMenuCssClass
+		=> this.CollapseNavMenu ? "collapse" : string.Empty;
 
 	private void ToggleNavMenu()
 	{
-		collapseNavMenu = !collapseNavMenu;
+		this.CollapseNavMenu = !this.CollapseNavMenu;
+	}
+
+	private bool IsConnected;
+
+	protected override void OnInitialized()
+	{
+		foreach (var client in this.RpcClients)
+		{
+			client.ServerConnectionChanged += async (sender, isConnected) =>
+			{
+				if (this.IsConnected != isConnected)
+				{
+					this.IsConnected = isConnected;
+					await this.InvokeAsync(this.StateHasChanged);
+				}
+			};
+		}
 	}
 }

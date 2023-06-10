@@ -1,18 +1,24 @@
-﻿using EMS.Witness.Shared.Toasts;
+﻿using Core.Events;
+using EMS.Witness.Shared.Toasts;
 using System.Timers;
 
 namespace EMS.Witness.Services;
-public class ToasterService : IDisposable
+public class Toaster : IToaster, IDisposable
 {
     private readonly List<Toast> toastList = new();
     private readonly System.Timers.Timer timer = new();
 
-    public ToasterService()
+    public Toaster()
     {
         this.timer.Interval = 1000;
         this.timer.AutoReset = true;
         this.timer.Elapsed += this.HandleTimerElapsed;
         this.timer.Start();
+        CoreEvents.ErrorEvent += (sender, exception) =>
+        {
+            var toast = new Toast(exception.Message, exception.StackTrace, UiColor.Danger, 60);
+            this.Add(toast);
+        };
     }
 
     public event EventHandler? ToasterChanged;
@@ -24,6 +30,12 @@ public class ToasterService : IDisposable
     {
         ClearBurntToast();
         return this.toastList.ToList();
+    }
+
+    public void Add(string header, string? message, UiColor color, int seconds = 10)
+    {
+        var toast = new Toast(header, message, color, seconds);
+        this.Add(toast);
     }
 
     public void Add(Toast toast)
@@ -44,7 +56,6 @@ public class ToasterService : IDisposable
             {
                 this.ToasterChanged?.Invoke(this, EventArgs.Empty);
             }
-
         }
     }
 
@@ -75,4 +86,11 @@ public class ToasterService : IDisposable
         this.ClearBurntToast();
         this.ToasterTimerElapsed?.Invoke(this, EventArgs.Empty);
     }
+}
+
+public interface IToaster
+{
+    void Add(string header, string? message, UiColor color, int seconds = 10);
+	List<Toast> GetToasts();
+    void ClearToast(Toast toast);
 }

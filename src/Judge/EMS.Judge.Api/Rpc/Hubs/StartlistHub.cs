@@ -1,8 +1,6 @@
 ﻿using Core.Application.Rpc.Procedures;
 using Core.Domain.AggregateRoots.Manager;
 using Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
-using Core.Domain.AggregateRoots.Manager.WitnessEvents;
-using Core.Enums;
 using EMS.Judge.Api.Configuration;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,31 +8,30 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace EMS.Judge.Api.Rpc.Hubs
+namespace EMS.Judge.Api.Rpc.Hubs;
+
+public class StartlistHub : Hub<IStartlistClientProcedures>, IStartlistHubProcedures
 {
-	public class StartlistHub : Hub<IStartlistClientProcedures>, IStartlistHubProcedures
+	private readonly ManagerRoot managerRoot;
+
+	public StartlistHub(IJudgeServiceProvider provider)
 	{
-		private readonly ManagerRoot managerRoot;
-
-		public StartlistHub(IJudgeServiceProvider provider)
-        {
-			this.managerRoot = provider.GetRequiredService<ManagerRoot>();
-        }
+		this.managerRoot = provider.GetRequiredService<ManagerRoot>();
+	}
 		
-        public IEnumerable<StartModel> Get()
-        {
-	        var startlist = this.managerRoot.GetStartList(false);
-	        return startlist;
-        }
+	public IEnumerable<StartlistEntry> Get()
+	{
+		var startlist = this.managerRoot.GetStartList();
+		return startlist;
+	}
 
-        public override async Task OnConnectedAsync()
-        {
-			Console.WriteLine($"Connected: {this.Context.ConnectionId}");
-        }
+	public override async Task OnConnectedAsync()
+	{
+		Console.WriteLine($"Connected: {this.Context.ConnectionId}");
+	}
 
-        public override async Task OnDisconnectedAsync(Exception exception)
-        {
-            Console.WriteLine($"Disconnected: {this.Context.ConnectionId}");
-        }
+	public override async Task OnDisconnectedAsync(Exception exception)
+	{
+		Console.WriteLine($"Disconnected: {this.Context.ConnectionId}");
 	}
 }

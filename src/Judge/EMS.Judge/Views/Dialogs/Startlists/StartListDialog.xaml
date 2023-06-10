@@ -16,11 +16,6 @@
             <StackPanel Style="{StaticResource List-Horizontal}"
                         Grid.Row="0">
                 <Border Style="{StaticResource Border-Horizontal}">
-                    <CheckBox Style="{StaticResource CheckBox}"
-                              IsChecked="{Binding IncludePast}"
-                              Content="{x:Static localization:Strings.INCLUDE_PAST}" />
-                </Border>
-                <Border Style="{StaticResource Border-Horizontal}">
                     <Button Style="{StaticResource Button-Big-Horizontal}"
                             Command="{Binding GetList}"
                             Content="{x:Static localization:Strings._CREATE}"/>

@@ -3,37 +3,35 @@ using Core.Application.Rpc.Procedures;
 using Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 using Core.Enums;
 using EMS.Witness.Services;
-using Microsoft.AspNetCore.SignalR.Client;
 using static Core.Application.CoreApplicationConstants;
 
 namespace EMS.Witness.Rpc;
 
-public class StartlistClient : RpcClient, IStartlistClientProcedures
+public class StartlistClient : RpcClient, IStartlistClientProcedures, IStartlistClient
 {
-	private readonly State state;
+	private readonly WitnessState state;
+	public event EventHandler<(StartlistEntry entry, CollectionAction action)>? Updated;
  
-    public StartlistClient(State state) : base(RpcEndpoints.STARTLIST)
+    public StartlistClient(WitnessState state) : base(RpcEndpoints.STARTLIST)
     {
-        this.AddProcedure<StartModel, CollectionAction>(nameof(this.Update), this.Update);
+        this.AddProcedure<StartlistEntry, CollectionAction>(nameof(this.Update), this.Update);
 		this.state = state;
 	}
 
-    public Task Update(StartModel entry, CollectionAction action)
+    public Task Update(StartlistEntry entry, CollectionAction action)
 	{
-		var exising = this.state.Startlist.FirstOrDefault(x => x.Number == entry.Number); // TODO: use domain euqlas
-		if (exising!= null)
-		{
-		}
-		if (action == CollectionAction.AddOrUpdate)
-		{
-			this.state.Startlist.Add(entry);
-		}
+		this.Updated?.Invoke(this, (entry, action));
 		return Task.CompletedTask;
 	}
 
-	public override async Task FetchInitialState()
+	public async Task<RpcInvokeResult<IEnumerable<StartlistEntry>>> Load()
 	{
-		var startlist = await this.Connection.InvokeAsync<List<StartModel>>(nameof(IStartlistHubProcedures.Get));
-		this.state.Startlist.AddRange(startlist);
-	}
+		return await this.InvokeAsync<IEnumerable<StartlistEntry>>(nameof(IStartlistHubProcedures.Get));
+    }
+}
+
+public interface IStartlistClient : IRpcClient
+{
+    event EventHandler<(StartlistEntry entry, CollectionAction action)>? Updated;
+    Task<RpcInvokeResult<IEnumerable<StartlistEntry>>> Load();
 }

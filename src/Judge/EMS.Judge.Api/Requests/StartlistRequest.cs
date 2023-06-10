@@ -3,6 +3,6 @@ using System.Collections.Generic;
 
 namespace EMS.Judge.Api.Requests;
 
-public class StartlistRequest : List<StartModel>
+public class StartlistRequest : List<StartlistEntry>
 {
 }

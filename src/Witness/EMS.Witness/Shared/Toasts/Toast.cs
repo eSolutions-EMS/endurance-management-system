@@ -5,7 +5,7 @@ public class Toast
     public Toast(string title, string? message, UiColor color, int secondsToLive = 5)
     {
         this.Title = title;
-        this.Message = message;
+        this.Message = message ?? string.Empty;
         this.Color = color;
         this.TimeToBurn = DateTimeOffset.Now.AddSeconds(secondsToLive);
         this.posted = DateTimeOffset.Now;

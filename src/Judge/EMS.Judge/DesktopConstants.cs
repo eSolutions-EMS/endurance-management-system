@@ -5,7 +5,7 @@ namespace EMS.Judge;
 
 public static class DesktopConstants
 {
-    public const string SETTINGS_FILE = "settings.json";
+    public const string SETTINGS_FILE = "judge-settings.json";
     public const string TIME_FORMAT = "HH:mm:ss.fff";
     public const string TIME_SPAN_FORMAT = @"hh\:mm\:ss\.FFF";
     public const string DOUBLE_FORMAT = "0.000";

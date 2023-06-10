@@ -1,0 +1,49 @@
+﻿@using EMS.Witness.Services;
+@implements IDisposable
+
+@if (this.Toaster.HasToasts)
+{
+    <div class="">
+        <div class="toast-container position-absolute top-0 end-0 mt-5 pt-5 pe-2">
+            @foreach (var toast in this.Toaster.GetToasts())
+            {
+                var toastClass = this.GetToastClass(toast);
+                <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header @toastClass">
+                        <strong class="me-auto">@toast.Title</strong>
+                        <small class="@toastClass">@toast.ElapsedTimeText</small>
+                        <button type="button" class="btn-close btn-close-white" aria-label="Close"
+                                @onclick="() => this.Toaster.ClearToast(toast)"></button>
+                    </div>
+                    <div class="toast-body">@toast.Message</div>
+                </div>
+            }
+        </div>
+    </div>
+}
+
+@code {
+    [Inject]
+    private Toaster Toaster { get; set; } = null!;
+
+    protected override void OnInitialized()
+    {
+        this.Toaster.ToasterChanged += HandleToastChanged;
+        this.Toaster.ToasterTimerElapsed += HandleToastChanged;
+    }
+
+    public void Dispose()
+    {
+        this.Toaster.ToasterChanged -= HandleToastChanged;
+        this.Toaster.ToasterTimerElapsed -= HandleToastChanged;
+    }
+
+    private void HandleToastChanged(object? sender, EventArgs e)
+        => this.InvokeAsync(this.StateHasChanged);
+
+    private string GetToastClass(Toast toast)
+    {
+        var colour = Enum.GetName(toast.Color)?.ToLower();
+        return $"bg-{colour} text-white";
+    }
+}

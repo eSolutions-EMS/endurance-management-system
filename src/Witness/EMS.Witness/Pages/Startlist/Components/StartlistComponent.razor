@@ -1,7 +1,7 @@
-﻿@inherits StatefulComponent<List<StartModel>>;
+﻿@inherits StatefulComponent;
 
 @inject IDateService DateService;
-
+@inject IStartlistService StartlistService;
 @using EMS.Witness.Common;
 @using EMS.Witness.Services;
 @using Core.Application.Services;
@@ -12,19 +12,28 @@
 		<tr>
 			<th>#</th>
 			<th>Name</th>
+			<th>Stage</th>
 			<th>Distance</th>
-			<th>Start Time</th>
+			<th>Time</th>
 		</tr>
 	</thead>
 	<tbody>
-		@foreach (var entry in this.State)
+		@foreach (var entry in this.StartlistService.Startlist)
 		{
 			<tr>
 				<td>@entry.Number</td>
 				<td>@entry.AthleteName</td>
+				<td>@entry.Stage</td>
 				<td>@entry.Distance</td>
 				<td>@this.DateService.FormatTime(entry.StartTime)</td>
 			</tr>
 		}
 	</tbody>
 </table>
+
+@code {
+	protected override bool ShouldRender(object changedState)
+	{
+		return changedState == this.StartlistService.Startlist;
+	}
+}

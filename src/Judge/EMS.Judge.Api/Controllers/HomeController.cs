@@ -1,16 +1,12 @@
 ﻿using Core.Application.Rpc.Procedures;
-using Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 using Core.Domain.State;
 using EMS.Judge.Api.Configuration;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
-using System.Threading.Tasks;
-using Core.Enums;
 using EMS.Judge.Api.Rpc.Hubs;
 
 namespace EMS.Judge.Api.Controllers;
@@ -42,17 +38,5 @@ public class HomeController : ControllerBase
         var state = this._judgeServiceProvider.GetRequiredService<IState>();
         var content = $"IP: {ip} - {state?.Event?.Name}";
         return this.Ok(content);
-    }
-
-    [HttpGet("hub")]
-    public async Task<IActionResult> Hub()
-    {
-        this.hubContext.Clients.All.Update(new StartModel
-        {
-            Number = "11",
-            Name = "text",
-            StartTime = DateTime.Now,
-        }, CollectionAction.AddOrUpdate);
-        return this.Ok();
     }
 }

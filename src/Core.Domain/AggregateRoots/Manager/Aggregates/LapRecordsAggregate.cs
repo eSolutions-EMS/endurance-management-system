@@ -7,6 +7,7 @@ using Core.Domain.State.LapRecords;
 using Core.Domain.State.Participations;
 using Core.Domain.State.Results;
 using Core.Domain.Validation;
+using Core.Enums;
 using System;
 using static Core.Localization.Strings;
 
@@ -42,12 +43,14 @@ public class LapRecordsAggregate : IAggregate
     internal void Disqualify(string number, string reason)
     {
         this.Record.Result = new Result(ResultType.Disqualified, reason);
-		Witness.RaiseStartlistChanged(number, Core.Enums.CollectionAction.Remove);
+		Witness.RaiseStartlistChanged(number, CollectionAction.Remove);
+        Witness.RaiseArrivelistChanged(number, CollectionAction.Remove);
 	}
     internal void FailToQualify(string number, string reason)
     {
         this.Record.Result = new Result(ResultType.FailedToQualify, reason);
-		Witness.RaiseStartlistChanged(number, Core.Enums.CollectionAction.Remove);
+		Witness.RaiseStartlistChanged(number, CollectionAction.Remove);
+        Witness.RaiseArrivelistChanged(number, CollectionAction.Remove);
 	}
     internal void Resign(string reason)
     {
@@ -56,7 +59,8 @@ public class LapRecordsAggregate : IAggregate
     internal void Complete(string number)
     {
 		this.Record.Result = new Result(ResultType.Successful);
-		Witness.RaiseStartlistChanged(number, Core.Enums.CollectionAction.AddOrUpdate);
+		Witness.RaiseStartlistChanged(number, CollectionAction.AddOrUpdate);
+        Witness.RaiseArrivelistChanged(number, CollectionAction.AddOrUpdate);
 	}
     internal void RequireReInspection(bool isRequired)
     {
