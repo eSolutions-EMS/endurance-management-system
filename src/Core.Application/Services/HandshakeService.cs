@@ -11,11 +11,11 @@ using static Core.Application.CoreApplicationConstants;
 
 namespace Core.Application.Services;
 
-public class NetworkService : INetworkBroadcastService, INetworkHandshakeService
+public class HandshakeService : INetworkBroadcastService, IHandshakeService
 {
     private readonly IHandshakeValidatorService handshakeValidatorService;
 
-    public NetworkService(IHandshakeValidatorService handshakeValidatorService)
+    public HandshakeService(IHandshakeValidatorService handshakeValidatorService)
     {
         this.handshakeValidatorService = handshakeValidatorService;
     }
@@ -99,7 +99,7 @@ public interface INetworkBroadcastService : ITransientService
     Task StartBroadcasting(CancellationToken token);
 }
 
-public interface INetworkHandshakeService : ITransientService
+public interface IHandshakeService : ITransientService
 {
     Task<IPAddress> Handshake(string app, CancellationToken token);
 }
