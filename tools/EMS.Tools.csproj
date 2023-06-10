@@ -12,4 +12,20 @@
       <ProjectReference Include="..\src\Core.Application\Core.Application.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+        <Content Include="rfid.dll">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="rfid_core.dll">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+        <Content Include="Vup.dll">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        </Content>
+        <Reference Include="Vup">
+            <HintPath>Vup.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+    
 </Project>
