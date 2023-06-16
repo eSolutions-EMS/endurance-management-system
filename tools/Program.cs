@@ -4,7 +4,7 @@ using Core.Application.Services;
 using EMS.Tools.RpcClients;
 
 var handshakeValidator = new HandshakeValidatorService();
-var network = new NetworkService(handshakeValidator);
+var network = new HandshakeService(handshakeValidator);
 
 var result = await network.Handshake(CoreApplicationConstants.Apps.WITNESS, new CancellationToken());
 var host = $"http://{result}:11337";
