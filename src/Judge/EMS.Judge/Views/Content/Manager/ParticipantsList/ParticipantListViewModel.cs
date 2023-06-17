@@ -7,12 +7,16 @@ using EMS.Judge.Application.Common.Models;
 using Core.Mappings;
 using Core.Domain.State.Participants;
 using System.Collections.Generic;
+using EMS.Judge.Common.Components.Templates.ListItem;
+using EMS.Judge.Application.Hardware;
+using Prism.Commands;
 
 namespace EMS.Judge.Views.Content.Manager.ParticipantsList;
 
 public class ParticipantListViewModel : SearchableListViewModelBase<ManagerView>
 {
     private readonly IQueries<Participant> participants;
+
     public ParticipantListViewModel(
         IPopupService popupService,
         IQueries<Participant> participants,

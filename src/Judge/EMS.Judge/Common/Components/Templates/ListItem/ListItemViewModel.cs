@@ -1,9 +1,10 @@
 ﻿using Prism.Commands;
+using Prism.Mvvm;
 using System.Windows;
 
 namespace EMS.Judge.Common.Components.Templates.ListItem;
 
-public class ListItemViewModel
+public class ListItemViewModel : BindableBase
 {
     private ListItemViewModel()
     {
@@ -18,6 +19,7 @@ public class ListItemViewModel
         : this(id, name, action, actionName, null)
     {
     }
+
 
     public ListItemViewModel(
         int id,
@@ -36,9 +38,21 @@ public class ListItemViewModel
     public int Id { get; }
     public string Name { get; }
     public string ActionName { get; }
+    private string _additionalName;
+    public string AdditionalName
+    {
+        get => this._additionalName;
+        set => this.SetProperty(ref this._additionalName, value);
+    }
     public DelegateCommandBase Action { get; }
     public DelegateCommandBase Remove { get; }
-    public Visibility RemoveVisibility => this.Remove != null
-        ? Visibility.Visible
-        : Visibility.Collapsed;
+    public Visibility RemoveVisibility
+        => this.Remove != null
+            ? Visibility.Visible
+            : Visibility.Collapsed;
+    public DelegateCommandBase AdditionalAction { get; set; }
+    public Visibility AdditionalVisibility
+        => this.AdditionalAction == null
+            ? Visibility.Collapsed
+            : Visibility.Visible;
 }

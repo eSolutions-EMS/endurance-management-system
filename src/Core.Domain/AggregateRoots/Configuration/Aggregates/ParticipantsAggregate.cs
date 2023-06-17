@@ -36,32 +36,6 @@ public class ParticipantsAggregate : IAggregate
         {
             throw Helper.Create<ParticipantException>(ALREADY_PARTICIPATING_MESSAGE, horse.Name);
         }
-        if (!string.IsNullOrEmpty(participantState.RfIdHead) && participantState.RfIdHead == participantState.RfIdNeck)
-        {
-            throw Helper.Create<ParticipantException>($"Identical tags for 'Head  and 'Neck'");
-        }
-        if (!string.IsNullOrEmpty(participantState.RfIdHead))
-        {
-            var duplicate = this.state.Participants.FirstOrDefault(x =>
-                x.RfIdHead == participantState.RfIdHead
-                && x.Id != participantState.Id);
-            if (duplicate != null)
-            {
-                throw Helper.Create<ParticipantException>(
-                    $"Tag '{participantState.RfIdHead}' is already used in Participant '{duplicate.Number}'");
-            }
-        }
-        if (!string.IsNullOrEmpty(participantState.RfIdNeck))
-        {
-            var duplicate = this.state.Participants.FirstOrDefault(x =>
-                x.RfIdNeck == participantState.RfIdNeck
-                && x.Id != participantState.Id);
-            if (duplicate != null)
-            {
-                throw Helper.Create<ParticipantException>(
-                    $"Tag '{participantState.RfIdNeck}' is already used in Participant '{duplicate.Number}'");
-            }
-        }
 
         var participant = this.state.Participants.FindDomain(participantState.Id);
         if (participant == null)
@@ -73,8 +47,6 @@ public class ParticipantsAggregate : IAggregate
         {
             participant.Athlete = athlete;
             participant.Horse = horse;
-            participant.RfIdHead = participantState.RfIdHead;
-            participant.RfIdNeck = participantState.RfIdNeck;
             participant.MaxAverageSpeedInKmPh = participantState.MaxAverageSpeedInKmPh;
             participant.Number = participantState.Number;
         }

@@ -12,6 +12,7 @@ using Prism.Commands;
 using Prism.Regions;
 using System.Collections.ObjectModel;
 using System.Windows;
+using EMS.Judge.Application.Hardware;
 
 namespace EMS.Judge.Views.Content.Configuration.Roots.Participants;
 
@@ -22,6 +23,8 @@ public class ParticipantViewModel : ConfigurationBase<ParticipantView, Participa
     private readonly IExecutor<ConfigurationRoot> executor;
     private readonly IQueries<Athlete> athletes;
     private readonly IQueries<Horse> horses;
+    private readonly VD67Controller vd67Controller;
+
     private ParticipantViewModel() : base(null) {}
     public ParticipantViewModel(
         IExecutor<ConfigurationRoot> executor,
@@ -29,14 +32,17 @@ public class ParticipantViewModel : ConfigurationBase<ParticipantView, Participa
         IQueries<Horse> horses,
         IQueries<Participant> participants) : base(participants)
     {
+        this.vd67Controller = new VD67Controller();
         this.executor = executor;
         this.athletes = athletes;
         this.horses = horses;
+        this.WriteTag = new DelegateCommand(this.WriteTagAction);
         this.ToggleIsAverageSpeedInKmPhVisibility = new DelegateCommand(
             this.ToggleIsAverageSpeedInKmPhVisibilityAction);
     }
 
     public DelegateCommand ToggleIsAverageSpeedInKmPhVisibility { get; }
+    public DelegateCommand WriteTag { get; }
 
     public ObservableCollection<SimpleListItemViewModel> HorseItems { get; } = new();
     public ObservableCollection<SimpleListItemViewModel> AthleteItems { get; } = new();
@@ -69,6 +75,11 @@ public class ParticipantViewModel : ConfigurationBase<ParticipantView, Participa
             config => config.Participants.Save(this, this.AthleteId, this.HorseId),
             true);
         return result;
+    }
+
+    private void WriteTagAction()
+    {
+        this.vd67Controller.Write(this.Number);
     }
 
     private void LoadAthletes()

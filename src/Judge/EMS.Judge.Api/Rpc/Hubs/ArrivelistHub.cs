@@ -32,6 +32,7 @@ public class ArrivelistHub : Hub<IArrivelistClientProcedures>, IArrivelistHubPro
                 TagId = entry.Number,
                 Time = entry.ArriveTime!.Value,
                 Type = entry.Type,
+                IsFromWitnessApp = true,
             };
             Witness.Raise(witnessEvent);
         }

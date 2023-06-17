@@ -159,33 +159,23 @@ public class HardwareViewModel : ViewModelBase
                 + laps.Count(x => x.IsReinspectionRequired)
                 + laps.Count(x => x.IsRequiredInspectionRequired);
 
-            var neckArrDetections = participation.Participant.DetectedNeck[WitnessEventType.Arrival];
             var headArrDetections = participation.Participant.DetectedHead[WitnessEventType.Arrival];
-            var neckVetDetections = participation.Participant.DetectedNeck[WitnessEventType.VetIn];
             var headVetDetections = participation.Participant.DetectedHead[WitnessEventType.VetIn];
 
             var headArrRate = (double)headArrDetections.Distinct().Count() / ARRs;
             var headVetRate = (double) headVetDetections.Distinct().Count() / INs;
-            var neckArrRate = (double)neckArrDetections.Distinct().Count() / ARRs;
-            var neckVetRate = (double) neckVetDetections.Distinct().Count() / INs;
 
-            var overallArrRate = (double) headArrDetections.Concat(neckArrDetections).Distinct().Count() / ARRs;
-            var overallVetRate = (double) headVetDetections.Concat(neckVetDetections).Distinct().Count() / INs;
+            var overallArrRate = (double) headArrDetections.Distinct().Count() / ARRs;
+            var overallVetRate = (double) headVetDetections.Distinct().Count() / INs;
             var overallAverage = (overallArrRate + overallVetRate) / 2;
             overallArrRates.Add(overallArrRate);
             overallVetRates.Add(overallVetRate);
             overallAverages.Add(overallAverage);
 
             sb.AppendLine($"# {participation.Participant.Number} #".PadRight(75, '#'));
-            sb.AppendLine($"head - {participation.Participant.RfIdHead,24} " +
+            sb.AppendLine(
                 $" - arr: {headArrDetections.Count}/{ARRs} ({this.FormatRate(headArrRate)})" +
                 $" - vet: {headVetDetections.Count}/{INs} ({this.FormatRate(headVetRate)})");
-            sb.AppendLine($"neck - {participation.Participant.RfIdNeck,24} " +
-                $" - arr: {neckArrDetections.Count}/{ARRs} ({this.FormatRate(neckArrRate)})" +
-                $" - vet: {neckVetDetections.Count}/{INs} ({this.FormatRate(neckVetRate)})");
-            sb.AppendLine($"overall - arr: {this.FormatRate(overallArrRate)}" +
-                $" - vet: {this.FormatRate(overallVetRate)}" +
-                $" - average: {this.FormatRate(overallAverage)}");
         }
         var arrAverage = overallArrRates.Sum() / overallArrRates.Count;
         var vetAverage = overallVetRates.Sum() / overallVetRates.Count;

@@ -59,11 +59,11 @@ public class ManagerRoot : IAggregateRoot
             this.Log(witnessEvent, number);
             if (witnessEvent.Type == WitnessEventType.Arrival)
             {
-                this.HandleArrive(witnessEvent.TagId, witnessEvent.Time);
+                this.HandleArrive(witnessEvent);
             }
             if (witnessEvent.Type == WitnessEventType.VetIn)
             {
-                this.HandleVet(witnessEvent.TagId, witnessEvent.Time);
+                this.HandleVet(witnessEvent);
             }
             Witness.RaiseStateChanged();
         }
@@ -138,9 +138,10 @@ public class ManagerRoot : IAggregateRoot
     private readonly Dictionary<string, DateTime> arrivalCache = new();
     private readonly Dictionary<string, DateTime> vetCache = new();
 
-    public void HandleArrive(string numberOrTag, DateTime time)
+    // TODO: unify those methods
+    public void HandleArrive(WitnessEvent witnessEvent)
     {
-        var participation = this.GetParticipation(numberOrTag);
+        var participation = this.GetParticipation(witnessEvent.TagId);
         var aggregate = participation.Aggregate();
         if (aggregate.CurrentLap.ArrivalTime != null && aggregate.CurrentLap.Result == null)
         {
@@ -155,12 +156,16 @@ public class ManagerRoot : IAggregateRoot
             return;
         }
         this.arrivalCache[aggregate.Number] = now;
-        this.AddStats(participation, numberOrTag, WitnessEventType.Arrival);
-        aggregate.Arrive(time);
+        if (!witnessEvent.IsFromWitnessApp)
+        {
+            this.AddRfidDetectedEntry(participation, WitnessEventType.Arrival);
+        }
+        
+        aggregate.Arrive(witnessEvent.Time);
     }
-    public void HandleVet(string numberOrTag, DateTime time)
+    public void HandleVet(WitnessEvent witnessEvent)
     {
-        var participation = this.GetParticipation(numberOrTag);
+        var participation = this.GetParticipation(witnessEvent.TagId);
         var aggregate = participation.Aggregate();
         if (aggregate.CurrentLap.Result != null
             || aggregate.CurrentLap.InspectionTime != null && aggregate.CurrentLap.ReInspectionTime != null)
@@ -174,22 +179,18 @@ public class ManagerRoot : IAggregateRoot
             return;
         }
         this.vetCache[aggregate.Number] = now;
-        this.AddStats(participation, numberOrTag, WitnessEventType.VetIn);
-        aggregate.Vet(time);
+        if (!witnessEvent.IsFromWitnessApp)
+        {
+            this.AddRfidDetectedEntry(participation, WitnessEventType.VetIn);
+        }
+        aggregate.Vet(witnessEvent.Time);
     }
 
-    private void AddStats(Participation participation, string numberOrTag, WitnessEventType type)
+    private void AddRfidDetectedEntry(Participation participation, WitnessEventType type)
     {
         var lastLap = participation.Participant.LapRecords.Last();
         var index = participation.Participant.LapRecords.IndexOf(lastLap);
-        if (participation.Participant.RfIdNeck == numberOrTag)
-        {
-            participation.Participant.DetectedNeck[type].Add(index);
-        }
-        if (participation.Participant.RfIdHead == numberOrTag)
-        {
-            participation.Participant.DetectedHead[type].Add(index);
-        }
+        participation.Participant.DetectedHead[type].Add(index);
     }
 
     public void Disqualify(string number, string reason)
@@ -279,21 +280,13 @@ public class ManagerRoot : IAggregateRoot
         return entries;
     }
 
-    private Participation GetParticipation(string numberOrTag)
+    private Participation GetParticipation(string number)
     {
-        if (string.IsNullOrEmpty(numberOrTag))
+        if (string.IsNullOrEmpty(number))
         {
             return null;
         }
-        var participation = this.state
-            .Participations
-            .FirstOrDefault(x => x.Participant.Number == numberOrTag
-                || x.Participant.RfIdHead == numberOrTag
-                || x.Participant.RfIdNeck == numberOrTag);
-        // if (participation == null)
-        // {
-        //     throw Helper.Create<ParticipantException>(NOT_FOUND_MESSAGE, NUMBER, numberOrTag);
-        // }
+        var participation = this.state.Participations.FirstOrDefault(x => x.Participant.Number == number);
         return participation;
     }
 

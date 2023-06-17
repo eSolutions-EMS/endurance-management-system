@@ -7,6 +7,7 @@ public class WitnessEvent
     public WitnessEventType Type { get; set; } 
     public string TagId { get; set; }
     public DateTime Time { get; set; }
+    public bool IsFromWitnessApp { get; set; }
 }
 
 public enum WitnessEventType
