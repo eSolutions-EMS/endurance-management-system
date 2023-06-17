@@ -15,14 +15,14 @@ public class RpcService: IRpcService
 	private static string host = string.Empty;
     private readonly HttpClient httpClient;
 	private readonly IToaster toaster;
-	private readonly INetworkHandshakeService handshakeService;
+	private readonly IHandshakeService handshakeService;
 	private readonly IEnumerable<IRpcClient> rpcClients;
 	private readonly IPermissionsService permissionsService;
 
 	public RpcService(
 		IEnumerable<IRpcClient> rpcClients,
 		IPermissionsService permissionsService,
-		INetworkHandshakeService handshakeService,
+		IHandshakeService handshakeService,
 		HttpClient httpClient,
 		IToaster toaster)
     {

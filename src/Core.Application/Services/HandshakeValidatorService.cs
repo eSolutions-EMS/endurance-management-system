@@ -14,6 +14,7 @@ public class HandshakeValidatorService : IHandshakeValidatorService
     public HandshakeValidatorService()
     {
         this._sha = new HMACSHA256(this.GetBytes(KEY));
+        
     }
 
     public byte[] CreatePayload(string thisApp)
