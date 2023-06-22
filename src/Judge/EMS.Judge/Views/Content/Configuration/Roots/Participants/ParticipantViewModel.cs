@@ -23,7 +23,7 @@ public class ParticipantViewModel : ConfigurationBase<ParticipantView, Participa
     private readonly IExecutor<ConfigurationRoot> executor;
     private readonly IQueries<Athlete> athletes;
     private readonly IQueries<Horse> horses;
-    private readonly VD67Controller vd67Controller;
+    private readonly VupVD67Controller vd67Controller;
 
     private ParticipantViewModel() : base(null) {}
     public ParticipantViewModel(
@@ -32,7 +32,7 @@ public class ParticipantViewModel : ConfigurationBase<ParticipantView, Participa
         IQueries<Horse> horses,
         IQueries<Participant> participants) : base(participants)
     {
-        this.vd67Controller = new VD67Controller();
+        this.vd67Controller = new VupVD67Controller();
         this.executor = executor;
         this.athletes = athletes;
         this.horses = horses;

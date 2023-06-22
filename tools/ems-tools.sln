@@ -1,14 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EMS.Tools", "EMS.Tools.csproj", "{EE48E6B7-4438-4820-B439-F1E53CE89400}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33627.172
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EMS.Tools", "EMS.Tools.csproj", "{EE48E6B7-4438-4820-B439-F1E53CE89400}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "..\src\Core\Core.csproj", "{C1F3C9E1-DEAC-4D5C-9541-1272520ED2FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core", "..\src\Core\Core.csproj", "{C1F3C9E1-DEAC-4D5C-9541-1272520ED2FD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Application", "..\src\Core.Application\Core.Application.csproj", "{1500DA76-0C69-4A85-B66D-647501DD84FD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Application", "..\src\Core.Application\Core.Application.csproj", "{1500DA76-0C69-4A85-B66D-647501DD84FD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Domain", "..\src\Core.Domain\Core.Domain.csproj", "{A6E70451-4325-44A6-9E97-2B2DBC61B446}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Domain", "..\src\Core.Domain\Core.Domain.csproj", "{A6E70451-4325-44A6-9E97-2B2DBC61B446}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Localization", "..\src\Core.Localization\Core.Localization.csproj", "{28A43941-B39B-4B01-A10E-929D2158A9E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Core.Localization", "..\src\Core.Localization\Core.Localization.csproj", "{28A43941-B39B-4B01-A10E-929D2158A9E5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EMS.Judge.Application", "..\src\Judge\EMS.Judge.Application\EMS.Judge.Application.csproj", "{06B0C418-9B90-46AE-BF1D-A1BED536A91E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -36,5 +41,12 @@ Global
 		{28A43941-B39B-4B01-A10E-929D2158A9E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{28A43941-B39B-4B01-A10E-929D2158A9E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{28A43941-B39B-4B01-A10E-929D2158A9E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06B0C418-9B90-46AE-BF1D-A1BED536A91E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06B0C418-9B90-46AE-BF1D-A1BED536A91E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06B0C418-9B90-46AE-BF1D-A1BED536A91E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06B0C418-9B90-46AE-BF1D-A1BED536A91E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal

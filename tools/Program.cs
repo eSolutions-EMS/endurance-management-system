@@ -1,3 +1,4 @@
 using EMS.Tools.Hardware;
 
-await Hardware.Run();
+await TagIdWriter.Run();
+//await Hardware.Run();

@@ -20,7 +20,7 @@ public class ParticipantListViewModel : SearchableListViewModelBase<ParticipantV
 {
     private readonly IExecutor<ConfigurationRoot> executor;
     private readonly IQueries<Participant> participants;
-    private VD67Controller vD67Controller;
+    private VupVD67Controller vD67Controller;
 
     public ParticipantListViewModel(
         IPopupService popupService,
