@@ -15,6 +15,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
+using EMS.Judge.Application.Services;
 
 namespace EMS.Judge.Views.Content.Hardware;
 
@@ -22,15 +23,17 @@ public class HardwareViewModel : ViewModelBase
 {
     private readonly IQueries<Participation> participationQueries;
     private readonly IPopupService popupService;
+    private readonly IPersistence persistence;
     private readonly VupRfidController controller;
     private string message = "";
     private int power = 27;
     private bool isListing;
 
-    public HardwareViewModel(IQueries<Participation> participationQueries, IPopupService popupService)
+    public HardwareViewModel(IQueries<Participation> participationQueries, IPopupService popupService, IPersistence persistence)
     {
         this.participationQueries = participationQueries;
         this.popupService = popupService;
+        this.persistence = persistence;
         this.controller = new VupRfidController(RfidWitness.FINISH_DEVICE_IP);
         this.controller.MessageEvent += (_, message) => this.Message = message;
         this.controller.ReadEvent += this.HandleReadEventTag;
@@ -193,7 +196,7 @@ public class HardwareViewModel : ViewModelBase
         sb.AppendLine($"vet: {this.FormatRate(vetAverage)}");
         sb.AppendLine($"total: {this.FormatRate(average)}");
 
-        this.popupService.RenderValidation(sb.ToString());
+        this.persistence.LogStatistics(sb.ToString());
     }
 
     private string FormatRate(double rate)
