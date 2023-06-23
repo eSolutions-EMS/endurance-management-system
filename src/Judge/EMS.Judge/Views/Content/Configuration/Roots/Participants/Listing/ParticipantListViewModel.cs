@@ -53,18 +53,18 @@ public class ParticipantListViewModel : SearchableListViewModelBase<ParticipantV
     private void WriteAction(ListItemViewModel model)
     {
         var participant = this.participants.GetOne(model.Id);
-        Task.Run(async () =>
-        {
-            var tag = await this.vD67Controller.Write(participant.Number);
-            if (!participant.TagIds.Contains(tag))
-            {
-                participant.TagIds.Add(tag);
-            }
-            App.Current.Dispatcher.Invoke(() =>
-            {
-                model.AdditionalName = $"Add ({participant.TagIds.Count} Tags)";
-            });
-        });
+        //Task.Run(async () =>
+        //{
+        //    var tag = await this.vD67Controller.Write(participant.Number);
+        //    if (!participant.TagIds.Contains(tag))
+        //    {
+        //        participant.TagIds.Add(tag);
+        //    }
+        //    App.Current.Dispatcher.Invoke(() =>
+        //    {
+        //        model.AdditionalName = $"Add ({participant.TagIds.Count} Tags)";
+        //    });
+        //});
     }
 
     protected override void RemoveDomain(int id)

@@ -26,6 +26,7 @@ public abstract class QueriesBase<T> : IQueries<T>
 public interface IQueries<T>
     where T : IDomain
 {
+    T GetOne(Predicate<T> predicate);
     T GetOne(int id);
     List<T> GetAll();
 }

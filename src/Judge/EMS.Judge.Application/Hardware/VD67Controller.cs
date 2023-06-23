@@ -21,25 +21,32 @@ public class VupVD67Controller
         this.throttle = throttle ?? TimeSpan.FromSeconds(1);
     }
 
+    public bool IsWaitingRead { get; private set; } 
     public bool IsReading { get; private set; }
     public bool IsWriting { get; private set; }
 
     public void Connect()
     {
         var connectionResult = this.reader.Connect();
-        var setPowerResult = this.reader.SetAntPower(0, 20);
+        var setPowerResult = this.reader.SetAntPower(0, 27);
         if (!connectionResult.Success || !setPowerResult.Success)
         {
             this.WriteLine($"Connect failed '{connectionResult.ErrorCode}': '{connectionResult.Message}'");
+            return;
         }
         this.WriteLine("Connecction Successful");
     }
 
     public async Task<string> Read()
     {
-        this.IsReading = true;
+        if (!this.reader.IsConnected)
+        {
+            this.Connect();
+        }
+        this.IsWaitingRead = true;
+        this.IsReading = false;
         this.IsWriting = false;
-        while (this.IsReading)
+        while (this.IsWaitingRead)
         {
             string data;
             var result = this.reader.Read6C(memory_bank.memory_bank_epc, 4, 12, Array.Empty<byte>(), Convert.FromHexString("00000000")); ;
@@ -54,7 +61,7 @@ public class VupVD67Controller
             {
                 data = Encoding.UTF8.GetString(result.Result);
                 this.WriteLine($"Read: '{data}'");
-                this.IsReading = false;
+                this.IsWaitingRead = false;
                 return data;
             }
 
@@ -66,6 +73,14 @@ public class VupVD67Controller
 
     public async IAsyncEnumerable<string> StartReading()
     {
+        if (this.IsWaitingRead)
+        {
+            throw new Exception("Cannot start continious reading while waiting on Read.");
+        }
+        if (!this.reader.IsConnected)
+        {
+            this.Connect();
+        }
         this.IsReading = true;
         this.IsWriting = false;
         while (this.IsReading)
@@ -97,6 +112,14 @@ public class VupVD67Controller
 
     public async Task<string> Write(string data)
     {
+        if (this.IsWaitingRead)
+        {
+            throw new Exception("Cannot write while waiting on Read.");
+        }
+        if (!this.reader.IsConnected)
+        {
+            this.Connect();
+        }
         if (data.Length != 12)
         {
             throw new Exception("Tag data length must be exactly 12 symbols");

@@ -36,7 +36,7 @@ public class Participant : DomainBase<ParticipantException>, IParticipantState
         this.Number = state?.Number;
     }
 
-    public List<string> TagIds { get; internal set; } = new();
+    public List<RfidTag> RfidTags { get; internal set; } = new();
     public string Number { get; internal set; }
     public int? MaxAverageSpeedInKmPh { get; internal set; }
     public Horse Horse { get; internal set; }

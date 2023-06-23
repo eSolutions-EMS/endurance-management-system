@@ -1,0 +1,14 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:local="clr-namespace:Core.Domain.State.Participants;assembly=Core.Domain"
+                    xmlns:content="clr-namespace:EMS.Judge.Common.Components">
+
+    <DataTemplate DataType="local:RfidTag">
+        <StackPanel Style="{StaticResource List-Horizontal}">
+            <TextBlock Style="{StaticResource Text-Big}" Text="{Binding Id}" />
+            <TextBlock Style="{StaticResource Text}" Text="{Binding Position}" />
+            <TextBlock Style="{StaticResource Text}" Text="{Binding ParticipantNumber}" />
+        </StackPanel>
+    </DataTemplate>
+
+</ResourceDictionary>

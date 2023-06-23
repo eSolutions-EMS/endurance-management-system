@@ -10,6 +10,7 @@
         <ResourceDictionary Source="Content/Configuration/Roots/Participants/Configuration/ParticipantTemplate.xaml" />
         <ResourceDictionary Source="Content/Configuration/Children/Personnel/Configuration/PersonnelTemplate.xaml" />
         <ResourceDictionary Source="Dialogs/Startlists/StartTemplate.xaml" />
+        <ResourceDictionary Source="Content/Configuration/Roots/Participants/RfidTagTemplate.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>
