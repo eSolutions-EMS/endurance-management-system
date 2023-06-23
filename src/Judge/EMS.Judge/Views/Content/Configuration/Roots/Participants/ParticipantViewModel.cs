@@ -61,6 +61,13 @@ public class ParticipantViewModel : ConfigurationBase<ParticipantView, Participa
     private string horseName;
     private string athleteName;
     private int positionid;
+    private bool isWriteTagEnabled = true;
+
+    public bool IsWriteTagEnababled
+    {
+        get => this.isWriteTagEnabled;
+        set => this.SetProperty(ref this.isWriteTagEnabled, value);
+    }
 
     public ObservableCollection<SimpleListItemViewModel> PositionItems { get; } = new() 
     { 
@@ -95,6 +102,7 @@ public class ParticipantViewModel : ConfigurationBase<ParticipantView, Participa
 
     private void WriteTagAction()
     {
+        this.IsWriteTagEnababled = false;
         this.rfidServiceExecutor.Execute(async x =>
         {
             var position = this.PositionItems.First(x => x.Id == this.PositionId).Name;
@@ -113,6 +121,7 @@ public class ParticipantViewModel : ConfigurationBase<ParticipantView, Participa
             }
             participant.RfidTags.Add(tag);
             this.RfidTags.Add(tag);
+            this.IsWriteTagEnababled = true;
         },
         true);
     }

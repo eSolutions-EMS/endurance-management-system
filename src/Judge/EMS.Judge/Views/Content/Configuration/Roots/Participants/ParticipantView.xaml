@@ -151,6 +151,7 @@
                           SelectedValue="{Binding PositionId}"
                           Name="PositionItems" />
                 <Button Style="{StaticResource Button}"
+                        IsEnabled="{Binding IsWriteTagEnababled}"
                         Command="{Binding WriteTag}"
                         Content="{x:Static localization:Strings.WRITE}"/>
             </StackPanel>
