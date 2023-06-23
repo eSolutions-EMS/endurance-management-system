@@ -7,6 +7,7 @@ public class JudgeSettings : ISettings
     public bool StartServer { get; set; }
     public bool StartVupRfid { get; set; }
     public string Version { get; set; }
+    public bool UseVD67InManager { get; set; }
 }
 
 public interface ISettings
@@ -15,5 +16,6 @@ public interface ISettings
     bool IsSandboxMode { get; }
     bool StartServer { get; }
     bool StartVupRfid { get; }
+    bool UseVD67InManager { get; }
     string Version { get; }
 }

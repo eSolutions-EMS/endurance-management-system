@@ -17,28 +17,31 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
+using Core.Events;
+using EMS.Judge.Application.Services;
+using Core.Domain.AggregateRoots.Manager.WitnessEvents;
+using Core.Domain.State;
 
 namespace EMS.Judge.Views.Content.Manager;
 public class ManagerViewModel : ViewModelBase
 {
     private static readonly DateTime Today = DateTime.Today;
+    private readonly IState state;
+    private readonly IRfidService rfidService;
     private readonly IEventAggregator eventAggregator;
     private readonly IExecutor<ManagerRoot> managerExecutor;
     private readonly IQueries<Participation> participations;
-    private readonly IRfidWitness rfidWitness;
 
     public ManagerViewModel(
-        IRfidWitness rfidWitness,
+        IState state,
+        IRfidService rfidService,
         IEventAggregator eventAggregator,
         IPopupService popupService,
         IExecutor<ManagerRoot> managerExecutor,
         IQueries<Participation> participations)
     {
-        var type = WitnessEventType.Arrival;
-        this.WitnessType = type.ToString();
-        rfidWitness.Configure(type);
-        this.rfidWitness = rfidWitness;
-
+        this.state = state;
+        this.rfidService = rfidService;
         this.eventAggregator = eventAggregator;
         this.managerExecutor = managerExecutor;
         this.participations = participations;
@@ -62,6 +65,13 @@ public class ManagerViewModel : ViewModelBase
             }
         });
         Participation.UpdateEvent += (_, participation) => this.HandleParticipationUpdate(participation);
+        CoreEvents.StateLoadedEvent += async (_, __) =>
+        {
+            if (this.state.Event.HasStarted)
+            {
+                this.StartReadingTags();
+            }
+        };
     }
 
     public string WitnessType { get; }
@@ -161,9 +171,25 @@ public class ManagerViewModel : ViewModelBase
         this.managerExecutor.Execute(manager =>
         {
             manager.Start();
-            this.rfidWitness.Start();
             this.ReloadParticipations();
         }, true);
+        this.StartReadingTags();
+    }
+    private void StartReadingTags()
+    {
+        Task.Run(async () =>
+        {
+            await foreach (var tag in this.rfidService.StartReading())
+            {
+                var witnessEvent = new WitnessEvent()
+                {
+                    TagId = tag.ParticipantNumber,
+                    Time = DateTime.Now,
+                    Type = WitnessEventType.Arrival,
+                };
+                Witness.Raise(witnessEvent);
+            }
+        });
     }
     private void UpdateAction()
         => this.ExecuteAndRender((manager, number) => manager.UpdateRecord(number, this.InputTime));
@@ -194,7 +220,9 @@ public class ManagerViewModel : ViewModelBase
 
     private void ReconnectHardwareAction()
     {
-        this.rfidWitness.Reconnect();
+        this.rfidService.StopReading();
+        this.rfidService.DisconnectReader();
+        this.StartReadingTags();
     }
 
     private void SelectBy(string number)
