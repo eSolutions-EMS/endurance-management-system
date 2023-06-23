@@ -34,7 +34,7 @@ public class HardwareViewModel : ViewModelBase
         this.participationQueries = participationQueries;
         this.popupService = popupService;
         this.persistence = persistence;
-        this.controller = new VupRfidController(RfidWitness.FINISH_DEVICE_IP);
+        this.controller = new VupRfidController("192.168.68.128");
         this.controller.MessageEvent += (_, message) => this.Message = message;
         this.controller.ReadEvent += this.HandleReadEventTag;
         this.isListing = this.controller.IsPolling;

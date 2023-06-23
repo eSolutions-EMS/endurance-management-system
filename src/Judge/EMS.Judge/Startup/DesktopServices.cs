@@ -63,7 +63,6 @@ public static class DesktopServices
 
     private static IServiceCollection AddDesktop(this IServiceCollection services, Assembly[] assemblies)
     {
-        services.AddSingleton<IRfidWitness, RfidWitness>();
         services.AddTransient(typeof(IExecutor<>), typeof(Executor<>));
         services.AddJudgeSettings();
         return services;
