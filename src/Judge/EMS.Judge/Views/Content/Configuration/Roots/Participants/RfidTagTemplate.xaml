@@ -3,11 +3,16 @@
                     xmlns:local="clr-namespace:Core.Domain.State.Participants;assembly=Core.Domain"
                     xmlns:content="clr-namespace:EMS.Judge.Common.Components">
 
-    <DataTemplate DataType="local:RfidTag">
+    <DataTemplate DataType="{x:Type local:RfidTag}">
         <StackPanel Style="{StaticResource List-Horizontal}">
-            <TextBlock Style="{StaticResource Text-Big}" Text="{Binding Id}" />
-            <TextBlock Style="{StaticResource Text}" Text="{Binding Position}" />
-            <TextBlock Style="{StaticResource Text}" Text="{Binding ParticipantNumber}" />
+            <TextBlock Style="{StaticResource Text}">
+                <Run Text="Tag: " />
+                <Run Style="{StaticResource Run-Bold}" Text="{Binding Id}" />
+            </TextBlock>
+            <TextBlock Style="{StaticResource Text}">
+                <Run Text="Position: " />
+                <Run Style="{StaticResource Run-Bold}" Text="{Binding Position}" />
+            </TextBlock>
         </StackPanel>
     </DataTemplate>
 
