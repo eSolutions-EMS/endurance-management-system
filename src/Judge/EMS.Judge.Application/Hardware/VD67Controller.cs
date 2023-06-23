@@ -6,35 +6,40 @@ using Vup.reader;
 
 namespace EMS.Judge.Application.Hardware;
 
-public class VupVD67Controller
+public class VupVD67Controller : RfidController
 {
     private const int NO_TAG_ERROR_CODE = 24;
-    private const char EMPTY_CHAR = '0';
-    private const int NUMBER_LENGTH = 3;
-    private const int POSITION_LENGTH = 6;
-    private VD67Reader reader = null!;
-    private TimeSpan throttle;
+    private readonly VD67Reader reader = null!;
 
-    public VupVD67Controller(TimeSpan? throttle = null)
+    protected override string Device => "VD67";
+
+    public VupVD67Controller(TimeSpan? throttle = null) : base(throttle)
     {
         this.reader = new VD67Reader();
-        this.throttle = throttle ?? TimeSpan.FromSeconds(1);
     }
 
     public bool IsWaitingRead { get; private set; } 
-    public bool IsReading { get; private set; }
-    public bool IsWriting { get; private set; }
 
-    public void Connect()
+    public override void Connect()
     {
         var connectionResult = this.reader.Connect();
         var setPowerResult = this.reader.SetAntPower(0, 27);
         if (!connectionResult.Success || !setPowerResult.Success)
         {
-            this.WriteLine($"Connect failed '{connectionResult.ErrorCode}': '{connectionResult.Message}'");
+            this.RaiseError($"Connect failed '{connectionResult.ErrorCode}': '{connectionResult.Message}'");
             return;
         }
-        this.WriteLine("Connecction Successful");
+        this.RaiseMessage("Connecction Successful");
+    }
+
+    public override void Disconnect()
+    {
+        if (this.IsConnected)
+        {
+            this.reader.Disconnect();
+            this.IsConnected = false;
+            this.RaiseMessage("Disconnected!");
+        }
     }
 
     public async Task<string> Read()
@@ -49,18 +54,23 @@ public class VupVD67Controller
         while (this.IsWaitingRead)
         {
             string data;
-            var result = this.reader.Read6C(memory_bank.memory_bank_epc, 4, 12, Array.Empty<byte>(), Convert.FromHexString("00000000")); ;
+            var result = this.reader.Read6C(
+                memory_bank.memory_bank_epc,
+                TAG_DATA_START_INDEX,
+                TAG_DATA_LENGTH,
+                Array.Empty<byte>(),
+                Convert.FromHexString("00000000")); ;
             if (!result.Success)
             {
                 if (result.ErrorCode != NO_TAG_ERROR_CODE)
                 {
-                    this.WriteLine($"Read Failed '{result.ErrorCode}': {result.Message}");
+                    this.RaiseError($"Read Failed '{result.ErrorCode}': {result.Message}");
                 }
             }
             else
             {
                 data = Encoding.UTF8.GetString(result.Result);
-                this.WriteLine($"Read: '{data}'");
+                this.RaiseMessage($"Read: '{data}'");
                 this.IsWaitingRead = false;
                 return data;
             }
@@ -75,7 +85,8 @@ public class VupVD67Controller
     {
         if (this.IsWaitingRead)
         {
-            throw new Exception("Cannot start continious reading while waiting on Read.");
+            this.RaiseError("Cannot start continious reading while waiting on Read.");
+            yield break;
         }
         if (!this.reader.IsConnected)
         {
@@ -86,18 +97,23 @@ public class VupVD67Controller
         while (this.IsReading)
         {
             string data;
-            var result = this.reader.Read6C(memory_bank.memory_bank_epc, 4, 16, Array.Empty<byte>(), Convert.FromHexString("00000000")); ;
+            var result = this.reader.Read6C(
+                memory_bank.memory_bank_epc,
+                TAG_DATA_START_INDEX,
+                TAG_DATA_LENGTH,
+                Array.Empty<byte>(),
+                Convert.FromHexString("00000000")); ;
             if (!result.Success)
             {
                 if (result.ErrorCode != NO_TAG_ERROR_CODE)
                 {
-                    this.WriteLine($"Read Failed '{result.ErrorCode}': {result.Message}");
+                    this.RaiseError($"Read Failed '{result.ErrorCode}': {result.Message}");
                 }
             }
             else
             {
                 data = Encoding.UTF8.GetString(result.Result);
-                this.WriteLine($"Read: '{data}'");
+                this.RaiseMessage($"Read: '{data}'");
                 yield return data;
             }
 
@@ -114,15 +130,17 @@ public class VupVD67Controller
     {
         if (this.IsWaitingRead)
         {
-            throw new Exception("Cannot write while waiting on Read.");
+            this.RaiseError("Cannot write while waiting on Read.");
+            return null;
         }
         if (!this.reader.IsConnected)
         {
             this.Connect();
         }
-        if (data.Length != 12)
+        if (data.Length != TAG_DATA_LENGTH)
         {
-            throw new Exception("Tag data length must be exactly 12 symbols");
+            this.RaiseError($"Tag data length must be exactly {TAG_DATA_LENGTH} symbols");
+            return null;
         }
         this.IsReading = false;
         this.IsWriting = true;
@@ -136,12 +154,12 @@ public class VupVD67Controller
                 {
                     if (result.ErrorCode != NO_TAG_ERROR_CODE)
                     {
-                        this.WriteLine($"Read Failed '{result.ErrorCode}': {result.Message}");
+                        this.RaiseError($"Read Failed '{result.ErrorCode}': {result.Message}");
                     }
                 }
                 else
                 {
-                    this.WriteLine($"Write Successful: '{data}'");
+                    this.RaiseMessage($"Write Successful: '{data}'");
                     this.IsWriting = false;
                     return data;
                 }
@@ -154,10 +172,5 @@ public class VupVD67Controller
             await Task.Delay(this.throttle);
         }
         return null!;
-    }
-
-    private void WriteLine(string text)
-    {
-        Console.WriteLine($"VD67 {text}");
     }
 }
