@@ -181,9 +181,8 @@ public class ManagerViewModel : ViewModelBase
         {
             await foreach (var tag in this.rfidService.StartReading())
             {
-                var witnessEvent = new WitnessEvent()
+                var witnessEvent = new RfidTagEvent(tag)
                 {
-                    TagId = tag.ParticipantNumber,
                     Time = DateTime.Now,
                     Type = WitnessEventType.Arrival,
                 };

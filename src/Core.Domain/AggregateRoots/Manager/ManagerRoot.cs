@@ -156,12 +156,11 @@ public class ManagerRoot : IAggregateRoot
             return;
         }
         this.arrivalCache[aggregate.Number] = now;
-        if (!witnessEvent.IsFromWitnessApp)
-        {
-            this.AddRfidDetectedEntry(participation, WitnessEventType.Arrival);
-        }
-        
         aggregate.Arrive(witnessEvent.Time);
+        if (witnessEvent is RfidTagEvent rfidTagEvent)
+        {
+            this.AddRfidDetectedEntry(participation, rfidTagEvent);
+        }
     }
     public void HandleVet(WitnessEvent witnessEvent)
     {
@@ -179,18 +178,19 @@ public class ManagerRoot : IAggregateRoot
             return;
         }
         this.vetCache[aggregate.Number] = now;
-        if (!witnessEvent.IsFromWitnessApp)
-        {
-            this.AddRfidDetectedEntry(participation, WitnessEventType.VetIn);
-        }
         aggregate.Vet(witnessEvent.Time);
+        if (witnessEvent is RfidTagEvent rfidTagEvent)
+        {
+            this.AddRfidDetectedEntry(participation, rfidTagEvent);
+        }
     }
 
-    private void AddRfidDetectedEntry(Participation participation, WitnessEventType type)
+    private void AddRfidDetectedEntry(Participation participation, RfidTagEvent tagEvent)
     {
         var lastLap = participation.Participant.LapRecords.Last();
+        lastLap.Detected.Add(tagEvent.Type, tagEvent.Tag);
         var index = participation.Participant.LapRecords.IndexOf(lastLap);
-        participation.Participant.DetectedHead[type].Add(index);
+        participation.Participant.DetectedHead[tagEvent.Type].Add(index);
     }
 
     public void Disqualify(string number, string reason)
