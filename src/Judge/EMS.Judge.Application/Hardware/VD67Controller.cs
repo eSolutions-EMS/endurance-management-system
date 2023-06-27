@@ -56,7 +56,7 @@ public class VupVD67Controller : RfidController
             string data;
             var result = this.reader.Read6C(
                 memory_bank.memory_bank_epc,
-                TAG_DATA_START_INDEX,
+                TAG_WRITE_START_INDEX,
                 TAG_DATA_LENGTH,
                 Array.Empty<byte>(),
                 Convert.FromHexString("00000000")); ;
@@ -69,7 +69,7 @@ public class VupVD67Controller : RfidController
             }
             else
             {
-                data = Encoding.UTF8.GetString(result.Result);
+                data = this.ConvertToString(result.Result);
                 this.RaiseMessage($"Read: '{data}'");
                 this.IsWaitingRead = false;
                 return data;
@@ -99,7 +99,7 @@ public class VupVD67Controller : RfidController
             string data;
             var result = this.reader.Read6C(
                 memory_bank.memory_bank_epc,
-                TAG_DATA_START_INDEX,
+                TAG_WRITE_START_INDEX,
                 TAG_DATA_LENGTH,
                 Array.Empty<byte>(),
                 Convert.FromHexString("00000000")); ;
@@ -112,7 +112,7 @@ public class VupVD67Controller : RfidController
             }
             else
             {
-                data = Encoding.UTF8.GetString(result.Result);
+                data = this.ConvertToString(result.Result);
                 this.RaiseMessage($"Read: '{data}'");
                 yield return data;
             }
@@ -148,7 +148,7 @@ public class VupVD67Controller : RfidController
         {
             try
             {
-                var bytes = Encoding.UTF8.GetBytes(data);
+                var bytes = this.ConvertToByytes(data);
                 var result = this.reader.Write6C(memory_bank.memory_bank_epc, 0, Array.Empty<byte>(), bytes, Convert.FromHexString("00000000"));
                 if (!result.Success)
                 {

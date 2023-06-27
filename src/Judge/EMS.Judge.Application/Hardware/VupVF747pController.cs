@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Vup.reader;
 
@@ -116,8 +115,11 @@ public class VupVF747pController : RfidController
             this.reader.SetWorkAnt(i);
             timer.Start();
 
-            var tagsBytes = this.reader.List6C(memory_bank.memory_bank_epc, 0, 12 ,Convert.FromHexString("00000000"));
-
+            var tagsBytes = this.reader.List6C(
+                memory_bank.memory_bank_epc,
+                TAG_READ_START_INDEX,
+                TAG_DATA_LENGTH,
+                Convert.FromHexString("00000000"));
             timer.Stop();
             if (this.disconnectedMessageTime == null
                 || DateTime.Now - this.disconnectedMessageTime > TimeSpan.FromMinutes(1))
@@ -137,12 +139,7 @@ public class VupVF747pController : RfidController
 
             if (tagsBytes.Success)
             {
-                var tags2 = tagsBytes.Result.Select(x => Encoding.ASCII.GetString(x.Id)).FirstOrDefault();
-                var tags3 = tagsBytes.Result.Select(x => Encoding.UTF32.GetString(x.Id)).FirstOrDefault();
-                var tags4 = tagsBytes.Result.Select(x => Encoding.Unicode.GetString(x.Id)).FirstOrDefault();
-                var tags5 = tagsBytes.Result.Select(x => Encoding.Latin1.GetString(x.Id)).FirstOrDefault();
-                var tags6 = tagsBytes.Result.Select(x => Convert.ToHexString(x.Id)).FirstOrDefault();
-                return tagsBytes.Result.Select(x => Encoding.UTF8.GetString(x.Data));
+                return tagsBytes.Result.Select(x => this.ConvertToString(x.Id));
             }
         }
         return Enumerable.Empty<string>();

@@ -5,7 +5,8 @@ namespace EMS.Judge.Application.Hardware;
 public abstract class RfidController
 {
     protected TimeSpan throttle;
-    protected const int TAG_DATA_START_INDEX = 4;
+    protected const int TAG_READ_START_INDEX = 0;
+    protected const int TAG_WRITE_START_INDEX = 4;
     protected const int TAG_DATA_LENGTH = 12;
 
     public RfidController(TimeSpan? throttle = null)
