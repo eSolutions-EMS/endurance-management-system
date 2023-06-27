@@ -9,10 +9,6 @@ using Core.Domain.AggregateRoots.Configuration;
 using Core.Domain.State.Participants;
 using System.Collections.Generic;
 using EMS.Judge.Common.Components.Templates.ListItem;
-using Prism.Commands;
-using EMS.Judge.Application.Hardware;
-using System.Threading.Tasks;
-using System.Windows.Threading;
 
 namespace EMS.Judge.Views.Content.Configuration.Roots.Participants.Listing;
 
@@ -20,7 +16,6 @@ public class ParticipantListViewModel : SearchableListViewModelBase<ParticipantV
 {
     private readonly IExecutor<ConfigurationRoot> executor;
     private readonly IQueries<Participant> participants;
-    private VupVD67Controller vD67Controller;
 
     public ParticipantListViewModel(
         IPopupService popupService,
@@ -29,7 +24,6 @@ public class ParticipantListViewModel : SearchableListViewModelBase<ParticipantV
         IPersistence persistence,
         INavigationService navigation) : base(navigation, persistence, popupService)
     {
-        this.vD67Controller = new();
         this.executor = executor;
         this.participants = participants;
     }
