@@ -137,10 +137,11 @@ public class VupVF747pController : RfidController
 
             if (tagsBytes.Success)
             {
-                var tags = tagsBytes.Result.Select(x => Encoding.UTF8.GetString(x.Data)).FirstOrDefault();
-                var tags2 = tagsBytes.Result.Select(x => Encoding.UTF8.GetString(x.Id)).FirstOrDefault();
-                var tags3 = tagsBytes.Result.Select(x => Convert.ToHexString(x.Id)).FirstOrDefault();
-                var tags4 = tagsBytes.Result.Select(x => Convert.ToHexString(x.Data)).FirstOrDefault();
+                var tags2 = tagsBytes.Result.Select(x => Encoding.ASCII.GetString(x.Id)).FirstOrDefault();
+                var tags3 = tagsBytes.Result.Select(x => Encoding.UTF32.GetString(x.Id)).FirstOrDefault();
+                var tags4 = tagsBytes.Result.Select(x => Encoding.Unicode.GetString(x.Id)).FirstOrDefault();
+                var tags5 = tagsBytes.Result.Select(x => Encoding.Latin1.GetString(x.Id)).FirstOrDefault();
+                var tags6 = tagsBytes.Result.Select(x => Convert.ToHexString(x.Id)).FirstOrDefault();
                 return tagsBytes.Result.Select(x => Encoding.UTF8.GetString(x.Data));
             }
         }
