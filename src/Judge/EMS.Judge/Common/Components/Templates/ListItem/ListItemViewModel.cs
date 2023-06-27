@@ -38,21 +38,10 @@ public class ListItemViewModel : BindableBase
     public int Id { get; }
     public string Name { get; }
     public string ActionName { get; }
-    private string _additionalName;
-    public string AdditionalName
-    {
-        get => this._additionalName;
-        set => this.SetProperty(ref this._additionalName, value);
-    }
     public DelegateCommandBase Action { get; }
     public DelegateCommandBase Remove { get; }
     public Visibility RemoveVisibility
         => this.Remove != null
             ? Visibility.Visible
             : Visibility.Collapsed;
-    public DelegateCommandBase AdditionalAction { get; set; }
-    public Visibility AdditionalVisibility
-        => this.AdditionalAction == null
-            ? Visibility.Collapsed
-            : Visibility.Visible;
 }

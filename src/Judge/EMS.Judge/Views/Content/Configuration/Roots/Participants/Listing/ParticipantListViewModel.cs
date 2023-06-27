@@ -45,26 +45,7 @@ public class ParticipantListViewModel : SearchableListViewModelBase<ParticipantV
     protected override ListItemViewModel ToViewModel(ListItemModel listable)
     {
         var model = base.ToViewModel(listable);
-        model.AdditionalName = "Add (0 Tags)";
-        model.AdditionalAction = new DelegateCommand(() => this.WriteAction(model));
         return model;
-    }
-
-    private void WriteAction(ListItemViewModel model)
-    {
-        var participant = this.participants.GetOne(model.Id);
-        //Task.Run(async () =>
-        //{
-        //    var tag = await this.vD67Controller.Write(participant.Number);
-        //    if (!participant.TagIds.Contains(tag))
-        //    {
-        //        participant.TagIds.Add(tag);
-        //    }
-        //    App.Current.Dispatcher.Invoke(() =>
-        //    {
-        //        model.AdditionalName = $"Add ({participant.TagIds.Count} Tags)";
-        //    });
-        //});
     }
 
     protected override void RemoveDomain(int id)

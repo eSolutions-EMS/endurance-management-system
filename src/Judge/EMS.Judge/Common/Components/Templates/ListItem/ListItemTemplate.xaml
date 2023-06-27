@@ -14,10 +14,6 @@
             <Border Style="{StaticResource Border-Horizontal}" HorizontalAlignment="Right">
                 <StackPanel Style="{StaticResource List-Horizontal}" >
 
-                    <Button Style="{StaticResource Button-List-Item}" Visibility="{Binding AdditionalVisibility}"
-                            Content="{Binding AdditionalName}"
-                            Command="{Binding AdditionalAction}" />
-
                     <Button Style="{StaticResource Button-List-Item}" Visibility="{Binding RemoveVisibility}"
                             Content="{x:Static localization:Strings.REMOVE}"
                             Command="{Binding Remove}"
