@@ -29,7 +29,7 @@ public class VupVD67Controller : RfidController
             this.RaiseError($"Connect failed '{connectionResult.ErrorCode}': '{connectionResult.Message}'");
             return;
         }
-        this.RaiseMessage("Connecction Successful");
+        this.RaiseMessage("Connected");
     }
 
     public override void Disconnect()
@@ -51,7 +51,7 @@ public class VupVD67Controller : RfidController
         this.IsWaitingRead = true;
         this.IsReading = false;
         this.IsWriting = false;
-        while (this.IsWaitingRead)
+        while (this.IsWaitingRead && this.reader.IsConnected)
         {
             string data;
             var result = this.reader.Read6C(
@@ -94,7 +94,7 @@ public class VupVD67Controller : RfidController
         }
         this.IsReading = true;
         this.IsWriting = false;
-        while (this.IsReading)
+        while (this.IsReading && this.reader.IsConnected)
         {
             string data;
             var result = this.reader.Read6C(
@@ -144,7 +144,7 @@ public class VupVD67Controller : RfidController
         }
         this.IsReading = false;
         this.IsWriting = true;
-        while (this.IsWriting)
+        while (this.IsWriting && this.reader.IsConnected)
         {
             try
             {

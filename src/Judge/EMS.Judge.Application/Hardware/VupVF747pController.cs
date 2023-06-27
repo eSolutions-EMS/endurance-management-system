@@ -31,15 +31,12 @@ public class VupVF747pController : RfidController
                 ? $"Unable to connect to VUP reader on IP '{this.ipAddress}'." +
                     $" Make sure it's connected to the network and use 'Reconnect Hardware'"
                 : connectionResult.Message;
-            this.RaiseMessage(message);
+            this.RaiseError(message);
             return;
         }
         this.IsConnected = true;
         this.SetPower(MAX_POWER);
-        this.RaiseMessage($"Connected!");
-        Console.WriteLine("==========================================================================================");
-        Console.WriteLine($"= {this.Device} connection established");
-        Console.WriteLine("==========================================================================================");
+        this.RaiseMessage($"Connected");
     }
 
     public async IAsyncEnumerable<string> StartReading()
@@ -50,7 +47,7 @@ public class VupVF747pController : RfidController
         }
         var antennaIndices = this.GetAntennaIndices();
         this.IsReading = true;
-        while (this.IsReading)
+        while (this.IsReading && this.reader.IsConnected)
         {
             foreach (var tag in this.ReadTags(antennaIndices))
             {
@@ -84,7 +81,7 @@ public class VupVF747pController : RfidController
             if (!setPowerResult.Success)
             {
                 var message = $"Error while setting antenna power: {setPowerResult.Message}";
-                this.RaiseMessage(message);
+                this.RaiseError(message);
             }
         }
     }
@@ -95,7 +92,7 @@ public class VupVF747pController : RfidController
         if (!antennaRead.Success)
         {
             var message = $"Error in antenna read: {antennaRead.Message}";
-            this.RaiseMessage(message);
+            this.RaiseError(message);
             return Array.Empty<int>();
         }
         var indices = new List<int>();
@@ -132,7 +129,7 @@ public class VupVF747pController : RfidController
                 {
                     this.slowReadTimeMs.Clear();
                     this.disconnectedMessageTime = DateTime.Now;
-                    this.RaiseMessage("RFID tag read responses indicate the Vup " +
+                    this.RaiseError("RFID tag read responses indicate the Vup " +
                         "Reader might be disconnected. Look for VUP console logs.");
                 }
             }

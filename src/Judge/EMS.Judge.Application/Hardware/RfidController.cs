@@ -22,15 +22,14 @@ public abstract class RfidController
     public void RaiseMessage(string message)
     {
         message = $"{this.Device} {message}";
-        Console.WriteLine(message);
-        this.MessageEvent?.Invoke(this, message);
+        Console.WriteLine($"{DateTime.Now}: {message}");
     }
 
     public event EventHandler<string> ErrorEvent;
     public void RaiseError(string error)
     {
         var message = $"{this.Device} ERROR: {error}";
-        Console.WriteLine($"{this.Device} ERROR: {error}");
+        Console.WriteLine($"{DateTime.Now}: {message}");
         this.ErrorEvent?.Invoke(this, message);
     }
 
