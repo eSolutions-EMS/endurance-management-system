@@ -27,8 +27,6 @@ public class Participant : DomainBase<ParticipantException>, IParticipantState
         this.lapRecordsReadonly = new ReadOnlyObservableCollection<LapRecord>(this.lapRecords);
         this.Athlete = athlete;
         this.Horse = horse;
-        this.RfIdHead = state?.RfIdHead;
-        this.RfIdNeck = state?.RfIdNeck;
         this.MaxAverageSpeedInKmPh = state?.MaxAverageSpeedInKmPh;
         if (!int.TryParse(state?.Number, out var _))
         {
@@ -38,8 +36,7 @@ public class Participant : DomainBase<ParticipantException>, IParticipantState
         this.Number = state?.Number;
     }
 
-    public string RfIdHead { get; internal set; }
-    public string RfIdNeck { get; internal set; }
+    public List<RfidTag> RfidTags { get; internal set; } = new();
     public string Number { get; internal set; }
     public int? MaxAverageSpeedInKmPh { get; internal set; }
     public Horse Horse { get; internal set; }
@@ -67,11 +64,6 @@ public class Participant : DomainBase<ParticipantException>, IParticipantState
 
     // Metadata for stats
     public Dictionary<WitnessEventType, List<int>> DetectedHead { get; } = new()
-    {
-        { WitnessEventType.Arrival, new List<int>() },
-        { WitnessEventType.VetIn, new List<int>() },
-    };
-    public Dictionary<WitnessEventType, List<int>> DetectedNeck { get; } = new()
     {
         { WitnessEventType.Arrival, new List<int>() },
         { WitnessEventType.VetIn, new List<int>() },

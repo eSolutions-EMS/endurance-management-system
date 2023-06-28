@@ -16,14 +16,14 @@ public abstract class ConfigurationBase<TView, TDomain> : ViewModelBase
     where TView : IView
     where TDomain : IDomain
 {
-    private readonly IQueries<TDomain> queries;
+    protected IQueries<TDomain> Queries { get; }
     protected INavigationService Navigation { get; }
     protected IExecutor Executor { get; }
     protected bool BackOnSubmit { get; init; } = true;
 
     protected ConfigurationBase(IQueries<TDomain> queries)
     {
-        this.queries = queries;
+        this.Queries = queries;
         this.Navigation = StaticProvider.GetService<INavigationService>();
         this.Executor = StaticProvider.GetService<IExecutor>();
 
@@ -53,7 +53,7 @@ public abstract class ConfigurationBase<TView, TDomain> : ViewModelBase
 
     protected virtual void Load(int id)
     {
-        var domainObject = this.queries.GetOne(id);
+        var domainObject = this.Queries.GetOne(id);
         this.MapFrom(domainObject);
     }
     private void SubmitAction()

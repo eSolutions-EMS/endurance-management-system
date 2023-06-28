@@ -7,6 +7,7 @@ using Vup.reader;
 
 namespace EMS.Judge.Application.Hardware;
 
+[Obsolete("Kept for backwards compatibility in Hardware page")]
 public class VupRfidController
 {
     private const int MAX_POWER = 27;

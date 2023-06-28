@@ -30,79 +30,58 @@
                Text="{x:Static localization:Strings.PARTICIPANT_ENTITY}"
                Grid.Row="1" Grid.Column="1" />
         <!-- Content Left Label -->
-        <!-- RFID Head label -->
-        <Border Style="{StaticResource Border-Content-Left}"
-                Grid.Row="2" Grid.Column="0">
-            <Label Style="{StaticResource Label-Primary}"
-                   Target="{Binding ElementName=RfIdHead}"
-                   Content="{x:Static localization:Strings.RFID_HEAD_NUMBER}" />
-        </Border>
-        <!-- RFID Neck label -->
-        <Border Style="{StaticResource Border-Content-Left}"
-                Grid.Row="3" Grid.Column="0">
-            <Label Style="{StaticResource Label-Primary}"
-                   Target="{Binding ElementName=RfIdNeck}"
-                   Content="{x:Static localization:Strings.RFID_NECK_NUMBER}" />
-        </Border>
         <!-- Number label -->
         <Border Style="{StaticResource Border-Content-Left}"
-                Grid.Row="4" Grid.Column="0">
+                Grid.Row="2" Grid.Column="0">
             <Label Style="{StaticResource Label-Primary}"
                    Target="{Binding ElementName=Number}"
                    Content="{x:Static localization:Strings.NUMBER}" />
         </Border>
         <!-- HasAverageSpeedLimit label -->
         <Border Style="{StaticResource Border-Content-Left}"
-                Grid.Row="5" Grid.Column="0">
+                Grid.Row="3" Grid.Column="0">
             <Label Style="{StaticResource Label-Primary}"
                    Target="{Binding ElementName=ToggleIsAverageSpeedInKmPhVisibility}"
                    Content="{x:Static localization:Strings.HAS_AVERAGE_SPEED_LIMIT}" />
         </Border>
         <!-- MaxAverageSpeed label -->
         <Border Style="{StaticResource Border-Content-Left}"
-                Grid.Row="6" Grid.Column="0" >
+                Grid.Row="4" Grid.Column="0" >
             <Label Style="{StaticResource Label-Primary}"
                    Target="{Binding ElementName=MaxAverageSpeedInKmPh}"
                    Content="{x:Static localization:Strings.MAX_AVERAGE_SPEED_IN_KMH}" />
         </Border>
         <!-- Athlete label -->
         <Border Style="{StaticResource Border-Content-Left}"
-                Grid.Row="7" Grid.Column="0">
+                Grid.Row="5" Grid.Column="0">
             <Label Style="{StaticResource Label-Primary}"
                    Target="{Binding ElementName=Athlete}"
                    Content="{x:Static localization:Strings.ATHLETE_ENTITY}" />
         </Border>
         <!-- Horse label -->
         <Border Style="{StaticResource Border-Content-Left}"
-                Grid.Row="8" Grid.Column="0">
+                Grid.Row="6" Grid.Column="0">
             <Label Style="{StaticResource Label-Primary}"
                    Target="{Binding ElementName=Horse}"
                    Content="{x:Static localization:Strings.HORSE_ENTITY}" />
         </Border>
+        <!-- RFID Tags -->
+        <Border Style="{StaticResource Border-Content-Left}"
+                Grid.Row="7" Grid.Column="0">
+            <Label Style="{StaticResource Label-Primary}"
+                   Content="{x:Static localization:Strings.RFID_TAGS}" />
+        </Border>
         <!-- Content Center Fields -->
-        <!-- RFID Neck field -->
-        <Border Style="{StaticResource Border-Content-Center}"
-                Grid.Row="2" Grid.Column="1">
-            <TextBox Style="{StaticResource Input}"
-                     Text="{Binding RfIdHead}"
-                     Name="RfIdHead" />
-        </Border>
-        <Border Style="{StaticResource Border-Content-Center}"
-                Grid.Row="3" Grid.Column="1">
-            <TextBox Style="{StaticResource Input}"
-                     Text="{Binding RfIdNeck}"
-                     Name="RfIdNeck" />
-        </Border>
         <!-- Number field -->
         <Border Style="{StaticResource Border-Content-Center}"
-                Grid.Row="4" Grid.Column="1">
+                Grid.Row="2" Grid.Column="1">
             <TextBox Style="{StaticResource Input}"
                      Text="{Binding Number}"
                      Name="Number" />
         </Border>
         <!-- HasAverageSpeedLimit field -->
         <Border Style="{StaticResource Border-Content-Center}"
-                Grid.Row="5" Grid.Column="1">
+                Grid.Row="3" Grid.Column="1">
             <CheckBox Style="{StaticResource CheckBox}"
                       Command="{Binding ToggleIsAverageSpeedInKmPhVisibility}"
                       IsChecked="{
@@ -114,14 +93,14 @@
         </Border>
         <!-- MaxAverageSpeed field -->
         <Border Style="{StaticResource Border-Content-Center}" Visibility="{Binding MaxAverageSpeedInKmPhVisibility}"
-                Grid.Row="6" Grid.Column="1">
+                Grid.Row="4" Grid.Column="1">
             <TextBox Style="{StaticResource Input}"
                      Text="{Binding MaxAverageSpeedInKmPh}"
                      Name="MaxAverageSpeedInKmPh" />
         </Border>
         <!-- Athlete field -->
         <Border Style="{StaticResource Border-Content-Center}"
-                Grid.Row="7" Grid.Column="1">
+                Grid.Row="5" Grid.Column="1">
             <ComboBox Style="{StaticResource Combo-Box}"
                       ItemsSource="{Binding AthleteItems}"
                       SelectedValue="{Binding AthleteId}"
@@ -129,11 +108,29 @@
         </Border>
         <!-- Horse field -->
         <Border Style="{StaticResource Border-Content-Center}"
-                Grid.Row="8" Grid.Column="1">
+                Grid.Row="6" Grid.Column="1">
             <ComboBox Style="{StaticResource Combo-Box}"
                       ItemsSource="{Binding HorseItems}"
                       SelectedValue="{Binding HorseId}"
                       Name="Horse" />
+        </Border>
+        <Border Style="{StaticResource Border-Vertical}"
+                    Grid.Row="7" Grid.Column="1">
+            <StackPanel Style="{StaticResource List-Horizontal}">
+                <ComboBox Style="{StaticResource Combo-Box}"
+                          ItemsSource="{Binding PositionItems}"
+                          SelectedValue="{Binding PositionId}"
+                          Name="PositionItems" />
+                <Button Style="{StaticResource Button}"
+                        IsEnabled="{Binding IsWriteTagEnababled}"
+                        Command="{Binding WriteTag}"
+                        Content="{x:Static localization:Strings.WRITE}"/>
+            </StackPanel>
+        </Border>
+        <Border Style="{StaticResource Border-Vertical}"
+                    Grid.Row="8" Grid.Column="1">
+            <ListBox Style="{StaticResource ListBox-Vertical}"
+                     ItemsSource="{Binding RfidTags}" />
         </Border>
         <!-- Content Center Right -->
         <!-- Save -->

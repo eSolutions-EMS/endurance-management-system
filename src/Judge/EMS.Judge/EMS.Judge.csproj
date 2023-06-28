@@ -3,7 +3,7 @@
   <PropertyGroup>
     <LangVersion>latestmajor</LangVersion>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net5.0-windows</TargetFramework>
+    <TargetFramework>net6.0-windows</TargetFramework>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <UseWPF>true</UseWPF>
     <SelfContained>true</SelfContained>
@@ -19,8 +19,8 @@
     <PackageReference Include="Mairegger.Printing" Version="2.1.0" />
     <PackageReference Include="Microsoft-WindowsAPICodePack-Shell" Version="1.1.4" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="5.0.0" />
-    <PackageReference Include="Prism.DryIoc" Version="8.0.0.1909" />
-    <PackageReference Include="Prism.Core" Version="8.0.0.1909" />
+    <PackageReference Include="Prism.DryIoc" Version="8.1.97" />
+    <PackageReference Include="Prism.Core" Version="8.1.97" />
 <!--    <PackageReference Include="System.IO.Ports" Version="7.0.0-preview.4.22229.4"/>-->
   </ItemGroup>
 

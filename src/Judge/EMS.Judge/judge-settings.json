@@ -1,6 +1,7 @@
 ﻿{
   "version": "3.3.8",
   "isSandboxMode": false,
-  "startVupRfid": false,
-  "startServer": true
+  "startVupRfid": true,
+  "startServer": true,
+  "useVD67InManager": false
 }

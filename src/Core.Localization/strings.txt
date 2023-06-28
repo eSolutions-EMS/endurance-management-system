@@ -37,6 +37,7 @@ RECOVERY_SPAN_TERM                         | REC | REC
 TIME_TERM                                  | TIME | TIME
 AVERAGE_SPEED_LOOP_TERM                    | Speed (loop) | Speed (loop)
 AVERAGE_SPEED_PHASE_TERM                   | Speed (phase) | Speed (phase)
+WRITE                                | Add tag | Add tag
 _SAVE                                | _Save | _Save
 UPDATE                              | Update | Update
 REMOVE                              | Remove | Remove
@@ -59,6 +60,7 @@ TYPE                                | Type | Type
 ROLE                                | Role | Role
 ORDER                               | Order | Order
 IS_FINAL                            | Is Final {entities-lap} | Is Final {entities-lap}
+RFID_TAGS							| RFID Tags | RFID Tags
 RFID_HEAD_NUMBER                    | Head Tag ID | Head Tag ID
 RFID_NECK_NUMBER                    | Neck Tag ID | Neck Tag ID
 MAX_AVERAGE_SPEED_IN_KMH            | Max Average Speed (km/h) | Max Average Speed (km/h)

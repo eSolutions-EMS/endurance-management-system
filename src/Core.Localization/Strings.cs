@@ -36,6 +36,7 @@ public static class Strings
     public static string LAP_RECORDS_ENTITY            { get; internal set; }
 
    /* Words */
+    public static string WRITE { get; internal set; }
     public static string _SAVE                              { get; internal set; }
     public static string UPDATE                            { get; internal set; }
     public static string REMOVE                            { get; internal set; }
@@ -58,6 +59,7 @@ public static class Strings
     public static string ROLE                              { get; internal set; }
     public static string ORDER                             { get; internal set; }
     public static string IS_FINAL                          { get; internal set; }
+    public static string RFID_TAGS                  { get; internal set; }
     public static string RFID_HEAD_NUMBER                  { get; internal set; }
     public static string RFID_NECK_NUMBER                  { get; internal set; }
     public static string MAX_AVERAGE_SPEED_IN_KMH          { get; internal set; }

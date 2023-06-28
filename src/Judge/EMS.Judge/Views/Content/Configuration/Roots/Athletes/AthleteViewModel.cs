@@ -14,6 +14,7 @@ using Prism.Regions;
 using System.Collections.ObjectModel;
 using System.Linq;
 using static Core.Localization.LocalizationConstants;
+using EMS.Judge.Application.Hardware;
 
 namespace EMS.Judge.Views.Content.Configuration.Roots.Athletes;
 
@@ -50,7 +51,6 @@ public class AthleteViewModel : ConfigurationBase<AthleteView, Athlete>, IAthlet
         base.OnNavigatedTo(context);
         this.LoadCountries();
     }
-
     protected override void Load(int id)
     {
         var athlete = this.athletes.GetOne(id);

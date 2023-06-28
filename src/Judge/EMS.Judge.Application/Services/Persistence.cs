@@ -38,6 +38,12 @@ public class Persistence : IPersistence
         Witness.StateChanged += (_, _) => this.SaveState();
     }
 
+    public void LogStatistics(string text)
+    {
+        var path = $"{this.stateDirectoryPath}/statistics.txt";
+        this.file.Create(path, text);
+    }
+
     public string LogError(string message, string stackTrace)
     {
         var timestamp = DateTime.Now.ToString("yyyy-mm-ddTHH-mm-ss");
@@ -105,6 +111,7 @@ public class Persistence : IPersistence
 public interface IPersistence : ISingletonService
 {
     void SaveState();
+    void LogStatistics(string text);
     string LogError(string message, string stackTrace);
     PersistenceResult Configure(string directoryPath);
 }

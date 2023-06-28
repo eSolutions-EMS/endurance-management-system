@@ -8,6 +8,7 @@ using Core.Mappings;
 using Core.Domain.AggregateRoots.Configuration;
 using Core.Domain.State.Participants;
 using System.Collections.Generic;
+using EMS.Judge.Common.Components.Templates.ListItem;
 
 namespace EMS.Judge.Views.Content.Configuration.Roots.Participants.Listing;
 
@@ -33,6 +34,12 @@ public class ParticipantListViewModel : SearchableListViewModelBase<ParticipantV
             .GetAll()
             .MapEnumerable<ListItemModel>();
         return participants;
+    }
+
+    protected override ListItemViewModel ToViewModel(ListItemModel listable)
+    {
+        var model = base.ToViewModel(listable);
+        return model;
     }
 
     protected override void RemoveDomain(int id)

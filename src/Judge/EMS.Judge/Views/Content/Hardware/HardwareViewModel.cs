@@ -15,6 +15,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
+using EMS.Judge.Application.Services;
 
 namespace EMS.Judge.Views.Content.Hardware;
 
@@ -22,16 +23,18 @@ public class HardwareViewModel : ViewModelBase
 {
     private readonly IQueries<Participation> participationQueries;
     private readonly IPopupService popupService;
+    private readonly IPersistence persistence;
     private readonly VupRfidController controller;
     private string message = "";
     private int power = 27;
     private bool isListing;
 
-    public HardwareViewModel(IQueries<Participation> participationQueries, IPopupService popupService)
+    public HardwareViewModel(IQueries<Participation> participationQueries, IPopupService popupService, IPersistence persistence)
     {
         this.participationQueries = participationQueries;
         this.popupService = popupService;
-        this.controller = new VupRfidController(RfidWitness.FINISH_DEVICE_IP);
+        this.persistence = persistence;
+        this.controller = new VupRfidController("192.168.68.128");
         this.controller.MessageEvent += (_, message) => this.Message = message;
         this.controller.ReadEvent += this.HandleReadEventTag;
         this.isListing = this.controller.IsPolling;
@@ -156,33 +159,23 @@ public class HardwareViewModel : ViewModelBase
                 + laps.Count(x => x.IsReinspectionRequired)
                 + laps.Count(x => x.IsRequiredInspectionRequired);
 
-            var neckArrDetections = participation.Participant.DetectedNeck[WitnessEventType.Arrival];
             var headArrDetections = participation.Participant.DetectedHead[WitnessEventType.Arrival];
-            var neckVetDetections = participation.Participant.DetectedNeck[WitnessEventType.VetIn];
             var headVetDetections = participation.Participant.DetectedHead[WitnessEventType.VetIn];
 
             var headArrRate = (double)headArrDetections.Distinct().Count() / ARRs;
             var headVetRate = (double) headVetDetections.Distinct().Count() / INs;
-            var neckArrRate = (double)neckArrDetections.Distinct().Count() / ARRs;
-            var neckVetRate = (double) neckVetDetections.Distinct().Count() / INs;
 
-            var overallArrRate = (double) headArrDetections.Concat(neckArrDetections).Distinct().Count() / ARRs;
-            var overallVetRate = (double) headVetDetections.Concat(neckVetDetections).Distinct().Count() / INs;
+            var overallArrRate = (double) headArrDetections.Distinct().Count() / ARRs;
+            var overallVetRate = (double) headVetDetections.Distinct().Count() / INs;
             var overallAverage = (overallArrRate + overallVetRate) / 2;
             overallArrRates.Add(overallArrRate);
             overallVetRates.Add(overallVetRate);
             overallAverages.Add(overallAverage);
 
             sb.AppendLine($"# {participation.Participant.Number} #".PadRight(75, '#'));
-            sb.AppendLine($"head - {participation.Participant.RfIdHead,24} " +
+            sb.AppendLine(
                 $" - arr: {headArrDetections.Count}/{ARRs} ({this.FormatRate(headArrRate)})" +
                 $" - vet: {headVetDetections.Count}/{INs} ({this.FormatRate(headVetRate)})");
-            sb.AppendLine($"neck - {participation.Participant.RfIdNeck,24} " +
-                $" - arr: {neckArrDetections.Count}/{ARRs} ({this.FormatRate(neckArrRate)})" +
-                $" - vet: {neckVetDetections.Count}/{INs} ({this.FormatRate(neckVetRate)})");
-            sb.AppendLine($"overall - arr: {this.FormatRate(overallArrRate)}" +
-                $" - vet: {this.FormatRate(overallVetRate)}" +
-                $" - average: {this.FormatRate(overallAverage)}");
         }
         var arrAverage = overallArrRates.Sum() / overallArrRates.Count;
         var vetAverage = overallVetRates.Sum() / overallVetRates.Count;
@@ -193,7 +186,7 @@ public class HardwareViewModel : ViewModelBase
         sb.AppendLine($"vet: {this.FormatRate(vetAverage)}");
         sb.AppendLine($"total: {this.FormatRate(average)}");
 
-        this.popupService.RenderValidation(sb.ToString());
+        this.persistence.LogStatistics(sb.ToString());
     }
 
     private string FormatRate(double rate)

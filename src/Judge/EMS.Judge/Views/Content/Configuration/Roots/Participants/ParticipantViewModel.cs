@@ -12,6 +12,8 @@ using Prism.Commands;
 using Prism.Regions;
 using System.Collections.ObjectModel;
 using System.Windows;
+using EMS.Judge.Application.Services;
+using System.Linq;
 
 namespace EMS.Judge.Views.Content.Configuration.Roots.Participants;
 
@@ -19,30 +21,35 @@ public class ParticipantViewModel : ConfigurationBase<ParticipantView, Participa
     IParticipantState,
     IMapFrom<Participant>
 {
+    private readonly IExecutor<IRfidService> rfidServiceExecutor;
     private readonly IExecutor<ConfigurationRoot> executor;
     private readonly IQueries<Athlete> athletes;
     private readonly IQueries<Horse> horses;
+
     private ParticipantViewModel() : base(null) {}
     public ParticipantViewModel(
+        IExecutor<IRfidService> rfidServiceExecutor,
         IExecutor<ConfigurationRoot> executor,
         IQueries<Athlete> athletes,
         IQueries<Horse> horses,
         IQueries<Participant> participants) : base(participants)
     {
+        this.rfidServiceExecutor = rfidServiceExecutor;
         this.executor = executor;
         this.athletes = athletes;
         this.horses = horses;
+        this.WriteTag = new DelegateCommand(this.WriteTagAction);
         this.ToggleIsAverageSpeedInKmPhVisibility = new DelegateCommand(
             this.ToggleIsAverageSpeedInKmPhVisibilityAction);
     }
 
     public DelegateCommand ToggleIsAverageSpeedInKmPhVisibility { get; }
+    public DelegateCommand WriteTag { get; }
 
     public ObservableCollection<SimpleListItemViewModel> HorseItems { get; } = new();
     public ObservableCollection<SimpleListItemViewModel> AthleteItems { get; } = new();
+    public ObservableCollection<RfidTag> RfidTags { get; } = new();
 
-    private string rfidHead;
-    private string rfidNeck;
     public string number;
     public int? maxAverageSpeedInKmPh;
     private Visibility maxAverageSpeedInKmPhVisibility = Visibility.Hidden;
@@ -51,6 +58,26 @@ public class ParticipantViewModel : ConfigurationBase<ParticipantView, Participa
     private string name;
     private string horseName;
     private string athleteName;
+    private int positionid;
+    private bool isWriteTagEnabled = true;
+
+    public bool IsWriteTagEnababled
+    {
+        get => this.isWriteTagEnabled;
+        set => this.SetProperty(ref this.isWriteTagEnabled, value);
+    }
+
+    public ObservableCollection<SimpleListItemViewModel> PositionItems { get; } = new() 
+    { 
+       new(0, "left"),
+       new(1, "right")
+    };
+
+    public int PositionId
+    { 
+        get => this.positionid;
+        set => this.SetProperty(ref this.positionid, value);
+    }
 
     public override void OnNavigatedTo(NavigationContext context)
     {
@@ -69,6 +96,32 @@ public class ParticipantViewModel : ConfigurationBase<ParticipantView, Participa
             config => config.Participants.Save(this, this.AthleteId, this.HorseId),
             true);
         return result;
+    }
+
+    private void WriteTagAction()
+    {
+        this.IsWriteTagEnababled = false;
+        this.rfidServiceExecutor.Execute(async x =>
+        {
+            var position = this.PositionItems.First(x => x.Id == this.PositionId).Name;
+            var tag = await x.Write(position, this.Number);
+            var participant = this.Queries.GetOne(y => y.Number == this.Number);
+            var existing = participant.RfidTags.FirstOrDefault(x => x.Id == tag.Id);
+            if (existing != null)
+            {
+                participant.RfidTags.Remove(existing);
+                this.RfidTags.Remove(existing);
+            }
+            if (participant.RfidTags.Count == 2)
+            {
+                participant.RfidTags.RemoveAt(0);
+                this.RfidTags.RemoveAt(0);
+            }
+            participant.RfidTags.Add(tag);
+            this.RfidTags.Add(tag);
+            this.IsWriteTagEnababled = true;
+        },
+        true);
     }
 
     private void LoadAthletes()
@@ -117,16 +170,6 @@ public class ParticipantViewModel : ConfigurationBase<ParticipantView, Participa
         return Participant.FormatName(this.Number, this.AthleteName, this.horseName);
     }
 
-    public string RfIdHead
-    {
-        get => this.rfidHead;
-        set => this.SetProperty(ref this.rfidHead, value);
-    }
-    public string RfIdNeck
-    {
-        get => this.rfidNeck;
-        set => this.SetProperty(ref this.rfidNeck, value);
-    }
     public string Number
     {
         get => this.number;
