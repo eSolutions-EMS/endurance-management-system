@@ -1,5 +1,4 @@
-﻿using Core.Domain.AggregateRoots.Common.Performances;
-using Core.Domain.State.Participations;
+﻿using Core.Domain.State.Participations;
 using System;
 using System.Linq;
 
@@ -13,36 +12,23 @@ public class ArrivelistEntry : IComparable<ArrivelistEntry>, IEquatable<Arriveli
     {
         this.Number = participation.Participant.Number;
         this.Name = participation.Participant.Athlete.Name;
-
+        this.LapNumber = participation.Participant.LapRecords.Count;
         var record = participation.Participant.LapRecords.Last();
-        var averageSpeed = Performance
-            .GetAll(participation)
-            .Where(x => x.AverageSpeed.HasValue)
-            .Aggregate(0d, (total, next) => total += next.AverageSpeed.Value);
-        this.StartTime = record.StartTime;
-        this.AverageSpeed = averageSpeed != 0
-            ? averageSpeed
-            : 16;
         this.LapDistance = record.Lap.LengthInKm;
     }
     
-    public int MaxAverageSpeed { get; init; }
+    public int LapNumber { get; init; }
     public string Number { get; init; }
     public string Name { get; init; }
     public DateTime? ArriveTime { get; set; }
     public WitnessEventType Type { get; set; }
-    public DateTime StartTime { get; set; }
-    public double AverageSpeed { get; set; }
     public double LapDistance { get; set; }
     
     public int CompareTo(ArrivelistEntry other)
     {
-        var thisEstimatedHours = this.LapDistance / this.AverageSpeed;
-        var otherExpectedHours = other.LapDistance / other.AverageSpeed;
-
-        var thisEstimatedArr = this.StartTime + TimeSpan.FromHours(thisEstimatedHours);
-        var otherEstimatedArr = other.StartTime + TimeSpan.FromHours(otherExpectedHours);
-        if (thisEstimatedArr < otherEstimatedArr)
+        var thisNumber = int.Parse(this.Number);
+        var otherNumber = int.Parse(other.Number);
+        if (thisNumber < otherNumber)
         {
             return -1;
         }

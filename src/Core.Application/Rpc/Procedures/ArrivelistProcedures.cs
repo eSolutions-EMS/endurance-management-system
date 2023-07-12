@@ -5,11 +5,6 @@ using System.Threading.Tasks;
 
 namespace Core.Application.Rpc.Procedures;
 
-public interface IArrivelistClientProcedures
-{
-    Task Update(ArrivelistEntry entry, CollectionAction action);
-}
-
 public interface IArrivelistHubProcedures
 {
     IEnumerable<ArrivelistEntry> Get();

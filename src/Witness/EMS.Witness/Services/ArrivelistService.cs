@@ -57,7 +57,6 @@ public class ArrivelistService : IArrivelistService
     public void Unselect(ArrivelistEntry entry)
     {
         this.Selected.Remove(entry);
-        this.Arrivelist.Add(entry);
     }
 
     public async Task Save(WitnessEventType type)
@@ -76,8 +75,10 @@ public class ArrivelistService : IArrivelistService
 
     public void Select(ArrivelistEntry entry)
     {
-        this.Selected.Add(entry);
-        this.Arrivelist.Remove(entry);
+        if (!this.Selected.Contains(entry))
+        {
+            this.Selected.Add(entry);
+        }
     }
 
     public void Snapshot(ArrivelistEntry entry)

@@ -47,11 +47,15 @@
         <tbody>
             @foreach (var arrive in this.ArrivelistService.Arrivelist)
             {
+                var isDisabled = this.ArrivelistService.Selected.Contains(arrive) ? true : false;
                 <tr>
                     <td>@arrive.Number</td>
                     <td>@arrive.Name</td>
+                    <td>@isDisabled</td>
                     <td>
-                        <button class="btn btn-success btn-table" @onclick="_ => this.ArrivelistService.Select(arrive)">Select</button>
+                        <button class="btn btn-success btn-table" 
+                                disabled=@isDisabled
+                                @onclick="_ => this.ArrivelistService.Select(arrive)">Select</button>
                     </td>
                 </tr>
             }

@@ -6,20 +6,13 @@ using static Core.Application.CoreApplicationConstants;
 
 namespace EMS.Witness.Rpc;
 
-public class ArrivelistClient : RpcClient, IArrivelistClient, IArrivelistClientProcedures
+public class ArrivelistClient : RpcClient, IArrivelistClient
 {
 	public event EventHandler<(ArrivelistEntry entry, CollectionAction action)>? Updated;
 	public event EventHandler<IEnumerable<ArrivelistEntry>>? Loaded;
 
 	public ArrivelistClient() : base(RpcEndpoints.ARRIVELIST)
     {
-		this.AddProcedure<ArrivelistEntry, CollectionAction>(nameof(this.Update), this.Update);
-	}
-
-    public Task Update(ArrivelistEntry entry, CollectionAction action)
-	{
-		this.Updated?.Invoke(this, (entry, action));
-		return Task.CompletedTask;
 	}
 
 	public async Task<RpcInvokeResult<IEnumerable<ArrivelistEntry>>> Load()

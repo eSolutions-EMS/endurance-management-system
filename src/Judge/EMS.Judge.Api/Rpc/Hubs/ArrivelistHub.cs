@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace EMS.Judge.Api.Rpc.Hubs;
 
-public class ArrivelistHub : Hub<IArrivelistClientProcedures>, IArrivelistHubProcedures
+public class ArrivelistHub : Hub, IArrivelistHubProcedures
 {
     private readonly ManagerRoot managerRoot;
     
