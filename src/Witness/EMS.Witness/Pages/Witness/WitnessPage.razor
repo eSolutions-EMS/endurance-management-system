@@ -16,7 +16,7 @@
                 </h2>
                 <div id="arrivelist-content" class="accordion-collapse collapse @this.participantsCss" aria-labelledby="arrivelist-header">
                     <div class="accordion-body">
-                        <ParticipantsComponent />
+                        <SnapshotComponent />
                     </div>
                 </div>
             </div>
@@ -28,7 +28,19 @@
                 </h2>
                 <div id="edit-form-content" class="accordion-collapse collapse @arriveFormCss" aria-labelledby="edit-form-header">
                     <div class="accordion-body">
-                        <ArriveFormComponent />
+                        <SaveFormComponent />
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 id="edit-form-header" class="accordion-header">
+                    <button class="accordion-button @this.historyButtonCss" type="button" @onclick="this.ToggleHistory">
+                        History
+                    </button>
+                </h2>
+                <div id="edit-form-content" class="accordion-collapse collapse @historyCss" aria-labelledby="edit-form-header">
+                    <div class="accordion-body">
+                        <HistoryComponent />
                     </div>
                 </div>
             </div>
@@ -38,9 +50,11 @@
 
 @code {
     private string participantsButtonCss = "";
-    private string arriveFormButtonCss = "collapsed";
     private string participantsCss = "show";
+    private string arriveFormButtonCss = "collapsed";
     private string arriveFormCss = "";
+    private string historyButtonCss = "collapsed";
+    private string historyCss = "";
 
     public void ToggleArrivelist()
     {
@@ -67,6 +81,20 @@
         {
             this.arriveFormCss = "show";
             this.arriveFormButtonCss = "";
+        }
+    }
+
+    public void ToggleHistory()
+    {
+        if (this.historyCss == "show")
+        {
+            this.historyCss = "";
+            this.historyButtonCss = "collapsed";
+        }
+        else
+        {
+            this.historyCss = "show";
+            this.historyButtonCss = "";
         }
     }
 

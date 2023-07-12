@@ -1,0 +1,42 @@
+﻿@inherits StatefulComponent;
+
+@using Core.Application.Services;
+@using Core.Domain.AggregateRoots.Manager.Aggregates.ParticipantEntries;
+@using Core.Models;
+@using EMS.Witness.Common;
+@using EMS.Witness.Services;
+@inject IParticipantsService ArrivelistService;
+@inject IDateService DateService;
+
+<div class="row">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Stage</th>
+                <th>Name</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var entry in this.ArrivelistService.History)
+            {
+                <tr>
+                    <td>@entry.Number</td>
+                    <th>@entry.LapNumber</th>
+                    <td>@entry.Name</td>
+                    <td>
+                        <button class="btn btn-success btn-table" @onclick="_ => this.ArrivelistService.Save(entry)">Resave</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@code {
+    protected override bool ShouldRender(object changedState)
+    {
+        return changedState == this.ArrivelistService.History;
+    }
+}

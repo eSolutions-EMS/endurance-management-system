@@ -59,7 +59,7 @@ public class ParticipantsService : IParticipantsService
         this.Selected.Remove(entry);
     }
 
-    public async Task Save(WitnessEventType type)
+    public async Task SaveSnaphots(WitnessEventType type)
     {
         foreach (var entry in this.Snapshots)
         {
@@ -70,6 +70,15 @@ public class ParticipantsService : IParticipantsService
         {
             this.History.AddRange(this.Snapshots);
             this.Snapshots.Clear();
+        }
+    }
+    public async Task Save(ParticipantEntry entry)
+    {
+        var list = new List<ParticipantEntry> { entry };
+        var result = await this.participantsClient.Save(list);
+        if (result.IsSuccessful)
+        {
+            this.toaster.Add("Save Successful", $"Entry '{entry.Number}-{entry.Name}' saved successfully", UiColor.Success, 3);
         }
     }
 
@@ -108,5 +117,6 @@ public interface IParticipantsService : ISingletonService
     public void EditSnapshot(string number, DateTime time);
     public void Snapshot(ParticipantEntry entry);
     public void RemoveSnapshot(ParticipantEntry entry);
-    public Task Save(WitnessEventType type);
+    public Task SaveSnaphots(WitnessEventType type);
+    Task Save(ParticipantEntry entry);
 }
