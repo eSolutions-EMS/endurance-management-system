@@ -1,6 +1,6 @@
 ﻿using Core.Domain.AggregateRoots.Common.Performances;
 using Core.Domain.AggregateRoots.Manager.Aggregates;
-using Core.Domain.AggregateRoots.Manager.Aggregates.Arrivelists;
+using Core.Domain.AggregateRoots.Manager.Aggregates.ParticipantEntries;
 using Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 using Core.Domain.AggregateRoots.Manager.WitnessEvents;
 using Core.Domain.Common.Exceptions;
@@ -95,10 +95,10 @@ public class ManagerRoot : IAggregateRoot
         return entry;
     }
 
-    public ArrivelistEntry GetArrivelistEntry(string number)
+    public ParticipantEntry GetParticipantEntry(string number)
     {
         var participation = this.state.Participations.Find(x => x.Participant.Number == number);
-        var entry = new ArrivelistEntry(participation);
+        var entry = new ParticipantEntry(participation);
         return entry;
     }
 
@@ -270,13 +270,13 @@ public class ManagerRoot : IAggregateRoot
         return startlist;
     }
 
-    public IEnumerable<ArrivelistEntry> GetArrivelist()
+    public IEnumerable<ParticipantEntry> GetParticipantsList()
     {
         var entries = this.state.Participations
             .Where(x =>
                 x.Participant.LapRecords.Count == 1 ||
                 x.Participant.LapRecords.All(y => y.NextStarTime.HasValue))
-            .Select(x => new ArrivelistEntry(x));
+            .Select(x => new ParticipantEntry(x));
         return entries;
     }
 

@@ -1,11 +1,11 @@
 ﻿@inherits StatefulComponent
 @using Core.Application.Services;
 @using Core.Domain.AggregateRoots.Manager
-@using Core.Domain.AggregateRoots.Manager.Aggregates.Arrivelists;
+@using Core.Domain.AggregateRoots.Manager.Aggregates.ParticipantEntries;
 @using Core.Models;
 @using EMS.Witness.Common;
 @using EMS.Witness.Services;
-@inject IArrivelistService ArrivelistService;
+@inject IParticipantsService ParticipantsService;
 @inject IDateService DateService;
 
 <div class="row mb-1">
@@ -38,11 +38,11 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var entry in this.ArrivelistService.Snapshots)
+            @foreach (var entry in this.ParticipantsService.Snapshots)
             {
                 <tr>
                     <td>
-                        <button class="btn btn-danger btn-table" @onclick="_ => this.ArrivelistService.RemoveSnapshot(entry)">-</button>
+                        <button class="btn btn-danger btn-table" @onclick="_ => this.ParticipantsService.RemoveSnapshot(entry)">-</button>
                     </td>
                     <td>@entry.Number</td>
                     <td>@entry.Name</td>
@@ -75,7 +75,7 @@
 
     protected override bool ShouldRender(object changedState)
     {
-        return changedState == this.ArrivelistService.Snapshots;
+        return changedState == this.ParticipantsService.Snapshots;
     }
 
     private void SelectArr()
@@ -106,7 +106,7 @@
 
     private void Save()
     {
-        this.ArrivelistService.Save(this.type);
+        this.ParticipantsService.Save(this.type);
     }
 
     private void EditSnapshot()
@@ -117,7 +117,7 @@
             .AddMinutes(this.witnessModel.Minute ?? now.Minute)
             .AddSeconds(this.witnessModel.Second ?? now.Second)
             .AddMilliseconds(this.witnessModel.Millisecond ?? now.Millisecond);
-        this.ArrivelistService.EditSnapshot(this.witnessModel.Number.ToString(), time);
+        this.ParticipantsService.EditSnapshot(this.witnessModel.Number.ToString(), time);
     }
 
     private class ArriveEditModel

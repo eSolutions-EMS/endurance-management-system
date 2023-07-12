@@ -12,8 +12,8 @@ public partial class App : Application
     private readonly IStartlistService startlistService;
     private readonly IToaster toaster;
     private readonly IRpcService rpcService;
-    private readonly IArrivelistClient arrivelistClient;
-    private readonly IArrivelistService arrivelistService;
+    private readonly IParticipantsClient participantsClient;
+    private readonly IParticipantsService participantsService;
 
     public App(
 		IStartlistClient startlistClient,
@@ -21,8 +21,8 @@ public partial class App : Application
 		IToaster toaster,
 		IEnumerable<IRpcClient> rpcClients,
 		IRpcService rpcService,
-		IArrivelistClient arrivelistClient,
-		IArrivelistService arrivelistService)
+		IParticipantsClient arrivelistClient,
+		IParticipantsService arrivelistService)
 	{
 		this.InitializeComponent();
         this.MainPage = new MainPage();
@@ -30,8 +30,8 @@ public partial class App : Application
         this.startlistService = startlistService;
         this.toaster = toaster;
         this.rpcService = rpcService;
-        this.arrivelistClient = arrivelistClient;
-        this.arrivelistService = arrivelistService;
+        this.participantsClient = arrivelistClient;
+        this.participantsService = arrivelistService;
         this.HandleRpcErrors(rpcClients);
 		this.HandleCoreErrors();
 		this.AttachEventHandlers();
@@ -49,12 +49,12 @@ public partial class App : Application
 	private void AttachEventHandlers()
 	{
 
-        this.arrivelistClient.Updated += (sender, args) => this.arrivelistService.Update(args.entry, args.action);
-        this.arrivelistClient.ServerConnectionChanged += async (sender, isConnected) => 
+        this.participantsClient.Updated += (sender, args) => this.participantsService.Update(args.entry, args.action);
+        this.participantsClient.ServerConnectionChanged += async (sender, isConnected) => 
 		{
 			if (isConnected)
 			{
-				await this.arrivelistService.Load();
+				await this.participantsService.Load();
 			}
         };
 

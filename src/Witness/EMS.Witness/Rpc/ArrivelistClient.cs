@@ -1,34 +1,34 @@
 ﻿using Core.Application.Rpc;
 using Core.Application.Rpc.Procedures;
-using Core.Domain.AggregateRoots.Manager.Aggregates.Arrivelists;
+using Core.Domain.AggregateRoots.Manager.Aggregates.ParticipantEntries;
 using Core.Enums;
 using static Core.Application.CoreApplicationConstants;
 
 namespace EMS.Witness.Rpc;
 
-public class ArrivelistClient : RpcClient, IArrivelistClient
+public class ParticipantsClient: RpcClient, IParticipantsClient
 {
-	public event EventHandler<(ArrivelistEntry entry, CollectionAction action)>? Updated;
-	public event EventHandler<IEnumerable<ArrivelistEntry>>? Loaded;
+	public event EventHandler<(ParticipantEntry entry, CollectionAction action)>? Updated;
+	public event EventHandler<IEnumerable<ParticipantEntry>>? Loaded;
 
-	public ArrivelistClient() : base(RpcEndpoints.ARRIVELIST)
+	public ParticipantsClient() : base(RpcEndpoints.PARTICIPANTS)
     {
 	}
 
-	public async Task<RpcInvokeResult<IEnumerable<ArrivelistEntry>>> Load()
+	public async Task<RpcInvokeResult<IEnumerable<ParticipantEntry>>> Load()
 	{
-		return await this.InvokeAsync<IEnumerable<ArrivelistEntry>>(nameof(IArrivelistHubProcedures.Get));
+		return await this.InvokeAsync<IEnumerable<ParticipantEntry>>(nameof(IParticipantstHubProcedures.Get));
 	}
 
-    public async Task<RpcInvokeResult> Save(IEnumerable<ArrivelistEntry> entries)
+    public async Task<RpcInvokeResult> Save(IEnumerable<ParticipantEntry> entries)
     {
-		return await this.InvokeAsync(nameof(IArrivelistHubProcedures.Save), entries);
+		return await this.InvokeAsync(nameof(IParticipantstHubProcedures.Save), entries);
     }
 }
 
-public interface IArrivelistClient : IRpcClient
+public interface IParticipantsClient : IRpcClient
 {
-	event EventHandler<(ArrivelistEntry entry, CollectionAction action)>? Updated;
-	Task<RpcInvokeResult<IEnumerable<ArrivelistEntry>>> Load();
-	Task<RpcInvokeResult> Save(IEnumerable<ArrivelistEntry> entries);
+	event EventHandler<(ParticipantEntry entry, CollectionAction action)>? Updated;
+	Task<RpcInvokeResult<IEnumerable<ParticipantEntry>>> Load();
+	Task<RpcInvokeResult> Save(IEnumerable<ParticipantEntry> entries);
 }

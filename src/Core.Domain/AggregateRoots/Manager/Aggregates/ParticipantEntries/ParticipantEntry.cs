@@ -2,13 +2,13 @@
 using System;
 using System.Linq;
 
-namespace Core.Domain.AggregateRoots.Manager.Aggregates.Arrivelists;
+namespace Core.Domain.AggregateRoots.Manager.Aggregates.ParticipantEntries;
 
-public class ArrivelistEntry : IComparable<ArrivelistEntry>, IEquatable<ArrivelistEntry>
+public class ParticipantEntry : IComparable<ParticipantEntry>, IEquatable<ParticipantEntry>
 {
-    public ArrivelistEntry() { }
+    public ParticipantEntry() { }
     
-    internal ArrivelistEntry(Participation participation)
+    internal ParticipantEntry(Participation participation)
     {
         this.Number = participation.Participant.Number;
         this.Name = participation.Participant.Athlete.Name;
@@ -24,7 +24,7 @@ public class ArrivelistEntry : IComparable<ArrivelistEntry>, IEquatable<Arriveli
     public WitnessEventType Type { get; set; }
     public double LapDistance { get; set; }
     
-    public int CompareTo(ArrivelistEntry other)
+    public int CompareTo(ParticipantEntry other)
     {
         var thisNumber = int.Parse(this.Number);
         var otherNumber = int.Parse(other.Number);
@@ -35,7 +35,7 @@ public class ArrivelistEntry : IComparable<ArrivelistEntry>, IEquatable<Arriveli
         return 1;
     }
 
-    public bool Equals(ArrivelistEntry other)
+    public bool Equals(ParticipantEntry other)
     {
         return this.Number == other?.Number;
     }

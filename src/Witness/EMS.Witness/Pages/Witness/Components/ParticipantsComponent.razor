@@ -1,11 +1,11 @@
 ﻿@inherits StatefulComponent;
 
 @using Core.Application.Services;
-@using Core.Domain.AggregateRoots.Manager.Aggregates.Arrivelists;
+@using Core.Domain.AggregateRoots.Manager.Aggregates.ParticipantEntries;
 @using Core.Models;
 @using EMS.Witness.Common;
 @using EMS.Witness.Services;
-@inject IArrivelistService ArrivelistService;
+@inject IParticipantsService ArrivelistService;
 @inject IDateService DateService;
 
 <div class="row">
@@ -45,7 +45,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var arrive in this.ArrivelistService.Arrivelist)
+            @foreach (var arrive in this.ArrivelistService.Participants)
             {
                 var isDisabled = this.ArrivelistService.Selected.Contains(arrive) ? true : false;
                 <tr>
@@ -66,6 +66,6 @@
 @code {
     protected override bool ShouldRender(object changedState)
     {
-        return changedState == this.ArrivelistService.Arrivelist || changedState == this.ArrivelistService.Selected;
+        return changedState == this.ArrivelistService.Participants || changedState == this.ArrivelistService.Selected;
     }
 }
