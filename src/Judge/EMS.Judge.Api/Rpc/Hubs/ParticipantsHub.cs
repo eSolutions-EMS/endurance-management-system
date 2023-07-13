@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace EMS.Judge.Api.Rpc.Hubs;
 
-public class ParticipantsHub : Hub, IParticipantstHubProcedures
+public class ParticipantsHub : Hub<IParticipantsClientProcedures>, IParticipantstHubProcedures
 {
     private readonly ManagerRoot managerRoot;
     
@@ -21,7 +21,7 @@ public class ParticipantsHub : Hub, IParticipantstHubProcedures
 
     public IEnumerable<ParticipantEntry> Get()
     {
-        return this.managerRoot.GetParticipantsList();
+        return this.managerRoot.GetActiveParticipants();
     }
     public Task Save(IEnumerable<ParticipantEntry> entries)
     {

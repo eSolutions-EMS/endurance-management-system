@@ -6,16 +6,23 @@ using static Core.Application.CoreApplicationConstants;
 
 namespace EMS.Witness.Rpc;
 
-public class ParticipantsClient: RpcClient, IParticipantsClient
+public class ParticipantsClient: RpcClient, IParticipantsClient, IParticipantsClientProcedures
 {
 	public event EventHandler<(ParticipantEntry entry, CollectionAction action)>? Updated;
 	public event EventHandler<IEnumerable<ParticipantEntry>>? Loaded;
 
 	public ParticipantsClient() : base(RpcEndpoints.PARTICIPANTS)
     {
+		this.AddProcedure<ParticipantEntry, CollectionAction>(nameof(this.Update), this.Update);
 	}
 
-	public async Task<RpcInvokeResult<IEnumerable<ParticipantEntry>>> Load()
+    public Task Update(ParticipantEntry entry, CollectionAction action)
+    {
+        this.Updated?.Invoke(this, (entry, action));
+        return Task.CompletedTask;
+    }
+
+    public async Task<RpcInvokeResult<IEnumerable<ParticipantEntry>>> Load()
 	{
 		return await this.InvokeAsync<IEnumerable<ParticipantEntry>>(nameof(IParticipantstHubProcedures.Get));
 	}

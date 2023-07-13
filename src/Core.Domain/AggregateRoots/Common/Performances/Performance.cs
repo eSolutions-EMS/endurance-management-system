@@ -119,7 +119,7 @@ public class Performance : IAggregate, IPerformance, INotifyPropertyChanged
     {
         var lastRecord = participation.Participant.LapRecords.Last();
         var performance = new Performance(lastRecord, participation.CompetitionConstraint.Type, 0);
-        return performance.NextStartTime.Value!;
+        return performance.NextStartTime ?? default;
     }
 
     internal static double? GetSpeed(LapRecord record, CompetitionType type)

@@ -10,3 +10,8 @@ public interface IParticipantstHubProcedures
     IEnumerable<ParticipantEntry> Get();
     Task Save(IEnumerable<ParticipantEntry> entries);
 }
+
+public interface IParticipantsClientProcedures
+{
+    Task Update(ParticipantEntry entry, CollectionAction action);
+}
