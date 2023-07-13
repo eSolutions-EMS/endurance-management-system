@@ -47,6 +47,22 @@ public class ParticipantsService : IParticipantsService
 		}
     }
 
+    public void Sort(bool byNumber = false, bool byDistance = false, bool byName = false)
+    {
+        if (byNumber)
+        {
+            this.Participants.Sort((a, b) => int.Parse(a.Number).CompareTo(int.Parse(b.Number)));
+        }
+        else if (byDistance)
+        {
+            this.Participants.Sort((a, b) => a.LapDistance.CompareTo(b.LapDistance));
+        }
+        else if (byName)
+        {
+            this.Participants.Sort((a, b) => a.Name.CompareTo(b.Name));
+        }
+    }
+
     public void RemoveSnapshot(ParticipantEntry entry)
     {
         entry.ArriveTime = null;
@@ -110,13 +126,14 @@ public interface IParticipantsService : ISingletonService
     ObservableCollection<ParticipantEntry> Selected { get; }
     ObservableCollection<ParticipantEntry> Snapshots { get; }
     List<ParticipantEntry> History { get; }
-    public Task Load();
-    public void Update(ParticipantEntry entry, CollectionAction action);
-    public void Select(ParticipantEntry entry);
-    public void Unselect(ParticipantEntry entry);
-    public void EditSnapshot(string number, DateTime time);
-    public void Snapshot(ParticipantEntry entry);
-    public void RemoveSnapshot(ParticipantEntry entry);
-    public Task SaveSnaphots(WitnessEventType type);
+    Task Load();
+    void Sort(bool byNumber = false, bool byDistance = false, bool byName = false);
+    void Update(ParticipantEntry entry, CollectionAction action);
+    void Select(ParticipantEntry entry);
+    void Unselect(ParticipantEntry entry);
+    void EditSnapshot(string number, DateTime time);
+    void Snapshot(ParticipantEntry entry);
+    void RemoveSnapshot(ParticipantEntry entry);
+    Task SaveSnaphots(WitnessEventType type);
     Task Save(ParticipantEntry entry);
 }
