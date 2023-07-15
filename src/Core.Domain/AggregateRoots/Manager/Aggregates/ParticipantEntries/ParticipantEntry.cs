@@ -35,6 +35,15 @@ public class ParticipantEntry : IComparable<ParticipantEntry>, IEquatable<Partic
         return 1;
     }
 
+    public override bool Equals(object obj)
+    {
+        if (obj is ParticipantEntry entry)
+        {
+            return this.Equals(entry);
+        }
+        return false;
+    }
+
     public bool Equals(ParticipantEntry other)
     {
         return this.Number == other?.Number;
