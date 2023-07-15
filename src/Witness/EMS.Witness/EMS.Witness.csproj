@@ -17,8 +17,8 @@
         <ApplicationIdGuid>E28F87C5-E076-4180-AB84-DBE4E9E99526</ApplicationIdGuid>
 
         <!-- Versions -->
-        <ApplicationDisplayVersion>2.0</ApplicationDisplayVersion>
-        <ApplicationVersion>2</ApplicationVersion>
+        <ApplicationDisplayVersion>2.1</ApplicationDisplayVersion>
+        <ApplicationVersion>3</ApplicationVersion>
 
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">13.5</SupportedOSPlatformVersion>
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">14.0</SupportedOSPlatformVersion>
@@ -66,8 +66,9 @@
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(TargetFramework)'=='net6.0-ios'">
-      <CodesignKey>Apple Development: Created via API (P9YBGLG69Y)</CodesignKey>
-      <CodesignProvision>VS: com.ems.witness Development</CodesignProvision>
+      <CodesignKey>iPhone Distribution</CodesignKey>
+      <CodesignProvision></CodesignProvision>
+      <ProvisioningType>manual</ProvisioningType>
     </PropertyGroup>
   
     <ItemGroup>
