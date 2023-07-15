@@ -125,6 +125,9 @@
                         IsEnabled="{Binding IsWriteTagEnababled}"
                         Command="{Binding WriteTag}"
                         Content="{x:Static localization:Strings.WRITE}"/>
+                <Button Style="{StaticResource Button}" Margin="50px 0 0 0"
+                        Command="{Binding RemoveTags}"
+                        Content="Remove Tags"/>
             </StackPanel>
         </Border>
         <Border Style="{StaticResource Border-Vertical}"

@@ -41,10 +41,12 @@ public class ParticipantViewModel : ConfigurationBase<ParticipantView, Participa
         this.WriteTag = new DelegateCommand(this.WriteTagAction);
         this.ToggleIsAverageSpeedInKmPhVisibility = new DelegateCommand(
             this.ToggleIsAverageSpeedInKmPhVisibilityAction);
+        this.RemoveTags = new DelegateCommand(this.RemoveTagsAction);
     }
 
     public DelegateCommand ToggleIsAverageSpeedInKmPhVisibility { get; }
     public DelegateCommand WriteTag { get; }
+    public DelegateCommand RemoveTags { get; }
 
     public ObservableCollection<SimpleListItemViewModel> HorseItems { get; } = new();
     public ObservableCollection<SimpleListItemViewModel> AthleteItems { get; } = new();
@@ -96,6 +98,17 @@ public class ParticipantViewModel : ConfigurationBase<ParticipantView, Participa
             config => config.Participants.Save(this, this.AthleteId, this.HorseId),
             true);
         return result;
+    }
+
+    private void RemoveTagsAction()
+    {
+        this.rfidServiceExecutor.Execute(x =>
+        {
+            var participant = this.Queries.GetOne(y => y.Number == this.Number);
+            participant.RfidTags.Clear();
+            this.RfidTags.Clear();
+        },
+        true);
     }
 
     private void WriteTagAction()
