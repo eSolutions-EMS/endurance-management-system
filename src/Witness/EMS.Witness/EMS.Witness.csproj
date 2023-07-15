@@ -66,9 +66,9 @@
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(TargetFramework)'=='net6.0-ios'">
-      <CodesignKey>iPhone Distribution</CodesignKey>
-      <CodesignProvision></CodesignProvision>
-      <ProvisioningType>manual</ProvisioningType>
+      <CodesignKey>Apple Development: Created via API (P9YBGLG69Y)</CodesignKey>
+      <CodesignProvision>VS: com.ems.witness Development</CodesignProvision>
+      <ProvisioningType>automatic</ProvisioningType>
     </PropertyGroup>
   
     <ItemGroup>
