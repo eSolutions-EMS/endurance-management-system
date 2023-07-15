@@ -263,6 +263,10 @@ public class ManagerRoot : IAggregateRoot
 
     public Startlist GetStartList()
     {
+        if (!this.state.Event.HasStarted)
+        {
+            return new Startlist(new List<StartlistEntry>());
+        }
         var entries = this.state.Participations
             .Where(x => x.Participant.LapRecords.All(y => y.NextStarTime.HasValue))
             .Select(x => new StartlistEntry(x));
