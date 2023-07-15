@@ -19,6 +19,7 @@
                 <p>@this.errorBoundary!.Exception!.Message</p>
                 <p>@this.errorBoundary!.Exception!.StackTrace</p>
             </div>
+            <button class="btn btn-primary" @onclick="_ => this.errorBoundary?.Recover()">Back</button> 
         </ErrorContent>
     </ErrorHandlerComponent>
 </div>
