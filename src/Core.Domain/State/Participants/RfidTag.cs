@@ -1,6 +1,8 @@
-﻿namespace Core.Domain.State.Participants;
+﻿using System;
 
-public class RfidTag
+namespace Core.Domain.State.Participants;
+
+public class RfidTag : IEquatable<RfidTag>
 {
     public const char EMPTY_CHAR = '0';
 
@@ -18,6 +20,20 @@ public class RfidTag
     public string Id { get; set; }
     public string Position { get; set; }
     public string ParticipantNumber { get; set; }
+
+    public bool Equals(RfidTag other)
+    {
+        return this.Id == other.Id;
+    }
+
+    public override bool Equals(object obj)
+    {
+        if (obj is RfidTag tag)
+        {
+            return this.Equals(tag);
+        }
+        return false;
+    }
 
     public override string ToString()
     {

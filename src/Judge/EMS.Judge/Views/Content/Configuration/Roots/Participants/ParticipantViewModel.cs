@@ -14,6 +14,7 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using EMS.Judge.Application.Services;
 using System.Linq;
+using EMS.Judge.Application.Common.Exceptions;
 
 namespace EMS.Judge.Views.Content.Configuration.Roots.Participants;
 
@@ -118,6 +119,11 @@ public class ParticipantViewModel : ConfigurationBase<ParticipantView, Participa
         {
             var position = this.PositionItems.First(x => x.Id == this.PositionId).Name;
             var tag = await x.Write(position, this.Number);
+            var existingParticipant = this.Queries.GetOne(x => x.RfidTags.Contains(tag));
+            if (existingParticipant != null)
+            {
+                throw new AppException($"Tag '{tag.Id}' is assigned to participant '{existingParticipant.Number}'");
+            }
             var participant = this.Queries.GetOne(y => y.Number == this.Number);
             var existing = participant.RfidTags.FirstOrDefault(x => x.Id == tag.Id);
             if (existing != null)
@@ -132,9 +138,9 @@ public class ParticipantViewModel : ConfigurationBase<ParticipantView, Participa
             }
             participant.RfidTags.Add(tag);
             this.RfidTags.Add(tag);
-            this.IsWriteTagEnababled = true;
         },
         true);
+        this.IsWriteTagEnababled = true;
     }
 
     private void LoadAthletes()
