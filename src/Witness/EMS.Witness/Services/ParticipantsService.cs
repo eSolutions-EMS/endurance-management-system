@@ -111,6 +111,11 @@ public class ParticipantsService : IParticipantsService
         this.Selected.Remove(entry);
 
         entry.ArriveTime = DateTime.Now;
+        var existing = this.Snapshots.FirstOrDefault(x => x == entry);
+        if (existing != null)
+        {
+            this.Snapshots.Remove(existing);
+        }
         this.Snapshots.Add(entry);
     }
 
