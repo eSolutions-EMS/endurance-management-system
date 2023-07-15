@@ -2,11 +2,13 @@
 
 @using Core.Application.Services;
 @using Core.Domain.AggregateRoots.Manager.Aggregates.ParticipantEntries;
+@using Core.Domain.AggregateRoots.Manager;
 @using Core.Models;
 @using EMS.Witness.Common;
 @using EMS.Witness.Services;
-@inject IParticipantsService ArrivelistService;
+@inject IParticipantsService ParticipantsService;
 @inject IDateService DateService;
+@inject IPopupService PopupService;
 
 <div class="row">
     <table class="table">
@@ -19,14 +21,14 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var entry in this.ArrivelistService.History)
+            @foreach (var entry in this.ParticipantsService.History)
             {
                 <tr>
                     <td>@entry.Number</td>
                     <th>@entry.LapNumber</th>
                     <td>@entry.Name</td>
                     <td>
-                        <button class="btn btn-success btn-table" @onclick="_ => this.ArrivelistService.Save(entry)">Resave</button>
+                        <button class="btn btn-primary" @onclick="_ => this.Save(entry)">Save</button>
                     </td>
                 </tr>
             }
@@ -37,6 +39,17 @@
 @code {
     protected override bool ShouldRender(object changedState)
     {
-        return changedState == this.ArrivelistService.History;
+        return changedState == this.ParticipantsService.History;
+    }
+
+    private async Task Save(ParticipantEntry entry)
+    {
+        var type = await this.PopupService.SelecEventType();
+        if (type is null)
+        {
+            return;
+        }
+        entry.Type = type.Value;
+        await this.ParticipantsService.Save(entry);
     }
 }

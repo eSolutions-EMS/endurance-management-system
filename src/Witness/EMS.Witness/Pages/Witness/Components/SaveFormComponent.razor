@@ -7,6 +7,7 @@
 @using EMS.Witness.Services;
 @inject IParticipantsService ParticipantsService;
 @inject IDateService DateService;
+@inject IPopupService PopupService;
 
 <div class="row mb-1">
     <EditForm Model="@witnessModel" OnSubmit="EditSnapshot">
@@ -53,16 +54,7 @@
     </table>
 </div>
 <div class="row mb-1">
-    <div class="btn-group">
-        <button class="btn btn-warning" @onclick="_ => this.Save()" disabled="@(this.type == default)">@this.buttonText</button>
-        <button class="btn btn-primary dropdown-toggle dropdown-toggle-split" @onclick="this.ToggleSaveClass" data-bs-toggle="dropdown" aria-expanded="false">
-            <span class="visually-hidden">Toggle Dropdown</span>
-        </button>
-        <ul class="dropdown-menu dropdown-menu-end @this.saveDropdownClass" aria-labelledby="save-button" style="position:relative;">
-            <li><a class="dropdown-item" href="" @onclick="this.SelectArr">@ARR_TEXT</a></li>
-            <li><a class="dropdown-item" href="" @onclick="this.SelectIn">@IN_TEXT</a></li>
-        </ul>
-    </div>
+    <button class="btn btn-primary" @onclick="_ => this.SaveSnapshots()">Save</button>
 </div>
 
 @code {
@@ -72,41 +64,11 @@
     private WitnessEventType type;
     private string saveDropdownClass = "";
     private ArriveEditModel witnessModel = new();
+    private string kur = "devel";
 
     protected override bool ShouldRender(object changedState)
     {
         return changedState == this.ParticipantsService.Snapshots;
-    }
-
-    private void SelectArr()
-    {
-        this.buttonText = ARR_TEXT;
-        this.type = WitnessEventType.Arrival;
-        this.ToggleSaveClass();
-    }
-
-    private void SelectIn()
-    {
-        this.buttonText = IN_TEXT;
-        this.type = WitnessEventType.VetIn;
-        this.ToggleSaveClass();
-    }
-
-    private void ToggleSaveClass()
-    {
-        if (this.saveDropdownClass == "show")
-        {
-            this.saveDropdownClass = "";
-        }
-        else
-        {
-            this.saveDropdownClass = "show";
-        }
-    }
-
-    private void Save()
-    {
-        this.ParticipantsService.SaveSnaphots(this.type);
     }
 
     private void EditSnapshot()
@@ -118,6 +80,16 @@
             .AddSeconds(this.witnessModel.Second ?? now.Second)
             .AddMilliseconds(this.witnessModel.Millisecond ?? now.Millisecond);
         this.ParticipantsService.EditSnapshot(this.witnessModel.Number.ToString(), time);
+    }
+
+    private async Task SaveSnapshots()
+    {
+        var type = await this.PopupService.SelecEventType();
+        if (type is null)
+        {
+            return;
+        }
+        await this.ParticipantsService.SaveSnaphots(type.Value);
     }
 
     private class ArriveEditModel
