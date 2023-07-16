@@ -10,6 +10,7 @@ using Core.Domain.State.Competitions;
 using Core.Domain.State.LapRecords;
 using Core.Domain.State.Participants;
 using Core.Domain.State.Participations;
+using Core.Enums;
 using Core.Events;
 using Core.Services;
 using Core.Utilities;
@@ -115,6 +116,7 @@ public class ManagerRoot : IAggregateRoot
         foreach (var participation in participations)
         {
             participation.Start();
+            Witness.RaiseParticipantChanged(participation.Number, CollectionAction.AddOrUpdate);
         }
         this.state.Event.HasStarted = true;
     }
