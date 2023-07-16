@@ -25,9 +25,9 @@ public class Witness
         StartlistChanged?.Invoke(null, (number, action));
     }
 
-    public static event EventHandler<(string number, CollectionAction action)> ArrivelistChanged;
-    internal static void RaiseArrivelistChanged(string number, CollectionAction action)
+    public static event EventHandler<(string number, CollectionAction action)> ParticipantChanged;
+    internal static void RaiseParticipantChanged(string number, CollectionAction action)
     {
-        ArrivelistChanged?.Invoke(null, (number, action));
+        ParticipantChanged?.Invoke(null, (number, action));
     }
 }

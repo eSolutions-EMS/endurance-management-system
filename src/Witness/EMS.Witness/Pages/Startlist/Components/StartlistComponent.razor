@@ -20,7 +20,7 @@
 	<tbody>
 		@foreach (var entry in this.StartlistService.Startlist)
 		{
-			<tr>
+			<tr class="@(entry.HasStarted ? "bg-secondary" : "")">
 				<td>@entry.Number</td>
 				<td>@entry.AthleteName</td>
 				<td>@entry.Stage</td>
@@ -32,8 +32,24 @@
 </table>
 
 @code {
+	private bool loop = true;
+	protected override async Task OnInitializedAsync()
+	{
+		while(this.loop)
+		{
+			this.StartlistService.Startlist.Sort();
+			await Task.Delay(TimeSpan.FromSeconds(1));
+			await this.InvokeAsync(this.StateHasChanged);
+		}
+	}
+
 	protected override bool ShouldRender(object changedState)
 	{
 		return changedState == this.StartlistService.Startlist;
 	}
-}
+
+	public override void Dispose()
+	{
+		this.loop = false;
+	}
+}	

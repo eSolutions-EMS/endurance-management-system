@@ -1,5 +1,5 @@
 ﻿using Core.Domain.AggregateRoots.Manager;
-using Core.Domain.AggregateRoots.Manager.Aggregates.Arrivelists;
+using Core.Domain.AggregateRoots.Manager.Aggregates.ParticipantEntries;
 using Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 using Core.Models;
 
@@ -10,7 +10,7 @@ public class WitnessState : Observable, IWitnessState
 	public string? ApiHost { get; set; }
 	public Dictionary<string, WitnessEvent> WitnessRecords { get; } = new();
 	public SortedCollection<StartlistEntry> Startlist { get; } = new();
-	public SortedCollection<ArrivelistEntry> Arrivelist { get; } = new();
+	public SortedCollection<ParticipantEntry> Participants { get; } = new();
 }
 
 public interface IWitnessState
@@ -18,5 +18,5 @@ public interface IWitnessState
 	string? ApiHost { get; }
 	Dictionary<string, WitnessEvent> WitnessRecords { get; }
 	public SortedCollection<StartlistEntry> Startlist { get; }
-	public SortedCollection<ArrivelistEntry> Arrivelist { get; }
+	public SortedCollection<ParticipantEntry> Participants { get; }
 }

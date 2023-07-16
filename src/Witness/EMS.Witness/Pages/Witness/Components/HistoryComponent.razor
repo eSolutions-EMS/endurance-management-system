@@ -1,0 +1,55 @@
+﻿@inherits StatefulComponent;
+
+@using Core.Application.Services;
+@using Core.Domain.AggregateRoots.Manager.Aggregates.ParticipantEntries;
+@using Core.Domain.AggregateRoots.Manager;
+@using Core.Models;
+@using EMS.Witness.Common;
+@using EMS.Witness.Services;
+@inject IParticipantsService ParticipantsService;
+@inject IDateService DateService;
+@inject IPopupService PopupService;
+
+<div class="row">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Stage</th>
+                <th>Name</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var entry in this.ParticipantsService.History)
+            {
+                <tr>
+                    <td>@entry.Number</td>
+                    <th>@entry.LapNumber</th>
+                    <td>@entry.Name</td>
+                    <td>
+                        <button class="btn btn-primary" @onclick="_ => this.Save(entry)">Save</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@code {
+    protected override bool ShouldRender(object changedState)
+    {
+        return changedState == this.ParticipantsService.History;
+    }
+
+    private async Task Save(ParticipantEntry entry)
+    {
+        var type = await this.PopupService.SelecEventType();
+        if (type is null)
+        {
+            return;
+        }
+        entry.Type = type.Value;
+        await this.ParticipantsService.Save(entry);
+    }
+}

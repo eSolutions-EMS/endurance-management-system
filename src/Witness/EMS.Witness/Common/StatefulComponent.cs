@@ -3,20 +3,24 @@ using Microsoft.AspNetCore.Components;
 
 namespace EMS.Witness.Common;
 
-public abstract class StatefulComponent : ComponentBase
+public abstract class StatefulComponent : ComponentBase, IDisposable
 {
     public StatefulComponent()
     {
         AppState.Changed += OnStateChanged;
     }
 
-    /// <summary>
-    /// Compares the references of component's state and changedState param and calls StateHasChanged if equal
-    /// </summary>
-    /// <param name="sender"></param>
-    /// <param name="changedState"></param>
-    /// <returns></returns>
-    protected virtual async void OnStateChanged(object? sender, object changedState)
+	public virtual void Dispose()
+	{
+	}
+
+	/// <summary>
+	/// Compares the references of component's state and changedState param and calls StateHasChanged if equal
+	/// </summary>
+	/// <param name="sender"></param>
+	/// <param name="changedState"></param>
+	/// <returns></returns>
+	protected virtual async void OnStateChanged(object? sender, object changedState)
     {
         if (this.ShouldRender())
         {

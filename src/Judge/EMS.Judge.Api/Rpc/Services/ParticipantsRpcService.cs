@@ -12,20 +12,20 @@ namespace EMS.Judge.Api.Rpc.Services;
 public class ArrivelistRpcService : IClientRpcService
 {
     private readonly ManagerRoot managerRoot;
-    private readonly IHubContext<ArrivelistHub, IArrivelistClientProcedures> hubContext;
-    
+    private readonly IHubContext<ParticipantsHub, IParticipantsClientProcedures> hubContext;
+
     public ArrivelistRpcService(
-        IJudgeServiceProvider provider, 
-        IHubContext<ArrivelistHub, IArrivelistClientProcedures> hubContext)
+        IJudgeServiceProvider provider,
+        IHubContext<ParticipantsHub, IParticipantsClientProcedures> hubContext)
     {
         this.managerRoot = provider.GetRequiredService<ManagerRoot>();
         this.hubContext = hubContext;
-        Witness.ArrivelistChanged += (sender, args) => this.Update(args.number, args.action);
+        Witness.ParticipantChanged += (sender, args) => this.Update(args.number, args.action);
     }
 
     public void Update(string number, CollectionAction action)
     {
-        var entry = this.managerRoot.GetArrivelistEntry(number);
+        var entry = this.managerRoot.GetParticipantEntry(number);
         if (entry == null)
         {
             return;

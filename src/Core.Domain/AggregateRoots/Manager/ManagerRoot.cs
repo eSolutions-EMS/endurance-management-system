@@ -1,6 +1,6 @@
 ﻿using Core.Domain.AggregateRoots.Common.Performances;
 using Core.Domain.AggregateRoots.Manager.Aggregates;
-using Core.Domain.AggregateRoots.Manager.Aggregates.Arrivelists;
+using Core.Domain.AggregateRoots.Manager.Aggregates.ParticipantEntries;
 using Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 using Core.Domain.AggregateRoots.Manager.WitnessEvents;
 using Core.Domain.Common.Exceptions;
@@ -10,6 +10,7 @@ using Core.Domain.State.Competitions;
 using Core.Domain.State.LapRecords;
 using Core.Domain.State.Participants;
 using Core.Domain.State.Participations;
+using Core.Enums;
 using Core.Events;
 using Core.Services;
 using Core.Utilities;
@@ -95,10 +96,10 @@ public class ManagerRoot : IAggregateRoot
         return entry;
     }
 
-    public ArrivelistEntry GetArrivelistEntry(string number)
+    public ParticipantEntry GetParticipantEntry(string number)
     {
         var participation = this.state.Participations.Find(x => x.Participant.Number == number);
-        var entry = new ArrivelistEntry(participation);
+        var entry = new ParticipantEntry(participation);
         return entry;
     }
 
@@ -115,6 +116,7 @@ public class ManagerRoot : IAggregateRoot
         foreach (var participation in participations)
         {
             participation.Start();
+            Witness.RaiseParticipantChanged(participation.Number, CollectionAction.AddOrUpdate);
         }
         this.state.Event.HasStarted = true;
     }
@@ -263,6 +265,10 @@ public class ManagerRoot : IAggregateRoot
 
     public Startlist GetStartList()
     {
+        if (!this.state.Event.HasStarted)
+        {
+            return new Startlist(new List<StartlistEntry>());
+        }
         var entries = this.state.Participations
             .Where(x => x.Participant.LapRecords.All(y => y.NextStarTime.HasValue))
             .Select(x => new StartlistEntry(x));
@@ -270,13 +276,13 @@ public class ManagerRoot : IAggregateRoot
         return startlist;
     }
 
-    public IEnumerable<ArrivelistEntry> GetArrivelist()
+    public IEnumerable<ParticipantEntry> GetActiveParticipants()
     {
         var entries = this.state.Participations
             .Where(x =>
-                x.Participant.LapRecords.Count == 1 ||
-                x.Participant.LapRecords.All(y => y.NextStarTime.HasValue))
-            .Select(x => new ArrivelistEntry(x));
+                (x.Participant.LapRecords.Count == 1 || x.Participant.LapRecords.All(y => y.NextStarTime.HasValue)) &&
+                !x.Participant.LapRecords.All(y => y.Result?.IsNotQualified ?? false))
+            .Select(x => new ParticipantEntry(x));
         return entries;
     }
 
