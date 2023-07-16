@@ -26,28 +26,36 @@ public class StartlistEntry : IComparable<StartlistEntry>, IEquatable<StartlistE
     public double Distance { get; init; }
     public int Stage { get; init; }
     public DateTime StartTime { get; init; }
-    public bool HasStarted { get; init; }
+    public bool HasStarted => this.StartTime < DateTime.Now;
 
     public int CompareTo(StartlistEntry other)
     {
         var now = DateTime.Now;
         var thisDiff = this.StartTime - now;
         var otherDiff = other.StartTime - now;
-        // Order entries with passed time separately
-        if (thisDiff.TotalSeconds < 0 && otherDiff.TotalSeconds < 0)
+        // Order past entries (HasStarted == true) by start time descending
+        if (this.HasStarted && other.HasStarted)
         {
             if (thisDiff > otherDiff)
             {
-                return 1;
+                return -1;
             }
+            return 1;
+        }
+        if (this.HasStarted && !other.HasStarted)
+        {
+            return 1;
+        }
+        if (!this.HasStarted && other.HasStarted)
+        {
             return -1;
         }
         // Order by StartTime ascending
         if (thisDiff > otherDiff)
         {
-            return -1;
+            return 1;
         }
-        return 1;
+        return -1;
     }
 
     public bool Equals(StartlistEntry other)
