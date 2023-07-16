@@ -18,7 +18,7 @@
 
         <!-- Versions -->
         <ApplicationDisplayVersion>2.1</ApplicationDisplayVersion>
-        <ApplicationVersion>3</ApplicationVersion>
+        <ApplicationVersion>4</ApplicationVersion>
 
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">13.5</SupportedOSPlatformVersion>
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">14.0</SupportedOSPlatformVersion>
@@ -44,9 +44,9 @@
 
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-ios|AnyCPU'">
       <CreatePackage>false</CreatePackage>
+      <CodesignKey>iPhone Distribution</CodesignKey>
+      <CodesignProvision></CodesignProvision>
       <ProvisioningType>manual</ProvisioningType>
-      <CodesignKey>iPhone Distribution: ALEXANDER NIKOLOV CHOBANOV (979B4XB2MX)</CodesignKey>
-      <CodesignProvision>eWitness</CodesignProvision>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-maccatalyst|AnyCPU'">
@@ -63,12 +63,6 @@
 
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-windows10.0.19041.0|AnyCPU'">
       <ApplicationId>com.ems.witness</ApplicationId>
-    </PropertyGroup>
-
-    <PropertyGroup Condition="'$(TargetFramework)'=='net6.0-ios'">
-      <CodesignKey>Apple Development: Created via API (P9YBGLG69Y)</CodesignKey>
-      <CodesignProvision>VS: com.ems.witness Development</CodesignProvision>
-      <ProvisioningType>manual</ProvisioningType>
     </PropertyGroup>
   
     <ItemGroup>
