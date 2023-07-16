@@ -47,7 +47,7 @@ cd "$output_dir"
 echo "release directory cleared."
 echo "======================================================================================================================================="
 echo "DOTNET PUBLISH"
-if ! dotnet publish -c Release -o . ../src/endurance-management-system.sln
+if ! dotnet publish  -c Release -o . ../src/Judge/EMS.Judge/EMS.Judge.csproj
 then
   exit 1
 fi
