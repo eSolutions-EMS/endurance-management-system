@@ -262,7 +262,7 @@ public class ManagerViewModel : ViewModelBase
             }
             models = models
                 .OrderBy(x => x.IsComplete)
-                .ThenBy(x => x.Distance)
+                .ThenBy(x => int.Parse(x.Number))
                 .ToList();
             this.Participations.AddRange(models);
             this.SelectBy(this.Participations.First());

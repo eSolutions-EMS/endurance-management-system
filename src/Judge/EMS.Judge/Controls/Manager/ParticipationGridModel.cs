@@ -28,7 +28,8 @@ public class ParticipationGridModel : BindableBase
         this.Number = this.Participant.Number;
         this.Distance = $"({participation.CompetitionConstraint.Laps.Sum(x => x.LengthInKm)})";
         var completedLaps = participation.Participant.LapRecords.Count(x => x.Result != null);
-        this.IsComplete = completedLaps == participation.CompetitionConstraint.Laps.Count;
+        this.IsComplete = completedLaps == participation.CompetitionConstraint.Laps.Count
+            || participation.Participant.LapRecords.Any(x => x.Result?.IsNotQualified ?? false);
 
         this.CreatePerformanceColumns(participation);
         var notifyCollectionChanged = (INotifyCollectionChanged) this.Participant.LapRecords;
