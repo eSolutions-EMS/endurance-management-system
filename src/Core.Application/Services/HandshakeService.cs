@@ -52,8 +52,6 @@ public class HandshakeService : INetworkBroadcastService, IHandshakeService
             var handshake = await this.AttemptHandshake(socket);
             while (handshake.IsTimeout && !token.IsCancellationRequested)
             {
-                socket.Close();
-                socket = this.OpenHandshakeSocket(payload);
                 handshake = await this.AttemptHandshake(socket);
             }
 
