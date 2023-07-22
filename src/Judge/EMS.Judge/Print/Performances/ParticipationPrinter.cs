@@ -11,7 +11,7 @@ public class ParticipationPrinter : PrintTemplate
     private readonly ParticipationGridModel participation;
 
     public ParticipationPrinter(ParticipationGridModel participation)
-        : base(participation.Number.ToString(), null)
+        : base(participation.Distance, null)
     {
         this.participation = participation;
         var control = new ParticipationGridControl { Participation = participation };

@@ -25,8 +25,8 @@ public class ParticipationGridModel : BindableBase
         this.IsReadonly = isReadonly;
         this.executor = StaticProvider.GetService<IExecutor>();
         this.Participant = participation.Participant;
+        this.Number = this.Participant.Number;
         this.Distance = $"({participation.CompetitionConstraint.Laps.Sum(x => x.LengthInKm)})";
-        this.Number = this.Distance;
         var completedLaps = participation.Participant.LapRecords.Count(x => x.Result != null);
         this.IsComplete = completedLaps == participation.CompetitionConstraint.Laps.Count
             || participation.Participant.LapRecords.Any(x => x.Result?.IsNotQualified ?? false);
@@ -98,7 +98,7 @@ public class ParticipationGridModel : BindableBase
 
     public bool IsComplete { get; }
     public string Number { get; }
-    public string Distance { get; }
+    public string Distance { get; protected set; }
     private string disqualifyCode;
     public string DisqualifyCode
     {
