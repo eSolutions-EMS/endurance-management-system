@@ -7,11 +7,27 @@ public class TagIdWriter
     {
         var controller = new VupVD67Controller(TimeSpan.FromSeconds(3));
         controller.Connect();
-
-        for (var i = 13; i <= 500; i++)
+        string? command = null;
+        do
         {
-            var value = i.ToString().PadLeft(12, '0');
-            await controller.Write(value);
-        }
+            Console.WriteLine("Scan tag");
+            var tag = await controller.Read();
+            Console.WriteLine($"Tag: {tag}");
+            var id = Console.ReadLine();
+            while (string.IsNullOrWhiteSpace(id))
+            {
+                id = Console.ReadLine();
+            }
+            if (id == "next")
+            {
+                continue;
+            }
+            var prev = tag[..9];
+            var value = id.PadLeft(3, '0');
+            var result = await controller.Write(prev + value);
+            Console.WriteLine($"Result: {result}");
+            Console.WriteLine("Next:");
+            command = Console.ReadLine();
+        } while (command != "stop");
     }
 }
