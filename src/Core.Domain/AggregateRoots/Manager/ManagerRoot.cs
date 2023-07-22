@@ -278,7 +278,6 @@ public class ManagerRoot : IAggregateRoot
 
     public IEnumerable<ParticipantEntry> GetActiveParticipants()
     {
-        var kur16 = state.Participations.FirstOrDefault(x => x.Participant.Number == "16");
         var entries = this.state.Participations
             .Where(x =>
                 x.Participant.LapRecords.Any() &&
