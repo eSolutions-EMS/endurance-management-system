@@ -278,10 +278,13 @@ public class ManagerRoot : IAggregateRoot
 
     public IEnumerable<ParticipantEntry> GetActiveParticipants()
     {
+        var kur16 = state.Participations.FirstOrDefault(x => x.Participant.Number == "16");
         var entries = this.state.Participations
             .Where(x =>
-                (x.Participant.LapRecords.Count == 1 || x.Participant.LapRecords.All(y => y.NextStarTime.HasValue)) &&
-                x.Participant.LapRecords.All(y => !(y.Result?.IsNotQualified ?? false)))
+                x.Participant.LapRecords.Any() &&
+                !x.Participant.LapRecords.Any(x => x.Result?.IsNotQualified ?? false) &&
+                (x.Participant.LapRecords.Count != x.CompetitionConstraint.Laps.Count
+                 || x.Participant.LapRecords.Last().Result == null))
             .Select(x => new ParticipantEntry(x));
         return entries;
     }
