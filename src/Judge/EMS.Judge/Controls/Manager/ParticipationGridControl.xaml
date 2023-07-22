@@ -23,9 +23,6 @@
         </ItemsControl>
     </StackPanel>
 
-    <TextBlock Style="{StaticResource Text-Bold}"
-               Text="{Binding Distance}" />
-
     <Button x:Name="PrintButton"
             Style="{StaticResource Button-Horizontal}"
             DockPanel.Dock="Right"

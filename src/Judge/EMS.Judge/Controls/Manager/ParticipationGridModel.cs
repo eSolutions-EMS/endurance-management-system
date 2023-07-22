@@ -98,7 +98,7 @@ public class ParticipationGridModel : BindableBase
 
     public bool IsComplete { get; }
     public string Number { get; }
-    public string Distance { get; protected set; }
+    public string Distance { get; }
     private string disqualifyCode;
     public string DisqualifyCode
     {
