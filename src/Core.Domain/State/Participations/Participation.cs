@@ -29,8 +29,12 @@ public class Participation : DomainBase<ParticipationException>
     public Competition CompetitionConstraint { get; internal set; }
     public WitnessEventType UpdateType { get; internal set; }
 
-    public double? Distance
+    public bool IsNotComplete
+        => !this.Participant.LapRecords.Any(x => x.Result?.IsNotQualified ?? false) &&
+            (this.Participant.LapRecords.Count != this.CompetitionConstraint.Laps.Count
+            || this.Participant.LapRecords.Last().Result == null);
 
+    public double? Distance
         => this.CompetitionConstraint
             ?.Laps
             .Select(x => x.LengthInKm)
