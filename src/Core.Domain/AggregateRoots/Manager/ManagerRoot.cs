@@ -281,7 +281,7 @@ public class ManagerRoot : IAggregateRoot
         var entries = this.state.Participations
             .Where(x =>
                 (x.Participant.LapRecords.Count == 1 || x.Participant.LapRecords.All(y => y.NextStarTime.HasValue)) &&
-                !x.Participant.LapRecords.All(y => y.Result?.IsNotQualified ?? false))
+                x.Participant.LapRecords.All(y => !(y.Result?.IsNotQualified ?? false)))
             .Select(x => new ParticipantEntry(x));
         return entries;
     }
