@@ -16,6 +16,7 @@ public class ParticipationResultModel : ParticipationGridModel
     public ParticipationResultModel(int rank, Participation participation)
         : base(participation, true)
     {
+        this.Distance = null;
         this.Rank = rank;
         this.HorseGenderString = participation.Participant.Horse.IsStallion ? STALLION : MARE; // TODO: move in domain
 
