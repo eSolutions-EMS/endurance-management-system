@@ -13,17 +13,20 @@ using System.Windows.Documents;
 using System.Windows.Media;
 using System.Xaml;
 using Brushes = System.Windows.Media.Brushes;
+using Core.Domain.Enums;
 
 namespace EMS.Judge.Print;
 
 public abstract class PrintTemplate : PrintProcessor
 {
     private readonly string title;
+    private readonly string category;
     private readonly IFileService file;
 
-    protected PrintTemplate(string title)
+    protected PrintTemplate(string title, string category)
     {
         this.title = title;
+        this.category = category;
         this.file = StaticProvider.GetService<IFileService>();
         this.State = StaticProvider.GetService<IState>();
     }
@@ -41,6 +44,7 @@ public abstract class PrintTemplate : PrintProcessor
         var populatedPlaceBlock = (Run)control.FindName("PopulatedPlace")!;
         var countryBlock = (Run)control.FindName("CountryName")!;
         var titleBlock = (Run)control.FindName("Title")!;
+        var categoryBlock = (Run)control.FindName("Category")!;
         var juryBlock = (Run) control.FindName("PresidentGroundJuryName")!;
         var feiTechBlock = (Run) control.FindName("FeiTechDelegateName")!;
         var feiVetBlock = (Run) control.FindName("FeiVetDelegateName")!;
@@ -55,6 +59,7 @@ public abstract class PrintTemplate : PrintProcessor
         presidentVetBlock.Text = this.State.Event.PresidentVetCommittee?.Name;
 
         titleBlock.Text = title;
+        categoryBlock.Text = this.category;
 
         return control;
     }
