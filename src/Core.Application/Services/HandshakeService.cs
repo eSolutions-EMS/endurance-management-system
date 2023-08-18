@@ -31,7 +31,7 @@ public class HandshakeService : INetworkBroadcastService, IHandshakeService
             var clientPayload = server.Receive(ref clientEndpoint);
             if (this.handshakeValidatorService.ValidatePayload(clientPayload, Apps.WITNESS))
             {
-                Console.WriteLine($"Handshake with '{Apps.WITNESS}' on  '{clientEndpoint.Address}'");
+                Console.WriteLine($"Handshake with '{Apps.WITNESS}' on '{clientEndpoint.Address}'");
                 server.Send(serverPayload, serverPayload.Length, clientEndpoint);
             }
             else
@@ -48,18 +48,17 @@ public class HandshakeService : INetworkBroadcastService, IHandshakeService
         try
         {
             var payload = this.handshakeValidatorService.CreatePayload(app);
-            var socket = this.OpenHandshakeSocket(payload);
-            var handshake = await this.AttemptHandshake(socket);
-            while (handshake.IsTimeout && !token.IsCancellationRequested)
+            HandshakeResult handshake;
+            do
             {
-                handshake = await this.AttemptHandshake(socket);
+                handshake = await this.AttemptHandshake(payload);
             }
+            while (handshake.IsTimeout && !token.IsCancellationRequested);
 
-            var response = handshake.Result!.Value;
+			var response = handshake.Result!.Value;
             if (this.handshakeValidatorService.ValidatePayload(response.Buffer, Apps.JUDGE))
             {
                 Console.WriteLine($"Handshake completed with '{Apps.JUDGE}' on '{response.RemoteEndPoint.Address}'");
-                socket.Close();
                 return response.RemoteEndPoint.Address;
             }
         }
@@ -71,20 +70,18 @@ public class HandshakeService : INetworkBroadcastService, IHandshakeService
         return (IPAddress)null!;
     }
 
-    private UdpClient OpenHandshakeSocket(byte[] payload)
+    private async Task<HandshakeResult> AttemptHandshake(byte[] payload)
     {
-        var socket = new UdpClient();
-        socket.EnableBroadcast = true;
-        socket.Send(payload, payload.Length, new IPEndPoint(IPAddress.Broadcast, NETWORK_BROADCAST_PORT));
-        return socket;
-    }
-
-    private async Task<HandshakeResult> AttemptHandshake(UdpClient client)
-    {
-        var timeout = Task.Delay(TimeSpan.FromSeconds(5));
-        var result = client.ReceiveAsync();
+		var socket = new UdpClient();
+		socket.EnableBroadcast = true;
+		socket.Send(payload, payload.Length, new IPEndPoint(IPAddress.Broadcast, NETWORK_BROADCAST_PORT));
+		
+        var timeout = Task.Delay(TimeSpan.FromSeconds(3));
+        var result = socket.ReceiveAsync();
         var first = await Task.WhenAny(new List<Task> { timeout, result });
-        if (first is Task<UdpReceiveResult> success)
+		socket.Close();
+
+		if (first is Task<UdpReceiveResult> success)
         {
             return new HandshakeResult(success.Result);
         }
