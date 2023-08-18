@@ -1,7 +1,9 @@
-﻿using System;
+﻿using EMS.Judge.Application.Services;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Vup.reader;
 
@@ -10,16 +12,18 @@ namespace EMS.Judge.Application.Hardware;
 public class VupVF747pController : RfidController
 { 
     private const int MAX_POWER = 27;
-    private readonly NetVupReader reader;
+    private NetVupReader reader;
     private readonly string ipAddress;
-    private readonly List<long> slowReadTimeMs = new();
+	private readonly ILogger logger;
+	private readonly List<long> slowReadTimeMs = new();
 
     protected override string Device => "VF747p";
 
-    public VupVF747pController(string ipAddress, TimeSpan? throttle = null) : base(throttle)
+    public VupVF747pController(string ipAddress, ILogger logger, TimeSpan? throttle = null) : base(throttle)
     {
         this.ipAddress = ipAddress;
-        this.reader = new NetVupReader(ipAddress, 1969, transport_protocol.tcp);
+		this.logger = logger;
+		this.reader = new NetVupReader(ipAddress, 1969, transport_protocol.tcp);
     }
 
     public override void Connect()
@@ -125,12 +129,15 @@ public class VupVF747pController : RfidController
                 {
                     this.slowReadTimeMs.Add(timer.ElapsedMilliseconds);
                 }
-                if (this.slowReadTimeMs.Count >= 10)
+                if (this.slowReadTimeMs.Count >= 1)
                 {
                     this.slowReadTimeMs.Clear();
                     this.disconnectedMessageTime = DateTime.Now;
-                    this.RaiseError("RFID tag read responses indicate the Vup " +
-                        "Reader might be disconnected. Look for VUP console logs.");
+                    var message = "RFID tag read responses indicate the Vup " +
+                        "Reader might be disconnected. Look for VUP console logs.";
+                    this.logger.Log("VF747p-disconnected", message);
+					this.RaiseError(message);
+                    this.Reconnect();
                 }
             }
 
@@ -140,5 +147,23 @@ public class VupVF747pController : RfidController
             }
         }
         return Enumerable.Empty<string>();
+    }
+
+    private void Reconnect()
+    {
+        this.Disconnect();
+		this.reader = new NetVupReader(ipAddress, 1969, transport_protocol.tcp);
+		var counter = 0;
+        var before = DateTime.Now;
+        do
+        {
+            Console.WriteLine($"Attempting to reconnect: {counter}");
+            this.Connect();
+            Thread.Sleep(TimeSpan.FromSeconds(1));
+            counter++;
+        }
+        while (!this.IsConnected);
+        var after = DateTime.Now;
+        Console.WriteLine($"Reconnected after '{counter}' attempts and '{(after - before).TotalSeconds}' seconds");
     }
 }

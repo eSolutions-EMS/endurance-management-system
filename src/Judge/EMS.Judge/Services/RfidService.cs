@@ -16,10 +16,10 @@ public class RfidService : IRfidService
     private VupVF747pController vupVF747PController;
     private bool isReading;
 
-    public RfidService(ISettings settings, IPopupService popupService)
+    public RfidService(ISettings settings, IPopupService popupService, Application.Services.ILogger logger)
     {
         this.vd67Controller = new VupVD67Controller(TimeSpan.FromMilliseconds(100));
-        this.vupVF747PController = new VupVF747pController("192.168.68.128");
+        this.vupVF747PController = new VupVF747pController("192.168.68.128", logger);
         this.vd67Controller.ErrorEvent += (_, message) => this.RenderError(message);
         this.vupVF747PController.ErrorEvent += (_, message) => this.RenderError(message);
         this.settings = settings;
