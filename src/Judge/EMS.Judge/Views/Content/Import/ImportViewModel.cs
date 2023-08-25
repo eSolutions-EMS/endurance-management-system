@@ -7,6 +7,7 @@ using Core.Domain.AggregateRoots.Manager;
 using Prism.Commands;
 using Prism.Regions;
 using System.Windows;
+using System;
 
 namespace EMS.Judge.Views.Content.Import;
 
@@ -78,23 +79,31 @@ public class ImportViewModel : ViewModelBase
 
     private void OpenFolderDialogAction()
     {
-        var selectedPath = this.explorer.SelectDirectory();
-        if (selectedPath == null)
+        try
         {
-            return;
+            var selectedPath = this.explorer.SelectDirectory();
+            if (selectedPath == null)
+            {
+                return;
+            }
+            this.WorkDirectoryPath = selectedPath;
+
+            this.WorkDirectoryVisibility = Visibility.Collapsed;
+            this.ImportFilePathVisibility = Visibility.Visible;
+
+            var result = this.persistence.Configure(selectedPath);
+            ManagerRoot.dataDirectoryPath = selectedPath;
+            this.context.Initialize();
+            this.judgeSettings.IsConfigured = true;
+            if (result.IsExistingFile)
+            {
+                this.Redirect();
+            }
         }
-        this.WorkDirectoryPath = selectedPath;
-
-        this.WorkDirectoryVisibility = Visibility.Collapsed;
-        this.ImportFilePathVisibility = Visibility.Visible;
-
-        var result = this.persistence.Configure(selectedPath);
-        ManagerRoot.dataDirectoryPath = selectedPath;
-        this.context.Initialize();
-        this.judgeSettings.IsConfigured = true;
-        if (result.IsExistingFile)
+        catch (Exception e)
         {
-            this.Redirect();
+            Console.WriteLine(e.Message);
+            Console.WriteLine(e.StackTrace);
         }
     }
 
