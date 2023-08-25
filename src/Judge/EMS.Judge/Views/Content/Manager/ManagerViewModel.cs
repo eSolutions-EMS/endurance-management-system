@@ -26,13 +26,15 @@ namespace EMS.Judge.Views.Content.Manager;
 public class ManagerViewModel : ViewModelBase
 {
     private static readonly DateTime Today = DateTime.Today;
-    private readonly IState state;
+	private readonly ILogger logger;
+	private readonly IState state;
     private readonly IRfidService rfidService;
     private readonly IEventAggregator eventAggregator;
     private readonly IExecutor<ManagerRoot> managerExecutor;
     private readonly IQueries<Participation> participations;
 
     public ManagerViewModel(
+        ILogger logger,
         IState state,
         IRfidService rfidService,
         IEventAggregator eventAggregator,
@@ -40,7 +42,8 @@ public class ManagerViewModel : ViewModelBase
         IExecutor<ManagerRoot> managerExecutor,
         IQueries<Participation> participations)
     {
-        this.state = state;
+		this.logger = logger;
+		this.state = state;
         this.rfidService = rfidService;
         this.eventAggregator = eventAggregator;
         this.managerExecutor = managerExecutor;
@@ -177,16 +180,25 @@ public class ManagerViewModel : ViewModelBase
     }
     private void StartReadingTags()
     {
-        Task.Run(async () =>
+        Task.Run(() =>
         {
-            await foreach (var tag in this.rfidService.StartReading())
+            foreach (var tag in this.rfidService.StartReading())
             {
-                var witnessEvent = new RfidTagEvent(tag)
+				RfidTagEvent witnessEvent = null;
+                try
                 {
-                    Time = DateTime.Now,
-                    Type = WitnessEventType.Arrival,
-                };
-                Witness.Raise(witnessEvent);
+                    witnessEvent = new RfidTagEvent(tag)
+                    {
+                        Time = DateTime.Now,
+                        Type = WitnessEventType.Arrival,
+                    };
+					Witness.Raise(witnessEvent);
+				}
+				catch (Exception e)
+                {
+                    this.logger.LogError(e, "Couldn't create RfidTagEvent");
+                    continue;
+                }
             }
         });
     }

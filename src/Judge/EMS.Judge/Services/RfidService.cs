@@ -5,7 +5,6 @@ using EMS.Judge.Application.Services;
 using EMS.Judge.Common.Services;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace EMS.Judge.Services;
 public class RfidService : IRfidService
@@ -50,10 +49,10 @@ public class RfidService : IRfidService
         }
     }
 
-    public async Task<RfidTag> Read()
+    public RfidTag Read()
     {
         this.isReading = true;
-        var data = await this.vd67Controller.Read();
+        var data = this.vd67Controller.Read();
         this.isReading = false;
         if (data  == null)
         {
@@ -63,7 +62,7 @@ public class RfidService : IRfidService
         return tag;
     }
 
-    public async IAsyncEnumerable<RfidTag> StartReading()
+    public IEnumerable<RfidTag> StartReading()
     {
         if (this.isReading)
         {
@@ -73,12 +72,21 @@ public class RfidService : IRfidService
         var tags = this.settings.UseVD67InManager
             ? this.vd67Controller.StartReading()
             : this.vupVF747PController.StartReading();
-        await foreach (var data in tags)
+        foreach (var data in tags)
         {
-            var tag = new RfidTag(data); 
-            yield return tag;
-        }
-    }
+            RfidTag tag;
+			try
+            {
+				tag = new RfidTag(data);
+			}
+			catch (Exception)
+            {
+                Console.WriteLine($"Cannot parse RFID tag: {data}");
+                continue;
+            }
+			yield return tag;
+		}
+	}
 
     public void StopReading()
     {
@@ -93,12 +101,12 @@ public class RfidService : IRfidService
         this.isReading = false;
     }
 
-    public async Task<RfidTag> Write(string position, string number)
+    public RfidTag Write(string position, string number)
     {
-        var tag = await this.Read();
+        var tag = this.Read();
         tag.Position = position;
         tag.ParticipantNumber = number;
-        await this.vd67Controller.Write(tag.ToString());
+        this.vd67Controller.Write(tag.ToString());
         return tag;
     }
 
@@ -113,9 +121,9 @@ public class RfidService : IRfidService
 
 public interface IRfidService : ISingletonService
 {
-    Task<RfidTag> Write(string position, string number);
-    Task<RfidTag> Read();
-    IAsyncEnumerable<RfidTag> StartReading();
+    RfidTag Write(string position, string number);
+    RfidTag Read();
+    IEnumerable<RfidTag> StartReading();
     void StopReading();
     void ConnectReader();
     void DisconnectReader();

@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using Vup.reader;
 
 namespace EMS.Judge.Application.Hardware;
@@ -43,7 +42,7 @@ public class VupVF747pController : RfidController
         this.RaiseMessage($"Connected");
     }
 
-    public async IAsyncEnumerable<string> StartReading()
+    public IEnumerable<string> StartReading()
     {
         if (!this.IsConnected)
         {
@@ -57,7 +56,7 @@ public class VupVF747pController : RfidController
             {
                 yield return tag;
             }
-            await Task.Delay(this.throttle);
+            Thread.Sleep(this.throttle);
         }
     }
 
@@ -111,6 +110,7 @@ public class VupVF747pController : RfidController
     private IEnumerable<string> ReadTags(IEnumerable<int> antennaIndices)
     {
         var timer = new Stopwatch();
+        var emptyCounter = 0;
         foreach (var i in antennaIndices)
         {
             this.reader.SetWorkAnt(i);
@@ -127,6 +127,7 @@ public class VupVF747pController : RfidController
             {
                 if (timer.ElapsedMilliseconds is > 1000 or < 5)
                 {
+                    Console.WriteLine($"Suspicious read time: {timer.ElapsedMilliseconds}, count: {this.slowReadTimeMs.Count}");
                     this.slowReadTimeMs.Add(timer.ElapsedMilliseconds);
                 }
                 if (this.slowReadTimeMs.Count >= 1)
@@ -143,8 +144,15 @@ public class VupVF747pController : RfidController
 
             if (tagsBytes.Success)
             {
-                return tagsBytes.Result.Select(x => this.ConvertToString(x.Id));
+				var tags = tagsBytes.Result.Select(x => this.ConvertToString(x.Id));
+                foreach (var tag in tags)
+                {
+					Console.WriteLine($"Detected: {tag}");
+				}
+				return tags;
             }
+            
+            Console.WriteLine($"empty {++emptyCounter}");
         }
         return Enumerable.Empty<string>();
     }
