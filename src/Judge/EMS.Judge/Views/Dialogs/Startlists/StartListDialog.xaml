@@ -33,6 +33,8 @@
                         Grid.Row="1">
                 <!-- Header -->
                 <StackPanel Style="{StaticResource List-Horizontal}">
+                    <Border Style="{StaticResource Border-StartList}" Width="100px">
+                    </Border>
                     <Border Style="{StaticResource Border-StartList}" Width="350px">
                         <TextBlock Style="{StaticResource Text}"
                                    Text="{x:Static localization:Strings.NAME}" />
