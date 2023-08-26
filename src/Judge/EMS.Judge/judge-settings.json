@@ -1,7 +1,8 @@
 ﻿{
-  "version": "3.4.3",
+  "version": "3.4.4",
   "isSandboxMode": false,
   "startVupRfid": true,
   "startServer": true,
-  "useVD67InManager": false
+  "useVD67InManager": false,
+  "witnessEventType": "VetIn"
 }

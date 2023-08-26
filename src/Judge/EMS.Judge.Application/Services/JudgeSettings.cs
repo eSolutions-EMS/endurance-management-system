@@ -8,6 +8,7 @@ public class JudgeSettings : ISettings
     public bool StartVupRfid { get; set; }
     public string Version { get; set; }
     public bool UseVD67InManager { get; set; }
+    public string WitnessEventType { get; set; }
 }
 
 public interface ISettings
@@ -18,4 +19,5 @@ public interface ISettings
     bool StartVupRfid { get; }
     bool UseVD67InManager { get; }
     string Version { get; }
+    string WitnessEventType { get; set; }
 }

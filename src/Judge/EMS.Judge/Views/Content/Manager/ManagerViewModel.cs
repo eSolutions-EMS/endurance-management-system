@@ -36,6 +36,7 @@ public class ManagerViewModel : ViewModelBase
     private readonly IQueries<Participation> participations;
 
     public ManagerViewModel(
+        ISettings settings,
         ILogger logger,
         IState state,
         IRfidService rfidService,
@@ -50,8 +51,13 @@ public class ManagerViewModel : ViewModelBase
         this.eventAggregator = eventAggregator;
         this.managerExecutor = managerExecutor;
         this.participations = participations;
+        if (string.IsNullOrEmpty(settings.WitnessEventType))
+        {
+            throw new Exception("WitnessEventType missing in settings. Correct values are: 'Arrival', 'VetIn'");
+        }
+		this.EventTypeId = (int)Enum.Parse<WitnessEventType>(settings.WitnessEventType);
 
-        this.Update = new DelegateCommand(this.UpdateAction);
+		this.Update = new DelegateCommand(this.UpdateAction);
         this.Start = new DelegateCommand(this.StartAction);
         this.Disqualify = new DelegateCommand(this.DisqualifyAction);
         this.FailToQualify = new DelegateCommand(this.FailToQualifyAction);
@@ -101,7 +107,7 @@ public class ManagerViewModel : ViewModelBase
     private string notQualifiedReason;
     private bool requireInspectionValue = false;
     private bool reInspectionValue = false;
-    private int eventTypeId = (int)WitnessEventType.Arrival;
+    private int eventTypeId;
 
     public int EventTypeId
     {
