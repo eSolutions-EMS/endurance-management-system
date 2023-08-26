@@ -190,7 +190,7 @@ public class ManagerViewModel : ViewModelBase
                     witnessEvent = new RfidTagEvent(tag)
                     {
                         Time = DateTime.Now,
-                        Type = WitnessEventType.Arrival,
+                        Type = WitnessEventType.VetIn,
                     };
 					Witness.Raise(witnessEvent);
 				}
