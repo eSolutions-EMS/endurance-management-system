@@ -21,6 +21,8 @@ using Core.Events;
 using EMS.Judge.Application.Services;
 using Core.Domain.AggregateRoots.Manager.WitnessEvents;
 using Core.Domain.State;
+using Core.Domain.Enums;
+using EMS.Judge.Common.Components.Templates.SimpleListItem;
 
 namespace EMS.Judge.Views.Content.Manager;
 public class ManagerViewModel : ViewModelBase
@@ -99,8 +101,18 @@ public class ManagerViewModel : ViewModelBase
     private string notQualifiedReason;
     private bool requireInspectionValue = false;
     private bool reInspectionValue = false;
+    private int eventTypeId = (int)WitnessEventType.Arrival;
 
-    public ObservableCollection<string> DetectedFinishes { get; } = new();
+    public int EventTypeId
+    {
+        get => this.eventTypeId;
+        set => this.SetProperty(ref this.eventTypeId, value);
+    }
+
+	public ObservableCollection<SimpleListItemViewModel> EventTypes { get; }
+		= new(SimpleListItemViewModel.FromEnum<WitnessEventType>());
+
+	public ObservableCollection<string> DetectedFinishes { get; } = new();
     public ObservableCollection<string> DetectedVets { get; } = new();
     public ObservableCollection<ParticipationGridModel> Participations { get; } = new();
     public ParticipationGridModel SelectedParticipation { get; set; }
@@ -184,13 +196,14 @@ public class ManagerViewModel : ViewModelBase
         {
             foreach (var tag in this.rfidService.StartReading())
             {
+                var eventType = (WitnessEventType)this.EventTypeId;
 				RfidTagEvent witnessEvent = null;
                 try
                 {
                     witnessEvent = new RfidTagEvent(tag)
                     {
                         Time = DateTime.Now,
-                        Type = WitnessEventType.VetIn,
+                        Type = eventType,
                     };
 					Witness.Raise(witnessEvent);
 				}
