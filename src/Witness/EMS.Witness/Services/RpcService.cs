@@ -40,21 +40,23 @@ public class RpcService: IRpcService
 	{
 		try
 		{
-			if (host != string.Empty)
-			{
-				var toast = new Toast("RPC is configured", $"Clients are attempting to connect to '{host}'", UiColor.Success, 10);
-				return;
-			}
 			if (await this.permissionsService.HasNetworkPermissions())
 			{
 				this.witnessState.RaiseIsHandshakingEvent(true);
-				var ip = await this.handshakeService.Handshake(Apps.WITNESS, new CancellationToken());
-				if (ip == null)
+				if (host != string.Empty)
 				{
-					this.toaster.Add("Could not handshake", "Judge API address is null", UiColor.Danger);
-					return;
+					this.toaster.Add("RPC is configured", $"Clients are attempting to connect to '{host}'", UiColor.Success);
 				}
-				ConfigureApiHost(ip.ToString());
+				else
+				{
+					var ip = await this.handshakeService.Handshake(Apps.WITNESS, new CancellationToken());
+					if (ip == null)
+					{
+						this.toaster.Add("Could not handshake", "Judge API address is null", UiColor.Danger);
+						return;
+					}
+					ConfigureApiHost(ip.ToString());
+				}
                 foreach (var client in this.rpcClients)
                 {
                     client.Configure(host);
