@@ -42,6 +42,7 @@ public partial class App : Application
 		var window = base.CreateWindow(activationState);
 
 		window.Activated += (s, e) => this.rpcService.Handshake();
+		window.Resumed += (s, e) => this.rpcService.Handshake();
 
 		return window;
 	}
