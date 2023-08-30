@@ -18,14 +18,17 @@ public class RpcService: IRpcService
 	private readonly IHandshakeService handshakeService;
 	private readonly IEnumerable<IRpcClient> rpcClients;
 	private readonly IPermissionsService permissionsService;
+	private readonly WitnessState witnessState;
 
 	public RpcService(
+		IWitnessState witnessState,
 		IEnumerable<IRpcClient> rpcClients,
 		IPermissionsService permissionsService,
 		IHandshakeService handshakeService,
 		HttpClient httpClient,
 		IToaster toaster)
     {
+		this.witnessState = (WitnessState)witnessState;
 		this.rpcClients = rpcClients;
 		this.permissionsService = permissionsService;
         this.httpClient = httpClient;
@@ -44,6 +47,7 @@ public class RpcService: IRpcService
 			}
 			if (await this.permissionsService.HasNetworkPermissions())
 			{
+				this.witnessState.RaiseIsHandshakingEvent(true);
 				var ip = await this.handshakeService.Handshake(Apps.WITNESS, new CancellationToken());
 				if (ip == null)
 				{
@@ -68,6 +72,10 @@ public class RpcService: IRpcService
 		catch (Exception exception)
 		{
 			this.ToastError(exception);
+		}
+		finally
+		{
+			this.witnessState.RaiseIsHandshakingEvent(false);
 		}
 	}
 
