@@ -19,6 +19,7 @@ public class RpcService: IRpcService
 	private readonly IEnumerable<IRpcClient> rpcClients;
 	private readonly IPermissionsService permissionsService;
 	private readonly WitnessState witnessState;
+	private bool isHandshaking;
 
 	public RpcService(
 		IWitnessState witnessState,
@@ -38,29 +39,33 @@ public class RpcService: IRpcService
 
 	public async Task Handshake()
 	{
+		if (this.isHandshaking)
+		{
+			return;
+		}
+		this.isHandshaking = true;
 		try
 		{
 			if (await this.permissionsService.HasNetworkPermissions())
 			{
 				this.witnessState.RaiseIsHandshakingEvent(true);
-				if (host != string.Empty)
-				{
-					this.toaster.Add("RPC is configured", $"Clients are attempting to connect to '{host}'", UiColor.Success);
-				}
-				else
+				if (host == string.Empty)
 				{
 					var ip = await this.handshakeService.Handshake(Apps.WITNESS, new CancellationToken());
 					if (ip == null)
 					{
-						this.toaster.Add("Could not handshake", "Judge API address is null", UiColor.Danger);
+						this.toaster.Add("Could not handshake", "Judge Server broadcast does not contain IP address", UiColor.Danger);
 						return;
 					}
 					ConfigureApiHost(ip.ToString());
 				}
-                foreach (var client in this.rpcClients)
+                foreach (var client in this.rpcClients.Where(x => !x.IsConnected))
                 {
-                    client.Configure(host);
-                    await client.Start();
+					if (!client.IsConfigured)
+					{
+						client.Configure(host);
+					}
+					await client.Connect();
                 }
             }
 			else

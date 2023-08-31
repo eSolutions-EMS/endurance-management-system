@@ -10,34 +10,32 @@ namespace Core.Application.Rpc;
 public class RpcClient : IRpcClient, IAsyncDisposable
 {
 	public event EventHandler<bool>? ServerConnectionChanged;
+	public bool IsConnected => (this.Connection?.State == HubConnectionState.Connected;
+	public bool IsConfigured { get; private set; }
 
     private readonly string endpoint;
     // Necessary because this.Connection instance is not intialized 
     // when procedures are reigstered in the child constructor
     private List<Action<HubConnection>> procedureRegistrations = new();
-	private CancellationTokenSource cancellationTokenSource;
+	private CancellationTokenSource reconnectTokenSource;
 
     public RpcClient(string endpoint)
     {
         this.endpoint = endpoint;
-		this.cancellationTokenSource = new CancellationTokenSource();
+		this.reconnectTokenSource = new CancellationTokenSource();
     }
     
     protected HubConnection? Connection { get; private set; }
 
     public void Configure(string host)
     {
-        if (this.Connection != null)
-        {
-            return;
-		}
 		var url = $"{host}/{endpoint}";
 		this.Connection = new HubConnectionBuilder()
 			.WithUrl(url)
 			.Build();
 		this.Connection.Closed += ex =>
 		{
-			this.BeginReconnecting(this.cancellationTokenSource.Token);
+			this.BeginReconnecting(this.reconnectTokenSource.Token);
 			return Task.CompletedTask;
 		};
         foreach (var registerProcedure in procedureRegistrations)
@@ -46,15 +44,17 @@ public class RpcClient : IRpcClient, IAsyncDisposable
 		}
 	}
 
-    public virtual async Task Start()
+    public virtual async Task Connect()
     {
 		if (this.Connection == null)
         {
-            return;
+			var error = new Exception($"Cannot connect - client host is not configured. Use {nameof(IRpcClient.Configure)}");
+			this.RaiseError(error, "Connection");
+			return;
         }
-        if (this.cancellationTokenSource.IsCancellationRequested)
+        if (this.reconnectTokenSource.IsCancellationRequested)
         {
-            this.cancellationTokenSource = new CancellationTokenSource();
+            this.reconnectTokenSource = new CancellationTokenSource();
         }
         try
 		{
@@ -63,18 +63,19 @@ public class RpcClient : IRpcClient, IAsyncDisposable
 		}
         catch (Exception ex)
 		{
-			this.HandleError(ex, this.endpoint);
+			this.RaiseError(ex, this.endpoint);
 		}
     }
 
-    public virtual async Task Stop()
+    public virtual async Task Disconnect()
     {
-        if (this.Connection == null)
+        if (this.Connection == null || !this.IsConnected)
         {
             return;
         }
-		this.cancellationTokenSource.Cancel();
+		this.reconnectTokenSource.Cancel();
         await this.Connection.StopAsync();
+		this.IsConnected = false;
     }
 
 	public async ValueTask DisposeAsync()
@@ -84,7 +85,7 @@ public class RpcClient : IRpcClient, IAsyncDisposable
             return;
         }
         await this.Connection.DisposeAsync();
-		this.cancellationTokenSource.Dispose();
+		this.reconnectTokenSource.Dispose();
     }
 
 	protected void AddProcedure(string name, Func<Task> action)
@@ -99,7 +100,7 @@ public class RpcClient : IRpcClient, IAsyncDisposable
 				}
 				catch (Exception exception)
 				{
-					this.HandleError(exception, name);
+					this.RaiseError(exception, name);
 				}
 			});
 		});
@@ -116,7 +117,7 @@ public class RpcClient : IRpcClient, IAsyncDisposable
 				}
 				catch (Exception exception)
 				{
-					this.HandleError(exception, name, a);
+					this.RaiseError(exception, name, a);
 				}
 			});
 		});
@@ -133,7 +134,7 @@ public class RpcClient : IRpcClient, IAsyncDisposable
 				}
 				catch (Exception exception)
 				{
-					this.HandleError(exception, name, a, b);
+					this.RaiseError(exception, name, a, b);
 				}
 			});
 		});
@@ -150,7 +151,7 @@ public class RpcClient : IRpcClient, IAsyncDisposable
 				}
 				catch (Exception exception)
 				{
-					this.HandleError(exception, name, a, b, c);
+					this.RaiseError(exception, name, a, b, c);
 				}
 			});
 		});
@@ -165,7 +166,7 @@ public class RpcClient : IRpcClient, IAsyncDisposable
 		}
 		catch (Exception exception)
 		{
-			this.HandleError(exception, name, parameter);
+			this.RaiseError(exception, name, parameter);
 			return RpcInvokeResult.Error;
 		}
 	}
@@ -179,13 +180,13 @@ public class RpcClient : IRpcClient, IAsyncDisposable
 		}
 		catch (Exception exception)
 		{
-			this.HandleError(exception, name);
+			this.RaiseError(exception, name);
 			return RpcInvokeResult<T>.Error;
         }
 	}
 
     public event EventHandler<RpcError>? Error;
-    private void HandleError(Exception exception, string procedure, params object[] arguments)
+    private void RaiseError(Exception exception, string procedure, params object[] arguments)
     {
         Console.WriteLine($"Error in '{procedure}': {exception.Message}");
         var error = new RpcError(exception, procedure, arguments);
@@ -236,7 +237,9 @@ public interface IRpcClient
 	/// </summary>
 	event EventHandler<bool>? ServerConnectionChanged;
 	event EventHandler<RpcError>? Error;
+	bool IsConnected { get; }
+	bool IsConfigured { get; }
     void Configure(string host);
-	Task Start();
-    Task Stop();
+	Task Connect();
+    Task Disconnect();
 }
