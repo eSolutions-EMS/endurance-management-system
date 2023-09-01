@@ -170,6 +170,20 @@ public class RpcClient : IRpcClient, IAsyncDisposable
 		}
 	}
 
+	protected async Task<RpcInvokeResult> InvokeAsync<T1, T2>(string name, T1 parameter1, T2 parameter2)
+	{
+		try
+		{
+			await this.Connection.InvokeAsync(name, parameter1, parameter2);
+			return RpcInvokeResult.Success;
+		}
+		catch (Exception exception)
+		{
+			this.RaiseError(exception, name, parameter1, parameter2);
+			return RpcInvokeResult.Error;
+		}
+	}
+
 	protected async Task<RpcInvokeResult<T>> InvokeAsync<T>(string name)
 	{
 		try

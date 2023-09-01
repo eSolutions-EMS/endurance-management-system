@@ -1,4 +1,5 @@
-﻿using Core.Domain.AggregateRoots.Manager.Aggregates.ParticipantEntries;
+﻿using Core.Domain.AggregateRoots.Manager;
+using Core.Domain.AggregateRoots.Manager.Aggregates.ParticipantEntries;
 using Core.Enums;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -8,7 +9,7 @@ namespace Core.Application.Rpc.Procedures;
 public interface IParticipantstHubProcedures
 {
     IEnumerable<ParticipantEntry> Get();
-    Task Save(IEnumerable<ParticipantEntry> entries);
+    Task Witness(IEnumerable<ParticipantEntry> entries, WitnessEventType type);
 }
 
 public interface IParticipantsClientProcedures

@@ -80,11 +80,7 @@ public class ParticipantsService : IParticipantsService
 
     public async Task SaveSnaphots(WitnessEventType type)
     {
-        foreach (var entry in this.Snapshots)
-        {
-            entry.Type = type;
-        }
-        var result = await this.participantsClient.Save(this.Snapshots);
+        var result = await this.participantsClient.Send(this.Snapshots, type);
         if (result.IsSuccessful)
         {
             var key = $"{this.dateService.FormatTime(DateTime.Now)} - {type}";
@@ -94,9 +90,8 @@ public class ParticipantsService : IParticipantsService
     }
     public async Task Resend(string historyKey, WitnessEventType type)
     {
-        // TODO: fix type
         var list = this.History[historyKey];
-        var result = await this.participantsClient.Save(list);
+        var result = await this.participantsClient.Send(list, type);
         if (result.IsSuccessful)
         {
             this.toaster.Add($"{nameof(this.Resend)} Successful", $"Resent '{list.Count}' entries", UiColor.Success, 3);
