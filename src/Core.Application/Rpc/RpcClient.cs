@@ -10,7 +10,7 @@ namespace Core.Application.Rpc;
 public class RpcClient : IRpcClient, IAsyncDisposable
 {
 	public event EventHandler<bool>? ServerConnectionChanged;
-	public bool IsConnected => (this.Connection?.State == HubConnectionState.Connected;
+	public bool IsConnected => this.Connection?.State == HubConnectionState.Connected;
 	public bool IsConfigured { get; private set; }
 
     private readonly string endpoint;
