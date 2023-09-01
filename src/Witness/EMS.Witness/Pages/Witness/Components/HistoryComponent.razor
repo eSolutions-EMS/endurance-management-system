@@ -10,29 +10,36 @@
 @inject IPopupService PopupService;
 
 <div class="row">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Stage</th>
-                <th>Name</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var entry in this.ParticipantsService.History)
-            {
-                <tr>
-                    <td>@entry.Number</td>
-                    <th>@entry.LapNumber</th>
-                    <td>@entry.Name</td>
-                    <td>
-                        <button class="btn btn-primary" @onclick="_ => this.Save(entry)">Save</button>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    @foreach (var batch in this.ParticipantsService.History)
+    {
+        <Collapsable>
+            <Header>@batch.Key</Header>
+            <Content>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Stage</th>
+                            <th>Name</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var entry in batch.Value)
+                        {
+                            <tr>
+                                <td>@entry.Number</td>
+                                <th>@entry.LapNumber</th>
+                                <td>@entry.Name</td>
+                                <td>@entry.ArriveTime</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+                <button class="btn btn-warning" @onclick="_ => this.Save(batch.Key)">Send Again</button>
+            </Content>
+        </Collapsable>
+    }
 </div>
 
 @code {
@@ -41,14 +48,13 @@
         return changedState == this.ParticipantsService.History;
     }
 
-    private async Task Save(ParticipantEntry entry)
+    private async Task Save(string historyKey)
     {
         var type = await this.PopupService.SelecEventType();
         if (type is null)
         {
             return;
         }
-        entry.Type = type.Value;
-        await this.ParticipantsService.Save(entry);
+        await this.ParticipantsService.Resend(historyKey, type.Value);
     }
 }

@@ -1,4 +1,5 @@
-﻿using Core.ConventionalServices;
+﻿using Core.Application.Services;
+using Core.ConventionalServices;
 using Core.Domain.AggregateRoots.Manager;
 using Core.Domain.AggregateRoots.Manager.Aggregates.ParticipantEntries;
 using Core.Enums;
@@ -13,18 +14,20 @@ public class ParticipantsService : IParticipantsService
     private readonly IWitnessState state;
     private readonly IParticipantsClient participantsClient;
     private readonly IToaster toaster;
+    private readonly IDateService dateService;
 
-    public ParticipantsService(IWitnessState state, IParticipantsClient arrivelistClient, IToaster toaster)
+    public ParticipantsService(IWitnessState state, IParticipantsClient arrivelistClient, IToaster toaster, IDateService dateService)
     {
         this.state = state;
         this.participantsClient = arrivelistClient;
         this.toaster = toaster;
+        this.dateService = dateService;
     }
 
     public SortedCollection<ParticipantEntry> Participants => this.state.Participants;
     public ObservableCollection<ParticipantEntry> Snapshots { get; } = new();
     public ObservableCollection<ParticipantEntry> Selected { get; } = new();
-    public List<ParticipantEntry> History { get; } = new();
+    public Dictionary<string, List<ParticipantEntry>> History { get; } = new();
 
     public void EditSnapshot(string number, DateTime time)
     {
@@ -84,17 +87,19 @@ public class ParticipantsService : IParticipantsService
         var result = await this.participantsClient.Save(this.Snapshots);
         if (result.IsSuccessful)
         {
-            this.History.AddRange(this.Snapshots);
+            var key = $"{this.dateService.FormatTime(DateTime.Now)} - {type}";
+            this.History.Add(key, this.Snapshots);
             this.Snapshots.Clear();
         }
     }
-    public async Task Save(ParticipantEntry entry)
+    public async Task Resend(string historyKey, WitnessEventType type)
     {
-        var list = new List<ParticipantEntry> { entry };
+        // TODO: fix type
+        var list = this.History[historyKey];
         var result = await this.participantsClient.Save(list);
         if (result.IsSuccessful)
         {
-            this.toaster.Add("Save Successful", $"Entry '{entry.Number}-{entry.Name}' saved successfully", UiColor.Success, 3);
+            this.toaster.Add($"{nameof(this.Resend)} Successful", $"Resent '{list.Count}' entries", UiColor.Success, 3);
         }
     }
 
@@ -130,7 +135,7 @@ public interface IParticipantsService : ISingletonService
     SortedCollection<ParticipantEntry> Participants { get; }
     ObservableCollection<ParticipantEntry> Selected { get; }
     ObservableCollection<ParticipantEntry> Snapshots { get; }
-    List<ParticipantEntry> History { get; }
+    Dictionary<string, List<ParticipantEntry>> History { get; }
     Task Load();
     void Sort(bool byNumber = false, bool byDistance = false, bool byName = false);
     void Update(ParticipantEntry entry, CollectionAction action);
@@ -140,5 +145,5 @@ public interface IParticipantsService : ISingletonService
     void Snapshot(ParticipantEntry entry);
     void RemoveSnapshot(ParticipantEntry entry);
     Task SaveSnaphots(WitnessEventType type);
-    Task Save(ParticipantEntry entry);
+    Task Resend(string historyKey, WitnessEventType type);
 }
