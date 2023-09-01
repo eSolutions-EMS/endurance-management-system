@@ -23,12 +23,12 @@
             {
                 <tr>
                     <td>
-                        <button class="btn btn-danger btn-table" @onclick="_ => this.ArrivelistService.Unselect(arrive)">-</button>
+                        <button class="btn btn-danger btn-table" @onclick="_ => this.ArrivelistService.RemoveSelected(arrive)">-</button>
                     </td>
                     <td>@arrive.Number</td>
                     <td>@arrive.Name</td>
                     <td>
-                        <button class="btn btn-success btn-table" @onclick="_ => this.ArrivelistService.Snapshot(arrive)">Snapshot</button>
+                        <button class="btn btn-success btn-table" @onclick="_ => this.ArrivelistService.CreateSnapshot(arrive)">Snapshot</button>
                     </td>
                 </tr>
             }
@@ -40,7 +40,7 @@
         <button class="btn btn-warning btn-table"
                 disabled=@sortByNumber
                 @onclick="_ => this.SortByNumber()">
-            Number
+            #
         </button>
     </div>
     <div class="col">

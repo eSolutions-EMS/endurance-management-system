@@ -73,12 +73,12 @@ public class ParticipantsService : IParticipantsService
         this.Participants.Add(entry);
     }
 
-    public void Unselect(ParticipantEntry entry)
+    public void RemoveSelected(ParticipantEntry entry)
     {
         this.Selected.Remove(entry);
     }
 
-    public async Task SaveSnaphots(WitnessEventType type)
+    public async Task Send(WitnessEventType type)
     {
         var result = await this.participantsClient.Send(this.Snapshots, type);
         if (result.IsSuccessful)
@@ -106,7 +106,7 @@ public class ParticipantsService : IParticipantsService
         }
     }
 
-    public void Snapshot(ParticipantEntry entry)
+    public void CreateSnapshot(ParticipantEntry entry)
     {
         this.Selected.Remove(entry);
 
@@ -135,10 +135,10 @@ public interface IParticipantsService : ISingletonService
     void Sort(bool byNumber = false, bool byDistance = false, bool byName = false);
     void Update(ParticipantEntry entry, CollectionAction action);
     void Select(ParticipantEntry entry);
-    void Unselect(ParticipantEntry entry);
+    void RemoveSelected(ParticipantEntry entry);
     void EditSnapshot(string number, DateTime time);
-    void Snapshot(ParticipantEntry entry);
+    void CreateSnapshot(ParticipantEntry entry);
     void RemoveSnapshot(ParticipantEntry entry);
-    Task SaveSnaphots(WitnessEventType type);
+    Task Send(WitnessEventType type);
     Task Resend(string historyKey, WitnessEventType type);
 }

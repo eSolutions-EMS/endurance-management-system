@@ -54,7 +54,7 @@
     </table>
 </div>
 <div class="row mb-1">
-    <button class="btn btn-primary" @onclick="_ => this.SaveSnapshots()">Save</button>
+    <button class="btn btn-primary" @onclick="_ => this.SendSnapshots()">Send</button>
 </div>
 
 @code {
@@ -82,14 +82,14 @@
         this.ParticipantsService.EditSnapshot(this.witnessModel.Number.ToString(), time);
     }
 
-    private async Task SaveSnapshots()
+    private async Task SendSnapshots()
     {
         var type = await this.PopupService.SelecEventType();
         if (type is null)
         {
             return;
         }
-        await this.ParticipantsService.SaveSnaphots(type.Value);
+        await this.ParticipantsService.Send(type.Value);
     }
 
     private class ArriveEditModel
