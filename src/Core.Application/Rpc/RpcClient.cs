@@ -75,7 +75,6 @@ public class RpcClient : IRpcClient, IAsyncDisposable
         }
 		this.reconnectTokenSource.Cancel();
         await this.Connection.StopAsync();
-		this.IsConnected = false;
     }
 
 	public async ValueTask DisposeAsync()
