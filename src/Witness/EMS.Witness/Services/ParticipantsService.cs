@@ -84,7 +84,7 @@ public class ParticipantsService : IParticipantsService
         if (result.IsSuccessful)
         {
             var key = $"{this.dateService.FormatTime(DateTime.Now)} - {type}";
-            this.History.Add(key, this.Snapshots);
+            this.History.Add(key, this.Snapshots.ToList());
             this.Snapshots.Clear();
         }
     }
