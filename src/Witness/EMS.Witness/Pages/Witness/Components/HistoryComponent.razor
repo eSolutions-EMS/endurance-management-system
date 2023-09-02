@@ -9,37 +9,42 @@
 @inject IParticipantsService ParticipantsService;
 @inject IPopupService PopupService;
 
-<div class="row">
-    @foreach (var batch in this.ParticipantsService.History)
-    {
-        <Collapsable>
-            <Header>@batch.Key</Header>
-            <Content>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Stage</th>
-                            <th>Name</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var entry in batch.Value)
-                        {
-                            <tr>
-                                <td>@entry.Number</td>
-                                <th>@entry.LapNumber</th>
-                                <td>@entry.Name</td>
-                                <td>@entry.ArriveTime</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
-                <button class="btn btn-warning" @onclick="_ => this.Save(batch.Key)">Send Again</button>
-            </Content>
-        </Collapsable>
-    }
+
+<div class="accordion">
+    <div class="accordion-item">
+        <div class="row">
+            @foreach (var batch in this.ParticipantsService.History)
+            {
+                <Collapsable>
+                    <Header>@batch.Key</Header>
+                    <Content>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Stage</th>
+                                    <th>Name</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var entry in batch.Value)
+                                {
+                                    <tr>
+                                        <td>@entry.Number</td>
+                                        <th>@entry.LapNumber</th>
+                                        <td>@entry.Name</td>
+                                        <td>@entry.ArriveTime</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <button class="btn btn-warning" @onclick="_ => this.Save(batch.Key)">Send Again</button>
+                    </Content>
+                </Collapsable>
+            }
+        </div>
+    </div>
 </div>
 
 @code {
