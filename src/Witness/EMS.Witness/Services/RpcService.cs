@@ -12,6 +12,7 @@ namespace EMS.Witness.Services;
 
 public class RpcService: IRpcService
 {
+	private const string ALEX_HOME_WORKSTATION_IP = "192.168.0.36";
 	private static string host = string.Empty;
     private readonly HttpClient httpClient;
 	private readonly IToaster toaster;
@@ -43,38 +44,20 @@ public class RpcService: IRpcService
 		{
 			return;
 		}
+		if (!await this.permissionsService.HasNetworkPermissions())
+		{
+            this.toaster.Add(
+                "Network permission rejected",
+                "eWitness app cannot operate without Network permissions. Grant permissions in device settings.",
+                UiColor.Danger);
+			return;
+        }
+
 		this.isHandshaking = true;
 		try
 		{
-			if (await this.permissionsService.HasNetworkPermissions())
-			{
-				this.witnessState.RaiseIsHandshakingEvent(true);
-				if (host == string.Empty)
-				{
-					var ip = await this.handshakeService.Handshake(Apps.WITNESS, new CancellationToken());
-					if (ip == null)
-					{
-						this.toaster.Add("Could not handshake", "Judge Server broadcast does not contain IP address", UiColor.Danger);
-						return;
-					}
-					ConfigureApiHost(ip.ToString());
-				}
-                foreach (var client in this.rpcClients.Where(x => !x.IsConnected))
-                {
-					if (!client.IsConfigured)
-					{
-						client.Configure(host);
-					}
-					await client.Connect();
-                }
-            }
-			else
-			{
-				this.toaster.Add(
-					"Network permission rejected",
-                    "eWitness app cannot operate without Network permissions. Grant permissions in device settings.",
-                    UiColor.Danger);
-			}
+			await this.ConfigureServerHost();
+			await this.ConnectRpcClients();
 		}
 		catch (Exception exception)
 		{
@@ -85,6 +68,36 @@ public class RpcService: IRpcService
 			this.witnessState.RaiseIsHandshakingEvent(false);
 		}
 	}
+
+	private async Task ConfigureServerHost()
+	{
+#if DEBUG
+        ConfigureApiHost(ALEX_HOME_WORKSTATION_IP);
+#else
+		if (host == string.Empty)
+        {
+            var ip = await this.handshakeService.Handshake(Apps.WITNESS, new CancellationToken());
+            if (ip == null)
+            {
+                this.toaster.Add("Could not handshake", "Judge Server broadcast does not contain IP address", UiColor.Danger);
+                return;
+            }
+            ConfigureApiHost(ip.ToString());
+        }
+#endif
+    }
+
+	private async Task ConnectRpcClients()
+	{
+        foreach (var client in this.rpcClients.Where(x => !x.IsConnected))
+        {
+            if (!client.IsConfigured)
+            {
+                client.Configure(host);
+            }
+            await client.Connect();
+        }
+    }
 
 	public async Task<List<StartlistEntry>> GetStartlist()
     {
