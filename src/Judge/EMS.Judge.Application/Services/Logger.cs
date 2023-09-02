@@ -9,12 +9,22 @@ namespace EMS.Judge.Application.Services;
 public class Logger : ILogger
 {
     private readonly IFileService fileService;
-    public Logger(IFileService fileService)
+	private readonly IPersistence persistence;
+
+	public Logger(IFileService fileService, IPersistence persistence)
     {
         this.fileService = fileService;
+		this.persistence = persistence;
+	}
+
+	public void Log(string type, string message)
+	{
+		var filename = $"{DateTime.Now.ToString("dd-hh.mm.ss")}_{type}.txt";
+        var path = Path.Combine(this.persistence.StateDirectoryPath, filename);
+		this.fileService.Append(path, message);
     }
-    
-    public void LogEvent(WitnessEvent witnessEvent)
+
+	public void LogEvent(WitnessEvent witnessEvent)
     {
         var filename = "witness-events.log";
         var now = DateTime.Now;
@@ -48,6 +58,7 @@ public class Logger : ILogger
 
 public interface ILogger : ITransientService
 {
+    void Log(string type, string message);
     void LogEvent(WitnessEvent witnessEvent);
     void LogEventError(Exception exception);
 }

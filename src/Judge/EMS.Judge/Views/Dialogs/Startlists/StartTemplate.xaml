@@ -5,6 +5,8 @@
 
     <DataTemplate DataType="{x:Type printStartList:StartTemplateModel}">
         <StackPanel Style="{StaticResource List-Horizontal}" Margin="-5px -2px 0 0">
+            <Border Style="{StaticResource Border-StartList}" Width="100px">
+            </Border>
             <!-- Name -->
             <Border Style="{StaticResource Border-StartList}" Width="350px">
                 <TextBlock Style="{StaticResource Text-Small}"

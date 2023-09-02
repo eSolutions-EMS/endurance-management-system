@@ -270,7 +270,7 @@ public class ManagerRoot : IAggregateRoot
             return new Startlist(new List<StartlistEntry>());
         }
         var entries = this.state.Participations
-            .Where(x => x.Participant.LapRecords.All(y => y.NextStarTime.HasValue))
+            .Where(x => x.IsNotComplete)
             .Select(x => new StartlistEntry(x));
         var startlist = new Startlist(entries);
         return startlist;
@@ -279,9 +279,7 @@ public class ManagerRoot : IAggregateRoot
     public IEnumerable<ParticipantEntry> GetActiveParticipants()
     {
         var entries = this.state.Participations
-            .Where(x =>
-                (x.Participant.LapRecords.Count == 1 || x.Participant.LapRecords.All(y => y.NextStarTime.HasValue)) &&
-                !x.Participant.LapRecords.All(y => y.Result?.IsNotQualified ?? false))
+            .Where(x => x.Participant.LapRecords.Any() && x.IsNotComplete)
             .Select(x => new ParticipantEntry(x));
         return entries;
     }

@@ -221,6 +221,10 @@
                     <Button Style="{StaticResource Button-Big-Vertical}"
                             IsEnabled="False"
                             Content="{Binding WitnessType}" />
+                    <ComboBox Style="{StaticResource Combo-Box}"
+                                Name="EventType"
+                                ItemsSource="{Binding EventTypes}"
+                                SelectedValue="{Binding EventTypeId}" />
                 </StackPanel>
             </Border>
         </Grid>

@@ -21,18 +21,23 @@ using Core.Events;
 using EMS.Judge.Application.Services;
 using Core.Domain.AggregateRoots.Manager.WitnessEvents;
 using Core.Domain.State;
+using Core.Domain.Enums;
+using EMS.Judge.Common.Components.Templates.SimpleListItem;
 
 namespace EMS.Judge.Views.Content.Manager;
 public class ManagerViewModel : ViewModelBase
 {
     private static readonly DateTime Today = DateTime.Today;
-    private readonly IState state;
+	private readonly ILogger logger;
+	private readonly IState state;
     private readonly IRfidService rfidService;
     private readonly IEventAggregator eventAggregator;
     private readonly IExecutor<ManagerRoot> managerExecutor;
     private readonly IQueries<Participation> participations;
 
     public ManagerViewModel(
+        ISettings settings,
+        ILogger logger,
         IState state,
         IRfidService rfidService,
         IEventAggregator eventAggregator,
@@ -40,13 +45,19 @@ public class ManagerViewModel : ViewModelBase
         IExecutor<ManagerRoot> managerExecutor,
         IQueries<Participation> participations)
     {
-        this.state = state;
+		this.logger = logger;
+		this.state = state;
         this.rfidService = rfidService;
         this.eventAggregator = eventAggregator;
         this.managerExecutor = managerExecutor;
         this.participations = participations;
+        if (string.IsNullOrEmpty(settings.WitnessEventType))
+        {
+            throw new Exception("WitnessEventType missing in settings. Correct values are: 'Arrival', 'VetIn'");
+        }
+		this.EventTypeId = (int)Enum.Parse<WitnessEventType>(settings.WitnessEventType);
 
-        this.Update = new DelegateCommand(this.UpdateAction);
+		this.Update = new DelegateCommand(this.UpdateAction);
         this.Start = new DelegateCommand(this.StartAction);
         this.Disqualify = new DelegateCommand(this.DisqualifyAction);
         this.FailToQualify = new DelegateCommand(this.FailToQualifyAction);
@@ -96,8 +107,18 @@ public class ManagerViewModel : ViewModelBase
     private string notQualifiedReason;
     private bool requireInspectionValue = false;
     private bool reInspectionValue = false;
+    private int eventTypeId;
 
-    public ObservableCollection<string> DetectedFinishes { get; } = new();
+    public int EventTypeId
+    {
+        get => this.eventTypeId;
+        set => this.SetProperty(ref this.eventTypeId, value);
+    }
+
+	public ObservableCollection<SimpleListItemViewModel> EventTypes { get; }
+		= new(SimpleListItemViewModel.FromEnum<WitnessEventType>());
+
+	public ObservableCollection<string> DetectedFinishes { get; } = new();
     public ObservableCollection<string> DetectedVets { get; } = new();
     public ObservableCollection<ParticipationGridModel> Participations { get; } = new();
     public ParticipationGridModel SelectedParticipation { get; set; }
@@ -177,16 +198,26 @@ public class ManagerViewModel : ViewModelBase
     }
     private void StartReadingTags()
     {
-        Task.Run(async () =>
+        Task.Run(() =>
         {
-            await foreach (var tag in this.rfidService.StartReading())
+            foreach (var tag in this.rfidService.StartReading())
             {
-                var witnessEvent = new RfidTagEvent(tag)
+                var eventType = (WitnessEventType)this.EventTypeId;
+				RfidTagEvent witnessEvent = null;
+                try
                 {
-                    Time = DateTime.Now,
-                    Type = WitnessEventType.Arrival,
-                };
-                Witness.Raise(witnessEvent);
+                    witnessEvent = new RfidTagEvent(tag)
+                    {
+                        Time = DateTime.Now,
+                        Type = eventType,
+                    };
+					Witness.Raise(witnessEvent);
+				}
+				catch (Exception e)
+                {
+                    this.logger.LogError(e, "Couldn't create RfidTagEvent");
+                    continue;
+                }
             }
         });
     }

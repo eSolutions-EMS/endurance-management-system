@@ -1,8 +1,9 @@
-﻿using System;
+﻿using EMS.Judge.Application.Services;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Threading;
 using Vup.reader;
 
 namespace EMS.Judge.Application.Hardware;
@@ -10,16 +11,18 @@ namespace EMS.Judge.Application.Hardware;
 public class VupVF747pController : RfidController
 { 
     private const int MAX_POWER = 27;
-    private readonly NetVupReader reader;
+    private NetVupReader reader;
     private readonly string ipAddress;
-    private readonly List<long> slowReadTimeMs = new();
+	private readonly ILogger logger;
+	private readonly List<long> slowReadTimeMs = new();
 
     protected override string Device => "VF747p";
 
-    public VupVF747pController(string ipAddress, TimeSpan? throttle = null) : base(throttle)
+    public VupVF747pController(string ipAddress, ILogger logger, TimeSpan? throttle = null) : base(throttle)
     {
         this.ipAddress = ipAddress;
-        this.reader = new NetVupReader(ipAddress, 1969, transport_protocol.tcp);
+		this.logger = logger;
+		this.reader = new NetVupReader(ipAddress, 1969, transport_protocol.tcp);
     }
 
     public override void Connect()
@@ -39,7 +42,7 @@ public class VupVF747pController : RfidController
         this.RaiseMessage($"Connected");
     }
 
-    public async IAsyncEnumerable<string> StartReading()
+    public IEnumerable<string> StartReading()
     {
         if (!this.IsConnected)
         {
@@ -53,7 +56,7 @@ public class VupVF747pController : RfidController
             {
                 yield return tag;
             }
-            await Task.Delay(this.throttle);
+            Thread.Sleep(this.throttle);
         }
     }
 
@@ -107,6 +110,7 @@ public class VupVF747pController : RfidController
     private IEnumerable<string> ReadTags(IEnumerable<int> antennaIndices)
     {
         var timer = new Stopwatch();
+        var emptyCounter = 0;
         foreach (var i in antennaIndices)
         {
             this.reader.SetWorkAnt(i);
@@ -123,22 +127,51 @@ public class VupVF747pController : RfidController
             {
                 if (timer.ElapsedMilliseconds is > 1000 or < 5)
                 {
+                    Console.WriteLine($"Suspicious read time: {timer.ElapsedMilliseconds}, count: {this.slowReadTimeMs.Count}");
                     this.slowReadTimeMs.Add(timer.ElapsedMilliseconds);
                 }
-                if (this.slowReadTimeMs.Count >= 10)
+                if (this.slowReadTimeMs.Count >= 1)
                 {
                     this.slowReadTimeMs.Clear();
                     this.disconnectedMessageTime = DateTime.Now;
-                    this.RaiseError("RFID tag read responses indicate the Vup " +
-                        "Reader might be disconnected. Look for VUP console logs.");
+                    var message = "RFID tag read responses indicate the Vup " +
+                        "Reader might be disconnected. Look for VUP console logs.";
+                    this.logger.Log("VF747p-disconnected", message);
+					this.RaiseError(message);
+                    this.Reconnect();
                 }
             }
 
             if (tagsBytes.Success)
             {
-                return tagsBytes.Result.Select(x => this.ConvertToString(x.Id));
+				var tags = tagsBytes.Result.Select(x => this.ConvertToString(x.Id));
+                foreach (var tag in tags)
+                {
+					Console.WriteLine($"Detected: {tag}");
+				}
+				return tags;
             }
+            
+            Console.WriteLine($"empty {++emptyCounter}");
         }
         return Enumerable.Empty<string>();
+    }
+
+    private void Reconnect()
+    {
+        this.Disconnect();
+		this.reader = new NetVupReader(ipAddress, 1969, transport_protocol.tcp);
+		var counter = 0;
+        var before = DateTime.Now;
+        do
+        {
+            Console.WriteLine($"Attempting to reconnect: {counter}");
+            this.Connect();
+            Thread.Sleep(TimeSpan.FromSeconds(1));
+            counter++;
+        }
+        while (!this.IsConnected);
+        var after = DateTime.Now;
+        Console.WriteLine($"Reconnected after '{counter}' attempts and '{(after - before).TotalSeconds}' seconds");
     }
 }

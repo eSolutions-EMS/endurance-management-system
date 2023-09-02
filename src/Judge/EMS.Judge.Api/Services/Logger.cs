@@ -16,11 +16,11 @@ namespace EMS.Judge.Api.Services
             this.fileService = fileService;
         }
 
-        public void LogError(Exception exception)
+        public void LogError(Exception exception, string message = "")
         {
             var now = DateTime.Now;
-            var message = 
-                $"{now}: " + exception.Message + Environment.NewLine
+            var formatted = 
+                $"{now}: " + message + exception.Message + Environment.NewLine
                 + exception.StackTrace + Environment.NewLine;
             
             this.Log(message);
@@ -61,7 +61,7 @@ namespace EMS.Judge.Api.Services
 
 public interface ILogger : ITransientService
 {
-    void LogError(Exception exception);
+    void LogError(Exception exception, string message = "");
     void LogRpcError(Exception exception);
     void LogEventError(Exception exception, WitnessEvent witnessEvent);
 }

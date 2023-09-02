@@ -15,7 +15,7 @@ public class Persistence : IPersistence
 {
     private const string STORAGE_FILE_NAME = "judge.json";
     private const string SANDBOX_STORAGE_FILE_NAME = "judge-sandbox.json";
-    private string stateDirectoryPath;
+    public string StateDirectoryPath { get; private set; }
 
     private readonly ISettings settings;
     private readonly IStateSetter stateSetter;
@@ -40,7 +40,7 @@ public class Persistence : IPersistence
 
     public void LogStatistics(string text)
     {
-        var path = $"{this.stateDirectoryPath}/statistics.txt";
+        var path = $"{this.StateDirectoryPath}/statistics.txt";
         this.file.Create(path, text);
     }
 
@@ -55,14 +55,14 @@ public class Persistence : IPersistence
         };
         var serialized = this.serialization.Serialize(log);
         var filename = $"{timestamp}_error.json";
-        var path = $"{this.stateDirectoryPath}/{filename}";
+        var path = $"{this.StateDirectoryPath}/{filename}";
         this.file.Create(path, serialized);
         return path;
     }
 
     public PersistenceResult Configure(string directoryPath)
     {
-        this.stateDirectoryPath = directoryPath;
+        this.StateDirectoryPath = directoryPath;
         var database = this.GetFilePath();
         var sandboxDatabase = this.GetSandBoxFilePath();
         if (this.settings.IsSandboxMode && this.file.Exists(sandboxDatabase))
@@ -101,16 +101,17 @@ public class Persistence : IPersistence
             : this.GetFilePath();
 
     private string GetSandBoxFilePath()
-        => $"{this.stateDirectoryPath}\\{SANDBOX_STORAGE_FILE_NAME}";
+        => $"{this.StateDirectoryPath}\\{SANDBOX_STORAGE_FILE_NAME}";
 
     private string GetFilePath()
-        => $"{this.stateDirectoryPath}\\{STORAGE_FILE_NAME}";
+        => $"{this.StateDirectoryPath}\\{STORAGE_FILE_NAME}";
 }
 
 
 public interface IPersistence : ISingletonService
 {
-    void SaveState();
+	string StateDirectoryPath { get; }
+	void SaveState();
     void LogStatistics(string text);
     string LogError(string message, string stackTrace);
     PersistenceResult Configure(string directoryPath);

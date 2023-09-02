@@ -90,7 +90,7 @@ public class RankingViewModel : ViewModelBase
     {
         this.basicExecutor.Execute(() =>
         {
-            var printer = new RanklistPrinter(this.selectedCompetition.Name, control.Ranklist);
+        var printer = new RanklistPrinter(this.selectedCompetition.Name, control.Ranklist, this.CategoryName);
             printer.PreviewDocument();
         }, false);
     }

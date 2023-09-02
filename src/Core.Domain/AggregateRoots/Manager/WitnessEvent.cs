@@ -24,6 +24,7 @@ public class RfidTagEvent : WitnessEvent
 
 public enum WitnessEventType
 {
-    VetIn = 1,
+	Invalid = 0,
+	VetIn = 1,
     Arrival = 2,
 }

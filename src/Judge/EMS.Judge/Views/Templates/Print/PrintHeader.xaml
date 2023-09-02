@@ -91,6 +91,8 @@
                     <Run Text=":" />
                     <Run Text=" " />
                     <Run Name="Title" /><!-- Placeholder -->
+                    <Run Text=" " />
+                    <Run Name="Category" /><!-- Placeholder -->
                 </TextBlock>
             </Border>
         </StackPanel>

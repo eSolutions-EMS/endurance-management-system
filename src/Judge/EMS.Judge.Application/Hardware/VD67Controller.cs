@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System;
-using System.Text;
-using System.Threading.Tasks;
 using Vup.reader;
+using System.Threading;
 
 namespace EMS.Judge.Application.Hardware;
 
@@ -42,7 +41,7 @@ public class VupVD67Controller : RfidController
         }
     }
 
-    public async Task<string> Read()
+    public string Read()
     {
         if (!this.reader.IsConnected)
         {
@@ -75,13 +74,13 @@ public class VupVD67Controller : RfidController
                 return data;
             }
 
-            await Task.Delay(throttle);
+            Thread.Sleep(throttle);
         }
 
         return null;
     }
 
-    public async IAsyncEnumerable<string> StartReading()
+    public IEnumerable<string> StartReading()
     {
         if (this.IsWaitingRead)
         {
@@ -116,8 +115,7 @@ public class VupVD67Controller : RfidController
                 this.RaiseMessage($"Read: '{data}'");
                 yield return data;
             }
-
-            await Task.Delay(throttle);
+            Thread.Sleep(throttle);
         }
     }
 
@@ -126,7 +124,7 @@ public class VupVD67Controller : RfidController
         this.IsReading = false;
     }
 
-    public async Task<string> Write(string data)
+    public string Write(string data)
     {
         if (this.IsWaitingRead)
         {
@@ -169,7 +167,7 @@ public class VupVD67Controller : RfidController
                 throw new Exception($"Write ERROR: {exception.Message + Environment.NewLine + exception.StackTrace}");
             }
 
-            await Task.Delay(this.throttle);
+            Thread.Sleep(this.throttle);
         }
         return null!;
     }

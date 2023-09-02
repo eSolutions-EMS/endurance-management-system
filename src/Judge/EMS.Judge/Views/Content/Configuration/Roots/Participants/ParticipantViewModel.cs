@@ -115,10 +115,10 @@ public class ParticipantViewModel : ConfigurationBase<ParticipantView, Participa
     private void WriteTagAction()
     {
         this.IsWriteTagEnababled = false;
-        this.rfidServiceExecutor.Execute(async x =>
+        this.rfidServiceExecutor.Execute(x =>
         {
             var position = this.PositionItems.First(x => x.Id == this.PositionId).Name;
-            var tag = await x.Write(position, this.Number);
+            var tag = x.Write(position, this.Number);
             var existingParticipant = this.Queries.GetOne(x => x.RfidTags.Contains(tag));
             if (existingParticipant != null)
             {

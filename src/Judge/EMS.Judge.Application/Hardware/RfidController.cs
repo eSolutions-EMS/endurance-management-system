@@ -11,7 +11,7 @@ public abstract class RfidController
 
     public RfidController(TimeSpan? throttle = null)
     {
-        this.throttle = throttle ?? TimeSpan.FromSeconds(1);
+        this.throttle = throttle ?? TimeSpan.FromMilliseconds(100);
     }
 
     public bool IsConnected { get; protected set; }
@@ -30,7 +30,7 @@ public abstract class RfidController
     {
         var message = $"{this.Device} ERROR: {error}";
         Console.WriteLine($"{DateTime.Now}: {message}");
-        this.ErrorEvent?.Invoke(this, message);
+        //this.ErrorEvent?.Invoke(this, message);
     }
 
     public abstract void Connect();
