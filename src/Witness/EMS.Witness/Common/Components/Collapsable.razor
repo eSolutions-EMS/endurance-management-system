@@ -2,7 +2,7 @@
 @if (this.Header != null)
 {
     <h2 class="accordion-header">
-        <button class="accordion-button @this.buttonCss" type="button" @onclick="this.Toggle">
+        <button class="accordion-button @this.buttonCss" type="button" @onclick="this.ToggleInTandem">
             @this.Header
         </button>
     </h2>
@@ -18,25 +18,66 @@
 
 
 @code {
+    private static event EventHandler? SyncEvent;
+
     [Parameter]
     public RenderFragment Header { get; set; } = default!;
     [Parameter]
     public RenderFragment Content { get; set; } = default!;
+    [Parameter]
+    public bool IsCollapsed { get; set; } = true;
+    /// <summary>
+    /// Used to define a synchronized Show/Collapse context between 2 Collapsible components.
+    /// When one is collapsed the other is expanded and vice-versa
+    /// </summary>
+    [Parameter]
+    public string? TandemId { get; set; } = default!;
 
     private string buttonCss = "";
     private string contentCss = "collapsed";
 
-    public void Toggle()
+    private async Task ToggleInTandem()
     {
-        if (this.contentCss == "show")
+        await this.Toggle();
+        if (this.TandemId != null)
         {
-            this.contentCss = "";
-            this.buttonCss = "collapsed";
+            SyncEvent?.Invoke(this, new EventArgs());
         }
-        else
+    }
+
+    private async Task Toggle()
+    {
+        if (this.IsCollapsed)
         {
             this.contentCss = "show";
             this.buttonCss = "";
+            this.IsCollapsed = false;
+        }
+        else
+        {
+            this.contentCss = "";
+            this.buttonCss = "collapsed";
+            this.IsCollapsed = true;
+        }
+        await this.InvokeAsync(this.StateHasChanged);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (!this.IsCollapsed)
+        {
+            await this.Toggle();
+        }
+        if (this.TandemId != null)
+        {
+            SyncEvent += async (sender, _) =>
+            {
+                if (sender is Collapsable collapsable && this != collapsable && this.TandemId == collapsable.TandemId)
+                {
+                    this.IsCollapsed = collapsable.IsCollapsed;
+                    await this.Toggle();
+                }
+            };
         }
     }
 }
