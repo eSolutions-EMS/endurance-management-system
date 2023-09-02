@@ -270,7 +270,7 @@ public class ManagerRoot : IAggregateRoot
             return new Startlist(new List<StartlistEntry>());
         }
         var entries = this.state.Participations
-            .Where(x => x.IsNotComplete)
+            .Where(x => x.IsNotComplete && x.Participant.LapRecords.Last().NextStarTime.HasValue)
             .Select(x => new StartlistEntry(x));
         var startlist = new Startlist(entries);
         return startlist;
