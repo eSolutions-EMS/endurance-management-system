@@ -20,12 +20,20 @@
 	<tbody>
 		@foreach (var entry in this.StartlistService.Startlist)
 		{
-			<tr class="@(entry.HasStarted ? "bg-secondary" : "")">
+			<tr class="@(entry.HasStarted ? "text-muted" : "")">
 				<td>@entry.Number</td>
 				<td>@entry.AthleteName</td>
 				<td>@entry.Stage</td>
 				<td>@entry.Distance</td>
-				<td>@this.DateService.FormatTime(entry.StartTime)</td>
+				@if (entry.HasStarted)
+				{
+					<td>@this.DateService.FormatTime(entry.StartTime)</td>
+
+				}
+				else
+				{
+					<td>@this.DateService.FormatTime(entry.StartTime - this.DateService.Now())</td>
+				}
 			</tr>
 		}
 	</tbody>
@@ -38,7 +46,7 @@
 		while(this.loop)
 		{
 			this.StartlistService.Startlist.Sort();
-			await Task.Delay(TimeSpan.FromSeconds(1));
+			await Task.Delay(TimeSpan.FromMilliseconds(300));
 			await this.InvokeAsync(this.StateHasChanged);
 		}
 	}
