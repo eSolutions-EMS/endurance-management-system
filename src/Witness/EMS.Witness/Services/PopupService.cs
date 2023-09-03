@@ -1,4 +1,5 @@
-﻿using Core.ConventionalServices;
+﻿using Core.Application.Services;
+using Core.ConventionalServices;
 using Core.Domain.AggregateRoots.Manager;
 
 namespace EMS.Witness.Services;
@@ -6,6 +7,27 @@ namespace EMS.Witness.Services;
 public class PopupService : IPopupService
 {
     private const string CLOSE = "Close";
+    private readonly IDateService dateService;
+
+    public PopupService(IDateService dateService)
+    {
+        this.dateService = dateService;
+    }
+
+    public async Task<DateTime?> EditTime(DateTime time)
+    {
+        var formatted = this.dateService.FormatTime(time, showMs: true);
+        var resultString = await Application.Current.MainPage.DisplayPromptAsync(
+            "Edit time",
+            "Keep the current time format",
+            initialValue: formatted,
+            keyboard: Keyboard.Numeric);
+        if (resultString == null)
+        {
+            return null;
+        }
+        return this.dateService.FromString(resultString);
+    }
 
     public async Task<string> RenderActionSheet(string text, params string[] values)
     {
@@ -28,6 +50,7 @@ public class PopupService : IPopupService
 
 public interface IPopupService : ITransientService
 {
+    Task<DateTime?> EditTime(DateTime time);
     Task<WitnessEventType?> SelecEventType();
     Task<string> RenderActionSheet(string text, params string[] values);
 }

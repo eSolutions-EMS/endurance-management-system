@@ -27,6 +27,7 @@ public static class WitnessConfiguration
             .AddCore(assemblies)
             .AddSingleton(new Toaster())
             .AddSingleton<IToaster>(x => x.GetRequiredService<Toaster>())
+            .AddSingleton<INotificationService>(x => x.GetRequiredService<Toaster>())
             .AddTransient<IPermissionsService, PermissionsService>()
             .AddSingleton<WitnessState>()
             .AddSingleton<IWitnessState>(provider => provider.GetRequiredService<WitnessState>())

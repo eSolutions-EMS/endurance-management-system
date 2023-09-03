@@ -6,10 +6,11 @@ using EMS.Judge.Common.Objects;
 using EMS.Judge.Common.Extensions;
 using Prism.Services.Dialogs;
 using System;
+using Core.Application.Services;
 
 namespace EMS.Judge.Common.Services;
 
-public class PopupService : IPopupService
+public class PopupService : IPopupService, INotificationService
 {
     private readonly IDialogService dialogService;
 
@@ -62,6 +63,11 @@ public class PopupService : IPopupService
     {
         action ??= _ => { };
         this.dialogService.ShowDialog(name, parameters, action);
+    }
+
+    public void Error(string message)
+    {
+        this.RenderError(message);
     }
 }
 

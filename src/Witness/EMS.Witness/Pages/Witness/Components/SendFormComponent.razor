@@ -10,25 +10,6 @@
 @inject IPopupService PopupService;
 
 <div class="row mb-1">
-    <EditForm Model="@witnessModel" OnSubmit="EditSnapshot">
-        <div class="mb-3">
-            <InputNumber @bind-Value="this.witnessModel.Number" class="form-control" required onclick="this.select();" placeholder="Number" />
-        </div>
-        <div class="mb-3">
-            <div class="d-inline-flex">
-                <InputNumber @bind-Value="this.witnessModel.Hour" class="form-control" onclick="this.select();" placeholder="Hr" />
-                <span class="time-delimiter mx-1">:</span>
-                <InputNumber @bind-Value="this.witnessModel.Minute" class="form-control" onclick="this.select();" placeholder="Min" />
-                <span class="time-delimiter mx-1">:</span>
-                <InputNumber @bind-Value="this.witnessModel.Second" class="form-control" onclick="this.select();" placeholder="Sec" />
-                <span class="time-delimiter mx-1">:</span>
-                <InputNumber @bind-Value="this.witnessModel.Millisecond" class="form-control" onclick="this.select();" placeholder="Mil" />
-                <button class="btn btn-primary ms-2" type="submit">Edit</button>
-            </div>
-        </div>
-    </EditForm>
-</div>
-<div class="row mb-1">
     <table class="table">
         <thead>
             <tr>
@@ -47,8 +28,12 @@
                     </td>
                     <td>@entry.Number</td>
                     <td>@entry.Name</td>
-                    <td>@this.DateService.FormatTime(entry.ArriveTime!.Value)</td>
-                </tr>
+                    <td>
+                        <button class="btn btn-warning btn-table" @onclick="_ => this.EditSnapshot(entry.Number, entry.ArriveTime.Value)">
+                            @this.DateService.FormatTime(entry.ArriveTime!.Value, showMs: true)
+                        </button>
+                    </td>
+                </tr>  
             }
         </tbody>
     </table>
@@ -58,28 +43,19 @@
 </div>
 
 @code {
-    private const string ARR_TEXT = "ARR (Arrive)";
-    private const string IN_TEXT = "IN (Vetgate)";
-    private string buttonText = "Save";
-    private WitnessEventType type;
-    private string saveDropdownClass = "";
-    private ArriveEditModel witnessModel = new();
-    private string kur = "devel";
-
     protected override bool ShouldRender(object changedState)
     {
         return changedState == this.ParticipantsService.Snapshots;
     }
 
-    private void EditSnapshot()
+    private async Task EditSnapshot(string number, DateTime value)
     {
-        var now = DateTime.Now;
-        var time = DateTime.Today
-            .AddHours(this.witnessModel.Hour ?? now.Hour)
-            .AddMinutes(this.witnessModel.Minute ?? now.Minute)
-            .AddSeconds(this.witnessModel.Second ?? now.Second)
-            .AddMilliseconds(this.witnessModel.Millisecond ?? now.Millisecond);
-        this.ParticipantsService.EditSnapshot(this.witnessModel.Number.ToString(), time);
+        var time = await this.PopupService.EditTime(value);
+        if (time == null)
+        {
+            return;
+        }
+        this.ParticipantsService.EditSnapshot(number, time.Value);
     }
 
     private async Task SendSnapshots()
@@ -90,14 +66,5 @@
             return;
         }
         await this.ParticipantsService.Send(type.Value);
-    }
-
-    private class ArriveEditModel
-    {
-        public int Number;
-        public int? Hour;
-        public int? Minute;
-        public int? Second;
-        public int? Millisecond;
     }
 }
