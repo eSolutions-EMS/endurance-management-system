@@ -8,33 +8,39 @@
 @inject IParticipantsService ArrivelistService;
 @inject IDateService DateService;
 
-<div class="row">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>-</th>
-                <th>#</th>
-                <th>Name</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var arrive in this.ArrivelistService.Selected)
-            {
+@if (this.ArrivelistService.Selected.Any())
+{
+    <div class="row">
+
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>
-                        <button class="btn btn-danger btn-table" @onclick="_ => this.ArrivelistService.RemoveSelected(arrive)">-</button>
-                    </td>
-                    <td>@arrive.Number</td>
-                    <td>@arrive.Name</td>
-                    <td>
-                        <button class="btn btn-success btn-table" @onclick="_ => this.ArrivelistService.CreateSnapshot(arrive)">Snapshot</button>
-                    </td>
+                    <th>-</th>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Action</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-</div>
+            </thead>
+            <tbody>
+                @foreach (var arrive in this.ArrivelistService.Selected)
+                {
+                    <tr>
+                        <td>
+                            <button class="btn btn-danger btn-table" @onclick="_ => this.ArrivelistService.RemoveSelected(arrive)">-</button>
+                        </td>
+                        <td>
+                            <strong>@arrive.Number</strong>
+                        </td>
+                        <td>@arrive.Name</td>
+                        <td>
+                            <button class="btn btn-success btn-table" @onclick="_ => this.ArrivelistService.CreateSnapshot(arrive)">Snapshot</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
 <div class="row">
     <div class="col">
         <button class="btn btn-warning btn-table"
@@ -74,14 +80,18 @@
             {
                 var isDisabled = this.ArrivelistService.Selected.Contains(arrive) ? true : false;
                 <tr>
-                    <td>@arrive.Number</td>
+                    <td>
+                        <strong>@arrive.Number</strong>
+                    </td>
                     <td>@arrive.LapNumber</td>
                     <td>@arrive.LapDistance</td>
                     <td>@arrive.Name</td>
                     <td>
                         <button class="btn btn-success btn-table" 
                                 disabled=@isDisabled
-                                @onclick="_ => this.ArrivelistService.Select(arrive)">Select</button>
+                                @onclick="_ => this.ArrivelistService.Select(arrive)">
+                            Select
+                        </button>
                     </td>
                 </tr>
             }

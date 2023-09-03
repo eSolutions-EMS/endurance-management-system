@@ -26,7 +26,9 @@
                     <td>
                         <button class="btn btn-danger btn-table" @onclick="_ => this.ParticipantsService.RemoveSnapshot(entry)">-</button>
                     </td>
-                    <td>@entry.Number</td>
+                    <td>
+                        <strong>@entry.Number</strong>
+                    </td>
                     <td>@entry.Name</td>
                     <td>
                         <button class="btn btn-warning btn-table" @onclick="_ => this.EditSnapshot(entry.Number, entry.ArriveTime.Value)">
