@@ -16,7 +16,7 @@
             @foreach (var batch in this.ParticipantsService.History)
             {
                 <Collapsable>
-                    <Header>@batch.Key</Header>
+                    <Header>@batch.ToString()</Header>
                     <Content>
                         <table class="table">
                             <thead>
@@ -28,7 +28,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var entry in batch.Value)
+                                @foreach (var entry in batch.Participants)
                                 {
                                     <tr>
                                         <td>
@@ -42,7 +42,7 @@
                             </tbody>
                         </table>
                         <div class="row mb-1">
-                            <button class="btn btn-warning" @onclick="_ => this.Save(batch.Key)">Send Again</button>
+                            <button class="btn btn-warning" @onclick="_ => this.Save(batch)">Send Again</button>
                         </div>
                     </Content>
                 </Collapsable>
@@ -57,13 +57,13 @@
         return changedState == this.ParticipantsService.History;
     }
 
-    private async Task Save(string historyKey)
+    private async Task Save(ParticipantsBatch batch)
     {
         var type = await this.PopupService.SelecEventType();
         if (type is null)
         {
             return;
         }
-        await this.ParticipantsService.Resend(historyKey, type.Value);
+        await this.ParticipantsService.Resend(batch, type.Value);
     }
 }

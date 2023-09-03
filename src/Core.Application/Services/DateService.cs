@@ -1,4 +1,5 @@
 ﻿using Core.ConventionalServices;
+using Core.Utilities;
 using System;
 using System.Linq;
 
@@ -15,13 +16,13 @@ public class DateService : IDateService
 
     public string FormatTime(DateTime time, bool showMs = false)
         => showMs
-            ? time.ToString("HH:mm:ss.fff")
-            : time.ToString("HH:mm:ss");
+            ? DateUtilities.FormatTime(time)
+            : DateUtilities.FormatTime(time).StripMilliseconds();
 
-	public string FormatTime(TimeSpan time, bool showMs = false)
+	public string FormatTime(TimeSpan span, bool showMs = false)
 		=> showMs
-			? time.ToString(@"hh\:mm\:ss\.fff")
-            : time.ToString(@"hh\:mm\:ss");
+            ? DateUtilities.FormatTime(span)
+            : DateUtilities.FormatTime(span).StripMilliseconds();
 
     public DateTime? FromString(string date)
     {
@@ -47,13 +48,13 @@ public class DateService : IDateService
             .AddMilliseconds(mil);
     }
 
-    public DateTime Now()
-        => DateTime.Now;  
+    public DateTime GetNow()
+        => DateUtilities.Now;
 }
 
 public interface IDateService : ITransientService
 {
-    DateTime Now();
+    DateTime GetNow();
     DateTime? FromString(string date);
     string FormatTime(DateTime time, bool showMs = false);
     string FormatTime(TimeSpan time, bool showMs = false);

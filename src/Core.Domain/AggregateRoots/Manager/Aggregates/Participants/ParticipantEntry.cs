@@ -47,4 +47,9 @@ public class ParticipantEntry : IComparable<ParticipantEntry>, IEquatable<Partic
     {
         return this.Number == other?.Number;
     }
+
+    public override int GetHashCode()
+    {
+        return this.Number.GetHashCode();
+    }
 }

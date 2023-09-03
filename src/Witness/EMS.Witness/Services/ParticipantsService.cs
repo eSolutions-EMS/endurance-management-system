@@ -27,7 +27,7 @@ public class ParticipantsService : IParticipantsService
     public SortedCollection<ParticipantEntry> Participants => this.state.Participants;
     public ObservableCollection<ParticipantEntry> Snapshots { get; } = new();
     public ObservableCollection<ParticipantEntry> Selected { get; } = new();
-    public Dictionary<string, List<ParticipantEntry>> History { get; } = new();
+    public SortedCollection<ParticipantsBatch> History { get; } = new();
 
     public void EditSnapshot(string number, DateTime time)
     {
@@ -83,18 +83,17 @@ public class ParticipantsService : IParticipantsService
         var result = await this.participantsClient.Send(this.Snapshots, type);
         if (result.IsSuccessful)
         {
-            var key = $"{this.dateService.FormatTime(DateTime.Now)} - {type}";
-            this.History.Add(key, this.Snapshots.ToList());
+            var batch = new ParticipantsBatch(type, this.Snapshots);
+            this.History.Add(batch);
             this.Snapshots.Clear();
         }
     }
-    public async Task Resend(string historyKey, WitnessEventType type)
+    public async Task Resend(ParticipantsBatch batch, WitnessEventType type)
     {
-        var list = this.History[historyKey];
-        var result = await this.participantsClient.Send(list, type);
+        var result = await this.participantsClient.Send(batch.Participants, type);
         if (result.IsSuccessful)
         {
-            this.toaster.Add($"{nameof(this.Resend)} Successful", $"Resent '{list.Count}' entries", UiColor.Success, 3);
+            this.toaster.Add($"{nameof(this.Resend)} Successful", $"Resent '{batch.Participants.Count}' entries", UiColor.Success, 3);
         }
     }
 
@@ -130,7 +129,7 @@ public interface IParticipantsService : ISingletonService
     SortedCollection<ParticipantEntry> Participants { get; }
     ObservableCollection<ParticipantEntry> Selected { get; }
     ObservableCollection<ParticipantEntry> Snapshots { get; }
-    Dictionary<string, List<ParticipantEntry>> History { get; }
+    SortedCollection<ParticipantsBatch> History { get; }
     Task Load();
     void Sort(bool byNumber = false, bool byDistance = false, bool byName = false);
     void Update(ParticipantEntry entry, CollectionAction action);
@@ -140,5 +139,5 @@ public interface IParticipantsService : ISingletonService
     void CreateSnapshot(ParticipantEntry entry);
     void RemoveSnapshot(ParticipantEntry entry);
     Task Send(WitnessEventType type);
-    Task Resend(string historyKey, WitnessEventType type);
+    Task Resend(ParticipantsBatch batch, WitnessEventType type);
 }

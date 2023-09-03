@@ -32,7 +32,7 @@
 				}
 				else
 				{
-					<td>@this.DateService.FormatTime(entry.StartTime - this.DateService.Now())</td>
+					<td>@this.DateService.FormatTime(entry.StartTime - this.DateService.GetNow())</td>
 				}
 			</tr>
 		}
