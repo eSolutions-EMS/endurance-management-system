@@ -1,7 +1,7 @@
 ﻿using Core.Application.Services;
 using Core.ConventionalServices;
 using Core.Domain.AggregateRoots.Manager;
-using Core.Domain.AggregateRoots.Manager.Aggregates.ParticipantEntries;
+using Core.Domain.AggregateRoots.Manager.Aggregates.Participants;
 using Core.Enums;
 using Core.Models;
 using EMS.Witness.Rpc;

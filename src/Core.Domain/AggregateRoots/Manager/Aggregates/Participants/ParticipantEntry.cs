@@ -2,7 +2,7 @@
 using System;
 using System.Linq;
 
-namespace Core.Domain.AggregateRoots.Manager.Aggregates.ParticipantEntries;
+namespace Core.Domain.AggregateRoots.Manager.Aggregates.Participants;
 
 public class ParticipantEntry : IComparable<ParticipantEntry>, IEquatable<ParticipantEntry>
 {

@@ -1,6 +1,6 @@
 ﻿using Core.Domain.AggregateRoots.Common.Performances;
 using Core.Domain.AggregateRoots.Manager.Aggregates;
-using Core.Domain.AggregateRoots.Manager.Aggregates.ParticipantEntries;
+using Core.Domain.AggregateRoots.Manager.Aggregates.Participants;
 using Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 using Core.Domain.AggregateRoots.Manager.WitnessEvents;
 using Core.Domain.Common.Exceptions;

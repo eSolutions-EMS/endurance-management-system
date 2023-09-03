@@ -1,7 +1,7 @@
 ﻿using Core.Application.Rpc;
 using Core.Application.Rpc.Procedures;
 using Core.Domain.AggregateRoots.Manager;
-using Core.Domain.AggregateRoots.Manager.Aggregates.ParticipantEntries;
+using Core.Domain.AggregateRoots.Manager.Aggregates.Participants;
 using Core.Enums;
 using static Core.Application.CoreApplicationConstants;
 

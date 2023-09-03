@@ -1,5 +1,5 @@
 ﻿using Core.Domain.AggregateRoots.Manager;
-using Core.Domain.AggregateRoots.Manager.Aggregates.ParticipantEntries;
+using Core.Domain.AggregateRoots.Manager.Aggregates.Participants;
 using Core.Enums;
 using System.Collections.Generic;
 using System.Threading.Tasks;

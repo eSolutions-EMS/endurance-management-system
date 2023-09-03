@@ -1,6 +1,6 @@
 ﻿using Core.Application.Rpc.Procedures;
 using Core.Domain.AggregateRoots.Manager;
-using Core.Domain.AggregateRoots.Manager.Aggregates.ParticipantEntries;
+using Core.Domain.AggregateRoots.Manager.Aggregates.Participants;
 using Core.Domain.AggregateRoots.Manager.WitnessEvents;
 using EMS.Judge.Api.Configuration;
 using Microsoft.AspNetCore.SignalR;
