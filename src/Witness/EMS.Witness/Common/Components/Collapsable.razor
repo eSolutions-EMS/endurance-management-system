@@ -2,7 +2,7 @@
 @if (this.Header != null)
 {
     <h2 class="accordion-header">
-        <button class="accordion-button @this.buttonCss" type="button" @onclick="this.ToggleInTandem">
+        <button class="accordion-button @this.buttonCss" type="button" @onclick="this.Toggle">
             @this.Header
         </button>
     </h2>
@@ -16,68 +16,99 @@
     </div>    
 }
 
-
 @code {
-    private static event EventHandler? SyncEvent;
-
     [Parameter]
     public RenderFragment Header { get; set; } = default!;
     [Parameter]
     public RenderFragment Content { get; set; } = default!;
-    [Parameter]
-    public bool IsCollapsed { get; set; } = true;
     /// <summary>
-    /// Used to define a synchronized Show/Collapse context between 2 Collapsible components.
-    /// When one is collapsed the other is expanded and vice-versa
+    /// Controls the state of the component. Can be used as initial state or called programatically
     /// </summary>
     [Parameter]
-    public string? TandemId { get; set; } = default!;
-
-    private string buttonCss = "";
-    private string contentCss = "collapsed";
-
-    private async Task ToggleInTandem()
+    public bool IsCollapsed
     {
-        await this.Toggle();
-        if (this.TandemId != null)
+        get => this._isCollapsed;
+        set
         {
-            SyncEvent?.Invoke(this, new EventArgs());
+            if (value is true)
+            {
+                this.contentCss = "";
+                this.buttonCss = "collapsed";
+            }
+            else
+            {
+                this.contentCss = "show";
+                this.buttonCss = "";
+            }
+            this._isCollapsed = value;
+            this.InvokeAsync(this.StateHasChanged);
         }
     }
+    /// <summary>
+    /// Used to define a synchronized context between Collapsible components with the same Id.
+    /// Only one component in the context can be expanded at a time. When one is expanded
+    /// the rest are collapsed (except if 'SyncToggle' is set to True)
+    /// </summary>
+    [Parameter]
+    public string? SyncId { get; set; } = default!;
+    /// <summary>
+    /// When TRUE all other components with the same 'SyncId' are Toggled instead of collapsed.
+    /// This is most useful to alternate between 2 components.
+    /// </summary>
+    [Parameter]
+    public bool ToggleOnSync { get; set; } = false;
 
-    private async Task Toggle()
-    {
-        if (this.IsCollapsed)
-        {
-            this.contentCss = "show";
-            this.buttonCss = "";
-            this.IsCollapsed = false;
-        }
-        else
-        {
-            this.contentCss = "";
-            this.buttonCss = "collapsed";
-            this.IsCollapsed = true;
-        }
-        await this.InvokeAsync(this.StateHasChanged);
-    }
+    private static event EventHandler? SyncEvent;
+    private bool _isCollapsed = true;
+    private string buttonCss = null!;
+    private string contentCss = null!;
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
         if (!this.IsCollapsed)
         {
-            await this.Toggle();
+            this.IsCollapsed = false;
         }
-        if (this.TandemId != null)
+        if (this.SyncId != null)
         {
-            SyncEvent += async (sender, _) =>
+            SyncEvent += (sender, _) =>
             {
-                if (sender is Collapsable collapsable && this != collapsable && this.TandemId == collapsable.TandemId)
+                if (sender is Collapsable collapsable)
                 {
-                    this.IsCollapsed = collapsable.IsCollapsed;
-                    await this.Toggle();
+                    this.SyncIsCollapsed(collapsable);
                 }
             };
+        }
+    }
+
+    private void SyncIsCollapsed(Collapsable other)
+    {
+        if (this != other && this.SyncId == other.SyncId)
+        {
+            if (!this.ToggleOnSync)
+            {
+                this.IsCollapsed = true;
+            }
+            else
+            {
+                if (other.IsCollapsed)
+                {
+                    this.IsCollapsed = false;
+                }
+                else
+                {
+                    this.IsCollapsed = true;
+                }
+            }
+        }
+    }
+
+    private void Toggle()
+    {
+        this.IsCollapsed = !this.IsCollapsed;
+        if (this.SyncId != null)
+        {
+            SyncEvent?.Invoke(this, new EventArgs());
         }
     }
 }

@@ -6,7 +6,7 @@
 
 <div class="accordion">
     <div class="accordion-item">
-        <Collapsable TandemId="witness" IsCollapsed="false">
+        <Collapsable SyncId="witness" ToggleOnSync="true" IsCollapsed="false">
             <Header>Snapshot</Header>
             <Content>
                 <SnapshotComponent />
@@ -14,7 +14,7 @@
         </Collapsable>
     </div>
     <div class="accordion-item">
-        <Collapsable TandemId="witness">
+        <Collapsable SyncId="witness" ToggleOnSync="true">
             <Header>Send Records</Header>
             <Content>
                 <SendFormComponent />
