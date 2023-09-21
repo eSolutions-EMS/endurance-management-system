@@ -49,9 +49,6 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Judge", "Judge", "{35F61047-DE3E-46D3-B125-DCE4AF783A33}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Witness", "Witness", "{364DDF5F-03E3-4215-94E4-73AA564CB4CE}"
-	ProjectSection(SolutionItems) = preProject
-		v4\Witness\EMS.Witness\EMS.Witness.csproj = v4\Witness\EMS.Witness\EMS.Witness.csproj
-	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EMS.Common", "v4\EMS.Common\EMS.Common.csproj", "{9C709175-C7D7-48B3-A1A9-C3F69F724440}"
 EndProject
@@ -71,7 +68,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EMS.Judge.UI", "v4\Judge\EM
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EMS.Witness.UI", "v4\Witness\EMS.Witness.UI\EMS.Witness.UI.csproj", "{25E5AAB4-E41F-4883-80AE-AF10CC73775F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EMS.Persistence", "v4\EMS.Persistance\EMS.Persistence.csproj", "{B85BA4E0-4692-437B-AEBD-09410343358E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EMS.Persistence", "v4\EMS.Persistance\EMS.Persistence.csproj", "{B85BA4E0-4692-437B-AEBD-09410343358E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EMS.Witness", "v4\Witness\EMS.Witness\EMS.Witness.csproj", "{FDB9015F-8C42-46CD-A5A6-435E9A3FCD3C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -168,6 +167,10 @@ Global
 		{B85BA4E0-4692-437B-AEBD-09410343358E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B85BA4E0-4692-437B-AEBD-09410343358E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B85BA4E0-4692-437B-AEBD-09410343358E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDB9015F-8C42-46CD-A5A6-435E9A3FCD3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDB9015F-8C42-46CD-A5A6-435E9A3FCD3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDB9015F-8C42-46CD-A5A6-435E9A3FCD3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDB9015F-8C42-46CD-A5A6-435E9A3FCD3C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -193,6 +196,7 @@ Global
 		{9A0DD55F-8CAA-48E9-9224-30FB3FAE726D} = {35F61047-DE3E-46D3-B125-DCE4AF783A33}
 		{25E5AAB4-E41F-4883-80AE-AF10CC73775F} = {364DDF5F-03E3-4215-94E4-73AA564CB4CE}
 		{B85BA4E0-4692-437B-AEBD-09410343358E} = {5C8BA03B-623F-4A4D-988B-851A4E5D0324}
+		{FDB9015F-8C42-46CD-A5A6-435E9A3FCD3C} = {364DDF5F-03E3-4215-94E4-73AA564CB4CE}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3CB609D9-5D54-4C11-A371-DAAC8B74E430}
