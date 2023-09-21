@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
-namespace Common.Extensions;
+namespace Common.Startup;
 
 public static class ServiceCollectionExtensions
 {
@@ -15,7 +15,7 @@ public static class ServiceCollectionExtensions
         var callingAssembly = Assembly.GetCallingAssembly();
         var referencedAssemblies = callingAssembly.GetReferencedAssemblies().Select(Assembly.Load);
         var assemblies = referencedAssemblies.Concat(new List<Assembly> { callingAssembly });
-        
+
         var interfaces = assemblies.SelectMany(x => x
             .GetTypes()
             .Where(y => y.IsInterface && y.IsConventionalService()));
@@ -63,7 +63,7 @@ public static class ServiceCollectionExtensions
     }
 
     private static bool IsTransient(this Type type)
-        =>  TransientType.IsAssignableFrom(type);
+        => TransientType.IsAssignableFrom(type);
 
     private static bool IsScoped(this Type type)
         => ScopedType.IsAssignableFrom(type);
