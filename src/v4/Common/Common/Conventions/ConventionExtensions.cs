@@ -1,10 +1,9 @@
-﻿using Common.Conventions;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
-namespace Common.Startup;
+namespace Common.Conventions;
 
-public static class ServiceCollectionExtensions
+public static class ConventionExtensions
 {
     private static Type TransientType = typeof(ITransientService);
     private static Type ScopedType = typeof(IScopedService);

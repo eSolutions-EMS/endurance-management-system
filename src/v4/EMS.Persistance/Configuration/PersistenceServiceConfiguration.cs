@@ -1,4 +1,4 @@
-﻿using Common.Startup;
+﻿using Common.Conventions;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace EMS.Persistence.Configuration;

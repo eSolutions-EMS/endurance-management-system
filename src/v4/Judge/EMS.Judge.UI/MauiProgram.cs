@@ -1,4 +1,9 @@
-﻿using EMS.Domain.Startup;
+﻿using EMS.Application.Startup;
+using EMS.Domain.Core.Startup;
+using EMS.Domain.Setup.Startup;
+using EMS.Domain.Watcher.Startup;
+using EMS.Domain.Startup;
+using EMS.Judge.Server.Startup;
 using EMS.Judge.UI.Data;
 using EMS.Persistence.Configuration;
 using Microsoft.Extensions.Logging;
@@ -15,20 +20,38 @@ public static class MauiProgram
             .ConfigureFonts(fonts =>
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-            });
-
-        builder.Services.AddMauiBlazorWebView();
-
-#if DEBUG
-		builder.Services.AddBlazorWebViewDeveloperTools();
-		builder.Logging.AddDebug();
-#endif
-
-        builder.Services.AddSingleton<WeatherForecastService>();
-        builder.Services.AddPersistanceServices();
-        builder.Services.AddDomainServices();
-        builder.Services.AddLocalization();
+            })
+            .AddEmsServices()
+            .AddUiServices();
 
         return builder.Build();
+    }
+}
+
+public static class ServiceCollectionExtensions
+{
+    public static MauiAppBuilder AddEmsServices(this MauiAppBuilder builder)
+    {
+        builder.Services
+            .AddDomainServices()
+            .AddCoreServices()
+            .AddSetupServices()
+            .AddWatcherServices()
+            .AddApplicationServices()
+            .AddPersistanceServices()
+            .AddServerServices();
+        return builder;
+    }
+
+    public static MauiAppBuilder AddUiServices(this MauiAppBuilder builder)
+    {
+        builder.Services
+            .AddSingleton<WeatherForecastService>()
+            .AddMauiBlazorWebView();
+#if DEBUG
+        builder.Services.AddBlazorWebViewDeveloperTools();
+        builder.Logging.AddDebug();
+#endif
+        return builder;
     }
 }

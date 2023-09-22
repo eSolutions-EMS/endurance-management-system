@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\EMS.Judge\EMS.Judge.csproj" />
+  </ItemGroup>
+
 </Project>
