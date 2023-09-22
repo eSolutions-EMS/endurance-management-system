@@ -53,4 +53,12 @@
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\..\Common\Common.Blazor\Common.Blazor.csproj" />
+      <ProjectReference Include="..\..\Common\Common\Common.csproj" />
+      <ProjectReference Include="..\..\EMS.Common\EMS.Application.csproj" />
+      <ProjectReference Include="..\..\EMS.Domain.Watcher\EMS.Domain.Watcher.csproj" />
+      <ProjectReference Include="..\..\EMS.Domain\EMS.Domain.csproj" />
+    </ItemGroup>
+
 </Project>
