@@ -4,7 +4,7 @@ using EMS.Domain.Core.Ports;
 
 namespace EMS.Persistence.Adapters;
 
-public class EventRepository : IEventRepository, IDomain
+public class EventRepository : IEventRepository
 {
     public Task<Event> Get(Guid id)
     {

@@ -1,18 +1,40 @@
 ﻿@page "/"
 @using EMS.Domain.Core.Ports;
-
+@using EMS.Domain;
+@using System.Globalization;
+@using Microsoft.Extensions.Localization;
+@inject IStringLocalizer StringLocalizer;
+@inject ILocalizationTestService LocalizationTestService;
 @inject IEventRepository EventRepository;
 
-<h1>Hello, world!</h1>
-
-Welcome to your new app.
+<h1>This is localization test including exception handling</h1>
+<p>choose locale</p>
+<button @onclick='_ => this.ChangeCulture("bg-BG")'>BG</button>
+<button @onclick='_ => this.ChangeCulture("en-EN")'>EN</button>
+<p>Kaji neshto</p>
+<button @onclick="_ => this.SayPolite()">Polite</button>
+<button @onclick="_ => this.LocalizationTestService.Rude()">Rude</button> @* rude throws exception *@
+<p>@this.polite</p>
 
 <SurveyPrompt Title="How is Blazor working for you?" />
 
 @code {
+    private string polite = default!;
+
     protected override void OnInitialized()
     {
         var @event = this.EventRepository.Get(Guid.NewGuid());
-        ;
+    }
+
+    protected async Task ChangeCulture(string name)
+    {
+        CultureInfo.DefaultThreadCurrentCulture = new CultureInfo(name);
+        await this.InvokeAsync(this.StateHasChanged);
+    }
+
+    protected async Task SayPolite()
+    {
+        this.polite = this.StringLocalizer[this.LocalizationTestService.Polite()];
+        await this.InvokeAsync(this.StateHasChanged);
     }
 }

@@ -1,17 +1,33 @@
-﻿@inherits LayoutComponentBase
+﻿@using Common.Blazor;
+@inherits LayoutComponentBase
 
 <div class="page">
+    <ExceptionHandler @ref="this.exceptionHandler">
+        <ChildContent>
+            <div class="sidebar">
+                <NavMenu />
+            </div>
+
+            <main>
+                <article class="content px-4">
+                    @Body
+                </article>
+            </main>
+        </ChildContent>
+
+        <ErrorContent>
+            <div class="container">
+                <p>@this.exceptionHandler.LocalizedMessage</p>
+                <p>@this.exceptionHandler.StackTrace</p>
+            </div>
+            <button class="btn btn-primary" @onclick="_ => this.exceptionHandler.Recover()">Back</button>
+        </ErrorContent>
+    </ExceptionHandler>
     <div class="sidebar">
         <NavMenu />
     </div>
-
-    <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
-
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
 </div>
+
+@code {
+    private ExceptionHandler exceptionHandler = default!;
+}

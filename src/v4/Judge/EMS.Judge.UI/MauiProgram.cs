@@ -1,4 +1,5 @@
-﻿using EMS.Judge.UI.Data;
+﻿using EMS.Domain.Startup;
+using EMS.Judge.UI.Data;
 using EMS.Persistence.Configuration;
 using Microsoft.Extensions.Logging;
 
@@ -25,6 +26,8 @@ public static class MauiProgram
 
         builder.Services.AddSingleton<WeatherForecastService>();
         builder.Services.AddPersistanceServices();
+        builder.Services.AddDomainServices();
+        builder.Services.AddLocalization();
 
         return builder.Build();
     }
