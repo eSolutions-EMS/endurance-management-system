@@ -52,6 +52,8 @@ public static class ServiceCollectionExtensions
         builder.Services.AddBlazorWebViewDeveloperTools();
         builder.Logging.AddDebug();
 #endif
+        builder.Services.AddLocalization(x => x.ResourcesPath = "Resources/Localization");
+
         return builder;
     }
 }

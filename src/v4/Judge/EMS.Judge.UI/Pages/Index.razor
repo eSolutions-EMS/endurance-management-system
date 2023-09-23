@@ -3,7 +3,7 @@
 @using EMS.Domain;
 @using System.Globalization;
 @using Microsoft.Extensions.Localization;
-@inject IStringLocalizer StringLocalizer;
+@inject IStringLocalizer<Strings> StringLocalizer;
 @inject ILocalizationTestService LocalizationTestService;
 @inject IEventRepository EventRepository;
 
@@ -11,6 +11,7 @@
 <p>choose locale</p>
 <button @onclick='_ => this.ChangeCulture("bg-BG")'>BG</button>
 <button @onclick='_ => this.ChangeCulture("en-EN")'>EN</button>
+<p>Locale: @CultureInfo.DefaultThreadCurrentUICulture</p>
 <p>Kaji neshto</p>
 <button @onclick="_ => this.SayPolite()">Polite</button>
 <button @onclick="_ => this.LocalizationTestService.Rude()">Rude</button> @* rude throws exception *@
@@ -19,7 +20,7 @@
 <SurveyPrompt Title="How is Blazor working for you?" />
 
 @code {
-    private string polite = default!;
+    private string polite = "";
 
     protected override void OnInitialized()
     {
@@ -28,7 +29,7 @@
 
     protected async Task ChangeCulture(string name)
     {
-        CultureInfo.DefaultThreadCurrentCulture = new CultureInfo(name);
+        CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo(name);
         await this.InvokeAsync(this.StateHasChanged);
     }
 

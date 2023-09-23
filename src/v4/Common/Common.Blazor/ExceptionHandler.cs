@@ -5,11 +5,11 @@ using Microsoft.Extensions.Localization;
 
 namespace Common.Blazor;
 
-public class ExceptionHandler : ErrorBoundary
+public class ExceptionHandler<T> : ErrorBoundary
 {
     [Inject]
-    public IStringLocalizer StringLocalizer { get; set; } = default!;
-
+    public IStringLocalizer<T> StringLocalizer { get; set; } = default!;
+    
     public string? LocalizedMessage
     {
         get
@@ -20,8 +20,11 @@ public class ExceptionHandler : ErrorBoundary
             }
             if (this.CurrentException is DomainException domainException && domainException.Args.Any())
             {
-                var localizedArguments = domainException.Args.Select(x => this.StringLocalizer[x]);
-                return this.StringLocalizer[domainException.Message, domainException.Args];
+                var localizedArgs = domainException
+                    .Args
+                    .Select(x => this.StringLocalizer[x])
+                    .ToArray();
+                return this.StringLocalizer[domainException.Message, localizedArgs];
             }
             return this.StringLocalizer[this.CurrentException.Message];
         }

@@ -2,7 +2,7 @@
 @inherits LayoutComponentBase
 
 <div class="page">
-    <ExceptionHandler @ref="this.exceptionHandler">
+    <ExceptionHandler T="Strings" @ref="this.exceptionHandler">
         <ChildContent>
             <div class="sidebar">
                 <NavMenu />
@@ -23,11 +23,9 @@
             <button class="btn btn-primary" @onclick="_ => this.exceptionHandler.Recover()">Back</button>
         </ErrorContent>
     </ExceptionHandler>
-    <div class="sidebar">
-        <NavMenu />
-    </div>
 </div>
 
+
 @code {
-    private ExceptionHandler exceptionHandler = default!;
+    private ExceptionHandler<Strings> exceptionHandler = default!;
 }
