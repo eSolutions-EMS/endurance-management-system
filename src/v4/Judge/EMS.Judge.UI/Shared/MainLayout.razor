@@ -2,30 +2,13 @@
 @inherits LayoutComponentBase
 
 <div class="page">
-    <ExceptionHandler T="Strings" @ref="this.exceptionHandler">
-        <ChildContent>
-            <div class="sidebar">
-                <NavMenu />
-            </div>
+    <div class="sidebar">
+        <NavMenu />
+    </div>
 
-            <main>
-                <article class="content px-4">
-                    @Body
-                </article>
-            </main>
-        </ChildContent>
-
-        <ErrorContent>
-            <div class="container">
-                <p>@this.exceptionHandler.LocalizedMessage</p>
-                <p>@this.exceptionHandler.StackTrace</p>
-            </div>
-            <button class="btn btn-primary" @onclick="_ => this.exceptionHandler.Recover()">Back</button>
-        </ErrorContent>
-    </ExceptionHandler>
+    <main>
+        <article class="content px-4">
+            @Body
+        </article>
+    </main>
 </div>
-
-
-@code {
-    private ExceptionHandler<Strings> exceptionHandler = default!;
-}
