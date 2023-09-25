@@ -8,10 +8,7 @@ public class Event
 
     public void Invoke(object sender)
     {
-        if (sender == null)
-        {
-            throw new CommonException("Invalid invocation attempt - sender is null");
-        }
+        SenderNullValidator.ThrowIfNull(sender);
         GenericEvent?.Invoke(sender, EventArgs.Empty);
     }
     public void Subscrive(Action<object> action)
@@ -27,10 +24,7 @@ public class Event<T>
 
     public void Invoke(object sender, T data)
     {
-        if (sender == null)
-        {
-            throw new CommonException("Invalid invocation attempt - sender is null");
-        }
+        SenderNullValidator.ThrowIfNull(sender);
         GenericEvent?.Invoke(sender, data);
     }
     public void Subscrive(Action<object, T> action)
@@ -47,14 +41,22 @@ public class Event<T1, T2>
 
     public void Invoke(object sender, T1 data1, T2 data2)
     {
-        if (sender == null)
-        {
-            throw new CommonException("Invalid invocation attempt - sender is null");
-        }
+        SenderNullValidator.ThrowIfNull(sender);
         GenericEvent?.Invoke(sender, (data1, data2));
     }
     public void Subscrive(Action<object, T1, T2> action)
     {
         GenericEvent += (sender, data) => action(sender!, data.Item1, data.Item2);
+    }
+}
+
+internal class SenderNullValidator
+{
+    public static void ThrowIfNull(object? sender)
+    {
+        if (sender == null)
+        {
+            throw new CommonException("Invalid invocation attempt - sender is null");
+        }
     }
 }
