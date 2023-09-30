@@ -4,8 +4,6 @@ namespace Core.Domain.Common.Models;
 
 public abstract class DomainEntity: IEquatable<DomainEntity>
 {
-    protected const string GENERATE_ID = "GenerateIdFlag";
-    
     protected DomainEntity()
     {
         this.Id = RandomUtilities.GenerateUniqueInteger();
@@ -17,18 +15,6 @@ public abstract class DomainEntity: IEquatable<DomainEntity>
         => this.IsEqual(other);
     public override bool Equals(object? other)
         => this.IsEqual(other);
-
-    public static bool operator ==(DomainEntity one, DomainEntity other)
-    {
-        if (ReferenceEquals(one, null))
-        {
-            return ReferenceEquals(other, null);
-        }
-        return one.Equals(other);
-    }
-
-    public static bool operator !=(DomainEntity one, DomainEntity other)
-        => !(one == other);
 
     private bool IsEqual(object? other)
     {

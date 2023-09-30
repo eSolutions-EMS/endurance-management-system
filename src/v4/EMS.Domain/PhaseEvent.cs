@@ -1,8 +1,14 @@
-﻿using Common.Conventions;
-using Core.Domain.Common.Models;
+﻿namespace EMS.Domain;
 
-namespace EMS.Domain;
-
-public class PhaseEvent : DomainEntity
+public interface IPhaseEvent
 {
+    ICoreIdentifier Id { get; }
+    PhaseEventType Type { get; }
+    Timestamp Timestamp { get; }
+}
+
+public enum PhaseEventType
+{
+    Arrive = 1,
+    In = 2,
 }
