@@ -1,13 +1,13 @@
 ﻿namespace EMS.Domain;
 
-public interface IPhaseEvent
+public interface ICoreEvent
 {
     CoreIdentifier CoreId { get; }
-    PhaseEventType Type { get; }
+    CoreEventType Type { get; }
     Timestamp Timestamp { get; }
 }
 
-public enum PhaseEventType
+public enum CoreEventType
 {
     Arrive = 1,
     In = 2,

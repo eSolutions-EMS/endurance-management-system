@@ -2,7 +2,7 @@
 @using Common.Events;
 @using EMS.Domain.Watcher;
 
-@inject IEvent<IPhaseEvent> _event;
+@inject IEvent<ICoreEvent> _event;
 
 <h1>Events demo</h1>
 
@@ -22,7 +22,7 @@
     private void Emit()
     {
         var tag = new RfidTag("id", "13", "l");
-        var tagEvent = new RfidTagPhaseEvent(tag, PhaseEventType.Arrive, new Timestamp(new DateTime()));
+        var tagEvent = new RfidTagPhaseEvent(tag, CoreEventType.Arrive, new Timestamp(new DateTime()));
         this._event.Emit(this, tagEvent);
     }
 
