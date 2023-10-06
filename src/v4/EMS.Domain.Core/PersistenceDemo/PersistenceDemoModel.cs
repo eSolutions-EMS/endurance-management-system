@@ -1,6 +1,6 @@
-﻿namespace EMS.Domain.Core;
+﻿namespace EMS.Domain.Core.PersistenceDemo;
 
-public class Event
+public class PersistenceDemoModel
 {
     public Guid Id { get; set; }
     public string Name { get; set; } = null!;

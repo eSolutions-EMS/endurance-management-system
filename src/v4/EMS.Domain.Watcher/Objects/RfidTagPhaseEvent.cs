@@ -1,17 +1,17 @@
 ﻿using Common.Domain;
-using Core.Domain.Common.Models;
+using EMS.Domain.Watcher.Entities;
 
-namespace EMS.Domain.Watcher;
+namespace EMS.Domain.Watcher.Objects;
 
 public record RfidTagPhaseEvent : DomainObject, IPhaseEvent
 {
     public RfidTagPhaseEvent(RfidTag tag, PhaseEventType type, Timestamp timestamp)
     {
-        this.CoreId = new RfidTagCoreIdentifier(tag);
-        this.Type = type;
-        this.Timestamp = timestamp;
+        CoreId = new RfidTagCoreIdentifier(tag);
+        Type = type;
+        Timestamp = timestamp;
     }
-    public ICoreIdentifier CoreId { get; }
+    public CoreIdentifier CoreId { get; }
     public PhaseEventType Type { get; }
     public Timestamp Timestamp { get; }
 }

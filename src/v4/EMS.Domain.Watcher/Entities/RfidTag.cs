@@ -1,14 +1,14 @@
 ﻿using Core.Domain.Common.Models;
 
-namespace EMS.Domain.Watcher;
+namespace EMS.Domain.Watcher.Entities;
 
 public class RfidTag : DomainEntity
 {
     public RfidTag(string id, string number, string position)
     {
-        this.TagId = id;
-        this.Number = number;
-        this.Position = position;
+        TagId = id;
+        Number = number;
+        Position = position;
     }
 
     public string TagId { get; set; }

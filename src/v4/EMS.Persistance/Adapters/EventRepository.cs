@@ -1,14 +1,13 @@
 ﻿using Common.Domain;
-using EMS.Domain.Core;
-using EMS.Domain.Core.Ports;
+using EMS.Domain.Core.PersistenceDemo;
 
 namespace EMS.Persistence.Adapters;
 
-public class EventRepository : IEventRepository
+public class EventRepository : IPersistenceDemoRepository
 {
-    public Task<Event> Get(Guid id)
+    public Task<PersistenceDemoModel> Get(Guid id)
     {
-        return Task.FromResult(new Event { Id = id } );
+        return Task.FromResult(new PersistenceDemoModel { Id = id } );
     }
 
     public Task ResetState()
