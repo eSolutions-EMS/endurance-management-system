@@ -6,9 +6,3 @@ public interface ICoreEvent
     CoreEventType Type { get; }
     Timestamp Timestamp { get; }
 }
-
-public enum CoreEventType
-{
-    Arrive = 1,
-    In = 2,
-}
