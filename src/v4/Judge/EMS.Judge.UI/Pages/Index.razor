@@ -1,11 +1,12 @@
 ﻿@page "/"
+@using Common.Events;
 @using EMS.Domain.Core.Ports;
 @using EMS.Domain;
 @using System.Globalization;
+@using EMS.Domain.Watcher;
 @using Microsoft.Extensions.Localization;
 @inject IStringLocalizer<Strings> StringLocalizer;
 @inject ILocalizationTestService LocalizationTestService;
-@inject IEventRepository EventRepository;
 
 <h1>This is localization test including exception handling</h1>
 <p>choose locale</p>

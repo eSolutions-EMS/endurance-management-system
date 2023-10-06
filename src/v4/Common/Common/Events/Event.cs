@@ -1,8 +1,9 @@
-﻿using Common.Exceptions;
+﻿using Common.Conventions;
+using Common.Exceptions;
 
 namespace Common.Events;
 
-public class Event : IEventSubscriber, IEventEmitter
+public class Event : IEvent
 {
     private event EventHandler? GenericEvent;
 
@@ -17,7 +18,8 @@ public class Event : IEventSubscriber, IEventEmitter
     }
 }
 
-public class Event<T> : IEventSubscriber<T>, IEventEmitter<T>
+public class Event<T> : IEvent<T>
+    where T : class
 {
     private event EventHandler<T>? GenericEvent;
 
@@ -32,20 +34,19 @@ public class Event<T> : IEventSubscriber<T>, IEventEmitter<T>
     }
 }
 
-public class Event<T1, T2> : IEventSubscriber<T1, T2>, IEventEmitter<T1, T2>
+public interface IEvent : ISingletonService
 {
-    private event EventHandler<(T1, T2)>? GenericEvent;
-
-    public void Emit(object sender, T1 data1, T2 data2)
-    {
-        SenderNullValidator.ThrowIfNull(sender);
-        GenericEvent?.Invoke(sender, (data1, data2));
-    }
-    public void Subscribe(Action<object, T1, T2> action)
-    {
-        GenericEvent += (sender, data) => action(sender!, data.Item1, data.Item2);
-    }
+    void Emit(object sender);
+    void Subscribe(Action<object> action);
 }
+
+public interface IEvent<T> : ISingletonService
+    where T : class
+{
+    void Emit(object sender, T data);
+    void Subscribe(Action<object, T> action);
+}
+
 
 internal class SenderNullValidator
 {

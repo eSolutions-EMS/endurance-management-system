@@ -1,11 +1,6 @@
-﻿using EMS.Application.Startup;
-using EMS.Domain.Core.Startup;
-using EMS.Domain.Setup.Startup;
-using EMS.Domain.Watcher.Startup;
-using EMS.Domain.Startup;
-using EMS.Judge.Server.Startup;
+﻿using Common.Conventions;
 using EMS.Judge.UI.Data;
-using EMS.Persistence.Configuration;
+using EMS.Persistence.Startup;
 using Microsoft.Extensions.Logging;
 
 namespace EMS.Judge.UI;
@@ -33,13 +28,9 @@ public static class ServiceCollectionExtensions
     public static MauiAppBuilder AddEmsServices(this MauiAppBuilder builder)
     {
         builder.Services
-            .AddDomainServices()
-            .AddCoreServices()
-            .AddSetupServices()
-            .AddWatcherServices()
-            .AddApplicationServices()
-            .AddPersistanceServices()
-            .AddServerServices();
+            .GetConventionalAssemblies()
+            .RegisterConventionalServices()
+            .ReferencePersistence();
         return builder;
     }
 
@@ -53,7 +44,6 @@ public static class ServiceCollectionExtensions
         builder.Logging.AddDebug();
 #endif
         builder.Services.AddLocalization(x => x.ResourcesPath = "Resources/Localization");
-
         return builder;
     }
 }

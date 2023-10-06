@@ -2,7 +2,7 @@
 
 public interface IPhaseEvent
 {
-    ICoreIdentifier Id { get; }
+    ICoreIdentifier CoreId { get; }
     PhaseEventType Type { get; }
     Timestamp Timestamp { get; }
 }

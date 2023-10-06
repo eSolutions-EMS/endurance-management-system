@@ -1,0 +1,37 @@
+﻿@page "/event-demo"
+@using Common.Events;
+@using EMS.Domain.Watcher;
+
+@inject IEvent<IPhaseEvent> _event;
+
+<h1>Events demo</h1>
+
+<button @onclick="_ => this.Emit()">Emit</button>
+<p>Event result: @this.result</p>
+
+
+
+@code {
+    private string? result;
+
+    protected override void OnInitialized()
+    {
+        this.Subscribe();
+    }
+
+    private void Emit()
+    {
+        var tag = new RfidTag("id", "13", "l");
+        var tagEvent = new RfidTagPhaseEvent(tag, PhaseEventType.Arrive, new Timestamp(new DateTime()));
+        this._event.Emit(this, tagEvent);
+    }
+
+    private void Subscribe()
+    {
+        this._event.Subscribe(async (s, e) =>
+        {
+            this.result = e.CoreId.Number.ToString();
+            await this.InvokeAsync(this.StateHasChanged);
+        });
+    }
+}
