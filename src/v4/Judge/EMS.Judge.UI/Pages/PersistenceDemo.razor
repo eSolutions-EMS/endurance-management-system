@@ -1,0 +1,13 @@
+﻿@page "/persistance-demo"
+@using Common.Conventions;
+@using EMS.Domain.Core.Ports;
+@inject IEventRepository EventRepository;
+
+<h1>Persistence demo</h1>
+
+@code {
+    protected override void OnInitialized()
+    {
+        this.EventRepository.Get(Guid.NewGuid());
+    }
+}

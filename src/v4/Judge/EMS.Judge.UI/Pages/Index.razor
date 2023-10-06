@@ -23,11 +23,6 @@
 @code {
     private string polite = "";
 
-    protected override void OnInitialized()
-    {
-        var @event = this.EventRepository.Get(Guid.NewGuid());
-    }
-
     protected async Task ChangeCulture(string name)
     {
         CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo(name);
