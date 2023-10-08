@@ -35,7 +35,10 @@ public static class WitnessConfiguration
             .AddSingleton<IStartlistClient, StartlistClient>()
             .AddSingleton<IRpcClient>(p => p.GetRequiredService<IStartlistClient>())
             .AddSingleton<IParticipantsClient, ParticipantsClient>()
-            .AddSingleton<IRpcClient>(x => x.GetRequiredService<IParticipantsClient>());
+            .AddSingleton<IRpcClient>(x => x.GetRequiredService<IParticipantsClient>())
+            .AddSingleton<WitnessState>()
+            .AddSingleton<IWitnessState>(x => x.GetRequiredService<WitnessState>())
+            .AddTransient<IPersistenceService, PersistenceService>();
 
         return services;
     }
