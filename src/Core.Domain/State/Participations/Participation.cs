@@ -31,7 +31,7 @@ public class Participation : DomainBase<ParticipationException>
 
     public bool IsNotComplete
         => !this.Participant.LapRecords.Any(x => x.Result?.IsNotQualified ?? false) &&
-            (this.Participant.LapRecords.Count != this.CompetitionConstraint.Laps.Count
+            (this.Participant.LapRecords.Count != this.CompetitionConstraint?.Laps.Count
             || this.Participant.LapRecords.Last().Result == null);
 
     public double? Distance

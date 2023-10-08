@@ -3,6 +3,7 @@ using Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 using EMS.Judge.Api.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace EMS.Judge.Api.Services;
 
@@ -15,7 +16,8 @@ public class StartlistService : IStartlistService
     }
 
     public IEnumerable<StartlistEntry> Get()
-        => this.managerRoot.GetStartList();
+        => Enumerable.Empty<StartlistEntry>();
+        //=> this.managerRoot.GetStartList();
 }
 
 public interface IStartlistService

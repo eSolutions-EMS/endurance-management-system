@@ -16,9 +16,45 @@
             <StackPanel Style="{StaticResource List-Horizontal}"
                         Grid.Row="0">
                 <Border Style="{StaticResource Border-Horizontal}">
-                    <Button Style="{StaticResource Button-Big-Horizontal}"
-                            Command="{Binding GetList}"
-                            Content="{x:Static localization:Strings._CREATE}"/>
+                    <Button Style="{StaticResource Button-Horizontal}"
+                            Command="{Binding SelectAll}"
+                            Content="All"/>
+                </Border>
+                <Border Style="{StaticResource Border-Horizontal}">
+                    <Button Style="{StaticResource Button-Horizontal}"
+                            IsEnabled="{Binding IsOneEnabled}"
+                            Command="{Binding SelectOne}"
+                            Content="1"/>
+                </Border>
+                <Border Style="{StaticResource Border-Horizontal}">
+                    <Button Style="{StaticResource Button-Horizontal}"
+                            IsEnabled="{Binding IsTwoEnabled}"
+                            Command="{Binding SelectTwo}"
+                            Content="2"/>
+                </Border>
+                <Border Style="{StaticResource Border-Horizontal}">
+                    <Button Style="{StaticResource Button-Horizontal}"
+                            IsEnabled="{Binding IsThreeEnabled}"
+                            Command="{Binding SelectThree}"
+                            Content="3"/>
+                </Border>
+                <Border Style="{StaticResource Border-Horizontal}">
+                    <Button Style="{StaticResource Button-Horizontal}"
+                            IsEnabled="{Binding IsFourEnabled}"
+                            Command="{Binding SelectFour}"
+                            Content="4"/>
+                </Border>
+                <Border Style="{StaticResource Border-Horizontal}">
+                    <Button Style="{StaticResource Button-Horizontal}"
+                            IsEnabled="{Binding IsFiveEnabled}"
+                            Command="{Binding SelectFive}"
+                            Content="5"/>
+                </Border>
+                <Border Style="{StaticResource Border-Horizontal}">
+                    <Button Style="{StaticResource Button-Horizontal}"
+                            IsEnabled="{Binding IsSixEnabled}"
+                            Command="{Binding SelectSix}"
+                            Content="6"/>
                 </Border>
                 <Border Style="{StaticResource Border-Horizontal}" HorizontalAlignment="Right">
                     <Button Style="{StaticResource Button-Big-Horizontal}"
