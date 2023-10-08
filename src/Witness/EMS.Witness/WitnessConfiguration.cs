@@ -22,7 +22,6 @@ public static class WitnessConfiguration
             .Concat(WitnessConstants.Assemblies)
             .ToArray();
 
-        services.AddHttpClient<IRpcService, RpcService>(client => client.Timeout = TimeSpan.FromSeconds(5));
         services
             .AddCore(assemblies)
             .AddSingleton(new Toaster())
@@ -38,7 +37,8 @@ public static class WitnessConfiguration
             .AddSingleton<IRpcClient>(x => x.GetRequiredService<IParticipantsClient>())
             .AddSingleton<WitnessState>()
             .AddSingleton<IWitnessState>(x => x.GetRequiredService<WitnessState>())
-            .AddTransient<IPersistenceService, PersistenceService>();
+            .AddTransient<IPersistenceService, PersistenceService>()
+            .AddTransient<IRpcInitalizer, RpcInitalizer>();
 
         return services;
     }

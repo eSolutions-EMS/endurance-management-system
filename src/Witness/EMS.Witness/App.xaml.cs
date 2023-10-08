@@ -12,7 +12,7 @@ public partial class App : Application
     private readonly IStartlistClient startlistClient;
     private readonly IStartlistService startlistService;
     private readonly IToaster toaster;
-    private readonly IRpcService rpcService;
+    private readonly IRpcInitalizer rpcService;
     private readonly IParticipantsClient participantsClient;
     private readonly IParticipantsService participantsService;
 	private bool isDeactivated;
@@ -23,7 +23,7 @@ public partial class App : Application
 		IStartlistService startlistService,
 		IToaster toaster,
 		IEnumerable<IRpcClient> rpcClients,
-		IRpcService rpcService,
+		IRpcInitalizer rpcService,
 		IParticipantsClient arrivelistClient,
 		IParticipantsService arrivelistService)
 	{
