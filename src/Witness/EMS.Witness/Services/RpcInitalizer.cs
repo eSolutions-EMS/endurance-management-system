@@ -5,7 +5,7 @@ using EMS.Witness.Shared.Toasts;
 
 namespace EMS.Witness.Services;
 
-public class RpcService: IRpcService
+public class RpcInitalizer : IRpcInitalizer
 {
 	private readonly IToaster toaster;
 	private readonly IEnumerable<IRpcClient> rpcClients;
@@ -13,7 +13,7 @@ public class RpcService: IRpcService
 	private readonly WitnessContext context;
 	private bool isHandshaking;
 
-	public RpcService(
+	public RpcInitalizer(
 		IWitnessContext context,
 		IEnumerable<IRpcClient> rpcClients,
 		IPermissionsService permissionsService,
@@ -25,7 +25,7 @@ public class RpcService: IRpcService
 		this.toaster = toaster;
     }
 
-	public async Task StartConnections()
+    public async Task StartConnections()
 	{
 		if (!await this.permissionsService.HasNetworkPermissions())
 		{
@@ -60,7 +60,7 @@ public class RpcService: IRpcService
 	}
 }
 
-public interface IRpcService : ISingletonService
+public interface IRpcInitalizer : ISingletonService
 {
 	Task StartConnections();
 }
