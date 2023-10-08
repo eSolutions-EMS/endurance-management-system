@@ -1,9 +1,10 @@
-﻿using Core.Events;
+﻿using Core.Application.Services;
+using Core.Events;
 using EMS.Witness.Shared.Toasts;
 using System.Timers;
 
 namespace EMS.Witness.Services;
-public class Toaster : IToaster, IDisposable
+public class Toaster : IToaster, INotificationService, IDisposable
 {
     private readonly List<Toast> toastList = new();
     private readonly System.Timers.Timer timer = new();
@@ -85,6 +86,11 @@ public class Toaster : IToaster, IDisposable
     {
         this.ClearBurntToast();
         this.ToasterTimerElapsed?.Invoke(this, EventArgs.Empty);
+    }
+
+    public void Error(string message)
+    {
+        this.Add("Error", message, UiColor.Danger, 10);
     }
 }
 

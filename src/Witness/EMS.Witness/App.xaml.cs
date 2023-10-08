@@ -8,24 +8,28 @@ namespace EMS.Witness;
 
 public partial class App : Application
 {
+    private readonly IPersistenceService persistence;
     private readonly IStartlistClient startlistClient;
     private readonly IStartlistService startlistService;
     private readonly IToaster toaster;
-    private readonly IRpcService rpcService;
+    private readonly IRpcInitalizer rpcService;
     private readonly IParticipantsClient participantsClient;
     private readonly IParticipantsService participantsService;
+	private bool isDeactivated;
 
     public App(
+		IPersistenceService persistence,
 		IStartlistClient startlistClient,
 		IStartlistService startlistService,
 		IToaster toaster,
 		IEnumerable<IRpcClient> rpcClients,
-		IRpcService rpcService,
+		IRpcInitalizer rpcService,
 		IParticipantsClient arrivelistClient,
 		IParticipantsService arrivelistService)
 	{
 		this.InitializeComponent();
         this.MainPage = new MainPage();
+        this.persistence = persistence;
         this.startlistClient = startlistClient;
         this.startlistService = startlistService;
         this.toaster = toaster;
@@ -41,7 +45,21 @@ public partial class App : Application
 	{
 		var window = base.CreateWindow(activationState);
 
-		window.Activated += (s, e) => this.rpcService.Handshake();
+		window.Created += async (s, e) =>
+		{
+			await this.rpcService.StartConnections();
+			await this.persistence.Restore();
+		};
+		window.Resumed += (s, e) =>
+		{
+			this.isDeactivated = false;
+			this.rpcService.StartConnections();
+		};
+		window.Deactivated += async (s, e) =>
+		{
+			this.isDeactivated = true;
+			await this.persistence.Store();
+		};
 
 		return window;
 	}

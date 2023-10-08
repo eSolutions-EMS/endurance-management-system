@@ -2,7 +2,7 @@
 using System;
 using System.Linq;
 
-namespace Core.Domain.AggregateRoots.Manager.Aggregates.ParticipantEntries;
+namespace Core.Domain.AggregateRoots.Manager.Aggregates.Participants;
 
 public class ParticipantEntry : IComparable<ParticipantEntry>, IEquatable<ParticipantEntry>
 {
@@ -21,7 +21,6 @@ public class ParticipantEntry : IComparable<ParticipantEntry>, IEquatable<Partic
     public string Number { get; init; }
     public string Name { get; init; }
     public DateTime? ArriveTime { get; set; }
-    public WitnessEventType Type { get; set; }
     public double LapDistance { get; set; }
     
     public int CompareTo(ParticipantEntry other)
@@ -47,5 +46,10 @@ public class ParticipantEntry : IComparable<ParticipantEntry>, IEquatable<Partic
     public bool Equals(ParticipantEntry other)
     {
         return this.Number == other?.Number;
+    }
+
+    public override int GetHashCode()
+    {
+        return this.Number.GetHashCode();
     }
 }

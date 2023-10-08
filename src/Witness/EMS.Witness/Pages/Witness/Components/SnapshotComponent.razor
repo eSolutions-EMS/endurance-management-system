@@ -1,46 +1,52 @@
 ﻿@inherits StatefulComponent;
 
 @using Core.Application.Services;
-@using Core.Domain.AggregateRoots.Manager.Aggregates.ParticipantEntries;
+@using Core.Domain.AggregateRoots.Manager.Aggregates.Participants;
 @using Core.Models;
 @using EMS.Witness.Common;
 @using EMS.Witness.Services;
-@inject IParticipantsService ArrivelistService;
+@inject IParticipantsService ParticipantsService;
 @inject IDateService DateService;
 
-<div class="row">
-    <table class="table">
-        <thead>
-            <tr>
-                <th>-</th>
-                <th>#</th>
-                <th>Name</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var arrive in this.ArrivelistService.Selected)
-            {
+@if (this.ParticipantsService.Selected.Any())
+{
+    <div class="row">
+
+        <table class="table">
+            <thead>
                 <tr>
-                    <td>
-                        <button class="btn btn-danger btn-table" @onclick="_ => this.ArrivelistService.Unselect(arrive)">-</button>
-                    </td>
-                    <td>@arrive.Number</td>
-                    <td>@arrive.Name</td>
-                    <td>
-                        <button class="btn btn-success btn-table" @onclick="_ => this.ArrivelistService.Snapshot(arrive)">Snapshot</button>
-                    </td>
+                    <th>-</th>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Action</th>
                 </tr>
-            }
-        </tbody>
-    </table>
-</div>
+            </thead>
+            <tbody>
+                @foreach (var arrive in this.ParticipantsService.Selected)
+                {
+                    <tr>
+                        <td>
+                            <button class="btn btn-danger btn-table" @onclick="_ => this.ParticipantsService.RemoveSelected(arrive)">-</button>
+                        </td>
+                        <td>
+                            <strong>@arrive.Number</strong>
+                        </td>
+                        <td>@arrive.Name</td>
+                        <td>
+                            <button class="btn btn-success btn-table" @onclick="_ => this.ParticipantsService.CreateSnapshot(arrive)">Snapshot</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}
 <div class="row">
     <div class="col">
         <button class="btn btn-warning btn-table"
                 disabled=@sortByNumber
                 @onclick="_ => this.SortByNumber()">
-            Number
+            #
         </button>
     </div>
     <div class="col">
@@ -70,18 +76,22 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var arrive in this.ArrivelistService.Participants)
+            @foreach (var arrive in this.ParticipantsService.Participants)
             {
-                var isDisabled = this.ArrivelistService.Selected.Contains(arrive) ? true : false;
+                var isDisabled = this.ParticipantsService.Selected.Contains(arrive) ? true : false;
                 <tr>
-                    <td>@arrive.Number</td>
+                    <td>
+                        <strong>@arrive.Number</strong>
+                    </td>
                     <td>@arrive.LapNumber</td>
                     <td>@arrive.LapDistance</td>
                     <td>@arrive.Name</td>
                     <td>
                         <button class="btn btn-success btn-table" 
                                 disabled=@isDisabled
-                                @onclick="_ => this.ArrivelistService.Select(arrive)">Select</button>
+                        @onclick="_ => this.ParticipantsService.Select(arrive)">
+                            Select
+                        </button>
                     </td>
                 </tr>
             }
@@ -99,25 +109,25 @@
         this.sortByNumber = true;
         this.sortByDistance = false;
         this.sortByName = false;
-        this.ArrivelistService.Sort(byNumber: true);
+        this.ParticipantsService.Sort(byNumber: true);
     }
     private void SortByDistance()
     {
         this.sortByNumber = false;
         this.sortByDistance = true;
         this.sortByName = false;
-        this.ArrivelistService.Sort(byDistance: true);
+        this.ParticipantsService.Sort(byDistance: true);
     }
     private void SortByName()
     {
         this.sortByNumber = false;
         this.sortByDistance = false;
         this.sortByName = true;
-        this.ArrivelistService.Sort(byName: true);
+        this.ParticipantsService.Sort(byName: true);
     }
 
     protected override bool ShouldRender(object changedState)
     {
-        return changedState == this.ArrivelistService.Participants || changedState == this.ArrivelistService.Selected;
+        return changedState == this.ParticipantsService.Participants || changedState == this.ParticipantsService.Selected;
     }
 }

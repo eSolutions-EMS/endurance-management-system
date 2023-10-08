@@ -1,6 +1,7 @@
-﻿using Core.ConventionalServices;
+﻿using Core.Application.Services;
+using Core.ConventionalServices;
 using Core.Domain.AggregateRoots.Manager;
-using Core.Domain.AggregateRoots.Manager.Aggregates.ParticipantEntries;
+using Core.Domain.AggregateRoots.Manager.Aggregates.Participants;
 using Core.Enums;
 using Core.Models;
 using EMS.Witness.Rpc;
@@ -11,20 +12,29 @@ namespace EMS.Witness.Services;
 public class ParticipantsService : IParticipantsService
 {
     private readonly IWitnessState state;
+    private readonly IWitnessContext context;
     private readonly IParticipantsClient participantsClient;
     private readonly IToaster toaster;
+    private readonly IDateService dateService;
 
-    public ParticipantsService(IWitnessState state, IParticipantsClient arrivelistClient, IToaster toaster)
+    public ParticipantsService(
+        IWitnessState state,
+        IWitnessContext context,
+        IParticipantsClient arrivelistClient,
+        IToaster toaster,
+        IDateService dateService)
     {
         this.state = state;
+        this.context = context;
         this.participantsClient = arrivelistClient;
         this.toaster = toaster;
+        this.dateService = dateService;
     }
 
-    public SortedCollection<ParticipantEntry> Participants => this.state.Participants;
-    public ObservableCollection<ParticipantEntry> Snapshots { get; } = new();
-    public ObservableCollection<ParticipantEntry> Selected { get; } = new();
-    public List<ParticipantEntry> History { get; } = new();
+    public SortedCollection<ParticipantEntry> Participants => this.context.Participants;
+    public ObservableCollection<ParticipantEntry> Snapshots => this.state.ParticipantSnapshots;
+    public ObservableCollection<ParticipantEntry> Selected => this.state.ParticipantSelected;
+    public SortedCollection<ParticipantsBatch> History => this.state.ParticipantHistory;
 
     public void EditSnapshot(string number, DateTime time)
     {
@@ -70,31 +80,27 @@ public class ParticipantsService : IParticipantsService
         this.Participants.Add(entry);
     }
 
-    public void Unselect(ParticipantEntry entry)
+    public void RemoveSelected(ParticipantEntry entry)
     {
         this.Selected.Remove(entry);
     }
 
-    public async Task SaveSnaphots(WitnessEventType type)
+    public async Task Send(WitnessEventType type)
     {
-        foreach (var entry in this.Snapshots)
-        {
-            entry.Type = type;
-        }
-        var result = await this.participantsClient.Save(this.Snapshots);
+        var result = await this.participantsClient.Send(this.Snapshots, type);
         if (result.IsSuccessful)
         {
-            this.History.AddRange(this.Snapshots);
+            var batch = new ParticipantsBatch(type, this.Snapshots);
+            this.History.Add(batch);
             this.Snapshots.Clear();
         }
     }
-    public async Task Save(ParticipantEntry entry)
+    public async Task Resend(ParticipantsBatch batch, WitnessEventType type)
     {
-        var list = new List<ParticipantEntry> { entry };
-        var result = await this.participantsClient.Save(list);
+        var result = await this.participantsClient.Send(batch.Participants, type);
         if (result.IsSuccessful)
         {
-            this.toaster.Add("Save Successful", $"Entry '{entry.Number}-{entry.Name}' saved successfully", UiColor.Success, 3);
+            this.toaster.Add($"{nameof(this.Resend)} Successful", $"Resent '{batch.Participants.Count}' entries", UiColor.Success, 3);
         }
     }
 
@@ -106,7 +112,7 @@ public class ParticipantsService : IParticipantsService
         }
     }
 
-    public void Snapshot(ParticipantEntry entry)
+    public void CreateSnapshot(ParticipantEntry entry)
     {
         this.Selected.Remove(entry);
 
@@ -130,15 +136,15 @@ public interface IParticipantsService : ISingletonService
     SortedCollection<ParticipantEntry> Participants { get; }
     ObservableCollection<ParticipantEntry> Selected { get; }
     ObservableCollection<ParticipantEntry> Snapshots { get; }
-    List<ParticipantEntry> History { get; }
+    SortedCollection<ParticipantsBatch> History { get; }
     Task Load();
     void Sort(bool byNumber = false, bool byDistance = false, bool byName = false);
     void Update(ParticipantEntry entry, CollectionAction action);
     void Select(ParticipantEntry entry);
-    void Unselect(ParticipantEntry entry);
+    void RemoveSelected(ParticipantEntry entry);
     void EditSnapshot(string number, DateTime time);
-    void Snapshot(ParticipantEntry entry);
+    void CreateSnapshot(ParticipantEntry entry);
     void RemoveSnapshot(ParticipantEntry entry);
-    Task SaveSnaphots(WitnessEventType type);
-    Task Save(ParticipantEntry entry);
+    Task Send(WitnessEventType type);
+    Task Resend(ParticipantsBatch batch, WitnessEventType type);
 }

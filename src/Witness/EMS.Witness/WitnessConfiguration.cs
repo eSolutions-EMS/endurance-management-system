@@ -22,19 +22,23 @@ public static class WitnessConfiguration
             .Concat(WitnessConstants.Assemblies)
             .ToArray();
 
-        services.AddHttpClient<IRpcService, RpcService>(client => client.Timeout = TimeSpan.FromSeconds(5));
         services
             .AddCore(assemblies)
             .AddSingleton(new Toaster())
             .AddSingleton<IToaster>(x => x.GetRequiredService<Toaster>())
+            .AddSingleton<INotificationService>(x => x.GetRequiredService<Toaster>())
             .AddTransient<IPermissionsService, PermissionsService>()
-            .AddSingleton<WitnessState>()
-            .AddSingleton<IWitnessState>(provider => provider.GetRequiredService<WitnessState>())
+            .AddSingleton<WitnessContext>()
+            .AddSingleton<IWitnessContext>(provider => provider.GetRequiredService<WitnessContext>())
             .AddTransient<IDateService, DateService>()
             .AddSingleton<IStartlistClient, StartlistClient>()
             .AddSingleton<IRpcClient>(p => p.GetRequiredService<IStartlistClient>())
             .AddSingleton<IParticipantsClient, ParticipantsClient>()
-            .AddSingleton<IRpcClient>(x => x.GetRequiredService<IParticipantsClient>());
+            .AddSingleton<IRpcClient>(x => x.GetRequiredService<IParticipantsClient>())
+            .AddSingleton<WitnessState>()
+            .AddSingleton<IWitnessState>(x => x.GetRequiredService<WitnessState>())
+            .AddTransient<IPersistenceService, PersistenceService>()
+            .AddTransient<IRpcInitalizer, RpcInitalizer>();
 
         return services;
     }

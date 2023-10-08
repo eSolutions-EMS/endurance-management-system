@@ -11,36 +11,41 @@ using static Core.Application.CoreApplicationConstants;
 
 namespace Core.Application.Services;
 
-public class HandshakeService : INetworkBroadcastService, IHandshakeService
+public class JudgeHandshakeService : INetworkBroadcastService, IHandshakeService
 {
     private readonly IHandshakeValidatorService handshakeValidatorService;
 
-    public HandshakeService(IHandshakeValidatorService handshakeValidatorService)
+    public JudgeHandshakeService(IHandshakeValidatorService handshakeValidatorService)
     {
         this.handshakeValidatorService = handshakeValidatorService;
     }
 
-    public Task StartBroadcasting(CancellationToken token)
+    public async Task StartBroadcasting(CancellationToken token)
     {
-        using var server = new UdpClient(NETWORK_BROADCAST_PORT);
         var serverPayload = this.handshakeValidatorService.CreatePayload(Apps.JUDGE);
-
-        while (!token.IsCancellationRequested)
+        do
         {
-            var clientEndpoint = new IPEndPoint(IPAddress.Any, 0);
-            var clientPayload = server.Receive(ref clientEndpoint);
-            if (this.handshakeValidatorService.ValidatePayload(clientPayload, Apps.WITNESS))
+			using var server = new UdpClient(NETWORK_BROADCAST_PORT);
+			var requestTask = server.ReceiveAsync();
+			var timeout = Task.Delay(TimeSpan.FromSeconds(3));
+			var first = await Task.WhenAny(requestTask, timeout);
+            if (first == requestTask)
             {
-                Console.WriteLine($"Handshake with '{Apps.WITNESS}' on '{clientEndpoint.Address}'");
-                server.Send(serverPayload, serverPayload.Length, clientEndpoint);
-            }
-            else
-            {
-                var contents = Encoding.UTF8.GetString(clientPayload);
-                Console.WriteLine($"Invalid handshake attempt '{contents}' from '{clientEndpoint.Address}'");
-            }
-        }
-        return Task.CompletedTask;
+                var request = await requestTask;
+				if (this.handshakeValidatorService.ValidatePayload(request.Buffer, Apps.WITNESS))
+				{
+					Console.WriteLine($"Handshake with '{Apps.WITNESS}' on '{request.RemoteEndPoint.Address}'");
+					server.Send(serverPayload, serverPayload.Length, request.RemoteEndPoint);
+				}
+				else
+				{
+					var contents = Encoding.UTF8.GetString(request.Buffer);
+					Console.WriteLine($"Invalid handshake attempt '{contents}' from '{request.RemoteEndPoint.Address}'");
+				}
+			}
+            server.Close();
+		}
+        while (!token.IsCancellationRequested);
     }
 
     public async Task<IPAddress> Handshake(string app, CancellationToken token)
@@ -72,7 +77,7 @@ public class HandshakeService : INetworkBroadcastService, IHandshakeService
 
     private async Task<HandshakeResult> AttemptHandshake(byte[] payload)
     {
-		var socket = new UdpClient();
+		using var socket = new UdpClient();
 		socket.EnableBroadcast = true;
 		socket.Send(payload, payload.Length, new IPEndPoint(IPAddress.Broadcast, NETWORK_BROADCAST_PORT));
 		

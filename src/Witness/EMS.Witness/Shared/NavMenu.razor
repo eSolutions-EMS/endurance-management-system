@@ -1,20 +1,24 @@
 ﻿@using Core.Application.Rpc;
+@using EMS.Witness.Services;
 
 <div class="top-row ps-3 navbar navbar-dark">
 	<div class="container-fluid">
-		@if (!this.IsConnected)
+		@if (!this.isConnected)
 		{
 			<div class="col-5 navbar-brand">Disconnected...</div>
-			<div class="col-3">
-				<div class="spinner-border text-danger" role="status">
-					<span class="visually-hidden">Loading...</span>
-				</div>
-			</div>
 		}
 		else
 		{
 			<div class="col-8">
 				<a class="navbar-brand" href="">eWitness</a>
+			</div>
+		}
+		@if (this.isHandshaking)
+		{
+			<div class="col-3">
+				<div class="spinner-border text-danger" role="status">
+					<span class="visually-hidden">Loading...</span>
+				</div>
 			</div>
 		}
 		<div class="col-3">
@@ -42,6 +46,8 @@
 
 @code {
 	[Inject]
+	private IWitnessContext Context { get; set; } = default!;
+	[Inject]
 	private IEnumerable<IRpcClient> RpcClients { get; set; } = default!;
 
 	private bool CollapseNavMenu = true;
@@ -54,7 +60,8 @@
 		this.CollapseNavMenu = !this.CollapseNavMenu;
 	}
 
-	private bool IsConnected;
+	private bool isConnected;
+	private bool isHandshaking = true;
 
 	protected override void OnInitialized()
 	{
@@ -62,12 +69,20 @@
 		{
 			client.ServerConnectionChanged += async (sender, isConnected) =>
 			{
-				if (this.IsConnected != isConnected)
+				if (this.isConnected != isConnected)
 				{
-					this.IsConnected = isConnected;
+					this.isConnected = isConnected;
 					await this.InvokeAsync(this.StateHasChanged);
 				}
 			};
 		}
+		this.Context.IsHandshakingEvent += async (sender, isHandshaking) =>
+		{
+			if (this.isHandshaking != isHandshaking)
+			{
+				this.isHandshaking = isHandshaking;
+				await this.InvokeAsync(this.StateHasChanged);
+			}
+		};
 	}
 }

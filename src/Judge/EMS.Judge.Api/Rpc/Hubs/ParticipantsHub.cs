@@ -1,6 +1,6 @@
 ﻿using Core.Application.Rpc.Procedures;
 using Core.Domain.AggregateRoots.Manager;
-using Core.Domain.AggregateRoots.Manager.Aggregates.ParticipantEntries;
+using Core.Domain.AggregateRoots.Manager.Aggregates.Participants;
 using Core.Domain.AggregateRoots.Manager.WitnessEvents;
 using EMS.Judge.Api.Configuration;
 using Microsoft.AspNetCore.SignalR;
@@ -23,7 +23,7 @@ public class ParticipantsHub : Hub<IParticipantsClientProcedures>, IParticipants
     {
         return this.managerRoot.GetActiveParticipants();
     }
-    public Task Save(IEnumerable<ParticipantEntry> entries)
+    public Task Witness(IEnumerable<ParticipantEntry> entries, WitnessEventType type)
     {
         foreach (var entry in entries)
         {
@@ -31,10 +31,10 @@ public class ParticipantsHub : Hub<IParticipantsClientProcedures>, IParticipants
             {
                 TagId = entry.Number,
                 Time = entry.ArriveTime!.Value,
-                Type = entry.Type,
+                Type = type,
                 IsFromWitnessApp = true,
             };
-            Witness.Raise(witnessEvent);
+            Core.Domain.AggregateRoots.Manager.WitnessEvents.Witness.Raise(witnessEvent);
         }
         return Task.CompletedTask;
     }

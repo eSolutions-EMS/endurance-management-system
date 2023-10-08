@@ -1,0 +1,114 @@
+﻿
+@if (this.Header != null)
+{
+    <h2 class="accordion-header">
+        <button class="accordion-button @this.buttonCss" type="button" @onclick="this.Toggle">
+            @this.Header
+        </button>
+    </h2>
+}
+@if (this.Content != null)
+{
+    <div class="accordion-collapse collapse @contentCss">
+        <div class="accordion-body">
+            @this.Content
+        </div>
+    </div>    
+}
+
+@code {
+    [Parameter]
+    public RenderFragment Header { get; set; } = default!;
+    [Parameter]
+    public RenderFragment Content { get; set; } = default!;
+    /// <summary>
+    /// Controls the state of the component. Can be used as initial state or called programatically
+    /// </summary>
+    [Parameter]
+    public bool IsCollapsed
+    {
+        get => this._isCollapsed;
+        set
+        {
+            if (value is true)
+            {
+                this.contentCss = "";
+                this.buttonCss = "collapsed";
+            }
+            else
+            {
+                this.contentCss = "show";
+                this.buttonCss = "";
+            }
+            this._isCollapsed = value;
+            this.InvokeAsync(this.StateHasChanged);
+        }
+    }
+    /// <summary>
+    /// Used to define a synchronized context between Collapsible components with the same Id.
+    /// Only one component in the context can be expanded at a time. When one is expanded
+    /// the rest are collapsed (except if 'SyncToggle' is set to True)
+    /// </summary>
+    [Parameter]
+    public string? SyncId { get; set; } = default!;
+    /// <summary>
+    /// When TRUE all other components with the same 'SyncId' are Toggled instead of collapsed.
+    /// This is most useful to alternate between 2 components.
+    /// </summary>
+    [Parameter]
+    public bool ToggleOnSync { get; set; } = false;
+
+    private static event EventHandler? SyncEvent;
+    private bool _isCollapsed = true;
+    private string buttonCss = null!;
+    private string contentCss = null!;
+
+    protected override void OnInitialized()
+    {
+        if (!this.IsCollapsed)
+        {
+            this.IsCollapsed = false;
+        }
+        if (this.SyncId != null)
+        {
+            SyncEvent += (sender, _) =>
+            {
+                if (sender is Collapsable collapsable)
+                {
+                    this.SyncIsCollapsed(collapsable);
+                }
+            };
+        }
+    }
+
+    private void SyncIsCollapsed(Collapsable other)
+    {
+        if (this != other && this.SyncId == other.SyncId)
+        {
+            if (!this.ToggleOnSync)
+            {
+                this.IsCollapsed = true;
+            }
+            else
+            {
+                if (other.IsCollapsed)
+                {
+                    this.IsCollapsed = false;
+                }
+                else
+                {
+                    this.IsCollapsed = true;
+                }
+            }
+        }
+    }
+
+    private void Toggle()
+    {
+        this.IsCollapsed = !this.IsCollapsed;
+        if (this.SyncId != null)
+        {
+            SyncEvent?.Invoke(this, new EventArgs());
+        }
+    }
+}

@@ -1,6 +1,6 @@
 ﻿using Core.Domain.AggregateRoots.Common.Performances;
 using Core.Domain.AggregateRoots.Manager.Aggregates;
-using Core.Domain.AggregateRoots.Manager.Aggregates.ParticipantEntries;
+using Core.Domain.AggregateRoots.Manager.Aggregates.Participants;
 using Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 using Core.Domain.AggregateRoots.Manager.WitnessEvents;
 using Core.Domain.Common.Exceptions;
@@ -270,7 +270,7 @@ public class ManagerRoot : IAggregateRoot
             return new Startlist(new List<StartlistEntry>());
         }
         var entries = this.state.Participations
-            .Where(x => x.IsNotComplete)
+            .Where(x => x.IsNotComplete && x.Participant.LapRecords.Last().NextStarTime.HasValue)
             .Select(x => new StartlistEntry(x));
         var startlist = new Startlist(entries);
         return startlist;
