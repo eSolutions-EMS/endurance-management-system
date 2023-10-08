@@ -1,4 +1,5 @@
 ﻿using Core.Application.Rpc.Procedures;
+using Core.Application.Services;
 using Microsoft.AspNetCore.SignalR.Client;
 using System;
 using System.Collections.Generic;
@@ -9,62 +10,83 @@ namespace Core.Application.Rpc;
 
 public class RpcClient : IRpcClient, IAsyncDisposable
 {
-	public event EventHandler<bool>? ServerConnectionChanged;
-	public bool IsConnected => this.Connection?.State == HubConnectionState.Connected;
-	public bool IsConfigured { get; private set; }
+    private const string ALEX_HOME_WORKSTATION_IP = "192.168.0.36";
 
-    private readonly string endpoint;
+    public event EventHandler<bool>? ServerConnectionChanged;
+	public bool IsConnected => this.Connection?.State == HubConnectionState.Connected;
+
+    private readonly RpcContext context;
+    private readonly IHandshakeService handshakeService;
+
     // Necessary because this.Connection instance is not intialized 
     // when procedures are reigstered in the child constructor
     private List<Action<HubConnection>> procedureRegistrations = new();
 	private CancellationTokenSource reconnectTokenSource;
 
-    public RpcClient(string endpoint)
+    public RpcClient(RpcContext context, IHandshakeService handshakeService)
     {
-        this.endpoint = endpoint;
-		this.reconnectTokenSource = new CancellationTokenSource();
+        this.context = context;
+        this.handshakeService = handshakeService;
+        this.reconnectTokenSource = new CancellationTokenSource();
     }
     
     protected HubConnection? Connection { get; private set; }
 
-    public void Configure(string host)
-    {
-		var url = $"{host}/{endpoint}";
-		this.Connection = new HubConnectionBuilder()
-			.WithUrl(url)
-			.Build();
-		this.Connection.Closed += ex =>
-		{
-			this.BeginReconnecting(this.reconnectTokenSource.Token);
-			return Task.CompletedTask;
-		};
-        foreach (var registerProcedure in procedureRegistrations)
-		{
-			registerProcedure(this.Connection);
-		}
-	}
-
     public virtual async Task Connect()
     {
-		if (this.Connection == null)
-        {
-			var error = new Exception($"Cannot connect - client host is not configured. Use {nameof(IRpcClient.Configure)}");
-			this.RaiseError(error, "Connection");
-			return;
-        }
         if (this.reconnectTokenSource.IsCancellationRequested)
         {
             this.reconnectTokenSource = new CancellationTokenSource();
         }
+        if (this.Connection == null)
+        {
+			if (this.context.Url == null)
+			{
+				await this.Handshake();
+			}
+			this.ConfigureConnection();
+        }
         try
 		{
-			await this.Connection.StartAsync();
+			await this.Connection!.StartAsync();
 			this.RaiseConnected();
 		}
         catch (Exception ex)
 		{
-			this.RaiseError(ex, this.endpoint);
+			this.RaiseError(ex, this.context.Url);
 		}
+    }
+
+	private async Task Handshake()
+	{
+#if DEBUG
+		this.context.Host = ALEX_HOME_WORKSTATION_IP;
+#else
+        var ip = await this.handshakeService.Handshake(this.context.ClientId, this.reconnectTokenSource.Token);
+		if (ip == null)
+		{
+            var error = new Exception("Server broadcast received, but payload does not contain an IP address");
+            this.RaiseError(error, nameof(this.Handshake));
+            return;
+        }
+        this.context.Host = ip.ToString();
+#endif
+    }
+
+    public void ConfigureConnection()
+    {
+        this.Connection = new HubConnectionBuilder()
+            .WithUrl(this.context.Url)
+            .Build();
+        this.Connection.Closed += ex =>
+        {
+            this.BeginReconnecting(this.reconnectTokenSource.Token);
+            return Task.CompletedTask;
+        };
+        foreach (var registerProcedure in procedureRegistrations)
+        {
+            registerProcedure(this.Connection);
+        }
     }
 
     public virtual async Task Disconnect()
@@ -199,9 +221,12 @@ public class RpcClient : IRpcClient, IAsyncDisposable
 	}
 
     public event EventHandler<RpcError>? Error;
-    private void RaiseError(Exception exception, string procedure, params object[] arguments)
+    private void RaiseError(Exception exception, string? procedure, params object?[] arguments)
     {
-        Console.WriteLine($"Error in '{procedure}': {exception.Message}");
+		var message = procedure == null
+			? $"RpcClient error : {exception.Message}"
+			: $"RpcClient error in '{procedure}': {exception.Message}";
+        Console.WriteLine(message);
         var error = new RpcError(exception, procedure, arguments);
         this.Error?.Invoke(this, error);
     }
@@ -209,7 +234,7 @@ public class RpcClient : IRpcClient, IAsyncDisposable
     private void BeginReconnecting(CancellationToken cancellationToken)
     {
 		this.RaiseDisconnected();
-        var timer = new System.Timers.Timer(5000);
+        var timer = new System.Timers.Timer(TimeSpan.FromSeconds(5).TotalMilliseconds);
         timer.Elapsed += async (s, e) =>
         {
             if (cancellationToken.IsCancellationRequested)
@@ -251,8 +276,6 @@ public interface IRpcClient
 	event EventHandler<bool>? ServerConnectionChanged;
 	event EventHandler<RpcError>? Error;
 	bool IsConnected { get; }
-	bool IsConfigured { get; }
-    void Configure(string host);
 	Task Connect();
     Task Disconnect();
 }

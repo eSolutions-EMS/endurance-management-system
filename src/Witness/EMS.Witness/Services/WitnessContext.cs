@@ -8,7 +8,6 @@ namespace EMS.Witness.Services;
 public class WitnessContext : Observable, IWitnessContext
 {
 	public event EventHandler<bool>? IsHandshakingEvent;
-	public string? ApiHost { get; set; }
 	public Dictionary<string, WitnessEvent> WitnessRecords { get; } = new();
 	public SortedCollection<StartlistEntry> Startlist { get; } = new();
 	public SortedCollection<ParticipantEntry> Participants { get; } = new();
@@ -22,7 +21,6 @@ public class WitnessContext : Observable, IWitnessContext
 public interface IWitnessContext
 {
 	event EventHandler<bool> IsHandshakingEvent;
-	string? ApiHost { get; }
 	Dictionary<string, WitnessEvent> WitnessRecords { get; }
 	public SortedCollection<StartlistEntry> Startlist { get; }
 	public SortedCollection<ParticipantEntry> Participants { get; }

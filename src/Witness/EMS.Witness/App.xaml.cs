@@ -47,13 +47,13 @@ public partial class App : Application
 
 		window.Created += async (s, e) =>
 		{
-			await this.rpcService.Handshake();
+			await this.rpcService.StartConnections();
 			await this.persistence.Restore();
 		};
 		window.Resumed += (s, e) =>
 		{
 			this.isDeactivated = false;
-			this.rpcService.Handshake();
+			this.rpcService.StartConnections();
 		};
 		window.Deactivated += async (s, e) =>
 		{

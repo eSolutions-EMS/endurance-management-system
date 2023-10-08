@@ -1,21 +1,22 @@
 ﻿using Core.Application.Rpc;
 using Core.Application.Rpc.Procedures;
+using Core.Application.Services;
 using Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 using Core.Enums;
-using EMS.Witness.Services;
 using static Core.Application.CoreApplicationConstants;
 
 namespace EMS.Witness.Rpc;
 
 public class StartlistClient : RpcClient, IStartlistClientProcedures, IStartlistClient
 {
-	private readonly WitnessContext state;
 	public event EventHandler<(StartlistEntry entry, CollectionAction action)>? Updated;
  
-    public StartlistClient(WitnessContext state) : base(RpcEndpoints.STARTLIST)
+    public StartlistClient(IHandshakeService handshakeService)
+        : base(
+            new RpcContext(Apps.WITNESS, RpcProtocls.Http, NetworkPorts.JUDGE_SERVER, RpcEndpoints.STARTLIST),
+            handshakeService)
     {
         this.AddProcedure<StartlistEntry, CollectionAction>(nameof(this.Update), this.Update);
-		this.state = state;
 	}
 
     public Task Update(StartlistEntry entry, CollectionAction action)
