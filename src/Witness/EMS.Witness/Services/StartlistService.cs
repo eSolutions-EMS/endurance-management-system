@@ -7,16 +7,16 @@ using EMS.Witness.Rpc;
 namespace EMS.Witness.Services;
 public class StartlistService : IStartlistService
 {
-    private readonly IWitnessState witnessState;
+    private readonly IWitnessContext context;
     private readonly IStartlistClient startlistClient;
 
-    public StartlistService(IWitnessState witnessState, IStartlistClient startlistClient)
+    public StartlistService(IWitnessContext context, IStartlistClient startlistClient)
     {
-        this.witnessState = witnessState;
+        this.context = context;
         this.startlistClient = startlistClient;
     }
 
-    public ObservableCollection<StartlistEntry> Startlist => this.witnessState.Startlist;
+    public ObservableCollection<StartlistEntry> Startlist => this.context.Startlist;
 
     public async Task Load()
     {

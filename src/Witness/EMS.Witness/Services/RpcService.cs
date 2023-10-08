@@ -19,18 +19,18 @@ public class RpcService: IRpcService
 	private readonly IHandshakeService handshakeService;
 	private readonly IEnumerable<IRpcClient> rpcClients;
 	private readonly IPermissionsService permissionsService;
-	private readonly WitnessState witnessState;
+	private readonly WitnessContext context;
 	private bool isHandshaking;
 
 	public RpcService(
-		IWitnessState witnessState,
+		IWitnessContext context,
 		IEnumerable<IRpcClient> rpcClients,
 		IPermissionsService permissionsService,
 		IHandshakeService handshakeService,
 		HttpClient httpClient,
 		IToaster toaster)
     {
-		this.witnessState = (WitnessState)witnessState;
+		this.context = (WitnessContext)context;
 		this.rpcClients = rpcClients;
 		this.permissionsService = permissionsService;
         this.httpClient = httpClient;
@@ -65,7 +65,7 @@ public class RpcService: IRpcService
 		}
 		finally
 		{
-			this.witnessState.RaiseIsHandshakingEvent(false);
+			this.context.RaiseIsHandshakingEvent(false);
 		}
 	}
 

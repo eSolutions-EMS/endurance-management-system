@@ -46,7 +46,7 @@
 
 @code {
 	[Inject]
-	private IWitnessState WitnessState { get; set; } = default!;
+	private IWitnessContext Context { get; set; } = default!;
 	[Inject]
 	private IEnumerable<IRpcClient> RpcClients { get; set; } = default!;
 
@@ -76,7 +76,7 @@
 				}
 			};
 		}
-		this.WitnessState.IsHandshakingEvent += async (sender, isHandshaking) =>
+		this.Context.IsHandshakingEvent += async (sender, isHandshaking) =>
 		{
 			if (this.isHandshaking != isHandshaking)
 			{
