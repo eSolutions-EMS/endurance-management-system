@@ -5,10 +5,10 @@
 @using Core.Models;
 @using EMS.Witness.Common;
 @using EMS.Witness.Services;
-@inject IParticipantsService ArrivelistService;
+@inject IParticipantsService ParticipantsService;
 @inject IDateService DateService;
 
-@if (this.ArrivelistService.Selected.Any())
+@if (this.ParticipantsService.Selected.Any())
 {
     <div class="row">
 
@@ -22,18 +22,18 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var arrive in this.ArrivelistService.Selected)
+                @foreach (var arrive in this.ParticipantsService.Selected)
                 {
                     <tr>
                         <td>
-                            <button class="btn btn-danger btn-table" @onclick="_ => this.ArrivelistService.RemoveSelected(arrive)">-</button>
+                            <button class="btn btn-danger btn-table" @onclick="_ => this.ParticipantsService.RemoveSelected(arrive)">-</button>
                         </td>
                         <td>
                             <strong>@arrive.Number</strong>
                         </td>
                         <td>@arrive.Name</td>
                         <td>
-                            <button class="btn btn-success btn-table" @onclick="_ => this.ArrivelistService.CreateSnapshot(arrive)">Snapshot</button>
+                            <button class="btn btn-success btn-table" @onclick="_ => this.ParticipantsService.CreateSnapshot(arrive)">Snapshot</button>
                         </td>
                     </tr>
                 }
@@ -76,9 +76,9 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var arrive in this.ArrivelistService.Participants)
+            @foreach (var arrive in this.ParticipantsService.Participants)
             {
-                var isDisabled = this.ArrivelistService.Selected.Contains(arrive) ? true : false;
+                var isDisabled = this.ParticipantsService.Selected.Contains(arrive) ? true : false;
                 <tr>
                     <td>
                         <strong>@arrive.Number</strong>
@@ -89,7 +89,7 @@
                     <td>
                         <button class="btn btn-success btn-table" 
                                 disabled=@isDisabled
-                                @onclick="_ => this.ArrivelistService.Select(arrive)">
+                        @onclick="_ => this.ParticipantsService.Select(arrive)">
                             Select
                         </button>
                     </td>
@@ -109,25 +109,25 @@
         this.sortByNumber = true;
         this.sortByDistance = false;
         this.sortByName = false;
-        this.ArrivelistService.Sort(byNumber: true);
+        this.ParticipantsService.Sort(byNumber: true);
     }
     private void SortByDistance()
     {
         this.sortByNumber = false;
         this.sortByDistance = true;
         this.sortByName = false;
-        this.ArrivelistService.Sort(byDistance: true);
+        this.ParticipantsService.Sort(byDistance: true);
     }
     private void SortByName()
     {
         this.sortByNumber = false;
         this.sortByDistance = false;
         this.sortByName = true;
-        this.ArrivelistService.Sort(byName: true);
+        this.ParticipantsService.Sort(byName: true);
     }
 
     protected override bool ShouldRender(object changedState)
     {
-        return changedState == this.ArrivelistService.Participants || changedState == this.ArrivelistService.Selected;
+        return changedState == this.ParticipantsService.Participants || changedState == this.ParticipantsService.Selected;
     }
 }
