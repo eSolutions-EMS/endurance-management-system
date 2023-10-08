@@ -11,20 +11,20 @@ namespace EMS.Witness.Services;
 
 public class ParticipantsService : IParticipantsService
 {
-    private readonly IWitnessState state;
+    private readonly IWitnessContext context;
     private readonly IParticipantsClient participantsClient;
     private readonly IToaster toaster;
     private readonly IDateService dateService;
 
-    public ParticipantsService(IWitnessState state, IParticipantsClient arrivelistClient, IToaster toaster, IDateService dateService)
+    public ParticipantsService(IWitnessContext context, IParticipantsClient arrivelistClient, IToaster toaster, IDateService dateService)
     {
-        this.state = state;
+        this.context = context;
         this.participantsClient = arrivelistClient;
         this.toaster = toaster;
         this.dateService = dateService;
     }
 
-    public SortedCollection<ParticipantEntry> Participants => this.state.Participants;
+    public SortedCollection<ParticipantEntry> Participants => this.context.Participants;
     public ObservableCollection<ParticipantEntry> Snapshots { get; } = new();
     public ObservableCollection<ParticipantEntry> Selected { get; } = new();
     public SortedCollection<ParticipantsBatch> History { get; } = new();

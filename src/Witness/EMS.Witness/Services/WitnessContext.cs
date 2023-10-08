@@ -5,7 +5,7 @@ using Core.Models;
 
 namespace EMS.Witness.Services;
 
-public class WitnessState : Observable, IWitnessState
+public class WitnessContext : Observable, IWitnessContext
 {
 	public event EventHandler<bool>? IsHandshakingEvent;
 	public string? ApiHost { get; set; }
@@ -19,7 +19,7 @@ public class WitnessState : Observable, IWitnessState
 	}
 }
 
-public interface IWitnessState
+public interface IWitnessContext
 {
 	event EventHandler<bool> IsHandshakingEvent;
 	string? ApiHost { get; }
