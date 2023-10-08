@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.SignalR;
 
 namespace EMS.Judge.Api.Rpc.Hubs;
 
+// TODO: remove
 public class WitnessEventsHub : Hub, IWitnessEventsHubProcedures
 {
     public void Add(WitnessEvent witnessEvent)

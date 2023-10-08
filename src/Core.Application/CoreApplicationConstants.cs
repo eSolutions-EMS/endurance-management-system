@@ -14,6 +14,11 @@ public static class CoreApplicationConstants
         public const string WITNESS = "Witness";
     }
 
+    public static class NetworkPorts
+    {
+        public const int JUDGE_SERVER = 11337;
+    }
+
     public static class RpcEndpoints
     {
         public const string STARTLIST = "startlist-hub";
