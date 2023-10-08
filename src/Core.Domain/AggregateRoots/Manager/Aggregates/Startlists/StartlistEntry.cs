@@ -1,12 +1,30 @@
 ﻿using Core.Domain.AggregateRoots.Common.Performances;
 using Core.Domain.State.Participations;
 using System;
+using System.Linq;
 
 namespace Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 
 public class StartlistEntry : IComparable<StartlistEntry>, IEquatable<StartlistEntry>
 {
     public StartlistEntry() { }
+
+    internal StartlistEntry(Participation participation, int toSkip = 0)
+    {
+        this.Number = participation.Participant.Number;
+        this.Name = participation.Participant.Name;
+        this.AthleteName = participation.Participant.Athlete.Name;
+        this.CountryName = participation.Participant.Athlete.Country.Name;
+        this.Distance = participation.Distance!.Value;
+        this.HasStarted = this.StartTime < DateTime.Now;
+        
+        this.Stage = toSkip + 1;
+        var lapRecords = participation.Participant.LapRecords
+            .Skip(toSkip)
+            .ToList();
+        var first = lapRecords.First();
+        this.StartTime = first.StartTime;
+    }
 
     internal StartlistEntry(Participation participation)
     {
@@ -15,11 +33,11 @@ public class StartlistEntry : IComparable<StartlistEntry>, IEquatable<StartlistE
         this.AthleteName = participation.Participant.Athlete.Name;
         this.CountryName = participation.Participant.Athlete.Country.Name;
         this.Distance = participation.Distance!.Value;
-        this.StartTime = Performance.GetStartTime(participation);
-        this.Stage = participation.Participant.LapRecords.Count;
         this.HasStarted = this.StartTime < DateTime.Now;
+        this.Stage = participation.Participant.LapRecords.Count + 1;
+        this.StartTime = Performance.GetLastNextStartTime(participation).Value;
     }
-    
+
     public string Number { get; init; }
     public string Name { get; init; }
     public string AthleteName { get; init; }
@@ -51,7 +69,11 @@ public class StartlistEntry : IComparable<StartlistEntry>, IEquatable<StartlistE
             {
                 return -1;
             }
-            return 1;
+            else if (thisDiff < otherDiff)
+            {
+                return 1;
+            }
+            return 0;
         }
         if (this.HasStarted && !other.HasStarted)
         {
