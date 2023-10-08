@@ -11,11 +11,11 @@ using static Core.Application.CoreApplicationConstants;
 
 namespace Core.Application.Services;
 
-public class HandshakeService : INetworkBroadcastService, IHandshakeService
+public class JudgeHandshakeService : INetworkBroadcastService, IHandshakeService
 {
     private readonly IHandshakeValidatorService handshakeValidatorService;
 
-    public HandshakeService(IHandshakeValidatorService handshakeValidatorService)
+    public JudgeHandshakeService(IHandshakeValidatorService handshakeValidatorService)
     {
         this.handshakeValidatorService = handshakeValidatorService;
     }
