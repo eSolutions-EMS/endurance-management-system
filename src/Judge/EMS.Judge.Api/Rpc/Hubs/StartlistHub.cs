@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace EMS.Judge.Api.Rpc.Hubs;
@@ -20,11 +19,10 @@ public class StartlistHub : Hub<IStartlistClientProcedures>, IStartlistHubProced
 		this.managerRoot = provider.GetRequiredService<ManagerRoot>();
 	}
 		
-	public IEnumerable<StartlistEntry> Get()
+	public Dictionary<int, Startlist> Get()
 	{
-		return Enumerable.Empty<StartlistEntry>();
-		//var startlist = this.managerRoot.GetStartList();
-		//return startlist;
+		var startlist = this.managerRoot.GetStartList();
+		return startlist;
 	}
 
 	public override async Task OnConnectedAsync()
