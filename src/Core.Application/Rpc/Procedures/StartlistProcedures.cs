@@ -12,5 +12,5 @@ public interface IStartlistClientProcedures
 
 public interface IStartlistHubProcedures
 {
-    IEnumerable<StartlistEntry> Get();
+    Dictionary<int, Startlist> Get();
 }

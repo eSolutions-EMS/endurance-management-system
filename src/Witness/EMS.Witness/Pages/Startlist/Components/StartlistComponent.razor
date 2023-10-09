@@ -2,42 +2,58 @@
 
 @inject IDateService DateService;
 @inject IStartlistService StartlistService;
+@using Core.Utilities;
 @using EMS.Witness.Common;
 @using EMS.Witness.Services;
 @using Core.Application.Services;
 @using Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 
-<table class="table">
-	<thead>
-		<tr>
-			<th>#</th>
-			<th>Name</th>
-			<th>Stage</th>
-			<th>Distance</th>
-			<th>Time</th>
-		</tr>
-	</thead>
-	<tbody>
-		@foreach (var entry in this.StartlistService.Startlist)
-		{
-			<tr class="@(entry.HasStarted ? "text-muted" : "")">
-				<td>@entry.Number</td>
-				<td>@entry.AthleteName</td>
-				<td>@entry.Stage</td>
-				<td>@entry.Distance</td>
-				@if (entry.HasStarted)
-				{
-					<td>@this.DateService.FormatTime(entry.StartTime)</td>
-
-				}
-				else
-				{
-					<td>@this.DateService.FormatTime(entry.StartTime - this.DateService.GetNow())</td>
-				}
+<div class="row">
+	<div class="col">
+		<button class="btn btn-primary" @onclick="_ => this.StartlistService.SelectList()">All</button>
+	</div>
+	@foreach (var (stage, list) in this.StartlistService.StartlistsByStage)
+	{
+		<div class="col">
+			<button class="btn btn-primary" @onclick="_ => this.StartlistService.SelectList(stage)">@stage</button>
+		</div>
+	}
+</div>
+<div class="row">
+	<table class="table">
+	
+		<thead>
+			<tr>
+				<th>#</th>
+				<th>Name</th>
+				<th>Stage</th>
+				<th>Distance</th>
+				<th>Time</th>
 			</tr>
-		}
-	</tbody>
-</table>
+		</thead>
+		<tbody>
+			@foreach (var entry in this.StartlistService.Startlist)
+			{
+				<tr class="@(entry.HasStarted ? "text-muted" : "")">
+					<td>@entry.Number</td>
+					<td>@entry.AthleteName</td>
+					<td>@entry.Stage</td>
+					<td>@entry.Distance</td>
+					@if (entry.HasStarted)
+					{
+						<td>@this.DateService.FormatTime(entry.StartTime)</td>
+
+					}
+					else
+					{
+						var diff = entry.StartTime - this.DateService.GetNow();
+						<td>@this.DateService.FormatTime(diff)</td>
+					}
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
 
 @code {
 	private bool loop = true;
