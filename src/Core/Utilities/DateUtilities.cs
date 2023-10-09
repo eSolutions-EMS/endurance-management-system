@@ -12,8 +12,20 @@ public static class DateUtilities
         => time.ToString("HH:mm:ss.fff");
 
     public static string FormatTime(TimeSpan time)
-        => time.ToString(@"hh\:mm\:ss\.fff");
+    {
+        var formatted = time.ToString(@"hh\:mm\:ss\.fff");
+        if (time.IsNegative())
+        {
+            return $"-{formatted}";
+		}
+        return formatted;
+    }
 
     public static string StripMilliseconds(this string formatted)
         => formatted.Split(".").First();
+
+	public static bool IsNegative(this TimeSpan span)
+	{
+		return span.TotalDays < 0;
+	}
 }

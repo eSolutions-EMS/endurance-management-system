@@ -47,7 +47,10 @@
 					else
 					{
 						var diff = entry.StartTime - this.DateService.GetNow();
-						<td>@this.DateService.FormatTime(diff)</td>
+						var colorClass = diff.IsNegative()
+							? "text-danger"
+							: "";
+						<td class="@colorClass">@this.DateService.FormatTime(diff)</td>
 					}
 				</tr>
 			}
