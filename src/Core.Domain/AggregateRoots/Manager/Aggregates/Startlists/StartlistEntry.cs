@@ -16,7 +16,7 @@ public class StartlistEntry : IComparable<StartlistEntry>, IEquatable<StartlistE
         this.AthleteName = participation.Participant.Athlete.Name;
         this.CountryName = participation.Participant.Athlete.Country.Name;
         this.Distance = participation.Distance!.Value;
-        this.HasStarted = this.StartTime < DateTime.Now;
+        this.IsRestOver = this.StartTime < DateTime.Now;
         
         this.Stage = toSkip + 1;
         var lapRecords = participation.Participant.LapRecords
@@ -33,7 +33,7 @@ public class StartlistEntry : IComparable<StartlistEntry>, IEquatable<StartlistE
         this.AthleteName = participation.Participant.Athlete.Name;
         this.CountryName = participation.Participant.Athlete.Country.Name;
         this.Distance = participation.Distance!.Value;
-        this.HasStarted = this.StartTime < DateTime.Now;
+        this.IsRestOver = this.StartTime < DateTime.Now;
         this.Stage = participation.Participant.LapRecords.Count + 1;
         this.StartTime = Performance.GetLastNextStartTime(participation).Value;
     }
@@ -45,7 +45,8 @@ public class StartlistEntry : IComparable<StartlistEntry>, IEquatable<StartlistE
     public double Distance { get; init; }
     public int Stage { get; init; }
     public DateTime StartTime { get; init; }
-    public bool HasStarted { get; internal set; }
+    public bool IsRestOver { get; internal set; }
+    public bool IsLateStart { get; internal set; }
 
     public int CompareTo(StartlistEntry other)
     {
@@ -53,18 +54,28 @@ public class StartlistEntry : IComparable<StartlistEntry>, IEquatable<StartlistE
         var now = DateTime.Now;
         var thisDiff = this.StartTime - now;
         var otherDiff = other.StartTime - now;
-        var hasStarted = this.StartTime < now - maximumLateStart;
-        var otherHasStarted = other.StartTime < now - maximumLateStart;
-		if (hasStarted != this.HasStarted)
+        var isRestOver = this.StartTime < now;
+        var otherIsRestOver = other.StartTime < now;
+        var isLateStart = this.StartTime < now && this.StartTime > now - maximumLateStart;
+        var otherIsLateStart = other.StartTime < now && other.StartTime > now - maximumLateStart;
+		if (isRestOver != this.IsRestOver)
         {
-            this.HasStarted = hasStarted;
+            this.IsRestOver = isRestOver;
         }
-        if (otherHasStarted != other.HasStarted)
+        if (otherIsRestOver != other.IsRestOver)
         {
-            other.HasStarted = otherHasStarted;
+            other.IsRestOver = otherIsRestOver;
         }
-        // Order past entries (HasStarted == true) by start time descending
-        if (hasStarted && otherHasStarted)
+        if (this.IsLateStart != isLateStart)
+        {
+            this.IsLateStart = isLateStart;
+        }
+        if (other.IsLateStart != otherIsLateStart)
+        {
+            other.IsLateStart = otherIsLateStart;
+        }
+		// Order past entries (IsRestOver == true) by start time descending
+		if (isRestOver && otherIsRestOver)
         {
             if (thisDiff > otherDiff)
             {
@@ -76,11 +87,11 @@ public class StartlistEntry : IComparable<StartlistEntry>, IEquatable<StartlistE
             }
             return 0;
         }
-        if (this.HasStarted && !other.HasStarted)
+        if (this.IsRestOver && !other.IsRestOver)
         {
             return 1;
         }
-        if (!this.HasStarted && other.HasStarted)
+        if (!this.IsRestOver && other.IsRestOver)
         {
             return -1;
         }

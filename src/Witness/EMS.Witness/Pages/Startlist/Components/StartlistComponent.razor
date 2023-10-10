@@ -34,23 +34,26 @@
 		<tbody>
 			@foreach (var entry in this.StartlistService.Startlist)
 			{
-				<tr class="@(entry.HasStarted ? "text-muted" : "")">
+				<tr class="@(entry.IsRestOver ? "text-muted" : "")">
 					<td>@entry.Number</td>
 					<td>@entry.AthleteName</td>
 					<td>@entry.Stage</td>
 					<td>@entry.Distance</td>
-					@if (entry.HasStarted)
-					{
-						<td>@this.DateService.FormatTime(entry.StartTime)</td>
-
-					}
-					else
+					@if (entry.IsRestOver && entry.IsLateStart)
 					{
 						var diff = entry.StartTime - this.DateService.GetNow();
 						var colorClass = diff.IsNegative()
 							? "text-danger"
 							: "";
 						<td class="@colorClass">@this.DateService.FormatTime(diff)</td>
+					}
+					else if (entry.IsRestOver)
+					{
+						<td>@this.DateService.FormatTime(entry.StartTime)</td>
+					}
+					else
+					{
+						<td>@this.DateService.FormatTime(entry.StartTime - this.DateService.GetNow())</td>
 					}
 				</tr>
 			}

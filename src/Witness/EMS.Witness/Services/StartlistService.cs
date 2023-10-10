@@ -40,6 +40,10 @@ public class StartlistService : IStartlistService
         {
             this.StartlistsByStage.Add(entry.Stage, new(new List<StartlistEntry> { entry }));
         }
+        if (this.SelectedStage == entry.Stage || this.SelectedStage == null)
+        {
+            this.Startlist.Update(entry, action);
+        }
     }
 
     public void SelectList(int? stage = null)
