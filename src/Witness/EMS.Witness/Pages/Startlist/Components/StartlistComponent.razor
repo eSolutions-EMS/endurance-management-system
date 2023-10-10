@@ -68,7 +68,7 @@
 		while(this.loop)
 		{
 			this.StartlistService.Startlist.Sort();
-			await Task.Delay(TimeSpan.FromMilliseconds(300));
+			await Task.Delay(TimeSpan.FromSeconds(1));
 			await this.InvokeAsync(this.StateHasChanged);
 		}
 	}
