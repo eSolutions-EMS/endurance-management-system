@@ -10,7 +10,7 @@ namespace Core.Application.Rpc;
 
 public class RpcClient : IRpcClient, IAsyncDisposable
 {
-    private const string ALEX_HOME_WORKSTATION_IP = "192.168.0.36";
+    private const string ALEX_HOME_WORKSTATION_IP = "192.168.0.60";
 
     public event EventHandler<bool>? ServerConnectionChanged;
 	public bool IsConnected => this.Connection?.State == HubConnectionState.Connected;
