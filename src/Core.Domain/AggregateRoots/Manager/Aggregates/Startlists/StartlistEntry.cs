@@ -58,6 +58,8 @@ public class StartlistEntry : IComparable<StartlistEntry>, IEquatable<StartlistE
         var otherIsRestOver = other.StartTime < now;
         var isLateStart = this.StartTime < now && this.StartTime > now - maximumLateStart;
         var otherIsLateStart = other.StartTime < now && other.StartTime > now - maximumLateStart;
+        
+        // Proprety assignment in order to render them differently in UI, stupid I know
 		if (isRestOver != this.IsRestOver)
         {
             this.IsRestOver = isRestOver;
@@ -74,6 +76,15 @@ public class StartlistEntry : IComparable<StartlistEntry>, IEquatable<StartlistE
         {
             other.IsLateStart = otherIsLateStart;
         }
+		
+        if (this.IsRestOver && !other.IsRestOver)
+		{
+			return 1;
+		}
+		if (!this.IsRestOver && other.IsRestOver)
+		{
+			return -1;
+		}
 		// Order past entries (IsRestOver == true) by start time descending
 		if (isRestOver && otherIsRestOver)
         {
@@ -85,22 +96,18 @@ public class StartlistEntry : IComparable<StartlistEntry>, IEquatable<StartlistE
             {
                 return 1;
             }
-            return 0;
-        }
-        if (this.IsRestOver && !other.IsRestOver)
-        {
-            return 1;
-        }
-        if (!this.IsRestOver && other.IsRestOver)
-        {
-            return -1;
+            return int.Parse(this.Number) - int.Parse(other.Number);
         }
         // Order by StartTime ascending
         if (thisDiff > otherDiff)
         {
             return 1;
         }
-        return -1;
+        else if (thisDiff < otherDiff)
+        {
+            return -1;
+        }
+        return 0;
     }
 
     public bool Equals(StartlistEntry other)
