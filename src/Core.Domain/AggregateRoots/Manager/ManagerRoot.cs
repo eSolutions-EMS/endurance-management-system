@@ -275,7 +275,7 @@ public class ManagerRoot : IAggregateRoot
         foreach (var participant in participants)
         {
             var toSkip = 0;
-            foreach (var record in participant.Participant.LapRecords)
+            foreach (var record in participant.Participant.LapRecords.Where(x => x.Result == null || !x.Result.IsNotQualified))
             {
                 var entry = new StartlistEntry(participant, toSkip);
                 if (startlists.ContainsKey(entry.Stage))
