@@ -295,8 +295,15 @@ public class ManagerRoot : IAggregateRoot
                         Stage = participant.Participant.LapRecords.Count + 1,
                         StartTime = record.NextStarTime.Value,
                     };
-                    startlists[nextEntry.Stage].Add(nextEntry);
-                }
+                    if (startlists.ContainsKey(nextEntry.Stage))
+                    {
+						startlists[nextEntry.Stage].Add(nextEntry);
+					}
+                    else
+                    {
+						startlists.Add(nextEntry.Stage, new Startlist(new List<StartlistEntry> { nextEntry }));
+					}
+				}
                 toSkip++;
             }
         }
