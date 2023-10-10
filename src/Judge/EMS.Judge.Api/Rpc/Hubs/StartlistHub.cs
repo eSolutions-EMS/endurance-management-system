@@ -19,7 +19,7 @@ public class StartlistHub : Hub<IStartlistClientProcedures>, IStartlistHubProced
 		this.managerRoot = provider.GetRequiredService<ManagerRoot>();
 	}
 		
-	public IEnumerable<StartlistEntry> Get()
+	public Dictionary<int, Startlist> Get()
 	{
 		var startlist = this.managerRoot.GetStartList();
 		return startlist;

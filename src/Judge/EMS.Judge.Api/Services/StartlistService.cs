@@ -14,11 +14,11 @@ public class StartlistService : IStartlistService
         this.managerRoot = judgeServiceProvider.GetRequiredService<ManagerRoot>();
     }
 
-    public IEnumerable<StartlistEntry> Get()
+    public Dictionary<int, Startlist> Get()
         => this.managerRoot.GetStartList();
 }
 
 public interface IStartlistService
 {
-    IEnumerable<StartlistEntry> Get();
+    Dictionary<int, Startlist> Get();
 }

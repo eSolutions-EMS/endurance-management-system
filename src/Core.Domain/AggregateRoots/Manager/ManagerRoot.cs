@@ -18,6 +18,7 @@ using EMS.Judge.Application.Common.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using static Core.Localization.Strings;
 
 namespace Core.Domain.AggregateRoots.Manager;
@@ -263,17 +264,50 @@ public class ManagerRoot : IAggregateRoot
         return performance;
     }
 
-    public Startlist GetStartList()
+    public Dictionary<int, Startlist> GetStartList()
     {
         if (!this.state.Event.HasStarted)
         {
-            return new Startlist(new List<StartlistEntry>());
+            return new();
         }
-        var entries = this.state.Participations
-            .Where(x => x.IsNotComplete && x.Participant.LapRecords.Last().NextStarTime.HasValue)
-            .Select(x => new StartlistEntry(x));
-        var startlist = new Startlist(entries);
-        return startlist;
+        var startlists = new Dictionary<int, Startlist>();
+        var participants = this.state.Participations.Where(x => x.CompetitionConstraint != null).ToList();
+        foreach (var participant in participants)
+        {
+            var toSkip = 0;
+            foreach (var record in participant.Participant.LapRecords)
+            {
+                var entry = new StartlistEntry(participant, toSkip);
+                if (startlists.ContainsKey(entry.Stage))
+                {
+                    startlists[entry.Stage].Add(entry);
+                }
+                else
+                {
+                    startlists.Add(entry.Stage, new Startlist(new List<StartlistEntry> { entry }));
+                }
+                // If record is complete, but is not last -> insert another record for current stage
+                // This bullshit happens because "current" stage is not yet created. Its only created at Arrive
+                if (record == participant.Participant.LapRecords.Last() && record.NextStarTime.HasValue)
+                {
+                    var nextEntry = new StartlistEntry(participant)
+                    {
+                        Stage = participant.Participant.LapRecords.Count + 1,
+                        StartTime = record.NextStarTime.Value,
+                    };
+                    if (startlists.ContainsKey(nextEntry.Stage))
+                    {
+						startlists[nextEntry.Stage].Add(nextEntry);
+					}
+                    else
+                    {
+						startlists.Add(nextEntry.Stage, new Startlist(new List<StartlistEntry> { nextEntry }));
+					}
+				}
+                toSkip++;
+            }
+        }
+        return startlists;
     }
 
     public IEnumerable<ParticipantEntry> GetActiveParticipants()

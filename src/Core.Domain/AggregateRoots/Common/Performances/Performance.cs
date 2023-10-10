@@ -112,14 +112,21 @@ public class Performance : IAggregate, IPerformance, INotifyPropertyChanged
             var performance = new Performance(lapRecord, participation.CompetitionConstraint.Type, previousLength);
             previousLength += lapRecord.Lap.LengthInKm;
             yield return performance;
-        }
+        } 
     }
 
-    public static DateTime GetStartTime(Participation participation)
+    public static DateTime? GetFirstNextStartTime(Participation participation, int toSkip)
     {
-        var lastRecord = participation.Participant.LapRecords.Last();
-        var performance = new Performance(lastRecord, participation.CompetitionConstraint.Type, 0);
-        return performance.NextStartTime ?? default;
+        var firstRecord = participation.Participant.LapRecords.Skip(toSkip).First();
+        var performance = new Performance(firstRecord, participation.CompetitionConstraint.Type, 0);
+        return performance.NextStartTime;
+    }
+
+    public static DateTime? GetLastNextStartTime(Participation participation)
+    {
+        var firstRecord = participation.Participant.LapRecords.Last();
+        var performance = new Performance(firstRecord, participation.CompetitionConstraint.Type, 0);
+        return performance.NextStartTime;
     }
 
     internal static double? GetSpeed(LapRecord record, CompetitionType type)

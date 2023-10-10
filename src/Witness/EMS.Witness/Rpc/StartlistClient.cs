@@ -7,7 +7,7 @@ using static Core.Application.CoreApplicationConstants;
 
 namespace EMS.Witness.Rpc;
 
-public class StartlistClient : RpcClient, IStartlistClientProcedures, IStartlistClient
+public class StartlistClient : RpcClient, IStartlistClientProcedures, IStartlistClient 
 {
 	public event EventHandler<(StartlistEntry entry, CollectionAction action)>? Updated;
  
@@ -25,14 +25,14 @@ public class StartlistClient : RpcClient, IStartlistClientProcedures, IStartlist
 		return Task.CompletedTask;
 	}
 
-	public async Task<RpcInvokeResult<IEnumerable<StartlistEntry>>> Load()
+	public async Task<RpcInvokeResult<Dictionary<int, Startlist>>> Load()
 	{
-		return await this.InvokeAsync<IEnumerable<StartlistEntry>>(nameof(IStartlistHubProcedures.Get));
+		return await this.InvokeAsync<Dictionary<int, Startlist>>(nameof(IStartlistHubProcedures.Get));
     }
 }
 
 public interface IStartlistClient : IRpcClient
 {
     event EventHandler<(StartlistEntry entry, CollectionAction action)>? Updated;
-    Task<RpcInvokeResult<IEnumerable<StartlistEntry>>> Load();
+    Task<RpcInvokeResult<Dictionary<int, Startlist>>> Load();
 }
