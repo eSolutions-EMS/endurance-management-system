@@ -1,6 +1,6 @@
 ﻿namespace Common.Utilities;
 
-public static class RandomUtilities
+public static class RandomHelper
 {
     private static readonly Random Random = new();
     private static readonly HashSet<int> UniqueIntegers = new();

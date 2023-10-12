@@ -6,7 +6,7 @@ public abstract class DomainEntity: IEquatable<DomainEntity>
 {
     protected DomainEntity()
     {
-        this.Id = RandomUtilities.GenerateUniqueInteger();
+        this.Id = RandomHelper.GenerateUniqueInteger();
     }
 
     public int Id { get; protected init; }

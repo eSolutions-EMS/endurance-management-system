@@ -1,5 +1,6 @@
 ﻿using Common.Conventions;
 using Common.Exceptions;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Common.Events;
 
@@ -9,7 +10,6 @@ public class Event : IEvent
 
     public void Emit(object sender)
     {
-        SenderNullValidator.ThrowIfNull(sender);
         GenericEvent?.Invoke(sender, EventArgs.Empty);
     }
     public void Subscribe(Action<object> action)
@@ -25,7 +25,6 @@ public class Event<T> : IEvent<T>
 
     public void Emit(object sender, T data)
     {
-        SenderNullValidator.ThrowIfNull(sender);
         GenericEvent?.Invoke(sender, data);
     }
     public void Subscribe(Action<object, T> action)
@@ -45,16 +44,4 @@ public interface IEvent<T> : ISingletonService
 {
     void Emit(object sender, T data);
     void Subscribe(Action<object, T> action);
-}
-
-
-internal class SenderNullValidator
-{
-    public static void ThrowIfNull(object? sender)
-    {
-        if (sender == null)
-        {
-            throw new CommonException("Invalid invocation attempt - sender is null");
-        }
-    }
 }
