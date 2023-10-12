@@ -21,20 +21,11 @@
         <ApplicationVersion>8</ApplicationVersion>
 
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">13.5</SupportedOSPlatformVersion>
-        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">14.0</SupportedOSPlatformVersion>
-        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">30.0</SupportedOSPlatformVersion>
-        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
-        <TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
-        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">24.0</SupportedOSPlatformVersion>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-android|AnyCPU'">
       <ApplicationId>com.ems.witness</ApplicationId>
-    </PropertyGroup>
-
-    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-android|AnyCPU'">
-      <ApplicationId>com.ems.witness</ApplicationId>
-      <AndroidPackageFormat>apk</AndroidPackageFormat>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-ios|AnyCPU'">
@@ -42,32 +33,17 @@
       <CodesignProvision>VS: com.ems.witness Development</CodesignProvision>
     </PropertyGroup>
 
+    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-android|AnyCPU'">
+      <ApplicationId>com.ems.witness</ApplicationId>
+      <AndroidPackageFormat>apk</AndroidPackageFormat>
+    </PropertyGroup>
+
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-ios|AnyCPU'">
       <CreatePackage>false</CreatePackage>
-      <CodesignKey>iPhone Distribution</CodesignKey>
-      <CodesignProvision></CodesignProvision>
+      <ApplicationId>com.ems.witness</ApplicationId>
+      <CodesignKey>iPhone Distribution: ALEXANDER NIKOLOV CHOBANOV (979B4XB2MX)</CodesignKey>
+      <CodesignProvision>e.Witness</CodesignProvision>
       <ProvisioningType>manual</ProvisioningType>
-    </PropertyGroup>
-
-    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-maccatalyst|AnyCPU'">
-      <ApplicationId>com.ems.witness</ApplicationId>
-    </PropertyGroup>
-
-    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-maccatalyst|AnyCPU'">
-      <ApplicationId>com.ems.witness</ApplicationId>
-    </PropertyGroup>
-
-    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-windows10.0.19041.0|AnyCPU'">
-      <ApplicationId>com.ems.witness</ApplicationId>
-    </PropertyGroup>
-
-    <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net6.0-windows10.0.19041.0|AnyCPU'">
-      <ApplicationId>com.ems.witness</ApplicationId>
-    </PropertyGroup>
-
-    <PropertyGroup Condition="'$(TargetFramework)'=='net6.0-ios'">
-      <CodesignKey>Apple Development: Created via API (P9YBGLG69Y)</CodesignKey>
-      <CodesignProvision>VS: com.ems.witness Development</CodesignProvision>
     </PropertyGroup>
   
     <ItemGroup>
