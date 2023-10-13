@@ -1,6 +1,6 @@
 ﻿using Common.Utilities;
 
-namespace Core.Domain.Common.Models;
+namespace Common.Domain;
 
 public abstract class DomainEntity: IEquatable<DomainEntity>
 {
@@ -32,4 +32,9 @@ public abstract class DomainEntity: IEquatable<DomainEntity>
 
     public override int GetHashCode()
         => this.Id;
+
+	public override string ToString()
+	{
+        throw new NotImplementedException($"'{this.GetType().Name}' has to override ToString() to provide short info");
+	}
 }

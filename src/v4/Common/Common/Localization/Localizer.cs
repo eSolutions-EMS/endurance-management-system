@@ -4,7 +4,7 @@ namespace Common.Localization;
 
 public static class Localizer
 {
-	private static ILocalizer _localizer = ServiceLocator.Get<ILocalizer>();
+	private static readonly ILocalizer _localizer = ServiceLocator.Get<ILocalizer>();
 
 	public static string Get(params object[] args)
 	{

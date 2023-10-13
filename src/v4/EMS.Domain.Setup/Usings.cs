@@ -1,0 +1,11 @@
+﻿global using System;
+global using System.Collections.Generic;
+global using System.Globalization;
+global using System.Linq;
+global using System.Text;
+global using System.Threading.Tasks;
+global using Common.Localization;
+global using Common.Domain;
+global using Common.Domain.Summary;
+global using Common.Tasks;
+global using EMS.Domain.Objects;
