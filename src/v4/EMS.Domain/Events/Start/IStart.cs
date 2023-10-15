@@ -1,4 +1,6 @@
-﻿namespace EMS.Domain.Events.Start;
+﻿using Common.Domain.Summary;
+
+namespace EMS.Domain.Events.Start;
 
 public interface IStartEvent
 {

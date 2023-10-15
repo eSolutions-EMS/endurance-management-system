@@ -1,6 +1,7 @@
 ﻿@page "/event-demo"
 @using Common.Events;
-@using EMS.Domain.Watcher;
+@using EMS.Domain.Watcher.Entities;
+@using EMS.Domain.Watcher.Objects;
 
 @inject IEvent<ICoreEvent> _event;
 
@@ -22,7 +23,7 @@
     private void Emit()
     {
         var tag = new RfidTag("id", "13", "l");
-        var tagEvent = new RfidTagPhaseEvent(tag, CoreEventType.Arrive, new Timestamp(new DateTime()));
+        var tagEvent = new RfidTagCoreEvent(tag, CoreEventType.Arrive, new Timestamp(new DateTime()));
         this._event.Emit(this, tagEvent);
     }
 
@@ -30,7 +31,7 @@
     {
         this._event.Subscribe(async (s, e) =>
         {
-            this.result = e.CoreId.Number.ToString();
+            this.result = e.CoreId.ToString();
             await this.InvokeAsync(this.StateHasChanged);
         });
     }

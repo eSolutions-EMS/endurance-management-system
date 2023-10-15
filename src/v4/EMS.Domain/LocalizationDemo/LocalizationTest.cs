@@ -1,7 +1,4 @@
-﻿using Common.Domain;
-using Core.Domain.Common.Models;
-
-namespace EMS.Domain;
+﻿namespace EMS.Domain;
 
 public class LocalizationTest : DomainEntity
 {

@@ -1,4 +1,4 @@
-﻿using Core.Domain.Common.Models;
+﻿using Common.Domain;
 
 namespace EMS.Domain.Watcher.Entities;
 
