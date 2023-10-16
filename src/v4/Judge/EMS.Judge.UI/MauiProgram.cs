@@ -1,5 +1,4 @@
 ﻿using Common.Conventions;
-using EMS.Judge.UI.Data;
 using EMS.Persistence.Startup;
 using Microsoft.Extensions.Logging;
 using MudBlazor.Services;
@@ -37,9 +36,7 @@ public static class ServiceCollectionExtensions
 
     public static MauiAppBuilder AddUiServices(this MauiAppBuilder builder)
     {
-        builder.Services
-            .AddSingleton<WeatherForecastService>()
-            .AddMauiBlazorWebView();
+        builder.Services.AddMauiBlazorWebView();
 #if DEBUG
         builder.Services.AddBlazorWebViewDeveloperTools();
         builder.Logging.AddDebug();
