@@ -1,4 +1,4 @@
-﻿@page "/"
+﻿@page "/localization-demo"
 @using Common.Events;
 @using EMS.Domain;
 @using System.Globalization;
@@ -9,15 +9,13 @@
 
 <h1>This is localization test including exception handling</h1>
 <p>choose locale</p>
-<button @onclick='_ => this.ChangeCulture("bg-BG")'>BG</button>
-<button @onclick='_ => this.ChangeCulture("en-EN")'>EN</button>
+<MudButton Color="Color.Primary" @onclick='_ => this.ChangeCulture("bg-BG")'>BG</MudButton>
+<MudButton Color="Color.Secondary" @onclick='_ => this.ChangeCulture("en-EN")'>EN</MudButton>
 <p>Locale: @CultureInfo.DefaultThreadCurrentUICulture</p>
 <p>Kaji neshto</p>
-<button @onclick="_ => this.SayPolite()">Polite</button>
-<button @onclick="_ => this.LocalizationTestService.Rude()">Rude</button> @* rude throws exception *@
+<MudButton @onclick="_ => this.SayPolite()">Polite</MudButton>
+<MudButton @onclick="_ => this.LocalizationTestService.Rude()">Rude</MudButton>
 <p>@this.polite</p>
-
-<SurveyPrompt Title="How is Blazor working for you?" />
 
 @code {
     private string polite = "";
