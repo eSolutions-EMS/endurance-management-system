@@ -21,6 +21,7 @@
 	<ItemGroup>
 	  <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.5" />
 	  <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="7.0.5" />
+	  <PackageReference Include="MudBlazor" Version="6.11.0" />
 	</ItemGroup>
 
 	<ItemGroup>

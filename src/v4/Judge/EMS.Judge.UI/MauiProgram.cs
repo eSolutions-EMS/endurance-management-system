@@ -2,6 +2,7 @@
 using EMS.Judge.UI.Data;
 using EMS.Persistence.Startup;
 using Microsoft.Extensions.Logging;
+using MudBlazor.Services;
 
 namespace EMS.Judge.UI;
 
@@ -43,7 +44,9 @@ public static class ServiceCollectionExtensions
         builder.Services.AddBlazorWebViewDeveloperTools();
         builder.Logging.AddDebug();
 #endif
-        builder.Services.AddLocalization(x => x.ResourcesPath = "Resources/Localization");
+        builder.Services
+            .AddLocalization(x => x.ResourcesPath = "Resources/Localization")
+            .AddMudServices();
         return builder;
     }
 }

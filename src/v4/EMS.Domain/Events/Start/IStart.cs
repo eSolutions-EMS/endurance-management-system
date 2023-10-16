@@ -2,7 +2,7 @@
 
 namespace EMS.Domain.Events.Start;
 
-public interface IStartEvent
+public interface IStart
 {
 	ISummarizable Setup { get; set; }
 }

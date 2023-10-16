@@ -12,6 +12,7 @@ public class Athlete : DomainEntity, ISummarizable, IImportable
 		this.Club = club;
 	}
 
+	public string? FeiId { get; private set; }
 	public Person Person { get; private set; }
 	public Country Country { get; private set; }
 	public Club Club { get; private set; }

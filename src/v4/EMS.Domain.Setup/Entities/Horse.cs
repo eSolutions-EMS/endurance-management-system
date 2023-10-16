@@ -10,7 +10,8 @@ public class Horse : DomainEntity, ISummarizable, IImportable
         this.Name = name;
     }
 
-    public string Name { get; private set; }
+	public string? FeiId { get; private set; }
+	public string Name { get; private set; }
 
 	public string Summarize()
 	{

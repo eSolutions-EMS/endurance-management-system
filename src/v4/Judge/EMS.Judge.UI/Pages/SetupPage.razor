@@ -1,0 +1,20 @@
+﻿@page "/setup-page"
+@using EMS.Judge.Setup;
+@using EMS.Judge.Setup.Models;
+
+@inject ISetupPageModel model;
+
+<h1>Setup</h1>
+
+<div class="container">
+    <div class="row">
+        @if (this.model.Event == null)
+        {
+            <p>heelo</p>
+        }
+    </div>
+</div>
+
+@code {
+    private EventCreateModel createModel { get; set; } = new();
+}
