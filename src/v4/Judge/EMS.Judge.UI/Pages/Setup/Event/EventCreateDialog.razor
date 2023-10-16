@@ -1,0 +1,48 @@
+﻿@using EMS.Judge.Setup;
+@using EMS.Judge.Setup.Models;
+@inject IEventCreateService eventCreateService;
+
+<MudDialog>
+    <DialogContent>
+        <MudText Typo="Typo.h5">Create Event</MudText>
+
+        <EditForm Model="this.model" OnSubmit="this.Submit">
+            <DataAnnotationsValidator />
+            <MudCard>
+                <MudCardContent>
+                    <MudTextField Label="Place" @bind-Value="this.model.Place" For="@(() => this.model.Place)" />
+                </MudCardContent>
+
+                <MudCardContent>
+                    <MudAutocomplete Label="Country" T="string" CoerceText="true" SearchFunc="@this.Search"
+                        @bind-Value="this.model.CountryName" For="@(() => this.model.CountryName)" />
+                </MudCardContent>
+            </MudCard>
+        </EditForm>
+    </DialogContent>
+
+    <DialogActions>
+        <MudButton Variant="Variant.Filled" Color="Color.Warning" OnClick="this.Dialog.Cancel">Cancel</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="this.Submit">Create</MudButton>
+    </DialogActions>
+</MudDialog>
+
+
+@code {
+    [CascadingParameter]
+    private MudDialogInstance Dialog { get; set; } = default!;
+
+    private EventCreateModel model => this.eventCreateService.CreateModel;
+
+    private async Task<IEnumerable<string>> Search(string name)
+    {
+        var countries = await this.eventCreateService.SearchByName(name);
+        return countries.Select(x => x.Name);
+    }
+
+    private void Submit()
+    {
+        this.eventCreateService.Create();
+        this.Dialog.Close(DialogResult.Ok(true));
+    }
+}

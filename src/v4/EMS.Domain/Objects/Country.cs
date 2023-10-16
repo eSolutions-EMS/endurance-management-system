@@ -1,9 +1,8 @@
-﻿using Common.Domain;
-using Common.Domain.Summary;
+﻿using Common.Domain.Summary;
 
 namespace EMS.Domain.Objects;
 
-public record Country(string Name, string IsoCode) : DomainObject, ISummarizable
+public record Country(string IsoCode, string Name) : DomainObject, ISummarizable
 {
 	public string Summarize()
 	{

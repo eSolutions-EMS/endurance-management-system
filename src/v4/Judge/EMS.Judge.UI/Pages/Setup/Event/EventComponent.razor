@@ -1,0 +1,38 @@
+@using EMS.Domain.Objects;
+@using EMS.Judge.Setup;
+@using EMS.Judge.Setup.Models;
+@using EMS.Judge.UI.Pages.Setup.Event;
+@inject IDialogService dialogService;
+@inject IEventUpdateService service;
+
+@if (this.service.Event == null)
+{
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="this.RenderCreateDialog">Create</MudButton>
+}
+else
+{
+    <MudTextField Label="Place" @bind-Value="this.service.Event.Place" />
+
+    <MudAutocomplete Label="Country"
+                     T="Country"
+                     CoerceText="true"
+                     SearchFunc="@this.service.SearchByName"
+                     @bind-Value="this.service.Event.Country" />
+
+    <MudButton Variant="Variant.Filled" Color="Color.Error" OnClick="this.service.Delete">Delete</MudButton>
+}
+
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        await this.service.Read();
+    }
+
+    private async Task RenderCreateDialog()
+    {
+        var dialog = this.dialogService.Show<EventCreateDialog>();
+        await dialog.Result;
+        await this.service.Read();
+    }
+}

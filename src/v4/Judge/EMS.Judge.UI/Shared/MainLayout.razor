@@ -1,7 +1,7 @@
 ﻿@inherits LayoutComponentBase
 
 <MudThemeProvider />
-<MudDialogProvider />
+<MudDialogProvider CloseOnEscapeKey="true" CloseButton="true" MaxWidth="MaxWidth.Small" FullWidth="true" />
 <MudSnackbarProvider />
 
 <MudLayout>
@@ -17,7 +17,7 @@
         <NavMenu />
     </MudDrawer>
     <MudMainContent>
-        <MudContainer MaxWidth="MaxWidth.Medium">
+        <MudContainer MaxWidth="MaxWidth.Medium" Class="py-12">
             @Body
         </MudContainer>
     </MudMainContent>

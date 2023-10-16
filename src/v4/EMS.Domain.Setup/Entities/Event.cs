@@ -11,8 +11,8 @@ public class Event : DomainEntity, ISummarizable, IImportable
         this.Country = country;
     }
 
-    public string Place { get; private set; }
-    public Country Country { get; private set; }
+    public string Place { get; set; }
+    public Country Country { get; set; }
     public List<Personnel> Personnl { get; private set; } = new();
     public List<Competition> Competitions { get;private set; } = new();
 	
