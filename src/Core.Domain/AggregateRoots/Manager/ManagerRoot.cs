@@ -58,7 +58,6 @@ public class ManagerRoot : IAggregateRoot
             {
                 return;
             }
-            this.Log(witnessEvent, number);
             if (witnessEvent.Type == WitnessEventType.Arrival)
             {
                 this.HandleArrive(witnessEvent);
@@ -73,21 +72,6 @@ public class ManagerRoot : IAggregateRoot
         {
             CoreEvents.RaiseError(exception);
         }
-    }
-
-    private void Log(WitnessEvent witnessEvent, string number)
-    {
-        var timestamp = DateTime.Now.ToString("HH-mm-ss");
-        var log = new Dictionary<string, object>
-        {
-            { "tag-id", witnessEvent.TagId },
-            { "type", witnessEvent.Type.ToString() },
-            { "time", witnessEvent.Time },
-        };
-        var serialized = this.serialization.Serialize(log);
-        var filename = $"witness_{timestamp}-{witnessEvent.Type}-{number}-{witnessEvent.TagId}.json";
-        var path = $"{dataDirectoryPath}/{filename}";
-        this.file.Create(path, serialized);
     }
 
     public StartlistEntry GetStarlistEntry(string number)
@@ -191,7 +175,10 @@ public class ManagerRoot : IAggregateRoot
     private void AddRfidDetectedEntry(Participation participation, RfidTagEvent tagEvent)
     {
         var lastLap = participation.Participant.LapRecords.Last();
-        lastLap.Detected.Add(tagEvent.Type, tagEvent.Tag);
+        if (!lastLap.Detected.ContainsKey(tagEvent.Type))
+        {
+            lastLap.Detected.Add(tagEvent.Type, tagEvent.Tag);
+        }
         var index = participation.Participant.LapRecords.IndexOf(lastLap);
         participation.Participant.DetectedHead[tagEvent.Type].Add(index);
     }
