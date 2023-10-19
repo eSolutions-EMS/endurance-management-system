@@ -108,11 +108,15 @@ public class ManagerViewModel : ViewModelBase
     private bool requireInspectionValue = false;
     private bool reInspectionValue = false;
     private int eventTypeId;
-
+    private static WitnessEventType RfidEventType = WitnessEventType.Arrival;
     public int EventTypeId
     {
         get => this.eventTypeId;
-        set => this.SetProperty(ref this.eventTypeId, value);
+        set
+        {
+            this.SetProperty(ref this.eventTypeId, value);
+            RfidEventType = (WitnessEventType)value;
+        }
     }
 
 	public ObservableCollection<SimpleListItemViewModel> EventTypes { get; }
@@ -202,7 +206,7 @@ public class ManagerViewModel : ViewModelBase
         {
             foreach (var tag in this.rfidService.StartReading())
             {
-                var eventType = (WitnessEventType)this.EventTypeId;
+                var eventType = (WitnessEventType)RfidEventType;
 				RfidTagEvent witnessEvent = null;
                 try
                 {
