@@ -18,7 +18,7 @@ public abstract class DomainEntity: IEquatable<DomainEntity>
 
     private bool IsEqual(object? other)
     {
-        if (other == null || other is not DomainEntity domainEntity)
+        if (other == null || other is not DomainEntity)
         {
             return false;
         }

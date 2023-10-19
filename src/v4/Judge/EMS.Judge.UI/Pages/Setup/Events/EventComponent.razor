@@ -1,24 +1,28 @@
+@using Common.Domain;
 @using EMS.Domain.Objects;
+@using EMS.Domain.Setup.Entities;
 @using EMS.Judge.Setup;
-@using EMS.Judge.Setup.Models;
-@using EMS.Judge.UI.Pages.Setup.Event;
+@using EMS.Judge.Setup.Events;
+@using EMS.Judge.UI.Contexts;
 @inject IDialogService dialogService;
 @inject IEventUpdateService service;
+@inject ICountriesContext context;
 
-@if (this.service.Event == null)
+@if (this.service.UpdateModel == null)
 {
     <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="this.RenderCreateDialog">Create</MudButton>
 }
 else
 {
-    <MudTextField Label="Place" @bind-Value="this.service.Event.Place" />
+    <MudTextField Label="Place" @bind-Value="this.service.UpdateModel.Place" />
 
     <MudAutocomplete Label="Country"
                      T="Country"
                      CoerceText="true"
-                     SearchFunc="@this.service.SearchByName"
-                     @bind-Value="this.service.Event.Country" />
+                     SearchFunc="@this.context.Search"
+                     @bind-Value="this.service.UpdateModel.Country" />
 
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="this.service.Update">Delete</MudButton>
     <MudButton Variant="Variant.Filled" Color="Color.Error" OnClick="this.service.Delete">Delete</MudButton>
 }
 

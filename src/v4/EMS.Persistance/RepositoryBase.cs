@@ -47,4 +47,15 @@ public abstract class RepositoryBase<T> : IRepository<T>
         var entities = this.Data.Where(x => filter(x));
         return Task.FromResult(entities);
     }
+
+    public Task<T> Update(T entity)
+    {
+        var match = this.Data.FirstOrDefault(x => x == entity);
+        if (match != null)
+        {
+            this.Data.Remove(match);
+        }
+        this.Data.Add(entity);
+        return Task.FromResult(entity);
+    }
 }

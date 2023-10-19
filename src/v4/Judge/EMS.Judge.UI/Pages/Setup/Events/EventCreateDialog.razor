@@ -1,0 +1,44 @@
+﻿@using EMS.Domain.Objects;
+@using EMS.Judge.Setup;
+@using EMS.Judge.Setup.Events;
+@using EMS.Judge.UI.Contexts;
+@inject IEventCreateService service;
+@inject ICountriesContext countriesContext;
+@inject NavigationManager navigation;
+
+<MudDialog>
+    <DialogContent>
+        <MudText Typo="Typo.h5">Create Event</MudText>
+
+        <EditForm Model="this.service.CreateModel" OnSubmit="this.Submit">
+            <DataAnnotationsValidator />
+            <MudCard>
+                <MudCardContent>
+                    <MudTextField Label="Place" @bind-Value="this.service.CreateModel.Place" For="@(() => this.service.CreateModel.Place)" />
+                </MudCardContent>
+
+                <MudCardContent>
+                    <MudAutocomplete Label="Country" T="Country" CoerceText="true" SearchFunc="@this.countriesContext.Search"
+                    @bind-Value="this.service.CreateModel.Country" For="@(() => this.service.CreateModel.Country)" />
+                </MudCardContent>
+            </MudCard>
+        </EditForm>
+    </DialogContent>
+
+    <DialogActions>
+        <MudButton Variant="Variant.Filled" Color="Color.Warning" OnClick="this.dialog.Cancel">Cancel</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="this.Submit">Create</MudButton>
+    </DialogActions>
+</MudDialog>
+
+
+@code {
+    [CascadingParameter]
+    private MudDialogInstance dialog { get; set; } = default!;
+
+    private async Task Submit()
+    {
+        await this.service.Create();
+        this.dialog.Close(DialogResult.Ok(true));
+    }
+}

@@ -3,24 +3,24 @@ using EMS.Domain.Setup.Import;
 
 namespace EMS.Domain.Setup.Entities;
 
-public class Personnel : DomainEntity, ISummarizable, IImportable
+public class StaffMember : DomainEntity, ISummarizable, IImportable
 {
-    public Personnel(string name, PersonnelType type)
+    public StaffMember(string name, StaffRole type)
     {
 		this.Person = new Person(name);
-		this.Type = type;
+		this.Role = type;
     }
 
     public Person Person { get; private set; }
-	public PersonnelType Type { get; private set; }
+	public StaffRole Role { get; private set; }
 
 	public override string ToString()
 	{
-		return $"{Localizer.Get(this.Type)}: {this.Person}";
+		return $"{Localizer.Get(this.Role)}: {this.Person}";
 	}
 }
 
-public enum PersonnelType
+public enum StaffRole
 {
 	Steward = 1,
 	MemberVet = 2,

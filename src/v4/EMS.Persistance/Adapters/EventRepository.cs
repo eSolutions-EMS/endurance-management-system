@@ -7,6 +7,11 @@ namespace EMS.Persistence.Adapters;
 public class EventRepository<T> : RepositoryBase<T>
     where T : Event
 {
+    public EventRepository()
+    {
+        this.Data.Add((T)new Event("place", new Domain.Objects.Country("bg", "Bulgaria")));
+    }
+
     public override Task<T?> Read(int id)
     {
         var @event = this.Data.FirstOrDefault();

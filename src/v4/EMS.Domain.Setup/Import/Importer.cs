@@ -8,14 +8,14 @@ namespace EMS.Domain.Setup.Import;
 public class Importer : IImporter
 {
 	private readonly IParser<Event> eventParser;
-	private readonly IParser<Personnel> personnelParser;
+	private readonly IParser<StaffMember> personnelParser;
 	private readonly IParser<Competition> competitionParser;
 	private readonly IParser<Loop> loopParser;
 	private readonly IParser<Starter> starterParser;
 	private readonly IParser<Athlete> athleteParser;
 	private readonly IParser<Horse> horseParser;
 	private readonly IRepository<Event> eventRepository;
-	private readonly IRepository<Personnel> personnelRepository;
+	private readonly IRepository<StaffMember> personnelRepository;
 	private readonly IRepository<Competition> competitionRepository;
 	private readonly IRepository<Loop> loopRepository;
 	private readonly IRepository<Starter> starterRepository;
@@ -24,14 +24,14 @@ public class Importer : IImporter
 
 	public Importer(
         IParser<Event> eventParser,
-        IParser<Personnel> personnelParser,
+        IParser<StaffMember> personnelParser,
         IParser<Competition> competitionParser,
         IParser<Loop> loopParser,
         IParser<Starter> starterParser,
         IParser<Athlete> athleteParser,
         IParser<Horse> horseParser,
 		IRepository<Event> eventRepository,
-		IRepository<Personnel> personnelRepository,
+		IRepository<StaffMember> personnelRepository,
 		IRepository<Competition> competitionRepository,
 		IRepository<Loop> loopRepository,
 		IRepository<Starter> starterRepository,

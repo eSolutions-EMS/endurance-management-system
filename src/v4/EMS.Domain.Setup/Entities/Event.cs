@@ -1,20 +1,26 @@
-﻿using EMS.Domain.Events.Start;
-using EMS.Domain.Setup.Import;
+﻿using EMS.Domain.Setup.Import;
 
 namespace EMS.Domain.Setup.Entities;
 
 public class Event : DomainEntity, ISummarizable, IImportable
 {
+    private readonly List<Competition> competitionList = new();
+    private readonly List<StaffMember> personnelList = new();
+
     public Event(string place, Country country)
     {
+        if (place == "zzz")
+        {
+            throw new DomainException("ne mi spi tuka");
+        }
         this.Place = place;
         this.Country = country;
     }
 
-    public string Place { get; set; }
-    public Country Country { get; set; }
-    public List<Personnel> Personnl { get; private set; } = new();
-    public List<Competition> Competitions { get;private set; } = new();
+    public string Place { get; }
+    public Country Country { get; }
+    public IReadOnlyCollection<StaffMember> Personnl => this.personnelList.AsReadOnly();
+    public IReadOnlyCollection<Competition> Competitions => this.competitionList.AsReadOnly();
 	
     public string Summarize()
 	{
