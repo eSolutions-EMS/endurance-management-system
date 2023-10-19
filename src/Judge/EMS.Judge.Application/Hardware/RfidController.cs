@@ -30,7 +30,6 @@ public abstract class RfidController
     {
         var message = $"{this.Device} ERROR: {error}";
         Console.WriteLine($"{DateTime.Now}: {message}");
-        //this.ErrorEvent?.Invoke(this, message);
     }
 
     public abstract void Connect();
