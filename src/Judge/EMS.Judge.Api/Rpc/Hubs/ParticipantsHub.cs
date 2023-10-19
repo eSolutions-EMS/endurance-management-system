@@ -25,17 +25,21 @@ public class ParticipantsHub : Hub<IParticipantsClientProcedures>, IParticipants
     }
     public Task Witness(IEnumerable<ParticipantEntry> entries, WitnessEventType type)
     {
-        foreach (var entry in entries)
+        Task.Run(() =>
         {
-            var witnessEvent = new WitnessEvent
+            foreach (var entry in entries)
             {
-                TagId = entry.Number,
-                Time = entry.ArriveTime!.Value,
-                Type = type,
-                IsFromWitnessApp = true,
-            };
-            Core.Domain.AggregateRoots.Manager.WitnessEvents.Witness.Raise(witnessEvent);
-        }
+                var witnessEvent = new WitnessEvent
+                {
+                    TagId = entry.Number,
+                    Time = entry.ArriveTime!.Value,
+                    Type = type,
+                    IsFromWitnessApp = true,
+                };
+                Core.Domain.AggregateRoots.Manager.WitnessEvents.Witness.Raise(witnessEvent);
+            }
+        });
+        
         return Task.CompletedTask;
     }
 }

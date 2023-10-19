@@ -32,14 +32,11 @@ public class StartlistService : IStartlistService
 
     public void Update(StartlistEntry entry, CollectionAction action)
     {
-        if (this.StartlistsByStage.ContainsKey(entry.Stage))
+        if (!this.StartlistsByStage.ContainsKey(entry.Stage))
         {
-            this.StartlistsByStage[entry.Stage].Update(entry, action);
+            this.StartlistsByStage[entry.Stage] = new();
         }
-        else
-        {
-            this.StartlistsByStage.Add(entry.Stage, new(new List<StartlistEntry> { entry }));
-        }
+		this.StartlistsByStage[entry.Stage].Update(entry, action);
         if (this.SelectedStage == entry.Stage || this.SelectedStage == null)
         {
             this.Startlist.Update(entry, action);
