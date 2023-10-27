@@ -22,7 +22,7 @@ public class EventUpdateModel : IEntity
         this.Id = @event.Id;
         this.Place = @event.Place;
         this.Country = @event.Country;
-        this.Staff = @event.Personnl.Select(x => new StaffMemberCreateModel(x)).ToList();
+        this.Staff = @event.Staff.Select(x => new StaffMemberCreateModel(x)).ToList();
         this.Competitions = @event.Competitions.Select(x => new CompetitionCreateModel(x)).ToList();
     }
 
