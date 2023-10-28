@@ -15,7 +15,7 @@ public class EventCreateModel
     public Country? Country { get; set; }
 }
 
-public class EventUpdateModel : IEntity
+public class EventUpdateModel
 {
     public EventUpdateModel(Event @event)
     {
