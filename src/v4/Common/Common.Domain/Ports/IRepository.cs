@@ -1,6 +1,6 @@
 ﻿using Common.Conventions;
 
-namespace EMS.Domain.Ports;
+namespace Common.Domain.Ports;
 
 public interface IRepository<T> : ISingletonService // Singleton for purposes ot simulation untill I get to implementing Persitence
 	where T : DomainEntity
