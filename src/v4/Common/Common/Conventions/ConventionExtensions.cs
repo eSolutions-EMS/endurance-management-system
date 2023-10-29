@@ -1,4 +1,5 @@
 ﻿using Common.Events;
+using Common.Utilities;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
@@ -30,12 +31,15 @@ public static class ConventionExtensions
             .ToList();
         foreach (var c in classes)
         {
+            // TODO: Fix case with 2 singleton interfaces - as of now they are registered as different instances
             var interfaces = c.GetInterfaces()
                 .Where(x => x.IsAssignableFrom(c))
                 .ToList();
             foreach (var i in interfaces)
             {
-                var service = i.IsGenericType ? i.GetGenericTypeDefinition() : i;
+                var service = i.IsGenericType && c.IsGenericType
+                    ? i.GetGenericTypeDefinition()
+                    : i;
                 if (service.IsTransient())
                 {
                     services.AddTransient(service, c);
@@ -63,7 +67,7 @@ public static class ConventionExtensions
         var namespacePrefix = assembly.FullName!.Split('.').First();
         var references = assembly
             .GetReferencedAssemblies()
-            .Where(x => x.FullName!.StartsWith(namespacePrefix) || x.FullName!.StartsWith("Common"))
+            .Where(x => x.FullName!.StartsWith(namespacePrefix) || x.FullName!.StartsWith("Common") || x.FullName!.StartsWith("EMS"))
             .ToList();
         foreach (var reference in references)
         {
