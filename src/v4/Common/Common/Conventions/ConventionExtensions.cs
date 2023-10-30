@@ -1,15 +1,13 @@
-﻿using Common.Events;
-using Common.Utilities;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
 namespace Common.Conventions;
 
 public static class ConventionExtensions
 {
-    private static Type TransientType = typeof(ITransientService);
-    private static Type ScopedType = typeof(IScopedService);
-    private static Type SingletonType = typeof(ISingletonService);
+    private static readonly Type TransientType = typeof(ITransientService);
+    private static readonly Type ScopedType = typeof(IScopedService);
+    private static readonly Type SingletonType = typeof(ISingletonService);
 
     public static (IServiceCollection services, IEnumerable<Assembly> assemblies) GetConventionalAssemblies(this IServiceCollection services)
     {
@@ -35,28 +33,69 @@ public static class ConventionExtensions
             var interfaces = c.GetInterfaces()
                 .Where(x => x.IsAssignableFrom(c))
                 .ToList();
-            foreach (var i in interfaces)
+            
+            var singletons = interfaces.Where(x => x.IsSingleton()).ToList();
+            if (singletons.Any())
             {
-                var service = i.IsGenericType && c.IsGenericType
-                    ? i.GetGenericTypeDefinition()
-                    : i;
-                if (service.IsTransient())
-                {
-                    services.AddTransient(service, c);
-                }
-                else if (service.IsScoped())
-                {
-                    services.AddScoped(service, c);
-                }
-                else if (service.IsSingleton())
-                {
-                    services.AddSingleton(service, c);
-                }
+                AddSingleInstance(services, singletons, c);
+            }
+            
+            var scoped = interfaces.Where(x => x.IsScoped()).ToList();
+            if (scoped.Any())
+            {
+                AddSingleInstance(services, scoped, c);
+            }
+            
+            foreach (var i in interfaces.Except(singletons.Concat(scoped)))
+            {
+                Add(services, i, c); 
             }
         }
-
         return services;
     }
+    private static void AddSingleInstance(IServiceCollection services, IEnumerable<Type> @interfaces, Type implementation)
+    {
+        var first = @interfaces.First();
+        Add(services, first, implementation);
+        foreach (var singleton in @interfaces.Skip(1))
+        {
+            Add(services, singleton, x => x.GetRequiredService(first));
+        }
+    }
+    private static void Add(IServiceCollection services, Type @interface, Func<IServiceProvider, object> factory)
+    {
+        if (@interface.IsTransient())
+        {
+            services.AddTransient(@interface, factory);
+        }
+        else if (@interface.IsScoped())
+        {
+            services.AddScoped(@interface, factory);
+        }
+        else if (@interface.IsSingleton())
+        {
+            services.AddSingleton(@interface, factory);
+        }
+    }
+    private static void Add(IServiceCollection services, Type @interface, Type implementation)
+    {
+        var service = @interface.IsGenericType && implementation.IsGenericType
+            ? @interface.GetGenericTypeDefinition()
+            : @interface;
+        if (service.IsTransient())
+        {
+            services.AddTransient(service, implementation);
+        }
+        else if (service.IsScoped())
+        {
+            services.AddScoped(service, implementation);
+        }
+        else if (service.IsSingleton())
+        {
+            services.AddSingleton(service, implementation);
+        }
+    }
+
     private static Assembly[] RecursiveGetReferencedAssemblies(this Assembly assembly, List<Assembly> result)
     {
         if (result.Any(x => x.FullName == assembly.FullName))
@@ -78,19 +117,7 @@ public static class ConventionExtensions
     }
      
     private static bool IsConventionalService(this Type type)
-    {
-        var isTransient = type.IsTransient();
-        var isScoped = type.IsScoped();
-        var isSingleton = type.IsSingleton();
-
-        if (isTransient && isScoped || isTransient && isSingleton || isScoped && isSingleton)
-        {
-            throw new Exception($"'{type.FullName}' can be ONLY one of " +
-                $"'{nameof(ITransientService)}', '{nameof(IScopedService)}', '{nameof(ISingletonService)}' ");
-        }
-
-        return isTransient || isScoped || isSingleton;
-    }
+        => type.IsTransient() || type.IsScoped() || type.IsSingleton();
 
     private static bool IsTransient(this Type type)
         => type.Name != TransientType.Name && TransientType.IsAssignableFrom(type);
