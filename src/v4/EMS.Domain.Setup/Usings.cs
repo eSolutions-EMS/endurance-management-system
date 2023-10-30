@@ -9,3 +9,4 @@ global using Common.Domain;
 global using Common.Domain.Summary;
 global using Common.Tasks;
 global using EMS.Domain.Objects;
+global using static Common.Localization.Localizer;

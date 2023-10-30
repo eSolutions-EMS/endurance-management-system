@@ -7,6 +7,9 @@ public static class ThrowHelper
 	[DoesNotReturn]
 	public static void ThrowIfNull(object? value, string message)
 	{
-		throw new Exception(message);
-	}
+		if (value == null)
+		{
+            throw new Exception(message);
+        }
+    }
 }

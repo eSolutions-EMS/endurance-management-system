@@ -10,7 +10,7 @@ public static class PersistenceStartup
     /// </summary>
     /// <param name="services"></param>
     /// <returns></returns>
-    public static IServiceCollection ReferencePersistence(this IServiceCollection services)
+    public static IServiceCollection AddPersistence(this IServiceCollection services)
     {
         return services;
     }

@@ -1,0 +1,28 @@
+﻿@page "/staff-member"
+
+@using EMS.Domain.Setup.Entities;
+@using EMS.Judge.Setup.StaffMembers;
+@inject IManageStaffMember service;
+
+<h3>StaffMember</h3>
+
+<MudTextField Label="Place" @bind-Value="this.service.UpdateModel!.Name" />
+
+<MudSelect Label="Role" @bind-Value="this.service.UpdateModel.Role">
+    @foreach (var item in Enum.GetValues<StaffRole>())
+    {
+        <MudSelectItem Value="@item">@item</MudSelectItem>
+    }
+</MudSelect>
+
+<MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="this.service.Update">Create</MudButton>
+
+@code {
+    [Parameter]
+    public int Id { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await this.service.Read(this.Id);
+    }
+}

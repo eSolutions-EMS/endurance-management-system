@@ -4,39 +4,49 @@
 @using EMS.Judge.Setup;
 @using EMS.Judge.Setup.Events;
 @using EMS.Judge.UI.Contexts;
+@using EMS.Judge.UI.Pages.Setup.StaffMembers;
 @inject IDialogService dialogService;
-@inject IEventUpdateService service;
+@inject IUpdateEvent service;
 @inject ICountriesContext context;
 
 @if (this.service.UpdateModel == null)
 {
-    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="this.RenderCreateDialog">Create</MudButton>
+    <MudPaper>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="this.RenderEventCreateDialog">Create</MudButton>
+    </MudPaper>
 }
 else
 {
-    <MudTextField Label="Place" @bind-Value="this.service.UpdateModel.Place" />
+    <MudPaper>
+        <MudTextField Label="Place" @bind-Value="this.service.UpdateModel.Place" />
 
-    <MudAutocomplete Label="Country"
-                     T="Country"
-                     CoerceText="true"
-                     SearchFunc="@this.context.Search"
-                     @bind-Value="this.service.UpdateModel.Country" />
+        <MudAutocomplete Label="Country"
+            T="Country"
+            CoerceText="true"
+            @bind-Value="this.service.UpdateModel.Country"
+            SearchFunc="@this.context.Search" />
 
-    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="this.service.Update">Create</MudButton>
-    <MudButton Variant="Variant.Filled" Color="Color.Error" OnClick="this.service.Delete">Delete</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="this.service.Update">
+            Create
+        </MudButton>
+
+    </MudPaper>
+
+    <MudPaper>
+        <StaffMemberList />
+    </MudPaper>
 }
-
 
 @code {
     protected override async Task OnInitializedAsync()
     {
-        await this.service.Read();
+        await this.service.Read(default);
     }
 
-    private async Task RenderCreateDialog()
+    private async Task RenderEventCreateDialog()
     {
         var dialog = this.dialogService.Show<EventCreateDialog>();
         await dialog.Result;
-        await this.service.Read();
+        await this.OnInitializedAsync();
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Common.Domain;
 
-public abstract class DomainEntity: IEquatable<DomainEntity>
+public abstract class DomainEntity : IEquatable<DomainEntity>, IIdentifiable
 {
     protected DomainEntity()
     {

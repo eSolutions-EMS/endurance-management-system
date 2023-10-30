@@ -1,0 +1,59 @@
+﻿@using Common.Application.CRUD;
+@using EMS.Domain.Setup.Entities;
+@using EMS.Judge.Setup.Events;
+@using EMS.Judge.UI.Pages.Setup.StaffMembers;
+@inject IUpdateEvent _event;
+@inject NavigationManager _navigation;
+@inject IDialogService dialogService;
+
+<MudText Typo="Typo.h5">Staff Members</MudText>
+
+<MudTable Items="_staffMemgers" Hover="true">
+    <HeaderContent>
+        <MudTh>#</MudTh>
+        <MudTh>Staff</MudTh>
+        <MudTh>Actions</MudTh>
+    </HeaderContent>
+
+    <RowTemplate>
+        <MudTd DataLabel="#">@_staffMemgers.IndexOf(context)</MudTd>
+        <MudTd DataLabel="Staff">@context</MudTd>
+        <MudTd DataLabel="Actions">
+            <MudButton Variant="Variant.Outlined"
+                        IconSize="Size.Small"
+                        StartIcon="@Icons.Material.Filled.Delete"
+                        Color="Color.Warning"
+                        OnClick="() => _event.Remove(context)">
+                Remove
+            </MudButton>
+
+            <MudButton Variant="Variant.Filled"
+                        IconSize="Size.Small"
+                        StartIcon="@Icons.Material.Filled.Update"
+                        Color="Color.Primary" 
+                        OnClick="() => this.ToStaffMemberUpdate(context.Id)">
+                Update
+            </MudButton>
+        </MudTd>
+    </RowTemplate>
+        
+</MudTable>
+
+<MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="this.RenderStaffMemberCreateDialog">Add</MudButton>
+
+@code {
+    private List<StaffMember> _staffMemgers => _event.UpdateModel?.Staff ?? Enumerable.Empty<StaffMember>().ToList();
+
+    private void ToStaffMemberUpdate(int id)
+    {
+        _navigation.NavigateTo($"/staff-member");
+    }
+
+    private async Task RenderStaffMemberCreateDialog()
+    {
+        var dialog = this.dialogService.Show<StaffMemberCreateDialog>();
+        await dialog.Result;
+        await InvokeAsync(StateHasChanged);
+    }
+}
+ 

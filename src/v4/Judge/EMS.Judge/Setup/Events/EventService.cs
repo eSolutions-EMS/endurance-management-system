@@ -1,66 +1,48 @@
-﻿using Common.Conventions;
-using EMS.Domain.Ports;
+﻿using Common.Application.CRUD;
+using Common.Conventions;
+using Common.Domain.Ports;
 using EMS.Domain.Setup.Entities;
 
 namespace EMS.Judge.Setup.Events;
 
-public class EventService : IEventCreateService, IEventUpdateService
+public class EventService : CrudBase<Event, EventCreateModel, EventUpdateModel>, ICreateEvent, IUpdateEvent
 {
-    private readonly IRepository<Event> repository;
-
-    public EventService(IRepository<Event> repository)
+    public EventService(IRepository<Event> repository) : base(repository)
     {
-        this.repository = repository;
     }
 
-    public EventCreateModel CreateModel { get; private set; } = new();
-    public EventUpdateModel? UpdateModel { get; private set; }
-
-    public async Task Create()
+    protected override Event Build(EventCreateModel model)
     {
-        var @event = new Event(this.CreateModel.Place!, this.CreateModel.Country!);
-        await repository.Create(@event);
-        this.UpdateModel = new EventUpdateModel(@event);
-        this.CreateModel = new();
+        return new Event(model.Place!, model.Country!);
+    }
+    protected override Event Build(EventUpdateModel model)
+    {
+        return new Event(model.Place, model.Country);
+    }
+    protected override EventUpdateModel BuildUpdateModel(Event domainModel)
+    {
+        return new EventUpdateModel(domainModel);
     }
 
-    public async Task Read()
+    public async Task Remove(StaffMember child)
     {
-        var @event = await repository.Read(0);
-        if (@event is null)
-        {
-            return;
-        }
-        this.UpdateModel = new EventUpdateModel(@event);
-    }
+        Entity.Remove(child);
+        await Repository.Update(Entity);
 
-    public async Task Update()
-    {
-        var @event = new Event(this.UpdateModel!.Place, this.UpdateModel!.Country);
-        await this.repository.Update(@event);
+        UpdateModel!.Staff.Remove(child);
     }
-
-    public async Task Delete()
+    public async Task Add(StaffMember child)
     {
-        if (this.UpdateModel is null)
-        {
-            return;
-        }
-        await repository.Delete(this.UpdateModel.Id);
-        this.UpdateModel = null;
+        Entity.Add(child);
+        await Repository.Update(Entity);
+
+        UpdateModel!.Staff.Add(child);
     }
 }
 
-public interface IEventCreateService : ITransientService
+public interface ICreateEvent : ICreate<EventCreateModel>, ISingletonService
 {
-    EventCreateModel CreateModel { get; }
-    Task Create();
 }
-
-public interface IEventUpdateService : ITransientService
+public interface IUpdateEvent : IUpdate<EventUpdateModel>, IRead<Event>, IParent<StaffMember>
 {
-    EventUpdateModel? UpdateModel { get; }
-    Task Read();
-    Task Update();
-    Task Delete();
 }

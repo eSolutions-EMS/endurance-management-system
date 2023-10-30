@@ -15,4 +15,9 @@ public static class Localizer
 	{
 		return _localizer.Get(text);
 	}
+
+	public static string Localize(params object[] args)
+	{
+		return Get(args);
+	}
 }

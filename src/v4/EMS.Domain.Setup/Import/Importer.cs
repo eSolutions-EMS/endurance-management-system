@@ -1,5 +1,5 @@
 ﻿using Common.Conventions;
-using EMS.Domain.Ports;
+using Common.Domain.Ports;
 using EMS.Domain.Setup.Entities;
 using EMS.Domain.Setup.Ports;
 

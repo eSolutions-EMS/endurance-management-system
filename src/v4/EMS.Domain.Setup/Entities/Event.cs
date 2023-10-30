@@ -18,6 +18,25 @@ public class Event : DomainEntity, ISummarizable, IImportable
     public IReadOnlyCollection<StaffMember> Staff => this.personnelList.AsReadOnly();
     public IReadOnlyCollection<Competition> Competitions => this.competitionList.AsReadOnly();
 	
+    public void Add(StaffMember staffMember)
+    {
+        var role = staffMember.Role;
+        if (role == StaffRole.PresidentVet ||
+            role == StaffRole.PresidentGroundJury ||
+            role == StaffRole.ActiveVet ||
+            role == StaffRole.FeiDelegateVet ||
+            role == StaffRole.FeiDelegateTech ||
+            role == StaffRole.ForeignJudge)
+        {
+            throw new DomainException("Staff  member '", staffMember.Role, "' already exists");
+        }
+        this.personnelList.Add(staffMember);
+    }
+    public void Remove(StaffMember staffMember)
+    {
+        this.personnelList.Remove(staffMember);
+    }
+
     public string Summarize()
 	{
 		var summary = new Summarizer(this);

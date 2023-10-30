@@ -30,5 +30,5 @@ public enum StaffRole
 	ActiveVet = 6,
 	ForeignJudge = 7,
 	FeiDelegateVet = 8,
-	FevDelegateTech = 9
+	FeiDelegateTech = 9
 }

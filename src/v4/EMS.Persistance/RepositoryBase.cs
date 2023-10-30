@@ -1,5 +1,5 @@
 ﻿using Common.Domain;
-using EMS.Domain.Ports;
+using Common.Domain.Ports;
 
 namespace EMS.Persistence;
 

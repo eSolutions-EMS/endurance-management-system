@@ -6,7 +6,7 @@ namespace Common;
 public static class ServiceLocator
 {
 	private static IServiceProvider? _provider;
-
+	 
 	public static void Initialize(IServiceProvider provider)
 	{
 		_provider = provider;
