@@ -1,11 +1,18 @@
-﻿namespace EMS.Judge.UI;
+﻿using Common.Startup;
+
+namespace EMS.Judge.UI;
 
 public partial class App : Microsoft.Maui.Controls.Application
 {
-    public App()
+    public App(IEnumerable<IInitializer> initializers)
     {
         InitializeComponent();
 
         MainPage = new MainPage();
+
+        foreach (var initializer in initializers)
+        {
+            initializer.Run();
+        }
     }
 }

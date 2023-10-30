@@ -1,6 +1,8 @@
-﻿namespace Common.Startup;
+﻿using Common.Conventions;
 
-internal interface IInitializer
+namespace Common.Startup;
+
+public interface IInitializer : ITransientService
 {
     void Run();
 }
