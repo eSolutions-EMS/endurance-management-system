@@ -1,7 +1,10 @@
-﻿namespace Common.Application.CRUD;
+﻿using Common.Conventions;
+using Common.Domain;
 
-public interface IUpdate<T>
+namespace Common.Application.CRUD;
+
+public interface IUpdate<T> : ITransientService
+    where T : DomainEntity
 {
-    T? UpdateModel { get; }
-    Task Update();
+    Task Update(T entity); 
 }

@@ -1,42 +1,42 @@
-﻿@using EMS.Domain.Objects;
+﻿@using Common.Application.CRUD;
+@using Common.Domain.Ports;
+@using EMS.Domain.Objects;
+@using EMS.Domain.Setup.Entities;
 @using EMS.Judge.Setup;
 @using EMS.Judge.Setup.Events;
 @using EMS.Judge.UI.Contexts;
-@inject ICreateEvent service;
-@inject ICountriesContext countriesContext;
+@inject IRepository<Event> Repository;
+@inject ICountriesContext Countries;
 @inject NavigationManager navigation;
 
 <MudDialog>
     <DialogContent>
         <MudText Typo="Typo.h5">Create Event</MudText>
 
-        <EditForm Model="this.service.CreateModel" OnSubmit="this.Submit">
+        <EditForm Model="_model" OnSubmit="this.Submit">
             <DataAnnotationsValidator />
 
             <MudCard>
                 <MudCardContent>
                     <MudTextField Label="Place" 
-                        @bind-Value="this.service.CreateModel.Place"
-                        For="@(() => this.service.CreateModel.Place)" />
+                        @bind-Value="_model.Place"
+                        For="@(() => _model.Place)" />
                 </MudCardContent>
 
                 <MudCardContent>
                     <MudAutocomplete Label="Country"
                         T="Country" 
                         CoerceText="true"
-                        SearchFunc="@this.countriesContext.Search"
-                        @bind-Value="this.service.CreateModel.Country"
-                        For="@(() => this.service.CreateModel.Country)" />
+                        SearchFunc="@Countries.Search"
+                        @bind-Value="_model.Country"
+                        For="@(() => _model.Country)" />
                 </MudCardContent>
             </MudCard>
         </EditForm>
     </DialogContent>
 
     <DialogActions>
-        <MudButton Variant="Variant.Filled" Color="Color.Warning" OnClick="this.dialog.Cancel">
-            Cancel
-        </MudButton>
-        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="this.Submit">
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Submit">
             Create
         </MudButton>
     </DialogActions>
@@ -44,13 +44,16 @@
 
 
 @code {
+    private EventCreateModel _model = new();
+
     // TODO: extract dialog in a component
     [CascadingParameter]
-    private MudDialogInstance dialog { get; set; } = default!;
+    private MudDialogInstance Dialog { get; set; } = default!;
 
     private async Task Submit()
     {
-        await this.service.Create();
-        this.dialog.Close(DialogResult.Ok(true));
+        var entity = new Event(_model.Place!, _model.Country!);
+        await Repository.Create(entity);
+        this.Dialog.Close(DialogResult.Ok(true));
     }
 }

@@ -2,11 +2,15 @@
 
 namespace EMS.Domain.Setup.Entities;
 
-public class Event : DomainEntity, ISummarizable, IImportable
+public class Event : DomainEntity, ISummarizable, IImportable, IParent<StaffMember>
 {
-    private readonly List<Competition> competitionList = new();
-    private readonly List<StaffMember> personnelList = new();
+    private List<Competition> competitionList = new();
+    private List<StaffMember> personnelList = new();
 
+    public Event(int id, string place, Country country) : this(place, country)
+    {
+        Id = id;
+    }
     public Event(string place, Country country)
     {
         this.Place = place;
@@ -15,22 +19,28 @@ public class Event : DomainEntity, ISummarizable, IImportable
 
     public string Place { get; }
     public Country Country { get; }
-    public IReadOnlyCollection<StaffMember> Staff => this.personnelList.AsReadOnly();
-    public IReadOnlyCollection<Competition> Competitions => this.competitionList.AsReadOnly();
+    public IReadOnlyList<StaffMember> Staff
+    {
+        get => personnelList.AsReadOnly();
+        private set => personnelList = value.ToList();
+    }
+    public IReadOnlyList<Competition> Competitions
+    {
+        get => competitionList.AsReadOnly();
+        private set => competitionList = value.ToList();
+    }
 	
     public void Add(StaffMember staffMember)
     {
-        var role = staffMember.Role;
-        if (role == StaffRole.PresidentVet ||
-            role == StaffRole.PresidentGroundJury ||
-            role == StaffRole.ActiveVet ||
-            role == StaffRole.FeiDelegateVet ||
-            role == StaffRole.FeiDelegateTech ||
-            role == StaffRole.ForeignJudge)
-        {
-            throw new DomainException("Staff  member '", staffMember.Role, "' already exists");
-        }
+        this.ThrowIfInvalidRole(staffMember);
+
         this.personnelList.Add(staffMember);
+    }
+    public void Update(StaffMember child)
+    {
+        this.personnelList.Remove(child);
+
+        this.Add(child);
     }
     public void Remove(StaffMember staffMember)
     {
@@ -48,4 +58,22 @@ public class Event : DomainEntity, ISummarizable, IImportable
 	{
         return $"{this.Place}, {this.Country}";
 	}
+
+    private void ThrowIfInvalidRole(StaffMember member)
+    {
+        var role = member.Role;
+        if (role == StaffRole.PresidentVet ||
+            role == StaffRole.PresidentGroundJury ||
+            role == StaffRole.ActiveVet ||
+            role == StaffRole.FeiDelegateVet ||
+            role == StaffRole.FeiDelegateTech ||
+            role == StaffRole.ForeignJudge)
+        {
+            var existing = personnelList.FirstOrDefault(x => x.Role == role);
+            if (existing != null && existing != member)
+            {
+                throw new DomainException("Staff  member '", member.Role, "' already exists");
+            }
+        }
+    }
 }

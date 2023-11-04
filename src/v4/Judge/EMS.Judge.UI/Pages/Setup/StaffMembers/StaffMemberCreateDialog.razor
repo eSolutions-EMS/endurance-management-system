@@ -6,7 +6,8 @@
 @using EMS.Judge.Setup.Staff;
 @using EMS.Judge.Setup.StaffMembers;
 @using EMS.Judge.UI.Contexts;
-@inject IParent<StaffMember> service;
+@using Common.Application.Forms;
+@inject IParentForm<Event, StaffMember> service;
 @inject NavigationManager navigation;
 
 <MudDialog>
@@ -49,8 +50,6 @@
 @code {
     [CascadingParameter]
     private MudDialogInstance dialog { get; set; } = default!;
-    // [Parameter]
-    // public int EventId { get; set; } = default!;
     private StaffMemberCreateModel _model = new();
 
     private async Task Submit()

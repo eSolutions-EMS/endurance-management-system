@@ -1,5 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using System.Collections.Immutable;
 using System.Reflection;
+using System.Security.Principal;
+using System.Text;
 
 namespace Common.Conventions;
 
@@ -53,8 +56,11 @@ public static class ConventionExtensions
         }
         return services;
     }
+
     private static void AddSingleInstance(IServiceCollection services, IEnumerable<Type> @interfaces, Type implementation)
     {
+        ThrowIfInvalidConventionalService(implementation);
+
         var first = @interfaces.First();
         Add(services, first, implementation);
         foreach (var singleton in @interfaces.Skip(1))
@@ -62,6 +68,7 @@ public static class ConventionExtensions
             Add(services, singleton, x => x.GetRequiredService(first));
         }
     }
+
     private static void Add(IServiceCollection services, Type @interface, Func<IServiceProvider, object> factory)
     {
         if (@interface.IsTransient())
@@ -93,6 +100,22 @@ public static class ConventionExtensions
         else if (service.IsSingleton())
         {
             services.AddSingleton(service, implementation);
+        }
+    }
+
+    private static void ThrowIfInvalidConventionalService(Type implementation)
+    {
+        if (implementation.BaseType != null &&
+            !implementation.BaseType.IsAbstract &&
+            (implementation.IsSingleton() && implementation.BaseType.IsSingleton()
+            || implementation.IsScoped() && implementation.BaseType.IsScoped()))
+        {
+            var sb = new StringBuilder();
+            sb.AppendLine($"'{implementation.Name}' and it's parent '{implementation.BaseType.Name}' cannot be ");
+            sb.AppendLine($"instantiable NonTransient services. Either declare base class as 'abstract' or decouple.");
+            sb.AppendLine($"This check exists to prevent accidental invokations of the base class instead of the derrived");
+            sb.AppendLine($"or to prevent unwanted duplications in case of IEnumerable<T> injection");
+            throw new Exception(sb.ToString());
         }
     }
 

@@ -5,6 +5,10 @@ namespace EMS.Domain.Setup.Entities;
 
 public class StaffMember : DomainEntity, ISummarizable, IImportable
 {
+    public StaffMember(int id, string name, StaffRole role) : this(name, role)
+    {
+        this.Id = id;
+    }
     public StaffMember(string name, StaffRole type)
     {
 		this.Person = new Person(name);

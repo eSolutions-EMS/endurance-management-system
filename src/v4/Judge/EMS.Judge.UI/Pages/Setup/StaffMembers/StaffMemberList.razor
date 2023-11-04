@@ -1,29 +1,30 @@
 ﻿@using Common.Application.CRUD;
+@using Common.Application.Forms;
 @using EMS.Domain.Setup.Entities;
 @using EMS.Judge.Setup.Events;
 @using EMS.Judge.UI.Pages.Setup.StaffMembers;
-@inject IUpdateEvent _event;
+@using EMS.Judge.UI.Services;
+@inject IParentForm<Event, StaffMember> _parentForm;
 @inject NavigationManager _navigation;
 @inject IDialogService dialogService;
+@inject INavigationContext _navigationContext;
 
 <MudText Typo="Typo.h5">Staff Members</MudText>
 
-<MudTable Items="_staffMemgers" Hover="true">
+<MudTable Items="_parentForm.Entity!.Staff" Hover="true">
     <HeaderContent>
-        <MudTh>#</MudTh>
         <MudTh>Staff</MudTh>
         <MudTh>Actions</MudTh>
     </HeaderContent>
 
     <RowTemplate>
-        <MudTd DataLabel="#">@_staffMemgers.IndexOf(context)</MudTd>
         <MudTd DataLabel="Staff">@context</MudTd>
         <MudTd DataLabel="Actions">
             <MudButton Variant="Variant.Outlined"
                         IconSize="Size.Small"
                         StartIcon="@Icons.Material.Filled.Delete"
                         Color="Color.Warning"
-                        OnClick="() => _event.Remove(context)">
+                        OnClick="() => _parentForm.Remove(context)">
                 Remove
             </MudButton>
 
@@ -31,7 +32,7 @@
                         IconSize="Size.Small"
                         StartIcon="@Icons.Material.Filled.Update"
                         Color="Color.Primary" 
-                        OnClick="() => this.ToStaffMemberUpdate(context.Id)">
+                        OnClick="() => this.ToStaffMemberUpdate(context)">
                 Update
             </MudButton>
         </MudTd>
@@ -42,10 +43,14 @@
 <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="this.RenderStaffMemberCreateDialog">Add</MudButton>
 
 @code {
-    private List<StaffMember> _staffMemgers => _event.UpdateModel?.Staff ?? Enumerable.Empty<StaffMember>().ToList();
-
-    private void ToStaffMemberUpdate(int id)
+    protected override Task OnInitializedAsync()
     {
+        return base.OnInitializedAsync();
+    }
+
+    private void ToStaffMemberUpdate(StaffMember member)
+    {
+        _navigationContext.StaffMemberUpdate = member;
         _navigation.NavigateTo($"/staff-member");
     }
 

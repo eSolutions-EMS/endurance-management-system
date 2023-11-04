@@ -1,28 +1,38 @@
 ﻿@page "/staff-member"
 
+@using Common.Application.Forms;
 @using EMS.Domain.Setup.Entities;
 @using EMS.Judge.Setup.StaffMembers;
-@inject IManageStaffMember service;
+@using EMS.Judge.UI.Services;
+@inject IParentForm<Event, StaffMember> _service;
+@inject NavigationManager _navigation;
+@inject INavigationContext _navigationContext;
 
 <h3>StaffMember</h3>
 
-<MudTextField Label="Place" @bind-Value="this.service.UpdateModel!.Name" />
+<MudTextField Label="Place" @bind-Value="_model!.Name" />
 
-<MudSelect Label="Role" @bind-Value="this.service.UpdateModel.Role">
+<MudSelect Label="Role" @bind-Value="_model.Role">
     @foreach (var item in Enum.GetValues<StaffRole>())
     {
         <MudSelectItem Value="@item">@item</MudSelectItem>
     }
 </MudSelect>
 
-<MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="this.service.Update">Create</MudButton>
-
+<MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Update">Update</MudButton>
+    
 @code {
-    [Parameter]
-    public int Id { get; set; } = default!;
+    private StaffMemberUpdateModel _model = default!;
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        await this.service.Read(this.Id);
+        _model = new(_navigationContext.StaffMemberUpdate);
+    }
+
+    private async Task Update()
+    {
+        var entity = new StaffMember(_model.Id, _model.Name, _model.Role);
+        await _service.Update(entity);
+        _navigation.NavigateTo("/");
     }
 }

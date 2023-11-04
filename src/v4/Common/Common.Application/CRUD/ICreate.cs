@@ -1,7 +1,10 @@
-﻿namespace Common.Application.CRUD;
+﻿using Common.Conventions;
+using Common.Domain;
 
-public interface ICreate<T>
+namespace Common.Application.CRUD;
+
+public interface ICreate<T> : ITransientService
+    where T : DomainEntity
 {
-    T CreateModel { get; }
-    Task Create();
+    Task Create(T entity);
 }

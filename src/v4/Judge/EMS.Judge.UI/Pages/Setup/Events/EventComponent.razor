@@ -1,4 +1,6 @@
+@using Common.Application.Forms;
 @using Common.Domain;
+@using Common.Domain.Ports;
 @using EMS.Domain.Objects;
 @using EMS.Domain.Setup.Entities;
 @using EMS.Judge.Setup;
@@ -6,30 +8,29 @@
 @using EMS.Judge.UI.Contexts;
 @using EMS.Judge.UI.Pages.Setup.StaffMembers;
 @inject IDialogService dialogService;
-@inject IUpdateEvent service;
-@inject ICountriesContext context;
+@inject IUpdateForm<Event> Events;
+@inject ICountriesContext Countries;
 
-@if (this.service.UpdateModel == null)
+@if (_model == null)
 {
     <MudPaper>
-        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="this.RenderEventCreateDialog">Create</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="RenderEventCreateDialog">Create</MudButton>
     </MudPaper>
 }
 else
 {
     <MudPaper>
-        <MudTextField Label="Place" @bind-Value="this.service.UpdateModel.Place" />
+        <MudTextField Label="Place" @bind-Value="_model.Place" />
 
         <MudAutocomplete Label="Country"
             T="Country"
             CoerceText="true"
-            @bind-Value="this.service.UpdateModel.Country"
-            SearchFunc="@this.context.Search" />
+            @bind-Value="_model.Country"
+            SearchFunc="@Countries.Search" />
 
-        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="this.service.Update">
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Update">
             Create
         </MudButton>
-
     </MudPaper>
 
     <MudPaper>
@@ -38,9 +39,22 @@ else
 }
 
 @code {
+    private EventUpdateModel _model = default!;
+
     protected override async Task OnInitializedAsync()
     {
-        await this.service.Read(default);
+        var entity = await Events.Read(0);
+        if (entity == null)
+        {
+            throw new Exception("TODO: implement toaster and notify about null entity. Probably redirect to previous page?");
+        }
+        _model = new(entity);
+    }
+
+    protected async Task Update()
+    {
+        var entity = new Event(_model.Place, _model.Country);
+        await Events.Update(entity);
     }
 
     private async Task RenderEventCreateDialog()
