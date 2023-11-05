@@ -1,6 +1,6 @@
-﻿using Common.Application.CRUD;
+﻿using Common.Domain;
 
-namespace Common.Domain.Ports;
+namespace Common.Application.CRUD;
 
 public interface IRepository<T> : ICreate<T>, IRead<T>, IUpdate<T>, IDelete<T>
 	where T : DomainEntity

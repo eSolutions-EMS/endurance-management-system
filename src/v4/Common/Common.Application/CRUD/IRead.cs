@@ -6,5 +6,5 @@ namespace Common.Application.CRUD;
 public interface IRead<T> : ITransientService
     where T : DomainEntity
 {
-    Task<T> Read(int id);
+    Task<T?> Read(int id);
 }

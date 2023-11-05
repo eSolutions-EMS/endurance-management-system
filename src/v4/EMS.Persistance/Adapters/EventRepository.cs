@@ -1,5 +1,4 @@
-﻿using Common.Domain.Ports;
-using EMS.Domain.Objects;
+﻿using EMS.Domain.Objects;
 using EMS.Domain.Setup.Entities;
 
 namespace EMS.Persistence.Adapters;
@@ -7,13 +6,17 @@ namespace EMS.Persistence.Adapters;
 public class EventRepository : RepositoryBase<Event>
 {
     private readonly IState _state;
-    private readonly IRepository<StaffMember> _staffMembers;
 
-    public EventRepository(IState state, IRepository<StaffMember> staffMembers)
+    public EventRepository(IState state)
     {
         state.Event = new Event("place", new Country("BG", "Bulgaria"));
         _state = state;
-        _staffMembers = staffMembers;
+    }
+
+    public override Task<Event> Create(Event entity)
+    {
+        _state.Event = entity;
+        return Task.FromResult(entity);
     }
 
     public override Task<Event?> Read(int id)
@@ -29,7 +32,12 @@ public class EventRepository : RepositoryBase<Event>
     {
         foreach (var member in @event.Staff)
         {
-            _staffMembers.Update(member);
+            var existing = _state.StaffMembers.FirstOrDefault(x => x.Id == member.Id);
+            if (existing != null)
+            {
+                _state.StaffMembers.Remove(existing);
+            }
+            _state.StaffMembers.Add(member);
         }
         _state.Event = @event;
         return Task.FromResult(@event);

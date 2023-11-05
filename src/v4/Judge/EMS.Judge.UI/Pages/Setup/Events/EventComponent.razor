@@ -1,6 +1,4 @@
-@using Common.Application.Forms;
 @using Common.Domain;
-@using Common.Domain.Ports;
 @using EMS.Domain.Objects;
 @using EMS.Domain.Setup.Entities;
 @using EMS.Judge.Setup;
@@ -46,7 +44,7 @@ else
         var entity = await Events.Read(0);
         if (entity == null)
         {
-            throw new Exception("TODO: implement toaster and notify about null entity. Probably redirect to previous page?");
+            return;
         }
         _model = new(entity);
     }

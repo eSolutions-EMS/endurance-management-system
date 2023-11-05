@@ -1,11 +1,9 @@
-﻿@using Common.Application.CRUD;
-@using Common.Domain.Ports;
-@using EMS.Domain.Objects;
+﻿@using EMS.Domain.Objects;
 @using EMS.Domain.Setup.Entities;
 @using EMS.Judge.Setup;
 @using EMS.Judge.Setup.Events;
 @using EMS.Judge.UI.Contexts;
-@inject IRepository<Event> Repository;
+@inject ICreate<Event> Repository;
 @inject ICountriesContext Countries;
 @inject NavigationManager navigation;
 

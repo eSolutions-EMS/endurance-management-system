@@ -6,5 +6,5 @@ namespace Common.Application.CRUD;
 public interface IUpdate<T> : ITransientService
     where T : DomainEntity
 {
-    Task Update(T entity); 
+    Task<T> Update(T entity); 
 }

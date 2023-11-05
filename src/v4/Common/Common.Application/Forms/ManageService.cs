@@ -1,6 +1,6 @@
-﻿using Common.Conventions;
+﻿using Common.Application.CRUD;
+using Common.Conventions;
 using Common.Domain;
-using Common.Domain.Ports;
 
 namespace Common.Application.Forms;
 
@@ -16,13 +16,12 @@ public abstract class ManageService<T> : IManage<T>
 
     public T? Entity { get; private set; }
 
-    public async Task<T> Read(int id)
+    public async Task<T?> Read(int id)
     {
         var entity = await Repository.Read(id);
         if (entity == null)
         {
-            // TODO: toast + navigate back;
-            throw new NotImplementedException($"'{nameof(Entity)}' null behavior not defined yet");
+            return null;
         }
         Entity = entity;
         return entity;
@@ -38,6 +37,6 @@ public interface IManage<T> : ISingletonService
     where T : DomainEntity
 {
     T? Entity { get; }
-    Task<T> Read(int id);
+    Task<T?> Read(int id);
     Task Update(T entity);
 }

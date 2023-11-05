@@ -1,6 +1,5 @@
-﻿using Common.Domain;
-using Common.Domain.Ports;
-using EMS.Domain.Setup.Entities;
+﻿using Common.Application.CRUD;
+using Common.Domain;
 
 namespace EMS.Persistence;
 
