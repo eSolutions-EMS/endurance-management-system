@@ -4,10 +4,10 @@ using Common.Domain.Ports;
 
 namespace Common.Application.Forms;
 
-public abstract class UpdateFormService<T> : IUpdateForm<T>
+public abstract class ManageService<T> : IManage<T>
     where T : DomainEntity
 {
-    public UpdateFormService(IRepository<T> repository)
+    public ManageService(IRepository<T> repository)
     {
         Repository = repository;
     }
@@ -34,7 +34,7 @@ public abstract class UpdateFormService<T> : IUpdateForm<T>
     }
 }
 
-public interface IUpdateForm<T> : ISingletonService
+public interface IManage<T> : ISingletonService
     where T : DomainEntity
 {
     T? Entity { get; }

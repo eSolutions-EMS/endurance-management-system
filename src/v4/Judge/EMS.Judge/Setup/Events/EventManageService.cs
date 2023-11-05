@@ -1,14 +1,13 @@
 ﻿using Common.Application.Forms;
 using Common.Domain.Ports;
 using Common.Helpers;
-using Common.Utilities;
 using EMS.Domain.Setup.Entities;
 
 namespace EMS.Judge.Setup.Events;
 
-public class EventFormService : UpdateFormService<Event>, IParentForm<Event, StaffMember>
+public class EventManageService : ManageService<Event>, IManageChild<Event, StaffMember>
 {
-    public EventFormService(IRepository<Event> repository) : base(repository)
+    public EventManageService(IRepository<Event> repository) : base(repository)
     {
     }
 

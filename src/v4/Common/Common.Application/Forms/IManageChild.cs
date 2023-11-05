@@ -3,7 +3,7 @@ using Common.Domain;
 
 namespace Common.Application.Forms;
 
-public interface IParentForm<T, TChild> : ISingletonService
+public interface IManageChild<T, TChild> : ISingletonService
     where T : DomainEntity, IParent<TChild>
     where TChild : DomainEntity
 {

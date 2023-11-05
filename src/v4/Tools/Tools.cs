@@ -13,5 +13,5 @@ services.AddPersistence();
 services.GetConventionalAssemblies().RegisterConventionalServices();
 
 var provider = services.BuildServiceProvider();
-var eventService = provider.GetRequiredService<IUpdateForm<StaffMember>>();
+var eventService = provider.GetRequiredService<IManage<StaffMember>>();
 ;
