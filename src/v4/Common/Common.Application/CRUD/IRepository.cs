@@ -1,8 +1,9 @@
-﻿using Common.Conventions;
+﻿using Common.Application.CRUD;
+using Common.Conventions;
 
 namespace Common.Domain.Ports;
 
-public interface IRepository<T> : ISingletonService // Singleton for purposes ot simulation untill I get to implementing Persitence
+public interface IRepository<T> :  ISingletonService
 	where T : DomainEntity
 {
 	Task<T> Create(T entity);

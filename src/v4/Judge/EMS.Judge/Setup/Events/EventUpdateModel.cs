@@ -16,8 +16,8 @@ public class EventUpdateModel : IIdentifiable
     }
 
     public int Id { get; }
-    public string Place { get; set; } = default!;
-    public Country Country { get; set; } = default!;
-    public List<StaffMember> Staff { get; } = new();
-    public List<Competition> Competitions { get; } = new();
+    public string Place { get; set; }
+    public Country Country { get; set; }
+    public List<StaffMember> Staff { get; }
+    public List<Competition> Competitions { get; }
 }
