@@ -30,7 +30,7 @@ public class EventRepository : RepositoryBase<Event>
 
     public override Task<Event> Update(Event @event)
     {
-        foreach (var member in @event.Staff)
+        foreach (var member in @event.Officials)
         {
             var existing = _state.StaffMembers.FirstOrDefault(x => x.Id == member.Id);
             if (existing != null)
@@ -46,7 +46,7 @@ public class EventRepository : RepositoryBase<Event>
     private Event Clone(Event @event)
     {
         var result = new Event(@event.Id, @event.Place, @event.Country);
-        foreach (var staff in @event.Staff)
+        foreach (var staff in @event.Officials)
         {
             result.Add(staff);
         }

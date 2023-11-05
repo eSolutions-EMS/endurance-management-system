@@ -5,10 +5,10 @@ namespace EMS.Judge.UI.Services;
 
 public class NavigationContext : INavigationContext
 {
-    public StaffMember StaffMemberUpdate { get; set; } = default!;
+    public Official OfficialUpdate { get; set; } = default!;
 }
 
 public interface INavigationContext : ISingletonService
 {
-    StaffMember StaffMemberUpdate { get; set; }
+    Official OfficialUpdate { get; set; }
 }

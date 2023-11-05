@@ -1,15 +1,14 @@
 ﻿@using EMS.Domain.Setup.Entities;
 @using EMS.Judge.Setup.Events;
-@using EMS.Judge.UI.Pages.Setup.StaffMembers;
 @using EMS.Judge.UI.Services;
-@inject IManageChild<Event, StaffMember> _parentForm;
+@inject IManageChild<Event, Official> _parentForm;
 @inject NavigationManager _navigation;
 @inject IDialogService dialogService;
 @inject INavigationContext _navigationContext;
 
 <MudText Typo="Typo.h5">Staff Members</MudText>
 
-<MudTable Items="_parentForm.Entity!.Staff" Hover="true">
+<MudTable Items="_parentForm.Entity!.Officials" Hover="true">
     <HeaderContent>
         <MudTh>Staff</MudTh>
         <MudTh>Actions</MudTh>
@@ -30,7 +29,7 @@
                         IconSize="Size.Small"
                         StartIcon="@Icons.Material.Filled.Update"
                         Color="Color.Primary" 
-                        OnClick="() => this.ToStaffMemberUpdate(context)">
+                        OnClick="() => this.ToOfficialUpdate(context)">
                 Update
             </MudButton>
         </MudTd>
@@ -38,7 +37,7 @@
         
 </MudTable>
 
-<MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="this.RenderStaffMemberCreateDialog">Add</MudButton>
+<MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="this.ToOfficialCreateDialog">Add</MudButton>
 
 @code {
     protected override Task OnInitializedAsync()
@@ -46,15 +45,15 @@
         return base.OnInitializedAsync();
     }
 
-    private void ToStaffMemberUpdate(StaffMember member)
+    private void ToOfficialUpdate(Official member)
     {
-        _navigationContext.StaffMemberUpdate = member;
+        _navigationContext.OfficialUpdate = member;
         _navigation.NavigateTo($"/staff-member");
     }
 
-    private async Task RenderStaffMemberCreateDialog()
+    private async Task ToOfficialCreateDialog()
     {
-        var dialog = this.dialogService.Show<StaffMemberCreateDialog>();
+        var dialog = this.dialogService.Show<OfficialCreateDialog>();
         await dialog.Result;
         await InvokeAsync(StateHasChanged);
     }

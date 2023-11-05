@@ -11,13 +11,13 @@ public class EventUpdateModel : IIdentifiable
         this.Id = @event.Id;
         this.Place = @event.Place;
         this.Country = @event.Country;
-        this.Staff = @event.Staff.ToList();
+        this.Staff = @event.Officials.ToList();
         this.Competitions = @event.Competitions.ToList();
     }
 
     public int Id { get; }
     public string Place { get; set; }
     public Country Country { get; set; }
-    public List<StaffMember> Staff { get; }
+    public List<Official> Staff { get; }
     public List<Competition> Competitions { get; }
 }

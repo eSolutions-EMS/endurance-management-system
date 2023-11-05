@@ -1,22 +1,21 @@
-﻿using EMS.Domain.Events.Start;
-using EMS.Domain.Setup.Import;
+﻿using EMS.Domain.Setup.Import;
 
 namespace EMS.Domain.Setup.Entities;
 
-public class StaffMember : DomainEntity, ISummarizable, IImportable
+public class Official : DomainEntity, ISummarizable, IImportable
 {
-    public StaffMember(int id, string name, StaffRole role) : this(name, role)
+    public Official(int id, string name, OfficialRole role) : this(name, role)
     {
         this.Id = id;
     }
-    public StaffMember(string name, StaffRole type)
+    public Official(string name, OfficialRole type)
     {
 		this.Person = new Person(name);
 		this.Role = type;
     }
 
     public Person Person { get; private set; }
-	public StaffRole Role { get; private set; }
+	public OfficialRole Role { get; private set; }
 
 	public override string ToString()
 	{
@@ -24,7 +23,7 @@ public class StaffMember : DomainEntity, ISummarizable, IImportable
 	}
 }
 
-public enum StaffRole
+public enum OfficialRole
 {
 	Steward = 1,
 	MemberVet = 2,

@@ -3,7 +3,7 @@
 @using EMS.Domain.Setup.Entities;
 @using EMS.Judge.Setup.StaffMembers;
 @using EMS.Judge.UI.Services;
-@inject IManageChild<Event, StaffMember> _service;
+@inject IManageChild<Event, Official> _service;
 @inject NavigationManager _navigation;
 @inject INavigationContext _navigationContext;
 
@@ -12,7 +12,7 @@
 <MudTextField Label="Place" @bind-Value="_model!.Name" />
 
 <MudSelect Label="Role" @bind-Value="_model.Role">
-    @foreach (var item in Enum.GetValues<StaffRole>())
+    @foreach (var item in Enum.GetValues<OfficialRole>())
     {
         <MudSelectItem Value="@item">@item</MudSelectItem>
     }
@@ -21,16 +21,16 @@
 <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Update">Update</MudButton>
     
 @code {
-    private StaffMemberUpdateModel _model = default!;
+    private OfficialUpdateModel _model = default!;
 
     protected override void OnInitialized()
     {
-        _model = new(_navigationContext.StaffMemberUpdate);
+        _model = new(_navigationContext.OfficialUpdate);
     }
 
     private async Task Update()
     {
-        var entity = new StaffMember(_model.Id, _model.Name, _model.Role);
+        var entity = new Official(_model.Id, _model.Name, _model.Role);
         await _service.Update(entity);
         _navigation.NavigateTo("/");
     }

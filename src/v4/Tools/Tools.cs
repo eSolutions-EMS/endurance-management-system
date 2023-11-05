@@ -10,5 +10,5 @@ services.AddPersistence();
 services.GetConventionalAssemblies().RegisterConventionalServices();
 
 var provider = services.BuildServiceProvider();
-var eventService = provider.GetRequiredService<IManage<StaffMember>>();
+var eventService = provider.GetRequiredService<IManage<Official>>();
 ;

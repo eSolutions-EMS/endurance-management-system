@@ -2,10 +2,10 @@
 
 namespace EMS.Domain.Setup.Entities;
 
-public class Event : DomainEntity, ISummarizable, IImportable, IParent<StaffMember>
+public class Event : DomainEntity, ISummarizable, IImportable, IParent<Official>
 {
-    private List<Competition> competitionList = new();
-    private List<StaffMember> personnelList = new();
+    private List<Competition> _competitions = new();
+    private List<Official> _officials = new();
 
     public Event(int id, string place, Country country) : this(place, country)
     {
@@ -19,38 +19,38 @@ public class Event : DomainEntity, ISummarizable, IImportable, IParent<StaffMemb
 
     public string Place { get; }
     public Country Country { get; }
-    public IReadOnlyList<StaffMember> Staff
+    public IReadOnlyList<Official> Officials
     {
-        get => personnelList.AsReadOnly();
-        private set => personnelList = value.ToList();
+        get => _officials.AsReadOnly();
+        private set => _officials = value.ToList();
     }
     public IReadOnlyList<Competition> Competitions
     {
-        get => competitionList.AsReadOnly();
-        private set => competitionList = value.ToList();
+        get => _competitions.AsReadOnly();
+        private set => _competitions = value.ToList();
     }
 	
-    public void Add(StaffMember staffMember)
+    public void Add(Official staffMember)
     {
         this.ThrowIfInvalidRole(staffMember);
 
-        this.personnelList.Add(staffMember);
+        this._officials.Add(staffMember);
     }
-    public void Update(StaffMember child)
+    public void Update(Official child)
     {
-        this.personnelList.Remove(child);
+        this._officials.Remove(child);
 
         this.Add(child);
     }
-    public void Remove(StaffMember staffMember)
+    public void Remove(Official staffMember)
     {
-        this.personnelList.Remove(staffMember);
+        this._officials.Remove(staffMember);
     }
 
     public string Summarize()
 	{
 		var summary = new Summarizer(this);
-        summary.Add(nameof(this.Staff).Localize(), this.Staff);
+        summary.Add(nameof(this.Officials).Localize(), this.Officials);
         summary.Add(nameof(this.Competitions).Localize(), this.Competitions);
         return summary.ToString();
 	}
@@ -59,17 +59,17 @@ public class Event : DomainEntity, ISummarizable, IImportable, IParent<StaffMemb
         return $"{this.Place}, {this.Country}";
 	}
 
-    private void ThrowIfInvalidRole(StaffMember member)
+    private void ThrowIfInvalidRole(Official member)
     {
         var role = member.Role;
-        if (role == StaffRole.PresidentVet ||
-            role == StaffRole.PresidentGroundJury ||
-            role == StaffRole.ActiveVet ||
-            role == StaffRole.FeiDelegateVet ||
-            role == StaffRole.FeiDelegateTech ||
-            role == StaffRole.ForeignJudge)
+        if (role == OfficialRole.PresidentVet ||
+            role == OfficialRole.PresidentGroundJury ||
+            role == OfficialRole.ActiveVet ||
+            role == OfficialRole.FeiDelegateVet ||
+            role == OfficialRole.FeiDelegateTech ||
+            role == OfficialRole.ForeignJudge)
         {
-            var existing = personnelList.FirstOrDefault(x => x.Role == role);
+            var existing = _officials.FirstOrDefault(x => x.Role == role);
             if (existing != null && existing != member)
             {
                 throw new DomainException("Staff  member '", member.Role, "' already exists");

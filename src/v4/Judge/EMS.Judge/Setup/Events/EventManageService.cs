@@ -5,13 +5,13 @@ using EMS.Domain.Setup.Entities;
 
 namespace EMS.Judge.Setup.Events;
 
-public class EventManageService : ManageService<Event>, IManageChild<Event, StaffMember>
+public class EventManageService : ManageService<Event>, IManageChild<Event, Official>
 {
     public EventManageService(IRepository<Event> repository) : base(repository)
     {
     }
 
-    public async Task Add(StaffMember child)
+    public async Task Add(Official child)
     {
         ThrowHelper.ThrowIfNull(Entity);
         
@@ -19,7 +19,7 @@ public class EventManageService : ManageService<Event>, IManageChild<Event, Staf
         await Repository.Update(Entity);
     }
 
-    public async Task Remove(StaffMember child)
+    public async Task Remove(Official child)
     {
         ThrowHelper.ThrowIfNull(Entity);
 
@@ -27,7 +27,7 @@ public class EventManageService : ManageService<Event>, IManageChild<Event, Staf
         await Repository.Update(Entity);
     }
 
-    public async Task Update(StaffMember child)
+    public async Task Update(Official child)
     {
         ThrowHelper.ThrowIfNull(Entity);
 

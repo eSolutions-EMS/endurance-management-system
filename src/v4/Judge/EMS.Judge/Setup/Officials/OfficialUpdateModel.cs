@@ -3,9 +3,9 @@ using EMS.Domain.Setup.Entities;
 
 namespace EMS.Judge.Setup.StaffMembers;
 
-public class StaffMemberUpdateModel : IIdentifiable
+public class OfficialUpdateModel : IIdentifiable
 {
-    public StaffMemberUpdateModel(StaffMember member)
+    public OfficialUpdateModel(Official member)
     {
         this.Id = member.Id;
         this.Name = member.Person;
@@ -14,5 +14,5 @@ public class StaffMemberUpdateModel : IIdentifiable
 
     public int Id { get; }
     public string Name { get; set; }
-    public StaffRole Role { get; set; }
+    public OfficialRole Role { get; set; }
 }

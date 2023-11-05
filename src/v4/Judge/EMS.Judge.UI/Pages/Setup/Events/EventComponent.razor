@@ -4,7 +4,7 @@
 @using EMS.Judge.Setup;
 @using EMS.Judge.Setup.Events;
 @using EMS.Judge.UI.Contexts;
-@using EMS.Judge.UI.Pages.Setup.StaffMembers;
+@using EMS.Judge.UI.Pages.Setup.Officials;
 @inject IDialogService dialogService;
 @inject IManage<Event> Events;
 @inject ICountriesContext Countries;
@@ -32,7 +32,7 @@ else
     </MudPaper>
 
     <MudPaper>
-        <StaffMemberList />
+        <OfficialList />
     </MudPaper>
 }
 

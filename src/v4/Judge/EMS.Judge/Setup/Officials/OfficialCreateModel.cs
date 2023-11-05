@@ -3,9 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EMS.Judge.Setup.Staff;
 
-public class StaffMemberCreateModel
+public class OfficialCreateModel
 {
     [Required]
     public string Name { get; set; } = string.Empty;
-    public StaffRole Role { get; set; } = StaffRole.Steward;
+    public OfficialRole Role { get; set; } = OfficialRole.Steward;
 }
