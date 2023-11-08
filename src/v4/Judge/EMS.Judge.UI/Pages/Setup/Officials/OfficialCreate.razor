@@ -1,0 +1,14 @@
+﻿@using EMS.Domain.Setup.Entities;
+@using EMS.Judge.Setup.Officials;
+@using EMS.Judge.Setup.Staff;
+
+<CreateDialog T="Official" Model="Model" Factory="() => new Official(Model.Name!, Model.Role)">
+    <FormContent>
+        <OfficialForm Model="Model" />
+    </FormContent>
+</CreateDialog>
+
+
+@code {
+    public OfficialCreateModel Model { get; } = new();
+}

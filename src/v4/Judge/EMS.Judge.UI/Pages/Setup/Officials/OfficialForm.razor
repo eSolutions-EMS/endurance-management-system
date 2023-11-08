@@ -1,0 +1,20 @@
+﻿@using EMS.Domain.Setup.Entities;
+@using EMS.Judge.Setup.Officials;
+
+<MudCardContent>
+    <MudTextField Label="Place" @bind-Value="Model.Name" For="@(() => Model.Name)" />
+</MudCardContent>
+
+<MudCardContent>
+    <MudSelect Label="Role" @bind-Value="Model.Role">
+        @foreach (var item in Enum.GetValues<OfficialRole>())
+        {
+            <MudSelectItem Value="@item">@item</MudSelectItem>
+        }
+    </MudSelect>
+</MudCardContent>
+
+@code {
+    [Parameter]
+    public IOfficialModel Model { get; set; } = default!;
+}

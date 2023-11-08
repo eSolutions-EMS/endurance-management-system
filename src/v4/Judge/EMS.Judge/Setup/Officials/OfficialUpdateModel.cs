@@ -1,9 +1,10 @@
 ﻿using Common;
 using EMS.Domain.Setup.Entities;
+using EMS.Judge.Setup.Officials;
 
 namespace EMS.Judge.Setup.StaffMembers;
 
-public class OfficialUpdateModel : IIdentifiable
+public class OfficialUpdateModel : IIdentifiable, IOfficialModel
 {
     public OfficialUpdateModel(Official member)
     {

@@ -1,9 +1,10 @@
 ﻿using EMS.Domain.Setup.Entities;
+using EMS.Judge.Setup.Officials;
 using System.ComponentModel.DataAnnotations;
 
 namespace EMS.Judge.Setup.Staff;
 
-public class OfficialCreateModel
+public class OfficialCreateModel : IOfficialModel
 {
     [Required]
     public string Name { get; set; } = string.Empty;

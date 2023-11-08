@@ -5,7 +5,7 @@ using EMS.Domain.Setup.Entities;
 
 namespace EMS.Judge.Setup.Events;
 
-public class EventManageService : ManageService<Event>, IManageChild<Event, Official>
+public class EventManageService : ManageService<Event>, IManageChildren<Event, Official>, ICreateChild<Official>
 {
     public EventManageService(IRepository<Event> repository) : base(repository)
     {

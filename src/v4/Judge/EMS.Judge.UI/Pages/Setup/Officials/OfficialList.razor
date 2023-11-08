@@ -1,7 +1,7 @@
 ﻿@using EMS.Domain.Setup.Entities;
 @using EMS.Judge.Setup.Events;
 @using EMS.Judge.UI.Services;
-@inject IManageChild<Event, Official> _parentForm;
+@inject IManageChildren<Event, Official> _parentForm;
 @inject NavigationManager _navigation;
 @inject IDialogService dialogService;
 @inject INavigationContext _navigationContext;
@@ -53,7 +53,7 @@
 
     private async Task ToOfficialCreateDialog()
     {
-        var dialog = this.dialogService.Show<OfficialCreateDialog>();
+        var dialog = this.dialogService.Show<OfficialCreate>();
         await dialog.Result;
         await InvokeAsync(StateHasChanged);
     }
