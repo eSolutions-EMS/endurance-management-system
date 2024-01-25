@@ -1,14 +1,20 @@
-﻿@using EMS.Domain.Setup.Entities;
+﻿@using Common.Application;
+@using Common.Domain;
+@using Common.Services;
+@using EMS.Domain.Setup.Entities;
 @using EMS.Judge.Setup.Events;
+@using EMS.Judge.Setup.Staff;
 @using EMS.Judge.UI.Services;
-@inject IManageChildren<Event, Official> _parentForm;
+@using Not.Blazor.Dialogs;
+@inject IParentBehind<Official> _parentBehind;
 @inject NavigationManager _navigation;
-@inject IDialogService dialogService;
 @inject INavigationContext _navigationContext;
+@inject ILocalizer _localizer;
+@inject INotDialogService _notDialogService;
 
 <MudText Typo="Typo.h5">Staff Members</MudText>
 
-<MudTable Items="_parentForm.Entity!.Officials" Hover="true">
+<MudTable Items="_parentBehind.Children" Hover="true">
     <HeaderContent>
         <MudTh>Staff</MudTh>
         <MudTh>Actions</MudTh>
@@ -21,7 +27,7 @@
                         IconSize="Size.Small"
                         StartIcon="@Icons.Material.Filled.Delete"
                         Color="Color.Warning"
-                        OnClick="() => _parentForm.Remove(context)">
+                        OnClick="() => _parentBehind.Delete(context)">
                 Remove
             </MudButton>
 
@@ -40,9 +46,9 @@
 <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="this.ToOfficialCreateDialog">Add</MudButton>
 
 @code {
-    protected override Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
-        return base.OnInitializedAsync();
+        await _parentBehind.Init(0); // Event is always single
     }
 
     private void ToOfficialUpdate(Official member)
@@ -53,8 +59,10 @@
 
     private async Task ToOfficialCreateDialog()
     {
-        var dialog = this.dialogService.Show<OfficialCreate>();
-        await dialog.Result;
+        await _notDialogService.CreateChild<Official, OfficialCreateModel, OfficialForm>(
+            _parentBehind.Parent!,
+            x => new Official(x.Name!, x.Role));
+        
         await InvokeAsync(StateHasChanged);
     }
 }

@@ -129,7 +129,11 @@ public static class ConventionExtensions
         var namespacePrefix = assembly.FullName!.Split('.').First();
         var references = assembly
             .GetReferencedAssemblies()
-            .Where(x => x.FullName!.StartsWith(namespacePrefix) || x.FullName!.StartsWith("Common") || x.FullName!.StartsWith("EMS"))
+            .Where(x => 
+                x.FullName!.StartsWith(namespacePrefix) ||
+                x.FullName!.StartsWith("Common") ||
+                x.FullName!.StartsWith("EMS") ||
+                x.FullName!.StartsWith("Not."))
             .ToList();
         foreach (var reference in references)
         {

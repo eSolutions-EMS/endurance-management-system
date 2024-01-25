@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.12" />
+    <PackageReference Include="MudBlazor" Version="6.11.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Common.Application\Common.Application.csproj" />
+    <ProjectReference Include="..\Common.Domain\Common.Domain.csproj" />
+    <ProjectReference Include="..\Common\Common.csproj" />
+  </ItemGroup>
+
+</Project>

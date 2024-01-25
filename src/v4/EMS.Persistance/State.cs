@@ -6,11 +6,11 @@ namespace EMS.Persistence;
 public class State : IState
 {
     public Event? Event { get; set; }
-    public List<Official> StaffMembers { get; } = new();
+    public List<Official> Officials  => Event?.Officials.ToList() ?? new List<Official>();
 }
 
 public interface IState : ISingletonService
 {
     Event? Event { get; set; }
-    List<Official> StaffMembers { get; }
+    List<Official> Officials { get; }
 }

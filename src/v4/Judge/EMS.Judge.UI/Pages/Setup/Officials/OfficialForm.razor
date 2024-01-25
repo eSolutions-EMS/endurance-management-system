@@ -1,12 +1,14 @@
 ﻿@using EMS.Domain.Setup.Entities;
 @using EMS.Judge.Setup.Officials;
+@using Not.Blazor.Forms;
+@inherits FormContent;
 
 <MudCardContent>
-    <MudTextField Label="Place" @bind-Value="Model.Name" For="@(() => Model.Name)" />
+    <MudTextField Label="Place" @bind-Value="_model.Name" For="@(() => _model.Name)" />
 </MudCardContent>
 
 <MudCardContent>
-    <MudSelect Label="Role" @bind-Value="Model.Role">
+    <MudSelect Label="Role" @bind-Value="_model.Role">
         @foreach (var item in Enum.GetValues<OfficialRole>())
         {
             <MudSelectItem Value="@item">@item</MudSelectItem>
@@ -15,6 +17,5 @@
 </MudCardContent>
 
 @code {
-    [Parameter]
-    public IOfficialModel Model { get; set; } = default!;
+    private IOfficialModel _model => (IOfficialModel)Model;
 }

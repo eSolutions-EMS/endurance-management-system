@@ -1,0 +1,51 @@
+﻿@using Common.Application;
+@using Common.Domain;
+@using Common.Services;
+@using Not.Blazor.Forms;
+
+@typeparam TEntity where TEntity : DomainEntity;
+@typeparam TModel where TModel : class, new();
+@typeparam TForm where TForm : FormContent;
+@inject ILocalizer _localizer;
+@inject IParentBehind<TEntity> _parentBehind;
+
+<MudDialog>
+    <DialogContent>
+        <EditForm Model="_model">
+            <DataAnnotationsValidator />
+
+            <MudCard>
+                <DynamicComponent Type="typeof(TForm)" Parameters="_formParameters" />
+            </MudCard>
+        </EditForm>
+    </DialogContent>
+
+    <DialogActions>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="this.Create">
+            @_localizer.Get("Create")
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+
+@code {
+    private Dictionary<string, object> _formParameters = new();
+    private TModel _model { get; set; } = new();
+
+    [CascadingParameter]
+    private MudDialogInstance _dialog { get; set; } = default!;
+    [Parameter]
+    public Func<TModel, TEntity> Factory { get; set; } = default!;
+
+    protected override void OnInitialized()
+    {
+        _formParameters.Add(nameof(FormContent.Model), _model);
+    }
+
+    private async Task Create()
+    {
+        var entity = Factory(_model);
+        await _parentBehind.Create(entity);
+        _dialog.Close(DialogResult.Ok(true));
+    }
+}

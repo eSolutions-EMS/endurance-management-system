@@ -9,6 +9,7 @@ public abstract class DomainEntity : IEquatable<DomainEntity>, IIdentifiable
         this.Id = RandomHelper.GenerateUniqueInteger();
     }
 
+    // TODO: use DomainObject for ID
     public int Id { get; protected init; }
 
     public bool Equals(DomainEntity? other)

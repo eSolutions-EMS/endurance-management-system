@@ -5,9 +5,8 @@
 @using EMS.Judge.Setup.Events;
 @using EMS.Judge.UI.Contexts;
 @using EMS.Judge.UI.Pages.Setup.Officials;
-@inject IDialogService dialogService;
-@inject IManage<Event> Events;
-@inject ICountriesContext Countries;
+@inject IDialogService _dialogService;
+@inject IRepository<Event> _repository;
 
 @if (_model == null)
 {
@@ -17,19 +16,15 @@
 }
 else
 {
-    <MudPaper>
-        <MudTextField Label="Place" @bind-Value="_model.Place" />
+    <EditForm Model="_model" OnSubmit="this.Update">
+        <DataAnnotationsValidator />
 
-        <MudAutocomplete Label="Country"
-            T="Country"
-            CoerceText="true"
-            @bind-Value="_model.Country"
-            SearchFunc="@Countries.Search" />
-
-        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Update">
-            Create
-        </MudButton>
-    </MudPaper>
+        <MudCard>
+            <EventForm Model="_model" />
+        </MudCard>
+    </EditForm>
+    
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Update">Update</MudButton>
 
     <MudPaper>
         <OfficialList />
@@ -41,7 +36,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var entity = await Events.Read(0);
+        var entity = await _repository.Read(0);
         if (entity == null)
         {
             return;
@@ -52,13 +47,13 @@ else
     protected async Task Update()
     {
         var entity = new Event(_model.Place, _model.Country);
-        await Events.Update(entity);
+        await _repository.Update(entity);
     }
 
     private async Task RenderEventCreateDialog()
     {
-        var dialog = this.dialogService.Show<EventCreateDialog>();
+        var dialog = _dialogService.Show<EventCreateDialog>();
         await dialog.Result;
-        await this.OnInitializedAsync();
+        await OnInitializedAsync();
     }
 }

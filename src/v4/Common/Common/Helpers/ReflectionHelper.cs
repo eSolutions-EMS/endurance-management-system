@@ -11,4 +11,9 @@ public static class ReflectionHelper
         }
         return parentType ?? type;
     }
+
+    public static string GetName<T>()
+    {
+        return typeof(T).Name;
+    }
 }

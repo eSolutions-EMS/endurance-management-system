@@ -56,6 +56,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Common\Common.Blazor\Common.Blazor.csproj" />
     <ProjectReference Include="..\..\Common\Common\Common.csproj" />
+    <ProjectReference Include="..\..\Common\Not.Blazor\Not.Blazor.csproj" />
     <ProjectReference Include="..\..\EMS.Common\EMS.Application.csproj" />
     <ProjectReference Include="..\..\EMS.Domain.Core\EMS.Domain.Core.csproj" />
     <ProjectReference Include="..\..\EMS.Domain.Setup\EMS.Domain.Setup.csproj" />

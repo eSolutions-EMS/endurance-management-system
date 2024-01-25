@@ -9,7 +9,13 @@
 
 <h3>StaffMember</h3>
 
-<OfficialForm Model="_model" />
+<EditForm Model="_model">
+    <DataAnnotationsValidator />
+
+    <MudCard>
+        <OfficialForm Model="_model" />
+    </MudCard>
+</EditForm>
 
 <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Update">Update</MudButton>
     
