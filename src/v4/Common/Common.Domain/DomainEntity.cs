@@ -12,6 +12,11 @@ public abstract class DomainEntity : IEquatable<DomainEntity>, IIdentifiable
     // TODO: use DomainObject for ID
     public int Id { get; protected init; }
 
+    public static bool operator == (DomainEntity? left, DomainEntity? right)
+        => left?.IsEqual(right) ?? right is null;
+    public static bool operator !=(DomainEntity? left, DomainEntity? right)
+        => !(left == right);
+
     public bool Equals(DomainEntity? other)
         => this.IsEqual(other);
     public override bool Equals(object? other)
