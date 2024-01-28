@@ -1,9 +1,10 @@
 ﻿@page "/staff-member"
 
+@using Common.Application;
 @using EMS.Domain.Setup.Entities;
 @using EMS.Judge.Setup.StaffMembers;
 @using EMS.Judge.UI.Services;
-@inject IManageChildren<Event, Official> _service;
+@inject IParentBehind<Official> _parentBehind;
 @inject NavigationManager _navigation;
 @inject INavigationContext _navigationContext;
 
@@ -30,7 +31,7 @@
     private async Task Update()
     {
         var entity = new Official(_model.Id, _model.Name, _model.Role);
-        await _service.Update(entity);
+        await _parentBehind.Update(entity);
         _navigation.NavigateTo("/");
     }
 }

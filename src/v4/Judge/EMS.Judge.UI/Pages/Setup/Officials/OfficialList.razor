@@ -59,10 +59,7 @@
 
     private async Task ToOfficialCreateDialog()
     {
-        await _notDialogService.CreateChild<Official, OfficialCreateModel, OfficialForm>(
-            _parentBehind.Parent!,
-            x => new Official(x.Name!, x.Role));
-        
+        await _notDialogService.CreateChild<Official, OfficialCreateModel, OfficialForm>(x => new Official(x.Name!, x.Role));
         await InvokeAsync(StateHasChanged);
     }
 }

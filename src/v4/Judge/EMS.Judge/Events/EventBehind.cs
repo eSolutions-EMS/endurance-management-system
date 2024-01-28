@@ -27,12 +27,13 @@ public class EventBehind : IParentBehind<Official>
         _event = await _reader.Read(parentId);
     }
 
-    public async Task Create(Official child)
+    public async Task<Official> Create(Official child)
     {
         ThrowHelper.ThrowIfNull(_event);
 
         _event.Add(child);
         await _officialRepository.Create(_event.Id, child);
+        return child;
     }
 
     public async Task Delete(Official child)
@@ -43,11 +44,12 @@ public class EventBehind : IParentBehind<Official>
         await _officialRepository.Delete(_event.Id, child);
     }
 
-    public async Task Update(Official child)
+    public async Task<Official> Update(Official child)
     {
         ThrowHelper.ThrowIfNull(_event);
 
         _event.Update(child);
         await _officialRepository.Update(child);
+        return child;
     }
 }

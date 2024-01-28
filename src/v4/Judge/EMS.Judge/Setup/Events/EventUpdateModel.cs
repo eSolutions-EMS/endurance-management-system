@@ -4,7 +4,7 @@ using EMS.Domain.Setup.Entities;
 
 namespace EMS.Judge.Setup.Events;
 
-public class EventUpdateModel : IIdentifiable
+public class EventUpdateModel : IIdentifiable, IEventForm
 {
     public EventUpdateModel(Event @event)
     {
@@ -16,8 +16,8 @@ public class EventUpdateModel : IIdentifiable
     }
 
     public int Id { get; }
-    public string Place { get; set; }
-    public Country Country { get; set; }
+    public string? Place { get; set; }
+    public Country? Country { get; set; }
     public List<Official> Staff { get; }
     public List<Competition> Competitions { get; }
 }

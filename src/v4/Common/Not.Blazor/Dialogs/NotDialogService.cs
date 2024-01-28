@@ -18,7 +18,7 @@ public class NotDialogService : INotDialogService
         _localizer = localizer;
     }
 
-    public async Task CreateChild<T, TModel, TForm>(DomainEntity parent, Func<TModel, T> factory)
+    public async Task Create<T, TModel, TForm>(Func<TModel, T> factory)
         where T : DomainEntity
         where TModel : class, new()
         where TForm : FormContent
@@ -33,11 +33,31 @@ public class NotDialogService : INotDialogService
             parameters);
         await dialog.Result;
     }
+
+    public async Task CreateChild<T, TModel, TForm>(Func<TModel, T> factory)
+        where T : DomainEntity
+        where TModel : class, new()
+        where TForm : FormContent
+    {
+        var parameters = new DialogParameters<CreateChildDialog<T, TModel, TForm>>
+        {   
+            { x => x.Factory, factory }
+        };
+
+        var dialog = await _mudDialogService.ShowAsync<CreateChildDialog<T, TModel, TForm>>(
+            _localizer.Get("Create", " ", ReflectionHelper.GetName<T>()),
+            parameters);
+        await dialog.Result;
+    }
 }
 
 public interface INotDialogService : ITransientService
 {
-    Task CreateChild<T, TModel, TForm>(DomainEntity parent, Func<TModel, T> factory)
+    Task Create<T, TModel, TForm>(Func<TModel, T> factory)
+        where T : DomainEntity
+        where TModel : class, new()
+        where TForm : FormContent;
+    Task CreateChild<T, TModel, TForm>(Func<TModel, T> factory)
         where T : DomainEntity
         where TModel : class, new()
         where TForm : FormContent;

@@ -1,0 +1,55 @@
+﻿@* 
+Notes:
+This component serves as effective CreateDialogBase, however child components in Blazor override their parent's RenderTree.
+So instead of using inheritance this is defined as an Internal* component which is reused by it's "children" components
+*@
+
+@using Common.Application;
+@using Common.Domain;
+@using Common.Services;
+@using Not.Blazor.Forms;
+
+@inherits LayoutComponentBase;
+@typeparam T where T : DomainEntity;
+@typeparam TModel where TModel : class, new();
+@typeparam TForm where TForm : FormContent;
+@inject ILocalizer _localizer;
+
+<MudDialog>
+    <DialogContent>
+        <EditForm Model="Model">
+            <DataAnnotationsValidator />
+
+            <MudCard>
+                <DynamicComponent Type="typeof(TForm)" Parameters="_formParameters" />
+            </MudCard>
+        </EditForm>
+    </DialogContent>
+
+    <DialogActions>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Create">
+            @_localizer.Get("Create") 
+        </MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    private Dictionary<string, object> _formParameters = new();
+
+    [Parameter]
+    public Func<TModel, Task> OnCreate { get; set; } = default!;
+    [Parameter]
+    public RenderFragment ChildContent { get; set; } = default!;
+
+    protected TModel Model { get; set; } = new();
+
+    protected override void OnInitialized()
+    {
+        _formParameters.Add(nameof(FormContent.Model), Model);
+    }
+
+    private async Task Create()
+    {
+        await OnCreate(Model);
+    }
+}

@@ -9,7 +9,7 @@ public interface IParentBehind<T> : ISingletonService
     Task Init(int parentId);
     DomainEntity? Parent { get; }
     IEnumerable<T> Children { get; }
-    Task Create(T child);
+    Task<T> Create(T child);
     Task Delete(T child);
-    Task Update(T child);
+    Task<T> Update(T child);
 }

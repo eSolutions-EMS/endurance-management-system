@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EMS.Judge.Setup.Events;
 
-public class EventCreateModel
+public class EventCreateModel : IEventForm
 {
     [Required]
     public string? Place { get; set; }

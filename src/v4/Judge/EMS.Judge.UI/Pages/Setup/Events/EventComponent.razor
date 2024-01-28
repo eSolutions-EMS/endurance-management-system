@@ -3,15 +3,17 @@
 @using EMS.Domain.Setup.Entities;
 @using EMS.Judge.Setup;
 @using EMS.Judge.Setup.Events;
+@using EMS.Judge.Setup.Staff;
 @using EMS.Judge.UI.Contexts;
 @using EMS.Judge.UI.Pages.Setup.Officials;
-@inject IDialogService _dialogService;
+@using Not.Blazor.Dialogs;
+@inject INotDialogService _notDialogService;
 @inject IRepository<Event> _repository;
 
 @if (_model == null)
 {
     <MudPaper>
-        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="RenderEventCreateDialog">Create</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="RenderCreate">Create</MudButton>
     </MudPaper>
 }
 else
@@ -20,7 +22,7 @@ else
         <DataAnnotationsValidator />
 
         <MudCard>
-            <EventForm Model="_model" />
+            <EventFields Model="_model" />
         </MudCard>
     </EditForm>
     
@@ -46,14 +48,16 @@ else
 
     protected async Task Update()
     {
-        var entity = new Event(_model.Place, _model.Country);
+        var entity = CreateEvent(_model);
         await _repository.Update(entity);
     }
 
-    private async Task RenderEventCreateDialog()
+    private async Task RenderCreate()
     {
-        var dialog = _dialogService.Show<EventCreateDialog>();
-        await dialog.Result;
+        // await _notDialogService.CreateChild<Official, OfficialCreateModel, OfficialForm>(x => new Official("name", OfficialRole.ForeignJudge));
+        await _notDialogService.Create<Event, EventCreateModel, EventFields>(CreateEvent);
         await OnInitializedAsync();
     }
+
+    private Event CreateEvent(IEventForm input) => new Event(input.Place!, input.Country!);
 }

@@ -1,0 +1,26 @@
+@using Common.Domain;
+@using EMS.Domain.Objects;
+@using EMS.Judge.Setup.Events;
+@using EMS.Judge.UI.Contexts;
+@using Not.Blazor.Forms;
+@inherits FormContent;
+@inject ICountriesContext _countries;
+
+<MudCardContent>
+    <MudTextField Label="Place"
+        @bind-Value="_model.Place"
+        For="@(() => _model.Place)" />
+</MudCardContent>
+
+<MudCardContent>
+    <MudAutocomplete Label="Country"
+        T="Country"
+        CoerceText="true"
+        SearchFunc="@_countries.Search"
+        @bind-Value="_model.Country"
+        For="@(() => _model.Country)" />
+</MudCardContent>
+
+@code {
+    public IEventForm _model => (IEventForm)Model;
+}
