@@ -11,7 +11,6 @@ public class EventRepository : RepositoryBase<Event>
 
     public EventRepository(IState state)
     {
-        state.Event = new Event("place", new Country("BG", "Bulgaria"));
         _state = state;
     }
 
