@@ -1,9 +1,8 @@
 ﻿using EMS.Domain.Objects;
-using System.ComponentModel.DataAnnotations;
 
 namespace EMS.Judge.Setup.Events;
 
-public interface IEventForm
+public interface IEventFields
 {
     string? Place { get; set; }
     Country? Country { get; set; }

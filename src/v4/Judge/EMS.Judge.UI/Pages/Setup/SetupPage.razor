@@ -1,7 +1,39 @@
 @page "/"
 
-@using EMS.Judge.UI.Pages.Setup.Events
+@using EMS.Domain.Setup.Entities;
+@using EMS.Judge.Setup.Events;
+@using EMS.Judge.UI.Pages.Setup.Events;
+@using Not.Blazor.Dialogs;
 
-<MudText Typo="Typo.h4">Setup</MudText>
+@inject INotDialogService<Event, EventCreateModel, EventFields> _notDialogService;
+@inject IRepository<Event> _repository;
 
-<EventComponent />
+<MudText Typo="Typo.h1">Setup</MudText>
+
+@if (_event == null)
+{
+    <MudPaper>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="RenderCreate">Create</MudButton>
+    </MudPaper>
+}
+else
+{
+    <EventPage />
+}
+
+@code {
+    private Event? _event;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _event = await _repository.Read(0);
+    }
+
+    private async Task RenderCreate()
+    {
+        await _notDialogService.CreateEntity(CreateEvent);
+        await OnInitializedAsync();
+    }
+
+    private Event CreateEvent(IEventFields input) => new Event(input.Place!, input.Country!);
+}

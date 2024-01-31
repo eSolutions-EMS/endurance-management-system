@@ -4,7 +4,7 @@ using EMS.Domain.Setup.Entities;
 
 namespace EMS.Judge.Setup.Events;
 
-public class EventUpdateModel : IIdentifiable, IEventForm
+public class EventUpdateModel : IIdentifiable, IEventFields
 {
     public EventUpdateModel(Event @event)
     {

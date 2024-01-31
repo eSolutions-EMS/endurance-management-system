@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace EMS.Judge.Setup.Staff;
 
-public class OfficialCreateModel : IOfficialModel
+public class OfficialCreateModel : IOfficialFields
 {
     [Required]
     public string Name { get; set; } = string.Empty;

@@ -2,7 +2,7 @@
 
 namespace EMS.Judge.Setup.Officials;
 
-public interface IOfficialModel
+public interface IOfficialFields
 {
     string Name { get; set; }
     OfficialRole Role { get; set; }

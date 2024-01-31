@@ -4,7 +4,7 @@ using EMS.Judge.Setup.Officials;
 
 namespace EMS.Judge.Setup.StaffMembers;
 
-public class OfficialUpdateModel : IIdentifiable, IOfficialModel
+public class OfficialUpdateModel : IIdentifiable, IOfficialFields
 {
     public OfficialUpdateModel(Official member)
     {
