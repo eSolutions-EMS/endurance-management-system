@@ -32,7 +32,6 @@ public static class ConventionExtensions
             .ToList();
         foreach (var c in classes)
         {
-            // TODO: Fix case with 2 singleton interfaces - as of now they are registered as different instances
             var interfaces = c.GetInterfaces()
                 .Where(x => x.IsAssignableFrom(c))
                 .ToList();
