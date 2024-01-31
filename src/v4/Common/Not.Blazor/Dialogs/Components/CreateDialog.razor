@@ -7,9 +7,10 @@
 @typeparam T where T : DomainEntity;
 @typeparam TModel where TModel : class, new();
 @typeparam TForm where TForm : FormContent;
-@inject IParentBehind<T> _parentBehind;
+@implements INotCreateDialog<T, TModel>;
+@inject IRepository<T> _repository;
 
-<InternalCreateDialog T="T" TModel="TModel" TForm="TForm" OnCreate="OnCreate" />
+<InternalCreateDialog T="T" TModel="TModel" TForm="TForm" OnCreate="OnCreate"/>
 
 @code {
     [CascadingParameter]
@@ -21,7 +22,7 @@
     protected async Task OnCreate(TModel model)
     {
         var entity = Factory(model);
-        await _parentBehind.Create(entity);
+        await _repository.Create(entity);
         Dialog.Close(DialogResult.Ok(true));
     }
 }

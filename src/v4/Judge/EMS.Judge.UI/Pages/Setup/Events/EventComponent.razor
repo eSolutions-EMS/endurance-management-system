@@ -7,7 +7,7 @@
 @using EMS.Judge.UI.Contexts;
 @using EMS.Judge.UI.Pages.Setup.Officials;
 @using Not.Blazor.Dialogs;
-@inject INotDialogService _notDialogService;
+@inject INotDialogService<Event, EventCreateModel, EventFields> _notDialogService;
 @inject IRepository<Event> _repository;
 
 @if (_model == null)
@@ -54,8 +54,7 @@ else
 
     private async Task RenderCreate()
     {
-        // await _notDialogService.CreateChild<Official, OfficialCreateModel, OfficialForm>(x => new Official("name", OfficialRole.ForeignJudge));
-        await _notDialogService.Create<Event, EventCreateModel, EventFields>(CreateEvent);
+        await _notDialogService.CreateEntity(CreateEvent);
         await OnInitializedAsync();
     }
 

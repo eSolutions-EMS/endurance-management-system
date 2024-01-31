@@ -2,12 +2,17 @@
 using Common.Domain;
 using Common.Services;
 using Common.Utilities;
+using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using Not.Blazor.Dialogs.Components;
 using Not.Blazor.Forms;
 
 namespace Not.Blazor.Dialogs;
 
-public class NotDialogService : INotDialogService
+public class NotDialogService<T, TModel, TForm> : INotDialogService<T, TModel, TForm>
+    where T : DomainEntity
+    where TModel : class, new()
+    where TForm : FormContent
 {
     private readonly IDialogService _mudDialogService;
     private readonly ILocalizer _localizer;
@@ -18,47 +23,35 @@ public class NotDialogService : INotDialogService
         _localizer = localizer;
     }
 
-    public async Task Create<T, TModel, TForm>(Func<TModel, T> factory)
-        where T : DomainEntity
-        where TModel : class, new()
-        where TForm : FormContent
+    public async Task CreateEntity(Func<TModel, T> factory)
     {
-        var parameters = new DialogParameters<CreateDialog<T, TModel, TForm>>
-        {
-            { x => x.Factory, factory }
-        };
-
-        var dialog = _mudDialogService.Show<CreateDialog<T, TModel, TForm>>(
-            _localizer.Get("Create", " ", ReflectionHelper.GetName<T>()),
-            parameters);
-        await dialog.Result;
+        await Show<CreateDialog<T, TModel, TForm>>(factory);
     }
 
-    public async Task CreateChild<T, TModel, TForm>(Func<TModel, T> factory)
-        where T : DomainEntity
-        where TModel : class, new()
-        where TForm : FormContent
+    public async Task CreateChildEntity(Func<TModel, T> factory)
     {
-        var parameters = new DialogParameters<CreateChildDialog<T, TModel, TForm>>
+        await Show<CreateChildDialog<T, TModel, TForm>>(factory);
+    }
+
+    private async Task Show<TDialog>(Func<TModel, T> factory)
+        where TDialog : ComponentBase, INotCreateDialog<T, TModel>
+    {
+        var parameters = new DialogParameters<TDialog>
         {   
             { x => x.Factory, factory }
         };
 
-        var dialog = await _mudDialogService.ShowAsync<CreateChildDialog<T, TModel, TForm>>(
-            _localizer.Get("Create", " ", ReflectionHelper.GetName<T>()),
-            parameters);
+        var title = _localizer.Get("Create", " ", ReflectionHelper.GetName<T>());
+        var dialog = await _mudDialogService.ShowAsync<TDialog>(title, parameters);
         await dialog.Result;
     }
 }
 
-public interface INotDialogService : ITransientService
+public interface INotDialogService<T, TModel, TForm> : ITransientService
+    where T : DomainEntity
+    where TModel : class, new()
+    where TForm : FormContent
 {
-    Task Create<T, TModel, TForm>(Func<TModel, T> factory)
-        where T : DomainEntity
-        where TModel : class, new()
-        where TForm : FormContent;
-    Task CreateChild<T, TModel, TForm>(Func<TModel, T> factory)
-        where T : DomainEntity
-        where TModel : class, new()
-        where TForm : FormContent;
+    Task CreateEntity(Func<TModel, T> factory);
+    Task CreateChildEntity(Func<TModel, T> factory);
 }

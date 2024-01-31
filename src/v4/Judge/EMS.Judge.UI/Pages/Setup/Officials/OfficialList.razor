@@ -10,7 +10,7 @@
 @inject NavigationManager _navigation;
 @inject INavigationContext _navigationContext;
 @inject ILocalizer _localizer;
-@inject INotDialogService _notDialogService;
+@inject INotDialogService<Official, OfficialCreateModel, OfficialForm> _notDialogService;
 
 <MudText Typo="Typo.h5">Staff Members</MudText>
 
@@ -59,7 +59,7 @@
 
     private async Task ToOfficialCreateDialog()
     {
-        await _notDialogService.CreateChild<Official, OfficialCreateModel, OfficialForm>(x => new Official(x.Name!, x.Role));
+        await _notDialogService.CreateChildEntity(x => new Official(x.Name!, x.Role));
         await InvokeAsync(StateHasChanged);
     }
 }
