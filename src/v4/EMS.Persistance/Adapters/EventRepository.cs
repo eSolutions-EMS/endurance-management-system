@@ -6,65 +6,65 @@ namespace EMS.Persistence.Adapters;
 
 public class EventRepository : RepositoryBase<Event>, IParentRepository<Official>
 {
-    private readonly IState _state;
+    private readonly IStore _store;
 
-    public EventRepository(IState state)
+    public EventRepository(IStore store)
     {
-        _state = state;
+        _store = store;
     }
 
     public override Task<Event> Create(Event entity)
     {
-        _state.Event = entity;
+        _store.Event = entity;
         return Task.FromResult(entity);
     }
 
     public override Task<Event?> Read(int id)
     {
-        if (_state.Event == null)
+        if (_store.Event == null)
         {
             return Task.FromResult<Event?>(null);
         }
-        return Task.FromResult<Event?>(Clone(_state.Event));
+        return Task.FromResult<Event?>(Clone(_store.Event));
     }
 
     public override Task<Event> Update(Event @event)
     {
-        ThrowHelper.ThrowIfNull(_state.Event);
+        ThrowHelper.ThrowIfNull(_store.Event);
 
         PreserveChildrenDuringUpdate(@event);
-        _state.Event = @event;
+        _store.Event = @event;
         return Task.FromResult(@event);
     }
 
     public Task<Official> Create(int parentId, Official child)
     {
-        ThrowHelper.ThrowIfNull(_state.Event);
+        ThrowHelper.ThrowIfNull(_store.Event);
 
-        _state.Event.Add(child);
+        _store.Event.Add(child);
         return Task.FromResult(child);
     }
 
     public Task Delete(int parentId, Official child)
     {
-        ThrowHelper.ThrowIfNull(_state.Event);
+        ThrowHelper.ThrowIfNull(_store.Event);
 
-        _state.Event.Remove(child);
+        _store.Event.Remove(child);
         return Task.FromResult(child);
     }
 
     public Task<Official> Update(Official child)
     {
-        var existing = _state.Officials.Find(x => x == child);
+        var existing = _store.Officials.Find(x => x == child);
         ThrowHelper.ThrowIfNull(existing);
 
-        _state.Event.Update(child);
+        _store.Event.Update(child);
         return Task.FromResult(child);
     }
 
     protected override void PreserveChildrenDuringUpdate(Event entity)
     {
-        foreach (var official in _state.Event!.Officials)
+        foreach (var official in _store.Event!.Officials)
         {
             entity.Add(official);
         }
