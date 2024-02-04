@@ -1,6 +1,4 @@
-﻿using Common.Application.CRUD;
-using Common.Helpers;
-using EMS.Domain.Objects;
+﻿using Common.Helpers;
 using EMS.Domain.Setup.Entities;
 
 namespace EMS.Persistence.Adapters;
@@ -12,14 +10,6 @@ public class EventRepository : RepositoryBase<Event>
     public EventRepository(IState state)
     {
         _state = state;
-    }
-
-    public Task Add(Event parent, Official child)
-    {
-        ThrowHelper.ThrowIfNull(_state.Event);
-
-        _state.Event.Add(child);
-        return Task.CompletedTask;
     }
 
     public override Task<Event> Create(Event entity)
@@ -35,14 +25,6 @@ public class EventRepository : RepositoryBase<Event>
             return Task.FromResult<Event?>(null);
         }
         return Task.FromResult<Event?>(Clone(_state.Event));
-    }
-
-    public Task Remove(Event parent, Official child)
-    {
-        ThrowHelper.ThrowIfNull(_state.Event);
-
-        _state.Event.Remove(child);
-        return Task.CompletedTask;
     }
 
     public override Task<Event> Update(Event @event)
