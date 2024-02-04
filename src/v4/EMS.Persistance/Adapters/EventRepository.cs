@@ -1,4 +1,5 @@
-﻿using Common.Helpers;
+﻿using Common.Application.CRUD.Parents;
+using Common.Helpers;
 using EMS.Domain.Setup.Entities;
 
 namespace EMS.Persistence.Adapters;
@@ -31,12 +32,17 @@ public class EventRepository : RepositoryBase<Event>
     {
         ThrowHelper.ThrowIfNull(_state.Event);
 
-        foreach (var member in _state.Event!.Officials)
-        {
-            @event.Add(member);
-        }
+        PreserveChildrenDuringUpdate(@event);
         _state.Event = @event;
         return Task.FromResult(@event);
+    }
+
+    protected override void PreserveChildrenDuringUpdate(Event entity)
+    {
+        foreach (var official in _state.Event!.Officials)
+        {
+            entity.Add(official);
+        }
     }
 
     private Event Clone(Event @event)
