@@ -6,77 +6,73 @@ namespace EMS.Persistence.Adapters;
 
 public class EventRepository : RepositoryBase<Event>, IParentRepository<Official>
 {
-    private readonly IState _state;
+    private readonly IStore _store;
 
-    public EventRepository(IState state)
+    public EventRepository(IStore store)
     {
-        _state = state;
+        _store = store;
     }
 
     public override Task<Event> Create(Event entity)
     {
-        _state.Event = entity;
+        using var context = _store.GetContext();
+        context.Event = entity;
         return Task.FromResult(entity);
     }
 
     public override Task<Event?> Read(int id)
     {
-        if (_state.Event == null)
+        using var context = _store.GetContext();
+        if (context.Event == null)
         {
             return Task.FromResult<Event?>(null);
         }
-        return Task.FromResult<Event?>(Clone(_state.Event));
+        return Task.FromResult<Event?>(context.Event);
     }
 
     public override Task<Event> Update(Event @event)
     {
-        ThrowHelper.ThrowIfNull(_state.Event);
-
-        PreserveChildrenDuringUpdate(@event);
-        _state.Event = @event;
+        using var context = _store.GetContext();
+        ThrowHelper.ThrowIfNull(context.Event);
+        
+        PreserveChildrenDuringUpdate(context.Event, @event);
+        context.Event = @event;
         return Task.FromResult(@event);
     }
 
     public Task<Official> Create(int parentId, Official child)
     {
-        ThrowHelper.ThrowIfNull(_state.Event);
+        using var context = _store.GetContext();
+        ThrowHelper.ThrowIfNull(context.Event);
 
-        _state.Event.Add(child);
+        context.Event.Add(child);
         return Task.FromResult(child);
     }
 
     public Task Delete(int parentId, Official child)
     {
-        ThrowHelper.ThrowIfNull(_state.Event);
+        using var context = _store.GetContext();
+        ThrowHelper.ThrowIfNull(context.Event);
 
-        _state.Event.Remove(child);
-        return Task.FromResult(child);
+        context.Event.Remove(child);
+        return Task.CompletedTask;
     }
 
     public Task<Official> Update(Official child)
     {
-        var existing = _state.Officials.Find(x => x == child);
+        using var context = _store.GetContext();
+        var existing = context.Officials.Find(x => x == child);
         ThrowHelper.ThrowIfNull(existing);
 
-        _state.Event.Update(child);
+        context.Event.Update(child);
         return Task.FromResult(child);
     }
 
-    protected override void PreserveChildrenDuringUpdate(Event entity)
+    protected override void PreserveChildrenDuringUpdate(Event existing, Event update)
     {
-        foreach (var official in _state.Event!.Officials)
+        foreach (var official in existing.Officials)
         {
-            entity.Add(official);
+            update.Add(official);
         }
-    }
-
-    private Event Clone(Event @event)
-    {
-        var result = new Event(@event.Id, @event.Place, @event.Country);
-        foreach (var staff in @event.Officials)
-        {
-            result.Add(staff);
-        }
-        return result;
     }
 }

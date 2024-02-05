@@ -1,6 +1,5 @@
 ﻿using Common.Application.CRUD;
 using Common.Domain;
-using System.Threading.Tasks.Dataflow;
 
 namespace EMS.Persistence;
 
@@ -47,5 +46,5 @@ public abstract class RepositoryBase<T> : IRepository<T>
     /// <seealso href="https://github.com/eSolutions-EMS/endurance-management-system/wiki/DomainRepository">Details</seealso>
     /// </summary>
     /// <param name="entity"></param>
-    protected abstract void PreserveChildrenDuringUpdate(T entity);
+    protected abstract void PreserveChildrenDuringUpdate(T existing, T update);
 }

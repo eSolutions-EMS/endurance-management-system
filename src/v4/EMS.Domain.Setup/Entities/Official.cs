@@ -1,11 +1,16 @@
 ﻿using EMS.Domain.Setup.Import;
+using Newtonsoft.Json;
 
 namespace EMS.Domain.Setup.Entities;
 
 public class Official : DomainEntity, ISummarizable, IImportable
 {
-    public Official(int id, string name, OfficialRole role) : this(name, role)
+    public static Official Update(int id, string name, OfficialRole role) => new(id, new Person(name), role);
+    [JsonConstructor]
+    private Official(int id, Person person, OfficialRole role)
     {
+        this.Person = person;
+        this.Role = role;
         this.Id = id;
     }
     public Official(string name, OfficialRole type)

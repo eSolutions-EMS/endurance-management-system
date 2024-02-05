@@ -1,17 +1,19 @@
-﻿using Common.Domain;
+﻿using Newtonsoft.Json;
 
 namespace EMS.Domain.Objects;
 
-public record Person : DomainObject
+public class Person
 {
     internal static string DELIMITER = " ";
 
+    [JsonConstructor]
+    private Person() {}
     public Person(string name)
     {
         this.Names = name.Split(DELIMITER);
     }
 
-    public string[] Names { get; private init; } // TODO: test record equality
+    public string[] Names { get; private set; } // TODO: test record equality
 
     public override string ToString()
 	{

@@ -12,6 +12,8 @@
     <ProjectReference Include="..\EMS.Domain.Setup\EMS.Domain.Setup.csproj" />
     <ProjectReference Include="..\EMS.Domain.Watcher\EMS.Domain.Watcher.csproj" />
     <ProjectReference Include="..\EMS.Domain\EMS.Domain.csproj" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="JsonNet.PrivatePropertySetterResolver" Version="1.0.0" />
   </ItemGroup>
 
 </Project>

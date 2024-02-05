@@ -1,17 +1,21 @@
-﻿using Common.Conventions;
-using Common.Utilities;
+﻿using EMS.Domain.Objects;
 using EMS.Domain.Setup.Entities;
 
 namespace EMS.Persistence;
 
 public class State : IState
 {
-    public int Id { get; } = RandomHelper.GenerateUniqueInteger();
-    public Event? Event { get; set; }
-    public List<Official> Officials  => Event?.Officials.ToList() ?? new List<Official>();
+    internal Action? DetachAction { private get; set; }
+    public Event? Event { get; set; } = new Event("test", new Country("BGN", "Bulgaria"));
+    public List<Official> Officials => Event?.Officials.ToList() ?? new List<Official>();
+
+    public void Dispose()
+    {
+        DetachAction?.Invoke();
+    }
 }
 
-public interface IState : ISingletonService
+public interface IState : IDisposable
 {
     Event? Event { get; set; }
     List<Official> Officials { get; }

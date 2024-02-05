@@ -30,7 +30,7 @@
 
     private async Task Update()
     {
-        var entity = new Official(_model.Id, _model.Name, _model.Role);
+        var entity = Official.Update(_model.Id, _model.Name, _model.Role);
         await _parentBehind.Update(entity);
         _navigation.NavigateTo("/");
     }

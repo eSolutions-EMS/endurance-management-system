@@ -1,4 +1,5 @@
 ﻿using EMS.Domain.Setup.Import;
+using Newtonsoft.Json;
 
 namespace EMS.Domain.Setup.Entities;
 
@@ -7,6 +8,7 @@ public class Event : DomainEntity, ISummarizable, IImportable, IParent<Official>
     private List<Competition> _competitions = new();
     private List<Official> _officials = new();
 
+    [JsonConstructor]
     public Event(int id, string place, Country country) : this(place, country)
     {
         Id = id;
@@ -16,9 +18,10 @@ public class Event : DomainEntity, ISummarizable, IImportable, IParent<Official>
         this.Place = place;
         this.Country = country;
     }
+    public static Event Update(int id, string place, Country country) => new(id, place, country);
 
-    public string Place { get; }
-    public Country Country { get; }
+    public string Place { get; private set; }
+    public Country Country { get; private set; }
     public IReadOnlyList<Official> Officials
     {
         get => _officials.AsReadOnly();
