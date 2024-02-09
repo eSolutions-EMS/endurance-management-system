@@ -26,7 +26,8 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        _event = await _repository.Read(0);
+        var events = await _repository.Read(x => true);
+        _event = events.FirstOrDefault();
     }
 
     private async Task RenderCreate()

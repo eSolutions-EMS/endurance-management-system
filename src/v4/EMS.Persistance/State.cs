@@ -1,22 +1,20 @@
-﻿using EMS.Domain.Objects;
-using EMS.Domain.Setup.Entities;
+﻿using EMS.Domain.Setup.Entities;
 
 namespace EMS.Persistence;
 
-public class State : IState
+public class State :
+    IEntityContext<Event>,
+    IEntityContext<Competition>
 {
-    internal Action? DetachAction { private get; set; }
-    public Event? Event { get; set; } = new Event("test", new Country("BGN", "Bulgaria"));
-    public List<Official> Officials => Event?.Officials.ToList() ?? new List<Official>();
-
-    public void Dispose()
+    private List<Event> _events = new();
+    public Event? Event
     {
-        DetachAction?.Invoke();
+        get => _events.FirstOrDefault();
+        set => _events = value == null ? new() : new() { value };
     }
-}
+    public List<Official> Officials => Event?.Officials.ToList() ?? new();
+    public List<Competition> Competitions => Event?.Competitions.ToList() ?? new();
 
-public interface IState : IDisposable
-{
-    Event? Event { get; set; }
-    List<Official> Officials { get; }
+    List<Event> IEntityContext<Event>.Entities => _events;
+    List<Competition> IEntityContext<Competition>.Entities => Event?.Competitions.ToList() ?? new();
 }

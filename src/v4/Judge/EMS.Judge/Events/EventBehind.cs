@@ -9,13 +9,13 @@ namespace EMS.Judge.Events;
 
 public class EventBehind : IParentBehind<Official>
 {
-    private readonly IRead<Event> _reader;
+    private readonly IRepository<Event> _repository;
     private readonly IParentRepository<Official> _officialRepository;
     private Event? _event;
 
-    public EventBehind(IRead<Event> eventReader, IParentRepository<Official> officialRepository)
+    public EventBehind(IRepository<Event> eventReader, IParentRepository<Official> officialRepository)
     {
-        _reader = eventReader;
+        _repository = eventReader;
         _officialRepository = officialRepository;
     }
 
@@ -24,7 +24,8 @@ public class EventBehind : IParentBehind<Official>
 
     public async Task Init(int parentId)
     {
-        _event = await _reader.Read(parentId);
+        var events = await _repository.Read(x => true);
+        _event = events.FirstOrDefault();
     }
 
     public async Task<Official> Create(Official child)

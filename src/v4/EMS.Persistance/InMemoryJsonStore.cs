@@ -4,50 +4,56 @@ using Common.Conventions;
 
 namespace EMS.Persistence;
 
-public class InMemoryJsonStore : IStore
+public class InMemoryJsonStore<T> : IStore<T>
+    where T : class, new()
 {
-    private IState? _state;
+    private T? _context;
     private string? _json;
+    private readonly JsonSerializerSettings _settings;
+    private readonly object _lock = new object();
 
-    public IState GetContext()
+    public InMemoryJsonStore()
     {
-        if (_state != null)
+        _settings = new JsonSerializerSettings();
+        _settings.ContractResolver = new PrivatePropertySetterResolver();
+        _settings.ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor;
+        _settings.PreserveReferencesHandling = PreserveReferencesHandling.Objects;
+    }
+
+    public Task<T> Load()
+    {
+        lock (_lock)
         {
-            return _state;
+            if (_context != null)
+            {
+                return Task.FromResult(_context);
+            }
+            var state = new T();
+            if (_json == null)
+            {
+                return Task.FromResult(state);
+            }
+            state = JsonConvert.DeserializeObject<T>(_json, _settings) ?? state;
+            return Task.FromResult(state);
         }
-        var state = new State();
-        if (_json == null)
+    }
+
+    public Task Commit(T state)
+    {
+        lock (_lock)
         {
-            return AttachContext(state);
+            _json = JsonConvert.SerializeObject(state, _settings);
+            _context = null;
+            return Task.CompletedTask;
         }
-        state = JsonConvert.DeserializeObject<State>(_json, GetSettings()) ?? state;
-        return AttachContext(state);
-    }
-
-    private State AttachContext(State state)
-    {
-        state.DetachAction = CommitToMemoryString;
-        _state = state;
-        return state;
-    }
-
-    private void CommitToMemoryString()
-    {
-        _json = JsonConvert.SerializeObject(_state, GetSettings());
-        _state = null;
-    }
-
-    private JsonSerializerSettings GetSettings()
-    {
-        var settings = new JsonSerializerSettings();
-        settings.ContractResolver = new PrivatePropertySetterResolver();
-        settings.ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor;
-        settings.PreserveReferencesHandling = PreserveReferencesHandling.Objects;
-        return settings;
     }
 }
 
-public interface IStore : ISingletonService
+public interface IStore<T> : ISingletonService
+    where T : class, new()
 {
-    IState GetContext();
+    internal Task<T> Load();
+    internal Task Commit(T context);
 }
+
+

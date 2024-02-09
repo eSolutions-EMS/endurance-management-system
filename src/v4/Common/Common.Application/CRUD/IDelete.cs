@@ -3,8 +3,8 @@ using Common.Domain;
 
 namespace Common.Application.CRUD;
 
-public interface IDelete<in T> : ITransientService
+public interface IDelete<T> : ITransientService
     where T : DomainEntity
 {
-    Task Delete(T entity);
+    Task<T> Delete(T entity);
 }
