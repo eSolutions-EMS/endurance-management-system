@@ -1,3 +1,4 @@
+@using Common.Application.Behinds;
 @using EMS.Domain.Setup.Entities;
 @using EMS.Judge.Setup.Events;
 @using EMS.Judge.UI.Pages.Setup.Events
@@ -5,7 +6,7 @@
 @using Not.Blazor.Dialogs;
 
 @inject INotDialogService<Event, EventCreateModel, EventFields> _notDialogService;
-@inject IRepository<Event> _repository;
+@inject IBehind<Event> _behind;
 
 <EditForm Model="_model" OnSubmit="this.Update">
     <DataAnnotationsValidator />
@@ -27,8 +28,7 @@
     protected override async Task OnInitializedAsync()
     {
         // TODO extract in IBehind<Event>
-        var events = await _repository.Read(x => true);
-        var entity = events.FirstOrDefault();
+        var entity = await _behind.Read(default);
         if (entity == null)
         {
             return;
@@ -39,7 +39,7 @@
     protected async Task Update()
     {
         var entity = CreateEvent(_model);
-        await _repository.Update(entity);
+        await _behind.Update(entity);
     }
 
     private Event CreateEvent(IEventFields input) => new Event(input.Place!, input.Country!);

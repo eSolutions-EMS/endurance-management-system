@@ -1,11 +1,13 @@
-﻿@using Common.Application;
+﻿@using EMS.Domain.Setup.Entities;
+@using Common.Application;
 @using Common.Domain;
 @using Common.Services;
-@using EMS.Domain.Setup.Entities;
 @using EMS.Judge.Setup.Events;
 @using EMS.Judge.Setup.Staff;
 @using EMS.Judge.UI.Services;
 @using Not.Blazor.Dialogs;
+@using Common.Application.Behinds;
+
 @inject IParentBehind<Official> _parentBehind;
 @inject NavigationManager _navigation;
 @inject INavigationContext _navigationContext;
@@ -46,11 +48,6 @@
 <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="this.ToOfficialCreateDialog">Add</MudButton>
 
 @code {
-    protected override async Task OnInitializedAsync()
-    {
-        await _parentBehind.Init(0); // Event is always single
-    }
-
     private void ToOfficialUpdate(Official member)
     {
         _navigationContext.OfficialUpdate = member;
@@ -63,4 +60,3 @@
         await InvokeAsync(StateHasChanged);
     }
 }
- 

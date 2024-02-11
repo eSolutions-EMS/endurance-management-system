@@ -1,12 +1,13 @@
 @page "/"
 
+@using Common.Application.Behinds;
 @using EMS.Domain.Setup.Entities;
 @using EMS.Judge.Setup.Events;
 @using EMS.Judge.UI.Pages.Setup.Events;
 @using Not.Blazor.Dialogs;
 
 @inject INotDialogService<Event, EventCreateModel, EventFields> _notDialogService;
-@inject IRepository<Event> _repository;
+@inject IBehind<Event> _behind;
 
 <MudText Typo="Typo.h1">Setup</MudText>
 
@@ -26,8 +27,7 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var events = await _repository.Read(x => true);
-        _event = events.FirstOrDefault();
+        _event = await _behind.Read(default);
     }
 
     private async Task RenderCreate()
