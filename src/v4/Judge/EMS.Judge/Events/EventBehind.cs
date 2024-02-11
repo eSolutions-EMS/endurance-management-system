@@ -6,7 +6,7 @@ using EMS.Domain.Setup.Entities;
 
 namespace EMS.Judge.Events;
 
-public class EventBehind : IBehind<Event>, IParentBehind<Official>
+public class EventBehind : INotBehind<Event>, INotBehindParent<Official>
 {
     private readonly IRepository<Event> _repository;
     private readonly IParentRepository<Official> _officialRepository;

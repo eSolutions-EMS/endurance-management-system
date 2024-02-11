@@ -9,7 +9,7 @@
 @typeparam TModel where TModel : class, new();
 @typeparam TForm where TForm : FormContent;
 @implements INotCreateDialog<T, TModel>;
-@inject IParentBehind<T> _parentBehind;
+@inject INotBehindParent<T> _parentBehind;
 
 <InternalCreateDialog T="T" TModel="TModel" TForm="TForm" OnCreate="OnCreate" />
 

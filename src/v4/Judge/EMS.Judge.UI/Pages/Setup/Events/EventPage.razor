@@ -6,7 +6,7 @@
 @using Not.Blazor.Dialogs;
 
 @inject INotDialogService<Event, EventCreateModel, EventFields> _notDialogService;
-@inject IBehind<Event> _behind;
+@inject INotBehind<Event> _behind;
 
 <EditForm Model="_model" OnSubmit="this.Update">
     <DataAnnotationsValidator />
