@@ -1,7 +1,7 @@
 ﻿@using EMS.Domain.Setup.Entities;
 @using EMS.Judge.Setup.Officials;
 @using Not.Blazor.Forms;
-@inherits FormContent;
+@inherits NotFormFields;
 
 <MudCardContent>
     <MudTextField Label="Place" @bind-Value="_model.Name" For="@(() => _model.Name)" />

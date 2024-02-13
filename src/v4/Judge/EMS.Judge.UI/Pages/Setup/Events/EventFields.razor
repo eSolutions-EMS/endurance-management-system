@@ -3,7 +3,7 @@
 @using EMS.Judge.Setup.Events;
 @using EMS.Judge.UI.Contexts;
 @using Not.Blazor.Forms;
-@inherits FormContent;
+@inherits NotFormFields;
 @inject ICountriesContext _countries;
 
 <MudCardContent>
@@ -13,7 +13,7 @@
 </MudCardContent>
 
 <MudCardContent>
-    <MudAutocomplete Label="Country"
+    <MudAutocomplete Label="Country" 
         T="Country"
         CoerceText="true"
         SearchFunc="@_countries.Search"
