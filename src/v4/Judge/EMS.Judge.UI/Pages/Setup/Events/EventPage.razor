@@ -7,7 +7,7 @@
 @using Not.Blazor.Dialogs;
 @using Not.Blazor.Forms;
 
-@inject INotDialogService<Event, EventCreateModel, EventFields> _notDialogService;
+@inject INotDialogService<Event, EventFields> _notDialogService;
 @inject INotBehind<Event> _behind;
 
 <EditForm Model="_model" OnSubmit="this.Update">
@@ -43,16 +43,15 @@
     {
         try
         {
-            var entity = CreateEvent(_model);
+            var entity = _eventFields.SubmitCreate();
             await _behind.Update(entity);
         }
         catch (DomainException validation)
         {
-            // TODO: fix by adding toaster dependency
+            // TODO: fix by adding toaster dependency to fallback to when Property is null
+            // i.e a general domain exception is raised, rather than one tied to a specific form field
             _eventFields.AddValidationError(validation.Property, validation.Message);
         }
 
     }
-
-    private Event CreateEvent(IEventFields input) => new Event(input.Place!, input.Country!);
 }

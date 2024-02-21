@@ -6,23 +6,17 @@
 @using Common.Application.Behinds;
 
 @typeparam T where T : DomainEntity;
-@typeparam TModel where TModel : class, new();
-@typeparam TForm where TForm : INotFormFields;
-@implements INotCreateDialog<T, TModel>;
+@typeparam TForm where TForm : NotFormFields<T>;
 @inject INotBehindParent<T> _parentBehind;
 
-<InternalCreateDialog T="T" TModel="TModel" TForm="TForm" OnCreate="OnCreate" />
+<InternalCreateDialog T="T" TForm="TForm" OnCreate="OnCreate" />
 
 @code {
     [CascadingParameter]
     protected MudDialogInstance Dialog { get; set; } = default!;
 
-    [Parameter]
-    public Func<TModel, T> Factory { get; set; } = default!;
-
-    protected async Task OnCreate(TModel model)
+    protected async Task OnCreate(T entity)
     {
-        var entity = Factory(model);
         await _parentBehind.Create(entity);
         Dialog.Close(DialogResult.Ok(true));
     }

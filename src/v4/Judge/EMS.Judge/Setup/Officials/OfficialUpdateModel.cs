@@ -1,11 +1,12 @@
-﻿using Common;
-using EMS.Domain.Setup.Entities;
-using EMS.Judge.Setup.Officials;
+﻿using EMS.Domain.Setup.Entities;
 
 namespace EMS.Judge.Setup.StaffMembers;
 
-public class OfficialUpdateModel : IIdentifiable, IOfficialFields
+public class OfficialUpdateModel
 {
+    public OfficialUpdateModel()
+    {
+    }
     public OfficialUpdateModel(Official member)
     {
         this.Id = member.Id;
@@ -13,7 +14,7 @@ public class OfficialUpdateModel : IIdentifiable, IOfficialFields
         this.Role = member.Role;
     }
 
-    public int Id { get; }
-    public string Name { get; set; }
-    public OfficialRole Role { get; set; }
+    public int? Id { get; }
+    public string? Name { get; set; }
+    public OfficialRole Role { get; set; } = OfficialRole.Steward;
 }

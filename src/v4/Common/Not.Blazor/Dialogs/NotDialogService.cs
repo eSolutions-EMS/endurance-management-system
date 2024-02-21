@@ -9,10 +9,9 @@ using Not.Blazor.Forms;
 
 namespace Not.Blazor.Dialogs;
 
-public class NotDialogService<T, TModel, TForm> : INotDialogService<T, TModel, TForm>
+public class NotDialogService<T, TForm> : INotDialogService<T, TForm>
     where T : DomainEntity
-    where TModel : class, new()
-    where TForm : INotFormFields
+    where TForm : NotFormFields<T>
 {
     private readonly IDialogService _mudDialogService;
     private readonly ILocalizer _localizer;
@@ -23,35 +22,29 @@ public class NotDialogService<T, TModel, TForm> : INotDialogService<T, TModel, T
         _localizer = localizer;
     }
 
-    public async Task CreateEntity(Func<TModel, T> factory)
+    public async Task CreateEntity()
     {
-        await Show<CreateDialog<T, TModel, TForm>>(factory);
+        await Show<CreateDialog<T, TForm>>();
     }
 
-    public async Task CreateChildEntity(Func<TModel, T> factory)
+    public async Task CreateChildEntity()
     {
-        await Show<CreateChildDialog<T, TModel, TForm>>(factory);
+        await Show<CreateChildDialog<T, TForm>>();
     }
 
-    private async Task Show<TDialog>(Func<TModel, T> factory)
-        where TDialog : ComponentBase, INotCreateDialog<T, TModel>
+    private async Task Show<TDialog>()
+        where TDialog : ComponentBase
     {
-        var parameters = new DialogParameters<TDialog>
-        {   
-            { x => x.Factory, factory }
-        };
-
         var title = _localizer.Get("Create", " ", ReflectionHelper.GetName<T>());
-        var dialog = await _mudDialogService.ShowAsync<TDialog>(title, parameters);
+        var dialog = await _mudDialogService.ShowAsync<TDialog>(title);
         await dialog.Result;
     }
 }
 
-public interface INotDialogService<T, TModel, TForm> : ITransientService
+public interface INotDialogService<T, TForm> : ITransientService
     where T : DomainEntity
-    where TModel : class, new()
-    where TForm : INotFormFields
+    where TForm : NotFormFields<T>
 {
-    Task CreateEntity(Func<TModel, T> factory);
-    Task CreateChildEntity(Func<TModel, T> factory);
+    Task CreateEntity();
+    Task CreateChildEntity();
 }

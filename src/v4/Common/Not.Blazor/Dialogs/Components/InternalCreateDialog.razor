@@ -11,19 +11,12 @@ So instead of using inheritance this is defined as an Internal* component which 
 
 @inherits LayoutComponentBase;
 @typeparam T where T : DomainEntity;
-@typeparam TModel where TModel : class, new();
-@typeparam TForm where TForm : INotFormFields;
+@typeparam TForm where TForm : NotFormFields<T>;
 @inject ILocalizer _localizer;
 
 <MudDialog>
     <DialogContent>
-        <EditForm Model="Model">
-            <DataAnnotationsValidator />
-
-            <MudCard>
-                <DynamicComponent Type="typeof(TForm)" Parameters="_formParameters" />
-            </MudCard>
-        </EditForm>
+        <DynamicComponent Type="typeof(TForm)" Parameters="_formParameters" @ref="_dynamicComponent"/>
     </DialogContent>
 
     <DialogActions>
@@ -34,22 +27,21 @@ So instead of using inheritance this is defined as an Internal* component which 
 </MudDialog>
 
 @code {
+    private DynamicComponent _dynamicComponent = default!;
     private Dictionary<string, object> _formParameters = new();
 
     [Parameter]
-    public Func<TModel, Task> OnCreate { get; set; } = default!;
+    public Func<T, Task> OnCreate { get; set; } = default!;
     [Parameter]
     public RenderFragment ChildContent { get; set; } = default!;
 
-    protected TModel Model { get; set; } = new();
-
-    protected override void OnInitialized()
-    {
-        _formParameters.Add(nameof(INotFormFields.ObjectModel), Model);
-    }
-
     private async Task Create()
     {
-        await OnCreate(Model);
+        if (_dynamicComponent.Instance == null)
+        {
+            throw new Exception($"Instance of '{typeof(TForm)}' is null");
+        }
+        var form = ((TForm)_dynamicComponent.Instance);
+        await OnCreate(form.SubmitCreate());
     }
 }

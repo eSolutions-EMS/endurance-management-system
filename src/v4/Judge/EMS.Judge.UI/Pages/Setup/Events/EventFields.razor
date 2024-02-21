@@ -1,33 +1,62 @@
 @using Common.Domain;
+@using Common.Exceptions;
 @using EMS.Domain.Objects;
+@using EMS.Domain.Setup.Entities;
 @using EMS.Judge.Setup.Events;
 @using EMS.Judge.UI.Contexts;
 @using Not.Blazor.Forms;
-@inherits NotFormFields<IEventFields>;
+@inherits NotFormFields<Event>;
 @inject ICountriesContext _countries;
 
-<MudCardContent>
-    <MudTextField Label="Place" @ref="_placeField"
-        @bind-Value="Model.Place"
-        For="@(() => Model.Place)" />
-</MudCardContent>
+@*
+    TODO: Create MudForm to encapsulate EditForm, DataAnnotationsValidator, MudCard. 
+    Is DataAnnotationsValidationr necessary? Probably not - remove and also remove 'For' setters on Mud components
+*@
+<EditForm Model="Model">
+    <DataAnnotationsValidator />
+    
+    <MudCard>
+        <MudCardContent>
+            <MudTextField Label="Place" @ref="_placeField"
+            @bind-Value="Model.Place"
+                          For="@(() => Model.Place)" />
+        </MudCardContent>
 
-<MudCardContent>
-    <MudAutocomplete Label="Country" @ref="_countryField"
-        T="Country"
-        CoerceText="true"
-        SearchFunc="@_countries.Search"
-        @bind-Value="Model.Country"
-        For="@(() => Model.Country)" />
-</MudCardContent>
+        <MudCardContent>
+            <MudAutocomplete Label="Country" @ref="_countryField"
+                             T="Country"
+                             CoerceText="true"
+                             SearchFunc="@_countries.Search"
+            @bind-Value="Model.Country"
+                             For="@(() => Model.Country)" />
+        </MudCardContent>
+    </MudCard>
+</EditForm>
 
 @code {
     private MudTextField<string?> _placeField = default!;
     private MudAutocomplete<Country?> _countryField = default!;
 
+    [Parameter]
+    public EventUpdateModel Model { get; set; } = new();
+
     protected override void OnInitialized()
     {
         RegisterInjector(nameof(Model.Place), () => _placeField);
         RegisterInjector(nameof(Model.Country), () => _countryField);
+    }
+
+    public override Event SubmitCreate()
+    {
+        return new Event(Model.Place!, Model.Country!);
+    }
+
+    public override Event SubmitUpdate()
+    {
+        if (!Model.Id.HasValue)
+        {
+            throw new WhopsException($"{nameof(Model.Id)} is null");
+        }
+        return new Event(Model.Id!.Value, Model.Place!, Model.Country!);
     }
 }

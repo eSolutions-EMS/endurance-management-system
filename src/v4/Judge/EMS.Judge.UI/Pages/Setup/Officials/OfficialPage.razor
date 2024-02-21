@@ -16,13 +16,14 @@
     <DataAnnotationsValidator />
 
     <MudCard>
-        <OfficialFields Model="_model" />
+        <OfficialFields Model="_model" @ref="_officialFields" />
     </MudCard>
 </EditForm>
 
 <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Update">Update</MudButton>
     
 @code {
+    private OfficialFields _officialFields = default!;
     private OfficialUpdateModel _model = default!;
 
     protected override void OnInitialized()
@@ -32,7 +33,7 @@
 
     private async Task Update()
     {
-        var entity = Official.Update(_model.Id, _model.Name, _model.Role);
+        var entity = _officialFields.SubmitUpdate();
         await _parentBehind.Update(entity);
         _navigation.NavigateTo("/");
     }

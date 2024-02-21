@@ -1,30 +1,48 @@
 ﻿@using EMS.Domain.Setup.Entities;
-@using EMS.Judge.Setup.Officials;
+@using EMS.Judge.Setup.StaffMembers;
 @using Not.Blazor.Forms;
-@inherits NotFormFields<IOfficialFields>;
+@inherits NotFormFields<Official>;
 
-<MudCardContent>
-    <MudTextField Label="Place" @ref="_nameField" @bind-Value="_model.Name" For="@(() => _model.Name)" />
-</MudCardContent>
+<EditForm Model="Model">
+    <DataAnnotationsValidator />
 
-<MudCardContent>
-    <MudSelect Label="Role" @ref="_roleFiled" @bind-Value="_model.Role">
-        @foreach (var item in Enum.GetValues<OfficialRole>())
-        {
-            <MudSelectItem Value="@item">@item</MudSelectItem>
-        }
-    </MudSelect>
-</MudCardContent>
+    <MudCard>
+        <MudCardContent>
+            <MudTextField Label="Place" @ref="_nameField" @bind-Value="Model.Name" For="@(() => Model.Name)" />
+        </MudCardContent>
+
+        <MudCardContent>
+            <MudSelect Label="Role" @ref="_roleFiled" @bind-Value="Model.Role">
+                @foreach (var item in Enum.GetValues<OfficialRole>())
+                {
+                    <MudSelectItem Value="@item">@item</MudSelectItem>
+                }
+            </MudSelect>
+        </MudCardContent>
+    </MudCard>
+</EditForm>
+
 
 @code {
-    private MudTextField<string> _nameField = default!;
+    private MudTextField<string?> _nameField = default!;
     private MudSelect<OfficialRole> _roleFiled = default!;
+
+    [Parameter]
+    public OfficialUpdateModel Model { get; set; } = new();
 
     protected override void OnInitialized()
     {
-        RegisterInjector(nameof(IOfficialFields.Name), () => _nameField);
-        RegisterInjector(nameof(IOfficialFields.Role), () => _roleFiled);
+        RegisterInjector(nameof(Model.Name), () => _nameField);
+        RegisterInjector(nameof(Model.Role), () => _roleFiled);
     }
 
-    private IOfficialFields _model => (IOfficialFields)Model;
+    public override Official SubmitCreate()
+    {
+        return new Official(Model.Name!, Model.Role);
+    }
+
+    public override Official SubmitUpdate()
+    {
+        return Official.Update(Model.Id!.Value, Model.Name!, Model.Role);
+    }
 }

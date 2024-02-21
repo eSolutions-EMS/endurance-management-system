@@ -3,7 +3,6 @@
 @using Common.Domain;
 @using Common.Services;
 @using EMS.Judge.Setup.Events;
-@using EMS.Judge.Setup.Staff;
 @using EMS.Judge.UI.Services;
 @using Not.Blazor.Dialogs;
 @using Common.Application.Behinds;
@@ -12,7 +11,7 @@
 @inject NavigationManager _navigation;
 @inject INavigationContext _navigationContext;
 @inject ILocalizer _localizer;
-@inject INotDialogService<Official, OfficialCreateModel, OfficialFields> _notDialogService;
+@inject INotDialogService<Official, OfficialFields> _notDialogService;
 
 <MudText Typo="Typo.h5">Staff Members</MudText>
 
@@ -56,7 +55,7 @@
 
     private async Task ToOfficialCreateDialog()
     {
-        await _notDialogService.CreateChildEntity(x => new Official(x.Name!, x.Role));
+        await _notDialogService.CreateChildEntity();
         await InvokeAsync(StateHasChanged);
     }
 }

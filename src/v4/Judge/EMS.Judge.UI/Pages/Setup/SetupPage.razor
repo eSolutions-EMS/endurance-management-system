@@ -6,7 +6,7 @@
 @using EMS.Judge.UI.Pages.Setup.Events;
 @using Not.Blazor.Dialogs;
 
-@inject INotDialogService<Event, EventCreateModel, EventFields> _notDialogService;
+@inject INotDialogService<Event, EventFields> _notDialogService;
 @inject INotBehind<Event> _behind;
 
 <MudText Typo="Typo.h1">Setup</MudText>
@@ -32,9 +32,7 @@ else
 
     private async Task RenderCreate()
     {
-        await _notDialogService.CreateEntity(CreateEvent);
+        await _notDialogService.CreateEntity();
         await OnInitializedAsync();
     }
-
-    private Event CreateEvent(IEventFields input) => new Event(input.Place!, input.Country!);
 }

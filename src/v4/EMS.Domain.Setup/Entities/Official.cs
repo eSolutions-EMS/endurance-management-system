@@ -13,10 +13,10 @@ public class Official : DomainEntity, ISummarizable, IImportable
         this.Role = role;
         this.Id = id;
     }
-    public Official(string name, OfficialRole type)
+    public Official(string name, OfficialRole role)
     {
 		this.Person = new Person(name);
-		this.Role = type;
+		this.Role = role;
     }
 
     public Person Person { get; private set; }
@@ -24,7 +24,7 @@ public class Official : DomainEntity, ISummarizable, IImportable
 
 	public override string ToString()
 	{
-		return $"{Localizer.Get(this.Role)}: {this.Person}";
+        return $"{Localizer.Get(this.Role)}: {this.Person}";
 	}
 }
 
