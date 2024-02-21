@@ -4,12 +4,12 @@ using EMS.Domain.Setup.Entities;
 
 namespace EMS.Judge.Setup.Events;
 
-public class EventUpdateModel
+public class EventFieldsModel
 {
-    public EventUpdateModel()
+    public EventFieldsModel()
     {
     }
-    public EventUpdateModel(Event @event)
+    public EventFieldsModel(Event @event)
     {
         this.Id = @event.Id;
         this.Place = @event.Place;

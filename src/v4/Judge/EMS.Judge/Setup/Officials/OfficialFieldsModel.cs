@@ -2,12 +2,12 @@
 
 namespace EMS.Judge.Setup.StaffMembers;
 
-public class OfficialUpdateModel
+public class OfficialFieldsModel
 {
-    public OfficialUpdateModel()
+    public OfficialFieldsModel()
     {
     }
-    public OfficialUpdateModel(Official member)
+    public OfficialFieldsModel(Official member)
     {
         this.Id = member.Id;
         this.Name = member.Person;
