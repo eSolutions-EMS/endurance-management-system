@@ -3,24 +3,31 @@
 @using EMS.Judge.Setup.Events;
 @using EMS.Judge.UI.Contexts;
 @using Not.Blazor.Forms;
-@inherits NotFormFields;
+@inherits NotFormFields<IEventFields>;
 @inject ICountriesContext _countries;
 
 <MudCardContent>
-    <MudTextField Label="Place"
-        @bind-Value="_model.Place"
-        For="@(() => _model.Place)" />
+    <MudTextField Label="Place" @ref="_placeField"
+        @bind-Value="Model.Place"
+        For="@(() => Model.Place)" />
 </MudCardContent>
 
 <MudCardContent>
-    <MudAutocomplete Label="Country" 
+    <MudAutocomplete Label="Country" @ref="_countryField"
         T="Country"
         CoerceText="true"
         SearchFunc="@_countries.Search"
-        @bind-Value="_model.Country"
-        For="@(() => _model.Country)" />
+        @bind-Value="Model.Country"
+        For="@(() => Model.Country)" />
 </MudCardContent>
 
 @code {
-    public IEventFields _model => (IEventFields)Model;
+    private MudTextField<string?> _placeField = default!;
+    private MudAutocomplete<Country?> _countryField = default!;
+
+    protected override void OnInitialized()
+    {
+        RegisterInjector(nameof(Model.Place), () => _placeField);
+        RegisterInjector(nameof(Model.Country), () => _countryField);
+    }
 }

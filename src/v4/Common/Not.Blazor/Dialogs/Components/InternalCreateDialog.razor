@@ -12,7 +12,7 @@ So instead of using inheritance this is defined as an Internal* component which 
 @inherits LayoutComponentBase;
 @typeparam T where T : DomainEntity;
 @typeparam TModel where TModel : class, new();
-@typeparam TForm where TForm : FormContent;
+@typeparam TForm where TForm : INotFormFields;
 @inject ILocalizer _localizer;
 
 <MudDialog>
@@ -45,7 +45,7 @@ So instead of using inheritance this is defined as an Internal* component which 
 
     protected override void OnInitialized()
     {
-        _formParameters.Add(nameof(FormContent.Model), Model);
+        _formParameters.Add(nameof(INotFormFields.ObjectModel), Model);
     }
 
     private async Task Create()

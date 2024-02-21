@@ -6,7 +6,7 @@
 
 @typeparam T where T : DomainEntity;
 @typeparam TModel where TModel : class, new();
-@typeparam TForm where TForm : FormContent;
+@typeparam TForm where TForm : INotFormFields;
 @implements INotCreateDialog<T, TModel>;
 @inject IRepository<T> _repository;
 

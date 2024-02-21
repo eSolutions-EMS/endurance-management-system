@@ -1,9 +1,11 @@
 @using Common.Application.Behinds;
+@using Common.Domain;
 @using EMS.Domain.Setup.Entities;
 @using EMS.Judge.Setup.Events;
 @using EMS.Judge.UI.Pages.Setup.Events
 @using EMS.Judge.UI.Pages.Setup.Officials
 @using Not.Blazor.Dialogs;
+@using Not.Blazor.Forms;
 
 @inject INotDialogService<Event, EventCreateModel, EventFields> _notDialogService;
 @inject INotBehind<Event> _behind;
@@ -12,11 +14,11 @@
     <DataAnnotationsValidator />
 
     <MudCard>
-        <EventFields Model="_model" />
+        <EventFields Model="_model" @ref="_eventFields" />
     </MudCard>
+
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Update">Update</MudButton>
 </EditForm>
-    
-<MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Update">Update</MudButton>
 
 <MudPaper>
     <OfficialList />
@@ -24,6 +26,7 @@
 
 @code {
     private EventUpdateModel _model = default!;
+    private EventFields _eventFields = default!;
 
     protected override async Task OnInitializedAsync()
     {
@@ -38,8 +41,17 @@
 
     protected async Task Update()
     {
-        var entity = CreateEvent(_model);
-        await _behind.Update(entity);
+        try
+        {
+            var entity = CreateEvent(_model);
+            await _behind.Update(entity);
+        }
+        catch (DomainException validation)
+        {
+            // TODO: fix by adding toaster dependency
+            _eventFields.AddValidationError(validation.Property, validation.Message);
+        }
+
     }
 
     private Event CreateEvent(IEventFields input) => new Event(input.Place!, input.Country!);

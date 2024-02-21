@@ -1,4 +1,6 @@
-﻿namespace Common.Utilities;
+﻿using System.Reflection;
+
+namespace Common.Utilities;
 
 public static class ReflectionHelper
 {
@@ -15,5 +17,27 @@ public static class ReflectionHelper
     public static string GetName<T>()
     {
         return typeof(T).Name;
+    }
+
+    public static PropertyInfo Property(this Type type, string name)
+    {
+        return type.GetProperties().FirstOrDefault(x => x.Name == name)
+            ?? throw new Exception($"Property '{name}' does not exist on type '{type.Name}'");
+    }
+
+    public static MethodInfo Method(this Type type, string name)
+    {
+        return type.GetMethod(name)
+            ?? throw new Exception($"'{type}' doesn't have method method '{name}'");
+    }
+
+    public static object? Get(this PropertyInfo property, object instance)
+    {
+        return property.GetValue(instance);
+    }
+
+    public static void Set(this PropertyInfo property, object instance, object value)
+    {
+        property.SetValue(instance, value);
     }
 }

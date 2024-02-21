@@ -15,6 +15,14 @@ public class Event : DomainEntity, ISummarizable, IImportable, IParent<Official>
     }
     public Event(string place, Country country)
     {
+        if (string.IsNullOrEmpty(place) || !char.IsUpper(place.First()))
+        {
+            throw new DomainException(nameof(Place), $"{nameof(Place)} is invalid. It has to be Caplitalized");
+        }
+        if (country.Name == "Bulgaria")
+        {
+            throw new DomainException(nameof(Country), "Trolololol");
+        }
         this.Place = place;
         this.Country = country;
     }

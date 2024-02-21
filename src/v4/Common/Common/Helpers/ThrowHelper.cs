@@ -14,4 +14,9 @@ public static class ThrowHelper
             throw new WhopsException(message);
         }
     }
+
+    public static Exception Exception(string message)
+    {
+        return new WhopsException(message);
+    }
 }

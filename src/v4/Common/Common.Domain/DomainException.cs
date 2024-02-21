@@ -1,14 +1,25 @@
-﻿using System.Dynamic;
+﻿using System.Diagnostics.CodeAnalysis;
 using static Common.Localization.Localizer;
 
 namespace Common.Domain;
 
 public class DomainException : Exception
 {
-    public DomainException(string message) : base(message)
+    public DomainException(string message) : base(Localize(message))
     {
     }
-
+    public DomainException(string property, string message) : base(Localize(message))
+    {
+        Property = property;
+    }
+    public DomainException(
+        string property, 
+        [StringSyntax(StringSyntaxAttribute.CompositeFormat)] string message, 
+        params string[] args)
+        : base(string.Format(Localize(message), LocalizeSeparately(args).ToArray()))
+    {
+        Property = property;
+    }
     public DomainException(string message, params string[] args) : base(message)
     {
         this.Args = args;
@@ -19,4 +30,5 @@ public class DomainException : Exception
     }
 
     public string[] Args { get; } = Array.Empty<string>();
+    public string? Property { get; }
 }

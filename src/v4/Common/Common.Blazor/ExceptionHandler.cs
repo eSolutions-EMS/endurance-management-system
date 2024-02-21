@@ -18,6 +18,7 @@ public class ExceptionHandler<T> : ErrorBoundary
             {
                 return null;
             }
+            // TODO: ExceptionHandler shouldn't care about Domain exception formatting and localiation
             if (this.CurrentException is DomainException domainException && domainException.Args.Any())
             {
                 var localizedArgs = domainException

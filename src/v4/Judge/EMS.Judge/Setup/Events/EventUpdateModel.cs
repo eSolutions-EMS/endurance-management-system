@@ -1,6 +1,7 @@
 ﻿using Common;
 using EMS.Domain.Objects;
 using EMS.Domain.Setup.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace EMS.Judge.Setup.Events;
 
@@ -16,6 +17,7 @@ public class EventUpdateModel : IIdentifiable, IEventFields
     }
 
     public int Id { get; }
+    [Required]
     public string? Place { get; set; }
     public Country? Country { get; set; }
     public List<Official> Staff { get; }

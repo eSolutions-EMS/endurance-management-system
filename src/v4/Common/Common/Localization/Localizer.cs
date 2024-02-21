@@ -20,4 +20,12 @@ public static class Localizer
 	{
 		return Get(args);
 	}
+
+    public static IEnumerable<string> LocalizeSeparately(IEnumerable<string> words)
+    {
+        foreach (var word in words)
+        {
+            yield return _localizer.Get(word);
+        }
+    }
 }

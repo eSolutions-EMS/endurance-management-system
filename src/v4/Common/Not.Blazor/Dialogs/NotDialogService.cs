@@ -12,7 +12,7 @@ namespace Not.Blazor.Dialogs;
 public class NotDialogService<T, TModel, TForm> : INotDialogService<T, TModel, TForm>
     where T : DomainEntity
     where TModel : class, new()
-    where TForm : FormContent
+    where TForm : INotFormFields
 {
     private readonly IDialogService _mudDialogService;
     private readonly ILocalizer _localizer;
@@ -50,7 +50,7 @@ public class NotDialogService<T, TModel, TForm> : INotDialogService<T, TModel, T
 public interface INotDialogService<T, TModel, TForm> : ITransientService
     where T : DomainEntity
     where TModel : class, new()
-    where TForm : FormContent
+    where TForm : INotFormFields
 {
     Task CreateEntity(Func<TModel, T> factory);
     Task CreateChildEntity(Func<TModel, T> factory);
