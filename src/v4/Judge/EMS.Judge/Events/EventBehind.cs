@@ -37,9 +37,9 @@ public class EventBehind : INotBehind<Event>, INotBehindParent<Official>
         return await _repository.Update(entity);
     }
 
-    public async Task<Event> Delete(int id)
+    public Task<Event> Delete(Event @event)
     {
-        return await _repository.Delete(id);
+        throw new NotImplementedException();
     }
 
     public async Task<Official> Create(Official child)

@@ -1,5 +1,4 @@
-﻿using Common.Conventions;
-using Common.Domain;
+﻿using Common.Domain;
 
 namespace Common.Application.Behinds;
 
@@ -8,11 +7,8 @@ namespace Common.Application.Behinds;
 /// (see <seealso cref="IParent{T}"/> for more). Details regaring it's parent entity are responsiblity of the implementation
 /// </summary>
 /// <typeparam name="T">Type of the child entity</typeparam>
-public interface INotBehindParent<T> : ISingletonService
+public interface INotBehindParent<T> : ICreateBehind<T>, IUpdateBehind<T>, IDeleteBehind<T>
     where T : DomainEntity
 {
     IEnumerable<T> Children { get; }
-    Task<T> Create(T child);
-    Task<T> Delete(T child);
-    Task<T> Update(T child);
 }

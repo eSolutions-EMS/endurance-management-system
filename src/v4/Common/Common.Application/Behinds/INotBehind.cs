@@ -7,13 +7,9 @@ namespace Common.Application.Behinds;
 /// <seealso cref="INotBehind{T}"/> is a <seealso cref="INotBehind"/> that represents CRUD operations for a <seealso cref="DomainEntity"/>
 /// <typeparamref name="T">Type of domain entity</typeparamref>
 /// </summary>
-public interface INotBehind<T> : ISingletonService
+public interface INotBehind<T> : ICreateBehind<T>, IReadBehind<T>, IUpdateBehind<T>, IDeleteBehind<T>
     where T : DomainEntity
 {
-    Task<T?> Read(int id);
-    Task<T> Create(T entity); 
-    Task<T> Update(T entity);
-    Task<T> Delete(int id);
 }
 
 /// <summary>

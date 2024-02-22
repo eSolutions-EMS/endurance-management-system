@@ -32,7 +32,7 @@ else
 
     private async Task RenderCreate()
     {
-        await _notDialogService.CreateEntity();
+        await _notDialogService.RenderCreate();
         await OnInitializedAsync();
     }
 }

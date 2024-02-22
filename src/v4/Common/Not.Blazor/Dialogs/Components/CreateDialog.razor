@@ -1,4 +1,5 @@
 ﻿@using Common.Application;
+@using Common.Application.Behinds
 @using Common.Application.CRUD;
 @using Common.Domain;
 @using Common.Services;
@@ -6,22 +7,37 @@
 
 @typeparam T where T : DomainEntity;
 @typeparam TForm where TForm : NotFormFields<T>;
+@inject ICreateBehind<T> _createBehind;
+@inject ILocalizer _localizer;
 
-@* 
-    Replace IRepository<T> with ICreateBehind<T> and remove CreateChildDialog as it is no longer necessary as
-    ICreateBehind will abstrat it away and dialogs no longer need to know if they entity is parent, child or not
-*@
-@inject IRepository<T> _repository;
+<MudDialog>
+    <DialogContent>
+        <DynamicComponent Type="typeof(TForm)" Parameters="_formParameters" @ref="_dynamicComponent" />
+    </DialogContent>
 
-<InternalCreateDialog T="T" TForm="TForm" OnCreate="OnCreate" />
+    <DialogActions>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Create">
+            @_localizer.Get("Create")
+        </MudButton>
+    </DialogActions>
+</MudDialog>
 
 @code {
+    private DynamicComponent _dynamicComponent = default!;
+    private Dictionary<string, object> _formParameters = new();
+
     [CascadingParameter]
     protected MudDialogInstance Dialog { get; set; } = default!;
 
-    protected async Task OnCreate(T entity)
+    private async Task Create()
     {
-        await _repository.Create(entity);
+        if (_dynamicComponent.Instance == null)
+        {
+            throw new Exception($"Instance of '{typeof(TForm)}' is null");
+        }
+        var form = ((TForm)_dynamicComponent.Instance);
+        var entity = form.SubmitCreate();
+        await _createBehind.Create(entity);
         Dialog.Close(DialogResult.Ok(true));
     }
 }

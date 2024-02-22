@@ -2,7 +2,6 @@
 using Common.Domain;
 using Common.Services;
 using Common.Utilities;
-using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Not.Blazor.Dialogs.Components;
 using Not.Blazor.Forms;
@@ -22,21 +21,10 @@ public class NotDialogService<T, TForm> : INotDialogService<T, TForm>
         _localizer = localizer;
     }
 
-    public async Task CreateEntity()
-    {
-        await Show<CreateDialog<T, TForm>>();
-    }
-
-    public async Task CreateChildEntity()
-    {
-        await Show<CreateChildDialog<T, TForm>>();
-    }
-
-    private async Task Show<TDialog>()
-        where TDialog : ComponentBase
+    public async Task RenderCreate()
     {
         var title = _localizer.Get("Create", " ", ReflectionHelper.GetName<T>());
-        var dialog = await _mudDialogService.ShowAsync<TDialog>(title);
+        var dialog = await _mudDialogService.ShowAsync<CreateDialog<T, TForm>>(title);
         await dialog.Result;
     }
 }
@@ -45,6 +33,5 @@ public interface INotDialogService<T, TForm> : ITransientService
     where T : DomainEntity
     where TForm : NotFormFields<T>
 {
-    Task CreateEntity();
-    Task CreateChildEntity();
+    Task RenderCreate();
 }

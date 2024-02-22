@@ -55,7 +55,7 @@
 
     private async Task ToOfficialCreateDialog()
     {
-        await _notDialogService.CreateChildEntity();
+        await _notDialogService.RenderCreate();
         await InvokeAsync(StateHasChanged);
     }
 }
