@@ -1,5 +1,6 @@
 @using Common.Application.Behinds;
 @using Common.Domain;
+@using Common.Helpers
 @using EMS.Domain.Setup.Entities;
 @using EMS.Judge.Setup.Events;
 @using EMS.Judge.UI.Pages.Setup.Events
@@ -7,17 +8,19 @@
 @using Not.Blazor.Dialogs;
 @using Not.Blazor.Forms;
 
+@inherits UpdatePage<Event>
+
 @inject INotDialogService<Event, EventFields> _notDialogService;
 @inject INotBehind<Event> _behind;
 
-<EditForm Model="_model" OnSubmit="this.Update">
+<EditForm Model="_model">
     <DataAnnotationsValidator />
 
     <MudCard>
-        <EventFields Model="_model" @ref="_eventFields" />
+        <EventFields Model="_model" @ref="Fields" />
     </MudCard>
 
-    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Update">Update</MudButton>
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="TryUpdate">Update</MudButton>
 </EditForm>
 
 <MudPaper>
@@ -26,32 +29,20 @@
 
 @code {
     private EventFieldsModel _model = default!;
-    private EventFields _eventFields = default!;
 
     protected override async Task OnInitializedAsync()
     {
-        // TODO extract in IBehind<Event>
         var entity = await _behind.Read(default);
         if (entity == null)
         {
-            return;
+            throw ThrowHelper.Exception($"Event cannot be null here");
         }
         _model = new(entity);
     }
 
-    protected async Task Update()
+    protected override async Task Update()
     {
-        try
-        {
-            var entity = _eventFields.SubmitUpdate();
-            await _behind.Update(entity);
-        }
-        catch (DomainException validation)
-        {
-            // TODO: fix by adding toaster dependency to fallback to when Property is null
-            // i.e a general domain exception is raised, rather than one tied to a specific form field
-            _eventFields.AddValidationError(validation.Property, validation.Message);
-        }
-
+        var entity = Fields!.SubmitUpdate();
+        await _behind.Update(entity);
     }
 }

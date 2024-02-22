@@ -3,6 +3,7 @@ using static Common.Localization.Localizer;
 
 namespace Common.Domain;
 
+//TODO: Create AggregateDomainException and modify domains to batch their validation exceptions before throwing
 public class DomainException : Exception
 {
     public DomainException(string message) : base(Localize(message))

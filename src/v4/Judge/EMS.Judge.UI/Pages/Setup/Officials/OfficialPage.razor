@@ -5,8 +5,10 @@
 @using EMS.Judge.Setup.StaffMembers;
 @using EMS.Judge.UI.Services;
 @using Common.Application.Behinds;
+@using Not.Blazor.Forms
 @using Not.Blazor.Navigation
 
+@inherits UpdatePage<Official>
 @inject INotBehindParent<Official> _parentBehind;
 @inject INavigator _navigator
 
@@ -16,14 +18,13 @@
     <DataAnnotationsValidator />
 
     <MudCard>
-        <OfficialFields Model="_model" @ref="_officialFields" />
+        <OfficialFields Model="_model" @ref="Fields" />
     </MudCard>
 </EditForm>
 
-<MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Update">Update</MudButton>
+<MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="TryUpdate">Update</MudButton>
     
 @code {
-    private OfficialFields _officialFields = default!;
     private OfficialFieldsModel _model = default!;
 
     protected override void OnInitialized()
@@ -31,9 +32,9 @@
         _model = new(_navigator.ConsumeParameter<Official>());
     }
 
-    private async Task Update()
+    protected override async Task Update()
     {
-        var entity = _officialFields.SubmitUpdate();
+        var entity = Fields!.SubmitUpdate();
         await _parentBehind.Update(entity);
         _navigator.NavigateTo(SETUP_PAGE);
     }

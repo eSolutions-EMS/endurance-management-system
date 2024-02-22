@@ -22,8 +22,15 @@ public abstract class NotFormFields<T> : ComponentBase
         ValidationInjectors.Add(field, MudValidationInjector.Create(mudInputInstanceGetter));
     }
 
-    public void AddValidationError(string field, string message)
+    public async Task AddValidationError(string? field, string message)
     {
+        if (field == null)
+        {
+            // TODO: fix by adding toaster dependency to fallback to when Property is null
+            // i.e a general domain exception is raised, rather than one tied to a specific form field
+            throw new NotImplementedException($"Add INotifier fallback!: {message}");
+        }
+
         if (!ValidationInjectors.TryGetValue(field, out var injector))
         {
             //TODO: use IDefaultNotifier or something
@@ -33,6 +40,7 @@ public abstract class NotFormFields<T> : ComponentBase
         }
 
         injector.Inject(message);
+        await InvokeAsync(StateHasChanged);
     }
 }
 

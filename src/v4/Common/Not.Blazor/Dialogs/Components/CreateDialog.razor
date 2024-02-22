@@ -36,8 +36,18 @@
             throw new Exception($"Instance of '{typeof(TForm)}' is null");
         }
         var form = ((TForm)_dynamicComponent.Instance);
-        var entity = form.SubmitCreate();
-        await _createBehind.Create(entity);
+
+        try
+        {
+            var entity = form.SubmitCreate();
+            await _createBehind.Create(entity);
+        }
+        catch (DomainException validation)
+        {
+            await form.AddValidationError(validation.Property, validation.Message);
+            return;
+        }
+
         Dialog.Close(DialogResult.Ok(true));
     }
 }
