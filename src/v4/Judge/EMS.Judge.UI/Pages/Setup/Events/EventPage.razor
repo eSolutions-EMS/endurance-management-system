@@ -43,7 +43,7 @@
     {
         try
         {
-            var entity = _eventFields.SubmitCreate();
+            var entity = _eventFields.SubmitUpdate();
             await _behind.Update(entity);
         }
         catch (DomainException validation)

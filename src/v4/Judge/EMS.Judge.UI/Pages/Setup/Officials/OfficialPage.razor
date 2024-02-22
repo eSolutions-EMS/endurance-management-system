@@ -5,10 +5,10 @@
 @using EMS.Judge.Setup.StaffMembers;
 @using EMS.Judge.UI.Services;
 @using Common.Application.Behinds;
+@using Not.Blazor.Navigation
 
 @inject INotBehindParent<Official> _parentBehind;
-@inject NavigationManager _navigation;
-@inject INavigationContext _navigationContext;
+@inject INavigator _navigator
 
 <h3>StaffMember</h3>
 
@@ -28,13 +28,13 @@
 
     protected override void OnInitialized()
     {
-        _model = new(_navigationContext.OfficialUpdate);
+        _model = new(_navigator.ConsumeParameter<Official>());
     }
 
     private async Task Update()
     {
         var entity = _officialFields.SubmitUpdate();
         await _parentBehind.Update(entity);
-        _navigation.NavigateTo("/");
+        _navigator.NavigateTo(SETUP_PAGE);
     }
 }

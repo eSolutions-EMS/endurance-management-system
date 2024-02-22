@@ -6,12 +6,11 @@
 @using EMS.Judge.UI.Services;
 @using Not.Blazor.Dialogs;
 @using Common.Application.Behinds;
+@using Not.Blazor.Forms
 
 @inject INotBehindParent<Official> _parentBehind;
-@inject NavigationManager _navigation;
-@inject INavigationContext _navigationContext;
+@inject IFormNavigator<Official, OfficialFields> _officialNavigator;
 @inject ILocalizer _localizer;
-@inject INotDialogService<Official, OfficialFields> _notDialogService;
 
 <MudText Typo="Typo.h5">Staff Members</MudText>
 
@@ -36,7 +35,7 @@
                         IconSize="Size.Small"
                         StartIcon="@Icons.Material.Filled.Update"
                         Color="Color.Primary" 
-                        OnClick="() => this.ToOfficialUpdate(context)">
+                        OnClick="() => this._officialNavigator.Update(OFFICIAL_PAGE, context)">
                 Update
             </MudButton>
         </MudTd>
@@ -44,18 +43,8 @@
         
 </MudTable>
 
-<MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="this.ToOfficialCreateDialog">Add</MudButton>
+<MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="_officialNavigator.Create">Add</MudButton>
 
 @code {
-    private void ToOfficialUpdate(Official member)
-    {
-        _navigationContext.OfficialUpdate = member;
-        _navigation.NavigateTo($"/staff-member");
-    }
 
-    private async Task ToOfficialCreateDialog()
-    {
-        await _notDialogService.RenderCreate();
-        await InvokeAsync(StateHasChanged);
-    }
 }

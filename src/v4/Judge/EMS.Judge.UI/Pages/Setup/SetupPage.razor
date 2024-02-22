@@ -4,9 +4,9 @@
 @using EMS.Domain.Setup.Entities;
 @using EMS.Judge.Setup.Events;
 @using EMS.Judge.UI.Pages.Setup.Events;
-@using Not.Blazor.Dialogs;
+@using Not.Blazor.Forms
 
-@inject INotDialogService<Event, EventFields> _notDialogService;
+@inject IFormNavigator<Event, EventFields> _formNavigator;
 @inject INotBehind<Event> _behind;
 
 <MudText Typo="Typo.h1">Setup</MudText>
@@ -27,12 +27,17 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        await Init();
+    }
+
+    private async Task Init()
+    {
         _event = await _behind.Read(default);
     }
 
     private async Task RenderCreate()
     {
-        await _notDialogService.RenderCreate();
-        await OnInitializedAsync();
+        await _formNavigator.Create();
+        await Init();
     }
 }

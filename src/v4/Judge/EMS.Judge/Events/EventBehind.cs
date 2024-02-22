@@ -29,7 +29,8 @@ public class EventBehind : INotBehind<Event>, INotBehindParent<Official>
 
     public async Task<Event> Create(Event entity)
     {
-        return await _repository.Create(entity);
+        await _repository.Create(entity);
+        return _event = entity;
     }
 
     public async Task<Event> Update(Event entity)
