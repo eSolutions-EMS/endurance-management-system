@@ -2,10 +2,11 @@
 using Common.Helpers;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using Not.Blazor.Forms;
 
-namespace Not.Blazor.Forms;
+namespace Not.Blazor.TM.Forms;
 
-public abstract class NotFormFields<T> : ComponentBase
+public abstract class NotFormFields<T> : ComponentBase, IFormFields<T>
     where T : DomainEntity
 {
     /// <summary>

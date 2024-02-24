@@ -2,8 +2,10 @@
 using MudBlazor;
 using System.Reflection;
 
-namespace Not.Blazor.Forms;
+namespace Not.Blazor.TM.Forms;
 
+// Breaks Not* convention, because this is a workaround until 
+// event-driven validation is implemented for MudBaseInput<T>
 public class MudValidationInjector
 {
     private static readonly Type LIST_OF_STRING_TYPE = typeof(List<string>);

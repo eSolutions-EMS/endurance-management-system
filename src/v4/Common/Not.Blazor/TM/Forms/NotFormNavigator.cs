@@ -1,8 +1,9 @@
 ﻿using Common.Domain;
 using Not.Blazor.Dialogs;
+using Not.Blazor.Forms;
 using Not.Blazor.Navigation;
 
-namespace Not.Blazor.Forms;
+namespace Not.Blazor.TM.Forms;
 
 public class NotFormNavigator<T, TFields> : IFormNavigator<T, TFields>
     where T : DomainEntity

@@ -2,7 +2,7 @@
 using Common.Helpers;
 using Microsoft.AspNetCore.Components;
 
-namespace Not.Blazor.Forms;
+namespace Not.Blazor.TM.Forms;
 
 public abstract class UpdatePage<T> : ComponentBase
     where T : DomainEntity

@@ -4,7 +4,7 @@ using Common.Services;
 using Common.Utilities;
 using MudBlazor;
 using Not.Blazor.Dialogs.Components;
-using Not.Blazor.Forms;
+using Not.Blazor.TM.Forms;
 
 namespace Not.Blazor.Dialogs;
 
