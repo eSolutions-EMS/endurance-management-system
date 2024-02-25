@@ -1,5 +1,4 @@
-﻿using EMS.Domain.Events.Start;
-using EMS.Domain.Setup.Import;
+﻿using EMS.Domain.Setup.Import;
 
 namespace EMS.Domain.Setup.Entities;
 

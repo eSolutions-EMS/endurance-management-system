@@ -12,9 +12,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Common.Application\Common.Application.csproj" />
-    <ProjectReference Include="..\Common.Domain\Common.Domain.csproj" />
-    <ProjectReference Include="..\Common\Common.csproj" />
+    <ProjectReference Include="..\Not.Application\Not.Application.csproj" />
+    <ProjectReference Include="..\Not.Domain\Not.Domain.csproj" />
+    <ProjectReference Include="..\Not\Not.csproj" />
   </ItemGroup>
 
 </Project>

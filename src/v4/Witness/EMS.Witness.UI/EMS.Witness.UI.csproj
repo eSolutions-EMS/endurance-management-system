@@ -54,8 +54,8 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Common\Common.Blazor\Common.Blazor.csproj" />
-      <ProjectReference Include="..\..\Common\Common\Common.csproj" />
+      <ProjectReference Include="..\..\Not\Not.MAUI\Not.MAUI.csproj" />
+      <ProjectReference Include="..\..\Not\Not\Not.csproj" />
       <ProjectReference Include="..\..\EMS.Common\EMS.Application.csproj" />
       <ProjectReference Include="..\..\EMS.Domain.Watcher\EMS.Domain.Watcher.csproj" />
       <ProjectReference Include="..\..\EMS.Domain\EMS.Domain.csproj" />

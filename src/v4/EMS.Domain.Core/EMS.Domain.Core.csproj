@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Common\Common.Domain\Common.Domain.csproj" />
-    <ProjectReference Include="..\Common\Common\Common.csproj" />
+    <ProjectReference Include="..\Not\Not.Domain\Not.Domain.csproj" />
+    <ProjectReference Include="..\Not\Not\Not.csproj" />
     <ProjectReference Include="..\EMS.Domain\EMS.Domain.csproj" />
   </ItemGroup>
 
