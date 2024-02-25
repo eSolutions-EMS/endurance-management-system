@@ -1,16 +1,17 @@
-﻿using Common.Conventions;
+﻿
 using Common.Helpers;
 using Microsoft.AspNetCore.Components;
+using Not.Blazor.Navigation;
 
-namespace Not.Blazor.Navigation;
+namespace Not.Blazor.TM.Navigation;
 
 // Cannot be singleton as long as it uses NavigationManager: https://github.com/dotnet/maui/issues/8583
-public class Navigator : INavigator
+public class NotNavigator : INavigator
 {
     private readonly NavigationManager _blazorNavigationManager;
     private static Parameters? _parameters;
 
-    public Navigator(NavigationManager blazorNavigationManager)
+    public NotNavigator(NavigationManager blazorNavigationManager)
     {
         _blazorNavigationManager = blazorNavigationManager;
     }
@@ -50,7 +51,7 @@ public class Navigator : INavigator
         {
             if (parameter == null)
             {
-                throw ThrowHelper.Exception($"Parameter of type '{typeof(T)}' is null. {nameof(Navigator)} parameters cannot be null");
+                throw ThrowHelper.Exception($"Parameter of type '{typeof(T)}' is null. {nameof(NotNavigator)} parameters cannot be null");
             }
             return new Parameters(parameter);
         }
@@ -71,11 +72,3 @@ public class Navigator : INavigator
         }
     }
 }
-
-public interface INavigator : ITransientService
-{
-    void NavigateTo(string endpoint);
-    void NavigateTo<T>(string endpoint, T parameter);
-    T ConsumeParameter<T>();
-}
-

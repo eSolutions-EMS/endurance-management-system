@@ -1,14 +1,12 @@
 @using Common.Application.Behinds;
-@using Common.Domain;
 @using Common.Helpers
 @using EMS.Domain.Setup.Entities;
-@using EMS.Judge.Setup.Events;
 @using EMS.Judge.UI.Pages.Setup.Events
 @using EMS.Judge.UI.Pages.Setup.Officials
 @using Not.Blazor.Dialogs;
-@using Not.Blazor.TM.Forms;
+@using Not.Blazor.TM.Forms.Components
 
-@inject INotDialogService<Event, EventFields> _notDialogService;
+@inject IDialogs<Event, EventFields> _notDialogService;
 @inject INotBehind<Event> _behind;
 
 <NotUpdate T="Event" TForm="EventFields" Entity="_event" UpdateAction="_behind.Update" />

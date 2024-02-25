@@ -1,6 +1,6 @@
 ﻿using Common.Conventions;
 using Common.Domain;
-using Not.Blazor.TM.Forms;
+using Not.Blazor.TM.Forms.Components;
 
 namespace Not.Blazor.Forms;
 
@@ -14,7 +14,7 @@ namespace Not.Blazor.Forms;
 /// </typeparam>
 public interface IFormNavigator<T, TFields> : ITransientService
     where T : DomainEntity
-    where TFields : NotFormFields<T>
+    where TFields : NotForm<T>
 {
     /// <summary>
     /// Renders a dialog using <typeparamref name="TFields"/> for entity <typeparamref name="T"/>

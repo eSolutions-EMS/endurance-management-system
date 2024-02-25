@@ -2,17 +2,18 @@
 using Not.Blazor.Dialogs;
 using Not.Blazor.Forms;
 using Not.Blazor.Navigation;
+using Not.Blazor.TM.Forms.Components;
 
 namespace Not.Blazor.TM.Forms;
 
 public class NotFormNavigator<T, TFields> : IFormNavigator<T, TFields>
     where T : DomainEntity
-    where TFields : NotFormFields<T>
+    where TFields : NotForm<T>
 {
-    private readonly INotDialogService<T, TFields> _notDialogs;
+    private readonly IDialogs<T, TFields> _notDialogs;
     private readonly INavigator _navigator;
 
-    public NotFormNavigator(INotDialogService<T, TFields> notDialogs, INavigator navigator)
+    public NotFormNavigator(IDialogs<T, TFields> notDialogs, INavigator navigator)
     {
         _notDialogs = notDialogs;
         _navigator = navigator;

@@ -5,7 +5,7 @@ namespace Not.Blazor.Forms;
 /// <summary>
 /// Abstraction enabling seemless validation per form field
 /// </summary>
-public interface IFormFields
+public interface IForm
 {
     /// <summary>
     /// Adds validation error for a specific input field, or generic error if <paramref name="field"/> is null
@@ -20,7 +20,7 @@ public interface IFormFields
 /// Abstraction representing a create form implementaiton
 /// </summary>
 /// <typeparam name="T">Type of Domain Entity to be created</typeparam>
-public interface ICreateForm<T> : IFormFields
+public interface ICreateForm<T> : IForm
     where T : DomainEntity
 {
     /// <summary>
@@ -35,7 +35,7 @@ public interface ICreateForm<T> : IFormFields
 /// An abstraction representing an update form implementation
 /// </summary>
 /// <typeparam name="T">Type of Domain Entity to be updated</typeparam>
-public interface IUpdateForm<T> : IFormFields
+public interface IUpdateForm<T> : IForm
     where T : DomainEntity
 {
     /// <summary>

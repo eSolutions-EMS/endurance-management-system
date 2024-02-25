@@ -1,20 +1,20 @@
-﻿using Common.Conventions;
-using Common.Domain;
+﻿using Common.Domain;
 using Common.Services;
 using Common.Utilities;
 using MudBlazor;
-using Not.Blazor.TM.Forms;
+using Not.Blazor.Dialogs;
+using Not.Blazor.TM.Forms.Components;
 
-namespace Not.Blazor.Dialogs;
+namespace Not.Blazor.TM.Dialogs;
 
-public class NotDialogService<T, TForm> : INotDialogService<T, TForm>
+public class NotDialogs<T, TForm> : IDialogs<T, TForm>
     where T : DomainEntity
-    where TForm : NotFormFields<T>
+    where TForm : NotForm<T>
 {
     private readonly IDialogService _mudDialogService;
     private readonly ILocalizer _localizer;
 
-    public NotDialogService(IDialogService mudDialogService, ILocalizer localizer)
+    public NotDialogs(IDialogService mudDialogService, ILocalizer localizer)
     {
         _mudDialogService = mudDialogService;
         _localizer = localizer;
@@ -26,11 +26,4 @@ public class NotDialogService<T, TForm> : INotDialogService<T, TForm>
         var dialog = await _mudDialogService.ShowAsync<NotCreate<T, TForm>>(title);
         await dialog.Result;
     }
-}
-
-public interface INotDialogService<T, TForm> : ITransientService
-    where T : DomainEntity
-    where TForm : NotFormFields<T>
-{
-    Task RenderCreate();
 }

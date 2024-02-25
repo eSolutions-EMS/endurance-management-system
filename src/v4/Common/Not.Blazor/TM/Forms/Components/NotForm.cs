@@ -3,11 +3,10 @@ using Common.Helpers;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Not.Blazor.Forms;
-using Not.Blazor.Navigation;
 
-namespace Not.Blazor.TM.Forms;
+namespace Not.Blazor.TM.Forms.Components;
 
-public abstract class NotFormFields<T> : ComponentBase, ICreateForm<T>, IUpdateForm<T>
+public abstract class NotForm<T> : ComponentBase, ICreateForm<T>, IUpdateForm<T>
     where T : DomainEntity
 {
     /// <summary>
@@ -16,22 +15,19 @@ public abstract class NotFormFields<T> : ComponentBase, ICreateForm<T>, IUpdateF
     /// </summary>
     protected Dictionary<string, MudValidationInjector> ValidationInjectors { get; set; } = new();
 
-    [Inject]
-    public INavigator Navigator { get; set; } = default!;
-
     public abstract T SubmitCreate();
     public abstract T SubmitUpdate();
     public abstract void SetUpdateModel(T entity);
     public abstract void RegisterValidationInjectors();
-    
-    protected void RegisterInjector<TInput>(string field, Func<MudBaseInput<TInput>> mudInputInstanceGetter)
-    {
-        ValidationInjectors.Add(field, MudValidationInjector.Create(mudInputInstanceGetter));
-    }
 
     protected override void OnInitialized()
     {
         RegisterValidationInjectors();
+    }
+
+    protected void RegisterInjector<TInput>(string field, Func<MudBaseInput<TInput>> mudInputInstanceGetter)
+    {
+        ValidationInjectors.Add(field, MudValidationInjector.Create(mudInputInstanceGetter));
     }
 
     public async Task AddValidationError(string? field, string message)
@@ -47,7 +43,7 @@ public abstract class NotFormFields<T> : ComponentBase, ICreateForm<T>, IUpdateF
         {
             //TODO: use IDefaultNotifier or something
             throw ThrowHelper.Exception(
-                $"Key '{field}' not found in {nameof(NotFormFields<T>)}.{nameof(ValidationInjectors)}. " +
+                $"Key '{field}' not found in {nameof(NotForm<T>)}.{nameof(ValidationInjectors)}. " +
                 $"Make sure all field components have a ref pointer in there.");
         }
 

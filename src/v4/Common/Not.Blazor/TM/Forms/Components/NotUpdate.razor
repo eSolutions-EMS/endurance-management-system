@@ -3,7 +3,7 @@
 @using Not.Blazor.Navigation;
 
 @typeparam T where T : DomainEntity;
-@typeparam TForm where TForm : NotFormFields<T>;
+@typeparam TForm where TForm : NotForm<T>;
 
 <MudCard>
     <NotDynamic T="TForm" @ref="_notUpdate" />
