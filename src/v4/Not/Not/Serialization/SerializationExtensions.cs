@@ -1,4 +1,4 @@
-﻿namespace Common.Serialization;
+﻿namespace Not.Serialization;
 
 public static class SerializationExtensions
 {

@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace Common.Domain.Summary;
+namespace Not.Domain.Summary;
 
 public class Summarizer
 {

@@ -1,4 +1,4 @@
-﻿namespace Common.Domain;
+﻿namespace Not.Domain;
 
 public interface IParent<T> : IParent
     where T : DomainEntity

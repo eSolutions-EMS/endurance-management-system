@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using static Common.Localization.Localizer;
+using static Not.Localization.Localizer;
 
-namespace Common.Domain;
+namespace Not.Domain;
 
 //TODO: Create AggregateDomainException and modify domains to batch their validation exceptions before throwing
 public class DomainException : Exception

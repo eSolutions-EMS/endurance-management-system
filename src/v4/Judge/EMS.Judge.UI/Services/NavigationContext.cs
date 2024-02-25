@@ -1,4 +1,4 @@
-﻿using Common.Conventions;
+﻿using Not.Conventions;
 using EMS.Domain.Setup.Entities;
 
 namespace EMS.Judge.UI.Services;

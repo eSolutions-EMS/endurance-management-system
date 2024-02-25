@@ -1,6 +1,6 @@
-﻿using Common.Services;
+﻿using Not.Services;
 
-namespace Common.Localization;
+namespace Not.Localization;
 
 public static class Localizer
 {

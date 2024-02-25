@@ -1,4 +1,4 @@
-﻿namespace Common.Extensions;
+﻿namespace Not.Extensions;
 
 public static class EnumerableExtensions
 {

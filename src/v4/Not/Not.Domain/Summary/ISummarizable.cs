@@ -1,4 +1,4 @@
-﻿namespace Common.Domain.Summary;
+﻿namespace Not.Domain.Summary;
 
 public interface ISummarizable
 {

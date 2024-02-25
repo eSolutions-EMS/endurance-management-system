@@ -1,4 +1,4 @@
-﻿namespace Common.Utilities;
+﻿namespace Not.Utilities;
 
 public static class RandomHelper
 {

@@ -1,7 +1,7 @@
-﻿using Common.Conventions;
+﻿using Not.Conventions;
 using System;
 
-namespace Common.Encryption;
+namespace Not.Encryption;
 
 public class EncryptionService : IEncryptionService
 {

@@ -1,4 +1,4 @@
-﻿using Common.Domain;
+﻿using Not.Domain;
 using Not.Blazor.Dialogs;
 using Not.Blazor.Forms;
 using Not.Blazor.Navigation;

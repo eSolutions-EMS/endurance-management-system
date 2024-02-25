@@ -1,6 +1,6 @@
-﻿using Common.Domain;
+﻿using Not.Domain;
 
-namespace Common.Application.CRUD;
+namespace Not.Application.CRUD;
 
 public interface IRepository<T> : ICreate<T>, IRead<T>, IUpdate<T>, IDelete<T>
 	where T : DomainEntity

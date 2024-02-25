@@ -1,7 +1,7 @@
-﻿using Common.Conventions;
-using Common.Domain;
+﻿using Not.Conventions;
+using Not.Domain;
 
-namespace Common.Application.Behinds;
+namespace Not.Application.Behinds;
 
 public interface IReadBehind<T> : ISingletonService
     where T : DomainEntity

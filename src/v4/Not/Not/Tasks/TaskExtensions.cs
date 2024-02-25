@@ -1,4 +1,4 @@
-﻿namespace Common.Tasks;
+﻿namespace Not.Tasks;
 
 public static class TaskExtensions
 {

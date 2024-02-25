@@ -1,7 +1,7 @@
-﻿using Common.Helpers;
+﻿using Not.Helpers;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Common;
+namespace Not;
 
 public static class ServiceLocator
 {

@@ -1,8 +1,8 @@
-﻿using Common.Conventions;
-using Common.Exceptions;
+﻿using Not.Conventions;
+using Not.Exceptions;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Common.Events;
+namespace Not.Events;
 
 public class Event : IEvent
 {

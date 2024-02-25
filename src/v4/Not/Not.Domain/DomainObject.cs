@@ -1,4 +1,4 @@
-﻿namespace Common.Domain;
+﻿namespace Not.Domain;
 
 public abstract record DomainObject
 {

@@ -1,4 +1,4 @@
-﻿using Common.Domain;
+﻿using Not.Domain;
 
 namespace EMS.Domain.Objects;
 

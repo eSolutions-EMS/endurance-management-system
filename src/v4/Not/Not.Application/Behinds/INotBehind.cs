@@ -1,7 +1,7 @@
-﻿using Common.Conventions;
-using Common.Domain;
+﻿using Not.Conventions;
+using Not.Domain;
 
-namespace Common.Application.Behinds;
+namespace Not.Application.Behinds;
 
 /// <summary>
 /// <seealso cref="INotBehind{T}"/> is a <seealso cref="INotBehind"/> that represents CRUD operations for a <seealso cref="DomainEntity"/>

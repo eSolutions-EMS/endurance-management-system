@@ -1,4 +1,4 @@
-﻿global using Common.Application.CRUD;
-global using Common.Application.CRUD.Parents;
-global using Common.Domain;
+﻿global using Not.Application.CRUD;
+global using Not.Application.CRUD.Parents;
+global using Not.Domain;
 global using MudBlazor;

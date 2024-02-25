@@ -1,4 +1,4 @@
-﻿namespace Common.Conventions;
+﻿namespace Not.Conventions;
 
 public interface IScopedService
 {

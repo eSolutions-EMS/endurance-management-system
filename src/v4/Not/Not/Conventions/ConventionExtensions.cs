@@ -4,7 +4,7 @@ using System.Reflection;
 using System.Security.Principal;
 using System.Text;
 
-namespace Common.Conventions;
+namespace Not.Conventions;
 
 public static class ConventionExtensions
 {

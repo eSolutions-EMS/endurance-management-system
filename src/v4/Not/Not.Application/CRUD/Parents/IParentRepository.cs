@@ -1,6 +1,6 @@
-﻿using Common.Domain;
+﻿using Not.Domain;
 
-namespace Common.Application.CRUD.Parents;
+namespace Not.Application.CRUD.Parents;
 
 public interface IParentRepository<T> : ICreateChild<T>, IUpdateChild<T>, IDeleteChild<T>
     where T : DomainEntity

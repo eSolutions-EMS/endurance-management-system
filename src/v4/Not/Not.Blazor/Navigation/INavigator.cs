@@ -1,4 +1,4 @@
-﻿using Common.Conventions;
+﻿using Not.Conventions;
 
 namespace Not.Blazor.Navigation;
 

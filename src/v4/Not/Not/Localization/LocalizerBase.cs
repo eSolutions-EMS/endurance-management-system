@@ -1,6 +1,6 @@
-﻿using Common.Conventions;
+﻿using Not.Conventions;
 
-namespace Common.Services;
+namespace Not.Services;
 
 public abstract class LocalizerBase : ILocalizer
 {

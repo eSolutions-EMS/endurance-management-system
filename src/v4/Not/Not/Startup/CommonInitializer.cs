@@ -1,4 +1,4 @@
-﻿namespace Common.Startup;
+﻿namespace Not.Startup;
 
 public class CommonInitializer : IInitializer
 {

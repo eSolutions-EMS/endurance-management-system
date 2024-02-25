@@ -1,6 +1,6 @@
-﻿using Common.Conventions;
+﻿using Not.Conventions;
 
-namespace Common.Encryption;
+namespace Not.Encryption;
 
 public interface IEncryptionSettings : ISingletonService
 {

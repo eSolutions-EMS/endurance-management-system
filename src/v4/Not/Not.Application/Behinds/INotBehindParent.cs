@@ -1,6 +1,6 @@
-﻿using Common.Domain;
+﻿using Not.Domain;
 
-namespace Common.Application.Behinds;
+namespace Not.Application.Behinds;
 
 /// <summary>
 /// <seealso cref="INotBehindParent{T}"/> represents a <seealso cref="INotBehind"/> that manages child <seealso cref="DomainEntity"/> objects

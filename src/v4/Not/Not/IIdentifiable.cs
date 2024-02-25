@@ -1,4 +1,4 @@
-﻿namespace Common;
+﻿namespace Not;
 
 public interface IIdentifiable
 {

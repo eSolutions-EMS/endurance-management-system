@@ -1,5 +1,5 @@
-﻿using Common.Conventions;
-using Common.Domain;
+﻿using Not.Conventions;
+using Not.Domain;
 using Not.Blazor.TM.Forms.Components;
 
 namespace Not.Blazor.Dialogs;

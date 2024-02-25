@@ -1,4 +1,4 @@
-﻿using Common.Conventions;
+﻿using Not.Conventions;
 using EMS.Judge.Setup.Events;
 using EMS.Persistence.Startup;
 using Microsoft.Extensions.Logging;

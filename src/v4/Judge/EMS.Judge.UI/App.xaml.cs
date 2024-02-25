@@ -1,4 +1,4 @@
-﻿using Common.Startup;
+﻿using Not.Startup;
 
 namespace EMS.Judge.UI;
 

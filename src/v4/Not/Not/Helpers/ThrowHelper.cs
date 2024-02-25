@@ -1,7 +1,7 @@
-﻿using Common.Exceptions;
+﻿using Not.Exceptions;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Common.Helpers;
+namespace Not.Helpers;
 
 public static class ThrowHelper
 {

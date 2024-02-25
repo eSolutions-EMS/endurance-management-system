@@ -1,4 +1,4 @@
-﻿using Common.Domain.Summary;
+﻿using Not.Domain.Summary;
 
 namespace EMS.Domain.Objects;
 

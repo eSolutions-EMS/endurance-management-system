@@ -1,9 +1,9 @@
-﻿using Common.Domain;
+﻿using Not.Domain;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.Localization;
 
-namespace Common.Blazor;
+namespace Not.Blazor;
 
 public class ExceptionHandler<T> : ErrorBoundary
 {

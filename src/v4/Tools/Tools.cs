@@ -1,5 +1,5 @@
 ﻿
-using Common.Conventions;
+using Not.Conventions;
 using EMS.Persistence.Startup;
 using Microsoft.Extensions.DependencyInjection;
 //var a = new EventFormService(new EventRepository(new StaffMemberRepository()));

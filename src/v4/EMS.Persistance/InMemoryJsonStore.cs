@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 using JsonNet.PrivatePropertySetterResolver;
-using Common.Conventions;
+using Not.Conventions;
 
 namespace EMS.Persistence;
 

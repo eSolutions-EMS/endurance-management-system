@@ -1,7 +1,7 @@
-﻿using Common.Conventions;
-using Common.Domain;
+﻿using Not.Conventions;
+using Not.Domain;
 
-namespace Common.Application.CRUD.Parents;
+namespace Not.Application.CRUD.Parents;
 
 public interface IDeleteChild<T> : ITransientService
     where T : DomainEntity

@@ -1,1 +1,1 @@
-﻿namespace Common.Structures;
+﻿namespace Not.Structures;

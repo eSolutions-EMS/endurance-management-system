@@ -1,6 +1,6 @@
-﻿using Common.Conventions;
+﻿using Not.Conventions;
 
-namespace Common;
+namespace Not;
 
 public class FilesystemService : IFilesystemService
 {

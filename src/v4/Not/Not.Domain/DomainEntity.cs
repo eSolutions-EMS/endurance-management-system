@@ -1,6 +1,6 @@
-﻿using Common.Utilities;
+﻿using Not.Utilities;
 
-namespace Common.Domain;
+namespace Not.Domain;
 
 public abstract class DomainEntity : IEquatable<DomainEntity>, IIdentifiable
 {

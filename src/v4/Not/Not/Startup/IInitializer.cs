@@ -1,6 +1,6 @@
-﻿using Common.Conventions;
+﻿using Not.Conventions;
 
-namespace Common.Startup;
+namespace Not.Startup;
 
 public interface IInitializer : ITransientService
 {
