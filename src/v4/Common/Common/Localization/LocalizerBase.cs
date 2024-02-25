@@ -9,7 +9,7 @@ public abstract class LocalizerBase : ILocalizer
 		var localized = args
 			.Select(x => this.GetLocalizedValue(x.ToString()!))
 			.ToArray();
-		return string.Join(string.Empty, localized);
+		return string.Join(" ", localized);
 	}
 
 	protected abstract string GetLocalizedValue(string key);

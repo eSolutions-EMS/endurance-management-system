@@ -23,7 +23,7 @@ public class NotDialogs<T, TForm> : IDialogs<T, TForm>
     public async Task RenderCreate()
     {
         var title = _localizer.Get("Create", " ", ReflectionHelper.GetName<T>());
-        var dialog = await _mudDialogService.ShowAsync<NotCreate<T, TForm>>(title);
+        var dialog = await _mudDialogService.ShowAsync<NotFormCreate<T, TForm>>(title);
         await dialog.Result;
     }
 }

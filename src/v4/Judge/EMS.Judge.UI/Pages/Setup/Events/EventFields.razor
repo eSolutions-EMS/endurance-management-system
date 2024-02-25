@@ -10,7 +10,6 @@
 @using Not.Blazor.TM.Forms.Components;
 
 @inherits NotForm<Event>;
-@inject ICountriesContext _countries;
 
 @*
     TODO: Create MudForm to encapsulate EditForm, DataAnnotationsValidator, MudCard. 
@@ -41,6 +40,8 @@
     private MudTextField<string?> _placeField = default!;
     private MudAutocomplete<Country?> _countryField = default!;
     private EventFieldsModel _model = new();
+    [Inject]
+    private ICountriesContext _countries { get; set; } = default!;
 
     public override void RegisterValidationInjectors()
     {
@@ -51,8 +52,6 @@
     public override void SetUpdateModel(Event @event)
     {
         _model = new EventFieldsModel(@event);
-        // This isnt ideal but it works. It's necessary because this method is invoked 
-        InvokeAsync(StateHasChanged);
     }
 
     public override Event SubmitCreate()

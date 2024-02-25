@@ -1,7 +1,10 @@
 ﻿@using Common.Helpers;
+@using Common.Services;
+@using Not.Blazor.Components;
 @using Not.Blazor.Forms;
 @using Not.Blazor.Navigation;
 
+@inherits NotComponent
 @typeparam T where T : DomainEntity;
 @typeparam TForm where TForm : NotForm<T>;
 
@@ -9,7 +12,9 @@
     <NotDynamic T="TForm" @ref="_notUpdate" />
 </MudCard>
 
-<MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Update">Update</MudButton>
+<MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Update">
+    @Localizer.Get("Update")
+</MudButton>
 
 @code {
     private NotDynamic<TForm>? _notUpdate;

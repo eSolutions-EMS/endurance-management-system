@@ -1,12 +1,12 @@
 ﻿using Common.Domain;
 using Common.Helpers;
-using Microsoft.AspNetCore.Components;
 using MudBlazor;
+using Not.Blazor.Components;
 using Not.Blazor.Forms;
 
 namespace Not.Blazor.TM.Forms.Components;
 
-public abstract class NotForm<T> : ComponentBase, ICreateForm<T>, IUpdateForm<T>
+public abstract class NotForm<T> : NotComponent, ICreateForm<T>, IUpdateForm<T>
     where T : DomainEntity
 {
     /// <summary>

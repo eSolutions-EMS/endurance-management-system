@@ -3,13 +3,17 @@
 @using EMS.Domain.Setup.Entities;
 @using EMS.Judge.UI.Pages.Setup.Events
 @using EMS.Judge.UI.Pages.Setup.Officials
+@using Not.Blazor.Components;
 @using Not.Blazor.Dialogs;
-@using Not.Blazor.TM.Forms.Components
+@using Not.Blazor.TM.Forms.Components;
 
-@inject IDialogs<Event, EventFields> _notDialogService;
-@inject INotBehind<Event> _behind;
+@inherits NotComponent
 
-<NotUpdate T="Event" TForm="EventFields" Entity="_event" UpdateAction="_behind.Update" />
+<MudText Typo="Typo.h5">
+    @Localizer.Get("Update", nameof(Event))
+</MudText>
+
+<NotFormUpdate T="Event" TForm="EventFields" Entity="_event" UpdateAction="_behind.Update" />
 
 <MudPaper>
     <OfficialList />
@@ -17,6 +21,8 @@
 
 @code {
     private Event _event = default!;
+    [Inject]
+    public INotBehind<Event> _behind { get; set; } = default!;
 
     protected override async Task OnInitializedAsync()
     {

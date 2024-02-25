@@ -1,19 +1,25 @@
 ﻿@using Common.Application.Behinds;
 @using EMS.Domain.Setup.Entities;
 @using EMS.Judge.Setup.StaffMembers;
+@using Not.Blazor.Components;
 @using Not.Blazor.Navigation;
 @using Not.Blazor.TM.Forms.Components
 
 @attribute [Route(OFFICIAL_PAGE)]
+@inherits NotComponent
 
-@inject INotBehindParent<Official> _parentBehind;
-@inject INavigator _navigator
+<MudText Typo="Typo.h5">
+    @Localizer.Get("Update", nameof(Official)) 
+</MudText>
 
-<h3>StaffMember</h3>
-
-<NotUpdate T="Official" TForm="OfficialFields" Entity="_navigator.ConsumeParameter<Official>()" UpdateAction="Update" />
+<NotFormUpdate T="Official" TForm="OfficialFields" Entity="_navigator.ConsumeParameter<Official>()" UpdateAction="Update" />
     
 @code {
+    [Inject]
+    public INotBehindParent<Official> _parentBehind { get; set; } = default!;
+    [Inject]
+    public INavigator _navigator { get; set; } = default!;
+
     protected async Task Update(Official official)
     {
         await _parentBehind.Update(official);

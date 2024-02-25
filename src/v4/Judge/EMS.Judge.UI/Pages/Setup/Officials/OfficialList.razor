@@ -1,18 +1,14 @@
 ﻿@using EMS.Domain.Setup.Entities;
 @using Common.Application;
-@using Common.Domain;
 @using Common.Services;
-@using EMS.Judge.Setup.Events;
-@using EMS.Judge.UI.Services;
-@using Not.Blazor.Dialogs;
 @using Common.Application.Behinds;
+@using Not.Blazor.Components;
 @using Not.Blazor.Forms
 
-@inject INotBehindParent<Official> _parentBehind;
-@inject IFormNavigator<Official, OfficialFields> _officialNavigator;
-@inject ILocalizer _localizer;
-
-<MudText Typo="Typo.h5">Staff Members</MudText>
+@inherits NotComponent
+<MudText Typo="Typo.h5">
+    @Localizer.Get("Officials")
+</MudText>
 
 <MudTable Items="_parentBehind.Children" Hover="true">
     <HeaderContent>
@@ -28,7 +24,7 @@
                         StartIcon="@Icons.Material.Filled.Delete"
                         Color="Color.Warning"
                         OnClick="() => _parentBehind.Delete(context)">
-                Remove
+                @Localizer.Get("Remove")
             </MudButton>
 
             <MudButton Variant="Variant.Filled"
@@ -36,15 +32,20 @@
                         StartIcon="@Icons.Material.Filled.Update"
                         Color="Color.Primary" 
                         OnClick="() => this._officialNavigator.Update(OFFICIAL_PAGE, context)">
-                Update
+                @Localizer.Get("Update")
             </MudButton>
         </MudTd>
     </RowTemplate>
         
 </MudTable>
 
-<MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="_officialNavigator.Create">Add</MudButton>
+<MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="_officialNavigator.Create">
+    @Localizer.Get("Add")
+</MudButton>
 
 @code {
-
+    [Inject]
+    public INotBehindParent<Official> _parentBehind { get; set; } = default!;
+    [Inject]
+    public IFormNavigator<Official, OfficialFields> _officialNavigator { get; set; } = default!;
 }

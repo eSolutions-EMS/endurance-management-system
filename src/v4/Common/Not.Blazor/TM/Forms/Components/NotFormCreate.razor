@@ -1,13 +1,13 @@
 ﻿@using Common.Application.Behinds
 @using Common.Services;
+@using Not.Blazor.Components;
 @using Not.Blazor.Forms;
 @using Not.Blazor.TM.Forms;
 @using Not.Blazor.TM;
 
+@inherits NotComponent
 @typeparam T where T : DomainEntity;
 @typeparam TForm where TForm : NotForm<T>
-@inject ICreateBehind<T> _createBehind;
-@inject ILocalizer _localizer;
 
 <MudDialog>
     <DialogContent>
@@ -16,13 +16,15 @@
 
     <DialogActions>
         <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Create">
-            @_localizer.Get("Create")
+            @Localizer.Get("Create")
         </MudButton>
     </DialogActions>
 </MudDialog>
 
 @code {
-    private NotDynamic<TForm> _dynamicForm = default!;
+    private NotDynamic<TForm>? _dynamicForm;
+    [Inject]
+    private ICreateBehind<T> _behind { get; set; } = default!;
 
     [CascadingParameter]
     protected MudDialogInstance Dialog { get; set; } = default!;
@@ -31,13 +33,13 @@
     {
         try
         {
-            var entity = _dynamicForm.Instance.SubmitCreate();
-            await _createBehind.Create(entity);
+            var entity = _dynamicForm!.Instance.SubmitCreate();
+            await _behind.Create(entity);
             Dialog.Close(DialogResult.Ok(true));
         }
         catch (DomainException validation)
         {
-            await _dynamicForm.Instance.AddValidationError(validation.Property, validation.Message);
+            await _dynamicForm!.Instance.AddValidationError(validation.Property, validation.Message);
             return;
         }
     }

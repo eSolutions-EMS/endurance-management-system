@@ -1,20 +1,23 @@
-@attribute [Route(SETUP_PAGE)]
-
 @using Common.Application.Behinds;
 @using EMS.Domain.Setup.Entities;
 @using EMS.Judge.Setup.Events;
 @using EMS.Judge.UI.Pages.Setup.Events;
+@using Not.Blazor.Components;
 @using Not.Blazor.Forms
 
-@inject IFormNavigator<Event, EventFields> _formNavigator;
-@inject INotBehind<Event> _behind;
+@attribute [Route(SETUP_PAGE)]
+@inherits NotComponent
 
-<MudText Typo="Typo.h1">Setup</MudText>
+<MudText Typo="Typo.h4">
+    @Localizer.Get("Setup")
+</MudText>
 
 @if (_event == null)
 {
     <MudPaper>
-        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="RenderCreate">Create</MudButton>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="RenderCreate">
+            @Localizer.Get("Create")
+        </MudButton>
     </MudPaper>
 }
 else
@@ -24,6 +27,10 @@ else
 
 @code {
     private Event? _event;
+    [Inject]
+    private IFormNavigator<Event, EventFields> _formNavigator { get; set; } = default!;
+    [Inject]
+    private INotBehind<Event> _behind { get; set; } = default!;
 
     protected override async Task OnInitializedAsync()
     {
