@@ -5,16 +5,16 @@
 
 @inherits NotFormFields<Official>;
 
-<EditForm Model="Model">
+<EditForm Model="_model">
     <DataAnnotationsValidator />
 
     <MudCard>
         <MudCardContent>
-            <MudTextField Label="Place" @ref="_nameField" @bind-Value="Model.Name" For="@(() => Model.Name)" />
+            <MudTextField Label="Place" @ref="_nameField" @bind-Value="_model.Name" For="@(() => _model.Name)" />
         </MudCardContent>
 
         <MudCardContent>
-            <MudSelect Label="Role" @ref="_roleFiled" @bind-Value="Model.Role">
+            <MudSelect Label="Role" @ref="_roleFiled" @bind-Value="_model.Role">
                 @foreach (var item in Enum.GetValues<OfficialRole>())
                 {
                     <MudSelectItem Value="@item">@item</MudSelectItem>
@@ -28,23 +28,26 @@
 @code {
     private MudTextField<string?> _nameField = default!;
     private MudSelect<OfficialRole> _roleFiled = default!;
+    private OfficialFieldsModel _model { get; set; } = new();
 
-    [Parameter]
-    public OfficialFieldsModel Model { get; set; } = new();
-
-    protected override void OnInitialized()
+    public override void RegisterValidationInjectors()
     {
-        RegisterInjector(nameof(Model.Name), () => _nameField);
-        RegisterInjector(nameof(Model.Role), () => _roleFiled);
+        RegisterInjector(nameof(_model.Name), () => _nameField);
+        RegisterInjector(nameof(_model.Role), () => _roleFiled);
+    }
+
+    public override void SetUpdateModel(Official official)
+    {
+        _model = new OfficialFieldsModel(official);
     }
 
     public override Official SubmitCreate()
     {
-        return new Official(Model.Name!, Model.Role);
+        return new Official(_model.Name!, _model.Role);
     }
 
     public override Official SubmitUpdate()
     {
-        return Official.Update(Model.Id!.Value, Model.Name!, Model.Role);
+        return Official.Update(_model.Id!.Value, _model.Name!, _model.Role);
     }
 }

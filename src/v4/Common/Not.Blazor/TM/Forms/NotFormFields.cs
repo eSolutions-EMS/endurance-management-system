@@ -3,10 +3,11 @@ using Common.Helpers;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 using Not.Blazor.Forms;
+using Not.Blazor.Navigation;
 
 namespace Not.Blazor.TM.Forms;
 
-public abstract class NotFormFields<T> : ComponentBase, IFormFields<T>
+public abstract class NotFormFields<T> : ComponentBase, ICreateForm<T>, IUpdateForm<T>
     where T : DomainEntity
 {
     /// <summary>
@@ -15,12 +16,22 @@ public abstract class NotFormFields<T> : ComponentBase, IFormFields<T>
     /// </summary>
     protected Dictionary<string, MudValidationInjector> ValidationInjectors { get; set; } = new();
 
+    [Inject]
+    public INavigator Navigator { get; set; } = default!;
+
     public abstract T SubmitCreate();
     public abstract T SubmitUpdate();
-
+    public abstract void SetUpdateModel(T entity);
+    public abstract void RegisterValidationInjectors();
+    
     protected void RegisterInjector<TInput>(string field, Func<MudBaseInput<TInput>> mudInputInstanceGetter)
     {
         ValidationInjectors.Add(field, MudValidationInjector.Create(mudInputInstanceGetter));
+    }
+
+    protected override void OnInitialized()
+    {
+        RegisterValidationInjectors();
     }
 
     public async Task AddValidationError(string? field, string message)
@@ -43,5 +54,9 @@ public abstract class NotFormFields<T> : ComponentBase, IFormFields<T>
         injector.Inject(message);
         await InvokeAsync(StateHasChanged);
     }
-}
 
+    internal void TriggerRender()
+    {
+        StateHasChanged();
+    }
+}

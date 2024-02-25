@@ -5,15 +5,16 @@
 @using Common.Services;
 @using Not.Blazor.Forms;
 @using Not.Blazor.TM.Forms;
+@using Not.Blazor.TM;
 
 @typeparam T where T : DomainEntity;
-@typeparam TForm where TForm : NotFormFields<T>;
+@typeparam TForm where TForm : NotFormFields<T>
 @inject ICreateBehind<T> _createBehind;
 @inject ILocalizer _localizer;
 
 <MudDialog>
     <DialogContent>
-        <DynamicComponent Type="typeof(TForm)" Parameters="_formParameters" @ref="_dynamicComponent" />
+        <NotDynamic T="TForm" @ref="_dynamicForm" />
     </DialogContent>
 
     <DialogActions>
@@ -24,31 +25,23 @@
 </MudDialog>
 
 @code {
-    private DynamicComponent _dynamicComponent = default!;
-    private Dictionary<string, object> _formParameters = new();
+    private NotDynamic<TForm> _dynamicForm = default!;
 
     [CascadingParameter]
     protected MudDialogInstance Dialog { get; set; } = default!;
 
     private async Task Create()
     {
-        if (_dynamicComponent.Instance == null)
-        {
-            throw new Exception($"Instance of '{typeof(TForm)}' is null");
-        }
-        var form = ((TForm)_dynamicComponent.Instance);
-
         try
         {
-            var entity = form.SubmitCreate();
+            var entity = _dynamicForm.Instance.SubmitCreate();
             await _createBehind.Create(entity);
+            Dialog.Close(DialogResult.Ok(true));
         }
         catch (DomainException validation)
         {
-            await form.AddValidationError(validation.Property, validation.Message);
+            await _dynamicForm.Instance.AddValidationError(validation.Property, validation.Message);
             return;
         }
-
-        Dialog.Close(DialogResult.Ok(true));
     }
 }

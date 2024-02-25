@@ -8,27 +8,17 @@
 @using Not.Blazor.Dialogs;
 @using Not.Blazor.TM.Forms;
 
-@inherits UpdatePage<Event>
-
 @inject INotDialogService<Event, EventFields> _notDialogService;
 @inject INotBehind<Event> _behind;
 
-<EditForm Model="_model">
-    <DataAnnotationsValidator />
-
-    <MudCard>
-        <EventFields Model="_model" @ref="Fields" />
-    </MudCard>
-
-    <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="TryUpdate">Update</MudButton>
-</EditForm>
+<NotUpdate T="Event" TForm="EventFields" Entity="_event" UpdateAction="_behind.Update" />
 
 <MudPaper>
     <OfficialList />
 </MudPaper>
 
 @code {
-    private EventFieldsModel _model = default!;
+    private Event _event = default!;
 
     protected override async Task OnInitializedAsync()
     {
@@ -37,12 +27,6 @@
         {
             throw ThrowHelper.Exception($"Event cannot be null here");
         }
-        _model = new(entity);
-    }
-
-    protected override async Task Update()
-    {
-        var entity = Fields!.SubmitUpdate();
-        await _behind.Update(entity);
+        _event = entity;
     }
 }

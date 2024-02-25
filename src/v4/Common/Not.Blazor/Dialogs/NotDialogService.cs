@@ -3,7 +3,6 @@ using Common.Domain;
 using Common.Services;
 using Common.Utilities;
 using MudBlazor;
-using Not.Blazor.Dialogs.Components;
 using Not.Blazor.TM.Forms;
 
 namespace Not.Blazor.Dialogs;
@@ -24,7 +23,7 @@ public class NotDialogService<T, TForm> : INotDialogService<T, TForm>
     public async Task RenderCreate()
     {
         var title = _localizer.Get("Create", " ", ReflectionHelper.GetName<T>());
-        var dialog = await _mudDialogService.ShowAsync<CreateDialog<T, TForm>>(title);
+        var dialog = await _mudDialogService.ShowAsync<NotCreate<T, TForm>>(title);
         await dialog.Result;
     }
 }

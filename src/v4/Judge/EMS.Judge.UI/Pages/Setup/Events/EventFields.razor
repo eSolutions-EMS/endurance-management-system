@@ -1,5 +1,6 @@
 @using Common.Domain;
 @using Common.Exceptions;
+@using Common.Helpers;
 @using EMS.Domain.Objects;
 @using EMS.Domain.Setup.Entities;
 @using EMS.Judge.Setup.Events;
@@ -14,14 +15,14 @@
     TODO: Create MudForm to encapsulate EditForm, DataAnnotationsValidator, MudCard. 
     Is DataAnnotationsValidationr necessary? Probably not - remove and also remove 'For' setters on Mud components
 *@
-<EditForm Model="Model">
+<EditForm Model="_model">
     <DataAnnotationsValidator />
     
     <MudCard>
         <MudCardContent>
             <MudTextField Label="Place" @ref="_placeField"
-            @bind-Value="Model.Place"
-                          For="@(() => Model.Place)" />
+            @bind-Value="_model.Place"
+                          For="@(() => _model.Place)" />
         </MudCardContent>
 
         <MudCardContent>
@@ -29,8 +30,8 @@
                              T="Country"
                              CoerceText="true"
                              SearchFunc="@_countries.Search"
-            @bind-Value="Model.Country"
-                             For="@(() => Model.Country)" />
+            @bind-Value="_model.Country"
+                             For="@(() => _model.Country)" />
         </MudCardContent>
     </MudCard>
 </EditForm>
@@ -38,27 +39,32 @@
 @code {
     private MudTextField<string?> _placeField = default!;
     private MudAutocomplete<Country?> _countryField = default!;
+    private EventFieldsModel _model = new();
 
-    [Parameter]
-    public EventFieldsModel Model { get; set; } = new();
-
-    protected override void OnInitialized()
+    public override void RegisterValidationInjectors()
     {
-        RegisterInjector(nameof(Model.Place), () => _placeField);
-        RegisterInjector(nameof(Model.Country), () => _countryField);
+        RegisterInjector(nameof(_model.Place), () => _placeField);
+        RegisterInjector(nameof(_model.Country), () => _countryField);
+    }
+
+    public override void SetUpdateModel(Event @event)
+    {
+        _model = new EventFieldsModel(@event);
+        // This isnt ideal but it works. It's necessary because this method is invoked 
+        InvokeAsync(StateHasChanged);
     }
 
     public override Event SubmitCreate()
     {
-        return new Event(Model.Place!, Model.Country!);
+        return new Event(_model.Place!, _model.Country!);
     }
 
     public override Event SubmitUpdate()
     {
-        if (!Model.Id.HasValue)
+        if (!_model.Id.HasValue)
         {
-            throw new WhopsException($"{nameof(Model.Id)} is null");
+            throw ThrowHelper.Exception($"{nameof(_model.Id)} is null");
         }
-        return new Event(Model.Id!.Value, Model.Place!, Model.Country!);
+        return new Event(_model.Id!.Value, _model.Place!, _model.Country!);
     }
 }
