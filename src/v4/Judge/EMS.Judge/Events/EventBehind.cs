@@ -1,7 +1,7 @@
-﻿using Not.Helpers;
-using EMS.Domain.Setup.Entities;
+﻿using EMS.Domain.Setup.Entities;
 using Not.Application.Ports.CRUD;
 using Not.Blazor.Ports.Behinds;
+using Not.Exceptions;
 
 namespace EMS.Judge.Events;
 

@@ -24,7 +24,7 @@ public class Official : DomainEntity, ISummarizable, IImportable
 
 	public override string ToString()
 	{
-        return $"{Localizer.Get(this.Role)}: {this.Person}";
+        return $"{LocalizationHelper.Get(this.Role)}: {this.Person}";
 	}
 }
 

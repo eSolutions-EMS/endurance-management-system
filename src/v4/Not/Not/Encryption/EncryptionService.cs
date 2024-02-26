@@ -1,4 +1,4 @@
-﻿using Not.Conventions;
+﻿using Not.Injection;
 using System;
 
 namespace Not.Encryption;

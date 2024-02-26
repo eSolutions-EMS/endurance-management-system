@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace Not.Utilities;
+namespace Not.Reflection;
 
 public static class ReflectionHelper
 {

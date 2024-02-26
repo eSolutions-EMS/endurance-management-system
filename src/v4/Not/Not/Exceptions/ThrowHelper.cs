@@ -1,16 +1,15 @@
-﻿using Not.Exceptions;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 
-namespace Not.Helpers;
+namespace Not.Exceptions;
 
 public static class ThrowHelper
 {
     // TODO: Use CallerMemberName and similar to improve default message transparency
-	[DoesNotReturn]
-	public static void ThrowIfNull(object? value, string message = "Object cannot be null")
-	{
-		if (value == null)
-		{
+    [DoesNotReturn]
+    public static void ThrowIfNull(object? value, string message = "Object cannot be null")
+    {
+        if (value == null)
+        {
             throw new WhopsException(message);
         }
     }

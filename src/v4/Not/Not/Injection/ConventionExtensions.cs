@@ -1,13 +1,12 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using System.Collections.Immutable;
 using System.Reflection;
-using System.Security.Principal;
 using System.Text;
 
-namespace Not.Conventions;
+namespace Not.Injection;
 
 public static class ConventionExtensions
 {
+    private const string NOT_PREFIX = "Not.";
     private static readonly Type TransientType = typeof(ITransientService);
     private static readonly Type ScopedType = typeof(IScopedService);
     private static readonly Type SingletonType = typeof(ISingletonService);
@@ -125,14 +124,10 @@ public static class ConventionExtensions
             return result.ToArray();
         }
         result.Add(assembly);
-        var namespacePrefix = assembly.FullName!.Split('.').First();
+        var ntsPrefix = assembly.FullName!.Split('.').First();
         var references = assembly
             .GetReferencedAssemblies()
-            .Where(x => 
-                x.FullName!.StartsWith(namespacePrefix) ||
-                x.FullName!.StartsWith("Common") ||
-                x.FullName!.StartsWith("EMS") ||
-                x.FullName!.StartsWith("Not."))
+            .Where(x => x.FullName!.StartsWith(ntsPrefix) || x.FullName!.StartsWith(NOT_PREFIX))
             .ToList();
         foreach (var reference in references)
         {

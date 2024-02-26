@@ -26,7 +26,7 @@ public class Competition : DomainEntity, ISummarizable, IImportable
 	public override string ToString()
 	{
 		var sb = new StringBuilder();
-		sb.Append($"{Localizer.Get(this.Type)}, {"Loops".Localize()}: {this.Loops.Count}, {"Starters".Localize()}: {this.Starters.Count}, ");
+		sb.Append($"{LocalizationHelper.Get(this.Type)}, {"Loops".Localize()}: {this.Loops.Count}, {"Starters".Localize()}: {this.Starters.Count}, ");
 		sb.Append($"{"Start".Localize()}: {this.Start.ToString("f", CultureInfo.CurrentCulture)}");
 		return sb.ToString();
 	}

@@ -1,4 +1,4 @@
-﻿using Not.Conventions;
+﻿using Not.Injection;
 using EMS.Persistence.Startup;
 using Microsoft.Extensions.Logging;
 using MudBlazor.Services;

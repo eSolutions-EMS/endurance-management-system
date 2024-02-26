@@ -2,7 +2,7 @@
 
 namespace Not.Localization;
 
-public static class Localizer
+public static class LocalizationHelper
 {
 	private static readonly ILocalizer _localizer = ServiceLocator.Get<ILocalizer>();
 

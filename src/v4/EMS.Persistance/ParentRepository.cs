@@ -1,5 +1,5 @@
 ﻿using Not.Domain;
-using Not.Helpers;
+using Not.Exceptions;
 
 namespace EMS.Persistence;
 

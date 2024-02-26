@@ -1,6 +1,6 @@
-﻿using Not.Helpers;
-using EMS.Domain.Setup.Entities;
+﻿using EMS.Domain.Setup.Entities;
 using Not.Application.Ports.CRUD;
+using Not.Exceptions;
 
 namespace EMS.Persistence.Adapters;
 

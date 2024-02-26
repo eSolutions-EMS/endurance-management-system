@@ -1,5 +1,5 @@
-﻿using Not.Helpers;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Not.Exceptions;
 
 namespace Not;
 

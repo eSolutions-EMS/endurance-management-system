@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using static Not.Localization.Localizer;
+using static Not.Localization.LocalizationHelper;
 
 namespace Not.Domain;
 

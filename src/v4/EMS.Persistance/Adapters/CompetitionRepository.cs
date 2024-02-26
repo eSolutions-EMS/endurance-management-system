@@ -1,5 +1,5 @@
-﻿using Not.Helpers;
-using EMS.Domain.Setup.Entities;
+﻿using EMS.Domain.Setup.Entities;
+using Not.Exceptions;
 
 namespace EMS.Persistence.Adapters;
 

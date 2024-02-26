@@ -1,4 +1,4 @@
-﻿namespace Not.Conventions;
+﻿namespace Not.Injection;
 
 public interface ISingletonService
 {

@@ -1,4 +1,4 @@
-﻿using Not.Conventions;
+﻿using Not.Injection;
 using Not.Exceptions;
 using System.Diagnostics.CodeAnalysis;
 
