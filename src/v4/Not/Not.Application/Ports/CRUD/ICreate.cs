@@ -1,9 +1,9 @@
 ﻿using Not.Conventions;
 using Not.Domain;
 
-namespace Not.Application.Behinds;
+namespace Not.Application.Ports.CRUD;
 
-public interface ICreateBehind<T> : ISingletonService
+public interface ICreate<T> : ITransientService
     where T : DomainEntity
 {
     Task<T> Create(T entity);

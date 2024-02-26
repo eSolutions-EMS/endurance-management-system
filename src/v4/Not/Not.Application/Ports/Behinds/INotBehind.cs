@@ -1,7 +1,7 @@
 ﻿using Not.Conventions;
 using Not.Domain;
 
-namespace Not.Application.Behinds;
+namespace Not.Application.Ports.Behinds;
 
 /// <summary>
 /// <seealso cref="INotBehind{T}"/> is a <seealso cref="INotBehind"/> that represents CRUD operations for a <seealso cref="DomainEntity"/>

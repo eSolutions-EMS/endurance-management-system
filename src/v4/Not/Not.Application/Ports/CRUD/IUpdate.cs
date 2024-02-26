@@ -1,10 +1,10 @@
 ﻿using Not.Conventions;
 using Not.Domain;
 
-namespace Not.Application.CRUD;
+namespace Not.Application.Ports.CRUD;
 
 public interface IUpdate<T> : ITransientService
     where T : DomainEntity
 {
-    Task<T> Update(T entity); 
+    Task<T> Update(T entity);
 }

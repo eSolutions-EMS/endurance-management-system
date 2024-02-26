@@ -1,7 +1,7 @@
 ﻿using Not.Conventions;
 using Not.Domain;
 
-namespace Not.Application.CRUD.Parents;
+namespace Not.Application.Ports.CRUD;
 
 public interface IUpdateChild<T> : ITransientService
     where T : DomainEntity

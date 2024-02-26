@@ -1,8 +1,7 @@
-﻿using Not.Application.Behinds;
-using Not.Application.CRUD;
-using Not.Application.CRUD.Parents;
-using Not.Helpers;
+﻿using Not.Helpers;
 using EMS.Domain.Setup.Entities;
+using Not.Application.Ports.CRUD;
+using Not.Application.Ports.Behinds;
 
 namespace EMS.Judge.Events;
 
