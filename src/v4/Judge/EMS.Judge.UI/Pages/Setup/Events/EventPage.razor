@@ -25,7 +25,7 @@
         var entity = await _behind.Read(default);
         if (entity == null)
         {
-            throw ThrowHelper.Exception($"Event cannot be null here");
+            throw GuardHelper.Exception($"Event cannot be null here");
         }
         _event = entity;
     }

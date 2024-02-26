@@ -13,7 +13,7 @@ public class CompetitionRepository : RepositoryBase<Competition, State>
     {
         var context = await Store.Load();
         var existing = context.Competitions.FirstOrDefault();
-        ThrowHelper.ThrowIfNull(existing);
+        GuardHelper.ThrowIfNull(existing);
 
         context.Competitions.Remove(entity);
         context.Competitions.Add(entity);

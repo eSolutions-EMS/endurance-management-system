@@ -30,7 +30,7 @@ public class NotNavigator : INavigator
     {
         if (_parameters == null)
         {
-            throw ThrowHelper.Exception($"Cannot get parameter '{typeof(T)}'. There are no parameters on this landing");
+            throw GuardHelper.Exception($"Cannot get parameter '{typeof(T)}'. There are no parameters on this landing");
         }
         var result = _parameters.Get<T>();
         _parameters = null;
@@ -50,7 +50,7 @@ public class NotNavigator : INavigator
         {
             if (parameter == null)
             {
-                throw ThrowHelper.Exception($"Parameter of type '{typeof(T)}' is null. {nameof(NotNavigator)} parameters cannot be null");
+                throw GuardHelper.Exception($"Parameter of type '{typeof(T)}' is null. {nameof(NotNavigator)} parameters cannot be null");
             }
             return new Parameters(parameter);
         }
@@ -64,7 +64,7 @@ public class NotNavigator : INavigator
         {
             if (_parameter is not T typedParameter)
             {
-                throw ThrowHelper.Exception(
+                throw GuardHelper.Exception(
                     $"Cannot get parameter of type '{typeof(T)}'/ Underlying type of parameter is '{_parameter.GetType()}'");
             }
             return typedParameter;

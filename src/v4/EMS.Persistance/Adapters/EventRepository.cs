@@ -14,7 +14,7 @@ public class EventRepository : ParentRepository<Official, Event, State>, IParent
     public override async Task<Event> Update(Event entity)
     {
         var context = await Store.Load();
-        ThrowHelper.ThrowIfNull(context.Event);
+        GuardHelper.ThrowIfNull(context.Event);
 
         foreach (var official in context.Event.Officials)
         {
@@ -30,7 +30,7 @@ public class EventRepository : ParentRepository<Official, Event, State>, IParent
     {
         var context = await Store.Load();
         var existing = context.Officials.Find(x => x == child);
-        ThrowHelper.ThrowIfNull(existing);
+        GuardHelper.ThrowIfNull(existing);
 
         context.Event.Update(child);
         await Store.Commit(context);

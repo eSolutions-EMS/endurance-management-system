@@ -38,7 +38,7 @@ public abstract class RepositoryBase<T, TDataContext> : IRepository<T>
     {
         var context = await Store.Load();
         var existing = context.Entities.FirstOrDefault(x => x.Id == id);
-        ThrowHelper.ThrowIfNull(existing);
+        GuardHelper.ThrowIfNull(existing);
 
         context.Entities.Remove(existing);
         await Store.Commit(context);
@@ -50,7 +50,7 @@ public abstract class RepositoryBase<T, TDataContext> : IRepository<T>
     {
         var context = await Store.Load();
         var existing = context.Entities.FirstOrDefault(x => filter(x));
-        ThrowHelper.ThrowIfNull(existing);
+        GuardHelper.ThrowIfNull(existing);
 
         context.Entities.Remove(existing);
         await Store.Commit(context);

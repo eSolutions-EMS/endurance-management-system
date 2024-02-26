@@ -44,7 +44,7 @@ public class EventBehind : INotBehind<Event>, INotBehindParent<Official>
 
     public async Task<Official> Create(Official child)
     {
-        ThrowHelper.ThrowIfNull(_event);
+        GuardHelper.ThrowIfNull(_event);
 
         _event.Add(child);
         await _officialRepository.Create(_event.Id, child);
@@ -53,7 +53,7 @@ public class EventBehind : INotBehind<Event>, INotBehindParent<Official>
 
     public async Task<Official> Delete(Official child)
     {
-        ThrowHelper.ThrowIfNull(_event);
+        GuardHelper.ThrowIfNull(_event);
 
         _event.Remove(child);
         return await _officialRepository.Delete(_event.Id, child);
@@ -61,7 +61,7 @@ public class EventBehind : INotBehind<Event>, INotBehindParent<Official>
 
     public async Task<Official> Update(Official child)
     {
-        ThrowHelper.ThrowIfNull(_event);
+        GuardHelper.ThrowIfNull(_event);
 
         _event.Update(child);
         await _officialRepository.Update(child);

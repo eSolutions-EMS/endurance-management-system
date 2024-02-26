@@ -59,7 +59,7 @@
     {
         if (!_model.Id.HasValue)
         {
-            throw ThrowHelper.Exception($"{nameof(_model.Id)} is null");
+            throw GuardHelper.Exception($"{nameof(_model.Id)} is null");
         }
         return new Event(_model.Id!.Value, _model.Place!, _model.Country!);
     }

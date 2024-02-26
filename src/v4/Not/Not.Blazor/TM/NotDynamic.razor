@@ -13,7 +13,7 @@
         {
             if (_dynamicComponent?.Instance == null)
             {
-                throw ThrowHelper.Exception($"Instance of '{typeof(T)}' is null");
+                throw GuardHelper.Exception($"Instance of '{typeof(T)}' is null");
             }
             return (T)_dynamicComponent.Instance;
         }

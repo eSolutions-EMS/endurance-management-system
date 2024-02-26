@@ -28,7 +28,7 @@ public abstract class ParentRepository<T, TParent, TDataContext> : RepositoryBas
     {
         var context = await Store.Load();
         var parent = parentGetter(context);
-        ThrowHelper.ThrowIfNull(parent);
+        GuardHelper.ThrowIfNull(parent);
 
         parent.Add(child);
         await Store.Commit(context);
@@ -42,7 +42,7 @@ public abstract class ParentRepository<T, TParent, TDataContext> : RepositoryBas
     {
         var context = await Store.Load();
         var parent = parentGetter(context);
-        ThrowHelper.ThrowIfNull(parent);
+        GuardHelper.ThrowIfNull(parent);
 
         parent.Remove(child);
         await Store.Commit(context);

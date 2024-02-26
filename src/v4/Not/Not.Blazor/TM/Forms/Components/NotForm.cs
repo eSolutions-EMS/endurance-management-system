@@ -42,7 +42,7 @@ public abstract class NotForm<T> : NotComponent, ICreateForm<T>, IUpdateForm<T>
         if (!ValidationInjectors.TryGetValue(field, out var injector))
         {
             //TODO: use IDefaultNotifier or something
-            throw ThrowHelper.Exception(
+            throw GuardHelper.Exception(
                 $"Key '{field}' not found in {nameof(NotForm<T>)}.{nameof(ValidationInjectors)}. " +
                 $"Make sure all field components have a ref pointer in there.");
         }

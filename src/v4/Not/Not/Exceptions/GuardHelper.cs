@@ -2,7 +2,7 @@
 
 namespace Not.Exceptions;
 
-public static class ThrowHelper
+public static class GuardHelper
 {
     // TODO: Use CallerMemberName and similar to improve default message transparency
     [DoesNotReturn]
@@ -10,12 +10,12 @@ public static class ThrowHelper
     {
         if (value == null)
         {
-            throw new WhopsException(message);
+            throw new GuardException(message);
         }
     }
 
     public static Exception Exception(string message)
     {
-        return new WhopsException(message);
+        return new GuardException(message);
     }
 }
