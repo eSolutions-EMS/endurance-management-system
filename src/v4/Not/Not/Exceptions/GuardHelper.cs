@@ -4,7 +4,6 @@ namespace Not.Exceptions;
 
 public static class GuardHelper
 {
-    // TODO: Use CallerMemberName and similar to improve default message transparency
     [DoesNotReturn]
     public static void ThrowIfNull(object? value, string message = "Object cannot be null")
     {
