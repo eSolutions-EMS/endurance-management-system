@@ -1,6 +1,6 @@
 ﻿using EMS.Domain.Setup.Entities;
 
-namespace EMS.Judge.Setup.StaffMembers;
+namespace EMS.Judge.UI.Setup.StaffMembers;
 
 public class OfficialFieldsModel
 {

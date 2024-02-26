@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -7,12 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Not\Not.Application\Not.Application.csproj" />
     <ProjectReference Include="..\..\EMS.Common\EMS.Application.csproj" />
     <ProjectReference Include="..\..\EMS.Domain.Core\EMS.Domain.Core.csproj" />
     <ProjectReference Include="..\..\EMS.Domain.Setup\EMS.Domain.Setup.csproj" />
     <ProjectReference Include="..\..\EMS.Domain.Watcher\EMS.Domain.Watcher.csproj" />
     <ProjectReference Include="..\..\EMS.Domain\EMS.Domain.csproj" />
+    <ProjectReference Include="..\..\Not\Not.Application\Not.Application.csproj" />
   </ItemGroup>
 
 </Project>

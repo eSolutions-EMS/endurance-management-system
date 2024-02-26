@@ -1,5 +1,4 @@
 ﻿using Not.Conventions;
-using EMS.Judge.Setup.Events;
 using EMS.Persistence.Startup;
 using Microsoft.Extensions.Logging;
 using MudBlazor.Services;
@@ -31,7 +30,8 @@ public static class ServiceCollectionExtensions
         builder.Services
             .GetConventionalAssemblies()
             .RegisterConventionalServices()
-            .AddPersistence();
+            .AddPersistence()
+            .AddJudge();
         return builder;
     }
 

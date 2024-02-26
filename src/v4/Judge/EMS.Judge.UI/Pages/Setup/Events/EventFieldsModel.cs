@@ -1,8 +1,7 @@
-﻿using Not;
-using EMS.Domain.Objects;
+﻿using EMS.Domain.Objects;
 using EMS.Domain.Setup.Entities;
 
-namespace EMS.Judge.Setup.Events;
+namespace EMS.Judge.UI.Setup.Events;
 
 public class EventFieldsModel
 {

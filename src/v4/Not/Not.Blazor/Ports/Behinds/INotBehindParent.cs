@@ -1,6 +1,6 @@
 ﻿using Not.Domain;
 
-namespace Not.Application.Ports.Behinds;
+namespace Not.Blazor.Ports.Behinds;
 
 /// <summary>
 /// <seealso cref="INotBehindParent{T}"/> represents a <seealso cref="INotBehind"/> that manages child <seealso cref="DomainEntity"/> objects

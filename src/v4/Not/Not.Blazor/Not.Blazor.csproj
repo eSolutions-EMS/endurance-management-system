@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Razor">
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Not.Application\Not.Application.csproj" />
     <ProjectReference Include="..\Not.Domain\Not.Domain.csproj" />
     <ProjectReference Include="..\Not\Not.csproj" />
   </ItemGroup>
