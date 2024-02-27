@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.Localization;
 
-namespace Not.Blazor;
+namespace Not.Blazor.Components;
 
 public class ExceptionHandler<T> : ErrorBoundary
 {

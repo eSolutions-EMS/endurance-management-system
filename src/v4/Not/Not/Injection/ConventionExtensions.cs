@@ -127,7 +127,7 @@ public static class ConventionExtensions
         var ntsPrefix = assembly.FullName!.Split('.').First();
         var references = assembly
             .GetReferencedAssemblies()
-            .Where(x => x.FullName!.StartsWith(ntsPrefix) || x.FullName!.StartsWith(NOT_PREFIX))
+            .Where(x => x.FullName!.StartsWith(ntsPrefix) || x.FullName!.StartsWith(NOT_PREFIX) || x.FullName!.StartsWith("NTS.")) // TODO: remove
             .ToList();
         foreach (var reference in references)
         {

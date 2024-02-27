@@ -2,7 +2,7 @@
 using EMS.Domain.Objects;
 using System.Collections.ObjectModel;
 
-namespace EMS.Judge.UI.Contexts;
+namespace EMS.Judge.Blazor.Contexts;
 
 public class CountriesContext : ICountriesContext
 {

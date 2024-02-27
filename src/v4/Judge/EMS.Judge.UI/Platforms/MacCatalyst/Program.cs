@@ -2,6 +2,7 @@
 using UIKit;
 
 namespace EMS.Judge.UI;
+
 public class Program
 {
     // This is the main entry point of the application.

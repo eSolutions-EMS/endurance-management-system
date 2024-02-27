@@ -65,6 +65,7 @@
     <ProjectReference Include="..\..\EMS.Persistance\EMS.Persistence.csproj" />
     <ProjectReference Include="..\EMS.Judge.Server\EMS.Judge.Server.csproj" />
     <ProjectReference Include="..\EMS.Judge\EMS.Judge.csproj" />
+    <ProjectReference Include="..\NTS.Judge.Blazor\NTS.Judge.Blazor.csproj" />
   </ItemGroup>
 
 </Project>

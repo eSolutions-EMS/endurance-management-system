@@ -1,8 +1,8 @@
 ﻿using Not.Services;
-using EMS.Judge.UI.Resources.Localization;
+using NTS.Judge.Blazor.Resources.Localization;
 using Microsoft.Extensions.Localization;
 
-namespace EMS.Judge.UI.Services;
+namespace EMS.Judge.Blazor.Services;
 
 public class ResxLocalizer : LocalizerBase
 {

@@ -1,7 +1,7 @@
-﻿using Not.Injection;
-using EMS.Persistence.Startup;
+﻿using EMS.Persistence.Startup;
 using Microsoft.Extensions.Logging;
-using MudBlazor.Services;
+using NTS.Judge.Blazor.Startup;
+using Not.Injection;
 
 namespace EMS.Judge.UI;
 
@@ -16,8 +16,7 @@ public static class MauiProgram
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
             })
-            .AddEmsServices()
-            .AddUiServices();
+            .ConfigureBlazor();
 
         return builder.Build();
     }
@@ -25,17 +24,7 @@ public static class MauiProgram
 
 public static class ServiceCollectionExtensions
 {
-    public static MauiAppBuilder AddEmsServices(this MauiAppBuilder builder)
-    {
-        builder.Services
-            .GetConventionalAssemblies()
-            .RegisterConventionalServices()
-            .AddPersistence()
-            .AddJudge();
-        return builder;
-    }
-
-    public static MauiAppBuilder AddUiServices(this MauiAppBuilder builder)
+    public static MauiAppBuilder ConfigureBlazor(this MauiAppBuilder builder)
     {
         builder.Services.AddMauiBlazorWebView();
 #if DEBUG
@@ -43,8 +32,18 @@ public static class ServiceCollectionExtensions
         builder.Logging.AddDebug();
 #endif
         builder.Services
-            .AddLocalization(x => x.ResourcesPath = "Resources/Localization")
-            .AddMudServices();
+            .AddJudgeBlazor()
+            .AddInversedDependencies();
         return builder;
+    }
+
+    public static IServiceCollection AddInversedDependencies(this IServiceCollection services)
+    {
+        services
+            .AddPersistence()
+            .AddJudge()
+            .GetConventionalAssemblies()
+            .RegisterConventionalServices();
+        return services;
     }
 }

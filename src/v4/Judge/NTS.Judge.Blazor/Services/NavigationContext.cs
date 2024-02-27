@@ -1,7 +1,7 @@
 ﻿using Not.Injection;
 using EMS.Domain.Setup.Entities;
 
-namespace EMS.Judge.UI.Services;
+namespace EMS.Judge.Blazor.Services;
 
 public class NavigationContext : INavigationContext
 {
