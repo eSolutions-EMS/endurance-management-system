@@ -1,6 +1,6 @@
 ﻿using Not.Domain;
 
-namespace EMS.Persistence;
+namespace NTS.Persistence;
 
 public interface IEntityContext<T>
     where T : DomainEntity

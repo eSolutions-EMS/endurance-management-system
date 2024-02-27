@@ -2,7 +2,7 @@
 using NTS.Judge.Blazor.Resources.Localization;
 using Microsoft.Extensions.Localization;
 
-namespace EMS.Judge.Blazor.Services;
+namespace NTS.Judge.Blazor.Services;
 
 public class ResxLocalizer : LocalizerBase
 {

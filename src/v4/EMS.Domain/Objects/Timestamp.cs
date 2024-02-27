@@ -1,7 +1,7 @@
 ﻿using Not.Domain;
 using System.Globalization;
 
-namespace EMS.Domain;
+namespace NTS.Domain;
 
 public record Timestamp(DateTime Time) : DomainObject
 {

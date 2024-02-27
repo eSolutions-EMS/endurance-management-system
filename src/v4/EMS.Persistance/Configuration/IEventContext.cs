@@ -1,6 +1,6 @@
-﻿using EMS.Domain.Setup.Entities;
+﻿using NTS.Domain.Setup.Entities;
 
-namespace EMS.Persistence.Configuration;
+namespace NTS.Persistence.Configuration;
 
 public interface IEventContext
 {

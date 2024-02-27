@@ -1,7 +1,7 @@
-﻿using EMS.Domain.Objects;
-using EMS.Domain.Setup.Entities;
+﻿using NTS.Domain.Objects;
+using NTS.Domain.Setup.Entities;
 
-namespace EMS.Judge.Blazor.Setup.Events;
+namespace NTS.Judge.Blazor.Setup.Events;
 
 public class EventFieldsModel
 {

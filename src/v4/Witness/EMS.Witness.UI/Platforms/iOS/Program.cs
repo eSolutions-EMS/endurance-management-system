@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace EMS.Witness.UI;
+namespace NTS.Witness.UI;
 public class Program
 {
     // This is the main entry point of the application.

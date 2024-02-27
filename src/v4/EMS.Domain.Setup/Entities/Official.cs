@@ -1,7 +1,7 @@
-﻿using EMS.Domain.Setup.Import;
+﻿using NTS.Domain.Setup.Import;
 using Newtonsoft.Json;
 
-namespace EMS.Domain.Setup.Entities;
+namespace NTS.Domain.Setup.Entities;
 
 public class Official : DomainEntity, ISummarizable, IImportable
 {

@@ -1,7 +1,7 @@
-﻿using EMS.Application;
-using EMS.Domain.Objects;
+﻿using NTS.Application;
+using NTS.Domain.Objects;
 
-namespace EMS.Judge.Ports;
+namespace NTS.Judge.Ports;
 
 public interface IJudgeContext : IUiContext
 {

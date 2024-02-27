@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace EMS.Domain.Objects;
+namespace NTS.Domain.Objects;
 
 public class Person
 {

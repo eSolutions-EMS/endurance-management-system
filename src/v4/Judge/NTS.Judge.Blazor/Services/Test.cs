@@ -1,4 +1,4 @@
-﻿namespace EMS.Judge.Blazor.Services;
+﻿namespace NTS.Judge.Blazor.Services;
 
 public interface TTest
 {

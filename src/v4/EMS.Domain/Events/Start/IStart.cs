@@ -1,6 +1,6 @@
 ﻿using Not.Domain.Summary;
 
-namespace EMS.Domain.Events.Start;
+namespace NTS.Domain.Events.Start;
 
 public interface IStart
 {

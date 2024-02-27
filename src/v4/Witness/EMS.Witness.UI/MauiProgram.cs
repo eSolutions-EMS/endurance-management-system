@@ -1,7 +1,7 @@
-﻿using EMS.Witness.UI.Data;
+﻿using NTS.Witness.UI.Data;
 using Microsoft.Extensions.Logging;
 
-namespace EMS.Witness.UI;
+namespace NTS.Witness.UI;
 public static class MauiProgram
 {
     public static MauiApp CreateMauiApp()

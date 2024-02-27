@@ -1,7 +1,7 @@
 ﻿using Not.Domain;
-using EMS.Domain.Watcher.Entities;
+using NTS.Domain.Watcher.Entities;
 
-namespace EMS.Domain.Watcher.Objects;
+namespace NTS.Domain.Watcher.Objects;
 
 public record RfidTagCoreEvent : DomainObject, ICoreEvent
 {

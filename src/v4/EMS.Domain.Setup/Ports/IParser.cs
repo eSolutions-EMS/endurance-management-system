@@ -1,7 +1,7 @@
 ﻿using Not.Injection;
-using EMS.Domain.Setup.Import;
+using NTS.Domain.Setup.Import;
 
-namespace EMS.Domain.Setup.Ports;
+namespace NTS.Domain.Setup.Ports;
 
 public interface IParser<T> : ITransientService
     where T : IImportable

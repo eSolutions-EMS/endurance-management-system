@@ -1,6 +1,6 @@
 ﻿using Not.Domain.Summary;
 
-namespace EMS.Domain.Objects;
+namespace NTS.Domain.Objects;
 
 public record Country(string IsoCode, string Name) : DomainObject, ISummarizable
 {

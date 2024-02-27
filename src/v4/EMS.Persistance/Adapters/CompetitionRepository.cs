@@ -1,7 +1,7 @@
-﻿using EMS.Domain.Setup.Entities;
+﻿using NTS.Domain.Setup.Entities;
 using Not.Exceptions;
 
-namespace EMS.Persistence.Adapters;
+namespace NTS.Persistence.Adapters;
 
 public class CompetitionRepository : RepositoryBase<Competition, State>
 {

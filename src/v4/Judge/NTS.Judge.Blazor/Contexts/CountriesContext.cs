@@ -1,8 +1,8 @@
 ﻿using Not.Injection;
-using EMS.Domain.Objects;
+using NTS.Domain.Objects;
 using System.Collections.ObjectModel;
 
-namespace EMS.Judge.Blazor.Contexts;
+namespace NTS.Judge.Blazor.Contexts;
 
 public class CountriesContext : ICountriesContext
 {

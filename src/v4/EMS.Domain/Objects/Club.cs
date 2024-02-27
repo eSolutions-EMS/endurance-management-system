@@ -1,6 +1,6 @@
 ﻿using Not.Domain;
 
-namespace EMS.Domain.Objects;
+namespace NTS.Domain.Objects;
 
 public record Club(string Name) : DomainObject
 {

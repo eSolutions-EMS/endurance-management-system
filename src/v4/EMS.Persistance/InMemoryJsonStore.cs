@@ -2,7 +2,7 @@
 using JsonNet.PrivatePropertySetterResolver;
 using Not.Injection;
 
-namespace EMS.Persistence;
+namespace NTS.Persistence;
 
 public class InMemoryJsonStore<T> : IStore<T>
     where T : class, new()

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace EMS.Persistence.Startup;
+namespace NTS.Persistence.Startup;
 
 public static class JudgeStartup
 {

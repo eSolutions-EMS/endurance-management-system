@@ -2,7 +2,7 @@
 using Not.Domain;
 using Not.Exceptions;
 
-namespace EMS.Persistence;
+namespace NTS.Persistence;
 
 public abstract class RepositoryBase<T, TDataContext> : IRepository<T>
     where TDataContext : class, IEntityContext<T>, new()

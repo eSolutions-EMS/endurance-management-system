@@ -1,9 +1,9 @@
-﻿using EMS.Domain.Setup.Entities;
+﻿using NTS.Domain.Setup.Entities;
 using Not.Application.Ports.CRUD;
 using Not.Blazor.Ports.Behinds;
 using Not.Exceptions;
 
-namespace EMS.Judge.Events;
+namespace NTS.Judge.Events;
 
 public class EventBehind : INotBehind<Event>, INotBehindParent<Official>
 {

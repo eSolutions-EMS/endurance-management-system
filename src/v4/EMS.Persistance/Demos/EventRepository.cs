@@ -1,7 +1,7 @@
 ﻿using Not.Domain;
-using EMS.Domain.Core.PersistenceDemo;
+using NTS.Domain.Core.PersistenceDemo;
 
-namespace EMS.Persistence.Adapters;
+namespace NTS.Persistence.Adapters;
 
 public class DemoEventRepository : IPersistenceDemoRepository
 {

@@ -1,7 +1,7 @@
-﻿using EMS.Domain.Events.Start;
-using EMS.Domain.Setup.Objects;
+﻿using NTS.Domain.Events.Start;
+using NTS.Domain.Setup.Objects;
 
-namespace EMS.Domain.Setup.Entities;
+namespace NTS.Domain.Setup.Entities;
 
 public class IdTag : DomainEntity, ISummarizable, ICoreIdentifier
 {

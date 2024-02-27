@@ -1,6 +1,6 @@
 ﻿using Not.Injection;
 
-namespace EMS.Application;
+namespace NTS.Application;
 
 public interface IUiContext : ISingletonService
 {

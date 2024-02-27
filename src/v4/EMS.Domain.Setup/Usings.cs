@@ -8,5 +8,5 @@ global using Not.Localization;
 global using Not.Domain;
 global using Not.Domain.Summary;
 global using Not.Tasks;
-global using EMS.Domain.Objects;
+global using NTS.Domain.Objects;
 global using static Not.Localization.LocalizationHelper;

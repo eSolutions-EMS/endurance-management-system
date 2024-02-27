@@ -1,7 +1,7 @@
 ﻿using Not.Domain;
 using Not.Exceptions;
 
-namespace EMS.Persistence;
+namespace NTS.Persistence;
 
 public abstract class ParentRepository<T, TParent, TDataContext> : RepositoryBase<TParent, TDataContext>
     where TParent : DomainEntity, IParent<T>

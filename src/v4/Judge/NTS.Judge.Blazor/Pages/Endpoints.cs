@@ -1,4 +1,4 @@
-﻿namespace EMS.Judge.Blazor.Pages;
+﻿namespace NTS.Judge.Blazor.Pages;
 
 public static class Endpoints
 {

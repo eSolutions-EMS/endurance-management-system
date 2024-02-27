@@ -1,4 +1,4 @@
-﻿namespace EMS.Domain.Setup.Objects;
+﻿namespace NTS.Domain.Setup.Objects;
 
 public record NumberCoreIdentifier : CoreIdentifier
 {

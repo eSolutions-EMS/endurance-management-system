@@ -1,6 +1,6 @@
 ﻿using Not.Injection;
 
-namespace EMS.Domain;
+namespace NTS.Domain;
 
 public class LocalizationTestService : ILocalizationTestService
 {

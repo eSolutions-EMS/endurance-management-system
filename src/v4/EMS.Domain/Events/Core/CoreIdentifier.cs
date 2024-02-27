@@ -1,6 +1,6 @@
 ﻿using Not.Domain;
 
-namespace EMS.Domain;
+namespace NTS.Domain;
 
 public abstract record CoreIdentifier : DomainObject, ICoreIdentifier
 { 

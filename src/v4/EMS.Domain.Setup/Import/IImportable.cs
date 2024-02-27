@@ -1,4 +1,4 @@
-﻿namespace EMS.Domain.Setup.Import;
+﻿namespace NTS.Domain.Setup.Import;
 
 public interface IImportable
 {

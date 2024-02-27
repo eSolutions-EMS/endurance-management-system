@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace EMS.Witness.UI;
+namespace NTS.Witness.UI;
 [Application]
 public class MainApplication : MauiApplication
 {

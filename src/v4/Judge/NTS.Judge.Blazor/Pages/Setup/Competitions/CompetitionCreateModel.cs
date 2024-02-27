@@ -1,6 +1,6 @@
-﻿using EMS.Domain.Setup.Entities;
+﻿using NTS.Domain.Setup.Entities;
 
-namespace EMS.Judge.Setup.Competitions;
+namespace NTS.Judge.Setup.Competitions;
 
 public class CompetitionCreateModel
 {

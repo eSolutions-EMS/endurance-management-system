@@ -1,6 +1,6 @@
-﻿using EMS.Domain.Setup.Import;
+﻿using NTS.Domain.Setup.Import;
 
-namespace EMS.Domain.Setup.Entities;
+namespace NTS.Domain.Setup.Entities;
 
 public class Loop : DomainEntity, ISummarizable, IImportable
 {

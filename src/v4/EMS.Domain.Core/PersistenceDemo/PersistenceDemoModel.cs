@@ -1,4 +1,4 @@
-﻿namespace EMS.Domain.Core.PersistenceDemo;
+﻿namespace NTS.Domain.Core.PersistenceDemo;
 
 public class PersistenceDemoModel
 {

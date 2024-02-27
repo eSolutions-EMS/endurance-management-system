@@ -1,6 +1,6 @@
 ﻿using Not.Domain;
 
-namespace EMS.Domain.Watcher.Entities;
+namespace NTS.Domain.Watcher.Entities;
 
 public class RfidTag : DomainEntity
 {

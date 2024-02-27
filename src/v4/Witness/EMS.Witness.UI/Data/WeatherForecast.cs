@@ -1,4 +1,4 @@
-namespace EMS.Witness.UI.Data;
+namespace NTS.Witness.UI.Data;
 
 public class WeatherForecast
 {

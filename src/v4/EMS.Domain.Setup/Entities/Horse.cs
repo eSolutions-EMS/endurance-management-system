@@ -1,7 +1,7 @@
-﻿using EMS.Domain.Events.Start;
-using EMS.Domain.Setup.Import;
+﻿using NTS.Domain.Events.Start;
+using NTS.Domain.Setup.Import;
 
-namespace EMS.Domain.Setup.Entities;
+namespace NTS.Domain.Setup.Entities;
 
 public class Horse : DomainEntity, ISummarizable, IImportable
 {

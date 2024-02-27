@@ -1,8 +1,8 @@
-﻿using EMS.Domain.Setup.Entities;
+﻿using NTS.Domain.Setup.Entities;
 using Not.Application.Ports.CRUD;
 using Not.Exceptions;
 
-namespace EMS.Persistence.Adapters;
+namespace NTS.Persistence.Adapters;
 
 public class EventRepository : ParentRepository<Official, Event, State>, IParentRepository<Official>
 {

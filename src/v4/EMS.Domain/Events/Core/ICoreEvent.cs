@@ -1,4 +1,4 @@
-﻿ namespace EMS.Domain;
+﻿ namespace NTS.Domain;
 
 public interface ICoreEvent
 {

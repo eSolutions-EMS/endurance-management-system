@@ -6,4 +6,4 @@ global using System.Text;
 global using System.Threading.Tasks;
 global using Not.Localization;
 global using Not.Domain;
-global using EMS.Domain.Objects;
+global using NTS.Domain.Objects;
