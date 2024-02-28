@@ -7,11 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\EMS.Common\EMS.Application.csproj" />
-    <ProjectReference Include="..\..\EMS.Domain.Core\EMS.Domain.Core.csproj" />
-    <ProjectReference Include="..\..\EMS.Domain.Setup\EMS.Domain.Setup.csproj" />
-    <ProjectReference Include="..\..\EMS.Domain.Watcher\EMS.Domain.Watcher.csproj" />
-    <ProjectReference Include="..\..\EMS.Domain\EMS.Domain.csproj" />
+    <ProjectReference Include="..\..\EMS.Common\NTS.Application.csproj" />
+    <ProjectReference Include="..\..\EMS.Domain.Core\NTS.Domain.Core.csproj" />
+    <ProjectReference Include="..\..\EMS.Domain.Setup\NTS.Domain.Setup.csproj" />
+    <ProjectReference Include="..\..\EMS.Domain.Watcher\NTS.Domain.Watcher.csproj" />
+    <ProjectReference Include="..\..\EMS.Domain\NTS.Domain.csproj" />
     <ProjectReference Include="..\..\Not\Not.Application\Not.Application.csproj" />
     <ProjectReference Include="..\NTS.Judge.Blazor\NTS.Judge.Blazor.csproj" />
   </ItemGroup>

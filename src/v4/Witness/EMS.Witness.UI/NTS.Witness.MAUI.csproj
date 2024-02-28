@@ -56,9 +56,9 @@
     <ItemGroup>
       <ProjectReference Include="..\..\Not\Not.MAUI\Not.MAUI.csproj" />
       <ProjectReference Include="..\..\Not\Not\Not.csproj" />
-      <ProjectReference Include="..\..\EMS.Common\EMS.Application.csproj" />
-      <ProjectReference Include="..\..\EMS.Domain.Watcher\EMS.Domain.Watcher.csproj" />
-      <ProjectReference Include="..\..\EMS.Domain\EMS.Domain.csproj" />
+      <ProjectReference Include="..\..\EMS.Common\NTS.Application.csproj" />
+      <ProjectReference Include="..\..\EMS.Domain.Watcher\NTS.Domain.Watcher.csproj" />
+      <ProjectReference Include="..\..\EMS.Domain\NTS.Domain.csproj" />
     </ItemGroup>
 
 </Project>

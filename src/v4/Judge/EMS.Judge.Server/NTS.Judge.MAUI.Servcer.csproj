@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EMS.Judge\EMS.Judge.csproj" />
+    <ProjectReference Include="..\EMS.Judge\NTS.Judge.csproj" />
   </ItemGroup>
 
 </Project>

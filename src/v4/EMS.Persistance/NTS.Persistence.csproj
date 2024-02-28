@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -8,10 +8,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Not\Not.Application\Not.Application.csproj" />
-    <ProjectReference Include="..\EMS.Domain.Core\EMS.Domain.Core.csproj" />
-    <ProjectReference Include="..\EMS.Domain.Setup\EMS.Domain.Setup.csproj" />
-    <ProjectReference Include="..\EMS.Domain.Watcher\EMS.Domain.Watcher.csproj" />
-    <ProjectReference Include="..\EMS.Domain\EMS.Domain.csproj" />
+    <ProjectReference Include="..\EMS.Domain.Core\NTS.Domain.Core.csproj" />
+    <ProjectReference Include="..\EMS.Domain.Setup\NTS.Domain.Setup.csproj" />
+    <ProjectReference Include="..\EMS.Domain.Watcher\NTS.Domain.Watcher.csproj" />
+    <ProjectReference Include="..\EMS.Domain\NTS.Domain.csproj" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="JsonNet.PrivatePropertySetterResolver" Version="1.0.0" />
   </ItemGroup>
