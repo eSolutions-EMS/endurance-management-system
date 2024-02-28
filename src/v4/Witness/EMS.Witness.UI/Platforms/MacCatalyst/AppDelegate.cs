@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace NTS.Witness.UI;
+namespace NTS.Witness.MAUI;
 [Register("AppDelegate")]
 public class AppDelegate : MauiUIApplicationDelegate
 {

@@ -1,4 +1,4 @@
-namespace NTS.Witness.UI.Data;
+namespace NTS.Witness.MAUI.Data;
 
 public class WeatherForecastService
 {

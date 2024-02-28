@@ -2,7 +2,7 @@ using Microsoft.Maui;
 using Microsoft.Maui.Hosting;
 using System;
 
-namespace EMS.Witness.UI;
+namespace NTS.Witness.MAUI;
 
 internal class Program : MauiApplication
 {

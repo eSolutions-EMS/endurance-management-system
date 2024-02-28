@@ -1,7 +1,7 @@
-﻿using NTS.Witness.UI.Data;
+﻿using NTS.Witness.MAUI.Data;
 using Microsoft.Extensions.Logging;
 
-namespace NTS.Witness.UI;
+namespace NTS.Witness.MAUI;
 public static class MauiProgram
 {
     public static MauiApp CreateMauiApp()

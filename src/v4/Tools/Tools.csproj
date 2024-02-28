@@ -8,8 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EMS.Persistance\NTS.Persistence.csproj" />
-    <ProjectReference Include="..\Judge\EMS.Judge\NTS.Judge.csproj" />
+    <ProjectReference Include="..\NTS.Persistance\NTS.Persistence.csproj" />
+    <ProjectReference Include="..\Judge\NTS.Judge\NTS.Judge.csproj" />
   </ItemGroup>
 
 </Project>

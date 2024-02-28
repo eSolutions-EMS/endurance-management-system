@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace NTS.Witness.UI;
+namespace NTS.Witness.MAUI;
 public class Program
 {
     // This is the main entry point of the application.

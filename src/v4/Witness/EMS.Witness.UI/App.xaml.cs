@@ -1,4 +1,4 @@
-﻿namespace NTS.Witness.UI;
+﻿namespace NTS.Witness.MAUI;
 
 public partial class App : Microsoft.Maui.Controls.Application
 {
