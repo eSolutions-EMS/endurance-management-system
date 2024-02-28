@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace EMS.Judge.UI;
+namespace NTS.Judge.MAUI;
 [Application]
 public class MainApplication : MauiApplication
 {

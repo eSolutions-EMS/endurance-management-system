@@ -1,4 +1,4 @@
-﻿namespace EMS.Judge.UI;
+﻿namespace NTS.Judge.MAUI;
 
 public partial class MainPage : ContentPage
 {

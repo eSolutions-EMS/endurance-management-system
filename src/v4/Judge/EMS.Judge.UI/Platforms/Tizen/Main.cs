@@ -2,7 +2,7 @@ using Microsoft.Maui;
 using Microsoft.Maui.Hosting;
 using System;
 
-namespace EMS.Judge.UI;
+namespace NTS.Judge.MAUI;
 
 internal class Program : MauiApplication
 {

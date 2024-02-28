@@ -1,6 +1,6 @@
 ﻿using Not.Startup;
 
-namespace EMS.Judge.UI;
+namespace NTS.Judge.MAUI;
 
 public partial class App : Microsoft.Maui.Controls.Application
 {

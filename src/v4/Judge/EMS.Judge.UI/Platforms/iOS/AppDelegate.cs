@@ -1,6 +1,6 @@
 ﻿using Foundation;
 
-namespace EMS.Judge.UI;
+namespace NTS.Judge.MAUI;
 [Register("AppDelegate")]
 public class AppDelegate : MauiUIApplicationDelegate
 {

@@ -1,9 +1,9 @@
-﻿using EMS.Persistence.Startup;
+﻿using NTS.Persistence.Startup;
 using Microsoft.Extensions.Logging;
 using NTS.Judge.Blazor.Startup;
 using Not.Injection;
 
-namespace EMS.Judge.UI;
+namespace NTS.Judge.MAUI;
 
 public static class MauiProgram
 {

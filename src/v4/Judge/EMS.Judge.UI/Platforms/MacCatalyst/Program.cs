@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace EMS.Judge.UI;
+namespace NTS.Judge.MAUI;
 
 public class Program
 {
