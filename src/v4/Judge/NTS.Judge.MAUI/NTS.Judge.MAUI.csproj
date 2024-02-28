@@ -57,14 +57,14 @@
     <ProjectReference Include="..\..\Not\Not.MAUI\Not.MAUI.csproj" />
     <ProjectReference Include="..\..\Not\Not\Not.csproj" />
     <ProjectReference Include="..\..\Not\Not.Blazor\Not.Blazor.csproj" />
-    <ProjectReference Include="..\..\EMS.Common\NTS.Application.csproj" />
-    <ProjectReference Include="..\..\EMS.Domain.Core\NTS.Domain.Core.csproj" />
-    <ProjectReference Include="..\..\EMS.Domain.Setup\NTS.Domain.Setup.csproj" />
-    <ProjectReference Include="..\..\EMS.Domain.Watcher\NTS.Domain.Watcher.csproj" />
-    <ProjectReference Include="..\..\EMS.Domain\NTS.Domain.csproj" />
-    <ProjectReference Include="..\..\EMS.Persistance\NTS.Persistence.csproj" />
-    <ProjectReference Include="..\EMS.Judge.Server\NTS.Judge.MAUI.Servcer.csproj" />
-    <ProjectReference Include="..\EMS.Judge\NTS.Judge.csproj" />
+    <ProjectReference Include="..\..\NTS.Common\NTS.Application.csproj" />
+    <ProjectReference Include="..\..\NTS.Domain.Core\NTS.Domain.Core.csproj" />
+    <ProjectReference Include="..\..\NTS.Domain.Setup\NTS.Domain.Setup.csproj" />
+    <ProjectReference Include="..\..\NTS.Domain.Watcher\NTS.Domain.Watcher.csproj" />
+    <ProjectReference Include="..\..\NTS.Domain\NTS.Domain.csproj" />
+    <ProjectReference Include="..\..\NTS.Persistance\NTS.Persistence.csproj" />
+    <ProjectReference Include="..\NTS.Judge.MAUI.Server\NTS.Judge.MAUI.Servcer.csproj" />
+    <ProjectReference Include="..\NTS.Judge\NTS.Judge.csproj" />
     <ProjectReference Include="..\NTS.Judge.Blazor\NTS.Judge.Blazor.csproj" />
   </ItemGroup>
 
