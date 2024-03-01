@@ -55,7 +55,7 @@
     <ItemGroup>
       <ProjectReference Include="..\..\Not\Not.MAUI\Not.MAUI.csproj" />
       <ProjectReference Include="..\..\Not\Not\Not.csproj" />
-      <ProjectReference Include="..\..\NTS.Common\NTS.Application.csproj" />
+      <ProjectReference Include="..\..\NTS.Application\NTS.Application.csproj" />
       <ProjectReference Include="..\..\NTS.Domain.Watcher\NTS.Domain.Watcher.csproj" />
       <ProjectReference Include="..\..\NTS.Domain\NTS.Domain.csproj" />
     </ItemGroup>

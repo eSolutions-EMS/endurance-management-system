@@ -57,7 +57,6 @@
     <ProjectReference Include="..\..\Not\Not.MAUI\Not.MAUI.csproj" />
     <ProjectReference Include="..\..\Not\Not\Not.csproj" />
     <ProjectReference Include="..\..\Not\Not.Blazor\Not.Blazor.csproj" />
-    <ProjectReference Include="..\..\NTS.Common\NTS.Application.csproj" />
     <ProjectReference Include="..\..\NTS.Domain.Core\NTS.Domain.Core.csproj" />
     <ProjectReference Include="..\..\NTS.Domain.Setup\NTS.Domain.Setup.csproj" />
     <ProjectReference Include="..\..\NTS.Domain.Watcher\NTS.Domain.Watcher.csproj" />
