@@ -7,29 +7,12 @@
 
 @inherits NotForm<Event>;
 
-@*
-    TODO: Create MudForm to encapsulate EditForm, DataAnnotationsValidator, MudCard. 
-    Is DataAnnotationsValidationr necessary? Probably not - remove and also remove 'For' setters on Mud components
-*@
 <EditForm Model="_model">
-    <DataAnnotationsValidator />
-    
-    <MudCard>
-        <MudCardContent>
-            <MudTextField Label="Place" @ref="_placeField"
-            @bind-Value="_model.Place"
-                          For="@(() => _model.Place)" />
-        </MudCardContent>
+    <MudTextField @ref="_placeField" @bind-Value="_model.Place" Label="@Localizer.Get(nameof(Event.Place))" />
 
-        <MudCardContent>
-            <MudAutocomplete Label="Country" @ref="_countryField"
-                             T="Country"
-                             CoerceText="true"
-                             SearchFunc="@_countries.Search"
-            @bind-Value="_model.Country"
-                             For="@(() => _model.Country)" />
-        </MudCardContent>
-    </MudCard>
+    <MudAutocomplete T="Country" @ref="_countryField" @bind-Value="_model.Country" Label="@Localizer.Get(nameof(Event.Country))"
+        CoerceText="true"
+        SearchFunc="_countries.Search"/>
 </EditForm>
 
 @code {

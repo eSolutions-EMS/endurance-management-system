@@ -7,24 +7,15 @@
 @inherits NotForm<Official>;
 
 <EditForm Model="_model">
-    <DataAnnotationsValidator />
+    <MudTextField @ref="_nameField" @bind-Value="_model.Name" Label="@Localizer.Get("Name")" />
 
-    <MudCard>
-        <MudCardContent>
-            <MudTextField Label="Place" @ref="_nameField" @bind-Value="_model.Name" For="@(() => _model.Name)" />
-        </MudCardContent>
-
-        <MudCardContent>
-            <MudSelect Label="Role" @ref="_roleFiled" @bind-Value="_model.Role">
-                @foreach (var item in Enum.GetValues<OfficialRole>())
-                {
-                    <MudSelectItem Value="@item">@item</MudSelectItem>
-                }
-            </MudSelect>
-        </MudCardContent>
-    </MudCard>
+    <MudSelect @ref="_roleFiled" @bind-Value="_model.Role" Label="@Localizer.Get(nameof(Official.Role))" >
+        @foreach (var item in Enum.GetValues<OfficialRole>())
+        {
+            <MudSelectItem Value="@item">@item</MudSelectItem>
+        }
+    </MudSelect>
 </EditForm>
-
 
 @code {
     private MudTextField<string?> _nameField = default!;

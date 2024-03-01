@@ -2,9 +2,8 @@
 @using Not.Services;
 
 @inherits NotComponent
-<MudText Typo="Typo.h5">
-    @Localizer.Get("Officials")
-</MudText>
+
+<NotH2>@Localizer.Get("Officials")</NotH2>
 
 <MudTable Items="_parentBehind.Children" Hover="true">
     <HeaderContent>
@@ -15,8 +14,11 @@
     <RowTemplate>
         <MudTd DataLabel="Staff">@context</MudTd>
         <MudTd DataLabel="Actions">
-            <MudButton Variant="Variant.Outlined"
-                        IconSize="Size.Small"
+            <NotButtonDelete OnClick="() => _parentBehind.Delete(context)" />
+
+            <NotButtonUpdate OnClick="() => this._officialNavigator.Update(OFFICIAL_PAGE, context)" />
+
+            <MudButton Variant="Variant.Outlined" IconSize="Size.Small" 
                         StartIcon="@Icons.Material.Filled.Delete"
                         Color="Color.Warning"
                         OnClick="() => _parentBehind.Delete(context)">
@@ -35,9 +37,7 @@
         
 </MudTable>
 
-<MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="_officialNavigator.Create">
-    @Localizer.Get("Add")
-</MudButton>
+<NotButtonCreate OnClick="_officialNavigator.Create" />
 
 @code {
     [Inject]

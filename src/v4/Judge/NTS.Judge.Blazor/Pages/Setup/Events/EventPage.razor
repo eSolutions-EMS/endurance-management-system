@@ -5,11 +5,11 @@
 
 @inherits NotComponent
 
-<MudText Typo="Typo.h5">
-    @Localizer.Get("Update", nameof(Event))
-</MudText>
+<NotH2>Update Event</NotH2>
 
 <NotFormUpdate T="Event" TForm="EventFields" Entity="_event" UpdateAction="_behind.Update" />
+
+<MudDivider />
 
 <MudPaper>
     <OfficialList />

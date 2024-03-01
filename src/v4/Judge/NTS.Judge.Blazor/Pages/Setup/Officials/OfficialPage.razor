@@ -6,12 +6,14 @@
 @attribute [Route(OFFICIAL_PAGE)]
 @inherits NotComponent
 
-<MudText Typo="Typo.h5">
-    @Localizer.Get("Update", nameof(Official)) 
-</MudText>
+<NotH1>@Localizer.Get("Setup")</NotH1>
 
-<NotFormUpdate T="Official" TForm="OfficialFields" Entity="_navigator.ConsumeParameter<Official>()" UpdateAction="Update" />
-    
+<MudPaper>
+    <NotH2>@Localizer.Get("Update Official")</NotH2>
+
+    <NotFormUpdate T="Official" TForm="OfficialFields" Entity="_navigator.ConsumeParameter<Official>()" UpdateAction="Update" />
+</MudPaper>
+
 @code {
     [Inject]
     public INotBehindParent<Official> _parentBehind { get; set; } = default!;
