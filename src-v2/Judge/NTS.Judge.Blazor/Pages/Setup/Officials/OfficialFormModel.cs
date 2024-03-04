@@ -1,6 +1,6 @@
 ﻿using NTS.Domain.Setup.Entities;
 
-namespace NTS.Judge.Blazor.Setup.StaffMembers;
+namespace NTS.Judge.Blazor.Setup.Officials;
 
 public class OfficialFormModel
 {

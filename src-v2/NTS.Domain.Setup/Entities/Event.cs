@@ -41,21 +41,21 @@ public class Event : DomainEntity, ISummarizable, IImportable, IParent<Official>
         private set => _competitions = value.ToList();
     }
 	
-    public void Add(Official staffMember)
+    public void Add(Official official)
     {
-        this.ThrowIfInvalidRole(staffMember);
+        this.ThrowIfInvalidRole(official);
 
-        this._officials.Add(staffMember);
+        this._officials.Add(official);
     }
-    public void Update(Official child)
+    public void Update(Official official)
     {
-        this._officials.Remove(child);
+        this._officials.Remove(official);
 
-        this.Add(child);
+        this.Add(official);
     }
-    public void Remove(Official staffMember)
+    public void Remove(Official official)
     {
-        this._officials.Remove(staffMember);
+        this._officials.Remove(official);
     }
 
     public string Summarize()
@@ -83,7 +83,7 @@ public class Event : DomainEntity, ISummarizable, IImportable, IParent<Official>
             var existing = _officials.FirstOrDefault(x => x.Role == role);
             if (existing != null && existing != member)
             {
-                throw new DomainException("Staff  member '", member.Role, "' already exists");
+                throw new DomainException("Official '", member.Role, "' already exists");
             }
         }
     }

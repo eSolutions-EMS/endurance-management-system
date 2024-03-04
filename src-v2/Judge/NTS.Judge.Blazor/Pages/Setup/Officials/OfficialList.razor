@@ -7,31 +7,17 @@
 
 <MudTable Items="_parentBehind.Children" Hover="true">
     <HeaderContent>
-        <MudTh>Staff</MudTh>
+        <MudTh>Official</MudTh>
         <MudTh>Actions</MudTh>
     </HeaderContent>
 
     <RowTemplate>
-        <MudTd DataLabel="Staff">@context</MudTd>
-        <MudTd DataLabel="Actions">
+        <MudTd>@context</MudTd>
+        
+        <MudTd>
             <NotButtonDelete OnClick="() => _parentBehind.Delete(context)" />
 
             <NotButtonUpdate OnClick="() => this._officialNavigator.Update(OFFICIAL_PAGE, context)" />
-
-            <MudButton Variant="Variant.Outlined" IconSize="Size.Small" 
-                        StartIcon="@Icons.Material.Filled.Delete"
-                        Color="Color.Warning"
-                        OnClick="() => _parentBehind.Delete(context)">
-                @Localizer.Get("Remove")
-            </MudButton>
-
-            <MudButton Variant="Variant.Filled"
-                        IconSize="Size.Small"
-                        StartIcon="@Icons.Material.Filled.Update"
-                        Color="Color.Primary" 
-                        OnClick="() => this._officialNavigator.Update(OFFICIAL_PAGE, context)">
-                @Localizer.Get("Update")
-            </MudButton>
         </MudTd>
     </RowTemplate>
         
