@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <SupportedPlatform Include="browser" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\NTS.Domain.Core\NTS.Domain.Core.csproj" />
+    <ProjectReference Include="..\..\NTS.Domain.Setup\NTS.Domain.Setup.csproj" />
+    <ProjectReference Include="..\..\NTS.Domain.Watcher\NTS.Domain.Watcher.csproj" />
+    <ProjectReference Include="..\..\NTS.Domain\NTS.Domain.csproj" />
+    <ProjectReference Include="..\..\Not\Not.Blazor\Not.Blazor.csproj" />
+  </ItemGroup>
+
+</Project>

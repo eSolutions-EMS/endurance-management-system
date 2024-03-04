@@ -1,0 +1,32 @@
+@using NTS.Domain.Setup.Entities
+@using NTS.Judge.Blazor.Pages.Setup.Events
+@using NTS.Judge.Blazor.Pages.Setup.Officials
+@using Not.Blazor.TM.Forms.Components
+
+@inherits NotComponent
+
+<NotH2>Update Event</NotH2>
+
+<NotFormUpdate T="Event" TForm="EventForm" Entity="_event" UpdateAction="_behind.Update" />
+
+<MudDivider />
+
+<MudPaper>
+    <OfficialList />
+</MudPaper>
+
+@code {
+    private Event _event = default!;
+    [Inject]
+    private INotBehind<Event> _behind { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var entity = await _behind.Read(default);
+        if (entity == null)
+        {
+            throw GuardHelper.Exception($"Event cannot be null here");
+        }
+        _event = entity;
+    }
+}

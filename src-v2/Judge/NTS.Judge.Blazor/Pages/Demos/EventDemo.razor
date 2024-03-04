@@ -1,0 +1,38 @@
+﻿@page "/event-demo"
+@using Not.Events;
+@using NTS.Domain.Watcher.Entities;
+@using NTS.Domain.Watcher.Objects;
+
+@inject IEvent<ICoreEvent> _event;
+
+<h1>Events demo</h1>
+
+<MudButton Color="Color.Primary" @onclick="_ => this.Emit()">Emit</MudButton>
+<p>Event result: @this.result</p>
+
+
+
+@code {
+    private string? result;
+
+    protected override void OnInitialized()
+    {
+        this.Subscribe();
+    }
+
+    private void Emit()
+    {
+        var tag = new RfidTag("id", "13", "l");
+        var tagEvent = new RfidTagCoreEvent(tag, CoreEventType.Arrive, new Timestamp(new DateTime()));
+        this._event.Emit(this, tagEvent);
+    }
+
+    private void Subscribe()
+    {
+        this._event.Subscribe(async (s, e) =>
+        {
+            this.result = e.CoreId.ToString();
+            await this.InvokeAsync(this.StateHasChanged);
+        });
+    }
+}

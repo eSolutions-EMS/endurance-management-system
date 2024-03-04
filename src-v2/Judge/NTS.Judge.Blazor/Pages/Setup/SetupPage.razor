@@ -1,0 +1,44 @@
+@using NTS.Domain.Setup.Entities;
+@using NTS.Judge.Blazor.Pages.Setup.Events;
+@using Not.Blazor.Components;
+@using Not.Blazor.Forms
+
+@attribute [Route(SETUP_PAGE)]
+@inherits NotComponent
+
+<NotH1>@Localizer.Get("Setup")</NotH1>
+
+<MudPaper>
+    @if (_event == null)
+    {
+        <NotButtonCreate OnClick="RenderCreate" />
+    }
+    else
+    {
+        <EventPage />
+    }
+</MudPaper>
+
+@code {
+    private Event? _event;
+    [Inject]
+    private IFormNavigator<Event, EventForm> _formNavigator { get; set; } = default!;
+    [Inject]
+    private INotBehind<Event> _behind { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Init();
+    }
+
+    private async Task Init()
+    {
+        _event = await _behind.Read(default);
+    }
+
+    private async Task RenderCreate()
+    {
+        await _formNavigator.Create();
+        await Init();
+    }
+}

@@ -1,0 +1,34 @@
+﻿@page "/localization-demo"
+@using Not.Events;
+@using NTS.Domain;
+@using System.Globalization;
+@using NTS.Domain.Watcher;
+@using Microsoft.Extensions.Localization;
+@inject IStringLocalizer<Strings> StringLocalizer;
+@inject ILocalizationTestService LocalizationTestService;
+
+<h1>This is localization test including exception handling</h1>
+<p>choose locale</p>
+<MudButton Color="Color.Primary" @onclick='_ => this.ChangeCulture("bg-BG")'>BG</MudButton>
+<MudButton Color="Color.Secondary" @onclick='_ => this.ChangeCulture("en-EN")'>EN</MudButton>
+<p>Locale: @CultureInfo.DefaultThreadCurrentUICulture</p>
+<p>Kaji neshto</p>
+<MudButton @onclick="_ => this.SayPolite()">Polite</MudButton>
+<MudButton @onclick="_ => this.LocalizationTestService.Rude()">Rude</MudButton>
+<p>@this.polite</p>
+
+@code {
+    private string polite = "";
+
+    protected async Task ChangeCulture(string name)
+    {
+        CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo(name);
+        await this.InvokeAsync(this.StateHasChanged);
+    }
+
+    protected async Task SayPolite()
+    {
+        this.polite = this.StringLocalizer[this.LocalizationTestService.Polite()];
+        await this.InvokeAsync(this.StateHasChanged);
+    }
+}

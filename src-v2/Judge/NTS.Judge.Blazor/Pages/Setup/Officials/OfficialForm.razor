@@ -1,0 +1,45 @@
+﻿@using NTS.Domain.Setup.Entities;
+@using NTS.Judge.Blazor.Setup.StaffMembers;
+@using Not.Blazor.Forms;
+@using Not.Blazor.TM.Forms;
+@using Not.Blazor.TM.Forms.Components;
+
+@inherits NotForm<Official>;
+
+<EditForm Model="_model">
+    <MudTextField @ref="_nameField" @bind-Value="_model.Name" Label="@Localizer.Get("Name")" />
+
+    <MudSelect @ref="_roleFiled" @bind-Value="_model.Role" Label="@Localizer.Get(nameof(Official.Role))" >
+        @foreach (var item in Enum.GetValues<OfficialRole>())
+        {
+            <MudSelectItem Value="@item">@item</MudSelectItem>
+        }
+    </MudSelect>
+</EditForm>
+
+@code {
+    private MudTextField<string?> _nameField = default!;
+    private MudSelect<OfficialRole> _roleFiled = default!;
+    private OfficialFormModel _model { get; set; } = new();
+
+    public override void RegisterValidationInjectors()
+    {
+        RegisterInjector(nameof(_model.Name), () => _nameField);
+        RegisterInjector(nameof(_model.Role), () => _roleFiled);
+    }
+
+    public override void SetUpdateModel(Official official)
+    {
+        _model = new OfficialFormModel(official);
+    }
+
+    public override Official SubmitCreate()
+    {
+        return new Official(_model.Name!, _model.Role);
+    }
+
+    public override Official SubmitUpdate()
+    {
+        return Official.Update(_model.Id!.Value, _model.Name!, _model.Role);
+    }
+}

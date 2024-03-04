@@ -1,0 +1,28 @@
+﻿@using NTS.Domain.Setup.Entities;
+@using Not.Blazor.Components;
+@using Not.Blazor.Navigation;
+@using Not.Blazor.TM.Forms.Components
+
+@attribute [Route(OFFICIAL_PAGE)]
+@inherits NotComponent
+
+<NotH1>@Localizer.Get("Setup")</NotH1>
+
+<MudPaper>
+    <NotH2>@Localizer.Get("Update Official")</NotH2>
+
+    <NotFormUpdate T="Official" TForm="OfficialForm" Entity="_navigator.ConsumeParameter<Official>()" UpdateAction="Update" />
+</MudPaper>
+
+@code {
+    [Inject]
+    private INotBehindParent<Official> _parentBehind { get; set; } = default!;
+    [Inject]
+    private INavigator _navigator { get; set; } = default!;
+
+    protected async Task Update(Official official)
+    {
+        await _parentBehind.Update(official);
+        _navigator.NavigateTo(SETUP_PAGE);
+    }
+}

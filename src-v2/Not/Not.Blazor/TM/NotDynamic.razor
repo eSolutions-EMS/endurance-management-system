@@ -1,0 +1,21 @@
+﻿@using Not.Exceptions;
+
+@typeparam T where T : ComponentBase
+
+<DynamicComponent Type="typeof(T)" @ref="_dynamicComponent" />
+
+@code {
+    private DynamicComponent? _dynamicComponent;
+
+    internal T Instance
+    {
+        get
+        {
+            if (_dynamicComponent?.Instance == null)
+            {
+                throw GuardHelper.Exception($"Instance of '{typeof(T)}' is null");
+            }
+            return (T)_dynamicComponent.Instance;
+        }
+    }
+}
