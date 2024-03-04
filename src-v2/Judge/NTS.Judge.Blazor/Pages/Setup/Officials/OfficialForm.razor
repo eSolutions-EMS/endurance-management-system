@@ -20,7 +20,7 @@
 @code {
     private MudTextField<string?> _nameField = default!;
     private MudSelect<OfficialRole> _roleFiled = default!;
-    private OfficialFieldsModel _model { get; set; } = new();
+    private OfficialFormModel _model { get; set; } = new();
 
     public override void RegisterValidationInjectors()
     {
@@ -30,7 +30,7 @@
 
     public override void SetUpdateModel(Official official)
     {
-        _model = new OfficialFieldsModel(official);
+        _model = new OfficialFormModel(official);
     }
 
     public override Official SubmitCreate()

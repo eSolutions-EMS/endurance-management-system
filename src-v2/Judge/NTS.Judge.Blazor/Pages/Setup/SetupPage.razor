@@ -22,7 +22,7 @@
 @code {
     private Event? _event;
     [Inject]
-    private IFormNavigator<Event, EventFields> _formNavigator { get; set; } = default!;
+    private IFormNavigator<Event, EventForm> _formNavigator { get; set; } = default!;
     [Inject]
     private INotBehind<Event> _behind { get; set; } = default!;
 

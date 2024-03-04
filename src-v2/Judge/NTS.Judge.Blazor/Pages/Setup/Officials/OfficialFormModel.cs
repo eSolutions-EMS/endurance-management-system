@@ -2,12 +2,12 @@
 
 namespace NTS.Judge.Blazor.Setup.StaffMembers;
 
-public class OfficialFieldsModel
+public class OfficialFormModel
 {
-    public OfficialFieldsModel()
+    public OfficialFormModel()
     {
     }
-    public OfficialFieldsModel(Official member)
+    public OfficialFormModel(Official member)
     {
         this.Id = member.Id;
         this.Name = member.Person;

@@ -11,14 +11,14 @@
 <MudPaper>
     <NotH2>@Localizer.Get("Update Official")</NotH2>
 
-    <NotFormUpdate T="Official" TForm="OfficialFields" Entity="_navigator.ConsumeParameter<Official>()" UpdateAction="Update" />
+    <NotFormUpdate T="Official" TForm="OfficialForm" Entity="_navigator.ConsumeParameter<Official>()" UpdateAction="Update" />
 </MudPaper>
 
 @code {
     [Inject]
-    public INotBehindParent<Official> _parentBehind { get; set; } = default!;
+    private INotBehindParent<Official> _parentBehind { get; set; } = default!;
     [Inject]
-    public INavigator _navigator { get; set; } = default!;
+    private INavigator _navigator { get; set; } = default!;
 
     protected async Task Update(Official official)
     {

@@ -18,7 +18,7 @@
 @code {
     private MudTextField<string?> _placeField = default!;
     private MudAutocomplete<Country?> _countryField = default!;
-    private EventFieldsModel _model = new();
+    private EventFormModel _model = new();
     [Inject]
     private ICountriesContext _countries { get; set; } = default!;
 
@@ -30,7 +30,7 @@
 
     public override void SetUpdateModel(Event @event)
     {
-        _model = new EventFieldsModel(@event);
+        _model = new EventFormModel(@event);
     }
 
     public override Event SubmitCreate()

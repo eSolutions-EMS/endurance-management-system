@@ -7,7 +7,7 @@
 
 <NotH2>Update Event</NotH2>
 
-<NotFormUpdate T="Event" TForm="EventFields" Entity="_event" UpdateAction="_behind.Update" />
+<NotFormUpdate T="Event" TForm="EventForm" Entity="_event" UpdateAction="_behind.Update" />
 
 <MudDivider />
 
@@ -18,7 +18,7 @@
 @code {
     private Event _event = default!;
     [Inject]
-    public INotBehind<Event> _behind { get; set; } = default!;
+    private INotBehind<Event> _behind { get; set; } = default!;
 
     protected override async Task OnInitializedAsync()
     {

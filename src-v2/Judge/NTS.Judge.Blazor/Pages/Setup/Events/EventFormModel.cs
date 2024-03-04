@@ -3,12 +3,12 @@ using NTS.Domain.Setup.Entities;
 
 namespace NTS.Judge.Blazor.Setup.Events;
 
-public class EventFieldsModel
+public class EventFormModel
 {
-    public EventFieldsModel()
+    public EventFormModel()
     {
     }
-    public EventFieldsModel(Event @event)
+    public EventFormModel(Event @event)
     {
         this.Id = @event.Id;
         this.Place = @event.Place;

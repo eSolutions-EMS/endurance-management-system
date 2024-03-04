@@ -41,7 +41,7 @@
 
 @code {
     [Inject]
-    public INotBehindParent<Official> _parentBehind { get; set; } = default!;
+    private INotBehindParent<Official> _parentBehind { get; set; } = default!;
     [Inject]
-    public IFormNavigator<Official, OfficialFields> _officialNavigator { get; set; } = default!;
+    private IFormNavigator<Official, OfficialForm> _officialNavigator { get; set; } = default!;
 }
