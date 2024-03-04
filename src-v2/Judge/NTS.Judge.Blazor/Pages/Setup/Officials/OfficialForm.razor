@@ -1,5 +1,5 @@
 ﻿@using NTS.Domain.Setup.Entities;
-@using NTS.Judge.Blazor.Setup.Officials;
+@using NTS.Judge.Blazor.Setup.StaffMembers;
 @using Not.Blazor.Forms;
 @using Not.Blazor.TM.Forms;
 @using Not.Blazor.TM.Forms.Components;
@@ -9,7 +9,7 @@
 <EditForm Model="_model">
     <MudTextField @ref="_nameField" @bind-Value="_model.Name" Label="@Localizer.Get("Name")" />
 
-    <MudSelect @ref="_roleFiled" @bind-Value="_model.Role" Label="@Localizer.Get(nameof(Official.Role))" @onchange="(_) => SubmitUpdate()">
+    <MudSelect @ref="_roleFiled" @bind-Value="_model.Role" Label="@Localizer.Get(nameof(Official.Role))" >
         @foreach (var item in Enum.GetValues<OfficialRole>())
         {
             <MudSelectItem Value="@item">@item</MudSelectItem>
