@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using Vup.reader;
 
@@ -14,7 +15,6 @@ public class VupVF747pController : RfidController
     private NetVupReader reader;
     private readonly string ipAddress;
 	private readonly ILogger logger;
-	private readonly List<long> slowReadTimeMs = new();
 
     protected override string Device => "VF747p";
 
@@ -109,36 +109,35 @@ public class VupVF747pController : RfidController
     private DateTime? disconnectedMessageTime;
     private IEnumerable<string> ReadTags(IEnumerable<int> antennaIndices)
     {
-        var timer = new Stopwatch();
+        var readTimer = new Stopwatch();
+        var reconnectTimer = new Stopwatch();
         var emptyCounter = 0;
         foreach (var i in antennaIndices)
         {
             this.reader.SetWorkAnt(i);
-            timer.Start();
-
+            
+            readTimer.Start();
             var tagsBytes = this.reader.List6C(
                 memory_bank.memory_bank_epc,
                 TAG_READ_START_INDEX,
                 TAG_DATA_LENGTH,
                 Convert.FromHexString("00000000"));
-            timer.Stop();
+            readTimer.Stop();
+            
             if (this.disconnectedMessageTime == null
                 || DateTime.Now - this.disconnectedMessageTime > TimeSpan.FromMinutes(1))
             {
-                if (timer.ElapsedMilliseconds is > 1000 or < 5)
+                if (readTimer.ElapsedMilliseconds is > 1000 or < 5)
                 {
-                    Console.WriteLine($"Suspicious read time: {timer.ElapsedMilliseconds}, count: {this.slowReadTimeMs.Count}");
-                    this.slowReadTimeMs.Add(timer.ElapsedMilliseconds);
-                }
-                if (this.slowReadTimeMs.Count >= 1)
-                {
-                    this.slowReadTimeMs.Clear();
+                    reconnectTimer.Start();
                     this.disconnectedMessageTime = DateTime.Now;
-                    var message = "RFID tag read responses indicate the Vup " +
-                        "Reader might be disconnected. Look for VUP console logs.";
-                    this.logger.Log("VF747p-disconnected", message);
-					this.RaiseError(message);
+                    var sb = new StringBuilder();
+                    sb.AppendLine($"VF747p reader response indicates a disconnect. Response time: '{readTimer.ElapsedMilliseconds}'");
+					this.RaiseError(sb.ToString());
                     this.Reconnect();
+                    reconnectTimer.Stop();
+                    sb.AppendLine($"Reconnected after '{reconnectTimer.ElapsedMilliseconds}'");
+                    this.logger.Log("VF747p-disconnected", sb.ToString());
                 }
             }
 
@@ -151,8 +150,6 @@ public class VupVF747pController : RfidController
 				}
 				return tags;
             }
-            
-            Console.WriteLine($"empty {++emptyCounter}");
         }
         return Enumerable.Empty<string>();
     }
