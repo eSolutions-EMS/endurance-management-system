@@ -1,6 +1,5 @@
 ﻿using Core.Application.Rpc;
 using Core.Application.Rpc.Procedures;
-using Core.Application.Services;
 using Core.Domain.AggregateRoots.Manager;
 using Core.Domain.AggregateRoots.Manager.Aggregates.Participants;
 using Core.Enums;
@@ -13,10 +12,8 @@ public class ParticipantsClient: RpcClient, IParticipantsClient, IParticipantsCl
 	public event EventHandler<(ParticipantEntry entry, CollectionAction action)>? Updated;
 	public event EventHandler<IEnumerable<ParticipantEntry>>? Loaded;
 
-	public ParticipantsClient(IHandshakeService handshakeService)
-		: base(
-			new RpcContext(Apps.WITNESS, RpcProtocls.Http, NetworkPorts.JUDGE_SERVER, RpcEndpoints.PARTICIPANTS),
-			handshakeService)
+	public ParticipantsClient()
+		: base(new RpcContext(RpcProtocls.Http, NetworkPorts.JUDGE_SERVER, RpcEndpoints.PARTICIPANTS))
     {
 		this.AddProcedure<ParticipantEntry, CollectionAction>(nameof(this.Update), this.Update);
 	}

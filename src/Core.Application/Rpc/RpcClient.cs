@@ -3,6 +3,7 @@ using Core.Application.Services;
 using Microsoft.AspNetCore.SignalR.Client;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -10,29 +11,25 @@ namespace Core.Application.Rpc;
 
 public class RpcClient : IRpcClient, IAsyncDisposable
 {
-    private const string ALEX_HOME_WORKSTATION_IP = "192.168.0.60";
-
     public event EventHandler<bool>? ServerConnectionChanged;
 	public bool IsConnected => this.Connection?.State == HubConnectionState.Connected;
 
     private readonly RpcContext context;
-    private readonly IHandshakeService handshakeService;
 
     // Necessary because this.Connection instance is not intialized 
     // when procedures are reigstered in the child constructor
     private List<Action<HubConnection>> procedureRegistrations = new();
 	private CancellationTokenSource reconnectTokenSource;
 
-    public RpcClient(RpcContext context, IHandshakeService handshakeService)
+    public RpcClient(RpcContext context)
     {
         this.context = context;
-        this.handshakeService = handshakeService;
         this.reconnectTokenSource = new CancellationTokenSource();
     }
     
     protected HubConnection? Connection { get; private set; }
 
-    public virtual async Task Connect()
+    public virtual async Task Connect(IPAddress ip)
     {
         if (this.reconnectTokenSource.IsCancellationRequested)
         {
@@ -40,11 +37,7 @@ public class RpcClient : IRpcClient, IAsyncDisposable
         }
         if (this.Connection == null)
         {
-			if (this.context.Url == null)
-			{
-				await this.Handshake();
-			}
-			this.ConfigureConnection();
+			this.ConfigureConnection(ip);
         }
         try
 		{
@@ -57,24 +50,9 @@ public class RpcClient : IRpcClient, IAsyncDisposable
 		}
     }
 
-	private async Task Handshake()
-	{
-#if DEBUG
-		this.context.Host = ALEX_HOME_WORKSTATION_IP;
-#else
-        var ip = await this.handshakeService.Handshake(this.context.ClientId, this.reconnectTokenSource.Token);
-		if (ip == null)
-		{
-            var error = new Exception("Server broadcast received, but payload does not contain an IP address");
-            this.RaiseError(error, nameof(this.Handshake));
-            return;
-        }
-        this.context.Host = ip.ToString();
-#endif
-    }
-
-    public void ConfigureConnection()
+    private void ConfigureConnection(IPAddress ip)
     {
+		context.Host = ip.ToString();
         this.Connection = new HubConnectionBuilder()
             .WithUrl(this.context.Url)
             .Build();
@@ -276,6 +254,6 @@ public interface IRpcClient
 	event EventHandler<bool>? ServerConnectionChanged;
 	event EventHandler<RpcError>? Error;
 	bool IsConnected { get; }
-	Task Connect();
+	Task Connect(IPAddress ip);
     Task Disconnect();
 }

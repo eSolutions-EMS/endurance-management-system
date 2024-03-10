@@ -12,9 +12,7 @@ public class StartlistClient : RpcClient, IStartlistClientProcedures, IStartlist
 	public event EventHandler<(StartlistEntry entry, CollectionAction action)>? Updated;
  
     public StartlistClient(IHandshakeService handshakeService)
-        : base(
-            new RpcContext(Apps.WITNESS, RpcProtocls.Http, NetworkPorts.JUDGE_SERVER, RpcEndpoints.STARTLIST),
-            handshakeService)
+        : base(new RpcContext(RpcProtocls.Http, NetworkPorts.JUDGE_SERVER, RpcEndpoints.STARTLIST))
     {
         this.AddProcedure<StartlistEntry, CollectionAction>(nameof(this.Update), this.Update);
 	}
