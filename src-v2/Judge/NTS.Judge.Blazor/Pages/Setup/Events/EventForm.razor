@@ -35,7 +35,7 @@
 
     public override Event SubmitCreate()
     {
-        return new Event(_model.Place!, _model.Country!);
+        return Event.Create(_model.Place!, _model.Country!);
     }
 
     public override Event SubmitUpdate()
@@ -44,6 +44,6 @@
         {
             throw GuardHelper.Exception($"{nameof(_model.Id)} is null");
         }
-        return new Event(_model.Id!.Value, _model.Place!, _model.Country!);
+        return Event.Update(_model.Id!.Value, _model.Place!, _model.Country!);
     }
 }
