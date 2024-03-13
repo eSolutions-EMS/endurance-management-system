@@ -2,23 +2,73 @@
 @using Not.Blazor.Components;
 @using Not.Blazor.Forms;
 @using Not.Blazor.TM.Forms;
-@using Not.Blazor.TM.Inputs;
+@using Not.Blazor.TM.Forms.Components;
 @using Not.Blazor.TM;
+@using System.Reflection;
 
+@typeparam T
 @inherits NotComponent
-@typeparam TModel
 
-
-<MudForm Model="Model" @bind-IsValid="@success" @bind-Errors="@errors">
-    <AutoInput ClassName="Model" FieldName="getFieldNameSomehow?" Label=""></AutoInput>
-</MudForm>
-
+<CascadingValue Value="this">
+    <MudForm Model="Entity" @bind-IsValid="@success" @bind-Errors="@errors" >
+        @foreach (KeyValuePair<string, string> field in FieldPropertyPair)
+        {
+            @switch (field.Key)
+            {
+                case "Int32":
+                    <MudNumericField Label="@Localizer.Get(field.Value)" Variant="Variant.Text" Min="0" Max="10" />
+                    break;
+                case "String":
+                    <MudTextField @ref="_stringField" @bind-Value="TextValue" Label="@Localizer.Get(field.Value)" Variant="Variant.Text"></MudTextField>
+                    break;
+                default:     
+                    // default input?
+                    break;
+            }
+        }
+        @ChildContent
+    </MudForm>
+</CascadingValue>
+  
 @code {
-    [Parameter] public TModel Model { get; set; }
+    [Parameter] 
+    public T Entity { get; set; }
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    Dictionary<string, string> FieldPropertyPair;
+
+    private MudTextField<string?> _stringField = default!;
 
     bool success;
     string[] errors = { };
 
+    //placeholder
+    public string TextValue { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        FieldPropertyPair = new Dictionary<string, string>();
+        Type classType = typeof(T);
+        object instance = Entity;       
+
+        FieldInfo[] fields = classType.GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+        PropertyInfo[] properties = classType.GetProperties();
+
+        for(int i= 0; i<fields.Count(); i++)
+        {
+            FieldInfo field = fields[i];
+            PropertyInfo property = properties[i];
+
+            Type fieldType = field.FieldType;
+            string fieldName = field.Name;
+            string fieldTypeName = fieldType.Name;
+
+            FieldPropertyPair.Add(fieldType.Name, property.Name);
+
+        }
+        
+    }
 
 
 }

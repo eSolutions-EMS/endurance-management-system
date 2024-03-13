@@ -8,11 +8,12 @@
 @inherits NotForm<Event>;
 
 <EditForm Model="_model">
-    <MudTextField @ref="_placeField" @bind-Value="_model.Place" Label="@Localizer.Get(nameof(Event.Place))" />
-
-    <MudAutocomplete T="Country" @ref="_countryField" @bind-Value="_model.Country" Label="@Localizer.Get(nameof(Event.Country))"
-        CoerceText="true"
-        SearchFunc="_countries.Search"/>
+    <NotFormBasic T="EventFormModel" Entity="_model">
+        @* non-auto fields: *@
+        <MudAutocomplete T="Country" @ref="_countryField" @bind-Value="_model.Country" Label="@Localizer.Get(nameof(Event.Country))"
+                         CoerceText="true"
+                         SearchFunc="_countries.Search" />
+    </NotFormBasic>
 </EditForm>
 
 @code {
@@ -24,6 +25,7 @@
 
     public override void RegisterValidationInjectors()
     {
+
         RegisterInjector(nameof(_model.Place), () => _placeField);
         RegisterInjector(nameof(_model.Country), () => _countryField);
     }
