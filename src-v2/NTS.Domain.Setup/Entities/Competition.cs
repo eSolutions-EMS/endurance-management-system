@@ -1,18 +1,32 @@
 ﻿using NTS.Domain.Events.Start;
 using NTS.Domain.Setup.Import;
+using System.Text.Json.Serialization;
 
 namespace NTS.Domain.Setup.Entities;
 
 public class Competition : DomainEntity, ISummarizable, IImportable
 {
+
+    public static Competition Create(CompetitionType type, DateTime start) => new(type, start);
+    public static Competition Update(CompetitionType type, DateTime start, List<Loop> loops, List<Starter> starters) => new(type, start, loops, starters);
+
+    [JsonConstructor]
+    public Competition(CompetitionType type, DateTime start, List<Loop> loops, List<Starter> starters)
+    {
+        this.Type = type;
+        this.Start = new DateTimeOffset(start);
+        this.Loops = loops;
+        this.Starters = starters;
+    }
+
     public Competition(CompetitionType type, DateTime start)
     {
         this.Type = type;
-		this.Start = new Timestamp(start);
+		this.Start = new DateTimeOffset(start);
     }
 
     public CompetitionType Type { get; private set; }
-	public Timestamp Start { get; private set; }
+	public DateTimeOffset Start { get; private set; }
 	public List<Loop> Loops { get; private set; } = new();
 	public List<Starter> Starters { get; private set; } = new();
 
