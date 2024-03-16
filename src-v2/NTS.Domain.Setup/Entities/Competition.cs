@@ -7,48 +7,49 @@ namespace NTS.Domain.Setup.Entities;
 public class Competition : DomainEntity, ISummarizable, IImportable
 {
 
-    public static Competition Create(CompetitionType type, DateTime start) => new(type, start);
-    public static Competition Update(CompetitionType type, DateTime start, List<Loop> loops, List<Starter> starters) => new(type, start, loops, starters);
+    public static Competition Create(string name, CompetitionType type, DateTime start) => new(name,type, start);
+    public static Competition Update(string name, CompetitionType type, DateTime start, List<Loop> loops, List<Contestant> contestants) => new(name, type, start, loops, contestants);
 
     [JsonConstructor]
-    public Competition(CompetitionType type, DateTime start, List<Loop> loops, List<Starter> starters)
+    public Competition(string name, CompetitionType type, DateTime start, List<Loop> loops, List<Contestant> contestants)
     {
+        this .Name = name;
         this.Type = type;
-        this.Start = new DateTimeOffset(start);
+        this.StartTime = new DateTimeOffset(start);
         this.Loops = loops;
-        this.Starters = starters;
+        this.Contestants = contestants;
     }
 
-    public Competition(CompetitionType type, DateTime start)
+    public Competition(string Name, CompetitionType type, DateTime start)
     {
+        this.Name = Name;
         this.Type = type;
-		this.Start = new DateTimeOffset(start);
+		this.StartTime = new DateTimeOffset(start);
     }
-
+    public string Name { get; private set; }
     public CompetitionType Type { get; private set; }
-	public DateTimeOffset Start { get; private set; }
-	public List<Loop> Loops { get; private set; } = new();
-	public List<Starter> Starters { get; private set; } = new();
+	public DateTimeOffset StartTime { get; private set; }
+    public List<Loop> Loops { get; private set; }
+    public List<Contestant> Contestants { get; private set; }
 
 	public string Summarize()
 	{
 		var summary = new Summarizer(this);
 		summary.Add("Loops".Localize(), this.Loops);
-		summary.Add("Starters".Localize(), this.Starters);
+		summary.Add("Contestants".Localize(), this.Contestants);
 		return summary.ToString();
 	}
 	public override string ToString()
 	{
 		var sb = new StringBuilder();
-		sb.Append($"{LocalizationHelper.Get(this.Type)}, {"Loops".Localize()}: {this.Loops.Count}, {"Starters".Localize()}: {this.Starters.Count}, ");
-		sb.Append($"{"Start".Localize()}: {this.Start.ToString("f", CultureInfo.CurrentCulture)}");
+		sb.Append($"{LocalizationHelper.Get(this.Type)}, {"Loops".Localize()}: {this.Loops.Count}, {"Starters".Localize()}: {this.Contestants.Count}, ");
+		sb.Append($"{"Start".Localize()}: {this.StartTime.ToString("f", CultureInfo.CurrentCulture)}");
 		return sb.ToString();
 	}
 }
 
 public enum CompetitionType
 {
-	Qualification = 1,
-	National = 2,
-	International = 3,
+	FEI = 1,
+	National = 2
 }
