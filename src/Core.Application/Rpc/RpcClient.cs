@@ -104,7 +104,7 @@ public class RpcClient : IRpcClient, IAsyncDisposable
 		this.reconnectTokenSource?.Dispose();
     }
 
-	protected void AddProcedure(string name, Func<Task> action)
+	protected void RegisterClientProcedure(string name, Func<Task> action)
 	{
 		this.procedureRegistrations.Add(connection =>
 		{
@@ -121,7 +121,7 @@ public class RpcClient : IRpcClient, IAsyncDisposable
 			});
 		});
 	}
-	protected void AddProcedure<T>(string name, Func<T, Task> action)
+	protected void RegisterClientProcedure<T>(string name, Func<T, Task> action)
 	{
 		this.procedureRegistrations.Add(connection =>
 		{
@@ -138,7 +138,7 @@ public class RpcClient : IRpcClient, IAsyncDisposable
 			});
 		});
 	}
-    protected void AddProcedure<T1, T2>(string name, Func<T1, T2, Task> action)
+    protected void RegisterClientProcedure<T1, T2>(string name, Func<T1, T2, Task> action)
     {
 		this.procedureRegistrations.Add(connection =>
 		{
@@ -155,7 +155,7 @@ public class RpcClient : IRpcClient, IAsyncDisposable
 			});
 		});
 	}
-    protected void AddProcedure<T1, T2, T3>(string name, Func<T1, T2, T3, Task> action)
+    protected void RegisterClientProcedure<T1, T2, T3>(string name, Func<T1, T2, T3, Task> action)
     {
 		this.procedureRegistrations.Add(connection =>
 		{
@@ -173,7 +173,7 @@ public class RpcClient : IRpcClient, IAsyncDisposable
 		});
 	}
 
-	protected async Task<RpcInvokeResult> InvokeAsync<T>(string name, T parameter)
+	protected async Task<RpcInvokeResult> InvokeHubProcedure<T>(string name, T parameter)
 	{
 		try
 		{
@@ -187,7 +187,7 @@ public class RpcClient : IRpcClient, IAsyncDisposable
 		}
 	}
 
-	protected async Task<RpcInvokeResult> InvokeAsync<T1, T2>(string name, T1 parameter1, T2 parameter2)
+	protected async Task<RpcInvokeResult> InvokeHubProcedure<T1, T2>(string name, T1 parameter1, T2 parameter2)
 	{
 		try
 		{
@@ -201,7 +201,7 @@ public class RpcClient : IRpcClient, IAsyncDisposable
 		}
 	}
 
-	protected async Task<RpcInvokeResult<T>> InvokeAsync<T>(string name)
+	protected async Task<RpcInvokeResult<T>> InvokeHubProcedure<T>(string name)
 	{
 		try
 		{
