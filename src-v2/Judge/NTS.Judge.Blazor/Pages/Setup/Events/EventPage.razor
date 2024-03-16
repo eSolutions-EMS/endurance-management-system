@@ -1,6 +1,7 @@
 @using NTS.Domain.Setup.Entities
 @using NTS.Judge.Blazor.Pages.Setup.Events
 @using NTS.Judge.Blazor.Pages.Setup.Officials
+@using NTS.Judge.Blazor.Pages.Setup.Competitions
 @using Not.Blazor.TM.Forms.Components
 
 @inherits NotComponent
@@ -14,6 +15,13 @@
 <MudPaper>
     <OfficialList />
 </MudPaper>
+
+<MudDivider />
+
+<MudPaper>
+    <CompetitionForm></CompetitionForm>
+</MudPaper>
+
 
 @code {
     private Event _event = default!;

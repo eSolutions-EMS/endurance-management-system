@@ -13,7 +13,7 @@ public class Competition : DomainEntity, ISummarizable, IImportable
     [JsonConstructor]
     public Competition(string name, CompetitionType type, DateTime start, List<Loop> loops, List<Contestant> contestants)
     {
-        this .Name = name;
+        this.Name = name;
         this.Type = type;
         this.StartTime = new DateTimeOffset(start);
         this.Loops = loops;

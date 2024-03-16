@@ -1,0 +1,28 @@
+﻿@using NTS.Domain.Setup.Entities;
+@using Not.Blazor.Components;
+@using Not.Blazor.Navigation;
+@using Not.Blazor.TM.Forms.Components
+
+@attribute [Route(COMPETITION_PAGE)]
+@inherits NotComponent
+
+<NotH1>@Localizer.Get("Setup")</NotH1>
+
+<MudPaper>
+    <NotH2>@Localizer.Get("Update Competition")</NotH2>
+
+    <NotFormUpdate T="Competition" TForm="CompetitionForm" Entity="_navigator.ConsumeParameter<Competition>()" UpdateAction="Update" />
+</MudPaper>
+
+@code {
+    [Inject]
+    private INotBehindParent<Competition> _parentBehind { get; set; } = default!;
+    [Inject]
+    private INavigator _navigator { get; set; } = default!;
+
+    protected async Task Update(Competition Competition)
+    {
+        await _parentBehind.Update(Competition);
+        _navigator.NavigateTo(SETUP_PAGE);
+    }
+}
