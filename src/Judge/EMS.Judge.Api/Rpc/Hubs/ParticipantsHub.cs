@@ -1,10 +1,12 @@
-﻿using Core.Application.Rpc.Procedures;
+﻿using Core.Application.Rpc;
+using Core.Application.Rpc.Procedures;
 using Core.Domain.AggregateRoots.Manager;
 using Core.Domain.AggregateRoots.Manager.Aggregates.Participants;
 using EMS.Judge.Api.Configuration;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace EMS.Judge.Api.Rpc.Hubs;
@@ -18,11 +20,15 @@ public class ParticipantsHub : Hub<IParticipantsClientProcedures>, IParticipants
         this.managerRoot = provider.GetRequiredService<ManagerRoot>();
     }
 
-    public (int eventId, IEnumerable<ParticipantEntry> participants) Get()
+    public ParticipantsPayload Get()
     {
         var participants = this.managerRoot.GetActiveParticipants();
         var eventId = managerRoot.GetEventId();
-        return (eventId, participants);
+        return new ParticipantsPayload
+        {
+            Participants = participants.ToList(),
+            EventId = eventId,
+        };
     }
     public Task Witness(IEnumerable<ParticipantEntry> entries, WitnessEventType type)
     {
