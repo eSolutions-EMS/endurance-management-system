@@ -1,11 +1,12 @@
 ﻿using Core.Application.Rpc;
 using Core.Application.Rpc.Procedures;
+using static Core.Application.CoreApplicationConstants;
 
 namespace EMS.Witness.Rpc;
 
 public class LoggingClient : RpcClient, IWitnessLogger
 {
-	public LoggingClient(RpcContext context) : base(context)
+	public LoggingClient() : base(new RpcContext(RpcProtocls.Http, NetworkPorts.JUDGE_SERVER, RpcEndpoints.LOGGING))
 	{
 	}
 
