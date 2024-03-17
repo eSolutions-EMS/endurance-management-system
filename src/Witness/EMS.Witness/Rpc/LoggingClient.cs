@@ -24,7 +24,7 @@ public class LoggingClient : RpcClient, IWitnessLogger
 		SendInBackground(log);
 	}
 
-	private string GetClientId() => $"{DeviceInfo.Current.Model}-{DeviceInfo.Current.Version}";
+	private string GetClientId() => $"{DeviceInfo.Current.Manufacturer}-{DeviceInfo.Current.Name}-{DeviceInfo.Current.Version}";
 
 	private void SendInBackground(RpcLog log)
 	{
