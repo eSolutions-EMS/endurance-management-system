@@ -47,7 +47,7 @@ public partial class App : Application
 
 		window.Created += async (s, e) =>
 		{
-			await this.persistence.Restore();
+			await this.persistence.RestoreIfAny();
 		};
 		window.Resumed += (s, e) =>
 		{
