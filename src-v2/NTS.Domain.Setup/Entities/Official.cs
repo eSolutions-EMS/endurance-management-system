@@ -5,7 +5,9 @@ namespace NTS.Domain.Setup.Entities;
 
 public class Official : DomainEntity, ISummarizable, IImportable
 {
+    public static Official Create(string name, OfficialRole role) => new(new Person(name), role);
     public static Official Update(int id, string name, OfficialRole role) => new(id, new Person(name), role);
+
     [JsonConstructor]
     private Official(int id, Person person, OfficialRole role)
     {
@@ -13,7 +15,7 @@ public class Official : DomainEntity, ISummarizable, IImportable
         this.Role = role;
         this.Id = id;
     }
-    public Official(string name, OfficialRole role)
+    private Official(string name, OfficialRole role)
     {
 		this.Person = new Person(name);
 		this.Role = role;

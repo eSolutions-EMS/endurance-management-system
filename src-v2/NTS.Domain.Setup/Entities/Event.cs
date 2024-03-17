@@ -5,15 +5,18 @@ namespace NTS.Domain.Setup.Entities;
 
 public class Event : DomainEntity, ISummarizable, IImportable, IParent<Official>
 {
+    public static Event Create(string place, Country country) => new(place, country);
+    public static Event Update(int id, string place, Country country) => new(id, place, country);
+
     private List<Competition> _competitions = new();
     private List<Official> _officials = new();
 
     [JsonConstructor]
-    public Event(int id, string place, Country country) : this(place, country)
+    private Event(int id, string place, Country country) : this(place, country)
     {
         Id = id;
     }
-    public Event(string place, Country country)
+    private Event(string place, Country country)
     {
         if (string.IsNullOrEmpty(place) || !char.IsUpper(place.First()))
         {
@@ -26,7 +29,6 @@ public class Event : DomainEntity, ISummarizable, IImportable, IParent<Official>
         this.Place = place;
         this.Country = country;
     }
-    public static Event Update(int id, string place, Country country) => new(id, place, country);
 
     public string Place { get; private set; }
     public Country Country { get; private set; }

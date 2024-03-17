@@ -35,7 +35,7 @@
 
     public override Official SubmitCreate()
     {
-        return new Official(_model.Name!, _model.Role);
+        return Official.Create(_model.Name!, _model.Role);
     }
 
     public override Official SubmitUpdate()
