@@ -18,7 +18,7 @@ public class PersistenceService : IPersistenceService
 		this.path = Path.Combine(FileSystem.Current.CacheDirectory, "e.witness");
     }
 
-    public async Task RestoreIfAny()
+    public async Task RestoreIfAny(int eventId)
     {
         try
         {
@@ -28,7 +28,12 @@ public class PersistenceService : IPersistenceService
 			}
 			var contents = await File.ReadAllTextAsync(path);
 			var state = this.jsonSerializer.Deserialize<WitnessState>(contents);
-			this.state.Set(state);
+            if (state.EventId != eventId)
+            {
+                File.Delete(path);
+                return;
+            }
+            this.state.Set(state);
 		}
         catch (Exception ex)
         {
@@ -53,5 +58,5 @@ public class PersistenceService : IPersistenceService
 public interface IPersistenceService
 {
     public Task Store();
-    public Task RestoreIfAny();
+    public Task RestoreIfAny(int eventId);
 }
