@@ -7,10 +7,9 @@
 
 <MudTable Items="_parentBehind.Children" Hover="true">
     <HeaderContent>
+        <MudTh>Name</MudTh>
         <MudTh>Competition Type</MudTh>
         <MudTh>Start Time</MudTh>
-        <MudTh>Loops</MudTh>
-        <MudTh>Starters</MudTh>
     </HeaderContent>
 
     <RowTemplate>
@@ -19,7 +18,7 @@
         <MudTd>
             <NotButtonDelete OnClick="() => _parentBehind.Delete(context)" />
 
-            <NotButtonUpdate OnClick="() => this._competitionNavigator.Update(OFFICIAL_PAGE, context)" />
+            <NotButtonUpdate OnClick="() => this._competitionNavigator.Update(COMPETITION_PAGE, context)" />
         </MudTd>
     </RowTemplate>
 

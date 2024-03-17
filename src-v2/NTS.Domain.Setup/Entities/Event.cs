@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace NTS.Domain.Setup.Entities;
 
-public class Event : DomainEntity, ISummarizable, IImportable, IParent<Official>
+public class Event : DomainEntity, ISummarizable, IImportable, IParent<Official>, IParent<Competition>
 {
     public static Event Create(string place, Country country) => new(place, country);
     public static Event Update(int id, string place, Country country) => new(id, place, country);
@@ -20,12 +20,9 @@ public class Event : DomainEntity, ISummarizable, IImportable, IParent<Official>
     {
         if (string.IsNullOrEmpty(place) || !char.IsUpper(place.First()))
         {
-            throw new DomainException(nameof(Place), $"{nameof(Place)} is invalid. It has to be Caplitalized");
+            throw new DomainException(nameof(Place), $"{nameof(Place)} is invalid. It has to be Capitalized");
         }
-        if (country.Name == "Bulgaria")
-        {
-            throw new DomainException(nameof(Country), "Trolololol");
-        }
+
         this.Place = place;
         this.Country = country;
     }
@@ -42,7 +39,22 @@ public class Event : DomainEntity, ISummarizable, IImportable, IParent<Official>
         get => _competitions.AsReadOnly();
         private set => _competitions = value.ToList();
     }
-	
+    public void Add(Competition competition)
+    {
+        this.ThrowIfInvalidCompetitionType(competition);
+
+        this._competitions.Add(competition);
+    }
+    public void Update(Competition competition)
+    {
+        this._competitions.Remove(competition);
+
+        this.Add(competition);
+    }
+    public void Remove(Competition competition)
+    {
+        this._competitions.Remove(competition);
+    }
     public void Add(Official official)
     {
         this.ThrowIfInvalidRole(official);
@@ -88,5 +100,11 @@ public class Event : DomainEntity, ISummarizable, IImportable, IParent<Official>
                 throw new DomainException("Official '", member.Role, "' already exists");
             }
         }
+    }
+
+    private void ThrowIfInvalidCompetitionType(Competition competition)
+    {
+        var type = competition.Type;
+        // do we need this?
     }
 }

@@ -9,8 +9,8 @@
 <NotH2>@Localizer.Get("Competition")</NotH2>
 <EditForm Model="_model">
     <MudTextField @ref="_nameField" @bind-Value="_model.Name" Label="@Localizer.Get("Name")"></MudTextField>
-    <MudDatePicker @bind-Date="date" Label="@Localizer.Get("Name")"></MudDatePicker>
-    <MudSelect @ref="_typeField" @bind-Value="_model.Type" Label="@Localizer.Get(nameof(Competition.Loops))" @onchange="(_) => SubmitUpdate()">
+    <MudDatePicker @bind-Date="_model.Start" Label="@Localizer.Get("Date")"></MudDatePicker>
+    <MudSelect @ref="_typeField" @bind-Value="_model.Type" Label="@Localizer.Get(nameof(Competition.Type))" @onchange="(_) => SubmitUpdate()">
         @foreach (var item in Enum.GetValues<CompetitionType>())
         {
             <MudSelectItem Value="@item">@item</MudSelectItem>
@@ -19,7 +19,7 @@
 </EditForm>
 
 @code {
-    private MudTextField<string?> _nameField = default!;
+    private MudTextField<string> _nameField = default!;
     private MudSelect<CompetitionType> _typeField = default!;
     private MudPicker<DateTime> _timeStampField = default!;
     private CompetitionFormModel _model { get; set; } = new();
@@ -27,7 +27,7 @@
 
     protected override void OnInitialized()
     {
-        date = _model.GetStartTime();
+        date = _model.Start;
     }
 
     public override void RegisterValidationInjectors()
@@ -44,13 +44,13 @@
 
     public override Competition SubmitCreate()
     {
-        var startTime = _model.GetStartTime();
+        DateTime startTime = _model.Start.GetValueOrDefault(DateTime.MinValue);
         return Competition.Create(_model.Name ,_model.Type, startTime);
     }
 
     public override Competition SubmitUpdate()
     {
-        var startTime = _model.GetStartTime();
+        DateTime startTime = _model.Start.GetValueOrDefault(DateTime.MinValue);
         return Competition.Update(_model.Name, _model.Type, startTime, _model.Loops, _model.Contestants);
     }
 }

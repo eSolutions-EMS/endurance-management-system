@@ -46,6 +46,11 @@ public class Competition : DomainEntity, ISummarizable, IImportable
 		sb.Append($"{"Start".Localize()}: {this.StartTime.ToString("f", CultureInfo.CurrentCulture)}");
 		return sb.ToString();
 	}
+    public void AddDefaultLists()
+    {
+        this.Loops = new List<Loop>();
+        this.Contestants = new List<Contestant>();  
+    }
 }
 
 public enum CompetitionType

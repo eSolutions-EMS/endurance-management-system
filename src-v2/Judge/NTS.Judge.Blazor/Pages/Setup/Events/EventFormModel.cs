@@ -7,6 +7,9 @@ public class EventFormModel
 {
     public EventFormModel()
     {
+        //mock default values for testing
+        this.Place = "Каспичан";
+        this.Country = new Country("BG", "Bulgaria");
     }
     public EventFormModel(Event @event)
     {
