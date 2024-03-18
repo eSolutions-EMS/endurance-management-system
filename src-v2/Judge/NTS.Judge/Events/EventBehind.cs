@@ -18,17 +18,6 @@ public class EventBehind : INotBehind<Event>, INotBehindParent<Official>, INotBe
         _officialRepository = officials;
         _competitionRepository = competitions;
     }
-    public EventBehind(IRepository<Event> events, IParentRepository<Official> officials)
-    {
-        _repository = events;
-        _officialRepository = officials;
-    }
-
-    public EventBehind(IRepository<Event> events, IParentRepository<Competition> competitions)
-    {
-        _repository = events;
-        _competitionRepository = competitions;
-    }
     IEnumerable<Official> INotBehindParent<Official>.Children => _event?.Officials ?? Enumerable.Empty<Official>();
 
     IEnumerable<Competition> INotBehindParent<Competition>.Children => _event?.Competitions ?? Enumerable.Empty<Competition>();
@@ -87,7 +76,6 @@ public class EventBehind : INotBehind<Event>, INotBehindParent<Official>, INotBe
     public async Task<Competition> Create(Competition child)
     {
         GuardHelper.ThrowIfNull(_event);
-        child.AddDefaultLists();
         _event.Add(child);
         await _competitionRepository.Create(_event.Id, child);
         return child;

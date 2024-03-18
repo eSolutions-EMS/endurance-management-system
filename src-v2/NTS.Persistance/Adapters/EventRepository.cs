@@ -20,6 +20,10 @@ public class EventRepository : ParentRepository<Official, Event, State>, IParent
         {
             entity.Add(official);
         }
+        foreach (var competition in context.Event.Competitions)
+        {
+            entity.Add(competition);
+        }
         context.Event = entity;
         await Store.Commit(context);
 
