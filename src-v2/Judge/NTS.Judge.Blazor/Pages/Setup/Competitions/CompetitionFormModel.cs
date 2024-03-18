@@ -13,20 +13,35 @@ public class CompetitionFormModel
     {
         this.Name = competition.Name;
         this.Type = competition.Type;
-        this.Start = competition.StartTime.DateTime;
-        this.Loops = competition.Loops; 
-        this.Contestants = competition.Contestants;
+        this.Start = competition.StartTime;
+
+        //CompetitionFormModel specific properties
+        DateTime? startDay = competition.StartTime.DateTime;
+        TimeSpan? startTime = competition.StartTime.DateTime.TimeOfDay;
+        this.StartDay = startDay;
+        this.StartTime = startTime;
     }
     public DateTimeOffset ToDateTimeOffSet(DateTime time)
     {
-        DateTime localTime1 = DateTime.SpecifyKind(time, DateTimeKind.Local);
-        DateTimeOffset localTime2 = localTime1;
+        DateTime timeWithSpecifiedKind = DateTime.SpecifyKind(time, DateTimeKind.Local);
+        DateTimeOffset offsetTime = timeWithSpecifiedKind;
 
-        return localTime2;
+        return offsetTime;
+    }
+    public DateTimeOffset CombineStartDayAndTime(DateTime? startDay, TimeSpan? startTime)
+    {
+        DateTime start = startDay.GetValueOrDefault(DateTime.MinValue);
+        DateTime startDayTime = start.Add((TimeSpan)startTime);
+        DateTimeOffset startTimeOffset = this.ToDateTimeOffSet(startDayTime);
+        return startTimeOffset;
     }
     public string Name { get; set; }
     public CompetitionType Type { get; set; }
-    public DateTime? Start { get; set; }
+
+    public DateTimeOffset Start { get; set; }
     public List<Loop> Loops { get; set; } = new List<Loop>();
     public List<Contestant> Contestants { get; set; } = new List<Contestant>();
+
+    public DateTime? StartDay { get; set; } = DateTime.Today;
+    public TimeSpan? StartTime { get; set; }
 }

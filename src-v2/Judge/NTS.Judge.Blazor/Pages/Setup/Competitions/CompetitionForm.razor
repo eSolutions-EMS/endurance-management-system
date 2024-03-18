@@ -6,34 +6,35 @@
 
 @inherits NotForm<Competition>;
 
-<NotH2>@Localizer.Get("Competition")</NotH2>
 <EditForm Model="_model">
     <MudTextField @ref="_nameField" @bind-Value="_model.Name" Label="@Localizer.Get("Name")"></MudTextField>
-    <MudDatePicker @bind-Date="_model.Start" Label="@Localizer.Get("Date")"></MudDatePicker>
-    <MudSelect @ref="_typeField" @bind-Value="_model.Type" Label="@Localizer.Get(nameof(Competition.Type))" @onchange="(_) => SubmitUpdate()">
+    <MudSelect @ref="_typeField" @bind-Value="_model.Type" Label="@Localizer.Get("Type")" @onchange="(_) => SubmitUpdate()" 
+        Strict="true" ShrinkLabel="true" Placeholder="@Localizer.Get("Pick a competition type")">
         @foreach (var item in Enum.GetValues<CompetitionType>())
         {
             <MudSelectItem Value="@item">@item</MudSelectItem>
         }
     </MudSelect>
+    @* some more configuration might be added to accomodate different screen sizes of devices *@
+    <MudDatePicker DisableToolbar="true" @ref="_dayField" @bind-Date="_model.StartDay" Label="@Localizer.Get("Date")">
+    </MudDatePicker>
+    <MudTimePicker DisableToolbar="true" @ref="_timeField" @bind-Time="_model.StartTime" Label="@Localizer.Get("Time")">
+    </MudTimePicker>
 </EditForm>
 
 @code {
     private MudTextField<string> _nameField = default!;
     private MudSelect<CompetitionType> _typeField = default!;
-    private MudPicker<DateTime> _timeStampField = default!;
+    private MudPicker<DateTime?> _dayField = default!;
+    private MudPicker<TimeSpan?> _timeField = default!;
     private CompetitionFormModel _model { get; set; } = new();
-    public DateTime? date { get; set; }
 
-    protected override void OnInitialized()
-    {
-        date = _model.Start;
-    }
 
     public override void RegisterValidationInjectors()
     {
         RegisterInjector(nameof(_model.Name), () => _nameField);
-        //RegisterInjector(nameof(_model.Start), () => _timeStampField);
+        RegisterInjector(nameof(_model.StartDay), () => _dayField);
+        RegisterInjector(nameof(_model.StartTime), () => _timeField);
         RegisterInjector(nameof(_model.Type), () => _typeField);
     }
 
@@ -44,13 +45,13 @@
 
     public override Competition SubmitCreate()
     {
-        DateTime startTime = _model.Start.GetValueOrDefault(DateTime.MinValue);
-        return Competition.Create(_model.Name ,_model.Type, startTime);
+        DateTimeOffset startTimeOffset = _model.CombineStartDayAndTime(_model.StartDay, _model.StartTime);
+        return Competition.Create(_model.Name, _model.Type, startTimeOffset);
     }
 
     public override Competition SubmitUpdate()
     {
-        DateTime startTime = _model.Start.GetValueOrDefault(DateTime.MinValue);
-        return Competition.Update(_model.Name, _model.Type, startTime, _model.Loops, _model.Contestants);
+        DateTimeOffset startTimeOffset = _model.CombineStartDayAndTime(_model.StartDay, _model.StartTime);
+        return Competition.Update(_model.Name, _model.Type, startTimeOffset);
     }
 }
