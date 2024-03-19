@@ -1,5 +1,4 @@
 ﻿using Core.Application.Rpc.Procedures;
-using Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 using Microsoft.AspNetCore.SignalR.Client;
 using System;
 using System.Collections.Generic;
@@ -96,6 +95,8 @@ public class RpcClient : IRpcClient, IAsyncDisposable
 		this.Connection = new HubConnectionBuilder()
 			.WithUrl(this.context.Url)
 			.Build();
+		this.Connection.Reconnected += (a) => { RaiseConnected($"SignalR automatic reconnected: {a}"); return Task.CompletedTask; };
+		this.Connection.Reconnecting += (a) => { RaiseReconnecting($"SignalR automatic reconnecting: {a}"); return Task.CompletedTask; };
 		this.Connection.Closed += ex =>
 		{
 			// This check is also necessary here, because if the server hub cannot be constructed (DI error for example)
@@ -179,15 +180,22 @@ public class RpcClient : IRpcClient, IAsyncDisposable
 		ServerConnectionChanged?.Invoke(_name, RpcConnectionStatus.Connecting);
         ServerConnectionInfo?.Invoke(_name, $"{ex.Message}. Attempting to reconnect");
     }
-
+	private void RaiseReconnecting(string message)
+	{
+		ServerConnectionChanged?.Invoke(_name, RpcConnectionStatus.Connecting);
+        ServerConnectionInfo?.Invoke(_name, $"{message}. Attempting to reconnect");
+    }
 	private void RaiseConnecting()
 	{
 		ServerConnectionChanged?.Invoke(_name, RpcConnectionStatus.Connecting);
     }
-
-	private void RaiseConnected()
+	private void RaiseConnected(string? message = null)
 	{
 		ServerConnectionChanged?.Invoke(_name, RpcConnectionStatus.Connected);
+		if (message != null)
+		{
+			ServerConnectionInfo?.Invoke(_name, message);
+		}
     }
 
 	protected void RegisterClientProcedure(string name, Func<Task> action)
