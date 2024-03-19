@@ -30,7 +30,6 @@
 		{
 			<button class="btn btn-warning" @onclick="_rpcInitializer.StartConnections">Reconnect</button>
 		}
-		<button class="btn btn-primary" @onclick="() => _participantsService.Load()"></button>
 		<div class="col-3">
 			<button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
 				<span class="navbar-toggler-icon"></span>
@@ -93,7 +92,7 @@
 			};
 			client.ServerConnectionInfo += (senderName, message) =>
 			{
-				_toaster.Add(senderName!.ToString(), message, UiColor.Warning, 10);
+				_toaster.Add(senderName!.ToString()!, message, UiColor.Warning, 10);
 			};
 		}
 		this.Context.IsHandshakingEvent += async (sender, isHandshaking) =>
@@ -104,7 +103,18 @@
 				await this.InvokeAsync(this.StateHasChanged);
 			}
 		};
-		await _rpcInitializer.StartConnections();
-		_toaster.Add("NavMenu initialized", "You should only see this once!", UiColor.Warning, 15);
+		await SafeAction(async () => await _rpcInitializer.StartConnections());
+	}
+
+	private async Task SafeAction(Func<Task> action)
+	{
+		try
+		{
+			await action();
+		}
+		catch (Exception ex)
+		{
+			await Application.Current!.MainPage!.DisplayAlert(ex.Message, ex.StackTrace, "damn");
+		}
 	}
 }

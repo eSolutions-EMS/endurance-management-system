@@ -45,21 +45,16 @@ public partial class App : Application
 	{
 		var window = base.CreateWindow(activationState);
 
-		// Invoked by the RpcClients instead
-		//window.Created += async (s, e) =>
-		//{
-		//	await this.persistence.RestoreIfAny();
-		//};
-		window.Resumed += (s, e) =>
+		window.Resumed += async (s, e) => await SafeAction(async () =>
 		{
 			this.isDeactivated = false;
-			this.rpcService.StartConnections();
-		};
-		window.Deactivated += async (s, e) =>
+			await this.rpcService.StartConnections();
+		});
+		window.Deactivated += async (s, e) => await SafeAction(async () =>
 		{
 			this.isDeactivated = true;
 			await this.persistence.Store();
-		};
+		});
 
 		return window;
 	}
@@ -85,6 +80,18 @@ public partial class App : Application
             }
         };
     }
+
+	private async Task SafeAction(Func<Task> action)
+	{
+		try
+		{
+			await action();
+		}
+		catch (Exception ex)
+		{
+			await Application.Current!.MainPage!.DisplayAlert(ex.Message, ex.StackTrace, "damn");
+        }
+	}
 
 	private void HandleRpcErrors(IEnumerable<IRpcClient> rpcClients)
 	{
