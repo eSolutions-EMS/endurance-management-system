@@ -17,12 +17,17 @@
         <ApplicationIdGuid>E28F87C5-E076-4180-AB84-DBE4E9E99526</ApplicationIdGuid>
 
         <!-- Versions -->
-        <ApplicationDisplayVersion>2.3</ApplicationDisplayVersion>
-        <ApplicationVersion>8</ApplicationVersion>
+        <ApplicationDisplayVersion>2.4</ApplicationDisplayVersion>
+        <ApplicationVersion>11</ApplicationVersion>
 
-		<CheckEolWorkloads>false</CheckEolWorkloads>
-        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'net7.0-ios'">13.5</SupportedOSPlatformVersion>
-        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'net7.0-android'">24.0</SupportedOSPlatformVersion>
+		    <CheckEolWorkloads>false</CheckEolWorkloads>
+
+      <UseInterpreter>true</UseInterpreter>
+      <NoSymbolStrip>true</NoSymbolStrip>
+      <MtouchLink>SdkOnly</MtouchLink>
+      
+      <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.0</SupportedOSPlatformVersion>
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">24.0</SupportedOSPlatformVersion>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-android|AnyCPU'">
