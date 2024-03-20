@@ -102,9 +102,14 @@ public class RpcClient : IRpcClient, IAsyncDisposable
 			// This check is also necessary here, because if the server hub cannot be constructed (DI error for example)
 			// SignalR keeps closing each connection to that hub as soon as it is created
 			// Maybe test again with static connection?
-			if (!HasReachedReconnectionAttemptLimit(++reconnectionAttempts))
+			if (HasReachedReconnectionAttemptLimit(++reconnectionAttempts))
 			{
-				this.BeginReconnecting(this.reconnectTokenSource!.Token, ex);
+				RaiseDisconnected(ex);
+			}
+			else
+			{
+				this.BeginReconnecting(this.reconnectTokenSource!.Token, ex, () => { reconnectionAttempts = 0; });
+
 			}
 			return Task.CompletedTask;
 		};
@@ -114,7 +119,7 @@ public class RpcClient : IRpcClient, IAsyncDisposable
 		}
 	}
 
-    private void BeginReconnecting(CancellationToken cancellationToken, Exception? error)
+    private void BeginReconnecting(CancellationToken cancellationToken, Exception? error, Action onSuccess)
     {
 		this.RaiseDisconnected(error);
 		RaiseConnecting();
@@ -134,6 +139,7 @@ public class RpcClient : IRpcClient, IAsyncDisposable
                 if (this.Connection.State == HubConnectionState.Connected)
                 {
 					this.RaiseConnected();
+					onSuccess();
                     timer.Stop();
                     timer.Dispose();
                 }
