@@ -1,24 +1,18 @@
 ﻿@using NTS.Domain.Setup.Entities;
+@using Not.Blazor.Navigation;
 @using Not.Services;
 
 @inherits NotComponent
 
-
-
 @{
     if (_parentBehind.Children.Any()) 
-    { 
-        <MudDataGrid T="Competition" Items="_parentBehind.Children" ReadOnly="true" Bordered="true" Dense="true">
-            <ToolBarContent>
-                <div class="grid-header">
-                    <NotH2 Class="single-row-header">@Localizer.Get("Competitions")</NotH2>
-                </div>
-                <div class="toolbar-actions">
-                    <NotButtonCreate OnClick="_competitionNavigator.Create" />
-                </div>
-            </ToolBarContent>
+    {
+        <NotH2 Class="pt-6 pl-6">@Localizer.Get("Competitions")</NotH2>
+        <NotButtonCreate Class="mt-1 ml-6 mb-3" OnClick="_competitionNavigator.Create" />
+        <MudDivider/>
+        <MudDataGrid T="Competition" Items="_parentBehind.Children" ReadOnly="true" Bordered="true" Dense="true" >
             <Columns>
-                <PropertyColumn Property="x => x.Name" Title="@Localizer.Get("Name")" />
+                <PropertyColumn Property="x => x.Name" Title="@Localizer.Get("Name")" HeaderClass="" />
                 <PropertyColumn Property="x => x.Type" Title="@Localizer.Get("Competition Type")" />
                 <PropertyColumn Property="x => x.StartTime.DateTime" Title="@Localizer.Get("Start Time")"/>
                 <PropertyColumn Property="x => x.Loops.Count" Title="@Localizer.Get("Laps Count")" />
@@ -26,7 +20,6 @@
                 <TemplateColumn CellClass="action-column">
                     <CellTemplate>
                         <NotButtonDelete OnClick="() => _parentBehind.Delete(context.Item)" Class="action-button-top" />
-
                         <NotButtonUpdate OnClick="() => this._competitionNavigator.Update(COMPETITION_PAGE, context.Item)" />
                     </CellTemplate>
                 </TemplateColumn>
@@ -36,7 +29,7 @@
     else
     {
         <MudPaper Elevation="0">
-            <div class="pa-6 no-data-template">
+            <div class="pa-6">
                 <NotH2>@Localizer.Get("Competitions")</NotH2>
                 <NotButtonCreate OnClick="_competitionNavigator.Create" Class="toolbar-button" />
                 <p>@Localizer.Get("No competitions have been created for this event.")</p>
@@ -44,20 +37,8 @@
         </MudPaper>
     }
 }
-@* the following styles must be exported to a css file, if the current layout of the Grid Components is approved *@
+@* the following styles must be exported to a css file, if the current layout of the Grid Components is approved  *@
 <style>
-    .mud-table-toolbar{
-        display:block;
-    }
-    .grid-header {
-        display: flex;
-        flex-direction: column;
-        padding-top:10px;
-    }
-    .toolbar-actions{
-        display:flex;
-        margin-bottom: 10px;
-    }
     .toolbar-button {
         margin-top: 5px;
         margin-bottom: 5px;
@@ -65,11 +46,22 @@
     .action-button-top{
         margin-bottom:5px;
     }
-
+    th.mud-table-cell {
+        border-right-width: 0.8px !important;
+        border-color: rgb(224, 224, 224) !important;
+    }
 </style>
 @code {
     [Inject]
     private INotBehindParent<Competition> _parentBehind { get; set; } = default!;
     [Inject]
     private IFormNavigator<Competition, CompetitionForm> _competitionNavigator { get; set; } = default!;
+    [Inject]
+    private INavigator _navigator { get; set; } = default!;
+
+    protected async Task Create(Competition competition)
+    {
+        await _parentBehind.Create(competition);
+        _navigator.NavigateTo(SETUP_PAGE);
+    }
 }

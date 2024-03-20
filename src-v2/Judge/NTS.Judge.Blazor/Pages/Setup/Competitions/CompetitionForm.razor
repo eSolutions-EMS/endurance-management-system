@@ -7,7 +7,7 @@
 @inherits NotForm<Competition>;
 
 <EditForm Model="_model">
-    <MudTextField @ref="_nameField" @bind-Value="_model.Name" Label="@Localizer.Get("Name")"></MudTextField>
+    <MudTextField @ref="_nameField" @bind-Value="_model.Name" Label="@Localizer.Get("Name")" />
     <MudSelect @ref="_typeField" @bind-Value="_model.Type" Label="@Localizer.Get("Type")" @onchange="(_) => SubmitUpdate()" 
         Strict="true" ShrinkLabel="true" Placeholder="@Localizer.Get("Pick a competition type")">
         @foreach (var item in Enum.GetValues<CompetitionType>())
@@ -15,11 +15,8 @@
             <MudSelectItem Value="@item">@item</MudSelectItem>
         }
     </MudSelect>
-    @* some more configuration might be added to accomodate different screen sizes of devices *@
-    <MudDatePicker DisableToolbar="true" @ref="_dayField" @bind-Date="_model.StartDay" Label="@Localizer.Get("Date")">
-    </MudDatePicker>
-    <MudTimePicker DisableToolbar="true" @ref="_timeField" @bind-Time="_model.StartTime" Label="@Localizer.Get("Time")">
-    </MudTimePicker>
+    <MudDatePicker DisableToolbar="true" @ref="_dayField" @bind-Date="_model.StartDay" Label="@Localizer.Get("Date")" />
+    <MudTimePicker DisableToolbar="true" @ref="_timeField" @bind-Time="_model.StartTime" Label="@Localizer.Get("Time")" />
 </EditForm>
 
 @code {
@@ -29,6 +26,19 @@
     private MudPicker<TimeSpan?> _timeField = default!;
     private CompetitionFormModel _model { get; set; } = new();
 
+    public DateTimeOffset ToDateTimeOffSet(DateTime time)
+    {
+        DateTime timeWithSpecifiedKind = DateTime.SpecifyKind(time, DateTimeKind.Local);
+        DateTimeOffset offsetTime = timeWithSpecifiedKind;
+        return offsetTime;
+    }
+    public DateTimeOffset CombineStartDayAndTime(DateTime? startDay, TimeSpan? startTime)
+    {
+        DateTime start = startDay.GetValueOrDefault(DateTime.MinValue);
+        DateTime startDayTime = start.Add((TimeSpan)startTime);
+        DateTimeOffset startTimeOffset = ToDateTimeOffSet(startDayTime);
+        return startTimeOffset;
+    }
 
     public override void RegisterValidationInjectors()
     {
@@ -45,13 +55,13 @@
 
     public override Competition SubmitCreate()
     {
-        DateTimeOffset startTimeOffset = _model.CombineStartDayAndTime(_model.StartDay, _model.StartTime);
+        DateTimeOffset startTimeOffset = CombineStartDayAndTime(_model.StartDay, _model.StartTime);
         return Competition.Create(_model.Name, _model.Type, startTimeOffset);
     }
 
     public override Competition SubmitUpdate()
     {
-        DateTimeOffset startTimeOffset = _model.CombineStartDayAndTime(_model.StartDay, _model.StartTime);
+        DateTimeOffset startTimeOffset = CombineStartDayAndTime(_model.StartDay, _model.StartTime);
         return Competition.Update(_model.Name, _model.Type, startTimeOffset);
     }
 }

@@ -6,22 +6,22 @@
 
 @inherits NotComponent
 
-<NotH2>Update Event</NotH2>
-
-<NotFormUpdate T="Event" TForm="EventForm" Entity="_event" UpdateAction="_behind.Update" />
+<MudPaper Class="pa-6">
+    <NotH2>Update Event</NotH2>
+    <NotFormUpdate T="Event" TForm="EventForm" Entity="_event" UpdateAction="_behind.Update" />
+</MudPaper>
 
 <MudDivider />
 
-<MudPaper>
+<MudPaper Class="pa-6">
     <OfficialList />
 </MudPaper>
 
 <MudDivider />
 
 <MudPaper>
-   <CompetitionTable></CompetitionTable>
+   <CompetitionGrid/>
 </MudPaper>
-
 
 @code {
     private Event _event = default!;
@@ -36,6 +36,5 @@
             throw GuardHelper.Exception($"Event cannot be null here");
         }
         _event = entity;
-
     }
 }

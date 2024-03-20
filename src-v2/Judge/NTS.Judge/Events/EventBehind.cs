@@ -8,8 +8,8 @@ namespace NTS.Judge.Events;
 public class EventBehind : INotBehind<Event>, INotBehindParent<Official>, INotBehindParent<Competition>
 {
     private readonly IRepository<Event> _repository;
-    private readonly IParentRepository<Official>? _officialRepository;
-    private readonly IParentRepository<Competition>? _competitionRepository;
+    private readonly IParentRepository<Official> _officialRepository;
+    private readonly IParentRepository<Competition> _competitionRepository;
     private Event _event;
 
     public EventBehind(IRepository<Event> events, IParentRepository<Official> officials, IParentRepository<Competition> competitions)
@@ -19,11 +19,8 @@ public class EventBehind : INotBehind<Event>, INotBehindParent<Official>, INotBe
         _competitionRepository = competitions;
     }
     IEnumerable<Official> INotBehindParent<Official>.Children => _event?.Officials ?? Enumerable.Empty<Official>();
-
     IEnumerable<Competition> INotBehindParent<Competition>.Children => _event?.Competitions ?? Enumerable.Empty<Competition>();
 
-
-    // Event CRUD
     public async Task<Event?> Read(int id)
     {
         var events = await _repository.Read(x => true);
@@ -46,7 +43,7 @@ public class EventBehind : INotBehind<Event>, INotBehindParent<Official>, INotBe
     {
         throw new NotImplementedException();
     }
-    // Official CUD
+
     public async Task<Official> Create(Official child)
     {
         GuardHelper.ThrowIfNull(_event);
@@ -69,16 +66,14 @@ public class EventBehind : INotBehind<Event>, INotBehindParent<Official>, INotBe
         GuardHelper.ThrowIfNull(_event);
 
         _event.Update(child);
-        await _officialRepository.Update(child);
-        return child;
+        return await _officialRepository.Update(child);
     }
-    // Competition CUD
+
     public async Task<Competition> Create(Competition child)
     {
         GuardHelper.ThrowIfNull(_event);
-        _event.Add(child);
-        await _competitionRepository.Create(_event.Id, child);
-        return child;
+        _event.Add(child); 
+        return await _competitionRepository.Create(_event.Id, child);
     }
 
     public async Task<Competition> Delete(Competition child)
@@ -94,7 +89,6 @@ public class EventBehind : INotBehind<Event>, INotBehindParent<Official>, INotBe
         GuardHelper.ThrowIfNull(_event);
 
         _event.Update(child);
-        await _competitionRepository.Update(child);
-        return child;
+        return await _competitionRepository.Update(child);
     }
 }

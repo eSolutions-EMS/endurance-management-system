@@ -41,8 +41,6 @@ public class Event : DomainEntity, ISummarizable, IImportable, IParent<Official>
     }
     public void Add(Competition competition)
     {
-        this.ThrowIfInvalidCompetitionType(competition);
-
         this._competitions.Add(competition);
     }
     public void Update(Competition competition)
@@ -100,11 +98,5 @@ public class Event : DomainEntity, ISummarizable, IImportable, IParent<Official>
                 throw new DomainException("Official '", member.Role, "' already exists");
             }
         }
-    }
-
-    private void ThrowIfInvalidCompetitionType(Competition competition)
-    {
-        var type = competition.Type;
-        // do we need this?
     }
 }

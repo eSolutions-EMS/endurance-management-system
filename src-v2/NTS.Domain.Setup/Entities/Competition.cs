@@ -14,7 +14,7 @@ public class Competition : DomainEntity, ISummarizable, IImportable
     private List<Contestant> _contestants = new();
 
     [JsonConstructor]
-    public Competition(string name, CompetitionType type, DateTimeOffset start)
+    private Competition(string name, CompetitionType type, DateTimeOffset start)
     {
         this.Name = name;
         this.Type = type;
@@ -35,7 +35,6 @@ public class Competition : DomainEntity, ISummarizable, IImportable
         private set => _contestants = value.ToList();
     }
 
-   
     public string Summarize()
 	{
 		var summary = new Summarizer(this);
@@ -56,5 +55,6 @@ public class Competition : DomainEntity, ISummarizable, IImportable
 public enum CompetitionType
 {
 	FEI = 1,
-	National = 2
+	National = 2,
+    Qualification = 3
 }
