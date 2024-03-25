@@ -12,7 +12,7 @@
         <MudDivider/>
         <MudDataGrid T="Competition" Items="_parentBehind.Children" ReadOnly="true" Bordered="true" Dense="true" >
             <Columns>
-                <PropertyColumn Property="x => x.Name" Title="@Localizer.Get("Name")" HeaderClass="" />
+                <PropertyColumn Property="x => x.Name" Title="@Localizer.Get("Name")" />
                 <PropertyColumn Property="x => x.Type" Title="@Localizer.Get("Competition Type")" />
                 <PropertyColumn Property="x => x.StartTime.DateTime" Title="@Localizer.Get("Start Time")"/>
                 <PropertyColumn Property="x => x.Loops.Count" Title="@Localizer.Get("Laps Count")" />
@@ -37,20 +37,7 @@
         </MudPaper>
     }
 }
-@* the following styles must be exported to a css file, if the current layout of the Grid Components is approved  *@
-<style>
-    .toolbar-button {
-        margin-top: 5px;
-        margin-bottom: 5px;
-    }
-    .action-button-top{
-        margin-bottom:5px;
-    }
-    th.mud-table-cell {
-        border-right-width: 0.8px !important;
-        border-color: rgb(224, 224, 224) !important;
-    }
-</style>
+
 @code {
     [Inject]
     private INotBehindParent<Competition> _parentBehind { get; set; } = default!;

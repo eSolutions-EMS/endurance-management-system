@@ -16,6 +16,16 @@ public class Competition : DomainEntity, ISummarizable, IImportable
     [JsonConstructor]
     private Competition(string name, CompetitionType type, DateTimeOffset start)
     {
+        if (type == 0)
+        {
+            throw new DomainException(nameof(type),"Competition type must have a value different from 0.");
+        }
+
+        if (start.DateTime.CompareTo(DateTime.Today) < 0)
+        {
+            throw new DomainException(nameof(DateTime), "Date of Competition cannot be in the past");
+        }
+
         this.Name = name;
         this.Type = type;
         this.StartTime = start;
