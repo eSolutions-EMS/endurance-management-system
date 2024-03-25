@@ -1,0 +1,67 @@
+﻿@using NTS.Domain.Setup.Entities;
+@using NTS.Judge.Setup.Competitions
+@using Not.Blazor.Forms;
+@using Not.Blazor.TM.Forms;
+@using Not.Blazor.TM.Forms.Components;
+
+@inherits NotForm<Competition>;
+
+<EditForm Model="_model">
+    <MudTextField @ref="_nameField" @bind-Value="_model.Name" Label="@Localizer.Get("Name")" />
+    <MudSelect @ref="_typeField" @bind-Value="_model.Type" Label="@Localizer.Get("Type")" @onchange="(_) => SubmitUpdate()" 
+        Strict="true" ShrinkLabel="true" Placeholder="@Localizer.Get("Pick a competition type")">
+        @foreach (var item in Enum.GetValues<CompetitionType>())
+        {
+            <MudSelectItem Value="@item">@item</MudSelectItem>
+        }
+    </MudSelect>
+    <MudDatePicker DisableToolbar="true" @ref="_dayField" @bind-Date="_model.StartDay" Label="@Localizer.Get("Date")" />
+    <MudTimePicker DisableToolbar="true" @ref="_timeField" @bind-Time="_model.StartTime" Label="@Localizer.Get("Time")" />
+</EditForm>
+
+@code {
+    private MudTextField<string> _nameField = default!;
+    private MudSelect<CompetitionType> _typeField = default!;
+    private MudPicker<DateTime?> _dayField = default!;
+    private MudPicker<TimeSpan?> _timeField = default!;
+    private CompetitionFormModel _model { get; set; } = new();
+
+    public DateTimeOffset ToDateTimeOffSet(DateTime time)
+    {
+        DateTime timeWithSpecifiedKind = DateTime.SpecifyKind(time, DateTimeKind.Local);
+        DateTimeOffset offsetTime = timeWithSpecifiedKind;
+        return offsetTime;
+    }
+    public DateTimeOffset CombineStartDayAndTime(DateTime? startDay, TimeSpan? startTime)
+    {
+        DateTime start = startDay.GetValueOrDefault(DateTime.MinValue);
+        DateTime startDayTime = start.Add((TimeSpan)startTime);
+        DateTimeOffset startTimeOffset = ToDateTimeOffSet(startDayTime);
+        return startTimeOffset;
+    }
+
+    public override void RegisterValidationInjectors()
+    {
+        RegisterInjector(nameof(_model.Name), () => _nameField);
+        RegisterInjector(nameof(_model.StartDay), () => _dayField);
+        RegisterInjector(nameof(_model.StartTime), () => _timeField);
+        RegisterInjector(nameof(_model.Type), () => _typeField);
+    }
+
+    public override void SetUpdateModel(Competition competition)
+    {
+        _model = new CompetitionFormModel(competition);
+    }
+
+    public override Competition SubmitCreate()
+    {
+        DateTimeOffset startTimeOffset = CombineStartDayAndTime(_model.StartDay, _model.StartTime);
+        return Competition.Create(_model.Name, _model.Type, startTimeOffset);
+    }
+
+    public override Competition SubmitUpdate()
+    {
+        DateTimeOffset startTimeOffset = CombineStartDayAndTime(_model.StartDay, _model.StartTime);
+        return Competition.Update(_model.Name, _model.Type, startTimeOffset);
+    }
+}

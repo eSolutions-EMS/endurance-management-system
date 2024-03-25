@@ -1,18 +1,26 @@
 @using NTS.Domain.Setup.Entities
 @using NTS.Judge.Blazor.Pages.Setup.Events
 @using NTS.Judge.Blazor.Pages.Setup.Officials
+@using NTS.Judge.Blazor.Pages.Setup.Competitions
 @using Not.Blazor.TM.Forms.Components
 
 @inherits NotComponent
 
-<NotH2>Update Event</NotH2>
+<MudPaper Class="pa-6">
+    <NotH2>Update Event</NotH2>
+    <NotFormUpdate T="Event" TForm="EventForm" Entity="_event" UpdateAction="_behind.Update" />
+</MudPaper>
 
-<NotFormUpdate T="Event" TForm="EventForm" Entity="_event" UpdateAction="_behind.Update" />
+<MudDivider />
+
+<MudPaper Class="pa-6">
+    <OfficialList />
+</MudPaper>
 
 <MudDivider />
 
 <MudPaper>
-    <OfficialList />
+   <CompetitionGrid/>
 </MudPaper>
 
 @code {

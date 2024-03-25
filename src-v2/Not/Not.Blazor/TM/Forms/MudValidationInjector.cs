@@ -20,6 +20,7 @@ public class MudValidationInjector
     {
         InstanceGetter = mudInputInstanceGetter;
         // Generic parameter doesn't matter here as it's only used to obtain property names with nameof()
+
         ErrorProperty = mudInputType.Property(nameof(MudBaseInput<string>.Error));
         ErrorTextProperty = mudInputType.Property(nameof(MudBaseInput<string>.ErrorText));
         ValidationErrorsProperty = mudInputType.Property(nameof(MudBaseInput<string>.ValidationErrors));
@@ -40,5 +41,9 @@ public class MudValidationInjector
     public static MudValidationInjector Create<T>(Func<MudBaseInput<T>> getter)
     {
         return new MudValidationInjector(typeof(MudBaseInput<T>), getter);
+    }
+    public static MudValidationInjector Create<T>(Func<MudPicker<T>> getter)
+    {
+        return new MudValidationInjector(typeof(MudPicker<T>), getter);
     }
 }

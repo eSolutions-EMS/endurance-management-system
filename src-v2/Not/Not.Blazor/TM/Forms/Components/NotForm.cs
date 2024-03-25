@@ -29,6 +29,10 @@ public abstract class NotForm<T> : NotComponent, ICreateForm<T>, IUpdateForm<T>
     {
         ValidationInjectors.Add(field, MudValidationInjector.Create(mudInputInstanceGetter));
     }
+    protected void RegisterInjector<TInput>(string field, Func<MudPicker<TInput>> mudInputInstanceGetter)
+    {
+        ValidationInjectors.Add(field, MudValidationInjector.Create(mudInputInstanceGetter));
+    }
 
     public async Task AddValidationError(string? field, string message)
     {

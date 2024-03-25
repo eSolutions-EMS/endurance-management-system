@@ -15,7 +15,7 @@ public interface INotBehind<T> : ICreateBehind<T>, IReadBehind<T>, IUpdateBehind
 /// <seealso cref="INotBehind"/> is inspired from code-behind (i.e. the code that sits behind a view component)
 /// </summary>
 /// <remarks>
-/// In Not.TM <seealso cref="INotBehind"/> serves as entry poing of any application logic
+/// In Not.TM <seealso cref="INotBehind"/> serves as entry point of any application logic
 /// </remarks>
 public interface INotBehind
 {
