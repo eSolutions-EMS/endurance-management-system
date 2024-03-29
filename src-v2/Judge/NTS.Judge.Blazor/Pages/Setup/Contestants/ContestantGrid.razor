@@ -1,5 +1,52 @@
-﻿<h3>ContestantGrid</h3>
+﻿@using NTS.Domain.Setup.Entities;
+@using Not.Blazor.Navigation;
+@using Not.Services;
+
+@inherits NotComponent
+
+@{
+    if (_parentBehind.Children.Any()) 
+    {
+        <NotH2 Class="pt-6 pl-6">@Localizer.Get("Contestants")</NotH2>
+        <NotButtonCreate Class="mt-1 ml-6 mb-3" OnClick="_contestantNavigator.Create" />
+        <MudDivider/>
+        <MudDataGrid T="Contestant" Items="_childBehind.Children" ReadOnly="true" Bordered="true" Dense="true" >
+            <Columns>
+                <PropertyColumn Property="x => x.StartTimeOverride" Title="@Localizer.Get("StartTimeOverride")" />
+                <TemplateColumn CellClass="action-column">
+                    <CellTemplate>
+                        <NotButtonDelete OnClick="() => _childBehind.Delete(context.Item)" Class="action-button-top" />
+                        <NotButtonUpdate OnClick="() => this._contestantNavigator.Update(COMPETITION_PAGE, context.Item)" />
+                    </CellTemplate>
+                </TemplateColumn>
+            </Columns>
+        </MudDataGrid>
+    }
+    else
+    {
+        <MudPaper Elevation="0">
+            <div class="pa-6">
+                <NotH2>@Localizer.Get("Contestants")</NotH2>
+                <NotButtonCreate OnClick="_contestantNavigator.Create" Class="toolbar-button" />
+                <p>@Localizer.Get("No contestant have been created for this .")</p>
+            </div>
+        </MudPaper>
+    }
+}
 
 @code {
+    [Inject]
+    private INotBehindParent<Competition> _parentBehind { get; set; } = default!;
+    [Inject]
+    private INotBehindParent<Contestant> _childBehind { get; set; } = default!;
+    [Inject]
+    private IFormNavigator<Contestant, ContestantForm> _contestantNavigator { get; set; } = default!;
+    [Inject]
+    private INavigator _navigator { get; set; } = default!;
 
+    protected async Task Create(Contestant contestant)
+    {
+        await _childBehind.Create(contestant);
+        _navigator.NavigateTo(SETUP_PAGE);
+    }
 }

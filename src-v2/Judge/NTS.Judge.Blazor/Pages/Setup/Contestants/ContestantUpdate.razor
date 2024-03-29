@@ -7,19 +7,19 @@
 @inherits NotComponent
 
 <MudPaper>
-    <NotH2>@Localizer.Get("Update Competition")</NotH2>
-    <NotFormUpdate T="Competition" TForm="ContestantForm"  />
+    <NotH2>@Localizer.Get("Update Contestant")</NotH2>
+    <NotFormUpdate T="Contestant" TForm="ContestantForm" Entity="_navigator.ConsumeParameter<Contestant>()" UpdateAction="Update" />
 </MudPaper>
 
 @code {
-    // [Inject]
-    // private INotBehindParent<Contestant> _parentBehind { get; set; } = default!;
-    // [Inject]
-    // private INavigator _navigator { get; set; } = default!;
+    [Inject]
+    private INotBehindParent<Contestant> _parentBehind { get; set; } = default!;
+    [Inject]
+    private INavigator _navigator { get; set; } = default!;
 
-    // protected async Task Update(Contestant contestant)
-    // {
-    //     await _parentBehind.Update(contestant);
-    //     _navigator.NavigateTo(SETUP_PAGE);
+    protected async Task Update(Contestant contestant)
+    {
+        await _parentBehind.Update(contestant);
+        _navigator.NavigateTo(SETUP_PAGE);
     }
 }

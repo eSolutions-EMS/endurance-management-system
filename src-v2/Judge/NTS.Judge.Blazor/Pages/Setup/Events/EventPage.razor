@@ -2,6 +2,7 @@
 @using NTS.Judge.Blazor.Pages.Setup.Events
 @using NTS.Judge.Blazor.Pages.Setup.Officials
 @using NTS.Judge.Blazor.Pages.Setup.Competitions
+@using NTS.Judge.Blazor.Pages.Setup.Contestants
 @using Not.Blazor.TM.Forms.Components
 
 @inherits NotComponent
@@ -21,6 +22,10 @@
 
 <MudPaper>
    <CompetitionGrid/>
+</MudPaper>
+
+<MudPaper>
+    <ContestantGrid />
 </MudPaper>
 
 @code {

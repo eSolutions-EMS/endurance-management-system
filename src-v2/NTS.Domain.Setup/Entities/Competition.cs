@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace NTS.Domain.Setup.Entities;
 
-public class Competition : DomainEntity, ISummarizable, IImportable
+public class Competition : DomainEntity, ISummarizable, IImportable, IParent<Contestant>
 {
 
     public static Competition Create(string name, CompetitionType type, DateTimeOffset start) => new(name,type, start);
@@ -60,6 +60,22 @@ public class Competition : DomainEntity, ISummarizable, IImportable
 		return sb.ToString();
 	}
 
+    public void Add(Contestant child)
+    {
+        _contestants.Add(child);
+    }
+
+    public void Remove(Contestant child)
+    {
+        _contestants.Remove(child);
+    }
+
+    public void Update(Contestant child)
+    {
+        _contestants.Remove(child);
+
+        Add(child);
+    }
 }
 
 public enum CompetitionType
