@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace NTS.Domain.Setup.Entities;
-public class Contestant : DomainEntity, ISummarizable
+public class Contestant : DomainEntity, ISummarizable, IParent<Tandem>
 {
     public static Contestant Create(DateTimeOffset newStart) => new(newStart);
     public static Contestant Update(DateTimeOffset newStart) => new(newStart);
@@ -45,5 +45,22 @@ public class Contestant : DomainEntity, ISummarizable
         //sb.Append($"{LocalizationHelper.Get(this.Type)}, {"Loops".Localize()}: {this.Loops.Count}, {"Starters".Localize()}: {this.Contestants.Count}, ");
         //sb.Append($"{"Start".Localize()}: {this.StartTime.ToString("f", CultureInfo.CurrentCulture)}");
         return sb.ToString();
+    }
+
+    public void Add(Tandem child)
+    {
+        _tandems.Add(child);
+    }
+
+    public void Remove(Tandem child)
+    {
+        _tandems.Remove(child);
+    }
+
+    public void Update(Tandem child)
+    {
+        _tandems.Remove(child);
+
+        Add(child);
     }
 }

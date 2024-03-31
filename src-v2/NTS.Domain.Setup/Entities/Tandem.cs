@@ -1,22 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using NTS.Domain.Setup.Import;
 
 namespace NTS.Domain.Setup.Entities;
-public class Tandem: DomainEntity, ISummarizable
+
+public class Tandem : DomainEntity, ISummarizable, IImportable
 {
+    public Tandem(int number)
+    {
+        this.Number = number;
+    }
+
+    public int Number { get; private set; }
+    public Athlete? Athlete { get; private set; }
+    public Horse? Horse { get; private set; }
+    public List<IdTag> Tags { get; private set; } = new();
+
     public string Summarize()
     {
         var summary = new Summarizer(this);
+        summary.Add("Tags".Localize(), this.Tags);
         return summary.ToString();
     }
-    public override string ToString()
-    {
-        var sb = new StringBuilder();
-        //sb.Append($"{LocalizationHelper.Get(this.Type)}, {"Loops".Localize()}: {this.Loops.Count}, {"Starters".Localize()}: {this.Contestants.Count}, ");
-        //sb.Append($"{"Start".Localize()}: {this.StartTime.ToString("f", CultureInfo.CurrentCulture)}");
-        return sb.ToString();
-    }
+
+	public override string ToString()
+	{
+        return $"{"#".Localize()}{this.Number}: {this.Athlete}, {this.Horse}";
+	}
 }

@@ -2,7 +2,7 @@
 
 namespace NTS.Domain.Setup.Entities;
 
-public class Loop : DomainEntity, ISummarizable, IImportable
+public class Loop : DomainEntity, ISummarizable
 {
     public Loop(double distance, int rec, int rest, bool isFinal)
     {
