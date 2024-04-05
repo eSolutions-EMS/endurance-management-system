@@ -18,7 +18,7 @@ public class RfidService : IRfidService
     public RfidService(ISettings settings, IPopupService popupService, Application.Services.ILogger logger)
     {
         this.vd67Controller = new VupVD67Controller(TimeSpan.FromMilliseconds(100));
-        this.vupVF747PController = new VupVF747pController("192.168.68.128", logger);
+        this.vupVF747PController = new VupVF747pController("192.168.68.128", logger, TimeSpan.FromMilliseconds(10));
         this.vd67Controller.ErrorEvent += (_, message) => this.RenderError(message);
         this.vupVF747PController.ErrorEvent += (_, message) => this.RenderError(message);
         this.settings = settings;
