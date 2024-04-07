@@ -12,12 +12,14 @@ public class RpcInitalizer : IRpcInitalizer
     private const string ALEX_HOME_WORKSTATION_IP = "localhost"; // DO NOT DELETE 
 
     private readonly IToaster toaster;
-    private readonly IHandshakeService _handshakeService;
+	private readonly IWitnessState _witnessState;
+	private readonly IHandshakeService _handshakeService;
     private readonly IEnumerable<IRpcClient> rpcClients;
 	private readonly IPermissionsService permissionsService;
 	private readonly WitnessContext context;
 	
 	public RpcInitalizer(
+		IWitnessState witnessState,
         IHandshakeService handshakeService,
         IWitnessContext context,
 		IEnumerable<IRpcClient> rpcClients,
@@ -25,13 +27,23 @@ public class RpcInitalizer : IRpcInitalizer
 		IToaster toaster)
     {
 		this.context = (WitnessContext)context;
-        _handshakeService = handshakeService;
+		_witnessState = witnessState;
+		_handshakeService = handshakeService;
         this.rpcClients = rpcClients;
 		this.permissionsService = permissionsService;
 		this.toaster = toaster;
     }
 
-    public async Task StartConnections()
+	public Task Disconnect()
+	{
+		foreach (var client in this.rpcClients)
+		{
+			client.Disconnect();
+		}
+		return Task.CompletedTask;
+	}
+
+	public async Task StartConnections()
 	{
 		try
 		{
@@ -48,7 +60,7 @@ public class RpcInitalizer : IRpcInitalizer
 				return;
 			}
 
-			var host = await Handshake();
+			var host = _witnessState.HostIp ??= await Handshake();
 			foreach (var client in this.rpcClients.Where(x => !x.IsConnected))
 			{
 				await client.Connect(host);
@@ -84,4 +96,5 @@ public class RpcInitalizer : IRpcInitalizer
 public interface IRpcInitalizer : ISingletonService
 {
 	Task StartConnections();
+	Task Disconnect();
 }

@@ -83,6 +83,4 @@
     <Folder Include="Platforms\Services\" />
   </ItemGroup>
 
-  <ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionEMSWitnessHideInfoBar="True" /></VisualStudio></ProjectExtensions>
-
 </Project>
