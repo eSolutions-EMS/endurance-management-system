@@ -13,6 +13,8 @@ public class RpcClient : IRpcClient, IAsyncDisposable
     public event EventHandler<RpcConnectionStatus>? ServerConnectionChanged;
 	public event EventHandler<string>? ServerConnectionInfo;
 	public event EventHandler<RpcError>? Error;
+	private System.Timers.Timer? _reconnectionTimer;
+	private int _connectionClosedReconnectAttempts;
 
 	public bool IsConnected => this.Connection?.State == HubConnectionState.Connected;
 
@@ -57,9 +59,13 @@ public class RpcClient : IRpcClient, IAsyncDisposable
         }
 		this.Connection.Reconnected -= HandleReconnected;
 		this.Connection.Reconnecting -= HandleReconnecting;
-		this.Connection.Closed -= ex => HandleClosed(ex, 0);
+		this.Connection.Closed -= HandleClosed;
 		await this.Connection.DisposeAsync();
 		this.reconnectTokenSource?.Dispose();
+        // Might occasionally tigger ObjectDiscpossedException if timer.Elapsed attempts to run
+        // during or after Dispose. See https://codereview.stackexchange.com/questions/223877/safe-dispose-of-timer
+		// for potential solutions
+        _reconnectionTimer?.Dispose();
     }
 
 	private async Task InternalConnect(string host, int reconnectAttempts)
@@ -94,14 +100,13 @@ public class RpcClient : IRpcClient, IAsyncDisposable
 
 	private void ConfigureConnection(string host)
 	{
-		var reconnectionAttempts = 0;
 		context.Host = host;
 		this.Connection = new HubConnectionBuilder()
 			.WithUrl(this.context.Url)
 			.Build();
 		this.Connection.Reconnected += HandleReconnected;
 		this.Connection.Reconnecting += HandleReconnecting;
-		this.Connection.Closed += ex => HandleClosed(ex, reconnectionAttempts);
+		this.Connection.Closed += HandleClosed;
 		foreach (var registerProcedure in procedureRegistrations)
 		{
 			registerProcedure(this.Connection);
@@ -120,18 +125,18 @@ public class RpcClient : IRpcClient, IAsyncDisposable
 		return Task.CompletedTask;
 	}
 
-	private Task HandleClosed(Exception exception, int reconnectionAttempts)
+	private Task HandleClosed(Exception exception)
 	{
 		// This check is also necessary here, because if the server hub cannot be constructed (DI error for example)
 		// SignalR keeps closing each connection to that hub as soon as it is created
 		// Maybe test again with static connection?
-		if (HasReachedReconnectionAttemptLimit(++reconnectionAttempts))
+		if (HasReachedReconnectionAttemptLimit(++_connectionClosedReconnectAttempts))
 		{
 			RaiseDisconnected(exception);
 		}
 		else
 		{
-			BeginReconnecting(this.reconnectTokenSource!.Token, exception, () => { reconnectionAttempts = 0; });
+			BeginReconnecting(this.reconnectTokenSource!.Token, exception, () => { _connectionClosedReconnectAttempts = 0; });
 
 		}
 		return Task.CompletedTask;
@@ -142,14 +147,14 @@ public class RpcClient : IRpcClient, IAsyncDisposable
 		this.RaiseDisconnected(error);
 		RaiseConnecting();
 		var reconnectAttempts = 0;
-		var timer = new System.Timers.Timer(TimeSpan.FromSeconds(10).TotalMilliseconds);
-        timer.Elapsed += async (s, e) =>
+		_reconnectionTimer =  new System.Timers.Timer(TimeSpan.FromSeconds(10).TotalMilliseconds);
+        _reconnectionTimer.Elapsed += async (s, e) =>
         {
             if (cancellationToken.IsCancellationRequested)
             {
 				ServerConnectionInfo?.Invoke(this, "Reconecting stopped due to cancelation request");
-                timer.Stop();
-                timer.Dispose();
+                _reconnectionTimer.Stop();
+                _reconnectionTimer.Dispose();
             }
             try
             {
@@ -158,8 +163,8 @@ public class RpcClient : IRpcClient, IAsyncDisposable
                 {
 					this.RaiseConnected();
 					onSuccess();
-                    timer.Stop();
-                    timer.Dispose();
+                    _reconnectionTimer.Stop();
+                    _reconnectionTimer.Dispose();
                 }
             }
             catch (Exception ex) 
@@ -171,12 +176,12 @@ public class RpcClient : IRpcClient, IAsyncDisposable
 				if (HasReachedReconnectionAttemptLimit(++reconnectAttempts))
 				{
 					RaiseDisconnected(new Exception("Automatic reconnection reached attempt limits. Try to reconnect manually"));
-					timer.Stop();
-					timer.Dispose();
+					_reconnectionTimer.Stop();
+					_reconnectionTimer.Dispose();
 				}
 			}
         };
-        timer.Start();
+        _reconnectionTimer.Start();
     }
 
 	private bool HasReachedReconnectionAttemptLimit(int attempts)
