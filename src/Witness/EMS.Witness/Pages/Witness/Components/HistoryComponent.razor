@@ -59,7 +59,18 @@
 
     protected override void OnInitialized()
     {
-        WitnessState.StateLoaded += async (_, __) => await InvokeAsync(StateHasChanged);
+        WitnessState.StateLoaded += HandleStateLoaded;
+    }
+
+    public override void Dispose()
+    {
+        WitnessState.StateLoaded -= HandleStateLoaded;
+        base.Dispose();
+    }
+
+    private async void HandleStateLoaded(object? sender, EventArgs _)
+    {
+        await InvokeAsync(StateHasChanged);
     }
 
     private async Task Save(ParticipantsBatch batch)

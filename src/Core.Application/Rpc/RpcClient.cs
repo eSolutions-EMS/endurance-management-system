@@ -55,7 +55,10 @@ public class RpcClient : IRpcClient, IAsyncDisposable
         {
             return;
         }
-        await this.Connection.DisposeAsync();
+		this.Connection.Reconnected -= HandleReconnected;
+		this.Connection.Reconnecting -= HandleReconnecting;
+		this.Connection.Closed -= ex => HandleClosed(ex, 0);
+		await this.Connection.DisposeAsync();
 		this.reconnectTokenSource?.Dispose();
     }
 
@@ -96,28 +99,42 @@ public class RpcClient : IRpcClient, IAsyncDisposable
 		this.Connection = new HubConnectionBuilder()
 			.WithUrl(this.context.Url)
 			.Build();
-		this.Connection.Reconnected += (a) => { RaiseConnected($"SignalR automatic reconnected: {a}"); return Task.CompletedTask; };
-		this.Connection.Reconnecting += (a) => { RaiseReconnecting($"SignalR automatic reconnecting: {a}"); return Task.CompletedTask; };
-		this.Connection.Closed += ex =>
-		{
-			// This check is also necessary here, because if the server hub cannot be constructed (DI error for example)
-			// SignalR keeps closing each connection to that hub as soon as it is created
-			// Maybe test again with static connection?
-			if (HasReachedReconnectionAttemptLimit(++reconnectionAttempts))
-			{
-				RaiseDisconnected(ex);
-			}
-			else
-			{
-				this.BeginReconnecting(this.reconnectTokenSource!.Token, ex, () => { reconnectionAttempts = 0; });
-
-			}
-			return Task.CompletedTask;
-		};
+		this.Connection.Reconnected += HandleReconnected;
+		this.Connection.Reconnecting += HandleReconnecting;
+		this.Connection.Closed += ex => HandleClosed(ex, reconnectionAttempts);
 		foreach (var registerProcedure in procedureRegistrations)
 		{
 			registerProcedure(this.Connection);
 		}
+	}
+
+	private Task HandleReconnected(string connectionId)
+	{
+		RaiseConnected($"SignalR automatic reconnected: {connectionId}");
+		return Task.CompletedTask;
+	}
+
+	private Task HandleReconnecting(Exception exception)
+	{
+		RaiseReconnecting($"SignalR automatic reconnecting: {exception.Message}");
+		return Task.CompletedTask;
+	}
+
+	private Task HandleClosed(Exception exception, int reconnectionAttempts)
+	{
+		// This check is also necessary here, because if the server hub cannot be constructed (DI error for example)
+		// SignalR keeps closing each connection to that hub as soon as it is created
+		// Maybe test again with static connection?
+		if (HasReachedReconnectionAttemptLimit(++reconnectionAttempts))
+		{
+			RaiseDisconnected(exception);
+		}
+		else
+		{
+			BeginReconnecting(this.reconnectTokenSource!.Token, exception, () => { reconnectionAttempts = 0; });
+
+		}
+		return Task.CompletedTask;
 	}
 
     private void BeginReconnecting(CancellationToken cancellationToken, Exception? error, Action onSuccess)

@@ -2,6 +2,8 @@
 @using EMS.Witness.Services;
 @using EMS.Witness.Rpc;
 
+@implements IDisposable;
+
 <div class="top-row ps-3 navbar navbar-dark">
 	<div class="container-fluid">
 		@if (this.isHandshaking)
@@ -85,27 +87,44 @@
 	{
 		foreach (var client in this.RpcClients)
 		{
-			client.ServerConnectionChanged += async (sender, status) =>
-			{
-				if (this.rpcConnectionStatus != status)
-				{
-					this.rpcConnectionStatus = status;
-					await this.InvokeAsync(this.StateHasChanged);
-				}
-			};
-			client.ServerConnectionInfo += (senderName, message) =>
-			{
-				_toaster.Add(senderName!.ToString()!, message, UiColor.Warning, 10);
-			};
+			client.ServerConnectionChanged += HandleServerConnectionChanged;
+			client.ServerConnectionInfo += HandleServerConnectionInfo;
 		}
-		this.Context.IsHandshakingEvent += async (sender, isHandshaking) =>
-		{
-			if (this.isHandshaking != isHandshaking)
-			{
-				this.isHandshaking = isHandshaking;
-				await this.InvokeAsync(this.StateHasChanged);
-			}
-		};
+		this.Context.IsHandshakingEvent += HandleIsHandshakingEvent;
 		await SafeActionHelper.Act(async () => await _rpcInitializer.StartConnections());
 	}
+
+	public void Dispose()
+	{
+		foreach (var client in this.RpcClients)
+		{
+			client.ServerConnectionChanged -= HandleServerConnectionChanged;
+			client.ServerConnectionInfo -= HandleServerConnectionInfo;
+		}
+		this.Context.IsHandshakingEvent -= HandleIsHandshakingEvent;
+	}
+
+	private async void HandleServerConnectionChanged(object? sender, RpcConnectionStatus status)
+	{
+		if (this.rpcConnectionStatus != status)
+		{
+			this.rpcConnectionStatus = status;
+			await this.InvokeAsync(this.StateHasChanged);
+		}
+	}
+
+	private void HandleServerConnectionInfo(object? senderName, string message)
+	{
+		_toaster.Add(senderName!.ToString()!, message, UiColor.Warning, 10);
+	}
+
+	private async void HandleIsHandshakingEvent(object? sender, bool isHandshaking)
+	{
+		if (this.isHandshaking != isHandshaking)
+		{
+			this.isHandshaking = isHandshaking;
+			await this.InvokeAsync(this.StateHasChanged);
+		}
+	}
 }
+`
