@@ -1,5 +1,6 @@
 ﻿using Core.Application.Rpc;
 using Core.Events;
+using EMS.Witness.Helpers;
 using EMS.Witness.Rpc;
 using EMS.Witness.Services;
 using EMS.Witness.Shared.Toasts;
@@ -45,12 +46,12 @@ public partial class App : Application
 	{
 		var window = base.CreateWindow(activationState);
 
-		window.Resumed += async (s, e) => await SafeAction(async () =>
+		window.Resumed += async (s, e) => await SafeActionHelper.Act(async () =>
 		{
 			this.isDeactivated = false;
 			await this.rpcService.StartConnections();
 		});
-		window.Deactivated += async (s, e) => await SafeAction(async () =>
+		window.Deactivated += async (s, e) => await SafeActionHelper.Act(async () =>
 		{
 			this.isDeactivated = true;
 			await this.persistence.Store();
@@ -80,18 +81,6 @@ public partial class App : Application
             }
         };
     }
-
-	private async Task SafeAction(Func<Task> action)
-	{
-		try
-		{
-			await action();
-		}
-		catch (Exception ex)
-		{
-			await Application.Current!.MainPage!.DisplayAlert(ex.Message, ex.StackTrace, "damn");
-        }
-	}
 
 	private void HandleRpcErrors(IEnumerable<IRpcClient> rpcClients)
 	{

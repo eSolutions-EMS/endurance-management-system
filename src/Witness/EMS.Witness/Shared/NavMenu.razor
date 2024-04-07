@@ -106,18 +106,6 @@
 				await this.InvokeAsync(this.StateHasChanged);
 			}
 		};
-		await SafeAction(async () => await _rpcInitializer.StartConnections());
-	}
-
-	private async Task SafeAction(Func<Task> action)
-	{
-		try
-		{
-			await action();
-		}
-		catch (Exception ex)
-		{
-			await Application.Current!.MainPage!.DisplayAlert(ex.Message, ex.StackTrace, "damn");
-		}
+		await SafeActionHelper.Act(async () => await _rpcInitializer.StartConnections());
 	}
 }
