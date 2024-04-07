@@ -10,7 +10,7 @@ public static class SafeActionHelper
 		}
 		catch (Exception ex)
 		{
-			await Application.Current!.MainPage!.DisplayAlert(ex.Message, ex.StackTrace, "Ok");
+			await (Application.Current?.MainPage?.DisplayAlert(ex.Message, ex.StackTrace, "Ok") ?? Task.CompletedTask);
 		}
 	}
 }
