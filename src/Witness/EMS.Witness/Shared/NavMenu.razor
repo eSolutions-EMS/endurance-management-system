@@ -85,6 +85,7 @@
 
 	protected override async Task OnInitializedAsync()
 	{
+		this.rpcConnectionStatus = this.RpcClients.All(x => x.IsConnected) ? RpcConnectionStatus.Connected : RpcConnectionStatus.Disconnected;
 		foreach (var client in this.RpcClients)
 		{
 			client.ServerConnectionChanged += HandleServerConnectionChanged;
