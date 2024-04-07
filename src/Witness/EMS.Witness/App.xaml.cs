@@ -19,6 +19,7 @@ public partial class App : Application, IDisposable
     private readonly IRpcInitalizer rpcService;
     private readonly IParticipantsClient participantsClient;
     private readonly IParticipantsService participantsService;
+	private bool _areRpcConnectionsStarting;
 
     public App(
 		IPersistenceService persistence,
@@ -48,6 +49,8 @@ public partial class App : Application, IDisposable
 
 		this.AttachEventHandlers();
 
+		window.Created += StartRpcConnections;
+		window.Activated += StartRpcConnections;
 		window.Resumed += StartRpcConnections;
 		window.Deactivated += StoreState;
 		window.Destroying += DetachEventHandlers;
@@ -62,6 +65,11 @@ public partial class App : Application, IDisposable
 
 	private async void StartRpcConnections(object? sernder, EventArgs args)
 	{
+		if (_areRpcConnectionsStarting)
+		{
+			return;
+		}
+		_areRpcConnectionsStarting = true;
 		await this.rpcService.StartConnections();
 	}
 
