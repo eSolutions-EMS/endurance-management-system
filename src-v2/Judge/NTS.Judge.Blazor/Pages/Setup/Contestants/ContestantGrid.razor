@@ -5,7 +5,7 @@
 @inherits NotComponent
 
 @{
-    if (_parentBehind.Children.Any()) 
+    if (parentId!=null) 
     {
         <NotH2 Class="pt-6 pl-6">@Localizer.Get("Contestants")</NotH2>
         <NotButtonCreate Class="mt-1 ml-6 mb-3" OnClick="_contestantNavigator.Create" />
@@ -28,7 +28,7 @@
             <div class="pa-6">
                 <NotH2>@Localizer.Get("Contestants")</NotH2>
                 <NotButtonCreate OnClick="_contestantNavigator.Create" Class="toolbar-button" />
-                <p>@Localizer.Get("No contestant have been created for this .")</p>
+                <p>@Localizer.Get("No contestants have been created for this event.")</p>
             </div>
         </MudPaper>
     }
@@ -36,7 +36,7 @@
 
 @code {
     [Inject]
-    private INotBehindParent<Competition> _parentBehind { get; set; } = default!;
+    private INotBehind<Competition> _parentBehind { get; set; } = default!;
     [Inject]
     private INotBehindParent<Contestant> _childBehind { get; set; } = default!;
     [Inject]
@@ -44,8 +44,20 @@
     [Inject]
     private INavigator _navigator { get; set; } = default!;
 
+    int? parentId = null;
+
     protected async Task Create(Contestant contestant)
     {
+        var entity = _navigator.ConsumeParameter<Competition>();
+
+        if (entity == null)
+        {
+            throw GuardHelper.Exception($"Competition cannot be null here");
+        }
+        var id = entity.Id;
+        parentId = id;
+        await _parentBehind.Read(id);
+
         await _childBehind.Create(contestant);
         _navigator.NavigateTo(SETUP_PAGE);
     }
