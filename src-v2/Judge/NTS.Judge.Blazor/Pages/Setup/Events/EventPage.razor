@@ -40,6 +40,7 @@
         {
             throw GuardHelper.Exception($"Event cannot be null here");
         }
+        await _behind.Initialize(entity.Id);
         _event = entity;
     }
 }

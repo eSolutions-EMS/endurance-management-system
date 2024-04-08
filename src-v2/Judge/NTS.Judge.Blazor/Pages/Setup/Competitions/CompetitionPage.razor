@@ -8,14 +8,24 @@
 
 <MudPaper>
     <NotH2>@Localizer.Get("Update Competition")</NotH2>
-    <NotFormUpdate T="Competition" TForm="CompetitionForm" Entity="_navigator.ConsumeParameter<Competition>()" UpdateAction="Update" />
+    <NotFormUpdate T="Competition" TForm="CompetitionForm" Entity="_comp" UpdateAction="Update" />
 </MudPaper>
 
 @code {
+    private Competition _comp { get; set; } = default!;
+    [Inject]
+    private INotBehindWithChildren<Competition> _competitionWithChildren { get; set; } = default!;
     [Inject]
     private INotBehindParent<Competition> _parentBehind { get; set; } = default!;
     [Inject]
     private INavigator _navigator { get; set; } = default!;
+
+    protected override Task OnInitializedAsync()
+    {
+        _comp = _navigator.ConsumeParameter<Competition>();
+        _competitionWithChildren.Initialize(_comp.Id);
+        return Task.CompletedTask;
+    }
 
     protected async Task Update(Competition competition)
     {

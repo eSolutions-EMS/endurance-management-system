@@ -5,12 +5,12 @@ using Not.Exceptions;
 
 namespace NTS.Judge.Events;
 
-public class EventBehind : INotBehind<Event>, INotBehindParent<Official>, INotBehindParent<Competition>
+public class EventBehind : INotBehind<Event>, INotBehindParent<Official>, INotBehindParent<Competition>, INotBehindWithChildren<Event>
 {
     private readonly IRepository<Event> _repository;
     private readonly IParentRepository<Official> _officialRepository;
     private readonly IParentRepository<Competition> _competitionRepository;
-    private Event _event;
+    private Event? _event;
 
     public EventBehind(IRepository<Event> events, IParentRepository<Official> officials, IParentRepository<Competition> competitions)
     {
@@ -24,7 +24,6 @@ public class EventBehind : INotBehind<Event>, INotBehindParent<Official>, INotBe
     public async Task<Event?> Read(int id)
     {
         var events = await _repository.Read(x => true);
-        _event = events.FirstOrDefault();
         return _event;
     }
 
@@ -90,5 +89,10 @@ public class EventBehind : INotBehind<Event>, INotBehindParent<Official>, INotBe
 
         _event.Update(child);
         return await _competitionRepository.Update(child);
+    }
+
+    public async Task Initialize(int id)
+    {
+        _event = await _repository.Read(id);
     }
 }

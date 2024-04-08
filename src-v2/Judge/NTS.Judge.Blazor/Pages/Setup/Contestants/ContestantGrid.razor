@@ -46,6 +46,12 @@
 
     int? parentId = null;
 
+    protected override Task OnInitializedAsync()
+    {
+        _childBehind.Initialize()
+    }
+
+
     protected async Task Create(Contestant contestant)
     {
         var entity = _navigator.ConsumeParameter<Competition>();

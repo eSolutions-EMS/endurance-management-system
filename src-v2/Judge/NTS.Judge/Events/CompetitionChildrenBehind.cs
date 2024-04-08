@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace NTS.Judge.Events;
-public class CompetitionChildrenBehind : INotBehindParent<Contestant>, INotBehind<Competition>
+public class CompetitionChildrenBehind : INotBehindParent<Contestant>, INotBehindWithChildren<Competition>
 {
     private readonly IRepository<Competition> _competitionRepository;
     private readonly IParentRepository<Contestant> _contestantRepository;
