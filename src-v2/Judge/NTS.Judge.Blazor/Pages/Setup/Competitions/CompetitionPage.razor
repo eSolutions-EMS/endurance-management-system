@@ -2,14 +2,28 @@
 @using Not.Blazor.Components;
 @using Not.Blazor.Navigation;
 @using Not.Blazor.TM.Forms.Components
+@using NTS.Judge.Blazor.Pages.Setup.Contestants
 
 @attribute [Route(COMPETITION_PAGE)]
 @inherits NotComponent
 
-<MudPaper>
-    <NotH2>@Localizer.Get("Update Competition")</NotH2>
-    <NotFormUpdate T="Competition" TForm="CompetitionForm" Entity="_comp" UpdateAction="Update" />
-</MudPaper>
+
+    @if (_parentBehind.Children.Any())
+    {
+        <div>ГЪЗЕ</div>
+       @*  <CompetitionGrid/>
+        <ContestantPage /> *@
+    }
+    else
+    {
+        <MudPaper Elevation="0">
+            <div class="pa-6">
+                <NotH2>@Localizer.Get("Competitions")</NotH2>
+                <NotButtonCreate OnClick="_competitionNavigator.Create" Class="toolbar-button" />
+                <p>@Localizer.Get("No competitions have been created for this event.")</p>
+            </div>
+        </MudPaper>
+    }
 
 @code {
     private Competition _comp { get; set; } = default!;
@@ -18,13 +32,15 @@
     [Inject]
     private INotBehindParent<Competition> _parentBehind { get; set; } = default!;
     [Inject]
+    private IFormNavigator<Competition, CompetitionForm> _competitionNavigator { get; set; } = default!;
+    [Inject]
     private INavigator _navigator { get; set; } = default!;
 
-    protected override Task OnInitializedAsync()
+    protected override async Task OnInitializedAsync()
     {
         _comp = _navigator.ConsumeParameter<Competition>();
-        _competitionWithChildren.Initialize(_comp.Id);
-        return Task.CompletedTask;
+        await _competitionWithChildren.Initialize(_comp.Id);
+        //return Task.CompletedTask;
     }
 
     protected async Task Update(Competition competition)

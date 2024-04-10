@@ -4,39 +4,26 @@
 
 @inherits NotComponent
 
-@{
-    if (_parentBehind.Children.Any()) 
-    {
-        <NotH2 Class="pt-6 pl-6">@Localizer.Get("Competitions")</NotH2>
-        <NotButtonCreate Class="mt-1 ml-6 mb-3" OnClick="_competitionNavigator.Create" />
-        <MudDivider/>
-        <MudDataGrid T="Competition" Items="_parentBehind.Children" ReadOnly="true" Bordered="true" Dense="true" >
-            <Columns>
-                <PropertyColumn Property="x => x.Name" Title="@Localizer.Get("Name")" />
-                <PropertyColumn Property="x => x.Type" Title="@Localizer.Get("Competition Type")" />
-                <PropertyColumn Property="x => x.StartTime.DateTime" Title="@Localizer.Get("Start Time")"/>
-                <PropertyColumn Property="x => x.Loops.Count" Title="@Localizer.Get("Laps Count")" />
-                <PropertyColumn Property="x => x.Contestants.Count" Title="@Localizer.Get("Contestants Count")" />
-                <TemplateColumn CellClass="action-column">
-                    <CellTemplate>
-                        <NotButtonDelete OnClick="() => _parentBehind.Delete(context.Item)" Class="action-button-top" />
-                        <NotButtonUpdate OnClick="() => this._competitionNavigator.Update(COMPETITION_PAGE, context.Item)" />
-                    </CellTemplate>
-                </TemplateColumn>
-            </Columns>
-        </MudDataGrid>
-    }
-    else
-    {
-        <MudPaper Elevation="0">
-            <div class="pa-6">
-                <NotH2>@Localizer.Get("Competitions")</NotH2>
-                <NotButtonCreate OnClick="_competitionNavigator.Create" Class="toolbar-button" />
-                <p>@Localizer.Get("No competitions have been created for this event.")</p>
-            </div>
-        </MudPaper>
-    }
-}
+
+    <NotH2 Class="pt-6 pl-6">@Localizer.Get("Competitions")</NotH2>
+    <NotButtonCreate Class="mt-1 ml-6 mb-3" OnClick="_competitionNavigator.Create" />
+    <MudDivider/>
+    <MudDataGrid T="Competition" Items="_parentBehind.Children" ReadOnly="true" Bordered="true" Dense="true" >
+        <Columns>
+            <PropertyColumn Property="x => x.Name" Title="@Localizer.Get("Name")" />
+            <PropertyColumn Property="x => x.Type" Title="@Localizer.Get("Competition Type")" />
+            <PropertyColumn Property="x => x.StartTime.DateTime" Title="@Localizer.Get("Start Time")"/>
+            <PropertyColumn Property="x => x.Loops.Count" Title="@Localizer.Get("Laps Count")" />
+            <PropertyColumn Property="x => x.Contestants.Count" Title="@Localizer.Get("Contestants Count")" />
+            <TemplateColumn CellClass="action-column">
+                <CellTemplate>
+                    <NotButtonDelete OnClick="() => _parentBehind.Delete(context.Item)" Class="action-button-top" />
+                    <NotButtonUpdate OnClick="() => this._competitionNavigator.Update(COMPETITION_UPDATE, context.Item)" />
+                </CellTemplate>
+            </TemplateColumn>
+        </Columns>
+    </MudDataGrid>
+
 
 @code {
     [Inject]

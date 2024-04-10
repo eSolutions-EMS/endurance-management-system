@@ -52,11 +52,6 @@ public class CompetitionChildrenBehind : INotBehindParent<Contestant>, INotBehin
 
     public async Task<Competition> Read(int id)
     {
-        var competition = await _competitionRepository.Read(id);
-        if (competition != null)
-        {
-            _competition = competition;
-        }
         return _competition;
     }
     public Task<Competition> Create(Competition entity)
@@ -72,5 +67,14 @@ public class CompetitionChildrenBehind : INotBehindParent<Contestant>, INotBehin
     public Task<Competition> Delete(Competition entity)
     {
         throw new NotImplementedException();
+    }
+
+    async Task INotBehindWithChildren<Competition>.Initialize(int id)
+    {
+        var competition = await _competitionRepository.Read(id);
+        if (competition != null)
+        {
+            _competition = competition;
+        }
     }
 }

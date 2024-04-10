@@ -8,7 +8,8 @@
 
 <NotH1>@Localizer.Get("Setup")</NotH1>
 
-<MudPaper Elevation="2" Class="pa-10">
+<h3>PUTKAJ</h3>
+@* <MudPaper Elevation="2" Class="pa-10">
     @if (_event == null)
     {
         <NotButtonCreate OnClick="RenderCreate" />
@@ -17,10 +18,10 @@
     {
         <EventPage />
     }
-</MudPaper>
+</MudPaper> *@
 
 @code {
-    private Event? _event;
+    private Event? _event = default!;
     [Inject]
     private IFormNavigator<Event, EventForm> _formNavigator { get; set; } = default!;
     [Inject]

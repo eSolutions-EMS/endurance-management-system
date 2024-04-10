@@ -13,8 +13,3 @@ public interface INotBehindParent<T> : ICreateBehind<T>, IUpdateBehind<T>, IDele
     IEnumerable<T> Children { get; }
 }
 
-public interface INotBehindWithChildren<T>
-    where T : DomainEntity, IParent
-{
-    Task Initialize(int id);
-}
