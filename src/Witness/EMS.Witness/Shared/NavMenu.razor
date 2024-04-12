@@ -2,6 +2,8 @@
 @using EMS.Witness.Services;
 @using EMS.Witness.Rpc;
 
+@implements IDisposable;
+
 <div class="top-row ps-3 navbar navbar-dark">
 	<div class="container-fluid">
 		@if (this.isHandshaking)
@@ -22,7 +24,7 @@
 		}
 		@if (this.rpcConnectionStatus == RpcConnectionStatus.Connected)
 		{
-			<div class="col-8">
+			<div class="col-3">
 				<a class="navbar-brand" href="">eWitness</a>
 			</div>
 		}
@@ -30,6 +32,9 @@
 		{
 			<button class="btn btn-warning" @onclick="_rpcInitializer.StartConnections">Reconnect</button>
 		}
+		<div class="col-3">
+			<button class="btn btn-danger" @onclick="_rpcInitializer.Disconnect">Disconnect</button>
+		</div>
 		<div class="col-3">
 			<button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
 				<span class="navbar-toggler-icon"></span>
@@ -80,41 +85,47 @@
 
 	protected override async Task OnInitializedAsync()
 	{
+		this.rpcConnectionStatus = this.RpcClients.All(x => x.IsConnected) ? RpcConnectionStatus.Connected : RpcConnectionStatus.Disconnected;
 		foreach (var client in this.RpcClients)
 		{
-			client.ServerConnectionChanged += async (sender, status) =>
-			{
-				if (this.rpcConnectionStatus != status)
-				{
-					this.rpcConnectionStatus = status;
-					await this.InvokeAsync(this.StateHasChanged);
-				}
-			};
-			client.ServerConnectionInfo += (senderName, message) =>
-			{
-				_toaster.Add(senderName!.ToString()!, message, UiColor.Warning, 10);
-			};
+			client.ServerConnectionChanged += HandleServerConnectionChanged;
+			client.ServerConnectionInfo += HandleServerConnectionInfo;
 		}
-		this.Context.IsHandshakingEvent += async (sender, isHandshaking) =>
-		{
-			if (this.isHandshaking != isHandshaking)
-			{
-				this.isHandshaking = isHandshaking;
-				await this.InvokeAsync(this.StateHasChanged);
-			}
-		};
-		await SafeAction(async () => await _rpcInitializer.StartConnections());
+		this.Context.IsHandshakingEvent += HandleIsHandshakingEvent;
+		await SafeActionHelper.Act(async () => await _rpcInitializer.StartConnections());
 	}
 
-	private async Task SafeAction(Func<Task> action)
+	public void Dispose()
 	{
-		try
+		foreach (var client in this.RpcClients)
 		{
-			await action();
+			client.ServerConnectionChanged -= HandleServerConnectionChanged;
+			client.ServerConnectionInfo -= HandleServerConnectionInfo;
 		}
-		catch (Exception ex)
+		this.Context.IsHandshakingEvent -= HandleIsHandshakingEvent;
+	}
+
+	private async void HandleServerConnectionChanged(object? sender, RpcConnectionStatus status)
+	{
+		if (this.rpcConnectionStatus != status)
 		{
-			await Application.Current!.MainPage!.DisplayAlert(ex.Message, ex.StackTrace, "damn");
+			this.rpcConnectionStatus = status;
+			await this.InvokeAsync(this.StateHasChanged);
+		}
+	}
+
+	private void HandleServerConnectionInfo(object? senderName, string message)
+	{
+		_toaster.Add(senderName!.ToString()!, message, UiColor.Warning, 10);
+	}
+
+	private async void HandleIsHandshakingEvent(object? sender, bool isHandshaking)
+	{
+		if (this.isHandshaking != isHandshaking)
+		{
+			this.isHandshaking = isHandshaking;
+			await this.InvokeAsync(this.StateHasChanged);
 		}
 	}
 }
+`
