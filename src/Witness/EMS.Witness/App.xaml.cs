@@ -20,6 +20,7 @@ public partial class App : Application, IDisposable
     private readonly IParticipantsClient participantsClient;
     private readonly IParticipantsService participantsService;
 	private bool _areRpcConnectionsStarting;
+	private object lockObject = new();
 
     public App(
 		IPersistenceService persistence,
@@ -65,15 +66,18 @@ public partial class App : Application, IDisposable
 
 	private async void StartRpcConnections(object? sernder, EventArgs args)
 	{
-		if (_areRpcConnectionsStarting)
+		lock (lockObject)
 		{
-			return;
-		}
-		_areRpcConnectionsStarting = true;
-		await this.rpcService.StartConnections();
-	}
+            if (_areRpcConnectionsStarting)
+            {
+                return;
+            }
+            _areRpcConnectionsStarting = true;
+        }
+        await this.rpcService.StartConnections();
+    }
 
-	private async void StoreState(object? sender, EventArgs args)
+    private async void StoreState(object? sender, EventArgs args)
 	{
 		await this.persistence.Store();
 	}
