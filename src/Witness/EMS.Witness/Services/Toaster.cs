@@ -80,13 +80,14 @@ public class Toaster : IToaster, INotificationService, IDisposable
         lock (lockObject)
         {
 			toastsToDelete = this.toastList.Where(item => item.IsBurnt).ToList();
-		}
-		if (!toastsToDelete.Any())
-        {
-            return false;
+            if (!toastsToDelete.Any())
+            {
+                return false;
+            }
+
+            toastsToDelete.ForEach(toast => this.toastList.Remove(toast));
         }
-        
-		toastsToDelete.ForEach(toast => this.toastList.Remove(toast));
+		
 		this.ToasterChanged?.Invoke(this, EventArgs.Empty);
         return true;
     }
