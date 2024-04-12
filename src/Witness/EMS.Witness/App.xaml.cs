@@ -50,9 +50,9 @@ public partial class App : Application, IDisposable
 
 		this.AttachEventHandlers();
 
-		window.Created += StartRpcConnections;
-		window.Activated += StartRpcConnections;
-		window.Resumed += StartRpcConnections;
+		//window.Created += StartRpcConnections;
+		//window.Activated += StartRpcConnections;
+		//window.Resumed += StartRpcConnections;
 		window.Deactivated += StoreState;
 		window.Destroying += DetachEventHandlers;
 
