@@ -8,32 +8,51 @@ public class Competition : DomainEntity, ISummarizable, IParent<Contestant>
 {
 
     public static Competition Create(string name, CompetitionType type, DateTimeOffset start) => new(name,type, start);
-    public static Competition Update(string name, CompetitionType type, DateTimeOffset start) => new(name, type, start);
+    public static Competition Update( int id, string name, CompetitionType type, DateTimeOffset start) => new(id, name, type, start);
 
     private List<Loop> _loops = new();
     private List<Contestant> _contestants = new();
 
     [JsonConstructor]
-    private Competition(string name, CompetitionType type, DateTimeOffset start)
+    private Competition(int id, string name, CompetitionType type, DateTimeOffset startTime)
     {
+        Id = id;
         if (type == 0)
         {
-            throw new DomainException(nameof(type),"Competition type must have a value different from 0.");
+            throw new DomainException(nameof(type), "Competition type must have a value different from 0.");
         }
 
-        if (start.DateTime.CompareTo(DateTime.Today) < 0)
+        if (startTime.DateTime.CompareTo(DateTime.Today) < 0)
         {
-            throw new DomainException(nameof(DateTime), "Date of Competition cannot be in the past");
+            throw new DomainException(nameof(startTime), "Date of Competition cannot be in the past");
         }
 
         this.Name = name;
         this.Type = type;
-        this.StartTime = start;
+        this.StartTime = startTime;
     }
+
+    private Competition(string name, CompetitionType type, DateTimeOffset startTime)
+    {
+        if (type == 0)
+        {
+            throw new DomainException(nameof(type), "Competition type must have a value different from 0.");
+        }
+
+        if (startTime.DateTime.CompareTo(DateTime.Today) < 0)
+        {
+            throw new DomainException(nameof(startTime), "Date of Competition cannot be in the past");
+        }
+
+        this.Name = name;
+        this.Type = type;
+        this.StartTime = startTime;
+    }
+
     public string Name { get; private set; }
     public CompetitionType Type { get; private set; }
 	public DateTimeOffset StartTime { get; private set; }
-
+   
     public IReadOnlyList<Loop> Loops
     {
         get => _loops.AsReadOnly();
