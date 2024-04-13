@@ -1,4 +1,5 @@
 ﻿using Not.Domain;
+using Not.Injection;
 
 namespace Not.Blazor.Ports.Behinds;
 
@@ -7,7 +8,7 @@ namespace Not.Blazor.Ports.Behinds;
 /// (see <seealso cref="IParent{T}"/> for more). Details regarding it's parent entity are responsiblity of the implementation
 /// </summary>
 /// <typeparam name="T">Type of parent entity</typeparam>
-public interface INotBehindWithChildren<T>
+public interface INotBehindWithChildren<T>: ISingletonService
     where T : DomainEntity, IParent
 {
     Task Initialize(int id);
