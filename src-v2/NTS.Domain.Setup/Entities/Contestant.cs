@@ -9,20 +9,30 @@ namespace NTS.Domain.Setup.Entities;
 public class Contestant : DomainEntity, ISummarizable, IParent<Tandem>
 {
     public static Contestant Create(DateTimeOffset newStart) => new(newStart);
-    public static Contestant Update(DateTimeOffset newStart) => new(newStart);
+    public static Contestant Update(int id, DateTimeOffset newStart) => new(id, newStart);
 
     private List<Tandem> _tandems = new();
 
     [JsonConstructor]
-    private Contestant(DateTimeOffset newStartTime)
+    private Contestant(int id, DateTimeOffset startTimeOverride)
     {
 
-        if (newStartTime.DateTime.CompareTo(DateTime.Today) < 0)
+        if (startTimeOverride.DateTime.CompareTo(DateTime.Today) < 0)
         {
-            throw new DomainException(nameof(DateTime), "Start time cannot be in the past");
+            throw new DomainException(nameof(startTimeOverride), "Start time cannot be in the past");
+        }
+        Id = id;
+        StartTimeOverride = startTimeOverride;
+    }
+    private Contestant(DateTimeOffset startTimeOverride)
+    {
+
+        if (startTimeOverride.DateTime.CompareTo(DateTime.Today) < 0)
+        {
+            throw new DomainException(nameof(startTimeOverride), "Start time cannot be in the past");
         }
 
-        StartTimeOverride = newStartTime;
+        StartTimeOverride = startTimeOverride;
     }
     public Tandem ContestantHorsePair {  get; private set; }
 
