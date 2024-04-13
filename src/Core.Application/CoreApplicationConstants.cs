@@ -22,9 +22,7 @@ public static class CoreApplicationConstants
     public static class RpcEndpoints
     {
         public const string STARTLIST = "startlist-hub";
-        public const string WITNESS_EVENTS = "witness-events-hub";
         public const string PARTICIPANTS = "participants-hub";
-        public const string LOGGING = "logging-hub";
     }
 
     public static class Api

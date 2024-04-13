@@ -38,12 +38,8 @@ public static class WitnessConfiguration
             .AddSingleton<IWitnessState>(x => x.GetRequiredService<WitnessState>())
             .AddTransient<IPersistenceService, PersistenceService>()
             .AddTransient<IRpcInitalizer, RpcInitalizer>()
-
-            //.AddSingleton<IWitnessLogger, LoggerMock>();
-
             .AddSingleton<LoggingClient>()
-            .AddSingleton<IWitnessLogger>(x => x.GetRequiredService<LoggingClient>())
-            .AddSingleton<IRpcClient>(x => x.GetRequiredService<LoggingClient>());
+            .AddSingleton<IWitnessLogger>(x => x.GetRequiredService<LoggingClient>());
 
         return services;
     }
