@@ -65,7 +65,7 @@ public class EventBehind : INotBehind<Event>, INotBehindParent<Official>, INotBe
         GuardHelper.ThrowIfNull(_event);
 
         _event.Update(child);
-        return await _officialRepository.Update(child);
+        return await _officialRepository.Update(_event.Id, child);
     }
 
     public async Task<Competition> Create(Competition child)
@@ -88,7 +88,7 @@ public class EventBehind : INotBehind<Event>, INotBehindParent<Official>, INotBe
         GuardHelper.ThrowIfNull(_event);
 
         _event.Update(child);
-        return await _competitionRepository.Update(child);
+        return await _competitionRepository.Update(_event.Id, child);
     }
 
     public async Task Initialize(int id)

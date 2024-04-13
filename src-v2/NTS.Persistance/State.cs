@@ -1,4 +1,5 @@
-﻿using NTS.Domain.Setup.Entities;
+﻿using Not.Domain;
+using NTS.Domain.Setup.Entities;
 
 namespace NTS.Persistence;
 
@@ -14,6 +15,8 @@ public class State :
         get => _events.FirstOrDefault();
         set => _events = value == null ? new() : new() { value };
     }
+
+    public List<Tandem> Tandems { get; } = new();
 
     public Competition? Competition
     {

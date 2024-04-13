@@ -1,34 +1,29 @@
 ﻿using Not.Application.Ports.CRUD;
-using Not.Blazor.Navigation;
 using Not.Blazor.Ports.Behinds;
 using Not.Exceptions;
 using NTS.Domain.Setup.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NTS.Judge.Events;
 public class CompetitionChildrenBehind : INotBehindParent<Contestant>, INotBehindWithChildren<Competition>
 {
-    private readonly IRepository<Competition> _competitionRepository;
-    private readonly IParentRepository<Contestant> _contestantRepository;
-    private Competition _competition;
+    private readonly IRead<Competition> _competitionReader;
+    private readonly IParentRepository<Contestant> _contestantParentRepository;
+    private Competition? _competition;
 
-    public CompetitionChildrenBehind(IRepository<Competition> competitions,IParentRepository<Contestant> contestants)
+    public CompetitionChildrenBehind(IRead<Competition> competitionReader, IParentRepository<Contestant> contestants) 
     {
-        _competitionRepository = competitions;
-        _contestantRepository = contestants;
+        _competitionReader = competitionReader;
+        _contestantParentRepository = contestants;
     }
+
     IEnumerable<Contestant> INotBehindParent<Contestant>.Children => _competition?.Contestants ?? Enumerable.Empty<Contestant>();
 
     public async Task<Contestant> Create(Contestant entity)
     {
         GuardHelper.ThrowIfNull(_competition);
 
-        await _contestantRepository.Create(_competition.Id, entity);
-        await _competitionRepository.Update(_competition);
+        _competition.Add(entity);
+        await _contestantParentRepository.Create(_competition.Id, entity);
         return entity;
     }
 
@@ -36,8 +31,8 @@ public class CompetitionChildrenBehind : INotBehindParent<Contestant>, INotBehin
     {
         GuardHelper.ThrowIfNull(_competition);
 
-        await _contestantRepository.Update(entity);
-        await _competitionRepository.Update(_competition);
+        _competition.Update(entity);
+        await _contestantParentRepository.Update(_competition.Id, entity);
         return entity;
     }
 
@@ -45,8 +40,8 @@ public class CompetitionChildrenBehind : INotBehindParent<Contestant>, INotBehin
     {
         GuardHelper.ThrowIfNull(_competition);
 
-        await _contestantRepository.Delete(_competition.Id, entity);
-        await _competitionRepository.Update(_competition);
+        _competition.Remove(entity);
+        await _contestantParentRepository.Delete(_competition.Id, entity);
         return entity;
     }
 
@@ -71,7 +66,7 @@ public class CompetitionChildrenBehind : INotBehindParent<Contestant>, INotBehin
 
     async Task INotBehindWithChildren<Competition>.Initialize(int id)
     {
-        var competition = await _competitionRepository.Read(id);
+        var competition = await _competitionReader.Read(id);
         if (competition != null)
         {
             _competition = competition;

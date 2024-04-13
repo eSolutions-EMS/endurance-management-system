@@ -1,4 +1,5 @@
-﻿using Not.Domain;
+﻿using Not.Application.Ports.CRUD;
+using Not.Domain;
 using Not.Exceptions;
 
 namespace NTS.Persistence;
@@ -20,6 +21,16 @@ public abstract class ParentRepository<T, TParent, TDataContext> : RepositoryBas
     public async Task<T> Delete(int parentId, T child)
     {
         return await InternalDelete(x => x.Entities.Find(x => x.Id == parentId), child);
+    }
+
+    public abstract Task<T> Update(int parentId, T child);
+
+    public override Task<TParent> Update(TParent entity)
+    {
+        throw new NotImplementedException(
+            $"If '{typeof(TParent).Name}' is root entity (i.e entity that sits in the root of the database state)" +
+            $" you have to override this method and implement its details, including child preservation. " +
+            $"If this is a child entity, then you need to update it using '{nameof(IParentRepository<TParent>)}' instead");
     }
 
     protected async Task<TInner> InternalCreate<TInner, TInnerParent>(Func<TDataContext, TInnerParent?> parentGetter, TInner child)
@@ -70,4 +81,6 @@ public abstract class ParentRepository<T1, T2, TParent, TDataContext> : ParentRe
     {
         return await InternalDelete(x => x.Entities.Find(x => x.Id == parentId), child);
     }
+
+    public abstract Task<T2> Update(int parentId, T2 child);
 }

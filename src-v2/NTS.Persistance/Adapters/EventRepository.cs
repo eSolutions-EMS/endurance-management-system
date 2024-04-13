@@ -4,7 +4,9 @@ using Not.Exceptions;
 
 namespace NTS.Persistence.Adapters;
 
-public class EventRepository : ParentRepository<Official, Competition, Event, State>, IParentRepository<Official>, IParentRepository<Competition>
+public class EventRepository : ParentRepository<Official, Competition, Event, State>, 
+    IParentRepository<Official>,
+    IParentRepository<Competition>
 {
 
     public EventRepository(IStore<State> store) : base(store)
@@ -30,25 +32,24 @@ public class EventRepository : ParentRepository<Official, Competition, Event, St
         return entity;
     }
 
-    public async Task<Official> Update(Official child)
+    public override async Task<Official> Update(int parentId, Official child)
     {
         var context = await Store.Load();
-        var existing = context.Officials.Find(x => x == child);
-        GuardHelper.ThrowIfNull(existing);
+        var parent = context.Event;
+        GuardHelper.ThrowIfNull(parent);
 
-        context.Event.Update(child);
+        parent.Update(child);
         await Store.Commit(context);
 
         return child;
     }
-    public async Task<Competition> Update(Competition entity)
+    public override async Task<Competition> Update(int parentId, Competition entity)
     {
         var context = await Store.Load();
-        var existing = context.Competitions.FirstOrDefault();
-        GuardHelper.ThrowIfNull(existing);
+        var parent = context.Event;
+        GuardHelper.ThrowIfNull(parent);
 
-        context.Competitions.Remove(entity);
-        context.Competitions.Add(entity);
+        parent.Update(entity);
         await Store.Commit(context);
 
         return entity;
