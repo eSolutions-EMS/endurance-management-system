@@ -30,7 +30,7 @@ public static class WitnessConfiguration
             .AddSingleton<WitnessContext>()
             .AddSingleton<IWitnessContext>(provider => provider.GetRequiredService<WitnessContext>())
             .AddTransient<IDateService, DateService>()
-            .AddSingleton<IRpcClient, SignalRSocket>()
+            .AddSingleton<IRpcSocket, SignalRSocket>()
             .AddSingleton<IStartlistClient, StartlistClient>()
             .AddSingleton<IParticipantsClient, ParticipantsClient>()
             .AddSingleton<WitnessState>()

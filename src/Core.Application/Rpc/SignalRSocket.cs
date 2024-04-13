@@ -8,7 +8,7 @@ using static Core.Application.CoreApplicationConstants;
 
 namespace Core.Application.Rpc;
 
-public class SignalRSocket : IRpcClient, IAsyncDisposable, ISingletonService
+public class SignalRSocket : IRpcSocket, IAsyncDisposable, ISingletonService
 {
     private const int AUTOMATIC_RECONNECT_ATTEMPTS = 3;
     public event EventHandler<RpcConnectionStatus>? ServerConnectionChanged;
@@ -230,7 +230,7 @@ public class SignalRSocket : IRpcClient, IAsyncDisposable, ISingletonService
     }
 }
 
-public interface IRpcClient
+public interface IRpcSocket
 {
     /// <summary>
     /// 'true' means connected; 'false' - disconnected;

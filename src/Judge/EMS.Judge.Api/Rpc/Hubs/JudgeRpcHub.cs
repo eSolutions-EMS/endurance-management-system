@@ -14,11 +14,11 @@ using System.Threading.Tasks;
 
 namespace EMS.Judge.Api.Rpc.Hubs;
 
-public class StartlistHub : Hub<IClientProcedures>, IStartlistHubProcedures, IParticipantstHubProcedures
+public class JudgeRpcHub : Hub<IClientProcedures>, IStartlistHubProcedures, IParticipantstHubProcedures
 {
 	private readonly ManagerRoot managerRoot;
 
-	public StartlistHub(IJudgeServiceProvider provider)
+	public JudgeRpcHub(IJudgeServiceProvider provider)
 	{
 		this.managerRoot = provider.GetRequiredService<ManagerRoot>();
 	}

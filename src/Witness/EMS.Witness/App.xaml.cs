@@ -11,9 +11,9 @@ namespace EMS.Witness;
 
 public partial class App : Application, IDisposable
 {
-    private readonly IRpcClient _rpcSocket;
+    private readonly IRpcSocket _rpcSocket;
     private readonly IPersistenceService persistence;
-	private readonly IEnumerable<IRpcClient> _rpcClients;
+	private readonly IEnumerable<IRpcSocket> _rpcClients;
     private readonly IStartlistClient startlistClient;
     private readonly IStartlistService startlistService;
     private readonly IToaster toaster;
@@ -21,12 +21,12 @@ public partial class App : Application, IDisposable
     private readonly IParticipantsService participantsService;
 
     public App(
-		IRpcClient rpcSocket,
+		IRpcSocket rpcSocket,
 		IPersistenceService persistence,
 		IStartlistClient startlistClient,
 		IStartlistService startlistService,
 		IToaster toaster,
-		IEnumerable<IRpcClient> rpcClients,
+		IEnumerable<IRpcSocket> rpcClients,
 		IParticipantsClient arrivelistClient,
 		IParticipantsService arrivelistService)
 	{

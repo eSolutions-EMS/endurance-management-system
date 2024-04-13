@@ -12,7 +12,7 @@ public class RpcInitalizer : IRpcInitalizer
     private readonly IToaster toaster;
 	private readonly IWitnessState _witnessState;
 	private readonly IHandshakeService _handshakeService;
-    private readonly IRpcClient _rpcSocket;
+    private readonly IRpcSocket _rpcSocket;
 	private readonly IPermissionsService permissionsService;
 	private readonly WitnessContext context;
 	
@@ -20,7 +20,7 @@ public class RpcInitalizer : IRpcInitalizer
 		IWitnessState witnessState,
         IHandshakeService handshakeService,
         IWitnessContext context,
-		IRpcClient rpcSocket,
+		IRpcSocket rpcSocket,
 		IPermissionsService permissionsService,
 		IToaster toaster)
     {

@@ -9,13 +9,13 @@ using System;
 
 namespace EMS.Judge.Api.Rpc.Services;
 
-public class StartlistRpcService : IClientRpcService, IDisposable
+public class JudgeRpcService : IClientRpcService, IDisposable
 {
     private readonly ManagerRoot _managerRoot;
-    private readonly IHubContext<StartlistHub, IClientProcedures> _hub;
+    private readonly IHubContext<JudgeRpcHub, IClientProcedures> _hub;
     
-    public StartlistRpcService(
-        IHubContext<StartlistHub, IClientProcedures> hub,
+    public JudgeRpcService(
+        IHubContext<JudgeRpcHub, IClientProcedures> hub,
         IJudgeServiceProvider judgeServiceProvider)
     {
         _hub = hub;

@@ -66,7 +66,7 @@ public class Startup
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();
-            endpoints.MapHub<StartlistHub>($"/{RPC_ENDPOINT}");
+            endpoints.MapHub<JudgeRpcHub>($"/{RPC_ENDPOINT}");
         });
 
         var broadcastService = provider.GetRequiredService<INetworkBroadcastService>();
