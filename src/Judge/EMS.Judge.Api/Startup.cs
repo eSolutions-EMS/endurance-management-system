@@ -73,7 +73,7 @@ public class Startup
         // TODO: is termination logic necessary. Does not seem so, but should be tested.
         Task.Run(() => new NetworkBroadcastService(broadcastService).StartAsync(new CancellationToken()));
         // attach event listeners that make RPCs
-        provider.GetRequiredService<IEnumerable<IClientRpcService>>();
+        provider.GetRequiredService<JudgeRpcHub.ClientService>();
     }
 }
 
@@ -88,7 +88,8 @@ public static class ApiServices
         services
             .AddTransient<ErrorLogger, ErrorLogger>()
             .AddTransient<IStartlistService, StartlistService>()
-            .AddTransient<IWitnessEventService, WitnessEventService>();
+            .AddTransient<IWitnessEventService, WitnessEventService>()
+            .AddSingleton<JudgeRpcHub.ClientService>();
 
         return services;
     }

@@ -4,6 +4,7 @@ using Core.Domain.AggregateRoots.Manager;
 using Core.Domain.AggregateRoots.Manager.Aggregates.Participants;
 using Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 using Core.Domain.AggregateRoots.Manager.WitnessEvents;
+using Core.Enums;
 using EMS.Judge.Api.Configuration;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
@@ -72,5 +73,47 @@ public class JudgeRpcHub : Hub<IClientProcedures>, IStartlistHubProcedures, IPar
 	{
 		Console.WriteLine($"Disconnected: {this.Context.ConnectionId}");
         return Task.CompletedTask;
+    }
+
+    public class ClientService : IDisposable
+    {
+        private readonly ManagerRoot _managerRoot;
+        private readonly IHubContext<JudgeRpcHub, IClientProcedures> _hub;
+
+        public ClientService(
+            IHubContext<JudgeRpcHub, IClientProcedures> hub,
+            IJudgeServiceProvider judgeServiceProvider)
+        {
+            _hub = hub;
+            _managerRoot = judgeServiceProvider.GetRequiredService<ManagerRoot>();
+            Witness.StartlistChanged += SendStartlistEntryUpdate;
+            Witness.ParticipantChanged += SendParticipantEntryUpdate;
+        }
+
+        public void SendStartlistEntryUpdate(object? _, (string Number, CollectionAction Action) args)
+        {
+            var entry = this._managerRoot.GetStarlistEntry(args.Number);
+            if (entry == null)
+            {
+                return;
+            }
+            _hub.Clients.All.ReceiveEntry(entry, args.Action);
+        }
+
+        public void SendParticipantEntryUpdate(object? _, (string Number, CollectionAction Action) args)
+        {
+            var entry = this._managerRoot.GetParticipantEntry(args.Number);
+            if (entry == null)
+            {
+                return;
+            }
+            _hub.Clients.All.ReceiveEntryUpdate(entry, args.Action);
+        }
+
+        public void Dispose()
+        {
+            Witness.StartlistChanged -= SendStartlistEntryUpdate;
+            Witness.ParticipantChanged -= SendParticipantEntryUpdate;
+        }
     }
 }
