@@ -42,6 +42,6 @@
     public override Contestant SubmitUpdate()
     {
         DateTimeOffset newStartTimeOffset = ToDateTimeOffSet(_model.StartTime);
-        return Contestant.Update(newStartTimeOffset);
+        return Contestant.Update(_model.Id ,newStartTimeOffset);
     }
 }

@@ -35,7 +35,7 @@
     public DateTimeOffset CombineStartDayAndTime(DateTime? startDay, TimeSpan? startTime)
     {
         DateTime start = startDay.GetValueOrDefault(DateTime.MinValue);
-        DateTime startDayTime = start.Add((TimeSpan)startTime);
+        DateTime startDayTime = start.Date.Add((TimeSpan)startTime);
         DateTimeOffset startTimeOffset = ToDateTimeOffSet(startDayTime);
         return startTimeOffset;
     }
@@ -62,6 +62,6 @@
     public override Competition SubmitUpdate()
     {
         DateTimeOffset startTimeOffset = CombineStartDayAndTime(_model.StartDay, _model.StartTime);
-        return Competition.Update(_model.Name, _model.Type, startTimeOffset);
+        return Competition.Update(_model.Id, _model.Name, _model.Type, startTimeOffset);
     }
 }

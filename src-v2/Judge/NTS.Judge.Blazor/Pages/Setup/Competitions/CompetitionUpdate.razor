@@ -2,24 +2,37 @@
 @using Not.Blazor.Components;
 @using Not.Blazor.Navigation;
 @using Not.Blazor.TM.Forms.Components
+@using NTS.Judge.Blazor.Pages.Setup.Contestants
 
 
 @attribute [Route(COMPETITION_UPDATE)]
 @inherits NotComponent
 
-<MudPaper>
+<MudPaper Class="pa-6">
     <NotH2>@Localizer.Get("Update Competition")</NotH2>
-    <NotFormUpdate T="Competition" TForm="CompetitionForm" Entity="_navigator.ConsumeParameter<Competition>()" UpdateAction="Update" />
+    <NotFormUpdate T="Competition" TForm="CompetitionForm" Entity="_competition" UpdateAction="Update" />
 </MudPaper>
 
-@code {
+
+<ContestantGrid />
+
+
+@code {   
+    private Competition _competition { get; set; } = default!;
     [Inject]
     private INotBehindParent<Competition> _parentBehind { get; set; } = default!;
+    [Inject]
+    private INotBehindWithChildren<Competition> _competitionWithChildren { get; set; } = default!;
     [Inject]
     private IFormNavigator<Competition, CompetitionForm> _competitionNavigator { get; set; } = default!;
     [Inject]
     private INavigator _navigator { get; set; } = default!;
 
+    protected override async Task OnInitializedAsync()
+    {
+        _competition = _navigator.ConsumeParameter<Competition>();
+        await _competitionWithChildren.Initialize(_competition.Id);
+    }
 
     protected async Task Update(Competition competition)
     {

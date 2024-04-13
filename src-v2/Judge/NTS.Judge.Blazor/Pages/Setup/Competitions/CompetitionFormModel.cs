@@ -1,4 +1,5 @@
-﻿using NTS.Domain;
+﻿using Not.Events;
+using NTS.Domain;
 using NTS.Domain.Setup.Entities;
 
 namespace NTS.Judge.Setup.Competitions;
@@ -16,6 +17,7 @@ public class CompetitionFormModel
 
     public CompetitionFormModel(Competition competition)
     {
+        Id = competition.Id;
         Name = competition.Name;
         Type = competition.Type;
         DateTime? startDay = competition.StartTime.DateTime;
@@ -23,6 +25,7 @@ public class CompetitionFormModel
         StartDay = startDay;
         StartTime = startTime;
     }
+    public int Id { get; set; }
     public string Name { get; set; }
     public CompetitionType Type { get; set; }
     public DateTime? StartDay { get; set; } = DateTime.Today;

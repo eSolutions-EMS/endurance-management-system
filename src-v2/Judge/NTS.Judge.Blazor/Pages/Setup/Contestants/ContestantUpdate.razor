@@ -12,10 +12,19 @@
 </MudPaper>
 
 @code {
+    private Contestant _contestant { get; set; } = default!;
+    [Inject]
+    private INotBehindWithChildren<Contestant> _contestantWithChildren { get; set; } = default!;
     [Inject]
     private INotBehindParent<Contestant> _parentBehind { get; set; } = default!;
     [Inject]
     private INavigator _navigator { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _contestant = _navigator.ConsumeParameter<Contestant>();
+        await _contestantWithChildren.Initialize(_contestant.Id);
+    }
 
     protected async Task Update(Contestant contestant)
     {

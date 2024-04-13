@@ -15,9 +15,12 @@ public class ContestantFormModel
     }
     public ContestantFormModel(Contestant contestant)
     {
+        Id = contestant.Id;
         TimeSpan? startTime = contestant.StartTimeOverride.DateTime.TimeOfDay;
         StartTime = startTime;
     }
 
+    public int Id { get; set; }
     public TimeSpan? StartTime { get; set; }
+
 }

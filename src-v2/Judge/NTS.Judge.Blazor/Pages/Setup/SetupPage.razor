@@ -8,8 +8,7 @@
 
 <NotH1>@Localizer.Get("Setup")</NotH1>
 
-<h3>PUTKAJ</h3>
-@* <MudPaper Elevation="2" Class="pa-10">
+<MudPaper Elevation="2" Class="pa-10">
     @if (_event == null)
     {
         <NotButtonCreate OnClick="RenderCreate" />
@@ -18,7 +17,7 @@
     {
         <EventPage />
     }
-</MudPaper> *@
+</MudPaper>
 
 @code {
     private Event? _event = default!;
