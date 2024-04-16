@@ -1,0 +1,45 @@
+﻿@using NTS.Domain.Setup.Entities;
+@using Not.Blazor.Navigation;
+@using Not.Services;
+
+@inherits NotComponent
+
+@if (_parentBehind.Children.Any())
+{
+    <NotH2 Class="pt-6 pl-6">@Localizer.Get("Loops")</NotH2>
+    <NotButtonCreate Class="mt-1 ml-6 mb-3" OnClick="_contestantNavigator.Create" />
+    <MudDivider />
+    <MudDataGrid T="Loop" Items="_parentBehind.Children" ReadOnly="true" Bordered="true" Dense="true">
+        <Columns>
+            <PropertyColumn Property="x => x.Distance" Title="@Localizer.Get("Distance")" />
+            <PropertyColumn Property="x => x.Recovery" Title="@Localizer.Get("Recovery")" />
+            <PropertyColumn Property="x => x.Rest" Title="@Localizer.Get("Rest")" />
+            <PropertyColumn Property="x => x.IsFinal" Title="@Localizer.Get("Final Lap")" />
+            <TemplateColumn CellClass="action-column">
+                <CellTemplate>
+                    <NotButtonDelete OnClick="() => _parentBehind.Delete(context.Item)" Class="action-button-top" />
+                    <NotButtonUpdate OnClick="() => this._contestantNavigator.Update(CONTESTANT_UPDATE, context.Item)" />
+                </CellTemplate>
+            </TemplateColumn>
+        </Columns>
+    </MudDataGrid>
+}
+else
+{
+    <MudPaper Elevation="0">
+        <div class="pa-6">
+            <NotH2>@Localizer.Get("Loops")</NotH2>
+            <NotButtonCreate OnClick="_contestantNavigator.Create" Class="toolbar-button" />
+            <p>@Localizer.Get("No loops have been created for this event.")</p>
+        </div>
+    </MudPaper>
+}
+
+@code {
+    [Inject]
+    private INotBehindParent<Loop> _parentBehind { get; set; } = default!;
+    [Inject]
+    private IFormNavigator<Loop, LoopForm> _contestantNavigator { get; set; } = default!;
+    [Inject]
+    private INavigator _navigator { get; set; } = default!;
+}

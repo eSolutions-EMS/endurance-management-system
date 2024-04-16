@@ -1,5 +1,5 @@
 ﻿using NTS.Domain.Setup.Import;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace NTS.Domain.Setup.Entities;
 
@@ -14,20 +14,20 @@ public class Loop : DomainEntity, ISummarizable
     {
         Id = id;
         Distance = distance;
-        Rec = rec;
+        Recovery = rec;
         Rest = rest;
         IsFinal = isFinal;
     }
     public Loop(double distance, int rec, int rest, bool isFinal)
     {
 		Distance = distance;
-		Rec = rec;
+		Recovery = rec;
 		Rest = rest;
 		IsFinal = isFinal;
 	}
 
     public double Distance { get; private set; }
-	public int Rec { get; private set; }
+	public int Recovery { get; private set; }
 	public int Rest { get; private set; }
 	public bool IsFinal { get; private set; }
 
@@ -36,8 +36,8 @@ public class Loop : DomainEntity, ISummarizable
 		var km = "km".Localize();
 		var min = "min".Localize();
 		var final = "final".Localize();
-		var rec = "Rec".Localize();
+		var rec = "Recovery".Localize();
 		var rest = "Rest".Localize();
-		return $"{this.Distance}{km} {rec}: {this.Rec}{min} {rest}: {this.Rest}{min}" + (this.IsFinal ? final : string.Empty);
+		return $"{this.Distance}{km} {rec}: {this.Recovery}{min} {rest}: {this.Rest}{min}" + (this.IsFinal ? final : string.Empty);
 	}
 }

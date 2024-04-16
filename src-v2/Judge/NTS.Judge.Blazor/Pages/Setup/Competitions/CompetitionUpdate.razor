@@ -2,6 +2,7 @@
 @using Not.Blazor.Components;
 @using Not.Blazor.Navigation;
 @using Not.Blazor.TM.Forms.Components
+@using NTS.Judge.Blazor.Pages.Setup.Loops
 @using NTS.Judge.Blazor.Pages.Setup.Contestants
 
 
@@ -12,6 +13,8 @@
     <NotH2>@Localizer.Get("Update Competition")</NotH2>
     <NotFormUpdate T="Competition" TForm="CompetitionForm" Entity="_competition" UpdateAction="Update" />
 </MudPaper>
+
+<LoopGrid />
 
 <ContestantGrid />
 
