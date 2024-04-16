@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace NTS.Domain.Setup.Entities;
 
-public class Competition : DomainEntity, ISummarizable, IParent<Contestant>
+public class Competition : DomainEntity, ISummarizable, IParent<Contestant>, IParent<Loop>
 {
 
     public static Competition Create(string name, CompetitionType type, DateTimeOffset start) => new(name,type, start);
@@ -27,9 +27,9 @@ public class Competition : DomainEntity, ISummarizable, IParent<Contestant>
             throw new DomainException(nameof(StartTime), "Date of Competition cannot be in the past");
         }
 
-        this.Name = name;
-        this.Type = type;
-        this.StartTime = startTime;
+        Name = name;
+        Type = type;
+        StartTime = startTime;
     }
 
     private Competition(string name, CompetitionType type, DateTimeOffset startTime)
@@ -44,9 +44,9 @@ public class Competition : DomainEntity, ISummarizable, IParent<Contestant>
             throw new DomainException(nameof(StartTime), "Date of Competition cannot be in the past");
         }
 
-        this.Name = name;
-        this.Type = type;
-        this.StartTime = startTime;
+        Name = name;
+        Type = type;
+        StartTime = startTime;
     }
 
     public string Name { get; private set; }
@@ -92,7 +92,22 @@ public class Competition : DomainEntity, ISummarizable, IParent<Contestant>
     public void Update(Contestant child)
     {
         _contestants.Remove(child);
+        Add(child);
+    }
 
+    public void Add(Loop child)
+    {
+        _loops.Add(child);
+    }
+
+    public void Remove(Loop child)
+    {
+        _loops.Remove(child);
+    }
+
+    public void Update(Loop child)
+    {
+        _loops.Remove(child);
         Add(child);
     }
 }

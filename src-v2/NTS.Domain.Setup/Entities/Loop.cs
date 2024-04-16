@@ -1,15 +1,29 @@
 ﻿using NTS.Domain.Setup.Import;
+using System.Text.Json.Serialization;
 
 namespace NTS.Domain.Setup.Entities;
 
 public class Loop : DomainEntity, ISummarizable
 {
+    public static Loop Create(double distance, int rec, int rest, bool isFinal) => new(distance, rec, rest, isFinal);
+
+    public static Loop Update(int id, double distance, int rec, int rest, bool isFinal) => new(id, distance, rec, rest, isFinal);
+
+    [JsonConstructor]
+    public Loop(int id, double distance, int rec, int rest, bool isFinal)
+    {
+        Id = id;
+        Distance = distance;
+        Rec = rec;
+        Rest = rest;
+        IsFinal = isFinal;
+    }
     public Loop(double distance, int rec, int rest, bool isFinal)
     {
-		this.Distance = distance;
-		this.Rec = rec;
-		this.Rest = rest;
-		this.IsFinal = isFinal;
+		Distance = distance;
+		Rec = rec;
+		Rest = rest;
+		IsFinal = isFinal;
 	}
 
     public double Distance { get; private set; }
