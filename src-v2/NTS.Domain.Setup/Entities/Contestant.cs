@@ -19,7 +19,7 @@ public class Contestant : DomainEntity, ISummarizable, IParent<Tandem>
 
         if (startTimeOverride.DateTime.CompareTo(DateTime.Today) < 0)
         {
-            throw new DomainException(nameof(startTimeOverride), "Start time cannot be in the past");
+            throw new DomainException(nameof(StartTimeOverride), "Start time cannot be in the past");
         }
         Id = id;
         StartTimeOverride = startTimeOverride;
@@ -29,7 +29,7 @@ public class Contestant : DomainEntity, ISummarizable, IParent<Tandem>
 
         if (startTimeOverride.DateTime.CompareTo(DateTime.Today) < 0)
         {
-            throw new DomainException(nameof(startTimeOverride), "Start time cannot be in the past");
+            throw new DomainException(nameof(StartTimeOverride), "Start time cannot be in the past");
         }
 
         StartTimeOverride = startTimeOverride;

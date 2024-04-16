@@ -19,12 +19,12 @@ public class Competition : DomainEntity, ISummarizable, IParent<Contestant>
         Id = id;
         if (type == 0)
         {
-            throw new DomainException(nameof(type), "Competition type must have a value different from 0.");
+            throw new DomainException(nameof(Type), "Competition type must have a value different from 0.");
         }
 
         if (startTime.DateTime.CompareTo(DateTime.Today) < 0)
         {
-            throw new DomainException(nameof(startTime), "Date of Competition cannot be in the past");
+            throw new DomainException(nameof(StartTime), "Date of Competition cannot be in the past");
         }
 
         this.Name = name;
@@ -36,12 +36,12 @@ public class Competition : DomainEntity, ISummarizable, IParent<Contestant>
     {
         if (type == 0)
         {
-            throw new DomainException(nameof(type), "Competition type must have a value different from 0.");
+            throw new DomainException(nameof(Type), "Competition type must have a value different from 0.");
         }
 
         if (startTime.DateTime.CompareTo(DateTime.Today) < 0)
         {
-            throw new DomainException(nameof(startTime), "Date of Competition cannot be in the past");
+            throw new DomainException(nameof(StartTime), "Date of Competition cannot be in the past");
         }
 
         this.Name = name;
