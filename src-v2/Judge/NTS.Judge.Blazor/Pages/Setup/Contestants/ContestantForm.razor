@@ -14,11 +14,11 @@
     private MudPicker<TimeSpan?> _timeField = default!;
     private ContestantFormModel _model { get; set; } = new();
 
-    public DateTimeOffset ToDateTimeOffSet(TimeSpan? time)
+    public DateTimeOffset ToDateTimeOffSet(TimeSpan? timeToBeAdded)
     {
         DateTime today = DateTime.Today;
-        DateTime timeWithSpecifiedKind = DateTime.SpecifyKind(today, DateTimeKind.Local);
-        timeWithSpecifiedKind.Add((TimeSpan)time);
+        var time = today.Add((TimeSpan)timeToBeAdded);
+        DateTime timeWithSpecifiedKind = DateTime.SpecifyKind(time, DateTimeKind.Local);
         DateTimeOffset offsetTime = timeWithSpecifiedKind;
         return offsetTime;
     }
