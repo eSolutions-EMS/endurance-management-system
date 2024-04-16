@@ -62,7 +62,7 @@
 	[Inject]
 	private IWitnessContext Context { get; set; } = default!;
 	[Inject]
-	private IRpcSocket RpcClients { get; set; } = default!;
+	private IRpcSocket _rpcSocket { get; set; } = default!;
 	[Inject]
 	private IToaster _toaster { get; set; } = default!;
 	[Inject]
