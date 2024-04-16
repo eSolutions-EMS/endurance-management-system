@@ -22,5 +22,4 @@ public class ContestantFormModel
 
     public int Id { get; set; }
     public TimeSpan? StartTime { get; set; }
-
 }
