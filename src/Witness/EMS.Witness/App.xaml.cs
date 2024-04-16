@@ -17,14 +17,14 @@ public partial class App : Application, IDisposable
     private readonly IParticipantsService participantsService;
 
     public App(
-		IRpcSocket rpcSocket,
-		IPersistenceService persistence,
-		IStartlistClient startlistClient,
-		IStartlistService startlistService,
-		IParticipantsClient arrivelistClient,
-		IParticipantsService arrivelistService)
-	{
-		this.InitializeComponent();
+        IRpcSocket rpcSocket,
+        IPersistenceService persistence,
+        IStartlistClient startlistClient,
+        IStartlistService startlistService,
+        IParticipantsClient arrivelistClient,
+        IParticipantsService arrivelistService)
+    {
+        this.InitializeComponent();
         this.MainPage = new MainPage();
         _rpcSocket = rpcSocket;
         this.persistence = persistence;
@@ -34,59 +34,59 @@ public partial class App : Application, IDisposable
         this.participantsService = arrivelistService;
     }
 
-	protected override Window CreateWindow(IActivationState? activationState) 
-	{
-		var window = base.CreateWindow(activationState);
+    protected override Window CreateWindow(IActivationState? activationState)
+    {
+        var window = base.CreateWindow(activationState);
 
-		this.AttachEventHandlers();
+        this.AttachEventHandlers();
 
-		window.Deactivated += StoreState;
-		window.Destroying += DetachEventHandlers;
+        window.Deactivated += StoreState;
+        window.Destroying += DetachEventHandlers;
 
-		return window;
-	}
+        return window;
+    }
 
-	public void Dispose()
-	{
-		throw new NotImplementedException();
-	}
+    public void Dispose()
+    {
+        throw new NotImplementedException();
+    }
 
     private async void StoreState(object? sender, EventArgs args)
-	{
-		await this.persistence.Store();
-	}
+    {
+        await persistence.Store();
+    }
 
-	private void AttachEventHandlers()
-	{
-		//TODO: Add Initialize method to StartlistService ParticipantService to attach necessary events
-		this.participantsClient.Updated += HandleParticipantsUpdate;
-		this.startlistClient.Updated += HandleStartlistUpdate;
+    private void AttachEventHandlers()
+    {
+        //TODO: Add Initialize method to StartlistService ParticipantService to attach necessary events
+        this.participantsClient.Updated += HandleParticipantsUpdate;
+        this.startlistClient.Updated += HandleStartlistUpdate;
         _rpcSocket.ServerConnectionChanged += HandleSocketConnectionChanged;
     }
 
     private void DetachEventHandlers(object? sender, EventArgs args)
-	{
-		this.participantsClient.Updated -= HandleParticipantsUpdate;
-		this.startlistClient.Updated -= HandleStartlistUpdate;
+    {
+        this.participantsClient.Updated -= HandleParticipantsUpdate;
+        this.startlistClient.Updated -= HandleStartlistUpdate;
         _rpcSocket.ServerConnectionChanged -= HandleSocketConnectionChanged;
     }
 
-	private void HandleParticipantsUpdate(object? sender, (ParticipantEntry Participant, CollectionAction Action) args)
-	{
-		this.participantsService.Update(args.Participant, args.Action);
-	}
+    private void HandleParticipantsUpdate(object? sender, (ParticipantEntry Participant, CollectionAction Action) args)
+    {
+        this.participantsService.Update(args.Participant, args.Action);
+    }
 
-	private void HandleStartlistUpdate(object? sender, (StartlistEntry StartlistEntry, CollectionAction Action) args)
-	{
-		this.startlistService.Update(args.StartlistEntry, args.Action);
-	}
+    private void HandleStartlistUpdate(object? sender, (StartlistEntry StartlistEntry, CollectionAction Action) args)
+    {
+        this.startlistService.Update(args.StartlistEntry, args.Action);
+    }
 
-	private async void HandleSocketConnectionChanged(object? sender, RpcConnectionStatus status)
-	{
-		if (status == RpcConnectionStatus.Connected)
-		{
-			await this.startlistService.Load();
-			await this.participantsService.Load();
+    private async void HandleSocketConnectionChanged(object? sender, RpcConnectionStatus status)
+    {
+        if (status == RpcConnectionStatus.Connected)
+        {
+            await this.startlistService.Load();
+            await this.participantsService.Load();
         }
-	}
+    }
 }
