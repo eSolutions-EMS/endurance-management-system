@@ -12,6 +12,21 @@ public class Loop : DomainEntity, ISummarizable
     [JsonConstructor]
     public Loop(int id, double distance, int rec, int rest, bool isFinal)
     {
+        if (distance <= 0)
+        {
+            throw new DomainException(nameof(Distance), "Distance cannot be zero or less.");
+        }
+
+        if (rec <= 0)
+        {
+            throw new DomainException(nameof(Recovery), "Recovery time cannot be zero or less.");
+        }
+
+        if (rest <= 0)
+        {
+            throw new DomainException(nameof(Rest), "Rest duration cannot be zero or less.");
+        }
+
         Id = id;
         Distance = distance;
         Recovery = rec;
@@ -20,7 +35,22 @@ public class Loop : DomainEntity, ISummarizable
     }
     public Loop(double distance, int rec, int rest, bool isFinal)
     {
-		Distance = distance;
+        if (distance <= 0)
+        {
+            throw new DomainException(nameof(Distance), "Distance cannot be zero or less.");
+        }
+
+        if (rec <= 0)
+        {
+            throw new DomainException(nameof(Recovery), "Recovery time cannot be zero or less.");
+        }
+
+        if (rest <= 0)
+        {
+            throw new DomainException(nameof(Rest), "Rest duration cannot be zero or less.");
+        }
+
+        Distance = distance;
 		Recovery = rec;
 		Rest = rest;
 		IsFinal = isFinal;
