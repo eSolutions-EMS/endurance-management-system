@@ -7,7 +7,7 @@
 @inherits NotForm<Loop>;
 
 <EditForm Model="_model">
-    <MudNumericField T="double" @ref="_distanceField" @bind-Value="_model.Distance"  Label="@Localizer.Get("Distance")" />
+    <MudNumericField T="double" @ref="_distanceField" @bind-Value="_model.Distance" Min="0" Label="@Localizer.Get("Distance")" />
     <MudNumericField T="int" @ref="_recoveryField" @bind-Value="_model.Recovery" Min="0" Label="@Localizer.Get("Recovery Time")" />
     <MudNumericField T="int" @ref="_restField" @bind-Value="_model.Rest" Min="0" Label="@Localizer.Get("Rest Duration")" />
     <MudSwitch T="bool" @ref="_isFinalField" @bind-Value="_model.IsFinal" Label="@Localizer.Get("Final Lap")"
