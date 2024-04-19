@@ -1,5 +1,10 @@
 {
   "sdk": {
+<<<<<<< Updated upstream
     "version": "8.0.200"
+=======
+    "version": "8.0.200",
+    "rollForward": "latestFeature"
+>>>>>>> Stashed changes
   }
 }

@@ -39,7 +39,8 @@ public static class WitnessConfiguration
             .AddTransient<IPersistenceService, PersistenceService>()
             .AddTransient<IRpcInitalizer, RpcInitalizer>()
             .AddSingleton<LoggingClient>()
-            .AddSingleton<IWitnessLogger, LoggingClient>();
+            .AddSingleton<IWitnessLogger, LoggingClient>()
+            .AddHttpClient();
 
         return services;
     }

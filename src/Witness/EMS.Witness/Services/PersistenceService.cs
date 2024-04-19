@@ -37,7 +37,7 @@ public class PersistenceService : IPersistenceService
 		}
         catch (Exception ex)
         {
-            _witnessLogger.Log(ex);
+            await _witnessLogger.Log("RestoreState", ex);
         }
     }
 
@@ -45,12 +45,14 @@ public class PersistenceService : IPersistenceService
     {
         try
         {
+            var innerException = new Exception("Inner exception");
+            throw new Exception("Test exception", innerException);
 			var serialized = this.jsonSerializer.Serialize(this.state);
 			await File.WriteAllTextAsync(this.path, serialized);
 		}
         catch (Exception ex)
         {
-            _witnessLogger.Log(ex);
+            await _witnessLogger.Log("StoreState", ex);
         }
     }
 }

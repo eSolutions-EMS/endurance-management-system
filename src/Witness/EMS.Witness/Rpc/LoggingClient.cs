@@ -1,25 +1,31 @@
-﻿using Core.Application.Rpc;
+﻿using Core.Application.Http;
+using EMS.Witness.Services;
+using System.Net.Http.Json;
 
 namespace EMS.Witness.Rpc;
 
 public class LoggingClient : IWitnessLogger
 {
-	public LoggingClient()
-	{
-	}
+	private IWitnessState _state;
+    private readonly IHttpClientFactory _httpClientFactory;
 
-	public void Log(string message)
+    public LoggingClient(IWitnessState state, IHttpClientFactory httpClientFactory)
 	{
-		var clientId = GetClientId();
-		var log = new RpcLog(clientId, message);
-		// TODO: Send http log
-	}
+		_state = state;
+        _httpClientFactory = httpClientFactory;
+    }
 
-	public void Log(Exception exception)
+	public async Task Log(string functionality, Exception exception)
 	{
+		if (_state.HostIp == null)
+		{
+			return;
+		}
 		var clientId = GetClientId();
-		var log = new RpcLog(clientId, exception);
-        // TODO: Send http log
+		var client = _httpClientFactory.CreateClient();
+		var request = ClientLogRequest.Create($"{clientId}:{functionality}", exception);
+		var url = $"http://{_state.HostIp}:11337/client-logging"; 
+        await client.PostAsJsonAsync(url, request);
     }
 
     private string GetClientId() => $"{DeviceInfo.Current.Manufacturer}-{DeviceInfo.Current.Name}-{DeviceInfo.Current.Version}";
@@ -27,6 +33,5 @@ public class LoggingClient : IWitnessLogger
 
 public interface IWitnessLogger
 {
-	void Log(string message);
-	void Log(Exception exception);
+	Task Log(string functionality, Exception exception);
 }

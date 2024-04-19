@@ -83,4 +83,6 @@
     <Folder Include="Platforms\Services\" />
   </ItemGroup>
 
+  <ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadWrongLinkerErrorInfoBarEMSWitnessHideInfoBar="True" /></VisualStudio></ProjectExtensions>
+
 </Project>

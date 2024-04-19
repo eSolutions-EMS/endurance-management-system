@@ -16,7 +16,7 @@ public class ClientLogRequest
     public string? Functionality { get; private set; }
     public List<Error> Errors { get; private set; } = [];
 
-    private static ClientLogRequest Create(string functionality, Exception ex)
+    public static ClientLogRequest Create(string functionality, Exception ex)
     {
         var result = new ClientLogRequest(functionality, []);
         AddExceptions(result, ex);
@@ -36,12 +36,12 @@ public class ClientLogRequest
 
 public class Error
 {
-    public Error(string message, string stackTrace)
+    public Error(string? message, string? stackTrace)
     {
         Message = message;
         StackTrace = stackTrace;
     }
 
-    public string Message { get; set; }
-    public string StackTrace { get; set; }
+    public string? Message { get; set; }
+    public string? StackTrace { get; set; }
 }
