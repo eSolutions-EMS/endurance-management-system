@@ -20,7 +20,6 @@ using System.Threading.Tasks;
 using EMS.Judge.Api.Rpc;
 using EMS.Judge.Api.Rpc.Hubs;
 using Microsoft.AspNetCore.SignalR;
-using System.Collections.Generic;
 using static Core.Application.CoreApplicationConstants;
 
 namespace EMS.Judge.Api;
@@ -87,8 +86,6 @@ public static class ApiServices
         services.AddControllers();
         services
             .AddTransient<ErrorLogger, ErrorLogger>()
-            .AddTransient<IStartlistService, StartlistService>()
-            .AddTransient<IWitnessEventService, WitnessEventService>()
             .AddSingleton<JudgeRpcHub.ClientService>();
 
         return services;
