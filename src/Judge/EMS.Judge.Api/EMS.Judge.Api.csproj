@@ -17,8 +17,4 @@
       <ProjectReference Include="..\EMS.Judge.Application\EMS.Judge.Application.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Requests\" />
-    </ItemGroup>
-
 </Project>
