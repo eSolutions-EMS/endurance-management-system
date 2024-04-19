@@ -45,8 +45,6 @@ public class PersistenceService : IPersistenceService
     {
         try
         {
-            var innerException = new Exception("Inner exception");
-            throw new Exception("Test exception", innerException);
 			var serialized = this.jsonSerializer.Serialize(this.state);
 			await File.WriteAllTextAsync(this.path, serialized);
 		}
