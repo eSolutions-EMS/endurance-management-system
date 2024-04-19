@@ -10,7 +10,7 @@ namespace EMS.Witness;
 public partial class App : Application, IDisposable
 {
     private readonly IRpcSocket _rpcSocket;
-    private readonly IPersistenceService persistence;
+    private readonly IPersistenceService _persistence;
     private readonly IStartlistClient startlistClient;
     private readonly IStartlistService startlistService;
     private readonly IParticipantsClient participantsClient;
@@ -27,7 +27,7 @@ public partial class App : Application, IDisposable
 		this.InitializeComponent();
         this.MainPage = new MainPage();
         _rpcSocket = rpcSocket;
-        this.persistence = persistence;
+        _persistence = persistence;
         this.startlistClient = startlistClient;
         this.startlistService = startlistService;
         this.participantsClient = arrivelistClient;
@@ -40,7 +40,7 @@ public partial class App : Application, IDisposable
 
 		this.AttachEventHandlers();
 
-		window.Deactivated += StoreState;
+		window.Deactivated += OnDeactivated;
 		window.Destroying += DetachEventHandlers;
 
 		return window;
@@ -51,9 +51,11 @@ public partial class App : Application, IDisposable
 		throw new NotImplementedException();
 	}
 
-    private async void StoreState(object? sender, EventArgs args)
+    private async void OnDeactivated(object? sender, EventArgs args)
 	{
-		await this.persistence.Store();
+		await Task.WhenAll(
+			_persistence.Store(),
+			_rpcSocket.Disconnect());
 	}
 
 	private void AttachEventHandlers()
