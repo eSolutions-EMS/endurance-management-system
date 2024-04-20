@@ -17,7 +17,7 @@
     <ApplicationIdGuid>E28F87C5-E076-4180-AB84-DBE4E9E99526</ApplicationIdGuid>
 
     <!-- Versions -->
-    <ApplicationDisplayVersion>2.5</ApplicationDisplayVersion>
+    <ApplicationDisplayVersion>4.0</ApplicationDisplayVersion>
     <ApplicationVersion>1</ApplicationVersion>
 
 		<CheckEolWorkloads>false</CheckEolWorkloads>
