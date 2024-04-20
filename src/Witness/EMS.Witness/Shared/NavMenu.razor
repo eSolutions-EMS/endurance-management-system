@@ -87,7 +87,19 @@
 		_rpcSocket.ServerConnectionChanged += HandleServerConnectionChanged;
 		_rpcSocket.ServerConnectionInfo += HandleServerConnectionInfo;
 		this.Context.IsHandshakingEvent += HandleIsHandshakingEvent;
-		await SafeActionHelper.Act(async () => await _rpcInitializer.StartConnections());
+		await StartRpcConnections(_rpcInitializer);
+	}
+
+	private static bool isConnecting;
+	public static async Task StartRpcConnections(IRpcInitalizer rpcInitalizer)
+	{
+		if (isConnecting)
+		{
+			return;
+		}
+		isConnecting = true;
+		await SafeActionHelper.Act(async () => await rpcInitalizer.StartConnections());
+		isConnecting = false;
 	}
 
 	public void Dispose()

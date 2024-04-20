@@ -4,12 +4,14 @@ using Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 using Core.Enums;
 using EMS.Witness.Rpc;
 using EMS.Witness.Services;
+using EMS.Witness.Shared;
 
 namespace EMS.Witness;
 
-public partial class App : Application, IDisposable
+public partial class App : Application
 {
-    private readonly IRpcSocket _rpcSocket;
+	private readonly IRpcInitalizer _rpcInitalizer;
+	private readonly IRpcSocket _rpcSocket;
     private readonly IPersistenceService _persistence;
     private readonly IStartlistClient startlistClient;
     private readonly IStartlistService startlistService;
@@ -17,6 +19,7 @@ public partial class App : Application, IDisposable
     private readonly IParticipantsService participantsService;
 
     public App(
+		IRpcInitalizer rpcInitalizer,
 		IRpcSocket rpcSocket,
 		IPersistenceService persistence,
 		IStartlistClient startlistClient,
@@ -26,7 +29,8 @@ public partial class App : Application, IDisposable
 	{
 		this.InitializeComponent();
         this.MainPage = new MainPage();
-        _rpcSocket = rpcSocket;
+		_rpcInitalizer = rpcInitalizer;
+		_rpcSocket = rpcSocket;
         _persistence = persistence;
         this.startlistClient = startlistClient;
         this.startlistService = startlistService;
@@ -40,15 +44,17 @@ public partial class App : Application, IDisposable
 
 		this.AttachEventHandlers();
 
+		window.Resumed += OnResumed;
 		window.Deactivated += OnDeactivated;
 		window.Destroying += DetachEventHandlers;
 
 		return window;
 	}
 
-	public void Dispose()
+	private async void OnResumed(object? sender, EventArgs args)
 	{
-		throw new NotImplementedException();
+		await Task.Delay(TimeSpan.FromSeconds(1));
+		await NavMenu.StartRpcConnections(_rpcInitalizer);
 	}
 
     private async void OnDeactivated(object? sender, EventArgs args)
