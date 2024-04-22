@@ -1,5 +1,6 @@
 ﻿using NTS.Domain.Setup.Import;
 using Newtonsoft.Json;
+using NTS.Domain.Extensions;
 
 namespace NTS.Domain.Setup.Entities;
 
@@ -48,9 +49,7 @@ public class Event : DomainEntity, ISummarizable, IImportable, IParent<Official>
     }
     public void Update(Competition competition)
     {
-        this._competitions.Remove(competition);
-
-        this.Add(competition);
+        _competitions.Update(competition);
     }
     public void Remove(Competition competition)
     {
@@ -64,9 +63,8 @@ public class Event : DomainEntity, ISummarizable, IImportable, IParent<Official>
     }
     public void Update(Official official)
     {
-        this._officials.Remove(official);
-
-        this.Add(official);
+        // TODO: fix check for roles
+        _officials.Update(official);
     }
     public void Remove(Official official)
     {
