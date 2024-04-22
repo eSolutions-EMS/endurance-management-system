@@ -6,15 +6,18 @@ namespace NTS.Domain.Setup.Entities;
 public class Event : DomainEntity, ISummarizable, IImportable, IParent<Official>, IParent<Competition>
 {
     public static Event Create(string place, Country country) => new(place, country);
-    public static Event Update(int id, string place, Country country) => new(id, place, country);
+    public static Event Update(int id, string place, Country country, IEnumerable<Competition> competitions, IEnumerable<Official> officials)
+        => new(id, place, country, competitions, officials);
 
     private List<Competition> _competitions = new();
     private List<Official> _officials = new();
 
     [JsonConstructor]
-    private Event(int id, string place, Country country) : this(place, country)
+    private Event(int id, string place, Country country, IEnumerable<Competition> competitions, IEnumerable<Official> officials) : this(place, country)
     {
         Id = id;
+        _competitions = competitions.ToList();
+        _officials = officials.ToList();
     }
     private Event(string place, Country country)
     {

@@ -6,30 +6,38 @@ namespace NTS.Domain.Setup.Entities;
 
 public class Competition : DomainEntity, ISummarizable, IImportable
 {
-
     public static Competition Create(string name, CompetitionType type, DateTimeOffset start) => new(name,type, start);
-    public static Competition Update(string name, CompetitionType type, DateTimeOffset start) => new(name, type, start);
+    public static Competition Update(int id, string name, CompetitionType type, DateTimeOffset start, IEnumerable<Loop> loops, IEnumerable<Contestant> contestants)
+        => new(id, name, type, start, loops, contestants);
 
     private List<Loop> _loops = new();
     private List<Contestant> _contestants = new();
 
     [JsonConstructor]
-    private Competition(string name, CompetitionType type, DateTimeOffset start)
+    private Competition(int id, string name, CompetitionType type, DateTimeOffset startTime, IEnumerable<Loop> loops, IEnumerable<Contestant> contestants)
+        : this(name, type, startTime)
+    {
+        Id = id;
+        _loops = loops.ToList();
+        _contestants = contestants.ToList();
+    }
+    private Competition(string name, CompetitionType type, DateTimeOffset startTime)
     {
         if (type == 0)
         {
             throw new DomainException(nameof(type),"Competition type must have a value different from 0.");
         }
 
-        if (start.DateTime.CompareTo(DateTime.Today) < 0)
+        if (startTime.DateTime.CompareTo(DateTime.Today) < 0)
         {
             throw new DomainException(nameof(DateTime), "Date of Competition cannot be in the past");
         }
 
         this.Name = name;
         this.Type = type;
-        this.StartTime = start;
+        this.StartTime = startTime;
     }
+
     public string Name { get; private set; }
     public CompetitionType Type { get; private set; }
 	public DateTimeOffset StartTime { get; private set; }
