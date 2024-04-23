@@ -1,13 +1,14 @@
 ﻿using NTS.Domain.Setup.Entities;
 using Not.Application.Ports.CRUD;
+using NTS.Persistence.Setup;
 
 namespace NTS.Persistence.Adapters;
 
-public class EventRepository : IRepository<Event>
+public class SetupEventRepository : IRepository<Event>
 {
     private readonly IStore<SetupContext> _store;
 
-    public EventRepository(IStore<SetupContext> store)
+    public SetupEventRepository(IStore<SetupContext> store)
     {
         _store = store;
     }
@@ -15,10 +16,10 @@ public class EventRepository : IRepository<Event>
     public async Task<Event> Create(Event entity)
     {
         var context = await _store.Load();
-        
+
         context.Event = entity;
         await _store.Commit(context);
-        
+
         return entity;
     }
 
@@ -31,10 +32,10 @@ public class EventRepository : IRepository<Event>
     public async Task<Event> Update(Event entity)
     {
         var context = await _store.Load();
-        
+
         context.Event = entity;
         await _store.Commit(context);
-        
+
         return context.Event;
     }
     public Task<Event> Delete(int id)

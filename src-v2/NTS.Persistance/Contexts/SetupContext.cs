@@ -1,6 +1,6 @@
 ﻿using NTS.Domain.Setup.Entities;
 
-namespace NTS.Persistence;
+namespace NTS.Persistence.Setup;
 
 public class SetupContext
 {

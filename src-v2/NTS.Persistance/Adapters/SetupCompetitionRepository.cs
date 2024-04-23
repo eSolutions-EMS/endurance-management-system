@@ -1,11 +1,12 @@
 ﻿using NTS.Domain.Setup.Entities;
 using Not.Domain;
+using NTS.Persistence.Setup;
 
 namespace NTS.Persistence.Adapters;
 
-public class CompetitionRepository : ChildRepository<Competition, SetupContext>
+public class SetupCompetitionRepository : ChildRepository<Competition, SetupContext>
 {
-    public CompetitionRepository(IStore<SetupContext> store) : base(store)
+    public SetupCompetitionRepository(IStore<SetupContext> store) : base(store)
     {
     }
 
