@@ -5,9 +5,9 @@ namespace NTS.Persistence.Adapters;
 
 public class EventRepository : IRepository<Event>
 {
-    private readonly IStore<State> _store;
+    private readonly IStore<SetupContext> _store;
 
-    public EventRepository(IStore<State> store)
+    public EventRepository(IStore<SetupContext> store)
     {
         _store = store;
     }
