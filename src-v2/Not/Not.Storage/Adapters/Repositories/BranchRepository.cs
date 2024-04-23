@@ -4,6 +4,14 @@ using Not.Exceptions;
 
 namespace Not.Storage.Adapters.Repositories;
 
+/// <summary>
+/// Represent a set of operations for non-root level entiries in a Tree-like data structure. 
+/// That includes all entities in the structure except the root, regardless of being parents or not
+/// Implements IReposistory to allow for streamline API, but does not support any Create or Delete methods.
+/// Instead you should use <seealso cref="IParent{T}"/> operations and Update the parent itself
+/// </summary>
+/// <typeparam name="T">Type of the Root entity</typeparam>
+/// <typeparam name="TContext">Type of the state object containing the Root entity</typeparam>
 public abstract class BranchRepository<T, TContext> : IRepository<T>
     where T : DomainEntity
     where TContext : class, new()
