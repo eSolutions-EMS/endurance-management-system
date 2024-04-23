@@ -9,42 +9,42 @@ namespace Not.Storage.Adapters.Repositories;
 /// or Read(Predicate) operations as they are not necessary.
 /// </summary>
 /// <typeparam name="T">Type of the Root entity</typeparam>
-/// <typeparam name="TContext">Type of the state object containing the Root entity</typeparam>
-public abstract class RootRepository<T, TContext> : IRepository<T>
+/// <typeparam name="TState">Type of the state object containing the Root entity</typeparam>
+public abstract class RootRepository<T, TState> : IRepository<T>
     where T : DomainEntity
-    where TContext : class, IRootStore<T>, new()
+    where TState : class, IRootStore<T>, new()
 {
-    private readonly IStore<TContext> _store;
+    private readonly IStore<TState> _store;
 
-    public RootRepository(IStore<TContext> store)
+    public RootRepository(IStore<TState> store)
     {
         _store = store;
     }
 
     public async Task<T> Create(T entity)
     {
-        var context = await _store.Load();
+        var state = await _store.Load();
 
-        context.Root = entity;
-        await _store.Commit(context);
+        state.Root = entity;
+        await _store.Commit(state);
 
         return entity;
     }
 
     public async Task<T?> Read(int _)
     {
-        var context = await _store.Load();
-        return context.Root;
+        var state = await _store.Load();
+        return state.Root;
     }
 
     public async Task<T> Update(T entity)
     {
-        var context = await _store.Load();
+        var state = await _store.Load();
 
-        context.Root = entity;
-        await _store.Commit(context);
+        state.Root = entity;
+        await _store.Commit(state);
 
-        return context.Root;
+        return state.Root;
     }
     public Task<T> Delete(int id)
     {

@@ -10,13 +10,13 @@ public class SetupCompetitionRepository : BranchRepository<Competition, SetupSta
     {
     }
 
-    protected override Competition? Get(SetupState context, int id)
+    protected override Competition? Get(SetupState state, int id)
     {
-        return context.Event?.Competitions.FirstOrDefault(x => x.Id == id);
+        return state.Event?.Competitions.FirstOrDefault(x => x.Id == id);
     }
 
-    protected override IParent<Competition>? GetParent(SetupState context, int childId)
+    protected override IParent<Competition>? GetParent(SetupState state, int childId)
     {
-        return context.Event;
+        return state.Event;
     }
 }

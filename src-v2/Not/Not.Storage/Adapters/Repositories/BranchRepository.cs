@@ -11,35 +11,35 @@ namespace Not.Storage.Adapters.Repositories;
 /// Instead you should use <seealso cref="IParent{T}"/> operations and Update the parent itself
 /// </summary>
 /// <typeparam name="T">Type of the Root entity</typeparam>
-/// <typeparam name="TContext">Type of the state object containing the Root entity</typeparam>
-public abstract class BranchRepository<T, TContext> : IRepository<T>
+/// <typeparam name="TState">Type of the state object containing the Root entity</typeparam>
+public abstract class BranchRepository<T, TState> : IRepository<T>
     where T : DomainEntity
-    where TContext : class, new()
+    where TState : class, new()
 {
-    private readonly IStore<TContext> _store;
+    private readonly IStore<TState> _store;
 
-    protected BranchRepository(IStore<TContext> store)
+    protected BranchRepository(IStore<TState> store)
     {
         _store = store;
     }
 
-    protected abstract IParent<T>? GetParent(TContext context, int childId);
-    protected abstract T? Get(TContext context, int id);
+    protected abstract IParent<T>? GetParent(TState state, int childId);
+    protected abstract T? Get(TState state, int id);
 
     public virtual async Task<T?> Read(int id)
     {
-        var context = await _store.Load();
-        return Get(context, id);
+        var state = await _store.Load();
+        return Get(state, id);
     }
 
     public async Task<T> Update(T entity)
     {
-        var context = await _store.Load();
-        var parent = GetParent(context, entity.Id);
+        var state = await _store.Load();
+        var parent = GetParent(state, entity.Id);
         GuardHelper.ThrowIfNull(parent);
 
         parent.Update(entity);
-        await _store.Commit(context);
+        await _store.Commit(state);
 
         return entity;
     }
@@ -68,6 +68,6 @@ public abstract class BranchRepository<T, TContext> : IRepository<T>
 
     private Exception NotImplemented()
     {
-        return new NotImplementedException($"Only 'Read' and 'Update' operations are implemented on '{nameof(BranchRepository<T, TContext>)}'");
+        return new NotImplementedException($"Only 'Read' and 'Update' operations are implemented on '{nameof(BranchRepository<T, TState>)}'");
     }
 }
