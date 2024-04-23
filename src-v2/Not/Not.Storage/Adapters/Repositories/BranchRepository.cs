@@ -4,13 +4,13 @@ using Not.Exceptions;
 
 namespace NTS.Persistence;
 
-public abstract class ChildRepository<T, TContext> : IRepository<T>
+public abstract class BranchRepository<T, TContext> : IRepository<T>
     where T : DomainEntity
     where TContext : class, new()
 {
     private readonly IStore<TContext> _store;
 
-    protected ChildRepository(IStore<TContext> store)
+    protected BranchRepository(IStore<TContext> store)
     {
         _store = store;
     }
@@ -60,6 +60,6 @@ public abstract class ChildRepository<T, TContext> : IRepository<T>
 
     private Exception NotImplemented()
     {
-        return new NotImplementedException($"Only 'Read' and 'Update' operations are implemented on '{nameof(ChildRepository<T, TContext>)}'");
+        return new NotImplementedException($"Only 'Read' and 'Update' operations are implemented on '{nameof(BranchRepository<T, TContext>)}'");
     }
 }

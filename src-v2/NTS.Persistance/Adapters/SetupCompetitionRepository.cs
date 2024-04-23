@@ -4,7 +4,7 @@ using NTS.Persistence.Setup;
 
 namespace NTS.Persistence.Adapters;
 
-public class SetupCompetitionRepository : ChildRepository<Competition, SetupState>
+public class SetupCompetitionRepository : BranchRepository<Competition, SetupState>
 {
     public SetupCompetitionRepository(IStore<SetupState> store) : base(store)
     {
