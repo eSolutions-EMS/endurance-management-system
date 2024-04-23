@@ -1,59 +1,11 @@
 ﻿using NTS.Domain.Setup.Entities;
-using Not.Application.Ports.CRUD;
 using NTS.Persistence.Setup;
 
 namespace NTS.Persistence.Adapters;
 
-public class SetupEventRepository : IRepository<Event>
+public class SetupEventRepository : RootRepository<Event, SetupState>
 {
-    private readonly IStore<SetupState> _store;
-
-    public SetupEventRepository(IStore<SetupState> store)
+    public SetupEventRepository(IStore<SetupState> store) : base(store)
     {
-        _store = store;
-    }
-
-    public async Task<Event> Create(Event entity)
-    {
-        var context = await _store.Load();
-
-        context.Event = entity;
-        await _store.Commit(context);
-
-        return entity;
-    }
-    public async Task<Event?> Read(int _)
-    {
-        var context = await _store.Load();
-        return context.Event;
-    }
-
-    public async Task<Event> Update(Event entity)
-    {
-        var context = await _store.Load();
-
-        context.Event = entity;
-        await _store.Commit(context);
-
-        return context.Event;
-    }
-    public Task<Event> Delete(int id)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<Event> Delete(Predicate<Event> filter)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<Event> Delete(Event entity)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<IEnumerable<Event>> Read(Predicate<Event> filter)
-    {
-        throw new NotImplementedException();
     }
 }

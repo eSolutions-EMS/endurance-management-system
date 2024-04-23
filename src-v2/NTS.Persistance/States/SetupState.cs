@@ -2,7 +2,7 @@
 
 namespace NTS.Persistence.Setup;
 
-public class SetupState
+public class SetupState : IRootStore<Event>
 {
-    public Event? Event { get; set; }
+    public Event? Root { get; set; }
 }
