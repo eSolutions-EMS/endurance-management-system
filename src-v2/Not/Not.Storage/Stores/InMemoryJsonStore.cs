@@ -1,8 +1,7 @@
 ﻿using Newtonsoft.Json;
 using JsonNet.PrivatePropertySetterResolver;
-using Not.Injection;
 
-namespace NTS.Persistence;
+namespace Not.Storage.Stores;
 
 public class InMemoryJsonStore<T> : IStore<T>
     where T : class, new()
@@ -48,12 +47,3 @@ public class InMemoryJsonStore<T> : IStore<T>
         }
     }
 }
-
-public interface IStore<T> : ISingletonService
-    where T : class, new()
-{
-    internal Task<T> Load();
-    internal Task Commit(T context);
-}
-
-

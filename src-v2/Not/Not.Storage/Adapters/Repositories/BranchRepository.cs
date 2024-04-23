@@ -2,7 +2,7 @@
 using Not.Domain;
 using Not.Exceptions;
 
-namespace NTS.Persistence;
+namespace Not.Storage.Adapters.Repositories;
 
 public abstract class BranchRepository<T, TContext> : IRepository<T>
     where T : DomainEntity
