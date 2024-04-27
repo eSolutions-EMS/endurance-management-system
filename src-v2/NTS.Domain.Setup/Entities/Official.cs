@@ -17,9 +17,9 @@ public class Official : DomainEntity, ISummarizable, IImportable
     }
     private Official(string name, OfficialRole role)
     {
-        if (role == 0)
+        if (role == default)
         {
-            throw new DomainException(nameof(Role), "Official Role must have a value different from 0.");
+            throw new DomainException(nameof(Role), "Official Role cannot be default");
         }
 
         this.Person = new Person(name);

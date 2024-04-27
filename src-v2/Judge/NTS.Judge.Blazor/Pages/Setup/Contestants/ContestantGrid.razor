@@ -11,7 +11,7 @@
     <MudDivider />
     <MudDataGrid  T="Contestant" Items="_parentBehind.Children" ReadOnly="true" Bordered="true" Dense="true">
         <Columns>
-            <PropertyColumn Property="x => x.StartTimeOverride" Title="@Localizer.Get("StartTimeOverride")" />
+            <PropertyColumn Property="x => x.StartTimeOverride" Title="@Localizer.Get("Start Time Override")" />
             <TemplateColumn CellClass="action-column">
                 <CellTemplate>
                     <NotButtonDelete OnClick="() => _parentBehind.Delete(context.Item)" Class="action-button-top" />
@@ -37,6 +37,4 @@ else
     private INotBehindParent<Contestant> _parentBehind { get; set; } = default!;
     [Inject]
     private IFormNavigator<Contestant, ContestantForm> _contestantNavigator { get; set; } = default!;
-    [Inject]
-    private INavigator _navigator { get; set; } = default!;
 }

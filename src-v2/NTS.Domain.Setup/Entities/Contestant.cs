@@ -6,37 +6,32 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 namespace NTS.Domain.Setup.Entities;
-public class Contestant : DomainEntity, ISummarizable, IParent<Tandem>
+public class Contestant : DomainEntity, ISummarizable
 {
-    public static Contestant Create(DateTimeOffset newStart) => new(newStart);
-    public static Contestant Update(int id, DateTimeOffset newStart) => new(id, newStart);
+    public static Contestant Create(DateTimeOffset? newStart, bool unranked) => new(newStart, unranked);
+    public static Contestant Update(int id, DateTimeOffset? newStart, bool unranked) => new(id, newStart, unranked);
 
     private List<Tandem> _tandems = new();
 
     [JsonConstructor]
-    private Contestant(int id, DateTimeOffset startTimeOverride)
+    private Contestant(int id, DateTimeOffset? startTimeOverride, bool unranked) : this(startTimeOverride, unranked) 
     {
-
-        if (startTimeOverride.DateTime.CompareTo(DateTime.Today) < 0)
-        {
-            throw new DomainException(nameof(StartTimeOverride), "Start time cannot be in the past");
-        }
         Id = id;
-        StartTimeOverride = startTimeOverride;
     }
-    private Contestant(DateTimeOffset startTimeOverride)
+    private Contestant(DateTimeOffset? startTimeOverride, bool unranked)
     {
-
-        if (startTimeOverride.DateTime.CompareTo(DateTime.Today) < 0)
+        if (startTimeOverride!=null && startTimeOverride.Value.DateTime.CompareTo(DateTime.Today) < 0)
         {
             throw new DomainException(nameof(StartTimeOverride), "Start time cannot be in the past");
         }
-
         StartTimeOverride = startTimeOverride;
+        Unranked = unranked;
     }
     public Tandem ContestantHorsePair {  get; private set; }
 
-    public DateTimeOffset StartTimeOverride { get; private set; }
+    public DateTimeOffset? StartTimeOverride { get; private set; }
+
+    public Boolean Unranked { get; private set; }
 
     public IReadOnlyList<Tandem> Tandems
     {

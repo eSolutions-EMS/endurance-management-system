@@ -14,34 +14,20 @@ public class Competition : DomainEntity, ISummarizable, IParent<Contestant>, IPa
     private List<Contestant> _contestants = new();
 
     [JsonConstructor]
-    private Competition(int id, string name, CompetitionType type, DateTimeOffset startTime)
-    {
+    private Competition(int id, string name, CompetitionType type, DateTimeOffset startTime) : this(name, type, startTime)
+    {   
         Id = id;
-        if (type == 0)
-        {
-            throw new DomainException(nameof(Type), "Competition type must have a value different from 0.");
-        }
-
-        if (startTime.DateTime.CompareTo(DateTime.Today) < 0)
-        {
-            throw new DomainException(nameof(StartTime), "Date of Competition cannot be in the past");
-        }
-
-        Name = name;
-        Type = type;
-        StartTime = startTime;
     }
 
     private Competition(string name, CompetitionType type, DateTimeOffset startTime)
     {
-        if (type == 0)
+        if (type == default)
         {
-            throw new DomainException(nameof(Type), "Competition type must have a value different from 0.");
+            throw new DomainException(nameof(Type), "Competition Type cannot be default");
         }
-
         if (startTime.DateTime.CompareTo(DateTime.Today) < 0)
         {
-            throw new DomainException(nameof(StartTime), "Date of Competition cannot be in the past");
+            throw new DomainException(nameof(StartTime), "Competition date cannot be in the past");
         }
 
         Name = name;

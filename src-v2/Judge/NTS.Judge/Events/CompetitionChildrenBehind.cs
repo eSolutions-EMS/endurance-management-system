@@ -9,18 +9,17 @@ public class CompetitionChildrenBehind : INotBehindParent<Contestant>, INotBehin
     private readonly IRead<Competition> _competitionReader;
     private readonly IParentRepository<Contestant> _contestantParentRepository;
     private readonly IParentRepository<Loop> _loopParentRepository;
-    private Competition? _competition;
+    public Competition? _competition;
 
-    public CompetitionChildrenBehind(IRead<Competition> competitionReader, IParentRepository<Contestant> contestants, IParentRepository<Loop> loops) 
+    public CompetitionChildrenBehind(IRead<Competition> competitionReader, IParentRepository<Contestant> contestantRepository, IParentRepository<Loop> loopRepository) 
     {
         _competitionReader = competitionReader;
-        _contestantParentRepository = contestants;
-        _loopParentRepository = loops;
+        _contestantParentRepository = contestantRepository;
+        _loopParentRepository = loopRepository;
     }
 
     IEnumerable<Contestant> INotBehindParent<Contestant>.Children => _competition?.Contestants ?? Enumerable.Empty<Contestant>();
-
-    public IEnumerable<Loop> Children => _competition?.Loops ?? Enumerable.Empty<Loop>();
+    IEnumerable<Loop> INotBehindParent<Loop>.Children => _competition?.Loops ?? Enumerable.Empty<Loop>();
 
     public async Task<Contestant> Create(Contestant entity)
     {
@@ -74,25 +73,6 @@ public class CompetitionChildrenBehind : INotBehindParent<Contestant>, INotBehin
         _competition.Update(entity);
         await _loopParentRepository.Update(_competition.Id, entity);
         return entity;
-    }
-
-    public async Task<Competition> Read(int id)
-    {
-        return _competition;
-    }
-    public Task<Competition> Create(Competition entity)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<Competition> Update(Competition entity)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<Competition> Delete(Competition entity)
-    {
-        throw new NotImplementedException();
     }
 
     async Task INotBehindWithChildren<Competition>.Initialize(int id)

@@ -11,15 +11,24 @@ public class ContestantFormModel
     public ContestantFormModel()
     {
         // mock data for testing
-        StartTime = TimeSpan.Zero;
+        StartTimeOverride = null;
     }
     public ContestantFormModel(Contestant contestant)
     {
         Id = contestant.Id;
-        TimeSpan? startTime = contestant.StartTimeOverride.DateTime.TimeOfDay;
-        StartTime = startTime;
+        if (contestant.StartTimeOverride != null)
+        {
+            TimeSpan? startTime = contestant.StartTimeOverride.Value.DateTime.TimeOfDay;
+            StartTimeOverride = startTime;
+        }
+        else
+        {
+            StartTimeOverride = null;
+        }
+        Unranked = contestant.Unranked;
     }
 
     public int Id { get; set; }
-    public TimeSpan? StartTime { get; set; }
+    public TimeSpan? StartTimeOverride { get; set; }
+    public Boolean  Unranked { get; set; }
 }

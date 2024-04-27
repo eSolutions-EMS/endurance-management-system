@@ -20,7 +20,7 @@
 </MudPaper>
 
 @code {
-    private Event? _event = default!;
+    private Event? _event;
     [Inject]
     private IFormNavigator<Event, EventForm> _formNavigator { get; set; } = default!;
     [Inject]

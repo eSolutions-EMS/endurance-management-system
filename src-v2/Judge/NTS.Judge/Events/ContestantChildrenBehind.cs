@@ -3,7 +3,7 @@ using NTS.Domain.Setup.Entities;
 
 namespace NTS.Judge.Events;
 
-public class ContestantChildrenBehind : INotBehindWithChildren<Contestant>
+public class ContestantChildrenBehind 
 {
     public Task Initialize(int id)
     {

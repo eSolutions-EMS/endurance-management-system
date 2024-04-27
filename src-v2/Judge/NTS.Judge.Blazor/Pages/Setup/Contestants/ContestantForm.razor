@@ -3,29 +3,32 @@
 @using Not.Blazor.Forms;
 @using Not.Blazor.TM.Forms;
 @using Not.Blazor.TM.Forms.Components;
+@using Not.Extensions;
 
 @inherits NotForm<Contestant>;
 
 <EditForm Model="_model">
-    <MudTimePicker DisableToolbar="true" @ref="_timeField" @bind-Time="_model.StartTime" Label="@Localizer.Get("Time")" />
+    <MudSwitch T="bool" @ref="_unrankedField" @bind-Value="_model.Unranked" Label="@Localizer.Get("Unranked")"
+               ThumbIcon="@(_model.Unranked==true ? Icons.Material.Filled.Done : Icons.Material.Filled.Close)"
+               ThumbIconColor="@(_model.Unranked==true ? Color.Success : Color.Error)" />
+    <MudSwitch T="bool" @bind-Value="_overrideStartTime" Label="@Localizer.Get("Override Start Time")"
+               ThumbIcon="@(_overrideStartTime==true ? Icons.Material.Filled.Done : Icons.Material.Filled.Close)"
+               ThumbIconColor="@(_overrideStartTime==true ? Color.Success : Color.Error)" />
+    @if (_overrideStartTime)
+    {
+        <MudTimePicker DisableToolbar="true" @ref="_timeField" @bind-Time="_model.StartTimeOverride" Label="@Localizer.Get("Start Time")" />
+    }
 </EditForm>
 
 @code {
     private MudPicker<TimeSpan?> _timeField = default!;
+    private MudBooleanInput<Boolean> _unrankedField = default!;
     private ContestantFormModel _model { get; set; } = new();
-
-    public DateTimeOffset ToDateTimeOffSet(TimeSpan? timeToBeAdded)
-    {
-        DateTime today = DateTime.Today;
-        var time = today.Add((TimeSpan)timeToBeAdded);
-        DateTime timeWithSpecifiedKind = DateTime.SpecifyKind(time, DateTimeKind.Local);
-        DateTimeOffset offsetTime = timeWithSpecifiedKind;
-        return offsetTime;
-    }
+    private Boolean _overrideStartTime = false;
 
     public override void RegisterValidationInjectors()
     {
-        RegisterInjector(nameof(_model.StartTime), () => _timeField);
+        RegisterInjector(nameof(_model.StartTimeOverride), () => _timeField);
     }
 
     public override void SetUpdateModel(Contestant contestant)
@@ -35,13 +38,13 @@
 
     public override Contestant SubmitCreate()
     {
-        DateTimeOffset newStartTimeOffset = ToDateTimeOffSet(_model.StartTime);
-        return Contestant.Create(newStartTimeOffset);
+        DateTimeOffset? newStartTimeOffset = _model.StartTimeOverride.ToDateTimeOffset();
+        return Contestant.Create(newStartTimeOffset,_model.Unranked);
     }
 
     public override Contestant SubmitUpdate()
     {
-        DateTimeOffset newStartTimeOffset = ToDateTimeOffSet(_model.StartTime);
-        return Contestant.Update(_model.Id ,newStartTimeOffset);
+        DateTimeOffset? newStartTimeOffset = _model.StartTimeOverride.ToDateTimeOffset();
+        return Contestant.Update(_model.Id ,newStartTimeOffset,_model.Unranked);
     }
 }
