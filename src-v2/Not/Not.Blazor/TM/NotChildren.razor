@@ -1,0 +1,60 @@
+﻿@using Not.Blazor.Components
+@using Not.Blazor.Forms
+@using Not.Blazor.Mud.Components
+@using Not.Blazor.Navigation
+@using Not.Blazor.TM.Forms.Components
+@using Not.Services
+
+@typeparam T where T : DomainEntity
+@typeparam TForm where TForm : NotForm<T>
+
+@if (_parentBehind.Children.Any())
+{
+    <NotH2 Class="pt-6 pl-6">@Name</NotH2>
+    <NotButtonCreate Class="mt-1 ml-6 mb-3" OnClick="_contestantNavigator.Create" />
+    <MudDivider />
+    @foreach (var item in Items)
+    {
+        <p class="mt-1 ml-6 mb-3">
+            @item.ToString() 
+            <div class="action-column">
+                <NotButtonUpdate OnClick="() => this._contestantNavigator.Update(UpdateRoute, item)" />
+                <NotButtonDelete OnClick="() => _parentBehind.Delete(item)" />
+            </div>
+        </p>
+        <MudDivider />
+    }
+}
+else
+{
+    <MudPaper Elevation="0">
+        <div class="pa-6">
+            <NotH2>@Name</NotH2>
+            <NotButtonCreate OnClick="_contestantNavigator.Create" Class="toolbar-button" />
+            <p>@NoItemsMessage</p>
+        </div>
+    </MudPaper>
+}
+
+@code {
+    [Parameter]
+    public string Name { get; set; } = default!;
+    [Parameter]
+    public string NoItemsMessage { get; set; } = default!;
+    [Parameter]
+    public string UpdateRoute { get; set; } = default!;
+
+    public IEnumerable<T> Items { get; set; } = default!;
+
+    protected override void OnInitialized()
+    {
+        Items = _parentBehind.Children;
+    }
+
+    [Inject]
+    private INotBehindParent<T> _parentBehind { get; set; } = default!;
+    [Inject]
+    private IFormNavigator<T, TForm> _contestantNavigator { get; set; } = default!;
+    [Inject]
+    private INavigator _navigator { get; set; } = default!;
+}
