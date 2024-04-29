@@ -1,6 +1,7 @@
 ﻿@using NTS.Domain.Setup.Entities;
 @using Not.Blazor.Components;
 @using Not.Blazor.Navigation;
+@using Not.Blazor.TM
 @using Not.Blazor.TM.Forms.Components
 @using NTS.Judge.Blazor.Pages.Setup.Loops
 @using NTS.Judge.Blazor.Pages.Setup.Contestants
@@ -14,7 +15,10 @@
     <NotFormUpdate T="Competition" TForm="CompetitionForm" Entity="_competition" UpdateAction="Update" />
 </MudPaper>
 
-<LoopGrid />
+<NotChildren Name="@Localizer.Get("Loops")" T="Loop" TForm="LoopForm"
+    UpdateRoute="@LOOP_UPDATE"
+    NoItemsMessage="@Localizer.Get("No loops have been created for this event.")">
+</NotChildren>
 
 <ContestantGrid />
 
