@@ -3,6 +3,19 @@
     margin-bottom: 5px;
 }
 
+.action-column{
+    display:inline;
+    margin-left:20px;
+}
+
+.half-width{
+    width:45%;
+}
+
+.children-component{
+    margin-top:10px;
+}
+
 .action-button-top {
     margin-bottom: 5px;
 }

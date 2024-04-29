@@ -16,7 +16,7 @@
             <PropertyColumn Property="x => x.StartTime.DateTime" Title="@Localizer.Get("Start Time")" />
             <PropertyColumn Property="x => x.Loops.Count" Title="@Localizer.Get("Laps Count")" />
             <PropertyColumn Property="x => x.Contestants.Count" Title="@Localizer.Get("Contestants Count")" />
-            <TemplateColumn CellClass="action-column">
+            <TemplateColumn>
                 <CellTemplate>
                     <NotButtonDelete OnClick="() => _parentBehind.Delete(context.Item)" Class="action-button-top" />
                     <NotButtonUpdate OnClick="() => this._competitionNavigator.Update(COMPETITION_UPDATE, context.Item)" />

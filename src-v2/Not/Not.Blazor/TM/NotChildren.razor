@@ -8,6 +8,7 @@
 @typeparam T where T : DomainEntity
 @typeparam TForm where TForm : NotForm<T>
 
+<MudPaper Elevation="0" Class="children-component half-width">
 @if (_parentBehind.Children.Any())
 {
     <NotH2 Class="pt-6 pl-6">@Name</NotH2>
@@ -15,11 +16,11 @@
     <MudDivider />
     @foreach (var item in Items)
     {
-        <p class="mt-1 ml-6 mb-3">
+        <p class="mt-1 ml-6 mb-1">
             @item.ToString() 
             <div class="action-column">
-                <NotButtonUpdate OnClick="() => this._contestantNavigator.Update(UpdateRoute, item)" />
-                <NotButtonDelete OnClick="() => _parentBehind.Delete(item)" />
+                <NotButtonUpdate Size="Size.Small" OnClick="() => this._contestantNavigator.Update(UpdateRoute, item)" />
+                <NotButtonDelete Size="Size.Small" OnClick="() => _parentBehind.Delete(item)" />
             </div>
         </p>
         <MudDivider />
@@ -35,6 +36,7 @@ else
         </div>
     </MudPaper>
 }
+</MudPaper>
 
 @code {
     [Parameter]
