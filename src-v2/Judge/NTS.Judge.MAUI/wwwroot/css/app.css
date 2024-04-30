@@ -8,8 +8,9 @@
     margin-left:20px;
 }
 
-.half-width{
-    width:45%;
+.half-width {
+    display: inline-block;
+    width: 48%;
 }
 
 .children-component{

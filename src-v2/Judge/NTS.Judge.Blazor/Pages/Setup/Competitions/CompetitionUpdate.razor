@@ -10,17 +10,20 @@
 @attribute [Route(COMPETITION_UPDATE)]
 @inherits NotComponent
 
-<MudPaper Class="pa-6">
+<MudPaper Elevation="0" Class="pl-6 pr-6">
     <NotH2>@Localizer.Get("Update Competition")</NotH2>
     <NotFormUpdate T="Competition" TForm="CompetitionForm" Entity="_competition" UpdateAction="Update" />
 </MudPaper>
 
-<NotChildren Name="@Localizer.Get("Loops")" T="Loop" TForm="LoopForm"
-    UpdateRoute="@LOOP_UPDATE"
-    NoItemsMessage="@Localizer.Get("No loops have been created for this event.")">
-</NotChildren>
-
-<ContestantGrid />
+<MudPaper Class="d-flex justify-space-between pr-6" Elevation="0">
+    <NotChildren Name="Loops" T="Loop" TForm="LoopForm"
+        UpdateRoute="@LOOP_UPDATE">
+    </NotChildren>
+    <MudDivider Vertical="true" FlexItem="true" />
+    <NotChildren Name="Contestants" T="Contestant" TForm="ContestantForm"
+        UpdateRoute="@CONTESTANT_UPDATE">
+    </NotChildren>
+</MudPaper>
 
 @code {   
     private Competition _competition { get; set; } = default!;

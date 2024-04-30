@@ -5,10 +5,12 @@
 @using Not.Blazor.TM.Forms.Components
 @using Not.Services
 
+@inherits NotComponent
+
 @typeparam T where T : DomainEntity
 @typeparam TForm where TForm : NotForm<T>
 
-<MudPaper Elevation="0" Class="children-component half-width">
+<MudPaper Elevation="0" Class="@Class">
 @if (_parentBehind.Children.Any())
 {
     <NotH2 Class="pt-6 pl-6">@Name</NotH2>
@@ -17,7 +19,7 @@
     @foreach (var item in Items)
     {
         <p class="mt-1 ml-6 mb-1">
-            @item.ToString() 
+            @item
             <div class="action-column">
                 <NotButtonUpdate Size="Size.Small" OnClick="() => this._contestantNavigator.Update(UpdateRoute, item)" />
                 <NotButtonDelete Size="Size.Small" OnClick="() => _parentBehind.Delete(item)" />
@@ -45,11 +47,20 @@ else
     public string NoItemsMessage { get; set; } = default!;
     [Parameter]
     public string UpdateRoute { get; set; } = default!;
+    [Parameter]
+    public string Class { get; set; } = default!;
 
     public IEnumerable<T> Items { get; set; } = default!;
 
     protected override void OnInitialized()
     {
+        Name = Localizer.Get(Name);
+        if(NoItemsMessage == default)
+        {
+            string defaultMessage = $"No {Name.ToLower()} have been created for this event.";
+            NoItemsMessage = Localizer.Get(defaultMessage);
+        }
+        Class += " children-component half-width";
         Items = _parentBehind.Children;
     }
 
@@ -57,6 +68,4 @@ else
     private INotBehindParent<T> _parentBehind { get; set; } = default!;
     [Inject]
     private IFormNavigator<T, TForm> _contestantNavigator { get; set; } = default!;
-    [Inject]
-    private INavigator _navigator { get; set; } = default!;
 }
