@@ -1,6 +1,7 @@
 ﻿@using NTS.Domain.Setup.Entities;
 @using NTS.Judge.Setup.Competitions
 @using Not.Blazor.Forms;
+@using Not.Blazor.TM;
 @using Not.Blazor.TM.Forms;
 @using Not.Blazor.TM.Forms.Components;
 @using Not.Extensions;
@@ -8,12 +9,8 @@
 @inherits NotForm<Contestant>;
 
 <EditForm Model="_model">
-    <MudSwitch T="bool" @ref="_unrankedField" @bind-Value="_model.IsUnranked" Label="@Localizer.Get("Unranked")"
-               ThumbIcon="@(_model.IsUnranked==true ? Icons.Material.Filled.Done : Icons.Material.Filled.Close)"
-               ThumbIconColor="@(_model.IsUnranked==true ? Color.Success : Color.Error)" />
-    <MudSwitch T="bool" @bind-Value="_overrideStartTime" Label="@Localizer.Get("Override Start Time")"
-               ThumbIcon="@(_overrideStartTime==true ? Icons.Material.Filled.Done : Icons.Material.Filled.Close)"
-               ThumbIconColor="@(_overrideStartTime==true ? Color.Success : Color.Error)" />
+    <NotSwitch @bind-Value="_model.IsUnranked" Label="Unranked" />
+    <NotSwitch @bind-Value="_overrideStartTime" Label="Override Start Time" />
     @if (_overrideStartTime)
     {
         <MudTimePicker DisableToolbar="true" @ref="_timeField" @bind-Time="_model.StartTimeOverride" Label="@Localizer.Get("Start Time")" />
@@ -22,10 +19,9 @@
 
 @code {
     private MudPicker<TimeSpan?> _timeField = default!;
-    private MudBooleanInput<Boolean> _unrankedField = default!;
     private ContestantFormModel _model { get; set; } = new();
     private Boolean _overrideStartTime = false;
-
+    private MudBooleanInput<Boolean> _unrankedField = default!;
     public override void RegisterValidationInjectors()
     {
         RegisterInjector(nameof(_model.StartTimeOverride), () => _timeField);

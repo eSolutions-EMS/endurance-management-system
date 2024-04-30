@@ -1,0 +1,30 @@
+﻿@using Not.Blazor.Components
+
+@inherits NotComponent
+
+<MudSwitch T="bool" @bind-Value="Value" Label="@Localizer.Get(Label)"
+           ThumbIcon="@(Value==true ? Icons.Material.Filled.Done : Icons.Material.Filled.Close)"
+           ThumbIconColor="@(Value==true ? Color.Success : Color.Error)" />
+
+@code {
+    private bool _value;
+
+    [Parameter]
+    public string Label { get; set; } = default!;
+    [Parameter]
+    public bool Value
+    {
+        get => _value;
+        set
+        {
+            if (_value != value)
+            {
+                _value = value;
+                ValueChanged.InvokeAsync(value);
+            }
+        }
+    }
+    [Parameter]
+    public EventCallback<bool> ValueChanged { get; set; }
+
+}
