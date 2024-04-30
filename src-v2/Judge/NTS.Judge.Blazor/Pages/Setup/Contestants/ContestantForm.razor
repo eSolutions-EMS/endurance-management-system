@@ -8,9 +8,9 @@
 @inherits NotForm<Contestant>;
 
 <EditForm Model="_model">
-    <MudSwitch T="bool" @ref="_unrankedField" @bind-Value="_model.Unranked" Label="@Localizer.Get("Unranked")"
-               ThumbIcon="@(_model.Unranked==true ? Icons.Material.Filled.Done : Icons.Material.Filled.Close)"
-               ThumbIconColor="@(_model.Unranked==true ? Color.Success : Color.Error)" />
+    <MudSwitch T="bool" @ref="_unrankedField" @bind-Value="_model.IsUnranked" Label="@Localizer.Get("Unranked")"
+               ThumbIcon="@(_model.IsUnranked==true ? Icons.Material.Filled.Done : Icons.Material.Filled.Close)"
+               ThumbIconColor="@(_model.IsUnranked==true ? Color.Success : Color.Error)" />
     <MudSwitch T="bool" @bind-Value="_overrideStartTime" Label="@Localizer.Get("Override Start Time")"
                ThumbIcon="@(_overrideStartTime==true ? Icons.Material.Filled.Done : Icons.Material.Filled.Close)"
                ThumbIconColor="@(_overrideStartTime==true ? Color.Success : Color.Error)" />
@@ -38,13 +38,13 @@
 
     public override Contestant SubmitCreate()
     {
-        DateTimeOffset? newStartTimeOffset = _model.StartTimeOverride.ToDateTimeOffset();
-        return Contestant.Create(newStartTimeOffset,_model.Unranked);
+        var newStartTimeOffset = _model.StartTimeOverride?.ToDateTimeOffset();
+        return Contestant.Create(newStartTimeOffset, _model.IsUnranked);
     }
 
     public override Contestant SubmitUpdate()
     {
-        DateTimeOffset? newStartTimeOffset = _model.StartTimeOverride.ToDateTimeOffset();
-        return Contestant.Update(_model.Id ,newStartTimeOffset,_model.Unranked);
+        var newStartTimeOffset = _model.StartTimeOverride?.ToDateTimeOffset();
+        return Contestant.Update(_model.Id, newStartTimeOffset, _model.IsUnranked);
     }
 }

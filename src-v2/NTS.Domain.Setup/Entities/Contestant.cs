@@ -20,18 +20,18 @@ public class Contestant : DomainEntity, ISummarizable
     }
     private Contestant(DateTimeOffset? startTimeOverride, bool unranked)
     {
-        if (startTimeOverride!=null && startTimeOverride.Value.DateTime.CompareTo(DateTime.Today) < 0)
+        if ( startTimeOverride != null && startTimeOverride.Value.DateTime.CompareTo(DateTime.Today) < 0)
         {
             throw new DomainException(nameof(StartTimeOverride), "Start time cannot be in the past");
         }
         StartTimeOverride = startTimeOverride;
-        Unranked = unranked;
+        IsUnranked = unranked;
     }
     public Tandem ContestantHorsePair {  get; private set; }
 
     public DateTimeOffset? StartTimeOverride { get; private set; }
 
-    public Boolean Unranked { get; private set; }
+    public Boolean IsUnranked { get; private set; }
 
     public IReadOnlyList<Tandem> Tandems
     {

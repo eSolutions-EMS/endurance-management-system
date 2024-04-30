@@ -9,7 +9,7 @@ public class CompetitionChildrenBehind : INotBehindParent<Contestant>, INotBehin
     private readonly IRead<Competition> _competitionReader;
     private readonly IParentRepository<Contestant> _contestantParentRepository;
     private readonly IParentRepository<Loop> _loopParentRepository;
-    public Competition? _competition;
+    private Competition? _competition;
 
     public CompetitionChildrenBehind(IRead<Competition> competitionReader, IParentRepository<Contestant> contestantRepository, IParentRepository<Loop> loopRepository) 
     {

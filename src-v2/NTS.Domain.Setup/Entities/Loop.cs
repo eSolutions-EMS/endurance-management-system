@@ -5,9 +5,9 @@ namespace NTS.Domain.Setup.Entities;
 
 public class Loop : DomainEntity, ISummarizable
 {
-    public static Loop Create(double distance, int rec, int rest) => new(distance, rec, rest);
+    public static Loop Create(double distance, int recovery, int rest) => new(distance, recovery, rest);
 
-    public static Loop Update(int id, double distance, int rec, int rest) => new(id, distance, rec, rest);
+    public static Loop Update(int id, double distance, int recovery, int rest) => new(id, distance, recovery, rest);
 
     [JsonConstructor]
     public Loop(int id, double distance, int recovery, int rest) : this(distance, recovery, rest)

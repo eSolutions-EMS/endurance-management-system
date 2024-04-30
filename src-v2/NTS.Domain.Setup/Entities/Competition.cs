@@ -23,7 +23,7 @@ public class Competition : DomainEntity, ISummarizable, IParent<Contestant>, IPa
     {
         if (type == default)
         {
-            throw new DomainException(nameof(Type), "Competition Type cannot be default");
+            throw new DomainException(nameof(Type), "Competition Type is required");
         }
         if (startTime.DateTime.CompareTo(DateTime.Today) < 0)
         {

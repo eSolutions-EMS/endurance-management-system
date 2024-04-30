@@ -29,9 +29,9 @@
 
     public DateTimeOffset CombineStartDayAndTime(DateTime? startDay, TimeSpan? startTime)
     {
-        DateTime start = startDay.GetValueOrDefault(DateTime.MinValue);
-        DateTime startDayTime = start.Date.Add(startTime.GetValueOrDefault(TimeSpan.Zero));
-        DateTimeOffset startTimeOffset = startDayTime.ToDateTimeOffset();
+        var start = startDay.GetValueOrDefault(DateTime.Today);
+        var startDayTime = start.Date.Add(startTime.GetValueOrDefault(DateTime.Now.TimeOfDay));
+        var startTimeOffset = startDayTime.ToDateTimeOffset();
         return startTimeOffset;
     }
 

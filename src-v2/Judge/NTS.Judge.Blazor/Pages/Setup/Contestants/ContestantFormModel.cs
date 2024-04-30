@@ -18,17 +18,12 @@ public class ContestantFormModel
         Id = contestant.Id;
         if (contestant.StartTimeOverride != null)
         {
-            TimeSpan? startTime = contestant.StartTimeOverride.Value.DateTime.TimeOfDay;
-            StartTimeOverride = startTime;
+            StartTimeOverride = contestant.StartTimeOverride.Value.LocalDateTime.TimeOfDay;
         }
-        else
-        {
-            StartTimeOverride = null;
-        }
-        Unranked = contestant.Unranked;
+        IsUnranked = contestant.IsUnranked;
     }
 
     public int Id { get; set; }
     public TimeSpan? StartTimeOverride { get; set; }
-    public Boolean  Unranked { get; set; }
+    public Boolean  IsUnranked { get; set; }
 }

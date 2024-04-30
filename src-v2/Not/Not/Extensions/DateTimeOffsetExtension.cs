@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Not.Exceptions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,11 +14,10 @@ public static class DateTimeOffsetExtension
         DateTimeOffset offsetTime = timeWithSpecifiedKind;
         return offsetTime;
     }
-    public static DateTimeOffset? ToDateTimeOffset(this TimeSpan? timeToBeAdded)
+    public static DateTimeOffset ToDateTimeOffset(this TimeSpan timeToBeAdded)
     {
-        if(timeToBeAdded == null) return null;
         DateTime today = DateTime.Today;
-        var time = today.Add((TimeSpan)timeToBeAdded);
+        DateTime time = today.Add(timeToBeAdded);
         DateTime timeWithSpecifiedKind = DateTime.SpecifyKind(time, DateTimeKind.Local);
         DateTimeOffset offsetTime = timeWithSpecifiedKind;
         return offsetTime;
