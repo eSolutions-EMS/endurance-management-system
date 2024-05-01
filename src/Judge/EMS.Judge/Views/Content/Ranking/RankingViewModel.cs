@@ -34,6 +34,7 @@ public class RankingViewModel : ViewModelBase
         this.Print = new DelegateCommand<RanklistControl>(this.PrintAction);
         this.SelectKidsCategory = new DelegateCommand(this.SelectKidsCategoryAction);
         this.SelectAdultsCategory = new DelegateCommand(this.SelectAdultsCategoryAction);
+        this.SelectJuniorsCategory = new DelegateCommand(this.SelectJuniorsCategoryAction);
         this.SelectCompetition = new DelegateCommand<int?>(x => this.SelectCompetitionAction(x!.Value));
         Export = new DelegateCommand(this.ExportAction);
     }
@@ -42,6 +43,7 @@ public class RankingViewModel : ViewModelBase
     public DelegateCommand<RanklistControl> Print { get; }
     public DelegateCommand SelectKidsCategory { get; }
     public DelegateCommand SelectAdultsCategory { get; }
+    public DelegateCommand SelectJuniorsCategory { get; }
     public DelegateCommand Export { get; }
     public ObservableCollection<ListItemViewModel> Competitions { get; } = new();
     private string totalLengthInKm;
@@ -99,11 +101,15 @@ public class RankingViewModel : ViewModelBase
 
     private void SelectKidsCategoryAction()
     {
-        this.SelectCategory(Category.Kids);
+        this.SelectCategory(Category.Children);
     }
     private void SelectAdultsCategoryAction()
     {
-        this.SelectCategory(Category.Adults);
+        this.SelectCategory(Category.Seniors);
+    }
+    private void SelectJuniorsCategoryAction()
+    {
+        this.SelectCategory(Category.JuniorOrYoungAdults);
     }
     private void PrintAction(RanklistControl control)
     {
@@ -116,7 +122,9 @@ public class RankingViewModel : ViewModelBase
     private void SelectCategory(Category category)
     {
         this.Ranklist = this.selectedCompetition.Rank(category);
-        this.CategoryName = category.ToString();
+        this.CategoryName = category == Category.JuniorOrYoungAdults
+            ? "J/YR"
+            : category.ToString();
     }
 
 #region Setters

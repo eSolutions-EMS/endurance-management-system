@@ -27,15 +27,34 @@ public class RanklistAggregate : List<Participation>, IAggregate
 
     private IEnumerable<Participation> Rank(Category category, IEnumerable<Participation> participants)
     {
-        var ranked = category == Category.Kids
-            ? this.RankKids(participants)
-            : this.RankAdults(participants);
-        return ranked;
+        if (category == Category.Children)
+        {
+            return RankKids(participants);
+        }
+        if (category == Category.JuniorOrYoungAdults)
+        {
+            return RankJuniors(participants);
+        }
+        if (category == Category.Seniors)
+        {
+            return RankAdults(participants);
+        }
+
+        throw new Exception($"Invalid category {category}");
     }
+
+    private IEnumerable<Participation> RankJuniors(IEnumerable<Participation> participations)
+        => participations
+            .Where(x => x.Participant.Athlete.Category == Category.Children)
+            .Select(this.CalculateTotalRecovery)
+            .OrderBy(x => this.IsNotQualifiedPredicate(x.Item2))
+            .ThenBy(x => x.Item1)
+            .Select(x => x.Item2)
+            .ToList();
 
     private IEnumerable<Participation> RankKids(IEnumerable<Participation> participations)
         => participations
-            .Where(x => x.Participant.Athlete.Category == Category.Kids)
+            .Where(x => x.Participant.Athlete.Category == Category.JuniorOrYoungAdults)
             .Select(this.CalculateTotalRecovery)
             .OrderBy(x => this.IsNotQualifiedPredicate(x.Item2))
             .ThenBy(x => x.Item1)
@@ -44,7 +63,7 @@ public class RanklistAggregate : List<Participation>, IAggregate
 
     private IEnumerable<Participation> RankAdults(IEnumerable<Participation> participations)
         => participations
-            .Where(x => x.Participant.Athlete.Category == Category.Adults)
+            .Where(x => x.Participant.Athlete.Category == Category.Seniors)
             .OrderBy(this.IsNotQualifiedPredicate)
             .ThenBy(x => x.Participant.Unranked)
             .ThenBy(participation => participation.Participant
