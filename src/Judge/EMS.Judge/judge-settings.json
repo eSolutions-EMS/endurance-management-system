@@ -2,7 +2,7 @@
 {
   "version": "4.0.0",
   "isSandboxMode": false,
-  "startVupRfid": true,
+  "startVupRfid": false,
   "startServer": true,
   "useVD67InManager": false,
   "witnessEventType": "Arrival"
