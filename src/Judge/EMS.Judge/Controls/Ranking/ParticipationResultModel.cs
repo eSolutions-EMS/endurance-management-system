@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using static Core.Localization.Strings;
+using Core.Domain.AggregateRoots.Ranking;
 
 namespace EMS.Judge.Controls.Ranking;
 
@@ -21,7 +22,7 @@ public class ParticipationResultModel : ParticipationGridModel
 
         if (participation.Participant.LapRecords.Any())
         {
-            var (ride, rec, total, speed) = this.CalculateTotalValues(participation);
+            var (ride, rec, total, speed) = RankingRoot.CalculateTotalValues(participation);
             this.TotalAverageSpeed = ValueSerializer.FormatDouble(speed);
             this.TotalTime = ValueSerializer.FormatSpan(total);
             this.RideTime = ValueSerializer.FormatSpan(ride);
@@ -33,20 +34,7 @@ public class ParticipationResultModel : ParticipationGridModel
         this.NotQualifiedText = notQualified;
     }
 
-    private (TimeSpan ride, TimeSpan rec, TimeSpan total, double? speed) CalculateTotalValues(Participation participation)
-    {
-        var performances = Performance.GetAll(participation).ToArray();
-        var totalLenght = participation.Participant.LapRecords.Sum(x => x.Lap.LengthInKm);
-
-        var rideTime = performances.Aggregate(TimeSpan.Zero, (result, x) => result + (x.ArrivalTime.Value - x.StartTime));
-        var recTime = performances
-            .Where(x => !x.Record.Lap.IsFinal) // This is on Purpose: Tedi?
-            .Aggregate(TimeSpan.Zero, (result, x) => result + x.RecoverySpan.Value);
-        var totalPhaseTime = rideTime + recTime;
-        var avrageTotalPhaseSpeed = totalLenght / totalPhaseTime.TotalHours;
-
-        return (rideTime, recTime, totalPhaseTime, avrageTotalPhaseSpeed);
-    }
+    
 
     private (string notQualified, Visibility) HandleNotQualified(List<LapRecord> records)
     {

@@ -110,7 +110,7 @@
                             <!-- DQ -->
                                 <Button Style="{StaticResource Button-Horizontal}" Margin="4px 0 0 0"
                                         Command="{Binding Disqualify}"
-                                        Content="{x:Static localization:Strings.DQ}" />
+                                        Content="DSQ" />
                                 <!-- FTQ -->
                                 <Button Style="{StaticResource Button-Horizontal}" Margin="4px 0 0 0"
                                         Command="{Binding FailToQualify}"

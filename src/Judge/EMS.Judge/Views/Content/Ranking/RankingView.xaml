@@ -55,6 +55,9 @@
                             Command="{Binding Print}"
                             CommandParameter="{Binding ElementName=RanklistElement}"
                             Content="{x:Static localization:Strings.PRINT}" />
+                    <Button Style="{StaticResource Button-Big-Vertical}" Margin="0 50px"
+                            Command="{Binding Export}"
+                            Content="Export" />
                 </StackPanel>
             </Border>
         </Grid>

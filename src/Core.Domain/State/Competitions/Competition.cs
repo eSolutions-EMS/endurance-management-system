@@ -27,6 +27,9 @@ public class Competition : DomainBase<CompetitionException>, ICompetitionState
     private List<Lap> laps = new();
     public CompetitionType Type { get; internal set; }
     public string Name { get; internal set; }
+    public string FeiId { get; internal set; }
+    public string FeiScheduleNumber { get; internal set; }
+    public string Rule { get; internal set; }
     public DateTime StartTime { get; set; }
 
     public void Save(Lap lap)
