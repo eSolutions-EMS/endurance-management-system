@@ -13,7 +13,13 @@ namespace Core.Domain.State.EnduranceEvents;
 
 public class EnduranceEvent : DomainBase<EnduranceEventException>, IEnduranceEventState
 {
-    private EnduranceEvent()  {}
+    private EnduranceEvent()  { }
+    internal EnduranceEvent(string name, Country country, string feiId, string feiCode, string showFeiId) : this(name, country)
+    {
+        FeiId = feiId;
+        FeiCode = feiCode;
+        ShowFeiId = showFeiId;
+    }
     internal EnduranceEvent(string name, Country country) : base(GENERATE_ID)
     {
         this.Name = name;
