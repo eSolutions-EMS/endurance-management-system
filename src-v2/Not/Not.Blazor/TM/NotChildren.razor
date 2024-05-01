@@ -34,7 +34,7 @@ else
         <div class="pa-6">
             <NotH2>@Name</NotH2>
             <NotButtonCreate OnClick="_contestantNavigator.Create" Class="toolbar-button" />
-            <p>@NoItemsMessage</p>
+            <p>@EmptyMessage</p>
         </div>
     </MudPaper>
 }
@@ -46,7 +46,7 @@ else
     [Parameter]
     public string UpdateRoute { get; set; } = default!;
 
-    public string NoItemsMessage { get; set; } = default!;
+    public string EmptyMessage { get; set; } = default!;
     public string Class { get; set; } = default!;
     public IEnumerable<T> Items { get; set; } = default!;
 
@@ -54,11 +54,11 @@ else
     {
         //TODO improve the default message to enable a single translation entry for all empty component messages
         Name = Localizer.Get(Name);
-        if(NoItemsMessage == default)
+        if(EmptyMessage == default)
         {
             
             string defaultMessage = $"No {Name.ToLower()} have been created for this event.";
-            NoItemsMessage = Localizer.Get(defaultMessage);
+            EmptyMessage = Localizer.Get(defaultMessage);
         }
         Class += " children-component half-width";
         Items = _parentBehind.Children;
