@@ -32,7 +32,7 @@ public class AthleteViewModel : ConfigurationBase<AthleteView, Athlete>, IAthlet
         this.executor = executor;
         this.countries = countries;
         this.athletes = athletes;
-        this.CategoryId = (int)Category.Adults;
+        this.CategoryId = (int)Category.Seniors;
     }
 
     public System.Collections.ObjectModel.ObservableCollection<SimpleListItemViewModel> CategoryItems { get; }
