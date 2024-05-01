@@ -16,10 +16,7 @@ public class ContestantFormModel
     public ContestantFormModel(Contestant contestant)
     {
         Id = contestant.Id;
-        if (contestant.StartTimeOverride != null)
-        {
-            StartTimeOverride = contestant.StartTimeOverride.Value.LocalDateTime.TimeOfDay;
-        }
+        StartTimeOverride = contestant.StartTimeOverride?.LocalDateTime.TimeOfDay;
         IsUnranked = contestant.IsUnranked;
     }
 

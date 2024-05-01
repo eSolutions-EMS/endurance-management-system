@@ -16,13 +16,9 @@
 </MudPaper>
 
 <MudPaper Class="d-flex justify-space-between pr-6" Elevation="0">
-    <NotChildren Name="Loops" T="Loop" TForm="LoopForm"
-        UpdateRoute="@LOOP_UPDATE">
-    </NotChildren>
+    <NotChildren Name="Loops" T="Loop" TForm="LoopForm" UpdateRoute="@LOOP_UPDATE" />
     <MudDivider Vertical="true" FlexItem="true" />
-    <NotChildren Name="Contestants" T="Contestant" TForm="ContestantForm"
-        UpdateRoute="@CONTESTANT_UPDATE">
-    </NotChildren>
+    <NotChildren Name="Contestants" T="Contestant" TForm="ContestantForm" UpdateRoute="@CONTESTANT_UPDATE" />
 </MudPaper>
 
 @code {   

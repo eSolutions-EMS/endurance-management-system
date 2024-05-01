@@ -8,24 +8,24 @@ using Newtonsoft.Json;
 namespace NTS.Domain.Setup.Entities;
 public class Contestant : DomainEntity, ISummarizable
 {
-    public static Contestant Create(DateTimeOffset? newStart, bool unranked) => new(newStart, unranked);
-    public static Contestant Update(int id, DateTimeOffset? newStart, bool unranked) => new(id, newStart, unranked);
+    public static Contestant Create(DateTimeOffset? newStart, bool isUnranked) => new(newStart, isUnranked);
+    public static Contestant Update(int id, DateTimeOffset? newStart, bool isUnranked) => new(id, newStart, isUnranked);
 
     private List<Tandem> _tandems = new();
 
     [JsonConstructor]
-    private Contestant(int id, DateTimeOffset? startTimeOverride, bool unranked) : this(startTimeOverride, unranked) 
+    private Contestant(int id, DateTimeOffset? startTimeOverride, bool isUnranked) : this(startTimeOverride, isUnranked) 
     {
         Id = id;
     }
-    private Contestant(DateTimeOffset? startTimeOverride, bool unranked)
+    private Contestant(DateTimeOffset? startTimeOverride, bool isUnranked)
     {
         if ( startTimeOverride != null && startTimeOverride.Value.DateTime.CompareTo(DateTime.Today) < 0)
         {
             throw new DomainException(nameof(StartTimeOverride), "Start time cannot be in the past");
         }
         StartTimeOverride = startTimeOverride;
-        IsUnranked = unranked;
+        IsUnranked = isUnranked;
     }
     public Tandem ContestantHorsePair {  get; private set; }
 

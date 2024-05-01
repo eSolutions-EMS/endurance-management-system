@@ -16,10 +16,10 @@ public static class DateTimeOffsetExtension
     }
     public static DateTimeOffset ToDateTimeOffset(this TimeSpan timeToBeAdded)
     {
-        DateTime today = DateTime.Today;
-        DateTime time = today.Add(timeToBeAdded);
-        DateTime timeWithSpecifiedKind = DateTime.SpecifyKind(time, DateTimeKind.Local);
-        DateTimeOffset offsetTime = timeWithSpecifiedKind;
+        var today = DateTime.Today;
+        var time = today.Add(timeToBeAdded);
+        var timeWithSpecifiedKind = DateTime.SpecifyKind(time, DateTimeKind.Local);
+        var offsetTime = timeWithSpecifiedKind;
         return offsetTime;
     }
 }

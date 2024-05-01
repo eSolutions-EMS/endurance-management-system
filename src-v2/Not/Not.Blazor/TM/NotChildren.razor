@@ -44,19 +44,19 @@ else
     [Parameter]
     public string Name { get; set; } = default!;
     [Parameter]
-    public string NoItemsMessage { get; set; } = default!;
-    [Parameter]
     public string UpdateRoute { get; set; } = default!;
-    [Parameter]
-    public string Class { get; set; } = default!;
 
+    public string NoItemsMessage { get; set; } = default!;
+    public string Class { get; set; } = default!;
     public IEnumerable<T> Items { get; set; } = default!;
 
     protected override void OnInitialized()
     {
+        //TODO improve the default message to enable a single translation entry for all empty component messages
         Name = Localizer.Get(Name);
         if(NoItemsMessage == default)
         {
+            
             string defaultMessage = $"No {Name.ToLower()} have been created for this event.";
             NoItemsMessage = Localizer.Get(defaultMessage);
         }
