@@ -184,7 +184,7 @@ public class ManagerRoot : IAggregateRoot
 
     public void Disqualify(string number, string reason)
     {
-        reason ??= nameof(DQ);
+        reason ??= nameof(DSQ);
         var lap = this.GetLastLap(number);
         lap.Disqualify(number, reason);
     }

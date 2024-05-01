@@ -25,6 +25,9 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <!-- ID -->
             <TextBox Style="{StaticResource Input-Id}"
@@ -56,22 +59,43 @@
                        Target="{Binding ElementName=StartTime}"
                        Content="{x:Static localization:Strings.START_TIME}" />
             </Border>
+            <!-- FEI ID -->
+            <Border Style="{StaticResource Border-Vertical}"
+                     Grid.Row="5" Grid.Column="0">
+                <Label Style="{StaticResource Label-Primary}"
+                        Target="{Binding ElementName=FeiId}"
+                        Content="FEI ID"/>
+            </Border>
+            <!-- Fei Schedule Number -->
+            <Border Style="{StaticResource Border-Vertical}"
+                     Grid.Row="6" Grid.Column="0">
+                <Label Style="{StaticResource Label-Primary}"
+                        Target="{Binding ElementName=FeiScheduleNumber}"
+                        Content="FEI Schedule Number"/>
+            </Border>
+            <!-- Rule -->
+            <Border Style="{StaticResource Border-Vertical}"
+                     Grid.Row="7" Grid.Column="0">
+                <Label Style="{StaticResource Label-Primary}"
+                        Target="{Binding ElementName=Rule}"
+                        Content="Rule"/>
+            </Border>
             <!-- Separator -->
             <Border Style="{StaticResource Border-Separator}"
-                    Grid.Row="5" Grid.Column="0" />
+                    Grid.Row="8" Grid.Column="0" />
             <!-- Laps -->
             <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="5" Grid.Column="0">
+                    Grid.Row="8" Grid.Column="0">
                 <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=CreateLap}"
                        Content="{x:Static localization:Strings.LAPS_ENTITY}" />
             </Border>
             <!-- Separator -->
                 <Border Style="{StaticResource Border-Separator}"
-                        Grid.Row="7" Grid.Column="0" />
+                        Grid.Row="10" Grid.Column="0" />
             <!-- Participants -->
             <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="7" Grid.Column="0">
+                    Grid.Row="10" Grid.Column="0">
                 <Label Style="{StaticResource Label-Primary}"
                        Target="{Binding ElementName=Personnel}"
                        Content="{x:Static localization:Strings.PARTICIPANTS_ENTITY}" />
@@ -100,12 +124,33 @@
                 <xctk:DateTimePicker Style="{StaticResource DateTime}"
                                      Value="{Binding StartTime}" />
             </Border>
-            <!-- Separator -->
-            <Border Style="{StaticResource Border-Separator}"
-                    Grid.Row="5" Grid.Column="1" />
-            <!-- Create Lap button -->
+            <!-- FEI ID-->
             <Border Style="{StaticResource Border-Vertical}"
                     Grid.Row="5" Grid.Column="1">
+                <TextBox Style="{StaticResource Input}"
+                         Text="{Binding FeiId}"
+                         Name="FeiId" />
+            </Border>
+            <!-- FeiScheduleNumber -->
+            <Border Style="{StaticResource Border-Vertical}"
+                    Grid.Row="6" Grid.Column="1">
+                <TextBox Style="{StaticResource Input}"
+                         Text="{Binding FeiScheduleNumber}"
+                         Name="FeiScheduleNumber" />
+            </Border>
+            <!-- Rule-->
+            <Border Style="{StaticResource Border-Vertical}"
+                    Grid.Row="7" Grid.Column="1">
+                <TextBox Style="{StaticResource Input}"
+                         Text="{Binding Rule}"
+                         Name="Rule" />
+            </Border>
+            <!-- Separator -->
+            <Border Style="{StaticResource Border-Separator}"
+                    Grid.Row="8" Grid.Column="1" />
+            <!-- Create Lap button -->
+            <Border Style="{StaticResource Border-Vertical}"
+                    Grid.Row="8" Grid.Column="1">
                 <Button Style="{StaticResource Button-Form}"
                         Command="{Binding CreateLap}"
                         Name="CreateLap"
@@ -113,16 +158,16 @@
             </Border>
             <!-- Lap list -->
             <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="6" Grid.Column="1">
+                    Grid.Row="9" Grid.Column="1">
                 <ListBox Style="{StaticResource ListBox-Vertical}"
                          ItemsSource="{Binding Laps}" />
             </Border>
             <!-- Separator -->
             <Border Style="{StaticResource Border-Separator}"
-                    Grid.Row="7" Grid.Column="1" />
+                    Grid.Row="10" Grid.Column="1" />
             <!-- Add Participation button-->
             <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="7" Grid.Column="1">
+                    Grid.Row="10" Grid.Column="1">
                 <Button Style="{StaticResource Button-Form}"
                         Command="{Binding AddParticipants}"
                         Content="{x:Static localization:Strings.ADD}"
@@ -130,7 +175,7 @@
             </Border>
             <!-- Participations list -->
             <Border Style="{StaticResource Border-Vertical}"
-                    Grid.Row="8" Grid.Column="1" >
+                    Grid.Row="11" Grid.Column="1" >
                 <ListBox Style="{StaticResource ListBox-Vertical}"
                          ItemsSource="{Binding Participants}"
                          Name="Personnel"/>

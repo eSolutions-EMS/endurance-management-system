@@ -49,6 +49,9 @@ public class EnduranceEventViewModel : NestedConfigurationBase<EnduranceEventVie
     private string name;
     private string populatedPlace;
     private int countryId;
+    private string _feiId;
+    private string _feiCode;
+    private string _showFeiId;
 
     public override bool IsNavigationTarget(NavigationContext context)
         => true;
@@ -69,7 +72,7 @@ public class EnduranceEventViewModel : NestedConfigurationBase<EnduranceEventVie
     protected override IDomain Persist()
     {
         var result = this.executor.Execute(
-            config => config.Update(this.Name, this.CountryId, this.PopulatedPlace),
+            config => config.Update(this.Name, this.CountryId, this.PopulatedPlace, FeiId, FeiCode, ShowFeiId),
             true);
         // TODO: probably remove
         // this.popupService.RenderOk();
@@ -90,6 +93,21 @@ public class EnduranceEventViewModel : NestedConfigurationBase<EnduranceEventVie
     {
         get => this.countryId;
         set => this.SetProperty(ref this.countryId, value);
+    }
+    public string FeiId
+    {
+        get => _feiId;
+        set => SetProperty(ref _feiId, value);
+    }
+    public string FeiCode
+    {
+        get => _feiCode;
+        set => SetProperty(ref _feiCode, value);
+    }
+    public string ShowFeiId
+    {
+        get => _showFeiId;
+        set => SetProperty(ref _showFeiId, value);
     }
 
     private void LoadCountries()
