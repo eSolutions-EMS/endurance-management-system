@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using Not.Reflection;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Not.Exceptions;
 
@@ -12,15 +13,22 @@ public static class GuardHelper
     /// </summary>
     /// <exception cref="GuardException"></exception>
     [DoesNotReturn]
-    public static void ThrowIfNull(object? value, string message = "Object cannot be null")
+    public static void ThrowIfNull(object? value, string? message = null)
     {
         if (value == null)
         {
-            throw new GuardException(message);
+            throw new GuardException(message ?? $"Object cannot be null");
+        }
+    }
+    
+    public static void ThrowIfDefault<T>(T value, string? message = null)
+    {
+        if (value == null)
+        {
+            throw new GuardException(message ?? $"{ReflectionHelper.GetName<T>()} cannot be null");
         }
     }
 
-    
     public static Exception Exception(string message)
     {
         return new GuardException(message);

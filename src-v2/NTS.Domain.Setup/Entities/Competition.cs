@@ -1,5 +1,4 @@
-﻿using NTS.Domain.Events.Start;
-using NTS.Domain.Setup.Import;
+﻿using NTS.Domain.Setup.Import;
 using Newtonsoft.Json;
 
 namespace NTS.Domain.Setup.Entities;
@@ -67,12 +66,4 @@ public class Competition : DomainEntity, ISummarizable, IImportable
 		sb.Append($"{"Start".Localize()}: {this.StartTime.ToString("f", CultureInfo.CurrentCulture)}");
 		return sb.ToString();
 	}
-
-}
-
-public enum CompetitionType
-{
-	FEI = 1,
-	National = 2,
-    Qualification = 3
 }

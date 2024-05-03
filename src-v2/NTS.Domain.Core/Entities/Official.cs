@@ -1,8 +1,4 @@
-﻿using Not.Domain;
-using NTS.Domain.Enums;
-using NTS.Domain.Objects;
-
-namespace NTS.Domain.Core.Entities;
+﻿namespace NTS.Domain.Core.Entities;
 
 public class Official : DomainEntity
 {
