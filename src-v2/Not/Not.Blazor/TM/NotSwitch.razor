@@ -21,10 +21,13 @@
             {
                 _value = value;
                 ValueChanged.InvokeAsync(value);
+                OnChange.InvokeAsync();
             }
         }
     }
     [Parameter]
     public EventCallback<bool> ValueChanged { get; set; }
+    [Parameter]
+    public EventCallback<string> OnChange { get; set; }
 
 }
