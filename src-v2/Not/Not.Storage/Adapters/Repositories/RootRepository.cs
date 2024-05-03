@@ -1,4 +1,6 @@
-﻿namespace Not.Storage.Adapters.Repositories;
+﻿using Not.Storage.Stores;
+
+namespace Not.Storage.Adapters.Repositories;
 
 /// <summary>
 /// Represent a set of operations for root-level entiries in a Tree-like data structure.

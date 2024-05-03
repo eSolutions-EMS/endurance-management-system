@@ -1,4 +1,5 @@
-﻿using NTS.Domain.Core.Entities;
+﻿using Not.Storage.Stores;
+using NTS.Domain.Core.Entities;
 using NTS.Persistence.States;
 
 namespace NTS.Persistence.Adapters;
