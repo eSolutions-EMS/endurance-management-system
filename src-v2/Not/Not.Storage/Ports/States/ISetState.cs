@@ -1,4 +1,4 @@
-﻿namespace Not.Storage;
+﻿namespace Not.Storage.Ports.States;
 
 public interface ISetState<T>
     where T : DomainEntity
