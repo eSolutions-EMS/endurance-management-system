@@ -1,6 +1,4 @@
 ﻿using Not.Application.Ports.CRUD;
-using Not.Domain;
-
 namespace Not.Storage.Adapters.Repositories;
 
 /// <summary>
