@@ -21,14 +21,6 @@
     margin-bottom: 5px;
 }
 
-.visible {
-    display: block;
-}
-
-.hidden {
-    display: none;
-}
-
 th.mud-table-cell {
     border-right-width: 0.8px !important;
     border-color: rgb(224, 224, 224) !important;

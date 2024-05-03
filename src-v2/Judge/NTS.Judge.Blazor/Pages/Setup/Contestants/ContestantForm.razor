@@ -10,8 +10,11 @@
 
 <EditForm Model="_model">
     <NotSwitch @bind-Value="_model.IsUnranked" Label="Unranked" />
-    <NotSwitch @bind-Value="_overrideStartTime" OnChange="Change" Label="Override Start Time"/>
-    <MudTimePicker Class="@Class" DisableToolbar="true" @ref="_timeField" @bind-Time="_model.StartTimeOverride" Label="@Localizer.Get("Start Time")" />
+    <NotSwitch @bind-Value="_overrideStartTime" Label="Override Start Time"/>
+    @if (_overrideStartTime)
+    {
+        <MudTimePicker DisableToolbar="true" @ref="_timeField" @bind-Time="_model.StartTimeOverride" Label="@Localizer.Get("Start Time")" />
+    }
 </EditForm>
 
 @code {
@@ -19,25 +22,6 @@
     private MudBooleanInput<Boolean> _unrankedField = default!;
     private ContestantFormModel _model { get; set; } = new();
     private Boolean _overrideStartTime;
-    private string Class { get; set; } = "hidden";
-
-    private async Task Change()
-    {
-        SetVisibilityClass();
-        await Task.CompletedTask;
-    }
-
-    public void SetVisibilityClass()
-    {
-        if (_overrideStartTime)
-        {
-            Class = "visible";
-        }
-        else
-        {
-            Class = "hidden";
-        }
-    }
 
     public override void RegisterValidationInjectors()
     {
@@ -48,7 +32,6 @@
     {
         _model = new ContestantFormModel(contestant);
         _overrideStartTime = _model.StartTimeOverride != null;
-        SetVisibilityClass();
     }
 
     public override Contestant SubmitCreate()
