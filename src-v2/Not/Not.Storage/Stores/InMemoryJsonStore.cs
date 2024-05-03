@@ -27,6 +27,7 @@ public class InMemoryJsonStore<T> : IStore<T>
             {
                 return Task.FromResult(_context);
             }
+            //TODO: remove _context
             var state = new T();
             if (_json == null)
             {

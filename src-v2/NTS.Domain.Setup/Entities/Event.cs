@@ -89,7 +89,7 @@ public class Event : DomainEntity, ISummarizable, IImportable, IParent<Official>
         if (member.IsUniqueRole())
         {
             var existing = _officials.FirstOrDefault(x => x.Role == role);
-            if (existing != member)
+            if (existing != null && existing != member)
             {
                 throw new DomainException("Official '", member.Role, "' already exists");
             }

@@ -53,7 +53,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NTS.Witness.MAUI", "Witness
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NTS.Application", "NTS.Application\NTS.Application.csproj", "{B3399F87-1B6C-4211-8BE7-9B67BC87FA11}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Not.Storage", "Not\Not.Storage\Not.Storage.csproj", "{1CE89528-BEA1-47D6-A699-8B2E5BCA3632}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Not.Storage", "Not\Not.Storage\Not.Storage.csproj", "{1CE89528-BEA1-47D6-A699-8B2E5BCA3632}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

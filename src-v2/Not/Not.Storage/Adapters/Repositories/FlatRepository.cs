@@ -1,7 +1,7 @@
 ﻿
 namespace Not.Storage.Adapters.Repositories;
 
-public class FlatRepository<T, TState> : IRepository<T>
+public abstract class FlatRepository<T, TState> : IRepository<T>
     where T : DomainEntity
     where TState : class, IFlatState<T> , new()
 {
@@ -37,7 +37,7 @@ public class FlatRepository<T, TState> : IRepository<T>
         throw new NotImplementedException("Doesnt make sense");
     }
 
-    public async Task<T> Delete(T entity)
+    public async Task<T> Delete(T entity)   
     {
         var state = await _store.Load();
         if (state.Entity != entity)
