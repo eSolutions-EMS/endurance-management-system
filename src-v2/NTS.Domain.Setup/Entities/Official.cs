@@ -17,7 +17,12 @@ public class Official : DomainEntity, ISummarizable, IImportable
     }
     private Official(string name, OfficialRole role)
     {
-		this.Person = new Person(name);
+        if (role == default)
+        {
+            throw new DomainException(nameof(Role), "Official Role is required");
+        }
+
+        this.Person = new Person(name);
 		this.Role = role;
     }
 

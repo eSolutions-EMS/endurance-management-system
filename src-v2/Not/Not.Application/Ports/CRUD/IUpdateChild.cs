@@ -6,5 +6,5 @@ namespace Not.Application.Ports.CRUD;
 public interface IUpdateChild<T> : ITransientService
     where T : DomainEntity
 {
-    Task<T> Update(T child);
+    Task<T> Update(int parentId, T child);
 }

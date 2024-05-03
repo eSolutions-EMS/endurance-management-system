@@ -1,45 +1,36 @@
-﻿using NTS.Domain.Setup.Entities;
+﻿using Not.Application.Ports.CRUD;
 using Not.Exceptions;
-using Not.Application.Ports.CRUD;
+using NTS.Domain.Setup.Entities;
 
 namespace NTS.Persistence.Adapters;
 
-public class CompetitionRepository : ParentRepository<Competition, Event, State>, IParentRepository<Competition>
+public class CompetitionRepository : ParentRepository<Contestant, Loop, Competition, State>, IParentRepository<Contestant>, IParentRepository<Loop>
 {
     public CompetitionRepository(IStore<State> store) : base(store)
     {
     }
 
-    public override async Task<Event> Update(Event entity)
+    public override async Task<Contestant> Update(int parentId, Contestant child)
     {
         var context = await Store.Load();
-        GuardHelper.ThrowIfNull(context.Event);
+        var parent = context.Competitions.FirstOrDefault(x => x.Id == parentId);
+        GuardHelper.ThrowIfNull(parent);
 
-        foreach (var official in context.Event.Officials)
-        {
-            entity.Add(official);
-        }
-        foreach(var competition in context.Event.Competitions)
-        {
-            entity.Add(competition);
-        }
-        context.Event = entity;
+        parent.Update(child);
         await Store.Commit(context);
 
-        return entity;
+        return child;
     }
-    public async Task<Competition> Update(Competition entity)
+
+    public override async Task<Loop> Update(int parentId, Loop child)
     {
         var context = await Store.Load();
-        var existing = context.Competitions.FirstOrDefault();
-        GuardHelper.ThrowIfNull(existing);
+        var parent = context.Competitions.FirstOrDefault(x => x.Id == parentId);
+        GuardHelper.ThrowIfNull(parent);
 
-        context.Competitions.Remove(entity);
-        context.Competitions.Add(entity);
+        parent.Update(child);
         await Store.Commit(context);
 
-        return entity;
+        return child;
     }
-
-
 }

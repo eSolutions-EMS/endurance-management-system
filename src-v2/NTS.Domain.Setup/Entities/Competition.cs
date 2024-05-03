@@ -4,36 +4,41 @@ using Newtonsoft.Json;
 
 namespace NTS.Domain.Setup.Entities;
 
-public class Competition : DomainEntity, ISummarizable, IImportable
+public class Competition : DomainEntity, ISummarizable, IParent<Contestant>, IParent<Loop>
 {
 
     public static Competition Create(string name, CompetitionType type, DateTimeOffset start) => new(name,type, start);
-    public static Competition Update(string name, CompetitionType type, DateTimeOffset start) => new(name, type, start);
+    public static Competition Update( int id, string name, CompetitionType type, DateTimeOffset start) => new(id, name, type, start);
 
     private List<Loop> _loops = new();
     private List<Contestant> _contestants = new();
 
     [JsonConstructor]
-    private Competition(string name, CompetitionType type, DateTimeOffset start)
-    {
-        if (type == 0)
-        {
-            throw new DomainException(nameof(type),"Competition type must have a value different from 0.");
-        }
-
-        if (start.DateTime.CompareTo(DateTime.Today) < 0)
-        {
-            throw new DomainException(nameof(DateTime), "Date of Competition cannot be in the past");
-        }
-
-        this.Name = name;
-        this.Type = type;
-        this.StartTime = start;
+    private Competition(int id, string name, CompetitionType type, DateTimeOffset startTime) : this(name, type, startTime)
+    {   
+        Id = id;
     }
+
+    private Competition(string name, CompetitionType type, DateTimeOffset startTime)
+    {
+        if (type == default)
+        {
+            throw new DomainException(nameof(Type), "Competition Type is required");
+        }
+        if (startTime.DateTime.CompareTo(DateTime.Today) < 0)
+        {
+            throw new DomainException(nameof(StartTime), "Competition date cannot be in the past");
+        }
+
+        Name = name;
+        Type = type;
+        StartTime = startTime;
+    }
+
     public string Name { get; private set; }
     public CompetitionType Type { get; private set; }
 	public DateTimeOffset StartTime { get; private set; }
-
+   
     public IReadOnlyList<Loop> Loops
     {
         get => _loops.AsReadOnly();
@@ -60,6 +65,37 @@ public class Competition : DomainEntity, ISummarizable, IImportable
 		return sb.ToString();
 	}
 
+    public void Add(Contestant child)
+    {
+        _contestants.Add(child);
+    }
+
+    public void Remove(Contestant child)
+    {
+        _contestants.Remove(child);
+    }
+
+    public void Update(Contestant child)
+    {
+        _contestants.Remove(child);
+        Add(child);
+    }
+
+    public void Add(Loop child)
+    {
+        _loops.Add(child);
+    }
+
+    public void Remove(Loop child)
+    {
+        _loops.Remove(child);
+    }
+
+    public void Update(Loop child)
+    {
+        _loops.Remove(child);
+        Add(child);
+    }
 }
 
 public enum CompetitionType

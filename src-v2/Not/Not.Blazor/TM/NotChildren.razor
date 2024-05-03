@@ -1,0 +1,71 @@
+﻿@using Not.Blazor.Components
+@using Not.Blazor.Forms
+@using Not.Blazor.Mud.Components
+@using Not.Blazor.Navigation
+@using Not.Blazor.TM.Forms.Components
+@using Not.Services
+
+@inherits NotComponent
+
+@typeparam T where T : DomainEntity
+@typeparam TForm where TForm : NotForm<T>
+
+<MudPaper Elevation="0" Class="@Class">
+@if (_parentBehind.Children.Any())
+{
+    <NotH2 Class="pt-6 pl-6">@Name</NotH2>
+    <NotButtonCreate Class="mt-1 ml-6 mb-3" OnClick="_contestantNavigator.Create" />
+    <MudDivider />
+    @foreach (var item in Items)
+    {
+        <p class="mt-1 ml-6 mb-1">
+            @item
+            <div class="action-column">
+                <NotButtonUpdate Size="Size.Small" OnClick="() => this._contestantNavigator.Update(UpdateRoute, item)" />
+                <NotButtonDelete Size="Size.Small" OnClick="() => _parentBehind.Delete(item)" />
+            </div>
+        </p>
+        <MudDivider />
+    }
+}
+else
+{
+    <MudPaper Elevation="0">
+        <div class="pa-6">
+            <NotH2>@Name</NotH2>
+            <NotButtonCreate OnClick="_contestantNavigator.Create" Class="toolbar-button" />
+            <p>@EmptyMessage</p>
+        </div>
+    </MudPaper>
+}
+</MudPaper>
+
+@code {
+    [Parameter]
+    public string Name { get; set; } = default!;
+    [Parameter]
+    public string UpdateRoute { get; set; } = default!;
+
+    public string EmptyMessage { get; set; } = default!;
+    public string Class { get; set; } = default!;
+    public IEnumerable<T> Items { get; set; } = default!;
+
+    protected override void OnInitialized()
+    {
+        //TODO improve the default message to enable a single translation entry for all empty component messages
+        Name = Localizer.Get(Name);
+        if(EmptyMessage == default)
+        {
+            
+            string defaultMessage = $"No {Name.ToLower()} have been created for this event.";
+            EmptyMessage = Localizer.Get(defaultMessage);
+        }
+        Class += " children-component half-width";
+        Items = _parentBehind.Children;
+    }
+
+    [Inject]
+    private INotBehindParent<T> _parentBehind { get; set; } = default!;
+    [Inject]
+    private IFormNavigator<T, TForm> _contestantNavigator { get; set; } = default!;
+}
