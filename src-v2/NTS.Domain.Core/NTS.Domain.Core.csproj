@@ -7,13 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Not\Not.Domain\Not.Domain.csproj" />
-    <ProjectReference Include="..\Not\Not\Not.csproj" />
-    <ProjectReference Include="..\NTS.Domain\NTS.Domain.csproj" />
+    <Compile Remove="Ports\**" />
+    <EmbeddedResource Remove="Ports\**" />
+    <None Remove="Ports\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Ports\" />
+    <ProjectReference Include="..\Not\Not.Domain\Not.Domain.csproj" />
+    <ProjectReference Include="..\Not\Not\Not.csproj" />
+    <ProjectReference Include="..\NTS.Domain\NTS.Domain.csproj" />
   </ItemGroup>
 
 </Project>

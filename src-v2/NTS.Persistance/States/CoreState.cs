@@ -2,7 +2,15 @@
 
 namespace NTS.Persistence.States;
 
-public class CoreState : IFlatState<Event>
+public class CoreState : IFlatState<Event>, ISetState<Official>
 {
-    Event? IFlatState<Event>.Entity { get; set; }
+    public Event? Event { get; set; }
+    public List<Official> Officials { get; } = new();
+
+    Event? IFlatState<Event>.Entity
+    {
+        get => Event;
+        set => Event = value;
+    }
+    List<Official> ISetState<Official>.EntitySet => Officials;
 }
