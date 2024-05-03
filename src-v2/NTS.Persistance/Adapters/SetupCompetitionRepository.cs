@@ -1,7 +1,6 @@
 ﻿using NTS.Domain.Setup.Entities;
 using Not.Domain;
 using NTS.Persistence.Setup;
-using Not.Storage.Stores;
 
 namespace NTS.Persistence.Adapters;
 

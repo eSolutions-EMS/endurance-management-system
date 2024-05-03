@@ -1,5 +1,4 @@
-﻿using Not.Storage.Ports.States;
-using NTS.Domain.Setup.Entities;
+﻿using NTS.Domain.Setup.Entities;
 
 namespace NTS.Persistence.Setup;
 

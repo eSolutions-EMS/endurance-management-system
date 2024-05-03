@@ -1,6 +1,5 @@
 ﻿using NTS.Domain.Setup.Import;
 using Newtonsoft.Json;
-using NTS.Domain.Enums;
 using static NTS.Domain.Enums.OfficialRole;
 
 namespace NTS.Domain.Setup.Entities;
