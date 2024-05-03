@@ -1,5 +1,4 @@
-﻿
-namespace Not.Storage.Adapters.Repositories;
+﻿namespace Not.Storage.Adapters.Repositories;
 
 public abstract class SetRepository<T, TState> : IRepository<T>
     where T : DomainEntity

@@ -1,8 +1,6 @@
-﻿using Not.Domain;
+﻿namespace Not.Storage;
 
-namespace Not.Storage;
-
-public interface IRootStore<T>
+public interface ITreeState<T>
     where T : DomainEntity
 {
     T? Root { get; set; }
