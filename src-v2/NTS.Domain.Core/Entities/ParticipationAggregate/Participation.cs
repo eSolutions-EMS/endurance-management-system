@@ -37,7 +37,7 @@ public class Participation : DomainEntity, IAggregateRoot
        
         if (type == Vet)
         {
-            phase.Vet(time);
+            phase.Inspect(time);
         }
         else
         {

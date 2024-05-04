@@ -62,7 +62,7 @@ public class Phase : DomainEntity, IPhaseState
         ArriveTime = time;
     }
 
-    internal void Vet(DateTimeOffset time)
+    internal void Inspect(DateTimeOffset time)
     {
         if (IsReinspectionRequested && ReinspectTime != null || InspectTime != null)
         {
