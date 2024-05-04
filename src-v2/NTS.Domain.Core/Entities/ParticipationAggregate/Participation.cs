@@ -92,7 +92,7 @@ public class Participation : DomainEntity, IAggregateRoot
         {
             if (phase.RecoverySpan > TimeSpan.FromMinutes(phase.MaxRecovery))
             {
-                NotQualified = new FailedToQualify(FTQCodes.SP);
+                NotQualified = new FailedToQualify(FTQCodes.OT);
             }
             if (phase.AverageSpeed < Tandem.MinAverageSpeedlimit || phase.AverageSpeed > Tandem.MaxAverageSpeedLimit)
             {
