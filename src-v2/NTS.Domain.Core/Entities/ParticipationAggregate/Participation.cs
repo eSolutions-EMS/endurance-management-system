@@ -1,10 +1,13 @@
-﻿using System.Collections.ObjectModel;
+﻿using NTS.Domain.Core.Events;
+using System.Collections.ObjectModel;
 using static NTS.Domain.Enums.SnapshotType;
 
 namespace NTS.Domain.Core.Entities.ParticipationAggregate;
 
 public class Participation : DomainEntity, IAggregateRoot
 {
+    private static readonly TimeSpan NOT_SNAPSHOTABLE_WINDOW = TimeSpan.FromMinutes(30);
+
     public Participation(Tandem tandem, IEnumerable<Phase> phases)
     {
         Tandem = tandem;
@@ -13,8 +16,72 @@ public class Participation : DomainEntity, IAggregateRoot
 
     public Tandem Tandem { get; private set; }
     public ReadOnlyCollection<Phase> Phases { get; private set; }
-    public NotQualified? notQualified { get; private set; }
+    public NotQualified? NotQualified { get; private set; }
     public Total? Total => Phases.Any(x => x.IsComplete)
         ? new Total(Phases.Where(x => x.IsComplete))
         : default;
+
+    public void Snapshot(SnapshotType type, DateTimeOffset time)
+    {
+        GuardHelper.ThrowIfDefault(type);
+
+        var phase = Phases.FirstOrDefault(x => !x.IsComplete);
+        if (phase == null)
+        {
+            return;
+        }
+        if (time < phase.OutTime + NOT_SNAPSHOTABLE_WINDOW)
+        {
+            return;
+        }
+        if (type == Vet)
+        {
+            phase.Vet(time);
+        }
+        else
+        {
+            phase.Arrive(type, time);
+        }
+
+        if (phase.IsComplete)
+        {
+            if (phase.RecoverySpan > TimeSpan.FromMinutes(phase.MaxRecovery))
+            {
+                NotQualified = new FailedToQualify(FTQCodes.SP);
+            }
+            // TODO: min and max speeds
+            PhaseCompletedEvent.Emit(Tandem.Number, Tandem.Name, Phases.NumberOf(phase), phase.Length, phase.OutTime, NotQualified != null);
+        }
+    }
+
+    public void Withdraw()
+    {
+        NotQualified = new Withdrawn();
+    }
+    public void Retire()
+    {
+        NotQualified = new Retired();
+    }
+
+    public void Disqualify(string reason)
+    {
+        NotQualified = new Disqualified(reason);
+    }
+
+    public void FinishNotRanked(string reason)
+    {
+        NotQualified = new FinishedNotRanked(reason);
+    }
+
+    public void FailToQualify(FTQCodes code, string? reason)
+    {
+        if (reason == null)
+        {
+            NotQualified = new FailedToQualify(code);
+        }
+        else
+        {
+            NotQualified = new FailedToQualify(code, reason);
+        }
+    }
 }

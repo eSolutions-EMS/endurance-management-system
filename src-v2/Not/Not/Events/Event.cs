@@ -1,47 +1,46 @@
 ﻿using Not.Injection;
-using Not.Exceptions;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Not.Events;
 
+// TODO: how to unsubscribe? Maybe use Caller* attributes to keep callback references in a dictionary?
 public class Event : IEvent
 {
-    private event EventHandler? GenericEvent;
+    private event NotEventHandler? NotDelegate;
 
-    public void Emit(object sender)
+    public void Emit()
     {
-        GenericEvent?.Invoke(sender, EventArgs.Empty);
+        NotDelegate?.Invoke();
     }
-    public void Subscribe(Action<object> action)
+    public void Subscribe(Action action)
     {
-        GenericEvent += (sender, _) => action(sender!);
+        NotDelegate += () => action();
     }
 }
 
 public class Event<T> : IEvent<T>
     where T : class
 {
-    private event EventHandler<T>? GenericEvent;
+    private event NotHandler<T>? GenericEvent;
 
-    public void Emit(object sender, T data)
+    public void Emit(T data)
     {
-        GenericEvent?.Invoke(sender, data);
+        GenericEvent?.Invoke(data);
     }
-    public void Subscribe(Action<object, T> action)
+    public void Subscribe(Action<T> action)
     {
-        GenericEvent += (sender, data) => action(sender!, data);
+        GenericEvent += x => action(x);
     }
 }
 
 public interface IEvent : ISingletonService
 {
-    void Emit(object sender);
-    void Subscribe(Action<object> action);
+    void Emit();
+    void Subscribe(Action action);
 }
 
 public interface IEvent<T> : ISingletonService
     where T : class
 {
-    void Emit(object sender, T data);
-    void Subscribe(Action<object, T> action);
+    void Emit(T data);
+    void Subscribe(Action<T> action);
 }

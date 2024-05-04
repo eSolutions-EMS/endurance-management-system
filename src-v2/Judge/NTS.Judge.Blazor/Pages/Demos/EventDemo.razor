@@ -24,12 +24,12 @@
     {
         var tag = new RfidTag("id", "13", "l");
         var tagEvent = new RfidTagCoreEvent(tag, CoreEventType.Arrive, new Timestamp(new DateTime()));
-        this._event.Emit(this, tagEvent);
+        this._event.Emit(tagEvent);
     }
 
     private void Subscribe()
     {
-        this._event.Subscribe(async (s, e) =>
+        this._event.Subscribe(async e =>
         {
             this.result = e.CoreId.ToString();
             await this.InvokeAsync(this.StateHasChanged);

@@ -1,13 +1,17 @@
-﻿namespace NTS.Domain.Core.Entities.ParticipationAggregate;
+﻿using static NTS.Domain.Enums.SnapshotType;
+
+namespace NTS.Domain.Core.Entities.ParticipationAggregate;
 
 public class Phase : DomainEntity
 {
     private DateTimeOffset? VetTime => ReinspectionTime ?? InspectionTime;
     private TimeSpan? LoopTime => ArriveTime - StartTime;
     private TimeSpan? PhaseTime => VetTime - StartTime;
+    private double _gate;
 
-    public Phase(double length, int maxRecovery, int rest, CompetitionType competitionType, bool isFinal)
+    public Phase(double gate, double length, int maxRecovery, int rest, CompetitionType competitionType, bool isFinal)
     {
+        _gate = gate;
         Length = length;
         MaxRecovery = maxRecovery;
         Rest = rest;
@@ -15,6 +19,7 @@ public class Phase : DomainEntity
         IsFinal = isFinal;
     }
 
+    public string Gate => _gate.ToString("0.00");
     public double Length { get; }
     public int MaxRecovery { get; }
     public int Rest { get; }
@@ -37,4 +42,39 @@ public class Phase : DomainEntity
     public double? AveragePhaseSpeed => Length / PhaseTime?.TotalHours + RecoverySpan?.TotalHours;
 
     internal bool IsComplete => OutTime != null;
+
+    internal void Arrive(SnapshotType type, DateTimeOffset time)
+    {
+        // TODO: settings - Add setting for separate final. This is useful for some events such as Shumen where we need separate detection for the actual final
+        var isSeparateFinal = false;
+        if (isSeparateFinal && type == Final && !IsFinal)
+        {
+            return; //TODO: consider creating a specific SwallowException that is intended to interrupt the execution silently
+        }
+        if (isSeparateFinal && type == Stage && IsFinal)
+        {
+            return;
+        }
+        if (ArriveTime != null)
+        {
+            return;
+        }
+        ArriveTime = time;
+    }
+
+    internal void Vet(DateTimeOffset time)
+    {
+        if (IsReinspectionRequested && ReinspectionTime != null || InspectionTime != null)
+        {
+            return;
+        }
+        if (IsReinspectionRequested)
+        {
+            ReinspectionTime = time;
+        }
+        else
+        {
+            InspectionTime = time;
+        }
+    }
 }
