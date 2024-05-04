@@ -12,7 +12,6 @@ public class Tandem : DomainEntity
         Number = number;
         Name = name;
         _distance = distance;
-        _gate = gate ?? 0;
         Country = country;
         Club = club;
     }

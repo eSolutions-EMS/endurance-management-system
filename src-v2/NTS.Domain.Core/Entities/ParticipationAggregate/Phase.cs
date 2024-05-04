@@ -2,9 +2,9 @@
 
 namespace NTS.Domain.Core.Entities.ParticipationAggregate;
 
-public class Phase : DomainEntity
+public class Phase : DomainEntity, IPhaseState
 {
-    private DateTimeOffset? VetTime => ReinspectionTime ?? InspectionTime;
+    private DateTimeOffset? VetTime => ReinspectTime ?? InspectTime;
     private TimeSpan? LoopTime => ArriveTime - StartTime;
     private TimeSpan? PhaseTime => VetTime - StartTime;
     private double _gate;
@@ -27,9 +27,9 @@ public class Phase : DomainEntity
     public bool IsFinal { get; }
     public DateTimeOffset? StartTime { get; internal set; }
     public DateTimeOffset? ArriveTime { get; internal set; }
-    public DateTimeOffset? InspectionTime { get; internal set; }
+    public DateTimeOffset? InspectTime { get; internal set; }
     public bool IsReinspectionRequested { get; internal set; }
-    public DateTimeOffset? ReinspectionTime { get; internal set; }
+    public DateTimeOffset? ReinspectTime { get; internal set; }
     public bool IsRIRequested { get; internal set; }
     public bool IsCRIRequested { get; internal set; }
     public DateTimeOffset? RequiredInspectionTime => VetTime?.AddMinutes(Rest - 15); //TODO: settings?
@@ -64,17 +64,49 @@ public class Phase : DomainEntity
 
     internal void Vet(DateTimeOffset time)
     {
-        if (IsReinspectionRequested && ReinspectionTime != null || InspectionTime != null)
+        if (IsReinspectionRequested && ReinspectTime != null || InspectTime != null)
         {
             return;
         }
         if (IsReinspectionRequested)
         {
-            ReinspectionTime = time;
+            ReinspectTime = time;
         }
         else
         {
-            InspectionTime = time;
+            InspectTime = time;
         }
     }
+
+    internal void Edit(IPhaseState state)
+    {
+        if (state.StartTime.HasValue)
+        {
+            if (state.ArriveTime < state.StartTime)
+            {
+                throw new DomainException(nameof(Phase.ArriveTime), "Arrive Time cannot be sooner than Start Time");
+            }
+            if (state.InspectTime < state.StartTime)
+            {
+                throw new DomainException(nameof(Phase.InspectTime), "Inspect Time cannot be sooner than Start Time");
+            }
+            if (state.ReinspectTime < state.ArriveTime)
+            {
+                throw new DomainException(nameof(Phase.ReinspectTime), "Reinspect Time cannot be sooner than Start Time");
+            }
+        }
+        StartTime = state.StartTime;
+        ArriveTime = state.ArriveTime;
+        InspectTime = state.InspectTime;
+        ReinspectTime = state.ReinspectTime;
+    }
+}
+
+public interface IPhaseState
+{
+    int Id { get; }
+    public DateTimeOffset? StartTime { get; }
+    public DateTimeOffset? ArriveTime { get; }
+    public DateTimeOffset? InspectTime { get; }
+    public DateTimeOffset? ReinspectTime { get; }
 }

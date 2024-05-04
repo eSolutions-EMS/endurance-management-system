@@ -34,6 +34,7 @@ public class Participation : DomainEntity, IAggregateRoot
         {
             return;
         }
+       
         if (type == Vet)
         {
             phase.Vet(time);
@@ -42,16 +43,16 @@ public class Participation : DomainEntity, IAggregateRoot
         {
             phase.Arrive(type, time);
         }
+        EvaluatePhase(phase);
+    }
 
-        if (phase.IsComplete)
-        {
-            if (phase.RecoverySpan > TimeSpan.FromMinutes(phase.MaxRecovery))
-            {
-                NotQualified = new FailedToQualify(FTQCodes.SP);
-            }
-            // TODO: min and max speeds
-            PhaseCompletedEvent.Emit(Tandem.Number, Tandem.Name, Phases.NumberOf(phase), phase.Length, phase.OutTime, NotQualified != null);
-        }
+    public void Edit(IPhaseState state)
+    {
+        var phase = Phases.FirstOrDefault(x => x.Id == state.Id);
+        GuardHelper.ThrowIfNull(phase, $"Cannot edit phase - phase with ID '{state.Id}' does not exist");
+
+        phase.Edit(state);
+        EvaluatePhase(phase);
     }
 
     public void Withdraw()
@@ -82,6 +83,19 @@ public class Participation : DomainEntity, IAggregateRoot
         else
         {
             NotQualified = new FailedToQualify(code, reason);
+        }
+    }
+
+    private void EvaluatePhase(Phase phase)
+    {
+        if (phase.IsComplete)
+        {
+            if (phase.RecoverySpan > TimeSpan.FromMinutes(phase.MaxRecovery))
+            {
+                NotQualified = new FailedToQualify(FTQCodes.SP);
+            }
+            // TODO: min and max speeds
+            PhaseCompletedEvent.Emit(Tandem.Number, Tandem.Name, Phases.NumberOf(phase), phase.Length, phase.OutTime, NotQualified != null);
         }
     }
 }
