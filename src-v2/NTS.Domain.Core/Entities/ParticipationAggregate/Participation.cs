@@ -94,7 +94,10 @@ public class Participation : DomainEntity, IAggregateRoot
             {
                 NotQualified = new FailedToQualify(FTQCodes.SP);
             }
-            // TODO: min and max speeds
+            if (phase.AverageSpeed < Tandem.MinAverageSpeedlimit || phase.AverageSpeed > Tandem.MaxAverageSpeedLimit)
+            {
+                NotQualified = new FailedToQualify(FTQCodes.SP);
+            }
             PhaseCompletedEvent.Emit(Tandem.Number, Tandem.Name, Phases.NumberOf(phase), phase.Length, phase.OutTime, NotQualified != null);
         }
     }

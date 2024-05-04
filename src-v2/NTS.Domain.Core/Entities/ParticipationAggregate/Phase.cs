@@ -4,10 +4,11 @@ namespace NTS.Domain.Core.Entities.ParticipationAggregate;
 
 public class Phase : DomainEntity, IPhaseState
 {
+    private double _gate;
     private DateTimeOffset? VetTime => ReinspectTime ?? InspectTime;
     private TimeSpan? LoopTime => ArriveTime - StartTime;
     private TimeSpan? PhaseTime => VetTime - StartTime;
-    private double _gate;
+    private bool IsFeiRulesAndNotFinal => CompetitionType == CompetitionType.FEI && !IsFinal;
 
     public Phase(double gate, double length, int maxRecovery, int rest, CompetitionType competitionType, bool isFinal)
     {
@@ -34,12 +35,11 @@ public class Phase : DomainEntity, IPhaseState
     public bool IsCRIRequested { get; internal set; }
     public DateTimeOffset? RequiredInspectionTime => VetTime?.AddMinutes(Rest - 15); //TODO: settings?
     public DateTimeOffset? OutTime => VetTime?.AddMinutes(Rest);
-    public TimeSpan? Time => CompetitionType == CompetitionType.FEI && !IsFinal
-        ? PhaseTime
-        : LoopTime;
+    public TimeSpan? Time => IsFeiRulesAndNotFinal ? PhaseTime : LoopTime;
     public TimeSpan? RecoverySpan => VetTime - ArriveTime;
     public double? AveregeLoopSpeed => Length / LoopTime?.TotalHours;
     public double? AveragePhaseSpeed => Length / PhaseTime?.TotalHours + RecoverySpan?.TotalHours;
+    public double? AverageSpeed => IsFeiRulesAndNotFinal ? AveragePhaseSpeed : AveregeLoopSpeed;
 
     internal bool IsComplete => OutTime != null;
 

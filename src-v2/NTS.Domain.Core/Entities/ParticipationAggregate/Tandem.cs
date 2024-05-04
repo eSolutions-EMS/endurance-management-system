@@ -7,13 +7,22 @@ public class Tandem : DomainEntity
     private readonly decimal _distance;
 
     [JsonConstructor]
-    public Tandem(string number, Person name, decimal distance, decimal? gate, Country? country, Club? club)
+    public Tandem(
+        string number,
+        Person name,
+        decimal distance,
+        Country? country,
+        Club? club,
+        double? minAverageSpeedlimit,
+        double? maxAverageSpeedLimit)
     {
         Number = number;
         Name = name;
         _distance = distance;
         Country = country;
         Club = club;
+        MinAverageSpeedlimit = minAverageSpeedlimit;
+        MaxAverageSpeedLimit = maxAverageSpeedLimit;
     }
 
     public string Number { get; }
@@ -21,4 +30,6 @@ public class Tandem : DomainEntity
     public string Distance => _distance.ToString("0.00");
     public Country? Country { get; }
     public Club? Club { get; }
+    public double? MinAverageSpeedlimit { get; }
+    public double? MaxAverageSpeedLimit { get; }
 }
