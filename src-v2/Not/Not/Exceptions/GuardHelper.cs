@@ -9,23 +9,15 @@ namespace Not.Exceptions;
 public static class GuardHelper
 {
     /// <summary>
-    /// Mainly used in order to prevent nullable warnings
+    /// Mainly used in order to prevent nullable warnings and guard against default values
     /// </summary>
     /// <exception cref="GuardException"></exception>
     [DoesNotReturn]
-    public static void ThrowIfNull(object? value, string? message = null)
+    public static void ThrowIfDefault<T>(T value)
     {
-        if (value == null)
+        if (value?.Equals(default(T)) ?? true)
         {
-            throw new GuardException(message ?? $"Object cannot be null");
-        }
-    }
-    
-    public static void ThrowIfDefault<T>(T value, string? message = null)
-    {
-        if (value == null)
-        {
-            throw new GuardException(message ?? $"{ReflectionHelper.GetName<T>()} cannot be null");
+            throw new GuardException($"{ReflectionHelper.GetName<T>()} cannot be default");
         }
     }
 

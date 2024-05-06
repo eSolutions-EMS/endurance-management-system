@@ -34,7 +34,7 @@ public abstract class BranchRepository<T, TState> : IRepository<T>
     {
         var state = await _store.Load();
         var parent = GetParent(state, entity.Id);
-        GuardHelper.ThrowIfNull(parent);
+        GuardHelper.ThrowIfDefault(parent);
 
         parent.Update(entity);
         await _store.Commit(state);

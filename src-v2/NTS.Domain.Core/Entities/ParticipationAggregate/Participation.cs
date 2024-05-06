@@ -52,7 +52,7 @@ public class Participation : DomainEntity, IAggregateRoot
     public void Edit(IPhaseState state)
     {
         var phase = Phases.FirstOrDefault(x => x.Id == state.Id);
-        GuardHelper.ThrowIfNull(phase, $"Cannot edit phase - phase with ID '{state.Id}' does not exist");
+        GuardHelper.ThrowIfDefault(phase);
 
         phase.Edit(state);
         EvaluatePhase(phase);
