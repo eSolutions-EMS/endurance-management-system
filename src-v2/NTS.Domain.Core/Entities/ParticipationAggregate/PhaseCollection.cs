@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Security.Cryptography.X509Certificates;
 
 namespace NTS.Domain.Core.Entities.ParticipationAggregate;
 
@@ -12,4 +13,6 @@ public class PhaseCollection : ReadOnlyCollection<Phase>
             phase.InternalGate = gate += phase.Length;
         }
     }
+
+    internal Phase? Current => this.FirstOrDefault(x => !x.IsComplete);
 }

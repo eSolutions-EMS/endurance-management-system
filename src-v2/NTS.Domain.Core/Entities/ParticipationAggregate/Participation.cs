@@ -24,25 +24,24 @@ public class Participation : DomainEntity, IAggregateRoot
     {
         GuardHelper.ThrowIfDefault(type);
 
-        var phase = Phases.FirstOrDefault(x => !x.IsComplete);
-        if (phase == null)
+        if (Phases.Current == null)
         {
             return;
         }
-        if (time < phase.OutTime + NOT_SNAPSHOTABLE_WINDOW)
+        if (time < Phases.Current.OutTime + NOT_SNAPSHOTABLE_WINDOW)
         {
             return;
         }
        
         if (type == Vet)
         {
-            phase.Inspect(time);
+            Phases.Current.Inspect(time);
         }
         else
         {
-            phase.Arrive(type, time);
+            Phases.Current.Arrive(type, time);
         }
-        EvaluatePhase(phase);
+        EvaluatePhase(Phases.Current);
     }
 
     public void Edit(IPhaseState state)
