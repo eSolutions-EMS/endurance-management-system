@@ -6,7 +6,8 @@ namespace NTS.Domain.Core.Entities.ParticipationAggregate;
 public class Participation : DomainEntity, IAggregateRoot
 {
     private static readonly TimeSpan NOT_SNAPSHOTABLE_WINDOW = TimeSpan.FromMinutes(30);
-
+    private static readonly FailedToQualify OUT_OF_TIME = new FailedToQualify(FTQCodes.OT);
+    private static readonly FailedToQualify SPEED_RESTRICTION = new FailedToQualify(FTQCodes.SP);
     public Participation(Tandem tandem, IEnumerable<Phase> phases)
     {
         Tandem = tandem;
@@ -24,6 +25,10 @@ public class Participation : DomainEntity, IAggregateRoot
     {
         GuardHelper.ThrowIfDefault(type);
 
+        if (NotQualified != null)
+        {
+            return;
+        }
         if (Phases.Current == null)
         {
             return;
@@ -86,16 +91,21 @@ public class Participation : DomainEntity, IAggregateRoot
 
     private void EvaluatePhase(Phase phase)
     {
+        if (phase.ViolatesRecoveryTime())
+        {
+            NotQualified = OUT_OF_TIME;
+        }
+        else if (phase.ViolatesSpeedRestriction(Tandem.MinAverageSpeedlimit, Tandem.MaxAverageSpeedLimit))
+        {
+            NotQualified = SPEED_RESTRICTION;
+        }
+        else if (NotQualified == OUT_OF_TIME || NotQualified == SPEED_RESTRICTION)
+        {
+            NotQualified = null;
+        }
+
         if (phase.IsComplete)
         {
-            if (phase.RecoverySpan > TimeSpan.FromMinutes(phase.MaxRecovery))
-            {
-                NotQualified = new FailedToQualify(FTQCodes.OT);
-            }
-            if (phase.AverageSpeed < Tandem.MinAverageSpeedlimit || phase.AverageSpeed > Tandem.MaxAverageSpeedLimit)
-            {
-                NotQualified = new FailedToQualify(FTQCodes.SP);
-            }
             PhaseCompletedEvent.Emit(Tandem.Number, Tandem.Name, Phases.NumberOf(phase), phase.Length, phase.OutTime, NotQualified != null);
         }
     }

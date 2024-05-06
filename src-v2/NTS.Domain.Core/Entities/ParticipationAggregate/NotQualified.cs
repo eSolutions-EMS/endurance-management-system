@@ -1,6 +1,6 @@
 ﻿namespace NTS.Domain.Core.Entities.ParticipationAggregate;
 
-public class Withdrawn : NotQualified
+public record Withdrawn : NotQualified
 {
     public override string ToString()
     {
@@ -8,7 +8,7 @@ public class Withdrawn : NotQualified
     }
 }
 
-public class Retired : NotQualified
+public record Retired : NotQualified
 {
     public override string ToString()
     {
@@ -16,7 +16,7 @@ public class Retired : NotQualified
     }
 }
 
-public class Disqualified : NotQualified
+public record Disqualified : NotQualified
 {
     public Disqualified(string complement) : base(complement)
     {
@@ -28,7 +28,7 @@ public class Disqualified : NotQualified
     }
 }
 
-public class FinishedNotRanked : NotQualified
+public record FinishedNotRanked : NotQualified
 {
     public FinishedNotRanked(string complement) : base(complement)
     {
@@ -40,7 +40,7 @@ public class FinishedNotRanked : NotQualified
     }
 }
 
-public class FailedToQualify : NotQualified
+public record FailedToQualify : NotQualified
 {
     public FailedToQualify(FTQCodes code)
     {
@@ -103,7 +103,7 @@ public enum FTQCodes
     FTC = 9
 }
 
-public abstract class NotQualified : DomainEntity
+public abstract record NotQualified : DomainObject
 {
     protected NotQualified()
     {

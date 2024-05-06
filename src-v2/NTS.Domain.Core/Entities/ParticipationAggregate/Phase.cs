@@ -1,4 +1,5 @@
-﻿using static NTS.Domain.Enums.SnapshotType;
+﻿using System.Numerics;
+using static NTS.Domain.Enums.SnapshotType;
 
 namespace NTS.Domain.Core.Entities.ParticipationAggregate;
 
@@ -98,6 +99,16 @@ public class Phase : DomainEntity, IPhaseState
         ArriveTime = state.ArriveTime;
         InspectTime = state.InspectTime;
         ReinspectTime = state.ReinspectTime;
+    }
+
+    internal bool ViolatesRecoveryTime()
+    {
+        return RecoverySpan > TimeSpan.FromMinutes(MaxRecovery);
+    }
+
+    internal bool ViolatesSpeedRestriction(double? minSpeed, double? maxSpeed)
+    {
+        return AverageSpeed < minSpeed || AverageSpeed > maxSpeed;
     }
 }
 
