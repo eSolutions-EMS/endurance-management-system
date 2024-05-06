@@ -4,15 +4,14 @@ namespace NTS.Domain.Core.Entities.ParticipationAggregate;
 
 public class Phase : DomainEntity, IPhaseState
 {
-    private double _gate;
+    internal double InternalGate { get; set; }
     private DateTimeOffset? VetTime => ReinspectTime ?? InspectTime;
     private TimeSpan? LoopTime => ArriveTime - StartTime;
     private TimeSpan? PhaseTime => VetTime - StartTime;
     private bool IsFeiRulesAndNotFinal => CompetitionType == CompetitionType.FEI && !IsFinal;
 
-    public Phase(double gate, double length, int maxRecovery, int rest, CompetitionType competitionType, bool isFinal)
+    public Phase(double length, int maxRecovery, int rest, CompetitionType competitionType, bool isFinal)
     {
-        _gate = gate;
         Length = length;
         MaxRecovery = maxRecovery;
         Rest = rest;
@@ -20,7 +19,7 @@ public class Phase : DomainEntity, IPhaseState
         IsFinal = isFinal;
     }
 
-    public string Gate => _gate.ToString("0.00");
+    public string Gate => InternalGate.ToString("0.00");
     public double Length { get; }
     public int MaxRecovery { get; }
     public int Rest { get; }

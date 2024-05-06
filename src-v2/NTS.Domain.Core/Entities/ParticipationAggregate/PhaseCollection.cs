@@ -1,0 +1,15 @@
+﻿using System.Collections.ObjectModel;
+
+namespace NTS.Domain.Core.Entities.ParticipationAggregate;
+
+public class PhaseCollection : ReadOnlyCollection<Phase>
+{
+    public PhaseCollection(IEnumerable<Phase> phases) : base(phases.ToList())
+    {
+        var gate = 0d;
+        foreach (var phase in this)
+        {
+            phase.InternalGate = gate += phase.Length;
+        }
+    }
+}
