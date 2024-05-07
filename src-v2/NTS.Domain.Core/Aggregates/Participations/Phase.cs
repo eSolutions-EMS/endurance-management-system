@@ -1,7 +1,7 @@
 ﻿using System.Numerics;
 using static NTS.Domain.Enums.SnapshotType;
 
-namespace NTS.Domain.Core.Entities.ParticipationAggregate;
+namespace NTS.Domain.Core.Aggregates.Participations;
 
 public class Phase : DomainEntity, IPhaseState
 {
@@ -84,15 +84,15 @@ public class Phase : DomainEntity, IPhaseState
         {
             if (state.ArriveTime < state.StartTime)
             {
-                throw new DomainException(nameof(Phase.ArriveTime), "Arrive Time cannot be sooner than Start Time");
+                throw new DomainException(nameof(ArriveTime), "Arrive Time cannot be sooner than Start Time");
             }
             if (state.InspectTime < state.StartTime)
             {
-                throw new DomainException(nameof(Phase.InspectTime), "Inspect Time cannot be sooner than Start Time");
+                throw new DomainException(nameof(InspectTime), "Inspect Time cannot be sooner than Start Time");
             }
             if (state.ReinspectTime < state.ArriveTime)
             {
-                throw new DomainException(nameof(Phase.ReinspectTime), "Reinspect Time cannot be sooner than Start Time");
+                throw new DomainException(nameof(ReinspectTime), "Reinspect Time cannot be sooner than Start Time");
             }
         }
         StartTime = state.StartTime;

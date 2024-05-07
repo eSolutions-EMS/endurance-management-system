@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Security.Cryptography.X509Certificates;
 
-namespace NTS.Domain.Core.Entities.ParticipationAggregate;
+namespace NTS.Domain.Core.Aggregates.Participations;
 
 public class PhaseCollection : ReadOnlyCollection<Phase>
 {

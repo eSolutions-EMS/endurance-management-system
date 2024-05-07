@@ -1,4 +1,4 @@
-﻿namespace NTS.Domain.Core.Entities.ParticipationAggregate;
+﻿namespace NTS.Domain.Core.Aggregates.Participations;
 
 public record Total : DomainObject
 {

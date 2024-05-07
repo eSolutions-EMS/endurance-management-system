@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace NTS.Domain.Core.Entities.ParticipationAggregate;
+namespace NTS.Domain.Core.Aggregates.Participations;
 
 public class Tandem : DomainEntity
 {

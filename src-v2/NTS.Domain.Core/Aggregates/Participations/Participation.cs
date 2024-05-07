@@ -1,7 +1,7 @@
 ﻿using NTS.Domain.Core.Events;
 using static NTS.Domain.Enums.SnapshotType;
 
-namespace NTS.Domain.Core.Entities.ParticipationAggregate;
+namespace NTS.Domain.Core.Aggregates.Participations;
 
 public class Participation : DomainEntity, IAggregateRoot
 {
@@ -37,7 +37,7 @@ public class Participation : DomainEntity, IAggregateRoot
         {
             return;
         }
-       
+
         if (type == Vet)
         {
             Phases.Current.Inspect(time);
@@ -106,7 +106,7 @@ public class Participation : DomainEntity, IAggregateRoot
 
         if (phase.IsComplete)
         {
-            PhaseCompletedEvent.Emit(Tandem.Number, Tandem.Name, Phases.NumberOf(phase), phase.Length, phase.OutTime, NotQualified != null);
+            PhaseCompletedEvent.Emit(Tandem.Number, Tandem.Name, Phases.(phase), phase.Length, phase.OutTime, NotQualified != null);
         }
     }
 }
