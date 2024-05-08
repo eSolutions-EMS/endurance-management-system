@@ -1,15 +1,22 @@
-﻿using NTS.Domain.Setup.Import;
+﻿using NTS.Domain.Setup.Entities;
+using NTS.Domain.Setup.Import;
 using Newtonsoft.Json;
 
-namespace NTS.Domain.Setup.Entities;
-
-public class Loop : DomainEntity, ISummarizable
+public class Loop : DomainEntity, ISummarizable, IImportable
 {
     public static Loop Create(double distance, int recovery, int rest) => new(distance, recovery, rest);
 
     public static Loop Update(int id, double distance, int recovery, int rest) => new(id, distance, recovery, rest);
 
     [JsonConstructor]
+    public Loop(int id, Phase phase, int recovery, int rest)
+    {
+        Id = id;
+        Phase = phase;
+        Recovery = recovery;
+        Rest = rest;
+    }
+
     public Loop(int id, double distance, int recovery, int rest) : this(distance, recovery, rest)
     {
         Id = id;
@@ -18,7 +25,7 @@ public class Loop : DomainEntity, ISummarizable
     {
         if (distance <= 0)
         {
-            throw new DomainException(nameof(Distance), "Distance cannot be zero or less.");
+            throw new DomainException(nameof(Phase), "Phase distance cannot be zero or less.");
         }
         if (recovery <= 0)
         {
@@ -29,23 +36,22 @@ public class Loop : DomainEntity, ISummarizable
             throw new DomainException(nameof(Rest), "Rest duration cannot be zero or less.");
         }
 
-        Distance = distance;
+        Phase = new Phase(distance);
 		Recovery = recovery;
 		Rest = rest;
 	}
 
-    public double Distance { get; private set; }
+    public Phase Phase { get; private set; }
 	public int Recovery { get; private set; }
-	public int Rest { get; private set; }
-	public bool IsFinal { get; private set; }
+    public int Rest { get; private set; }
 
-	public override string ToString()
-	{
-		var km = "km".Localize();
-		var min = "min".Localize();
-		var final = "final".Localize();
+    public override string ToString()
+    {
+        var km = "km".Localize();
+        var min = "min".Localize();
 		var rec = "Recovery".Localize();
+        var phase = "Phase".Localize();
 		var rest = "Rest".Localize();
-		return $"{this.Distance}{km} {rec}: {this.Recovery}{min} {rest}: {this.Rest}{min}" + (this.IsFinal ? final : string.Empty);
-	}
+		return $"Loop -> {phase}{Phase.Distance}{km} {rec}: {Recovery}{min} {rest}: {Rest}{min}";
+    }
 }

@@ -11,22 +11,20 @@ public class LoopFormModel
     public LoopFormModel()
     {
         // mock data for testing
-        Distance = 20;
-        Recovery = 8;
+        Phase = 20;
+        Recovery = 15;
         Rest = 40;
-        IsFinal = false;
     }
     public LoopFormModel(Loop loop)
     {
         Id = loop.Id;
-        Distance = loop.Distance;
+        Phase = loop.Phase.Distance;
         Recovery = loop.Recovery;
         Rest = loop.Rest;
-        IsFinal = loop.IsFinal;
     }
 
     public int Id { get; set; }
-    public double Distance { get; set; }
+    public double Phase { get; set; }
     public int Recovery { get; set; }
     public int Rest { get; set; }
     public bool IsFinal { get; set; }

@@ -7,20 +7,20 @@
 @inherits NotForm<Loop>;
 
 <EditForm Model="_model">
-    <MudNumericField T="double" @ref="_distanceField" @bind-Value="_model.Distance" Min="0" Label="@Localizer.Get("Distance")" />
+    <MudNumericField T="double" @ref="_phaseField" @bind-Value="_model.Phase" Min="0" Label="@Localizer.Get("Phase Distance")" />
     <MudNumericField T="int" @ref="_recoveryField" @bind-Value="_model.Recovery" Min="0" Label="@Localizer.Get("Recovery Time")" />
     <MudNumericField T="int" @ref="_restField" @bind-Value="_model.Rest" Min="0" Label="@Localizer.Get("Rest Duration")" />
 </EditForm>
 
 @code {
-    private MudNumericField<double> _distanceField = default!;
+    private MudNumericField<double> _phaseField = default!;
     private MudNumericField<int> _recoveryField = default!;
     private MudNumericField<int> _restField = default!;
     private LoopFormModel _model { get; set; } = new();
 
     public override void RegisterValidationInjectors()
     {
-        RegisterInjector(nameof(_model.Distance), () => _distanceField);
+        RegisterInjector(nameof(_model.Phase), () => _phaseField);
         RegisterInjector(nameof(_model.Recovery), () => _recoveryField);
         RegisterInjector(nameof(_model.Rest), () => _restField);
     }
@@ -32,11 +32,11 @@
 
     public override Loop SubmitCreate()
     {
-        return Loop.Create(_model.Distance,_model.Recovery,_model.Rest);
+        return Loop.Create(_model.Phase, _model.Recovery, _model.Rest);
     }
 
     public override Loop SubmitUpdate()
     {        
-        return Loop.Update(_model.Id, _model.Distance, _model.Recovery, _model.Rest);
+        return Loop.Update(_model.Id, _model.Phase, _model.Recovery, _model.Rest);
     }
 }
