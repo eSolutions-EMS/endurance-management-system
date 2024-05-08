@@ -1,36 +1,20 @@
-﻿using Not.Application.Ports.CRUD;
-using Not.Exceptions;
+using Not.Domain;
 using NTS.Domain.Setup.Entities;
 
 namespace NTS.Persistence.Adapters;
 
-public class CompetitionRepository : ParentRepository<Contestant, Loop, Competition, State>, IParentRepository<Contestant>, IParentRepository<Loop>
+public class CompetitionRepository : ChildRepository<Competition, State>
 {
     public CompetitionRepository(IStore<State> store) : base(store)
     {
     }
-
-    public override async Task<Contestant> Update(int parentId, Contestant child)
+    protected override Competition? Get(State context, int id)
     {
-        var context = await Store.Load();
-        var parent = context.Competitions.FirstOrDefault(x => x.Id == parentId);
-        GuardHelper.ThrowIfNull(parent);
-
-        parent.Update(child);
-        await Store.Commit(context);
-
-        return child;
+        return context.Event?.Competitions.FirstOrDefault(x => x.Id == id);
     }
 
-    public override async Task<Loop> Update(int parentId, Loop child)
+    protected override IParent<Competition>? GetParent(State context, int childId)
     {
-        var context = await Store.Load();
-        var parent = context.Competitions.FirstOrDefault(x => x.Id == parentId);
-        GuardHelper.ThrowIfNull(parent);
-
-        parent.Update(child);
-        await Store.Commit(context);
-
-        return child;
+        return context.Event;
     }
 }

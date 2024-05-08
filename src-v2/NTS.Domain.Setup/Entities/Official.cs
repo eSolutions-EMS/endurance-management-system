@@ -15,6 +15,7 @@ public class Official : DomainEntity, ISummarizable, IImportable
         this.Role = role;
         this.Id = id;
     }
+    // TODO: fix ctor usage
     private Official(string name, OfficialRole role)
     {
         if (role == default)

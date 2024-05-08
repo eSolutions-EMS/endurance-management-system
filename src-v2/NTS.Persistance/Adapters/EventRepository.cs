@@ -1,57 +1,58 @@
 ﻿using NTS.Domain.Setup.Entities;
 using Not.Application.Ports.CRUD;
-using Not.Exceptions;
 
 namespace NTS.Persistence.Adapters;
 
-public class EventRepository : ParentRepository<Official, Competition, Event, State>, 
-    IParentRepository<Official>,
-    IParentRepository<Competition>
+public class EventRepository : IRepository<Event>
 {
+    private readonly IStore<State> _store;
 
-    public EventRepository(IStore<State> store) : base(store)
+    public EventRepository(IStore<State> store)
     {
+        _store = store;
     }
 
-    public override async Task<Event> Update(Event entity)
+    public async Task<Event> Create(Event entity)
     {
-        var context = await Store.Load();
-        GuardHelper.ThrowIfNull(context.Event);
-
-        foreach (var official in context.Event.Officials)
-        {
-            entity.Add(official);
-        }
-        foreach (var competition in context.Event.Competitions)
-        {
-            entity.Add(competition);
-        }
+        var context = await _store.Load();
+        
         context.Event = entity;
-        await Store.Commit(context);
-
+        await _store.Commit(context);
+        
         return entity;
     }
-
-    public override async Task<Official> Update(int parentId, Official child)
+    public async Task<Event?> Read(int _)
     {
-        var context = await Store.Load();
-        var parent = context.Event;
-        GuardHelper.ThrowIfNull(parent);
-
-        parent.Update(child);
-        await Store.Commit(context);
-
-        return child;
+        var context = await _store.Load();
+        return context.Event;
     }
-    public override async Task<Competition> Update(int parentId, Competition entity)
+
+    public async Task<Event> Update(Event entity)
     {
-        var context = await Store.Load();
-        var parent = context.Event;
-        GuardHelper.ThrowIfNull(parent);
+        var context = await _store.Load();
+        
+        context.Event = entity;
+        await _store.Commit(context);
+        
+        return context.Event;
+    }
+    public Task<Event> Delete(int id)
+    {
+        throw new NotImplementedException();
+    }
 
-        parent.Update(entity);
-        await Store.Commit(context);
+    public Task<Event> Delete(Predicate<Event> filter)
+    {
+        throw new NotImplementedException();
+    }
 
-        return entity;
+    public Task<Event> Delete(Event entity)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<IEnumerable<Event>> Read(Predicate<Event> filter)
+    {
+        throw new NotImplementedException();
     }
 }
