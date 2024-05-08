@@ -2,9 +2,9 @@
 
 namespace NTS.Domain.Setup.Entities;
 
-public class Starter : DomainEntity, ISummarizable, IImportable
+public class Tandem : DomainEntity, ISummarizable, IImportable
 {
-    public Starter(int number)
+    public Tandem(int number)
     {
         this.Number = number;
     }

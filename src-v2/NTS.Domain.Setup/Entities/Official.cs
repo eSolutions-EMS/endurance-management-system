@@ -19,7 +19,12 @@ public class Official : DomainEntity, ISummarizable, IImportable
     // TODO: fix ctor usage
     private Official(string name, OfficialRole role)
     {
-		this.Person = new Person(name);
+        if (role == default)
+        {
+            throw new DomainException(nameof(Role), "Official Role is required");
+        }
+
+        this.Person = new Person(name);
 		this.Role = role;
     }
 

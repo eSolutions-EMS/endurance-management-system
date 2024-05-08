@@ -7,11 +7,11 @@
 @typeparam T where T : DomainEntity;
 @typeparam TForm where TForm : NotForm<T>;
 
-<MudCard>
+<MudCard Elevation="0">
     <NotDynamic T="TForm" @ref="_notUpdate" />
 </MudCard>
 
-<MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Update">
+<MudButton Class="mt-4" Variant="Variant.Filled" Color="Color.Primary" OnClick="Update">
     @Localizer.Get("Update")
 </MudButton>
 

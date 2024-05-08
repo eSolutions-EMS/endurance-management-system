@@ -38,12 +38,8 @@ public class MudValidationInjector
         AddValidationErrorMethod.Invoke(validationErrorsList, new object[] { message });
     }
 
-    public static MudValidationInjector Create<T>(Func<MudBaseInput<T>> getter)
+    public static MudValidationInjector Create<T>(Func<MudFormComponent<T, string>> getter)
     {
-        return new MudValidationInjector(typeof(MudBaseInput<T>), getter);
-    }
-    public static MudValidationInjector Create<T>(Func<MudPicker<T>> getter)
-    {
-        return new MudValidationInjector(typeof(MudPicker<T>), getter);
+        return new MudValidationInjector(typeof(MudFormComponent<T, string>), getter);
     }
 }

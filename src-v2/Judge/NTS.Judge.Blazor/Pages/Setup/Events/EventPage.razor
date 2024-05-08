@@ -2,6 +2,7 @@
 @using NTS.Judge.Blazor.Pages.Setup.Events
 @using NTS.Judge.Blazor.Pages.Setup.Officials
 @using NTS.Judge.Blazor.Pages.Setup.Competitions
+@using NTS.Judge.Blazor.Pages.Setup.Contestants
 @using Not.Blazor.TM.Forms.Components
 
 @inherits NotComponent
@@ -20,8 +21,9 @@
 <MudDivider />
 
 <MudPaper>
-   <CompetitionGrid/>
+   <CompetitionGrid />
 </MudPaper>
+
 
 @code {
     private Event _event = default!;
@@ -31,10 +33,9 @@
     protected override async Task OnInitializedAsync()
     {
         var entity = await _behind.Read(default);
-        if (entity == null)
-        {
-            throw GuardHelper.Exception($"Event cannot be null here");
-        }
+        GuardHelper.ThrowIfDefault(entity);
+
+        await _behind.Initialize(entity.Id);
         _event = entity;
     }
 }

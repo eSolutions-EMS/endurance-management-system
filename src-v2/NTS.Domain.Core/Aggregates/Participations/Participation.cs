@@ -106,7 +106,7 @@ public class Participation : DomainEntity, IAggregateRoot
 
         if (phase.IsComplete)
         {
-            PhaseCompletedEvent.Emit(Tandem.Number, Tandem.Name, Phases.(phase), phase.Length, phase.OutTime, NotQualified != null);
+            PhaseCompletedEvent.Emit(Tandem.Number, Tandem.Name, Phases.NumberOf(phase), phase.Length, phase.OutTime, NotQualified != null);
         }
     }
 }

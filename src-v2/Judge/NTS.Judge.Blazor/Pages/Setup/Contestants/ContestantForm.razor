@@ -1,0 +1,48 @@
+﻿@using NTS.Domain.Setup.Entities;
+@using NTS.Judge.Setup.Competitions
+@using Not.Blazor.Forms;
+@using Not.Blazor.TM;
+@using Not.Blazor.TM.Forms;
+@using Not.Blazor.TM.Forms.Components;
+@using Not.Extensions;
+
+@inherits NotForm<Contestant>;
+
+<EditForm Model="_model">
+    <NotSwitch @bind-Value="_model.IsUnranked" Label="Unranked" />
+    <NotSwitch @bind-Value="_overrideStartTime" Label="Override Start Time"/>
+    @if (_overrideStartTime)
+    {
+        <MudTimePicker DisableToolbar="true" @ref="_timeField" @bind-Time="_model.StartTimeOverride" Label="@Localizer.Get("Start Time")" />
+    }
+</EditForm>
+
+@code {
+    private MudPicker<TimeSpan?> _timeField = default!;
+    private MudBooleanInput<Boolean> _unrankedField = default!;
+    private ContestantFormModel _model { get; set; } = new();
+    private Boolean _overrideStartTime;
+
+    public override void RegisterValidationInjectors()
+    {
+        RegisterInjector(nameof(_model.StartTimeOverride), () => _timeField);
+    }
+
+    public override void SetUpdateModel(Contestant contestant)
+    {
+        _model = new ContestantFormModel(contestant);
+        _overrideStartTime = _model.StartTimeOverride != null;
+    }
+
+    public override Contestant SubmitCreate()
+    {
+        var newStartTimeOffset = _model.StartTimeOverride?.ToDateTimeOffset();
+        return Contestant.Create(newStartTimeOffset, _model.IsUnranked);
+    }
+
+    public override Contestant SubmitUpdate()
+    {
+        var newStartTimeOffset = _model.StartTimeOverride?.ToDateTimeOffset();
+        return Contestant.Update(_model.Id, newStartTimeOffset, _model.IsUnranked);
+    }
+}

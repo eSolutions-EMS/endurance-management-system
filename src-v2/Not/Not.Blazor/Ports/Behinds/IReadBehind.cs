@@ -6,5 +6,5 @@ namespace Not.Blazor.Ports.Behinds;
 public interface IReadBehind<T> : ISingletonService
     where T : DomainEntity
 {
-    Task<T> Read(int id);
+    Task<T?> Read(int id);
 }

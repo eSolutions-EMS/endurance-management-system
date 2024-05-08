@@ -1,5 +1,4 @@
-﻿using NTS.Domain;
-using NTS.Domain.Setup.Entities;
+﻿using NTS.Domain.Setup.Entities;
 
 namespace NTS.Judge.Setup.Competitions;
 
