@@ -2,7 +2,7 @@
 
 namespace NTS.Persistence;
 
-public class State
+public class SetupContext
 {
     public Event? Event { get; set; }
 }
