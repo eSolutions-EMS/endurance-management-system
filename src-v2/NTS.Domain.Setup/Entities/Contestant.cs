@@ -48,7 +48,7 @@ public class Contestant : DomainEntity, ISummarizable
     {
         var sb = new StringBuilder();
         var startTimeMessage = StartTimeOverride == null ? "" : "StartTime: " + $"{StartTimeOverride.Value.ToLocalTime().TimeOfDay}";
-        var IsUnrankedMessage = IsUnranked ? "Unranked: Yes" : "Unranked: No";
+        var IsUnrankedMessage = IsUnranked ? "Unranked" : "Ranked";
         sb.Append($"Contestant -> Tandem: *isn't configured yet* {startTimeMessage} {IsUnrankedMessage} ");
         //sb.Append($"{"Start".Localize()}: {this.StartTime.ToString("f", CultureInfo.CurrentCulture)}");
         return sb.ToString();

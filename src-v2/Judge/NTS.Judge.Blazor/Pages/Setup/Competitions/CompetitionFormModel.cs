@@ -12,7 +12,7 @@ public class CompetitionFormModel
         Name = "Olympic Games";
         Type = CompetitionType.FEI;
         StartDay = DateTime.Now;
-        StartTime = TimeSpan.Zero;
+        StartTime = DateTime.Now.TimeOfDay;
     }
 
     public CompetitionFormModel(Competition competition)
