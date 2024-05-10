@@ -16,9 +16,13 @@ public class EventFormModel
         this.Id = @event.Id;
         this.Place = @event.Place;
         this.Country = @event.Country;
+        Competitions = @event.Competitions;
+        Officials = @event.Officials;
     }
 
     public int? Id { get; }
     public string? Place { get; set; }
     public Country? Country { get; set; }
+    public IReadOnlyCollection<Competition>? Competitions { get; }
+    public IReadOnlyCollection<Official>? Officials { get; }
 }

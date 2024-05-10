@@ -1,20 +1,24 @@
 ﻿using NTS.Domain.Setup.Import;
 using Newtonsoft.Json;
+using NTS.Domain.Extensions;
 
 namespace NTS.Domain.Setup.Entities;
 
 public class Event : DomainEntity, ISummarizable, IImportable, IParent<Official>, IParent<Competition>
 {
     public static Event Create(string place, Country country) => new(place, country);
-    public static Event Update(int id, string place, Country country) => new(id, place, country);
+    public static Event Update(int id, string place, Country country, IEnumerable<Competition> competitions, IEnumerable<Official> officials)
+        => new(id, place, country, competitions, officials);
 
     private List<Competition> _competitions = new();
     private List<Official> _officials = new();
 
     [JsonConstructor]
-    private Event(int id, string place, Country country) : this(place, country)
+    private Event(int id, string place, Country country, IEnumerable<Competition> competitions, IEnumerable<Official> officials) : this(place, country)
     {
         Id = id;
+        _competitions = competitions.ToList();
+        _officials = officials.ToList();
     }
     private Event(string place, Country country)
     {
@@ -45,9 +49,7 @@ public class Event : DomainEntity, ISummarizable, IImportable, IParent<Official>
     }
     public void Update(Competition competition)
     {
-        this._competitions.Remove(competition);
-
-        this.Add(competition);
+        _competitions.Update(competition);
     }
     public void Remove(Competition competition)
     {
@@ -61,9 +63,8 @@ public class Event : DomainEntity, ISummarizable, IImportable, IParent<Official>
     }
     public void Update(Official official)
     {
-        this._officials.Remove(official);
-
-        this.Add(official);
+        // TODO: fix check for roles
+        _officials.Update(official);
     }
     public void Remove(Official official)
     {

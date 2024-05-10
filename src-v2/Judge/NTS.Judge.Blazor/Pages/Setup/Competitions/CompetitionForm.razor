@@ -3,6 +3,7 @@
 @using Not.Blazor.Forms;
 @using Not.Blazor.TM.Forms;
 @using Not.Blazor.TM.Forms.Components;
+@using Not.Extensions;
 
 @inherits NotForm<Competition>;
 
@@ -26,24 +27,17 @@
     private MudPicker<TimeSpan?> _timeField = default!;
     private CompetitionFormModel _model { get; set; } = new();
 
-    public DateTimeOffset ToDateTimeOffSet(DateTime time)
-    {
-        DateTime timeWithSpecifiedKind = DateTime.SpecifyKind(time, DateTimeKind.Local);
-        DateTimeOffset offsetTime = timeWithSpecifiedKind;
-        return offsetTime;
-    }
     public DateTimeOffset CombineStartDayAndTime(DateTime? startDay, TimeSpan? startTime)
     {
-        DateTime start = startDay.GetValueOrDefault(DateTime.MinValue);
-        DateTime startDayTime = start.Add((TimeSpan)startTime);
-        DateTimeOffset startTimeOffset = ToDateTimeOffSet(startDayTime);
+        var start = startDay.GetValueOrDefault(DateTime.Today);
+        var startDayTime = start.Date.Add(startTime.GetValueOrDefault(DateTime.Now.TimeOfDay));
+        var startTimeOffset = startDayTime.ToDateTimeOffset();
         return startTimeOffset;
     }
 
     public override void RegisterValidationInjectors()
     {
         RegisterInjector(nameof(_model.Name), () => _nameField);
-        RegisterInjector(nameof(_model.StartDay), () => _dayField);
         RegisterInjector(nameof(_model.StartTime), () => _timeField);
         RegisterInjector(nameof(_model.Type), () => _typeField);
     }
@@ -62,6 +56,6 @@
     public override Competition SubmitUpdate()
     {
         DateTimeOffset startTimeOffset = CombineStartDayAndTime(_model.StartDay, _model.StartTime);
-        return Competition.Update(_model.Name, _model.Type, startTimeOffset);
+        return Competition.Update(_model.Id!.Value, _model.Name, _model.Type, startTimeOffset, _model.Loops!, _model.Contestants!);
     }
 }
