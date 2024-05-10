@@ -1,16 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace NTS.Domain.Setup.Entities;
 public class Contestant : DomainEntity, ISummarizable
 {
     public static Contestant Create(DateTimeOffset? newStart, bool isUnranked) => new(newStart, isUnranked);
     public static Contestant Update(int id, DateTimeOffset? newStart, bool isUnranked) => new(id, newStart, isUnranked);
-
     private List<Tandem> _tandems = new();
 
     [JsonConstructor]
@@ -27,11 +21,10 @@ public class Contestant : DomainEntity, ISummarizable
         StartTimeOverride = startTimeOverride;
         IsUnranked = isUnranked;
     }
+
     public Tandem ContestantHorsePair {  get; private set; }
-
     public DateTimeOffset? StartTimeOverride { get; private set; }
-
-    public Boolean IsUnranked { get; private set; }
+    public bool IsUnranked { get; private set; }
 
     public IReadOnlyList<Tandem> Tandems
     {
@@ -44,6 +37,7 @@ public class Contestant : DomainEntity, ISummarizable
         var summary = new Summarizer(this);
         return summary.ToString();
     }
+
     public override string ToString()
     {
         var sb = new StringBuilder();

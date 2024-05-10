@@ -1,5 +1,6 @@
 ﻿using NTS.Domain.Setup.Import;
 using Newtonsoft.Json;
+using static NTS.Domain.Setup.Entities.OfficialRole;
 
 namespace NTS.Domain.Setup.Entities;
 
@@ -15,6 +16,7 @@ public class Official : DomainEntity, ISummarizable, IImportable
         this.Role = role;
         this.Id = id;
     }
+    // TODO: fix ctor usage
     private Official(string name, OfficialRole role)
     {
         if (role == default)
@@ -33,6 +35,10 @@ public class Official : DomainEntity, ISummarizable, IImportable
 	{
         return $"{LocalizationHelper.Get(this.Role)}: {this.Person}";
 	}
+    public bool IsUniqueRole()
+    {
+        return Role is PresidentVet or PresidentGroundJury or ActiveVet or FeiDelegateVet or FeiDelegateTech or ForeignJudge;
+    }
 }
 
 public enum OfficialRole

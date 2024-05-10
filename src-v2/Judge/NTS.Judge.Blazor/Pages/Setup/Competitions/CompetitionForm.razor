@@ -56,6 +56,6 @@
     public override Competition SubmitUpdate()
     {
         DateTimeOffset startTimeOffset = CombineStartDayAndTime(_model.StartDay, _model.StartTime);
-        return Competition.Update(_model.Id, _model.Name, _model.Type, startTimeOffset);
+        return Competition.Update(_model.Id!.Value, _model.Name, _model.Type, startTimeOffset, _model.Loops!, _model.Contestants!);
     }
 }
