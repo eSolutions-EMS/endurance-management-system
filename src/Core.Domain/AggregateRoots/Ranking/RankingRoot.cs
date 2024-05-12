@@ -60,19 +60,19 @@ public class RankingRoot : IAggregateRoot
         return horseSport;
     }
 
-    public static (TimeSpan ride, TimeSpan rec, TimeSpan total, double? speed) CalculateTotalValues(Participation participation)
+    public static (TimeSpan loop, TimeSpan rec, TimeSpan phase, double? speed) CalculateTotalValues(Participation participation)
     {
         var performances = Performance.GetAll(participation).ToArray();
         var totalLenght = participation.Participant.LapRecords.Sum(x => x.Lap.LengthInKm);
 
-        var rideTime = performances.Aggregate(TimeSpan.Zero, (result, x) => result + (x.ArrivalTime.Value - x.StartTime));
+        var loopTIme = performances.Aggregate(TimeSpan.Zero, (result, x) => result + (x.ArrivalTime.Value - x.StartTime));
         var recTime = performances
             .Where(x => !x.Record.Lap.IsFinal)
             .Aggregate(TimeSpan.Zero, (result, x) => result + x.RecoverySpan.Value);
-        var totalPhaseTime = rideTime + recTime;
-        var avrageTotalPhaseSpeed = totalLenght / totalPhaseTime.TotalHours;
+        var phaseTime = loopTIme + recTime;
+        var avrageTotalPhaseSpeed = totalLenght / phaseTime.TotalHours;
 
-        return (rideTime, recTime, totalPhaseTime, avrageTotalPhaseSpeed);
+        return (loopTIme, recTime, phaseTime, avrageTotalPhaseSpeed);
     }
 
     public IReadOnlyList<CompetitionResultAggregate> Competitions => this._competitions.AsReadOnly();
@@ -139,11 +139,11 @@ public class RankingRoot : IAggregateRoot
             var ctDays = CreateDaysAndPhases(participation, competition);
             ctParticipation.Phases = ctDays.ToArray();
 
-            var (ride, rec, total, speed) = CalculateTotalValues(participation);
+            var (loop, rec, phase, speed) = CalculateTotalValues(participation);
             ctParticipation.Total = new ctEnduranceTotal
             {
-                AverageSpeed = Math.Truncate((decimal)speed * 100) / 100,
-                Time = total.ToString(@"hh\:mm\:ss"),
+                AverageSpeed = Round(speed.Value),
+                Time = FormatTime(loop),
             };
 
             yield return ctParticipation;
@@ -163,9 +163,9 @@ public class RankingRoot : IAggregateRoot
                 Number = participation.Participant.LapRecords.IndexOf(record) + 1,
                 Result = new ctEndurancePhaseResultScore
                 {
-                    PhaseAverageSpeed = Math.Truncate((decimal)performance.AverageSpeedPhase * 100) / 100,
-                    PhaseTime = performance.Time?.ToString(@"hh\:mm\:ss"),
-                    RecoveryTime = performance.RecoverySpan?.ToString(@"hh\:mm\:ss"),
+                    PhaseAverageSpeed = Round(performance.AverageSpeedPhase.Value),
+                    PhaseTime = FormatTime(performance.Time),
+                    RecoveryTime = FormatTime(performance.RecoverySpan),
                 }
             };
             if (lastDate == default || lastDate == record.StartTime.Date)
@@ -226,4 +226,7 @@ public class RankingRoot : IAggregateRoot
         };
         return horseSport;
     }
+
+    private decimal Round(double value) => (decimal)Math.Round(value, 2);
+    private string FormatTime(TimeSpan? value) => value?.ToString(@"hh\:mm\:ss");
 }
