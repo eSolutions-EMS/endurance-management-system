@@ -142,7 +142,7 @@ public class RankingRoot : IAggregateRoot
             var (ride, rec, total, speed) = CalculateTotalValues(participation);
             ctParticipation.Total = new ctEnduranceTotal
             {
-                AverageSpeed = Math.Truncate((decimal)speed * 100) / 100,
+                AverageSpeed = Round(speed.Value),
                 Time = total.ToString(@"hh\:mm\:ss"),
             };
 
@@ -163,7 +163,7 @@ public class RankingRoot : IAggregateRoot
                 Number = participation.Participant.LapRecords.IndexOf(record) + 1,
                 Result = new ctEndurancePhaseResultScore
                 {
-                    PhaseAverageSpeed = Math.Truncate((decimal)performance.AverageSpeedPhase * 100) / 100,
+                    PhaseAverageSpeed = Round(performance.AverageSpeedPhase.Value),
                     PhaseTime = performance.Time?.ToString(@"hh\:mm\:ss"),
                     RecoveryTime = performance.RecoverySpan?.ToString(@"hh\:mm\:ss"),
                 }
@@ -226,4 +226,6 @@ public class RankingRoot : IAggregateRoot
         };
         return horseSport;
     }
+
+    private decimal Round(double value) => (decimal)Math.Round(value, 2);
 }
