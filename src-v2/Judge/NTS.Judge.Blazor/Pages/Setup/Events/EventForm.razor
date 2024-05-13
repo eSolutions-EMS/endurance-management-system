@@ -44,6 +44,6 @@
         {
             throw GuardHelper.Exception($"{nameof(_model.Id)} is null");
         }
-        return Event.Update(_model.Id!.Value, _model.Place!, _model.Country!, _model.Competitions!, _model.Officials!);
+        return Event.Update(_model.Id!.Value, _model.Place!, _model.Country!, _model.Phases! ,_model.Competitions!, _model.Officials!);
     }
 }

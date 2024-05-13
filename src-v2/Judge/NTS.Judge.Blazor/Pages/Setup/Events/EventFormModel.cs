@@ -8,14 +8,15 @@ public class EventFormModel
     public EventFormModel()
     {
         //mock default values for testing
-        this.Place = "Каспичан";
-        this.Country = new Country("BG", "Bulgaria");
+        Place = "Каспичан";
+        Country = new Country("BG", "Bulgaria");
     }
     public EventFormModel(Event @event)
     {
-        this.Id = @event.Id;
-        this.Place = @event.Place;
-        this.Country = @event.Country;
+        Id = @event.Id;
+        Place = @event.Place;
+        Country = @event.Country;
+        Phases = @event.Phases;
         Competitions = @event.Competitions;
         Officials = @event.Officials;
     }
@@ -23,6 +24,7 @@ public class EventFormModel
     public int? Id { get; }
     public string? Place { get; set; }
     public Country? Country { get; set; }
+    public IReadOnlyCollection<Phase>? Phases { get; }
     public IReadOnlyCollection<Competition>? Competitions { get; }
     public IReadOnlyCollection<Official>? Officials { get; }
 }
