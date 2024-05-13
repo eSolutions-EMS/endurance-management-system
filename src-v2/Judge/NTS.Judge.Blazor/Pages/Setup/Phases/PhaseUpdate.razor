@@ -1,0 +1,26 @@
+﻿@using NTS.Domain.Setup.Entities;
+@using Not.Blazor.Components;
+@using Not.Blazor.Navigation;
+@using Not.Blazor.TM.Forms.Components
+
+@attribute [Route(PHASE_UPDATE)]
+@inherits NotComponent
+
+<MudPaper>
+    <NotH2>@Localizer.Get("Edit Phase")</NotH2>
+    <NotFormUpdate T="Phase" TForm="PhaseForm" Entity="_navigator.ConsumeParameter<Phase>()" UpdateAction="Update" />
+</MudPaper>
+
+@code {
+    private Phase _Phase { get; set; } = default!;
+    [Inject]
+    private INotBehindParent<Phase> _parentBehind { get; set; } = default!;
+    [Inject]
+    private INavigator _navigator { get; set; } = default!;
+
+    protected async Task Update(Phase loop)
+    {
+        await _parentBehind.Update(loop);
+        _navigator.NavigateTo(SETUP_PAGE);
+    }
+}

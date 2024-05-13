@@ -1,0 +1,36 @@
+﻿@using NTS.Domain.Setup.Entities;
+@using NTS.Judge.Setup.Competitions
+@using Not.Blazor.Forms;
+@using Not.Blazor.TM.Forms;
+@using Not.Blazor.TM.Forms.Components;
+
+@inherits NotForm<Phase>;
+
+<EditForm Model="_model">
+    <MudNumericField @bind-Value="_model.Distance" Label="Phase" />
+</EditForm>
+
+@code {
+    private MudNumericField<double> _distanceField = default!;
+    private PhaseFormModel _model { get; set; } = new();
+
+    public override void RegisterValidationInjectors()
+    {
+        RegisterInjector(nameof(_model.Distance), () => _distanceField);
+    }
+
+    public override void SetUpdateModel(Phase horse)
+    {
+        _model = new PhaseFormModel(horse);
+    }
+
+    public override Phase SubmitCreate()
+    {
+        return Phase.Create(_model.Distance);
+    }
+
+    public override Phase SubmitUpdate()
+    {
+        return Phase.Update(_model.Id, _model.Distance);
+    }
+}
