@@ -3,24 +3,28 @@
 @using NTS.Judge.Blazor.Pages.Setup.Officials
 @using NTS.Judge.Blazor.Pages.Setup.Competitions
 @using NTS.Judge.Blazor.Pages.Setup.Contestants
+@using NTS.Judge.Blazor.Pages.Setup.Phases
+@using Not.Blazor.TM
 @using Not.Blazor.TM.Forms.Components
 
 @inherits NotComponent
 
-<MudPaper Class="pa-6">
-    <NotH2>Update Event</NotH2>
+<MudPaper Elevation="0" Class="pa-6">
+    <NotH2>Edit Event</NotH2>
     <NotFormUpdate T="Event" TForm="EventForm" Entity="_event" UpdateAction="_behind.Update" />
 </MudPaper>
 
 <MudDivider />
 
-<MudPaper Class="pa-6">
-    <OfficialList />
+<MudPaper Class="d-flex justify-space-between pr-6" Elevation="0">
+    <NotChildren Name="Officials" T="Official" TForm="OfficialForm" UpdateRoute="@OFFICIAL_PAGE" />
+    <MudDivider Vertical="true" FlexItem="true" />
+    <NotChildren Name="Phases" T="Phase" TForm="PhaseForm" UpdateRoute="@PHASE_UPDATE" />
 </MudPaper>
 
 <MudDivider />
 
-<MudPaper>
+<MudPaper Elevation="0">
    <CompetitionGrid />
 </MudPaper>
 
