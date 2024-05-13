@@ -3,14 +3,11 @@
 @using Not.Blazor.Navigation;
 @using Not.Blazor.TM.Forms.Components
 
-@attribute [Route(OFFICIAL_PAGE)]
+@attribute [Route(OFFICIAL_UPDATE)]
 @inherits NotComponent
 
-<NotH1>@Localizer.Get("Setup")</NotH1>
-
-<MudPaper>
-    <NotH2>@Localizer.Get("Update Official")</NotH2>
-
+<MudPaper Elevation="0">
+    <NotH2>@Localizer.Get("Edit Official")</NotH2>
     <NotFormUpdate T="Official" TForm="OfficialForm" Entity="_navigator.ConsumeParameter<Official>()" UpdateAction="Update" />
 </MudPaper>
 
