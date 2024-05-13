@@ -32,5 +32,6 @@ th.mud-table-cell {
 }
 
 .grid-row-1 {
+    align-self:center;
     grid-row: 1;
 }

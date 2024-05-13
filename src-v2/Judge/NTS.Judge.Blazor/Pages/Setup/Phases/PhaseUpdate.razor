@@ -6,7 +6,7 @@
 @attribute [Route(PHASE_UPDATE)]
 @inherits NotComponent
 
-<MudPaper>
+<MudPaper Elevation="0">
     <NotH2>@Localizer.Get("Edit Phase")</NotH2>
     <NotFormUpdate T="Phase" TForm="PhaseForm" Entity="_navigator.ConsumeParameter<Phase>()" UpdateAction="Update" />
 </MudPaper>

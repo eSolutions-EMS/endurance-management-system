@@ -6,8 +6,8 @@
 @attribute [Route(LOOP_UPDATE)]
 @inherits NotComponent
 
-<MudPaper>
-    <NotH2>@Localizer.Get("Update Loop")</NotH2>
+<MudPaper Elevation="0">
+    <NotH2>@Localizer.Get("Edit Loop")</NotH2>
     <NotFormUpdate T="Loop" TForm="LoopForm" Entity="_navigator.ConsumeParameter<Loop>()" UpdateAction="Update" />
 </MudPaper>
 

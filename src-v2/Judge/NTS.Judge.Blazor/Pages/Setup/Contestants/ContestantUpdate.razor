@@ -6,8 +6,8 @@
 @attribute [Route(CONTESTANT_UPDATE)]
 @inherits NotComponent
 
-<MudPaper>
-    <NotH2>@Localizer.Get("Update Contestant")</NotH2>
+<MudPaper Elevation="0">
+    <NotH2>@Localizer.Get("Edit Contestant")</NotH2>
     <NotFormUpdate T="Contestant" TForm="ContestantForm" Entity="_navigator.ConsumeParameter<Contestant>()" UpdateAction="Update" />
 </MudPaper>
 

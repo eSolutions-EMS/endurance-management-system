@@ -24,9 +24,9 @@ public class Phase : DomainEntity
 
     public override string ToString() 
     {
-        var distance = "Phase Distance".Localize();
+        var phase = "Phase".Localize();
         var sb = new StringBuilder();
-        sb.Append($"{distance} {Distance}km ");
+        sb.Append($"{phase} -> {Distance}km long ");
         return sb.ToString();
     }
 }
