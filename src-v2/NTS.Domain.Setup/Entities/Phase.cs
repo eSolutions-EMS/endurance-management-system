@@ -21,4 +21,12 @@ public class Phase : DomainEntity
         Distance = distance;
     }
     public double Distance { get; set; }
+
+    public override string ToString() 
+    {
+        var distance = "Phase Distance".Localize();
+        var sb = new StringBuilder();
+        sb.Append($"{distance} {Distance}km ");
+        return sb.ToString();
+    }
 }
