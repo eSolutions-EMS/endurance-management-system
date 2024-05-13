@@ -1,33 +1,34 @@
-﻿using NTS.Domain.Events.Start;
-using NTS.Domain.Setup.Import;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace NTS.Domain.Setup.Entities;
 
 public class Competition : DomainEntity, ISummarizable, IParent<Contestant>, IParent<Loop>
 {
-
     public static Competition Create(string name, CompetitionType type, DateTimeOffset start) => new(name,type, start);
-    public static Competition Update( int id, string name, CompetitionType type, DateTimeOffset start) => new(id, name, type, start);
+    public static Competition Update(int id, string name, CompetitionType type, DateTimeOffset start, IEnumerable<Loop> loops, IEnumerable<Contestant> contestants)
+        => new(id, name, type, start, loops, contestants);
 
     private List<Loop> _loops = new();
     private List<Contestant> _contestants = new();
 
     [JsonConstructor]
-    private Competition(int id, string name, CompetitionType type, DateTimeOffset startTime) : this(name, type, startTime)
-    {   
+    private Competition(int id, string name, CompetitionType type, DateTimeOffset startTime, IEnumerable<Loop> loops, IEnumerable<Contestant> contestants)
+        : this(name, type, startTime)
+    {
         Id = id;
+        _loops = loops.ToList();
+        _contestants = contestants.ToList();
     }
-
     private Competition(string name, CompetitionType type, DateTimeOffset startTime)
     {
         if (type == default)
         {
-            throw new DomainException(nameof(Type), "Competition Type is required");
+            throw new DomainException(nameof(type), "Competition Type is required");
         }
-        if (startTime.DateTime.CompareTo(DateTime.Today) < 0)
+
+        if (startTime.DateTime < DateTime.Today)
         {
-            throw new DomainException(nameof(StartTime), "Competition date cannot be in the past");
+            throw new DomainException(nameof(DateTime), "Competition date cannot be in the past");
         }
 
         Name = name;
