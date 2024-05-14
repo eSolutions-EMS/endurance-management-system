@@ -32,13 +32,13 @@ public class EventManager<T> : IEventManager<T>
     }
 }
 
-public interface IEventManager : ISingletonService
+public interface IEventManager : ITransientService
 {
     void Emit();
     void Subscribe(Action action);
 }
 
-public interface IEventManager<T> : ISingletonService
+public interface IEventManager<T> : ITransientService
     where T : IEvent
 {
     void Emit(T data);

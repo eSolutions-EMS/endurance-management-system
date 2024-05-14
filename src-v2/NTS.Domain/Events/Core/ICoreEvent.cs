@@ -1,6 +1,8 @@
-﻿ namespace NTS.Domain;
+﻿using Not.Events;
 
-public interface ICoreEvent
+namespace NTS.Domain;
+
+public interface ICoreEvent : IEvent
 {
     CoreIdentifier CoreId { get; }
     CoreEventType Type { get; }
