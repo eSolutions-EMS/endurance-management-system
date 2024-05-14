@@ -13,6 +13,6 @@ public class Official : DomainEntity
 
     public override string ToString()
     {
-        return $"{Person} {Role}";
+        return $"{Role} {Person}";
     }
 }

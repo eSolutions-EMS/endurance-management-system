@@ -37,6 +37,6 @@ public class Official : DomainEntity, ISummarizable, IImportable
 	}
     public bool IsUniqueRole()
     {
-        return Role is PresidentVet or PresidentGroundJury or ActiveVet or FeiDelegateVet or FeiDelegateTech or ForeignJudge;
+        return Role is PresidentVet or PresidentGroundJury or ActiveVet or FeiDelegateVet or FeiTechDelegate or ForeignJudge;
     }
 }

@@ -10,6 +10,7 @@ public class Tandem : DomainEntity
     public Tandem(
         string number,
         Person name,
+        string horse,
         decimal distance,
         Country? country,
         Club? club,
@@ -18,6 +19,7 @@ public class Tandem : DomainEntity
     {
         Number = number;
         Name = name;
+        Horse = horse;
         _distance = distance;
         Country = country;
         Club = club;
@@ -27,9 +29,10 @@ public class Tandem : DomainEntity
 
     public string Number { get; }
     public Person Name { get; }
-    public string Distance => _distance.ToString("0.00");
+    public string Horse { get; }
     public Country? Country { get; }
     public Club? Club { get; }
     public double? MinAverageSpeedlimit { get; }
     public double? MaxAverageSpeedLimit { get; }
+    public string Distance => _distance.ToString("0.00");
 }

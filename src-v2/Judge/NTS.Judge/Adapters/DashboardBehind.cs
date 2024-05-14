@@ -35,7 +35,11 @@ public class DashboardBehind : IDashboardBehind
 
     private async Task CreateEvent(Domain.Setup.Entities.Event setupEvent)
     {
-        var @event = new Event(setupEvent.Country, setupEvent.Place, null, null, null);
+        var competitionStartTimes = setupEvent.Competitions.Select(x => x.StartTime);
+        var startDate = competitionStartTimes.First();
+        var endDate = competitionStartTimes.Last();
+
+        var @event = new Event(setupEvent.Country, setupEvent.Place, "",  startDate, endDate, null, null, null); // TODO: fix city and place
         await _coreEventRespository.Create(@event);
     }
 
