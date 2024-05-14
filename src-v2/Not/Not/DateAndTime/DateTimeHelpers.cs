@@ -1,4 +1,4 @@
-﻿namespace Not.DateTime;
+﻿namespace Not.DateAndTime;
 
 public class DateTimeHelpers
 {
