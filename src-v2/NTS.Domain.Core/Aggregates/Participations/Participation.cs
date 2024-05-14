@@ -1,4 +1,5 @@
-﻿using NTS.Domain.Core.Events;
+﻿using Not.Events;
+using NTS.Domain.Core.Events;
 using static NTS.Domain.Enums.SnapshotType;
 
 namespace NTS.Domain.Core.Aggregates.Participations;
@@ -17,6 +18,7 @@ public class Participation : DomainEntity, IAggregateRoot
     public Tandem Tandem { get; private set; }
     public PhaseCollection Phases { get; private set; }
     public NotQualified? NotQualified { get; private set; }
+    public bool IsNotQualified => NotQualified != null;
     public Total? Total => Phases.Any(x => x.IsComplete)
         ? new Total(Phases.Where(x => x.IsComplete))
         : default;
@@ -106,7 +108,8 @@ public class Participation : DomainEntity, IAggregateRoot
 
         if (phase.IsComplete)
         {
-            PhaseCompletedEvent.Emit(Tandem.Number, Tandem.Name, Phases.NumberOf(phase), phase.Length, phase.OutTime, NotQualified != null);
+            var phaseCompleted = new PhaseCompleted(Tandem.Number, Tandem.Name, Phases.NumberOf(phase), phase.Length, phase.OutTime, NotQualified != null);
+            EventHelper.Emit(phaseCompleted);
         }
     }
 }

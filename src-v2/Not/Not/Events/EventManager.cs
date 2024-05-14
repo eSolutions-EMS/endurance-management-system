@@ -3,9 +3,9 @@
 namespace Not.Events;
 
 // TODO: how to unsubscribe? Maybe use Caller* attributes to keep callback references in a dictionary?
-public class Event : IEvent
+public class EventManager : IEventManager
 {
-    private event NotEventHandler? NotDelegate;
+    private static event NotEventHandler? NotDelegate;
 
     public void Emit()
     {
@@ -17,10 +17,10 @@ public class Event : IEvent
     }
 }
 
-public class Event<T> : IEvent<T>
-    where T : class
+public class EventManager<T> : IEventManager<T>
+    where T : IEvent
 {
-    private event NotHandler<T>? GenericEvent;
+    private static event NotHandler<T>? GenericEvent;
 
     public void Emit(T data)
     {
@@ -32,14 +32,14 @@ public class Event<T> : IEvent<T>
     }
 }
 
-public interface IEvent : ISingletonService
+public interface IEventManager : ISingletonService
 {
     void Emit();
     void Subscribe(Action action);
 }
 
-public interface IEvent<T> : ISingletonService
-    where T : class
+public interface IEventManager<T> : ISingletonService
+    where T : IEvent
 {
     void Emit(T data);
     void Subscribe(Action<T> action);

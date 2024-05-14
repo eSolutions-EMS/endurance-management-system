@@ -1,5 +1,4 @@
-﻿using System.Numerics;
-using static NTS.Domain.Enums.SnapshotType;
+﻿using static NTS.Domain.Enums.SnapshotType;
 
 namespace NTS.Domain.Core.Aggregates.Participations;
 
