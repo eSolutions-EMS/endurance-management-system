@@ -1,6 +1,6 @@
 ﻿using NTS.Domain.Setup.Entities;
 
-namespace NTS.Judge.Blazor.Pages.Setup.Phases;
+namespace NTS.Judge.Blazor.Pages.Setup.Loops;
 public class LoopFormModel
 {
     public LoopFormModel()

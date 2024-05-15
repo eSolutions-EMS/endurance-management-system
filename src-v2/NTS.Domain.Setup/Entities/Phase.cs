@@ -9,10 +9,10 @@ public class Phase : DomainEntity, ISummarizable, IImportable
     public static Phase Update(int id, double distance, int recovery, int rest) => new(id, distance, recovery, rest);
 
     [JsonConstructor]
-    public Phase(int id, Loop phase, int recovery, int rest)
+    public Phase(int id, Loop loop, int recovery, int rest)
     {
         Id = id;
-        Phase = phase;
+        Loop = loop;
         Recovery = recovery;
         Rest = rest;
     }
@@ -25,7 +25,7 @@ public class Phase : DomainEntity, ISummarizable, IImportable
     {
         if (distance <= 0)
         {
-            throw new DomainException(nameof(Phase), "Phase distance cannot be zero or less.");
+            throw new DomainException(nameof(Loop), "Phase distance cannot be zero or less.");
         }
         if (recovery <= 0)
         {
@@ -36,12 +36,12 @@ public class Phase : DomainEntity, ISummarizable, IImportable
             throw new DomainException(nameof(Rest), "Rest duration cannot be zero or less.");
         }
 
-        Phase = new Loop(distance);
+        Loop = new Loop(distance);
 		Recovery = recovery;
 		Rest = rest;
 	}
 
-    public Loop Phase { get; private set; }
+    public Loop Loop { get; private set; }
 	public int Recovery { get; private set; }
     public int Rest { get; private set; }
 
@@ -52,6 +52,6 @@ public class Phase : DomainEntity, ISummarizable, IImportable
 		var rec = "Recovery".Localize();
         var phase = "Phase".Localize();
 		var rest = "Rest".Localize();
-		return $"Loop -> {phase}{Phase.Distance}{km} {rec}: {Recovery}{min} {rest}: {Rest}{min}";
+		return $"Loop -> {phase}{Loop.Distance}{km} {rec}: {Recovery}{min} {rest}: {Rest}{min}";
     }
 }

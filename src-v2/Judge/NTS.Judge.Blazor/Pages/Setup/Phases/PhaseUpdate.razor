@@ -7,20 +7,20 @@
 @inherits NotComponent
 
 <MudPaper Elevation="0">
-    <NotH2>@Localizer.Get("Edit Loop")</NotH2>
-    <NotFormUpdate T="Phase" TForm="LoopForm" Entity="_navigator.ConsumeParameter<Phase>()" UpdateAction="Update" />
+    <NotH2>@Localizer.Get("Edit Phase")</NotH2>
+    <NotFormUpdate T="Phase" TForm="PhaseForm" Entity="_navigator.ConsumeParameter<Phase>()" UpdateAction="Update" />
 </MudPaper>
 
 @code {
-    private Phase _loop { get; set; } = default!;
+    private Phase _phase { get; set; } = default!;
     [Inject]
     private INotBehindParent<Phase> _parentBehind { get; set; } = default!;
     [Inject]
     private INavigator _navigator { get; set; } = default!;
 
-    protected async Task Update(Phase loop)
+    protected async Task Update(Phase phase)
     {
-        await _parentBehind.Update(loop);
+        await _parentBehind.Update(phase);
         _navigator.NavigateTo(SETUP_PAGE);
     }
 }

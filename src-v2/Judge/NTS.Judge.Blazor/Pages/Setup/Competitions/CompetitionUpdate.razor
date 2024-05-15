@@ -1,4 +1,5 @@
 ﻿@using NTS.Domain.Setup.Entities;
+@using NTS.Judge.Blazor.Pages.Setup.Phases
 @using Not.Blazor.Components;
 @using Not.Blazor.Navigation;
 @using Not.Blazor.TM
@@ -16,7 +17,7 @@
 </MudPaper>
 
 <MudPaper Class="d-flex justify-space-between pr-6" Elevation="0">
-    <NotChildren Name="Loops" T="Loop" TForm="LoopForm" UpdateRoute="@LOOP_UPDATE" />
+    <NotChildren Name="Phases" T="Phase" TForm="PhaseForm" UpdateRoute="@PHASE_UPDATE" />
     <MudDivider Vertical="true" FlexItem="true" />
     <NotChildren Name="Contestants" T="Contestant" TForm="ContestantForm" UpdateRoute="@CONTESTANT_UPDATE" />
 </MudPaper>

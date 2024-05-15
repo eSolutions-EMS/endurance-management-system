@@ -2,21 +2,21 @@
 
 namespace NTS.Domain.Setup.Entities;
 
-public class Competition : DomainEntity, ISummarizable, IParent<Contestant>, IParent<Loop>
+public class Competition : DomainEntity, ISummarizable, IParent<Contestant>, IParent<Phase>
 {
     public static Competition Create(string name, CompetitionType type, DateTimeOffset start) => new(name,type, start);
-    public static Competition Update(int id, string name, CompetitionType type, DateTimeOffset start, IEnumerable<Loop> loops, IEnumerable<Contestant> contestants)
-        => new(id, name, type, start, loops, contestants);
+    public static Competition Update(int id, string name, CompetitionType type, DateTimeOffset start, IEnumerable<Phase> phases, IEnumerable<Contestant> contestants)
+        => new(id, name, type, start, phases, contestants);
 
-    private List<Loop> _loops = new();
+    private List<Phase> _phases = new();
     private List<Contestant> _contestants = new();
 
     [JsonConstructor]
-    private Competition(int id, string name, CompetitionType type, DateTimeOffset startTime, IEnumerable<Loop> loops, IEnumerable<Contestant> contestants)
+    private Competition(int id, string name, CompetitionType type, DateTimeOffset startTime, IEnumerable<Phase> phases, IEnumerable<Contestant> contestants)
         : this(name, type, startTime)
     {
         Id = id;
-        _loops = loops.ToList();
+        _phases = phases.ToList();
         _contestants = contestants.ToList();
     }
     private Competition(string name, CompetitionType type, DateTimeOffset startTime)
@@ -40,10 +40,10 @@ public class Competition : DomainEntity, ISummarizable, IParent<Contestant>, IPa
     public CompetitionType Type { get; private set; }
 	public DateTimeOffset StartTime { get; private set; }
    
-    public IReadOnlyList<Loop> Loops
+    public IReadOnlyList<Phase> Phases
     {
-        get => _loops.AsReadOnly();
-        private set => _loops = value.ToList();
+        get => _phases.AsReadOnly();
+        private set => _phases = value.ToList();
     }
     public IReadOnlyList<Contestant> Contestants
     {
@@ -54,14 +54,14 @@ public class Competition : DomainEntity, ISummarizable, IParent<Contestant>, IPa
     public string Summarize()
 	{
 		var summary = new Summarizer(this);
-		summary.Add("Loops".Localize(), this._loops);
-		summary.Add("Contestants".Localize(), this._contestants);
+		summary.Add("Phases".Localize(), _phases);
+		summary.Add("Contestants".Localize(), _contestants);
 		return summary.ToString();
 	}
 	public override string ToString()
 	{
 		var sb = new StringBuilder();
-		sb.Append($"{LocalizationHelper.Get(this.Type)}, {"Loops".Localize()}: {this.Loops.Count}, {"Starters".Localize()}: {this.Contestants.Count}, ");
+		sb.Append($"{LocalizationHelper.Get(Type)}, {"Phases".Localize()}: {Phases.Count}, {"Contestant".Localize()}: {Contestants.Count}, ");
 		sb.Append($"{"Start".Localize()}: {this.StartTime.ToString("f", CultureInfo.CurrentCulture)}");
 		return sb.ToString();
 	}
@@ -82,19 +82,19 @@ public class Competition : DomainEntity, ISummarizable, IParent<Contestant>, IPa
         Add(child);
     }
 
-    public void Add(Loop child)
+    public void Add(Phase child)
     {
-        _loops.Add(child);
+        _phases.Add(child);
     }
 
-    public void Remove(Loop child)
+    public void Remove(Phase child)
     {
-        _loops.Remove(child);
+        _phases.Remove(child);
     }
 
-    public void Update(Loop child)
+    public void Update(Phase child)
     {
-        _loops.Remove(child);
+        _phases.Remove(child);
         Add(child);
     }
 }

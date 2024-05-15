@@ -5,26 +5,26 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NTS.Judge.Blazor.Pages.Setup.Loops;
+namespace NTS.Judge.Blazor.Pages.Setup.Phases;
 public class PhaseFormModel
 {
     public PhaseFormModel()
     {
         // mock data for testing
-        Phase = 20;
+        Loop = 20;
         Recovery = 15;
         Rest = 40;
     }
-    public PhaseFormModel(Phase loop)
+    public PhaseFormModel(Phase phase)
     {
-        Id = loop.Id;
-        Phase = loop.Phase.Distance;
-        Recovery = loop.Recovery;
-        Rest = loop.Rest;
+        Id = phase.Id;
+        Loop = phase.Loop.Distance;
+        Recovery = phase.Recovery;
+        Rest = phase.Rest;
     }
 
     public int Id { get; set; }
-    public double Phase { get; set; }
+    public double Loop { get; set; }
     public int Recovery { get; set; }
     public int Rest { get; set; }
     public bool IsFinal { get; set; }

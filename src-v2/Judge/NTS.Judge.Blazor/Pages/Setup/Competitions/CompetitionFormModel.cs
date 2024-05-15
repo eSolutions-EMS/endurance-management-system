@@ -21,7 +21,7 @@ public class CompetitionFormModel
         TimeSpan? startTime = competition.StartTime.DateTime.TimeOfDay;
         StartDay = startDay;
         StartTime = startTime;
-        Loops = competition.Loops;
+        Phases = competition.Phases;
         Contestants = competition.Contestants;
     }
 
@@ -30,7 +30,7 @@ public class CompetitionFormModel
     public CompetitionType Type { get; set; }
     public DateTime? StartDay { get; set; } = DateTime.Today;
     public TimeSpan? StartTime { get; set; }
-    public IReadOnlyCollection<Loop>? Loops { get; }
+    public IReadOnlyCollection<Phase>? Phases { get; }
     public IReadOnlyCollection<Contestant>? Contestants { get; }
 }
  

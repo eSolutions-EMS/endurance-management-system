@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 
 namespace NTS.Domain.Setup.Entities;
-public class Loop : DomainEntity
+public class Loop : DomainEntity, IParent
 {
     public static Loop Create(double distance) => new (distance);
     public static Loop Update(int id, double distance) => new(id, distance);
