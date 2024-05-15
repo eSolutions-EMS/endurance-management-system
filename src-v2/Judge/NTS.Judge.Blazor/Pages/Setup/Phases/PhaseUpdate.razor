@@ -3,16 +3,16 @@
 @using Not.Blazor.Navigation;
 @using Not.Blazor.TM.Forms.Components
 
-@attribute [Route(PHASE_UPDATE)]
+@attribute [Route(LOOP_UPDATE)]
 @inherits NotComponent
 
 <MudPaper Elevation="0">
-    <NotH2>@Localizer.Get("Edit Phase")</NotH2>
-    <NotFormUpdate T="Phase" TForm="PhaseForm" Entity="_navigator.ConsumeParameter<Phase>()" UpdateAction="Update" />
+    <NotH2>@Localizer.Get("Edit Loop")</NotH2>
+    <NotFormUpdate T="Phase" TForm="LoopForm" Entity="_navigator.ConsumeParameter<Phase>()" UpdateAction="Update" />
 </MudPaper>
 
 @code {
-    private Phase _Phase { get; set; } = default!;
+    private Phase _loop { get; set; } = default!;
     [Inject]
     private INotBehindParent<Phase> _parentBehind { get; set; } = default!;
     [Inject]

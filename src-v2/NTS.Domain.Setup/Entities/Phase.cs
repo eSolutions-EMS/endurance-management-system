@@ -1,32 +1,57 @@
-﻿using Newtonsoft.Json;
+﻿using NTS.Domain.Setup.Entities;
+using NTS.Domain.Setup.Import;
+using Newtonsoft.Json;
 
-namespace NTS.Domain.Setup.Entities;
-public class Phase : DomainEntity
+public class Phase : DomainEntity, ISummarizable, IImportable
 {
-    public static Phase Create(double distance) => new (distance);
-    public static Phase Update(int id, double distance) => new(id, distance);
+    public static Phase Create(double distance, int recovery, int rest) => new(distance, recovery, rest);
+
+    public static Phase Update(int id, double distance, int recovery, int rest) => new(id, distance, recovery, rest);
 
     [JsonConstructor]
-    public Phase(int id, double distance) : this(distance)
+    public Phase(int id, Loop phase, int recovery, int rest)
+    {
+        Id = id;
+        Phase = phase;
+        Recovery = recovery;
+        Rest = rest;
+    }
+
+    public Phase(int id, double distance, int recovery, int rest) : this(distance, recovery, rest)
     {
         Id = id;
     }
-    public Phase(double distance)
+    public Phase(double distance, int recovery, int rest)
     {
         if (distance <= 0)
         {
-            throw new DomainException(nameof(Distance), "Distance cannot be zero or less.");
+            throw new DomainException(nameof(Phase), "Phase distance cannot be zero or less.");
+        }
+        if (recovery <= 0)
+        {
+            throw new DomainException(nameof(Recovery), "Recovery time cannot be zero or less.");
+        }
+        if (rest <= 0)
+        {
+            throw new DomainException(nameof(Rest), "Rest duration cannot be zero or less.");
         }
 
-        Distance = distance;
-    }
-    public double Distance { get; set; }
+        Phase = new Loop(distance);
+		Recovery = recovery;
+		Rest = rest;
+	}
 
-    public override string ToString() 
+    public Loop Phase { get; private set; }
+	public int Recovery { get; private set; }
+    public int Rest { get; private set; }
+
+    public override string ToString()
     {
+        var km = "km".Localize();
+        var min = "min".Localize();
+		var rec = "Recovery".Localize();
         var phase = "Phase".Localize();
-        var sb = new StringBuilder();
-        sb.Append($"{phase} -> {Distance}km long ");
-        return sb.ToString();
+		var rest = "Rest".Localize();
+		return $"Loop -> {phase}{Phase.Distance}{km} {rec}: {Recovery}{min} {rest}: {Rest}{min}";
     }
 }

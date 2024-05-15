@@ -1,20 +1,31 @@
 ﻿using NTS.Domain.Setup.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace NTS.Judge.Blazor.Pages.Setup.Phases;
+namespace NTS.Judge.Blazor.Pages.Setup.Loops;
 public class PhaseFormModel
 {
     public PhaseFormModel()
     {
         // mock data for testing
-        Distance = 20;
+        Phase = 20;
+        Recovery = 15;
+        Rest = 40;
     }
-    public PhaseFormModel(Phase phase)
+    public PhaseFormModel(Phase loop)
     {
-        Id = phase.Id;
-        Distance = phase.Distance;
-
+        Id = loop.Id;
+        Phase = loop.Phase.Distance;
+        Recovery = loop.Recovery;
+        Rest = loop.Rest;
     }
 
     public int Id { get; set; }
-    public double Distance { get; set; }
+    public double Phase { get; set; }
+    public int Recovery { get; set; }
+    public int Rest { get; set; }
+    public bool IsFinal { get; set; }
 }

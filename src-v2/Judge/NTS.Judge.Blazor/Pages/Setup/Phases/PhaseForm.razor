@@ -4,33 +4,39 @@
 @using Not.Blazor.TM.Forms;
 @using Not.Blazor.TM.Forms.Components;
 
-@inherits NotForm<Phase>;
+@inherits NotForm<Loop>;
 
 <EditForm Model="_model">
-    <MudNumericField @bind-Value="_model.Distance" Label="Phase" />
+    <MudNumericField T="double" @ref="_phaseField" @bind-Value="_model.Phase" Min="0" Label="@Localizer.Get("Phase Distance")" />
+    <MudNumericField T="int" @ref="_recoveryField" @bind-Value="_model.Recovery" Min="0" Label="@Localizer.Get("Recovery Time")" />
+    <MudNumericField T="int" @ref="_restField" @bind-Value="_model.Rest" Min="0" Label="@Localizer.Get("Rest Duration")" />
 </EditForm>
 
 @code {
-    private MudNumericField<double> _distanceField = default!;
-    private PhaseFormModel _model { get; set; } = new();
+    private MudNumericField<double> _phaseField = default!;
+    private MudNumericField<int> _recoveryField = default!;
+    private MudNumericField<int> _restField = default!;
+    private LoopFormModel _model { get; set; } = new();
 
     public override void RegisterValidationInjectors()
     {
-        RegisterInjector(nameof(_model.Distance), () => _distanceField);
+        RegisterInjector(nameof(_model.Phase), () => _phaseField);
+        RegisterInjector(nameof(_model.Recovery), () => _recoveryField);
+        RegisterInjector(nameof(_model.Rest), () => _restField);
     }
 
-    public override void SetUpdateModel(Phase horse)
+    public override void SetUpdateModel(Loop loop)
     {
-        _model = new PhaseFormModel(horse);
+        _model = new LoopFormModel(loop);
     }
 
-    public override Phase SubmitCreate()
+    public override Loop SubmitCreate()
     {
-        return Phase.Create(_model.Distance);
+        return Loop.Create(_model.Phase, _model.Recovery, _model.Rest);
     }
 
-    public override Phase SubmitUpdate()
-    {
-        return Phase.Update(_model.Id, _model.Distance);
+    public override Loop SubmitUpdate()
+    {        
+        return Loop.Update(_model.Id, _model.Phase, _model.Recovery, _model.Rest);
     }
 }
