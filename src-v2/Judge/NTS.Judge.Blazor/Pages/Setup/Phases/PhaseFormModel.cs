@@ -11,21 +11,19 @@ public class PhaseFormModel
     public PhaseFormModel()
     {
         // mock data for testing
-        Loop = 20;
         Recovery = 15;
         Rest = 40;
     }
     public PhaseFormModel(Phase phase)
     {
         Id = phase.Id;
-        Loop = phase.Loop.Distance;
-        Recovery = phase.Recovery;
-        Rest = phase.Rest;
+        SelectedLap = (int)phase.SelectedLap!;
+        Recovery = (int)phase.Recovery!;
+        Rest = (int)phase.Rest!;
     }
 
     public int Id { get; set; }
-    public double Loop { get; set; }
+    public int SelectedLap { get; set; }
     public int Recovery { get; set; }
     public int Rest { get; set; }
-    public bool IsFinal { get; set; }
 }

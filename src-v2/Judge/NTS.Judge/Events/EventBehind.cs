@@ -6,7 +6,7 @@ using static MudBlazor.CategoryTypes;
 
 namespace NTS.Judge.Events;
 
-public class EventBehind : INotBehind<Event>, INotBehindParent<Phase>, INotBehindParent<Official>, INotBehindParent<Competition>, INotBehindWithChildren<Event>
+public class EventBehind : INotBehind<Event>, INotBehindParent<Official>, INotBehindParent<Competition>, INotBehindWithChildren<Event>
 {
     private readonly IRepository<Event> _eventRepository;
     private Event? _event;
@@ -16,7 +16,6 @@ public class EventBehind : INotBehind<Event>, INotBehindParent<Phase>, INotBehin
         _eventRepository = eventRepository;
     }
 
-    public IEnumerable<Phase> Children => _event?.Phases ?? Enumerable.Empty<Phase>();
     IEnumerable<Official> INotBehindParent<Official>.Children => _event?.Officials ?? Enumerable.Empty<Official>();
     IEnumerable<Competition> INotBehindParent<Competition>.Children => _event?.Competitions ?? Enumerable.Empty<Competition>();
 
@@ -40,32 +39,6 @@ public class EventBehind : INotBehind<Event>, INotBehindParent<Phase>, INotBehin
     public Task<Event> Delete(Event @event)
     {
         throw new NotImplementedException();
-    }
-    public async Task<Phase> Create(Phase child)
-    {
-        GuardHelper.ThrowIfNull(_event);
-
-        _event.Add(child);
-        await _eventRepository.Update(_event);
-        return child;
-    }
-
-    public async Task<Phase> Update(Phase child)
-    {
-        GuardHelper.ThrowIfNull(_event);
-
-        _event.Update(child);
-        await _eventRepository.Update(_event);
-        return child;
-    }
-
-    public async Task<Phase> Delete(Phase child)
-    {
-        GuardHelper.ThrowIfNull(_event);
-
-        _event.Remove(child);
-        await _eventRepository.Update(_event);
-        return child;
     }
 
     public async Task<Official> Create(Official child)

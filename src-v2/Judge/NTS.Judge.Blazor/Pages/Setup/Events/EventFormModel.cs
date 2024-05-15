@@ -16,7 +16,6 @@ public class EventFormModel
         Id = @event.Id;
         Place = @event.Place;
         Country = @event.Country;
-        Phases = @event.Phases;
         Competitions = @event.Competitions;
         Officials = @event.Officials;
     }

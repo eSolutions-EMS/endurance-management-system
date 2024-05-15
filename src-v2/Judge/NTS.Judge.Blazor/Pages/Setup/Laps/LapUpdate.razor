@@ -1,0 +1,26 @@
+﻿@using NTS.Domain.Setup.Entities;
+@using Not.Blazor.Components;
+@using Not.Blazor.Navigation;
+@using Not.Blazor.TM.Forms.Components
+
+@attribute [Route(LAP_UPDATE)]
+@inherits NotComponent
+
+<MudPaper Elevation="0">
+    <NotH2>@Localizer.Get("Edit Lap")</NotH2>
+    <NotFormUpdate T="Lap" TForm="LapForm" Entity="_navigator.ConsumeParameter<Lap>()" UpdateAction="Update" />
+</MudPaper>
+
+@code {
+    private Lap _lap { get; set; } = default!;
+    [Inject]
+    private INotBehindParent<Lap> _parentBehind { get; set; } = default!;
+    [Inject]
+    private INavigator _navigator { get; set; } = default!;
+
+    protected async Task Update(Lap lap)
+    {
+        await _parentBehind.Update(lap);
+        _navigator.NavigateTo(SETUP_PAGE);
+    }
+}

@@ -1,9 +1,9 @@
 @using NTS.Domain.Setup.Entities
 @using NTS.Judge.Blazor.Pages.Setup.Events
+@using NTS.Judge.Blazor.Pages.Setup.Laps
 @using NTS.Judge.Blazor.Pages.Setup.Officials
 @using NTS.Judge.Blazor.Pages.Setup.Competitions
 @using NTS.Judge.Blazor.Pages.Setup.Contestants
-@using NTS.Judge.Blazor.Pages.Setup.Phases
 @using Not.Blazor.TM
 @using Not.Blazor.TM.Forms.Components
 
@@ -19,7 +19,7 @@
 <MudPaper Class="d-flex justify-space-between pr-6" Elevation="0">
     <NotChildren Name="Officials" T="Official" TForm="OfficialForm" UpdateRoute="@OFFICIAL_UPDATE" />
     <MudDivider Vertical="true" FlexItem="true" />
-    <NotChildren Name="Phases" T="Phase" TForm="PhaseForm" UpdateRoute="@PHASE_UPDATE" />
+    <NotChildren Name="Laps" T="Lap" TForm="LapForm" UpdateRoute="@LAP_UPDATE" />
 </MudPaper>
 
 <MudDivider />
@@ -33,12 +33,16 @@
     private Event _event = default!;
     [Inject]
     private INotBehind<Event> _behind { get; set; } = default!;
-
+    [Inject]
+    private INotBehindWithChildren<Phase> _phaseBehind { get; set; } = default!;
     protected override async Task OnInitializedAsync()
     {
-        var entity = await _behind.Read(default);
-        GuardHelper.ThrowIfNull(entity, "Event is required");
-        await _behind.Initialize(entity.Id);
-        _event = entity;
+        var eventEntity = await _behind.Read(default);
+        GuardHelper.ThrowIfNull(eventEntity, "Event is required");
+        await _behind.Initialize(eventEntity.Id);
+        _event = eventEntity;
+
+        const int _loopId = 0;
+        await _phaseBehind.Initialize(_loopId);
     }
 }

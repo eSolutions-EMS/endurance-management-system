@@ -4,21 +4,19 @@ using NTS.Domain.Extensions;
 
 namespace NTS.Domain.Setup.Entities;
 
-public class Event : DomainEntity, ISummarizable, IImportable, IParent<Phase>, IParent<Official>, IParent<Competition> 
+public class Event : DomainEntity, ISummarizable, IImportable, IParent<Official>, IParent<Competition> 
 {
     public static Event Create(string place, Country country) => new(place, country);
-    public static Event Update(int id, string place, Country country, IEnumerable<Phase> phases, IEnumerable<Competition> competitions, IEnumerable<Official> officials)
-        => new(id, place, country, phases, competitions, officials);
+    public static Event Update(int id, string place, Country country, IEnumerable<Competition> competitions, IEnumerable<Official> officials)
+        => new(id, place, country, competitions, officials);
 
-    private List<Phase> _phases = new();
     private List<Competition> _competitions = new();
     private List<Official> _officials = new();
 
     [JsonConstructor]
-    private Event(int id, string place, Country country, IEnumerable<Phase> phases, IEnumerable<Competition> competitions, IEnumerable<Official> officials) : this(place, country)
+    private Event(int id, string place, Country country, IEnumerable<Competition> competitions, IEnumerable<Official> officials) : this(place, country)
     {
         Id = id;
-        _phases = phases.ToList();
         _competitions = competitions.ToList();
         _officials = officials.ToList();
     }
@@ -29,17 +27,12 @@ public class Event : DomainEntity, ISummarizable, IImportable, IParent<Phase>, I
             throw new DomainException(nameof(Place), $"{nameof(Place)} is invalid. It has to be Capitalized");
         }
 
-        this.Place = place;
-        this.Country = country;
+        Place = place;
+        Country = country;
     }
 
     public string Place { get; private set; }
     public Country Country { get; private set; }
-    public IReadOnlyList<Phase> Phases
-    {
-        get => _phases.AsReadOnly();
-        private set => _phases = value.ToList();
-    }
     public IReadOnlyList<Official> Officials
     {
         get => _officials.AsReadOnly();
@@ -50,23 +43,9 @@ public class Event : DomainEntity, ISummarizable, IImportable, IParent<Phase>, I
         get => _competitions.AsReadOnly();
         private set => _competitions = value.ToList();
     }
-    public void Add(Phase phase)
-    {
-        _phases.Add(phase);
-    }
-
-    public void Remove(Phase phase)
-    {
-        _phases.Remove(phase);
-    }
-
-    public void Update(Phase phase)
-    {
-        _phases.Update(phase);
-    }
     public void Add(Competition competition)
     {
-        this._competitions.Add(competition);
+        _competitions.Add(competition);
     }
     public void Update(Competition competition)
     {
