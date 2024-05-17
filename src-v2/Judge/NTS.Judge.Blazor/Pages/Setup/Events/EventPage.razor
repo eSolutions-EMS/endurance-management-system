@@ -19,7 +19,7 @@
 <MudPaper Class="d-flex justify-space-between pr-6" Elevation="0">
     <NotChildren Name="Officials" T="Official" TForm="OfficialForm" UpdateRoute="@OFFICIAL_UPDATE" />
     <MudDivider Vertical="true" FlexItem="true" />
-    <NotChildren Name="Laps" T="Lap" TForm="LapForm" UpdateRoute="@LAP_UPDATE" />
+    <NotSimpleList Name="Laps" T="Lap" TForm="LapForm" UpdateRoute="@LAP_UPDATE" />
 </MudPaper>
 
 <MudDivider />
@@ -33,16 +33,12 @@
     private Event _event = default!;
     [Inject]
     private INotBehind<Event> _behind { get; set; } = default!;
-    [Inject]
-    private INotBehindWithChildren<Phase> _phaseBehind { get; set; } = default!;
+
     protected override async Task OnInitializedAsync()
     {
         var eventEntity = await _behind.Read(default);
         GuardHelper.ThrowIfNull(eventEntity, "Event is required");
         await _behind.Initialize(eventEntity.Id);
         _event = eventEntity;
-
-        const int _loopId = 0;
-        await _phaseBehind.Initialize(_loopId);
     }
 }

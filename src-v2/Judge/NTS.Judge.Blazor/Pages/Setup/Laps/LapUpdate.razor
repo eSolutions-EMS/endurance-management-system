@@ -14,13 +14,13 @@
 @code {
     private Lap _lap { get; set; } = default!;
     [Inject]
-    private INotBehindParent<Lap> _parentBehind { get; set; } = default!;
+    private INotSetBehind<Lap> _behind { get; set; } = default!;
     [Inject]
     private INavigator _navigator { get; set; } = default!;
 
     protected async Task Update(Lap lap)
     {
-        await _parentBehind.Update(lap);
+        await _behind.Update(lap);
         _navigator.NavigateTo(SETUP_PAGE);
     }
 }

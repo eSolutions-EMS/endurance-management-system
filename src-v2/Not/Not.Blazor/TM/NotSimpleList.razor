@@ -11,7 +11,7 @@
 @typeparam TForm where TForm : NotForm<T>
 
 <MudPaper Elevation="0" Class="@Class">
-@if (Items.Any())
+@if (Items != null && Items.Any())
 {
     <NotH2 Class="pt-6 pl-6">@Name</NotH2>
     <NotButtonCreate Class="mt-1 ml-6 mb-3" OnClick="_contestantNavigator.Create" />
@@ -22,7 +22,7 @@
             <div class="grid-row-1">@item</div>
             <div class="grid-row-1 action-column">
                 <NotButtonUpdate  Size="Size.Small" OnClick="() => this._contestantNavigator.Update(UpdateRoute, item)">Edit</NotButtonUpdate>
-                <NotButtonDelete Class="ml-1" Size="Size.Small" OnClick="() => _parentBehind.Delete(item)" />
+                <NotButtonDelete Class="ml-1" Size="Size.Small" OnClick="() => Pesho(item)" />
             </div>
         </div>
         <MudDivider />
@@ -50,22 +50,28 @@ else
     public string Class { get; set; } = default!;
     public IEnumerable<T> Items { get; set; } = default!;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         //TODO improve the default message to enable a single translation entry for all empty component messages
         Name = Localizer.Get(Name);
         if(EmptyMessage == default)
         {
-            
+
             string defaultMessage = $"No {Name.ToLower()} have been created for this event.";
             EmptyMessage = Localizer.Get(defaultMessage);
         }
         Class += " children-component half-width";
-        Items = _parentBehind.Children;
+        Items = await _setBehind.GetAll();
+    }
+
+    public async Task Pesho(T item)
+    {
+        await _setBehind.Delete(item);
+        StateHasChanged();
     }
 
     [Inject]
-    private INotBehindParent<T> _parentBehind { get; set; } = default!;
+    private INotSetBehind<T> _setBehind { get; set; } = default!;
     [Inject]
     private IFormNavigator<T, TForm> _contestantNavigator { get; set; } = default!;
 }

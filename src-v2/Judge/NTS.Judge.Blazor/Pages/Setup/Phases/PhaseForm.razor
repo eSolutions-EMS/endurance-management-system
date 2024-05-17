@@ -9,10 +9,9 @@
 <EditForm Model="_model">
     <MudSelect @ref="_lapField" @bind-Value="_model.SelectedLap" Label="@Localizer.Get("Phase Distance")" @onchange="(_) => SubmitUpdate()"
         Strict="true" ShrinkLabel="true" Placeholder="@Localizer.Get("Pick lap length")">
-        @for(var i = 0; i < Phase.Laps.Count; i++)
+        @foreach(var item in Items)
         {
-            var item = Phase.Laps[i];
-            <MudSelectItem Value="i">@item</MudSelectItem>
+            <MudSelectItem Value="item">@item</MudSelectItem>
         }
     </MudSelect>
     <MudNumericField T="int" @ref="_recoveryField" @bind-Value="_model.Recovery" Min="0" Label="@Localizer.Get("Recovery Time")" />
@@ -20,10 +19,19 @@
 </EditForm>
 
 @code {
-    private MudSelect<int> _lapField = default!;
+    private MudSelect<Lap> _lapField = default!;
     private MudNumericField<int> _recoveryField = default!;
     private MudNumericField<int> _restField = default!;
     private PhaseFormModel _model { get; set; } = new();
+    private IEnumerable<Lap> Items { get; set; } = default!;
+
+    [Inject]
+    private INotSetBehind<Lap> _setBehind { get; set; } = default!;
+
+    protected async override Task OnInitializedAsync()
+    {
+        Items = await _setBehind.GetAll();
+    }
 
     public override void RegisterValidationInjectors()
     {
