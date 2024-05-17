@@ -10,7 +10,10 @@ public interface INotBehind<T> : ICreateBehind<T>, IReadBehind<T>, IUpdateBehind
     where T : DomainEntity, IParent
 {
 }
-
+public interface INotSetBehind<T> : ICreateBehind<T>, IReadAllBehind<T>, IUpdateBehind<T>, IDeleteBehind<T>
+    where T : DomainEntity
+{
+}
 /// <summary>
 /// <seealso cref="INotBehind"/> is inspired from code-behind (i.e. the code that sits behind a view component)
 /// </summary>

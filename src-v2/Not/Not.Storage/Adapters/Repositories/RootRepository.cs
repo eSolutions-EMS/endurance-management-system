@@ -1,5 +1,6 @@
 ﻿using Not.Application.Ports.CRUD;
 using Not.Domain;
+using Not.Storage.Ports.States;
 
 namespace Not.Storage.Adapters.Repositories;
 
@@ -12,7 +13,7 @@ namespace Not.Storage.Adapters.Repositories;
 /// <typeparam name="TState">Type of the state object containing the Root entity</typeparam>
 public abstract class RootRepository<T, TState> : IRepository<T>
     where T : DomainEntity
-    where TState : class, IRootStore<T>, new()
+    where TState : class, ITreeState<T>, new()
 {
     private readonly IStore<TState> _store;
 

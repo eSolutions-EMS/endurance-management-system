@@ -20,9 +20,12 @@ public class Lap : DomainEntity
 
         Distance = distance;
     }
-
     public double Distance { get; set; }
 
+    public string NestedToString()
+    {
+        return Distance.ToString()+"km";
+    }
     public override string ToString() 
     {
         var phase = "Lap".Localize();

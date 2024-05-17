@@ -1,8 +1,8 @@
 ﻿using Not.Domain;
 
-namespace Not.Storage;
+namespace Not.Storage.Ports.States;
 
-public interface IRootStore<T>
+public interface ITreeState<T>
     where T : DomainEntity
 {
     T? Root { get; set; }

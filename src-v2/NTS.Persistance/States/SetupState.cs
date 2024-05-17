@@ -1,21 +1,24 @@
-﻿using NTS.Domain.Setup.Entities;
+﻿using Not.Storage.Ports.States;
+using NTS.Domain.Setup.Entities;
 
 namespace NTS.Persistence.Setup;
 
-public class SetupState : IRootStore<Event>, IRootStore<Phase>
+public class SetupState : ITreeState<Event>, ISetState<Lap>
 {
     public Event? Event { get; set; }
-    public Phase? Phase { get; set; }
-    
-    Event? IRootStore<Event>.Root
+    public List<Lap> Laps { get; set; } 
+
+    public SetupState()
+    {
+        Laps = new List<Lap> { };
+    }
+
+    Event? ITreeState<Event>.Root
     {
         get => Event; 
         set => Event = value;
     }
-
-    Phase? IRootStore<Phase>.Root
-    {
-        get => Phase;
-        set => Phase = value;
+    List<Lap> ISetState<Lap>.EntitySet { 
+        get => Laps;
     }
 }
