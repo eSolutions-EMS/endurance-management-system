@@ -14,4 +14,12 @@ public class DocumentProducer
         var handoutProduced = new HandoutDocumentProduced(header, participation.Tandem, participation.Phases);
         EventHelper.Emit(handoutProduced);
     }
+
+    public static void CreateRanklist(Event @event, IEnumerable<Official> officials, Classification classification)
+    {
+        var header = new DocumentHeader(classification.Name, @event.PopulatedPlace, @event.EventSpan, officials);
+        var ranklist = new Ranklist(classification);
+        var ranklistProduced = new RanklistDocumentProduced(header, ranklist);
+        EventHelper.Emit(ranklistProduced);
+    }
 }

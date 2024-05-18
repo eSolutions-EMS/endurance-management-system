@@ -6,7 +6,8 @@ public record Total : DomainObject
     {
         var totalLength = completedPhases.Sum(x => x.Length);
         RideSpan = completedPhases.Aggregate(TimeSpan.Zero, (result, x) => result + (x.ArriveTime!.Value - x.StartTime!.Value));
-        RecoverySpan = completedPhases.Where(x => !x.IsFinal).Aggregate(TimeSpan.Zero, (result, x) => result + x.RecoverySpan!.Value);
+        RecoverySpan = completedPhases.Aggregate(TimeSpan.Zero, (result, x) => result + x.RecoverySpan!.Value);
+        RecoverySpanWithoutFinal = (RecoverySpan - completedPhases.FirstOrDefault(x => x.IsFinal)?.RecoverySpan) ?? RecoverySpan;
         Span = RideSpan + RecoverySpan;
         AverageSpeed = totalLength / Span.TotalHours;
     }
@@ -15,4 +16,5 @@ public record Total : DomainObject
     public TimeSpan Span { get; }
     public TimeSpan RideSpan { get; }
     public TimeSpan RecoverySpan { get; }
+    public TimeSpan RecoverySpanWithoutFinal { get; }
 }
