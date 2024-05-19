@@ -1,6 +1,8 @@
 ﻿using Not.Application.Ports.CRUD;
 using Not.Domain;
+using Not.Exceptions;
 using NTS.Domain.Core.Entities;
+using NTS.Domain.Core.Services;
 using NTS.Judge.Blazor.Ports;
 
 namespace NTS.Judge.Adapters;
@@ -31,6 +33,16 @@ public class DashboardBehind : IDashboardBehind
         }
         await CreateEvent(setupEvent);
         await CreateOfficials(setupEvent.Officials);
+    }
+
+    public async Task CreateRanklist(Classification classification)
+    {
+        var @event = await _coreEventRespository.Read(0);
+        var officials = await _coreOfficialRepository.ReadAll();
+
+        GuardHelper.ThrowIfDefault(@event);
+
+        DocumentProducer.CreateRanklist(@event, officials, classification);
     }
 
     private async Task CreateEvent(Domain.Setup.Entities.Event setupEvent)

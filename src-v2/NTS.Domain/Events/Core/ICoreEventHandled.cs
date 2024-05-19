@@ -3,5 +3,5 @@
 internal interface ICoreEventHandled
 {
 	bool IsRejected { get; }
-	ICoreEvent CoreEvent { get; }
+	Snapshotted CoreEvent { get; }
 }

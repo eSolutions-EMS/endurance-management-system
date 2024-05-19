@@ -40,7 +40,15 @@ public abstract class BranchRepository<T, TState> : IRepository<T>
         return entity;
     }
 
-    public virtual Task<IEnumerable<T>> Read(Predicate<T> filter)
+    public Task<T?> Read(Predicate<T> filter)
+    {
+        throw NotImplemented();
+    }
+    public Task<IEnumerable<T>> ReadAll()
+    {
+        throw NotImplemented();
+    }
+    public virtual Task<IEnumerable<T>> ReadAll(Predicate<T> filter)
     {
         throw NotImplemented();
     }

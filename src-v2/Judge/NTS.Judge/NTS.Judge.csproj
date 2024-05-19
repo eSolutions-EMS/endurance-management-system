@@ -16,4 +16,8 @@
     <ProjectReference Include="..\NTS.Judge.Blazor\NTS.Judge.Blazor.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Behinds\" />
+  </ItemGroup>
+
 </Project>

@@ -50,9 +50,22 @@ public abstract class FlatRepository<T, TState> : IRepository<T>
         return entity;
     }
 
-    public Task<IEnumerable<T>> Read(Predicate<T> filter)
+
+    public Task<IEnumerable<T>> ReadAll()
+    {
+        return ReadAll(x => true);
+    }
+    public Task<IEnumerable<T>> ReadAll(Predicate<T> filter)
     {
         throw new NotImplementedException("Doesnt make sense");
+    }
+
+    public async Task<T?> Read(Predicate<T> filter)
+    {
+        var state = await _store.Load();
+        return state.Entity == null || filter(state.Entity)
+            ? state.Entity
+            : null;
     }
 
     public async Task<T?> Read(int id)

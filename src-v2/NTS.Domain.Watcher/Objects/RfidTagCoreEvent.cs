@@ -5,7 +5,7 @@ using NTS.Domain.Watcher.Entities;
 
 namespace NTS.Domain.Watcher.Objects;
 
-public record RfidTagCoreEvent : DomainObject, ICoreEvent
+public record RfidTagCoreEvent : DomainObject, Snapshotted
 {
     public RfidTagCoreEvent(RfidTag tag, SnapshotType type, SnapshotMethod method)
     {

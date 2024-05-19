@@ -30,6 +30,11 @@ public abstract class RootRepository<T, TState> : IRepository<T>
         return entity;
     }
 
+    public async Task<T?> Read(Predicate<T> filter)
+    {
+        return await Read(0);
+    }
+
     public async Task<T?> Read(int _)
     {
         var state = await _store.Load();
@@ -45,6 +50,7 @@ public abstract class RootRepository<T, TState> : IRepository<T>
 
         return state.Root;
     }
+
     public Task<T> Delete(int id)
     {
         throw NotImplemented();
@@ -60,7 +66,12 @@ public abstract class RootRepository<T, TState> : IRepository<T>
         throw NotImplemented();
     }
 
-    public Task<IEnumerable<T>> Read(Predicate<T> filter)
+    public Task<IEnumerable<T>> ReadAll()
+    {
+        throw NotImplemented();
+    }
+
+    public Task<IEnumerable<T>> ReadAll(Predicate<T> filter)
     {
         throw NotImplemented();
     }
