@@ -4,16 +4,17 @@ using NTS.Domain.Objects;
 
 namespace NTS.Domain.Watcher.Objects;
 
-public record Snapshot : DomainObject, ISnapshot
+public record RFIDSnpashot : Snapshot
 {
-    public Snapshot(SnapshotType type, SnapshotMethod method)
+    public RFIDSnpashot(int number, SnapshotType type) : base(number, type, SnapshotMethod.RFID)
     {
-        Type = type;
-        Method = method;
-        Timestamp = new Timestamp();
     }
-
-    public SnapshotType Type { get; }
-    public SnapshotMethod Method { get; }
-    public Timestamp Timestamp { get; }
 }
+
+public record ManualSnapshot : Snapshot
+{
+    public ManualSnapshot(int number, SnapshotType type) : base(number, type, SnapshotMethod.Manual)
+    {
+    }
+}
+

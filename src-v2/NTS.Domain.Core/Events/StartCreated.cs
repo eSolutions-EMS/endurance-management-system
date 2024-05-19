@@ -13,9 +13,9 @@ public record StartCreated : DomainObject, IEvent
         StartAt = startAt;
     }
 
-    public int Number { get; }
-    public Person Athlete { get; }
-    public int LoopNumber { get; }
-    public double Distance { get; }
-    public Timestamp StartAt { get; }
+    public int Number { get; private set; }
+    public Person Athlete { get; private set; }
+    public int LoopNumber { get; private set; }
+    public double Distance { get; private set; }
+    public Timestamp StartAt { get; private set; }
 }

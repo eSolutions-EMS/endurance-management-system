@@ -1,19 +1,17 @@
 ﻿using Not.Application.Ports.CRUD;
 using Not.Domain;
-using Not.Exceptions;
 using NTS.Domain.Core.Entities;
-using NTS.Domain.Core.Services;
 using NTS.Judge.Blazor.Ports;
 
-namespace NTS.Judge.Adapters;
+namespace NTS.Judge.Adapters.Behinds;
 
-public class DashboardBehind : IDashboardBehind
+public class EventBehind : IEventBehind
 {
     private readonly IRepository<Domain.Setup.Entities.Event> _setupRepository;
     private readonly IRepository<Event> _coreEventRespository;
     private readonly IRepository<Official> _coreOfficialRepository;
 
-    public DashboardBehind(
+    public EventBehind(
         IRepository<Domain.Setup.Entities.Event> setupRepository,
         IRepository<Event> coreEventRespository,
         IRepository<Official> coreOfficialRepository)
@@ -23,7 +21,7 @@ public class DashboardBehind : IDashboardBehind
         _coreOfficialRepository = coreOfficialRepository;
     }
 
-    public async Task Initialize()
+    public async Task Start()
     {
         var setupEvent = await _setupRepository.Read(0);
         if (setupEvent == null)
@@ -35,23 +33,13 @@ public class DashboardBehind : IDashboardBehind
         await CreateOfficials(setupEvent.Officials);
     }
 
-    public async Task CreateRanklist(Classification classification)
-    {
-        var @event = await _coreEventRespository.Read(0);
-        var officials = await _coreOfficialRepository.ReadAll();
-
-        GuardHelper.ThrowIfDefault(@event);
-
-        DocumentProducer.CreateRanklist(@event, officials, classification);
-    }
-
     private async Task CreateEvent(Domain.Setup.Entities.Event setupEvent)
     {
         var competitionStartTimes = setupEvent.Competitions.Select(x => x.StartTime);
         var startDate = competitionStartTimes.First();
         var endDate = competitionStartTimes.Last();
 
-        var @event = new Event(setupEvent.Country, setupEvent.Place, "",  startDate, endDate, null, null, null); // TODO: fix city and place
+        var @event = new Event(setupEvent.Country, setupEvent.Place, "", startDate, endDate, null, null, null); // TODO: fix city and place
         await _coreEventRespository.Create(@event);
     }
 

@@ -5,13 +5,13 @@ using NTS.Domain.Watcher.Entities;
 
 namespace NTS.Domain.Watcher.Objects;
 
-public record RfidTagCoreEvent : DomainObject, Snapshotted
+public record RfidTagCoreEvent : DomainObject
+
 {
     public RfidTagCoreEvent(RfidTag tag, SnapshotType type, SnapshotMethod method)
     {
         Number = int.Parse(tag.Number); // TODO: better parsing
-        Snapshot = new Snapshot(type, method);
     }
     public int Number{ get; }
-    public ISnapshot Snapshot { get; }
+    public ISnapshot Snapshot { get; } = default!;
 }

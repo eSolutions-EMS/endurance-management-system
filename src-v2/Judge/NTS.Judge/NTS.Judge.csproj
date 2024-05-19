@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <Folder Include="Behinds\" />
+    <Folder Include="Services\Dashboard\" />
   </ItemGroup>
 
 </Project>

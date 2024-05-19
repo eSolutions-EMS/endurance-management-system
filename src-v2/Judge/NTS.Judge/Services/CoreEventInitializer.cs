@@ -3,22 +3,32 @@ using Not.Events;
 using Not.Startup;
 using NTS.Domain.Core.Aggregates.Participations;
 using NTS.Domain.Core.Events;
-using NTS.Domain.Core.Services;
+using NTS.Judge.Blazor.Ports;
+using NTS.Judge.Ports;
 
 namespace NTS.Judge.Services;
 
 public class CoreEventInitializer : IInitializer
 {
-    private readonly IRepository<Participation> _participationRepository;
+    private readonly IDocumentBehind _documentBehind;
+    private readonly IParticipationBehind _participationBehind;
+    private readonly IRpcHub _rpcHub;
+    private readonly IDocumentHandler _documentHandler;
 
-    public CoreEventInitializer(IRepository<Participation> participationRepository)
+    public CoreEventInitializer(
+        IDocumentBehind documentBehind,
+        IParticipationBehind participationBehind,
+        IRpcHub rpcHub,
+        IDocumentHandler documentHandler)
     {
-        _participationRepository = participationRepository;
+        _documentBehind = documentBehind;
+        _participationBehind = participationBehind;
+        _rpcHub = rpcHub;
+        _documentHandler = documentHandler;
     }
 
     public void Run()
     {
-        EventHelper.Subscribe<SnapshotReceived>(OnSnapshotReceived);
         EventHelper.Subscribe<PhaseCompleted>(OnPhaseCompleted);
         EventHelper.Subscribe<StartCreated>(OnStartCreated);
         EventHelper.Subscribe<QualificationRevoked>(OnQualificationRevoked);
@@ -26,46 +36,31 @@ public class CoreEventInitializer : IInitializer
         EventHelper.Subscribe<DocumentProduced>(OnDocumentProduced);
     }
 
-    public async void OnSnapshotReceived(SnapshotReceived snapshotReceived)
-    {
-        var participation = await GetParticipation(snapshotReceived.Number);
-        participation.Process(snapshotReceived.Snapshot);
-    }
-
     public async void OnPhaseCompleted(PhaseCompleted phaseCompleted)
     {
-        var participation = await GetParticipation(phaseCompleted.TandemNumber);
-        StartProducer.CreateStart(participation);
+        // TODO: Probably remove this and send StartCreated directly as it is
+        // kind of pointless to trigger and handle event in the same class
+        await _participationBehind.CreateStart(phaseCompleted.Number);
+        await _documentBehind.CreateHandout(phaseCompleted.Number);
     }
 
     public void OnStartCreated(StartCreated startCreated)
     {
-        throw new NotImplementedException();
-    }
-
-    private void OnQualificationRestored(QualificationRestored restored)
-    {
-        throw new NotImplementedException();
+        _rpcHub.SendStartCreated(startCreated);
     }
 
     private void OnQualificationRevoked(QualificationRevoked revoked)
     {
-        throw new NotImplementedException();
+        _rpcHub.SendQualificationRevoked(revoked);
+    }
+
+    private void OnQualificationRestored(QualificationRestored restored)
+    {
+        _rpcHub.SendQualificationRestored(restored);
     }
 
     private void OnDocumentProduced(DocumentProduced produced)
     {
-        throw new NotImplementedException();
-    }
-
-    private async Task<Participation> GetParticipation(int number)
-    {
-        var participation = await _participationRepository.Read(x => x.Tandem.Number == number);
-        if (participation == null)
-        {
-            //TODO: Create a VerboseWarningException to interrupt the flow and then INotifier would display the message based on Verbose configuration
-            throw new Exception($"Participation '{number}' does not exist");
-        }
-        return participation;
+        _documentHandler.Handle(produced.Document);
     }
 }
