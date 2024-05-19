@@ -50,9 +50,9 @@ public record FailedToQualify : NotQualified
         }
         Code = code;
     }
-    public FailedToQualify(FTQCodes code, string complement) : base(complement)
+    public FailedToQualify(string complement) : base(complement)
     {
-        Code = code;
+        Code = FTQCodes.FTC;
     }
 
     public FTQCodes Code { get; }

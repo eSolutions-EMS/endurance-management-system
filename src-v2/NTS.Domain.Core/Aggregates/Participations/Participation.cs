@@ -1,5 +1,6 @@
 ﻿using Not.Events;
 using NTS.Domain.Core.Events;
+using NTS.Domain.Core.Objects;
 using static NTS.Domain.Enums.SnapshotType;
 
 namespace NTS.Domain.Core.Aggregates.Participations;
@@ -25,10 +26,8 @@ public class Participation : DomainEntity, IAggregateRoot
         ? new Total(Phases.Where(x => x.IsComplete))
         : default;
 
-    public void Snapshot(SnapshotType type, DateTimeOffset time)
+    public void Process(Snapshot snapshot)
     {
-        GuardHelper.ThrowIfDefault(type);
-
         if (NotQualified != null)
         {
             return;
@@ -37,81 +36,95 @@ public class Participation : DomainEntity, IAggregateRoot
         {
             return;
         }
-        if (time < Phases.Current.OutTime + NOT_SNAPSHOTABLE_WINDOW)
+        if (snapshot.Timestamp < Phases.Current.OutTime + NOT_SNAPSHOTABLE_WINDOW)
         {
             return;
         }
 
-        if (type == Vet)
+        if (snapshot.Type == Vet)
         {
-            Phases.Current.Inspect(time);
+            Phases.Current.Inspect(snapshot);
         }
         else
         {
-            Phases.Current.Arrive(type, time);
+            Phases.Current.Arrive(snapshot);
         }
         EvaluatePhase(Phases.Current);
     }
 
-    public void Edit(IPhaseState state)
+    public void Update(IPhaseState state)
     {
         var phase = Phases.FirstOrDefault(x => x.Id == state.Id);
         GuardHelper.ThrowIfDefault(phase);
 
-        phase.Edit(state);
+        phase.Update(state);
         EvaluatePhase(phase);
     }
 
     public void Withdraw()
     {
-        NotQualified = new Withdrawn();
+        NotQualify(Phases.Current, new Withdrawn());
     }
     public void Retire()
     {
-        NotQualified = new Retired();
+        NotQualify(Phases.Current, new Retired());
     }
 
     public void Disqualify(string reason)
     {
-        NotQualified = new Disqualified(reason);
+        NotQualify(Phases.Current, new Disqualified(reason));
     }
 
     public void FinishNotRanked(string reason)
     {
-        NotQualified = new FinishedNotRanked(reason);
+        NotQualify(Phases.Current, new FinishedNotRanked(reason));
     }
 
-    public void FailToQualify(FTQCodes code, string? reason)
+    public void FailToQualify(FTQCodes code)
     {
-        if (reason == null)
-        {
-            NotQualified = new FailedToQualify(code);
-        }
-        else
-        {
-            NotQualified = new FailedToQualify(code, reason);
-        }
+        NotQualify(Phases.Current, new FailedToQualify(code));
+    }
+
+    public void FailToCompleteLoop(string reason)
+    {
+        NotQualify(Phases.Current, new FailedToQualify(reason));
     }
 
     private void EvaluatePhase(Phase phase)
     {
         if (phase.ViolatesRecoveryTime())
         {
-            NotQualified = OUT_OF_TIME;
+            NotQualify(phase, OUT_OF_TIME);
+            return;
         }
-        else if (phase.ViolatesSpeedRestriction(Tandem.MinAverageSpeedlimit, Tandem.MaxAverageSpeedLimit))
+        if (phase.ViolatesSpeedRestriction(Tandem.MinAverageSpeedlimit, Tandem.MaxAverageSpeedLimit))
         {
-            NotQualified = SPEED_RESTRICTION;
+            NotQualify(phase, SPEED_RESTRICTION);
+            return;
         }
-        else if (NotQualified == OUT_OF_TIME || NotQualified == SPEED_RESTRICTION)
+        if (NotQualified == OUT_OF_TIME || NotQualified == SPEED_RESTRICTION)
         {
             NotQualified = null;
         }
-
         if (phase.IsComplete)
         {
-            var phaseCompleted = new PhaseCompleted(Tandem.Number, Tandem.Name, Phases.NumberOf(phase), phase.Length, phase.OutTime, NotQualified != null);
-            EventHelper.Emit(phaseCompleted);
+            EmitPhaseCompleted(phase);
         }
+    }
+
+    private void NotQualify(Phase? phase, NotQualified notQualified)
+    {
+        if (phase == null)
+        {
+            return;
+        }
+        NotQualified = notQualified;
+        EmitPhaseCompleted(phase);
+    }
+
+    private void EmitPhaseCompleted(Phase phase)
+    {
+        var phaseCompleted = new PhaseCompleted(Tandem.Number, Tandem.Name, Phases.NumberOf(phase), phase.Length, phase.OutTime, NotQualified != null);
+        EventHelper.Emit(phaseCompleted);
     }
 }

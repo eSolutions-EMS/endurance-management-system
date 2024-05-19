@@ -4,7 +4,7 @@ using NTS.Domain.Core.Events;
 
 namespace NTS.Domain.Core.Services;
 
-public class Startlist
+public class StartProducer
 {
     public static void CreateStart(Participation participation)
     {
@@ -22,7 +22,7 @@ public class Startlist
             participation.Tandem.Name,
             participation.Phases.CurrentNumber,
             participation.Phases.Distance,
-            participation.Phases.OutTime.Value);
+            participation.Phases.OutTime);
 
         EventHelper.Emit(starter);
     }

@@ -1,4 +1,4 @@
-﻿namespace NTS.Domain.Events.Core;
+﻿ namespace NTS.Domain.Events.Core;
 
 internal interface ICoreEventHandled
 {

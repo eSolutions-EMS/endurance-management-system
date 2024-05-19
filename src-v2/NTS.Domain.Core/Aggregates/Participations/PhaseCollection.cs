@@ -1,5 +1,4 @@
 ﻿using System.Collections.ObjectModel;
-using System.Security.Cryptography.X509Certificates;
 
 namespace NTS.Domain.Core.Aggregates.Participations;
 
@@ -17,5 +16,5 @@ public class PhaseCollection : ReadOnlyCollection<Phase>
     internal Phase? Current => this.FirstOrDefault(x => !x.IsComplete);
     internal int CurrentNumber => this.NumberOf(Current ?? this.Last());
     internal double Distance => this.Sum(x => x.Length);
-    internal DateTimeOffset? OutTime => this.LastOrDefault(x => x.OutTime != null)?.OutTime;
+    internal Timestamp? OutTime => this.LastOrDefault(x => x.OutTime != null)?.OutTime;
 }

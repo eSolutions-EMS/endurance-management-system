@@ -9,7 +9,7 @@ namespace Not.Exceptions;
 public static class GuardHelper
 {
     /// <summary>
-    /// Mainly used in order to prevent nullable warnings and guard against default values
+    /// Mainly used in order to prevent nullable warnings and guard against default values  
     /// </summary>
     /// <exception cref="GuardException"></exception>
     [DoesNotReturn]

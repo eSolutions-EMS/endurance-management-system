@@ -1,6 +1,6 @@
 ﻿namespace Not.DateAndTime;
 
-public class DateTimeHelpers
+public class DateTimeHelper
 {
     public static DateTimeOffset Now => DateTimeOffset.UtcNow;
 }

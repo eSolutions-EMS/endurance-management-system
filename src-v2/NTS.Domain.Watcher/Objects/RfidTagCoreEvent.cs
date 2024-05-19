@@ -1,17 +1,17 @@
 ﻿using Not.Domain;
+using NTS.Domain.Enums;
+using NTS.Domain.Objects;
 using NTS.Domain.Watcher.Entities;
 
 namespace NTS.Domain.Watcher.Objects;
 
 public record RfidTagCoreEvent : DomainObject, ICoreEvent
 {
-    public RfidTagCoreEvent(RfidTag tag, CoreEventType type, Timestamp timestamp)
+    public RfidTagCoreEvent(RfidTag tag, SnapshotType type, SnapshotMethod method)
     {
-        CoreId = new RfidTagCoreIdentifier(tag);
-        Type = type;
-        Timestamp = timestamp;
+        Number = int.Parse(tag.Number); // TODO: better parsing
+        Snapshot = new Snapshot(type, method);
     }
-    public CoreIdentifier CoreId { get; }
-    public CoreEventType Type { get; }
-    public Timestamp Timestamp { get; }
+    public int Number{ get; }
+    public ISnapshot Snapshot { get; }
 }

@@ -23,7 +23,7 @@
     private void Emit()
     {
         var tag = new RfidTag("id", "13", "l");
-        var tagEvent = new RfidTagCoreEvent(tag, CoreEventType.Arrive, new Timestamp(new DateTime()));
+        var tagEvent = new RfidTagCoreEvent(tag, SnapshotType.Stage, SnapshotMethod.Manual);
         this._event.Emit(tagEvent);
     }
 
@@ -31,7 +31,7 @@
     {
         this._event.Subscribe(async e =>
         {
-            this.result = e.CoreId.ToString();
+            this.result = e.Number.ToString();
             await this.InvokeAsync(this.StateHasChanged);
         });
     }

@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Judge\NTS.Judge\NTS.Judge.csproj" />
+    <ProjectReference Include="..\NTS.Persistance\NTS.Persistence.csproj" />
   </ItemGroup>
 
 </Project>
