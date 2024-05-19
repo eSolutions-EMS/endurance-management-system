@@ -1,4 +1,6 @@
-﻿namespace NTS.Domain.Core.Aggregates.Participations;
+﻿using Not.Events;
+
+namespace NTS.Domain.Core.Aggregates.Participations;
 
 public record Withdrawn : NotQualified
 {

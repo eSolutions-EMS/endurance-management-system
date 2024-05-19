@@ -8,7 +8,7 @@ public class Tandem : DomainEntity
 
     [JsonConstructor]
     public Tandem(
-        string number,
+        int number,
         Person name,
         string horse,
         decimal distance,
@@ -27,7 +27,7 @@ public class Tandem : DomainEntity
         MaxAverageSpeedLimit = maxAverageSpeedLimit;
     }
 
-    public string Number { get; }
+    public int Number { get; }
     public Person Name { get; }
     public string Horse { get; }
     public Country? Country { get; }

@@ -63,68 +63,67 @@ public class Participation : DomainEntity, IAggregateRoot
 
     public void Withdraw()
     {
-        NotQualify(Phases.Current, new Withdrawn());
+        RevokeQualification(new Withdrawn());
     }
     public void Retire()
     {
-        NotQualify(Phases.Current, new Retired());
+        RevokeQualification(new Retired());
     }
 
     public void Disqualify(string reason)
     {
-        NotQualify(Phases.Current, new Disqualified(reason));
+        RevokeQualification(new Disqualified(reason));
     }
 
     public void FinishNotRanked(string reason)
     {
-        NotQualify(Phases.Current, new FinishedNotRanked(reason));
+        RevokeQualification(new FinishedNotRanked(reason));
     }
 
     public void FailToQualify(FTQCodes code)
     {
-        NotQualify(Phases.Current, new FailedToQualify(code));
+        RevokeQualification(new FailedToQualify(code));
     }
 
     public void FailToCompleteLoop(string reason)
     {
-        NotQualify(Phases.Current, new FailedToQualify(reason));
+        RevokeQualification(new FailedToQualify(reason));
+    }
+
+    public void RestoreQualification()
+    {
+        NotQualified = null;
+        var qualificationRestored = new QualificationRestored(Tandem.Number);
+        EventHelper.Emit(qualificationRestored);
     }
 
     private void EvaluatePhase(Phase phase)
     {
         if (phase.ViolatesRecoveryTime())
         {
-            NotQualify(phase, OUT_OF_TIME);
+            RevokeQualification(OUT_OF_TIME);
             return;
         }
         if (phase.ViolatesSpeedRestriction(Tandem.MinAverageSpeedlimit, Tandem.MaxAverageSpeedLimit))
         {
-            NotQualify(phase, SPEED_RESTRICTION);
+            RevokeQualification(SPEED_RESTRICTION);
             return;
         }
         if (NotQualified == OUT_OF_TIME || NotQualified == SPEED_RESTRICTION)
         {
-            NotQualified = null;
+            RestoreQualification();
         }
         if (phase.IsComplete)
         {
-            EmitPhaseCompleted(phase);
+            var phaseCompleted = new PhaseCompleted(Tandem.Number, Tandem.Name, Phases.NumberOf(phase), phase.Length, phase.OutTime);
+            EventHelper.Emit(phaseCompleted);
         }
     }
 
-    private void NotQualify(Phase? phase, NotQualified notQualified)
+    private void RevokeQualification(NotQualified notQualified)
     {
-        if (phase == null)
-        {
-            return;
-        }
         NotQualified = notQualified;
-        EmitPhaseCompleted(phase);
-    }
-
-    private void EmitPhaseCompleted(Phase phase)
-    {
-        var phaseCompleted = new PhaseCompleted(Tandem.Number, Tandem.Name, Phases.NumberOf(phase), phase.Length, phase.OutTime, NotQualified != null);
-        EventHelper.Emit(phaseCompleted);
+        var qualificationRevoked = new QualificationRevoked(Tandem.Number, notQualified);
+        EventHelper.Emit(qualificationRevoked);
     }
 }
