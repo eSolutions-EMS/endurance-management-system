@@ -12,7 +12,7 @@ public record DocumentHeader : DomainObject
         PresidentGroundJury = officials.FirstOrDefault(x => x.Role == OfficialRole.PresidentGroundJury);
         PresidentVet = officials.FirstOrDefault(x => x.Role == OfficialRole.PresidentVet);
         FeiTechDelegate = officials.FirstOrDefault(x => x.Role == OfficialRole.FeiTechDelegate);
-        FeiVetDelegate = officials.FirstOrDefault(x => x.Role == OfficialRole.FeiDelegateVet);
+        FeiVetDelegate = officials.FirstOrDefault(x => x.Role == OfficialRole.FeiVetDelegate);
     }
 
     public string Title { get; }

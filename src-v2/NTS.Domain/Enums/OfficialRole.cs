@@ -9,6 +9,6 @@ public enum OfficialRole
     PresidentGroundJury = 5,
     ActiveVet = 6,
     ForeignJudge = 7,
-    FeiDelegateVet = 8,
+    FeiVetDelegate = 8,
     FeiTechDelegate = 9
 }
