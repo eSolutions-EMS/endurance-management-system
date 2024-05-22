@@ -51,6 +51,9 @@ public class CompetitionViewModel : NestedConfigurationBase<CompetitionView, Com
 
     private int typeValue;
     private string name;
+    private string _feiId;
+    private string _feiScheduleNumber;
+    private string _rule;
     private string typeString;
     private string toggleText = EXPAND;
     private DateTime startTime = DateTime.Today;
@@ -151,6 +154,24 @@ public class CompetitionViewModel : NestedConfigurationBase<CompetitionView, Com
     {
         get => this.visibility;
         private set => this.SetProperty(ref this.visibility, value);
+    }
+
+    public string FeiId
+    {
+        get => _feiId;
+        set => SetProperty(ref _feiId, value);
+    }
+
+    public string FeiScheduleNumber
+    {
+        get => _feiScheduleNumber;
+        set => SetProperty(ref _feiScheduleNumber, value);
+    }
+
+    public string Rule
+    {
+        get => _rule;
+        set => SetProperty(ref _rule, value);
     }
     #endregion
 }
