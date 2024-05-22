@@ -115,7 +115,7 @@ public class Participation : DomainEntity, IAggregateRoot
         }
         if (phase.IsComplete)
         {
-            var phaseCompleted = new PhaseCompleted(Tandem.Number, Tandem.Name, Phases.NumberOf(phase), phase.Length, phase.OutTime);
+            var phaseCompleted = new PhaseCompleted(Tandem.Number);
             EventHelper.Emit(phaseCompleted);
         }
     }
