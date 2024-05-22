@@ -2,7 +2,7 @@ using NTS.Compatibility.EMS.Abstractions;
 
 namespace NTS.Compatibility.EMS.Entities.Countries;
 
-public class Country : DomainBase<CountryException>, ICountryState
+public class Country : DomainBase<CountryException>
 {
     private Country() {}
     public Country(string isoCode, string name, int id) : base(GENERATE_ID)

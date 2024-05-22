@@ -1,10 +1,9 @@
-using Core.Domain.Enums;
 using NTS.Compatibility.EMS.Abstractions;
 using NTS.Compatibility.EMS.Entities.Countries;
 
 namespace NTS.Compatibility.EMS.Entities.Athletes;
 
-public class Athlete : DomainBase<AthleteException>, IAthleteState
+public class Athlete : DomainBase<AthleteException>
 {
     private const int ADULT_AGE_IN_YEARS = 18;
 
@@ -17,17 +16,8 @@ public class Athlete : DomainBase<AthleteException>, IAthleteState
         this.LastName = lastName;
         this.Country = country;
         this.Category = birthDate.AddYears(ADULT_AGE_IN_YEARS) <= DateTime.Now
-            ? Category.Adults
-            : Category.Kids;
-    }
-    public Athlete(IAthleteState state, Country country) : base(GENERATE_ID)
-    {
-        this.FeiId = state.FeiId;
-        this.Club = state.Club;
-        this.FirstName = state.FirstName;
-        this.LastName = state.LastName;
-        this.Category = state.Category;
-        this.Country = country;
+            ? Category.Seniors
+            : Category.Children;
     }
 
     public string FeiId { get; internal set; }
@@ -38,4 +28,11 @@ public class Athlete : DomainBase<AthleteException>, IAthleteState
     public Country Country { get; internal set; }
 
     public string Name => $"{this.FirstName} {this.LastName}";
+}
+public enum Category
+{
+    Invalid = 0,
+    Seniors = 1,
+    Children = 2,
+    JuniorOrYoungAdults = 3
 }

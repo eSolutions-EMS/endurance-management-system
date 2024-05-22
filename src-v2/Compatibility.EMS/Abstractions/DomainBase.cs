@@ -1,5 +1,4 @@
 ﻿using NTS.Compabitility.EMS.Abstractions;
-using System;
 
 namespace NTS.Compatibility.EMS.Abstractions;
 

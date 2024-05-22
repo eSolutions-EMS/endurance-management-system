@@ -1,6 +1,6 @@
 using NTS.Compabitility.EMS.Abstractions;
 
-namespace NTS.Compatibility.EMS.Entities.Laps;
+namespace Core.Domain.State.Laps;
 
 public interface ILapState : IIdentifiable
 {

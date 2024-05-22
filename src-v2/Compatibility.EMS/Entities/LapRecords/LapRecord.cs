@@ -6,9 +6,9 @@ using System.ComponentModel;
 
 namespace NTS.Compatibility.EMS.Entities.LapRecords;
 
-public class LapRecord : DomainBase<LapRecordException>, ILapRecordState, INotifyPropertyChanged
+public class LapRecord : DomainBase<LapRecordException>
 {
-    public LapRecord() { }
+    public LapRecord() {}
     public LapRecord(DateTime startTime, Lap lap) : base(GENERATE_ID)
     {
         this.StartTime = startTime;
@@ -71,4 +71,3 @@ public enum WitnessEventType
     VetIn = 1,
     Arrival = 2,
 }
-

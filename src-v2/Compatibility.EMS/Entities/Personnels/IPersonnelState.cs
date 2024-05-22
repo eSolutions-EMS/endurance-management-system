@@ -1,3 +1,4 @@
+using Core.Domain.Enums;
 using NTS.Compabitility.EMS.Abstractions;
 
 namespace NTS.Compatibility.EMS.Entities.Personnels;

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NTS.Compatibility.EMS.Entities.Participants;
+﻿namespace NTS.Compatibility.EMS.Entities.Participants;
 
 public class RfidTag : IEquatable<RfidTag>
 {

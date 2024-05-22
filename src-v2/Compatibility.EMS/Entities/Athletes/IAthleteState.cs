@@ -1,7 +1,7 @@
 ﻿using Core.Domain.Enums;
 using NTS.Compabitility.EMS.Abstractions;
 
-namespace NTS.Compatibility.EMS.Entities.Athletes;
+namespace Core.Domain.State.Athletes;
 
 public interface IAthleteState : IIdentifiable
 {

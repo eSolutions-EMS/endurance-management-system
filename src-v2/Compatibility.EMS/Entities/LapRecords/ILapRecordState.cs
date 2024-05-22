@@ -1,6 +1,7 @@
 ﻿using NTS.Compabitility.EMS.Abstractions;
+using System;
 
-namespace NTS.Compatibility.EMS.Entities.LapRecords;
+namespace Core.Domain.State.LapRecords;
 
 public interface ILapRecordState : IIdentifiable
 {

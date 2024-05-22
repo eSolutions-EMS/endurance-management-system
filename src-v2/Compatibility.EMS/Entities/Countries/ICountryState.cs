@@ -1,6 +1,6 @@
 using NTS.Compabitility.EMS.Abstractions;
 
-namespace NTS.Compatibility.EMS.Entities.Countries;
+namespace Core.Domain.State.Countries;
 
 public interface ICountryState : IIdentifiable
 {

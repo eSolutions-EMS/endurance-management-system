@@ -14,6 +14,21 @@ public class Result : DomainBase<ResultException>, IResultState
     public bool IsNotQualified => this.Type != ResultType.Successful;
     public string Code { get; private set; }
     public ResultType Type { get; private set; } = ResultType.Successful;
+    public string TypeCode
+    {
+        get
+        {
+            switch (this.Type)
+            {
+                case ResultType.Resigned: return "RET";
+                case ResultType.FailedToQualify: return "FTQ";
+                case ResultType.Disqualified: return "DSQ";
+                case ResultType.Successful: return "R";
+                case ResultType.Invalid:
+                default: throw Helper.Create<ResultException>("Invalid result type");
+            }
+        }
+    }
 
     public override string ToString()
     {
@@ -22,17 +37,9 @@ public class Result : DomainBase<ResultException>, IResultState
             return string.Empty;
         }
         var typeString = string.Empty;
-        switch (this.Type)
-        {
-            case ResultType.Resigned: typeString = "RET"; break;
-            case ResultType.FailedToQualify: typeString = "FTQ"; break;
-            case ResultType.Disqualified: typeString = "DQ"; break;
-            case ResultType.Successful:
-            case ResultType.Invalid:
-            default: break;
-        }
+        
 
-        return $"{typeString.ToUpper()} {this.Code}";
+        return $"{typeString.ToUpper()} {TypeCode}";
     }
 }
 

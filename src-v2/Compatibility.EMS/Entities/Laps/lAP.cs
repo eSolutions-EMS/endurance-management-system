@@ -2,18 +2,9 @@ using NTS.Compatibility.EMS.Abstractions;
 
 namespace NTS.Compatibility.EMS.Entities.Laps;
 
-public class Lap : DomainBase<LapException>, ILapState
+public class Lap : DomainBase<LapException>
 {
     private Lap() {}
-    public Lap(ILapState state) : base(GENERATE_ID)
-    {
-        this.IsFinal = state.IsFinal;
-        this.OrderBy = state.OrderBy;
-        this.LengthInKm = state.LengthInKm;
-        this.MaxRecoveryTimeInMins = state.MaxRecoveryTimeInMins;
-        this.RestTimeInMins = state.RestTimeInMins;
-        this.IsCompulsoryInspectionRequired = state.IsCompulsoryInspectionRequired;
-    }
 
     public bool IsFinal { get; internal set; }
     public int OrderBy { get; internal set; }

@@ -1,9 +1,10 @@
-using NTS.Compatibility.EMS.Abstractions;
 using NTS.Compatibility.EMS.Entities.Laps;
+using System.Data;
+using NTS.Compatibility.EMS.Abstractions;
 
 namespace NTS.Compatibility.EMS.Entities.Competitions;
 
-public class Competition : DomainBase<CompetitionException>, ICompetitionState
+public class Competition : DomainBase<CompetitionException>
 {
     private Competition() {}
     public Competition(CompetitionType type, string name) : base(GENERATE_ID)
@@ -12,16 +13,13 @@ public class Competition : DomainBase<CompetitionException>, ICompetitionState
         this.Name = name;
         this.StartTime = DateTime.Now;
     }
-    public Competition(ICompetitionState state) : base(GENERATE_ID)
-    {
-        this.Type = state.Type;
-        this.Name = state.Name;
-        this.StartTime = state.StartTime;
-    }
 
     private List<Lap> laps = new();
     public CompetitionType Type { get; internal set; }
     public string Name { get; internal set; }
+    public string FeiId { get; internal set; } = string.Empty;
+    public string FeiScheduleNumber { get; internal set; } = string.Empty;
+    public string Rule { get; internal set; } = string.Empty;
     public DateTime StartTime { get; set; }
 
     public void Save(Lap lap)
@@ -34,4 +32,10 @@ public class Competition : DomainBase<CompetitionException>, ICompetitionState
         get => this.laps.OrderBy(x => x.OrderBy).ToList().AsReadOnly();
         private set { this.laps = value.ToList(); }
     }
+}
+public enum CompetitionType
+{
+    Invalid = 0,
+    National = 1,
+    International = 2,
 }
