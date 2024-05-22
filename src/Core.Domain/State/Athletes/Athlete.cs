@@ -18,8 +18,8 @@ public class Athlete : DomainBase<AthleteException>, IAthleteState
         this.LastName = lastName;
         this.Country = country;
         this.Category = birthDate.AddYears(ADULT_AGE_IN_YEARS) <= DateTime.Now
-            ? Category.Adults
-            : Category.Kids;
+            ? Category.Seniors
+            : Category.Children;
     }
     public Athlete(IAthleteState state, Country country) : base(GENERATE_ID)
     {

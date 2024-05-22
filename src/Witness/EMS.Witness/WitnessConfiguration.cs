@@ -7,7 +7,6 @@ using EMS.Witness.Services;
 using EMS.Witness.Platforms.Services;
 using EMS.Witness.Rpc;
 using Core.Application.Rpc;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace EMS.Witness;
 
@@ -31,14 +30,17 @@ public static class WitnessConfiguration
             .AddSingleton<WitnessContext>()
             .AddSingleton<IWitnessContext>(provider => provider.GetRequiredService<WitnessContext>())
             .AddTransient<IDateService, DateService>()
+            .AddSingleton<SignalRSocket>()
+            .AddSingleton<IRpcSocket, SignalRSocket>(x => x.GetRequiredService<SignalRSocket>())
             .AddSingleton<IStartlistClient, StartlistClient>()
-            .AddSingleton<IRpcClient>(p => p.GetRequiredService<IStartlistClient>())
             .AddSingleton<IParticipantsClient, ParticipantsClient>()
-            .AddSingleton<IRpcClient>(x => x.GetRequiredService<IParticipantsClient>())
             .AddSingleton<WitnessState>()
             .AddSingleton<IWitnessState>(x => x.GetRequiredService<WitnessState>())
             .AddTransient<IPersistenceService, PersistenceService>()
-            .AddTransient<IRpcInitalizer, RpcInitalizer>();
+            .AddTransient<IRpcInitalizer, RpcInitalizer>()
+            .AddSingleton<LoggingClient>()
+            .AddSingleton<IWitnessLogger, LoggingClient>()
+            .AddHttpClient();
 
         return services;
     }

@@ -1,18 +1,11 @@
-﻿@using Core.Application.Rpc;
+﻿@using Core.Application.Rpc
 @using EMS.Witness.Services;
+@using EMS.Witness.Rpc;
+
+@implements IDisposable;
 
 <div class="top-row ps-3 navbar navbar-dark">
 	<div class="container-fluid">
-		@if (!this.isConnected)
-		{
-			<div class="col-5 navbar-brand">Disconnected...</div>
-		}
-		else
-		{
-			<div class="col-8">
-				<a class="navbar-brand" href="">eWitness</a>
-			</div>
-		}
 		@if (this.isHandshaking)
 		{
 			<div class="col-3">
@@ -20,6 +13,24 @@
 					<span class="visually-hidden">Loading...</span>
 				</div>
 			</div>
+		}
+		@if (this.rpcConnectionStatus == RpcConnectionStatus.Connecting)
+		{
+			<div class="col-3">
+				<div class="spinner-border text-warning" role="status">
+					<span class="visually-hidden">Loading...</span>
+				</div>
+			</div>
+		}
+		@if (this.rpcConnectionStatus == RpcConnectionStatus.Connected)
+		{
+			<div class="col-3">
+				<a class="navbar-brand" href="">eWitness</a>
+			</div>
+		}
+		@if (!isHandshaking && rpcConnectionStatus == RpcConnectionStatus.Disconnected)
+		{
+			<button class="btn btn-warning" @onclick="_rpcInitializer.StartConnections">Reconnect</button>
 		}
 		<div class="col-3">
 			<button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
@@ -48,7 +59,13 @@
 	[Inject]
 	private IWitnessContext Context { get; set; } = default!;
 	[Inject]
-	private IEnumerable<IRpcClient> RpcClients { get; set; } = default!;
+	private IRpcSocket _rpcSocket { get; set; } = default!;
+	[Inject]
+	private IToaster _toaster { get; set; } = default!;
+	[Inject]
+	private IRpcInitalizer _rpcInitializer { get; set; } = default!;
+	[Inject]
+	private IParticipantsService _participantsService { get; set; } = default!;
 
 	private bool CollapseNavMenu = true;
 
@@ -60,29 +77,71 @@
 		this.CollapseNavMenu = !this.CollapseNavMenu;
 	}
 
-	private bool isConnected;
-	private bool isHandshaking = true;
+	private RpcConnectionStatus rpcConnectionStatus;
+	private bool isHandshaking;
 
-	protected override void OnInitialized()
+	protected override async Task OnInitializedAsync()
 	{
-		foreach (var client in this.RpcClients)
+		Core.Events.CoreEvents.ErrorEvent += HandleCoreErrors;
+		_rpcSocket.Error += HandleRpcErrors;
+		_rpcSocket.ServerConnectionChanged += HandleServerConnectionChanged;
+		_rpcSocket.ServerConnectionInfo += HandleServerConnectionInfo;
+		this.Context.IsHandshakingEvent += HandleIsHandshakingEvent;
+		await StartRpcConnections(_rpcInitializer);
+	}
+
+	private static bool isConnecting;
+	public static async Task StartRpcConnections(IRpcInitalizer rpcInitalizer)
+	{
+		if (isConnecting)
 		{
-			client.ServerConnectionChanged += async (sender, isConnected) =>
-			{
-				if (this.isConnected != isConnected)
-				{
-					this.isConnected = isConnected;
-					await this.InvokeAsync(this.StateHasChanged);
-				}
-			};
+			return;
 		}
-		this.Context.IsHandshakingEvent += async (sender, isHandshaking) =>
+		isConnecting = true;
+		await SafeActionHelper.Act(async () => await rpcInitalizer.StartConnections());
+		isConnecting = false;
+	}
+
+	public void Dispose()
+	{
+		Core.Events.CoreEvents.ErrorEvent -= HandleCoreErrors;
+		_rpcSocket.Error -= HandleRpcErrors;
+		_rpcSocket.ServerConnectionChanged -= HandleServerConnectionChanged;
+		_rpcSocket.ServerConnectionInfo -= HandleServerConnectionInfo;
+		this.Context.IsHandshakingEvent -= HandleIsHandshakingEvent;
+	}
+
+	private async void HandleServerConnectionChanged(object? sender, RpcConnectionStatus status)
+	{
+		if (this.rpcConnectionStatus != status)
 		{
-			if (this.isHandshaking != isHandshaking)
-			{
-				this.isHandshaking = isHandshaking;
-				await this.InvokeAsync(this.StateHasChanged);
-			}
-		};
+			this.rpcConnectionStatus = status;
+			await this.InvokeAsync(this.StateHasChanged);
+		}
+	}
+
+	private void HandleServerConnectionInfo(object? senderName, string message)
+	{
+		_toaster.Add(senderName!.ToString()!, message, UiColor.Warning, 10);
+	}
+
+	private async void HandleIsHandshakingEvent(object? sender, bool isHandshaking)
+	{
+		if (this.isHandshaking != isHandshaking)
+		{
+			this.isHandshaking = isHandshaking;
+			await this.InvokeAsync(this.StateHasChanged);
+		}
+	}
+
+	private void HandleRpcErrors(object? sender, RpcError error)
+	{
+		_toaster.Add("RPC client error", $"{error.Procedure}: {error.Exception.Message}", UiColor.Danger, 30);
+	}
+
+	private void HandleCoreErrors(object? sender, Exception error)
+	{
+		_toaster.Add(error.Message, error.StackTrace, UiColor.Danger, 30);
 	}
 }
+`

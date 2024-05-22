@@ -12,30 +12,39 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using static Core.Localization.Strings;
+using Core.Services;
+using Core.Domain.AggregateRoots.Manager;
+using System;
 
 namespace EMS.Judge.Views.Content.Ranking;
 
 public class RankingViewModel : ViewModelBase
 {
-    private readonly IExecutor<RankingRoot> rankingExecutor;
+    private readonly IExecutor<RankingRoot> _rankingExecutor;
     private readonly IExecutor basicExecutor;
+    private readonly IXmlSerializationService _xmlSerializationService;
     private CompetitionResultAggregate selectedCompetition;
     private List<CompetitionResultAggregate> competitions;
 
-    public RankingViewModel(IExecutor<RankingRoot> rankingExecutor, IExecutor basicExecutor)
+    public RankingViewModel(IExecutor<RankingRoot> rankingExecutor, IExecutor basicExecutor, IXmlSerializationService xmlSerializationService)
     {
-        this.rankingExecutor = rankingExecutor;
+        this._rankingExecutor = rankingExecutor;
         this.basicExecutor = basicExecutor;
+        _xmlSerializationService = xmlSerializationService;
         this.Print = new DelegateCommand<RanklistControl>(this.PrintAction);
         this.SelectKidsCategory = new DelegateCommand(this.SelectKidsCategoryAction);
         this.SelectAdultsCategory = new DelegateCommand(this.SelectAdultsCategoryAction);
+        this.SelectJuniorsCategory = new DelegateCommand(this.SelectJuniorsCategoryAction);
         this.SelectCompetition = new DelegateCommand<int?>(x => this.SelectCompetitionAction(x!.Value));
+        Export = new DelegateCommand(this.ExportAction);
     }
 
     public DelegateCommand<int?> SelectCompetition { get; }
     public DelegateCommand<RanklistControl> Print { get; }
     public DelegateCommand SelectKidsCategory { get; }
     public DelegateCommand SelectAdultsCategory { get; }
+    public DelegateCommand SelectJuniorsCategory { get; }
+    public DelegateCommand Export { get; }
     public ObservableCollection<ListItemViewModel> Competitions { get; } = new();
     private string totalLengthInKm;
     private string categoryName;
@@ -45,7 +54,7 @@ public class RankingViewModel : ViewModelBase
 
     public override void OnNavigatedTo(NavigationContext context)
     {
-        this.competitions = this.rankingExecutor
+        this.competitions = this._rankingExecutor
             .Execute(ranking => ranking.Competitions, false)
             .ToList();
         if (this.competitions.Count != 0)
@@ -63,7 +72,7 @@ public class RankingViewModel : ViewModelBase
     private void SelectCompetitionAction(int competitionId)
     {
         // TODO: Select competition only if Event has started
-        var competition = this.rankingExecutor.Execute(
+        var competition = this._rankingExecutor.Execute(
             ranking => ranking.GetCompetition(competitionId),
             false);
         this.selectedCompetition = competition;
@@ -78,13 +87,29 @@ public class RankingViewModel : ViewModelBase
         return listItem;
     }
 
+    private void ExportAction()
+    {
+        _rankingExecutor.Execute(
+            x => {
+                var result = x.GenerateFeiExport();
+                _xmlSerializationService.SerializeToFile(
+                    result,
+                    $"{ManagerRoot.dataDirectoryPath}/{DateTime.Now.ToString(DesktopConstants.DATE_ONLY_FORMAT)}_export.xml");
+            }, 
+            false);
+    }
+
     private void SelectKidsCategoryAction()
     {
-        this.SelectCategory(Category.Kids);
+        this.SelectCategory(Category.Children);
     }
     private void SelectAdultsCategoryAction()
     {
-        this.SelectCategory(Category.Adults);
+        this.SelectCategory(Category.Seniors);
+    }
+    private void SelectJuniorsCategoryAction()
+    {
+        this.SelectCategory(Category.JuniorOrYoungAdults);
     }
     private void PrintAction(RanklistControl control)
     {
@@ -97,7 +122,9 @@ public class RankingViewModel : ViewModelBase
     private void SelectCategory(Category category)
     {
         this.Ranklist = this.selectedCompetition.Rank(category);
-        this.CategoryName = category.ToString();
+        this.CategoryName = category == Category.JuniorOrYoungAdults
+            ? "J/YR"
+            : category.ToString();
     }
 
 #region Setters

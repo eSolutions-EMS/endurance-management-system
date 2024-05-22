@@ -20,7 +20,6 @@ using System.Threading.Tasks;
 using EMS.Judge.Api.Rpc;
 using EMS.Judge.Api.Rpc.Hubs;
 using Microsoft.AspNetCore.SignalR;
-using System.Collections.Generic;
 using static Core.Application.CoreApplicationConstants;
 
 namespace EMS.Judge.Api;
@@ -66,16 +65,14 @@ public class Startup
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllers();
-            endpoints.MapHub<StartlistHub>($"/{RpcEndpoints.STARTLIST}");
-            endpoints.MapHub<WitnessEventsHub>($"/{RpcEndpoints.WITNESS_EVENTS}");
-            endpoints.MapHub<ParticipantsHub>($"/{RpcEndpoints.PARTICIPANTS}");
+            endpoints.MapHub<JudgeRpcHub>($"/{RPC_ENDPOINT}");
         });
 
         var broadcastService = provider.GetRequiredService<INetworkBroadcastService>();
         // TODO: is termination logic necessary. Does not seem so, but should be tested.
         Task.Run(() => new NetworkBroadcastService(broadcastService).StartAsync(new CancellationToken()));
         // attach event listeners that make RPCs
-        provider.GetRequiredService<IEnumerable<IClientRpcService>>();
+        provider.GetRequiredService<JudgeRpcHub.ClientService>();
     }
 }
 
@@ -89,8 +86,7 @@ public static class ApiServices
         services.AddControllers();
         services
             .AddTransient<ErrorLogger, ErrorLogger>()
-            .AddTransient<IStartlistService, StartlistService>()
-            .AddTransient<IWitnessEventService, WitnessEventService>();
+            .AddSingleton<JudgeRpcHub.ClientService>();
 
         return services;
     }

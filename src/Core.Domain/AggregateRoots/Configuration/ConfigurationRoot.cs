@@ -26,7 +26,7 @@ public class ConfigurationRoot : IAggregateRoot
         this.validator = new Validator<EnduranceEventException>();
     }
 
-    public EnduranceEvent Update(string name, int countryId, string populatedPlace)
+    public EnduranceEvent Update(string name, int countryId, string populatedPlace, string feiId, string feiCode, string showFeiId)
     {
         this.validator.IsRequired(name, NAME);
         this.validator.IsRequired(populatedPlace, POPULATED_PLACE);
@@ -35,7 +35,7 @@ public class ConfigurationRoot : IAggregateRoot
         var country = this.state.Countries.FindDomain(countryId);
         if (this.state.Event == null)
         {
-            this.state.Event = new EnduranceEvent(name, country)
+            this.state.Event = new EnduranceEvent(name, country, feiId, feiCode, showFeiId)
             {
                 PopulatedPlace = populatedPlace,
             };
@@ -45,6 +45,9 @@ public class ConfigurationRoot : IAggregateRoot
             this.state.Event.Name = name;
             this.state.Event.PopulatedPlace = populatedPlace;
             this.state.Event.Country = country;
+            state.Event.FeiId = feiId;
+            state.Event.FeiCode = feiCode;
+            state.Event.ShowFeiId = showFeiId;
         }
         return this.state.Event;
     }
