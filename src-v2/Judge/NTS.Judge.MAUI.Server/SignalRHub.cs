@@ -5,7 +5,7 @@ using NTS.Judge.Ports;
 
 namespace NTS.Judge.MAUI.Server;
 
-public class SignalRHub : IRpcHub
+public class SignalRHub : IRemoteProcedures
 {
     private readonly IParticipationBehind _coreBehind;
 

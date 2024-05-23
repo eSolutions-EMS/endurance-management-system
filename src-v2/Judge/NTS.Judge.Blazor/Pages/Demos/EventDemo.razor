@@ -1,9 +1,10 @@
 ﻿@page "/event-demo"
+@using NTS.Domain.Objects
 @using Not.Events;
 @using NTS.Domain.Watcher.Entities;
 @using NTS.Domain.Watcher.Objects;
 
-@inject IEventManager<Snapshotted> _event;
+@inject IEventManager<RfidTagCoreEvent> _event;
 
 <h1>Events demo</h1>
 

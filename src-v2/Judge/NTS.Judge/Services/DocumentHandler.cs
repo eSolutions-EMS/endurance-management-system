@@ -1,4 +1,5 @@
-﻿using NTS.Domain.Core.Objects;
+﻿using Not.Injection;
+using NTS.Domain.Core.Objects;
 
 namespace NTS.Judge.Services;
 
@@ -10,7 +11,7 @@ public class DocumentHandler : IDocumentHandler
     }
 }
 
-public interface IDocumentHandler
+public interface IDocumentHandler : ITransientService
 {
     Task Handle(Document document);
 }

@@ -3,6 +3,7 @@ using Not.Exceptions;
 using NTS.Domain.Core.Aggregates.Participations;
 using NTS.Domain.Core.Services;
 using NTS.Domain.Objects;
+using NTS.Judge.Blazor.Enums;
 using NTS.Judge.Blazor.Ports;
 
 namespace NTS.Judge.Adapters.Behinds;
@@ -34,35 +35,35 @@ public class ParticipationBehind : IParticipationBehind
         await _participationRepository.Update(participation);
     }
 
-    public async Task RevokeQualification(int number, RevokeType type, FTQCodes? ftqCode = null, string? reason = null)
+    public async Task RevokeQualification(int number, QualificationRevokeType type, FTQCodes? ftqCode = null, string? reason = null)
     {
         GuardHelper.ThrowIfDefault(type);
 
         var participation = await _participationRepository.Read(x => x.Tandem.Number == number);
         GuardHelper.ThrowIfDefault(participation);
 
-        if (type == RevokeType.Withdraw)
+        if (type == QualificationRevokeType.Withdraw)
         {
             participation.Withdraw();
         }
-        if (type == RevokeType.Retire)
+        if (type == QualificationRevokeType.Retire)
         {
             participation.Retire();
         }
-        if (type == RevokeType.Dsiqualify)
+        if (type == QualificationRevokeType.Disqualify)
         {
             participation.Disqualify(reason);
         }
-        if (type == RevokeType.FinishNotRanked)
+        if (type == QualificationRevokeType.FinishNotRanked)
         {
             participation.FinishNotRanked(reason);
         }
-        if (type == RevokeType.FailToQualify)
+        if (type == QualificationRevokeType.FailToQualify)
         {
             GuardHelper.ThrowIfDefault(ftqCode);
             participation.FailToQualify(ftqCode.Value);
         }
-        if (type == RevokeType.FailToCompleteLoop)
+        if (type == QualificationRevokeType.FailToCompleteLoop)
         {
             participation.FailToCompleteLoop(reason);
         }

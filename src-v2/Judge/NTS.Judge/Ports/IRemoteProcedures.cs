@@ -4,7 +4,7 @@ using NTS.Domain.Objects;
 
 namespace NTS.Judge.Ports;
 
-public interface IRpcHub : ITransientService
+public interface IRemoteProcedures : ITransientService
 {
     Task ReceiveSnapshot(Snapshot snapshot);
     Task SendStartCreated(StartCreated startCreated);

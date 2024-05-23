@@ -12,13 +12,13 @@ public class CoreEventInitializer : IInitializer
 {
     private readonly IDocumentBehind _documentBehind;
     private readonly IParticipationBehind _participationBehind;
-    private readonly IRpcHub _rpcHub;
+    private readonly IRemoteProcedures _rpcHub;
     private readonly IDocumentHandler _documentHandler;
 
     public CoreEventInitializer(
         IDocumentBehind documentBehind,
         IParticipationBehind participationBehind,
-        IRpcHub rpcHub,
+        IRemoteProcedures rpcHub,
         IDocumentHandler documentHandler)
     {
         _documentBehind = documentBehind;

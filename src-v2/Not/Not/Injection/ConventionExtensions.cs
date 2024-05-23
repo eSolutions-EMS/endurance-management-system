@@ -22,7 +22,8 @@ public static class ConventionExtensions
     {
         var (services, assemblies) = values;
         assemblies = assemblies
-            .Distinct() 
+            .Distinct()
+            .OrderBy(x => x.FullName)
             .ToList();
         var classes = assemblies
             .SelectMany(x => x
