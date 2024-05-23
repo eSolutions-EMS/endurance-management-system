@@ -44,7 +44,7 @@ public class EmsImportBehind : IEmsImportBehind
     {
         foreach (var emsCompetition in emsEvent.Competitions)
         {
-            yield return Competition.Create(emsCompetition.Name, MapType(emsCompetition.Type), emsCompetition.StartTime.ToDateTimeOffset());
+            yield return Competition.Create(emsCompetition.Name, MapType(emsCompetition.Type), emsCompetition.StartTime.ToDateTimeOffset(), 10);
         }
 
         CompetitionType MapType(NTS.Compatibility.EMS.Entities.Competitions.CompetitionType emsType)

@@ -1,5 +1,4 @@
-﻿using NTS.Domain.Core.Objects;
-using static NTS.Domain.Enums.SnapshotType;
+﻿using static NTS.Domain.Enums.SnapshotType;
 
 namespace NTS.Domain.Core.Aggregates.Participations;
 
@@ -11,21 +10,23 @@ public class Phase : DomainEntity, IPhaseState
     private TimeSpan? PhaseTime => VetTime - StartTime;
     private bool IsFeiRulesAndNotFinal => CompetitionType == CompetitionType.FEI && !IsFinal;
 
-    public Phase(double length, int maxRecovery, int rest, CompetitionType competitionType, bool isFinal)
+    public Phase(double length, int maxRecovery, int rest, CompetitionType competitionType, bool isFinal, int? criRecovery)
     {
         Length = length;
         MaxRecovery = maxRecovery;
         Rest = rest;
         CompetitionType = competitionType;
         IsFinal = isFinal;
+        CRIRecovery = criRecovery;
     }
 
     public string Gate => InternalGate.ToString("0.00");
-    public double Length { get; }
-    public int MaxRecovery { get; }
-    public int Rest { get; }
-    public CompetitionType CompetitionType { get; }
-    public bool IsFinal { get; }
+    public double Length { get; private set; }
+    public int MaxRecovery { get; private set; }
+    public int Rest { get; private set; }
+    public CompetitionType CompetitionType { get; private set; }
+    public bool IsFinal { get; private set; }
+    public int? CRIRecovery { get; private set; }
     public Timestamp? StartTime { get; internal set; }
     public Timestamp? ArriveTime { get; internal set; }
     public Timestamp? InspectTime { get; internal set; }
@@ -60,6 +61,7 @@ public class Phase : DomainEntity, IPhaseState
             return;
         }
         ArriveTime = snapshot.Timestamp;
+        HandleCRI();
     }
 
     internal void Inspect(Snapshot snapshot)
@@ -76,6 +78,7 @@ public class Phase : DomainEntity, IPhaseState
         {
             InspectTime = snapshot.Timestamp;
         }
+        HandleCRI();
     }
 
     internal void Update(IPhaseState state)
@@ -109,6 +112,15 @@ public class Phase : DomainEntity, IPhaseState
     internal bool ViolatesSpeedRestriction(double? minSpeed, double? maxSpeed)
     {
         return AverageSpeed < minSpeed || AverageSpeed > maxSpeed;
+    }
+
+    private void HandleCRI()
+    {
+        if (CRIRecovery == null)
+        {
+            return;
+        }
+        IsCRIRequested = RecoverySpan >= TimeSpan.FromMinutes(CRIRecovery.Value);
     }
 }
 
