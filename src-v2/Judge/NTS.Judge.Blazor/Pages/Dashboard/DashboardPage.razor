@@ -8,7 +8,7 @@
 
 @code {
     [Inject]
-    private IDashboardBehind  _initializer { get; set; } = default!;
+    private IEventBehind  _initializer { get; set; } = default!;
     [Inject]
     private INotBehind<Event>  _eventBehind { get; set; } = default!;
 
@@ -20,6 +20,6 @@
         @event.Add(president);
         @event.Add(vet);
         await _eventBehind.Create(@event);
-        await _initializer.Initialize();
+        await _initializer.Start();
     }
 }
