@@ -2,7 +2,7 @@
 
 namespace NTS.Judge.Blazor.Ports;
 
-public interface IEventBehind : ITransientService
+public interface IDasboardBehind : ITransientService
 {
     Task Start();
 }

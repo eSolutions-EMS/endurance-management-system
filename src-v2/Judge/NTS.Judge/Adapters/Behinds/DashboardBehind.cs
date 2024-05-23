@@ -5,13 +5,13 @@ using NTS.Judge.Blazor.Ports;
 
 namespace NTS.Judge.Adapters.Behinds;
 
-public class EventBehind : IEventBehind
+public class DashboardBehind : IDasboardBehind
 {
     private readonly IRepository<Domain.Setup.Entities.Event> _setupRepository;
     private readonly IRepository<Event> _coreEventRespository;
     private readonly IRepository<Official> _coreOfficialRepository;
 
-    public EventBehind(
+    public DashboardBehind(
         IRepository<Domain.Setup.Entities.Event> setupRepository,
         IRepository<Event> coreEventRespository,
         IRepository<Official> coreOfficialRepository)
