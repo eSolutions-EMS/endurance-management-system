@@ -104,7 +104,7 @@ public class Participation : DomainEntity, IAggregateRoot
             RevokeQualification(OUT_OF_TIME);
             return;
         }
-        if (phase.ViolatesSpeedRestriction(Tandem.MinAverageSpeedlimit, Tandem.MaxAverageSpeedLimit))
+        if (phase.ViolatesSpeedRestriction(Tandem.MinAverageSpeed, Tandem.MaxAverageSpeed))
         {
             RevokeQualification(SPEED_RESTRICTION);
             return;

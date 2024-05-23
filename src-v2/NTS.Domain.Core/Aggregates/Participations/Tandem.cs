@@ -23,8 +23,8 @@ public class Tandem : DomainEntity
         _distance = distance;
         Country = country;
         Club = club;
-        MinAverageSpeedlimit = minAverageSpeedlimit;
-        MaxAverageSpeedLimit = maxAverageSpeedLimit;
+        MinAverageSpeed = minAverageSpeedlimit;
+        MaxAverageSpeed = maxAverageSpeedLimit;
     }
 
     public int Number { get; }
@@ -32,7 +32,7 @@ public class Tandem : DomainEntity
     public string Horse { get; }
     public Country? Country { get; }
     public Club? Club { get; }
-    public double? MinAverageSpeedlimit { get; }
-    public double? MaxAverageSpeedLimit { get; }
+    public double? MinAverageSpeed { get; }
+    public double? MaxAverageSpeed { get; }
     public string Distance => _distance.ToString("0.00");
 }
