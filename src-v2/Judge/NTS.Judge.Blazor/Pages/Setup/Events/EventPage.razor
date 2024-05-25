@@ -33,7 +33,8 @@
     protected override async Task OnInitializedAsync()
     {
         var entity = await _behind.Read(default);
-        GuardHelper.ThrowIfNull(entity, "Event is required");
+        GuardHelper.ThrowIfDefault(entity);
+
         await _behind.Initialize(entity.Id);
         _event = entity;
     }

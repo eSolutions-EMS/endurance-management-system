@@ -21,7 +21,7 @@ public class CompetitionChildrenBehind : INotBehindParent<Contestant>, INotBehin
 
     public async Task<Contestant> Create(Contestant entity)
     {
-        GuardHelper.ThrowIfNull(_competition);
+        GuardHelper.ThrowIfDefault(_competition);
 
         _competition.Add(entity);
         await _competitionRepository.Update(_competition);
@@ -30,7 +30,7 @@ public class CompetitionChildrenBehind : INotBehindParent<Contestant>, INotBehin
 
     public async Task<Contestant> Update(Contestant entity)
     {
-        GuardHelper.ThrowIfNull(_competition);
+        GuardHelper.ThrowIfDefault(_competition);
 
         _competition.Update(entity);
         await _competitionRepository.Update(_competition);
@@ -39,7 +39,7 @@ public class CompetitionChildrenBehind : INotBehindParent<Contestant>, INotBehin
 
     public async Task<Contestant> Delete(Contestant entity)
     {
-        GuardHelper.ThrowIfNull(_competition);
+        GuardHelper.ThrowIfDefault(_competition);
 
         _competition.Remove(entity);
         await _competitionRepository.Update(_competition);
@@ -48,7 +48,7 @@ public class CompetitionChildrenBehind : INotBehindParent<Contestant>, INotBehin
 
     public async Task<Loop> Create(Loop entity)
     {
-        GuardHelper.ThrowIfNull(_competition);
+        GuardHelper.ThrowIfDefault(_competition);
 
         _competition.Add(entity);
         await _competitionRepository.Update(_competition);
@@ -57,7 +57,7 @@ public class CompetitionChildrenBehind : INotBehindParent<Contestant>, INotBehin
 
     public async Task<Loop> Update(Loop entity)
     {
-        GuardHelper.ThrowIfNull(_competition);
+        GuardHelper.ThrowIfDefault(_competition);
 
         _competition.Update(entity);
         await _competitionRepository.Update(_competition);
@@ -66,7 +66,7 @@ public class CompetitionChildrenBehind : INotBehindParent<Contestant>, INotBehin
 
     public async Task<Loop> Delete(Loop entity)
     {
-        GuardHelper.ThrowIfNull(_competition);
+        GuardHelper.ThrowIfDefault(_competition);
 
         _competition.Remove(entity);
         await _competitionRepository.Update(_competition);

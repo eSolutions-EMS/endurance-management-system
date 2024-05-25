@@ -1,25 +1,29 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 
 namespace NTS.Domain.Setup.Entities;
 
 public class Competition : DomainEntity, ISummarizable, IParent<Contestant>, IParent<Loop>
 {
-    public static Competition Create(string name, CompetitionType type, DateTimeOffset start) => new(name,type, start);
-    public static Competition Update(int id, string name, CompetitionType type, DateTimeOffset start, IEnumerable<Loop> loops, IEnumerable<Contestant> contestants)
-        => new(id, name, type, start, loops, contestants);
+    public static Competition Create(string name, CompetitionType type, DateTimeOffset start, int? criRecovery) => new(name,type, start, criRecovery);
+    public static Competition Update(
+        int id, string name, CompetitionType type, DateTimeOffset start, 
+        int? criRecovery, IEnumerable<Loop> loops, IEnumerable<Contestant> contestants)
+        => new(id, name, type, start, criRecovery, loops, contestants);
 
     private List<Loop> _loops = new();
     private List<Contestant> _contestants = new();
 
     [JsonConstructor]
-    private Competition(int id, string name, CompetitionType type, DateTimeOffset startTime, IEnumerable<Loop> loops, IEnumerable<Contestant> contestants)
-        : this(name, type, startTime)
+    private Competition(
+        int id, string name, CompetitionType type, DateTimeOffset startTime, 
+        int? criRecovery, IEnumerable<Loop> loops, IEnumerable<Contestant> contestants)
+        : this(name, type, startTime, criRecovery)
     {
         Id = id;
         _loops = loops.ToList();
         _contestants = contestants.ToList();
     }
-    private Competition(string name, CompetitionType type, DateTimeOffset startTime)
+    private Competition(string name, CompetitionType type, DateTimeOffset startTime, int? criRecovery)
     {
         if (type == default)
         {
@@ -34,12 +38,14 @@ public class Competition : DomainEntity, ISummarizable, IParent<Contestant>, IPa
         Name = name;
         Type = type;
         StartTime = startTime;
+        CriRecovery = criRecovery;
     }
 
     public string Name { get; private set; }
     public CompetitionType Type { get; private set; }
 	public DateTimeOffset StartTime { get; private set; }
-   
+    public int? CriRecovery { get; private set; }
+
     public IReadOnlyList<Loop> Loops
     {
         get => _loops.AsReadOnly();
@@ -97,11 +103,4 @@ public class Competition : DomainEntity, ISummarizable, IParent<Contestant>, IPa
         _loops.Remove(child);
         Add(child);
     }
-}
-
-public enum CompetitionType
-{
-	FEI = 1,
-	National = 2,
-    Qualification = 3
 }

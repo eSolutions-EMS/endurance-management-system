@@ -1,0 +1,10 @@
+﻿global using System.Net.Http;
+global using Microsoft.AspNetCore.Components;
+global using Microsoft.AspNetCore.Components.Forms;
+global using Microsoft.AspNetCore.Components.Routing;
+global using Microsoft.AspNetCore.Components.Web;
+global using Microsoft.AspNetCore.Components.Web.Virtualization;
+global using Not.Exceptions;
+global using NTS.Judge.Blazor.Resources.Localization;
+global using NTS.Domain;
+global using NTS.Domain.Enums;

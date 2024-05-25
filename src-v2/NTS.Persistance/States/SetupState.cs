@@ -2,11 +2,11 @@
 
 namespace NTS.Persistence.Setup;
 
-public class SetupState : IRootStore<Event>
+public class SetupState : ITreeState<Event>
 {
     public Event? Event { get; set; }
     
-    Event? IRootStore<Event>.Root
+    Event? ITreeState<Event>.Root
     {
         get => Event; 
         set => Event = value;

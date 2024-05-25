@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using JsonNet.PrivatePropertySetterResolver;
+﻿using Not.Serialization;
 
 namespace Not.Storage.Stores;
 
@@ -8,16 +7,7 @@ public class InMemoryJsonStore<T> : IStore<T>
 {
     private T? _context;
     private string? _json;
-    private readonly JsonSerializerSettings _settings;
-    private readonly object _lock = new object();
-
-    public InMemoryJsonStore()
-    {
-        _settings = new JsonSerializerSettings();
-        _settings.ContractResolver = new PrivatePropertySetterResolver();
-        _settings.ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor;
-        _settings.PreserveReferencesHandling = PreserveReferencesHandling.Objects;
-    }
+    private readonly object _lock = new();
 
     public Task<T> Load()
     {
@@ -27,12 +17,13 @@ public class InMemoryJsonStore<T> : IStore<T>
             {
                 return Task.FromResult(_context);
             }
+            //TODO: remove _context
             var state = new T();
             if (_json == null)
             {
                 return Task.FromResult(state);
             }
-            state = JsonConvert.DeserializeObject<T>(_json, _settings) ?? state;
+            state = _json.FromJson<T>();
             return Task.FromResult(state);
         }
     }
@@ -41,7 +32,7 @@ public class InMemoryJsonStore<T> : IStore<T>
     {
         lock (_lock)
         {
-            _json = JsonConvert.SerializeObject(state, _settings);
+            _json = state.ToJson();
             _context = null;
             return Task.CompletedTask;
         }

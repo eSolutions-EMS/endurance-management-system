@@ -1,6 +1,7 @@
 ﻿@using NTS.Domain.Setup.Entities;
 @using NTS.Judge.Setup.Competitions
 @using Not.Blazor.Forms;
+@using Not.Blazor.TM
 @using Not.Blazor.TM.Forms;
 @using Not.Blazor.TM.Forms.Components;
 @using Not.Extensions;
@@ -18,9 +19,14 @@
     </MudSelect>
     <MudDatePicker DisableToolbar="true" @ref="_dayField" @bind-Date="_model.StartDay" Label="@Localizer.Get("Date")" />
     <MudTimePicker DisableToolbar="true" @ref="_timeField" @bind-Time="_model.StartTime" Label="@Localizer.Get("Time")" />
+    <NotSwitch @bind-Value="_model.UseAutomaticCRI" Label="Use automatic CRI" />
+    @if (_model.UseAutomaticCRI)
+    {
+        <MudNumericField @bind-Value="_model.CRIRecovery" />
+    }
 </EditForm>
 
-@code {
+    @code {
     private MudTextField<string> _nameField = default!;
     private MudSelect<CompetitionType> _typeField = default!;
     private MudPicker<DateTime?> _dayField = default!;
@@ -50,12 +56,21 @@
     public override Competition SubmitCreate()
     {
         DateTimeOffset startTimeOffset = CombineStartDayAndTime(_model.StartDay, _model.StartTime);
-        return Competition.Create(_model.Name, _model.Type, startTimeOffset);
+        var criRecovery = GetCRIRecovery();
+        return Competition.Create(_model.Name, _model.Type, startTimeOffset, criRecovery);
     }
 
     public override Competition SubmitUpdate()
     {
         DateTimeOffset startTimeOffset = CombineStartDayAndTime(_model.StartDay, _model.StartTime);
-        return Competition.Update(_model.Id!.Value, _model.Name, _model.Type, startTimeOffset, _model.Loops!, _model.Contestants!);
+        var criRecovery = GetCRIRecovery();
+        return Competition.Update(_model.Id!.Value, _model.Name, _model.Type, startTimeOffset, criRecovery, _model.Loops!, _model.Contestants!);
+    }
+
+    private int? GetCRIRecovery()
+    {
+        return _model.UseAutomaticCRI
+            ? _model.CRIRecovery
+            : null;
     }
 }

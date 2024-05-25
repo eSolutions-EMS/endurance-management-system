@@ -1,0 +1,12 @@
+﻿global using System;
+global using System.Collections.Generic;
+global using System.Globalization;
+global using System.Linq;
+global using System.Text;
+global using Not.Localization;
+global using Not.Extensions;
+global using Not.Domain;
+global using Not.Domain.Summary;
+global using NTS.Domain.Objects;
+global using NTS.Domain.Enums;
+global using static Not.Localization.LocalizationHelper;

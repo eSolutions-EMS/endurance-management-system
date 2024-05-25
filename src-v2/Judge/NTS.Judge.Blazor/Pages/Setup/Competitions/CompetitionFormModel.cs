@@ -4,9 +4,10 @@ namespace NTS.Judge.Setup.Competitions;
 
 public class CompetitionFormModel
 {
+
     public CompetitionFormModel()
     {
-        //mock default values for testing
+        //TODO: remove mock default values for testing
         Name = "Olympic Games";
         Type = CompetitionType.FEI;
         StartDay = DateTime.Now;
@@ -23,6 +24,8 @@ public class CompetitionFormModel
         StartTime = startTime;
         Loops = competition.Loops;
         Contestants = competition.Contestants;
+        CRIRecovery = competition.CriRecovery;
+        UseAutomaticCRI = competition.CriRecovery != null;
     }
 
     public int? Id { get; set; }
@@ -30,6 +33,8 @@ public class CompetitionFormModel
     public CompetitionType Type { get; set; }
     public DateTime? StartDay { get; set; } = DateTime.Today;
     public TimeSpan? StartTime { get; set; }
+    public int? CRIRecovery { get; set; }
+    public bool UseAutomaticCRI { get; set; }
     public IReadOnlyCollection<Loop>? Loops { get; }
     public IReadOnlyCollection<Contestant>? Contestants { get; }
 }
