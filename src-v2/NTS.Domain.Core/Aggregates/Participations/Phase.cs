@@ -1,4 +1,5 @@
 ﻿using static NTS.Domain.Enums.SnapshotType;
+using static NTS.Domain.Core.Aggregates.Participations.SnapshotResultType;
 
 namespace NTS.Domain.Core.Aggregates.Participations;
 
@@ -50,27 +51,27 @@ public class Phase : DomainEntity, IPhaseState
         var isSeparateFinal = false;
         if (isSeparateFinal && snapshot.Type == Final && !IsFinal)
         {
-            return new SnapshotResult(snapshot, SnapshotResultType.NotAppliedDueToSeparateStageLine);
+            return SnapshotResult.NotApplied(snapshot, NotAppliedDueToSeparateStageLine);
         }
         if (isSeparateFinal && snapshot.Type == Stage && IsFinal)
         {
-            return new SnapshotResult(snapshot, SnapshotResultType.NotAppliedDueToSeparateFinishLine);
+            return SnapshotResult.NotApplied(snapshot, NotAppliedDueToSeparateFinishLine);
         }
         if (ArriveTime != null)
         {
-            return new SnapshotResult(snapshot, SnapshotResultType.NotAppliedDueToDuplicateArrive);
+            return SnapshotResult.NotApplied(snapshot, NotAppliedDueToDuplicateArrive);
         }
         ArriveTime = snapshot.Timestamp;
         HandleCRI();
 
-        return new SnapshotResult(snapshot);
+        return SnapshotResult.Applied(snapshot);
     }
 
     internal SnapshotResult Inspect(Snapshot snapshot)
     {
         if (IsReinspectionRequested && ReinspectTime != null || InspectTime != null)
         {
-            return new SnapshotResult(snapshot, SnapshotResultType.NotAppliedDueToSeparateFinishLine);
+            return SnapshotResult.NotApplied(snapshot, NotAppliedDueToSeparateFinishLine);
         }
         if (IsReinspectionRequested)
         {
@@ -82,7 +83,7 @@ public class Phase : DomainEntity, IPhaseState
         }
         HandleCRI();
 
-        return new SnapshotResult(snapshot);
+        return SnapshotResult.Applied(snapshot);
     }
 
     internal void Update(IPhaseState state)

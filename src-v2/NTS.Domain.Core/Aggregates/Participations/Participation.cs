@@ -1,6 +1,7 @@
 ﻿using Not.Events;
 using NTS.Domain.Core.Events;
 using static NTS.Domain.Enums.SnapshotType;
+using static NTS.Domain.Core.Aggregates.Participations.SnapshotResultType;
 
 namespace NTS.Domain.Core.Aggregates.Participations;
 
@@ -40,21 +41,20 @@ public class Participation : DomainEntity, IAggregateRoot
     {
         if (NotQualified != null)
         {
-            return new SnapshotResult(snapshot, SnapshotResultType.NotAppliedDueToNotQualified);
+            return SnapshotResult.NotApplied(snapshot, NotAppliedDueToNotQualified);
         }
         if (Phases.Current == null)
         {
-            return new SnapshotResult(snapshot, SnapshotResultType.NotAppliedDueToComplete);
+            return SnapshotResult.NotApplied(snapshot, NotAppliedDueToComplete);
         }
         if (snapshot.Timestamp < Phases.Current.OutTime + NOT_SNAPSHOTABLE_WINDOW)
         {
-            return new SnapshotResult(snapshot, SnapshotResultType.NotAppliedDueToNotStarted);
+            return SnapshotResult.NotApplied(snapshot, NotAppliedDueToNotStarted);
         }
 
         var result = snapshot.Type == Vet
             ? Phases.Current.Inspect(snapshot)
             : Phases.Current.Arrive(snapshot);
-
         EvaluatePhase(Phases.Current);
 
         return result;
