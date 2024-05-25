@@ -1,4 +1,5 @@
 ﻿using NTS.Domain.Core.Events;
+using NTS.Domain.Core.Objects;
 using NTS.Domain.Objects;
 using NTS.Judge.Ports;
 
@@ -21,7 +22,7 @@ public class TmpRemoteProcedures : IRemoteProcedures
         throw new NotImplementedException();
     }
 
-    public Task SendStartCreated(StartCreated startCreated)
+    public Task SendStartCreated(PhaseStart startCreated)
     {
         throw new NotImplementedException();
     }

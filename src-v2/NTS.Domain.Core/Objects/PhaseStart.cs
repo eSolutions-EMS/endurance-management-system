@@ -1,14 +1,15 @@
 ﻿using Not.Events;
 using NTS.Domain.Core.Aggregates.Participations;
 
-namespace NTS.Domain.Core.Events;
+namespace NTS.Domain.Core.Objects;
 
-public record StartCreated : DomainObject
+public record PhaseStart : DomainObject
 {
-    #pragma warning disable CS8618 // Deserialization ctor
-    private StartCreated() {}
-    #pragma warning restore CS8618
-    public StartCreated(Participation participation)
+#pragma warning disable CS8618 // Deserialization ctor
+    private PhaseStart() { }
+#pragma warning restore CS8618
+
+    public PhaseStart(Participation participation)
     {
         if (participation.IsNotQualified)
         {
