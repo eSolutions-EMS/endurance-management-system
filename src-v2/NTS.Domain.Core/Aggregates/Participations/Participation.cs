@@ -9,6 +9,7 @@ public class Participation : DomainEntity, IAggregateRoot
     private static readonly TimeSpan NOT_SNAPSHOTABLE_WINDOW = TimeSpan.FromMinutes(30);
     private static readonly FailedToQualify OUT_OF_TIME = new FailedToQualify(FTQCodes.OT);
     private static readonly FailedToQualify SPEED_RESTRICTION = new FailedToQualify(FTQCodes.SP);
+
     public Participation(string competition, Tandem tandem, IEnumerable<Phase> phases)
     {
         Competition = competition;
@@ -24,6 +25,16 @@ public class Participation : DomainEntity, IAggregateRoot
     public Total? Total => Phases.Any(x => x.IsComplete)
         ? new Total(Phases.Where(x => x.IsComplete))
         : default;
+
+    public override string ToString()
+    {
+        var result = $"Participation {Tandem.Number} {Phases}";
+        if (NotQualified != null)
+        {
+            result += $" {NotQualified}";
+        }
+        return result;
+    }
 
     public SnapshotResult Process(Snapshot snapshot)
     {

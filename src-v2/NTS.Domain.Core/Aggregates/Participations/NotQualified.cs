@@ -1,6 +1,4 @@
-﻿using Not.Events;
-
-namespace NTS.Domain.Core.Aggregates.Participations;
+﻿namespace NTS.Domain.Core.Aggregates.Participations;
 
 public record Withdrawn : NotQualified
 {
@@ -48,7 +46,7 @@ public record FailedToQualify : NotQualified
     {
         if (code == FTQCodes.FTC)
         {
-            throw new DomainException($"'Filed to Complete' requires a writen explanation from officials. Please provide 'complement'");
+            throw new DomainException($"'Failed to Complete' requires a writen explanation from officials. Please provide 'complement'");
         }
         Code = code;
     }
@@ -61,7 +59,7 @@ public record FailedToQualify : NotQualified
 
     public override string ToString()
     {
-        return Code.ToString();
+        return $"FTQ {Code}";
     }
 }
 

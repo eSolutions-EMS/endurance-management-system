@@ -17,4 +17,9 @@ public class PhaseCollection : ReadOnlyCollection<Phase>
     internal int CurrentNumber => this.NumberOf(Current ?? this.Last());
     internal double Distance => this.Sum(x => x.Length);
     internal Timestamp? OutTime => this.LastOrDefault(x => x.OutTime != null)?.OutTime;
+
+    public override string ToString()
+    {
+        return $"{Distance}km: {this.Count(x => x.IsComplete)}/{this.Count} phases";
+    }
 }
