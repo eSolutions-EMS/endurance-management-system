@@ -30,7 +30,6 @@ public class CoreEventInitializer : IInitializer
     public void Run()
     {
         EventHelper.Subscribe<PhaseCompleted>(OnPhaseCompleted);
-        EventHelper.Subscribe<StartCreated>(OnStartCreated);
         EventHelper.Subscribe<QualificationRevoked>(OnQualificationRevoked);
         EventHelper.Subscribe<QualificationRestored>(OnQualificationRestored);
         EventHelper.Subscribe<DocumentProduced>(OnDocumentProduced);
@@ -38,15 +37,8 @@ public class CoreEventInitializer : IInitializer
 
     public async void OnPhaseCompleted(PhaseCompleted phaseCompleted)
     {
-        // TODO: Probably remove this and send StartCreated directly as it is
-        // kind of pointless to trigger and handle event in the same class
         await _participationBehind.CreateStart(phaseCompleted.Number);
         await _documentBehind.CreateHandout(phaseCompleted.Number);
-    }
-
-    public void OnStartCreated(StartCreated startCreated)
-    {
-        _rpcHub.SendStartCreated(startCreated);
     }
 
     private void OnQualificationRevoked(QualificationRevoked revoked)

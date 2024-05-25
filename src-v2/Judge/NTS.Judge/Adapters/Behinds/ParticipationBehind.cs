@@ -1,20 +1,27 @@
 ﻿using Not.Application.Ports.CRUD;
 using Not.Exceptions;
 using NTS.Domain.Core.Aggregates.Participations;
+using NTS.Domain.Core.Events;
 using NTS.Domain.Core.Services;
 using NTS.Domain.Objects;
 using NTS.Judge.Blazor.Enums;
 using NTS.Judge.Blazor.Ports;
+using NTS.Judge.Ports;
 
 namespace NTS.Judge.Adapters.Behinds;
 
 public class ParticipationBehind : IParticipationBehind
 {
+    private readonly IRemoteProcedures _remoteProcedures;
     private readonly IRepository<Participation> _participationRepository;
     private readonly IRepository<SnapshotResult> _snapshotResultRepository;
 
-    public ParticipationBehind(IRepository<Participation> participationRepository, IRepository<SnapshotResult> snapshotResultRepository)
+    public ParticipationBehind(
+        IRemoteProcedures remoteProcedures,
+        IRepository<Participation> participationRepository,
+        IRepository<SnapshotResult> snapshotResultRepository)
     {
+        _remoteProcedures = remoteProcedures;
         _participationRepository = participationRepository;
         _snapshotResultRepository = snapshotResultRepository;
     }
@@ -88,6 +95,7 @@ public class ParticipationBehind : IParticipationBehind
         var participation = await _participationRepository.Read(x => x.Tandem.Number == number);
         GuardHelper.ThrowIfDefault(participation);
 
-        StartProducer.CreateStart(participation);
+        var start =  new StartCreated(participation);
+        await _remoteProcedures.SendStartCreated(start);
     }
 }
