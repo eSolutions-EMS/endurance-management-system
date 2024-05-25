@@ -11,10 +11,12 @@ namespace NTS.Judge.Adapters.Behinds;
 public class ParticipationBehind : IParticipationBehind
 {
     private readonly IRepository<Participation> _participationRepository;
+    private readonly IRepository<SnapshotResult> _snapshotResultRepository;
 
-    public ParticipationBehind(IRepository<Participation> participationRepository)
+    public ParticipationBehind(IRepository<Participation> participationRepository, IRepository<SnapshotResult> snapshotResultRepository)
     {
         _participationRepository = participationRepository;
+        _snapshotResultRepository = snapshotResultRepository;
     }
 
     public async Task Process(Snapshot snapshot)
@@ -22,8 +24,9 @@ public class ParticipationBehind : IParticipationBehind
         var participation = await _participationRepository.Read(x => x.Tandem.Number == snapshot.Number);
         GuardHelper.ThrowIfDefault(participation);
 
-        participation.Process(snapshot);
+        var result = participation.Process(snapshot);
         await _participationRepository.Update(participation);
+        await _snapshotResultRepository.Create(result);
     }
 
     public async Task Update(IPhaseState state)

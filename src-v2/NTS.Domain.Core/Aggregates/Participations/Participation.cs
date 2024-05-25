@@ -1,6 +1,5 @@
 ﻿using Not.Events;
 using NTS.Domain.Core.Events;
-using NTS.Domain.Core.Objects;
 using static NTS.Domain.Enums.SnapshotType;
 
 namespace NTS.Domain.Core.Aggregates.Participations;
@@ -26,30 +25,28 @@ public class Participation : DomainEntity, IAggregateRoot
         ? new Total(Phases.Where(x => x.IsComplete))
         : default;
 
-    public void Process(Snapshot snapshot)
+    public SnapshotResult Process(Snapshot snapshot)
     {
         if (NotQualified != null)
         {
-            return;
+            return new SnapshotResult(snapshot, SnapshotResultType.NotAppliedDueToNotQualified);
         }
         if (Phases.Current == null)
         {
-            return;
+            return new SnapshotResult(snapshot, SnapshotResultType.NotAppliedDueToComplete);
         }
         if (snapshot.Timestamp < Phases.Current.OutTime + NOT_SNAPSHOTABLE_WINDOW)
         {
-            return;
+            return new SnapshotResult(snapshot, SnapshotResultType.NotAppliedDueToNotStarted);
         }
 
-        if (snapshot.Type == Vet)
-        {
-            Phases.Current.Inspect(snapshot);
-        }
-        else
-        {
-            Phases.Current.Arrive(snapshot);
-        }
+        var result = snapshot.Type == Vet
+            ? Phases.Current.Inspect(snapshot)
+            : Phases.Current.Arrive(snapshot);
+
         EvaluatePhase(Phases.Current);
+
+        return result;
     }
 
     public void Update(IPhaseState state)

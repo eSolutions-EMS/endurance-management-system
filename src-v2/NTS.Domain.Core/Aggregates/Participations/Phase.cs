@@ -44,31 +44,33 @@ public class Phase : DomainEntity, IPhaseState
 
     internal bool IsComplete => OutTime != null;
 
-    internal void Arrive(Snapshot snapshot)
+    internal SnapshotResult Arrive(Snapshot snapshot)
     {
         // TODO: settings - Add setting for separate final. This is useful for some events such as Shumen where we need separate detection for the actual final
         var isSeparateFinal = false;
         if (isSeparateFinal && snapshot.Type == Final && !IsFinal)
         {
-            return; //TODO: consider creating a specific SwallowException that is intended to interrupt the execution silently
+            return new SnapshotResult(snapshot, SnapshotResultType.NotAppliedDueToSeparateStageLine);
         }
         if (isSeparateFinal && snapshot.Type == Stage && IsFinal)
         {
-            return;
+            return new SnapshotResult(snapshot, SnapshotResultType.NotAppliedDueToSeparateFinishLine);
         }
         if (ArriveTime != null)
         {
-            return;
+            return new SnapshotResult(snapshot, SnapshotResultType.NotAppliedDueToDuplicateArrive);
         }
         ArriveTime = snapshot.Timestamp;
         HandleCRI();
+
+        return new SnapshotResult(snapshot);
     }
 
-    internal void Inspect(Snapshot snapshot)
+    internal SnapshotResult Inspect(Snapshot snapshot)
     {
         if (IsReinspectionRequested && ReinspectTime != null || InspectTime != null)
         {
-            return;
+            return new SnapshotResult(snapshot, SnapshotResultType.NotAppliedDueToSeparateFinishLine);
         }
         if (IsReinspectionRequested)
         {
@@ -79,6 +81,8 @@ public class Phase : DomainEntity, IPhaseState
             InspectTime = snapshot.Timestamp;
         }
         HandleCRI();
+
+        return new SnapshotResult(snapshot);
     }
 
     internal void Update(IPhaseState state)
