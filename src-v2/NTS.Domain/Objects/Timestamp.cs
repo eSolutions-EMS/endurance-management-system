@@ -22,11 +22,11 @@ public record Timestamp : DomainObject
 
     public string ToString(string format, IFormatProvider formatProvider)
     {
-        return this.DateTime.LocalDateTime.ToString(format, formatProvider);
+        return DateTime.LocalDateTime.ToString(format, formatProvider);
     }
     public override string ToString()
     {
-        return this.DateTime.LocalDateTime.ToString("HH:mm:ss.fff");
+        return DateTime.LocalDateTime.ToString("HH:mm:ss.fff");
     }
 
     public static bool operator <(Timestamp? left, Timestamp? right)

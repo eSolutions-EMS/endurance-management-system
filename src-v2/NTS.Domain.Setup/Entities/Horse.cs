@@ -1,5 +1,4 @@
-﻿using NTS.Domain.Events.Start;
-using NTS.Domain.Setup.Import;
+﻿using NTS.Domain.Setup.Import;
 
 namespace NTS.Domain.Setup.Entities;
 
