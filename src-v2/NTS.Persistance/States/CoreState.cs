@@ -4,7 +4,7 @@ using NTS.Domain.Core.Entities;
 namespace NTS.Persistence.States;
 
 public class CoreState
-    : IFlatState<Event>,
+    : ITreeState<Event>,
     ISetState<Official>,
     ISetState<Participation>,
     ISetState<Classification>,
@@ -16,7 +16,7 @@ public class CoreState
     public List<Classification> Classifications { get; } = new();
     public List<SnapshotResult> SnapshotResults { get; } = new();
 
-    Event? IFlatState<Event>.Entity { get => Event; set => Event = value; }
+    Event? ITreeState<Event>.Root { get => Event; set => Event = value; }
     List<Official> ISetState<Official>.EntitySet => Officials;
     List<Participation> ISetState<Participation>.EntitySet => Participations;
     List<Classification> ISetState<Classification>.EntitySet => Classifications;

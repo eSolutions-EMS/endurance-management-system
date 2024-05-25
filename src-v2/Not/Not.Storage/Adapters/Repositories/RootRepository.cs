@@ -23,14 +23,12 @@ public abstract class RootRepository<T, TState> : IRepository<T>
     public async Task<T> Create(T entity)
     {
         var state = await _store.Load();
-
         state.Root = entity;
         await _store.Commit(state);
-
         return entity;
     }
 
-    public async Task<T?> Read(Predicate<T> filter)
+    public async Task<T?> Read(Predicate<T> _)
     {
         return await Read(0);
     }
@@ -43,12 +41,7 @@ public abstract class RootRepository<T, TState> : IRepository<T>
 
     public async Task<T> Update(T entity)
     {
-        var state = await _store.Load();
-
-        state.Root = entity;
-        await _store.Commit(state);
-
-        return state.Root;
+        return await Create(entity);
     }
 
     public Task<T> Delete(int id)

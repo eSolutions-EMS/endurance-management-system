@@ -35,6 +35,10 @@ public class DashboardBehind : IDasboardBehind
 
     private async Task CreateEvent(Domain.Setup.Entities.Event setupEvent)
     {
+        if (!setupEvent.Competitions.Any())
+        {
+            return; //TODO: Notification
+        }
         var competitionStartTimes = setupEvent.Competitions.Select(x => x.StartTime);
         var startDate = competitionStartTimes.First();
         var endDate = competitionStartTimes.Last();
