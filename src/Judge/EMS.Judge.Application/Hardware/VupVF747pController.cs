@@ -106,6 +106,10 @@ public class VupVF747pController : RfidController
         return indices.ToArray();
     }
 
+    private int _oneCount = 0;
+    private int _twoCount = 0;
+    private int _threeCount = 0;
+    
     private IEnumerable<string> ReadTags(IEnumerable<int> antennaIndices)
     {
         var readTimer = new Stopwatch();
@@ -136,10 +140,17 @@ public class VupVF747pController : RfidController
 
             if (tagsBytes.Success)
             {
+                if (i == 1)
+                    _oneCount++;
+                if (i == 2)
+                    _twoCount++;
+                if (i == 3)
+                    _threeCount++;
+
 				var tags = tagsBytes.Result.Select(x => this.ConvertToString(x.Id));
                 foreach (var tag in tags)
                 {
-					Console.WriteLine($"Detected: {tag}");
+					Console.WriteLine($"Detected: {tag} antenna: {i} one:{_oneCount}, two:{_twoCount}, three :{_threeCount}");
 				}
 				return tags;
             }
