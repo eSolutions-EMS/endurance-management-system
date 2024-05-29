@@ -15,7 +15,7 @@ public static class ServiceLocator
 	public static T Get<T>()
 		where T : class
 	{
-		GuardHelper.ThrowIfNull(_provider, "ServiceLocator is not Initialized");
+		GuardHelper.ThrowIfDefault(_provider);
 
 		return _provider.GetRequiredService<T>();
 	}

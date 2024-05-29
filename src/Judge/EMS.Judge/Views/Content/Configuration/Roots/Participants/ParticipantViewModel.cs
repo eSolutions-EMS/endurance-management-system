@@ -54,11 +54,12 @@ public class ParticipantViewModel : ConfigurationBase<ParticipantView, Participa
     public ObservableCollection<RfidTag> RfidTags { get; } = new();
 
     public string number;
-    public int? maxAverageSpeedInKmPh;
-    private Visibility maxAverageSpeedInKmPhVisibility = Visibility.Hidden;
+    public int? maxAverageSpeedInKmPh = 16;
+    private Visibility maxAverageSpeedInKmPhVisibility = Visibility.Visible;
     private int horseId;
     private int athleteId;
     private string name;
+    private bool unranked;
     private string horseName;
     private string athleteName;
     private int positionid;
@@ -95,6 +96,10 @@ public class ParticipantViewModel : ConfigurationBase<ParticipantView, Participa
 
     protected override IDomain Persist()
     {
+        if (this.MaxAverageSpeedInKmPhVisibility == Visibility.Hidden)
+        {
+            this.MaxAverageSpeedInKmPh = null;
+        }
         var result = this.executor.Execute(
             config => config.Participants.Save(this, this.AthleteId, this.HorseId),
             true);
@@ -231,5 +236,10 @@ public class ParticipantViewModel : ConfigurationBase<ParticipantView, Participa
     {
         get => this.name;
         private set => this.SetProperty(ref this.name, value);
+    }
+    public bool Unranked
+    {
+        get => this.unranked;
+        set => this.SetProperty(ref this.unranked, value);
     }
 }

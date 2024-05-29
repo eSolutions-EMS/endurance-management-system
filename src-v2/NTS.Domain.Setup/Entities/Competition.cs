@@ -1,25 +1,27 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 
 namespace NTS.Domain.Setup.Entities;
 
 public class Competition : DomainEntity, ISummarizable, IParent<Contestant>, IParent<Phase>
 {
-    public static Competition Create(string name, CompetitionType type, DateTimeOffset start) => new(name,type, start);
-    public static Competition Update(int id, string name, CompetitionType type, DateTimeOffset start, IEnumerable<Phase> phases, IEnumerable<Contestant> contestants)
-        => new(id, name, type, start, phases, contestants);
+
+    public static Competition Create(string name, CompetitionType type, DateTimeOffset start, int? criRecovery) => new(name, type, start, criRecovery);
+    public static Competition Update(int id, string name, CompetitionType type, DateTimeOffset start,
+       int? criRecovery, IEnumerable<Phase> phases, IEnumerable<Contestant> contestants)
+       => new(id, name, type, start, criRecovery, phases, contestants);
 
     private List<Phase> _phases = new();
     private List<Contestant> _contestants = new();
 
     [JsonConstructor]
-    private Competition(int id, string name, CompetitionType type, DateTimeOffset startTime, IEnumerable<Phase> phases, IEnumerable<Contestant> contestants)
-        : this(name, type, startTime)
+    private Competition(int id, string name, CompetitionType type, DateTimeOffset startTime, int? criRecovery, IEnumerable<Phase> phases, IEnumerable<Contestant> contestants)
+        : this(name, type, startTime, criRecovery)
     {
         Id = id;
         _phases = phases.ToList();
         _contestants = contestants.ToList();
     }
-    private Competition(string name, CompetitionType type, DateTimeOffset startTime)
+    private Competition(string name, CompetitionType type, DateTimeOffset startTime, int? criRecovery)
     {
         if (type == default)
         {
@@ -34,12 +36,13 @@ public class Competition : DomainEntity, ISummarizable, IParent<Contestant>, IPa
         Name = name;
         Type = type;
         StartTime = startTime;
+        CriRecovery = criRecovery;
     }
 
     public string Name { get; private set; }
     public CompetitionType Type { get; private set; }
 	public DateTimeOffset StartTime { get; private set; }
-   
+    public int? CriRecovery { get; private set; }
     public IReadOnlyList<Phase> Phases
     {
         get => _phases.AsReadOnly();
@@ -97,11 +100,4 @@ public class Competition : DomainEntity, ISummarizable, IParent<Contestant>, IPa
         _phases.Remove(child);
         Add(child);
     }
-}
-
-public enum CompetitionType
-{
-	FEI = 1,
-	National = 2,
-    Qualification = 3
 }

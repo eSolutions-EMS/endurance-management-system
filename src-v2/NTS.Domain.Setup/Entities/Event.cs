@@ -86,12 +86,7 @@ public class Event : DomainEntity, ISummarizable, IImportable, IParent<Official>
     private void ThrowIfInvalidRole(Official member)
     {
         var role = member.Role;
-        if (role == OfficialRole.PresidentVet ||
-            role == OfficialRole.PresidentGroundJury ||
-            role == OfficialRole.ActiveVet ||
-            role == OfficialRole.FeiDelegateVet ||
-            role == OfficialRole.FeiDelegateTech ||
-            role == OfficialRole.ForeignJudge)
+        if (member.IsUniqueRole())
         {
             var existing = _officials.FirstOrDefault(x => x.Role == role);
             if (existing != null && existing != member)

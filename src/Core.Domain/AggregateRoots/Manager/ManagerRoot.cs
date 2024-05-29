@@ -153,8 +153,7 @@ public class ManagerRoot : IAggregateRoot
     {
         var participation = this.GetParticipation(witnessEvent.TagId);
         var aggregate = participation.Aggregate();
-        if (aggregate.CurrentLap.Result != null
-            || aggregate.CurrentLap.InspectionTime != null && aggregate.CurrentLap.ReInspectionTime != null)
+        if (aggregate.CurrentLap.InspectionTime != null && aggregate.CurrentLap.ReInspectionTime != null)
         {
             return;
         }
@@ -185,7 +184,7 @@ public class ManagerRoot : IAggregateRoot
 
     public void Disqualify(string number, string reason)
     {
-        reason ??= nameof(DQ);
+        reason ??= nameof(DSQ);
         var lap = this.GetLastLap(number);
         lap.Disqualify(number, reason);
     }
@@ -303,6 +302,11 @@ public class ManagerRoot : IAggregateRoot
             .Where(x => x.Participant.LapRecords.Any() && x.IsNotComplete)
             .Select(x => new ParticipantEntry(x));
         return entries;
+    }
+
+    public int GetEventId()
+    {
+        return state.Event.Id;
     }
 
     private Participation GetParticipation(string number)

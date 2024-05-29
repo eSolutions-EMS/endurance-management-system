@@ -1,46 +1,44 @@
 ﻿using Core.Application.Rpc;
 using Core.Application.Rpc.Procedures;
-using Core.Application.Services;
 using Core.Domain.AggregateRoots.Manager;
 using Core.Domain.AggregateRoots.Manager.Aggregates.Participants;
 using Core.Enums;
-using static Core.Application.CoreApplicationConstants;
 
 namespace EMS.Witness.Rpc;
 
-public class ParticipantsClient: RpcClient, IParticipantsClient, IParticipantsClientProcedures
+public class ParticipantsClient : RpcClient, IParticipantsClient, IParticipantsClientProcedures
 {
-	public event EventHandler<(ParticipantEntry entry, CollectionAction action)>? Updated;
+    private readonly SignalRSocket _socket;
+
+    public event EventHandler<(ParticipantEntry entry, CollectionAction action)>? Updated;
 	public event EventHandler<IEnumerable<ParticipantEntry>>? Loaded;
 
-	public ParticipantsClient(IHandshakeService handshakeService)
-		: base(
-			new RpcContext(Apps.WITNESS, RpcProtocls.Http, NetworkPorts.JUDGE_SERVER, RpcEndpoints.PARTICIPANTS),
-			handshakeService)
+	public ParticipantsClient(SignalRSocket socket) : base(socket)
     {
-		this.AddProcedure<ParticipantEntry, CollectionAction>(nameof(this.Update), this.Update);
-	}
+        _socket = socket;
+        RegisterClientProcedure<ParticipantEntry, CollectionAction>(nameof(this.ReceiveEntryUpdate), this.ReceiveEntryUpdate);
+    }
 
-    public Task Update(ParticipantEntry entry, CollectionAction action)
+    public Task ReceiveEntryUpdate(ParticipantEntry entry, CollectionAction action)
     {
         this.Updated?.Invoke(this, (entry, action));
         return Task.CompletedTask;
     }
 
-    public async Task<RpcInvokeResult<IEnumerable<ParticipantEntry>>> Load()
+    public async Task<RpcInvokeResult<ParticipantsPayload>> Load()
 	{
-		return await this.InvokeAsync<IEnumerable<ParticipantEntry>>(nameof(IParticipantstHubProcedures.Get));
+		return await InvokeHubProcedure<ParticipantsPayload>(nameof(IParticipantstHubProcedures.SendParticipants));
 	}
 
     public async Task<RpcInvokeResult> Send(IEnumerable<ParticipantEntry> entries, WitnessEventType type)
     {
-		return await this.InvokeAsync(nameof(IParticipantstHubProcedures.Witness), entries, type);
+		return await InvokeHubProcedure(nameof(IParticipantstHubProcedures.ReceiveWitnessEvent), entries, type);
     }
 }
 
-public interface IParticipantsClient : IRpcClient
+public interface IParticipantsClient
 {
 	event EventHandler<(ParticipantEntry entry, CollectionAction action)>? Updated;
-	Task<RpcInvokeResult<IEnumerable<ParticipantEntry>>> Load();
+	Task<RpcInvokeResult<ParticipantsPayload>> Load();
 	Task<RpcInvokeResult> Send(IEnumerable<ParticipantEntry> entries, WitnessEventType type);
 }
