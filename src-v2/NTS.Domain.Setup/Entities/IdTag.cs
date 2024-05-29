@@ -1,28 +1,19 @@
-﻿using NTS.Domain.Events.Start;
-using NTS.Domain.Setup.Objects;
+﻿namespace NTS.Domain.Setup.Entities;
 
-namespace NTS.Domain.Setup.Entities;
-
-public class IdTag : DomainEntity, ISummarizable, ICoreIdentifier
+public class IdTag : DomainEntity, ISummarizable
 {
-	private readonly NumberCoreIdentifier coreId;
-
     public IdTag(string tagId, string position, int number)
     {
-		this.TagId = tagId;
-		this.Position = position;
-		this.coreId = new NumberCoreIdentifier(number);
+		TagId = tagId;
+		Position = position;
+        Number = number;
     }
 
     public string TagId { get; private set; }
 	public string Position { get; private set; }
+    public int Number { get; }
 
-	public bool Equals(CoreIdentifier? other)
-	{
-		return this.coreId.Equals(other);
-	}
-
-	public override string ToString()
+    public override string ToString()
 	{
 		return $"{"Id".Localize()}: {this.TagId}, {"Position".Localize()}: {this.Position}";
 	}

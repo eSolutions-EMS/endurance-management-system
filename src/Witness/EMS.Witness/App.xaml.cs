@@ -1,107 +1,100 @@
 ﻿using Core.Application.Rpc;
-using Core.Events;
+using Core.Domain.AggregateRoots.Manager.Aggregates.Participants;
+using Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
+using Core.Enums;
 using EMS.Witness.Rpc;
 using EMS.Witness.Services;
-using EMS.Witness.Shared.Toasts;
+using EMS.Witness.Shared;
 
 namespace EMS.Witness;
 
 public partial class App : Application
 {
-    private readonly IPersistenceService persistence;
+	private readonly IRpcInitalizer _rpcInitalizer;
+	private readonly IRpcSocket _rpcSocket;
+    private readonly IPersistenceService _persistence;
     private readonly IStartlistClient startlistClient;
     private readonly IStartlistService startlistService;
-    private readonly IToaster toaster;
-    private readonly IRpcInitalizer rpcService;
     private readonly IParticipantsClient participantsClient;
     private readonly IParticipantsService participantsService;
-	private bool isDeactivated;
 
     public App(
+		IRpcInitalizer rpcInitalizer,
+		IRpcSocket rpcSocket,
 		IPersistenceService persistence,
 		IStartlistClient startlistClient,
 		IStartlistService startlistService,
-		IToaster toaster,
-		IEnumerable<IRpcClient> rpcClients,
-		IRpcInitalizer rpcService,
 		IParticipantsClient arrivelistClient,
 		IParticipantsService arrivelistService)
 	{
 		this.InitializeComponent();
         this.MainPage = new MainPage();
-        this.persistence = persistence;
+		_rpcInitalizer = rpcInitalizer;
+		_rpcSocket = rpcSocket;
+        _persistence = persistence;
         this.startlistClient = startlistClient;
         this.startlistService = startlistService;
-        this.toaster = toaster;
-        this.rpcService = rpcService;
         this.participantsClient = arrivelistClient;
         this.participantsService = arrivelistService;
-        this.HandleRpcErrors(rpcClients);
-		this.HandleCoreErrors();
-		this.AttachEventHandlers();
     }
 
-	protected override Window CreateWindow(IActivationState? activationState)
+	protected override Window CreateWindow(IActivationState? activationState) 
 	{
 		var window = base.CreateWindow(activationState);
 
-		window.Created += async (s, e) =>
-		{
-			await this.rpcService.StartConnections();
-			await this.persistence.Restore();
-		};
-		window.Resumed += (s, e) =>
-		{
-			this.isDeactivated = false;
-			this.rpcService.StartConnections();
-		};
-		window.Deactivated += async (s, e) =>
-		{
-			this.isDeactivated = true;
-			await this.persistence.Store();
-		};
+		this.AttachEventHandlers();
+
+		window.Resumed += OnResumed;
+		window.Deactivated += OnDeactivated;
+		window.Destroying += DetachEventHandlers;
 
 		return window;
 	}
 
-	private void AttachEventHandlers()
+	private async void OnResumed(object? sender, EventArgs args)
 	{
-
-        this.participantsClient.Updated += (sender, args) => this.participantsService.Update(args.entry, args.action);
-        this.participantsClient.ServerConnectionChanged += async (sender, isConnected) => 
-		{
-			if (isConnected)
-			{
-				await this.participantsService.Load();
-			}
-        };
-
-		this.startlistClient.Updated += (s, a) => this.startlistService.Update(a.entry, a.action);
-        this.startlistClient.ServerConnectionChanged += async (sender, isConnected) =>
-        {
-            if (isConnected)
-            {
-                await this.startlistService.Load();
-            }
-        };
-    }
-
-	private void HandleRpcErrors(IEnumerable<IRpcClient> rpcClients)
-	{
-		foreach (var client in rpcClients)
-		{
-            client.Error += (sender, error) =>
-            {
-                this.toaster.Add("RPC client error", $"{error.Procedure}: {error.Exception.Message}", UiColor.Danger, 30);
-            };
-        }
+		await Task.Delay(TimeSpan.FromSeconds(1));
+		await NavMenu.StartRpcConnections(_rpcInitalizer);
 	}
 
-	private void HandleCoreErrors()
+    private async void OnDeactivated(object? sender, EventArgs args)
 	{
-		CoreEvents.ErrorEvent += (sender, error) =>
+		await Task.WhenAll(
+			_persistence.Store(),
+			_rpcSocket.Disconnect());
+	}
+
+	private void AttachEventHandlers()
+	{
+		//TODO: Add Initialize method to StartlistService ParticipantService to attach necessary events
+		this.participantsClient.Updated += HandleParticipantsUpdate;
+		this.startlistClient.Updated += HandleStartlistUpdate;
+        _rpcSocket.ServerConnectionChanged += HandleSocketConnectionChanged;
+    }
+
+    private void DetachEventHandlers(object? sender, EventArgs args)
+	{
+		this.participantsClient.Updated -= HandleParticipantsUpdate;
+		this.startlistClient.Updated -= HandleStartlistUpdate;
+        _rpcSocket.ServerConnectionChanged -= HandleSocketConnectionChanged;
+    }
+
+	private void HandleParticipantsUpdate(object? sender, (ParticipantEntry Participant, CollectionAction Action) args)
+	{
+		this.participantsService.Update(args.Participant, args.Action);
+	}
+
+	private void HandleStartlistUpdate(object? sender, (StartlistEntry StartlistEntry, CollectionAction Action) args)
+	{
+		this.startlistService.Update(args.StartlistEntry, args.Action);
+	}
+
+	private async void HandleSocketConnectionChanged(object? sender, RpcConnectionStatus status)
+	{
+		if (status == RpcConnectionStatus.Connected)
 		{
-			this.toaster.Add(error.Message, error.StackTrace, UiColor.Danger, 30);
-		};
+			await this.startlistService.Load();
+			await this.participantsService.Load();
+        }
 	}
 }

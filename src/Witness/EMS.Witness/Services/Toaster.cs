@@ -8,6 +8,7 @@ public class Toaster : IToaster, INotificationService, IDisposable
 {
     private readonly List<Toast> toastList = new();
     private readonly System.Timers.Timer timer = new();
+    private object lockObject = new();
 
     public Toaster()
     {
@@ -15,11 +16,7 @@ public class Toaster : IToaster, INotificationService, IDisposable
         this.timer.AutoReset = true;
         this.timer.Elapsed += this.HandleTimerElapsed;
         this.timer.Start();
-        CoreEvents.ErrorEvent += (sender, exception) =>
-        {
-            var toast = new Toast(exception.Message, exception.StackTrace, UiColor.Danger, 60);
-            this.Add(toast);
-        };
+        CoreEvents.ErrorEvent += HandleCoreError;
     }
 
     public event EventHandler? ToasterChanged;
@@ -33,7 +30,7 @@ public class Toaster : IToaster, INotificationService, IDisposable
         return this.toastList.ToList();
     }
 
-    public void Add(string header, string? message, UiColor color, int seconds = 10)
+    public void Add(string header, string? message, UiColor color, int seconds = 11)
     {
         var toast = new Toast(header, message, color, seconds);
         this.Add(toast);
@@ -64,21 +61,34 @@ public class Toaster : IToaster, INotificationService, IDisposable
     {
         if (this.timer is not null)
         {
-            this.timer.Elapsed += this.HandleTimerElapsed;
+            this.timer.Elapsed -= HandleTimerElapsed;
             this.timer.Stop();
+            this.timer.Dispose();
         }
+        CoreEvents.ErrorEvent -= HandleCoreError;
+    }
+
+    private void HandleCoreError(object? sender, Exception exception)
+    {
+        var toast = new Toast(exception.Message, exception.StackTrace, UiColor.Danger, 60);
+        this.Add(toast);
     }
 
     private bool ClearBurntToast()
     {
-        var toastsToDelete = this.toastList.Where(item => item.IsBurnt).ToList();
-        if (!toastsToDelete.Any())
+        var toastsToDelete = new List<Toast>();
+        lock (lockObject)
         {
-            return false;
+			toastsToDelete = this.toastList.Where(item => item.IsBurnt).ToList();
+            if (!toastsToDelete.Any())
+            {
+                return false;
+            }
+
+            toastsToDelete.ForEach(toast => this.toastList.Remove(toast));
         }
-        
-        toastsToDelete.ForEach(toast => this.toastList.Remove(toast));
-        this.ToasterChanged?.Invoke(this, EventArgs.Empty);
+		
+		this.ToasterChanged?.Invoke(this, EventArgs.Empty);
         return true;
     }
 

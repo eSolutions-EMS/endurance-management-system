@@ -1,11 +1,5 @@
-﻿using Not.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace Not.Extensions;
 
-namespace Not.Extensions;
 public static class DateTimeOffsetExtension
 {
     public static DateTimeOffset ToDateTimeOffset(this DateTime time)

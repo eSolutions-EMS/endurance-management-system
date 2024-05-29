@@ -1,7 +1,3 @@
-﻿using Not.Application.Ports.CRUD;
-using Not.Domain;
-using Not.Exceptions;
-
 namespace Not.Storage.Adapters.Repositories;
 
 /// <summary>
@@ -36,7 +32,7 @@ public abstract class BranchRepository<T, TState> : IRepository<T>
     {
         var state = await _store.Load();
         var parent = GetParent(state, entity.Id);
-        GuardHelper.ThrowIfNull(parent);
+        GuardHelper.ThrowIfDefault(parent);
 
         parent.Update(entity);
         await _store.Commit(state);
@@ -44,7 +40,15 @@ public abstract class BranchRepository<T, TState> : IRepository<T>
         return entity;
     }
 
-    public virtual Task<IEnumerable<T>> Read(Predicate<T> filter)
+    public Task<T?> Read(Predicate<T> filter)
+    {
+        throw NotImplemented();
+    }
+    public Task<IEnumerable<T>> ReadAll()
+    {
+        throw NotImplemented();
+    }
+    public virtual Task<IEnumerable<T>> ReadAll(Predicate<T> filter)
     {
         throw NotImplemented();
     }

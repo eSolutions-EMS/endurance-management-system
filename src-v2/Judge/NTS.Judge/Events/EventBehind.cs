@@ -43,7 +43,7 @@ public class EventBehind : INotBehind<Event>, INotBehindParent<Official>, INotBe
 
     public async Task<Official> Create(Official child)
     {
-        GuardHelper.ThrowIfNull(_event);
+        GuardHelper.ThrowIfDefault(_event);
 
         _event.Add(child);
         await _eventRepository.Update(_event);
@@ -52,7 +52,7 @@ public class EventBehind : INotBehind<Event>, INotBehindParent<Official>, INotBe
 
     public async Task<Official> Delete(Official child)
     {
-        GuardHelper.ThrowIfNull(_event);
+        GuardHelper.ThrowIfDefault(_event);
 
         _event.Remove(child);
         await _eventRepository.Update(_event);
@@ -61,7 +61,7 @@ public class EventBehind : INotBehind<Event>, INotBehindParent<Official>, INotBe
 
     public async Task<Official> Update(Official child)
     {
-        GuardHelper.ThrowIfNull(_event);
+        GuardHelper.ThrowIfDefault(_event);
 
         _event.Update(child);
         await _eventRepository.Update(_event);
@@ -70,7 +70,7 @@ public class EventBehind : INotBehind<Event>, INotBehindParent<Official>, INotBe
 
     public async Task<Competition> Create(Competition child)
     {
-        GuardHelper.ThrowIfNull(_event);
+        GuardHelper.ThrowIfDefault(_event);
 
         _event.Add(child);
         await _eventRepository.Update(_event);
@@ -79,7 +79,7 @@ public class EventBehind : INotBehind<Event>, INotBehindParent<Official>, INotBe
 
     public async Task<Competition> Delete(Competition child)
     {
-        GuardHelper.ThrowIfNull(_event);
+        GuardHelper.ThrowIfDefault(_event);
 
         _event.Remove(child);
         await _eventRepository.Update(_event);
@@ -88,7 +88,7 @@ public class EventBehind : INotBehind<Event>, INotBehindParent<Official>, INotBe
 
     public async Task<Competition> Update(Competition child)
     {
-        GuardHelper.ThrowIfNull(_event);
+        GuardHelper.ThrowIfDefault(_event);
 
         _event.Update(child);
         await _eventRepository.Update(_event);

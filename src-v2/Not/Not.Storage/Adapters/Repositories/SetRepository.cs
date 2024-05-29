@@ -54,6 +54,11 @@ public abstract class SetRepository<T, TState> : ISetRepository<T>
 
     public async Task<IEnumerable<T>> Read(Predicate<T> filter)
     {
+        return ReadAll(x => true);
+    }
+
+    public async Task<IEnumerable<T>> ReadAll(Predicate<T> filter)
+    {
         var state = await _store.Load();
         return state.EntitySet.Where(x => filter(x));
     }

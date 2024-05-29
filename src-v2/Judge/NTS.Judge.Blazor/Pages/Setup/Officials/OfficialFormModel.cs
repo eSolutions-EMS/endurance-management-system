@@ -1,4 +1,5 @@
-﻿using NTS.Domain.Setup.Entities;
+﻿using NTS.Domain.Enums;
+using NTS.Domain.Setup.Entities;
 
 namespace NTS.Judge.Blazor.Setup.Officials;
 

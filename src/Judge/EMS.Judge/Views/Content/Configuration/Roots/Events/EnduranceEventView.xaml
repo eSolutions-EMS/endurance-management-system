@@ -26,6 +26,9 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <!-- ID -->
             <TextBox Style="{StaticResource Input-Id}"
@@ -54,21 +57,39 @@
                 <Label Style="{StaticResource Label-Primary}"
                        Content="{x:Static localization:Strings.COUNTRY_ENTITY}" />
             </Border>
+            <!-- Fei ID label-->
+            <Border Style="{StaticResource Border-Content-Left}"
+                    Grid.Row="5" Grid.Column="0">
+                <Label Style="{StaticResource Label-Primary}"
+                       Content="FEI ID" />
+            </Border>
+            <!-- Fei ID label-->
+            <Border Style="{StaticResource Border-Content-Left}"
+                    Grid.Row="6" Grid.Column="0">
+                <Label Style="{StaticResource Label-Primary}"
+                       Content="FEI Code" />
+            </Border>
+            <!-- Show Fei ID label-->
+            <Border Style="{StaticResource Border-Content-Left}"
+                    Grid.Row="7" Grid.Column="0">
+                <Label Style="{StaticResource Label-Primary}"
+                       Content="Show FEI ID" />
+            </Border>
             <!-- Separator  -->
             <Border Style="{StaticResource Border-Separator}"
-                    Grid.Row="5" Grid.Column="0" />
+                    Grid.Row="8" Grid.Column="0" />
             <!-- Personnel label -->
             <Border Style="{StaticResource Border-Content-Left}" BorderThickness="0 2px 0 0"
-                    Grid.Row="5" Grid.Column="0">
+                    Grid.Row="8" Grid.Column="0">
                 <Label Style="{StaticResource Label-Primary}"
                        Content ="{x:Static localization:Strings.PERSONNEL_ENTITY}" />
             </Border>
             <!-- Separator -->
             <Border Style="{StaticResource Border-Separator}"
-                    Grid.Row="7" Grid.Column="0" />
+                    Grid.Row="10" Grid.Column="0" />
             <!-- Competitions label -->
             <Border Style="{StaticResource Border-Content-Left}"
-                    Grid.Row="7" Grid.Column="0" >
+                    Grid.Row="10" Grid.Column="0" >
                 <Label Style="{StaticResource Label-Primary}"
                        Content ="{x:Static localization:Strings.COMPETITIONS_ENTITY}" />
             </Border>
@@ -92,20 +113,38 @@
                           ItemsSource="{Binding Countries}"
                           SelectedValue="{Binding CountryId}" />
             </Border>
+            <!-- FEI ID -->
+            <Border Style="{StaticResource Border-Content-Center}"
+                    Grid.Row="5" Grid.Column="1">
+                <TextBox Style="{StaticResource Input}"
+                         Text="{Binding FeiId}" />
+            </Border>
+            <!-- FEI Code -->
+            <Border Style="{StaticResource Border-Content-Center}"
+                    Grid.Row="6" Grid.Column="1">
+                <TextBox Style="{StaticResource Input}"
+                         Text="{Binding FeiCode}" />
+            </Border>
+            <!-- Show FEI ID -->
+            <Border Style="{StaticResource Border-Content-Center}"
+                    Grid.Row="7" Grid.Column="1">
+                <TextBox Style="{StaticResource Input}"
+                         Text="{Binding ShowFeiId}" />
+            </Border>
             <!-- Personnel content -->
             <!-- Separator -->
             <Border Style="{StaticResource Border-Separator}"
-                    Grid.Row="5" Grid.Column="1" />
+                    Grid.Row="8" Grid.Column="1" />
             <!-- Personnel Create -->
             <Border Style="{StaticResource Border-Content-Center}"
-                    Grid.Row="5" Grid.Column="1">
+                    Grid.Row="8" Grid.Column="1">
                 <Button Style="{StaticResource Button-Form}"
                         Command="{Binding CreatePersonnel}"
                         Content="{x:Static localization:Strings._CREATE}" />
             </Border>
             <!-- Personnel List -->
             <Border Style="{StaticResource Border-Content-Center}" Margin="0 1px 0 0"
-                    Grid.Row="6" Grid.Column="1" >
+                    Grid.Row="9" Grid.Column="1" >
                 <DockPanel Style="{StaticResource Stretch-Last}">
                     <ListBox Style="{StaticResource ListBox-Vertical}"
                              ItemsSource="{Binding Personnel}" />
@@ -114,17 +153,17 @@
             <!-- Competitions content -->
             <!-- Separator -->
             <Border Style="{StaticResource Border-Separator}"
-                    Grid.Row="7" Grid.Column="1" />
+                    Grid.Row="10" Grid.Column="1" />
             <!-- Competition Create -->
             <Border Style="{StaticResource Border-Content-Center}"
-                    Grid.Row="7" Grid.Column="1">
+                    Grid.Row="10" Grid.Column="1">
                 <Button Style="{StaticResource Button-Form}"
                         Command="{Binding CreateCompetition}"
                         Content="{x:Static localization:Strings._CREATE}"  />
             </Border>
             <!-- Competitions -->
             <Border Style="{StaticResource Border-Content-Center}" Margin="0 1px 0 0"
-                    Grid.Row="8" Grid.Column="1">
+                    Grid.Row="11" Grid.Column="1">
                 <DockPanel Style="{StaticResource Stretch-Last}">
                     <ListBox Style="{StaticResource ListBox-Vertical}"
                              ItemsSource="{Binding Competitions}" />
