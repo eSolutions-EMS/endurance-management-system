@@ -6,7 +6,7 @@ namespace Not.Storage.Stores;
 public class InMemoryJsonStore<T> : IStore<T>
     where T : class, new()
 {
-    private T? _context;
+    private T _context = new();
     private string? _json;
     private readonly JsonSerializerSettings _settings;
     private readonly object _lock = new object();
@@ -23,17 +23,7 @@ public class InMemoryJsonStore<T> : IStore<T>
     {
         lock (_lock)
         {
-            if (_context != null)
-            {
-                return Task.FromResult(_context);
-            }
-            var state = new T();
-            if (_json == null)
-            {
-                return Task.FromResult(state);
-            }
-            state = JsonConvert.DeserializeObject<T>(_json, _settings) ?? state;
-            return Task.FromResult(state);
+            return Task.FromResult(_context);
         }
     }
 
@@ -41,8 +31,6 @@ public class InMemoryJsonStore<T> : IStore<T>
     {
         lock (_lock)
         {
-            _json = JsonConvert.SerializeObject(state, _settings);
-            _context = null;
             return Task.CompletedTask;
         }
     }

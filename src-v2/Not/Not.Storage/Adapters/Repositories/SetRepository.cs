@@ -44,7 +44,7 @@ public abstract class SetRepository<T, TState> : ISetRepository<T>
         return default!;
     }
 
-    public async Task<T> Delete(T entity)
+    public virtual async Task<T> Delete(T entity)
     {
         var state = await _store.Load();
         state.EntitySet.Remove(entity);
@@ -70,7 +70,7 @@ public abstract class SetRepository<T, TState> : ISetRepository<T>
         return state.EntitySet;
     }
 
-    public async Task<T> Update(T entity)
+    public virtual async Task<T> Update(T entity)
     {
         var state = await _store.Load();
 

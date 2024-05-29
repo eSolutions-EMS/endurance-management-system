@@ -14,7 +14,7 @@
 @if (Items != null && Items.Any())
 {
     <NotH2 Class="pt-6 pl-6">@Name</NotH2>
-    <NotButtonCreate Class="mt-1 ml-6 mb-3" OnClick="_contestantNavigator.Create" />
+    <NotButtonCreate Class="mt-1 ml-6 mb-3" OnClick="CreateHandler" />
     <MudDivider />
     @foreach (var item in Items)
     {
@@ -22,7 +22,7 @@
             <div class="grid-row-1">@item</div>
             <div class="grid-row-1 action-column">
                 <NotButtonUpdate  Size="Size.Small" OnClick="() => this._contestantNavigator.Update(UpdateRoute, item)">Edit</NotButtonUpdate>
-                <NotButtonDelete Class="ml-1" Size="Size.Small" OnClick="() => Pesho(item)" />
+                <NotButtonDelete Class="ml-1" Size="Size.Small" OnClick="() => DeleteHandler(item)" />
             </div>
         </div>
         <MudDivider />
@@ -33,7 +33,7 @@ else
     <MudPaper Elevation="0">
         <div class="pa-6">
             <NotH2>@Name</NotH2>
-            <NotButtonCreate OnClick="_contestantNavigator.Create" Class="toolbar-button" />
+            <NotButtonCreate OnClick="CreateHandler" Class="toolbar-button" />
             <p>@EmptyMessage</p>
         </div>
     </MudPaper>
@@ -63,11 +63,17 @@ else
         Class += " children-component half-width";
         Items = await _setBehind.GetAll();
     }
-
-    public async Task Pesho(T item)
+    public async Task CreateHandler()
+    {
+        await _contestantNavigator.Create();
+        Items = await _setBehind.GetAll();
+        await InvokeAsync(StateHasChanged);
+    }
+    public async Task DeleteHandler(T item)
     {
         await _setBehind.Delete(item);
-        StateHasChanged();
+        Items = await _setBehind.GetAll();
+        await InvokeAsync(StateHasChanged);
     }
 
     [Inject]
