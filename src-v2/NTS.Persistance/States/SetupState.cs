@@ -1,9 +1,8 @@
-﻿using Not.Storage.Ports.States;
-using NTS.Domain.Setup.Entities;
+﻿using NTS.Domain.Setup.Entities;
 
 namespace NTS.Persistence.Setup;
 
-public class SetupState : ITreeState<Event>, ISetState<Loop>, ISetState<Horse>
+public class SetupState : NotState, ITreeState<Event>, ISetState<Loop>, ISetState<Horse>
 {
     public Event? Event { get; set; }
     public List<Loop> Loops { get; } = new List<Loop>();

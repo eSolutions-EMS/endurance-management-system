@@ -5,13 +5,13 @@ namespace NTS.Persistence.Adapters;
 
 public class LoopRepository : SetRepository<Loop, SetupState>
 {
+    private readonly IStore<SetupState> _store;
+
     public LoopRepository(IStore<SetupState> store) : base(store)
     {
-        Store = store;
+        _store = store;
     }
 
-    SetupState? State;
-    IStore<SetupState> Store;
     public override async Task<Loop> Update(Loop entity)
     {
         await UpdateLoopValue(entity);
@@ -25,22 +25,22 @@ public class LoopRepository : SetRepository<Loop, SetupState>
 
     private async Task UpdateLoopValue(Loop entity, bool isDelete=false) 
     {
-        State = await Store.Load();
-        for(int i = 0; i < State.Loops.Count; i++)
+        var state = await _store.Transact();
+        for(int i = 0; i < state.Loops.Count; i++)
         {
-            if (State.Loops[i] == entity)
+            if (state.Loops[i] == entity)
             {
                 if (isDelete)
                 {
-                    State.Loops.RemoveAt(i);
+                    state.Loops.RemoveAt(i);
                 }
                 else
                 {
-                    State.Loops[i] = entity;
+                    state.Loops[i] = entity;
                 }
             }
         }
-        foreach (var phase in State.Event!.Competitions.SelectMany(x => x.Phases))
+        foreach (var phase in state.Event!.Competitions.SelectMany(x => x.Phases))
         {
             if (phase.Loop == entity)
             {
@@ -54,6 +54,6 @@ public class LoopRepository : SetRepository<Loop, SetupState>
                 }
             }
         }
-        await Store.Commit(State);
+        await _store.Commit(state);
     }
 }
