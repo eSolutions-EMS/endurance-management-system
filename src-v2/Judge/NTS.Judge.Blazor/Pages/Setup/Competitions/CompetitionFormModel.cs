@@ -34,7 +34,7 @@ public class CompetitionFormModel
     public DateTime? StartDay { get; set; } = DateTime.Today;
     public TimeSpan? StartTime { get; set; }
     public bool UseAutomaticCRI { get; set; }
-    public int? CRIRecovery { get; set; }
+    public int? CRIRecovery { get; set;  }
     public IReadOnlyCollection<Phase>? Phases { get; }
     public IReadOnlyCollection<Contestant>? Contestants { get; }
 }
