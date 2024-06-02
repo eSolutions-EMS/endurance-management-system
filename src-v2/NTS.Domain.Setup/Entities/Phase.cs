@@ -12,7 +12,7 @@ public class Phase : DomainEntity, ISummarizable, IImportable
     public Phase(int id, Lap selectedLap, int recovery, int rest)
     {
         Id = id;
-        SelectedLap = selectedLap;
+        Lap = selectedLap;
         Recovery = recovery;
         Rest = rest;
     }
@@ -26,18 +26,14 @@ public class Phase : DomainEntity, ISummarizable, IImportable
         {
             throw new DomainException(nameof(Rest), "Rest duration cannot be zero or less.");
         }
-        SelectedLap = selectedLap;
+        Lap = selectedLap;
         Recovery = recovery;
 		Rest = rest;
 	}
-    public Lap? SelectedLap { get; private set; }
+    public Lap? Lap { get; set; }
     public int Recovery { get; private set; }
     public int Rest { get; private set; }
 
-    public void SetSelectedLap(Lap selectedLap)
-    {
-        SelectedLap = selectedLap;
-    }
     public override string ToString()
     {
         var min = "min".Localize();
@@ -45,8 +41,7 @@ public class Phase : DomainEntity, ISummarizable, IImportable
         var lap = "Lap".Localize();
         var phase = "Phase".Localize();
 		var rest = "Rest".Localize();
-        var selectedLap = SelectedLap==null? "DELETED".Localize() : SelectedLap.NestedToString();
-
+        var selectedLap = Lap == null ? "DELETED".Localize() : Lap.NestedToString();
 		return $"{phase} -> {lap}: {selectedLap} {rec}: {Recovery}{min} {rest}: {Rest}{min}";
     }
 }

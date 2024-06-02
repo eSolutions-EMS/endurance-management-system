@@ -5,14 +5,13 @@ using Not.Exceptions;
 using NTS.Domain.Setup.Entities;
 using static MudBlazor.CategoryTypes;
 
-
 namespace NTS.Judge.Events;
 public class LapBehind : INotSetBehind<Lap>
 {
-    private readonly ISetRepository<Lap> _lapRepository;
+    private readonly IRepository<Lap> _lapRepository;
     private Lap? _lap;
 
-    public LapBehind(ISetRepository<Lap> loopRepository)
+    public LapBehind(IRepository<Lap> loopRepository)
     {
         _lapRepository = loopRepository;
     }

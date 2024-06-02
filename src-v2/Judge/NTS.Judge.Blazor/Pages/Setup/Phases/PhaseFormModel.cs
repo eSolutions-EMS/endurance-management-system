@@ -17,7 +17,7 @@ public class PhaseFormModel
     public PhaseFormModel(Phase phase)
     {
         Id = phase.Id;
-        SelectedLap = phase.SelectedLap;
+        SelectedLap = phase.Lap;
         Recovery = (int)phase.Recovery!;
         Rest = (int)phase.Rest!;
     }

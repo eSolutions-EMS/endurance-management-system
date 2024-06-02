@@ -5,7 +5,6 @@ namespace Not.Storage.Stores;
 public class InMemoryJsonStore<T> : IStore<T>
     where T : class, new()
 {
-    private T _context = new();
     private string? _json;
     private readonly object _lock = new();
 
@@ -13,11 +12,6 @@ public class InMemoryJsonStore<T> : IStore<T>
     {
         lock (_lock)
         {
-            if (_context != null)
-            {
-                return Task.FromResult(_context);
-            }
-            //TODO: remove _context
             var state = new T();
             if (_json == null)
             {
@@ -33,7 +27,6 @@ public class InMemoryJsonStore<T> : IStore<T>
         lock (_lock)
         {
             _json = state.ToJson();
-            _context = null;
             return Task.CompletedTask;
         }
     }

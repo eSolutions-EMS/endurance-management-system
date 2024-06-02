@@ -1,4 +1,4 @@
-﻿@using NTS.Domain.Enums
+﻿@using NTS.Domain.Enums;
 @using NTS.Domain.Setup.Entities;
 @using NTS.Judge.Blazor.Setup.Officials;
 @using Not.Blazor.Forms;
@@ -9,8 +9,7 @@
 
 <EditForm Model="_model">
     <MudTextField @ref="_nameField" @bind-Value="_model.Name" Label="@Localizer.Get("Name")" />
-
-    <MudSelect @ref="_roleFiled" @bind-Value="_model.Role" Label="@Localizer.Get(nameof(Official.Role))" @onchange="(_) => SubmitUpdate()">
+    <MudSelect @ref="_roleField" @bind-Value="_model.Role" Label="@Localizer.Get(nameof(Official.Role))" @onchange="(_) => SubmitUpdate()">
         @foreach (var item in Enum.GetValues<OfficialRole>())
         {
             <MudSelectItem Value="@item">@item</MudSelectItem>
@@ -20,13 +19,13 @@
 
 @code {
     private MudTextField<string?> _nameField = default!;
-    private MudSelect<OfficialRole> _roleFiled = default!;
+    private MudSelect<OfficialRole> _roleField = default!;
     private OfficialFormModel _model { get; set; } = new();
 
     public override void RegisterValidationInjectors()
     {
         RegisterInjector(nameof(_model.Name), () => _nameField);
-        RegisterInjector(nameof(_model.Role), () => _roleFiled);
+        RegisterInjector(nameof(_model.Role), () => _roleField);
     }
 
     public override void SetUpdateModel(Official official)

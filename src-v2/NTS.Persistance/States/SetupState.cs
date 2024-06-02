@@ -14,7 +14,5 @@ public class SetupState : ITreeState<Event>, ISetState<Lap>
         set => Event = value;
     }
 
-    List<Lap> ISetState<Lap>.EntitySet { 
-        get => Laps;
-    }
+    List<Lap> ISetState<Lap>.EntitySet => Laps; 
 }

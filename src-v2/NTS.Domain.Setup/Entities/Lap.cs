@@ -28,9 +28,8 @@ public class Lap : DomainEntity
     }
     public override string ToString() 
     {
-        var phase = "Lap".Localize();
-        var sb = new StringBuilder();
-        sb.Append($"{phase} -> {Distance}km long ");
-        return sb.ToString();
+        var lap = "Lap".Localize();
+        var message = $"{lap} -> {Distance}km long ";
+        return message;
     }
 }

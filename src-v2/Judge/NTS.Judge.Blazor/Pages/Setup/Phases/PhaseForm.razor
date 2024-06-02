@@ -8,7 +8,7 @@
 
 <EditForm Model="_model">
     <MudSelect @ref="_lapField" @bind-Value="_model.SelectedLap" Label="@Localizer.Get("Phase Distance")" @onchange="(_) => SubmitUpdate()"
-        Strict="true" ShrinkLabel="true" Placeholder="@Localizer.Get("Pick lap length")">
+        Placeholder="@Localizer.Get("Pick lap length")">
         @foreach(var item in Items)
         {
             <MudSelectItem Value="item">@item</MudSelectItem>

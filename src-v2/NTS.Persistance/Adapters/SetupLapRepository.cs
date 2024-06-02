@@ -7,38 +7,53 @@ public class SetupLapRepository : SetRepository<Lap, SetupState>
 {
     public SetupLapRepository(IStore<SetupState> store) : base(store)
     {
-        state = store.Load().Result;
+        Store = store;
     }
 
-    private SetupState state { get; set; }
-    public override Task<Lap> Update(Lap entity)
+    SetupState? State;
+    IStore<SetupState> Store;
+    public override async Task<Lap> Update(Lap entity)
     {
-        state.Event.Competitions
-            .Where(competition => competition.Phases.Any(phase => phase.SelectedLap.Id == entity.Id))
-            .SelectMany(competition => competition.Phases
-                .Where(phase => phase.SelectedLap.Id == entity.Id)
-                .Select(phase => new { competition, phase }))
-            .ToList()
-            .ForEach(item =>
-            {
-                item.phase.SetSelectedLap(entity);
-                item.competition.Update(item.phase);
-            });
-        return base.Update(entity);
+        await UpdateLapValue(entity);
+        return entity;
     }
-    public override Task<Lap> Delete(Lap entity)
+    public override async Task<Lap> Delete(Lap entity)
     {
-        state.Event.Competitions
-            .Where(competition => competition.Phases.Any(phase => phase.SelectedLap.Id == entity.Id))
-            .SelectMany(competition => competition.Phases
-                .Where(phase => phase.SelectedLap.Id == entity.Id)
-                .Select(phase => new { competition, phase }))
-            .ToList()
-            .ForEach(item =>
+        await UpdateLapValue(entity,true);
+        return entity;
+    }
+
+    public async Task UpdateLapValue(Lap entity, bool isDelete=false) 
+    {
+        State = await Store.Load();
+        for(int i = 0; i < State.Laps.Count; i++)
+        {
+            if (State.Laps[i] == entity)
             {
-                item.phase.SetSelectedLap(null);
-                item.competition.Update(item.phase);
-            });
-        return base.Delete(entity);
+                if (isDelete)
+                {
+                    State.Laps.RemoveAt(i);
+                }
+                else
+                {
+                    State.Laps[i] = entity;
+                }
+            }
+        }
+        foreach (var phase in State.Event!.Competitions.SelectMany(x => x.Phases))
+        {
+            if (phase.Lap == entity)
+            {
+                if (isDelete)
+                {
+                    phase.Lap = null;
+                }
+                else
+                {
+                    phase.Lap = entity;
+                }
+            }
+        }
+        await Store.Commit(State);
     }
 }
