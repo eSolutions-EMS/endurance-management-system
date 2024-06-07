@@ -45,7 +45,7 @@ public class RanklistAggregate : List<Participation>, IAggregate
 
     private IEnumerable<Participation> RankJuniors(IEnumerable<Participation> participations)
         => participations
-            .Where(x => x.Participant.Athlete.Category == Category.Children)
+            .Where(x => x.Participant.Athlete.Category == Category.JuniorOrYoungAdults)
             .Select(this.CalculateTotalRecovery)
             .OrderBy(x => this.IsNotQualifiedPredicate(x.Item2))
             .ThenBy(x => x.Item1)
@@ -54,7 +54,7 @@ public class RanklistAggregate : List<Participation>, IAggregate
 
     private IEnumerable<Participation> RankKids(IEnumerable<Participation> participations)
         => participations
-            .Where(x => x.Participant.Athlete.Category == Category.JuniorOrYoungAdults)
+            .Where(x => x.Participant.Athlete.Category == Category.Children)
             .Select(this.CalculateTotalRecovery)
             .OrderBy(x => this.IsNotQualifiedPredicate(x.Item2))
             .ThenBy(x => x.Item1)
