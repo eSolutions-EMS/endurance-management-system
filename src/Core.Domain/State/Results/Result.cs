@@ -1,5 +1,6 @@
 using Core.Domain.Common.Exceptions;
 using Core.Domain.Common.Models;
+using System.Text;
 
 namespace Core.Domain.State.Results;
 
@@ -37,10 +38,15 @@ public class Result : DomainBase<ResultException>, IResultState
         {
             return string.Empty;
         }
-        var typeString = string.Empty;
-        
+        var sb = new StringBuilder();
+        sb.Append(TypeCode);
+        sb.Append(" ");
+        if (!string.IsNullOrEmpty(Code))
+        {
+            sb.Append(Code);
+        }
 
-        return $"{typeString.ToUpper()} {TypeCode}";
+        return sb.ToString();
     }
 }
 
