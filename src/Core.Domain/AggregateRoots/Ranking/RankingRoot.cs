@@ -51,14 +51,15 @@ public class RankingRoot : IAggregateRoot
         return aggregate;
     }
 
-    public string GenerateFeiExport()
+    public string GenerateFeiExport(int competitionId)
     {
         var @event = _stateContext.State.Event;
         if (!_stateContext.State.Event.HasStarted)
         {
             throw Helper.Create<EnduranceEventException>("Event has not started yet");
         }
-        var ctEnduranceCompetitions = CreateCompetitions(@event);
+        var competition = @event.Competitions.FindDomain(competitionId);
+        var ctEnduranceCompetitions = CreateCompetitions(competition);
         var horseSport = CreateHorseSport(@event, ctEnduranceCompetitions);
 
         var xml = BuildXml(horseSport);
@@ -84,27 +85,24 @@ public class RankingRoot : IAggregateRoot
 
     public IReadOnlyList<CompetitionResultAggregate> Competitions => this._competitions.AsReadOnly();
 
-    private IEnumerable<ctEnduranceCompetition> CreateCompetitions(EnduranceEvent @event)
+    private ctEnduranceCompetition CreateCompetitions(Competition competition)
     {
-        foreach (var comp in @event.Competitions.Where(x => x.Name.Contains("CEI")))
+        var ctCompetition = new ctEnduranceCompetition
         {
-            var competition = new ctEnduranceCompetition
-            {
-                FEIID = comp.FeiId,
-                ScheduleCompetitionNr = comp.FeiScheduleNumber,
-                Rule = comp.Rule,
-                Name = comp.Name,
-                StartDate = comp.StartTime,
-                Team = false,
-                ParticipationList = new ctEnduranceParticipations()
-            };
+            FEIID = competition.FeiId,
+            ScheduleCompetitionNr = competition.FeiScheduleNumber,
+            Rule = competition.Rule,
+            Name = competition.Name,
+            StartDate = competition.StartTime,
+            Team = false,
+            ParticipationList = new ctEnduranceParticipations()
+        };
 
-            var ctParticipations = CreateParticipations(comp);
+        var ctParticipations = CreateParticipations(competition);
 
-            // .. Necessary to order here, because Ranklist implementation is terrible
-            competition.ParticipationList.Participation = ctParticipations.OrderBy(x => x.Position.Rank).ToArray();
-            yield return competition;
-        }
+        // .. Necessary to order here, because Ranklist implementation is terrible
+        ctCompetition.ParticipationList.Participation = ctParticipations.OrderBy(x => x.Position.Rank).ToArray();
+        return ctCompetition;
     }
 
     private IEnumerable<ctEnduranceIndivResult> CreateParticipations(Competition competition)
@@ -198,7 +196,7 @@ public class RankingRoot : IAggregateRoot
         return days;
     }
 
-    private HorseSport CreateHorseSport(EnduranceEvent @event, IEnumerable<ctEnduranceCompetition> ctEnduranceCompetitions)
+    private HorseSport CreateHorseSport(EnduranceEvent @event, ctEnduranceCompetition ctEnduranceCompetition)
     {
         var ctEnduranceEvent = new ctEnduranceEvent
         {
@@ -206,8 +204,8 @@ public class RankingRoot : IAggregateRoot
             Code = @event.FeiCode,
             StartDate = @event.Competitions.OrderBy(x => x.StartTime).First().StartTime,
             EndDate = DateTime.UtcNow,
-            NF = @event.Country.IsoCode,
-            Competitions = ctEnduranceCompetitions.ToArray(),
+            NF = "BUL",
+            Competitions = [ ctEnduranceCompetition ],
         };
         var horseSport = new HorseSport()
         {
