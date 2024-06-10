@@ -11,6 +11,9 @@ using Core.Domain.State.EnduranceEvents;
 using Core.Domain.AggregateRoots.Common.Performances;
 using Core.Domain.State.Participations;
 using Core.Domain.State.Competitions;
+using System.Globalization;
+using System.IO;
+using System.Xml.Serialization;
 
 namespace Core.Domain.AggregateRoots.Ranking;
 
@@ -48,7 +51,7 @@ public class RankingRoot : IAggregateRoot
         return aggregate;
     }
 
-    public HorseSport GenerateFeiExport()
+    public string GenerateFeiExport()
     {
         var @event = _stateContext.State.Event;
         if (!_stateContext.State.Event.HasStarted)
@@ -57,7 +60,11 @@ public class RankingRoot : IAggregateRoot
         }
         var ctEnduranceCompetitions = CreateCompetitions(@event);
         var horseSport = CreateHorseSport(@event, ctEnduranceCompetitions);
-        return horseSport;
+
+        var xml = BuildXml(horseSport);
+        xml = InsertGeneratedDate(xml);
+
+        return xml;
     }
 
     public static (TimeSpan loop, TimeSpan rec, TimeSpan phase, double? speed) CalculateTotalValues(Participation participation)
@@ -79,7 +86,7 @@ public class RankingRoot : IAggregateRoot
 
     private IEnumerable<ctEnduranceCompetition> CreateCompetitions(EnduranceEvent @event)
     {
-        foreach (var comp in @event.Competitions)
+        foreach (var comp in @event.Competitions.Where(x => x.Name.Contains("CEI")))
         {
             var competition = new ctEnduranceCompetition
             {
@@ -206,7 +213,9 @@ public class RankingRoot : IAggregateRoot
         {
             Generated = new ctGenerated
             {
-                Date = DateTime.UtcNow,
+                Software = "EMS",
+                SoftwareVersion = "4.1.3",
+                Organization = "NotACompany",
             },
             EventResult = new ctShowResultType
             {
@@ -225,6 +234,19 @@ public class RankingRoot : IAggregateRoot
             }
         };
         return horseSport;
+    }
+
+    private string BuildXml(HorseSport horseSport)
+    {
+        var serializer = new XmlSerializer(typeof(HorseSport));
+        using var stream = new StringWriter();
+        serializer.Serialize(stream, horseSport);
+        return stream.ToString();
+    }
+
+    private string InsertGeneratedDate(string xml)
+    {
+        return xml.Replace("<Generated Software", $"<Generated Date=\"{DateTime.UtcNow.ToString("s", CultureInfo.InvariantCulture)}+00:00\" Software");
     }
 
     private decimal Round(double value) => (decimal)Math.Round(value, 2);

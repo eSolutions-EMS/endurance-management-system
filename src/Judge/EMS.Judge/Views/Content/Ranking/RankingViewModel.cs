@@ -15,6 +15,8 @@ using static Core.Localization.Strings;
 using Core.Services;
 using Core.Domain.AggregateRoots.Manager;
 using System;
+using System.IO;
+using EMS.Judge.Common.Services;
 
 namespace EMS.Judge.Views.Content.Ranking;
 
@@ -23,14 +25,20 @@ public class RankingViewModel : ViewModelBase
     private readonly IExecutor<RankingRoot> _rankingExecutor;
     private readonly IExecutor basicExecutor;
     private readonly IXmlSerializationService _xmlSerializationService;
+    private readonly IPopupService _popupService;
     private CompetitionResultAggregate selectedCompetition;
     private List<CompetitionResultAggregate> competitions;
 
-    public RankingViewModel(IExecutor<RankingRoot> rankingExecutor, IExecutor basicExecutor, IXmlSerializationService xmlSerializationService)
+    public RankingViewModel(
+        IExecutor<RankingRoot> rankingExecutor,
+        IExecutor basicExecutor,
+        IXmlSerializationService xmlSerializationService,
+        IPopupService popupService)
     {
         this._rankingExecutor = rankingExecutor;
         this.basicExecutor = basicExecutor;
         _xmlSerializationService = xmlSerializationService;
+        _popupService = popupService;
         this.Print = new DelegateCommand<RanklistControl>(this.PrintAction);
         this.SelectKidsCategory = new DelegateCommand(this.SelectKidsCategoryAction);
         this.SelectAdultsCategory = new DelegateCommand(this.SelectAdultsCategoryAction);
@@ -90,11 +98,11 @@ public class RankingViewModel : ViewModelBase
     private void ExportAction()
     {
         _rankingExecutor.Execute(
-            x => {
-                var result = x.GenerateFeiExport();
-                _xmlSerializationService.SerializeToFile(
-                    result,
-                    $"{ManagerRoot.dataDirectoryPath}/{DateTime.Now.ToString(DesktopConstants.DATE_ONLY_FORMAT)}_export.xml");
+            rankingRoot => {
+                var result = rankingRoot.GenerateFeiExport();
+                var path = $"{ManagerRoot.dataDirectoryPath}/{DateTime.Now.ToString(DesktopConstants.DATE_ONLY_FORMAT)}_export.xml";
+                File.WriteAllText(path, result);
+                _popupService.RenderOk();
             }, 
             false);
     }
