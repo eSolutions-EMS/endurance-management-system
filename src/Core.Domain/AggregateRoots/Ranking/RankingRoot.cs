@@ -15,6 +15,7 @@ using System.Globalization;
 using System.IO;
 using System.Xml.Serialization;
 using Core.Domain.Enums;
+using Core.Domain.State.Results;
 
 namespace Core.Domain.AggregateRoots.Ranking;
 
@@ -178,8 +179,16 @@ public class RankingRoot : IAggregateRoot
                     PhaseAverageSpeed = Round(performance.AverageSpeedPhase.Value),
                     PhaseTime = FormatTime(performance.Time),
                     RecoveryTime = FormatTime(performance.RecoverySpan),
-                }
+                },
             };
+            if (record.Result.Type != ResultType.Successful)
+            {
+                phase.VetInspection = new ctEnduranceVetInspection
+                {
+                    Type = stEnduranceVetTypeCode.Standard,
+                    EliminationCode = record.Result.TypeCode,
+                };
+            }
             if (lastDate == default || lastDate == record.StartTime.Date)
             {
                 var list = new List<ctEndurancePhaseResult>(day.Phase ?? Enumerable.Empty<ctEndurancePhaseResult>())
