@@ -106,7 +106,9 @@ public class Performance : IAggregate, IPerformance, INotifyPropertyChanged
         => this.Record.ArrivalTime - this.Record.StartTime;
 
     private TimeSpan? CalculatePhaseTime()
-        => this.Record.VetGateTime - this.Record.StartTime;
+        => Record.Lap.IsFinal
+            ? CalculateLoopTime()
+            : Record.VetGateTime - Record.StartTime;
 
     public int Id => this.Record.Id;
     public DateTime StartTime => this.Record.StartTime;

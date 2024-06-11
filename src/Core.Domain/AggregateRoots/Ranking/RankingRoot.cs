@@ -67,7 +67,7 @@ public class RankingRoot : IAggregateRoot
 
         var loopTIme = performances.Aggregate(TimeSpan.Zero, (result, x) => result + (x.ArrivalTime.Value - x.StartTime));
         var recTime = performances
-            .Where(x => !x.Record.Lap.IsFinal)
+            .Where(x => !x.Record.Lap.IsFinal && x.RecoverySpan.HasValue)
             .Aggregate(TimeSpan.Zero, (result, x) => result + x.RecoverySpan.Value);
         var phaseTime = loopTIme + recTime;
         var avrageTotalPhaseSpeed = totalLenght / phaseTime.TotalHours;
