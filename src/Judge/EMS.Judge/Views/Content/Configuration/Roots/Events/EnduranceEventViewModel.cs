@@ -72,7 +72,7 @@ public class EnduranceEventViewModel : NestedConfigurationBase<EnduranceEventVie
     protected override IDomain Persist()
     {
         var result = this.executor.Execute(
-            config => config.Update(this.Name, this.CountryId, this.PopulatedPlace, FeiId, FeiCode, ShowFeiId),
+            config => config.Update(this.Name, this.CountryId, this.PopulatedPlace, ShowFeiId),
             true);
         // TODO: probably remove
         // this.popupService.RenderOk();
@@ -93,16 +93,6 @@ public class EnduranceEventViewModel : NestedConfigurationBase<EnduranceEventVie
     {
         get => this.countryId;
         set => this.SetProperty(ref this.countryId, value);
-    }
-    public string FeiId
-    {
-        get => _feiId;
-        set => SetProperty(ref _feiId, value);
-    }
-    public string FeiCode
-    {
-        get => _feiCode;
-        set => SetProperty(ref _feiCode, value);
     }
     public string ShowFeiId
     {

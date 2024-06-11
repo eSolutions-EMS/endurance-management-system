@@ -14,6 +14,7 @@ using Core.Domain.State.Competitions;
 using System.Globalization;
 using System.IO;
 using System.Xml.Serialization;
+using Core.Domain.Enums;
 
 namespace Core.Domain.AggregateRoots.Ranking;
 
@@ -58,9 +59,11 @@ public class RankingRoot : IAggregateRoot
         {
             throw Helper.Create<EnduranceEventException>("Event has not started yet");
         }
+        var participant = _stateContext.State.Participations.First(x => x.CompetitionsIds.Contains(competitionId)).Participant;
+        var category = participant.Athlete.Category;
         var competition = @event.Competitions.FindDomain(competitionId);
-        var ctEnduranceCompetitions = CreateCompetitions(competition);
-        var horseSport = CreateHorseSport(@event, ctEnduranceCompetitions);
+        var ctEnduranceCompetitions = CreateCompetitions(competition, @event.ShowFeiId, category);
+        var horseSport = CreateHorseSport(@event, ctEnduranceCompetitions, category, competition);
 
         var xml = BuildXml(horseSport);
         xml = InsertGeneratedDate(xml);
@@ -85,11 +88,15 @@ public class RankingRoot : IAggregateRoot
 
     public IReadOnlyList<CompetitionResultAggregate> Competitions => this._competitions.AsReadOnly();
 
-    private ctEnduranceCompetition CreateCompetitions(Competition competition)
+    private ctEnduranceCompetition CreateCompetitions(Competition competition, string showFeiId, Category category)
     {
+        var categoryString = category == Category.Seniors
+            ? "S"
+            : category == Category.Children ? "C" : "YJ";
+        var competitionFeiId = $"{showFeiId}_E_{categoryString}_{competition.FeiCategoryEventNumber}_{competition.FeiScheduleNumber}";
         var ctCompetition = new ctEnduranceCompetition
         {
-            FEIID = competition.FeiId,
+            FEIID = competitionFeiId,
             ScheduleCompetitionNr = competition.FeiScheduleNumber,
             Rule = competition.Rule,
             Name = competition.Name,
@@ -148,7 +155,7 @@ public class RankingRoot : IAggregateRoot
             ctParticipation.Total = new ctEnduranceTotal
             {
                 AverageSpeed = Round(speed.Value),
-                Time = FormatTime(loop),
+                Time = FormatTime(phase),
             };
 
             yield return ctParticipation;
@@ -196,15 +203,19 @@ public class RankingRoot : IAggregateRoot
         return days;
     }
 
-    private HorseSport CreateHorseSport(EnduranceEvent @event, ctEnduranceCompetition ctEnduranceCompetition)
+    private HorseSport CreateHorseSport(EnduranceEvent @event, ctEnduranceCompetition ctEnduranceCompetition, Category category, Competition competition)
     {
+        var categoryString = category == Category.Seniors
+            ? "S"
+            : category == Category.Children ? "C" : "YJ";
+        var competitionFeiId = $"{@event.ShowFeiId}_E_{categoryString}_{competition.FeiCategoryEventNumber}";
         var ctEnduranceEvent = new ctEnduranceEvent
         {
-            FEIID = @event.FeiId,
-            Code = @event.FeiCode,
+            FEIID = competitionFeiId,
+            Code = competition.EventCode,
             StartDate = @event.Competitions.OrderBy(x => x.StartTime).First().StartTime,
             EndDate = DateTime.UtcNow,
-            NF = "BUL",
+            NF = @event.Country.IsoCode,
             Competitions = [ ctEnduranceCompetition ],
         };
         var horseSport = new HorseSport()
@@ -221,7 +232,7 @@ public class RankingRoot : IAggregateRoot
                 {
                     Venue = new ctVenue
                     {
-                        Name = @event.Name,
+                        Name = @event.PopulatedPlace,
                         Country = @event.Country.IsoCode,
                     },
                     EnduranceEvent = new List<ctEnduranceEvent> { ctEnduranceEvent }.ToArray(),
