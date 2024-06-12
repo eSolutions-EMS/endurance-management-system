@@ -77,7 +77,9 @@ public class RankingRoot : IAggregateRoot
         var performances = Performance.GetAll(participation).ToArray();
         var totalLenght = participation.Participant.LapRecords.Sum(x => x.Lap.LengthInKm);
 
-        var loopTIme = performances.Aggregate(TimeSpan.Zero, (result, x) => result + (x.ArrivalTime.Value - x.StartTime));
+        var loopTIme = performances
+            .Where(x => x.ArrivalTime.HasValue)
+            .Aggregate(TimeSpan.Zero, (result, x) => result + Performance.TruncateToSeconds(x.ArrivalTime.Value - x.StartTime).Value);
         var recTime = performances
             .Where(x => !x.Record.Lap.IsFinal && x.RecoverySpan.HasValue)
             .Aggregate(TimeSpan.Zero, (result, x) => result + x.RecoverySpan.Value);
