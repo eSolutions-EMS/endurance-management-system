@@ -80,10 +80,12 @@ public class RankingRoot : IAggregateRoot
         var loopTIme = performances
             .Where(x => x.ArrivalTime.HasValue)
             .Aggregate(TimeSpan.Zero, (result, x) => result + Performance.TruncateToSeconds(x.ArrivalTime.Value - x.StartTime).Value);
+        var phaseTime = performances
+            .Where(x => x.Time.HasValue)
+            .Aggregate(TimeSpan.Zero, (result, x) => result + x.Time.Value);
         var recTime = performances
             .Where(x => !x.Record.Lap.IsFinal && x.RecoverySpan.HasValue)
             .Aggregate(TimeSpan.Zero, (result, x) => result + x.RecoverySpan.Value);
-        var phaseTime = loopTIme + recTime;
         var avrageTotalPhaseSpeed = totalLenght / phaseTime.TotalHours;
 
         return (loopTIme, recTime, phaseTime, avrageTotalPhaseSpeed);
@@ -185,10 +187,13 @@ public class RankingRoot : IAggregateRoot
             };
             if (record.Result.Type != ResultType.Successful)
             {
+                var eliminationCode = record.Result.TypeCode == "RET"
+                    ? record.Result.TypeCode
+                    : $"{record.Result.TypeCode} {record.Result.Code}";
                 phase.VetInspection = new ctEnduranceVetInspection
                 {
                     Type = stEnduranceVetTypeCode.Standard,
-                    EliminationCode = record.Result.TypeCode,
+                    EliminationCode = eliminationCode,
                 };
             }
             if (lastDate == default || lastDate == record.StartTime.Date)
