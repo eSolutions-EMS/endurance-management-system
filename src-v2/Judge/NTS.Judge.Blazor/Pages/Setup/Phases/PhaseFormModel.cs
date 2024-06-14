@@ -17,13 +17,13 @@ public class PhaseFormModel
     public PhaseFormModel(Phase phase)
     {
         Id = phase.Id;
-        SelectedLap = phase.Lap;
+        Lap = phase.Lap;
         Recovery = (int)phase.Recovery!;
         Rest = (int)phase.Rest!;
     }
 
     public int Id { get; set; }
-    public Lap SelectedLap { get; set; }
+    public Lap Lap { get; set; }
     public int Recovery { get; set; }
     public int Rest { get; set; }
 }

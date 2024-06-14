@@ -9,9 +9,6 @@ public class CompetitionFormModel
     {
         //TODO: remove mock default values for testing
         Name = "Olympic Games";
-        Type = CompetitionType.FEI;
-        StartDay = DateTime.Now;
-        StartTime = DateTime.Now.TimeOfDay;
     }
     public CompetitionFormModel(Competition competition)
     {
@@ -30,9 +27,9 @@ public class CompetitionFormModel
 
     public int? Id { get; set; }
     public string Name { get; set; }
-    public CompetitionType Type { get; set; }
-    public DateTime? StartDay { get; set; } = DateTime.Today;
-    public TimeSpan? StartTime { get; set; }
+    public CompetitionType Type { get; set; } = CompetitionType.National;
+    public DateTime? StartDay { get; set; } = DateTime.Now;
+    public TimeSpan? StartTime { get; set; } = DateTime.Now.TimeOfDay;
     public bool UseAutomaticCRI { get; set; }
     public int? CRIRecovery { get; set;  }
     public IReadOnlyCollection<Phase>? Phases { get; }

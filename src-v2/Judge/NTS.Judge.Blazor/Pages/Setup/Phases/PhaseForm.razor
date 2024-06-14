@@ -1,19 +1,16 @@
 ﻿@using NTS.Domain.Setup.Entities;
 @using NTS.Judge.Setup.Competitions
 @using Not.Blazor.Forms;
+@using Not.Blazor.TM;
+@using Not.Blazor.TM.Models;
 @using Not.Blazor.TM.Forms;
 @using Not.Blazor.TM.Forms.Components;
 
 @inherits NotForm<Phase>;
 
 <EditForm Model="_model">
-    <MudSelect @ref="_lapField" @bind-Value="_model.SelectedLap" Label="@Localizer.Get("Phase Distance")" @onchange="(_) => SubmitUpdate()"
-        Placeholder="@Localizer.Get("Pick lap length")">
-        @foreach(var item in Items)
-        {
-            <MudSelectItem Value="item">@item</MudSelectItem>
-        }
-    </MudSelect>
+    <NotSelect T="Lap" Label="@Localizer.Get("Loop distance")" Placeholder="@Localizer.Get("Select a loop")"
+               Items="_items" @bind-Value="_model.Lap" />
     <MudNumericField T="int" @ref="_recoveryField" @bind-Value="_model.Recovery" Min="0" Label="@Localizer.Get("Recovery Time")" />
     <MudNumericField T="int" @ref="_restField" @bind-Value="_model.Rest" Min="0" Label="@Localizer.Get("Rest Duration")" />
 </EditForm>
@@ -23,19 +20,21 @@
     private MudNumericField<int> _recoveryField = default!;
     private MudNumericField<int> _restField = default!;
     private PhaseFormModel _model { get; set; } = new();
-    private IEnumerable<Lap> Items { get; set; } = default!;
+
+    private IEnumerable<NotListModel<Lap>> _items = default!;
 
     [Inject]
     private INotSetBehind<Lap> _setBehind { get; set; } = default!;
 
     protected async override Task OnInitializedAsync()
     {
-        Items = await _setBehind.GetAll();
+        var items = await _setBehind.GetAll();
+        _items = NotListModel.FromEntity<Lap>(items);
     }
 
     public override void RegisterValidationInjectors()
     {
-        RegisterInjector(nameof(_model.SelectedLap), () => _lapField);
+        RegisterInjector(nameof(_model.Lap), () => _lapField);
         RegisterInjector(nameof(_model.Recovery), () => _recoveryField);
         RegisterInjector(nameof(_model.Rest), () => _restField);
     }
@@ -47,11 +46,11 @@
 
     public override Phase SubmitCreate()
     {
-        return Phase.Create(_model.SelectedLap, _model.Recovery, _model.Rest);
+        return Phase.Create(_model.Lap, _model.Recovery, _model.Rest);
     }
 
     public override Phase SubmitUpdate()
     {        
-        return Phase.Update(_model.Id, _model.SelectedLap, _model.Recovery, _model.Rest);
+        return Phase.Update(_model.Id, _model.Lap, _model.Recovery, _model.Rest);
     }
 }

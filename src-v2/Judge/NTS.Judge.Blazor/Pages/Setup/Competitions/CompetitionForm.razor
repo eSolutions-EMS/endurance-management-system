@@ -2,6 +2,7 @@
 @using NTS.Judge.Setup.Competitions
 @using Not.Blazor.Forms;
 @using Not.Blazor.TM
+@using Not.Blazor.TM.Models;
 @using Not.Blazor.TM.Forms;
 @using Not.Blazor.TM.Forms.Components;
 @using Not.Extensions;
@@ -10,13 +11,7 @@
 
 <EditForm Model="_model">
     <MudTextField @ref="_nameField" @bind-Value="_model.Name" Label="@Localizer.Get("Name")" />
-    <MudSelect @ref="_typeField" @bind-Value="_model.Type" Label="@Localizer.Get("Type")" @onchange="(_) => SubmitUpdate()" 
-        Strict="true" ShrinkLabel="true" Placeholder="@Localizer.Get("Pick a competition type")">
-        @foreach (var item in Enum.GetValues<CompetitionType>())
-        {
-            <MudSelectItem Value="@item">@item</MudSelectItem>
-        }
-    </MudSelect>
+    <NotSelect T="CompetitionType" Label="@Localizer.Get("Type")" @bind-Value="_model.Type" Items="_items" />
     <MudDatePicker DisableToolbar="true" @ref="_dayField" @bind-Date="_model.StartDay" Label="@Localizer.Get("Date")" />
     <MudTimePicker DisableToolbar="true" @ref="_timeField" @bind-Time="_model.StartTime" Label="@Localizer.Get("Time")" />
     <NotSwitch @bind-Value="_model.UseAutomaticCRI" Label="Use automatic CRI" />
@@ -28,10 +23,12 @@
 
     @code {
     private MudTextField<string> _nameField = default!;
-    private MudSelect<CompetitionType> _typeField = default!;
+    private NotSelect<CompetitionType> _typeField = default!;
     private MudPicker<DateTime?> _dayField = default!;
     private MudPicker<TimeSpan?> _timeField = default!;
     private CompetitionFormModel _model { get; set; } = new();
+
+    private IEnumerable<NotListModel<CompetitionType>> _items = NotListModel.FromEnum<CompetitionType>();
 
     public DateTimeOffset CombineStartDayAndTime(DateTime? startDay, TimeSpan? startTime)
     {
@@ -45,7 +42,7 @@
     {
         RegisterInjector(nameof(_model.Name), () => _nameField);
         RegisterInjector(nameof(_model.StartTime), () => _timeField);
-        RegisterInjector(nameof(_model.Type), () => _typeField);
+        //RegisterInjector(nameof(_model.Type), () => _typeField);
     }
 
     public override void SetUpdateModel(Competition competition)
