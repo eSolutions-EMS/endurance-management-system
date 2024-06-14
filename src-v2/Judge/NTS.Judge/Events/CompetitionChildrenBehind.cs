@@ -2,9 +2,10 @@
 using Not.Blazor.Ports.Behinds;
 using Not.Exceptions;
 using NTS.Domain.Setup.Entities;
+using System.Collections.Generic;
 
 namespace NTS.Judge.Events;
-public class CompetitionChildrenBehind : INotBehindParent<Contestant>, INotBehindParent<Phase>, INotBehindWithChildren<Competition>
+public class CompetitionChildrenBehind : INotSetBehind<Contestant>, INotSetBehind<Phase>, INotBehindWithChildren<Competition>
 {
     private readonly IRead<Competition> _competitionReader;
     private readonly IRepository<Competition> _competitionRepository;
@@ -16,8 +17,15 @@ public class CompetitionChildrenBehind : INotBehindParent<Contestant>, INotBehin
         _competitionRepository = competitionRepository;
     }
 
-    IEnumerable<Contestant> INotBehindParent<Contestant>.Children => _competition?.Contestants ?? Enumerable.Empty<Contestant>();
-    IEnumerable<Phase> INotBehindParent<Phase>.Children => _competition?.Phases ?? Enumerable.Empty<Phase>();
+    public async Task<IEnumerable<Contestant>> GetAll()
+    {
+        return _competition?.Contestants ?? Enumerable.Empty<Contestant>();
+    }
+
+    async Task<IEnumerable<Phase>> IReadAllBehind<Phase>.GetAll()
+    {
+        return _competition?.Phases ?? Enumerable.Empty<Phase>();
+    }
 
     public async Task<Contestant> Create(Contestant entity)
     {
