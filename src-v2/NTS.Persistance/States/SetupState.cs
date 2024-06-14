@@ -3,10 +3,10 @@ using NTS.Domain.Setup.Entities;
 
 namespace NTS.Persistence.Setup;
 
-public class SetupState : ITreeState<Event>, ISetState<Lap>
+public class SetupState : ITreeState<Event>, ISetState<Loop>
 {
     public Event? Event { get; set; }
-    public List<Lap> Laps { get; } = new List<Lap>();
+    public List<Loop> Loops { get; } = new List<Loop>();
 
     Event? ITreeState<Event>.Root
     {
@@ -14,5 +14,5 @@ public class SetupState : ITreeState<Event>, ISetState<Lap>
         set => Event = value;
     }
 
-    List<Lap> ISetState<Lap>.EntitySet => Laps; 
+    List<Loop> ISetState<Loop>.EntitySet => Loops; 
 }

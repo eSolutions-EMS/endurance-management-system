@@ -3,54 +3,54 @@ using NTS.Persistence.Setup;
 
 namespace NTS.Persistence.Adapters;
 
-public class LapRepository : SetRepository<Lap, SetupState>
+public class LoopRepository : SetRepository<Loop, SetupState>
 {
-    public LapRepository(IStore<SetupState> store) : base(store)
+    public LoopRepository(IStore<SetupState> store) : base(store)
     {
         Store = store;
     }
 
     SetupState? State;
     IStore<SetupState> Store;
-    public override async Task<Lap> Update(Lap entity)
+    public override async Task<Loop> Update(Loop entity)
     {
-        await UpdateLapValue(entity);
+        await UpdateLoopValue(entity);
         return entity;
     }
-    public override async Task<Lap> Delete(Lap entity)
+    public override async Task<Loop> Delete(Loop entity)
     {
-        await UpdateLapValue(entity,true);
+        await UpdateLoopValue(entity,true);
         return entity;
     }
 
-    public async Task UpdateLapValue(Lap entity, bool isDelete=false) 
+    public async Task UpdateLoopValue(Loop entity, bool isDelete=false) 
     {
         State = await Store.Load();
-        for(int i = 0; i < State.Laps.Count; i++)
+        for(int i = 0; i < State.Loops.Count; i++)
         {
-            if (State.Laps[i] == entity)
+            if (State.Loops[i] == entity)
             {
                 if (isDelete)
                 {
-                    State.Laps.RemoveAt(i);
+                    State.Loops.RemoveAt(i);
                 }
                 else
                 {
-                    State.Laps[i] = entity;
+                    State.Loops[i] = entity;
                 }
             }
         }
         foreach (var phase in State.Event!.Competitions.SelectMany(x => x.Phases))
         {
-            if (phase.Lap == entity)
+            if (phase.Loop == entity)
             {
                 if (isDelete)
                 {
-                    phase.Lap = null;
+                    phase.Loop = null;
                 }
                 else
                 {
-                    phase.Lap = entity;
+                    phase.Loop = entity;
                 }
             }
         }

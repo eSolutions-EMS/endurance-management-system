@@ -4,19 +4,19 @@ using Newtonsoft.Json;
 
 public class Phase : DomainEntity, ISummarizable, IImportable
 {
-    public static Phase Create(Lap lap, int recovery, int rest) => new(lap, recovery, rest);
+    public static Phase Create(Loop Loop, int recovery, int rest) => new(Loop, recovery, rest);
 
-    public static Phase Update(int id, Lap lap, int recovery, int rest) => new(id, lap, recovery, rest);
+    public static Phase Update(int id, Loop Loop, int recovery, int rest) => new(id, Loop, recovery, rest);
 
     [JsonConstructor]
-    public Phase(int id, Lap selectedLap, int recovery, int rest)
+    public Phase(int id, Loop selectedLoop, int recovery, int rest)
     {
         Id = id;
-        Lap = selectedLap;
+        Loop = selectedLoop;
         Recovery = recovery;
         Rest = rest;
     }
-    public Phase(Lap selectedLap, int recovery, int rest)
+    public Phase(Loop selectedLoop, int recovery, int rest)
     {
         if (recovery <= 0)
         {
@@ -26,11 +26,11 @@ public class Phase : DomainEntity, ISummarizable, IImportable
         {
             throw new DomainException(nameof(Rest), "Rest duration cannot be zero or less.");
         }
-        Lap = selectedLap;
+        Loop = selectedLoop;
         Recovery = recovery;
 		Rest = rest;
 	}
-    public Lap? Lap { get; set; }
+    public Loop? Loop { get; set; }
     public int Recovery { get; private set; }
     public int Rest { get; private set; }
 
@@ -38,9 +38,9 @@ public class Phase : DomainEntity, ISummarizable, IImportable
     {
         var min = "min".Localize();
 		var rec = "Recovery".Localize();
-        var lap = "Lap".Localize();
+        var loop = "Loop".Localize();
         var phase = "Phase".Localize();
 		var rest = "Rest".Localize();
-		return $"{phase} -> {lap}: {Lap} {rec}: {Recovery}{min} {rest}: {Rest}{min}";
+		return $"{phase} -> {loop}: {Loop} {rec}: {Recovery}{min} {rest}: {Rest}{min}";
     }
 }

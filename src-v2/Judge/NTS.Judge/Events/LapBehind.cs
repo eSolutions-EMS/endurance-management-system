@@ -6,32 +6,32 @@ using NTS.Domain.Setup.Entities;
 using static MudBlazor.CategoryTypes;
 
 namespace NTS.Judge.Events;
-public class LapBehind : INotSetBehind<Lap>
+public class LoopBehind : INotSetBehind<Loop>
 {
-    private readonly IRepository<Lap> _lapRepository;
-    private Lap? _lap;
+    private readonly IRepository<Loop> _loopRepository;
+    private Loop? _loop;
 
-    public LapBehind(IRepository<Lap> loopRepository)
+    public LoopBehind(IRepository<Loop> loopRepository)
     {
-        _lapRepository = loopRepository;
+        _loopRepository = loopRepository;
     }
-    public Task<IEnumerable<Lap>> GetAll()
+    public Task<IEnumerable<Loop>> GetAll()
     {
-        return _lapRepository.ReadAll();
+        return _loopRepository.ReadAll();
     }
-    public async Task<Lap> Create(Lap entity)
+    public async Task<Loop> Create(Loop entity)
     {
-        _lap = await _lapRepository.Create(entity);
-        return _lap;
-    }
-
-    public async Task<Lap> Update(Lap entity)
-    {
-        return await _lapRepository.Update(entity);
+        _loop = await _loopRepository.Create(entity);
+        return _loop;
     }
 
-    public async Task<Lap> Delete(Lap entity)
+    public async Task<Loop> Update(Loop entity)
     {
-        return await _lapRepository.Delete(entity);
+        return await _loopRepository.Update(entity);
+    }
+
+    public async Task<Loop> Delete(Loop entity)
+    {
+        return await _loopRepository.Delete(entity);
     }
 }

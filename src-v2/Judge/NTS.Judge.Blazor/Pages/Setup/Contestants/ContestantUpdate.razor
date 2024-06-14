@@ -14,7 +14,7 @@
 @code {
     private Contestant _contestant { get; set; } = default!;
     [Inject]
-    private INotBehindParent<Contestant> _parentBehind { get; set; } = default!;
+    private INotSetBehind<Contestant> _parentBehind { get; set; } = default!;
     [Inject]
     private INavigator _navigator { get; set; } = default!;
 

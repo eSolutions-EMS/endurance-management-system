@@ -4,33 +4,33 @@
 @using Not.Blazor.TM.Forms;
 @using Not.Blazor.TM.Forms.Components;
 
-@inherits NotForm<Lap>;
+@inherits NotForm<Loop>;
 
 <EditForm Model="_model">
-    <MudNumericField @bind-Value="_model.Distance" Label="Lap" />
+    <MudNumericField @bind-Value="_model.Distance" Label="Loop" />
 </EditForm>
 
 @code {
     private MudNumericField<double> _distanceField = default!;
-    private LapFormModel _model { get; set; } = new();
+    private LoopFormModel _model { get; set; } = new();
 
     public override void RegisterValidationInjectors()
     {
         RegisterInjector(nameof(_model.Distance), () => _distanceField);
     }
 
-    public override void SetUpdateModel(Lap lap)
+    public override void SetUpdateModel(Loop Loop)
     {
-        _model = new LapFormModel(lap);
+        _model = new LoopFormModel(Loop);
     }
 
-    public override Lap SubmitCreate()
+    public override Loop SubmitCreate()
     {
-        return Lap.Create(_model.Distance);
+        return Loop.Create(_model.Distance);
     }
 
-    public override Lap SubmitUpdate()
+    public override Loop SubmitUpdate()
     {
-        return Lap.Update(_model.Id, _model.Distance);
+        return Loop.Update(_model.Id, _model.Distance);
     }
 }

@@ -1,17 +1,17 @@
 ﻿using Newtonsoft.Json;
 
 namespace NTS.Domain.Setup.Entities;
-public class Lap : DomainEntity
+public class Loop : DomainEntity
 {
-    public static Lap Create(double distance) => new (distance);
-    public static Lap Update(int id, double distance) => new(id, distance);
+    public static Loop Create(double distance) => new (distance);
+    public static Loop Update(int id, double distance) => new(id, distance);
 
     [JsonConstructor]
-    public Lap(int id, double distance) : this(distance)
+    public Loop(int id, double distance) : this(distance)
     {
         Id = id;
     }
-    public Lap(double distance)
+    public Loop(double distance)
     {
         if (distance <= 0)
         {

@@ -3,23 +3,23 @@
 @using Not.Blazor.Navigation;
 @using Not.Blazor.TM.Forms.Components
 
-@attribute [Route(LAP_UPDATE)]
+@attribute [Route(LOOP_UPDATE)]
 @inherits NotComponent
 
 <MudPaper Elevation="0">
-    <NotH2>@Localizer.Get("Edit Lap")</NotH2>
-    <NotFormUpdate T="Lap" TForm="LapForm" Entity="_navigator.ConsumeParameter<Lap>()" UpdateAction="Update" />
+    <NotH2>@Localizer.Get("Edit Loop")</NotH2>
+    <NotFormUpdate T="Loop" TForm="LoopForm" Entity="_navigator.ConsumeParameter<Loop>()" UpdateAction="Update" />
 </MudPaper>
 
 @code {
     [Inject]
-    private INotSetBehind<Lap> _behind { get; set; } = default!;
+    private INotSetBehind<Loop> _behind { get; set; } = default!;
     [Inject]
     private INavigator _navigator { get; set; } = default!;
 
-    protected async Task Update(Lap lap)
+    protected async Task Update(Loop Loop)
     {
-        await _behind.Update(lap);
+        await _behind.Update(Loop);
         _navigator.NavigateTo(SETUP_PAGE);
     }
 }

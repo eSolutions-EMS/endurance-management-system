@@ -9,32 +9,32 @@
 @inherits NotForm<Phase>;
 
 <EditForm Model="_model">
-    <NotSelect T="Lap" Label="@Localizer.Get("Loop distance")" Placeholder="@Localizer.Get("Select a loop")"
-               Items="_items" @bind-Value="_model.Lap" />
+    <NotSelect T="Loop" Label="@Localizer.Get("Loop distance")" Placeholder="@Localizer.Get("Select a loop")"
+               Items="_items" @bind-Value="_model.Loop" />
     <MudNumericField T="int" @ref="_recoveryField" @bind-Value="_model.Recovery" Min="0" Label="@Localizer.Get("Recovery Time")" />
     <MudNumericField T="int" @ref="_restField" @bind-Value="_model.Rest" Min="0" Label="@Localizer.Get("Rest Duration")" />
 </EditForm>
 
 @code {
-    private MudSelect<Lap> _lapField = default!;
+    private NotSelect<Loop> _loopField = default!;
     private MudNumericField<int> _recoveryField = default!;
     private MudNumericField<int> _restField = default!;
     private PhaseFormModel _model { get; set; } = new();
 
-    private IEnumerable<NotListModel<Lap>> _items = default!;
+    private IEnumerable<NotListModel<Loop>> _items = default!;
 
     [Inject]
-    private INotSetBehind<Lap> _setBehind { get; set; } = default!;
+    private INotSetBehind<Loop> _setBehind { get; set; } = default!;
 
     protected async override Task OnInitializedAsync()
     {
         var items = await _setBehind.GetAll();
-        _items = NotListModel.FromEntity<Lap>(items);
+        _items = NotListModel.FromEntity<Loop>(items);
     }
 
     public override void RegisterValidationInjectors()
     {
-        RegisterInjector(nameof(_model.Lap), () => _lapField);
+        //RegisterInjector(nameof(_model.Loop), () => _loopField);
         RegisterInjector(nameof(_model.Recovery), () => _recoveryField);
         RegisterInjector(nameof(_model.Rest), () => _restField);
     }
@@ -46,11 +46,11 @@
 
     public override Phase SubmitCreate()
     {
-        return Phase.Create(_model.Lap, _model.Recovery, _model.Rest);
+        return Phase.Create(_model.Loop, _model.Recovery, _model.Rest);
     }
 
     public override Phase SubmitUpdate()
     {        
-        return Phase.Update(_model.Id, _model.Lap, _model.Recovery, _model.Rest);
+        return Phase.Update(_model.Id, _model.Loop, _model.Recovery, _model.Rest);
     }
 }

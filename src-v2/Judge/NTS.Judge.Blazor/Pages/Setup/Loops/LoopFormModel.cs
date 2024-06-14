@@ -1,17 +1,17 @@
 ﻿using NTS.Domain.Setup.Entities;
 
-namespace NTS.Judge.Blazor.Pages.Setup.Laps;
-public class LapFormModel
+namespace NTS.Judge.Blazor.Pages.Setup.Loops;
+public class LoopFormModel
 {
-    public LapFormModel()
+    public LoopFormModel()
     {
         // mock data for testing
         Distance = 20;
     }
-    public LapFormModel(Lap lap)
+    public LoopFormModel(Loop Loop)
     {
-        Id = lap.Id;
-        Distance = lap.Distance;
+        Id = Loop.Id;
+        Distance = Loop.Distance;
     }
 
     public int Id { get; set; }
