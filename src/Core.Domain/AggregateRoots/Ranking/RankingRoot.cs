@@ -16,6 +16,9 @@ using System.IO;
 using System.Xml.Serialization;
 using Core.Domain.Enums;
 using Core.Domain.State.Results;
+using JsonNet.PrivatePropertySetterResolver;
+using Core.Domain.State.Athletes;
+using Core.Domain.State.Participants;
 
 namespace Core.Domain.AggregateRoots.Ranking;
 
@@ -120,7 +123,14 @@ public class RankingRoot : IAggregateRoot
     private IEnumerable<ctEnduranceIndivResult> CreateParticipations(Competition competition)
     {
         var competitionResult = _competitions.First(x => x.Id == competition.Id);
-        foreach (var participation in _stateContext.State.Participations.Where(x => x.CompetitionsIds.Contains(competition.Id)))
+        var participations = _stateContext.State.Participations.Where(x => x.CompetitionsIds.Contains(competition.Id));
+        var withoutFeiId = participations.Where(x => string.IsNullOrWhiteSpace(x.Participant.Athlete.FeiId));
+        if (withoutFeiId.Any())
+        {
+            var numbers = string.Join(", ", withoutFeiId.Select(x => x.Participant.Number));
+            throw new DomainException(nameof(Participant), $"Participants '{numbers}' are not configured with Athlete FEIID");
+        }
+        foreach (var participation in participations)
         {
             var ranklist = competitionResult.Rank(participation.Participant.Athlete.Category);
             var result = ranklist.FirstOrDefault(x => x.Participant.Number == participation.Participant.Number);
@@ -156,15 +166,23 @@ public class RankingRoot : IAggregateRoot
             var ctDays = CreateDaysAndPhases(participation, competition);
             ctParticipation.Phases = ctDays.ToArray();
 
-            var (loop, rec, phase, speed) = CalculateTotalValues(participation);
-            ctParticipation.Total = new ctEnduranceTotal
+            if (participation.Participant.LapRecords.All(x => x.Result.Type == ResultType.Successful))
             {
-                AverageSpeed = Round(speed.Value),
-                Time = FormatTime(phase),
-            };
+                ctParticipation.Total = CreateTotal(participation);
+            }
 
             yield return ctParticipation;
         }
+    }
+
+    private ctEnduranceTotal CreateTotal(Participation participation)
+    {
+        var (loop, rec, phase, speed) = CalculateTotalValues(participation);
+        return new ctEnduranceTotal
+        {
+            AverageSpeed = Round(speed.Value),
+            Time = FormatTime(phase),
+        };
     }
 
     private IEnumerable<ctEnduranceDayResult> CreateDaysAndPhases(Participation participation, Competition competition)
@@ -221,6 +239,35 @@ public class RankingRoot : IAggregateRoot
 
     private HorseSport CreateHorseSport(EnduranceEvent @event, ctEnduranceCompetition ctEnduranceCompetition, Category category, Competition competition)
     {
+        if (string.IsNullOrWhiteSpace(@event.ShowFeiId))
+        {
+            throw new DomainException(nameof(EnduranceEvent), "Missing Show FEIID");
+        }
+        if (string.IsNullOrEmpty(@event.PopulatedPlace))
+        {
+            throw new DomainException(nameof(EnduranceEvent), "Missing PopulatedPlace");
+        }
+        if (string.IsNullOrEmpty(competition.Name))
+        {
+            throw new DomainException(nameof(Competition), "Missing Name");
+        }
+        if (string.IsNullOrEmpty(competition.FeiCategoryEventNumber))
+        {
+            throw new DomainException(nameof(Competition), "Missing FEI Category Event NR");
+        }
+        if (string.IsNullOrEmpty(competition.FeiScheduleNumber))
+        {
+            throw new DomainException(nameof(Competition), "Missing FEI Schedule NR");
+        }
+        if (string.IsNullOrEmpty(competition.Rule))
+        {
+            throw new DomainException(nameof(Competition), "Missing FEI Rule");
+        }
+        if (string.IsNullOrEmpty(competition.EventCode))
+        {
+            throw new DomainException(nameof(Competition), "Missing FEI Event Code");
+        }
+
         var categoryString = category == Category.Seniors
             ? "S"
             : category == Category.Children ? "C" : "YJ";
