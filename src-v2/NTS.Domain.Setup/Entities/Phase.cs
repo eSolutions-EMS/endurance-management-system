@@ -41,7 +41,6 @@ public class Phase : DomainEntity, ISummarizable, IImportable
         var lap = "Lap".Localize();
         var phase = "Phase".Localize();
 		var rest = "Rest".Localize();
-        var selectedLap = Lap == null ? "DELETED".Localize() : Lap.NestedToString();
-		return $"{phase} -> {lap}: {selectedLap} {rec}: {Recovery}{min} {rest}: {Rest}{min}";
+		return $"{phase} -> {lap}: {Lap} {rec}: {Recovery}{min} {rest}: {Rest}{min}";
     }
 }

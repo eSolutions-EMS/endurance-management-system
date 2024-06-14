@@ -22,14 +22,9 @@ public class Lap : DomainEntity
     }
     public double Distance { get; set; }
 
-    public string NestedToString()
-    {
-        return Distance.ToString()+"km";
-    }
     public override string ToString() 
     {
-        var lap = "Lap".Localize();
-        var message = $"{lap} -> {Distance}km long ";
+        var message = $"{Distance}km";
         return message;
     }
 }
