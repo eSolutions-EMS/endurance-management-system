@@ -87,6 +87,7 @@ public partial class ctGenerated
     private string organizationField;
 
     /// <remarks/>
+    [XmlIgnore] //Date is added manually after serialization because XmlSerializer does not allow me to format dates differently and here it's required in ISO 8601 format
     [System.Xml.Serialization.XmlAttributeAttribute(DataType = "date")]
     public System.DateTime Date
     {

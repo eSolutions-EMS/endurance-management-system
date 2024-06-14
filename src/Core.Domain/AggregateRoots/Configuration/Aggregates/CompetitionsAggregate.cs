@@ -40,7 +40,8 @@ public class CompetitionsAggregate : IAggregate
             competition.Name = competitionState.Name;
             competition.Type = competitionState.Type;
             competition.StartTime = competitionState.StartTime;
-            competition.FeiId = competitionState.FeiId;
+            competition.FeiCategoryEventNumber = competitionState.FeiCategoryEventNumber;
+            competition.EventCode = competitionState.EventCode;
             competition.FeiScheduleNumber = competitionState.FeiScheduleNumber;
             competition.Rule = competitionState.Rule;
         }

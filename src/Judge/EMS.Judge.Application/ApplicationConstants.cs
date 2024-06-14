@@ -80,7 +80,7 @@ public static class ApplicationConstants
             new("BRA", "Brazil", 32),
             new("IOT", "British Indian Ocean Territory", 33),
             new("BRN", "Brunei Darussalam", 34),
-            new("BGR", "Bulgaria", 35),
+            new("BUL", "Bulgaria", 35),
             new("BFA", "Burkina Faso", 36),
             new("BDI", "Burundi", 37),
             new("KHM", "Cambodia", 38),
