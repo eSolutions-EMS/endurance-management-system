@@ -10,7 +10,7 @@
 
 <EditForm Model="_model">
     <NotSelect T="Loop" Label="@Localizer.Get("Loop distance")" Placeholder="@Localizer.Get("Select a loop")"
-               Items="_items" @bind-Value="_model.Loop" />
+               Items="_loops" @bind-Value="_model.Loop" />
     <MudNumericField T="int" @ref="_recoveryField" @bind-Value="_model.Recovery" Min="0" Label="@Localizer.Get("Recovery Time")" />
     <MudNumericField T="int" @ref="_restField" @bind-Value="_model.Rest" Min="0" Label="@Localizer.Get("Rest Duration")" />
 </EditForm>
@@ -21,15 +21,15 @@
     private MudNumericField<int> _restField = default!;
     private PhaseFormModel _model { get; set; } = new();
 
-    private IEnumerable<NotListModel<Loop>> _items = default!;
+    private IEnumerable<NotListModel<Loop>> _loops = default!;
 
     [Inject]
     private INotSetBehind<Loop> _setBehind { get; set; } = default!;
 
     protected async override Task OnInitializedAsync()
     {
-        var items = await _setBehind.GetAll();
-        _items = NotListModel.FromEntity<Loop>(items);
+        var loops = await _setBehind.GetAll();
+        _loops = NotListModel.FromEntity<Loop>(loops);
     }
 
     public override void RegisterValidationInjectors()

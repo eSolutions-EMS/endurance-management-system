@@ -23,7 +23,7 @@ public class LoopRepository : SetRepository<Loop, SetupState>
         return entity;
     }
 
-    public async Task UpdateLoopValue(Loop entity, bool isDelete=false) 
+    private async Task UpdateLoopValue(Loop entity, bool isDelete=false) 
     {
         State = await Store.Load();
         for(int i = 0; i < State.Loops.Count; i++)

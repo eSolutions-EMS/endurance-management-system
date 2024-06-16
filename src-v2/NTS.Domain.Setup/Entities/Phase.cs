@@ -4,19 +4,19 @@ using Newtonsoft.Json;
 
 public class Phase : DomainEntity, ISummarizable, IImportable
 {
-    public static Phase Create(Loop Loop, int recovery, int rest) => new(Loop, recovery, rest);
+    public static Phase Create(Loop loop, int recovery, int rest) => new(loop, recovery, rest);
 
-    public static Phase Update(int id, Loop Loop, int recovery, int rest) => new(id, Loop, recovery, rest);
+    public static Phase Update(int id, Loop loop, int recovery, int rest) => new(id, loop, recovery, rest);
 
     [JsonConstructor]
-    public Phase(int id, Loop selectedLoop, int recovery, int rest)
+    public Phase(int id, Loop loop, int recovery, int rest)
     {
         Id = id;
-        Loop = selectedLoop;
+        Loop = loop;
         Recovery = recovery;
         Rest = rest;
     }
-    public Phase(Loop selectedLoop, int recovery, int rest)
+    public Phase(Loop loop, int recovery, int rest)
     {
         if (recovery <= 0)
         {
@@ -26,7 +26,7 @@ public class Phase : DomainEntity, ISummarizable, IImportable
         {
             throw new DomainException(nameof(Rest), "Rest duration cannot be zero or less.");
         }
-        Loop = selectedLoop;
+        Loop = loop;
         Recovery = recovery;
 		Rest = rest;
 	}

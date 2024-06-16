@@ -6,7 +6,7 @@ using static MudBlazor.CategoryTypes;
 
 namespace NTS.Judge.Events;
 
-public class EventBehind : INotBehind<Event>, INotSetBehind<Official>, INotSetBehind<Competition>, INotBehindWithChildren<Event>
+public class EventBehind : INotBehind<Event>, INotSetBehind<Official>, INotSetBehind<Competition>, INotParentBehind<Event>
 {
     private readonly IRepository<Event> _eventRepository;
     private Event? _event;

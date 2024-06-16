@@ -11,7 +11,7 @@
 
 <EditForm Model="_model">
     <MudTextField @ref="_nameField" @bind-Value="_model.Name" Label="@Localizer.Get("Name")" />
-    <NotSelect T="CompetitionType" Label="@Localizer.Get("Type")" @bind-Value="_model.Type" Items="_items" />
+    <NotSelect T="CompetitionType" Label="@Localizer.Get("Type")" @bind-Value="_model.Type" Items="_competitionTypes" />
     <MudDatePicker DisableToolbar="true" @ref="_dayField" @bind-Date="_model.StartDay" Label="@Localizer.Get("Date")" />
     <MudTimePicker DisableToolbar="true" @ref="_timeField" @bind-Time="_model.StartTime" Label="@Localizer.Get("Time")" />
     <NotSwitch @bind-Value="_model.UseAutomaticCRI" Label="Use automatic CRI" />
@@ -28,7 +28,7 @@
     private MudPicker<TimeSpan?> _timeField = default!;
     private CompetitionFormModel _model { get; set; } = new();
 
-    private IEnumerable<NotListModel<CompetitionType>> _items = NotListModel.FromEnum<CompetitionType>();
+    private IEnumerable<NotListModel<CompetitionType>> _competitionTypes = NotListModel.FromEnum<CompetitionType>();
 
     public DateTimeOffset CombineStartDayAndTime(DateTime? startDay, TimeSpan? startTime)
     {

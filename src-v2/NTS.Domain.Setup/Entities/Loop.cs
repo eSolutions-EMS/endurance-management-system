@@ -24,7 +24,7 @@ public class Loop : DomainEntity
 
     public override string ToString() 
     {
-        var message = $"{Distance}km";
-        return message;
+        var unit = "km".Localize();
+        return $"{Distance}{unit}";
     }
 }

@@ -5,7 +5,7 @@ using NTS.Domain.Setup.Entities;
 using System.Collections.Generic;
 
 namespace NTS.Judge.Events;
-public class CompetitionChildrenBehind : INotSetBehind<Contestant>, INotSetBehind<Phase>, INotBehindWithChildren<Competition>
+public class CompetitionChildrenBehind : INotSetBehind<Contestant>, INotSetBehind<Phase>, INotParentBehind<Competition>
 {
     private readonly IRead<Competition> _competitionReader;
     private readonly IRepository<Competition> _competitionRepository;
