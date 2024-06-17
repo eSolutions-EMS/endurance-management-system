@@ -4,7 +4,7 @@ using NTS.Domain.Extensions;
 
 namespace NTS.Domain.Setup.Entities;
 
-public class Event : DomainEntity, ISummarizable, IImportable, IParent<Official>, IParent<Competition>
+public class Event : DomainEntity, ISummarizable, IImportable, IParent<Official>, IParent<Competition> 
 {
     public static Event Create(string place, Country country) => new(place, country);
     public static Event Update(int id, string place, Country country, IEnumerable<Competition> competitions, IEnumerable<Official> officials)
@@ -27,8 +27,8 @@ public class Event : DomainEntity, ISummarizable, IImportable, IParent<Official>
             throw new DomainException(nameof(Place), $"{nameof(Place)} is invalid. It has to be Capitalized");
         }
 
-        this.Place = place;
-        this.Country = country;
+        Place = place;
+        Country = country;
     }
 
     public string Place { get; private set; }
@@ -45,7 +45,7 @@ public class Event : DomainEntity, ISummarizable, IImportable, IParent<Official>
     }
     public void Add(Competition competition)
     {
-        this._competitions.Add(competition);
+        _competitions.Add(competition);
     }
     public void Update(Competition competition)
     {
@@ -53,13 +53,13 @@ public class Event : DomainEntity, ISummarizable, IImportable, IParent<Official>
     }
     public void Remove(Competition competition)
     {
-        this._competitions.Remove(competition);
+        _competitions.Remove(competition);
     }
     public void Add(Official official)
     {
-        this.ThrowIfInvalidRole(official);
+        ThrowIfInvalidRole(official);
 
-        this._officials.Add(official);
+        _officials.Add(official);
     }
     public void Update(Official official)
     {
@@ -68,7 +68,7 @@ public class Event : DomainEntity, ISummarizable, IImportable, IParent<Official>
     }
     public void Remove(Official official)
     {
-        this._officials.Remove(official);
+        _officials.Remove(official);
     }
 
     public string Summarize()

@@ -1,26 +1,30 @@
 @using NTS.Domain.Setup.Entities
 @using NTS.Judge.Blazor.Pages.Setup.Events
+@using NTS.Judge.Blazor.Pages.Setup.Loops
 @using NTS.Judge.Blazor.Pages.Setup.Officials
 @using NTS.Judge.Blazor.Pages.Setup.Competitions
 @using NTS.Judge.Blazor.Pages.Setup.Contestants
+@using Not.Blazor.TM
 @using Not.Blazor.TM.Forms.Components
 
 @inherits NotComponent
 
-<MudPaper Class="pa-6">
+<MudPaper Elevation="0" Class="pa-6">
     <NotH2>Update Event</NotH2>
     <NotFormUpdate T="Event" TForm="EventForm" Entity="_event" UpdateAction="_behind.Update" />
 </MudPaper>
 
 <MudDivider />
 
-<MudPaper Class="pa-6">
-    <OfficialList />
+<MudPaper Class="d-flex justify-space-between pr-6" Elevation="0">
+    <NotSetList Name="Officials" T="Official" TForm="OfficialForm" UpdateRoute="@OFFICIAL_UPDATE" />
+    <MudDivider Vertical="true" FlexItem="true" />
+    <NotSetList Name="Loops" T="Loop" TForm="LoopForm" UpdateRoute="@LOOP_UPDATE" />
 </MudPaper>
 
 <MudDivider />
 
-<MudPaper>
+<MudPaper Elevation="0">
    <CompetitionGrid />
 </MudPaper>
 

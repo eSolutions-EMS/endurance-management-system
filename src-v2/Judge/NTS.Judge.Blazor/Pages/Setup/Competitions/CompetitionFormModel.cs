@@ -9,9 +9,6 @@ public class CompetitionFormModel
     {
         //TODO: remove mock default values for testing
         Name = "Olympic Games";
-        Type = CompetitionType.FEI;
-        StartDay = DateTime.Now;
-        StartTime = TimeSpan.Zero;
     }
     public CompetitionFormModel(Competition competition)
     {
@@ -22,7 +19,7 @@ public class CompetitionFormModel
         TimeSpan? startTime = competition.StartTime.DateTime.TimeOfDay;
         StartDay = startDay;
         StartTime = startTime;
-        Loops = competition.Loops;
+        Phases = competition.Phases;
         Contestants = competition.Contestants;
         CRIRecovery = competition.CriRecovery;
         UseAutomaticCRI = competition.CriRecovery != null;
@@ -30,12 +27,12 @@ public class CompetitionFormModel
 
     public int? Id { get; set; }
     public string Name { get; set; }
-    public CompetitionType Type { get; set; }
-    public DateTime? StartDay { get; set; } = DateTime.Today;
-    public TimeSpan? StartTime { get; set; }
-    public int? CRIRecovery { get; set; }
+    public CompetitionType Type { get; set; } = CompetitionType.National;
+    public DateTime? StartDay { get; set; } = DateTime.Now;
+    public TimeSpan? StartTime { get; set; } = DateTime.Now.TimeOfDay;
     public bool UseAutomaticCRI { get; set; }
-    public IReadOnlyCollection<Loop>? Loops { get; }
+    public int? CRIRecovery { get; set;  }
+    public IReadOnlyCollection<Phase>? Phases { get; }
     public IReadOnlyCollection<Contestant>? Contestants { get; }
 }
  

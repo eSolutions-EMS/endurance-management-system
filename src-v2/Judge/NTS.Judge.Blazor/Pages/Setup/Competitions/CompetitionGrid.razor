@@ -4,21 +4,21 @@
 
 @inherits NotComponent
 
-@if (_parentBehind.Children.Any())
+@if (_items.Any())
 {
     <NotH2 Class="pt-6 pl-6">@Localizer.Get("Competitions")</NotH2>
     <NotButtonCreate Class="mt-1 ml-6 mb-3" OnClick="_competitionNavigator.Create" />
     <MudDivider />
-    <MudDataGrid T="Competition" Items="_parentBehind.Children" ReadOnly="true" Bordered="true" Dense="true">
+    <MudDataGrid T="Competition" Items="_items" ReadOnly="true" Bordered="true" Dense="true">
         <Columns>
             <PropertyColumn Property="x => x.Name" Title="@Localizer.Get("Name")" />
             <PropertyColumn Property="x => x.Type" Title="@Localizer.Get("Competition Type")" />
             <PropertyColumn Property="x => x.StartTime.DateTime" Title="@Localizer.Get("Start Time")" />
-            <PropertyColumn Property="x => x.Loops.Count" Title="@Localizer.Get("Laps Count")" />
+            <PropertyColumn Property="x => x.Phases.Count" Title="@Localizer.Get("Loops")" />
             <PropertyColumn Property="x => x.Contestants.Count" Title="@Localizer.Get("Contestants Count")" />
             <TemplateColumn>
                 <CellTemplate>
-                    <NotButtonDelete OnClick="() => _parentBehind.Delete(context.Item)" Class="action-button-top" />
+                    <NotButtonDelete OnClick="() => _setBehind.Delete(context.Item)" Class="action-button-top" />
                     <NotButtonUpdate OnClick="() => this._competitionNavigator.Update(COMPETITION_UPDATE, context.Item)" />
                 </CellTemplate>
             </TemplateColumn>
@@ -36,11 +36,18 @@ else
     </MudPaper>
 }
 
-@code {
+@code{
+    public IEnumerable<Competition> _items { get; set; } = default!;
+
     [Inject]
-    private INotBehindParent<Competition> _parentBehind { get; set; } = default!;
+    private INotSetBehind<Competition> _setBehind { get; set; } = default!;
     [Inject]
     private IFormNavigator<Competition, CompetitionForm> _competitionNavigator { get; set; } = default!;
     [Inject]
     private INavigator _navigator { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _items = await _setBehind.GetAll();
+    }
 }

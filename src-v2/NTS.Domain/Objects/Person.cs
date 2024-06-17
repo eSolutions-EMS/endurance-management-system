@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Xml.Linq;
 
 namespace NTS.Domain.Objects;
 
@@ -7,10 +8,14 @@ public class Person
     internal static string DELIMITER = " ";
 
     [JsonConstructor]
-    private Person() {}
-    public Person(string name)
+    private Person(string[] names) 
     {
-        this.Names = name.Split(DELIMITER);
+        this.Names = names;
+    }
+ 
+    public Person(string names)
+    {
+        this.Names = names.Split(DELIMITER);
     }
 
     public string[] Names { get; private set; } // TODO: test record equality

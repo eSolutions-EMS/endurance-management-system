@@ -1,51 +1,30 @@
-﻿using NTS.Domain.Setup.Import;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace NTS.Domain.Setup.Entities;
-
-public class Loop : DomainEntity, ISummarizable
+public class Loop : DomainEntity
 {
-    public static Loop Create(double distance, int recovery, int rest) => new(distance, recovery, rest);
-
-    public static Loop Update(int id, double distance, int recovery, int rest) => new(id, distance, recovery, rest);
+    public static Loop Create(double distance) => new (distance);
+    public static Loop Update(int id, double distance) => new(id, distance);
 
     [JsonConstructor]
-    public Loop(int id, double distance, int recovery, int rest) : this(distance, recovery, rest)
+    public Loop(int id, double distance) : this(distance)
     {
         Id = id;
     }
-    public Loop(double distance, int recovery, int rest)
+    public Loop(double distance)
     {
         if (distance <= 0)
         {
             throw new DomainException(nameof(Distance), "Distance cannot be zero or less.");
         }
-        if (recovery <= 0)
-        {
-            throw new DomainException(nameof(Recovery), "Recovery time cannot be zero or less.");
-        }
-        if (rest <= 0)
-        {
-            throw new DomainException(nameof(Rest), "Rest duration cannot be zero or less.");
-        }
 
         Distance = distance;
-		Recovery = recovery;
-		Rest = rest;
-	}
+    }
+    public double Distance { get; set; }
 
-    public double Distance { get; private set; }
-	public int Recovery { get; private set; }
-	public int Rest { get; private set; }
-	public bool IsFinal { get; private set; }
-
-	public override string ToString()
-	{
-		var km = "km".Localize();
-		var min = "min".Localize();
-		var final = "final".Localize();
-		var rec = "Recovery".Localize();
-		var rest = "Rest".Localize();
-		return $"{this.Distance}{km} {rec}: {this.Recovery}{min} {rest}: {this.Rest}{min}" + (this.IsFinal ? final : string.Empty);
-	}
+    public override string ToString() 
+    {
+        var unit = "km".Localize();
+        return $"{Distance}{unit}";
+    }
 }

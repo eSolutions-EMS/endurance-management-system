@@ -1,33 +1,33 @@
-﻿@using NTS.Domain.Enums
+﻿@using NTS.Domain.Enums;
 @using NTS.Domain.Setup.Entities;
 @using NTS.Judge.Blazor.Setup.Officials;
 @using Not.Blazor.Forms;
 @using Not.Blazor.TM.Forms;
 @using Not.Blazor.TM.Forms.Components;
+@using Not.Blazor.TM.Models;
+@using Not.Blazor.TM;
 
 @inherits NotForm<Official>;
 
 <EditForm Model="_model">
     <MudTextField @ref="_nameField" @bind-Value="_model.Name" Label="@Localizer.Get("Name")" />
-
-    <MudSelect @ref="_roleFiled" @bind-Value="_model.Role" Label="@Localizer.Get(nameof(Official.Role))" @onchange="(_) => SubmitUpdate()">
-        @foreach (var item in Enum.GetValues<OfficialRole>())
-        {
-            <MudSelectItem Value="@item">@item</MudSelectItem>
-        }
-    </MudSelect>
+    <NotSelect @ref="_roleField" T = "OfficialRole"
+               Items="_roles" @bind-Value="_model.Role"
+               Label="@Localizer.Get("Official Role")" Placeholder="@Localizer.Get("Select a role")"/>
 </EditForm>
 
 @code {
     private MudTextField<string?> _nameField = default!;
-    private MudSelect<OfficialRole> _roleFiled = default!;
+    private NotSelect<OfficialRole> _roleField = default!;
     private OfficialFormModel _model { get; set; } = new();
+
+    private IEnumerable<NotListModel<OfficialRole>> _roles = NotListModel.FromEnum<OfficialRole>();
 
     public override void RegisterValidationInjectors()
     {
         RegisterInjector(nameof(_model.Name), () => _nameField);
-        RegisterInjector(nameof(_model.Role), () => _roleFiled);
-    }
+        // RegisterInjector(nameof(_model.Role), () => _roleField);
+    } 
 
     public override void SetUpdateModel(Official official)
     {

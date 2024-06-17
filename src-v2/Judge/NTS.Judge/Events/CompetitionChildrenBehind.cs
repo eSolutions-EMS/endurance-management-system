@@ -2,9 +2,10 @@
 using Not.Blazor.Ports.Behinds;
 using Not.Exceptions;
 using NTS.Domain.Setup.Entities;
+using System.Collections.Generic;
 
 namespace NTS.Judge.Events;
-public class CompetitionChildrenBehind : INotBehindParent<Contestant>, INotBehindParent<Loop>, INotBehindWithChildren<Competition>
+public class CompetitionChildrenBehind : INotSetBehind<Contestant>, INotSetBehind<Phase>, INotParentBehind<Competition>
 {
     private readonly IRead<Competition> _competitionReader;
     private readonly IRepository<Competition> _competitionRepository;
@@ -16,8 +17,15 @@ public class CompetitionChildrenBehind : INotBehindParent<Contestant>, INotBehin
         _competitionRepository = competitionRepository;
     }
 
-    IEnumerable<Contestant> INotBehindParent<Contestant>.Children => _competition?.Contestants ?? Enumerable.Empty<Contestant>();
-    IEnumerable<Loop> INotBehindParent<Loop>.Children => _competition?.Loops ?? Enumerable.Empty<Loop>();
+    public async Task<IEnumerable<Contestant>> GetAll()
+    {
+        return _competition?.Contestants ?? Enumerable.Empty<Contestant>();
+    }
+
+    async Task<IEnumerable<Phase>> IReadAllBehind<Phase>.GetAll()
+    {
+        return _competition?.Phases ?? Enumerable.Empty<Phase>();
+    }
 
     public async Task<Contestant> Create(Contestant entity)
     {
@@ -46,7 +54,7 @@ public class CompetitionChildrenBehind : INotBehindParent<Contestant>, INotBehin
         return entity;
     }
 
-    public async Task<Loop> Create(Loop entity)
+    public async Task<Phase> Create(Phase entity)
     {
         GuardHelper.ThrowIfDefault(_competition);
 
@@ -55,7 +63,7 @@ public class CompetitionChildrenBehind : INotBehindParent<Contestant>, INotBehin
         return entity;
     }
 
-    public async Task<Loop> Update(Loop entity)
+    public async Task<Phase> Update(Phase entity)
     {
         GuardHelper.ThrowIfDefault(_competition);
 
@@ -64,7 +72,7 @@ public class CompetitionChildrenBehind : INotBehindParent<Contestant>, INotBehin
         return entity;
     }
 
-    public async Task<Loop> Delete(Loop entity)
+    public async Task<Phase> Delete(Phase entity)
     {
         GuardHelper.ThrowIfDefault(_competition);
 

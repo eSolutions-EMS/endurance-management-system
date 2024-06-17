@@ -6,7 +6,7 @@
 @attribute [Route(CONTESTANT_UPDATE)]
 @inherits NotComponent
 
-<MudPaper>
+<MudPaper Elevation="0">
     <NotH2>@Localizer.Get("Update Contestant")</NotH2>
     <NotFormUpdate T="Contestant" TForm="ContestantForm" Entity="_navigator.ConsumeParameter<Contestant>()" UpdateAction="Update" />
 </MudPaper>
@@ -14,7 +14,7 @@
 @code {
     private Contestant _contestant { get; set; } = default!;
     [Inject]
-    private INotBehindParent<Contestant> _parentBehind { get; set; } = default!;
+    private INotSetBehind<Contestant> _parentBehind { get; set; } = default!;
     [Inject]
     private INavigator _navigator { get; set; } = default!;
 

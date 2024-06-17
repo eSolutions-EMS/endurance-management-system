@@ -2,10 +2,11 @@
 using Not.Application.Ports.CRUD;
 using Not.Blazor.Ports.Behinds;
 using Not.Exceptions;
+using static MudBlazor.CategoryTypes;
 
 namespace NTS.Judge.Events;
 
-public class EventBehind : INotBehind<Event>, INotBehindParent<Official>, INotBehindParent<Competition>, INotBehindWithChildren<Event>
+public class EventBehind : INotBehind<Event>, INotSetBehind<Official>, INotSetBehind<Competition>, INotParentBehind<Event>
 {
     private readonly IRepository<Event> _eventRepository;
     private Event? _event;
@@ -15,8 +16,15 @@ public class EventBehind : INotBehind<Event>, INotBehindParent<Official>, INotBe
         _eventRepository = eventRepository;
     }
 
-    IEnumerable<Official> INotBehindParent<Official>.Children => _event?.Officials ?? Enumerable.Empty<Official>();
-    IEnumerable<Competition> INotBehindParent<Competition>.Children => _event?.Competitions ?? Enumerable.Empty<Competition>();
+    public async Task<IEnumerable<Official>> GetAll()
+    {
+        return _event?.Officials ?? Enumerable.Empty<Official>();
+    }
+
+    async Task<IEnumerable<Competition>> IReadAllBehind<Competition>.GetAll()
+    {
+        return _event?.Competitions ?? Enumerable.Empty<Competition>();
+    }
 
     public async Task<Event?> Read(int id)
     {

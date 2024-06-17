@@ -1,9 +1,9 @@
 ﻿@using NTS.Domain.Setup.Entities;
+@using NTS.Judge.Blazor.Pages.Setup.Phases
 @using Not.Blazor.Components;
 @using Not.Blazor.Navigation;
 @using Not.Blazor.TM
 @using Not.Blazor.TM.Forms.Components
-@using NTS.Judge.Blazor.Pages.Setup.Loops
 @using NTS.Judge.Blazor.Pages.Setup.Contestants
 
 
@@ -16,17 +16,17 @@
 </MudPaper>
 
 <MudPaper Class="d-flex justify-space-between pr-6" Elevation="0">
-    <NotChildren Name="Loops" T="Loop" TForm="LoopForm" UpdateRoute="@LOOP_UPDATE" />
+    <NotSetList Name="Phases" T="Phase" TForm="PhaseForm" UpdateRoute="@PHASE_UPDATE" />
     <MudDivider Vertical="true" FlexItem="true" />
-    <NotChildren Name="Contestants" T="Contestant" TForm="ContestantForm" UpdateRoute="@CONTESTANT_UPDATE" />
+    <NotSetList Name="Contestants" T="Contestant" TForm="ContestantForm" UpdateRoute="@CONTESTANT_UPDATE" />
 </MudPaper>
 
 @code {   
     private Competition _competition { get; set; } = default!;
     [Inject]
-    private INotBehindParent<Competition> _parentBehind { get; set; } = default!;
+    private INotSetBehind<Competition> _setBehind { get; set; } = default!;
     [Inject]
-    private INotBehindWithChildren<Competition> _competitionWithChildren { get; set; } = default!;
+    private INotParentBehind<Competition> _competitionWithChildren { get; set; } = default!;
     [Inject]
     private INavigator _navigator { get; set; } = default!;
 
@@ -38,7 +38,7 @@
 
     protected async Task Update(Competition competition)
     {
-        await _parentBehind.Update(competition);
+        await _setBehind.Update(competition);
         _navigator.NavigateTo(SETUP_PAGE);
     }
 }
