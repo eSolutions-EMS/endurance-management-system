@@ -24,6 +24,8 @@
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
             <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
         </Content>
+        <PackageReference Include="OpenAI" Version="2.0.0-beta.5" />
+        <PackageReference Include="OpenCvSharp4.Windows" Version="4.10.0.20240616" />
         <Reference Include="Vup">
             <HintPath>Vup.dll</HintPath>
         </Reference>
