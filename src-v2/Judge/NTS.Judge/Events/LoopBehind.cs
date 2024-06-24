@@ -2,7 +2,6 @@
 using Not.Blazor.Ports.Behinds;
 using NTS.Domain.Setup.Entities;
 
-
 namespace NTS.Judge.Events;
 public class LoopBehind : INotSetBehind<Loop>
 {

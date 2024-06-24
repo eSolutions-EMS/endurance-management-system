@@ -11,7 +11,7 @@
     <NotFormUpdate T="Horse" TForm="HorseForm" Entity="_navigator.ConsumeParameter<Horse>()" UpdateAction="Update"  />
 </MudPaper>
 
-@code {
+@code{
     private Horse _horse {get; set;} = default!;
     [Inject]
     INotSetBehind<Horse> _setBehind { get; set; } = default!;

@@ -2,7 +2,6 @@
 using Not.Blazor.Ports.Behinds;
 using NTS.Domain.Setup.Entities;
 
-
 namespace NTS.Judge.Events;
 public class HorseBehind : INotSetBehind<Horse>
 {
@@ -13,10 +12,12 @@ public class HorseBehind : INotSetBehind<Horse>
     {
         _horseRepository = horseRepository;
     }
+
     public Task<IEnumerable<Horse>> GetAll()
     {
         return _horseRepository.ReadAll();
     }
+
     public async Task<Horse> Create(Horse entity)
     {
         _horse = await _horseRepository.Create(entity);
