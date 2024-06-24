@@ -15,10 +15,12 @@ public class AthleteBehind : INotSetBehind<Athlete>
     {
         _athleteRepository = athleteRepository;
     }
+
     public Task<IEnumerable<Athlete>> GetAll()
     {
         return _athleteRepository.ReadAll();
     }
+
     public async Task<Athlete> Create(Athlete entity)
     {
         _athlete = await _athleteRepository.Create(entity);
