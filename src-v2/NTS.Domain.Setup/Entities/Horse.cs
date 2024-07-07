@@ -1,12 +1,23 @@
 ﻿using NTS.Domain.Setup.Import;
+using Newtonsoft.Json;
 
 namespace NTS.Domain.Setup.Entities;
 
 public class Horse : DomainEntity, ISummarizable, IImportable
 {
-    public Horse(string name)
+    public static Horse Create(string name, string? feiId) => new (name, feiId);
+
+    public static Horse Update(int id, string name, string? feiId) => new(id, name, feiId); 
+
+    [JsonConstructor]
+    private Horse(int id, string name, string? feiId) : this(name, feiId)
     {
-        this.Name = name;
+        Id = id;
+    }
+    private Horse(string name, string? feiId)
+    {
+        Name = name;
+        FeiId = feiId;
     }
 
 	public string? FeiId { get; private set; }
@@ -14,10 +25,10 @@ public class Horse : DomainEntity, ISummarizable, IImportable
 
 	public string Summarize()
 	{
-        return this.ToString();
+        return ToString();
 	}
 	public override string ToString()
 	{
-		return this.Name;
+		return Name;
 	}
 }
