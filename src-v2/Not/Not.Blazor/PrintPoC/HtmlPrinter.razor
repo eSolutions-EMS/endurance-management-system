@@ -1,4 +1,5 @@
 ﻿@using BlazorTemplater
+@using Not.Blazor.Print
 @using Not.Services
 @using System.Globalization;
 @using MudBlazor.Utilities;
@@ -31,6 +32,9 @@ else
 
     protected override void OnInitialized()
     {
+        // This implementation converts existing Blazor component to an HTML string with
+        // inlined styles in an attempt to print a colorful page using JS interop
+        // However, it still produces the same lackluster result: https://github.com/dotnet/maui/discussions/23063
         var html = new ComponentRenderer<PrintDemo>()
             .AddServiceProvider(_serviceProvider)
             .Render();
