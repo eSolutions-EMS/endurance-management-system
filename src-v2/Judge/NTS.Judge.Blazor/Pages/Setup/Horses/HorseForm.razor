@@ -8,7 +8,7 @@
 
 <EditForm Model="_model">
     <MudTextField @bind-Value="_model.Name" Label="Horse Name" Variant="Variant.Text" Margin="Margin.Dense" />
-    <MudTextField @bind-Value="_model.FeiId" Label="Fei Id" HelperText="@Localizer.Get("Leave empty if horse doesn't compete by FEI rules")" Variant="Variant.Text" Margin="Margin.Dense" />
+    <MudTextField @bind-Value="_model.FeiId" Label="Fei Id" HelperText="@Localizer.Get(Optional_FEI_ID)" Variant="Variant.Text" Margin="Margin.Dense" />
 </EditForm>
 
 @code {
