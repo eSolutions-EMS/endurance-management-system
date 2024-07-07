@@ -21,7 +21,7 @@
     {
         <EventPage />
     }
-    <MudButton OnClick="@(() => _print.Print())">Print</MudButton>
+    <MudButton OnClick="_print.Print">Print</MudButton>
 </MudPaper>
 
 @code {
@@ -32,9 +32,6 @@
     private INotBehind<Event> _behind { get; set; } = default!;
     [Inject]
     private IPrintInterop _print { get; set; } = default!;
-
-    [CascadingParameter]
-    private MudThemeProvider _mudThemeProvider { get; set; } = default!;
 
     protected override async Task OnInitializedAsync()
     {
