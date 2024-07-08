@@ -18,7 +18,6 @@ using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using static EMS.Judge.DesktopConstants;
 
 namespace EMS.Judge.Views.Content.Configuration.Children.Competitions;
 
@@ -51,9 +50,10 @@ public class CompetitionViewModel : NestedConfigurationBase<CompetitionView, Com
 
     private int typeValue;
     private string name;
-    private string _feiId;
+    private string _feiCategoryEventNumber;
     private string _feiScheduleNumber;
     private string _rule;
+    private string _code;
     private string typeString;
     private string toggleText = EXPAND;
     private DateTime startTime = DateTime.Today;
@@ -156,10 +156,10 @@ public class CompetitionViewModel : NestedConfigurationBase<CompetitionView, Com
         private set => this.SetProperty(ref this.visibility, value);
     }
 
-    public string FeiId
+    public string FeiCategoryEventNumber
     {
-        get => _feiId;
-        set => SetProperty(ref _feiId, value);
+        get => _feiCategoryEventNumber;
+        set => SetProperty(ref _feiCategoryEventNumber, value);
     }
 
     public string FeiScheduleNumber
@@ -172,6 +172,12 @@ public class CompetitionViewModel : NestedConfigurationBase<CompetitionView, Com
     {
         get => _rule;
         set => SetProperty(ref _rule, value);
+    }
+
+    public string EventCode
+    {
+        get => _code;
+        set => SetProperty(ref _code, value);
     }
     #endregion
 }

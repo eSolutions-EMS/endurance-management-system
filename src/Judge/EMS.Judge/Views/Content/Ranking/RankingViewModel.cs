@@ -15,22 +15,33 @@ using static Core.Localization.Strings;
 using Core.Services;
 using Core.Domain.AggregateRoots.Manager;
 using System;
+using System.IO;
+using EMS.Judge.Common.Services;
 
 namespace EMS.Judge.Views.Content.Ranking;
 
 public class RankingViewModel : ViewModelBase
 {
+    private readonly IFileService _fileService;
     private readonly IExecutor<RankingRoot> _rankingExecutor;
     private readonly IExecutor basicExecutor;
     private readonly IXmlSerializationService _xmlSerializationService;
-    private CompetitionResultAggregate selectedCompetition;
+    private readonly IPopupService _popupService;
+    private CompetitionResultAggregate _selectedCompetition;
     private List<CompetitionResultAggregate> competitions;
 
-    public RankingViewModel(IExecutor<RankingRoot> rankingExecutor, IExecutor basicExecutor, IXmlSerializationService xmlSerializationService)
+    public RankingViewModel(
+        IFileService fileService,
+        IExecutor<RankingRoot> rankingExecutor,
+        IExecutor basicExecutor,
+        IXmlSerializationService xmlSerializationService,
+        IPopupService popupService)
     {
+        _fileService = fileService;
         this._rankingExecutor = rankingExecutor;
         this.basicExecutor = basicExecutor;
         _xmlSerializationService = xmlSerializationService;
+        _popupService = popupService;
         this.Print = new DelegateCommand<RanklistControl>(this.PrintAction);
         this.SelectKidsCategory = new DelegateCommand(this.SelectKidsCategoryAction);
         this.SelectAdultsCategory = new DelegateCommand(this.SelectAdultsCategoryAction);
@@ -75,7 +86,7 @@ public class RankingViewModel : ViewModelBase
         var competition = this._rankingExecutor.Execute(
             ranking => ranking.GetCompetition(competitionId),
             false);
-        this.selectedCompetition = competition;
+        this._selectedCompetition = competition;
 
         this.SelectAdultsCategoryAction();
     }
@@ -90,11 +101,11 @@ public class RankingViewModel : ViewModelBase
     private void ExportAction()
     {
         _rankingExecutor.Execute(
-            x => {
-                var result = x.GenerateFeiExport();
-                _xmlSerializationService.SerializeToFile(
-                    result,
-                    $"{ManagerRoot.dataDirectoryPath}/{DateTime.Now.ToString(DesktopConstants.DATE_ONLY_FORMAT)}_export.xml");
+            rankingRoot => {
+                var contents = rankingRoot.GenerateFeiExport(_selectedCompetition.Id);
+                var path = $"{ManagerRoot.dataDirectoryPath}/{_selectedCompetition.Name}.xml";
+                _fileService.Create(path, contents);
+                _popupService.RenderOk();
             }, 
             false);
     }
@@ -115,13 +126,13 @@ public class RankingViewModel : ViewModelBase
     {
         this.basicExecutor.Execute(() =>
         {
-        var printer = new RanklistPrinter(this.selectedCompetition.Name, control.Ranklist, this.CategoryName);
+        var printer = new RanklistPrinter(this._selectedCompetition.Name, control.Ranklist, this.CategoryName);
             printer.PreviewDocument();
         }, false);
     }
     private void SelectCategory(Category category)
     {
-        this.Ranklist = this.selectedCompetition.Rank(category);
+        this.Ranklist = this._selectedCompetition.Rank(category);
         this.CategoryName = category == Category.JuniorOrYoungAdults
             ? "J/YR"
             : category.ToString();
