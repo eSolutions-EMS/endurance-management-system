@@ -2,5 +2,5 @@
 
 public static class Text
 {
-    public const string Optional_FEI_ID = "Required only for FEI export";
+    public const string OPTIONAL_FEI_ID = "Required only for FEI export";
 }

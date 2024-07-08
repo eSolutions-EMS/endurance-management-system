@@ -10,7 +10,7 @@
 
 <EditForm Model="_model">
     <MudTextField @ref="_nameField" @bind-Value="_model.Name" Label="@Localizer.Get("Name")" />
-    <MudTextField @bind-Value="_model.FeiId" Label="Fei Id" HelperText="@Localizer.Get(Optional_FEI_ID)" Variant="Variant.Text" Margin="Margin.Dense" />
+    <MudTextField @bind-Value="_model.FeiId" Label="Fei Id" HelperText="@Localizer.Get(OPTIONAL_FEI_ID)" Variant="Variant.Text" Margin="Margin.Dense" />
     <MudAutocomplete T="Country" @ref="_countryField" @bind-Value="_model.Country" Label="@Localizer.Get(nameof(Athlete.Country))"
                      CoerceText="true"
                      SearchFunc="_countries.Search" />
