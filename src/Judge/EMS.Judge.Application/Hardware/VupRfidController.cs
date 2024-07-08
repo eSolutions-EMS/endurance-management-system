@@ -23,10 +23,10 @@ public class VupRfidController
     }
 
     public bool IsConnected { get; private set; }
-    public event EventHandler<IEnumerable<string>> ReadEvent;
-    public void RaiseRead(IEnumerable<string> tagId)
+    public event EventHandler<RfidTags> ReadEvent;
+    public void RaiseRead(RfidTags tags)
     {
-        this.ReadEvent!.Invoke(this, tagId);
+        this.ReadEvent!.Invoke(this, tags);
     }
     public event EventHandler<string> MessageEvent;
     public void RaiseMessage(string message)
@@ -120,7 +120,7 @@ public class VupRfidController
     }
 
     private DateTime? disconnectedMessageTime;
-    private IEnumerable<string> ReadTags(IEnumerable<int> antennaIndices)
+    private RfidTags ReadTags(IEnumerable<int> antennaIndices)
     {
         var timer = new Stopwatch();
         foreach (var i in antennaIndices)
@@ -153,9 +153,25 @@ public class VupRfidController
 
             if (tagRead.Success)
             {
-                return tagRead.Result.Select(x => Convert.ToHexString(x.Id));
+                var hexes = tagRead.Result.Select(x => Convert.ToHexString(x.Id));
+                return new RfidTags(i, hexes);
             }
         }
-        return Enumerable.Empty<string>();
+        return new RfidTags();
     }
+}
+
+public class RfidTags
+{
+    public RfidTags() : this(0, Enumerable.Empty<string>())
+    {
+    }
+    public RfidTags(int antenna, IEnumerable<string> hexes)
+    {
+        Antenna = antenna;
+        Hexes = hexes;
+    }
+
+    public int Antenna { get; }
+    public IEnumerable<string> Hexes { get; } = new List<string>();
 }

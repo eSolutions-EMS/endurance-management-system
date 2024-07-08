@@ -50,7 +50,7 @@ public abstract class PrintTemplate : PrintProcessor
         var feiVetBlock = (Run) control.FindName("FeiVetDelegateName")!;
         var presidentVetBlock = (Run) control.FindName("PresidentVetCommitteeName")!;
 
-        eventNameBlock.Text = $"{this.State.Event.Name} - {DateTime.Now.ToString("dd MMM yyyy", CultureInfo.GetCultureInfo("bg-BG"))}";
+        eventNameBlock.Text = $"{this.State.Event.Name} - {DateTime.Now.ToString("dd MMM yyyy", CultureInfo.GetCultureInfo("en-GB"))}";
         populatedPlaceBlock.Text = this.State.Event.PopulatedPlace;
         countryBlock.Text = this.State.Event.Country.Name;
         juryBlock.Text = this.State.Event.PresidentGroundJury?.Name;

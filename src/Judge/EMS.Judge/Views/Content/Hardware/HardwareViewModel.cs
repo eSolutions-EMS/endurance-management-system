@@ -116,7 +116,7 @@ public class HardwareViewModel : ViewModelBase
         Task.Run(() => this.controller.Disconnect());
     }
 
-    private void HandleReadEventTag(object sender, IEnumerable<string> tagIds)
+    private void HandleReadEventTag(object sender, RfidTags tagIds)
     {
         ThreadPool.QueueUserWorkItem(delegate
         {
@@ -126,7 +126,7 @@ public class HardwareViewModel : ViewModelBase
             SynchronizationContext.Current!.Post(_ =>
             {
                 SystemSounds.Beep.Play();
-                foreach (var tagId in tagIds)
+                foreach (var tagId in tagIds.Hexes)
                 {
                     var existingTag = this.Tags.FirstOrDefault(x => x.Id == tagId);
                     if (existingTag != null)

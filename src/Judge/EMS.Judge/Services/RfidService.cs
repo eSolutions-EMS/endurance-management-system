@@ -13,6 +13,7 @@ public class RfidService : IRfidService
     private readonly IPopupService popupService;
     private VupVD67Controller vd67Controller;
     private VupVF747pController vupVF747PController;
+
     private bool isReading;
 
     public RfidService(ISettings settings, IPopupService popupService, Application.Services.ILogger logger)

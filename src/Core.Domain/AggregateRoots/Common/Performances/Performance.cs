@@ -106,7 +106,9 @@ public class Performance : IAggregate, IPerformance, INotifyPropertyChanged
         => this.Record.ArrivalTime - this.Record.StartTime;
 
     private TimeSpan? CalculatePhaseTime()
-        => this.Record.VetGateTime - this.Record.StartTime;
+        => Record.Lap.IsFinal
+            ? CalculateLoopTime()
+            : Record.VetGateTime - Record.StartTime;
 
     public int Id => this.Record.Id;
     public DateTime StartTime => this.Record.StartTime;
@@ -150,8 +152,17 @@ public class Performance : IAggregate, IPerformance, INotifyPropertyChanged
 
     private static TimeSpan? GetCorrectTime(LapRecord record, CompetitionType type)
         => type == CompetitionType.National || record.Lap.IsFinal
-            ? record.ArrivalTime - record.StartTime
-            : record.VetGateTime - record.StartTime;
+            ? TruncateToSeconds(record.ArrivalTime - record.StartTime)
+            : TruncateToSeconds(record.VetGateTime - record.StartTime);
+
+    public static TimeSpan? TruncateToSeconds(TimeSpan? timeSpan)
+    {
+        if (timeSpan == null)
+        {
+            return null;
+        }
+        return new TimeSpan(timeSpan.Value.Days, timeSpan.Value.Hours, timeSpan.Value.Minutes, timeSpan.Value.Seconds);
+    }
 
     public event PropertyChangedEventHandler PropertyChanged;
     protected virtual void RaisePropertyChanged(string propertyName = null)

@@ -1,4 +1,5 @@
 using Core.ConventionalServices;
+using JsonNet.PrivatePropertySetterResolver;
 using System;
 using System.IO;
 
@@ -14,6 +15,7 @@ public class FileService : IFileService
 
     public void Create(string filePath, string content)
     {
+        filePath = SanitizePath(filePath);
         using var stream = new StreamWriter(filePath);
         stream.Write(content);
     }
@@ -52,6 +54,20 @@ public class FileService : IFileService
 
     public string GetExtension(string path)
         => Path.GetExtension(path);
+
+    private string SanitizePath(string filePath)
+    {
+        filePath = filePath.Replace("\\", "/");
+        var indexOfLastSlash = filePath.LastIndexOf('/');
+
+        var path = filePath[..indexOfLastSlash];
+        var fileName = filePath[indexOfLastSlash..];
+        foreach (var symbol in Path.GetInvalidFileNameChars())
+        {
+            fileName = fileName.Replace(symbol.ToString(), "");
+        }
+        return $"{path}/{fileName}";
+    }
 }
 
 public interface IFileService : ITransientService
