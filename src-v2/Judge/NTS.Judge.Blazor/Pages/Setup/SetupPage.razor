@@ -1,7 +1,10 @@
 @using NTS.Domain.Setup.Entities;
 @using NTS.Judge.Blazor.Pages.Setup.Events;
+@using NTS.Judge.Blazor.Ports
 @using Not.Blazor.Components;
 @using Not.Blazor.Forms
+@using NTS.Judge.Blazor.Pages.Demos;
+@using Not.Blazor.Print
 
 @attribute [Route(SETUP_PAGE)]
 @inherits NotComponent
@@ -17,6 +20,7 @@
     {
         <EventPage />
     }
+    <MudButton OnClick="_print.Print">Print</MudButton>
 </MudPaper>
 
 @code {
@@ -25,6 +29,8 @@
     private IFormNavigator<Event, EventForm> _formNavigator { get; set; } = default!;
     [Inject]
     private INotBehind<Event> _behind { get; set; } = default!;
+    [Inject]
+    private IPrintInterop _print { get; set; } = default!;
 
     protected override async Task OnInitializedAsync()
     {
