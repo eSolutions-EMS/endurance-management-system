@@ -122,34 +122,42 @@ public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, 
         private readonly IHubContext<EmsRpcHub, IEmsClientProcedures> _hub;
 
         public ClientService(
-            IRepository<Participation> _participations,
+            IRepository<Participation> participations,
             IHubContext<EmsRpcHub, IEmsClientProcedures> hub)
         {
-            this._participations = _participations;
+            _participations = participations;
             _hub = hub;
+
             EventHelper.Subscribe<PhaseCompleted>(SendStartlistEntryUpdate);
+            EventHelper.Subscribe<QualificationRestored>(SendParticipantEntryAddOrUpdate);
+            EventHelper.Subscribe<QualificationRevoked>(SendParticipantEntryRemove);
         }
 
         public void SendStartlistEntryUpdate(PhaseCompleted phaseCompleted)
         {
-            var participation = _participations.Read(x => x.Tandem.Number == phaseCompleted.Number).Result;
-            if (participation == null)
-            {
-                throw new Exception($"Could not '{nameof(SendStartlistEntryUpdate)}'! Participation with '{phaseCompleted.Number}' not found");
-            }
+            var participation = _participations.Read(x => x.Tandem.Number == phaseCompleted.Number).Result
+                ?? throw new Exception($"Could not '{nameof(SendStartlistEntryUpdate)}'! Participation with '{phaseCompleted.Number}' not found");
             var emsParticipation = EmsParticipationFactory.Create(participation);
             var entry = new EmsStartlistEntry(emsParticipation);
             _hub.Clients.All.ReceiveEntry(entry, EmsCollectionAction.AddOrUpdate);
         }
 
-        public void SendParticipantEntryUpdate(object? _, (string Number, EmsCollectionAction Action) args)
+        public void SendParticipantEntryAddOrUpdate(QualificationRestored qualificationRestored)
         {
-            //var entry = this._managerRoot.GetParticipantEntry(args.Number);
-            if (entry == null)
-            {
-                return;
-            }
-            _hub.Clients.All.ReceiveEntryUpdate(entry, args.Action);
+            var participation = _participations.Read(x => x.Tandem.Number == qualificationRestored.Number).Result
+                ?? throw new Exception($"Could not 'SendParticipantEntryUpdate(AddOrUpdate)'! Participation with '{qualificationRestored.Number}' not found");
+            var emsParticipation = EmsParticipationFactory.Create(participation);
+            var entry = new EmsParticipantEntry(emsParticipation);
+            _hub.Clients.All.ReceiveEntryUpdate(entry, EmsCollectionAction.AddOrUpdate);
+        }
+
+        public void SendParticipantEntryRemove(QualificationRevoked qualificationRevoked)
+        {
+            var participation = _participations.Read(x => x.Tandem.Number == qualificationRevoked.Number).Result
+                ?? throw new Exception($"Could not 'SendParticipantEntryUpdate(Remove)'! Participation with '{qualificationRevoked.Number}' not found");
+            var emsParticipation = EmsParticipationFactory.Create(participation);
+            var entry = new EmsParticipantEntry(emsParticipation);
+            _hub.Clients.All.ReceiveEntryUpdate(entry, EmsCollectionAction.Remove);
         }
 
         public void Dispose()
