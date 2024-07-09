@@ -1,6 +1,6 @@
 namespace NTS.Judge.MAUI.Server.ACL.EMS;
 
-public class EmsCountry : EmsDomainBase<EmsCountryException>, ICountryState
+public class EmsCountry : EmsDomainBase<EmsCountryException>, IEmsCountryState
 {
     private EmsCountry() { }
     public EmsCountry(string isoCode, string name, int id) : base(default)
