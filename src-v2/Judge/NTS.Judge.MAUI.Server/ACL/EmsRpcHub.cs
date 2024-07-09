@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Not.Application.Ports.CRUD;
 using NTS.Domain.Core.Aggregates.Participations;
+using NTS.Domain.Core.Entities;
 using NTS.Judge.MAUI.Server.ACL.EMS;
 using NTS.Judge.MAUI.Server.ACL.Factories;
 
@@ -9,10 +10,12 @@ namespace NTS.Judge.MAUI.Server.ACL;
 public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, IEmsEmsParticipantstHubProcedures
 {
     private readonly IRepository<Participation> _participations;
+    private readonly IRepository<Event> _events;
 
-    public EmsRpcHub(IRepository<Participation> participations)
+    public EmsRpcHub(IRepository<Participation> participations, IRepository<Event> events)
     {
         _participations = participations;
+        _events = events;
     }
 
     public Dictionary<int, EmsStartlist> SendStartlist()
@@ -62,11 +65,15 @@ public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, 
 
     public EmsParticipantsPayload SendParticipants()
     {
-        // TODO: create ParticipantsPayload
+        var participants = _participations
+            .ReadAll(x => x.Phases.All(x => x.ArriveTime == null || x.InspectTime == null|| x.IsReinspectionRequested && x.ReinspectTime == null))
+            .Result
+            .Select(EmsParticipantEntryFactory.Create);
+        var @event = _events.Read(0);
         return new EmsParticipantsPayload
         {
             Participants = participants.ToList(),
-            EventId = eventId,
+            EventId = @event.Id,
         };
     }
     public Task ReceiveWitnessEvent(IEnumerable<EmsParticipantEntry> entries, EmsWitnessEventType type)
