@@ -14,13 +14,11 @@ public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, 
 {
     private readonly IRepository<Participation> _participations;
     private readonly IRepository<Event> _events;
-    private readonly IParticipationBehind _participationBehind;
 
-    public EmsRpcHub(IRepository<Participation> participations, IRepository<Event> events, IParticipationBehind participationBehind)
+    public EmsRpcHub(IRepository<Participation> participations, IRepository<Event> events)
     {
         _participations = participations;
         _events = events;
-        _participationBehind = participationBehind;
     }
 
     public Dictionary<int, EmsStartlist> SendStartlist()
@@ -97,7 +95,7 @@ public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, 
                 }
                 var isFinal = participation.Phases.Take(participation.Phases.Count - 1).All(x => x.IsComplete);
                 var snapshot = SnapshotFactory.Create(entry, type, isFinal);
-                await _participationBehind.Process(snapshot);
+                //TODO: process after behind await _participationBehind.Process(snapshot);
             }
         });
 
