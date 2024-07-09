@@ -3,8 +3,8 @@ using Not.Application.Ports.CRUD;
 using Not.Events;
 using NTS.Domain.Core.Aggregates.Participations;
 using NTS.Domain.Core.Entities;
+using NTS.Domain.Core.Events;
 using NTS.Judge.Blazor.Ports;
-using NTS.Judge.MAUI.Server.ACL.Bridge;
 using NTS.Judge.MAUI.Server.ACL.EMS;
 using NTS.Judge.MAUI.Server.ACL.Factories;
 
@@ -118,23 +118,28 @@ public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, 
 
     public class ClientService : IDisposable
     {
+        private readonly IRepository<Participation> _participations;
         private readonly IHubContext<EmsRpcHub, IEmsClientProcedures> _hub;
 
         public ClientService(
+            IRepository<Participation> _participations,
             IHubContext<EmsRpcHub, IEmsClientProcedures> hub)
         {
+            this._participations = _participations;
             _hub = hub;
-            // TODO attach event handlers
+            EventHelper.Subscribe<PhaseCompleted>(SendStartlistEntryUpdate);
         }
 
-        public void SendStartlistEntryUpdate(object? _, (string Number, EmsCollectionAction Action) args)
+        public void SendStartlistEntryUpdate(PhaseCompleted phaseCompleted)
         {
-            //var entry = this._managerRoot.GetStarlistEntry(args.Number);
-            if (entry == null)
+            var participation = _participations.Read(x => x.Tandem.Number == phaseCompleted.Number).Result;
+            if (participation == null)
             {
-                return;
+                throw new Exception($"Could not '{nameof(SendStartlistEntryUpdate)}'! Participation with '{phaseCompleted.Number}' not found");
             }
-            _hub.Clients.All.ReceiveEntry(entry, args.Action);
+            var emsParticipation = EmsParticipationFactory.Create(participation);
+            var entry = new EmsStartlistEntry(emsParticipation);
+            _hub.Clients.All.ReceiveEntry(entry, EmsCollectionAction.AddOrUpdate);
         }
 
         public void SendParticipantEntryUpdate(object? _, (string Number, EmsCollectionAction Action) args)
