@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Not.Application.Ports.CRUD;
+using Not.Events;
 using NTS.Domain.Core.Aggregates.Participations;
 using NTS.Domain.Core.Entities;
+using NTS.Judge.Blazor.Ports;
+using NTS.Judge.MAUI.Server.ACL.Bridge;
 using NTS.Judge.MAUI.Server.ACL.EMS;
 using NTS.Judge.MAUI.Server.ACL.Factories;
 
@@ -11,11 +14,13 @@ public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, 
 {
     private readonly IRepository<Participation> _participations;
     private readonly IRepository<Event> _events;
+    private readonly IParticipationBehind _participationBehind;
 
-    public EmsRpcHub(IRepository<Participation> participations, IRepository<Event> events)
+    public EmsRpcHub(IRepository<Participation> participations, IRepository<Event> events, IParticipationBehind participationBehind)
     {
         _participations = participations;
         _events = events;
+        _participationBehind = participationBehind;
     }
 
     public Dictionary<int, EmsStartlist> SendStartlist()
@@ -66,7 +71,7 @@ public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, 
     public EmsParticipantsPayload SendParticipants()
     {
         var participants = _participations
-            .ReadAll(x => x.Phases.All(x => x.ArriveTime == null || x.InspectTime == null|| x.IsReinspectionRequested && x.ReinspectTime == null))
+            .ReadAll(x => x.Phases.All(x => !x.IsComplete))
             .Result
             .Select(EmsParticipantEntryFactory.Create);
         var @event = _events.Read(0);
@@ -81,11 +86,18 @@ public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, 
         // Task.Run because Event hadling in dotnet seems to hold the current thread. Further investigation is needed
         // but what was happening is that Witness apps didn't receive rpc response untill the handling thread was finished
         // which is motly visible when it causes a validation (popup) which blocks the thread until closed in Prism/WPF
-        Task.Run(() =>
+        Task.Run(async () =>
         {
             foreach (var entry in entries)
             {
-                //TODO: raise Participation event
+                var participation = await _participations.Read(x => x.Tandem.Number == int.Parse(entry.Number));
+                if (participation == null)
+                {
+                    continue;
+                }
+                var isFinal = participation.Phases.Take(participation.Phases.Count - 1).All(x => x.IsComplete);
+                var snapshot = SnapshotFactory.Create(entry, type, isFinal);
+                await _participationBehind.Process(snapshot);
             }
         });
 

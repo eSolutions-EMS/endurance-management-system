@@ -42,8 +42,7 @@ public class Phase : DomainEntity, IPhaseState
     public double? AveregeLoopSpeed => Length / LoopTime?.TotalHours;
     public double? AveragePhaseSpeed => Length / PhaseTime?.TotalHours + RecoverySpan?.TotalHours;
     public double? AverageSpeed => IsFeiRulesAndNotFinal ? AveragePhaseSpeed : AveregeLoopSpeed;
-
-    internal bool IsComplete => OutTime != null;
+    public bool IsComplete => OutTime != null;
 
     internal SnapshotResult Arrive(Snapshot snapshot)
     {
