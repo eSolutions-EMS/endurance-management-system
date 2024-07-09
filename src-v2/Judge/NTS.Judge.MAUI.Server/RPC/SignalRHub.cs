@@ -4,20 +4,17 @@ using NTS.Domain.Objects;
 using NTS.Judge.Blazor.Ports;
 using NTS.Judge.Ports;
 
-namespace NTS.Judge.MAUI.Server;
+namespace NTS.Judge.MAUI.Server.RPC;
 
 public class SignalRHub : IRemoteProcedures
 {
-    private readonly IParticipationBehind _coreBehind;
-
-    public SignalRHub(IParticipationBehind coreBehind)
+    public SignalRHub()
     {
-        _coreBehind = coreBehind;
     }
 
     public async Task ReceiveSnapshot(Snapshot snapshot)
     {
-        await _coreBehind.Process(snapshot);
+        throw new NotImplementedException();
     }
 
     public Task SendStartCreated(PhaseStart startCreated)
