@@ -1,4 +1,5 @@
 ﻿using Not.Events;
+using Not.Injection;
 using Not.Startup;
 using NTS.Domain.Core.Events;
 using NTS.Judge.Blazor.Ports;
@@ -6,7 +7,7 @@ using NTS.Judge.Ports;
 
 namespace NTS.Judge.Services;
 
-public class CoreEventInitializer : IInitializer
+public class CoreEventInitializer : IInitializer, ISingletonService
 {
     private readonly IDocumentBehind _documentBehind;
     private readonly IClientProcedures _rpcHub;

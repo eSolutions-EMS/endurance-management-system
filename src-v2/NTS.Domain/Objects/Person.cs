@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System.Xml.Linq;
 
 namespace NTS.Domain.Objects;
 
@@ -18,7 +17,7 @@ public class Person
         this.Names = names.Split(DELIMITER);
     }
 
-    public string[] Names { get; private set; } // TODO: test record equality
+    public string[] Names { get; private set; } = Array.Empty<string>();// TODO: test record equality
 
     public override string ToString()
 	{
