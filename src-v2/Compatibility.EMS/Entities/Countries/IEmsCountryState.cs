@@ -1,4 +1,4 @@
-using NTS.Compabitility.EMS.Abstractions;
+using NTS.Compatibility.EMS.Abstractions;
 
 namespace Core.Domain.State.Countries;
 

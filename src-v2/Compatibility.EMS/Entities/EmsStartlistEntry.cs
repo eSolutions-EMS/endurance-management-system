@@ -1,12 +1,11 @@
 ﻿using NTS.Compatibility.EMS.Entities.Participations;
 
-namespace NTS.Judge.MAUI.Server.ACL.EMS;
+namespace NTS.Compatibility.EMS.RPC;
 
 public class EmsStartlistEntry : IComparable<EmsStartlistEntry>, IEquatable<EmsStartlistEntry>
 {
     public EmsStartlistEntry() { }
-
-    internal EmsStartlistEntry(EmsParticipation participation, int toSkip = 0)
+    public EmsStartlistEntry(EmsParticipation participation, int toSkip = 0)
     {
         Number = participation.Participant.Number;
         Name = participation.Participant.Name;
@@ -22,8 +21,7 @@ public class EmsStartlistEntry : IComparable<EmsStartlistEntry>, IEquatable<EmsS
         var first = lapRecords.First();
         StartTime = first.StartTime;
     }
-
-    internal EmsStartlistEntry(EmsParticipation participation)
+    public EmsStartlistEntry(EmsParticipation participation)
     {
         Number = participation.Participant.Number;
         Name = participation.Participant.Name;

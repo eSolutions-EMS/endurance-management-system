@@ -5,8 +5,7 @@ namespace NTS.Judge.MAUI.Server.ACL.EMS;
 public class EmsParticipantEntry : IComparable<EmsParticipantEntry>, IEquatable<EmsParticipantEntry>
 {
     public EmsParticipantEntry() { }
-
-    internal EmsParticipantEntry(EmsParticipation participation)
+    public EmsParticipantEntry(EmsParticipation participation)
     {
         Number = participation.Participant.Number;
         Name = participation.Participant.Athlete.Name;

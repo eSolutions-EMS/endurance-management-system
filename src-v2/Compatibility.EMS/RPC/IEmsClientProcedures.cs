@@ -1,4 +1,4 @@
-﻿namespace NTS.Judge.MAUI.Server.ACL.EMS;
+﻿namespace NTS.Compatibility.EMS.RPC;
 
 public interface IEmsClientProcedures : IEmsParticipantsClientProcedures, IEmsStartlistClientProcedures
 {

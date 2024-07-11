@@ -1,4 +1,7 @@
-﻿namespace NTS.Judge.MAUI.Server.ACL.EMS;
+﻿using NTS.Compatibility.EMS.Entities;
+using NTS.Judge.MAUI.Server.ACL.EMS;
+
+namespace NTS.Compatibility.EMS.RPC;
 
 public interface IEmsEmsParticipantstHubProcedures
 {

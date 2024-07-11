@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Not.Application.Ports.CRUD;
 using Not.Events;
+using NTS.Compatibility.EMS.Entities;
+using NTS.Compatibility.EMS.Enums;
+using NTS.Compatibility.EMS.RPC;
 using NTS.Domain.Core.Aggregates.Participations;
 using NTS.Domain.Core.Entities;
 using NTS.Domain.Core.Events;

@@ -1,4 +1,4 @@
-﻿namespace NTS.Compabitility.EMS.Abstractions;
+﻿namespace NTS.Compatibility.EMS.Abstractions;
 
 public interface IEmsIdentifiable
 {

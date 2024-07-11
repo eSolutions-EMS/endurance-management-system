@@ -1,4 +1,6 @@
-﻿namespace NTS.Judge.MAUI.Server.ACL.EMS;
+﻿using NTS.Compatibility.EMS.Entities;
+
+namespace NTS.Compatibility.EMS.RPC;
 
 public interface IEmsStartlistHubProcedures
 {

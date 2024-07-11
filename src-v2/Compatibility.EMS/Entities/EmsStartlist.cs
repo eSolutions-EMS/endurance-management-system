@@ -1,4 +1,7 @@
-﻿namespace NTS.Judge.MAUI.Server.ACL.EMS;
+﻿using NTS.Compatibility.EMS.Enums;
+using NTS.Compatibility.EMS.RPC;
+
+namespace NTS.Compatibility.EMS.Entities;
 
 public class EmsStartlist : StartlistBase<EmsStartlistEntry>
 {
