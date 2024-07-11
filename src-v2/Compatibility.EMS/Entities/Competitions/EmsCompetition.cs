@@ -42,7 +42,11 @@ public class EmsCompetition : EmsDomainBase<EmsCompetitionException>
 
     public void Save(EmsLap lap)
     {
-        throw new NotImplementedException();
+        if (laps.Contains(lap))
+        {
+            laps.Remove(lap);
+        }
+        laps.Add(lap);
     }
 
     public IReadOnlyList<EmsLap> Laps

@@ -1,13 +1,14 @@
 ﻿using Core.Application.Services;
+using NTS.Judge.MAUI.Server;
 
 namespace EMS.Judge.Api.Services;
 
 public class NetworkBroadcastService : BackgroundService
 {
     private readonly INetworkBroadcastService networkService;
-    public NetworkBroadcastService(INetworkBroadcastService networkService)
+    public NetworkBroadcastService(IJudgeServiceProvider judgeServiceProvider)
     {
-        this.networkService = networkService;
+        this.networkService = judgeServiceProvider.GetRequiredService<INetworkBroadcastService>();
     }
 
     protected override Task ExecuteAsync(CancellationToken stoppingToken)

@@ -1,7 +1,6 @@
 ﻿using Not.Application.Ports.CRUD;
 using Not.Exceptions;
 using NTS.Domain.Core.Aggregates.Participations;
-using NTS.Domain.Core.Objects;
 using NTS.Domain.Objects;
 using NTS.Judge.Blazor.Enums;
 using NTS.Judge.Blazor.Ports;
@@ -87,14 +86,5 @@ public class ParticipationBehind : IParticipationBehind
 
         participation.RestoreQualification();
         await _participationRepository.Update(participation);
-    }
-
-    public async Task CreateStart(int number)
-    {
-        var participation = await _participationRepository.Read(x => x.Tandem.Number == number);
-        GuardHelper.ThrowIfDefault(participation);
-
-        var start = new PhaseStart(participation);
-        await _remoteProcedures.SendStartCreated(start);
     }
 }

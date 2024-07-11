@@ -1,7 +1,5 @@
-﻿using Not.Application.Ports.CRUD;
-using Not.Events;
+﻿using Not.Events;
 using Not.Startup;
-using NTS.Domain.Core.Aggregates.Participations;
 using NTS.Domain.Core.Events;
 using NTS.Judge.Blazor.Ports;
 using NTS.Judge.Ports;
@@ -11,18 +9,15 @@ namespace NTS.Judge.Services;
 public class CoreEventInitializer : IInitializer
 {
     private readonly IDocumentBehind _documentBehind;
-    private readonly IParticipationBehind _participationBehind;
     private readonly IRemoteProcedures _rpcHub;
     private readonly IDocumentHandler _documentHandler;
 
     public CoreEventInitializer(
         IDocumentBehind documentBehind,
-        IParticipationBehind participationBehind,
         IRemoteProcedures rpcHub,
         IDocumentHandler documentHandler)
     {
         _documentBehind = documentBehind;
-        _participationBehind = participationBehind;
         _rpcHub = rpcHub;
         _documentHandler = documentHandler;
     }
@@ -37,7 +32,7 @@ public class CoreEventInitializer : IInitializer
 
     public async void OnPhaseCompleted(PhaseCompleted phaseCompleted)
     {
-        await _participationBehind.CreateStart(phaseCompleted.Number);
+        await _rpcHub.SendStartCreated(phaseCompleted);
         await _documentBehind.CreateHandout(phaseCompleted.Number);
     }
 

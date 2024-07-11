@@ -12,5 +12,4 @@ public interface IParticipationBehind : ITransientService
     Task Update(IPhaseState state);
     Task RevokeQualification(int number, QualificationRevokeType type, FTQCodes? ftqCodes = null, string? reason = null);
     Task RestoreQualification(int number);
-    Task CreateStart(int number);
 }

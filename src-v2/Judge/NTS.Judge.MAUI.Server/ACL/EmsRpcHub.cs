@@ -8,7 +8,9 @@ using NTS.Compatibility.EMS.RPC;
 using NTS.Domain.Core.Aggregates.Participations;
 using NTS.Domain.Core.Entities;
 using NTS.Domain.Core.Events;
+using NTS.Domain.Objects;
 using NTS.Judge.ACL.Factories;
+using NTS.Judge.Ports;
 
 namespace NTS.Judge.MAUI.Server.ACL;
 
@@ -116,7 +118,7 @@ public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, 
         return Task.CompletedTask;
     }
 
-    public class ClientService : IDisposable
+    public class ClientService : IDisposable, IRemoteProcedures
     {
         private readonly IRepository<Participation> _participations;
         private readonly IHubContext<EmsRpcHub, IEmsClientProcedures> _hub;
@@ -135,8 +137,11 @@ public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, 
 
         public void SendStartlistEntryUpdate(PhaseCompleted phaseCompleted)
         {
-            var participation = _participations.Read(x => x.Tandem.Number == phaseCompleted.Number).Result
-                ?? throw new Exception($"Could not '{nameof(SendStartlistEntryUpdate)}'! Participation with '{phaseCompleted.Number}' not found");
+            var participation = _participations.Read(x => x.Tandem.Number == phaseCompleted.Number).Result;
+            if (participation == null)
+            {
+                return;
+            }
             var emsParticipation = ParticipationFactory.CreateEms(participation);
             var entry = new EmsStartlistEntry(emsParticipation);
             _hub.Clients.All.ReceiveEntry(entry, EmsCollectionAction.AddOrUpdate);
@@ -144,8 +149,11 @@ public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, 
 
         public void SendParticipantEntryAddOrUpdate(QualificationRestored qualificationRestored)
         {
-            var participation = _participations.Read(x => x.Tandem.Number == qualificationRestored.Number).Result
-                ?? throw new Exception($"Could not 'SendParticipantEntryUpdate(AddOrUpdate)'! Participation with '{qualificationRestored.Number}' not found");
+            var participation = _participations.Read(x => x.Tandem.Number == qualificationRestored.Number).Result;
+            if (participation == null)
+            {
+                return;
+            }
             var emsParticipation = ParticipationFactory.CreateEms(participation);
             var entry = new EmsParticipantEntry(emsParticipation);
             _hub.Clients.All.ReceiveEntryUpdate(entry, EmsCollectionAction.AddOrUpdate);
@@ -153,8 +161,11 @@ public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, 
 
         public void SendParticipantEntryRemove(QualificationRevoked qualificationRevoked)
         {
-            var participation = _participations.Read(x => x.Tandem.Number == qualificationRevoked.Number).Result
-                ?? throw new Exception($"Could not 'SendParticipantEntryUpdate(Remove)'! Participation with '{qualificationRevoked.Number}' not found");
+            var participation = _participations.Read(x => x.Tandem.Number == qualificationRevoked.Number).Result;
+            if (participation == null)
+            {
+                return;
+            }
             var emsParticipation = ParticipationFactory.CreateEms(participation);
             var entry = new EmsParticipantEntry(emsParticipation);
             _hub.Clients.All.ReceiveEntryUpdate(entry, EmsCollectionAction.Remove);
@@ -163,6 +174,29 @@ public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, 
         public void Dispose()
         {
             // TODO: Dispose
+        }
+
+        public Task ReceiveSnapshot(Snapshot snapshot)
+        {
+            return Task.CompletedTask;
+        }
+
+        public Task SendStartCreated(PhaseCompleted phaseCompleted)
+        {
+            SendStartlistEntryUpdate(phaseCompleted);
+            return Task.CompletedTask;
+        }
+
+        public Task SendQualificationRevoked(QualificationRevoked revoked)
+        {
+            SendParticipantEntryRemove(revoked);
+            return Task.CompletedTask;
+        }
+
+        public Task SendQualificationRestored(QualificationRestored restored)
+        {
+            SendParticipantEntryAddOrUpdate(restored);
+            return Task.CompletedTask;
         }
     }
 }

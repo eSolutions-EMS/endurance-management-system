@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using NTS.Judge.Blazor.Startup;
 using Not.Injection;
+using NTS.Judge.MAUI.Server;
 
 namespace NTS.Judge.MAUI;
 
@@ -34,6 +35,9 @@ public static class ServiceCollectionExtensions
         builder.Services
             .AddJudgeBlazor()
             .AddInversedDependencies();
+
+        JudgeMauiServer.ConfigurePrentContainer(builder.Services);
+
         return builder;
     }
 
