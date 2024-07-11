@@ -1,7 +1,7 @@
 ﻿using Core.Domain.State.Athletes;
 using NTS.Compatibility.EMS.Enums;
 
-namespace NTS.Judge.MAUI.Server.ACL.Bridge;
+namespace NTS.Judge.ACL.Bridge;
 
 internal class EmsAthleteState : IEmsAthleteState
 {

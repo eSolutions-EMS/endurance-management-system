@@ -1,19 +1,20 @@
 ﻿using NTS.Compatibility.EMS.Entities.Participants;
 using NTS.Domain.Core.Aggregates.Participations;
 using NTS.Domain.Objects;
-using NTS.Judge.MAUI.Server.ACL.Bridge;
+using NTS.Judge.ACL.Bridge;
 using EmsParticipation = NTS.Compatibility.EMS.Entities.Participations.EmsParticipation;
 using EmsCompetition = NTS.Compatibility.EMS.Entities.Competitions.EmsCompetition;
 using EmsCompetitionType = NTS.Compatibility.EMS.Entities.Competitions.EmsCompetitionType;
 using NTS.Domain.Enums;
-namespace NTS.Judge.MAUI.Server.ACL.Factories;
 
-public class ParticipationConverter
+namespace NTS.Judge.ACL.Factories;
+
+public class ParticipationFactory
 {
-    public static EmsParticipation Create(Participation participation)
+    public static EmsParticipation CreateEms(Participation participation)
     {
-        var athlete = EmsAthleteFactory.Create(participation);
-        var horse = EmsHorseFactory.Create(participation);
+        var athlete = AthleteFactory.Create(participation);
+        var horse = HorseFactory.Create(participation);
         
         var state = new EmsParticipantState
         {
@@ -22,12 +23,12 @@ public class ParticipationConverter
             Unranked = true // TODO: fix when Unranked is added on Unranked level
         };
         var participant = new EmsParticipant(athlete, horse, state);
-        var competition = EmsCompetitionFactory.Create(participation);
+        var competition = CompetitionFactory.Create(participation);
 
         return new EmsParticipation(participant, competition);
     }
 
-    public static Participation Create(EmsParticipation emsParticipation, EmsCompetition competition)
+    public static Participation CreateCore(EmsParticipation emsParticipation, EmsCompetition competition)
     {
         var tandem = new Tandem(
             int.Parse(emsParticipation.Participant.Number),

@@ -1,10 +1,10 @@
 ﻿using NTS.Compatibility.EMS.Entities.Laps;
 using NTS.Domain.Core.Aggregates.Participations;
-using NTS.Judge.MAUI.Server.ACL.Bridge;
+using NTS.Judge.ACL.Bridge;
 
-namespace NTS.Judge.MAUI.Server.ACL.Factories;
+namespace NTS.Judge.ACL.Factories;
 
-public class EmsLapFactory
+public class LapFactory
 {
     public static IEnumerable<EmsLap> Create(Participation participation)
     {

@@ -1,6 +1,6 @@
 ﻿using NTS.Compatibility.EMS.Entities.Participations;
 
-namespace NTS.Judge.MAUI.Server.ACL.EMS;
+namespace NTS.Compatibility.EMS.Entities.EMS;
 
 public class EmsParticipantEntry : IComparable<EmsParticipantEntry>, IEquatable<EmsParticipantEntry>
 {

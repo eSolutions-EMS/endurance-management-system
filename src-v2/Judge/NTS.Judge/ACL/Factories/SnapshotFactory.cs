@@ -1,8 +1,8 @@
-﻿using NTS.Domain.Enums;
+﻿using NTS.Compatibility.EMS.Entities.EMS;
+using NTS.Domain.Enums;
 using NTS.Domain.Objects;
-using NTS.Judge.MAUI.Server.ACL.EMS;
 
-namespace NTS.Judge.MAUI.Server.ACL.Factories;
+namespace NTS.Judge.ACL.Factories;
 
 public class SnapshotFactory
 {

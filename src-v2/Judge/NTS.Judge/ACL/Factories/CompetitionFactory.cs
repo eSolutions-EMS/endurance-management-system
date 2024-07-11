@@ -1,14 +1,14 @@
 ﻿using NTS.Compatibility.EMS.Entities.Competitions;
 using NTS.Domain.Core.Aggregates.Participations;
-using NTS.Judge.MAUI.Server.ACL.Bridge;
+using NTS.Judge.ACL.Bridge;
 
-namespace NTS.Judge.MAUI.Server.ACL.Factories;
+namespace NTS.Judge.ACL.Factories;
 
-public class EmsCompetitionFactory
+public class CompetitionFactory
 {
     public static EmsCompetition Create(Participation participation)
     {
-        var laps = EmsLapFactory.Create(participation);
+        var laps = LapFactory.Create(participation);
         var state = new EmsCompetitionState
         {
             Id = participation.Id,

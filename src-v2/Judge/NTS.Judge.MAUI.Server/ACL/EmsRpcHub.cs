@@ -2,13 +2,13 @@
 using Not.Application.Ports.CRUD;
 using Not.Events;
 using NTS.Compatibility.EMS.Entities;
+using NTS.Compatibility.EMS.Entities.EMS;
 using NTS.Compatibility.EMS.Enums;
 using NTS.Compatibility.EMS.RPC;
 using NTS.Domain.Core.Aggregates.Participations;
 using NTS.Domain.Core.Entities;
 using NTS.Domain.Core.Events;
-using NTS.Judge.MAUI.Server.ACL.EMS;
-using NTS.Judge.MAUI.Server.ACL.Factories;
+using NTS.Judge.ACL.Factories;
 
 namespace NTS.Judge.MAUI.Server.ACL;
 
@@ -27,7 +27,7 @@ public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, 
     {
         var participations = _participations.ReadAll().Result;
         var emsParticipations = participations
-            .Select(EmsParticipationFactory.Create);
+            .Select(ParticipationFactory.CreateEms);
         
         var startlists = new Dictionary<int, EmsStartlist>();
         foreach (var emsParticipation in emsParticipations)
@@ -73,7 +73,7 @@ public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, 
         var participants = _participations
             .ReadAll(x => x.Phases.All(x => !x.IsComplete))
             .Result
-            .Select(EmsParticipantEntryFactory.Create);
+            .Select(ParticipantEntryFactory.Create);
         var @event = _events.Read(0);
         return new EmsParticipantsPayload
         {
@@ -137,7 +137,7 @@ public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, 
         {
             var participation = _participations.Read(x => x.Tandem.Number == phaseCompleted.Number).Result
                 ?? throw new Exception($"Could not '{nameof(SendStartlistEntryUpdate)}'! Participation with '{phaseCompleted.Number}' not found");
-            var emsParticipation = EmsParticipationFactory.Create(participation);
+            var emsParticipation = ParticipationFactory.CreateEms(participation);
             var entry = new EmsStartlistEntry(emsParticipation);
             _hub.Clients.All.ReceiveEntry(entry, EmsCollectionAction.AddOrUpdate);
         }
@@ -146,7 +146,7 @@ public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, 
         {
             var participation = _participations.Read(x => x.Tandem.Number == qualificationRestored.Number).Result
                 ?? throw new Exception($"Could not 'SendParticipantEntryUpdate(AddOrUpdate)'! Participation with '{qualificationRestored.Number}' not found");
-            var emsParticipation = EmsParticipationFactory.Create(participation);
+            var emsParticipation = ParticipationFactory.CreateEms(participation);
             var entry = new EmsParticipantEntry(emsParticipation);
             _hub.Clients.All.ReceiveEntryUpdate(entry, EmsCollectionAction.AddOrUpdate);
         }
@@ -155,7 +155,7 @@ public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, 
         {
             var participation = _participations.Read(x => x.Tandem.Number == qualificationRevoked.Number).Result
                 ?? throw new Exception($"Could not 'SendParticipantEntryUpdate(Remove)'! Participation with '{qualificationRevoked.Number}' not found");
-            var emsParticipation = EmsParticipationFactory.Create(participation);
+            var emsParticipation = ParticipationFactory.CreateEms(participation);
             var entry = new EmsParticipantEntry(emsParticipation);
             _hub.Clients.All.ReceiveEntryUpdate(entry, EmsCollectionAction.Remove);
         }

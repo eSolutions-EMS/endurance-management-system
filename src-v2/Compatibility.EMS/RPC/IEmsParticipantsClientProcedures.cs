@@ -1,5 +1,5 @@
 ﻿using NTS.Compatibility.EMS.Enums;
-using NTS.Judge.MAUI.Server.ACL.EMS;
+using NTS.Compatibility.EMS.Entities.EMS;
 
 namespace NTS.Compatibility.EMS.RPC;
 

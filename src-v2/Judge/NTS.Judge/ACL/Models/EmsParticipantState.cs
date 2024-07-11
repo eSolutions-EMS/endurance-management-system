@@ -1,6 +1,6 @@
 ﻿using NTS.Compatibility.EMS.Entities.Participants;
 
-namespace NTS.Judge.MAUI.Server.ACL.Bridge;
+namespace NTS.Judge.ACL.Bridge;
 
 public class EmsParticipantState : IEmsParticipantState
 {

@@ -1,10 +1,10 @@
 ﻿using NTS.Compatibility.EMS.Entities.Horses;
 using NTS.Domain.Core.Aggregates.Participations;
-using NTS.Judge.MAUI.Server.ACL.Bridge;
+using NTS.Judge.ACL.Bridge;
 
-namespace NTS.Judge.MAUI.Server.ACL.Factories;
+namespace NTS.Judge.ACL.Factories;
 
-public class EmsHorseFactory
+public class HorseFactory
 {
     public static EmsHorse Create(Participation participation)
     {

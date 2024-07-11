@@ -6,12 +6,12 @@ using NTS.Compatibility.EMS.Entities.EnduranceEvents;
 using static NTS.Domain.Enums.OfficialRole;
 using NTS.Compatibility.EMS.Entities.Competitions;
 using NTS.Domain.Enums;
-using NTS.Judge.MAUI.Server.ACL.Factories;
+using NTS.Judge.ACL.Factories;
 using NTS.Domain.Core.Aggregates.Participations;
 using NTS.Compatibility.EMS.Enums;
 using Not.Application.Ports.CRUD;
 
-namespace NTS.Judge.MAUI.Server.ACL;
+namespace NTS.Judge.ACL;
 
 public class EmsToCoreImport
 {
@@ -99,7 +99,7 @@ public class EmsToCoreImport
             foreach (var competitionId in emsParticipation.CompetitionsIds)
             {
                 var competition = state.Event.Competitions.First(x => x.Id == competitionId);
-                yield return ParticipationConverter.Create(emsParticipation, competition);
+                yield return ParticipationFactory.CreateCore(emsParticipation, competition);
             }
         }
     }
@@ -112,7 +112,7 @@ public class EmsToCoreImport
             foreach (var competitionId in emsParticipation.CompetitionsIds)
             {
                 var competition = state.Event.Competitions.First(x => x.Id == competitionId);
-                var participation = ParticipationConverter.Create(emsParticipation, competition);
+                var participation = ParticipationFactory.CreateCore(emsParticipation, competition);
                 var category = EmsCategoryToAthleteCategory(emsParticipation.Participant.Athlete.Category);
                 var entry = new ClassificationEntry(participation, emsParticipation.Participant.Unranked);
                 if (entriesforClassification.ContainsKey(competition) && entriesforClassification[competition].ContainsKey(category))
