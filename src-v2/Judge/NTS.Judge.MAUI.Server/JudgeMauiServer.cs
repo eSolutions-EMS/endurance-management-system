@@ -1,4 +1,7 @@
-﻿namespace NTS.Judge.MAUI.Server;
+﻿using NTS.Judge.MAUI.Server.ACL;
+using NTS.Judge.MAUI.Server.ACL.Handshake;
+
+namespace NTS.Judge.MAUI.Server;
 
 public class JudgeMauiServer
 {
@@ -18,6 +21,8 @@ public class JudgeMauiServer
         app.Urls.Add("http://*:11337");
 
         Console.WriteLine("Starting Judge server...");
+
+        app.MapHub<EmsRpcHub>(Constants.RPC_ENDPOINT);
 
         app.Run();
     }

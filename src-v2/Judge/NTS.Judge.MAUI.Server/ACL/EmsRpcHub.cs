@@ -17,10 +17,10 @@ public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, 
     private readonly IRepository<Participation> _participations;
     private readonly IRepository<Event> _events;
 
-    public EmsRpcHub(IRepository<Participation> participations, IRepository<Event> events)
+    public EmsRpcHub(IJudgeServiceProvider judgeProvider)
     {
-        _participations = participations;
-        _events = events;
+        _participations = judgeProvider.GetRequiredService<IRepository<Participation>>();
+        _events = judgeProvider.GetRequiredService<IRepository<Event>>();
     }
 
     public Dictionary<int, EmsStartlist> SendStartlist()

@@ -1,4 +1,7 @@
-﻿namespace NTS.Judge.MAUI.Server;
+﻿using EMS.Judge.Api.Services;
+using Not.Injection;
+
+namespace NTS.Judge.MAUI.Server;
 
 public static class DependencyInjection
 {
@@ -6,6 +9,8 @@ public static class DependencyInjection
     {
         builder.Services.AddSignalR();
         builder.Services.AddSingleton<IJudgeServiceProvider>(new JudgeServiceProvider(callerProvider));
+        builder.Services.AddHostedService<NetworkBroadcastService>();
+        builder.Services.GetConventionalAssemblies().RegisterConventionalServices();
         return builder;
     }
 }
