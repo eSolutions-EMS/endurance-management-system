@@ -1,4 +1,5 @@
-﻿using NTS.Judge.MAUI.Server.ACL.EMS;
+﻿using Core.Domain.State.Athletes;
+using NTS.Compatibility.EMS.Enums;
 
 namespace NTS.Judge.MAUI.Server.ACL.Bridge;
 

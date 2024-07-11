@@ -1,6 +1,7 @@
-﻿using NTS.Domain.Setup.Entities;
-using NTS.Domain.Setup.Import;
+﻿using NTS.Domain.Setup.Import;
 using Newtonsoft.Json;
+
+namespace NTS.Domain.Setup.Entities;
 
 public class Phase : DomainEntity, ISummarizable, IImportable
 {

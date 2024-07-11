@@ -27,7 +27,7 @@ public class Phase : DomainEntity, IPhaseState
     public int Rest { get; private set; }
     public CompetitionType CompetitionType { get; private set; }
     public bool IsFinal { get; private set; }
-    public int? CRIRecovery { get; private set; }
+    public int? CRIRecovery { get; private set; } // TODO: int CRIRecovery? wtf?
     public Timestamp? StartTime { get; internal set; }
     public Timestamp? ArriveTime { get; internal set; }
     public Timestamp? InspectTime { get; internal set; }

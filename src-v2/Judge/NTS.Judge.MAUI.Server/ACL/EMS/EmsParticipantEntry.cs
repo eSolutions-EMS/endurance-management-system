@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using NTS.Compatibility.EMS.Entities.Participations;
 
 namespace NTS.Judge.MAUI.Server.ACL.EMS;
 

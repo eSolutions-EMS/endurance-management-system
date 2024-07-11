@@ -1,4 +1,6 @@
-﻿namespace NTS.Judge.MAUI.Server.ACL.EMS;
+﻿using NTS.Compatibility.EMS.Entities.Participations;
+
+namespace NTS.Judge.MAUI.Server.ACL.EMS;
 
 public class EmsStartlistEntry : IComparable<EmsStartlistEntry>, IEquatable<EmsStartlistEntry>
 {

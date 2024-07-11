@@ -40,20 +40,20 @@ public class EmsImportBehind : IEmsImportBehind
         await _eventRepository.Update(@event);
     }
 
-    private IEnumerable<Competition> CreateCompetitions(EnduranceEvent emsEvent)
+    private IEnumerable<Competition> CreateCompetitions(EmsEnduranceEvent emsEvent)
     {
         foreach (var emsCompetition in emsEvent.Competitions)
         {
             yield return Competition.Create(emsCompetition.Name, MapType(emsCompetition.Type), emsCompetition.StartTime.ToDateTimeOffset(), 10);
         }
 
-        CompetitionType MapType(NTS.Compatibility.EMS.Entities.Competitions.CompetitionType emsType)
+        CompetitionType MapType(NTS.Compatibility.EMS.Entities.Competitions.EmsCompetitionType emsType)
         {
-            if (emsType == NTS.Compatibility.EMS.Entities.Competitions.CompetitionType.National)
+            if (emsType == NTS.Compatibility.EMS.Entities.Competitions.EmsCompetitionType.National)
             {
                 return CompetitionType.National;
             }
-            else if (emsType == NTS.Compatibility.EMS.Entities.Competitions.CompetitionType.International)
+            else if (emsType == NTS.Compatibility.EMS.Entities.Competitions.EmsCompetitionType.International)
             {
                 return CompetitionType.FEI;
             }
@@ -61,7 +61,7 @@ public class EmsImportBehind : IEmsImportBehind
         }
     }
 
-    private IEnumerable<Official> CreateOfficials(EnduranceEvent emsEvent)
+    private IEnumerable<Official> CreateOfficials(EmsEnduranceEvent emsEvent)
     {
         var result = new List<Official>
         {
