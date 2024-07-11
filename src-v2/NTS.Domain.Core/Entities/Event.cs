@@ -23,11 +23,11 @@ public class Event : DomainEntity
         ShowFeiId = showFeiId;
     }
 
-    public PopulatedPlace PopulatedPlace { get; }
-    public EventSpan EventSpan { get; }
-    public string? FeiId { get; }
-    public string? FeiCode { get; }
-    public string? ShowFeiId { get; }
+    public PopulatedPlace PopulatedPlace { get; private set; }
+    public EventSpan EventSpan { get; private set; }
+    public string? FeiId { get; private set; }
+    public string? FeiCode { get; private set; }
+    public string? ShowFeiId { get; private set; }
 
     public override string ToString()
     {

@@ -12,9 +12,9 @@ public record Total : DomainObject
         AverageSpeed = totalLength / Span.TotalHours;
     }
 
-    public double AverageSpeed { get; }
-    public TimeSpan Span { get; }
-    public TimeSpan RideSpan { get; }
-    public TimeSpan RecoverySpan { get; }
-    public TimeSpan RecoverySpanWithoutFinal { get; }
+    public double AverageSpeed { get; private set; }
+    public TimeSpan Span { get; private set; }
+    public TimeSpan RideSpan { get; private set; }
+    public TimeSpan RecoverySpan { get; private set; }
+    public TimeSpan RecoverySpanWithoutFinal { get; private set; }
 }

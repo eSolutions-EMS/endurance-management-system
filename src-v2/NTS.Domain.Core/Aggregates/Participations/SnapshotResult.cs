@@ -15,8 +15,8 @@ public class SnapshotResult : DomainEntity
         Type = type;
     }
 
-    public Snapshot Snapshot { get; }
-    public SnapshotResultType Type { get; }
+    public Snapshot Snapshot { get; private set; }
+    public SnapshotResultType Type { get; private set; }
 }
 
 public enum SnapshotResultType

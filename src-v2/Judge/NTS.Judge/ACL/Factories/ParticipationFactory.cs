@@ -53,17 +53,17 @@ public class ParticipationFactory
                 null);
             if (record.ArrivalTime.HasValue)
             {
-                phase.ArriveTime = Timestamp.CreateFromDate(record.ArrivalTime.Value);
+                phase.ArriveTime = new Timestamp(record.ArrivalTime.Value);
             }
             if (record.InspectionTime.HasValue)
             {
-                phase.InspectTime = Timestamp.CreateFromDate(record.InspectionTime.Value);
+                phase.InspectTime = new Timestamp(record.InspectionTime.Value);
             }
             if (record.ReInspectionTime.HasValue)
             {
-                phase.ReinspectTime = Timestamp.CreateFromDate(record.ReInspectionTime.Value);
+                phase.ReinspectTime = new Timestamp(record.ReInspectionTime.Value);
             }
-            phase.StartTime = Timestamp.CreateFromDate(record.StartTime);
+            phase.StartTime = new Timestamp(record.StartTime);
             phase.IsReinspectionRequested = record.IsRequiredInspectionRequired;
             phase.IsCRIRequested = record.IsRequiredInspectionRequired;
             

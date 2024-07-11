@@ -1,5 +1,6 @@
 ﻿using static NTS.Domain.Enums.SnapshotType;
 using static NTS.Domain.Core.Aggregates.Participations.SnapshotResultType;
+using Newtonsoft.Json;
 
 namespace NTS.Domain.Core.Aggregates.Participations;
 

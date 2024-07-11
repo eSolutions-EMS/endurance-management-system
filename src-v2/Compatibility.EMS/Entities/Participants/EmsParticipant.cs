@@ -68,4 +68,9 @@ public class EmsParticipant : EmsDomainBase<EmsParticipantException>, IEmsPartic
         { WitnessEventType.Arrival, new List<int>() },
         { WitnessEventType.VetIn, new List<int>() },
     };
+
+    public override string ToString()
+    {
+        return Number;
+    }
 }

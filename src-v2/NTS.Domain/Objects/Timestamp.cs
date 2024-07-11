@@ -4,21 +4,24 @@ namespace NTS.Domain;
 
 public record Timestamp : DomainObject
 {
-    public static Timestamp CreateFromDate(DateTime dateTime)
+    public static Timestamp Now()
     {
-        return new Timestamp(dateTime);
+        return new Timestamp(DateTimeHelper.Now);
     }
 
-    public Timestamp()
+    public Timestamp(DateTime dateTime)
     {
-        DateTime = DateTimeHelper.Now;
+        DateTime = dateTime;
+    }
+    private Timestamp()
+    {
     }
     private Timestamp(DateTimeOffset dateTime)
     {
         DateTime = dateTime;
     }
 
-    public DateTimeOffset DateTime { get; }
+    public DateTimeOffset DateTime { get; private set; }
 
     public Timestamp Add(TimeSpan span)
     {

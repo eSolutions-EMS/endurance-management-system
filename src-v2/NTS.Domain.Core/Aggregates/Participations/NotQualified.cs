@@ -55,7 +55,7 @@ public record FailedToQualify : NotQualified
         Code = FTQCodes.FTC;
     }
 
-    public FTQCodes Code { get; }
+    public FTQCodes Code { get; private set; }
 
     public override string ToString()
     {
@@ -113,5 +113,5 @@ public abstract record NotQualified : DomainObject
         Complement = complement;
     }
 
-    public string? Complement { get; }
+    public string? Complement { get; private set; }
 }

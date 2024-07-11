@@ -12,6 +12,7 @@ public static class SerializationExtensions
         ContractResolver = new Kur(),
         ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
         PreserveReferencesHandling = PreserveReferencesHandling.Objects,
+        Formatting = Formatting.Indented,
     };
 
     public static string ToJson(this object obj)

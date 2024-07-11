@@ -2,6 +2,7 @@
 using NTS.Domain.Core.Events;
 using static NTS.Domain.Enums.SnapshotType;
 using static NTS.Domain.Core.Aggregates.Participations.SnapshotResultType;
+using Newtonsoft.Json;
 
 namespace NTS.Domain.Core.Aggregates.Participations;
 
@@ -18,11 +19,12 @@ public class Participation : DomainEntity, IAggregateRoot
         Phases = new(phases);
     }
 
-    public string Competition { get; }
+    public string Competition { get; private set; }
     public Tandem Tandem { get; private set; }
     public PhaseCollection Phases { get; private set; }
     public NotQualified? NotQualified { get; private set; }
     public bool IsNotQualified => NotQualified != null;
+    [JsonIgnore] // TODO: see how to get rid of this. Why is Newtonsoft deserialization trying to create Total instance?
     public Total? Total => Phases.Any(x => x.IsComplete)
         ? new Total(Phases.Where(x => x.IsComplete))
         : default;

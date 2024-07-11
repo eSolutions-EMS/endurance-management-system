@@ -15,11 +15,11 @@ public record DocumentHeader : DomainObject
         FeiVetDelegate = officials.FirstOrDefault(x => x.Role == OfficialRole.FeiVetDelegate);
     }
 
-    public string Title { get; }
-    public PopulatedPlace PopulatedPlace { get; }
-    public EventSpan EventSpan { get; }
-    public Official? PresidentGroundJury { get; }
-    public Official? PresidentVet { get; }
-    public Official? FeiTechDelegate { get; }
-    public Official? FeiVetDelegate { get; }
+    public string Title { get;private set; }
+    public PopulatedPlace PopulatedPlace { get;private set; }
+    public EventSpan EventSpan { get;private set; }
+    public Official? PresidentGroundJury { get;private set; }
+    public Official? PresidentVet { get;private set; }
+    public Official? FeiTechDelegate { get;private set; }
+    public Official? FeiVetDelegate { get; private set; }
 }
