@@ -9,12 +9,12 @@ namespace NTS.Judge.Services;
 public class CoreEventInitializer : IInitializer
 {
     private readonly IDocumentBehind _documentBehind;
-    private readonly IRemoteProcedures _rpcHub;
+    private readonly IClientProcedures _rpcHub;
     private readonly IDocumentHandler _documentHandler;
 
     public CoreEventInitializer(
         IDocumentBehind documentBehind,
-        IRemoteProcedures rpcHub,
+        IClientProcedures rpcHub,
         IDocumentHandler documentHandler)
     {
         _documentBehind = documentBehind;

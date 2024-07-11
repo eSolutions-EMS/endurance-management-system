@@ -10,12 +10,12 @@ namespace NTS.Judge.Adapters.Behinds;
 
 public class ParticipationBehind : IParticipationBehind
 {
-    private readonly IRemoteProcedures _remoteProcedures;
+    private readonly IClientProcedures _remoteProcedures;
     private readonly IRepository<Participation> _participationRepository;
     private readonly IRepository<SnapshotResult> _snapshotResultRepository;
 
     public ParticipationBehind(
-        IRemoteProcedures remoteProcedures,
+        IClientProcedures remoteProcedures,
         IRepository<Participation> participationRepository,
         IRepository<SnapshotResult> snapshotResultRepository)
     {

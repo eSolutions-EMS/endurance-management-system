@@ -118,7 +118,7 @@ public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, 
         return Task.CompletedTask;
     }
 
-    public class ClientService : IDisposable, IRemoteProcedures
+    public class ClientService : IDisposable, IClientProcedures
     {
         private readonly IRepository<Participation> _participations;
         private readonly IHubContext<EmsRpcHub, IEmsClientProcedures> _hub;
