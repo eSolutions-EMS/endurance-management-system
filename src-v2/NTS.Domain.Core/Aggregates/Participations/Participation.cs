@@ -9,8 +9,8 @@ namespace NTS.Domain.Core.Aggregates.Participations;
 public class Participation : DomainEntity, IAggregateRoot
 {
     private static readonly TimeSpan NOT_SNAPSHOTABLE_WINDOW = TimeSpan.FromMinutes(30);
-    private static readonly FailedToQualify OUT_OF_TIME = new FailedToQualify(FTQCodes.OT);
-    private static readonly FailedToQualify SPEED_RESTRICTION = new FailedToQualify(FTQCodes.SP);
+    private static readonly FailedToQualify OUT_OF_TIME = new (FTQCodes.OT);
+    private static readonly FailedToQualify SPEED_RESTRICTION = new (FTQCodes.SP);
 
     public Participation(string competition, Tandem tandem, IEnumerable<Phase> phases)
     {

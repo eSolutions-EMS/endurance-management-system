@@ -11,6 +11,7 @@ using NTS.Domain.Core.Aggregates.Participations;
 using NTS.Compatibility.EMS.Enums;
 using Not.Application.Ports.CRUD;
 using Not.Injection;
+using NTS.Domain.Core.Objects;
 
 namespace NTS.Judge.ACL;
 
