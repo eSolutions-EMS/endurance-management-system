@@ -13,6 +13,7 @@ public static class SerializationExtensions
         ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
         PreserveReferencesHandling = PreserveReferencesHandling.Objects,
         Formatting = Formatting.Indented,
+        TypeNameHandling = TypeNameHandling.All,
     };
 
     public static string ToJson(this object obj)

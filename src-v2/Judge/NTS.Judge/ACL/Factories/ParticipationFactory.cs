@@ -7,6 +7,8 @@ using EmsCompetition = NTS.Compatibility.EMS.Entities.Competitions.EmsCompetitio
 using EmsCompetitionType = NTS.Compatibility.EMS.Entities.Competitions.EmsCompetitionType;
 using NTS.Domain.Enums;
 using NTS.Domain;
+using NTS.Compatibility.EMS.Entities.Results;
+using NTS.Compatibility.EMS.Entities.LapRecords;
 
 namespace NTS.Judge.ACL.Factories;
 
@@ -41,6 +43,7 @@ public class ParticipationFactory
             12,
             emsParticipation.Participant.MaxAverageSpeedInKmPh);
         var phases = new List<Phase>();
+        EmsLapRecord finalRecord = null;
         foreach (var record in emsParticipation.Participant.LapRecords)
         {
             var type = EmsCompetitionTypeToCompetitionType(competition.Type);
@@ -66,10 +69,26 @@ public class ParticipationFactory
             phase.StartTime = new Timestamp(record.StartTime);
             phase.IsReinspectionRequested = record.IsRequiredInspectionRequired;
             phase.IsCRIRequested = record.IsRequiredInspectionRequired;
+
             
             phases.Add(phase);
+            finalRecord = record;
         }
-        return new Participation(competition.Name, tandem, phases);
+
+        var participation = new Participation(competition.Name, tandem, phases);
+        if (finalRecord?.Result.Type == EmsResultType.FailedToQualify)
+        {
+            participation.FailToQualify(FTQCodes.GA);
+        }
+        if (finalRecord?.Result.Type == EmsResultType.Resigned)
+        {
+            participation.Retire();
+        }
+        if (finalRecord?.Result.Type == EmsResultType.Disqualified)
+        {
+            participation.Disqualify(finalRecord.Result.Code);
+        }
+        return participation;
     }
 
     private static CompetitionType EmsCompetitionTypeToCompetitionType(EmsCompetitionType emsCompetitionType)

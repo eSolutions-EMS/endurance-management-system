@@ -6,26 +6,26 @@ public class EmsResult : EmsDomainBase<EmsResultException>, IEmsResultState
 {
     [Newtonsoft.Json.JsonConstructor]
     private EmsResult() {}
-    internal EmsResult(ResultType type, string code = null) : base(default)
+    internal EmsResult(EmsResultType type, string code = null) : base(default)
     {
         this.Code = code;
         this.Type = type;
     }
 
-    public bool IsNotQualified => this.Type != ResultType.Successful;
+    public bool IsNotQualified => this.Type != EmsResultType.Successful;
     public string Code { get; private set; }
-    public ResultType Type { get; private set; } = ResultType.Successful;
+    public EmsResultType Type { get; private set; } = EmsResultType.Successful;
     public string TypeCode
     {
         get
         {
             switch (this.Type)
             {
-                case ResultType.Resigned: return "RET";
-                case ResultType.FailedToQualify: return "FTQ";
-                case ResultType.Disqualified: return "DSQ";
-                case ResultType.Successful: return "R";
-                case ResultType.Invalid:
+                case EmsResultType.Resigned: return "RET";
+                case EmsResultType.FailedToQualify: return "FTQ";
+                case EmsResultType.Disqualified: return "DSQ";
+                case EmsResultType.Successful: return "R";
+                case EmsResultType.Invalid:
                 default: throw EmsHelper.Create<EmsResultException>("Invalid result type");
             }
         }
@@ -33,7 +33,7 @@ public class EmsResult : EmsDomainBase<EmsResultException>, IEmsResultState
 
     public override string ToString()
     {
-        if (this.Type == ResultType.Successful)
+        if (this.Type == EmsResultType.Successful)
         {
             return string.Empty;
         }
@@ -44,7 +44,7 @@ public class EmsResult : EmsDomainBase<EmsResultException>, IEmsResultState
     }
 }
 
-public enum ResultType
+public enum EmsResultType
 {
     Invalid = 0,
     Resigned = 1,

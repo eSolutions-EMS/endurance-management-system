@@ -11,23 +11,23 @@ public class SignalRHub : IRemoteProcedures
     {
     }
 
-    public async Task ReceiveSnapshot(Snapshot snapshot)
+    public Task ReceiveSnapshot(Snapshot snapshot)
     {
-        throw new NotImplementedException();
+        return Task.CompletedTask;
     }
 
     public Task SendStartCreated(PhaseStart startCreated)
     {
-        throw new NotImplementedException();
+        return Task.CompletedTask;
     }
 
     public Task SendQualificationRevoked(QualificationRevoked revoked)
     {
-        throw new NotImplementedException();
+        return Task.CompletedTask;
     }
 
     public Task SendQualificationRestored(QualificationRestored restored)
     {
-        throw new NotImplementedException();
+        return Task.CompletedTask;
     }
 }

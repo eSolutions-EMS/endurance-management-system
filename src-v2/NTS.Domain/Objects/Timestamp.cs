@@ -2,7 +2,7 @@
 
 namespace NTS.Domain;
 
-public record Timestamp : DomainObject
+public record Timestamp : DomainObject, IComparable<Timestamp>
 {
     public static Timestamp Now()
     {
@@ -35,6 +35,11 @@ public record Timestamp : DomainObject
     public override string ToString()
     {
         return DateTime.LocalDateTime.ToString("HH:mm:ss.fff");
+    }
+
+    public int CompareTo(Timestamp? other)
+    {
+        return DateTime.CompareTo(other?.DateTime ?? DateTimeOffset.MinValue);
     }
 
     public static bool operator <(Timestamp? left, Timestamp? right)
