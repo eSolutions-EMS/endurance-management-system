@@ -6,6 +6,7 @@ using NTS.Compatibility.EMS.Entities.EnduranceEvents;
 using NTS.Domain.Enums;
 using NTS.Domain.Objects;
 using NTS.Domain.Setup.Entities;
+using NTS.Judge.ACL;
 using NTS.Judge.Blazor.Ports;
 using static NTS.Domain.Enums.OfficialRole;
 
@@ -14,10 +15,12 @@ namespace NTS.Judge.Adapters.Behinds.Compatibility;
 public class EmsImportBehind : IEmsImportBehind
 {
     private readonly IRepository<Event> _eventRepository;
+    private readonly IEmsToCoreImporter _emsToCoreImporter;
 
-    public EmsImportBehind(IRepository<Event> eventRepository)
+    public EmsImportBehind(IRepository<Event> eventRepository, IEmsToCoreImporter emsToCoreImporter)
     {
         _eventRepository = eventRepository;
+        _emsToCoreImporter = emsToCoreImporter;
     }
 
     public async Task Import(string emsStateFilePath)
@@ -38,6 +41,11 @@ public class EmsImportBehind : IEmsImportBehind
         }
 
         await _eventRepository.Update(@event);
+    }
+
+    public async Task ImportCore(string path)
+    {
+        await _emsToCoreImporter.Import(path);
     }
 
     private IEnumerable<Competition> CreateCompetitions(EmsEnduranceEvent emsEvent)

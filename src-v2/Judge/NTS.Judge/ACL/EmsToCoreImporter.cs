@@ -10,17 +10,18 @@ using NTS.Judge.ACL.Factories;
 using NTS.Domain.Core.Aggregates.Participations;
 using NTS.Compatibility.EMS.Enums;
 using Not.Application.Ports.CRUD;
+using Not.Injection;
 
 namespace NTS.Judge.ACL;
 
-public class EmsToCoreImport
+public class EmsToCoreImporter : IEmsToCoreImporter
 {
     private readonly IRepository<Event> _events;
     private readonly IRepository<Official> _officials;
     private readonly IRepository<Participation> _participations;
     private readonly IRepository<Classification> _classfications;
 
-    public EmsToCoreImport(
+    public EmsToCoreImporter(
         IRepository<Event> events,
         IRepository<Official> officials,
         IRepository<Participation> participations,
@@ -72,15 +73,31 @@ public class EmsToCoreImport
 
     private IEnumerable<Official> CreateOfficials(EmsEnduranceEvent emsEvent)
     {
-        var result = new List<Official>
+        var result = new List<Official>();
+        if (emsEvent.PresidentGroundJury != null)
         {
-            new (new Person(emsEvent.PresidentGroundJury.Name), PresidentGroundJury),
-            new (new Person(emsEvent.PresidentVetCommittee.Name), PresidentVet),
-            new (new Person(emsEvent.FeiTechDelegate.Name), FeiTechDelegate),
-            new (new Person(emsEvent.FeiVetDelegate.Name), FeiVetDelegate),
-            new (new Person(emsEvent.ForeignJudge.Name), ForeignJudge),
-            new (new Person(emsEvent.ActiveVet.Name), ActiveVet),
-        };
+            result.Add(new (new Person(emsEvent.PresidentGroundJury.Name), PresidentGroundJury));
+        }
+        if (emsEvent.PresidentVetCommittee != null)
+        {
+            result.Add(new(new Person(emsEvent.PresidentVetCommittee.Name), PresidentVet));
+        }
+        if (emsEvent.FeiTechDelegate != null)
+        {
+            result.Add(new(new Person(emsEvent.FeiTechDelegate.Name), FeiTechDelegate));
+        }
+        if (emsEvent.FeiVetDelegate != null)
+        {
+            result.Add(new(new Person(emsEvent.FeiVetDelegate.Name), FeiVetDelegate));
+        }
+        if (emsEvent.ForeignJudge != null)
+        {
+            result.Add(new(new Person(emsEvent.ForeignJudge.Name), ForeignJudge));
+        }
+        if (emsEvent.ActiveVet != null)
+        {
+            result.Add(new(new Person(emsEvent.ActiveVet.Name), ActiveVet));
+        }
         foreach (var jury in emsEvent.MembersOfJudgeCommittee)
         {
             result.Add(new (new Person(jury.Name), MemberJudge));
@@ -106,6 +123,7 @@ public class EmsToCoreImport
 
     private IEnumerable<Classification> CreateClassifications(EmsState state)
     {
+        var result = new List<Classification>();
         var entriesforClassification = new Dictionary<EmsCompetition, Dictionary<AthleteCategory, List<ClassificationEntry>>>();
         foreach (var emsParticipation in state.Participations)
         {
@@ -119,9 +137,18 @@ public class EmsToCoreImport
                 {
                     entriesforClassification[competition][category].Add(entry);
                 }
+                else if (entriesforClassification.ContainsKey(competition))
+                {
+                    entriesforClassification[competition].Add(category, new List<ClassificationEntry> { entry });
+                }
                 else
                 {
-                    entriesforClassification[competition][category] = new List<ClassificationEntry> { entry };
+                    entriesforClassification.Add(
+                        competition,
+                        new Dictionary<AthleteCategory, List<ClassificationEntry>>
+                        { 
+                            { category, new List<ClassificationEntry> { entry } } 
+                        });
                 }
 
             }
@@ -130,9 +157,10 @@ public class EmsToCoreImport
         {
             foreach (var (category, entries) in entriesByCategory)
             {
-                yield return new Classification(competition.Name, category, entries);
+                result.Add(new Classification(competition.Name, category, entries));
             }
         }
+        return result;
     }
 
     private AthleteCategory EmsCategoryToAthleteCategory(EmsCategory category)
@@ -145,4 +173,9 @@ public class EmsToCoreImport
             _ => throw new NotImplementedException(),
         };
     }
+}
+
+public interface IEmsToCoreImporter : ITransientService
+{
+    Task Import(string filePath);
 }

@@ -7,6 +7,7 @@ namespace NTS.Compatibility.EMS.Entities.EnduranceEvents;
 
 public class EmsEnduranceEvent : EmsDomainBase<EmsEnduranceEventException>
 {
+    [Newtonsoft.Json.JsonConstructor]
     private EmsEnduranceEvent()  { }
     internal EmsEnduranceEvent(string name, EmsCountry country, string feiId, string feiCode, string showFeiId) : this(name, country)
     {

@@ -4,6 +4,7 @@ namespace NTS.Compatibility.EMS.Entities.Personnels;
 
 public class EmsPersonnel : EmsDomainBase<EmsPersonnelException>, IEmsPersonnelState
 {
+    [Newtonsoft.Json.JsonConstructor]
     private EmsPersonnel() {}
     public EmsPersonnel(IEmsPersonnelState state) : base(GENERATE_ID)
     {

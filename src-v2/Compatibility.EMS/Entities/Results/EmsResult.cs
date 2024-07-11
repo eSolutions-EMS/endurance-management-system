@@ -4,6 +4,7 @@ namespace NTS.Compatibility.EMS.Entities.Results;
 
 public class EmsResult : EmsDomainBase<EmsResultException>, IEmsResultState
 {
+    [Newtonsoft.Json.JsonConstructor]
     private EmsResult() {}
     internal EmsResult(ResultType type, string code = null) : base(default)
     {

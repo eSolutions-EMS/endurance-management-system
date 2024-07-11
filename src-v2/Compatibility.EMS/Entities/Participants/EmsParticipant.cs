@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using NTS.Compatibility.EMS.Abstractions;
 using NTS.Compatibility.EMS.Entities.Athletes;
 using NTS.Compatibility.EMS.Entities.Horses;
@@ -14,6 +15,7 @@ public class EmsParticipant : EmsDomainBase<EmsParticipantException>, IEmsPartic
     private ObservableCollection<EmsLapRecord> lapRecords = new();
     private readonly ReadOnlyObservableCollection<EmsLapRecord> lapRecordsReadonly;
 
+    [JsonConstructor]
     private EmsParticipant()
     {
         this.lapRecordsReadonly = new(this.lapRecords);

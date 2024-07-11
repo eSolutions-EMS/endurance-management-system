@@ -6,6 +6,7 @@ namespace NTS.Compatibility.EMS.Entities.Competitions;
 
 public class EmsCompetition : EmsDomainBase<EmsCompetitionException>
 {
+    [Newtonsoft.Json.JsonConstructor]
     private EmsCompetition() {}
     public EmsCompetition(EmsCompetitionType type, string name) : base(GENERATE_ID)
     {

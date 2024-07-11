@@ -2,11 +2,11 @@
 using NTS.Compatibility.EMS.Entities.Competitions;
 using NTS.Compatibility.EMS.Entities.LapRecords;
 using NTS.Compatibility.EMS.Entities.Participants;
-
 namespace NTS.Compatibility.EMS.Entities.Participations;
 
 public class EmsParticipation : EmsDomainBase<EmsParticipationException>
 {
+    [Newtonsoft.Json.JsonConstructor]
     internal EmsParticipation() {}
     public EmsParticipation(EmsParticipant participant, EmsCompetition competition) : base(GENERATE_ID)
     {

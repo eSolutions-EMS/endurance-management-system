@@ -10,16 +10,19 @@
     [Inject]
     private IDasboardBehind  _initializer { get; set; } = default!;
     [Inject]
+    private IEmsImportBehind _importBehind { get; set; } = default!;
+    [Inject]
     private INotBehind<Event>  _eventBehind { get; set; } = default!;
 
     protected override async Task OnInitializedAsync()
     {
-        var @event = Event.Create("Place", new Domain.Objects.Country("BGN", "Bulgaria"));
-        var president = Official.Create("Name Name", Domain.Enums.OfficialRole.PresidentGroundJury);
-        var vet = Official.Create("Two Two", Domain.Enums.OfficialRole.PresidentVet);
-        @event.Add(president);
-        @event.Add(vet);
-        await _eventBehind.Create(@event);
-        await _initializer.Start();
+        await _importBehind.ImportCore(@"D:\Source\NTS\event-archive\2024-vakarel\judge.json");
+        // var @event = Event.Create("Place", new Domain.Objects.Country("BGN", "Bulgaria"));
+        // var president = Official.Create("Name Name", Domain.Enums.OfficialRole.PresidentGroundJury);
+        // var vet = Official.Create("Two Two", Domain.Enums.OfficialRole.PresidentVet);
+        // @event.Add(president);
+        // @event.Add(vet);
+        // await _eventBehind.Create(@event);
+        // await _initializer.Start();
     }
 }

@@ -4,6 +4,11 @@ namespace NTS.Domain;
 
 public record Timestamp : DomainObject
 {
+    public static Timestamp CreateFromDate(DateTime dateTime)
+    {
+        return new Timestamp(dateTime);
+    }
+
     public Timestamp()
     {
         DateTime = DateTimeHelper.Now;

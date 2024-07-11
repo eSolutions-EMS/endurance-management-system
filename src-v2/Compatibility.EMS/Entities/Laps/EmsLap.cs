@@ -4,6 +4,7 @@ namespace NTS.Compatibility.EMS.Entities.Laps;
 
 public class EmsLap : EmsDomainBase<EmsLapException>
 {
+    [Newtonsoft.Json.JsonConstructor]
     private EmsLap() {}
     public EmsLap(IEmsLapState state) : base(GENERATE_ID)
     {

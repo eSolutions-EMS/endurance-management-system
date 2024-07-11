@@ -28,13 +28,17 @@ public class Phase : DomainEntity, IPhaseState
     public CompetitionType CompetitionType { get; private set; }
     public bool IsFinal { get; private set; }
     public int? CRIRecovery { get; private set; } // TODO: int CRIRecovery? wtf?
-    public Timestamp? StartTime { get; internal set; }
-    public Timestamp? ArriveTime { get; internal set; }
-    public Timestamp? InspectTime { get; internal set; }
-    public bool IsReinspectionRequested { get; internal set; }
-    public Timestamp? ReinspectTime { get; internal set; }
-    public bool IsRIRequested { get; internal set; }
-    public bool IsCRIRequested { get; internal set; }
+    
+    //> Temporarily set to public for EMS import testing
+    public Timestamp? StartTime { get; set; }
+    public Timestamp? ArriveTime { get; set; }
+    public Timestamp? InspectTime { get; set; }
+    public bool IsReinspectionRequested { get; set; }
+    public Timestamp? ReinspectTime { get; set; }
+    public bool IsRIRequested { get; set; }
+    public bool IsCRIRequested { get; set; }
+    //< Temporarily set to public for EMS import testing
+
     public Timestamp? RequiredInspectionTime => VetTime?.Add(TimeSpan.FromMinutes(Rest - 15)); //TODO: settings?
     public Timestamp? OutTime => VetTime?.Add(TimeSpan.FromMinutes(Rest));
     public TimeSpan? Time => IsFeiRulesAndNotFinal ? PhaseTime : LoopTime;
@@ -44,7 +48,7 @@ public class Phase : DomainEntity, IPhaseState
     public double? AverageSpeed => IsFeiRulesAndNotFinal ? AveragePhaseSpeed : AveregeLoopSpeed;
     public bool IsComplete => OutTime != null;
 
-    internal SnapshotResult Arrive(Snapshot snapshot)
+    public SnapshotResult Arrive(Snapshot snapshot)
     {
         // TODO: settings - Add setting for separate final. This is useful for some events such as Shumen where we need separate detection for the actual final
         var isSeparateFinal = false;

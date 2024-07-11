@@ -6,6 +6,7 @@ using EmsParticipation = NTS.Compatibility.EMS.Entities.Participations.EmsPartic
 using EmsCompetition = NTS.Compatibility.EMS.Entities.Competitions.EmsCompetition;
 using EmsCompetitionType = NTS.Compatibility.EMS.Entities.Competitions.EmsCompetitionType;
 using NTS.Domain.Enums;
+using NTS.Domain;
 
 namespace NTS.Judge.ACL.Factories;
 
@@ -40,16 +41,32 @@ public class ParticipationFactory
             12,
             emsParticipation.Participant.MaxAverageSpeedInKmPh);
         var phases = new List<Phase>();
-        foreach (var lap in competition.Laps)
+        foreach (var record in emsParticipation.Participant.LapRecords)
         {
             var type = EmsCompetitionTypeToCompetitionType(competition.Type);
             var phase = new Phase(
-                lap.LengthInKm,
-                lap.MaxRecoveryTimeInMins,
-                lap.RestTimeInMins,
+                record.Lap.LengthInKm,
+                record.Lap.MaxRecoveryTimeInMins,
+                record.Lap.RestTimeInMins,
                 type,
-                lap.IsFinal, 
+                record.Lap.IsFinal, 
                 null);
+            if (record.ArrivalTime.HasValue)
+            {
+                phase.ArriveTime = Timestamp.CreateFromDate(record.ArrivalTime.Value);
+            }
+            if (record.InspectionTime.HasValue)
+            {
+                phase.InspectTime = Timestamp.CreateFromDate(record.InspectionTime.Value);
+            }
+            if (record.ReInspectionTime.HasValue)
+            {
+                phase.ReinspectTime = Timestamp.CreateFromDate(record.ReInspectionTime.Value);
+            }
+            phase.StartTime = Timestamp.CreateFromDate(record.StartTime);
+            phase.IsReinspectionRequested = record.IsRequiredInspectionRequired;
+            phase.IsCRIRequested = record.IsRequiredInspectionRequired;
+            
             phases.Add(phase);
         }
         return new Participation(competition.Name, tandem, phases);

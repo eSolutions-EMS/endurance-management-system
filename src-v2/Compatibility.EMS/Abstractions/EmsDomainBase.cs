@@ -2,7 +2,7 @@
 
 namespace NTS.Compatibility.EMS.Abstractions;
 
-public abstract class EmsDomainBase<TException> : IEmsDomain, IEquatable<EmsDomainBase<TException>>
+public abstract class EmsDomainBase<TException> : IEmsDomain, IEquatable<EmsDomainBase<TException>>, IEmsIdentifiable
     where TException : EmsDomainExceptionBase, new()
 {
     protected const string GENERATE_ID = "GenerateIdFlag";
