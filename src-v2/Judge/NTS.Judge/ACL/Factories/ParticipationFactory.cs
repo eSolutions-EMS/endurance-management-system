@@ -25,10 +25,22 @@ public class ParticipationFactory
             MaxAverageSpeedInKmPh = (int)participation.Tandem.MinAverageSpeed!,
             Unranked = true // TODO: fix when Unranked is added on Unranked level
         };
-        var participant = new EmsParticipant(athlete, horse, state);
+        var emsParticipant = new EmsParticipant(athlete, horse, state);
+        var emsLaps = LapFactory.Create(participation).ToList();
+        for (var i = 0; i < participation.Phases.Count; i++)
+        {
+            var phase = participation.Phases[i];
+            var emsLap = emsLaps[i];
+            if (phase.StartTime == null)
+            {
+                break;
+            }
+            var emsRecord = new EmsLapRecord(phase.StartTime.DateTime.DateTime, emsLap);
+            emsParticipant.Add(emsRecord);
+        }
         var competition = CompetitionFactory.Create(participation);
 
-        return new EmsParticipation(participant, competition);
+        return new EmsParticipation(emsParticipant, competition);
     }
 
     public static Participation CreateCore(EmsParticipation emsParticipation, EmsCompetition competition)
@@ -42,49 +54,54 @@ public class ParticipationFactory
             null,
             12,
             emsParticipation.Participant.MaxAverageSpeedInKmPh);
+        
         var phases = new List<Phase>();
-        EmsLapRecord finalRecord = null;
-        foreach (var record in emsParticipation.Participant.LapRecords)
+        EmsLapRecord? finalRecord = null;
+        foreach (var lap in competition.Laps)
         {
             var type = EmsCompetitionTypeToCompetitionType(competition.Type);
             var phase = new Phase(
-                record.Lap.LengthInKm,
-                record.Lap.MaxRecoveryTimeInMins,
-                record.Lap.RestTimeInMins,
+                lap.LengthInKm,
+                lap.MaxRecoveryTimeInMins,
+                lap.RestTimeInMins,
                 type,
-                record.Lap.IsFinal, 
+                lap.IsFinal, 
                 null);
-            if (record.ArrivalTime.HasValue)
-            {
-                phase.ArriveTime = new Timestamp(record.ArrivalTime.Value);
-            }
-            if (record.InspectionTime.HasValue)
-            {
-                phase.InspectTime = new Timestamp(record.InspectionTime.Value);
-            }
-            if (record.ReInspectionTime.HasValue)
-            {
-                phase.ReinspectTime = new Timestamp(record.ReInspectionTime.Value);
-            }
-            phase.StartTime = new Timestamp(record.StartTime);
-            phase.IsReinspectionRequested = record.IsRequiredInspectionRequired;
-            phase.IsCRIRequested = record.IsRequiredInspectionRequired;
-
+            var record = emsParticipation.Participant.LapRecords.FirstOrDefault(x => x.Lap == lap);
             
+            if (record != null)
+            {
+                if (record.ArrivalTime.HasValue)
+                {
+                    phase.ArriveTime = new Timestamp(record.ArrivalTime.Value);
+                }
+                if (record.InspectionTime.HasValue)
+                {
+                    phase.InspectTime = new Timestamp(record.InspectionTime.Value);
+                }
+                if (record.ReInspectionTime.HasValue)
+                {
+                    phase.ReinspectTime = new Timestamp(record.ReInspectionTime.Value);
+                }
+                phase.StartTime = new Timestamp(record.StartTime);
+                phase.IsReinspectionRequested = record.IsRequiredInspectionRequired;
+                phase.IsCRIRequested = record.IsRequiredInspectionRequired;
+                finalRecord = record;
+            }
+
             phases.Add(phase);
-            finalRecord = record;
         }
 
         var participation = new Participation(competition.Name, tandem, phases);
-        if (finalRecord?.Result.Type == EmsResultType.FailedToQualify)
+        if (finalRecord?.Result?.Type == EmsResultType.FailedToQualify)
         {
             participation.FailToQualify(FTQCodes.GA);
         }
-        if (finalRecord?.Result.Type == EmsResultType.Resigned)
+        if (finalRecord?.Result?.Type == EmsResultType.Resigned)
         {
             participation.Retire();
         }
-        if (finalRecord?.Result.Type == EmsResultType.Disqualified)
+        if (finalRecord?.Result?.Type == EmsResultType.Disqualified)
         {
             participation.Disqualify(finalRecord.Result.Code);
         }

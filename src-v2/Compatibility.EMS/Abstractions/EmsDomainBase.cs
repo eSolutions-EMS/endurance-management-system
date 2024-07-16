@@ -20,16 +20,16 @@ public abstract class EmsDomainBase<TException> : IEmsDomain, IEquatable<EmsDoma
 
     public int Id { get; protected init; } // Keep setter for mapping
 
-    public override bool Equals(object other)
+    public override bool Equals(object? other)
         => this.IsEqual(other);
 
     public bool Equals(IEmsIdentifiable identifiable)
         => this.IsEqual(identifiable);
 
-    public bool Equals(EmsDomainBase<TException> domain)
+    public bool Equals(EmsDomainBase<TException>? domain)
         => this.IsEqual(domain);
 
-    public static bool operator ==(EmsDomainBase<TException> one, EmsDomainBase<TException> two)
+    public static bool operator ==(EmsDomainBase<TException>? one, EmsDomainBase<TException>? two)
     {
         if (ReferenceEquals(one, null))
         {
@@ -38,10 +38,10 @@ public abstract class EmsDomainBase<TException> : IEmsDomain, IEquatable<EmsDoma
         return one.Equals(two);
     }
 
-    public static bool operator !=(EmsDomainBase<TException> one, EmsDomainBase<TException> two)
+    public static bool operator !=(EmsDomainBase<TException>? one, EmsDomainBase<TException>? two)
         => !(one == two);
 
-    private bool IsEqual(object other)
+    private bool IsEqual(object? other)
     {
         if (other is not IEmsIdentifiable identifiable)
         {
