@@ -6,7 +6,7 @@ namespace NTS.Judge.Startup;
 public class JudgeContext : IFilesystemLoggerConfiguration, IFileStorageConfiguration
 {
     string IFilesystemLoggerConfiguration.Directory => GetAppDirectory("logs");
-    string IFileStorageConfiguration.Path => GetAppDirectory(@"data\judge.json");
+    string IFileStorageConfiguration.Path => GetAppDirectory(@"data\nts-judge.json");
 
     private string GetAppDirectory(string subdirectory)
     {
