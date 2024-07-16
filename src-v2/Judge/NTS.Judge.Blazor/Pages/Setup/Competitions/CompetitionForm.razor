@@ -11,7 +11,7 @@
 
 <EditForm Model="_model">
     <MudTextField @ref="_nameField" @bind-Value="_model.Name" Label="@Localizer.Get("Name")" />
-    <NotSelect T="CompetitionType" Label="@Localizer.Get("Type")" @bind-Value="_model.Type" Items="_competitionTypes" />
+    <NotSelect T="CompetitionType" Label="@Localizer.Get("Type")" @bind-Value="_model.Type" Items="_competitionTypes.ToList()" />
     <MudDatePicker DisableToolbar="true" @ref="_dayField" @bind-Date="_model.StartDay" Label="@Localizer.Get("Date")" />
     <MudTimePicker DisableToolbar="true" @ref="_timeField" @bind-Time="_model.StartTime" Label="@Localizer.Get("Time")" />
     <NotSwitch @bind-Value="_model.UseAutomaticCRI" Label="Use automatic CRI" />
