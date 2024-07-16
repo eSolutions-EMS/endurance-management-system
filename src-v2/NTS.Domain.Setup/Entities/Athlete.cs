@@ -32,6 +32,7 @@ public class Athlete : DomainEntity, ISummarizable, IImportable
 
 	public override string ToString()
 	{
-		return $"{Person}, {Club}, {Country}";
+        var country = Country!=null? $", {Country}":"";
+		return $"{Person}, {Club}{country}";
 	}
 }
