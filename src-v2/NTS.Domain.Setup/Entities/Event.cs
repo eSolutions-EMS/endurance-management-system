@@ -17,14 +17,14 @@ public class Event : DomainEntity, ISummarizable, IImportable, IParent<Official>
     private Event(int id, string place, Country country, IEnumerable<Competition> competitions, IEnumerable<Official> officials) : this(place, country)
     {
         Id = id;
-        _competitions = competitions.ToList();
-        _officials = officials.ToList();
+        _competitions = (competitions ?? Enumerable.Empty<Competition>()).ToList();
+        _officials = (officials ?? Enumerable.Empty<Official>()).ToList();
     }
     private Event(string place, Country country)
     {
         if (string.IsNullOrEmpty(place) || !char.IsUpper(place.First()))
         {
-            throw new DomainException(nameof(Place), $"{nameof(Place)} is invalid. It has to be Capitalized");
+            //throw new DomainException(nameof(Place), $"{nameof(Place)} is invalid. It has to be Capitalized");
         }
 
         Place = place;
