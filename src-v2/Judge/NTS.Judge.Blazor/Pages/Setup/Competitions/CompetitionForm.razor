@@ -28,7 +28,7 @@
     private MudPicker<TimeSpan?> _timeField = default!;
     private CompetitionFormModel _model { get; set; } = new();
 
-    private IEnumerable<NotListModel<CompetitionType>> _competitionTypes = NotListModel.FromEnum<CompetitionType>();
+    private List<NotListModel<CompetitionType>> _competitionTypes = NotListModel.FromEnum<CompetitionType>().ToList();
 
     public DateTimeOffset CombineStartDayAndTime(DateTime? startDay, TimeSpan? startTime)
     {
