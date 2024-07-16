@@ -12,7 +12,7 @@
 <EditForm Model="_model">
     <MudTextField @ref="_nameField" @bind-Value="_model.Name" Label="@Localizer.Get("Name")" />
     <NotSelect @ref="_roleField" T = "OfficialRole"
-               Items="_roles.ToList()" @bind-Value="_model.Role"
+               Items="_roles" @bind-Value="_model.Role"
                Label="@Localizer.Get("Official Role")" Placeholder="@Localizer.Get("Select a role")"/>
 </EditForm>
 
@@ -21,7 +21,7 @@
     private NotSelect<OfficialRole> _roleField = default!;
     private OfficialFormModel _model { get; set; } = new();
 
-    private IEnumerable<NotListModel<OfficialRole>> _roles = NotListModel.FromEnum<OfficialRole>();
+    private List<NotListModel<OfficialRole>> _roles = NotListModel.FromEnum<OfficialRole>().ToList();
 
     public override void RegisterValidationInjectors()
     {
