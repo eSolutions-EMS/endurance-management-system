@@ -21,7 +21,7 @@
     private NotSelect<OfficialRole> _roleField = default!;
     private OfficialFormModel _model { get; set; } = new();
 
-    private IEnumerable<NotListModel<OfficialRole>> _roles = NotListModel.FromEnum<OfficialRole>();
+    private List<NotListModel<OfficialRole>> _roles = NotListModel.FromEnum<OfficialRole>().ToList();
 
     public override void RegisterValidationInjectors()
     {

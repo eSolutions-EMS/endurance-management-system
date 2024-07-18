@@ -21,7 +21,7 @@
     private MudNumericField<int> _restField = default!;
     private PhaseFormModel _model { get; set; } = new();
 
-    private IEnumerable<NotListModel<Loop>> _loops = default!;
+    private List<NotListModel<Loop>> _loops = new();
 
     [Inject]
     private INotSetBehind<Loop> _setBehind { get; set; } = default!;
@@ -29,7 +29,7 @@
     protected async override Task OnInitializedAsync()
     {
         var loops = await _setBehind.GetAll();
-        _loops = NotListModel.FromEntity<Loop>(loops);
+        _loops = NotListModel.FromEntity<Loop>(loops).ToList();
     }
 
     public override void RegisterValidationInjectors()
