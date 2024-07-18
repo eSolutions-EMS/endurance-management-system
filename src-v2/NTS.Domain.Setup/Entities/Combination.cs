@@ -16,20 +16,30 @@ public class Combination : DomainEntity, ISummarizable, IImportable, IParent
     }
     public Combination(int number, Athlete athlete, Horse horse)
     {
+        if (number == default)
+        {
+            throw new DomainException(nameof(Number), "Combination Number is required");
+        }
+        if (athlete == null)
+        {
+            throw new DomainException(nameof(Athlete), "Athlete is required");
+        }
+        if (horse == null)
+        {
+            throw new DomainException(nameof(Horse), "Horse is required");
+        }
         Number = number;
         Athlete = athlete;
         Horse = horse;
     }
 
     public int Number { get; private set; }
-    public Athlete? Athlete { get; private set; }
-    public Horse? Horse { get; private set; }
-    public List<IdTag> Tags { get; private set; } = new();
+    public Athlete Athlete { get; private set; }
+    public Horse Horse { get; private set; }
 
     public string Summarize()
     {
         var summary = new Summarizer(this);
-        summary.Add("Tags".Localize(), Tags);
         return summary.ToString();
     }
 
