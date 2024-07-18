@@ -1,4 +1,5 @@
 ﻿@using NTS.Domain.Setup.Entities
+@using NTS.Judge.Blazor.Pages.Dashboard.Components
 @using NTS.Judge.Blazor.Ports
  
 @attribute [Route(DASHBOARD_PAGE)]
@@ -6,20 +7,7 @@
 
 <NotH1>@Localizer.Get("Dashboard")</NotH1>
 
-@code {
-    [Inject]
-    private IDasboardBehind  _initializer { get; set; } = default!;
-    [Inject]
-    private INotBehind<Event>  _eventBehind { get; set; } = default!;
+<DashboardComponent />
 
-    protected override async Task OnInitializedAsync()
-    {
-        var @event = Event.Create("Place", new Domain.Objects.Country("BGN", "Bulgaria"));
-        var president = Official.Create("Name Name", Domain.Enums.OfficialRole.PresidentGroundJury);
-        var vet = Official.Create("Two Two", Domain.Enums.OfficialRole.PresidentVet);
-        @event.Add(president);
-        @event.Add(vet);
-        await _eventBehind.Create(@event);
-        await _initializer.Start();
-    }
+@code {
 }
