@@ -11,12 +11,12 @@ public class JsonFileStore<T> : IStore<T>
     where T : class, IState, new()
 {
     private readonly ConcurrencySynchronizer _synchronizer;
-    private readonly IFileStorageConfiguration _configuration;
+    private readonly string _path;
 
     public JsonFileStore(IFileStorageConfiguration configuration)
     {
-        _configuration = configuration;
         _synchronizer = new ConcurrencySynchronizer();
+        _path = Path.Combine(configuration.Path, $"{typeof(T).Name}.json");
     }
 
     public async Task<T> Readonly()
@@ -41,13 +41,13 @@ public class JsonFileStore<T> : IStore<T>
         }
 
         var json = state.ToJson();
-        await FileHelper.Write(_configuration.Path, json);
+        await FileHelper.Write(_path, json);
         _synchronizer.Release(state.TransactionId.Value);
     }
 
     private async Task<T> Deserialize()
     {
-        var contents = await FileHelper.SafeReadString(_configuration.Path);
+        var contents = await FileHelper.SafeReadString(_path);
         return contents?.FromJson<T>() ?? new();
     }
 }
