@@ -3,16 +3,16 @@
 namespace NTS.Domain.Setup.Entities;
 public class Contestant : DomainEntity, ISummarizable
 {
-    public static Contestant Create(DateTimeOffset? newStart, bool isUnranked) => new(newStart, isUnranked);
-    public static Contestant Update(int id, DateTimeOffset? newStart, bool isUnranked) => new(id, newStart, isUnranked);
-    private List<Tandem> _tandems = new();
+    public static Contestant Create(DateTimeOffset? newStart, bool isUnranked, Combination combination) => new(newStart, isUnranked, combination);
+    public static Contestant Update(int id, DateTimeOffset? newStart, bool isUnranked, Combination combination) => new(id, newStart, isUnranked, combination);
+    private List<Combination> _combinations = new();
 
     [JsonConstructor]
-    private Contestant(int id, DateTimeOffset? startTimeOverride, bool isUnranked) : this(startTimeOverride, isUnranked) 
+    private Contestant(int id, DateTimeOffset? startTimeOverride, bool isUnranked, Combination combination) : this(startTimeOverride, isUnranked, combination) 
     {
         Id = id;
     }
-    private Contestant(DateTimeOffset? startTimeOverride, bool isUnranked)
+    private Contestant(DateTimeOffset? startTimeOverride, bool isUnranked, Combination combination)
     {
         if ( startTimeOverride != null && startTimeOverride.Value.DateTime.CompareTo(DateTime.Today) < 0)
         {
@@ -20,16 +20,17 @@ public class Contestant : DomainEntity, ISummarizable
         }
         StartTimeOverride = startTimeOverride;
         IsUnranked = isUnranked;
+        Combination = combination;
     }
 
-    public Tandem ContestantHorsePair {  get; private set; }
+    public Combination Combination {  get; private set; }
     public DateTimeOffset? StartTimeOverride { get; private set; }
     public bool IsUnranked { get; private set; }
 
-    public IReadOnlyList<Tandem> Tandems
+    public IReadOnlyList<Combination> Combinations
     {
-        get => _tandems.AsReadOnly();
-        private set => _tandems = value.ToList();
+        get => _combinations.AsReadOnly();
+        private set => _combinations = value.ToList();
     }
 
     public string Summarize()
@@ -43,24 +44,24 @@ public class Contestant : DomainEntity, ISummarizable
         var sb = new StringBuilder();
         var startTimeMessage = StartTimeOverride == null ? "" : "StartTime: " + $"{StartTimeOverride.Value.ToLocalTime().TimeOfDay} ";
         var isUnrankedMessage = IsUnranked ? "Unranked" : "Ranked";
-        sb.Append($"Contestant -> Tandem: *isn't configured yet* {startTimeMessage}{isUnrankedMessage}");
+        sb.Append($"{Combination} {startTimeMessage}{isUnrankedMessage}");
         //sb.Append($"{"Start".Localize()}: {this.StartTime.ToString("f", CultureInfo.CurrentCulture)}");
         return sb.ToString();
     }
 
-    public void Add(Tandem child)
+    public void Add(Combination child)
     {
-        _tandems.Add(child);
+        _combinations.Add(child);
     }
 
-    public void Remove(Tandem child)
+    public void Remove(Combination child)
     {
-        _tandems.Remove(child);
+        _combinations.Remove(child);
     }
 
-    public void Update(Tandem child)
+    public void Update(Combination child)
     {
-        _tandems.Remove(child);
+        _combinations.Remove(child);
 
         Add(child);
     }

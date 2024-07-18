@@ -4,11 +4,15 @@
 @using Not.Blazor.TM;
 @using Not.Blazor.TM.Forms;
 @using Not.Blazor.TM.Forms.Components;
+@using Not.Blazor.TM.Models
 @using Not.Extensions;
+@using NTS.Judge.Blazor.Pages.Setup.Combinations;
 
 @inherits NotForm<Contestant>;
 
 <EditForm Model="_model">
+    <NotSelect T="Combination" Label="@Localizer.Get("Combination")" Placeholder="@Localizer.Get("Select a combination")"
+               Items="_combinations" @bind-Value="_model.Combination" />
     <NotSwitch @bind-Value="_model.IsUnranked" Label="Unranked" />
     <NotSwitch @bind-Value="_overrideStartTime" Label="Override Start Time"/>
     @if (_overrideStartTime)
@@ -21,10 +25,20 @@
     private MudPicker<TimeSpan?> _timeField = default!;
     private ContestantFormModel _model { get; set; } = new();
     private Boolean _overrideStartTime;
+    private List<NotListModel<Combination>> _combinations = new();
+
+    [Inject]
+    private INotSetBehind<Combination> _setBehind { get; set; } = default!;
 
     public override void RegisterValidationInjectors()
     {
         RegisterInjector(nameof(_model.StartTimeOverride), () => _timeField);
+    }
+
+    protected async override Task OnInitializedAsync()
+    {
+        var combinations = await _setBehind.GetAll();
+        _combinations = NotListModel.FromEntity<Combination>(combinations).ToList();
     }
 
     public override void SetUpdateModel(Contestant contestant)
@@ -36,12 +50,12 @@
     public override Contestant SubmitCreate()
     {
         var newStartTimeOffset = _model.StartTimeOverride?.ToDateTimeOffset();
-        return Contestant.Create(newStartTimeOffset, _model.IsUnranked);
+        return Contestant.Create(newStartTimeOffset, _model.IsUnranked, _model.Combination);
     }
 
     public override Contestant SubmitUpdate()
     {
         var newStartTimeOffset = _model.StartTimeOverride?.ToDateTimeOffset();
-        return Contestant.Update(_model.Id, newStartTimeOffset, _model.IsUnranked);
+        return Contestant.Update(_model.Id, newStartTimeOffset, _model.IsUnranked, _model.Combination);
     }
 }

@@ -1,0 +1,60 @@
+﻿@using NTS.Domain.Setup.Entities;
+@using Not.Blazor.Forms;
+@using Not.Blazor.TM;
+@using Not.Blazor.TM.Models;
+@using Not.Blazor.TM.Forms;
+@using Not.Blazor.TM.Forms.Components;
+
+@inherits NotForm<Combination>;
+
+<EditForm Model="_model">
+    <MudNumericField T="int" @ref="_numberField" @bind-Value="_model.Number" Min="0" Label="@Localizer.Get("Combination Number")" />
+    <NotSelect T="Athlete" Label="@Localizer.Get("Athlete")" Placeholder="@Localizer.Get("Select an athlete")"
+               Items="_athletes" @bind-Value="_model.Athlete" />
+    <NotSelect T="Horse" Label="@Localizer.Get("Horse")" Placeholder="@Localizer.Get("Select a horse")"
+               Items="_horses" @bind-Value="_model.Horse" />
+</EditForm>
+
+@code {
+    private MudNumericField<int> _numberField = default!;
+    private NotSelect<Athlete> _athleteField = default!;
+    private NotSelect<Horse> _horseField = default!;
+    private CombinationFormModel _model { get; set; } = new();
+    private List<NotListModel<Athlete>> _athletes = new();
+    private List<NotListModel<Horse>> _horses = new();
+
+    [Inject]
+    private INotSetBehind<Athlete> _athleteSetBehind { get; set; } = default!;
+    [Inject]
+    private INotSetBehind<Horse> _horseSetBehind { get; set; } = default!;
+
+    protected async override Task OnInitializedAsync()
+    {
+        var athletes = await _athleteSetBehind.GetAll();
+        _athletes = NotListModel.FromEntity<Athlete>(athletes).ToList();
+        var horses = await _horseSetBehind.GetAll();
+        _horses = NotListModel.FromEntity<Horse>(horses).ToList();
+    }
+
+    public override void RegisterValidationInjectors()
+    {
+        RegisterInjector(nameof(_model.Number), () => _numberField);
+        //RegisterInjector(nameof(_model.Athlete), () => _athleteField);
+        //RegisterInjector(nameof(_model.Horse), () => _horseField);
+    }
+
+    public override void SetUpdateModel(Combination combination)
+    {
+        _model = new CombinationFormModel(combination);
+    }
+
+    public override Combination SubmitCreate()
+    {
+        return Combination.Create(_model.Number, _model.Athlete, _model.Horse);
+    }
+
+    public override Combination SubmitUpdate()
+    {
+        return Combination.Update(_model.Id, _model.Number, _model.Athlete, _model.Horse);
+    }
+}
