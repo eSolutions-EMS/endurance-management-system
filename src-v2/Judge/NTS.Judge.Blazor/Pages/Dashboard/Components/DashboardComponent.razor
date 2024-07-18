@@ -1,72 +1,49 @@
-﻿@inherits NotComponent
+﻿@using NTS.Domain.Core.Aggregates.Participations
+@using NTS.Judge.Blazor.Pages.Dashboard;
+
+@inherits NotComponent
 
 <table class="rtable @_axisClass">
   <thead>
     <tr>
-      <th>Browser</th>
-      <th>Sessions</th>
-      <th>Percentage</th>
-      <th>New Users</th>
-      <th>Avg. Duration</th>
+      <th>Gate</th>
+      <th>Start</th>
+      <th>Arrive</th>
+      <th>VetIn</th>
+      <th>ReIn</th>
+      <th>RI Time</th>
+      <th>CRI Time</th>
+      <th><strong>Out</strong></th>
+      <th>Recovery</th>
+      <th>Loop Time</th>
+      <th>Phase Time</th>
+      <th>Time</th>
+      <th>Loop Avrg</th>
+      <th>Phase Avrg</th>
+      <th>Speed Avrg</th>
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td>Chrome</td>
-      <td>9,562</td>
-      <td>68.81%</td>
-      <td>7,895</td>
-      <td>01:07</td>
-    </tr>
-    <tr>
-      <td>Firefox</td>
-      <td>2,403</td>
-      <td>17.29%</td>
-      <td>2,046</td>
-      <td>00:59</td>
-    </tr>
-    <tr>
-      <td>Safari</td>
-      <td>1,089</td>
-      <td>2.63%</td>
-      <td>904</td>
-      <td>00:59</td>
-    </tr>
-    <tr>
-      <td>Internet Explorer</td>
-      <td>366</td>
-      <td>2.63%</td>
-      <td>333</td>
-      <td>01:01</td>
-    </tr>
-    <tr>
-      <td>Safari (in-app)</td>
-      <td>162</td>
-      <td>1.17%</td>
-      <td>112</td>
-      <td>00:58</td>
-    </tr>
-    <tr>
-      <td>Opera</td>
-      <td>103</td>
-      <td>0.74%</td>
-      <td>87</td>
-      <td>01:22</td>
-    </tr>
-    <tr>
-      <td>Edge</td>
-      <td>98</td>
-      <td>0.71%</td>
-      <td>69</td>
-      <td>01:18</td>
-    </tr>
-    <tr>
-      <td style="min-width: 100px;">Other</td>
-      <td>275</td>
-      <td>6.02%</td>
-      <td>90</td>
-      <td>N/A</td>
-    </tr>
+        @foreach (var phase in Participations.FirstOrDefault()?.Phases ?? Enumerable.Empty<Phase>())
+        {
+            <tr>
+                <td>@phase.Gate.OrDefault()</td>
+                <td>@phase.StartTime.OrDefault()</td>
+                <td>@phase.ArriveTime.OrDefault()</td>
+                <td>@phase.InspectTime.OrDefault()</td>
+                <td>@phase.ReinspectTime.OrDefault()</td>
+                <td>@(phase.IsCRIRequested ? NullableExtensions.DEFAULT : phase.RequiredInspectionTime.OrDefault())</td>
+                <td>@(phase.IsCRIRequested ? phase.RequiredInspectionTime : NullableExtensions.DEFAULT)</td>
+                <td>@phase.OutTime.OrDefault()</td>
+                <td>@phase.RecoverySpan.OrDefault()</td>
+                <td>@phase.LoopSpan.OrDefault()</td>
+                <td>@phase.PhaseSpan.OrDefault()</td>
+                <td>@phase.Span.OrDefault()</td>
+                <td>@phase.AveregeLoopSpeed.OrDefault()</td>
+                <td>@phase.AveragePhaseSpeed.OrDefault()</td>
+                <td>@phase.AverageSpeed.OrDefault()</td>
+            </tr>
+        }
   </tbody>
 </table>
 
@@ -75,6 +52,9 @@
 @code {
     private const string FLIPPED_AXIS_CLASS = "rtable--flip";
     private string _axisClass = "";
+
+    [Parameter]
+    public IEnumerable<Participation> Participations { get; set; } = new List<Participation>();
 
     private void FlipAxis()
     {
@@ -151,6 +131,7 @@
         .rtable td {
             padding: 6px 12px;
             border: 1px solid #d9d7ce;
+            min-width: 110px;
         }
 
     .rtable--flip {

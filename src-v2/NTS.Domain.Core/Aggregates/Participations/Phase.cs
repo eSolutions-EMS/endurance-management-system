@@ -8,8 +8,6 @@ public class Phase : DomainEntity, IPhaseState
 {
     internal double InternalGate { get; set; }
     private Timestamp? VetTime => ReinspectTime ?? InspectTime;
-    private TimeSpan? LoopTime => ArriveTime - StartTime;
-    private TimeSpan? PhaseTime => VetTime - StartTime;
     private bool IsFeiRulesAndNotFinal => CompetitionType == CompetitionType.FEI && !IsFinal;
 
     public Phase(double length, int maxRecovery, int rest, CompetitionType competitionType, bool isFinal, int? criRecovery)
@@ -42,10 +40,12 @@ public class Phase : DomainEntity, IPhaseState
 
     public Timestamp? RequiredInspectionTime => VetTime?.Add(TimeSpan.FromMinutes(Rest - 15)); //TODO: settings?
     public Timestamp? OutTime => VetTime?.Add(TimeSpan.FromMinutes(Rest));
-    public TimeSpan? Time => IsFeiRulesAndNotFinal ? PhaseTime : LoopTime;
+    public TimeSpan? LoopSpan => ArriveTime - StartTime;
+    public TimeSpan? PhaseSpan => VetTime - StartTime;
+    public TimeSpan? Span => IsFeiRulesAndNotFinal ? PhaseSpan : LoopSpan;
     public TimeSpan? RecoverySpan => VetTime - ArriveTime;
-    public double? AveregeLoopSpeed => Length / LoopTime?.TotalHours;
-    public double? AveragePhaseSpeed => Length / PhaseTime?.TotalHours + RecoverySpan?.TotalHours;
+    public double? AveregeLoopSpeed => Length / LoopSpan?.TotalHours;
+    public double? AveragePhaseSpeed => Length / PhaseSpan?.TotalHours + RecoverySpan?.TotalHours;
     public double? AverageSpeed => IsFeiRulesAndNotFinal ? AveragePhaseSpeed : AveregeLoopSpeed;
     public bool IsComplete => OutTime != null;
 
