@@ -16,7 +16,7 @@
     private T _value = default!;
     // TODO: Implement Validation injection for custom input components
     [Parameter]
-    public IEnumerable<NotListModel<T>> Items { get; set; } = default!;
+    public List<NotListModel<T>> Items { get; set; } = new();
     [Parameter]
     public string Label { get; set; } = default!;
     [Parameter]
