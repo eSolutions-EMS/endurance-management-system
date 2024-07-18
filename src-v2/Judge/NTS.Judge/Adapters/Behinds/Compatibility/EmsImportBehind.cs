@@ -43,9 +43,9 @@ public class EmsImportBehind : IEmsImportBehind
         await _eventRepository.Update(@event);
     }
 
-    public async Task ImportCore(string path)
+    public async Task ImportCore(string contents)
     {
-        await _emsToCoreImporter.Import(path);
+        await _emsToCoreImporter.Import(contents);
     }
 
     private IEnumerable<Competition> CreateCompetitions(EmsEnduranceEvent emsEvent)

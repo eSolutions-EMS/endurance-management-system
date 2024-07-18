@@ -34,10 +34,15 @@ public class EmsToCoreImporter : IEmsToCoreImporter
         _classfications = classfications;
     }
 
-    public async Task Import(string filePath)
+    public async Task Import(string emsJson)
     {
-        var contents = await File.ReadAllTextAsync(filePath);
-        var emsState = contents.FromJson<EmsState>();
+        var existingEvent = await _events.Read(default);
+        if (existingEvent != null)
+        {
+            throw new Exception($"Cannot import data as Event already exists: '{existingEvent}'");
+        }
+
+        var emsState = emsJson.FromJson<EmsState>();
 
         var @event = CreateEvent(emsState.Event);
         var officials = CreateOfficials(emsState.Event);

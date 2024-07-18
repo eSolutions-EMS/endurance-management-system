@@ -9,12 +9,21 @@
 
 <DashboardComponent />
 
+<InputFile OnChange="ImportEmsData" />
+
 @code {
     [Inject]
     private IEmsImportBehind _importBehind { get; set; } = default!;
 
     protected override async Task OnInitializedAsync()
     {
-        // await _importBehind.ImportCore(@"D:\Source\NTS\event-archive\2024-vakarel\judge.json");
+    }
+
+    private async Task ImportEmsData(InputFileChangeEventArgs args)
+    {
+        using var stream = args.File.OpenReadStream();
+        using var stringReader = new StreamReader(stream);
+        var contents = await stringReader.ReadToEndAsync();
+        await _importBehind.ImportCore(contents);
     }
 }
