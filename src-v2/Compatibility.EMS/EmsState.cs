@@ -11,14 +11,14 @@ namespace NTS.Compatibility.EMS;
 
 public class EmsState
 {
-    public EnduranceEvent Event { get; set; }
-    public List<Horse> Horses { get; private set; } = new();
-    public List<Athlete> Athletes { get; private set; } = new();
-    public List<Participant> Participants { get; private set; } = new();
-    public List<Participation> Participations { get; private set; } = new();
+    public EmsEnduranceEvent Event { get; set; }
+    public List<EmsHorse> Horses { get; private set; } = new();
+    public List<EmsAthlete> Athletes { get; private set; } = new();
+    public List<EmsParticipant> Participants { get; private set; } = new();
+    public List<EmsParticipation> Participations { get; private set; } = new();
     [JsonIgnore]
-    public IReadOnlyList<Country> Countries
-        => new ReadOnlyCollection<Country>(new List<Country> { new Country("BGN", "Bulgaria", 1337) });
+    public IReadOnlyList<EmsCountry> Countries
+        => new ReadOnlyCollection<EmsCountry>(new List<EmsCountry> { new EmsCountry("BGN", "Bulgaria", 1337) });
 
     public void Set(EmsState initial)
     {

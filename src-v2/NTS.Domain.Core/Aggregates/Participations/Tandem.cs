@@ -4,9 +4,8 @@ namespace NTS.Domain.Core.Aggregates.Participations;
 
 public class Tandem : DomainEntity
 {
-    private readonly decimal _distance;
+    private decimal _distance;
 
-    [JsonConstructor]
     public Tandem(
         int number,
         Person name,
@@ -27,12 +26,16 @@ public class Tandem : DomainEntity
         MaxAverageSpeed = maxAverageSpeedLimit;
     }
 
-    public int Number { get; }
-    public Person Name { get; }
-    public string Horse { get; }
-    public Country? Country { get; }
-    public Club? Club { get; }
-    public double? MinAverageSpeed { get; }
-    public double? MaxAverageSpeed { get; }
-    public string Distance => _distance.ToString("0.00");
+    public int Number { get; private set; }
+    public Person Name { get; private set; }
+    public string Horse { get; private set; }
+    public Country? Country { get; private set; }
+    public Club? Club { get; private set; }
+    public double? MinAverageSpeed { get; private set; }
+    public double? MaxAverageSpeed { get; private set; }
+    public string Distance
+    { 
+        get => _distance.ToString("#.##");
+        set => _distance = decimal.Parse(value);
+    }
 }

@@ -8,8 +8,8 @@ public class Official : DomainEntity
         Role = role;
     }
 
-    public Person Person { get; }
-    public OfficialRole Role { get; }
+    public Person Person { get; private set; }
+    public OfficialRole Role { get; private set; }
 
     public override string ToString()
     {

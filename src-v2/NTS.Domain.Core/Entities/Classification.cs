@@ -14,7 +14,7 @@ public class Classification : DomainEntity, IAggregateRoot
 
     public string Name { get; private set; }
     public AthleteCategory Category { get;private set; }
-    public ReadOnlyCollection<ClassificationEntry> Entries { get; }
+    public ReadOnlyCollection<ClassificationEntry> Entries { get; private set; }
 
     public override string ToString()
     {

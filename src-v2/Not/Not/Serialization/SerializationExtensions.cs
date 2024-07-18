@@ -11,6 +11,7 @@ public static class SerializationExtensions
         ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
         PreserveReferencesHandling = PreserveReferencesHandling.Objects,
         Formatting = Formatting.Indented,
+        TypeNameHandling = TypeNameHandling.All,
     };
 
     public static string ToJson(this object obj)
@@ -21,7 +22,7 @@ public static class SerializationExtensions
     public static T FromJson<T>(this string json)
         where T : class
     {
-        var result = JsonConvert.DeserializeObject<T>(json);
+        var result = JsonConvert.DeserializeObject<T>(json, _settings);
         if (result == default)
         {
             throw new Exception($"Cannot serialize '{json}' to type of '{typeof(T)}'");

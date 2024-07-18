@@ -256,7 +256,7 @@ public class RankingRoot : IAggregateRoot
             throw new DomainException(nameof(Competition), "Missing FEI Category Event NR");
         }
         if (string.IsNullOrEmpty(competition.FeiScheduleNumber))
-        {J
+        {
             throw new DomainException(nameof(Competition), "Missing FEI Schedule NR");
         }
         if (string.IsNullOrEmpty(competition.Rule))
