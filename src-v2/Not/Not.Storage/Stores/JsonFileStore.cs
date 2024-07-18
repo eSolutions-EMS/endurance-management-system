@@ -16,7 +16,7 @@ public class JsonFileStore<T> : IStore<T>
     public JsonFileStore(IFileStorageConfiguration configuration)
     {
         _synchronizer = new ConcurrencySynchronizer();
-        _path = Path.Combine(configuration.Path, $"{typeof(T).Name}.json"); ;
+        _path = Path.Combine(configuration.Path, $"{typeof(T).Name}.json");
     }
 
     public async Task<T> Readonly()
