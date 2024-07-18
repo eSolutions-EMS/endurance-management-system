@@ -17,6 +17,22 @@ public class Athlete : DomainEntity, ISummarizable, IImportable
 
     private Athlete(Person person, string? feiId, Country country, Club club, string category) //TODO: consider Club as persisted across Events (MAUI's raw resources?)
     {
+        if (person == null)
+        {
+            throw new DomainException(nameof(Person), "Name is required");
+        }
+        if (country == null)
+        {
+            throw new DomainException(nameof(Country), "Country is required");
+        }
+        if (club == null)
+        {
+            throw new DomainException(nameof(Club), "Club is required");
+        }
+        if (category == null)
+        {
+            throw new DomainException(nameof(Category), "Category is required");
+        }
         FeiId = feiId;
 		Person = person;
 		Country = country;

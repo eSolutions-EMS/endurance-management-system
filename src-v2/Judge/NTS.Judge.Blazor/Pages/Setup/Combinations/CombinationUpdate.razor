@@ -1,0 +1,25 @@
+﻿@using NTS.Domain.Setup.Entities;
+@using Not.Blazor.Components;
+@using Not.Blazor.Navigation;
+@using Not.Blazor.TM.Forms.Components
+
+@attribute [Route(COMBINATION_UPDATE)]
+@inherits NotComponent
+
+<MudPaper Elevation="0">
+    <NotH2>@Localizer.Get("Update Combination")</NotH2>
+    <NotFormUpdate T="Combination" TForm="CombinationForm" Entity="_navigator.ConsumeParameter<Combination>()" UpdateAction="Update" />
+</MudPaper>
+
+@code {
+    [Inject]
+    private INotSetBehind<Combination> _parentBehind { get; set; } = default!;
+    [Inject]
+    private INavigator _navigator { get; set; } = default!;
+
+    protected async Task Update(Combination combination)
+    {
+        await _parentBehind.Update(combination);
+        _navigator.NavigateTo(SETUP_PAGE);
+    }
+}

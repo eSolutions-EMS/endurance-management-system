@@ -16,6 +16,10 @@ public class Horse : DomainEntity, ISummarizable, IImportable
     }
     private Horse(string name, string? feiId)
     {
+        if (name == null || name == "")
+        {
+            throw new DomainException(nameof(Name), "Name is required");
+        }
         Name = name;
         FeiId = feiId;
     }
