@@ -7,7 +7,7 @@ public class Person
     internal static string DELIMITER = " ";
 
     [JsonConstructor]
-    private Person(string[] names)
+    private Person(params string[] names) 
     {
         this.Names = names;
     }

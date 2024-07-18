@@ -10,6 +10,6 @@ public record HandoutDocument : Document
         Phases = phases;
     }
 
-    public Tandem Tandem { get; }
-    public PhaseCollection Phases { get; }
+    public Tandem Tandem { get; private set; }
+    public PhaseCollection Phases { get; private set; }
 }

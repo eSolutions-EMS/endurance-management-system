@@ -2,14 +2,15 @@
 using NTS.Domain.Core.Events;
 using static NTS.Domain.Enums.SnapshotType;
 using static NTS.Domain.Core.Aggregates.Participations.SnapshotResultType;
+using Newtonsoft.Json;
 
 namespace NTS.Domain.Core.Aggregates.Participations;
 
 public class Participation : DomainEntity, IAggregateRoot
 {
     private static readonly TimeSpan NOT_SNAPSHOTABLE_WINDOW = TimeSpan.FromMinutes(30);
-    private static readonly FailedToQualify OUT_OF_TIME = new FailedToQualify(FTQCodes.OT);
-    private static readonly FailedToQualify SPEED_RESTRICTION = new FailedToQualify(FTQCodes.SP);
+    private static readonly FailedToQualify OUT_OF_TIME = new (FTQCodes.OT);
+    private static readonly FailedToQualify SPEED_RESTRICTION = new (FTQCodes.SP);
 
     public Participation(string competition, Tandem tandem, IEnumerable<Phase> phases)
     {
@@ -18,11 +19,12 @@ public class Participation : DomainEntity, IAggregateRoot
         Phases = new(phases);
     }
 
-    public string Competition { get; }
+    public string Competition { get; private set; }
     public Tandem Tandem { get; private set; }
     public PhaseCollection Phases { get; private set; }
     public NotQualified? NotQualified { get; private set; }
     public bool IsNotQualified => NotQualified != null;
+    [JsonIgnore] // TODO: see how to get rid of this. Why is Newtonsoft deserialization trying to create Total instance?
     public Total? Total => Phases.Any(x => x.IsComplete)
         ? new Total(Phases.Where(x => x.IsComplete))
         : default;

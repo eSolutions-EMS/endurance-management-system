@@ -10,4 +10,11 @@
 <DashboardComponent />
 
 @code {
+    [Inject]
+    private IEmsImportBehind _importBehind { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        // await _importBehind.ImportCore(@"D:\Source\NTS\event-archive\2024-vakarel\judge.json");
+    }
 }

@@ -35,6 +35,6 @@ public class Ranklist : ReadOnlyCollection<ClassificationEntry>
     {
         return entry
             .OrderBy(x => x.Participation.IsNotQualified)
-            .ThenBy(x => !x.IsRanked);
+            .ThenByDescending(x => !x.IsRanked);
     }
 }

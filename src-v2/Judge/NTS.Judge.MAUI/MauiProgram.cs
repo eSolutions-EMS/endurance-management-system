@@ -1,6 +1,7 @@
 ﻿using NTS.Persistence.Startup;
 using NTS.Judge.Blazor.Startup;
 using Not.Injection;
+using NTS.Judge.MAUI.Server;
 using Not.MAUI.Logging;
 using Not.Logging;
 using NTS.Judge.Startup;
@@ -41,6 +42,9 @@ public static class ServiceCollectionExtensions
             .AddJsonFileStore<JudgeContext>()
             .AddJudgeBlazor()
             .AddInversedDependencies();
+
+        JudgeMauiServer.ConfigurePrentContainer(builder.Services);
+
         return builder;
     }
 

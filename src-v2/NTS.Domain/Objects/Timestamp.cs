@@ -2,18 +2,26 @@
 
 namespace NTS.Domain;
 
-public record Timestamp : DomainObject
+public record Timestamp : DomainObject, IComparable<Timestamp>
 {
-    public Timestamp()
+    public static Timestamp Now()
     {
-        DateTime = DateTimeHelper.Now;
+        return new Timestamp(DateTimeHelper.Now);
+    }
+
+    public Timestamp(DateTime dateTime)
+    {
+        DateTime = dateTime;
+    }
+    private Timestamp()
+    {
     }
     private Timestamp(DateTimeOffset dateTime)
     {
         DateTime = dateTime;
     }
 
-    public DateTimeOffset DateTime { get; }
+    public DateTimeOffset DateTime { get; private set; }
 
     public Timestamp Add(TimeSpan span)
     {
@@ -27,6 +35,11 @@ public record Timestamp : DomainObject
     public override string ToString()
     {
         return DateTime.LocalDateTime.ToString("HH:mm:ss.fff");
+    }
+
+    public int CompareTo(Timestamp? other)
+    {
+        return DateTime.CompareTo(other?.DateTime ?? DateTimeOffset.MinValue);
     }
 
     public static bool operator <(Timestamp? left, Timestamp? right)

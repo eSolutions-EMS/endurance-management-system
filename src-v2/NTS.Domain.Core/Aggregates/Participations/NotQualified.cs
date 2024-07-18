@@ -18,6 +18,9 @@ public record Retired : NotQualified
 
 public record Disqualified : NotQualified
 {
+    private Disqualified()
+    {
+    }
     public Disqualified(string complement) : base(complement)
     {
     }
@@ -30,6 +33,9 @@ public record Disqualified : NotQualified
 
 public record FinishedNotRanked : NotQualified
 {
+    private FinishedNotRanked()
+    {
+    }
     public FinishedNotRanked(string complement) : base(complement)
     {
     }
@@ -42,6 +48,9 @@ public record FinishedNotRanked : NotQualified
 
 public record FailedToQualify : NotQualified
 {
+    private FailedToQualify()
+    {
+    }
     public FailedToQualify(FTQCodes code)
     {
         if (code == FTQCodes.FTC)
@@ -55,7 +64,7 @@ public record FailedToQualify : NotQualified
         Code = FTQCodes.FTC;
     }
 
-    public FTQCodes Code { get; }
+    public FTQCodes Code { get; private set; }
 
     public override string ToString()
     {
@@ -113,5 +122,5 @@ public abstract record NotQualified : DomainObject
         Complement = complement;
     }
 
-    public string? Complement { get; }
+    public string? Complement { get; private set; }
 }

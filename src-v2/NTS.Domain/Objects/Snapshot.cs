@@ -9,7 +9,7 @@ public record Snapshot : DomainObject, ISnapshot
         Number = number;
         Type = type;
         Method = method;
-        Timestamp = new Timestamp();
+        Timestamp = Timestamp.Now();
     }
 
     public int Number { get; }

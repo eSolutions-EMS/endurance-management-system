@@ -6,7 +6,7 @@ namespace NTS.Judge.Startup;
 public class JudgeContext : IFilesystemLoggerConfiguration, IFileStorageConfiguration
 {
     string IFilesystemLoggerConfiguration.Directory => GetAppDirectory("logs");
-    string IFileStorageConfiguration.Path => GetAppDirectory(@"data\judge.json");
+    string IFileStorageConfiguration.Path => GetAppDirectory("data");
 
     private string GetAppDirectory(string subdirectory)
     {
@@ -14,8 +14,8 @@ public class JudgeContext : IFilesystemLoggerConfiguration, IFileStorageConfigur
 #if DEBUG
             "C:\\tmp\\nts";
 #else
-            Path.Combine(Directory.GetCurrentDirectory(), "logs");
+            Directory.GetCurrentDirectory();
 #endif
-        return $@"{basePath}\{subdirectory}";
+        return Path.Combine(basePath, subdirectory);
     }
 }
