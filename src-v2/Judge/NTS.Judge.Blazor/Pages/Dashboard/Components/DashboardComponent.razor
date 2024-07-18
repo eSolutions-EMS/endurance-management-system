@@ -24,7 +24,7 @@
     </tr>
   </thead>
   <tbody>
-        @foreach (var phase in Participations.FirstOrDefault()?.Phases ?? Enumerable.Empty<Phase>())
+        @foreach (var phase in _selectedParticipation?.Phases ?? Enumerable.Empty<Phase>())
         {
             <tr>
                 <td>@phase.Gate.OrDefault()</td>
@@ -47,14 +47,29 @@
   </tbody>
 </table>
 
+<MudChipSet SelectedChipChanged="SelectParticipation">
+    @foreach (var participation in Participations)
+    {
+        var number = participation.Tandem.Number;
+        var color = participation.IsNotQualified ? Color.Error : Color.Success;
+        <MudChip Text="@number.ToString()" Value="@number" Color="@color" Style="min-width: 1rem" />
+    }
+</MudChipSet>
+
 <MudButton OnClick="FlipAxis">Flip</MudButton>
 
 @code {
     private const string FLIPPED_AXIS_CLASS = "rtable--flip";
     private string _axisClass = "";
+    private Participation? _selectedParticipation = default!;
 
     [Parameter]
     public IEnumerable<Participation> Participations { get; set; } = new List<Participation>();
+
+    protected override void OnInitialized()
+    {
+        _selectedParticipation = Participations.FirstOrDefault();
+    }
 
     private void FlipAxis()
     {
@@ -66,6 +81,17 @@
         {
             _axisClass = FLIPPED_AXIS_CLASS;
         }
+    }
+
+    private void SelectParticipation(MudChip? chip)
+    {
+        // TODO: Update MudBlazor version since docs show a new Property SelectionMode, 
+        // which can prevent the current behavior that allows to Toggle the selection off
+        if (chip == null)
+        {
+            return;
+        }
+        _selectedParticipation = Participations.First(x => x.Tandem.Number == (int)chip.Value);
     }
 }
 
