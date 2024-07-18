@@ -25,7 +25,6 @@
     private MudPicker<TimeSpan?> _timeField = default!;
     private ContestantFormModel _model { get; set; } = new();
     private Boolean _overrideStartTime;
-
     private List<NotListModel<Combination>> _combinations = new();
 
     [Inject]
@@ -35,8 +34,6 @@
     {
         RegisterInjector(nameof(_model.StartTimeOverride), () => _timeField);
     }
-
-
 
     protected async override Task OnInitializedAsync()
     {

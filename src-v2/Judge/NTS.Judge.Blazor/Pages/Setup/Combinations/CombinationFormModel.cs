@@ -1,13 +1,11 @@
 ﻿using NTS.Domain.Setup.Entities;
 
 
-namespace NTS.Judge.Blazor.Pages.Setup.Combinations
-    ;
+namespace NTS.Judge.Blazor.Pages.Setup.Combinations;
 public class CombinationFormModel
 {
     public CombinationFormModel()
     {
-
     }
     public CombinationFormModel(Combination combination)
     {
@@ -15,7 +13,6 @@ public class CombinationFormModel
         Number = combination.Number;
         Athlete = combination.Athlete;
         Horse = combination.Horse;
-        //TODO: add Tag property
     }
 
     public int Id { get; set; }
