@@ -9,7 +9,7 @@ using NTS.Judge.Blazor.Ports;
 
 namespace NTS.Judge.Adapters.Behinds;
 
-public class ParticipationBehind : ObservableBehind, IParticipationBehind, IInitializerAsync
+public class ParticipationBehind : ObservableBehind, IParticipationBehind, IStartupInitializerAsync
 {
     private readonly IRepository<Participation> _participationRepository;
     private readonly IRepository<SnapshotResult> _snapshotResultRepository;
@@ -24,7 +24,7 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind, IInit
 
     public IEnumerable<Participation> Participations { get; private set; } = new List<Participation>();
 
-    public async Task Run()
+    public async Task RunAtStartup()
     {
         Participations = await _participationRepository.ReadAll();
     }

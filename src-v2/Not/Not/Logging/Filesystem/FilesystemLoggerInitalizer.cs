@@ -3,7 +3,7 @@ using Serilog;
 
 namespace Not.Logging.Filesystem;
 
-public class FilesystemLoggerInitalizer : IInitializer
+public class FilesystemLoggerInitalizer : IStartupInitializer
 {
     private readonly IFilesystemLoggerConfiguration _configuration;
 
@@ -12,7 +12,7 @@ public class FilesystemLoggerInitalizer : IInitializer
         _configuration = configuration;
     }
 
-    public void Run()
+    public void RunAtStartup()
     {
         SingleLoggerValidator.Validate();
 

@@ -5,7 +5,7 @@ namespace NTS.Judge.MAUI;
 
 public partial class App : Microsoft.Maui.Controls.Application
 {
-    public App(IEnumerable<IInitializer> initializers, IServiceProvider serviceProvider)
+    public App(IEnumerable<IStartupInitializer> initializers, IServiceProvider serviceProvider)
     {
         InitializeComponent();
 
@@ -13,7 +13,7 @@ public partial class App : Microsoft.Maui.Controls.Application
 
         foreach (var initializer in initializers)
         {
-            initializer.Run();
+            initializer.RunAtStartup();
         }
 
         StartIntegratedServer(serviceProvider);

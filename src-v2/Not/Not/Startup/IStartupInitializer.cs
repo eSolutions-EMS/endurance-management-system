@@ -5,7 +5,7 @@ namespace Not.Startup;
 /// <summary>
 /// Execute synchronous code at application startup. 
 /// </summary>
-public interface IInitializer
+public interface IStartupInitializer
 {
-    void Run();
+    void RunAtStartup();
 }

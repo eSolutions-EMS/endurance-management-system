@@ -3,7 +3,7 @@
 /// <summary>
 /// Asynchronously execute code at startup. !! The resulted Task is not awaited at application startup !!
 /// </summary>
-public interface IInitializerAsync
+public interface IStartupInitializerAsync
 {
-    Task Run();
+    Task RunAtStartup();
 }

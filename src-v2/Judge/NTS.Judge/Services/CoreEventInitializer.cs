@@ -7,7 +7,7 @@ using NTS.Judge.Ports;
 
 namespace NTS.Judge.Services;
 
-public class CoreEventInitializer : IInitializer, ISingletonService
+public class CoreEventInitializer : IStartupInitializer, ISingletonService
 {
     private readonly IDocumentBehind _documentBehind;
     private readonly IClientProcedures _rpcHub;
@@ -23,7 +23,7 @@ public class CoreEventInitializer : IInitializer, ISingletonService
         _documentHandler = documentHandler;
     }
 
-    public void Run()
+    public void RunAtStartup()
     {
         EventHelper.Subscribe<PhaseCompleted>(OnPhaseCompleted);
         EventHelper.Subscribe<QualificationRevoked>(OnQualificationRevoked);
