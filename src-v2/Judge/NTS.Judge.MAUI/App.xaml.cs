@@ -5,13 +5,17 @@ namespace NTS.Judge.MAUI;
 
 public partial class App : Microsoft.Maui.Controls.Application
 {
-    public App(IEnumerable<IStartupInitializer> initializers, IServiceProvider serviceProvider)
+    public App(IEnumerable<IStartupInitializer> initializers, IEnumerable<IStartupInitializerAsync> initializersAsync, IServiceProvider serviceProvider)
     {
         InitializeComponent();
 
         MainPage = new MainPage();
 
         foreach (var initializer in initializers)
+        {
+            initializer.RunAtStartup();
+        }
+        foreach (var initializer in initializersAsync)
         {
             initializer.RunAtStartup();
         }
