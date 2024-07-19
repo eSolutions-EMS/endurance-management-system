@@ -33,6 +33,7 @@ public class Phase : DomainEntity, IPhaseState
     public Timestamp? ArriveTime { get; set; }
     public Timestamp? InspectTime { get; set; }
     public bool IsReinspectionRequested { get; set; }
+
     public Timestamp? ReinspectTime { get; set; }
     public bool IsRIRequested { get; set; }
     public bool IsCRIRequested { get; set; }

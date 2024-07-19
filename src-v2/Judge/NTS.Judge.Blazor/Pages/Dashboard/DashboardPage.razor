@@ -8,21 +8,13 @@
 
 <NotH1>@Localizer.Get("Dashboard")</NotH1>
 
-<DashboardComponent Participations="_participations" />
+<DashboardComponent  />
 
 <InputFile OnChange="ImportEmsData" />
 
 @code {
     [Inject]
     private IEmsImportBehind _importBehind { get; set; } = default!;
-    [Inject]
-    private IDasboardBehind _dashboardBehind { get; set; } = default!;
-    private IEnumerable<Participation> _participations = new List<Participation>();
-
-    protected override async Task OnInitializedAsync()
-    {
-        _participations = await _dashboardBehind.GetParticipations();
-    }
 
     private async Task ImportEmsData(InputFileChangeEventArgs args)
     {

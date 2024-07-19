@@ -100,13 +100,6 @@ public class Participation : DomainEntity, IAggregateRoot
         RevokeQualification(new FailedToQualify(reason));
     }
 
-    public void RestoreQualification()
-    {
-        NotQualified = null;
-        var qualificationRestored = new QualificationRestored(Tandem.Number);
-        EventHelper.Emit(qualificationRestored);
-    }
-
     private void EvaluatePhase(Phase phase)
     {
         if (phase.ViolatesRecoveryTime())
@@ -135,5 +128,11 @@ public class Participation : DomainEntity, IAggregateRoot
         NotQualified = notQualified;
         var qualificationRevoked = new QualificationRevoked(Tandem.Number, notQualified);
         EventHelper.Emit(qualificationRevoked);
+    }
+    public void RestoreQualification()
+    {
+        NotQualified = null;
+        var qualificationRestored = new QualificationRestored(Tandem.Number);
+        EventHelper.Emit(qualificationRestored);
     }
 }

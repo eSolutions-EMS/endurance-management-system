@@ -30,59 +30,63 @@ public static class ConventionExtensions
                 .GetTypes()
                 .Where(y => !y.IsInterface && !y.IsAbstract && y.IsConventionalService()))
             .ToList();
-        foreach (var c in classes)
+        foreach (var implementation in classes)
         {
-            var interfaces = c.GetInterfaces()
-                .Where(x => x.IsAssignableFrom(c) && x != TransientType && x != ScopedType && x != SingletonType)
+            var interfaces = implementation.GetInterfaces()
+                .Where(x => x.IsAssignableFrom(implementation) && x != TransientType && x != ScopedType && x != SingletonType)
                 .ToList();
-            
-            var singletons = interfaces.Where(x => x.IsSingleton()).ToList();
-            if (singletons.Any())
+            if (implementation.IsSingleton() && implementation.IsTransient())
             {
-                AddSingleInstance(services, singletons, c);
+                throw new Exception($"Service '{implementation}' cannot both both Singleton and Transient");
+            }
+            if (implementation.IsScoped() && implementation.IsTransient())
+            {
+                throw new Exception($"Service '{implementation}' cannot both both Scoped and Transient");
+            }
+            if (implementation.IsSingleton() && implementation.IsScoped())
+            {
+                throw new Exception($"Service '{implementation}' cannot both both Singleton and Scoped");
+            }
+
+            if (interfaces.Any(x => x.IsSingleton()))
+            {
+                AddSingleInstance(services, interfaces, implementation, isSingleton: true);
+                continue;
             }
             
-            var scoped = interfaces.Where(x => x.IsScoped()).ToList();
-            if (scoped.Any())
+            if (interfaces.Any(x => x.IsScoped()))
             {
-                AddSingleInstance(services, scoped, c);
+                AddSingleInstance(services, interfaces, implementation, isSingleton: false);
+                continue;
             }
             
-            foreach (var i in interfaces.Except(singletons.Concat(scoped)))
+            foreach (var i in interfaces)
             {
-                Add(services, i, c); 
+                Add(services, i, implementation); 
             }
         }
         return services;
     }
 
-    private static void AddSingleInstance(IServiceCollection services, IEnumerable<Type> @interfaces, Type implementation)
+    private static void AddSingleInstance(IServiceCollection services, IEnumerable<Type> interfaces, Type implementation, bool isSingleton)
     {
-        ThrowIfInvalidConventionalService(implementation);
+        ThrowIfInvalidPolymorphicService(implementation);
 
-        var first = @interfaces.First();
+        var first = interfaces.First();
         Add(services, first, implementation);
-        foreach (var singleton in @interfaces.Skip(1))
+        foreach (var @interface in interfaces.Skip(1))
         {
-            Add(services, singleton, x => x.GetRequiredService(first));
+            if (isSingleton)
+            {
+                services.AddSingleton(@interface, x => x.GetRequiredService(first));
+            }
+            else
+            {
+                services.AddScoped(@interface, x => x.GetRequiredService(first));
+            }
         }
     }
 
-    private static void Add(IServiceCollection services, Type @interface, Func<IServiceProvider, object> factory)
-    {
-        if (@interface.IsTransient())
-        {
-            services.AddTransient(@interface, factory);
-        }
-        else if (@interface.IsScoped())
-        {
-            services.AddScoped(@interface, factory);
-        }
-        else if (@interface.IsSingleton())
-        {
-            services.AddSingleton(@interface, factory);
-        }
-    }
     private static void Add(IServiceCollection services, Type @interface, Type implementation)
     {
         var service = @interface.IsGenericType && implementation.IsGenericType
@@ -104,13 +108,17 @@ public static class ConventionExtensions
         {
             services.AddScoped(service, implementation);
         }
-        else if (service.IsSingleton())
+        else if (implementation.IsSingleton())
         {
             services.AddSingleton(service, implementation);
         }
+        else
+        {
+            throw new Exception($"Cannot determine how to register service '{service}'. implementation: '{implementation}''");
+        }
     }
 
-    private static void ThrowIfInvalidConventionalService(Type implementation)
+    private static void ThrowIfInvalidPolymorphicService(Type implementation)
     {
         if (implementation.BaseType != null &&
             !implementation.BaseType.IsAbstract &&

@@ -63,6 +63,7 @@ else
         Class += " children-component half-width";
         Items = await _setBehind.GetAll();
     }
+    // TODO: Implement ObservableBehind pattern
     public async Task CreateHandler()
     {
         await _contestantNavigator.Create();

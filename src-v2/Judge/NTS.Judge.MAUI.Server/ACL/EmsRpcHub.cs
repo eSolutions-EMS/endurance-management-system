@@ -10,6 +10,7 @@ using NTS.Domain.Core.Entities;
 using NTS.Domain.Core.Events;
 using NTS.Domain.Objects;
 using NTS.Judge.ACL.Factories;
+using NTS.Judge.Blazor.Ports;
 using NTS.Judge.Ports;
 
 namespace NTS.Judge.MAUI.Server.ACL;
@@ -18,11 +19,13 @@ public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, 
 {
     private readonly IRepository<Participation> _participations;
     private readonly IRepository<Event> _events;
+    private readonly IParticipationBehind _participationBehind;
 
-    public EmsRpcHub(IJudgeServiceProvider judgeProvider)
+    public EmsRpcHub(IJudgeServiceProvider judgeProvider, IParticipationBehind participationBehind)
     {
         _participations = judgeProvider.GetRequiredService<IRepository<Participation>>();
         _events = judgeProvider.GetRequiredService<IRepository<Event>>();
+        _participationBehind = participationBehind;
     }
 
     public Dictionary<int, EmsStartlist> SendStartlist()
@@ -99,7 +102,7 @@ public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, 
                 }
                 var isFinal = participation.Phases.Take(participation.Phases.Count - 1).All(x => x.IsComplete);
                 var snapshot = SnapshotFactory.Create(entry, type, isFinal);
-                //TODO: process after behind await _participationBehind.Process(snapshot);
+                await _participationBehind.Process(snapshot);
             }
         });
 

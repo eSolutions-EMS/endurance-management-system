@@ -1,5 +1,10 @@
-﻿@using NTS.Domain.Core.Aggregates.Participations
+﻿@using NTS.Domain.Core.Abstractions
+@using NTS.Domain.Core.Aggregates.Participations
+@using NTS.Domain.Core.Events
 @using NTS.Judge.Blazor.Pages.Dashboard;
+@using NTS.Judge.Blazor.Ports
+@using Not.Concurrency
+@using Not.Events
 
 @inherits NotComponent
 
@@ -48,7 +53,7 @@
 </table>
 
 <MudChipSet SelectedChipChanged="SelectParticipation">
-    @foreach (var participation in Participations)
+    @foreach (var participation in _behind.Participations)
     {
         var number = participation.Tandem.Number;
         var color = participation.IsNotQualified ? Color.Error : Color.Success;
@@ -63,12 +68,12 @@
     private string _axisClass = "";
     private Participation? _selectedParticipation = default!;
 
-    [Parameter]
-    public IEnumerable<Participation> Participations { get; set; } = new List<Participation>();
+    [Inject]
+    private IParticipationBehind _behind { get; set; } = default!;
 
     protected override void OnInitialized()
     {
-        _selectedParticipation = Participations.FirstOrDefault();
+        Observe(_behind);
     }
 
     private void FlipAxis()
@@ -91,7 +96,8 @@
         {
             return;
         }
-        _selectedParticipation = Participations.First(x => x.Tandem.Number == (int)chip.Value);
+        _selectedParticipation = _behind.Participations.FirstOrDefault(x => x.Tandem.Number == (int)chip.Value);
+        GuardHelper.ThrowIfDefault(_selectedParticipation);
     }
 }
 

@@ -25,11 +25,6 @@ public class DashboardBehind : IDasboardBehind
         _participationRepository = participationRepository;
     }
 
-    public async Task<IEnumerable<Participation>> GetParticipations()
-    {
-        return await _participationRepository.ReadAll();
-    }
-
     public async Task Start()
     {
         var setupEvent = await _setupRepository.Read(0);
