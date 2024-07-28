@@ -1,4 +1,4 @@
-﻿Tusing NTS.Persistence.Startup;
+﻿using NTS.Persistence.Startup;
 using NTS.Judge.Blazor.Startup;
 using Not.Injection;
 using NTS.Judge.MAUI.Server;
