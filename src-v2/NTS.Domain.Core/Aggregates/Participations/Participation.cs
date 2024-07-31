@@ -120,6 +120,7 @@ public class Participation : DomainEntity, IAggregateRoot
         {
             var phaseCompleted = new PhaseCompleted(Tandem.Number);
             EventHelper.Emit(phaseCompleted);
+            Phases.Next();
         }
     }
 

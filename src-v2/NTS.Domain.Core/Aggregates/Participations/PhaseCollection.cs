@@ -11,9 +11,10 @@ public class PhaseCollection : ReadOnlyCollection<Phase>
         {
             phase.InternalGate = gate += phase.Length;
         }
+        Current = this.FirstOrDefault(x => !x.IsComplete);
     }
 
-    internal Phase? Current => this.FirstOrDefault(x => !x.IsComplete);
+    internal Phase? Current { get; private set; } 
     internal int CurrentNumber => this.NumberOf(Current ?? this.Last());
     public double Distance => this.Sum(x => x.Length);
     internal Timestamp? OutTime => this.LastOrDefault(x => x.OutTime != null)?.OutTime;
@@ -21,5 +22,19 @@ public class PhaseCollection : ReadOnlyCollection<Phase>
     public override string ToString()
     {
         return $"{Distance}km: {this.Count(x => x.IsComplete)}/{this.Count} phases";
+    }
+
+    internal void Next()
+    {
+        if (Current == null)
+        {
+            return;
+        }
+        var currentIndex = this.IndexOf(Current);
+        if (Count <= currentIndex)
+        {
+            return;
+        }
+        Current = this[currentIndex + 1];
     }
 }
