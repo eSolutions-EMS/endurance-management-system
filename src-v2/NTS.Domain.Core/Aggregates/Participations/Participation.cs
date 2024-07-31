@@ -31,10 +31,10 @@ public class Participation : DomainEntity, IAggregateRoot
 
     public override string ToString()
     {
-        var result = $"Participation {Tandem.Number} {Phases}";
+        var result = $"{Tandem}, {Phases}";
         if (NotQualified != null)
         {
-            result += $" {NotQualified}";
+            result += $", {NotQualified}";
         }
         return result;
     }

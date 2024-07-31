@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using Not.Localization;
+﻿using Not.Localization;
 
 namespace NTS.Domain.Core.Aggregates.Participations;
 
@@ -42,6 +41,18 @@ public class Tandem : DomainEntity
 
     public override string ToString()
     {
-        return $"{"#".Localize()}{Number}: {Name}, {Horse}, {Distance} {"км".Localize()} ({MinAverageSpeed - MaxAverageSpeed})";
+        var message = $"{"#".Localize()}{Number}: {Name}, {Horse}";
+        if (MinAverageSpeed.HasValue && MaxAverageSpeed.HasValue)
+        {
+            return message + $", {"limits".Localize()}:{MinAverageSpeed}-{MaxAverageSpeed}";
+        }
+        else if (MinAverageSpeed.HasValue)
+        {
+            return message + $", {"min".Localize()}:{MinAverageSpeed}";
+        }
+        else
+        {
+            return message + $", {"max".Localize()}:{MaxAverageSpeed}";
+        }
     }
 }

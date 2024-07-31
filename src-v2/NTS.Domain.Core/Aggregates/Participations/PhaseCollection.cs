@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using Not.Localization;
+using System.Collections.ObjectModel;
 
 namespace NTS.Domain.Core.Aggregates.Participations;
 
@@ -21,7 +22,7 @@ public class PhaseCollection : ReadOnlyCollection<Phase>
 
     public override string ToString()
     {
-        return $"{Distance}km: {this.Count(x => x.IsComplete)}/{this.Count} phases";
+        return $"{Distance}{"km".Localize()}: {this.Count(x => x.IsComplete)}/{this.Count}";
     }
 
     internal void Next()
