@@ -23,6 +23,7 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind, IStar
     }
 
     public IEnumerable<Participation> Participations { get; private set; } = new List<Participation>();
+    public IEnumerable<IGrouping<double, Participation>> ParticipationsByDistance => Participations.GroupBy(x => x.Phases.Distance);
 
     public async Task RunAtStartup()
     {
