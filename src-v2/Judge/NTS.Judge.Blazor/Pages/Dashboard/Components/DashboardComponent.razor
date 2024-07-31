@@ -9,8 +9,10 @@
 @inherits NotComponent
 
 @* <MudButton OnClick="FlipAxis">Flip</MudButton> *@
-<MudGrid Spacing="10" Class="mt-4">
-    <MudItem xs="6" pl>
+
+<MudGrid Spacing="10" Style="margin-top:0;"> @* Necessary because Spacing does -40% margin style for some reason, which breaks the vertical layout *@
+    <MudItem xs="7" pl>
+        <MudText Typo="Typo.h5" Class="mb-2">@_selectedParticipation?.Tandem</MudText>
         <table class="rtable @_axisClass">
             <thead>
             <tr>
@@ -55,7 +57,7 @@
             </tbody>
         </table>
     </MudItem>
-    <MudItem xs="4">
+    <MudItem xs="3">
         <MudChipSet SelectedChipChanged="SelectParticipation">
             @foreach (var grouping in _behind.ParticipationsByDistance)
             {

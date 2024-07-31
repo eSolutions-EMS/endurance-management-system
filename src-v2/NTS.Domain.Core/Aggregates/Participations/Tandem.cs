@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Not.Localization;
 
 namespace NTS.Domain.Core.Aggregates.Participations;
 
@@ -37,5 +38,10 @@ public class Tandem : DomainEntity
     { 
         get => _distance.ToString("#.##");
         set => _distance = decimal.Parse(value);
+    }
+
+    public override string ToString()
+    {
+        return $"{"#".Localize()}{Number}: {Name}, {Horse}, {Distance} {"км".Localize()}";
     }
 }
