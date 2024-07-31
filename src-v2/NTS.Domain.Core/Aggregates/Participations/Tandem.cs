@@ -42,6 +42,6 @@ public class Tandem : DomainEntity
 
     public override string ToString()
     {
-        return $"{"#".Localize()}{Number}: {Name}, {Horse}, {Distance} {"км".Localize()}";
+        return $"{"#".Localize()}{Number}: {Name}, {Horse}, {Distance} {"км".Localize()} ({MinAverageSpeed - MaxAverageSpeed})";
     }
 }
