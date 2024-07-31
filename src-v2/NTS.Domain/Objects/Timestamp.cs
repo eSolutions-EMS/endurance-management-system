@@ -34,7 +34,7 @@ public record Timestamp : DomainObject, IComparable<Timestamp>
     }
     public override string ToString()
     {
-        return DateTime.LocalDateTime.ToString("HH:mm:ss.fff");
+        return DateTime.LocalDateTime.ToString("HH:mm:ss");
     }
 
     public int CompareTo(Timestamp? other)
@@ -59,9 +59,9 @@ public record Timestamp : DomainObject, IComparable<Timestamp>
     {
         return left?.DateTime > right;
     }
-    public static TimeSpan operator -(Timestamp? left, Timestamp? right)
+    public static TimeInterval operator -(Timestamp? left, Timestamp? right)
     {
-        return left?.DateTime - right?.DateTime ?? TimeSpan.Zero;
+        return new TimeInterval(left?.DateTime - right?.DateTime ?? TimeSpan.Zero);
     }
     public static Timestamp? operator +(Timestamp? left, TimeSpan? right)
     {

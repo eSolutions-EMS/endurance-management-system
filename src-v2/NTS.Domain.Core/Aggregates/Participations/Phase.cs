@@ -1,6 +1,5 @@
 ﻿using static NTS.Domain.Enums.SnapshotType;
 using static NTS.Domain.Core.Aggregates.Participations.SnapshotResultType;
-using Newtonsoft.Json;
 
 namespace NTS.Domain.Core.Aggregates.Participations;
 
@@ -41,12 +40,12 @@ public class Phase : DomainEntity, IPhaseState
 
     public Timestamp? RequiredInspectionTime => VetTime?.Add(TimeSpan.FromMinutes(Rest - 15)); //TODO: settings?
     public Timestamp? OutTime => VetTime?.Add(TimeSpan.FromMinutes(Rest));
-    public TimeSpan? LoopSpan => ArriveTime - StartTime;
-    public TimeSpan? PhaseSpan => VetTime - StartTime;
-    public TimeSpan? Span => IsFeiRulesAndNotFinal ? PhaseSpan : LoopSpan;
-    public TimeSpan? RecoverySpan => VetTime - ArriveTime;
-    public double? AveregeLoopSpeed => Length / LoopSpan?.TotalHours;
-    public double? AveragePhaseSpeed => Length / PhaseSpan?.TotalHours + RecoverySpan?.TotalHours;
+    public TimeInterval? LoopSpan => ArriveTime - StartTime;
+    public TimeInterval? PhaseSpan => VetTime - StartTime;
+    public TimeInterval? Span => IsFeiRulesAndNotFinal ? PhaseSpan : LoopSpan;
+    public TimeInterval? RecoverySpan => VetTime - ArriveTime;
+    public double? AveregeLoopSpeed => Length / LoopSpan;
+    public double? AveragePhaseSpeed => Length / (PhaseSpan + RecoverySpan); // TODO: fix
     public double? AverageSpeed => IsFeiRulesAndNotFinal ? AveragePhaseSpeed : AveregeLoopSpeed;
     public bool IsComplete => OutTime != null;
 
