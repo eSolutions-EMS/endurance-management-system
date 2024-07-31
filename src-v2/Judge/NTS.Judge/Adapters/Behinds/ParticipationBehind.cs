@@ -36,7 +36,10 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind, IStar
         GuardHelper.ThrowIfDefault(participation);
 
         var result = participation.Process(snapshot);
-        await _participationRepository.Update(participation);
+        if (result.Type == SnapshotResultType.Applied)
+        {
+            await _participationRepository.Update(participation);
+        }
         await _snapshotResultRepository.Create(result);
 
         EmitChange();
