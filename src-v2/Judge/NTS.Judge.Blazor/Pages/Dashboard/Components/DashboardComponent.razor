@@ -8,64 +8,68 @@
 
 @inherits NotComponent
 
-<table class="rtable @_axisClass">
-  <thead>
-    <tr>
-      <th>Gate</th>
-      <th>Start</th>
-      <th>Arrive</th>
-      <th>VetIn</th>
-      <th>ReIn</th>
-      <th>RI Time</th>
-      <th>CRI Time</th>
-      <th><strong>Out</strong></th>
-      <th>Recovery</th>
-      <th>Loop Time</th>
-      <th>Phase Time</th>
-      <th>Time</th>
-      <th>Loop Avrg</th>
-      <th>Phase Avrg</th>
-      <th>Speed Avrg</th>
-    </tr>
-  </thead>
-  <tbody>
-        @foreach (var phase in _selectedParticipation?.Phases ?? Enumerable.Empty<Phase>())
-        {
+@* <MudButton OnClick="FlipAxis">Flip</MudButton> *@
+<MudGrid Spacing="10" Class="mt-4">
+    <MudItem xs="6" pl>
+        <table class="rtable @_axisClass">
+            <thead>
             <tr>
-                <td>@phase.Gate.OrDefault()</td>
-                <td>@phase.StartTime.OrDefault()</td>
-                <td>@phase.ArriveTime.OrDefault()</td>
-                <td>@phase.InspectTime.OrDefault()</td>
-                <td>@phase.ReinspectTime.OrDefault()</td>
-                <td>@(phase.IsCRIRequested ? NullableExtensions.DEFAULT : phase.RequiredInspectionTime.OrDefault())</td>
-                <td>@(phase.IsCRIRequested ? phase.RequiredInspectionTime : NullableExtensions.DEFAULT)</td>
-                <td>@phase.OutTime.OrDefault()</td>
-                <td>@phase.RecoverySpan.OrDefault()</td>
-                <td>@phase.LoopSpan.OrDefault()</td>
-                <td>@phase.PhaseSpan.OrDefault()</td>
-                <td>@phase.Span.OrDefault()</td>
-                <td>@phase.AveregeLoopSpeed.OrDefault()</td>
-                <td>@phase.AveragePhaseSpeed.OrDefault()</td>
-                <td>@phase.AverageSpeed.OrDefault()</td>
+                <th>Gate</th>
+                <th>Start</th>
+                <th>Arrive</th>
+                <th>VetIn</th>
+                <th>ReIn</th>
+                <th>RI Time</th>
+                <th>CRI Time</th>
+                <th><strong>Out</strong></th>
+                <th>Recovery</th>
+                <th>Loop Time</th>
+                <th>Phase Time</th>
+                <th>Time</th>
+                <th>Loop Avrg</th>
+                <th>Phase Avrg</th>
+                <th>Speed Avrg</th>
             </tr>
-        }
-  </tbody>
-</table>
-
-<MudChipSet SelectedChipChanged="SelectParticipation">
-    @foreach (var participation in _behind.Participations)
-    {
-        var number = participation.Tandem.Number;
-        var color = participation.IsNotQualified ? Color.Error : Color.Success;
-        <MudChip Text="@number.ToString()" Value="@number" Color="@color" Style="min-width: 1rem" />
-    }
-</MudChipSet>
-
-<MudButton OnClick="FlipAxis">Flip</MudButton>
+            </thead>
+            <tbody>
+                @foreach (var phase in _selectedParticipation?.Phases ?? Enumerable.Empty<Phase>())
+                {
+                    <tr>
+                        <td>@phase.Gate.OrDefault()</td>
+                        <td>@phase.StartTime.OrDefault()</td>
+                        <td>@phase.ArriveTime.OrDefault()</td>
+                        <td>@phase.InspectTime.OrDefault()</td>
+                        <td>@phase.ReinspectTime.OrDefault()</td>
+                        <td>@(phase.IsCRIRequested ? NullableExtensions.DEFAULT : phase.RequiredInspectionTime.OrDefault())</td>
+                        <td>@(phase.IsCRIRequested ? phase.RequiredInspectionTime : NullableExtensions.DEFAULT)</td>
+                        <td>@phase.OutTime.OrDefault()</td>
+                        <td>@phase.RecoverySpan.OrDefault()</td>
+                        <td>@phase.LoopSpan.OrDefault()</td>
+                        <td>@phase.PhaseSpan.OrDefault()</td>
+                        <td>@phase.Span.OrDefault()</td>
+                        <td>@phase.AveregeLoopSpeed.OrDefault()</td>
+                        <td>@phase.AveragePhaseSpeed.OrDefault()</td>
+                        <td>@phase.AverageSpeed.OrDefault()</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </MudItem>
+    <MudItem xs="4">
+        <MudChipSet SelectedChipChanged="SelectParticipation">
+            @foreach (var participation in _behind.Participations)
+            {
+                var number = participation.Tandem.Number;
+                var color = participation.IsNotQualified ? Color.Error : Color.Primary;
+                <MudChip Text="@number.ToString()" Value="@number" Color="@color" Style="min-width: 1rem" />
+            }
+        </MudChipSet>
+    </MudItem>
+</MudGrid>
 
 @code {
     private const string FLIPPED_AXIS_CLASS = "rtable--flip";
-    private string _axisClass = "";
+    private string _axisClass = FLIPPED_AXIS_CLASS;
     private Participation? _selectedParticipation = default!;
 
     [Inject]
