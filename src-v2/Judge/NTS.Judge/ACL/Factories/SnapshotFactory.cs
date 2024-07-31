@@ -1,4 +1,5 @@
 ﻿using NTS.Compatibility.EMS.Entities.EMS;
+using NTS.Domain;
 using NTS.Domain.Enums;
 using NTS.Domain.Objects;
 
@@ -18,6 +19,6 @@ public class SnapshotFactory
             _ => throw new Exception($"Invalid WitnessEventType for participant '{participant.Number}'"),
         };
 
-        return new Snapshot(number, type, SnapshotMethod.EmsIntegration);
+        return new Snapshot(number, type, SnapshotMethod.EmsIntegration, new Timestamp(participant.ArriveTime!.Value));
     }
 }
