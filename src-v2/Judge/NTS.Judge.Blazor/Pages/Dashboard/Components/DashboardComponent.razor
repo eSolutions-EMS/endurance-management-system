@@ -82,6 +82,7 @@
 
     protected override void OnInitialized()
     {
+        _selectedParticipation = _behind.Participations.FirstOrDefault();
         Observe(_behind);
     }
 
