@@ -21,7 +21,7 @@ public record TimeInterval : DomainObject
     }
     public override string ToString()
     {
-        return Span.ToString(@"dd\.hh\:mm\:ss");
+        return Span.ToString(Span.TotalDays > 1 ? @"dd\.hh\:mm\:ss" : @"hh\:mm\:ss");
     }
 
     public static implicit operator TimeSpan?(TimeInterval? interval)

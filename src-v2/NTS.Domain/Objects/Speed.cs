@@ -27,7 +27,7 @@ public record Speed : DomainObject
 
     public override string ToString()
     {
-        return _speed.ToString("0.##");
+        return $"{_speed:0.##}";
     }
 
     public static implicit operator double(Speed speed)
