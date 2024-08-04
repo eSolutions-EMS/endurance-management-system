@@ -44,9 +44,9 @@ public class Phase : DomainEntity, IPhaseState
     public TimeInterval? PhaseSpan => VetTime - StartTime;
     public TimeInterval? Span => IsFeiRulesAndNotFinal ? PhaseSpan : LoopSpan;
     public TimeInterval? RecoverySpan => VetTime - ArriveTime;
-    public double? AveregeLoopSpeed => Length / LoopSpan;
-    public double? AveragePhaseSpeed => Length / (PhaseSpan + RecoverySpan); // TODO: fix
-    public double? AverageSpeed => IsFeiRulesAndNotFinal ? AveragePhaseSpeed : AveregeLoopSpeed;
+    public Speed? AveregeLoopSpeed => Length / LoopSpan;
+    public Speed? AveragePhaseSpeed => Length / (PhaseSpan + RecoverySpan); // TODO: fix
+    public Speed? AverageSpeed => IsFeiRulesAndNotFinal ? AveragePhaseSpeed : AveregeLoopSpeed;
     public bool IsComplete => OutTime != null;
 
     public SnapshotResult Arrive(Snapshot snapshot)
@@ -118,7 +118,7 @@ public class Phase : DomainEntity, IPhaseState
         return RecoverySpan > TimeSpan.FromMinutes(MaxRecovery);
     }
 
-    internal bool ViolatesSpeedRestriction(double? minSpeed, double? maxSpeed)
+    internal bool ViolatesSpeedRestriction(Speed? minSpeed, Speed? maxSpeed)
     {
         return AverageSpeed < minSpeed || AverageSpeed > maxSpeed;
     }

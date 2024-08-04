@@ -22,8 +22,8 @@ public class Tandem : DomainEntity
         _distance = distance;
         Country = country;
         Club = club;
-        MinAverageSpeed = minAverageSpeedlimit;
-        MaxAverageSpeed = maxAverageSpeedLimit;
+        MinAverageSpeed = Speed.Create(minAverageSpeedlimit);
+        MaxAverageSpeed = Speed.Create(maxAverageSpeedLimit);
     }
 
     public int Number { get; private set; }
@@ -31,8 +31,8 @@ public class Tandem : DomainEntity
     public string Horse { get; private set; }
     public Country? Country { get; private set; }
     public Club? Club { get; private set; }
-    public double? MinAverageSpeed { get; private set; }
-    public double? MaxAverageSpeed { get; private set; }
+    public Speed? MinAverageSpeed { get; private set; }
+    public Speed? MaxAverageSpeed { get; private set; }
     public string Distance
     { 
         get => _distance.ToString("#.##");
@@ -42,11 +42,11 @@ public class Tandem : DomainEntity
     public override string ToString()
     {
         var message = $"{"#".Localize()}{Number}: {Name}, {Horse}";
-        if (MinAverageSpeed.HasValue && MaxAverageSpeed.HasValue)
+        if (MinAverageSpeed != null && MaxAverageSpeed != null)
         {
             return message + $", {"limits".Localize()}:{MinAverageSpeed}-{MaxAverageSpeed}";
         }
-        else if (MinAverageSpeed.HasValue)
+        else if (MinAverageSpeed != null)
         {
             return message + $", {"min".Localize()}:{MinAverageSpeed}";
         }

@@ -1,6 +1,6 @@
 ﻿namespace NTS.Domain.Objects;
 
-public record TimeInterval
+public record TimeInterval : DomainObject
 {
     public static TimeInterval Zero => new(TimeSpan.Zero);
 
@@ -14,6 +14,11 @@ public record TimeInterval
     
     public TimeSpan Span { get; private set; }  
 
+
+    public double ToTotalHours()
+    {
+        return Span.TotalHours; 
+    }
     public override string ToString()
     {
         return Span.ToString(@"dd\.hh\:mm\:ss");
@@ -41,9 +46,13 @@ public record TimeInterval
         }
         return new TimeInterval(one!.Span - two!.Span);
     }
-
-    public static double? operator /(double num, TimeInterval? interval)
+        
+    public static Speed? operator /(double num, TimeInterval? interval)
     {
-        return num / interval?.Span.TotalHours;
+        if (interval == null)
+        {
+            return null;
+        }
+        return new Speed(num, interval.ToTotalHours());
     }
 }

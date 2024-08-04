@@ -13,10 +13,10 @@ public record Total : DomainObject
         RecoveryInterval = completedPhases.Aggregate(TimeInterval.Zero, (result, x) => (result + x.RecoverySpan)!);
         RecoveryIntervalWithoutFinal = (RecoveryInterval - completedPhases.FirstOrDefault(x => x.IsFinal)?.RecoverySpan) ?? RecoveryInterval;
         Interval = (RideInterval + RecoveryInterval)!;
-        AverageSpeed = (totalLength / Interval)!.Value;
+        AverageSpeed = new Speed(totalLength, Interval);
     }
 
-    public double AverageSpeed { get; private set; }
+    public Speed AverageSpeed { get; private set; }
     public TimeInterval Interval { get; private set; }
     public TimeInterval RideInterval { get; private set; }
     public TimeInterval RecoveryInterval { get; private set; }
