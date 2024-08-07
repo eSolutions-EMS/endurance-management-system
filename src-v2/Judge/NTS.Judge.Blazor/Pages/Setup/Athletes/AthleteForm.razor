@@ -12,9 +12,7 @@
 <EditForm Model="_model">
     <MudTextField @ref="_nameField" @bind-Value="_model.Name" Label="@Localizer.Get("Name")" />
     <MudTextField @bind-Value="_model.FeiId" Label="Fei Id" HelperText="@Localizer.Get(OPTIONAL_FEI_ID)" Variant="Variant.Text" Margin="Margin.Dense" />
-    <MudAutocomplete T="Country" @ref="_countryField" @bind-Value="_model.Country" Label="@Localizer.Get(nameof(Athlete.Country))"
-                     CoerceText="true"
-                     SearchFunc="_countries.Search" />
+    <NotAutocomplete T="Country" @ref="_countryField" @bind-Value="_model.Country" Label="@nameof(Athlete.Country)" Search="_countries.Search" />
     <MudTextField @bind-Value="_model.Club" Label="Club" Variant="Variant.Text" Margin="Margin.Dense" />
     <MudTextField @bind-Value="_model.Category" Label="Category" Variant="Variant.Text" Margin="Margin.Dense" />
 </EditForm>
@@ -22,7 +20,7 @@
 @code {
     private MudTextField<string> _nameField = default!;
     private MudTextField<string?> _feiIdField = default!;
-    private MudAutocomplete<Country?> _countryField = default!;
+    private NotAutocomplete<Country?> _countryField = default!;
     private MudTextField<string> _clubField = default!;
     private MudTextField<string> _categoryField = default!;
     private AthleteFormModel _model { get; set; } = new();

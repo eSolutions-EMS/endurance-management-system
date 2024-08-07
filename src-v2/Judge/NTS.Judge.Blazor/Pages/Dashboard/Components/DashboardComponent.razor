@@ -3,6 +3,7 @@
 @using NTS.Domain.Core.Events
 @using NTS.Judge.Blazor.Pages.Dashboard;
 @using NTS.Judge.Blazor.Ports
+@using Not.Blazor.TM
 @using Not.Concurrency
 @using Not.Events
 
@@ -12,13 +13,7 @@
 
 <MudGrid Spacing="5" Style="margin-top:0;"> @* Necessary because Spacing does -40% margin style for some reason, which breaks the vertical layout *@
     <MudItem xs="10">
-        <MudAutocomplete T="Participation" @bind-Value="_selectedParticipation"
-                         Class="mb-2 dashboard-autocomplete"
-                         Label="@Localizer.Get("Type to search")"
-                         CoerceText="true"
-                         SearchFunc="Search" 
-                         @onclick="x => { _selectedParticipation = null; }"
-                         @ValueChanged=""/>
+        <NotAutocomplete T="Participation" @bind-Value="_selectedParticipation" Search="Search" Class="mb-2 dashboard-autocomplete" />
     </MudItem>
     <MudItem xs="7">
         <table class="rtable @_axisClass">
