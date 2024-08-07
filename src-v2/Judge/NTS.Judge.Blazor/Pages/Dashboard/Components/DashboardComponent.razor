@@ -10,9 +10,17 @@
 
 @* <MudButton OnClick="FlipAxis">Flip</MudButton> *@
 
-<MudGrid Spacing="10" Style="margin-top:0;"> @* Necessary because Spacing does -40% margin style for some reason, which breaks the vertical layout *@
-    <MudItem xs="7" pl>
-        <MudText Typo="Typo.h5" Class="mb-2">@_selectedParticipation</MudText>
+<MudGrid Spacing="5" Style="margin-top:0;"> @* Necessary because Spacing does -40% margin style for some reason, which breaks the vertical layout *@
+    <MudItem xs="10">
+        <MudAutocomplete T="Participation" @bind-Value="_selectedParticipation"
+                         Class="mb-2 dashboard-autocomplete"
+                         Label="@Localizer.Get("Type to search")"
+                         CoerceText="true"
+                         SearchFunc="Search" 
+                         @onclick="x => { _selectedParticipation = null; }"
+                         @ValueChanged=""/>
+    </MudItem>
+    <MudItem xs="7">
         <table class="rtable @_axisClass">
             <thead>
             <tr>
@@ -67,7 +75,7 @@
                 {
                     var number = participation.Tandem.Number;
                     var color = participation.IsNotQualified ? Color.Error : Color.Primary;
-                    <MudChip Text="@number.ToString()" Value="@number" Color="@color" Style="min-width: 1rem" />
+                    <MudChip Text="@number.ToString()" Value="@number" Color="@color" Style="min-width: 1rem" /> // TODO: Update Mudblazor and use bind-Selected
                 }
             }
         </MudChipSet>
@@ -76,6 +84,7 @@
 
 @code {
     private const string FLIPPED_AXIS_CLASS = "rtable--flip";
+
     private string _axisClass = FLIPPED_AXIS_CLASS;
     private Participation? _selectedParticipation = default!;
 
@@ -86,6 +95,16 @@
     {
         _selectedParticipation = _behind.Participations.FirstOrDefault();
         Observe(_behind);
+    }
+
+    private Task<IEnumerable<Participation>> Search(string term)
+    {
+        if (string.IsNullOrEmpty(term))
+        {
+            return Task.FromResult(_behind.Participations);
+        }
+        var result = _behind.Participations.Where(x => x.ToString().ToLower().Contains(term.ToLower()));
+        return Task.FromResult(result);
     }
 
     private void FlipAxis()
@@ -114,6 +133,7 @@
 }
 
 <style>
+
     /*!
     // CSS only Responsive Tables
     // http://dbushell.com/2016/03/04/css-only-responsive-tables/
