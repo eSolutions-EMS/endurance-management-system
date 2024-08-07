@@ -42,17 +42,18 @@ public class Tandem : DomainEntity
     public override string ToString()
     {
         var message = $"{"#".Localize()}{Number}: {Name}, {Horse}";
+        var kmph = "km/h".Localize();
         if (MinAverageSpeed != null && MaxAverageSpeed != null)
         {
-            return message + $", {"limits".Localize()}:{MinAverageSpeed}-{MaxAverageSpeed}";
+            return message + $" ({MinAverageSpeed}-{MaxAverageSpeed} {kmph})";
         }
         else if (MinAverageSpeed != null)
         {
-            return message + $", {"min".Localize()}:{MinAverageSpeed}";
+            return message + $" ({"min".Localize()}:{MinAverageSpeed} {kmph})";
         }
         else
         {
-            return message + $", {"max".Localize()}:{MaxAverageSpeed}";
+            return message + $" ({"max".Localize()} : {MaxAverageSpeed}   {kmph})";
         }
     }
 }
