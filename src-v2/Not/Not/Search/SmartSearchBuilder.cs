@@ -25,13 +25,13 @@ public static class SmartSearchBuilder
 
     public static SmartSearchBuilder<T> AddString<T>(this SmartSearchBuilder<T> builder, Func<T, string> valueSelector)
     {
-        var stringSearch = new StringSearch<T>(valueSelector);
+        var stringSearch = new StringPropertySearch<T>(valueSelector);
         return builder.Add(stringSearch);
     }
 
     public static SmartSearchBuilder<T> AddInt<T>(this SmartSearchBuilder<T> builder, Func<T, int> valueSelector)
     {
-        var intSearch = new IntSearch<T>(valueSelector);
+        var intSearch = new IntPropertySerach<T>(valueSelector);
         return builder.Add(intSearch);
     }
 }

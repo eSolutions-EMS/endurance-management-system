@@ -14,7 +14,6 @@ public record TimeInterval : DomainObject
     
     public TimeSpan Span { get; private set; }  
 
-
     public double ToTotalHours()
     {
         return Span.TotalHours; 

@@ -40,9 +40,9 @@ internal abstract class PropertySearch<T, TValue> : SearchBase<T>
     protected abstract TValue ConvertSearch(string value);
 }
 
-internal class StringSearch<T> : PropertySearch<T, string>
+internal class StringPropertySearch<T> : PropertySearch<T, string>
 {
-    public StringSearch(Func<T, string> selector) : base(selector)
+    public StringPropertySearch(Func<T, string> selector) : base(selector)
     {
     }
 
@@ -57,9 +57,9 @@ internal class StringSearch<T> : PropertySearch<T, string>
     }
 }
 
-internal class IntSearch<T> : PropertySearch<T, int>
+internal class IntPropertySerach<T> : PropertySearch<T, int>
 {
-    public IntSearch(Func<T, int> selector) : base(selector)
+    public IntPropertySerach(Func<T, int> selector) : base(selector)
     {
     }
 
