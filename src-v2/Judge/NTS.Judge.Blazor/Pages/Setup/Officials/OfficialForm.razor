@@ -26,7 +26,7 @@
     public override void RegisterValidationInjectors()
     {
         RegisterInjector(nameof(_model.Name), () => _nameField);
-        // RegisterInjector(nameof(_model.Role), () => _roleField);
+        RegisterInjector(nameof(_model.Role), () => _roleField);
     } 
 
     public override void SetUpdateModel(Official official)
