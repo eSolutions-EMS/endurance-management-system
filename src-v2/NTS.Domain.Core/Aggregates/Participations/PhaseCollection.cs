@@ -8,9 +8,11 @@ public class PhaseCollection : ReadOnlyCollection<Phase>
     public PhaseCollection(IEnumerable<Phase> phases) : base(phases.ToList())
     {
         var gate = 0d;
-        foreach (var phase in this)
+        for (var i = 0; i < this.Count; i++)
         {
-            phase.InternalGate = gate += phase.Length;
+            var phase = this[i];
+            var distanceFromStart = gate += phase.Length;
+            phase.InternalGate = $"{i + 1}/{distanceFromStart:0.##}";
         }
         Current = this.FirstOrDefault(x => !x.IsComplete);
     }

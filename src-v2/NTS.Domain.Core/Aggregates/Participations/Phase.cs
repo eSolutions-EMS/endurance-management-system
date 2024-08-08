@@ -5,7 +5,7 @@ namespace NTS.Domain.Core.Aggregates.Participations;
 
 public class Phase : DomainEntity, IPhaseState
 {
-    internal double InternalGate { get; set; }
+    internal string InternalGate { get; set; }
     private Timestamp? VetTime => ReinspectTime ?? InspectTime;
     private bool IsFeiRulesAndNotFinal => CompetitionType == CompetitionType.FEI && !IsFinal;
 
@@ -19,7 +19,7 @@ public class Phase : DomainEntity, IPhaseState
         CRIRecovery = criRecovery;
     }
 
-    public string Gate => InternalGate.ToString("0.00");
+    public string Gate => $"GATE{InternalGate}";
     public double Length { get; private set; }
     public int MaxRecovery { get; private set; }
     public int Rest { get; private set; }
