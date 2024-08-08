@@ -6,6 +6,8 @@ using Not.Exceptions;
 
 namespace Not.Blazor.TM.Forms.Components;
 
+// TODO: Use I<Entity>State interface instead of the entity itself in T
+// in order
 public abstract class NotForm<T> : NotComponent, ICreateForm<T>, IUpdateForm<T>
     where T : DomainEntity
 {
