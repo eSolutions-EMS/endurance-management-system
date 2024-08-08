@@ -11,30 +11,31 @@
 
 @* <MudButton OnClick="FlipAxis">Flip</MudButton> *@
 
-<MudGrid Spacing="5" Style="margin-top:0;"> @* Necessary because Spacing does -40% margin style for some reason, which breaks the vertical layout *@
+<MudGrid Spacing="5" Style="margin-top:0;">
+    @* Necessary because Spacing does -40% margin style for some reason, which breaks the vertical layout *@
     <MudItem xs="10">
         <NotAutocomplete T="Participation" @bind-Value="_selectedParticipation" Search="Search" Class="mb-2 dashboard-autocomplete" />
     </MudItem>
     <MudItem xs="7">
         <table class="rtable @_axisClass">
             <thead>
-            <tr>
-                <th>Gate</th>
-                <th>Start</th>
-                <th>Arrive</th>
-                <th>VetIn</th>
-                <th>ReIn</th>
-                <th>RI Time</th>
-                <th>CRI Time</th>
-                <th><strong>Out</strong></th>
-                <th>Recovery</th>
-                <th>Loop Time</th>
-                <th>Phase Time</th>
-                <th>Time</th>
-                <th>Loop Avrg</th>
-                <th>Phase Avrg</th>
-                <th>Speed Avrg</th>
-            </tr>
+                <tr>
+                    <th>Gate</th>
+                    <th>Start</th>
+                    <th>Arrive</th>
+                    <th>VetIn</th>
+                    <th>ReIn</th>
+                    <th>RI Time</th>
+                    <th>CRI Time</th>
+                    <th><strong>Out</strong></th>
+                    <th>Recovery</th>
+                    <th>Loop Time</th>
+                    <th>Phase Time</th>
+                    <th>Time</th>
+                    <th>Loop Avrg</th>
+                    <th>Phase Avrg</th>
+                    <th>Speed Avrg</th>
+                </tr>
             </thead>
             <tbody>
                 @foreach (var phase in _selectedParticipation?.Phases ?? Enumerable.Empty<Phase>())
@@ -71,7 +72,7 @@
                     var number = participation.Tandem.Number;
                     var color = participation.IsNotQualified ? Color.Error : Color.Primary;
                     // TODO: Update Mudblazor and use bind-Selected: https://mudblazor.com/components/chipset#binding-chips-in-a-selection
-                    <MudChip Text="@number.ToString()" Value="@number" Color="@color" Style="min-width: 1rem" /> 
+                    <MudChip Text="@number.ToString()" Value="@number" Color="@color" Style="min-width: 1rem" />
                 }
             }
         </MudChipSet>

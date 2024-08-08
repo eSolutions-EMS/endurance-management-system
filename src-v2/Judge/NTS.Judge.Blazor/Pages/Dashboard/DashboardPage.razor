@@ -8,13 +8,21 @@
 
 <NotH1>@Localizer.Get("Dashboard")</NotH1>
 
-<DashboardComponent  />
-
-<InputFile OnChange="ImportEmsData" />
+@if (!_participationBehind.Participations.Any())
+{
+    <NotH2>@Localizer.Get("No participations")</NotH2>
+    <InputFile OnChange="ImportEmsData" />
+}
+else
+{
+    <DashboardComponent />
+}
 
 @code {
     [Inject]
     private IEmsImportBehind _importBehind { get; set; } = default!;
+    [Inject]
+    private IParticipationBehind _participationBehind { get; set; } = default!;
 
     private async Task ImportEmsData(InputFileChangeEventArgs args)
     {
