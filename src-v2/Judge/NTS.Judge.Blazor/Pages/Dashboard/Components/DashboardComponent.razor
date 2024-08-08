@@ -47,7 +47,7 @@
                         <td>@phase.ReinspectTime.OrDefault()</td>
                         <td>@(phase.IsCRIRequested ? NullableExtensions.DEFAULT : phase.RequiredInspectionTime.OrDefault())</td>
                         <td>@(phase.IsCRIRequested ? phase.RequiredInspectionTime : NullableExtensions.DEFAULT)</td>
-                        <td>@phase.OutTime.OrDefault()</td>
+                        <td><strong>@phase.OutTime.OrDefault()</strong></td>
                         <td>@phase.RecoverySpan.OrDefault()</td>
                         <td>@phase.LoopSpan.OrDefault()</td>
                         <td>@phase.PhaseSpan.OrDefault()</td>
@@ -187,7 +187,6 @@
         }
 
         .rtable th {
-            font-size: 11px;
             text-align: left;
             text-transform: uppercase;
             background: #f2f0e6;
@@ -241,49 +240,4 @@
             .rtable--flip td:not(:last-child) {
                 border-bottom: 0;
             }
-
-    /*!
-    // CodePen house keeping
-    */
-
-    body {
-        margin: 0;
-        padding: 25px;
-        color: #494b4d;
-        font-size: 14px;
-        line-height: 20px;
-    }
-
-    h1, h2, h3 {
-        margin: 0 0 10px 0;
-        color: #1d97bf;
-    }
-
-    h1 {
-        font-size: 25px;
-        line-height: 30px;
-    }
-
-    h2 {
-        font-size: 20px;
-        line-height: 25px;
-    }
-
-    h3 {
-        font-size: 16px;
-        line-height: 20px;
-    }
-
-    table {
-        margin-bottom: 30px;
-    }
-
-    a {
-        color: #ff6680;
-    }
-
-    code {
-        background: #fffbcc;
-        font-size: 12px;
-    }
 </style>
