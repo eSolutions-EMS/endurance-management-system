@@ -6,11 +6,15 @@ using Newtonsoft.Json;
 
 namespace NTS.Domain.Core.Aggregates.Participations;
 
-public class Participation : DomainEntity, IAggregateRoot
+public class Participation : DomainEntity, IAggregateRoot, IEvent
 {
     private static readonly TimeSpan NOT_SNAPSHOTABLE_WINDOW = TimeSpan.FromMinutes(30);
     private static readonly FailedToQualify OUT_OF_TIME = new (FTQCodes.OT);
     private static readonly FailedToQualify SPEED_RESTRICTION = new (FTQCodes.SP);
+
+    private Participation()
+    {
+    }
 
     public Participation(string competition, Tandem tandem, IEnumerable<Phase> phases)
     {
@@ -70,7 +74,18 @@ public class Participation : DomainEntity, IAggregateRoot
         phase.Update(state);
         EvaluatePhase(phase);
     }
-
+    public void IsReinspectionRequested(bool requested)
+    {
+        GuardHelper.ThrowIfDefault(Phases);
+        GuardHelper.ThrowIfDefault(Phases.Current);
+        Phases.Current.IsReinspectionRequested = requested;
+    }
+    public void IsRIRequested(bool requested)
+    {
+        GuardHelper.ThrowIfDefault(Phases);
+        GuardHelper.ThrowIfDefault(Phases.Current);
+        Phases.Current.IsRIRequested = !Phases.Current.IsRIRequested;
+    }
     public void Withdraw()
     {
         RevokeQualification(new Withdrawn());
@@ -90,9 +105,9 @@ public class Participation : DomainEntity, IAggregateRoot
         RevokeQualification(new FinishedNotRanked(reason));
     }
 
-    public void FailToQualify(FTQCodes code)
+    public void FailToQualify(params FTQCodes[] codes)
     {
-        RevokeQualification(new FailedToQualify(code));
+        RevokeQualification(new FailedToQualify(codes));
     }
 
     public void FailToCompleteLoop(string reason)
