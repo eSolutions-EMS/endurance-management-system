@@ -49,7 +49,7 @@ public class Phase : DomainEntity, IPhaseState
     public Speed? AverageSpeed => IsFeiRulesAndNotFinal ? AveragePhaseSpeed : AveregeLoopSpeed;
     public bool IsComplete => OutTime != null;
 
-    public SnapshotResult Arrive(Snapshot snapshot)
+    internal SnapshotResult Arrive(Snapshot snapshot)
     {
         // TODO: settings - Add setting for separate final. This is useful for some events such as Shumen where we need separate detection for the actual final
         var isSeparateFinal = false;
