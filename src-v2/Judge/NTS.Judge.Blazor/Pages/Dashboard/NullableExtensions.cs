@@ -6,8 +6,11 @@ public static class NullableExtensions
 
     public static string OrDefault(this object? obj)
     {
-        return obj != null
-            ? obj.ToString() ?? throw new Exception($"Type '{obj.GetType()}' returns null from ToString")
-            : DEFAULT;
+        if (obj == null)
+        {
+            return DEFAULT;
+        }
+        var text = obj.ToString() ?? throw new Exception($"Type '{obj.GetType()}' returns null from ToString");
+        return text;
     }
 }

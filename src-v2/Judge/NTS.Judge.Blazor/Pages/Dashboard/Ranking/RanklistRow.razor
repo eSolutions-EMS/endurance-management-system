@@ -1,0 +1,54 @@
+﻿@using NTS.Domain.Core.Aggregates.Participations
+@using NTS.Domain.Core.Entities
+@using NTS.Judge.Blazor.Pages.Dashboard.Components
+
+<MudGrid Style="margin-top:0">
+    <MudItem xs="1" Class="align-self-center">
+        <MudText>@Rank</MudText>
+    </MudItem>
+    <MudItem xs="4" Class="align-self-center">
+        <MudStack>
+            <MudItem>
+                <MudText><strong>@_tandem.Number</strong> @_tandem.Name</MudText>
+            </MudItem>
+            <MudItem>
+                <MudText>@_tandem.Horse</MudText>
+            </MudItem>
+        </MudStack>
+    </MudItem>
+    <MudItem xs="1" Class="align-self-center">
+        @if (_notQualified != null)
+        {
+            <MudIcon Icon="@Icons.Material.Filled.BackHand" Color="Color.Error" Size="Size.Large" />
+        }
+        @if (Entry.Participation.Phases.Any(x => !x.IsComplete))
+        {
+            <MudIcon Icon="@Icons.Material.TwoTone.Flag" Color="Color.Default" Size="Size.Large" />
+        }
+        else
+        {
+            <MudIcon Icon="@Icons.Material.Filled.Flag" Color="Color.Success" Size="Size.Large"/>
+        }
+    </MudItem>
+    <MudItem xs="3" Class="align-self-center">
+        @_currentPhase?.ArriveTime
+    </MudItem>
+    <MudItem xs="2" Class="align-self-center">
+        @Entry.Participation.Total?.AverageSpeed
+    </MudItem>
+</MudGrid>
+<MudCollapse Expanded="_expanded">
+    <ParticipationTable Participation="Entry.Participation" />
+</MudCollapse>
+
+@code {
+    private bool _expanded;
+    private Tandem _tandem => Entry.Participation.Tandem;
+    private NotQualified? _notQualified => Entry.Participation.NotQualified;
+    private Phase? _currentPhase => Entry.Participation.Phases.CurrentComplete;
+
+    [Parameter]
+    public RankingEntry Entry { get; set; } = default!;
+    [Parameter]
+    public int Rank { get; set; } = default!;
+}

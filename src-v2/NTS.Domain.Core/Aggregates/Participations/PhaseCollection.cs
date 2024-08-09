@@ -17,6 +17,7 @@ public class PhaseCollection : ReadOnlyCollection<Phase>
         Current = this.FirstOrDefault(x => !x.IsComplete);
     }
 
+    public Phase? CurrentComplete => this.LastOrDefault(x => x.IsComplete);
     internal Phase? Current { get; private set; } 
     internal int CurrentNumber => this.NumberOf(Current ?? this.Last());
     public double Distance => this.Sum(x => x.Length);

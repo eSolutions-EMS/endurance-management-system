@@ -1,0 +1,38 @@
+﻿@using NTS.Domain.Core.Objects
+@using NTS.Judge.Blazor.Ports
+
+@inherits NotComponent
+
+<NotH1>@Localizer.Get("Ranklist")</NotH1>
+
+@if (_behind.Ranklist == null)
+{
+    <MudPaper>
+        <MudText>The event is not started yet</MudText>
+    </MudPaper>
+}
+else
+{
+    <NotH2>@_behind.Ranklist.Title</NotH2>
+
+    @for (var i = 0; i < _behind.Ranklist.Count; i++)
+    {
+        var rank = i + 1;
+        var entry = _behind.Ranklist[i];
+        <RanklistRow Entry="entry" Rank="rank" />
+        if (i != _behind.Ranklist.Count - 1)
+        {
+           <MudDivider />
+        }
+    }
+}
+
+@code {
+    [Inject]
+    IRanklistBehind _behind { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await _behind.Initialize();
+    }
+}

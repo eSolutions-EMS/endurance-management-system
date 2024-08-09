@@ -46,9 +46,10 @@ public class EmsToCoreImporter : IEmsToCoreImporter
         var emsState = emsJson.FromJson<EmsState>();
 
         var @event = CreateEvent(emsState.Event, adjustTime);
-        var officials = CreateOfficials(emsState.Event);
-        var participations = CreateParticipations(emsState, adjustTime);
-        var classifications = CreateClassifications(emsState, adjustTime);
+        //TODOL interesting why some imports fail without ToList? 2024-vakarel (finished) for example
+        var officials = CreateOfficials(emsState.Event).ToList();
+        var participations = CreateParticipations(emsState, adjustTime).ToList();
+        var classifications = CreateClassifications(emsState, adjustTime).ToList();
 
         await _events.Create(@event);
         foreach (var official in officials)
