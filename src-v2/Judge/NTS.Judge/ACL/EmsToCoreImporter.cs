@@ -21,13 +21,13 @@ public class EmsToCoreImporter : IEmsToCoreImporter
     private readonly IRepository<Event> _events;
     private readonly IRepository<Official> _officials;
     private readonly IRepository<Participation> _participations;
-    private readonly IRepository<Classification> _classfications;
+    private readonly IRepository<Ranking> _classfications;
 
     public EmsToCoreImporter(
         IRepository<Event> events,
         IRepository<Official> officials,
         IRepository<Participation> participations,
-        IRepository<Classification> classfications)
+        IRepository<Ranking> classfications)
     {
         _events = events;
         _officials = officials;
@@ -132,10 +132,10 @@ public class EmsToCoreImporter : IEmsToCoreImporter
         }
     }
 
-    private IEnumerable<Classification> CreateClassifications(EmsState state, bool adjustTime)
+    private IEnumerable<Ranking> CreateClassifications(EmsState state, bool adjustTime)
     {
-        var result = new List<Classification>();
-        var entriesforClassification = new Dictionary<EmsCompetition, Dictionary<AthleteCategory, List<ClassificationEntry>>>();
+        var result = new List<Ranking>();
+        var entriesforClassification = new Dictionary<EmsCompetition, Dictionary<AthleteCategory, List<RankingEntry>>>();
         foreach (var emsParticipation in state.Participations)
         {
             foreach (var competitionId in emsParticipation.CompetitionsIds)
@@ -143,22 +143,22 @@ public class EmsToCoreImporter : IEmsToCoreImporter
                 var competition = state.Event.Competitions.First(x => x.Id == competitionId);
                 var participation = ParticipationFactory.CreateCore(emsParticipation, competition, adjustTime);
                 var category = EmsCategoryToAthleteCategory(emsParticipation.Participant.Athlete.Category);
-                var entry = new ClassificationEntry(participation, emsParticipation.Participant.Unranked);
+                var entry = new RankingEntry(participation, emsParticipation.Participant.Unranked);
                 if (entriesforClassification.ContainsKey(competition) && entriesforClassification[competition].ContainsKey(category))
                 {
                     entriesforClassification[competition][category].Add(entry);
                 }
                 else if (entriesforClassification.ContainsKey(competition))
                 {
-                    entriesforClassification[competition].Add(category, new List<ClassificationEntry> { entry });
+                    entriesforClassification[competition].Add(category, new List<RankingEntry> { entry });
                 }
                 else
                 {
                     entriesforClassification.Add(
                         competition,
-                        new Dictionary<AthleteCategory, List<ClassificationEntry>>
+                        new Dictionary<AthleteCategory, List<RankingEntry>>
                         { 
-                            { category, new List<ClassificationEntry> { entry } } 
+                            { category, new List<RankingEntry> { entry } } 
                         });
                 }
 
@@ -168,7 +168,7 @@ public class EmsToCoreImporter : IEmsToCoreImporter
         {
             foreach (var (category, entries) in entriesByCategory)
             {
-                result.Add(new Classification(competition.Name, category, entries));
+                result.Add(new Ranking(competition.Name, category, entries));
             }
         }
         return result;

@@ -3,9 +3,9 @@ using System.Collections.ObjectModel;
 
 namespace NTS.Domain.Core.Objects;
 
-public class Ranklist : ReadOnlyCollection<ClassificationEntry>
+public class Ranklist : ReadOnlyCollection<RankingEntry>
 {
-    public Ranklist(Classification classification)
+    public Ranklist(Ranking classification)
         : base(classification.Category == AthleteCategory.Senior
             ? RankSeniors(classification.Entries)
             : RankOthers(classification.Entries))
@@ -13,9 +13,9 @@ public class Ranklist : ReadOnlyCollection<ClassificationEntry>
         Classification = classification;
     }
 
-    public Classification Classification { get; }
+    public Ranking Classification { get; }
 
-    private static IList<ClassificationEntry> RankSeniors(IEnumerable<ClassificationEntry> entry)
+    private static IList<RankingEntry> RankSeniors(IEnumerable<RankingEntry> entry)
     {
         var ranked = OrderByNotQualifiedThenNotRanked(entry)
             .ThenBy(x => x.Participation.Phases.Last().ArriveTime)
@@ -23,7 +23,7 @@ public class Ranklist : ReadOnlyCollection<ClassificationEntry>
         return ranked;
     }
 
-    private static IList<ClassificationEntry> RankOthers(IEnumerable<ClassificationEntry> entry)
+    private static IList<RankingEntry> RankOthers(IEnumerable<RankingEntry> entry)
     {
         var ranked = OrderByNotQualifiedThenNotRanked(entry)
             .ThenBy(x => x.Participation.Total?.RecoveryInterval)
@@ -31,7 +31,7 @@ public class Ranklist : ReadOnlyCollection<ClassificationEntry>
         return ranked;
     }
 
-    private static IOrderedEnumerable<ClassificationEntry> OrderByNotQualifiedThenNotRanked(IEnumerable<ClassificationEntry> entry)
+    private static IOrderedEnumerable<RankingEntry> OrderByNotQualifiedThenNotRanked(IEnumerable<RankingEntry> entry)
     {
         return entry
             .OrderBy(x => x.Participation.IsNotQualified)
