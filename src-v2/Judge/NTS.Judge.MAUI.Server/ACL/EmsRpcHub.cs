@@ -138,40 +138,41 @@ public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, 
             EventHelper.Subscribe<QualificationRevoked>(SendParticipantEntryRemove);
         }
 
-        public void SendStartlistEntryUpdate(PhaseCompleted phaseCompleted)
+        public async void SendStartlistEntryUpdate(PhaseCompleted phaseCompleted)
         {
-            var participation = _participations.Read(x => x.Tandem.Number == phaseCompleted.Number).Result;
+            var participation = await _participations.Read(x => x.Tandem.Number == phaseCompleted.Number);
             if (participation == null)
             {
                 return;
             }
             var emsParticipation = ParticipationFactory.CreateEms(participation);
             var entry = new EmsStartlistEntry(emsParticipation);
-            _hub.Clients.All.ReceiveEntry(entry, EmsCollectionAction.AddOrUpdate);
+            await _hub.Clients.All.ReceiveEntry(entry, EmsCollectionAction.AddOrUpdate);
         }
 
-        public void SendParticipantEntryAddOrUpdate(QualificationRestored qualificationRestored)
+        public async void SendParticipantEntryAddOrUpdate(QualificationRestored qualificationRestored)
         {
-            var participation = _participations.Read(x => x.Tandem.Number == qualificationRestored.Number).Result;
+            var participation = await _participations.Read(x => x.Tandem.Number == qualificationRestored.Number);
+            if (participation == null)
+            {
+                return;
+            }
+            await _participations.Update(participation);
+            var emsParticipation = ParticipationFactory.CreateEms(participation);
+            var entry = new EmsParticipantEntry(emsParticipation);
+            await _hub.Clients.All.ReceiveEntryUpdate(entry, EmsCollectionAction.AddOrUpdate);
+        }
+
+        public async void SendParticipantEntryRemove(QualificationRevoked qualificationRevoked)
+        {
+            var participation = await _participations.Read(x => x.Tandem.Number == qualificationRevoked.Number);
             if (participation == null)
             {
                 return;
             }
             var emsParticipation = ParticipationFactory.CreateEms(participation);
             var entry = new EmsParticipantEntry(emsParticipation);
-            _hub.Clients.All.ReceiveEntryUpdate(entry, EmsCollectionAction.AddOrUpdate);
-        }
-
-        public void SendParticipantEntryRemove(QualificationRevoked qualificationRevoked)
-        {
-            var participation = _participations.Read(x => x.Tandem.Number == qualificationRevoked.Number).Result;
-            if (participation == null)
-            {
-                return;
-            }
-            var emsParticipation = ParticipationFactory.CreateEms(participation);
-            var entry = new EmsParticipantEntry(emsParticipation);
-            _hub.Clients.All.ReceiveEntryUpdate(entry, EmsCollectionAction.Remove);
+            await _hub.Clients.All.ReceiveEntryUpdate(entry, EmsCollectionAction.Remove);
         }
 
         public void Dispose()
