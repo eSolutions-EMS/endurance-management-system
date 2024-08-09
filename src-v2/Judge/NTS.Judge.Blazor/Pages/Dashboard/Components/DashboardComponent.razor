@@ -36,14 +36,18 @@
 
 @code {
     private Participation? _selectedParticipation = default!;
-
     [Inject]
     private IParticipationBehind _behind { get; set; } = default!;
 
     protected override void OnInitialized()
     {
-        _selectedParticipation = _behind.Participations.FirstOrDefault();
+        EventHelper.Subscribe<Participation>(SetSelectedParticipation);
         Observe(_behind);
+    }
+
+    private void SetSelectedParticipation(Participation selectedParticipation)
+    {
+        _selectedParticipation = selectedParticipation;
     }
 
     private Task<IEnumerable<Participation>> Search(string term)
@@ -56,7 +60,7 @@
         return Task.FromResult(result);
     }
 
-    private void SelectParticipation(MudChip? chip)
+    private async Task SelectParticipation(MudChip? chip)
     {
         // TODO: Update MudBlazor version since docs show a new Property SelectionMode, 
         // which can prevent the current behavior that allows to Toggle the selection off
@@ -64,8 +68,9 @@
         {
             return;
         }
-        _selectedParticipation = _behind.Participations.FirstOrDefault(x => x.Tandem.Number == (int)chip.Value);
+        _behind.SelectParticipation((int)chip.Value);
         GuardHelper.ThrowIfDefault(_selectedParticipation);
+        await InvokeAsync(StateHasChanged);
     }
 }
 

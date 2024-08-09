@@ -2,6 +2,7 @@
 @using NTS.Domain.Setup.Entities
 @using NTS.Judge.Blazor.Pages.Dashboard.Components
 @using NTS.Judge.Blazor.Ports
+@using Not.Events
  
 @attribute [Route(DASHBOARD_PAGE)]
 @inherits NotComponent
@@ -17,13 +18,23 @@ else
 {
     <DashboardComponent />
 }
+<ActionsPanelComponent TandemNumber="TandemNumber" />
 
 @code {
+    private int TandemNumber = default!;
     [Inject]
     private IEmsImportBehind _importBehind { get; set; } = default!;
     [Inject]
     private IParticipationBehind _participationBehind { get; set; } = default!;
 
+    protected override void OnInitialized()
+    {
+        EventHelper.Subscribe<Participation>(OnSelectedParticipation);
+    }
+    public async void OnSelectedParticipation(Participation selectedParticipation)
+    {
+        TandemNumber = selectedParticipation.Tandem.Number;
+    }
     private async Task ImportEmsData(InputFileChangeEventArgs args)
     {
         using var stream = args.File.OpenReadStream();

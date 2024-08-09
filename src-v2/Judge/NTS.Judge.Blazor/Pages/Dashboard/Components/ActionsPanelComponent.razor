@@ -1,0 +1,341 @@
+﻿@using NTS.Domain.Core.Aggregates.Participations
+@using NTS.Domain.Objects
+@using NTS.Domain.Core.Entities
+@using NTS.Judge.Blazor.Ports
+@using NTS.Judge.Blazor.Enums
+@using Not.Blazor.TM.Models
+@using Not.Events
+
+
+@inherits NotComponent
+
+<h3>Actions</h3>
+
+<MudPaper Class="d-flex flex-column half-width" Elevation="0">
+    <MudPaper Class="d-flex flex-column mb-4" Elevation="0">
+        <MudTextField @ref="timeInput" @bind-Value="Time" T="string" Label="Time" Mask="@(new PatternMask("00:00:00"))" Class="one-third-width" />
+    </MudPaper>
+    <MudPaper Class="d-flex flex-row mb-4" Elevation="0">
+        <MudButton Class="@ReinspectionClasses" Variant="Variant.Filled" 
+                StartIcon="@Icons.Material.Filled._360" Color="Color.Error" 
+                @ref="reinspectionButton" OnClick="ToggleReinspection">
+            Reinspection
+        </MudButton>
+        <MudButton Class="@ReqInsClasses" Variant="Variant.Filled"
+                   StartIcon="@Icons.Material.Filled.HourglassEmpty" Color="Color.Primary"
+                   @ref="reqInsButton" OnClick="ToggleReqIns">
+            Required Inspection
+        </MudButton>
+    </MudPaper>
+    <MudPaper Class="d-flex flex-column mb-2" Elevation="0">
+        <MudButtonGroup Color="Color.Secondary" Size="Size.Medium" Variant="Variant.Outlined">
+            <MudButton Class="@WitClasses" OnClick="ToggleWitdrawn">Witdrawn</MudButton>
+            <MudButton Class="@RetClasses" OnClick="ToggleRetired">Retired</MudButton>
+            <MudButton Class="@FNRClasses" OnClick="ToggleFNR">Finished Not Ranked</MudButton>
+            <MudButton Class="@DQClasses" OnClick="ToggleDQ">Disqualified</MudButton>
+            <MudButton Class="@FTQClasses" OnClick="ToggleFTQ">Failed to Qualify</MudButton>
+        </MudButtonGroup>
+        <MudSelect @ref="multiSelect" T="string" Class="@MultiSelectClasses" Label="Failed to Qualify Reason" MultiSelection="true" Delimiter="+" @bind-Value="@FTQReasonValue" OnClose="UpdateParticipant" >
+            @foreach (var failToQualifyCode in MultiSelectListModel.MultiSelectList<FTQCodes>())
+            {
+                <MudSelectItem T="string" Value="@failToQualifyCode.Value">
+                    @failToQualifyCode.Value
+                    <div class="font-size-10">@failToQualifyCode.Description</div>
+                </MudSelectItem>
+            }
+        </MudSelect>
+        <MudTextField @ref="reasonInput" @bind-Value="Reason" Class="@ReasonClasses" Label="Reason" Variant="Variant.Outlined" OnBlur="UpdateParticipant"></MudTextField>
+    </MudPaper>
+
+    <MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Update">
+        @Localizer.Get("Update")
+    </MudButton>
+</MudPaper>
+
+@code {
+    [Inject]
+    IParticipationBehind _participationBehind { get; set; } = default!;
+    [Parameter]
+    public int TandemNumber { get; set; }
+    private MudTextField<string> timeInput = default!;
+    private MudBaseButton reinspectionButton = default!;
+    private MudButton reqInsButton = default!;
+    private MudTextField<string> reasonInput = default!;
+    private MudSelect<string> multiSelect = default!;
+    private Participation? _selectedParticipation = default!;
+    private Phase? _currentPhase = default!;
+    private Snapshot _snapshot = default!;
+    private string Time { get; set; } = default!;
+    private bool ReinspectionToggled = false;
+    private bool ReqInsToggled = false;
+    private bool WitToggled = false;
+    private bool RetToggled = false;
+    private bool FNRToggled = false;
+    private bool DQToggled = false;
+    private bool FTQToggled = false;
+    private string ReinspectionClasses = "mr-4 font-size-12";
+    private string ReqInsClasses = "font-size-12";
+    private string WitClasses = "font-size-10";
+    private string RetClasses = "font-size-10";
+    private string FNRClasses = "font-size-10";
+    private string DQClasses = "font-size-10";
+    private string FTQClasses = "font-size-10";
+    private string ReasonClasses = "hidden";
+    private string MultiSelectClasses = "hidden";
+    private string Reason = "";
+    private string FTQReasonValue = "";
+
+    protected override void OnInitialized()
+    {
+        Observe(_participationBehind);
+        EventHelper.Subscribe<Participation>(OnSelectedParticipation); 
+    }
+
+    private async void OnSelectedParticipation(Participation participation)
+    {
+        _selectedParticipation = participation;
+        _currentPhase = _selectedParticipation?.Phases.Current;
+        _snapshot = CreateSnapshot();
+        Time = _snapshot.Timestamp.ToString();
+        SetComponentProperties();
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private void SetComponentProperties()
+    {
+        ReinspectionToggled = _currentPhase.IsReinspectionRequested;
+        ReqInsToggled = _currentPhase.IsRIRequested;
+        if (ReinspectionToggled)
+        {
+            ReinspectionClasses = "mr-4 font-size-12 error-toggled";
+        }
+        else
+        {
+            ReinspectionClasses = "mr-4 font-size-12";
+        }
+        if (ReqInsToggled)
+        {
+            ReqInsClasses = "font-size-12 primary-toggled";
+        }
+        else
+        {
+            ReqInsClasses = "font-size-12";
+        }
+        WitClasses = RetClasses = FNRClasses = DQClasses = FTQClasses = "font-size-10";
+        ReasonClasses = "hidden";
+        MultiSelectClasses = "hidden";
+        Reason = "";
+        switch (_selectedParticipation?.NotQualified)
+        {
+            case Withdrawn:
+                WitToggled = true;
+                WitClasses = "font-size-10 secondary-outlined-toggled";
+                break;
+            case Retired:
+                RetToggled = true;
+                RetClasses = "font-size-10 secondary-outlined-toggled";
+                break;
+            case FinishedNotRanked:
+                FNRToggled = true;
+                FNRClasses = "font-size-10 secondary-outlined-toggled";
+                Reason = _selectedParticipation.NotQualified.Complement!;
+                ReasonClasses = "";
+                break;
+            case Disqualified:
+                DQToggled = true;
+                DQClasses = "font-size-10 secondary-outlined-toggled";
+                Reason = _selectedParticipation.NotQualified.Complement!;
+                ReasonClasses = "";
+                break;
+            case FailedToQualify:
+                FTQToggled = true;
+                FTQClasses = "font-size-10 secondary-outlined-toggled";
+                MultiSelectClasses = "";
+                //FTQReasonValue =  //FTQCodes
+                break;
+        }
+    }
+
+    private async void ToggleReinspection()
+    {
+        if (ReinspectionToggled)
+        {
+            ReinspectionClasses = "mr-4 font-size-12";
+        }
+        else
+        {
+            ReinspectionClasses = "mr-4 font-size-12 error-toggled";
+        }
+        ReinspectionToggled = !ReinspectionToggled;
+        _selectedParticipation?.IsReinspectionRequested(ReinspectionToggled);
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async void ToggleReqIns()
+    {
+        if (ReqInsToggled)
+        {
+            ReqInsClasses = "font-size-12";
+        }
+        else
+        {
+            ReqInsClasses = "font-size-12 primary-toggled";
+        }
+        ReqInsToggled = !ReqInsToggled;
+        _selectedParticipation?.IsRIRequested(ReqInsToggled);
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private void ToggleWitdrawn()
+    {
+        ToggleButtonOfGroup(ref WitToggled,  ref WitClasses);
+        UpdateParticipant();
+    }
+
+    private void ToggleRetired()
+    {
+        ToggleButtonOfGroup(ref RetToggled, ref RetClasses);
+        UpdateParticipant();
+    }
+
+    private void ToggleFNR()
+    {
+        ToggleButtonOfGroup(ref FNRToggled,  ref FNRClasses);
+        AddInput(ref ReasonClasses);
+    }
+
+    private void ToggleDQ()
+    {
+        ToggleButtonOfGroup(ref DQToggled, ref DQClasses);
+        AddInput(ref ReasonClasses);
+    }
+
+    private void ToggleFTQ()
+    {
+        ToggleButtonOfGroup(ref FTQToggled, ref FTQClasses);
+        AddInput(ref MultiSelectClasses);
+    }
+
+    private void ToggleButtonOfGroup(ref bool toggledButton, ref string className)
+    {
+        if (toggledButton)
+        {
+            className = "font-size-10";
+            toggledButton = false;
+        }
+        else
+        {
+            WitClasses = RetClasses = FNRClasses = DQClasses = FTQClasses = "font-size-10";
+            className = "font-size-10 secondary-outlined-toggled";
+            toggledButton = true;
+        }
+        HideInput();
+    }
+
+    public void AddInput(ref string inputClass)
+    {
+        if (inputClass.Length > 0)
+        {
+            inputClass = "";
+        }
+        else
+        {
+            inputClass = "hidden";
+            Reason = "";
+        }
+        InvokeAsync(StateHasChanged);
+    }
+
+    public async void HideInput()
+    {
+        ReasonClasses = "hidden";
+        MultiSelectClasses = "hidden";
+        await InvokeAsync(StateHasChanged);
+    }
+
+    public async void UpdateParticipant()
+    {
+        if (WitToggled)
+        {
+            //_selectedParticipation?.Withdraw();
+            await _participationBehind.RevokeQualification(_selectedParticipation.Tandem.Number, QualificationRevokeType.Withdraw);
+        }
+        else if (RetToggled)
+        {
+            //_selectedParticipation?.Retire();
+            await _participationBehind.RevokeQualification(_selectedParticipation.Tandem.Number, QualificationRevokeType.Retire);
+        }
+        else if(FNRToggled)
+        {
+            //_selectedParticipation?.FinishNotRanked(reasonInput.Value);
+            await _participationBehind.RevokeQualification(_selectedParticipation.Tandem.Number, QualificationRevokeType.FinishNotRanked, reasonInput.Value);
+        }
+        else if (DQToggled)
+        {
+            //_selectedParticipation?.Disqualify(reasonInput.Value);
+            await _participationBehind.RevokeQualification(_selectedParticipation.Tandem.Number, QualificationRevokeType.Disqualify, reasonInput.Value);
+        }
+        else if(FTQToggled)
+        {
+
+            var multiselect_values = multiSelect.SelectedValues;
+            List<FTQCodes> codes = new List<FTQCodes>();
+            foreach(var value in multiselect_values)
+            {
+                codes.Add((FTQCodes)Enum.Parse(typeof(FTQCodes), value));
+            }
+            if (codes.Contains(FTQCodes.FTC) && (Reason==null || Reason==""))
+            {
+                AddInput(ref ReasonClasses);
+                return;
+            }else if (codes.Contains(FTQCodes.FTC))
+            {
+                //_selectedParticipation?.FailToCompleteLoop(Reason);
+                await _participationBehind.RevokeQualification(_selectedParticipation.Tandem.Number, QualificationRevokeType.FailToCompleteLoop, Reason, codes.ToArray());
+            }
+            else if (!codes.Equals(FTQCodes.FTC))
+            {
+                HideInput();
+                //_selectedParticipation?.FailToQualify(codes.ToArray());
+                await _participationBehind.RevokeQualification(_selectedParticipation.Tandem.Number, QualificationRevokeType.FailToQualify, null, codes.ToArray());
+            }  
+            
+        }
+        else
+        {
+            //_selectedParticipation?.RestoreQualification();
+            await _participationBehind.RestoreQualification(_selectedParticipation.Tandem.Number);
+        }
+        await InvokeAsync(StateHasChanged);
+    }
+
+    public async void Update()
+    {
+        
+        var convertedInput = TimeSpan.Parse(Time);
+        _snapshot.Timestamp.SetTime(convertedInput);
+        _selectedParticipation?.Process(_snapshot);
+        UpdateParticipant();
+        //await _participationBehind.Update(_selectedParticipation!);
+    }
+
+    public Snapshot CreateSnapshot()
+    {
+        SnapshotType snapshotType;
+        SnapshotMethod snapshotMethod = SnapshotMethod.Manual;
+        if (_currentPhase?.ArriveTime == null)
+        {
+            snapshotType = SnapshotType.Stage;
+        }
+        else if (_currentPhase.InspectTime == null && _currentPhase.IsFinal == false)
+        {
+            snapshotType = SnapshotType.Vet;
+        }
+        else
+        {
+            snapshotType = SnapshotType.Final;
+        }
+        Snapshot snapshot = new Snapshot(TandemNumber, snapshotType, snapshotMethod, Timestamp.Now());
+        return snapshot;
+    }
+}
