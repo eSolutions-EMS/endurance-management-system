@@ -40,8 +40,9 @@
     [Inject]
     private IParticipationBehind _behind { get; set; } = default!;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
+        await _behind.Initialize();
         _selectedParticipation = _behind.Participations.FirstOrDefault();
         Observe(_behind);
     }

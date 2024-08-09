@@ -24,6 +24,11 @@ else
     [Inject]
     private IParticipationBehind _participationBehind { get; set; } = default!;
 
+    protected override async Task OnInitializedAsync()
+    {
+        await _participationBehind.Initialize();
+    }
+
     private async Task ImportEmsData(InputFileChangeEventArgs args)
     {
         using var stream = args.File.OpenReadStream();
