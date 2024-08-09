@@ -157,7 +157,6 @@ public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, 
             {
                 return;
             }
-            await _participations.Update(participation);
             var emsParticipation = ParticipationFactory.CreateEms(participation);
             var entry = new EmsParticipantEntry(emsParticipation);
             await _hub.Clients.All.ReceiveEntryUpdate(entry, EmsCollectionAction.AddOrUpdate);
@@ -180,27 +179,27 @@ public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, 
             // TODO: Dispose
         }
 
-        public Task ReceiveSnapshot(Snapshot snapshot)
+        public async Task ReceiveSnapshot(Snapshot snapshot)
         {
-            return Task.CompletedTask;
+            await Task.CompletedTask;
         }
 
-        public Task SendStartCreated(PhaseCompleted phaseCompleted)
+        public async Task SendStartCreated(PhaseCompleted phaseCompleted)
         {
             SendStartlistEntryUpdate(phaseCompleted);
-            return Task.CompletedTask;
+            await Task.CompletedTask;
         }
 
-        public Task SendQualificationRevoked(QualificationRevoked revoked)
+        public async Task SendQualificationRevoked(QualificationRevoked revoked)
         {
             SendParticipantEntryRemove(revoked);
-            return Task.CompletedTask;
+            await Task.CompletedTask;
         }
 
-        public Task SendQualificationRestored(QualificationRestored restored)
+        public async Task SendQualificationRestored(QualificationRestored restored)
         {
             SendParticipantEntryAddOrUpdate(restored);
-            return Task.CompletedTask;
+            await Task.CompletedTask;
         }
     }
 }
