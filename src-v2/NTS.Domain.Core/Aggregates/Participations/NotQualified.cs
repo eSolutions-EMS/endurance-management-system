@@ -70,7 +70,19 @@ public record FailedToQualify : NotQualified
 
     public override string ToString()
     {
-        return $"FTQ {Codes}";
+        string codes = "";
+        for(int i = 0; i < Codes.Count(); i++)
+        {
+            if (i < Codes.Count() - 1)
+            {
+                codes += Codes.ToList()[i].ToString() + "+";
+            }
+            else
+            {
+                codes += Codes.ToList()[i].ToString();
+            }      
+        }
+        return $"FTQ {codes}";
     }
 }
 

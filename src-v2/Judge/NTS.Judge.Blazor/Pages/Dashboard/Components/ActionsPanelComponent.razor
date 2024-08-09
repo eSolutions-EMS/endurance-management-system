@@ -127,6 +127,9 @@
         Reason = "";
         switch (_selectedParticipation?.NotQualified)
         {
+            default:
+                WitToggled = RetToggled = FNRToggled = DQToggled = FTQToggled = false;
+                break;
             case Withdrawn:
                 WitToggled = true;
                 WitClasses = "font-size-10 secondary-outlined-toggled";
@@ -151,7 +154,7 @@
                 FTQToggled = true;
                 FTQClasses = "font-size-10 secondary-outlined-toggled";
                 MultiSelectClasses = "";
-                //FTQReasonValue =  //FTQCodes
+                FTQReasonValue = _selectedParticipation.NotQualified.ToString();
                 break;
         }
     }
@@ -257,27 +260,22 @@
     {
         if (WitToggled)
         {
-            //_selectedParticipation?.Withdraw();
             await _participationBehind.RevokeQualification(_selectedParticipation.Tandem.Number, QualificationRevokeType.Withdraw);
         }
         else if (RetToggled)
         {
-            //_selectedParticipation?.Retire();
             await _participationBehind.RevokeQualification(_selectedParticipation.Tandem.Number, QualificationRevokeType.Retire);
         }
         else if(FNRToggled)
         {
-            //_selectedParticipation?.FinishNotRanked(reasonInput.Value);
             await _participationBehind.RevokeQualification(_selectedParticipation.Tandem.Number, QualificationRevokeType.FinishNotRanked, reasonInput.Value);
         }
         else if (DQToggled)
         {
-            //_selectedParticipation?.Disqualify(reasonInput.Value);
             await _participationBehind.RevokeQualification(_selectedParticipation.Tandem.Number, QualificationRevokeType.Disqualify, reasonInput.Value);
         }
         else if(FTQToggled)
         {
-
             var multiselect_values = multiSelect.SelectedValues;
             List<FTQCodes> codes = new List<FTQCodes>();
             foreach(var value in multiselect_values)
@@ -290,20 +288,16 @@
                 return;
             }else if (codes.Contains(FTQCodes.FTC))
             {
-                //_selectedParticipation?.FailToCompleteLoop(Reason);
                 await _participationBehind.RevokeQualification(_selectedParticipation.Tandem.Number, QualificationRevokeType.FailToCompleteLoop, Reason, codes.ToArray());
             }
-            else if (!codes.Equals(FTQCodes.FTC))
+            else if (!codes.Contains(FTQCodes.FTC))
             {
                 HideInput();
-                //_selectedParticipation?.FailToQualify(codes.ToArray());
                 await _participationBehind.RevokeQualification(_selectedParticipation.Tandem.Number, QualificationRevokeType.FailToQualify, null, codes.ToArray());
             }  
-            
         }
         else
         {
-            //_selectedParticipation?.RestoreQualification();
             await _participationBehind.RestoreQualification(_selectedParticipation.Tandem.Number);
         }
         await InvokeAsync(StateHasChanged);
