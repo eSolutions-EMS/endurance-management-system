@@ -53,24 +53,24 @@ public record FailedToQualify : NotQualified
     private FailedToQualify()
     {
     }
-    public FailedToQualify(FTQCodes code)
+    public FailedToQualify(params FTQCodes[] codes)
     {
-        if (code == FTQCodes.FTC)
+        if (codes.Contains(FTQCodes.FTC))
         {
             throw new DomainException($"'Failed to Complete' requires a writen explanation from officials. Please provide 'complement'");
         }
-        Code = code;
+        Codes = codes;
     }
     public FailedToQualify(string complement) : base(complement)
     {
-        Code = FTQCodes.FTC;
+        Codes.ToList().Add(FTQCodes.FTC);
     }
 
-    public FTQCodes Code { get; private set; }
+    public IEnumerable<FTQCodes> Codes { get; private set; }
 
     public override string ToString()
     {
-        return $"FTQ {Code}";
+        return $"FTQ {Codes}";
     }
 }
 
