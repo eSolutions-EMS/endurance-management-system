@@ -28,6 +28,11 @@ public record Timestamp : DomainObject, IComparable<Timestamp>
         return new Timestamp(DateTime.Add(span));
     }
 
+    public Timestamp SetTime(TimeSpan span)
+    {
+        return new Timestamp(System.DateTime.Today.Add(span));
+    }
+
     public string ToString(string format, IFormatProvider formatProvider)
     {
         return DateTime.LocalDateTime.ToString(format, formatProvider);
