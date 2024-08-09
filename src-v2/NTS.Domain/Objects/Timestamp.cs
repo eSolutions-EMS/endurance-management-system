@@ -13,6 +13,11 @@ public record Timestamp : DomainObject, IComparable<Timestamp>
     {
         DateTime = dateTime;
     }
+
+    public Timestamp(Timestamp timestamp) : base(timestamp)
+    {
+        DateTime = timestamp.DateTime;
+    }
     private Timestamp()
     {
     }
