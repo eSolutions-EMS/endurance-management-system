@@ -11,8 +11,11 @@ public interface IParticipationBehind : IObservableBehind, ISingletonService
     // TODO: this should probably be removed and Participations can be returned from Start instead
     IEnumerable<Participation> Participations { get; }
     IEnumerable<IGrouping<double, Participation>> ParticipationsByDistance { get; }
+    Participation SelectedParticipation { get; }
+    void SelectParticipation(int? number);
     Task Process(Snapshot snapshot);
     Task Update(IPhaseState state);
-    Task RevokeQualification(int number, QualificationRevokeType type, FTQCodes? ftqCodes = null, string? reason = null);
+    Task Update(Participation participation);
+    Task RevokeQualification(int number, QualificationRevokeType type, string? reason = null, params FTQCodes[] ftqCodes);
     Task RestoreQualification(int number);
 }
