@@ -5,15 +5,18 @@ namespace NTS.Domain.Core.Objects;
 
 public class Ranklist : ReadOnlyCollection<RankingEntry>
 {
-    public Ranklist(Ranking classification)
-        : base(classification.Category == AthleteCategory.Senior
-            ? RankSeniors(classification.Entries)
-            : RankOthers(classification.Entries))
+    public Ranklist(Ranking ranking)
+        : base(ranking.Category == AthleteCategory.Senior
+            ? RankSeniors(ranking.Entries)
+            : RankOthers(ranking.Entries))
     {
-        Classification = classification;
+        Name = ranking.Name;
+        Category = ranking.Category;
     }
 
-    public Ranking Classification { get; }
+    public string Title => $"{Category}: {Name}";
+    public string Name { get; }
+    public AthleteCategory Category { get; }
 
     private static IList<RankingEntry> RankSeniors(IEnumerable<RankingEntry> entry)
     {
