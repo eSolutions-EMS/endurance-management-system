@@ -17,9 +17,8 @@ else
 
     @for (var i = 0; i < _behind.Ranklist.Count; i++)
     {
-        var rank = i + 1;
         var entry = _behind.Ranklist[i];
-        <RanklistRow Entry="entry" Rank="rank" />
+        <RanklistRow Entry="entry" Index="i" />
         if (i != _behind.Ranklist.Count - 1)
         {
            <MudDivider />
