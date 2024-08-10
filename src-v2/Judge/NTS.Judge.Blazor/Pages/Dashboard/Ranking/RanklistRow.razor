@@ -1,24 +1,13 @@
 ﻿@using NTS.Domain.Core.Aggregates.Participations
 @using NTS.Domain.Core.Entities
+@using NTS.Domain.Objects
 @using NTS.Judge.Blazor.Pages.Dashboard.Components
 
-<MudGrid Style="margin-top:0">
-    <MudItem xs="1" Class="align-self-center">
-        <MudText>@_rank</MudText>
-    </MudItem>
-    <MudItem xs="4" Class="align-self-center">
-        <MudStack>
-            <MudItem>
-                <MudText><strong>@_tandem.Number</strong> @_tandem.Name</MudText>
-            </MudItem>
-            <MudItem>
-                <MudText>@_tandem.Horse</MudText>
-            </MudItem>
-        </MudStack>
-    </MudItem>
-    <MudItem xs="1" Class="align-self-center">
+<RanklistColumns>
+    <One>
         @if (_notQualified != null)
         {
+            <MudText Typo="Typo.caption" Class="mr-4 pl-2" Style="width: 1rem;">@_notQualified</MudText>
             <MudIcon Icon="@Icons.Material.TwoTone.Flag" Color="Color.Error" Size="Size.Large" />
         }
         else if (Entry.Participation.Phases.Any(x => !x.IsComplete))
@@ -27,19 +16,36 @@
         }
         else
         {
-            <MudIcon Icon="@Icons.Material.Filled.Flag" Color="Color.Success" Size="Size.Large"/>
+            <MudText Class="mr-4 pl-2" Style="width: 1rem;">@_rank</MudText>
+            <MudIcon Icon="@Icons.Material.Filled.Flag" Color="Color.Success" Size="Size.Large" />
         }
-    </MudItem>
-    <MudItem xs="3" Class="align-self-center">
+    </One>
+    <Two>
+        <MudStack>
+            <MudItem>
+                <MudText><strong>@_tandem.Number</strong> @_tandem.Name</MudText>
+            </MudItem>
+            <MudItem>
+                <MudText>@_tandem.Horse</MudText>
+            </MudItem>
+        </MudStack>
+    </Two>
+    <Four>
         @_currentPhase?.ArriveTime
-    </MudItem>
-    <MudItem xs="2" Class="align-self-center">
+    </Four>
+    <Five>
         @Entry.Participation.Total?.AverageSpeed
-    </MudItem>
-</MudGrid>
-<MudCollapse Expanded="_expanded">
-    <ParticipationTable Participation="Entry.Participation" />
-</MudCollapse>
+    </Five>
+    <Six>
+        @Entry.Participation.Total?.RideInterval
+    </Six>
+    <Seven>
+        @Entry.Participation.Total?.RecoveryIntervalWithoutFinal
+    </Seven>
+    <Eight>
+        @_totalInterval
+    </Eight>
+</RanklistColumns>
 
 @code {
     private bool _expanded;
@@ -47,6 +53,7 @@
     private NotQualified? _notQualified => Entry.Participation.NotQualified;
     private Phase? _currentPhase => Entry.Participation.Phases.CurrentComplete;
     private string? _rank;
+    private TimeInterval? _totalInterval => Entry.Participation.Total?.RideInterval + Entry.Participation.Total?.RecoveryIntervalWithoutFinal; 
 
     [Parameter]
     public RankingEntry Entry { get; set; } = default!;

@@ -15,6 +15,44 @@ else
 {
     <NotH2>@_behind.Ranklist.Title</NotH2>
 
+    <RanklistColumns>
+        <One>
+            <MudText Typo="Typo.subtitle2">
+                @Localizer.Get("Rank")
+            </MudText>
+        </One>
+        <Two>
+            <MudText Typo="Typo.subtitle2">
+                @Localizer.Get("Tandem")
+            </MudText>
+        </Two>
+        <Four>
+            <MudText Typo="Typo.subtitle2">
+                @Localizer.Get("Arrive")
+            </MudText>
+        </Four>
+        <Five>
+            <MudText Typo="Typo.subtitle2">
+                @Localizer.Get("Avr Speed")
+            </MudText>
+        </Five>
+        <Six>
+            <MudText Typo="Typo.subtitle2">
+                @Localizer.Get("Loop")
+            </MudText>
+        </Six>
+        <Seven>
+            <MudText Typo="Typo.subtitle2">
+                @Localizer.Get("Recovery")
+            </MudText>
+        </Seven>
+        <Eight>
+            <MudText Typo="Typo.subtitle2">
+                @Localizer.Get("Total")
+            </MudText>
+        </Eight>
+    </RanklistColumns>
+
     @for (var i = 0; i < _behind.Ranklist.Count; i++)
     {
         var entry = _behind.Ranklist[i];
