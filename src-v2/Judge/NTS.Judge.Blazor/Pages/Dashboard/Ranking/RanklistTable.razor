@@ -3,8 +3,6 @@
 
 @inherits NotComponent
 
-<NotH1>@Localizer.Get("Ranklist")</NotH1>
-
 @if (_behind.Ranklist == null)
 {
     <MudPaper>
@@ -68,8 +66,8 @@ else
     [Inject]
     IRanklistBehind _behind { get; set; } = default!;
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnInitialized()
     {
-        await _behind.Initialize();
+        Observe(_behind);
     }
 }

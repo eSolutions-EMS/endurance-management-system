@@ -51,9 +51,10 @@ public abstract class SetRepository<T, TState> : IRepository<T>
         return entity;
     }
 
-    public Task<T?> Read(int id)
+    public async Task<T?> Read(int id)
     {
-        throw new NotImplementedException();
+        var state = await _store.Readonly();
+        return state.EntitySet.FirstOrDefault(x => x.Id == id);
     }
 
     public async Task<IEnumerable<T>> ReadAll()

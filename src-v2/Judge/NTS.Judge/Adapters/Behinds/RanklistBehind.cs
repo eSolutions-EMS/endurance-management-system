@@ -29,8 +29,10 @@ public class RanklistBehind : ObservableBehind, IRanklistBehind
         GuardHelper.ThrowIfDefault(ranking);
 
         Ranklist = new Ranklist(ranking);
+        EmitChange();
     }
 
+    // This isn't currently used. Consider wheather or not Initialize should be part of IObservableBehind
     public override async Task Initialize()
     {
         var ranking = await _rankings.Read(x => true);
