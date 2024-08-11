@@ -30,22 +30,31 @@
             </MudItem>
         </MudStack>
     </Two>
-    <Four>
+    <Three>
         @_currentPhase?.ArriveTime
+    </Three>
+    <Four>
+        @Entry.Participation.Total?.AverageSpeed
     </Four>
     <Five>
-        @Entry.Participation.Total?.AverageSpeed
+        @Entry.Participation.Total?.RideInterval
     </Five>
     <Six>
-        @Entry.Participation.Total?.RideInterval
+        @Entry.Participation.Total?.RecoveryIntervalWithoutFinal
     </Six>
     <Seven>
-        @Entry.Participation.Total?.RecoveryIntervalWithoutFinal
+        @_totalInterval
     </Seven>
     <Eight>
-        @_totalInterval
+        <MudIcon Icon="@(_expanded ? Icons.Material.Filled.KeyboardArrowDown : @Icons.Material.Filled.KeyboardArrowRight)"
+            @onclick="Toggle"
+            Style="width:100%; cursor:pointer;" />
     </Eight>
 </RanklistColumns>
+<MudCollapse Expanded="_expanded">
+    <MudDivider />
+    <ParticipationTable Participation="Entry.Participation" />
+</MudCollapse>
 
 @code {
     private bool _expanded;
@@ -73,5 +82,10 @@
             return;
         }
         _rank = (Index + 1).ToString();
+    }
+
+    private void Toggle()
+    {
+        _expanded = !_expanded;
     }
 }
