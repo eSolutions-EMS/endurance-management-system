@@ -4,6 +4,7 @@
 
 @inherits NotComponent;
 
+@* //TODO: probably extract this chipset into NotChipGroup component or something similar. Also used in DashboardComponent *@
 <MudChipSet @ref="_chipSet" SelectedChipChanged="x => _behind.SelectRanking((int)x.Value)">
     @foreach (var grouping in _rankingsByDistance)
     {
