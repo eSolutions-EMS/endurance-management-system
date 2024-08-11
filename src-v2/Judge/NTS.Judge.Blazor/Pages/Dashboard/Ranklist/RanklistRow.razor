@@ -3,7 +3,7 @@
 @using NTS.Domain.Objects
 @using NTS.Judge.Blazor.Pages.Dashboard.Components
 
-<RanklistColumns>
+<RanklistTableFrame>
     <One>
         @if (_notQualified != null)
         {
@@ -47,10 +47,10 @@
     </Seven>
     <Eight>
         <MudIcon Icon="@(_expanded ? Icons.Material.Filled.KeyboardArrowDown : @Icons.Material.Filled.KeyboardArrowRight)"
-            @onclick="Toggle"
-            Style="width:100%; cursor:pointer;" />
+                 @onclick="Toggle"
+                 Style="width:100%; cursor:pointer;" />
     </Eight>
-</RanklistColumns>
+</RanklistTableFrame>
 <MudCollapse Expanded="_expanded">
     <MudDivider />
     <ParticipationTable Participation="Entry.Participation" />
@@ -62,7 +62,7 @@
     private NotQualified? _notQualified => Entry.Participation.NotQualified;
     private Phase? _currentPhase => Entry.Participation.Phases.CurrentComplete;
     private string? _rank;
-    private TimeInterval? _totalInterval => Entry.Participation.Total?.RideInterval + Entry.Participation.Total?.RecoveryIntervalWithoutFinal; 
+    private TimeInterval? _totalInterval => Entry.Participation.Total?.RideInterval + Entry.Participation.Total?.RecoveryIntervalWithoutFinal;
 
     [Parameter]
     public RankingEntry Entry { get; set; } = default!;

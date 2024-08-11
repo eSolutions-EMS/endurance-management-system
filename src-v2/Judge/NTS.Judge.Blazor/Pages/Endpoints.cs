@@ -13,5 +13,5 @@ public static class Endpoints
     public const string HORSE_UPDATE = "/horse-update";
     public const string COMBINATION_UPDATE = "/combination-update";
     public const string DASHBOARD_PAGE = "/dashboard";
-    public const string RANKING_PAGE = "/ranking";
+    public const string RANKLIST_PAGE = "/ranklist";
 }
