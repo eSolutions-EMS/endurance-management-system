@@ -5,7 +5,7 @@ using Not.Events;
 using Not.Exceptions;
 using NTS.Domain.Core.Aggregates.Participations;
 using NTS.Domain.Core.Entities;
-using NTS.Domain.Core.Events;
+using NTS.Domain.Core.Events.Participations;
 using NTS.Domain.Core.Objects;
 using NTS.Judge.Blazor.Ports;
 
@@ -42,14 +42,12 @@ public class HandoutsBehind : ObservableBehind, IHandoutsBehind
 
     public async void CreateHandout(PhaseCompleted phaseCompleted)
     {
-        var participation = await _participationRepository.Read(x => x.Tandem.Number == phaseCompleted.Number);
         var @event = await _eventRepository.Read(0);
         var officials = await _officialRepository.ReadAll();
 
         GuardHelper.ThrowIfDefault(@event);
-        GuardHelper.ThrowIfDefault(participation);
 
-        var handout = new HandoutDocument(participation, @event, officials);
+        var handout = new HandoutDocument(phaseCompleted.Participation, @event, officials);
         _handouts.Add(handout);
     }
 

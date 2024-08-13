@@ -1,5 +1,5 @@
 ﻿using Not.Injection;
-using NTS.Domain.Core.Events;
+using NTS.Domain.Core.Events.Participations;
 
 namespace NTS.Judge.Ports;
 

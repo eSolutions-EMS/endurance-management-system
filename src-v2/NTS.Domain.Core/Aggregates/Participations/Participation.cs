@@ -1,8 +1,8 @@
 ﻿using Not.Events;
-using NTS.Domain.Core.Events;
 using static NTS.Domain.Enums.SnapshotType;
 using static NTS.Domain.Core.Aggregates.Participations.SnapshotResultType;
 using Newtonsoft.Json;
+using NTS.Domain.Core.Events.Participations;
 
 namespace NTS.Domain.Core.Aggregates.Participations;
 
@@ -118,7 +118,7 @@ public class Participation : DomainEntity, IAggregateRoot
         }
         if (phase.IsComplete)
         {
-            var phaseCompleted = new PhaseCompleted(Tandem.Number);
+            var phaseCompleted = new PhaseCompleted(this);
             EventHelper.Emit(phaseCompleted);
             Phases.Next();
         }
@@ -127,13 +127,13 @@ public class Participation : DomainEntity, IAggregateRoot
     private void RevokeQualification(NotQualified notQualified)
     {
         NotQualified = notQualified;
-        var qualificationRevoked = new QualificationRevoked(Tandem.Number, notQualified);
+        var qualificationRevoked = new QualificationRevoked(this);
         EventHelper.Emit(qualificationRevoked);
     }
     public void RestoreQualification()
     {
         NotQualified = null;
-        var qualificationRestored = new QualificationRestored(Tandem.Number);
+        var qualificationRestored = new QualificationRestored(this);
         EventHelper.Emit(qualificationRestored);
     }
 }
