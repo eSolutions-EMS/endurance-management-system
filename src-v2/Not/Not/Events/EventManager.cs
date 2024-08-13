@@ -1,4 +1,5 @@
-﻿using Not.Injection;
+﻿using Not.Concurrency;
+using Not.Injection;
 
 namespace Not.Events;
 
@@ -13,7 +14,7 @@ public class EventManager : IEventManager
     }
     public void Subscribe(Action action)
     {
-        NotDelegate += () => action();
+        NotDelegate += () => TaskHelper.Run(() => action());
     }
 }
 
@@ -28,7 +29,7 @@ public class EventManager<T> : IEventManager<T>
     }
     public void Subscribe(Action<T> action)
     {
-        GenericEvent += x => action(x);
+        GenericEvent += x => TaskHelper.Run(() => action(x));
     }
 }
 

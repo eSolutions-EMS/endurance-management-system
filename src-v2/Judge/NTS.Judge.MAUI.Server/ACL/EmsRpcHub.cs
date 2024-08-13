@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Not.Application.Ports.CRUD;
+using Not.Concurrency;
 using Not.Events;
 using NTS.Compatibility.EMS.Entities;
 using NTS.Compatibility.EMS.Entities.EMS;
@@ -91,7 +92,7 @@ public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, 
         // Task.Run because Event hadling in dotnet seems to hold the current thread. Further investigation is needed
         // but what was happening is that Witness apps didn't receive rpc response untill the handling thread was finished
         // which is motly visible when it causes a validation (popup) which blocks the thread until closed in Prism/WPF
-        Task.Run(async () =>
+        TaskHelper.Run(async () =>
         {
             foreach (var entry in entries)
             {
