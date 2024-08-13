@@ -49,7 +49,7 @@ public class Participation : DomainEntity, IAggregateRoot
         {
             return SnapshotResult.NotApplied(snapshot, NotAppliedDueToComplete);
         }
-        if (snapshot.Timestamp < Phases.Current.OutTime + NOT_SNAPSHOTABLE_WINDOW)
+        if (snapshot.Timestamp < Phases.Current.StartTime + NOT_SNAPSHOTABLE_WINDOW)
         {
             return SnapshotResult.NotApplied(snapshot, NotAppliedDueToNotStarted);
         }

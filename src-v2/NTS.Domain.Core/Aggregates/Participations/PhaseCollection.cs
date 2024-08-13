@@ -35,10 +35,13 @@ public class PhaseCollection : ReadOnlyCollection<Phase>
             return;
         }
         var currentIndex = this.IndexOf(Current);
-        if (Count <= currentIndex)
+        if (currentIndex == Count - 1)
         {
             return;
         }
-        Current = this[currentIndex + 1];
+        var current = this[currentIndex];
+        var next = this[currentIndex + 1];
+        next.StartTime = current.OutTime;
+        Current = next;
     }
 }
