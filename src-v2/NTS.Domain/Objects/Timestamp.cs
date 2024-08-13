@@ -1,12 +1,10 @@
-﻿using Not.DateAndTime;
-
-namespace NTS.Domain;
+﻿namespace NTS.Domain;
 
 public record Timestamp : DomainObject, IComparable<Timestamp>
 {
     public static Timestamp Now()
     {
-        return new Timestamp(DateTimeHelper.Now);
+        return new Timestamp(DateTimeOffset.Now);
     }
 
     public Timestamp(DateTime dateTime)

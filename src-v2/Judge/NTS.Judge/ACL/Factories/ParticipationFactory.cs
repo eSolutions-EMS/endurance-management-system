@@ -9,7 +9,6 @@ using NTS.Domain.Enums;
 using NTS.Domain;
 using NTS.Compatibility.EMS.Entities.Results;
 using NTS.Compatibility.EMS.Entities.LapRecords;
-using Not.DateAndTime;
 
 namespace NTS.Judge.ACL.Factories;
 
@@ -142,7 +141,7 @@ public class ParticipationFactory
         }
         else
         {
-            currentTime = DateTimeHelper.Now.AddHours(-1).DateTime;
+            currentTime = DateTimeOffset.Now.DateTime;
         }
         previousTime = currentTime;
         return currentTime;
