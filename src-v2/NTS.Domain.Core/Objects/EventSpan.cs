@@ -31,6 +31,6 @@ public record EventSpan : DomainObject
         {
             date = end;
         }
-        return date.ToString(CultureInfo.CurrentCulture);
+        return date.ToString("d", CultureInfo.CurrentCulture);
     }
 }

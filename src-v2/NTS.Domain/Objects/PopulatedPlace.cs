@@ -21,7 +21,11 @@ public record PopulatedPlace : DomainObject
         {
             sb.Append($"{_location} ");
         }
-        sb.Append($"{_city}, {Country}");
-        return base.ToString();
+        if (_city != null)
+        {
+            sb.Append($"{_city} ");
+        }
+        sb.Append(Country.ToString());
+        return sb.ToString();
     }
 }

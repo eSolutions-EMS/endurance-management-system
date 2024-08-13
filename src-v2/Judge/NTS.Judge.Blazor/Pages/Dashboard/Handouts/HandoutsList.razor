@@ -8,7 +8,7 @@
 @foreach (var handout in _behind.Handouts)
 {
     var header = handout.Header;
-    <MudGrid Style="margin-top:0!important;">
+    <MudGrid Style="margin-top:0!important;" Justify="Justify.Center">
         <MudItem xs="2" Class="align-content-center">
             <MudImage Src="images/logo-bfks.JPG" />
         </MudItem>
@@ -16,7 +16,7 @@
             <NotH3>@($"{header.PopulatedPlace} {header.EventSpan}")</NotH3>
             <NotH2>@header.Title</NotH2>
             <MudDivider />
-            <MudGrid Class="margin-top:0!important">
+            <MudGrid Class="margin-top:0!important" Justify="Justify.Center">
                 @if (header.PresidentGroundJury != null)
                 {
                     <MudItem xs="6">
