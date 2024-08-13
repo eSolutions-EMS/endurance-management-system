@@ -3,8 +3,9 @@
 @attribute [Route(HANDOUTS_PAGE)]
 @inherits NotComponent
 
+<NotH1>@Localizer.Get("Handouts")</NotH1>
+
 <MudPaper Elevation="1" Class="pa-4">
-    <NotH1>@Localizer.Get("Handouts")</NotH1>
 
     <HandoutsList />
 </MudPaper>
