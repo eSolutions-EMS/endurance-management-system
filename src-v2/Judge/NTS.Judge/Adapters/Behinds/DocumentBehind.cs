@@ -26,18 +26,6 @@ public class DocumentBehind : IDocumentBehind
         _classificationRepository = classificationRepository;
     }
 
-    public async Task CreateHandout(int number)
-    {
-        var participation = await _participationRepository.Read(x => x.Tandem.Number == number);
-        var @event = await _eventRepository.Read(0);
-        var officials = await _officialRepository.ReadAll();
-
-        GuardHelper.ThrowIfDefault(@event);
-        GuardHelper.ThrowIfDefault(participation);
-
-        DocumentProducer.CreateHandout(@event, officials, participation);
-    }
-
     public async Task CreateRanklist(int classificationId)
     {
         var classification = await _classificationRepository.Read(classificationId);

@@ -1,0 +1,31 @@
+﻿@using NTS.Judge.Blazor.Pages.Dashboard.Components
+@using NTS.Judge.Blazor.Ports
+
+@inherits NotComponent
+
+<MudStack>
+    <MudItem>
+        <NotButtonPrimary OnClick="PopAndPrint">Print</NotButtonPrimary>
+    </MudItem>
+</MudStack>
+
+@foreach (var handout in _behind.Handouts)
+{
+    <ParticipationTable Phases="handout.Phases" />
+    <MudDivider />
+}
+
+@code {
+    [Inject]
+    IHandoutsBehind _behind { get; set; } = default!;
+
+    protected override void OnInitialized()
+    {
+        Observe(_behind);
+    }
+
+    private void PopAndPrint()
+    {
+        var handouts = _behind.PopAll();
+    }
+}

@@ -1,0 +1,10 @@
+﻿@using NTS.Judge.Blazor.Pages.Dashboard.Handouts
+
+@attribute [Route(HANDOUTS_PAGE)]
+@inherits NotComponent
+
+<MudPaper Elevation="1" Class="pa-4">
+    <NotH1>@Localizer.Get("Handouts")</NotH1>
+
+    <HandoutsList />
+</MudPaper>

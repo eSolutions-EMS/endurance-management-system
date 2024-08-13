@@ -34,7 +34,6 @@ public class CoreEventInitializer : IStartupInitializer, ISingletonService
     public async void OnPhaseCompleted(PhaseCompleted phaseCompleted)
     {
         await _rpcHub.SendStartCreated(phaseCompleted);
-        await _documentBehind.CreateHandout(phaseCompleted.Number);
     }
 
     private void OnQualificationRevoked(QualificationRevoked revoked)
