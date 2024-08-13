@@ -14,7 +14,7 @@ public class JudgeMauiServer
 
     public static Task Start(IServiceProvider callerProvider)
     {
-        return TaskHelper.Run(() => StartServer(callerProvider));
+        return TaskHelper.Run(() => { StartServer(callerProvider); return Task.CompletedTask; });
     }
 
     private static void StartServer(IServiceProvider callerProvider)

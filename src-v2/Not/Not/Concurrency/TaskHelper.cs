@@ -1,34 +1,52 @@
-﻿namespace Not.Concurrency;
+﻿using System.Diagnostics;
+using System.Text;
+
+namespace Not.Concurrency;
 
 public static class TaskHelper
 {
-    public static Task Run(Action action)
+    public static Task Run(Func<Task> action)
     {
-        try
+        return Task.Run(async () =>
         {
-            return Task.Run(() => action());
-        }
-        catch (Exception ex)
-        {
-            return HandleError(ex);
-        }
+            try
+            {
+                await action();
+            }
+            catch (Exception ex)
+            {
+                HandleError(ex);
+            }
+        });
     }
 
-    public static Task Run<T>(Action<T> action, T argument)
+    public static Task Run<T>(Func<T, Task> action, T argument)
     {
-        try
+        return Task.Run(async () =>
         {
-            return Task.Run(() => action(argument));
-        }
-        catch (Exception ex)
-        {
-            return HandleError(ex);
-        }
+            try
+            {
+                await action(argument);
+            }
+            catch (Exception ex)
+            {
+                HandleError(ex);
+            }
+        });
     }
 
-    static Task HandleError(Exception exception)
+    static void HandleError(Exception exception)
     {
         // TODO: add notification
-        throw new NotImplementedException($"Notification for error '{exception.Message}'");
+        var sb = new StringBuilder();
+        sb.AppendLine("TASKHELPER EXCEPTION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        sb.AppendLine("TASKHELPER EXCEPTION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        sb.AppendLine("TASKHELPER EXCEPTION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        sb.AppendLine("TASKHELPER EXCEPTION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        sb.AppendLine(exception.Message);
+        sb.AppendLine(exception.StackTrace);
+        sb.AppendLine("TASKHELPER EXCEPTION!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
+        Trace.WriteLine(sb.ToString(), "console");
     }
 }
