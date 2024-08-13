@@ -8,5 +8,5 @@ namespace NTS.Judge.Blazor.Ports;
 public interface IHandoutsBehind : IStartupInitializer, IObservableBehind, ISingletonService
 {
     IReadOnlyList<HandoutDocument> Handouts { get; }
-    IEnumerable<HandoutDocument> PopAll();
+    Task<IEnumerable<HandoutDocument>> PopAll();
 }

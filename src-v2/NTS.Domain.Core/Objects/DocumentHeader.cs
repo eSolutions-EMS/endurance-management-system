@@ -4,6 +4,9 @@ namespace NTS.Domain.Core.Objects;
 
 public record DocumentHeader : DomainObject
 {
+    private DocumentHeader()
+    {
+    }
     public DocumentHeader(string @event, PopulatedPlace populatedPlace, EventSpan eventSpan, IEnumerable<Official> officials)
     {
         Title = @event;

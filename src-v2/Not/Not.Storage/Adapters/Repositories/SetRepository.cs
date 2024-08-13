@@ -51,6 +51,16 @@ public abstract class SetRepository<T, TState> : IRepository<T>
         return entity;
     }
 
+    public async Task Delete(IEnumerable<T> entities)
+    {
+        var state = await _store.Transact();
+        foreach (var entity in entities)
+        {
+            state.EntitySet.Remove(entity);
+        }
+        await _store.Commit(state);
+    }
+
     public async Task<T?> Read(int id)
     {
         var state = await _store.Readonly();
