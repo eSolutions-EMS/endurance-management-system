@@ -64,9 +64,13 @@ public record Timestamp : DomainObject, IComparable<Timestamp>
     {
         return left?.DateTime > right;
     }
-    public static TimeInterval operator -(Timestamp? left, Timestamp? right)
+    public static TimeInterval? operator -(Timestamp? left, Timestamp? right)
     {
-        return new TimeInterval(left?.DateTime - right?.DateTime ?? TimeSpan.Zero);
+        if (left == null || right == null)
+        {
+            return null;
+        }
+        return new TimeInterval(left!.DateTime - right!.DateTime);
     }
     public static Timestamp? operator +(Timestamp? left, TimeSpan? right)
     {
