@@ -35,7 +35,7 @@
             <MudButton Class="@DQClasses" OnClick="ToggleDQ">Disqualified</MudButton>
             <MudButton Class="@FTQClasses" OnClick="ToggleFTQ">Failed to Qualify</MudButton>
         </MudButtonGroup>
-        <MudSelect @ref="multiSelect" T="string" Class="@MultiSelectClasses" Label="Failed to Qualify Reason" MultiSelection="true" Delimiter="+" @bind-Value="@FTQReasonValue" OnClose="UpdateParticipant" >
+        <MudSelect @ref="multiSelect" T="string" Class="@MultiSelectClasses" Label="Failed to Qualify Reason" MultiSelection="true" Delimiter="+" @bind-Value="@FTQReasonValue" Placeholder="Select a reason">
             @foreach (var failToQualifyCode in MultiSelectListModel.MultiSelectList<FTQCodes>())
             {
                 <MudSelectItem T="string" Value="@failToQualifyCode.Value">
@@ -44,7 +44,7 @@
                 </MudSelectItem>
             }
         </MudSelect>
-        <MudTextField @ref="reasonInput" @bind-Value="Reason" Class="@ReasonClasses" Label="Reason" Variant="Variant.Outlined" OnBlur="UpdateParticipant"></MudTextField>
+        <MudTextField @ref="reasonInput" @bind-Value="Reason" Class="@ReasonClasses" Label="Reason" Variant="Variant.Outlined"></MudTextField>
     </MudPaper>
 
     <MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Update">
@@ -155,6 +155,7 @@
                 FTQClasses = "font-size-10 secondary-outlined-toggled";
                 MultiSelectClasses = "";
                 FTQReasonValue = _selectedParticipation.NotQualified.ToString();
+                FTQReasonValue = FTQReasonValue.Replace("FTQ ", "");
                 break;
         }
     }
@@ -305,12 +306,10 @@
 
     public async void Update()
     {
-        
         var convertedInput = TimeSpan.Parse(Time);
         _snapshot.Timestamp.SetTime(convertedInput);
         _selectedParticipation?.Process(_snapshot);
         UpdateParticipant();
-        //await _participationBehind.Update(_selectedParticipation!);
     }
 
     public Snapshot CreateSnapshot()
