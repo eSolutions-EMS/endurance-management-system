@@ -4,6 +4,10 @@ namespace NTS.Domain.Core.Aggregates.Participations;
 
 public record Withdrawn : NotQualified
 {
+    public Withdrawn()
+    {
+        Type = nameof(Withdrawn);
+    }
     public override string ToString()
     {
         return "WD";
@@ -12,6 +16,10 @@ public record Withdrawn : NotQualified
 
 public record Retired : NotQualified
 {
+    public Retired()
+    {
+        Type = nameof(Retired);
+    }
     public override string ToString()
     {
         return "RET";
@@ -25,6 +33,7 @@ public record Disqualified : NotQualified
     }
     public Disqualified(string complement) : base(complement)
     {
+        Type = nameof(Disqualified);
     }
 
     public override string ToString()
@@ -40,6 +49,7 @@ public record FinishedNotRanked : NotQualified
     }
     public FinishedNotRanked(string complement) : base(complement)
     {
+        Type = nameof(FinishedNotRanked);
     }
 
     public override string ToString()
@@ -55,6 +65,7 @@ public record FailedToQualify : NotQualified
     }
     public FailedToQualify(params FTQCodes[] codes)
     {
+        Type = nameof(FailedToQualify);
         if (codes.Contains(FTQCodes.FTC))
         {
             throw new DomainException($"'Failed to Complete' requires a writen explanation from officials. Please provide 'complement'");
@@ -63,6 +74,7 @@ public record FailedToQualify : NotQualified
     }
     public FailedToQualify(string complement) : base(complement)
     {
+        Type = nameof(FailedToQualify);
         Codes.ToList().Add(FTQCodes.FTC);
     }
 
@@ -146,4 +158,5 @@ public abstract record NotQualified : DomainObject
     }
 
     public string? Complement { get; private set; }
+    public virtual string Type { get; set; }
 }
