@@ -3,6 +3,7 @@ using static NTS.Domain.Core.Aggregates.Participations.SnapshotResultType;
 
 namespace NTS.Domain.Core.Aggregates.Participations;
 
+// TODO: probably should be a record
 public class Phase : DomainEntity, IPhaseState
 {
     internal string InternalGate { get; set; }

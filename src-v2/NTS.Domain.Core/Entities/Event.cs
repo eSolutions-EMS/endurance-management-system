@@ -1,11 +1,14 @@
-﻿using Newtonsoft.Json;
+﻿using JsonNet.PrivatePropertySetterResolver;
+using Newtonsoft.Json;
 using NTS.Domain.Core.Objects;
 
 namespace NTS.Domain.Core.Entities;
 
 public class Event : DomainEntity
 {
-    [JsonConstructor]
+    private Event(int id) : base(id)
+    {
+    }
     public Event(
         Country country,
         string city,

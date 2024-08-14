@@ -2,9 +2,9 @@
 
 public class SnapshotResult : DomainEntity
 {
-#pragma warning disable CS8618 // Deserialization ctor
-    private SnapshotResult() { }
-#pragma warning restore CS8618 
+    private SnapshotResult(int id) : base(id)
+    {
+    }
 
     public static SnapshotResult Applied(Snapshot snapshot) => new(snapshot, SnapshotResultType.Applied);
     public static SnapshotResult NotApplied(Snapshot snapshot, SnapshotResultType type) => new(snapshot, type);

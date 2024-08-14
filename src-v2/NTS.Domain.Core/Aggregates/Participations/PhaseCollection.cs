@@ -14,11 +14,11 @@ public class PhaseCollection : ReadOnlyCollection<Phase>
             var distanceFromStart = gate += phase.Length;
             phase.InternalGate = $"{i + 1}/{distanceFromStart:0.##}";
         }
-        Current = this.FirstOrDefault(x => !x.IsComplete);
+        Current = this.FirstOrDefault(x => x.IsComplete) ?? this.Last();
     }
 
     public Phase? CurrentComplete => this.LastOrDefault(x => x.IsComplete);
-    internal Phase? Current { get; private set; } 
+    public Phase? Current { get; private set; } 
     internal int CurrentNumber => this.NumberOf(Current ?? this.Last());
     public double Distance => this.Sum(x => x.Length);
     internal Timestamp? OutTime => this.LastOrDefault(x => x.OutTime != null)?.OutTime;

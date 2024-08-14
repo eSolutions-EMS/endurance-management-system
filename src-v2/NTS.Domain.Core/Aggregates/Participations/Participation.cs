@@ -12,6 +12,9 @@ public class Participation : DomainEntity, IAggregateRoot
     private static readonly FailedToQualify OUT_OF_TIME = new (FTQCodes.OT);
     private static readonly FailedToQualify SPEED_RESTRICTION = new (FTQCodes.SP);
 
+    private Participation(int id) : base(id)
+    {
+    }
     public Participation(string competition, Tandem tandem, IEnumerable<Phase> phases)
     {
         Competition = competition;

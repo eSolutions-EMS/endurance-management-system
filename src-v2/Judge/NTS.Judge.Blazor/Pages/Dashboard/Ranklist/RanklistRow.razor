@@ -2,81 +2,97 @@
 @using NTS.Domain.Core.Entities
 @using NTS.Domain.Objects
 @using NTS.Judge.Blazor.Pages.Dashboard.Components
+@using NTS.Judge.Blazor.Ports
 
-<RanklistTableFrame>
-    <One>
-        @if (_notQualified != null)
-        {
-            <MudText Typo="Typo.caption" Class="mr-4 pl-2" Style="width: 1rem;">@_notQualified</MudText>
-            <MudIcon Icon="@Icons.Material.TwoTone.Flag" Color="Color.Error" Size="Size.Large" />
-        }
-        else if (Entry.Participation.Phases.Any(x => !x.IsComplete))
-        {
-            <MudIcon Icon="@Icons.Material.TwoTone.Flag" Color="Color.Default" Size="Size.Large" />
-        }
-        else
-        {
-            <MudText Class="mr-4 pl-2" Style="width: 1rem;">@_rank</MudText>
-            <MudIcon Icon="@Icons.Material.Filled.Flag" Color="Color.Success" Size="Size.Large" />
-        }
-    </One>
-    <Two>
-        <MudStack>
-            <MudItem>
-                <MudText><strong>@_tandem.Number</strong> @_tandem.Name</MudText>
-            </MudItem>
-            <MudItem>
-                <MudText>@_tandem.Horse</MudText>
-            </MudItem>
-        </MudStack>
-    </Two>
-    <Three>
-        @_currentPhase?.ArriveTime
-    </Three>
-    <Four>
-        @Entry.Participation.Total?.AverageSpeed
-    </Four>
-    <Five>
-        @Entry.Participation.Total?.RideInterval
-    </Five>
-    <Six>
-        @Entry.Participation.Total?.RecoveryIntervalWithoutFinal
-    </Six>
-    <Seven>
-        @_totalInterval
-    </Seven>
-    <Eight>
-        <MudIcon Icon="@(_expanded ? Icons.Material.Filled.KeyboardArrowDown : @Icons.Material.Filled.KeyboardArrowRight)"
-                 @onclick="Toggle"
-                 Style="width:100%; cursor:pointer;" />
-    </Eight>
-</RanklistTableFrame>
-<MudCollapse Expanded="_expanded">
-    <MudDivider />
-    <ParticipationTable Phases="Entry.Participation.Phases" />
-</MudCollapse>
+@if (_phases != null)
+{
+    <RanklistTableFrame>
+        <One>
+            @if (_notQualified != null)
+            {
+                <MudText Typo="Typo.caption" Class="mr-4 pl-2" Style="width: 1rem;">@_notQualified</MudText>
+                <MudIcon Icon="@Icons.Material.TwoTone.Flag" Color="Color.Error" Size="Size.Large" />
+            }
+            else if (_phases.Any(x => !x.IsComplete))
+            {
+                <MudIcon Icon="@Icons.Material.TwoTone.Flag" Color="Color.Default" Size="Size.Large" />
+            }
+            else
+            {
+                <MudText Class="mr-4 pl-2" Style="width: 1rem;">@_rank</MudText>
+                <MudIcon Icon="@Icons.Material.Filled.Flag" Color="Color.Success" Size="Size.Large" />
+            }
+        </One>
+        <Two>
+            <MudStack>
+                <MudItem>
+                    <MudText><strong>@_tandem.Number</strong> @_tandem.Name</MudText>
+                </MudItem>
+                <MudItem>
+                    <MudText>@_tandem.Horse</MudText>
+                </MudItem>
+            </MudStack>
+        </Two>
+        <Three>
+            @_phases.Current?.ArriveTime
+        </Three>
+        <Four>
+            @_total?.AverageSpeed
+        </Four>
+        <Five>
+            @_total?.RideInterval
+        </Five>
+        <Six>
+            @_total?.RecoveryIntervalWithoutFinal
+        </Six>
+        <Seven>
+            @_totalInterval
+        </Seven>
+        <Eight>
+            <MudIcon Icon="@(_expanded ? Icons.Material.Filled.KeyboardArrowDown : @Icons.Material.Filled.KeyboardArrowRight)"
+                     @onclick="Toggle"
+                     Style="width:100%; cursor:pointer;" />
+        </Eight>
+    </RanklistTableFrame>
+    <MudCollapse Expanded="_expanded">
+        <MudDivider />
+        <ParticipationTable Phases="_phases" />
+    </MudCollapse>
+}
 
 @code {
     private bool _expanded;
-    private Tandem _tandem => Entry.Participation.Tandem;
-    private NotQualified? _notQualified => Entry.Participation.NotQualified;
-    private Phase? _currentPhase => Entry.Participation.Phases.CurrentComplete;
+    private PhaseCollection _phases = default!;
+    private Tandem _tandem = default!;
+    private NotQualified _notQualified = default!;
+    private Total? _total;
+    private TimeInterval? _totalInterval;
     private string? _rank;
-    private TimeInterval? _totalInterval => Entry.Participation.Total?.RideInterval + Entry.Participation.Total?.RecoveryIntervalWithoutFinal;
 
     [Parameter]
     public RankingEntry Entry { get; set; } = default!;
     [Parameter]
     public int Index { get; set; } = default!;
+    [Inject]
+    IParticipationBehind _behind { get; set; } = default!;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
+        var participation = await _behind.Get(Entry.ParticipationId);
+        GuardHelper.ThrowIfDefault(participation);
+
+        _phases = participation.Phases;
+        _tandem = participation.Tandem;
+        _notQualified = participation.NotQualified;
+        _total = participation.Total;
+        _totalInterval = participation.Total?.RideInterval + participation.Total?.RecoveryIntervalWithoutFinal;
+
         if (!Entry.IsRanked)
         {
             _rank = "unranked";
             return;
         }
-        if (Entry.Participation.IsNotQualified)
+        if (participation.IsNotQualified)
         {
             _rank = null;
             return;
