@@ -4,6 +4,9 @@ namespace NTS.Domain.Core.Entities;
 
 public class Handout : DomainEntity
 {
+    private Handout()
+    {
+    }
     public Handout(Participation participation)
     {
         Competition = participation.Competition;
@@ -11,7 +14,7 @@ public class Handout : DomainEntity
         Phases = participation.Phases;
     }
 
-    public string Competition { get; private set; }
-    public Tandem Tandem { get; private set; }
-    public PhaseCollection Phases { get; private set; }
+    public string Competition { get; private set; } = default!;
+    public Tandem Tandem { get; private set; } = default!;
+    public PhaseCollection Phases { get; private set; } = default!;
 }
