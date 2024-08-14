@@ -30,16 +30,24 @@ public class HandoutsBehind : ObservableBehind, IHandoutsBehind
         _officialRepository = officialRepository;
     }
 
+    public Event? EnduranceEvent { get; private set; }
+    public IEnumerable<Official> Officials { get; private set; } = new List<Official>();
     public IReadOnlyList<Handout> Handouts => _handouts.AsReadOnly();
 
     public void RunAtStartup()
     {
+        // TODO: subscribe to updates for Event, Official
         EventHelper.Subscribe<PhaseCompleted>(CreateHandout);
     }
 
     public override async Task Initialize()
     {
         _handouts = new(await _handoutRepository.ReadAll());
+        EnduranceEvent = await _eventRepository.Read(0);
+        Officials = await _officialRepository.ReadAll();
+
+        GuardHelper.ThrowIfDefault(EnduranceEvent);
+
         EmitChange();
     }
 
@@ -57,7 +65,7 @@ public class HandoutsBehind : ObservableBehind, IHandoutsBehind
 
         GuardHelper.ThrowIfDefault(@event);
 
-        var handout = new Handout(phaseCompleted.Participation, @event, officials);
+        var handout = new Handout(phaseCompleted.Participation);
         await _handoutRepository.Create(handout);
         _handouts.Add(handout);
     }
