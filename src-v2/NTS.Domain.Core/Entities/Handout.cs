@@ -1,14 +1,14 @@
 ﻿using NTS.Domain.Core.Aggregates.Participations;
-using NTS.Domain.Core.Entities;
+using NTS.Domain.Core.Objects;
 
-namespace NTS.Domain.Core.Objects;
+namespace NTS.Domain.Core.Entities;
 
-public class HandoutDocument : DomainEntity
+public class Handout : DomainEntity
 {
-    private HandoutDocument()
+    private Handout()
     {
     }
-    public HandoutDocument(
+    public Handout(
         Participation participation,
         Event @event,
         IEnumerable<Official> officials)

@@ -6,21 +6,20 @@ using Not.Exceptions;
 using NTS.Domain.Core.Aggregates.Participations;
 using NTS.Domain.Core.Entities;
 using NTS.Domain.Core.Events.Participations;
-using NTS.Domain.Core.Objects;
 using NTS.Judge.Blazor.Ports;
 
 namespace NTS.Judge.Adapters.Behinds;
 
 public class HandoutsBehind : ObservableBehind, IHandoutsBehind
 {
-    private ConcurrentList<HandoutDocument> _handouts = new();
-    private readonly IRepository<HandoutDocument> _handoutRepository;
+    private ConcurrentList<Handout> _handouts = new();
+    private readonly IRepository<Handout> _handoutRepository;
     private readonly IRepository<Participation> _participationRepository;
     private readonly IRepository<Event> _eventRepository;
     private readonly IRepository<Official> _officialRepository;
 
     public HandoutsBehind(
-        IRepository<HandoutDocument> handouts,
+        IRepository<Handout> handouts,
         IRepository<Participation> participationRepository,
         IRepository<Event> eventRepository,
         IRepository<Official> officialRepository)
@@ -31,7 +30,7 @@ public class HandoutsBehind : ObservableBehind, IHandoutsBehind
         _officialRepository = officialRepository;
     }
 
-    public IReadOnlyList<HandoutDocument> Handouts => _handouts.AsReadOnly();
+    public IReadOnlyList<Handout> Handouts => _handouts.AsReadOnly();
 
     public void RunAtStartup()
     {
@@ -44,7 +43,7 @@ public class HandoutsBehind : ObservableBehind, IHandoutsBehind
         EmitChange();
     }
 
-    public async Task<IEnumerable<HandoutDocument>> PopAll()
+    public async Task<IEnumerable<Handout>> PopAll()
     {
         var handouts = _handouts.PopAll();
         await _handoutRepository.Delete(handouts);
@@ -58,7 +57,7 @@ public class HandoutsBehind : ObservableBehind, IHandoutsBehind
 
         GuardHelper.ThrowIfDefault(@event);
 
-        var handout = new HandoutDocument(phaseCompleted.Participation, @event, officials);
+        var handout = new Handout(phaseCompleted.Participation, @event, officials);
         await _handoutRepository.Create(handout);
         _handouts.Add(handout);
     }
