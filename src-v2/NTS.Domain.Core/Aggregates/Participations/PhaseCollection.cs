@@ -14,7 +14,7 @@ public class PhaseCollection : ReadOnlyCollection<Phase>
             var distanceFromStart = gate += phase.Length;
             phase.InternalGate = $"{i + 1}/{distanceFromStart:0.##}";
         }
-        Current = this.FirstOrDefault(x => x.IsComplete) ?? this.Last();
+        Current = this.LastOrDefault(x => x.IsComplete) ?? this.First();
     }
 
     public Phase? CurrentComplete => this.LastOrDefault(x => x.IsComplete);
