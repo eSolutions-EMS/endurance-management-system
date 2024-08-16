@@ -1,0 +1,15 @@
+﻿@using NTS.Judge.Blazor.Pages.Dashboard.Ranklist
+
+@attribute [Route(RANKLIST_PAGE)]
+@inherits NotComponent
+
+<NotH1>@Localizer.Get("Ranklist")</NotH1>
+
+<MudGrid Style="margin-top:0 !important;">
+    <MudItem xs="9">
+        <RanklistTable />
+    </MudItem>
+    <MudItem xs="3">
+        <RankingMenu />
+    </MudItem>
+</MudGrid>

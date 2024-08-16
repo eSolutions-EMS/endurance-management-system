@@ -19,7 +19,7 @@ public class Phase : DomainEntity, IPhaseState
         CRIRecovery = criRecovery;
     }
 
-    public string Gate => $"GATE{InternalGate}";
+    public string Gate => $"GATE{InternalGate}"; // TODO: fix InternalGate complexity
     public double Length { get; private set; }
     public int MaxRecovery { get; private set; }
     public int Rest { get; private set; }
@@ -44,9 +44,9 @@ public class Phase : DomainEntity, IPhaseState
     public TimeInterval? PhaseSpan => VetTime - StartTime;
     public TimeInterval? Span => IsFeiRulesAndNotFinal ? PhaseSpan : LoopSpan;
     public TimeInterval? RecoverySpan => VetTime - ArriveTime;
-    public Speed? AverageLoopSpeed => Length / LoopSpan;
-    public Speed? AveragePhaseSpeed => Length / (PhaseSpan + RecoverySpan); // TODO: fix
-    public Speed? AverageSpeed => IsFeiRulesAndNotFinal ? AveragePhaseSpeed : AverageLoopSpeed;
+    public Speed? AveregeLoopSpeed => Length / LoopSpan;
+    public Speed? AveragePhaseSpeed => Length / PhaseSpan;
+    public Speed? AverageSpeed => IsFeiRulesAndNotFinal ? AveragePhaseSpeed : AveregeLoopSpeed;
     public bool IsComplete => OutTime != null;
 
     public SnapshotResult Arrive(Snapshot snapshot)

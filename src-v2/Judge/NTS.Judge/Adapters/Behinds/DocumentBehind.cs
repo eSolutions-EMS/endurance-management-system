@@ -12,13 +12,13 @@ public class DocumentBehind : IDocumentBehind
     private readonly IRepository<Participation> _participationRepository;
     private readonly IRepository<Event> _eventRepository;
     private readonly IRepository<Official> _officialRepository;
-    private readonly IRepository<Classification> _classificationRepository;
+    private readonly IRepository<Ranking> _classificationRepository;
 
     public DocumentBehind(
         IRepository<Participation> participationRepository,
         IRepository<Event> eventRepository,
         IRepository<Official> officialRepository,
-        IRepository<Classification> classificationRepository)
+        IRepository<Ranking> classificationRepository)
     {
         _participationRepository = participationRepository;
         _eventRepository = eventRepository;

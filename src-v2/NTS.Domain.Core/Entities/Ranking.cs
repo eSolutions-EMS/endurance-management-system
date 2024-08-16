@@ -3,9 +3,9 @@ using System.Collections.ObjectModel;
 
 namespace NTS.Domain.Core.Entities;
 
-public class Classification : DomainEntity, IAggregateRoot
+public class Ranking : DomainEntity, IAggregateRoot
 {
-    public Classification(string name, AthleteCategory category, IEnumerable<ClassificationEntry> entries)
+    public Ranking(string name, AthleteCategory category, IEnumerable<RankingEntry> entries)
     {
         Name = name;
         Category = category;
@@ -14,7 +14,7 @@ public class Classification : DomainEntity, IAggregateRoot
 
     public string Name { get; private set; }
     public AthleteCategory Category { get;private set; }
-    public ReadOnlyCollection<ClassificationEntry> Entries { get; private set; }
+    public ReadOnlyCollection<RankingEntry> Entries { get; private set; }
 
     public override string ToString()
     {

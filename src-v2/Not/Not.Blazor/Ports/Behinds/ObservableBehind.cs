@@ -1,5 +1,5 @@
 ﻿using Not.Events;
-using Not.Startup;
+using Not.Injection;
 
 namespace Not.Blazor.Ports.Behinds;
 
@@ -9,18 +9,21 @@ public abstract class ObservableBehind : IObservableBehind
 {
     private IEventManager _stateChanged = new EventManager();
 
+    public abstract Task Initialize();
+    
     public void Subscribe(Func<Task> action)
     {
         _stateChanged.Subscribe(async () => await action());
     }
 
-    public void EmitChange()
+    protected void EmitChange()
     {
         _stateChanged.Emit();
     }
 }
 
-public interface IObservableBehind : INotBehind
+public interface IObservableBehind : INotBehind, ISingletonService
 {
+    Task Initialize();
     void Subscribe(Func<Task> action);
 }

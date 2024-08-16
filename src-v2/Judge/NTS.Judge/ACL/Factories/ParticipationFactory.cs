@@ -58,7 +58,7 @@ public class ParticipationFactory
         
         var phases = new List<Phase>();
         EmsLapRecord? finalRecord = null;
-        DateTime? previousTime = null;
+        DateTimeOffset? previousTime = null;
         foreach (var lap in competition.Laps)
         {
             var type = EmsCompetitionTypeToCompetitionType(competition.Type);
@@ -73,7 +73,17 @@ public class ParticipationFactory
             
             if (record != null)
             {
-                phase.StartTime = new Timestamp(AdjustTime(ref previousTime, record.StartTime, TimeSpan.Zero, adjustTime));
+                if (phases.Any())
+                {
+                    // Adjusting isnt necessary since it's already done in the previous iteration
+                    var outTime = phases.Last().OutTime!;
+                    previousTime = outTime.DateTime;
+                    phase.StartTime = new Timestamp(outTime);
+                }
+                else
+                {
+                    phase.StartTime = new Timestamp(AdjustTime(ref previousTime, record.StartTime, TimeSpan.Zero, adjustTime));
+                }
                 if (record.ArrivalTime.HasValue)
                 {
                     phase.ArriveTime = new Timestamp(AdjustTime(ref previousTime, record.ArrivalTime.Value, record.ArrivalTime.Value - record.StartTime, adjustTime));
@@ -120,7 +130,7 @@ public class ParticipationFactory
         };
     }
 
-    private static DateTime AdjustTime(ref DateTime? previousTime, DateTime currentTime, TimeSpan diff, bool shouldAdjust)
+    private static DateTime AdjustTime(ref DateTimeOffset? previousTime, DateTime currentTime, TimeSpan diff, bool shouldAdjust)
     {
         if (!shouldAdjust)
         {
@@ -128,13 +138,13 @@ public class ParticipationFactory
         }
         if (previousTime.HasValue)
         {
-            currentTime = previousTime.Value + diff;
+            currentTime = (previousTime.Value + diff).DateTime;
         }
         else
         {
-            currentTime = DateTimeHelper.DateTimeNow.AddHours(-1);
-            previousTime = currentTime;
+            currentTime = DateTimeHelper.Now.AddHours(-1).DateTime;
         }
+        previousTime = currentTime;
         return currentTime;
     }
 }

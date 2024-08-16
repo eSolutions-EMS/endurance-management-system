@@ -72,17 +72,33 @@ public static class ConventionExtensions
     {
         ThrowIfInvalidPolymorphicService(implementation);
 
-        var first = interfaces.First();
-        Add(services, first, implementation);
-        foreach (var @interface in interfaces.Skip(1))
+        // Commented code uses interface convention and generic type definition in order to select a privary interface 
+        // to be used in GetRequiredService in order for all services to resolve a single implementation instance. 
+        // Otherwize if for example 'INotBehind' is selected then GetRequiredService may fail to resove the instance 
+        // (if more than 1 INotBehind implementations are registered). 
+        // The code is commented because it is probably unnecessary since we can simply register the implementation as itself
+        // and then use that for all interfaces, instead of having to determine a primary interface. Will be deleted later on if this 
+        // method passes the trial of time
+        //var primaryInterface = interfaces
+        //    .OrderByDescending(x => x.Name == $"I{implementation.Name}") // 
+        //    .ThenByDescending(x => x.IsGenericTypeDefinition)
+        //    .FirstOrDefault();
+        //if (primaryInterface == null)
+        //{
+        //    var interfaceNames = string.Join(", ", interfaces.Select(x => x.Name));
+        //    throw new Exception($"Cannot register service '{implementation.FullName}' as singleton, " +
+        //        $"because there is no interface with matching name: '{string.Join(",", interfaces)}'");
+        //}
+        Add(services, implementation, implementation);
+        foreach (var @interface in interfaces)
         {
             if (isSingleton)
             {
-                services.AddSingleton(@interface, x => x.GetRequiredService(first));
+                services.AddSingleton(@interface, x => x.GetRequiredService(implementation));
             }
             else
             {
-                services.AddScoped(@interface, x => x.GetRequiredService(first));
+                services.AddScoped(@interface, x => x.GetRequiredService(implementation));
             }
         }
     }

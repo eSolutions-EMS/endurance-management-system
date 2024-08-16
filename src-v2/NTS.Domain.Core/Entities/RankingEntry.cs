@@ -2,9 +2,9 @@
 
 namespace NTS.Domain.Core.Entities;
 
-public class ClassificationEntry : DomainEntity
+public class RankingEntry : DomainEntity
 {
-    public ClassificationEntry(Participation participation, bool isRanked)
+    public RankingEntry(Participation participation, bool isRanked)
     {
         Participation = participation;
         IsRanked = isRanked;

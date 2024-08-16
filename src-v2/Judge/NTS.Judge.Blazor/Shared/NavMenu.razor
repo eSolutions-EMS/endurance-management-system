@@ -1,8 +1,11 @@
 
 <MudNavMenu>
     <MudNavLink Href="/" Match="NavLinkMatch.All">Setup</MudNavLink>
-    <MudNavLink Href="/dashboard" Match="NavLinkMatch.Prefix">Dashboard</MudNavLink>
-    <MudNavGroup Title="Demos" Expanded="true">
+    <MudNavGroup Title="Dashboard" Expanded="true">
+        <MudNavLink Href="/dashboard" Match="NavLinkMatch.Prefix">Dashboard</MudNavLink>
+        <MudNavLink Href="@RANKLIST_PAGE" Match="NavLinkMatch.Prefix">Ranklist</MudNavLink>
+    </MudNavGroup>
+    <MudNavGroup Title="Demos">
         <MudNavLink Href="/localization-demo" Match="NavLinkMatch.Prefix">Localization</MudNavLink>
         <MudNavLink Href="/event-demo" Match="NavLinkMatch.Prefix">Event</MudNavLink>
         <MudNavLink Href="/persistence-demo" Match="NavLinkMatch.Prefix">Persitence</MudNavLink>

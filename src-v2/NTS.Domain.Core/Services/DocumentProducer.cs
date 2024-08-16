@@ -15,7 +15,7 @@ public class DocumentProducer
         Produce(handout);
     }
 
-    public static void CreateRanklist(Event @event, IEnumerable<Official> officials, Classification classification)
+    public static void CreateRanklist(Event @event, IEnumerable<Official> officials, Ranking classification)
     {
         var ranklist = new Ranklist(classification);
 
