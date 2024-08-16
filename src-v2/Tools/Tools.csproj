@@ -12,4 +12,8 @@
     <ProjectReference Include="..\NTS.Persistance\NTS.Persistence.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="NTS.Tools\" />
+  </ItemGroup>
+
 </Project>
