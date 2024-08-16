@@ -22,32 +22,47 @@
         switch (notQualified)
         {
             default:
-                // WitToggled = RetToggled = FNRToggled = DQToggled = FTQToggled = false;
+                WitToggled = RetToggled = FNRToggled = DQToggled = FTQToggled = false;
+                WitClasses = RetClasses = FNRClasses = DQClasses = FTQClasses = "font-size-10";
+                ReasonClasses = "hidden";
+                MultiSelectClasses = "hidden";
                 break;
             case Withdrawn:
                 WitToggled = true;
                 WitClasses = "font-size-10 secondary-outlined-toggled";
+                RetClasses = FNRClasses = DQClasses = FTQClasses = "font-size-10";
+                ReasonClasses = "hidden";
+                MultiSelectClasses = "hidden";
                 break;
             case Retired:
                 RetToggled = true;
                 RetClasses = "font-size-10 secondary-outlined-toggled";
+                WitClasses = FNRClasses = DQClasses = FTQClasses = "font-size-10";
+                ReasonClasses = "hidden";
+                MultiSelectClasses = "hidden";
                 break;
             case FinishedNotRanked:
                 FNRToggled = true;
                 FNRClasses = "font-size-10 secondary-outlined-toggled";
+                WitClasses = RetClasses = DQClasses = FTQClasses = "font-size-10";
                 Reason = notQualified.Complement!;
                 ReasonClasses = "";
+                MultiSelectClasses = "hidden";
                 break;
             case Disqualified:
                 DQToggled = true;
                 DQClasses = "font-size-10 secondary-outlined-toggled";
+                WitClasses = RetClasses = FNRClasses = FTQClasses = "font-size-10";
                 Reason = notQualified.Complement!;
                 ReasonClasses = "";
+                MultiSelectClasses = "hidden";
                 break;
             case FailedToQualify:
                 FTQToggled = true;
                 FTQClasses = "font-size-10 secondary-outlined-toggled";
+                WitClasses = RetClasses = FNRClasses = DQClasses = "font-size-10";
                 MultiSelectClasses = "";
+                ReasonClasses = "hidden";
                 FTQReasonValue = notQualified.ToString();
                 FTQReasonValue = FTQReasonValue.Replace("FTQ ", "");
                 break;

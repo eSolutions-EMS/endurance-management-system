@@ -10,10 +10,10 @@
 
 <MudGrid Spacing="5" Style="margin-top:0;"> @* TODO: extract NotGrid? style's necessary because Spacing does -40% margin style for some reason, which breaks the vertical layout. *@
     <MudItem xs="10">
-        <NotAutocomplete T="Participation" @bind-Value="_selectedParticipation" Search="Search" Class="mb-2 dashboard-autocomplete" />
+        <NotAutocomplete T="Participation" @bind-Value="_behind.SelectedParticipation" Search="Search" Class="mb-2 dashboard-autocomplete" />
     </MudItem>
     <MudItem xs="7">
-        <ParticipationTable Phases="_selectedParticipation?.Phases" />
+        <ParticipationTable Phases="_behind.SelectedParticipation?.Phases" />
     </MudItem>
     <MudItem xs="3">
         <MudChipSet SelectedChipChanged="SelectParticipation">
@@ -34,20 +34,12 @@
 </MudGrid>
 
 @code {
-    private Participation? _selectedParticipation = default!;
     [Inject]
     private IParticipationBehind _behind { get; set; } = default!;
 
     protected override async Task OnInitializedAsync()
     {
-        await _behind.Initialize();
-        _selectedParticipation = _behind.Participations.FirstOrDefault();
         await Observe(_behind);
-    }
-
-    private void SetSelectedParticipation(Participation selectedParticipation)
-    {
-        _selectedParticipation = selectedParticipation;
     }
 
     private Task<IEnumerable<Participation>> Search(string term)
@@ -69,7 +61,7 @@
             return;
         }
         _behind.SelectParticipation((int)chip.Value);
-        GuardHelper.ThrowIfDefault(_selectedParticipation);
+        GuardHelper.ThrowIfDefault(_behind.SelectedParticipation);
         await InvokeAsync(StateHasChanged); // TODO: think this sisnt necessary
     }
 }

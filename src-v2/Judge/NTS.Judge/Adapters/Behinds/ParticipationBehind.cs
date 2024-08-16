@@ -23,7 +23,7 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
 
     public IEnumerable<Participation> Participations { get; private set; } = new List<Participation>();
     public IEnumerable<IGrouping<double, Participation>> ParticipationsByDistance => Participations.GroupBy(x => x.Phases.Distance);
-    public Participation? SelectedParticipation { get; private set; } = default!;
+    public Participation? SelectedParticipation { get; set; } = default!;
 
     // TODO: we need a better solution to load items as they have been changed in addition to load on startup.
     // Example case: importing previous data: as it is currently we have to restart the app after import
