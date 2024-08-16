@@ -11,17 +11,17 @@ public class SmartSearch<T>
 
     public IEnumerable<T> Find(IEnumerable<T> values, string term)
     {
-        var matches = new List<T>();
+        var results = new List<T>();
         foreach (var search in _searches)
         {
-            foreach (var result in search.GetMatches(values, term))
+            foreach (var match in search.GetMatches(values, term))
             {
-                if (!matches.Contains(result))
+                if (!results.Contains(match))
                 {
-                    matches.Add(result);
+                    results.Add(match);
                 }
             }
         }
-        return matches;
+        return results;
     }
 }
