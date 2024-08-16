@@ -1,14 +1,16 @@
-﻿namespace NTS.Domain.Core.Aggregates.Participations;
+﻿using Newtonsoft.Json;
+
+namespace NTS.Domain.Core.Aggregates.Participations;
 
 public class SnapshotResult : DomainEntity
 {
-#pragma warning disable CS8618 // Deserialization ctor
-    private SnapshotResult() { }
-#pragma warning restore CS8618 
-
     public static SnapshotResult Applied(Snapshot snapshot) => new(snapshot, SnapshotResultType.Applied);
     public static SnapshotResult NotApplied(Snapshot snapshot, SnapshotResultType type) => new(snapshot, type);
-
+    
+    [JsonConstructor]
+    private SnapshotResult(int id) : base(id)
+    {
+    }
     private SnapshotResult(Snapshot snapshot, SnapshotResultType type)
     {
         Snapshot = snapshot;

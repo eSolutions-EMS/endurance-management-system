@@ -2,6 +2,9 @@
 
 public class Official : DomainEntity
 {
+    private Official(int id) : base(id)
+    {
+    }
     public Official(Person person, OfficialRole role)
     {
         Person = person;

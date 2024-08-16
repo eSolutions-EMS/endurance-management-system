@@ -8,9 +8,8 @@
     <MudItem xs="11">
         <MudPaper Elevation="1" Class="pa-4">
             <MudStack>
-                @foreach (var handout in _behind.Handouts)
+                @foreach (var document in _behind.Documents)
                 {
-                    var document = new HandoutDocument(handout, _behind.EnduranceEvent!, _behind.Officials);
                     var header = document.Header;
                     <MudItem>
                         <MudItem Class="d-flex flex-row">
@@ -54,8 +53,8 @@
                             </MudItem>
 
                             <MudItem>
-                                <MudText Typo="Typo.h5">@($"{handout.Tandem.Number} {handout.Tandem.Name}, {handout.Tandem.Horse}")</MudText>
-                                <ParticipationTable Phases="handout.Phases"/>
+                                <MudText Typo="Typo.h5">@($"{document.Tandem.Number} {document.Tandem.Name}, {document.Tandem.Horse}")</MudText>
+                                <ParticipationTable Phases="document.Phases"/>
                             </MudItem>
                         </MudItem>
                     </MudItem>

@@ -46,8 +46,7 @@ public class EmsToCoreImporter : IEmsToCoreImporter
         var @event = CreateEvent(emsState.Event, adjustTime);
         //TODOL interesting why some imports fail without ToList? 2024-vakarel (finished) for example
         var officials = CreateOfficials(emsState.Event).ToList();
-        var participations = CreateParticipations(emsState, adjustTime).ToList();
-        var classifications = CreateClassifications(emsState, adjustTime).ToList();
+        var (rankings, participations) = CreateRankingsAndParticipations(emsState, adjustTime);
 
         await _events.Create(@event);
         foreach (var official in officials)
@@ -58,7 +57,7 @@ public class EmsToCoreImporter : IEmsToCoreImporter
         {
             await _participations.Create(participation);
         }
-        foreach (var classification in classifications)
+        foreach (var classification in rankings)
         {
             await _classfications.Create(classification);
         }
@@ -119,22 +118,10 @@ public class EmsToCoreImporter : IEmsToCoreImporter
         return result;
     }
 
-    private IEnumerable<Participation> CreateParticipations(EmsState state, bool adjustTime)
-    {
-        foreach (var emsParticipation in state.Participations)
-        {
-            foreach (var competitionId in emsParticipation.CompetitionsIds)
-            {
-                var competition = state.Event.Competitions.First(x => x.Id == competitionId);
-                yield return ParticipationFactory.CreateCore(emsParticipation, competition, adjustTime);
-            }
-        }
-    }
-
-    private IEnumerable<Ranking> CreateClassifications(EmsState state, bool adjustTime)
+    private (IEnumerable<Ranking>, IEnumerable<Participation>) CreateRankingsAndParticipations(EmsState state, bool adjustTime)
     {
         var result = new List<Ranking>();
-        var entriesforClassification = new Dictionary<EmsCompetition, Dictionary<AthleteCategory, List<RankingEntry>>>();
+        var entriesforClassification = new Dictionary<EmsCompetition, Dictionary<AthleteCategory, List<(RankingEntry entry, Participation particpation)>>>();
         foreach (var emsParticipation in state.Participations)
         {
             foreach (var competitionId in emsParticipation.CompetitionsIds)
@@ -142,22 +129,22 @@ public class EmsToCoreImporter : IEmsToCoreImporter
                 var competition = state.Event.Competitions.First(x => x.Id == competitionId);
                 var participation = ParticipationFactory.CreateCore(emsParticipation, competition, adjustTime);
                 var category = EmsCategoryToAthleteCategory(emsParticipation.Participant.Athlete.Category);
-                var entry = new RankingEntry(participation, !emsParticipation.Participant.Unranked);
+                var entry = new RankingEntry(participation.Id, !emsParticipation.Participant.Unranked);
                 if (entriesforClassification.ContainsKey(competition) && entriesforClassification[competition].ContainsKey(category))
                 {
-                    entriesforClassification[competition][category].Add(entry);
+                    entriesforClassification[competition][category].Add((entry, participation));
                 }
                 else if (entriesforClassification.ContainsKey(competition))
                 {
-                    entriesforClassification[competition].Add(category, new List<RankingEntry> { entry });
+                    entriesforClassification[competition].Add(category, new List<(RankingEntry entry, Participation particpation)> { (entry, participation) });
                 }
                 else
                 {
                     entriesforClassification.Add(
                         competition,
-                        new Dictionary<AthleteCategory, List<RankingEntry>>
+                        new Dictionary<AthleteCategory, List<(RankingEntry entry, Participation particpation)>>
                         { 
-                            { category, new List<RankingEntry> { entry } } 
+                            { category, new List<(RankingEntry entry, Participation particpation)> { (entry, participation) } } 
                         });
                 }
 
@@ -165,12 +152,20 @@ public class EmsToCoreImporter : IEmsToCoreImporter
         }
         foreach (var (competition, entriesByCategory) in entriesforClassification)
         {
-            foreach (var (category, entries) in entriesByCategory)
+            foreach (var (category, tuples) in entriesByCategory)
             {
+                var entries = tuples.Select(x => x.entry);
                 result.Add(new Ranking(competition.Name, category, entries));
             }
+            
+
         }
-        return result;
+        var participations = entriesforClassification
+            .Values
+            .SelectMany(x => x.Values)
+            .SelectMany(x => x.Select(y => y.particpation))
+            .Distinct();
+        return (result, participations);
     }
 
     private AthleteCategory EmsCategoryToAthleteCategory(EmsCategory category)

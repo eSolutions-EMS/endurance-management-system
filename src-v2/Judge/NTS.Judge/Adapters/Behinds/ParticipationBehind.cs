@@ -100,4 +100,9 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
         participation.RestoreQualification();
         await _participationRepository.Update(participation);
     }
+
+    public async Task<Participation?> Get(int id)
+    {
+        return await _participationRepository.Read(id);
+    }
 }

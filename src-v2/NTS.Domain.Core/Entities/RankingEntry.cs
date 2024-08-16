@@ -4,12 +4,20 @@ namespace NTS.Domain.Core.Entities;
 
 public class RankingEntry : DomainEntity
 {
-    public RankingEntry(Participation participation, bool isRanked)
+    private RankingEntry(int id) : base(id)
     {
-        Participation = participation;
+    }
+    public RankingEntry(int participationId, bool isRanked)
+    {
+        ParticipationId = participationId;
         IsRanked = isRanked;
     }
 
-    public Participation Participation { get; private set; }
+    public int ParticipationId { get; private set; }
     public bool IsRanked { get; private set; }
+
+    public override string ToString()
+    {
+        return $"IsRanked: {IsRanked}, {ParticipationId}";
+    }
 }
