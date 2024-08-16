@@ -31,7 +31,7 @@ public static class SmartSearchBuilder
 
     public static SmartSearchBuilder<T> AddInt<T>(this SmartSearchBuilder<T> builder, Func<T, int> valueSelector)
     {
-        var intSearch = new IntPropertySerach<T>(valueSelector);
+        var intSearch = new IntPropertySearch<T>(valueSelector);
         return builder.Add(intSearch);
     }
 }
