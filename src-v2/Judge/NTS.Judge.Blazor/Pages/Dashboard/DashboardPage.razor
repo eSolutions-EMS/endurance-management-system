@@ -1,4 +1,6 @@
-﻿@using NTS.Domain.Setup.Entities
+﻿@using NTS.Domain.Core.Aggregates.Participations
+@using NTS.Domain.Setup.Entities
+@using NTS.Judge.Blazor.Pages.Dashboard.Components
 @using NTS.Judge.Blazor.Ports
  
 @attribute [Route(DASHBOARD_PAGE)]
@@ -6,23 +8,27 @@
 
 <NotH1>@Localizer.Get("Dashboard")</NotH1>
 
+@if (!_participationBehind.Participations.Any())
+{
+    <NotH2>@Localizer.Get("No participations")</NotH2>
+    <InputFile OnChange="ImportEmsData" />
+}
+else
+{
+    <DashboardComponent />
+}
+
 @code {
-    [Inject]
-    private IDasboardBehind  _initializer { get; set; } = default!;
     [Inject]
     private IEmsImportBehind _importBehind { get; set; } = default!;
     [Inject]
-    private INotBehind<Event>  _eventBehind { get; set; } = default!;
+    private IParticipationBehind _participationBehind { get; set; } = default!;
 
-    protected override async Task OnInitializedAsync()
+    private async Task ImportEmsData(InputFileChangeEventArgs args)
     {
-        await _importBehind.ImportCore(@"D:\Source\NTS\event-archive\2024-vakarel\judge.json");
-        // var @event = Event.Create("Place", new Domain.Objects.Country("BGN", "Bulgaria"));
-        // var president = Official.Create("Name Name", Domain.Enums.OfficialRole.PresidentGroundJury);
-        // var vet = Official.Create("Two Two", Domain.Enums.OfficialRole.PresidentVet);
-        // @event.Add(president);
-        // @event.Add(vet);
-        // await _eventBehind.Create(@event);
-        // await _initializer.Start();
+        using var stream = args.File.OpenReadStream();
+        using var stringReader = new StreamReader(stream);
+        var contents = await stringReader.ReadToEndAsync();
+        await _importBehind.ImportCore(contents);
     }
 }

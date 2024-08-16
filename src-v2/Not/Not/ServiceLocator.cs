@@ -5,7 +5,7 @@ using Not.Startup;
 
 namespace Not;
 
-public class ServiceLocator : IInitializer, ITransientService
+public class ServiceLocator : IStartupInitializer, ITransientService
 {
 	private static IServiceProvider? _provider;
 
@@ -22,8 +22,8 @@ public class ServiceLocator : IInitializer, ITransientService
 		return _provider.GetRequiredService<T>();
 	}
 
-    public void Run()
+    public void RunAtStartup()
     {
-        ;// It's just necessary to load ServiceLocator in order to set _provider from DI container
+        // It's just necessary to load ServiceLocator in order to set _provider from DI container
     }
 }

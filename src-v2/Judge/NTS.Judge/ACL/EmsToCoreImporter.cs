@@ -12,6 +12,7 @@ using NTS.Compatibility.EMS.Enums;
 using Not.Application.Ports.CRUD;
 using Not.Injection;
 using NTS.Domain.Core.Objects;
+using Not.DateAndTime;
 
 namespace NTS.Judge.ACL;
 
@@ -34,15 +35,20 @@ public class EmsToCoreImporter : IEmsToCoreImporter
         _classfications = classfications;
     }
 
-    public async Task Import(string filePath)
+    public async Task Import(string emsJson, bool adjustTime = true)
     {
-        var contents = await File.ReadAllTextAsync(filePath);
-        var emsState = contents.FromJson<EmsState>();
+        var existingEvent = await _events.Read(default);
+        if (existingEvent != null)
+        {
+            throw new Exception($"Cannot import data as Event already exists: '{existingEvent}'");
+        }
 
-        var @event = CreateEvent(emsState.Event);
+        var emsState = emsJson.FromJson<EmsState>();
+
+        var @event = CreateEvent(emsState.Event, adjustTime);
         var officials = CreateOfficials(emsState.Event);
-        var participations = CreateParticipations(emsState);
-        var classifications = CreateClassifications(emsState);
+        var participations = CreateParticipations(emsState, adjustTime);
+        var classifications = CreateClassifications(emsState, adjustTime);
 
         await _events.Create(@event);
         foreach (var official in officials)
@@ -59,10 +65,14 @@ public class EmsToCoreImporter : IEmsToCoreImporter
         }
     }
 
-    private Event CreateEvent(EmsEnduranceEvent emsEvent)
+    private Event CreateEvent(EmsEnduranceEvent emsEvent, bool adjustTime)
     {
         var country = new Country(emsEvent.Country.IsoCode, emsEvent.Country.Name);
         var startTime = emsEvent.Competitions.OrderBy(x => x.StartTime).First().StartTime;
+        if (adjustTime)
+        {
+            startTime = DateTimeHelper.DateTimeNow.AddHours(-1);
+        }
         return new Event(
             country,
             emsEvent.PopulatedPlace,
@@ -110,19 +120,19 @@ public class EmsToCoreImporter : IEmsToCoreImporter
         return result;
     }
 
-    private IEnumerable<Participation> CreateParticipations(EmsState state)
+    private IEnumerable<Participation> CreateParticipations(EmsState state, bool adjustTime)
     {
         foreach (var emsParticipation in state.Participations)
         {
             foreach (var competitionId in emsParticipation.CompetitionsIds)
             {
                 var competition = state.Event.Competitions.First(x => x.Id == competitionId);
-                yield return ParticipationFactory.CreateCore(emsParticipation, competition);
+                yield return ParticipationFactory.CreateCore(emsParticipation, competition, adjustTime);
             }
         }
     }
 
-    private IEnumerable<Classification> CreateClassifications(EmsState state)
+    private IEnumerable<Classification> CreateClassifications(EmsState state, bool adjustTime)
     {
         var result = new List<Classification>();
         var entriesforClassification = new Dictionary<EmsCompetition, Dictionary<AthleteCategory, List<ClassificationEntry>>>();
@@ -131,7 +141,7 @@ public class EmsToCoreImporter : IEmsToCoreImporter
             foreach (var competitionId in emsParticipation.CompetitionsIds)
             {
                 var competition = state.Event.Competitions.First(x => x.Id == competitionId);
-                var participation = ParticipationFactory.CreateCore(emsParticipation, competition);
+                var participation = ParticipationFactory.CreateCore(emsParticipation, competition, adjustTime);
                 var category = EmsCategoryToAthleteCategory(emsParticipation.Participant.Athlete.Category);
                 var entry = new ClassificationEntry(participation, emsParticipation.Participant.Unranked);
                 if (entriesforClassification.ContainsKey(competition) && entriesforClassification[competition].ContainsKey(category))
@@ -178,5 +188,5 @@ public class EmsToCoreImporter : IEmsToCoreImporter
 
 public interface IEmsToCoreImporter : ITransientService
 {
-    Task Import(string filePath);
+    Task Import(string filePath, bool adjustTime = true);
 }

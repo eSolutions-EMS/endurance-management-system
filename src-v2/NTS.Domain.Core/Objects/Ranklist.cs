@@ -26,7 +26,7 @@ public class Ranklist : ReadOnlyCollection<ClassificationEntry>
     private static IList<ClassificationEntry> RankOthers(IEnumerable<ClassificationEntry> entry)
     {
         var ranked = OrderByNotQualifiedThenNotRanked(entry)
-            .ThenBy(x => x.Participation.Total?.RecoverySpan)
+            .ThenBy(x => x.Participation.Total?.RecoveryInterval)
             .ToList();
         return ranked;
     }

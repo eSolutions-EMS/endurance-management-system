@@ -42,4 +42,8 @@ public class MudValidationInjector
     {
         return new MudValidationInjector(typeof(MudFormComponent<T, string>), getter);
     }
+    public static MudValidationInjector Create<T>(Func<IMudBaseInputWrapper<T>> wrapperGetter)
+    {
+        return new MudValidationInjector(typeof(MudFormComponent<T, string>), () => wrapperGetter().MudBaseInput);
+    }
 }

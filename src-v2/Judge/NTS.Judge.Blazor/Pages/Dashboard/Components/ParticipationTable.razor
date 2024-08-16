@@ -1,0 +1,175 @@
+﻿@using NTS.Domain.Core.Aggregates.Participations
+
+@* <MudButton OnClick="FlipAxis">Flip</MudButton> *@
+
+<table class="rtable @_axisClass">
+    <thead>
+        <tr>
+            <th>Gate</th>
+            <th>Start</th>
+            <th>Arrive</th>
+            <th>VetIn</th>
+            <th>ReIn</th>
+            <th>RI Time</th>
+            <th>CRI Time</th>
+            <th><strong>Out</strong></th>
+            <th>Recovery</th>
+            <th>Loop Time</th>
+            <th>Phase Time</th>
+            <th>Time</th>
+            <th>Loop Avrg</th>
+            <th>Phase Avrg</th>
+            <th>Speed Avrg</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var phase in Participation?.Phases ?? Enumerable.Empty<Phase>())
+        {
+            <tr>
+                <TableData Value="@phase.Gate" />
+                <TableData Value="@phase.StartTime" />
+                <TableData Value="@phase.ArriveTime" />
+                <TableData Value="@phase.InspectTime" />
+                <TableData Value="@phase.ReinspectTime" />
+                <TableData Value="@(phase.IsCRIRequested ? null : phase.RequiredInspectionTime)" />
+                <TableData Value="@(phase.IsCRIRequested ? phase.RequiredInspectionTime : null)" />
+                <TableData Value="@phase.OutTime" />
+                <TableData Value="@phase.RecoverySpan" />
+                <TableData Value="@phase.LoopSpan" />
+                <TableData Value="@phase.PhaseSpan" />
+                <TableData Value="@phase.Span" />
+                <TableData Value="@phase.AverageLoopSpeed" />
+                <TableData Value="@phase.AveragePhaseSpeed" />
+                <TableData Value="@phase.AverageSpeed" />
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    private const string FLIPPED_AXIS_CLASS = "rtable--flip";
+    
+    private string _axisClass = FLIPPED_AXIS_CLASS;
+    
+    [Parameter]
+    public Participation? Participation { get; set; }
+
+    private void FlipAxis()
+    {
+        if (_axisClass == FLIPPED_AXIS_CLASS)
+        {
+            _axisClass = "";
+        }
+        else
+        {
+            _axisClass = FLIPPED_AXIS_CLASS;
+        }
+    }
+}
+
+@* // TODO: extract styles in tableflip.css :DD *@
+<style>
+    /*!
+        // CSS only Responsive Tables
+        // http://dbushell.com/2016/03/04/css-only-responsive-tables/
+        // by David Bushell
+        */
+    .rtable {
+        /*!
+          // IE needs inline-block to position scrolling shadows otherwise use:
+          // display: block;
+          // max-width: min-content;
+          */
+        display: inline-block;
+        vertical-align: top;
+        max-width: 100%;
+        overflow-x: auto;
+        // optional - looks better for small cell values white-space: nowrap;
+        border-collapse: collapse;
+        border-spacing: 0;
+    }
+
+    .rtable,
+    .rtable--flip tbody {
+        /* optional - enable iOS momentum scrolling -webkit-overflow-scrolling: touch;
+            // scrolling shadows background: radial-gradient(left, ellipse, rgba(0,0,0, .2) 0%, rgba(0,0,0, 0) 75%) 0 center, radial-gradient(right, ellipse, rgba(0,0,0, .2) 0%, rgba(0,0,0, 0) 75%) 100% center;
+            */
+        background-size: 10px 100%, 10px 100%;
+        background-attachment: scroll, scroll;
+        background-repeat: no-repeat;
+    }
+
+        /* change these gradients from white to your background colour if it differs
+            // gradient on the first cells to hide the left shadow
+            */
+        .rtable td:first-child,
+        .rtable--flip tbody tr:first-child {
+            background-image: linear-gradient(to right, rgba(255,255,255, 1) 50%, rgba(255,255,255, 0) 100%);
+            background-repeat: no-repeat;
+            background-size: 20px 100%;
+        }
+
+        /* gradient on the last cells to hide the right shadow */
+        .rtable td:last-child,
+        .rtable--flip tbody tr:last-child {
+            background-image: linear-gradient(to left, rgba(255,255,255, 1) 50%, rgba(255,255,255, 0) 100%);
+            background-repeat: no-repeat;
+            background-position: 100% 0;
+            background-size: 20px 100%;
+        }
+
+        .rtable th {
+            text-align: left;
+            text-transform: uppercase;
+            background: #f2f0e6;
+        }
+
+        .rtable th,
+        .rtable td {
+            padding: 6px 12px;
+            border: 1px solid #d9d7ce;
+            min-width: 110px;
+        }
+
+    .rtable--flip {
+        display: flex;
+        overflow: hidden;
+        background: none;
+    }
+
+        .rtable--flip thead {
+            display: flex;
+            flex-shrink: 0;
+            min-width: min-content;
+        }
+
+        .rtable--flip tbody {
+            display: flex;
+            position: relative;
+            overflow-x: auto;
+            overflow-y: hidden;
+        }
+
+        .rtable--flip tr {
+            display: flex;
+            flex-direction: column;
+            min-width: min-content;
+            flex-shrink: 0;
+        }
+
+        .rtable--flip td,
+        .rtable--flip th {
+            display: block;
+        }
+
+        .rtable--flip td {
+            background-image: none !important;
+            /* border-collapse is no longer active border-left: 0; */
+        }
+
+            /* border-collapse is no longer active */
+            .rtable--flip th:not(:last-child),
+            .rtable--flip td:not(:last-child) {
+                border-bottom: 0;
+            }
+</style>

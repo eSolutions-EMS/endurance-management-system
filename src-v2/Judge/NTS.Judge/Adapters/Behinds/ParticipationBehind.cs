@@ -1,37 +1,51 @@
 ﻿using Not.Application.Ports.CRUD;
+using Not.Blazor.Ports.Behinds;
 using Not.Exceptions;
+using Not.Startup;
 using NTS.Domain.Core.Aggregates.Participations;
 using NTS.Domain.Objects;
 using NTS.Judge.Blazor.Enums;
 using NTS.Judge.Blazor.Ports;
-using NTS.Judge.Ports;
 
 namespace NTS.Judge.Adapters.Behinds;
 
-public class ParticipationBehind : IParticipationBehind
+public class ParticipationBehind : ObservableBehind, IParticipationBehind, IStartupInitializerAsync
 {
-    private readonly IClientProcedures _remoteProcedures;
     private readonly IRepository<Participation> _participationRepository;
     private readonly IRepository<SnapshotResult> _snapshotResultRepository;
-
+    
     public ParticipationBehind(
-        IClientProcedures remoteProcedures,
         IRepository<Participation> participationRepository,
         IRepository<SnapshotResult> snapshotResultRepository)
     {
-        _remoteProcedures = remoteProcedures;
         _participationRepository = participationRepository;
         _snapshotResultRepository = snapshotResultRepository;
     }
 
+    public IEnumerable<Participation> Participations { get; private set; } = new List<Participation>();
+    public IEnumerable<IGrouping<double, Participation>> ParticipationsByDistance => Participations.GroupBy(x => x.Phases.Distance);
+
+    // TODO: we need a better solution to load items as they have been changed in addition to load on startup.
+    // Example case: importing previous data: as it is currently we have to restart the app after import
+    // Maybe some sort of observable repositories?
+    public async Task RunAtStartup()
+    {
+        Participations = await _participationRepository.ReadAll();
+    }
+
     public async Task Process(Snapshot snapshot)
     {
-        var participation = await _participationRepository.Read(x => x.Tandem.Number == snapshot.Number);
+        var participation = Participations.FirstOrDefault(x => x.Tandem.Number == snapshot.Number);
         GuardHelper.ThrowIfDefault(participation);
 
         var result = participation.Process(snapshot);
-        await _participationRepository.Update(participation);
+        if (result.Type == SnapshotResultType.Applied)
+        {
+            await _participationRepository.Update(participation);
+        }
         await _snapshotResultRepository.Create(result);
+
+        EmitChange();
     }
 
     public async Task Update(IPhaseState state)

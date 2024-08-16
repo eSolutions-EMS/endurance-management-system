@@ -3,7 +3,7 @@ using Serilog;
 
 namespace Not.Logging.HTTP;
 
-public class HttpLoggerInitializer : IInitializer
+public class HttpLoggerInitializer : IStartupInitializer
 {
     private readonly IHttpLoggerConfiguration _configuration;
 
@@ -12,7 +12,7 @@ public class HttpLoggerInitializer : IInitializer
         _configuration = configuration;
     }
 
-    public void Run()
+    public void RunAtStartup()
     {
         SingleLoggerValidator.Validate();
 

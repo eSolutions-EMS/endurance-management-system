@@ -42,7 +42,7 @@
     {
         RegisterInjector(nameof(_model.Name), () => _nameField);
         RegisterInjector(nameof(_model.StartTime), () => _timeField);
-        //RegisterInjector(nameof(_model.Type), () => _typeField);
+        RegisterInjector(nameof(_model.Type), () => _typeField);
     }
 
     public override void SetUpdateModel(Competition competition)

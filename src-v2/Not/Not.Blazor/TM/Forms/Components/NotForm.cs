@@ -6,6 +6,7 @@ using Not.Exceptions;
 
 namespace Not.Blazor.TM.Forms.Components;
 
+// TODO: https://github.com/Not-Endurance/not-timing-system/issues/267
 public abstract class NotForm<T> : NotComponent, ICreateForm<T>, IUpdateForm<T>
     where T : DomainEntity
 {
@@ -28,6 +29,11 @@ public abstract class NotForm<T> : NotComponent, ICreateForm<T>, IUpdateForm<T>
     protected void RegisterInjector<TInput>(string field, Func<MudBaseInput<TInput>> mudInputInstanceGetter)
     {
         ValidationInjectors.Add(field, MudValidationInjector.Create(mudInputInstanceGetter));
+    }
+
+    protected void RegisterInjector<TInput>(string field, Func<IMudBaseInputWrapper<TInput>> mudInputWrapper)
+    {
+        ValidationInjectors.Add(field, MudValidationInjector.Create(mudInputWrapper));
     }
     protected void RegisterInjector<TInput>(string field, Func<MudPicker<TInput>> mudInputInstanceGetter)
     {

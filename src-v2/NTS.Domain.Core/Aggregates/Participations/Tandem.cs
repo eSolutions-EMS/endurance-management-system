@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using Not.Localization;
 
 namespace NTS.Domain.Core.Aggregates.Participations;
 
@@ -22,8 +22,8 @@ public class Tandem : DomainEntity
         _distance = distance;
         Country = country;
         Club = club;
-        MinAverageSpeed = minAverageSpeedlimit;
-        MaxAverageSpeed = maxAverageSpeedLimit;
+        MinAverageSpeed = Speed.Create(minAverageSpeedlimit);
+        MaxAverageSpeed = Speed.Create(maxAverageSpeedLimit);
     }
 
     public int Number { get; private set; }
@@ -31,11 +31,29 @@ public class Tandem : DomainEntity
     public string Horse { get; private set; }
     public Country? Country { get; private set; }
     public Club? Club { get; private set; }
-    public double? MinAverageSpeed { get; private set; }
-    public double? MaxAverageSpeed { get; private set; }
+    public Speed? MinAverageSpeed { get; private set; }
+    public Speed? MaxAverageSpeed { get; private set; }
     public string Distance
     { 
         get => _distance.ToString("#.##");
         set => _distance = decimal.Parse(value);
+    }
+
+    public override string ToString()
+    {
+        var message = $"{"#".Localize()}{Number}: {Name}, {Horse}";
+        var kmph = "km/h".Localize();
+        if (MinAverageSpeed != null && MaxAverageSpeed != null)
+        {
+            return message + $" ({MinAverageSpeed}-{MaxAverageSpeed} {kmph})";
+        }
+        else if (MinAverageSpeed != null)
+        {
+            return message + $" ({"min".Localize()}:{MinAverageSpeed} {kmph})";
+        }
+        else
+        {
+            return message + $" ({"max".Localize()} : {MaxAverageSpeed}   {kmph})";
+        }
     }
 }

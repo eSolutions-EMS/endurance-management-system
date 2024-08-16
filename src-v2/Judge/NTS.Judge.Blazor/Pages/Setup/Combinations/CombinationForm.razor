@@ -39,8 +39,8 @@
     public override void RegisterValidationInjectors()
     {
         RegisterInjector(nameof(_model.Number), () => _numberField);
-        //RegisterInjector(nameof(_model.Athlete), () => _athleteField);
-        //RegisterInjector(nameof(_model.Horse), () => _horseField);
+        RegisterInjector(nameof(_model.Athlete), () => _athleteField);
+        RegisterInjector(nameof(_model.Horse), () => _horseField);
     }
 
     public override void SetUpdateModel(Combination combination)

@@ -10,7 +10,7 @@
     <EnableDefaultCssItems>false</EnableDefaultCssItems>
     <WindowsPackageType>None</WindowsPackageType>
     <Nullable>enable</Nullable>
-
+    
     <!-- Display name -->
     <ApplicationTitle>EMS.Judge</ApplicationTitle>
 
@@ -23,7 +23,7 @@
     <ApplicationVersion>1</ApplicationVersion>
 
     <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
-    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">14.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'maccatalyst'">13.1</SupportedOSPlatformVersion>
     <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">24.0</SupportedOSPlatformVersion>
     <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
     <TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
@@ -62,6 +62,7 @@
     <ProjectReference Include="..\..\NTS.Domain.Watcher\NTS.Domain.Watcher.csproj" />
     <ProjectReference Include="..\..\NTS.Domain\NTS.Domain.csproj" />
     <ProjectReference Include="..\NTS.Judge.MAUI.Server\NTS.Judge.MAUI.Server.csproj" />
+    <!-- <ProjectReference Include="..\NTS.Judge.MAUI.Server\NTS.Judge.MAUI.Server.csproj" /> -->
     <ProjectReference Include="..\NTS.Judge\NTS.Judge.csproj" />
     <ProjectReference Include="..\NTS.Judge.Blazor\NTS.Judge.Blazor.csproj" />
   </ItemGroup>

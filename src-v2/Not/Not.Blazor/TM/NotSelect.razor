@@ -1,11 +1,13 @@
 ﻿@using Not.Blazor.Components
 @using Not.Blazor.TM;
+@using Not.Blazor.TM.Forms
 @using Not.Blazor.TM.Models;
 
-@inherits NotComponent
 @typeparam T
+@inherits BindableValueComponent<T>
+@implements IMudBaseInputWrapper<T>
 
-<MudSelect T="T" @bind-Value="Value" Placeholder="@Placeholder" Label="@Localizer.Get(Label)">
+<MudSelect T="T" @bind-Value="Value" @ref="MudBaseInput" Placeholder="@Placeholder" Label="@Localizer.Get(Label)">
     @foreach (var item in Items)
     {
         <MudSelectItem Value="@item.Value">@item.Label</MudSelectItem>
@@ -13,7 +15,6 @@
 </MudSelect>
 
 @code {
-    private T _value = default!;
     // TODO: Implement Validation injection for custom input components
     [Parameter]
     public List<NotListModel<T>> Items { get; set; } = new();
@@ -21,20 +22,7 @@
     public string Label { get; set; } = default!;
     [Parameter]
     public string Placeholder { get; set; } = default!;
-    [Parameter]
-    public T Value
-    {
-        get => _value;
-        set
-        {
-            if (_value?.GetHashCode() == value?.GetHashCode())
-            {
-                return;
-            }
-            _value = value;
-            ValueChanged.InvokeAsync(value);
-        }
-    }
-    [Parameter]
-    public EventCallback<T> ValueChanged { get; set; }
+
+
+    public MudBaseInput<T> MudBaseInput { get; private set; } = default!;
 }

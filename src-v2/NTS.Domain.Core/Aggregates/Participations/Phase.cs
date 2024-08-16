@@ -1,15 +1,12 @@
 ﻿using static NTS.Domain.Enums.SnapshotType;
 using static NTS.Domain.Core.Aggregates.Participations.SnapshotResultType;
-using Newtonsoft.Json;
 
 namespace NTS.Domain.Core.Aggregates.Participations;
 
 public class Phase : DomainEntity, IPhaseState
 {
-    internal double InternalGate { get; set; }
+    internal string InternalGate { get; set; }
     private Timestamp? VetTime => ReinspectTime ?? InspectTime;
-    private TimeSpan? LoopTime => ArriveTime - StartTime;
-    private TimeSpan? PhaseTime => VetTime - StartTime;
     private bool IsFeiRulesAndNotFinal => CompetitionType == CompetitionType.FEI && !IsFinal;
 
     public Phase(double length, int maxRecovery, int rest, CompetitionType competitionType, bool isFinal, int? criRecovery)
@@ -22,7 +19,7 @@ public class Phase : DomainEntity, IPhaseState
         CRIRecovery = criRecovery;
     }
 
-    public string Gate => InternalGate.ToString("0.00");
+    public string Gate => $"GATE{InternalGate}";
     public double Length { get; private set; }
     public int MaxRecovery { get; private set; }
     public int Rest { get; private set; }
@@ -35,6 +32,7 @@ public class Phase : DomainEntity, IPhaseState
     public Timestamp? ArriveTime { get; set; }
     public Timestamp? InspectTime { get; set; }
     public bool IsReinspectionRequested { get; set; }
+
     public Timestamp? ReinspectTime { get; set; }
     public bool IsRIRequested { get; set; }
     public bool IsCRIRequested { get; set; }
@@ -42,11 +40,13 @@ public class Phase : DomainEntity, IPhaseState
 
     public Timestamp? RequiredInspectionTime => VetTime?.Add(TimeSpan.FromMinutes(Rest - 15)); //TODO: settings?
     public Timestamp? OutTime => VetTime?.Add(TimeSpan.FromMinutes(Rest));
-    public TimeSpan? Time => IsFeiRulesAndNotFinal ? PhaseTime : LoopTime;
-    public TimeSpan? RecoverySpan => VetTime - ArriveTime;
-    public double? AveregeLoopSpeed => Length / LoopTime?.TotalHours;
-    public double? AveragePhaseSpeed => Length / PhaseTime?.TotalHours + RecoverySpan?.TotalHours;
-    public double? AverageSpeed => IsFeiRulesAndNotFinal ? AveragePhaseSpeed : AveregeLoopSpeed;
+    public TimeInterval? LoopSpan => ArriveTime - StartTime;
+    public TimeInterval? PhaseSpan => VetTime - StartTime;
+    public TimeInterval? Span => IsFeiRulesAndNotFinal ? PhaseSpan : LoopSpan;
+    public TimeInterval? RecoverySpan => VetTime - ArriveTime;
+    public Speed? AverageLoopSpeed => Length / LoopSpan;
+    public Speed? AveragePhaseSpeed => Length / (PhaseSpan + RecoverySpan); // TODO: fix
+    public Speed? AverageSpeed => IsFeiRulesAndNotFinal ? AveragePhaseSpeed : AverageLoopSpeed;
     public bool IsComplete => OutTime != null;
 
     public SnapshotResult Arrive(Snapshot snapshot)
@@ -118,7 +118,7 @@ public class Phase : DomainEntity, IPhaseState
         return RecoverySpan > TimeSpan.FromMinutes(MaxRecovery);
     }
 
-    internal bool ViolatesSpeedRestriction(double? minSpeed, double? maxSpeed)
+    internal bool ViolatesSpeedRestriction(Speed? minSpeed, Speed? maxSpeed)
     {
         return AverageSpeed < minSpeed || AverageSpeed > maxSpeed;
     }

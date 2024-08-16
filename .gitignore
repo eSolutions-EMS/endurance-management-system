@@ -366,3 +366,6 @@ data/*
 src/**/Properties
 # Ignore Judge settings
 src/**/judge-settings.json
+
+# VS Code
+.vscode

@@ -2,6 +2,7 @@
 
 namespace Not.Blazor.Ports.Behinds;
 
+// TODO: Combine both behinds and rename to ICrudBehind
 /// <summary>
 /// <seealso cref="INotBehind{T}"/> is a <seealso cref="INotBehind"/> that represents CRUD operations for a <seealso cref="DomainEntity"/>
 /// <typeparamref name="T">Type of domain entity</typeparamref>

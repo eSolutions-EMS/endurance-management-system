@@ -9,6 +9,7 @@ using NTS.Domain.Enums;
 using NTS.Domain;
 using NTS.Compatibility.EMS.Entities.Results;
 using NTS.Compatibility.EMS.Entities.LapRecords;
+using Not.DateAndTime;
 
 namespace NTS.Judge.ACL.Factories;
 
@@ -43,7 +44,7 @@ public class ParticipationFactory
         return new EmsParticipation(emsParticipant, competition);
     }
 
-    public static Participation CreateCore(EmsParticipation emsParticipation, EmsCompetition competition)
+    public static Participation CreateCore(EmsParticipation emsParticipation, EmsCompetition competition, bool adjustTime)
     {
         var tandem = new Tandem(
             int.Parse(emsParticipation.Participant.Number),
@@ -57,6 +58,7 @@ public class ParticipationFactory
         
         var phases = new List<Phase>();
         EmsLapRecord? finalRecord = null;
+        DateTime? previousTime = null;
         foreach (var lap in competition.Laps)
         {
             var type = EmsCompetitionTypeToCompetitionType(competition.Type);
@@ -71,19 +73,19 @@ public class ParticipationFactory
             
             if (record != null)
             {
+                phase.StartTime = new Timestamp(AdjustTime(ref previousTime, record.StartTime, TimeSpan.Zero, adjustTime));
                 if (record.ArrivalTime.HasValue)
                 {
-                    phase.ArriveTime = new Timestamp(record.ArrivalTime.Value);
+                    phase.ArriveTime = new Timestamp(AdjustTime(ref previousTime, record.ArrivalTime.Value, record.ArrivalTime.Value - record.StartTime, adjustTime));
                 }
                 if (record.InspectionTime.HasValue)
                 {
-                    phase.InspectTime = new Timestamp(record.InspectionTime.Value);
+                    phase.InspectTime = new Timestamp(AdjustTime(ref previousTime, record.InspectionTime.Value, record.InspectionTime.Value - record.ArrivalTime!.Value, adjustTime));
                 }
                 if (record.ReInspectionTime.HasValue)
                 {
-                    phase.ReinspectTime = new Timestamp(record.ReInspectionTime.Value);
+                    phase.ReinspectTime = new Timestamp(AdjustTime(ref previousTime, record.ReInspectionTime.Value, record.ReInspectionTime.Value - record.InspectionTime!.Value, adjustTime));
                 }
-                phase.StartTime = new Timestamp(record.StartTime);
                 phase.IsReinspectionRequested = record.IsRequiredInspectionRequired;
                 phase.IsCRIRequested = record.IsRequiredInspectionRequired;
                 finalRecord = record;
@@ -116,5 +118,23 @@ public class ParticipationFactory
             EmsCompetitionType.International => CompetitionType.FEI,
             _ => throw new NotImplementedException(),
         };
+    }
+
+    private static DateTime AdjustTime(ref DateTime? previousTime, DateTime currentTime, TimeSpan diff, bool shouldAdjust)
+    {
+        if (!shouldAdjust)
+        {
+            return currentTime;
+        }
+        if (previousTime.HasValue)
+        {
+            currentTime = previousTime.Value + diff;
+        }
+        else
+        {
+            currentTime = DateTimeHelper.DateTimeNow.AddHours(-1);
+            previousTime = currentTime;
+        }
+        return currentTime;
     }
 }

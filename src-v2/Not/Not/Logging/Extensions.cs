@@ -12,7 +12,7 @@ public static class Extensions
     {
         builder.Services
             .AddSingleton<IHttpLoggerConfiguration, T>()
-            .AddSingleton<IInitializer, HttpLoggerInitializer>();
+            .AddSingleton<IStartupInitializer, HttpLoggerInitializer>();
 
         return builder;
     }
@@ -22,7 +22,7 @@ public static class Extensions
     {
         builder.Services
             .AddSingleton<IFilesystemLoggerConfiguration, T>()
-            .AddSingleton<IInitializer, FilesystemLoggerInitalizer>();
+            .AddSingleton<IStartupInitializer, FilesystemLoggerInitalizer>();
 
         return builder;
     }
