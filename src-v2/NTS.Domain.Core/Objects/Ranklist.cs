@@ -1,40 +1,32 @@
-﻿using NTS.Domain.Core.Entities;
+﻿using NTS.Domain.Core.Aggregates.Participations;
+using NTS.Domain.Core.Entities;
 using System.Collections.ObjectModel;
 
 namespace NTS.Domain.Core.Objects;
 
-public class Ranklist : ReadOnlyCollection<ClassificationEntry>
+public class Ranklist : ReadOnlyCollection<RankingEntry>
 {
-    public Ranklist(Classification classification)
-        : base(classification.Category == AthleteCategory.Senior
-            ? RankSeniors(classification.Entries)
-            : RankOthers(classification.Entries))
+    public Ranklist(Ranking ranking, IEnumerable<Participation> participations)
+        : base(Rank(ranking.Entries, participations))
     {
-        Classification = classification;
+        Name = ranking.Name;
+        Category = ranking.Category;
     }
 
-    public Classification Classification { get; }
+    public string Title => $"{Category}: {Name}";
+    public string Name { get; }
+    public AthleteCategory Category { get; }
 
-    private static IList<ClassificationEntry> RankSeniors(IEnumerable<ClassificationEntry> entry)
+    private static IList<RankingEntry> Rank(IEnumerable<RankingEntry> entries, IEnumerable<Participation> participations)
     {
-        var ranked = OrderByNotQualifiedThenNotRanked(entry)
-            .ThenBy(x => x.Participation.Phases.Last().ArriveTime)
-            .ToList();
-        return ranked;
-    }
-
-    private static IList<ClassificationEntry> RankOthers(IEnumerable<ClassificationEntry> entry)
-    {
-        var ranked = OrderByNotQualifiedThenNotRanked(entry)
-            .ThenBy(x => x.Participation.Total?.RecoveryInterval)
-            .ToList();
-        return ranked;
-    }
-
-    private static IOrderedEnumerable<ClassificationEntry> OrderByNotQualifiedThenNotRanked(IEnumerable<ClassificationEntry> entry)
-    {
-        return entry
+        var ids = entries.Select(x => x.ParticipationId).ToList();
+        var ranked = entries
+            .Select(x => new { Entry = x, Participation = participations.First(y => x.ParticipationId == y.Id) })
             .OrderBy(x => x.Participation.IsNotQualified)
-            .ThenByDescending(x => !x.IsRanked);
+            .ThenByDescending(x => !x.Entry.IsRanked)
+            .ThenBy(x => x.Participation.Phases.Last().ArriveTime)
+            .Select(x => x.Entry)
+            .ToList();
+        return ranked;
     }
 }

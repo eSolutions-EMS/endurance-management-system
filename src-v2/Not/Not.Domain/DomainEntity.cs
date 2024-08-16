@@ -1,9 +1,14 @@
-﻿using Not.Random;
+﻿using Newtonsoft.Json;
+using Not.Random;
 
 namespace Not.Domain;
 
 public abstract class DomainEntity : IEquatable<DomainEntity>, IIdentifiable
 {
+    protected DomainEntity(int id)
+    {
+        Id = id;
+    }
     protected DomainEntity()
     {
         this.Id = RandomHelper.GenerateUniqueInteger();

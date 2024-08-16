@@ -2,6 +2,9 @@
 
 public class Official : DomainEntity
 {
+    private Official(int id) : base(id)
+    {
+    }
     public Official(Person person, OfficialRole role)
     {
         Person = person;
@@ -13,6 +16,6 @@ public class Official : DomainEntity
 
     public override string ToString()
     {
-        return $"{Role} {Person}";
+        return $"{Role}: {Person}";
     }
 }

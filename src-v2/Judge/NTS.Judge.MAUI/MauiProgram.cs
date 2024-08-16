@@ -6,6 +6,7 @@ using Not.MAUI.Logging;
 using Not.Logging;
 using NTS.Judge.Startup;
 using Not.Storage.Stores;
+using Microsoft.Extensions.Logging;
 
 namespace NTS.Judge.MAUI;
 
@@ -32,6 +33,7 @@ public static class ServiceCollectionExtensions
     {
         builder.Services.AddMauiBlazorWebView();
 #if DEBUG
+        builder.Logging.AddDebug();
         builder.Services.AddBlazorWebViewDeveloperTools();
 #endif
         builder

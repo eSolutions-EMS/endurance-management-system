@@ -2,8 +2,7 @@
 
 namespace NTS.Judge.Blazor.Ports;
 
-public interface IDocumentBehind : ITransientService
+public interface IDocumentBehind : ITransientService // TODO: remove
 {
-    Task CreateHandout(int number);
     Task CreateRanklist(int classificationId);
 }

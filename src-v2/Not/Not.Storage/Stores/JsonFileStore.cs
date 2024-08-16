@@ -19,9 +19,13 @@ public class JsonFileStore<T> : IStore<T>
         _path = Path.Combine(configuration.Path, $"{typeof(T).Name}.json");
     }
 
-    public async Task<T> Readonly()
+    public async Task<T> Readonly([CallerFilePath] string callerPath = default!, [CallerMemberName] string callerMember = default!)
     {
-        return await Deserialize();
+        // TODO: figure out better way? Maybe cache the contents and update the cache on Commit?
+        var transactionId = await _synchronizer.Wait(callerPath, callerMember);
+        var state = await Deserialize();
+        _synchronizer.Release(transactionId);
+        return state;
     }
 
     public async Task<T> Transact([CallerFilePath] string callerPath = default!, [CallerMemberName] string callerMember = default!)

@@ -1,15 +1,18 @@
 ﻿using NTS.Domain.Core.Aggregates.Participations;
+using NTS.Domain.Core.Entities;
 
 namespace NTS.Domain.Core.Objects;
 
-public record HandoutDocument : Document
+public record HandoutDocument : DomainObject
 {
-    public HandoutDocument(DocumentHeader header, Tandem tandem, PhaseCollection phases) : base(header)
+    public HandoutDocument(Participation participation, Event enduranceEvent, IEnumerable<Official> officials)
     {
-        Tandem = tandem;
-        Phases = phases;
+        Header = new DocumentHeader(participation.Competition, enduranceEvent.PopulatedPlace, enduranceEvent.EventSpan, officials);
+        Tandem = participation.Tandem;
+        Phases = participation.Phases;
     }
 
-    public Tandem Tandem { get; private set; }
-    public PhaseCollection Phases { get; private set; }
+    public DocumentHeader Header { get; }
+    public Tandem Tandem { get; }
+    public PhaseCollection Phases { get; }
 }

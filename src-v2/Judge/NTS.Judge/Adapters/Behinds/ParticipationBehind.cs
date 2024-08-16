@@ -1,8 +1,6 @@
 ﻿using Not.Application.Ports.CRUD;
 using Not.Blazor.Ports.Behinds;
-using Not.Events;
 using Not.Exceptions;
-using Not.Startup;
 using NTS.Domain.Core.Aggregates.Participations;
 using NTS.Domain.Objects;
 using NTS.Judge.Blazor.Enums;
@@ -10,7 +8,7 @@ using NTS.Judge.Blazor.Ports;
 
 namespace NTS.Judge.Adapters.Behinds;
 
-public class ParticipationBehind : ObservableBehind, IParticipationBehind, IStartupInitializerAsync
+public class ParticipationBehind : ObservableBehind, IParticipationBehind
 {
     private readonly IRepository<Participation> _participationRepository;
     private readonly IRepository<SnapshotResult> _snapshotResultRepository;
@@ -25,32 +23,23 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind, IStar
 
     public IEnumerable<Participation> Participations { get; private set; } = new List<Participation>();
     public IEnumerable<IGrouping<double, Participation>> ParticipationsByDistance => Participations.GroupBy(x => x.Phases.Distance);
-    public Participation SelectedParticipation { get; private set; } = default!;
+    public Participation? SelectedParticipation { get; private set; } = default!;
 
     // TODO: we need a better solution to load items as they have been changed in addition to load on startup.
     // Example case: importing previous data: as it is currently we have to restart the app after import
     // Maybe some sort of observable repositories?
-    public async Task RunAtStartup()
+    public override async Task Initialize()
     {
         Participations = await _participationRepository.ReadAll();
-        GuardHelper.ThrowIfDefault(Participations);
-        SelectParticipation(null);
+        SelectedParticipation = Participations.FirstOrDefault();
     }
 
-    public void SelectParticipation(int? number)
+    public void SelectParticipation(int number)
     {
-        Participation participation = default!;
-        if (number == null)
-        {
-            participation = Participations.FirstOrDefault();
-        }
-        else
-        {
-            participation = Participations.FirstOrDefault(x => x.Tandem.Number == number);
-        }
-        GuardHelper.ThrowIfDefault(participation);
-        SelectedParticipation = participation;
-        EventHelper.Emit(SelectedParticipation);
+        SelectedParticipation = Participations.FirstOrDefault(x => x.Tandem.Number == number);
+        GuardHelper.ThrowIfDefault(SelectedParticipation);
+        
+        EmitChange();
     }
 
     public async Task Process(Snapshot snapshot)
@@ -128,5 +117,10 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind, IStar
 
         participation.RestoreQualification();
         await Update(participation);
+    }
+
+    public async Task<Participation?> Get(int id)
+    {
+        return await _participationRepository.Read(id);
     }
 }

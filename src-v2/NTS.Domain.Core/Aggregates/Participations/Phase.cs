@@ -3,6 +3,7 @@ using static NTS.Domain.Core.Aggregates.Participations.SnapshotResultType;
 
 namespace NTS.Domain.Core.Aggregates.Participations;
 
+// TODO: probably should be a record
 public class Phase : DomainEntity, IPhaseState
 {
     internal string InternalGate { get; set; }
@@ -19,7 +20,7 @@ public class Phase : DomainEntity, IPhaseState
         CRIRecovery = criRecovery;
     }
 
-    public string Gate => $"GATE{InternalGate}";
+    public string Gate => $"GATE{InternalGate}"; // TODO: fix InternalGate complexity
     public double Length { get; private set; }
     public int MaxRecovery { get; private set; }
     public int Rest { get; private set; }
@@ -39,14 +40,14 @@ public class Phase : DomainEntity, IPhaseState
     //< Temporarily set to public for EMS import testing
 
     public Timestamp? RequiredInspectionTime => VetTime?.Add(TimeSpan.FromMinutes(Rest - 15)); //TODO: settings?
-    public Timestamp? OutTime => VetTime?.Add(TimeSpan.FromMinutes(Rest));
+    public Timestamp? OutTime => ArriveTime == null ? null : VetTime?.Add(TimeSpan.FromMinutes(Rest));
     public TimeInterval? LoopSpan => ArriveTime - StartTime;
     public TimeInterval? PhaseSpan => VetTime - StartTime;
     public TimeInterval? Span => IsFeiRulesAndNotFinal ? PhaseSpan : LoopSpan;
     public TimeInterval? RecoverySpan => VetTime - ArriveTime;
-    public Speed? AveregeLoopSpeed => Length / LoopSpan;
-    public Speed? AveragePhaseSpeed => Length / (PhaseSpan + RecoverySpan); // TODO: fix
-    public Speed? AverageSpeed => IsFeiRulesAndNotFinal ? AveragePhaseSpeed : AveregeLoopSpeed;
+    public Speed? AverageLoopSpeed => Length / LoopSpan;
+    public Speed? AveragePhaseSpeed => Length / PhaseSpan;
+    public Speed? AverageSpeed => IsFeiRulesAndNotFinal ? AveragePhaseSpeed : AverageLoopSpeed;
     public bool IsComplete => OutTime != null;
 
     internal SnapshotResult Arrive(Snapshot snapshot)

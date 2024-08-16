@@ -51,9 +51,20 @@ public abstract class SetRepository<T, TState> : IRepository<T>
         return entity;
     }
 
-    public Task<T?> Read(int id)
+    public async Task Delete(IEnumerable<T> entities)
     {
-        throw new NotImplementedException();
+        var state = await _store.Transact();
+        foreach (var entity in entities)
+        {
+            state.EntitySet.Remove(entity);
+        }
+        await _store.Commit(state);
+    }
+
+    public async Task<T?> Read(int id)
+    {
+        var state = await _store.Readonly();
+        return state.EntitySet.FirstOrDefault(x => x.Id == id);
     }
 
     public async Task<IEnumerable<T>> ReadAll()

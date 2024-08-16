@@ -17,7 +17,7 @@ internal abstract class PropertySearch<T, TValue> : SearchBase<T>
         try
         {
             var result = new List<T>();
-            var term = ConvertSearch(value);
+            var term = ConvertTerm(value);
             foreach (var instance in instances)
             {
                 if (IsMatch(_selector(instance), term))
@@ -37,7 +37,7 @@ internal abstract class PropertySearch<T, TValue> : SearchBase<T>
     {
         return EqualityComparer<TValue?>.Default.Equals(selected, search);
     }
-    protected abstract TValue ConvertSearch(string value);
+    protected abstract TValue ConvertTerm(string term);
 }
 
 internal class StringPropertySearch<T> : PropertySearch<T, string>
@@ -46,30 +46,30 @@ internal class StringPropertySearch<T> : PropertySearch<T, string>
     {
     }
 
-    protected override string ConvertSearch(string value)
+    protected override string ConvertTerm(string value)
     {
         return value;
     }
 
-    protected override bool IsMatch(string? selected, string search)
+    protected override bool IsMatch(string? selected, string term)
     {
-        return selected?.Contains(search) ?? false;
+        return selected?.Contains(term) ?? false;
     }
 }
 
-internal class IntPropertySerach<T> : PropertySearch<T, int>
+internal class IntPropertySearch<T> : PropertySearch<T, int>
 {
-    public IntPropertySerach(Func<T, int> selector) : base(selector)
+    public IntPropertySearch(Func<T, int> selector) : base(selector)
     {
     }
 
-    protected override int ConvertSearch(string value)
+    protected override int ConvertTerm(string value)
     {
-        if (!int.TryParse(value, out int serach))
+        if (!int.TryParse(value, out int search))
         {
             throw new PropertyTermException($"Search term '{value}' cannot be parsed to a valid integer");
         }
-        return serach;
+        return search;
     }
 }
 

@@ -1,21 +1,20 @@
 ﻿using Not.Events;
-using NTS.Domain.Core.Events;
 using static NTS.Domain.Enums.SnapshotType;
 using static NTS.Domain.Core.Aggregates.Participations.SnapshotResultType;
 using Newtonsoft.Json;
+using NTS.Domain.Core.Events.Participations;
 
 namespace NTS.Domain.Core.Aggregates.Participations;
 
-public class Participation : DomainEntity, IAggregateRoot, IEvent
+public class Participation : DomainEntity, IAggregateRoot
 {
     private static readonly TimeSpan NOT_SNAPSHOTABLE_WINDOW = TimeSpan.FromMinutes(30);
     private static readonly FailedToQualify OUT_OF_TIME = new (FTQCodes.OT);
     private static readonly FailedToQualify SPEED_RESTRICTION = new (FTQCodes.SP);
 
-    private Participation()
+    private Participation(int id) : base(id)
     {
     }
-
     public Participation(string competition, Tandem tandem, IEnumerable<Phase> phases)
     {
         Competition = competition;
@@ -30,7 +29,7 @@ public class Participation : DomainEntity, IAggregateRoot, IEvent
     public bool IsNotQualified => NotQualified != null;
     [JsonIgnore] // TODO: see how to get rid of this. Why is Newtonsoft deserialization trying to create Total instance?
     public Total? Total => Phases.Any(x => x.IsComplete)
-        ? new Total(Phases.Where(x => x.IsComplete))
+        ? new Total(Phases)
         : default;
 
     public override string ToString()
@@ -53,7 +52,7 @@ public class Participation : DomainEntity, IAggregateRoot, IEvent
         {
             return SnapshotResult.NotApplied(snapshot, NotAppliedDueToComplete);
         }
-        if (snapshot.Timestamp < Phases.Current.OutTime + NOT_SNAPSHOTABLE_WINDOW)
+        if (snapshot.Timestamp < Phases.Current.StartTime + NOT_SNAPSHOTABLE_WINDOW)
         {
             return SnapshotResult.NotApplied(snapshot, NotAppliedDueToNotStarted);
         }
@@ -133,7 +132,7 @@ public class Participation : DomainEntity, IAggregateRoot, IEvent
         }
         if (phase.IsComplete)
         {
-            var phaseCompleted = new PhaseCompleted(Tandem.Number);
+            var phaseCompleted = new PhaseCompleted(this);
             EventHelper.Emit(phaseCompleted);
             Phases.Next();
         }
@@ -142,13 +141,13 @@ public class Participation : DomainEntity, IAggregateRoot, IEvent
     private void RevokeQualification(NotQualified notQualified)
     {
         NotQualified = notQualified;
-        var qualificationRevoked = new QualificationRevoked(Tandem.Number, notQualified);
+        var qualificationRevoked = new QualificationRevoked(this);
         EventHelper.Emit(qualificationRevoked);
     }
     public void RestoreQualification()
     {
         NotQualified = null;
-        var qualificationRestored = new QualificationRestored(Tandem.Number);
+        var qualificationRestored = new QualificationRestored(this);
         EventHelper.Emit(qualificationRestored);
     }
 }

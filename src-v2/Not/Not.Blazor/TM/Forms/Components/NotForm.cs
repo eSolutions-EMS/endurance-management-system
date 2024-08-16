@@ -6,6 +6,7 @@ using Not.Exceptions;
 
 namespace Not.Blazor.TM.Forms.Components;
 
+// TODO: https://github.com/Not-Endurance/not-timing-system/issues/267
 public abstract class NotForm<T> : NotComponent, ICreateForm<T>, IUpdateForm<T>
     where T : DomainEntity
 {

@@ -2,10 +2,14 @@
 
 namespace NTS.Domain.Core.Aggregates.Participations;
 
+// TODO: probably shoudl be a record
 public class Tandem : DomainEntity
 {
     private decimal _distance;
 
+    private Tandem(int id) : base(id)
+    {
+    }
     public Tandem(
         int number,
         Person name,

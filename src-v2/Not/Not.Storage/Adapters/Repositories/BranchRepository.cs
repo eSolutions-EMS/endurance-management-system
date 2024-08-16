@@ -71,6 +71,10 @@ public abstract class BranchRepository<T, TState> : IRepository<T>
     {
         throw NotImplemented();
     }
+    public Task Delete(IEnumerable<T> entities)
+    {
+        throw NotImplemented();
+    }
 
     private Exception NotImplemented()
     {

@@ -1,5 +1,4 @@
-﻿@using NTS.Domain.Core.Abstractions
-@using NTS.Domain.Core.Aggregates.Participations
+﻿@using NTS.Domain.Core.Aggregates.Participations
 @using NTS.Domain.Core.Events
 @using NTS.Judge.Blazor.Pages.Dashboard;
 @using NTS.Judge.Blazor.Ports
@@ -9,12 +8,12 @@
 
 @inherits NotComponent
 
-<MudGrid Spacing="5" Style="margin-top:0;"> @* Necessary because Spacing does -40% margin style for some reason, which breaks the vertical layout *@
+<MudGrid Spacing="5" Style="margin-top:0;"> @* TODO: extract NotGrid? style's necessary because Spacing does -40% margin style for some reason, which breaks the vertical layout. *@
     <MudItem xs="10">
         <NotAutocomplete T="Participation" @bind-Value="_selectedParticipation" Search="Search" Class="mb-2 dashboard-autocomplete" />
     </MudItem>
     <MudItem xs="7">
-        <ParticipationTable Participation="_selectedParticipation" />
+        <ParticipationTable Phases="_selectedParticipation?.Phases" />
     </MudItem>
     <MudItem xs="3">
         <MudChipSet SelectedChipChanged="SelectParticipation">
@@ -39,10 +38,11 @@
     [Inject]
     private IParticipationBehind _behind { get; set; } = default!;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        EventHelper.Subscribe<Participation>(SetSelectedParticipation);
-        Observe(_behind);
+        await _behind.Initialize();
+        _selectedParticipation = _behind.Participations.FirstOrDefault();
+        await Observe(_behind);
     }
 
     private void SetSelectedParticipation(Participation selectedParticipation)
@@ -70,7 +70,7 @@
         }
         _behind.SelectParticipation((int)chip.Value);
         GuardHelper.ThrowIfDefault(_selectedParticipation);
-        await InvokeAsync(StateHasChanged);
+        await InvokeAsync(StateHasChanged); // TODO: think this sisnt necessary
     }
 }
 

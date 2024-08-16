@@ -12,30 +12,18 @@ public class DocumentBehind : IDocumentBehind
     private readonly IRepository<Participation> _participationRepository;
     private readonly IRepository<Event> _eventRepository;
     private readonly IRepository<Official> _officialRepository;
-    private readonly IRepository<Classification> _classificationRepository;
+    private readonly IRepository<Ranking> _classificationRepository;
 
     public DocumentBehind(
         IRepository<Participation> participationRepository,
         IRepository<Event> eventRepository,
         IRepository<Official> officialRepository,
-        IRepository<Classification> classificationRepository)
+        IRepository<Ranking> classificationRepository)
     {
         _participationRepository = participationRepository;
         _eventRepository = eventRepository;
         _officialRepository = officialRepository;
         _classificationRepository = classificationRepository;
-    }
-
-    public async Task CreateHandout(int number)
-    {
-        var participation = await _participationRepository.Read(x => x.Tandem.Number == number);
-        var @event = await _eventRepository.Read(0);
-        var officials = await _officialRepository.ReadAll();
-
-        GuardHelper.ThrowIfDefault(@event);
-        GuardHelper.ThrowIfDefault(participation);
-
-        DocumentProducer.CreateHandout(@event, officials, participation);
     }
 
     public async Task CreateRanklist(int classificationId)
