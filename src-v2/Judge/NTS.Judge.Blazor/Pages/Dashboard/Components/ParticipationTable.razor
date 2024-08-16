@@ -12,18 +12,15 @@
             <th>ReIn</th>
             <th>RI Time</th>
             <th>CRI Time</th>
-            <th><strong>Out</strong></th>
             <th>Recovery</th>
             <th>Loop Time</th>
             <th>Phase Time</th>
-            <th>Time</th>
-            <th>Loop Avrg</th>
-            <th>Phase Avrg</th>
-            <th>Speed Avrg</th>
+            <th>Loop Speed</th>
+            <th>Phase Speed</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var phase in Participation?.Phases ?? Enumerable.Empty<Phase>())
+        @foreach (var phase in Phases ?? Enumerable.Empty<Phase>())
         {
             <tr>
                 <TableData Value="@phase.Gate" />
@@ -33,14 +30,11 @@
                 <TableData Value="@phase.ReinspectTime" />
                 <TableData Value="@(phase.IsCRIRequested ? null : phase.RequiredInspectionTime)" />
                 <TableData Value="@(phase.IsCRIRequested ? phase.RequiredInspectionTime : null)" />
-                <TableData Value="@phase.OutTime" />
                 <TableData Value="@phase.RecoverySpan" />
                 <TableData Value="@phase.LoopSpan" />
                 <TableData Value="@phase.PhaseSpan" />
-                <TableData Value="@phase.Span" />
                 <TableData Value="@phase.AverageLoopSpeed" />
                 <TableData Value="@phase.AveragePhaseSpeed" />
-                <TableData Value="@phase.AverageSpeed" />
             </tr>
         }
     </tbody>
@@ -52,7 +46,7 @@
     private string _axisClass = FLIPPED_AXIS_CLASS;
     
     [Parameter]
-    public Participation? Participation { get; set; }
+    public PhaseCollection? Phases { get; set; }
 
     private void FlipAxis()
     {

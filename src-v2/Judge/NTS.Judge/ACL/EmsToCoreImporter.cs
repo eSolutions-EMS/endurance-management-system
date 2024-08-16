@@ -11,8 +11,6 @@ using NTS.Domain.Core.Aggregates.Participations;
 using NTS.Compatibility.EMS.Enums;
 using Not.Application.Ports.CRUD;
 using Not.Injection;
-using NTS.Domain.Core.Objects;
-using Not.DateAndTime;
 
 namespace NTS.Judge.ACL;
 
@@ -72,7 +70,7 @@ public class EmsToCoreImporter : IEmsToCoreImporter
         var startTime = emsEvent.Competitions.OrderBy(x => x.StartTime).First().StartTime;
         if (adjustTime)
         {
-            startTime = DateTimeHelper.DateTimeNow.AddHours(-1);
+            startTime = DateTime.UtcNow.AddHours(-1);
         }
         return new Event(
             country,

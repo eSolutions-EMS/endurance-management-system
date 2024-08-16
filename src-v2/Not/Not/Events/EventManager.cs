@@ -1,4 +1,5 @@
-﻿using Not.Injection;
+﻿using Not.Concurrency;
+using Not.Injection;
 
 namespace Not.Events;
 
@@ -11,9 +12,13 @@ public class EventManager : IEventManager
     {
         NotDelegate?.Invoke();
     }
+    public void Subscribe(Func<Task> action)
+    {
+        NotDelegate += () => TaskHelper.Run(() => action());
+    }
     public void Subscribe(Action action)
     {
-        NotDelegate += () => action();
+        NotDelegate += () => TaskHelper.Run(() => { action(); return Task.CompletedTask; });
     }
 }
 
@@ -26,15 +31,20 @@ public class EventManager<T> : IEventManager<T>
     {
         GenericEvent?.Invoke(data);
     }
+    public void Subscribe(Func<T, Task> action)
+    {
+        GenericEvent += x => TaskHelper.Run(() => action(x));
+    }
     public void Subscribe(Action<T> action)
     {
-        GenericEvent += x => action(x);
+        GenericEvent += x => TaskHelper.Run(() => { action(x); return Task.CompletedTask; });
     }
 }
 
 public interface IEventManager : ITransientService
 {
     void Emit();
+    void Subscribe(Func<Task> action);
     void Subscribe(Action action);
 }
 
@@ -42,5 +52,6 @@ public interface IEventManager<T> : ITransientService
     where T : IEvent
 {
     void Emit(T data);
+    void Subscribe(Func<T, Task> action);
     void Subscribe(Action<T> action);
 }

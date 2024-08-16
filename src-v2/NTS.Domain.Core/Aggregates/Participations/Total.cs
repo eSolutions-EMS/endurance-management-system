@@ -10,9 +10,14 @@ public record Total : DomainObject
         }
         var completedPhases = phases.Where(x => x.IsComplete).ToList();
         var totalLength = completedPhases.Sum(x => x.Length);
-        RideInterval = completedPhases.Aggregate(TimeInterval.Zero, (result, x) => (result + (x.ArriveTime - x.StartTime))!);
-        RecoveryInterval = completedPhases.Aggregate(TimeInterval.Zero, (result, x) => (result + x.RecoverySpan)!);
-        RecoveryIntervalWithoutFinal = (RecoveryInterval - completedPhases.FirstOrDefault(x => x.IsFinal)?.RecoverySpan) ?? RecoveryInterval;
+        RideInterval = completedPhases.Aggregate(
+            TimeInterval.Zero,
+            (result, x) => (result + (x.ArriveTime - x.StartTime)) ?? result);
+        RecoveryInterval = completedPhases.Aggregate(
+            TimeInterval.Zero, 
+            (result, x) => (result + x.RecoverySpan)!);
+        RecoveryIntervalWithoutFinal = (RecoveryInterval - completedPhases.FirstOrDefault(x => x.IsFinal)?.RecoverySpan)
+            ?? RecoveryInterval;
         Interval = (RideInterval + RecoveryInterval)!;
         AverageSpeed = new Speed(totalLength, Interval);
     }

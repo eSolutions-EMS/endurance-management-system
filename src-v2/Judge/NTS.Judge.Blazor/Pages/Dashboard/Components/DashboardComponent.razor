@@ -1,5 +1,4 @@
-﻿@using NTS.Domain.Core.Abstractions
-@using NTS.Domain.Core.Aggregates.Participations
+﻿@using NTS.Domain.Core.Aggregates.Participations
 @using NTS.Domain.Core.Events
 @using NTS.Judge.Blazor.Pages.Dashboard;
 @using NTS.Judge.Blazor.Ports
@@ -14,7 +13,7 @@
         <NotAutocomplete T="Participation" @bind-Value="_selectedParticipation" Search="Search" Class="mb-2 dashboard-autocomplete" />
     </MudItem>
     <MudItem xs="7">
-        <ParticipationTable Participation="_selectedParticipation" />
+        <ParticipationTable Phases="_selectedParticipation?.Phases" />
     </MudItem>
     <MudItem xs="3">
         <MudChipSet SelectedChipChanged="SelectParticipation">

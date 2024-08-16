@@ -20,8 +20,8 @@
         <br />
         <br />
         <div class="container">
-            <p>@this.exceptionHandler.LocalizedMessage</p>
-            <p>@this.exceptionHandler.StackTrace</p>
+            <pre>@this.exceptionHandler.LocalizedMessage</pre>
+            <pre>@this.exceptionHandler.StackTrace</pre>
         </div>
         <button class="btn btn-primary" @onclick="_ => this.exceptionHandler.Recover()">Back</button>
     </ErrorContent>

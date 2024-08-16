@@ -39,14 +39,14 @@ public class Phase : DomainEntity, IPhaseState
     //< Temporarily set to public for EMS import testing
 
     public Timestamp? RequiredInspectionTime => VetTime?.Add(TimeSpan.FromMinutes(Rest - 15)); //TODO: settings?
-    public Timestamp? OutTime => VetTime?.Add(TimeSpan.FromMinutes(Rest));
+    public Timestamp? OutTime => ArriveTime == null ? null : VetTime?.Add(TimeSpan.FromMinutes(Rest));
     public TimeInterval? LoopSpan => ArriveTime - StartTime;
     public TimeInterval? PhaseSpan => VetTime - StartTime;
     public TimeInterval? Span => IsFeiRulesAndNotFinal ? PhaseSpan : LoopSpan;
     public TimeInterval? RecoverySpan => VetTime - ArriveTime;
-    public Speed? AveregeLoopSpeed => Length / LoopSpan;
+    public Speed? AverageLoopSpeed => Length / LoopSpan;
     public Speed? AveragePhaseSpeed => Length / PhaseSpan;
-    public Speed? AverageSpeed => IsFeiRulesAndNotFinal ? AveragePhaseSpeed : AveregeLoopSpeed;
+    public Speed? AverageSpeed => IsFeiRulesAndNotFinal ? AveragePhaseSpeed : AverageLoopSpeed;
     public bool IsComplete => OutTime != null;
 
     public SnapshotResult Arrive(Snapshot snapshot)

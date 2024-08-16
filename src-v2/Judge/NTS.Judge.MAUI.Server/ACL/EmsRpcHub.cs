@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Not.Application.Ports.CRUD;
+using Not.Concurrency;
 using Not.Events;
 using NTS.Compatibility.EMS.Entities;
 using NTS.Compatibility.EMS.Entities.EMS;
@@ -7,7 +8,7 @@ using NTS.Compatibility.EMS.Enums;
 using NTS.Compatibility.EMS.RPC;
 using NTS.Domain.Core.Aggregates.Participations;
 using NTS.Domain.Core.Entities;
-using NTS.Domain.Core.Events;
+using NTS.Domain.Core.Events.Participations;
 using NTS.Domain.Objects;
 using NTS.Judge.ACL.Factories;
 using NTS.Judge.Blazor.Ports;
@@ -91,7 +92,7 @@ public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, 
         // Task.Run because Event hadling in dotnet seems to hold the current thread. Further investigation is needed
         // but what was happening is that Witness apps didn't receive rpc response untill the handling thread was finished
         // which is motly visible when it causes a validation (popup) which blocks the thread until closed in Prism/WPF
-        Task.Run(async () =>
+        TaskHelper.Run(async () =>
         {
             foreach (var entry in entries)
             {
@@ -123,14 +124,12 @@ public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, 
 
     public class ClientService : IDisposable, IClientProcedures
     {
-        private readonly IRepository<Participation> _participations;
         private readonly IHubContext<EmsRpcHub, IEmsClientProcedures> _hub;
 
         public ClientService(
             IRepository<Participation> participations,
             IHubContext<EmsRpcHub, IEmsClientProcedures> hub)
         {
-            _participations = participations;
             _hub = hub;
 
             EventHelper.Subscribe<PhaseCompleted>(SendStartlistEntryUpdate);
@@ -140,36 +139,21 @@ public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, 
 
         public void SendStartlistEntryUpdate(PhaseCompleted phaseCompleted)
         {
-            var participation = _participations.Read(x => x.Tandem.Number == phaseCompleted.Number).Result;
-            if (participation == null)
-            {
-                return;
-            }
-            var emsParticipation = ParticipationFactory.CreateEms(participation);
+            var emsParticipation = ParticipationFactory.CreateEms(phaseCompleted.Participation);
             var entry = new EmsStartlistEntry(emsParticipation);
             _hub.Clients.All.ReceiveEntry(entry, EmsCollectionAction.AddOrUpdate);
         }
 
         public void SendParticipantEntryAddOrUpdate(QualificationRestored qualificationRestored)
         {
-            var participation = _participations.Read(x => x.Tandem.Number == qualificationRestored.Number).Result;
-            if (participation == null)
-            {
-                return;
-            }
-            var emsParticipation = ParticipationFactory.CreateEms(participation);
+            var emsParticipation = ParticipationFactory.CreateEms(qualificationRestored.Participation);
             var entry = new EmsParticipantEntry(emsParticipation);
             _hub.Clients.All.ReceiveEntryUpdate(entry, EmsCollectionAction.AddOrUpdate);
         }
 
         public void SendParticipantEntryRemove(QualificationRevoked qualificationRevoked)
         {
-            var participation = _participations.Read(x => x.Tandem.Number == qualificationRevoked.Number).Result;
-            if (participation == null)
-            {
-                return;
-            }
-            var emsParticipation = ParticipationFactory.CreateEms(participation);
+            var emsParticipation = ParticipationFactory.CreateEms(qualificationRevoked.Participation);
             var entry = new EmsParticipantEntry(emsParticipation);
             _hub.Clients.All.ReceiveEntryUpdate(entry, EmsCollectionAction.Remove);
         }

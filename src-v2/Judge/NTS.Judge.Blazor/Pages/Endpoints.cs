@@ -14,4 +14,5 @@ public static class Endpoints
     public const string COMBINATION_UPDATE = "/combination-update";
     public const string DASHBOARD_PAGE = "/dashboard";
     public const string RANKLIST_PAGE = "/ranklist";
+    public const string HANDOUTS_PAGE = "/handouts";
 }
