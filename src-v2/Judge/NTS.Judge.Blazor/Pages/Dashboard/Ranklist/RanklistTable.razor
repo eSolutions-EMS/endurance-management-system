@@ -66,8 +66,8 @@ else
     [Inject]
     IRanklistBehind _behind { get; set; } = default!;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
-        Observe(_behind);
+        await Observe(_behind);
     }
 }
