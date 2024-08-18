@@ -20,16 +20,12 @@
         <MudTextField @ref="timeInput" @bind-Value="TimeValue" T="string" Label="Time" Mask="@(new PatternMask("00:00:00"))" Class="one-third-width" />
     </MudPaper>
     <MudPaper Class="d-flex flex-row mb-4" Elevation="0">
-        @* <MudButton Class="@ReinspectionClasses" Variant="Variant.Filled" 
-                StartIcon="@Icons.Material.Filled._360" Color="Color.Error" 
-                @ref="reinspectionButton" OnClick="ToggleReinspection">
-            Reinspection
-        </MudButton>
-        <MudButton Class="@ReqInsClasses" Variant="Variant.Filled"
-                   StartIcon="@Icons.Material.Filled.HourglassEmpty" Color="Color.Primary"
-                   @ref="reqInsButton" OnClick="ToggleReqIns">
-            Required Inspection
-        </MudButton> *@
+        <MudCheckBox T="bool" Value="ReinspectionToggled" ValueChanged="ToggleReinspection" Color="Color.Secondary">
+            <MudIcon Class="pt-3" Style="margin-left: -12px;" Icon="@Icons.Material.Filled._360" V />Reinspection
+        </MudCheckBox>
+        <MudCheckBox T="bool" Value="ReqInsToggled" ValueChanged="ToggleReqIns" Color="Color.Primary">
+            <MudIcon Class="pt-3" Style="margin-left: -12px;" Icon="@Icons.Material.Filled.HourglassEmpty" />Required Inspection
+        </MudCheckBox>
     </MudPaper>
     <MudPaper Class="d-flex flex-column mb-2" Elevation="0">
         <MudToggleGroup @ref="toggleGroup" T="string" TextClass="@SmallTextClass" Delimiters="true" Color="Color.Error" Rounded="true"
@@ -40,7 +36,7 @@
             <MudToggleItem Text="Disqualified" Value="@("Disqualified")" />
             <MudToggleItem Text="Failed to Qualify" Value="@("FailedToQualify")" />
         </MudToggleGroup>
-        <MudSelect @ref="multiSelect" T="string" Class="@MultiSelectClasses" Label="Failed to Qualify Reason" MultiSelection="true" Delimiter="+" @bind-Value="@FTQReasonValue" Placeholder="Select a reason">
+        <MudSelect @ref="multiSelect" T="string" Class="@MultiSelectClasses" Label="Failed to Qualify Reason" MultiSelection="true" Delimiter="+" Value="@FTQReasonValue" ValueChanged="OnChange" Placeholder="Select a reason">
             @foreach (var failToQualifyCode in MultiSelectListModel.MultiSelectList<FTQCodes>())
             {
                 <MudSelectItem T="string" Value="@failToQualifyCode.Value">
@@ -58,11 +54,11 @@
 </MudPaper>
 
 @code {
-    [Inject]
-    IParticipationBehind _participationBehind { get; set; } = default!;
-    Participation _selectedParticipation { get; set; } = default!;
-    NotQualified _notQualified { get; set; } = default!;
-    Phase _currentPhase { get; set; } = default!;
+        [Inject]
+        IParticipationBehind _participationBehind { get; set; } = default!;
+        Participation _selectedParticipation { get; set; } = default!;
+        NotQualified _notQualified { get; set; } = default!;
+        Phase _currentPhase { get; set; } = default!;
 
     private MudTextField<string> timeInput = default!;
     private MudToggleGroup<string> toggleGroup = default!;
@@ -125,18 +121,25 @@
                 FTQReasonValue = FTQReasonValue.Replace("FTQ ", "");
                 MultiSelectClasses = "";
                 ReasonClasses = "hidden";
+                if (FTQReasonValue.Contains("FTC"))
+                {
+                    Reason = _selectedParticipation.NotQualified.Complement!;
+                    ReasonClasses = "";
+                }
                 break;
         }
     }
 
     private async void ToggleReinspection(bool value)
     {
+        ReinspectionToggled = value;
         _participationBehind.SelectedParticipation?.IsReinspectionRequested(value);
         await InvokeAsync(StateHasChanged); // TODO test without as it should re-render on its own
     }
 
     private async void ToggleReqIns(bool value)
     {
+        ReqInsToggled = value;
         _participationBehind.SelectedParticipation?.IsRIRequested(value);
         await InvokeAsync(StateHasChanged); // TODO test without
     }
@@ -159,6 +162,15 @@
     {
         ReasonClasses = "hidden";
         MultiSelectClasses = "hidden";
+    }
+
+    public async void OnChange(string reason)
+    {
+        FTQReasonValue = reason;
+        if (reason.Contains("FTC"))
+        {
+            AddInput(ref ReasonClasses);
+        }
     }
 
     public void OnToggle(string value)
@@ -209,7 +221,7 @@
             }
             if (codes.Contains(FTQCodes.FTC) && (Reason==null || Reason==""))
             {
-                AddInput(ref ReasonClasses);
+                //TO DO: add validation message here
                 return;
             }else if (codes.Contains(FTQCodes.FTC))
             {
