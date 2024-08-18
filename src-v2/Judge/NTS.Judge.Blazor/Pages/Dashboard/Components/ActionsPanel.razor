@@ -3,7 +3,7 @@
 @using NTS.Domain.Core.Entities
 @using NTS.Judge.Blazor.Ports
 @using NTS.Judge.Blazor.Enums
-@using Not.Blazor.TM.Models
+@using Not.Structures
 @using Not.Blazor.TM
 @using Not.Events
 
@@ -19,7 +19,7 @@
     <MudPaper Class="d-flex flex-column mb-4" Elevation="0">
         <MudTextField @ref="timeInput" @bind-Value="TimeValue" T="string" Label="Time" Mask="@(new PatternMask("00:00:00"))" Class="one-third-width" />
     </MudPaper>
-    <MudPaper Class="d-flex flex-row mb-4" Elevation="0">
+    <MudPaper Class="@("d-flex flex-row mb-4 "+CheckboxDisplay)" Elevation="0">
         <MudCheckBox T="bool" Value="ReinspectionToggled" ValueChanged="ToggleReinspection" Color="Color.Secondary">
             <MudIcon Class="pt-3" Style="margin-left: -12px;" Icon="@Icons.Material.Filled._360" V />Reinspection
         </MudCheckBox>
@@ -37,7 +37,7 @@
             <MudToggleItem Text="Failed to Qualify" Value="@("FailedToQualify")" />
         </MudToggleGroup>
         <MudSelect @ref="multiSelect" T="string" Class="@MultiSelectClasses" Label="Failed to Qualify Reason" MultiSelection="true" Delimiter="+" Value="@FTQReasonValue" ValueChanged="OnChange" Placeholder="Select a reason">
-            @foreach (var failToQualifyCode in MultiSelectListModel.MultiSelectList<FTQCodes>())
+            @foreach (var failToQualifyCode in SelectListModel.SelectList<FTQCodes>())
             {
                 <MudSelectItem T="string" Value="@failToQualifyCode.Value">
                     @failToQualifyCode.Value
@@ -54,11 +54,11 @@
 </MudPaper>
 
 @code {
-        [Inject]
-        IParticipationBehind _participationBehind { get; set; } = default!;
-        Participation _selectedParticipation { get; set; } = default!;
-        NotQualified _notQualified { get; set; } = default!;
-        Phase _currentPhase { get; set; } = default!;
+    [Inject]
+    IParticipationBehind _participationBehind { get; set; } = default!;
+    Participation _selectedParticipation { get; set; } = default!;
+    NotQualified _notQualified { get; set; } = default!;
+    Phase _currentPhase { get; set; } = default!;
 
     private MudTextField<string> timeInput = default!;
     private MudToggleGroup<string> toggleGroup = default!;
@@ -69,6 +69,7 @@
     private bool ReqInsToggled = false;
     private string ToggleGroupSelection = "";
     private string SmallTextClass = "font-size-10";
+    private string CheckboxDisplay = "hidden";
     private string ReasonClasses = "hidden";
     private string MultiSelectClasses = "hidden";
     private string Reason = "";
@@ -84,6 +85,17 @@
         _selectedParticipation = _participationBehind.SelectedParticipation;
         _notQualified = _selectedParticipation.NotQualified;
         _currentPhase = _selectedParticipation.Phases.Current;
+
+        var phaseState = _selectedParticipation.GetPhaseState();
+        if(phaseState == PhaseState.Presented)
+        {
+            CheckboxDisplay = "";
+        }
+        else
+        {
+            CheckboxDisplay = "hidden";
+        }
+        TimeValue = "00:00:00";
         ReinspectionToggled = _currentPhase?.IsReinspectionRequested ?? false;
         ReqInsToggled = _currentPhase?.IsRIRequested ?? false;
         switch (_notQualified)
@@ -123,7 +135,7 @@
                 ReasonClasses = "hidden";
                 if (FTQReasonValue.Contains("FTC"))
                 {
-                    Reason = _selectedParticipation.NotQualified.Complement!;
+                    Reason = _selectedParticipation?.NotQualified.Complement!;
                     ReasonClasses = "";
                 }
                 break;
@@ -133,14 +145,14 @@
     private async void ToggleReinspection(bool value)
     {
         ReinspectionToggled = value;
-        _participationBehind.SelectedParticipation?.IsReinspectionRequested(value);
+        _participationBehind.SelectedParticipation?.ReinspectionRequested(value);
         await InvokeAsync(StateHasChanged); // TODO test without as it should re-render on its own
     }
 
     private async void ToggleReqIns(bool value)
     {
         ReqInsToggled = value;
-        _participationBehind.SelectedParticipation?.IsRIRequested(value);
+        _participationBehind.SelectedParticipation?.RIRequested(value);
         await InvokeAsync(StateHasChanged); // TODO test without
     }
 
@@ -164,7 +176,7 @@
         MultiSelectClasses = "hidden";
     }
 
-    public async void OnChange(string reason)
+    public void OnChange(string reason)
     {
         FTQReasonValue = reason;
         if (reason.Contains("FTC"))
@@ -243,15 +255,22 @@
     public async Task Update()
     {
         var participation = _participationBehind.SelectedParticipation;
+        PhaseState phaseState;
         if (participation == null)
         {
             return;
         }
-
-        var snapshot = CreateSnapshot();
-        var convertedInput = TimeSpan.Parse(TimeValue);
-        snapshot.Timestamp.SetTime(convertedInput);
-        _participationBehind?.Process(snapshot);
+        else
+        {
+            phaseState = participation.GetPhaseState();
+        }
+        if (TimeValue!="00:00:00")
+        {
+            var snapshot = CreateSnapshot();
+            var convertedInput = TimeSpan.Parse(TimeValue);
+            snapshot.Timestamp.SetTime(convertedInput);
+            _participationBehind?.Process(snapshot);
+        }       
         await UpdateParticipant();
     }
 

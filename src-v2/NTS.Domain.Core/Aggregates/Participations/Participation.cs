@@ -73,15 +73,32 @@ public class Participation : DomainEntity, IAggregateRoot
         phase.Update(state);
         EvaluatePhase(phase);
     }
-    public void IsReinspectionRequested(bool requested)
+
+    public PhaseState GetPhaseState()
     {
-        GuardHelper.ThrowIfDefault(Phases);
+        var phase = Phases.Current;
+        if(phase?.ArriveTime == null)
+        {
+            return PhaseState.Ongoing;
+        }
+        else if(phase?.InspectTime == null)
+        {
+            return PhaseState.Arrived;
+        }
+        else
+        {
+            return PhaseState.Presented;
+        }
+    }
+
+    public void ReinspectionRequested(bool requested)
+    {
         GuardHelper.ThrowIfDefault(Phases.Current);
         Phases.Current.IsReinspectionRequested = requested;
     }
-    public void IsRIRequested(bool requested)
+
+    public void RIRequested(bool requested)
     {
-        GuardHelper.ThrowIfDefault(Phases);
         GuardHelper.ThrowIfDefault(Phases.Current);
         Phases.Current.IsRIRequested = !Phases.Current.IsRIRequested;
     }

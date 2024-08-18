@@ -19,6 +19,23 @@ public static class ReflectionHelper
         return typeof(T).Name;
     }
 
+    public static Type GetType(this object instance)
+    {
+        return instance.GetType();
+    }
+
+    public static FieldInfo? GetField(this Type type, object instance)
+    {
+        if (instance.ToString() != null)
+        {
+            return type.GetField(instance.ToString());
+        }
+        else
+        {
+            return null;
+        }        
+    }
+
     public static PropertyInfo Property(this Type type, string name)
     {
         return type.GetProperties().FirstOrDefault(x => x.Name == name)
@@ -35,6 +52,8 @@ public static class ReflectionHelper
     {
         return property.GetValue(instance);
     }
+
+
 
     public static void Set(this PropertyInfo property, object instance, object value)
     {
