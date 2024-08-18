@@ -68,6 +68,8 @@
     private bool ReinspectionToggled = false;
     private bool ReqInsToggled = false;
     private string ToggleGroupSelection = "";
+
+    private bool _rerenderReasonInputs = false;
     private string SmallTextClass = "font-size-10";
     private string CheckboxDisplay = "hidden";
     private string ReasonClasses = "hidden";
@@ -100,11 +102,6 @@
         ReqInsToggled = _currentPhase?.IsRIRequested ?? false;
         switch (_notQualified)
         {
-            default:
-                ToggleGroupSelection = "";
-                ReasonClasses = "hidden";
-                MultiSelectClasses = "hidden";
-                break;
             case Withdrawn:
                 ToggleGroupSelection = "Withdrawn";
                 ReasonClasses = "hidden";
@@ -191,6 +188,7 @@
         if(value == "FinishedNotRanked" || value == "Disqualified")
         {
             AddInput(ref ReasonClasses);
+
         }
         else if(value == "FailedToQualify")
         {
