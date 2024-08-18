@@ -6,7 +6,6 @@ public record Withdrawn : NotQualified
 {
     public Withdrawn()
     {
-        Type = nameof(Withdrawn);
     }
     public override string ToString()
     {
@@ -18,7 +17,6 @@ public record Retired : NotQualified
 {
     public Retired()
     {
-        Type = nameof(Retired);
     }
     public override string ToString()
     {
@@ -33,7 +31,6 @@ public record Disqualified : NotQualified
     }
     public Disqualified(string complement) : base(complement)
     {
-        Type = nameof(Disqualified);
     }
 
     public override string ToString()
@@ -49,7 +46,6 @@ public record FinishedNotRanked : NotQualified
     }
     public FinishedNotRanked(string complement) : base(complement)
     {
-        Type = nameof(FinishedNotRanked);
     }
 
     public override string ToString()
@@ -65,7 +61,6 @@ public record FailedToQualify : NotQualified
     }
     public FailedToQualify(params FTQCodes[] codes)
     {
-        Type = nameof(FailedToQualify);
         if (codes.Contains(FTQCodes.FTC))
         {
             throw new DomainException($"'Failed to Complete' requires a writen explanation from officials. Please provide 'complement'");
@@ -74,26 +69,14 @@ public record FailedToQualify : NotQualified
     }
     public FailedToQualify(string complement) : base(complement)
     {
-        Type = nameof(FailedToQualify);
-        Codes.ToList().Add(FTQCodes.FTC);
+        Codes = new List<FTQCodes>{FTQCodes.FTC};
     }
 
-    public IEnumerable<FTQCodes> Codes { get; private set; }
+    public IEnumerable<FTQCodes> Codes { get; private set; } = new List<FTQCodes>();
 
     public override string ToString()
     {
-        string codes = "";
-        for(int i = 0; i < Codes.Count(); i++)
-        {
-            if (i < Codes.Count() - 1)
-            {
-                codes += Codes.ToList()[i].ToString() + "+";
-            }
-            else
-            {
-                codes += Codes.ToList()[i].ToString();
-            }      
-        }
+        string codes = String.Join('+', Codes);
         return $"FTQ {codes}";
     }
 }
@@ -158,5 +141,4 @@ public abstract record NotQualified : DomainObject
     }
 
     public string? Complement { get; private set; }
-    public virtual string Type { get; set; }
 }
