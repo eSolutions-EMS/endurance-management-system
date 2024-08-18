@@ -70,11 +70,6 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
         await _participationRepository.Update(participation);
     }
 
-    public async Task Update(Participation participation)
-    {
-        await _participationRepository.Update(participation);
-    }
-
     public async Task RevokeQualification(int number, QualificationRevokeType type, string? reason = null, params FTQCodes[] ftqCodes)
     {
         GuardHelper.ThrowIfDefault(type);
@@ -107,7 +102,7 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
         {
             participation.FailToCompleteLoop(reason);
         }
-        await Update(participation);
+        await _participationRepository.Update(participation);
     }
 
     public async Task RestoreQualification(int number)
@@ -116,7 +111,7 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
         GuardHelper.ThrowIfDefault(participation);
 
         participation.RestoreQualification();
-        await Update(participation);
+        await _participationRepository.Update(participation);
     }
 
     public async Task<Participation?> Get(int id)

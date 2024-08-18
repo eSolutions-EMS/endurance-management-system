@@ -20,7 +20,7 @@
 }
 
 .hidden{
-    display: none;
+    display: none !important;
 }
 
 .children-component{
@@ -51,23 +51,4 @@ th.mud-table-cell {
 
 .font-size-10{
     font-size:10px;
-}
-
-.error-toggled {
-    background-color: darkred !important;
-    border-color: black !important;
-    border-width: 0.5px !important;
-}
-
-.primary-toggled {
-    background-color: rgb(19,6,135) !important;
-    border-color: black !important;
-    border-width: 0.5px !important;
-}
-
-.secondary-outlined-toggled {
-    color: white !important;
-    background-color: rgb(244, 67, 54) !important;
-    border-color: rgb(244, 67, 54) !important;
-    border-width: 0.5px !important;
 }
