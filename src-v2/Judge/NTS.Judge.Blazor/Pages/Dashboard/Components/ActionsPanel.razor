@@ -264,18 +264,19 @@
         }
         if (TimeValue!="00:00:00")
         {
-            var snapshot = CreateSnapshot();
             var convertedInput = TimeSpan.Parse(TimeValue);
-            snapshot.Timestamp.SetTime(convertedInput);
+            var time = DateTime.Today + convertedInput;
+            var snapshot = CreateSnapshot(time);
             _participationBehind?.Process(snapshot);
         }       
         await UpdateParticipant();
     }
 
-    public Snapshot CreateSnapshot()
+    public Snapshot CreateSnapshot(DateTime timeStampDateTime)
     {
         var participation = _participationBehind.SelectedParticipation;
         var currentPhase = participation!.Phases.Current;
+        var timestamp = new Timestamp(timeStampDateTime);
 
         SnapshotType snapshotType;
         SnapshotMethod snapshotMethod = SnapshotMethod.Manual;
@@ -291,7 +292,7 @@
         {
             snapshotType = SnapshotType.Final;
         }
-        Snapshot snapshot = new Snapshot(participation!.Tandem.Number, snapshotType, snapshotMethod, Timestamp.Now());
+        Snapshot snapshot = new Snapshot(participation!.Tandem.Number, snapshotType, snapshotMethod, timestamp);
         return snapshot;
     }
 }
