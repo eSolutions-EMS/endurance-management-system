@@ -48,7 +48,6 @@ public class SignalRSocket : IRpcSocket, IAsyncDisposable, ISingletonService
             return;
         }
         this.reconnectTokenSource!.Cancel();
-        reconnectTokenSource!.Dispose();
         await this.Connection.StopAsync();
         RaiseDisconnected();
     }
@@ -129,6 +128,10 @@ public class SignalRSocket : IRpcSocket, IAsyncDisposable, ISingletonService
 
     private Task HandleClosed(Exception exception)
     {
+        if (reconnectTokenSource?.IsCancellationRequested ?? true)
+        {
+            return Task.CompletedTask;
+        }
         // This check is also necessary here, because if the server hub cannot be constructed (DI error for example)
         // SignalR keeps closing each connection to that hub as soon as it is created
         // Maybe test again with static connection?

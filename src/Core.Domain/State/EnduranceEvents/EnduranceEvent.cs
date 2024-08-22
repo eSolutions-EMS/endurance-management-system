@@ -14,10 +14,8 @@ namespace Core.Domain.State.EnduranceEvents;
 public class EnduranceEvent : DomainBase<EnduranceEventException>, IEnduranceEventState
 {
     private EnduranceEvent()  { }
-    internal EnduranceEvent(string name, Country country, string feiId, string feiCode, string showFeiId) : this(name, country)
+    internal EnduranceEvent(string name, Country country, string showFeiId) : this(name, country)
     {
-        FeiId = feiId;
-        FeiCode = feiCode;
         ShowFeiId = showFeiId;
     }
     internal EnduranceEvent(string name, Country country) : base(GENERATE_ID)
@@ -31,9 +29,7 @@ public class EnduranceEvent : DomainBase<EnduranceEventException>, IEnduranceEve
     private List<Personnel> stewards = new();
     private List<Competition> competitions = new();
 
-    public string FeiCode { get; internal set; }
     public string ShowFeiId { get; internal set; }
-    public string FeiId { get; internal set; }
     public string Name { get; internal set; }
     public string PopulatedPlace { get; internal set; }
     public bool HasStarted { get; internal set; }

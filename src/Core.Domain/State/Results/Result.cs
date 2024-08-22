@@ -41,7 +41,7 @@ public class Result : DomainBase<ResultException>, IResultState
         var sb = new StringBuilder();
         sb.Append(TypeCode);
         sb.Append(" ");
-        if (!string.IsNullOrEmpty(Code))
+        if (!string.IsNullOrEmpty(Code) && TypeCode != "RET")
         {
             sb.Append(Code);
         }
