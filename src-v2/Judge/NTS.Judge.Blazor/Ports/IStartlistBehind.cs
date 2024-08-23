@@ -1,10 +1,11 @@
 ﻿using Not.Blazor.Ports.Behinds;
+using NTS.Domain.Core.Aggregates.Participations;
 using NTS.Domain.Core.Objects;
 
 namespace NTS.Judge.Blazor.Ports;
 
 public interface IStartlistBehind : IObservableBehind
 {
-    IEnumerable<PhaseStart> Startlist { get; }
-    IEnumerable<IGrouping<double, PhaseStart>> StartlistByDistance { get; }
+    List<Start> Startlist { get; }
+    IEnumerable<IGrouping<double, Start>> StartlistByPhase { get; }
 }

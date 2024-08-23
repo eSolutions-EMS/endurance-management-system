@@ -6,18 +6,11 @@
 <NotH1>@Localizer.Get("Startlist")</NotH1>
 
 <MudGrid Style="margin-top:0 !important;">
-
-    <MudItem xs="9">
-        <RanklistTable />
-    </MudItem>
-    <MudItem xs="3">
-        <RankingMenu />
-    </MudItem>
-    @foreach (var grouping in _behind.StartlistByDistance)
+    @foreach (var grouping in _behind.StartlistByPhase)
     {
         <MudText Class="pl-4"><strong>@($"{grouping.Key} {@Localizer.Get("KM")}")</strong></MudText>
         <MudDivider />
-        @foreach (var row in grouping.OrderBy(x => x.StartAt))
+        @foreach (var row in grouping.OrderBy(x => x.CurrentPhase.Length))
         {
             var number = row.Number;
             //color = row.StartAt;

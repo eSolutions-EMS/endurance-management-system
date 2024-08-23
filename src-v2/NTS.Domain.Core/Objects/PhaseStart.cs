@@ -33,11 +33,4 @@ public record PhaseStart : DomainObject
     public int LoopNumber { get; private set; }
     public double Distance { get; private set; }
     public Timestamp StartAt { get; private set; }
-
-    public override string ToString()
-    {
-        var StartIn = StartAt - Timestamp.Now();
-        var result = $"{Number}, {Athlete}, {LoopNumber}, {Distance}, {StartAt}, {StartIn}";
-        return result;
-    }
 }
