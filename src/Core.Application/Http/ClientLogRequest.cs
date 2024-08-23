@@ -12,11 +12,11 @@ public class ClientLogRequest
     }
 
     public string? Functionality { get; private set; }
-    public List<Error> Errors { get; private set; } = [];
+    public List<Error> Errors { get; private set; } = new List<Error>();
 
     public static ClientLogRequest Create(string functionality, Exception ex)
     {
-        var result = new ClientLogRequest(functionality, []);
+        var result = new ClientLogRequest(functionality, new List<Error>());
         AddExceptions(result, ex);
         return result;
     }

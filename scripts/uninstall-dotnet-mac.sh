@@ -103,6 +103,8 @@ rm -rf "$dotnet_install_root"
 rm -f "$dotnet_path_file"
 rm -f "$dotnet_tool_path_file"
 
+rm -rf ~/Library/Caches/Xamarin/XMA/SDKs/dotnet/
+
 echo "dotnet packages removal succeeded." >&2
 
 # ======= Cleanup leftovers ========
