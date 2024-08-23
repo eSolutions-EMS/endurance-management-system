@@ -1,5 +1,6 @@
 ﻿using Not.Events;
 using NTS.Domain.Core.Aggregates.Participations;
+using System.Text;
 
 namespace NTS.Domain.Core.Objects;
 
@@ -32,4 +33,11 @@ public record PhaseStart : DomainObject
     public int LoopNumber { get; private set; }
     public double Distance { get; private set; }
     public Timestamp StartAt { get; private set; }
+
+    public override string ToString()
+    {
+        var StartIn = StartAt - Timestamp.Now();
+        var result = $"{Number}, {Athlete}, {LoopNumber}, {Distance}, {StartAt}, {StartIn}";
+        return result;
+    }
 }
