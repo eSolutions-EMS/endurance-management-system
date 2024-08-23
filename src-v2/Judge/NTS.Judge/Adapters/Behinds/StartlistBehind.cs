@@ -1,4 +1,5 @@
 ﻿using Not.Application.Ports.CRUD;
+using NTS.Domain;
 using NTS.Domain.Core.Aggregates.Participations;
 using NTS.Domain.Core.Objects;
 using NTS.Judge.Blazor.Ports;
@@ -23,8 +24,11 @@ public class StartlistBehind : IStartlistBehind
         var startlist = new List<PhaseStart>();
         foreach (var participation in participations)
         {
-            var phaseStart = new PhaseStart(participation);
-            Startlist.ToList().Add(phaseStart);
+            if (participation.Phases.OutTime != null && participation.IsNotQualified==false)
+            {
+                var phaseStart = new PhaseStart(participation);
+                Startlist.ToList().Add(phaseStart);
+            }
         }
     }
 
