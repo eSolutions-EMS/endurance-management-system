@@ -279,7 +279,7 @@ public class RankingRoot : IAggregateRoot
             StartDate = @event.Competitions.OrderBy(x => x.StartTime).First().StartTime,
             EndDate = DateTime.UtcNow,
             NF = @event.Country.IsoCode,
-            Competitions = [ ctEnduranceCompetition ],
+            Competitions = new ctEnduranceCompetition[] { ctEnduranceCompetition },
         };
         var horseSport = new HorseSport()
         {
