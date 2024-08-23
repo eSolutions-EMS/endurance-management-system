@@ -1,0 +1,64 @@
+﻿@using NTS.Judge.Blazor.Ports
+
+@attribute [Route(STARTLIST_PAGE)]
+@inherits NotComponent
+
+<NotH1>@Localizer.Get("Startlist")</NotH1>
+
+<MudGrid Style="margin-top:0 !important;">
+
+    <MudItem xs="9">
+        <RanklistTable />
+    </MudItem>
+    <MudItem xs="3">
+        <RankingMenu />
+    </MudItem>
+    @foreach (var grouping in _behind.StartlistByDistance)
+    {
+        <MudText Class="pl-4"><strong>@($"{grouping.Key} {@Localizer.Get("KM")}")</strong></MudText>
+        <MudDivider />
+        @foreach (var row in grouping.OrderBy(x => x.StartAt))
+        {
+            var number = row.Number;
+            //color = row.StartAt;
+            //<MudChip Text="@number.ToString()" Value="@number" Color="@color" Style="min-width: 1rem" />
+            <MudSimpleTable Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Style="overflow-x: auto;">
+                <thead>
+                    <tr>
+                        @foreach (var h in headings)
+                        {
+                            <th>@h</th>
+                        }
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var row in grouping)
+                    {
+                        <tr>
+                            @foreach (var x in row.ToString().Split(","))
+                            {
+                                <td>@x</td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+            </MudSimpleTable>
+        }
+    }
+</MudGrid>
+
+@code{
+    [Inject]
+    private IStartlistBehind _behind { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await _behind.Initialize();
+    }
+    public bool dense = false;
+    public bool hover = false;
+    public bool bordered = false;
+    public bool striped = false;
+    public Color color = Color.Primary;
+    public string[] headings = { "Number", "Athlete", "Loop", "Start", "StartIn" };
+    }
