@@ -1,4 +1,7 @@
-﻿@using NTS.Judge.Blazor.Ports
+﻿@using NTS.Domain.Core.Objects
+@using NTS.Judge.Blazor.Ports
+@using System.Collections
+@using System.Timers
 
 @attribute [Route(STARTLIST_PAGE)]
 @inherits NotComponent
@@ -6,52 +9,73 @@
 <NotH1>@Localizer.Get("Startlist")</NotH1>
 
 <MudGrid Style="margin-top:0 !important;">
-    @foreach (var grouping in _behind.StartlistByPhase)
-    {
-        <MudText Class="pl-4"><strong>@($"{grouping.Key} {@Localizer.Get("KM")}")</strong></MudText>
-        <MudDivider />
-        @foreach (var row in grouping.OrderBy(x => x.CurrentPhase.Length))
+    <MudTabs @ref="@Tabs" PanelClass="px-4 py-6" Elevation="4"
+        Rounded ApplyEffectsToContainer>
+        @foreach (var tab in UserTabs)
         {
-            var number = row.Number;
-            //color = row.StartAt;
-            //<MudChip Text="@number.ToString()" Value="@number" Color="@color" Style="min-width: 1rem" />
-            <MudSimpleTable Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Style="overflow-x: auto;">
-                <thead>
-                    <tr>
-                        @foreach (var h in headings)
-                        {
-                            <th>@h</th>
-                        }
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var row in grouping)
-                    {
-                        <tr>
-                            @foreach (var x in row.ToString().Split(","))
+            <MudTabPanel ID="@tab.Id" Text="@tab.Label">
+                <ChildContent>
+                    <MudSimpleTable Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Style="overflow-x: auto;">
+                        <thead>
+                            <tr>
+                                @foreach (var h in headings)
+                                {
+                                    <th>@h</th>
+                                }
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var row in groupedData)
                             {
-                                <td>@x</td>
+                                <tr>
+                                    @foreach (var x in row.ToString().Split(","))
+                                    {
+                                        <td>@x</td>
+                                    }
+                                </tr>
                             }
-                        </tr>
-                    }
-                </tbody>
-            </MudSimpleTable>
+                        </tbody>
+                    </MudSimpleTable>
+                </ChildContent>
+            </MudTabPanel>
         }
-    }
+        </MudTabs>
 </MudGrid>
 
 @code{
     [Inject]
     private IStartlistBehind _behind { get; set; } = default!;
 
+    public class TabView
+    {
+        public string Label { get; set; }
+        public Guid Id { get; set; }
+        public bool ShowCloseIcon { get; set; } = true;
+    }
+    public MudTabs Tabs = default!;
+    public List<TabView> UserTabs = new();
+    public int UserIndex;
+
     protected override async Task OnInitializedAsync()
     {
         await _behind.Initialize();
+        @foreach(var grouping in _behind.StartlistByDistance)
+        {
+            @foreach (var row in grouping.OrderBy(x => x.TotalDistance).DistinctBy(x=>x.TotalDistance))
+            {
+                TabView tab = new TabView();
+                tab.Label = $"{row.TotalDistance} {@Localizer.Get("KM")}";
+                tab.Id = Guid.NewGuid();
+                UserTabs.Add(tab);
+                groupedData.Add(row);
+            }
+        }
     }
     public bool dense = false;
     public bool hover = false;
     public bool bordered = false;
     public bool striped = false;
     public Color color = Color.Primary;
-    public string[] headings = { "Number", "Athlete", "Loop", "Start", "StartIn" };
-    }
+    public string[] headings = { "Number", "Athlete", "Loop", "StartTime", "StartIn" };
+    public List<Start> groupedData { get; set; } = new List<Start>();
+}

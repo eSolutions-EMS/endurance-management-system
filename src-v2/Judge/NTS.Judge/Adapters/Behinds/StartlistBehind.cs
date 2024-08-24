@@ -15,7 +15,7 @@ public class StartlistBehind : IStartlistBehind
     }
 
     public List<Start> Startlist { get; private set; } = new List<Start>();
-    public IEnumerable<IGrouping<double, Start>> StartlistByPhase => Startlist.GroupBy(x => x.CurrentPhase.Length);
+    public IEnumerable<IGrouping<double?, Start>> StartlistByDistance => Startlist.GroupBy(x => x.TotalDistance);
 
 
     public async Task Initialize()

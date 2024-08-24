@@ -18,6 +18,7 @@ public class Start
             StartAt = phaseStart.StartAt;
             GuardHelper.ThrowIfDefault(participation?.Phases?.Current);
             CurrentPhase = participation?.Phases?.Current;
+            TotalDistance = participation?.Phases?.Distance;
     }
 
     public int Number { get; private set; }
@@ -25,12 +26,13 @@ public class Start
     public int LoopNumber { get; private set; }
     public double Distance { get; private set; }
     public Phase CurrentPhase { get; private set; }
+    public double? TotalDistance { get; private set; }
     public Timestamp StartAt { get; private set; }
     public TimeInterval StartIn => StartAt - Timestamp.Now();
 
     public override string ToString()
     {
-        var result = $"{Number}, {Athlete}, {LoopNumber}, {Distance}, {StartAt}, {StartIn}";
+        var result = $"{Number}, {Athlete}, #{LoopNumber}: {Distance}km , {StartAt}, {StartIn}";
         return result;
     }
 }
