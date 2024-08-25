@@ -102,6 +102,7 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
             participation.FailToCompleteLoop(reason);
         }
         await _participationRepository.Update(participation);
+        EmitChange();
     }
 
     public async Task RestoreQualification(int number)
@@ -111,6 +112,7 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
 
         participation.RestoreQualification();
         await _participationRepository.Update(participation);
+        EmitChange();
     }
 
     public async Task RequestRequiredInspection(bool isRequested)
