@@ -272,27 +272,28 @@
         await UpdateParticipant();
     }
 
-    public Snapshot CreateSnapshot(DateTime timeStampDateTime)
+    public Snapshot CreateSnapshot(DateTime time)
     {
-        var participation = _participationBehind.SelectedParticipation;
-        var currentPhase = participation!.Phases.Current;
-        var timestamp = new Timestamp(timeStampDateTime);
+        GuardHelper.ThrowIfDefault(_participationBehind.SelectedParticipation);
+
+        var currentPhase = _participationBehind.SelectedParticipation.Phases.Current;
+        var tandemNumber = _participationBehind.SelectedParticipation.Tandem.Number;
+        var method = SnapshotMethod.Manual;
+        var timestamp = new Timestamp(time);
 
         SnapshotType snapshotType;
-        SnapshotMethod snapshotMethod = SnapshotMethod.Manual;
-        if (currentPhase?.ArriveTime == null)
+        return new VetgateSnapshot(tandemNumber, method, timestamp);
+        if (currentPhase?.ArriveTime == null) // TODO: fix snapshottype conditions
         {
-            snapshotType = SnapshotType.Stage;
+            return new StageSnapshot(tandemNumber, method, timestamp);
         }
         else if (currentPhase.InspectTime == null && currentPhase.IsFinal == false)
         {
-            snapshotType = SnapshotType.Vet;
+            return new VetgateSnapshot(tandemNumber, method, timestamp);
         }
         else
         {
-            snapshotType = SnapshotType.Final;
+            return new FinishSnapshot(tandemNumber, method, timestamp);
         }
-        Snapshot snapshot = new Snapshot(participation!.Tandem.Number, snapshotType, snapshotMethod, timestamp);
-        return snapshot;
     }
 }

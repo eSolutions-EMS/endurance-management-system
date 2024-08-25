@@ -4,11 +4,11 @@ public record Total : DomainObject
 {
     public Total(IEnumerable<Phase> phases)
     {
-        if (phases.All(x => !x.IsComplete))
+        if (phases.All(x => !x.IsComplete()))
         {
             throw new GuardException("Do not use Total when all phases are incomplete");
         }
-        var completedPhases = phases.Where(x => x.IsComplete).ToList();
+        var completedPhases = phases.Where(x => x.IsComplete()).ToList();
         var totalLength = completedPhases.Sum(x => x.Length);
         RideInterval = completedPhases.Aggregate(
             TimeInterval.Zero,

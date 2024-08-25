@@ -13,7 +13,7 @@
                 <MudText Typo="Typo.caption" Class="mr-4 pl-2" Style="width: 1rem;">@_notQualified</MudText>
                 <MudIcon Icon="@Icons.Material.TwoTone.Flag" Color="Color.Error" Size="Size.Large" />
             }
-            else if (_phases.Any(x => !x.IsComplete))
+            else if (_phases.Any(x => !x.IsComplete()))
             {
                 <MudIcon Icon="@Icons.Material.TwoTone.Flag" Color="Color.Default" Size="Size.Large" />
             }
@@ -34,7 +34,7 @@
             </MudStack>
         </Two>
         <Three>
-            @_phases.Current?.ArriveTime
+            @_phases.Current.ArriveTime
         </Three>
         <Four>
             @_total?.AverageSpeed

@@ -1,11 +1,12 @@
-﻿using static NTS.Domain.Enums.SnapshotType;
-using static NTS.Domain.Core.Aggregates.Participations.SnapshotResultType;
+﻿using static NTS.Domain.Core.Aggregates.Participations.SnapshotResultType;
 
 namespace NTS.Domain.Core.Aggregates.Participations;
 
-// TODO: probably should be a record
 public class Phase : DomainEntity, IPhaseState
 {
+    // TODO: settings - Add setting for separate final. This is useful for some events such as Shumen where we need separate detection for the actual final
+    bool _isSeparateFinish = false;
+
     internal string InternalGate { get; set; }
     private Timestamp? VetTime => ReinspectTime ?? InspectTime;
     private bool IsFeiRulesAndNotFinal => CompetitionType == CompetitionType.FEI && !IsFinal;
@@ -48,47 +49,37 @@ public class Phase : DomainEntity, IPhaseState
     public Speed? AverageLoopSpeed => Length / LoopSpan;
     public Speed? AveragePhaseSpeed => Length / PhaseSpan;
     public Speed? AverageSpeed => IsFeiRulesAndNotFinal ? AveragePhaseSpeed : AverageLoopSpeed;
-    public bool IsComplete => OutTime != null;
-
-    internal SnapshotResult Arrive(Snapshot snapshot)
+    public bool IsComplete()
     {
-        // TODO: settings - Add setting for separate final. This is useful for some events such as Shumen where we need separate detection for the actual final
-        var isSeparateFinal = false;
-        if (isSeparateFinal && snapshot.Type == Final && !IsFinal)
+        if (IsReinspectionRequested && ReinspectTime == null)
         {
-            return SnapshotResult.NotApplied(snapshot, NotAppliedDueToSeparateStageLine);
+            return false;
         }
-        if (isSeparateFinal && snapshot.Type == Stage && IsFinal)
+        if (ArriveTime == null || InspectTime == null)
         {
-            return SnapshotResult.NotApplied(snapshot, NotAppliedDueToSeparateFinishLine);
+            return false;
         }
-        if (ArriveTime != null)
-        {
-            return SnapshotResult.NotApplied(snapshot, NotAppliedDueToDuplicateArrive);
-        }
-        ArriveTime = snapshot.Timestamp;
-        HandleCRI();
-
-        return SnapshotResult.Applied(snapshot);
+        return true;
     }
 
-    internal SnapshotResult Inspect(Snapshot snapshot)
+    internal SnapshotResult Process(Snapshot snapshot)
     {
-        if (IsReinspectionRequested && ReinspectTime != null || InspectTime != null)
+        if (snapshot is FinishSnapshot finishSnapshot)
         {
-            return SnapshotResult.NotApplied(snapshot, NotAppliedDueToSeparateFinishLine);
+            return Finish(finishSnapshot);
         }
-        if (IsReinspectionRequested)
+        else if (snapshot is StageSnapshot stageSnapshot)
         {
-            ReinspectTime = snapshot.Timestamp;
+            return Arrive(stageSnapshot);
+        }
+        else if (snapshot is VetgateSnapshot vetgateSnapshot)
+        {
+            return Inspect(vetgateSnapshot);
         }
         else
         {
-            InspectTime = snapshot.Timestamp;
+            throw GuardHelper.Exception($"Invalid snapshot '{snapshot.GetType()}'");
         }
-        HandleCRI();
-
-        return SnapshotResult.Applied(snapshot);
     }
 
     internal void Update(IPhaseState state)
@@ -122,6 +113,57 @@ public class Phase : DomainEntity, IPhaseState
     internal bool ViolatesSpeedRestriction(Speed? minSpeed, Speed? maxSpeed)
     {
         return AverageSpeed < minSpeed || AverageSpeed > maxSpeed;
+    }
+
+    SnapshotResult Finish(FinishSnapshot snapshot)
+    {
+        if (_isSeparateFinish && !IsFinal)
+        {
+            return SnapshotResult.NotApplied(snapshot, NotAppliedDueToSeparateStageLine);
+        }
+        if (ArriveTime != null)
+        {
+            return SnapshotResult.NotApplied(snapshot, NotAppliedDueToDuplicateArrive);
+        }
+
+        ArriveTime = snapshot.Timestamp;
+        HandleCRI();
+        return SnapshotResult.Applied(snapshot);
+    }
+
+    SnapshotResult Arrive(StageSnapshot snapshot)
+    {
+        if (_isSeparateFinish && IsFinal)
+        {
+            return SnapshotResult.NotApplied(snapshot, NotAppliedDueToSeparateFinishLine);
+        }
+        if (ArriveTime != null)
+        {
+            return SnapshotResult.NotApplied(snapshot, NotAppliedDueToDuplicateArrive);
+        }
+
+        ArriveTime = snapshot.Timestamp;
+        HandleCRI();
+        return SnapshotResult.Applied(snapshot);
+    }
+
+    SnapshotResult Inspect(Snapshot snapshot)
+    {
+        if (IsReinspectionRequested && ReinspectTime != null || InspectTime != null)
+        {
+            return SnapshotResult.NotApplied(snapshot, NotAppliedDueToDuplicateInspect);
+        }
+
+        if (IsReinspectionRequested)
+        {
+            ReinspectTime = snapshot.Timestamp;
+        }
+        else
+        {
+            InspectTime = snapshot.Timestamp;
+        }
+        HandleCRI();
+        return SnapshotResult.Applied(snapshot);
     }
 
     private void HandleCRI()

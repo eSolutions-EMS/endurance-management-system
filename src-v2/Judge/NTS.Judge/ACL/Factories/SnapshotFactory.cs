@@ -10,15 +10,16 @@ public class SnapshotFactory
     public static Snapshot Create(EmsParticipantEntry participant, EmsWitnessEventType emsType, bool isFinal)
     {
         var number = int.Parse(participant.Number);
-        var type = emsType switch
+        var method = SnapshotMethod.EmsIntegration;
+        var timestamp = new Timestamp(participant.ArriveTime!.Value);
+        
+        return emsType switch
         {
-            EmsWitnessEventType.VetIn => SnapshotType.Vet,
+            EmsWitnessEventType.VetIn => new VetgateSnapshot(number, method, timestamp),
             EmsWitnessEventType.Arrival => isFinal
-                ? SnapshotType.Final
-                : SnapshotType.Stage,
+                ? new FinishSnapshot(number, method, timestamp)
+                : new StageSnapshot(number, method, timestamp),
             _ => throw new Exception($"Invalid WitnessEventType for participant '{participant.Number}'"),
         };
-
-        return new Snapshot(number, type, SnapshotMethod.EmsIntegration, new Timestamp(participant.ArriveTime!.Value));
     }
 }

@@ -77,7 +77,7 @@ public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, 
     public EmsParticipantsPayload SendParticipants()
     {
         var participants = _participations
-            .ReadAll(x => x.Phases.All(x => !x.IsComplete))
+            .ReadAll(x => x.Phases.All(x => !x.IsComplete()))
             .Result
             .Select(ParticipantEntryFactory.Create);
         var @event = _events.Read(0);
@@ -101,7 +101,7 @@ public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, 
                 {
                     continue;
                 }
-                var isFinal = participation.Phases.Take(participation.Phases.Count - 1).All(x => x.IsComplete);
+                var isFinal = participation.Phases.Take(participation.Phases.Count - 1).All(x => x.IsComplete());
                 var snapshot = SnapshotFactory.Create(entry, type, isFinal);
                 await _participationBehind.Process(snapshot);
             }
