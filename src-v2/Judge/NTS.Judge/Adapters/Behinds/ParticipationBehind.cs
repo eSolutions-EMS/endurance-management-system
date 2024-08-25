@@ -44,16 +44,15 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
 
     public async Task Process(Snapshot snapshot)
     {
-        if (SelectedParticipation == default)
+        var participation = Participations.FirstOrDefault(x => x.Tandem.Number == snapshot.Number);
+        if (participation == null)
         {
-            SelectParticipation(snapshot.Number);
+            return;
         }
-        GuardHelper.ThrowIfDefault(SelectedParticipation);
-
-        var result = SelectedParticipation?.Process(snapshot);
+        var result = participation.Process(snapshot);
         if (result.Type == SnapshotResultType.Applied)
         {
-            await _participationRepository.Update(SelectedParticipation);
+            await _participationRepository.Update(participation);
         }
         await _snapshotResultRepository.Create(result);
 
