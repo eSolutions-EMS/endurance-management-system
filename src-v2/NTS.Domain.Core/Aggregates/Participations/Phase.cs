@@ -60,13 +60,13 @@ public class Phase : DomainEntity, IPhaseState
     public CompetitionType CompetitionType { get; private set; }
     public bool IsFinal { get; private set; }
     public int? CRIRecovery { get; private set; } // TODO: int CRIRecovery? wtf?
-    public Timestamp? StartTime { get; private set; }
+    public Timestamp? StartTime { get; internal set; }
     public Timestamp? ArriveTime { get; private set; }
     public Timestamp? InspectTime { get; private set; } // TODO: domain consistency rename InspectTime -> PresentationTime (and others)
     public bool IsReinspectionRequested { get; private set; }
     public Timestamp? ReinspectTime { get; private set; }
-    public bool IsRIRequested { get; private set; }
-    public bool IsCRIRequested { get; private set; }
+    public bool IsRIRequested { get; internal set; }
+    public bool IsCRIRequested { get; internal set; }
 
     public Timestamp? GetRequiredInspectionTime()
     {
@@ -201,7 +201,7 @@ public class Phase : DomainEntity, IPhaseState
         IsRIRequested = false;
     }
 
-    internal void SetGate(int number, int totalDistanceSoFar)
+    internal void SetGate(int number, double totalDistanceSoFar)
     {
         Gate = $"GATE{number}/{totalDistanceSoFar:0.##}";
     }

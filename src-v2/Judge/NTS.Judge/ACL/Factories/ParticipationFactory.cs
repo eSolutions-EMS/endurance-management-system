@@ -104,10 +104,13 @@ public class ParticipationFactory
                     lap.IsFinal,
                     null,
                     startTimestamp,
-                    );
+                    arriveTime,
+                    inspectTime,
+                    reinspectTime,
+                    record.IsReinspectionRequired,
+                    record.IsRequiredInspectionRequired,
+                    record.IsRequiredInspectionRequired);
                 
-                phase.IsReinspectionRequested = record.IsRequiredInspectionRequired;
-                phase.IsCRIRequested = record.IsRequiredInspectionRequired;
                 finalRecord = record;
             }
             else
