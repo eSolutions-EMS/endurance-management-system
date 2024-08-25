@@ -75,7 +75,7 @@ public class ParticipationFactory
                 if (phases.Any())
                 {
                     // Adjusting isnt necessary since it's already done in the previous iteration
-                    var outTime = phases.Last().OutTime!;
+                    var outTime = phases.Last().GetOutTime()!;
                     previousTime = outTime.DateTime;
                     phase.StartTime = new Timestamp(outTime);
                 }

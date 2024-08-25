@@ -20,7 +20,6 @@ public class PhaseCollection : ReadOnlyCollection<Phase>
     public Phase Current { get; private set; }
     internal int CurrentNumber => this.NumberOf(Current); // TODO: remove
     public double Distance => this.Sum(x => x.Length);
-    internal Timestamp? OutTime => this.LastOrDefault(x => x.OutTime != null)?.OutTime; // TODO: remove
     
     public override string ToString()
     {
@@ -36,7 +35,7 @@ public class PhaseCollection : ReadOnlyCollection<Phase>
             return SnapshotResult.NotApplied(snapshot, SnapshotResultType.NotAppliedDueToParticipationComplete);
         }
         var notProcessingWindow = TimeSpan.FromMinutes(30); // TODO settings: use settings?
-        if (isComplete && snapshot.Timestamp > Current.OutTime + notProcessingWindow)
+        if (isComplete && snapshot.Timestamp > Current.GetOutTime() + notProcessingWindow)
         {
             SelectNext();
         }
@@ -49,9 +48,8 @@ public class PhaseCollection : ReadOnlyCollection<Phase>
         {
             throw GuardHelper.Exception("Cannot start next phase while current is active");
         }
-        var nextStartTime = Current.OutTime;
         var next = GetNext();
-        next.StartTime = Current.OutTime;
+        next.StartTime = Current.GetOutTime();
     }
 
     private void SelectNext()

@@ -28,13 +28,13 @@
                 <TableData Value="@phase.ArriveTime" />
                 <TableData Value="@phase.InspectTime" />
                 <TableData Value="@phase.ReinspectTime" />
-                <TableData Value="@(phase.IsRIRequested ? phase.RequiredInspectionTime : null)" />
-                <TableData Value="@(phase.IsCRIRequested ? phase.RequiredInspectionTime : null)" />
-                <TableData Value="@phase.RecoverySpan" />
-                <TableData Value="@phase.LoopSpan" />
-                <TableData Value="@phase.PhaseSpan" />
-                <TableData Value="@phase.AverageLoopSpeed" />
-                <TableData Value="@phase.AveragePhaseSpeed" />
+                <TableData Value="@(phase.IsRIRequested ? phase.GetRequiredInspectionTime() : null)" />
+                <TableData Value="@(phase.IsCRIRequested ? phase.GetRequiredInspectionTime() : null)" />
+                <TableData Value="@phase.GetRecoverySpan()" />
+                <TableData Value="@phase.GetLoopSpan()" />
+                <TableData Value="@phase.GetPhaseSpan()" />
+                <TableData Value="@phase.GetAverageLoopSpeed()" />
+                <TableData Value="@phase.GetAveragePhaseSpeed()" />
             </tr>
         }
     </tbody>

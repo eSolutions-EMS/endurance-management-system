@@ -40,15 +40,50 @@ public class Phase : DomainEntity, IPhaseState
     public bool IsCRIRequested { get; set; }
     //< Temporarily set to public for EMS import testing
 
-    public Timestamp? RequiredInspectionTime => VetTime?.Add(TimeSpan.FromMinutes(Rest - 15)); //TODO: settings?
-    public Timestamp? OutTime => ArriveTime == null ? null : VetTime?.Add(TimeSpan.FromMinutes(Rest));
-    public TimeInterval? LoopSpan => ArriveTime - StartTime;
-    public TimeInterval? PhaseSpan => VetTime - StartTime;
-    public TimeInterval? Span => IsFeiRulesAndNotFinal ? PhaseSpan : LoopSpan;
-    public TimeInterval? RecoverySpan => VetTime - ArriveTime;
-    public Speed? AverageLoopSpeed => Length / LoopSpan;
-    public Speed? AveragePhaseSpeed => Length / PhaseSpan;
-    public Speed? AverageSpeed => IsFeiRulesAndNotFinal ? AveragePhaseSpeed : AverageLoopSpeed;
+    public Timestamp? GetRequiredInspectionTime()
+    {
+        return VetTime?.Add(TimeSpan.FromMinutes(Rest - 15)); //TODO: settings
+    }
+
+    public Timestamp? GetOutTime()
+    {
+        if (ArriveTime == null)
+        {
+            return null;
+        }
+        return VetTime?.Add(TimeSpan.FromMinutes(Rest));
+    }
+
+    public TimeInterval? GetLoopSpan()
+    {
+        return ArriveTime - StartTime;
+    }
+
+    public TimeInterval? GetPhaseSpan()
+    {
+        return VetTime - StartTime;
+    }
+
+    public TimeInterval? GetRecoverySpan()
+    {
+        return VetTime - ArriveTime;
+    }
+
+    public Speed? GetAverageLoopSpeed()
+    {
+        return Length / GetLoopSpan();
+    }
+
+    public Speed? GetAveragePhaseSpeed()
+    {
+        return Length / GetPhaseSpan();
+    }
+
+    public Speed? GetAverageSpeed()
+    {
+        return IsFeiRulesAndNotFinal ? GetAveragePhaseSpeed() : GetAverageLoopSpeed();
+    }
+
     public bool IsComplete()
     {
         if (IsReinspectionRequested && ReinspectTime == null)
@@ -107,12 +142,12 @@ public class Phase : DomainEntity, IPhaseState
 
     internal bool ViolatesRecoveryTime()
     {
-        return RecoverySpan > TimeSpan.FromMinutes(MaxRecovery);
+        return GetRecoverySpan() > TimeSpan.FromMinutes(MaxRecovery);
     }
 
     internal bool ViolatesSpeedRestriction(Speed? minSpeed, Speed? maxSpeed)
     {
-        return AverageSpeed < minSpeed || AverageSpeed > maxSpeed;
+        return GetAverageSpeed() < minSpeed || GetAverageSpeed() > maxSpeed;
     }
 
     internal void RequestRequiredInspection()
@@ -195,7 +230,7 @@ public class Phase : DomainEntity, IPhaseState
         {
             return;
         }
-        IsCRIRequested = RecoverySpan >= TimeSpan.FromMinutes(CRIRecovery.Value);
+        IsCRIRequested = GetRecoverySpan() >= TimeSpan.FromMinutes(CRIRecovery.Value);
     }
 }
 

@@ -1,5 +1,4 @@
-﻿using Not.Events;
-using NTS.Domain.Core.Aggregates.Participations;
+﻿using NTS.Domain.Core.Aggregates.Participations;
 
 namespace NTS.Domain.Core.Objects;
 
@@ -15,7 +14,8 @@ public record PhaseStart : DomainObject
         {
             throw GuardHelper.Exception($"{participation} cannot start");
         }
-        if (participation.Phases.OutTime == null)
+        var outTime = participation.Phases.Current.GetOutTime();
+        if (outTime == null)
         {
             throw GuardHelper.Exception($"{participation} cannot start because current OutTime is null");
         }
@@ -24,7 +24,7 @@ public record PhaseStart : DomainObject
         Athlete = participation.Tandem.Name;
         LoopNumber = participation.Phases.CurrentNumber;
         Distance = participation.Phases.Distance;
-        StartAt = participation.Phases.OutTime;
+        StartAt = outTime;
     }
 
     public int Number { get; private set; }
