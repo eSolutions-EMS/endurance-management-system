@@ -80,15 +80,23 @@ public class Participation : DomainEntity, IAggregateRoot
         }
     }
 
-    public void ReinspectionRequested(bool requested)
+    public void ChangeReinspection(bool isRequested)
     {
-        Phases.Current.IsReinspectionRequested = requested;
+        if (!isRequested)
+        {
+            Phases.Current.DisableReinspection();
+        }
+        else
+        {
+            Phases.Current.IsRIRequested = true;
+        }
     }
 
-    public void RIRequested(bool requested)
+    public void ChangeRequiredInspection(bool isRequested)
     {
-        Phases.Current.IsRIRequested = !Phases.Current.IsRIRequested;
+        Phases.Current.IsRIRequested = isRequested;
     }
+
     public void Withdraw()
     {
         RevokeQualification(new Withdrawn());

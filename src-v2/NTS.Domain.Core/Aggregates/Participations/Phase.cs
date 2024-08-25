@@ -32,7 +32,7 @@ public class Phase : DomainEntity, IPhaseState
     //> Temporarily set to public for EMS import testing
     public Timestamp? StartTime { get; set; }
     public Timestamp? ArriveTime { get; set; }
-    public Timestamp? InspectTime { get; set; }
+    public Timestamp? InspectTime { get; set; } // TODO: domain consistency rename InspectTime -> PresentationTime (and others)
     public bool IsReinspectionRequested { get; set; }
 
     public Timestamp? ReinspectTime { get; set; }
@@ -113,6 +113,18 @@ public class Phase : DomainEntity, IPhaseState
     internal bool ViolatesSpeedRestriction(Speed? minSpeed, Speed? maxSpeed)
     {
         return AverageSpeed < minSpeed || AverageSpeed > maxSpeed;
+    }
+
+    internal void DisableReinspection()
+    {
+        GuardHelper.ThrowIfDefault(IsReinspectionRequested);
+
+        if (ReinspectTime != null)
+        {
+            throw new DomainException("Cannot disable Reinspection because time of Reinspection is already present");
+        }
+
+        IsRIRequested = false;
     }
 
     SnapshotResult Finish(FinishSnapshot snapshot)
