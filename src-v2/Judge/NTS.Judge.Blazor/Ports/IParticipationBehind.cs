@@ -16,5 +16,7 @@ public interface IParticipationBehind : IObservableBehind
     Task Update(IPhaseState state);
     Task RevokeQualification(int number, QualificationRevokeType type, string? reason = null, params FTQCodes[] ftqCodes);
     Task RestoreQualification(int number);
+    Task RequestRequiredInspection(bool isRequested);
+    Task RequestReinspection(bool isRequested);
     Task<Participation?> Get(int id);
 }

@@ -113,6 +113,28 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
         await _participationRepository.Update(participation);
     }
 
+    public async Task RequestRequiredInspection(bool isRequested)
+    {
+        if (SelectedParticipation == null)
+        {
+            return;
+        }
+        SelectedParticipation.ChangeRequiredInspection(isRequested);
+        await _participationRepository.Update(SelectedParticipation);
+        EmitChange();
+    }
+
+    public async Task RequestReinspection(bool isRequested)
+    {
+        if (SelectedParticipation == null)
+        {
+            return;
+        }
+        SelectedParticipation.ChangeReinspection(isRequested);
+        await _participationRepository.Update(SelectedParticipation);
+        EmitChange();
+    }
+
     public async Task<Participation?> Get(int id)
     {
         return await _participationRepository.Read(id);
