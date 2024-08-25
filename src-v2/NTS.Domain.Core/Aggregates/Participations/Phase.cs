@@ -7,7 +7,6 @@ public class Phase : DomainEntity, IPhaseState
     // TODO: settings - Add setting for separate final. This is useful for some events such as Shumen where we need separate detection for the actual final
     bool _isSeparateFinish = false;
 
-    internal string InternalGate { get; set; }
     private Timestamp? VetTime => ReinspectTime ?? InspectTime;
     private bool IsFeiRulesAndNotFinal => CompetitionType == CompetitionType.FEI && !IsFinal;
 
@@ -19,7 +18,7 @@ public class Phase : DomainEntity, IPhaseState
         CompetitionType competitionType,
         bool isFinal,
         int? criRecovery,
-        Timestamp startTime,
+        Timestamp startTimestamp,
         DateTime? arriveTime,
         DateTime? inspectTime,
         DateTime? reinspectTime,
@@ -27,7 +26,7 @@ public class Phase : DomainEntity, IPhaseState
         bool isRequiredInspectionRequested,
         bool isCompulsoryRequiredInspectionRequested) : this(length, maxRecovery, rest, competitionType, isFinal, criRecovery)
     {
-        StartTime = new Timestamp(startTime);
+        StartTime = startTimestamp;
         if (arriveTime != null)
         {
             ArriveTime = new Timestamp(arriveTime.Value);
@@ -54,7 +53,7 @@ public class Phase : DomainEntity, IPhaseState
         CRIRecovery = criRecovery;
     }
 
-    public string Gate => $"GATE{InternalGate}"; // TODO: fix InternalGate complexity
+    public string Gate { get; private set; }
     public double Length { get; private set; }
     public int MaxRecovery { get; private set; }
     public int Rest { get; private set; }
@@ -200,6 +199,11 @@ public class Phase : DomainEntity, IPhaseState
         }
 
         IsRIRequested = false;
+    }
+
+    internal void SetGate(int number, int totalDistanceSoFar)
+    {
+        Gate = $"GATE{number}/{totalDistanceSoFar:0.##}";
     }
 
     SnapshotResult Finish(FinishSnapshot snapshot)

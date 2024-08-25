@@ -7,12 +7,12 @@ public class PhaseCollection : ReadOnlyCollection<Phase>
 {
     public PhaseCollection(IEnumerable<Phase> phases) : base(phases.ToList())
     {
-        var gate = 0d;
-        for (var i = 0; i < this.Count; i++)
+        var distanceSoFar = 0d;
+        foreach (var phase in phases)
         {
-            var phase = this[i];
-            var distanceFromStart = gate += phase.Length;
-            phase.InternalGate = $"{i + 1}/{distanceFromStart:0.##}";
+            distanceSoFar += phase.Length;
+            var number = phases.NumberOf(phase);
+            phase.SetGate(number, distanceSoFar);
         }
         Current = this.LastOrDefault(x => x.IsComplete()) ?? this.First();
     }
