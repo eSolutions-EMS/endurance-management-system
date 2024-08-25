@@ -16,8 +16,14 @@
 }
 else
 {
-    <DashboardComponent />
-    <ActionsPanel />
+<MudGrid Style="margin-top:0 !important;">
+    <MudItem xs="9">
+        <DashboardComponent />
+    </MudItem>
+    <MudItem xs="3">
+        <ActionsPanel />
+    </MudItem>
+</MudGrid>
 }
 
 @code {
