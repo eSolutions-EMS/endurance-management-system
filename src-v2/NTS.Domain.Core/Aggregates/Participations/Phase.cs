@@ -11,6 +11,39 @@ public class Phase : DomainEntity, IPhaseState
     private Timestamp? VetTime => ReinspectTime ?? InspectTime;
     private bool IsFeiRulesAndNotFinal => CompetitionType == CompetitionType.FEI && !IsFinal;
 
+    // TODO: remove after EMS imports are not longer necessary
+    public Phase(
+        double length,
+        int maxRecovery,
+        int rest,
+        CompetitionType competitionType,
+        bool isFinal,
+        int? criRecovery,
+        Timestamp startTime,
+        DateTime? arriveTime,
+        DateTime? inspectTime,
+        DateTime? reinspectTime,
+        bool isReinspectionRequested,
+        bool isRequiredInspectionRequested,
+        bool isCompulsoryRequiredInspectionRequested) : this(length, maxRecovery, rest, competitionType, isFinal, criRecovery)
+    {
+        StartTime = new Timestamp(startTime);
+        if (arriveTime != null)
+        {
+            ArriveTime = new Timestamp(arriveTime.Value);
+        }
+        if (inspectTime != null)
+        {
+            InspectTime = new Timestamp(inspectTime.Value);
+        }
+        if (reinspectTime != null)
+        {
+            ReinspectTime = new Timestamp(reinspectTime.Value);
+        }
+        IsReinspectionRequested = isReinspectionRequested;
+        IsRIRequested = isRequiredInspectionRequested;
+        IsCRIRequested = isCompulsoryRequiredInspectionRequested;
+    }
     public Phase(double length, int maxRecovery, int rest, CompetitionType competitionType, bool isFinal, int? criRecovery)
     {
         Length = length;
@@ -28,17 +61,13 @@ public class Phase : DomainEntity, IPhaseState
     public CompetitionType CompetitionType { get; private set; }
     public bool IsFinal { get; private set; }
     public int? CRIRecovery { get; private set; } // TODO: int CRIRecovery? wtf?
-    
-    //> Temporarily set to public for EMS import testing
-    public Timestamp? StartTime { get; set; }
-    public Timestamp? ArriveTime { get; set; }
-    public Timestamp? InspectTime { get; set; } // TODO: domain consistency rename InspectTime -> PresentationTime (and others)
-    public bool IsReinspectionRequested { get; set; }
-
-    public Timestamp? ReinspectTime { get; set; }
-    public bool IsRIRequested { get; set; }
-    public bool IsCRIRequested { get; set; }
-    //< Temporarily set to public for EMS import testing
+    public Timestamp? StartTime { get; private set; }
+    public Timestamp? ArriveTime { get; private set; }
+    public Timestamp? InspectTime { get; private set; } // TODO: domain consistency rename InspectTime -> PresentationTime (and others)
+    public bool IsReinspectionRequested { get; private set; }
+    public Timestamp? ReinspectTime { get; private set; }
+    public bool IsRIRequested { get; private set; }
+    public bool IsCRIRequested { get; private set; }
 
     public Timestamp? GetRequiredInspectionTime()
     {
