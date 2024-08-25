@@ -1,4 +1,5 @@
-﻿using static NTS.Domain.Core.Aggregates.Participations.SnapshotResultType;
+﻿using Newtonsoft.Json;
+using static NTS.Domain.Core.Aggregates.Participations.SnapshotResultType;
 
 namespace NTS.Domain.Core.Aggregates.Participations;
 
@@ -10,6 +11,8 @@ public class Phase : DomainEntity, IPhaseState
     private Timestamp? VetTime => ReinspectTime ?? InspectTime;
     private bool IsFeiRulesAndNotFinal => CompetitionType == CompetitionType.FEI && !IsFinal;
 
+    [JsonConstructor]
+    private Phase(int id) : base(id) { }
     // TODO: remove after EMS imports are not longer necessary
     public Phase(
         double length,

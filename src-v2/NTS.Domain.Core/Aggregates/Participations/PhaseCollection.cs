@@ -18,7 +18,6 @@ public class PhaseCollection : ReadOnlyCollection<Phase>
     }
 
     public Phase Current { get; private set; }
-    internal int CurrentNumber => this.NumberOf(Current); // TODO: remove
     public double Distance => this.Sum(x => x.Length);
     
     public override string ToString()

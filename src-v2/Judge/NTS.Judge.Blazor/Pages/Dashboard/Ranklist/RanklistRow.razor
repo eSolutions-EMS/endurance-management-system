@@ -84,15 +84,15 @@
         _phases = participation.Phases;
         _tandem = participation.Tandem;
         _notQualified = participation.NotQualified;
-        _total = participation.Total;
-        _totalInterval = participation.Total?.RideInterval + participation.Total?.RecoveryIntervalWithoutFinal;
+        _total = participation.GetTotal();
+        _totalInterval = _total?.RideInterval + _total?.RecoveryIntervalWithoutFinal;
 
         if (!Entry.IsRanked)
         {
             _rank = "unranked";
             return;
         }
-        if (participation.IsNotQualified)
+        if (participation.IsNotQualified())
         {
             _rank = null;
             return;

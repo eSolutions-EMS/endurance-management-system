@@ -25,11 +25,20 @@ public class Participation : DomainEntity, IAggregateRoot
     public Tandem Tandem { get; private set; }
     public PhaseCollection Phases { get; private set; }
     public NotQualified? NotQualified { get; private set; }
-    public bool IsNotQualified => NotQualified != null;
-    [JsonIgnore] // TODO: see how to get rid of this. Why is Newtonsoft deserialization trying to create Total instance?
-    public Total? Total => Phases.Any(x => x.IsComplete())
-        ? new Total(Phases)
-        : default;
+    
+    public bool IsNotQualified()
+    {
+        return NotQualified != null;
+    }
+    
+    public Total? GetTotal()
+    {
+        if (Phases.All(x => !x.IsComplete()))
+        {
+            return null;
+        }
+        return new Total(Phases);
+    }
 
     public override string ToString()
     {
