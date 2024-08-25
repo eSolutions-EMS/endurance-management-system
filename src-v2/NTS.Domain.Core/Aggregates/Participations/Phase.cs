@@ -149,7 +149,7 @@ public class Phase : DomainEntity, IPhaseState
 
     SnapshotResult Inspect(Snapshot snapshot)
     {
-        if (IsReinspectionRequested && ReinspectTime != null || InspectTime != null)
+        if (IsReinspectionRequested && ReinspectTime != null && InspectTime != null)
         {
             return SnapshotResult.NotApplied(snapshot, NotAppliedDueToDuplicateInspect);
         }
