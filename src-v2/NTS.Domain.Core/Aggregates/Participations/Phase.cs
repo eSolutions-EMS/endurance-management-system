@@ -66,7 +66,7 @@ public class Phase : DomainEntity, IPhaseState
     public Timestamp? StartTime { get; internal set; }
     public Timestamp? ArriveTime { get; private set; }
     public Timestamp? InspectTime { get; private set; } // TODO: domain consistency rename InspectTime -> PresentationTime (and others)
-    public bool IsReinspectionRequested { get; private set; }
+    public bool IsReinspectionRequested { get; internal set; }
     public Timestamp? ReinspectTime { get; private set; }
     public bool IsRIRequested { get; internal set; }
     public bool IsCRIRequested { get; internal set; }
@@ -201,7 +201,7 @@ public class Phase : DomainEntity, IPhaseState
             throw new DomainException("Cannot disable Reinspection because time of Reinspection is already present");
         }
 
-        IsRIRequested = false;
+        IsReinspectionRequested = false;
     }
 
     internal void SetGate(int number, double totalDistanceSoFar)

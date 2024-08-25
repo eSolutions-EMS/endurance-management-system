@@ -97,13 +97,13 @@ public class Participation : DomainEntity, IAggregateRoot
         }
         else
         {
-            Phases.Current.IsRIRequested = true;
+            Phases.Current.IsReinspectionRequested = true;
         }
     }
 
     public void ChangeRequiredInspection(bool isRequested)
     {
-        if (!isRequested)
+        if (isRequested)
         {
             Phases.Current.RequestRequiredInspection();
         }
