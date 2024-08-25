@@ -22,7 +22,7 @@ public record PhaseStart : DomainObject
 
         Number = participation.Tandem.Number;
         Athlete = participation.Tandem.Name;
-        LoopNumber = participation.Phases.CurrentNumber;
+        LoopNumber = participation.Phases.NumberOf(participation.Phases.Current);
         Distance = participation.Phases.Distance;
         StartAt = outTime;
     }
