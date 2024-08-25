@@ -138,6 +138,7 @@ public class Participation : DomainEntity, IAggregateRoot
         {
             var phaseCompleted = new PhaseCompleted(this);
             EventHelper.Emit(phaseCompleted);
+            Phases.StartNext();
         }
     }
 

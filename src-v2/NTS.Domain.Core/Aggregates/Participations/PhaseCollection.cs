@@ -21,6 +21,12 @@ public class PhaseCollection : ReadOnlyCollection<Phase>
     internal int CurrentNumber => this.NumberOf(Current); // TODO: remove
     public double Distance => this.Sum(x => x.Length);
     internal Timestamp? OutTime => this.LastOrDefault(x => x.OutTime != null)?.OutTime; // TODO: remove
+    
+    public override string ToString()
+    {
+        var completed = this.Count(x => x.IsComplete());
+        return $"{Distance}{"km".Localize()}: {completed}/{this.Count}";
+    }
 
     internal SnapshotResult Process(Snapshot snapshot)
     {
@@ -37,16 +43,16 @@ public class PhaseCollection : ReadOnlyCollection<Phase>
         return Current.Process(snapshot);
     }
 
-    //internal void StartNext()
-    //{
-    //    if (!Current.IsComplete())
-    //    {
-    //        GuardHelper.Throw("Cannot start next phase while current is active");
-    //    }
-    //    var nextStartTime = Current.OutTime;
-    //    var next = GetNext();
-    //    next.d
-    //}
+    internal void StartNext()
+    {
+        if (!Current.IsComplete())
+        {
+            throw GuardHelper.Exception("Cannot start next phase while current is active");
+        }
+        var nextStartTime = Current.OutTime;
+        var next = GetNext();
+        next.StartTime = Current.OutTime;
+    }
 
     private void SelectNext()
     {
@@ -54,24 +60,12 @@ public class PhaseCollection : ReadOnlyCollection<Phase>
         {
             throw new GuardException("Cannot select next Phase. Current Phase is the final phase");
         }
-
-        var outTime = Current.OutTime;
-        var currentIndex = this.IndexOf(Current);
-        var next = this[++currentIndex];
-        next.StartTime = outTime;   
-        
-        Current = next;
+        Current = GetNext();
     }
 
-    //private Phase GetNext()
-    //{
-    //    var currentIndex = this.IndexOf(Current);
-    //    return this[++currentIndex];
-    //}
-
-    public override string ToString()
+    private Phase GetNext()
     {
-        var completed = this.Count(x => x.IsComplete());
-        return $"{Distance}{"km".Localize()}: {completed}/{this.Count}";
+        var currentIndex = this.IndexOf(Current);
+        return this[++currentIndex];
     }
 }
