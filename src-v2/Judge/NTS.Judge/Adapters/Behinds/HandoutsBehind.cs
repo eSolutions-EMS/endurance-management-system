@@ -1,5 +1,6 @@
 ﻿using Not.Application.Ports.CRUD;
 using Not.Blazor.Ports.Behinds;
+using Not.Collections;
 using Not.Concurrency;
 using Not.Events;
 using Not.Exceptions;
@@ -71,11 +72,13 @@ public class HandoutsBehind : ObservableBehind, IHandoutsBehind
 
     public async void CreateHandout(PhaseCompleted phaseCompleted)
     {
-        await _semaphore.WaitAsync();
-
         var @event = await _events.Read(0);
         var officials = await _officials.ReadAll();
         GuardHelper.ThrowIfDefault(@event);
+
+        await _semaphore.WaitAsync();
+
+        await HandleExistingHandout(phaseCompleted);
 
         var handout = new Handout(phaseCompleted.Participation);
         await _handoutRepository.Create(handout);
@@ -84,6 +87,16 @@ public class HandoutsBehind : ObservableBehind, IHandoutsBehind
         _documents.Add(document);
 
         _semaphore.Release();
+    }
+
+    private async Task HandleExistingHandout(PhaseCompleted phaseCompleted)
+    {
+        var existing = await _handoutRepository.Read(x => x.ParticipationId == phaseCompleted.Participation.Id);
+        if (existing != null)
+        {
+            await _handoutRepository.Delete(existing);
+            _documents.RemoveIfExisting(x => x.Tandem.Number == phaseCompleted.Participation.Tandem.Number);
+        }
     }
 
     public async Task<Participation?> GetParticipation(int id)
