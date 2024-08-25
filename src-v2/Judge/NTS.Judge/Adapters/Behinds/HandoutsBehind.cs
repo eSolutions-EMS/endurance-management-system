@@ -87,6 +87,8 @@ public class HandoutsBehind : ObservableBehind, IHandoutsBehind
         _documents.Add(document);
 
         _semaphore.Release();
+
+        EmitChange();
     }
 
     private async Task HandleExistingHandout(PhaseCompleted phaseCompleted)
