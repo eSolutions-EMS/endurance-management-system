@@ -115,6 +115,17 @@ public class Phase : DomainEntity, IPhaseState
         return AverageSpeed < minSpeed || AverageSpeed > maxSpeed;
     }
 
+    internal void RequestRequiredInspection()
+    {
+        if (IsCRIRequested)
+        {
+            throw new DomainException("Required inspection is not valid, because there is already " +
+                "a Compulsory required inspection for this participation");
+        }
+
+        IsRIRequested = true;
+    }
+
     internal void DisableReinspection()
     {
         GuardHelper.ThrowIfDefault(IsReinspectionRequested);

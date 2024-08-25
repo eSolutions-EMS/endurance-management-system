@@ -94,7 +94,14 @@ public class Participation : DomainEntity, IAggregateRoot
 
     public void ChangeRequiredInspection(bool isRequested)
     {
-        Phases.Current.IsRIRequested = isRequested;
+        if (!isRequested)
+        {
+            Phases.Current.RequestRequiredInspection();
+        }
+        else
+        {
+            Phases.Current.IsRIRequested = isRequested;
+        }
     }
 
     public void Withdraw()
