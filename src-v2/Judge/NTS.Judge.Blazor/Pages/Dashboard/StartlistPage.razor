@@ -1,7 +1,7 @@
 ﻿@using NTS.Domain.Core.Objects
 @using NTS.Judge.Blazor.Ports
 @using System.Collections
-@using System.Timers
+@using Not.Blazor.TM
 
 @attribute [Route(STARTLIST_PAGE)]
 @inherits NotComponent
@@ -32,6 +32,7 @@
                                     {
                                         <td>@x</td>
                                     }
+                                    <td><NotTimer StartTime="@row.StartIn()" StopTimerAtTime="-15"/></td>
                                 </tr>
                             }
                         </tbody>
