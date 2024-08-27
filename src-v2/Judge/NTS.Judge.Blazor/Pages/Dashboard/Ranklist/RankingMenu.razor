@@ -27,13 +27,9 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Observe(_behind);
+        await Observe(_behind);
 
         var rankings = await _behind.GetRankings();
         _rankingsByDistance = rankings.GroupBy(x => x.Name);
-        if (rankings.Any())
-        {
-            await _behind.SelectRanking(rankings.First().Id);
-        }
     }
 }
