@@ -41,7 +41,7 @@ public class HandoutsBehind : ObservableBehind, IHandoutsBehind
         EventHelper.Subscribe<PhaseCompleted>(CreateHandout);
     }
 
-    public override async Task Initialize()
+    protected override async Task PerformInitialization()
     {
         var handouts = await _handoutRepository.ReadAll();
         var participations = await _participations.ReadAll(x => handouts.Any(y => y.ParticipationId == x.Id));
