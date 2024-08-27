@@ -15,16 +15,21 @@ public abstract class ObservableBehind : IObservableBehind
 
     public async Task Initialize()
     {
-        await _semaphore.WaitAsync();
-        
-        if (_isInitialized)
+        try
         {
-            return;
-        }
-        await PerformInitialization();
-        _isInitialized = true;
+            await _semaphore.WaitAsync();
 
-        _semaphore.Release();
+            if (_isInitialized)
+            {
+                return;
+            }
+            await PerformInitialization();
+            _isInitialized = true;
+        }
+        finally
+        {
+            _semaphore.Release();
+        }
     }
     
     public void Subscribe(Func<Task> action)
