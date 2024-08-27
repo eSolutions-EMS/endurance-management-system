@@ -2,6 +2,7 @@
 @using NTS.Judge.Blazor.Ports
 @using System.Collections
 @using Not.Blazor.TM
+@using Not.Extensions
 
 @attribute [Route(STARTLIST_PAGE)]
 @inherits NotComponent
@@ -65,7 +66,7 @@
             @foreach (var row in grouping.OrderBy(x => x.TotalDistance).DistinctBy(x=>x.TotalDistance))
             {
                 TabView tab = new TabView();
-                tab.Label = $"{row.TotalDistance} {@Localizer.Get("KM")}";
+                tab.Label = $"{row.TotalDistance.FloorWholeNumberToTens()} {@Localizer.Get("KM")}";
                 tab.Id = Guid.NewGuid();
                 UserTabs.Add(tab);
                 groupedData.Add(row);
