@@ -8,4 +8,9 @@ public abstract class NotHeadlineBase : MudText
 {
     [Inject]
     private ILocalizer _localizer { get; set; } = default!;
+
+    protected NotHeadlineBase()
+    {
+        Align = Align.Center;
+    }
 }
