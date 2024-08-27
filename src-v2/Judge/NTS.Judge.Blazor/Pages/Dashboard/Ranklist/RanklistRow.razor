@@ -76,7 +76,7 @@
     [Inject]
     IParticipationBehind _behind { get; set; } = default!;
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
         var participation = await _behind.Get(Entry.ParticipationId);
         GuardHelper.ThrowIfDefault(participation);
