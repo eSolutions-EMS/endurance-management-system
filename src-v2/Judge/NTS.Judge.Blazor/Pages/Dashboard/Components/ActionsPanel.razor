@@ -148,14 +148,14 @@
     private async void ToggleReinspection(bool value)
     {
         ReinspectionToggled = value;
-        _participationBehind.SelectedParticipation?.ReinspectionRequested(value);
+        _participationBehind.SelectedParticipation?.RequestReinspection(value);
         await InvokeAsync(StateHasChanged); // TODO test without as it should re-render on its own
     }
 
     private async void ToggleRequiredInspection(bool value)
     {
         RequiredInspectionToggled = value;
-        _participationBehind.SelectedParticipation?.RIRequested(value);
+        _participationBehind.SelectedParticipation?.RequestRequiredInspection(value);
         await InvokeAsync(StateHasChanged); // TODO test without
     }
 

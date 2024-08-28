@@ -91,13 +91,13 @@ public class Participation : DomainEntity, IAggregateRoot
         }
     }
 
-    public void ReinspectionRequested(bool requested)
+    public void RequestReinspection(bool requested)
     {
         GuardHelper.ThrowIfDefault(Phases.Current);
         Phases.Current.IsReinspectionRequested = requested;
     }
 
-    public void RIRequested(bool requested)
+    public void RequestRequiredInspection(bool requested)
     {
         GuardHelper.ThrowIfDefault(Phases.Current);
         Phases.Current.IsRIRequested = !Phases.Current.IsRIRequested;
