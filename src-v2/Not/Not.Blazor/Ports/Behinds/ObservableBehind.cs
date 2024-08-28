@@ -38,7 +38,7 @@ public abstract class ObservableBehind : IObservableBehind
     
     public void Subscribe(Func<Task> action)
     {
-        _stateChanged.Subscribe(async () => await action());
+        _stateChanged.Subscribe(action);
     }
 
     protected void EmitChange()
