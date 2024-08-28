@@ -41,7 +41,7 @@ public class HandoutsBehind : ObservableBehind, IHandoutsBehind
         EventHelper.Subscribe<PhaseCompleted>(CreateHandout);
     }
 
-    protected override async Task PerformInitialization()
+    protected override async Task<bool> PerformInitialization()
     {
         var handouts = await _handoutRepository.ReadAll();
         var participations = await _participations.ReadAll(x => handouts.Any(y => y.ParticipationId == x.Id));
@@ -54,7 +54,9 @@ public class HandoutsBehind : ObservableBehind, IHandoutsBehind
             enduranceEvent, 
             officials));
         _documents = new(documents);
+        
         EmitChange();
+        return true;
     }
     
     // TODO: we need a separete list and delete method that executes only after print is initiated,

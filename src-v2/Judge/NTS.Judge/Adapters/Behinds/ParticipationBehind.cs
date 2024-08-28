@@ -27,10 +27,11 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
     // TODO: we need a better solution to load items as they have been changed in addition to load on startup.
     // Example case: importing previous data: as it is currently we have to restart the app after import
     // Maybe some sort of observable repositories?
-    protected override async Task PerformInitialization()
+    protected override async Task<bool> PerformInitialization()
     {
         Participations = await _participationRepository.ReadAll();
         SelectedParticipation = Participations.FirstOrDefault();
+        return Participations.Any();
     }
 
     public void SelectParticipation(int number)

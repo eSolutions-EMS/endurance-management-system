@@ -20,14 +20,15 @@ public class RanklistBehind : ObservableBehind, IRanklistBehind
     }
     public Ranklist? Ranklist { get; private set; }
 
-    protected override async Task PerformInitialization()
+    protected override async Task<bool> PerformInitialization()
     {
         var ranking = await _rankings.Read(x => true);
         if (ranking == null)
         {
-            return;
+            return false;
         }
         Ranklist = await CreateRanklist(ranking);
+        return true;
     }
 
     public async Task<IEnumerable<Ranking>> GetRankings()

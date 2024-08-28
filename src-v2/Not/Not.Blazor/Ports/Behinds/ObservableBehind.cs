@@ -11,7 +11,12 @@ public abstract class ObservableBehind : IObservableBehind
     bool _isInitialized;
     private readonly IEventManager _stateChanged = new EventManager();
 
-    protected abstract Task PerformInitialization();
+    /// <summary>
+    /// Initialize the state of an ObservableBehind. 
+    /// If the state has been initialized successfully It cannot be initialized again.
+    /// </summary>
+    /// <returns>Indicates weather or not the state has been initialized successfully</returns>
+    protected abstract Task<bool> PerformInitialization();
 
     public async Task Initialize()
     {
@@ -23,8 +28,7 @@ public abstract class ObservableBehind : IObservableBehind
             {
                 return;
             }
-            await PerformInitialization();
-            _isInitialized = true;
+            _isInitialized = await PerformInitialization();
         }
         finally
         {

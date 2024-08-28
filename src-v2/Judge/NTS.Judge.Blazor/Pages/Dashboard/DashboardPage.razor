@@ -41,5 +41,7 @@
         using var stringReader = new StreamReader(stream);
         var contents = await stringReader.ReadToEndAsync();
         await _importBehind.ImportCore(contents);
+        
+        await _participationBehind.Initialize();
     }
 }
