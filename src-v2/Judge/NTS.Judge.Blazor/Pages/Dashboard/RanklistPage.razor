@@ -1,15 +1,29 @@
 ﻿@using NTS.Judge.Blazor.Pages.Dashboard.Ranklist
+@using NTS.Judge.Blazor.Ports
+@using Not.Blazor.TM.Pages
 
 @attribute [Route(RANKLIST_PAGE)]
 @inherits NotComponent
 
-<NotTitle Content="Ranklist" />
+<NotPage Title="Ranklist" HasContent="_behind.Ranklist != null" EmptyMessage="The Event isn't started yet :)">
+    @* // TODO: Add Start button in EmptyContent *@
 
-<MudGrid Style="margin-top:0 !important;">
-    <MudItem xs="9">
+    <Main>
         <RanklistTable />
-    </MudItem>
-    <MudItem xs="3">
+    </Main>
+
+    <Rightbar>
         <RankingMenu />
-    </MudItem>
-</MudGrid>
+    </Rightbar>
+
+</NotPage>
+
+@code {
+    [Inject]
+    IRanklistBehind _behind { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Observe(_behind);
+    }
+}
