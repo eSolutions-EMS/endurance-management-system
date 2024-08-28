@@ -1,0 +1,70 @@
+﻿@using Not.Blazor.Components
+@using Not.Blazor.Mud.Components
+
+@inherits NotComponent
+
+<MudGrid Style="margin-top:0 !important;" Spacing="4">
+    
+    <MudItem xs="12">
+        <NotTitle Content="@Title" />
+    </MudItem>
+
+    @if (!HasContent)
+    {
+        <MudItem xs="12">
+            <MudPaper Elevation="3" Class="pa-12" Style="min-height:500px">
+                <NotTrueCenterText Typo="Typo.h5" Content="@EmptyMessage" />
+
+                @if (EmptyContent != null)
+                {
+                    @EmptyContent
+                }
+            </MudPaper>
+        </MudItem>
+    }
+    else
+    {
+        <MudItem xs="@mainXs" Class="not-page-content">
+            <MudPaper Elevation="3" Class="pl-4 pr-4 pb-4">
+                @Main
+            </MudPaper>
+        </MudItem>
+
+        @if (Rightbar != null)
+        {
+            <MudItem xs="@RightBarXS" Class="not-page-rightbar">
+                @Rightbar
+            </MudItem>
+        }
+    }
+</MudGrid>
+
+@code {
+    const int GRID_MAX_WIDTH = 12;
+
+    int mainXs => Rightbar == null
+        ? GRID_MAX_WIDTH
+        : GRID_MAX_WIDTH - RightBarXS;
+
+    [Parameter]
+    public string Title { get; set; } = default!;
+    [Parameter]
+    public RenderFragment? Main { get; set; } = default!;
+    [Parameter]
+    public RenderFragment? Rightbar { get; set; } = default!;
+    [Parameter]
+    public int RightBarXS { get; set; } = 3;
+    [Parameter]
+    public bool HasContent { get; set; }
+    [Parameter]
+    public string EmptyMessage { get; set; } = "Page is empty :)";
+    [Parameter]
+    public RenderFragment? EmptyContent { get; set; }
+}
+
+<style>
+    .not-page-content > .mud-paper > .mud-grid > .mud-grid-item,
+    .not-page-rightbar > .mud-grid > .mud-grid-item {
+        padding-top:0;
+    }
+</style>
