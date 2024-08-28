@@ -19,14 +19,16 @@
     <MudPaper Class="d-flex flex-column mb-4" Elevation="0">
         <MudTextField @ref="timeInput" @bind-Value="TimeValue" T="string" Label="Time" Mask="@(new PatternMask("00:00:00"))" Class="one-third-width" />
     </MudPaper>
-    <MudPaper Class="@("d-flex flex-row mb-4 "+CheckboxDisplay)" Elevation="0">
-        <MudCheckBox T="bool" Value="ReinspectionToggled" ValueChanged="ToggleReinspection" Color="Color.Secondary">
-            <MudIcon Class="pt-3" Style="margin-left: -12px;" Icon="@Icons.Material.Filled._360" V />Reinspection
-        </MudCheckBox>
-        <MudCheckBox T="bool" Value="ReqInsToggled" ValueChanged="ToggleReqIns" Color="Color.Primary">
-            <MudIcon Class="pt-3" Style="margin-left: -12px;" Icon="@Icons.Material.Filled.HourglassEmpty" />Required Inspection
-        </MudCheckBox>
-    </MudPaper>
+    <MudCollapse Expanded="_inspectionActionsExpanded">
+        <MudPaper Class="@("d-flex flex-row mb-4 ")" Elevation="0">
+            <MudCheckBox T="bool" Value="ReinspectionToggled" ValueChanged="ToggleReinspection" Color="Color.Secondary">
+                <MudIcon Class="pt-3" Style="margin-left: -12px;" Icon="@Icons.Material.Filled._360" V />Reinspection
+            </MudCheckBox>
+            <MudCheckBox T="bool" Value="RequiredInspectionToggled" ValueChanged="ToggleRequiredInspection" Color="Color.Primary">
+                <MudIcon Class="pt-3" Style="margin-left: -12px;" Icon="@Icons.Material.Filled.HourglassEmpty" />Required Inspection
+            </MudCheckBox>
+        </MudPaper>
+    </MudCollapse>
     <MudPaper Class="d-flex flex-column mb-2" Elevation="0">
         <MudToggleGroup @ref="toggleGroup" T="string" TextClass="@SmallTextClass" Delimiters="true" Color="Color.Error" Rounded="true"
             SelectionMode="SelectionMode.ToggleSelection" Style="width: 20rem" ValueChanged="OnToggle" Value="ToggleGroupSelection">
@@ -36,16 +38,20 @@
             <MudToggleItem Text="Disqualified" Value="@("Disqualified")" />
             <MudToggleItem Text="Failed to Qualify" Value="@("FailedToQualify")" />
         </MudToggleGroup>
-        <MudSelect @ref="multiSelect" T="string" Class="@MultiSelectClasses" Label="Failed to Qualify Reason" MultiSelection="true" Delimiter="+" Value="@FTQReasonValue" ValueChanged="OnChange" Placeholder="Select a reason">
-            @foreach (var failToQualifyCode in SelectListModel.SelectList<FTQCodes>())
-            {
-                <MudSelectItem T="string" Value="@failToQualifyCode.Value">
-                    @failToQualifyCode.Value
-                    <div class="font-size-10">@failToQualifyCode.Description</div>
-                </MudSelectItem>
-            }
-        </MudSelect>
-        <MudTextField @ref="reasonInput" @bind-Value="Reason" Class="@ReasonClasses" Label="Reason" Variant="Variant.Outlined"></MudTextField>
+        <MudCollapse Expanded="_multiSelectReasonExpanded">
+            <MudSelect @ref="multiSelect" T="string" Label="Failed to Qualify Reason" MultiSelection="true" Delimiter="+" Value="@FTQReasonValue" ValueChanged="OnChange" Placeholder="Select a reason">
+                @foreach (var failToQualifyCode in SelectListModel.SelectList<FTQCodes>())
+                {
+                    <MudSelectItem T="string" Value="@failToQualifyCode.Value">
+                        @failToQualifyCode.Value
+                        <div class="font-size-10">@failToQualifyCode.Description</div>
+                    </MudSelectItem>
+                }
+            </MudSelect>
+        </MudCollapse>
+        <MudCollapse Expanded="_reasonExpanded">
+            <MudTextField @ref="reasonInput" @bind-Value="Reason" Label="Reason" Variant="Variant.Outlined"></MudTextField>
+        </MudCollapse>
     </MudPaper>
 
     <MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Update">
@@ -66,14 +72,14 @@
     private MudSelect<string> multiSelect = default!;
     private string TimeValue = default!;
     private bool ReinspectionToggled = false;
-    private bool ReqInsToggled = false;
+    private bool RequiredInspectionToggled = false;
     private string ToggleGroupSelection = "";
 
     private bool _rerenderReasonInputs = false;
     private string SmallTextClass = "font-size-10";
-    private string CheckboxDisplay = "hidden";
-    private string ReasonClasses = "hidden";
-    private string MultiSelectClasses = "hidden";
+    private bool _inspectionActionsExpanded = false;
+    private bool _reasonExpanded = false;
+    private bool _multiSelectReasonExpanded = false;
     private string Reason = "";
     private string FTQReasonValue = "";
 
@@ -91,49 +97,49 @@
         var phaseState = _selectedParticipation.GetPhaseState();
         if(phaseState == PhaseState.Presented)
         {
-            CheckboxDisplay = "";
+            _inspectionActionsExpanded = true;
         }
         else
         {
-            CheckboxDisplay = "hidden";
+            _inspectionActionsExpanded = false;
         }
         TimeValue = "00:00:00";
         ReinspectionToggled = _currentPhase?.IsReinspectionRequested ?? false;
-        ReqInsToggled = _currentPhase?.IsRIRequested ?? false;
+        RequiredInspectionToggled = _currentPhase?.IsRIRequested ?? false;
         switch (_notQualified)
         {
             case Withdrawn:
                 ToggleGroupSelection = "Withdrawn";
-                ReasonClasses = "hidden";
-                MultiSelectClasses = "hidden";
+                _reasonExpanded = false;
+                _multiSelectReasonExpanded = false;
                 break;
             case Retired:
                 ToggleGroupSelection = "Retired";
-                ReasonClasses = "hidden";
-                MultiSelectClasses = "hidden";
+                _reasonExpanded = false;
+                _multiSelectReasonExpanded = false;
                 break;
             case FinishedNotRanked:
                 ToggleGroupSelection = "FinishedNotRanked";
                 Reason = _notQualified.Complement!;
-                ReasonClasses = "";
-                MultiSelectClasses = "hidden";
+                _reasonExpanded = true;
+                _multiSelectReasonExpanded = false;
                 break;
             case Disqualified:
                 ToggleGroupSelection = "Disqualified";
                 Reason = _notQualified.Complement!;
-                ReasonClasses = "";
-                MultiSelectClasses = "hidden";
+                _reasonExpanded = true;
+                _multiSelectReasonExpanded = false;
                 break;
             case FailedToQualify:
                 ToggleGroupSelection = "FailedToQualify";
                 FTQReasonValue = _notQualified.ToString();
                 FTQReasonValue = FTQReasonValue.Replace("FTQ ", "");
-                MultiSelectClasses = "";
-                ReasonClasses = "hidden";
+                _reasonExpanded = false;
+                _multiSelectReasonExpanded = true;
                 if (FTQReasonValue.Contains("FTC"))
                 {
                     Reason = _selectedParticipation?.NotQualified.Complement!;
-                    ReasonClasses = "";
+                    _reasonExpanded = true;
                 }
                 break;
         }
@@ -146,22 +152,21 @@
         await InvokeAsync(StateHasChanged); // TODO test without as it should re-render on its own
     }
 
-    private async void ToggleReqIns(bool value)
+    private async void ToggleRequiredInspection(bool value)
     {
-        ReqInsToggled = value;
+        RequiredInspectionToggled = value;
         _participationBehind.SelectedParticipation?.RIRequested(value);
         await InvokeAsync(StateHasChanged); // TODO test without
     }
 
-    public void AddInput(ref string inputClass)
+    public void ExpandInput(bool expandedSection)
     {
-        if (inputClass.Length > 0)
+        if (!expandedSection)
         {
-            inputClass = "";
+            expandedSection = true;
         }
         else
         {
-            inputClass = "hidden";
             Reason = "";
         }
         InvokeAsync(StateHasChanged);
@@ -169,8 +174,8 @@
 
     private void HideInput()
     {
-        ReasonClasses = "hidden";
-        MultiSelectClasses = "hidden";
+        _reasonExpanded = false;
+        _multiSelectReasonExpanded = false;
     }
 
     public void OnChange(string reason)
@@ -178,7 +183,7 @@
         FTQReasonValue = reason;
         if (reason.Contains("FTC"))
         {
-            AddInput(ref ReasonClasses);
+            ExpandInput(_reasonExpanded);
         }
     }
 
@@ -187,12 +192,12 @@
         HideInput();
         if(value == "FinishedNotRanked" || value == "Disqualified")
         {
-            AddInput(ref ReasonClasses);
+            ExpandInput(_reasonExpanded);
 
         }
         else if(value == "FailedToQualify")
         {
-            AddInput(ref MultiSelectClasses);   
+            ExpandInput(_multiSelectReasonExpanded);   
         }
         ToggleGroupSelection = value;
     }
@@ -253,15 +258,6 @@
     public async Task Update()
     {
         var participation = _participationBehind.SelectedParticipation;
-        PhaseState phaseState;
-        if (participation == null)
-        {
-            return;
-        }
-        else
-        {
-            phaseState = participation.GetPhaseState();
-        }
         if (TimeValue!="00:00:00")
         {
             var convertedInput = TimeSpan.Parse(TimeValue);

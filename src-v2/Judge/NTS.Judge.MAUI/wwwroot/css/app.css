@@ -19,10 +19,6 @@
     width: 30%;
 }
 
-.hidden{
-    display: none !important;
-}
-
 .children-component{
     margin-top:10px;
 }
