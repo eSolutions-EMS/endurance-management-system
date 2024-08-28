@@ -7,7 +7,7 @@ namespace Not.Blazor.Mud.Components.Base;
 public abstract class NotHeadlineBase : MudText
 {
     [Inject]
-    private ILocalizer _localizer { get; set; } = default!;
+    protected ILocalizer Localizer { get; set; } = default!;
 
     protected NotHeadlineBase()
     {

@@ -7,7 +7,7 @@
 @inherits NotComponent
 
 <MudPaper Elevation="0">
-    <NotH2>@Localizer.Get("Update Horse")</NotH2>
+    <NotTitle Content="Update Horse" />
     <NotFormUpdate T="Horse" TForm="HorseForm" Entity="_navigator.ConsumeParameter<Horse>()" UpdateAction="Update"  />
 </MudPaper>
 

@@ -7,7 +7,7 @@
 @attribute [Route(DASHBOARD_PAGE)]
 @inherits NotComponent
 
-<NotH1>@Localizer.Get("Dashboard")</NotH1>
+<NotTitle Content="Dashboard" />
 
 @if (!_participationBehind.Participations.Any())
 {
