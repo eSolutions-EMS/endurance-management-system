@@ -6,9 +6,8 @@ public static class EnumHelper
 {
     public static string GetDescription(this Enum value)
     {
-        var type = ReflectionHelper.GetType(value);
-        var field = ReflectionHelper.GetField(type,value);
-        DescriptionAttribute descriptionAttribute = field.GetCustomAttributes(typeof(DescriptionAttribute), false)
+        var type = value.GetType();
+        var descriptionAttribute = ReflectionHelper.GetEnumField(type, value)?.GetCustomAttributes(typeof(DescriptionAttribute), false)
                                                              .FirstOrDefault() as DescriptionAttribute;
         return descriptionAttribute == null ? value.ToString() : descriptionAttribute.Description;
     }
