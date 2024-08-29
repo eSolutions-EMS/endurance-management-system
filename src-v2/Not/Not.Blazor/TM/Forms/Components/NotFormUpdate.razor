@@ -7,13 +7,13 @@
 @typeparam T where T : DomainEntity;
 @typeparam TForm where TForm : NotForm<T>;
 
-<MudCard Elevation="0">
+<MudContainer Style="max-width:600px; margin:auto;">
     <NotDynamic T="TForm" @ref="_notUpdate" />
-</MudCard>
 
-<MudButton Class="mt-4" Variant="Variant.Filled" Color="Color.Primary" OnClick="Update">
-    @Localizer.Get("Update")
-</MudButton>
+    <MudButton Class="mt-4" Variant="Variant.Filled" Color="Color.Primary" OnClick="Update">
+        @Localizer.Get("Update")
+    </MudButton>
+</MudContainer>
 
 @code {
     private NotDynamic<TForm>? _notUpdate;
