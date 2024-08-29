@@ -1,0 +1,145 @@
+﻿@using NTS.Domain.Core.Aggregates.Participations
+@using NTS.Judge.Blazor.Enums
+@using NTS.Judge.Blazor.Ports
+@using Not.Structures
+
+<h3>EliminationsPanel</h3>
+
+<MudPaper Class="d-flex flex-column mb-2" Elevation="0">
+    <MudToggleGroup @ref="toggleGroup" T="string" TextClass="@SmallTextClass" Delimiters="true" Color="Color.Error" Rounded="true"
+                    SelectionMode="SelectionMode.ToggleSelection" Style="width: 20rem" ValueChanged="OnToggle" Value="ToggleGroupSelection">
+        <MudToggleItem Text="Withdrawn" Value="@("Withdrawn")" />
+        <MudToggleItem Text="Retired" Value="@("Retired")" />
+        <MudToggleItem Text="Finished Not Ranked" Value="@("FinishedNotRanked")" />
+        <MudToggleItem Text="Disqualified" Value="@("Disqualified")" />
+        <MudToggleItem Text="Failed to Qualify" Value="@("FailedToQualify")" />
+    </MudToggleGroup>
+    <MudCollapse Expanded="_multiSelectReasonExpanded">
+        <MudSelect @ref="multiSelect" T="string" Label="Failed to Qualify Reason" MultiSelection="true" Delimiter="+" Value="@FTQReasonValue" ValueChanged="OnChange" Placeholder="Select a reason">
+            @foreach (var failToQualifyCode in SelectListModel.SelectList<FTQCodes>())
+            {
+                <MudSelectItem T="string" Value="@failToQualifyCode.Value">
+                    @failToQualifyCode.Value
+                    <div class="font-size-10">@failToQualifyCode.Description</div>
+                </MudSelectItem>
+            }
+        </MudSelect>
+    </MudCollapse>
+    <MudCollapse Expanded="_reasonExpanded">
+        <MudTextField @ref="reasonInput" @bind-Value="Reason" Label="Reason" Variant="Variant.Outlined"></MudTextField>
+    </MudCollapse>
+</MudPaper>
+
+@code {
+
+    [Inject]
+    IParticipationBehind _participationBehind { get; set; } = default!;
+
+    private MudToggleGroup<string> toggleGroup = default!;
+    private MudTextField<string> reasonInput = default!;
+    private MudSelect<string> multiSelect = default!;
+    private string SmallTextClass = "font-size-10";
+
+    private string ToggleGroupSelection = "";
+    private bool _reasonExpanded = false;
+    private bool _multiSelectReasonExpanded = false;
+    private string Reason = "";
+    private string FTQReasonValue = "";
+
+    public void ExpandInput(bool expandedSection)
+    {
+        if (!expandedSection)
+        {
+            expandedSection = true;
+        }
+        else
+        {
+            Reason = "";
+        }
+        InvokeAsync(StateHasChanged);
+    }
+
+    private void HideInput()
+    {
+        _reasonExpanded = false;
+        _multiSelectReasonExpanded = false;
+    }
+
+    public void OnChange(string reason)
+    {
+        FTQReasonValue = reason;
+        if (reason.Contains("FTC"))
+        {
+            ExpandInput(_reasonExpanded);
+        }
+    }
+
+    public void OnToggle(string value)
+    {
+        HideInput();
+        if (value == "FinishedNotRanked" || value == "Disqualified")
+        {
+            ExpandInput(_reasonExpanded);
+
+        }
+        else if (value == "FailedToQualify")
+        {
+            ExpandInput(_multiSelectReasonExpanded);
+        }
+        ToggleGroupSelection = value;
+    }
+
+    public async Task UpdateParticipant()
+    {
+        if (_participationBehind.SelectedParticipation == null)
+        {
+            return;
+        }
+        var tandemNumber = _participationBehind.SelectedParticipation.Tandem.Number;
+
+        if (ToggleGroupSelection == "Withdrawn")
+        {
+            await _participationBehind.RevokeQualification(tandemNumber, QualificationRevokeType.Withdraw);
+        }
+        else if (ToggleGroupSelection == "Retired")
+        {
+            await _participationBehind.RevokeQualification(tandemNumber, QualificationRevokeType.Retire);
+        }
+        else if (ToggleGroupSelection == "FinishedNotRanked")
+        {
+            await _participationBehind.RevokeQualification(tandemNumber, QualificationRevokeType.FinishNotRanked, reasonInput.Value);
+        }
+        else if (ToggleGroupSelection == "Disqualified")
+        {
+            await _participationBehind.RevokeQualification(tandemNumber, QualificationRevokeType.Disqualify, reasonInput.Value);
+        }
+        else if (ToggleGroupSelection == "FailedToQualify")
+        {
+            var multiselect_values = multiSelect.SelectedValues;
+            List<FTQCodes> codes = new List<FTQCodes>();
+            foreach (var value in multiselect_values)
+            {
+                codes.Add((FTQCodes)Enum.Parse(typeof(FTQCodes), value));
+            }
+            if (codes.Contains(FTQCodes.FTC) && (Reason == null || Reason == ""))
+            {
+                //TO DO: add validation message here
+                return;
+            }
+            else if (codes.Contains(FTQCodes.FTC))
+            {
+                await _participationBehind.RevokeQualification(tandemNumber, QualificationRevokeType.FailToCompleteLoop, Reason, codes.ToArray());
+            }
+            else if (!codes.Contains(FTQCodes.FTC))
+            {
+                HideInput();
+                await _participationBehind.RevokeQualification(tandemNumber, QualificationRevokeType.FailToQualify, null, codes.ToArray());
+            }
+        }
+        else
+        {
+            await _participationBehind.RestoreQualification(tandemNumber);
+        }
+        await InvokeAsync(StateHasChanged);
+    }
+}

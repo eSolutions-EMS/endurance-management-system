@@ -1,0 +1,51 @@
+﻿@using NTS.Domain.Objects
+@using NTS.Judge.Blazor.Ports
+<h3>TimeSnapshot</h3>
+
+
+<MudPaper Class="d-flex flex-column mb-4" Elevation="0">
+    <MudTextField @ref="timeInput" @bind-Value="TimeValue" T="string" Label="Time" Mask="@(new PatternMask("00:00:00"))" Class="one-third-width" />
+</MudPaper>
+
+@code {
+    [Inject]
+    IParticipationBehind _participationBehind { get; set; } = default!;
+    private MudTextField<string> timeInput = default!;
+    private string TimeValue = default!;
+
+    public Snapshot CreateSnapshot(DateTime timeStampDateTime)
+    {
+        var participation = _participationBehind.SelectedParticipation;
+        var currentPhase = participation!.Phases.Current;
+        var timestamp = new Timestamp(timeStampDateTime);
+
+        SnapshotType snapshotType;
+        SnapshotMethod snapshotMethod = SnapshotMethod.Manual;
+        //redo logic and test
+        if (currentPhase?.ArriveTime == null)
+        {
+            snapshotType = SnapshotType.Stage;
+        }
+        else if (currentPhase.InspectTime == null && currentPhase.IsFinal == false)
+        {
+            snapshotType = SnapshotType.Vet;
+        }
+        else
+        {
+            snapshotType = SnapshotType.Final;
+        }
+        Snapshot snapshot = new Snapshot(participation!.Tandem.Number, snapshotType, snapshotMethod, timestamp);
+        return snapshot;
+    }
+
+    public void Send()
+    {
+        if (TimeValue != "00:00:00")
+        {
+            var convertedInput = TimeSpan.Parse(TimeValue);
+            var time = DateTime.Today + convertedInput;
+            var snapshot = CreateSnapshot(time);
+            _participationBehind?.Process(snapshot);
+        }
+    }
+}
