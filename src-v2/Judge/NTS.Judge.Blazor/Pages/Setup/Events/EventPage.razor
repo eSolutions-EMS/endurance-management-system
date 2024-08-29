@@ -79,6 +79,5 @@
     async Task InitializeEnduranceEvent()
     {
         _event = await _behind.Initialize(0);
-        GuardHelper.ThrowIfDefault(_event);
     }
 }
