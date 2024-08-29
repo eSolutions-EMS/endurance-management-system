@@ -10,6 +10,7 @@
 @using Not.Blazor.TM
 @using Not.Blazor.TM.Forms.Components
 
+@attribute [Route(ENDURANCE_EVENT_PAGE)]
 @inherits NotComponent
 
 <MudPaper Elevation="0" Class="pa-6">
@@ -48,8 +49,11 @@
 
 @code {
     private Event _event = default!;
+
     [Inject]
     private INotBehind<Event> _behind { get; set; } = default!;
+    [Inject]
+    private IFormNavigator<Event, EventForm> _formNavigator { get; set; } = default!;
 
     protected override async Task OnInitializedAsync()
     {
@@ -58,5 +62,11 @@
 
         _event = @event;
         await _behind.Initialize(_event.Id);
+    }
+
+    private async Task RenderCreate()
+    {
+        await _formNavigator.Create();
+        await OnInitializedAsync();
     }
 }
