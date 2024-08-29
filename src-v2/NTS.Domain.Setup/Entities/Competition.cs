@@ -14,8 +14,15 @@ public class Competition : DomainEntity, ISummarizable, IParent<Contestant>, IPa
     private List<Contestant> _contestants = new();
 
     [JsonConstructor]
-    private Competition(int id, string name, CompetitionType type, DateTimeOffset startTime, int? criRecovery, IEnumerable<Phase> phases, IEnumerable<Contestant> contestants)
-        : this(name, type, startTime, criRecovery)
+    private Competition(int id) : base(id) { }
+    private Competition(
+        int id, 
+        string name, 
+        CompetitionType type,
+        DateTimeOffset startTime,
+        int? criRecovery,
+        IEnumerable<Phase> phases,
+        IEnumerable<Contestant> contestants) : this(name, type, startTime, criRecovery)
     {
         Id = id;
         _phases = phases.ToList();
@@ -27,7 +34,6 @@ public class Competition : DomainEntity, ISummarizable, IParent<Contestant>, IPa
         {
             throw new DomainException(nameof(type), "Competition Type is required");
         }
-
         if (startTime.DateTime < DateTime.Today)
         {
             throw new DomainException(nameof(DateTime), "Competition date cannot be in the past");
