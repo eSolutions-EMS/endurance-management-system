@@ -9,46 +9,56 @@
 @using NTS.Judge.Blazor.Pages.Setup.Combinations
 @using Not.Blazor.TM
 @using Not.Blazor.TM.Forms.Components
+@using Not.Blazor.TM.Pages
 
 @attribute [Route(ENDURANCE_EVENT_PAGE)]
 @inherits NotComponent
 
-<MudPaper Elevation="0" Class="pa-6">
-    <NotTitle Content="Update Endurance Event" />
-    <NotFormUpdate T="Event" TForm="EventForm" Entity="_event" UpdateAction="_behind.Update" />
-</MudPaper>
+<NotPage Title="Configure Endurance Event" HasContent="_event != null" EmptyMessage="Endurance Event is not created yet :)">
 
-<MudDivider />
+    <EmptyContent>
+        <NotButtonCreate OnClick="OpenCreateForm" />
+    </EmptyContent>
 
-<MudPaper Class="d-flex justify-space-between pr-6" Elevation="0">
-    <NotSetList Name="Officials" T="Official" TForm="OfficialForm" UpdateRoute="@OFFICIAL_UPDATE" />
-    <MudDivider Vertical="true" FlexItem="true" />
-    <NotSetList Name="Loops" T="Loop" TForm="LoopForm" UpdateRoute="@LOOP_UPDATE" />
-</MudPaper>
+    <Main>
+        <MudGrid Spacing="8" Style="margin-top:0!important;">
+            <MudItem xs="12">
+                <MudContainer Class="max-width:600px; margin:auto;">
+                    <NotFormUpdate T="Event" TForm="EventForm" Entity="_event!" UpdateAction="_behind.Update" />
+                </MudContainer>
+                <MudDivider Class="mt-4" />
+            </MudItem>
 
-<MudDivider />
+            <MudItem xs="12">
+                <CompetitionGrid />
+            </MudItem>
 
-<MudPaper Class="d-flex justify-space-between pr-6" Elevation="0">
-    <NotSetList Name="Athletes" T="Athlete" TForm="AthleteForm" UpdateRoute="@ATHLETE_UPDATE" />
-    <MudDivider Vertical="true" FlexItem="true" />
-    <NotSetList Name="Horses" T="Horse" TForm="HorseForm" UpdateRoute="@HORSE_UPDATE" />
-</MudPaper>
+            <MudItem xs="6">
+                <NotSetList Name="Officials" T="Official" TForm="OfficialForm" UpdateRoute="@OFFICIAL_UPDATE" />
+            </MudItem>
 
-<MudDivider />
+            <MudItem xs="6">
+                <NotSetList Name="Loops" T="Loop" TForm="LoopForm" UpdateRoute="@LOOP_UPDATE" />
+            </MudItem>
 
-<MudPaper Class="d-flex justify-space-between pr-6" Elevation="0">
-    <NotSetList Name="Combinations" T="Combination" TForm="CombinationForm" UpdateRoute="@COMBINATION_UPDATE"/>
-</MudPaper>
+            <MudItem xs="6">
+                <NotSetList Name="Athletes" T="Athlete" TForm="AthleteForm" UpdateRoute="@ATHLETE_UPDATE" />
+            </MudItem>
 
-<MudDivider />
+            <MudItem xs="6">
+                <NotSetList Name="Horses" T="Horse" TForm="HorseForm" UpdateRoute="@HORSE_UPDATE" />
+            </MudItem>
 
-<MudPaper Elevation="0">
-   <CompetitionGrid />
-</MudPaper>
+            <MudItem xs="12">
+                <NotSetList Name="Combinations" T="Combination" TForm="CombinationForm" UpdateRoute="@COMBINATION_UPDATE" />
+            </MudItem>
+        </MudGrid>
+    </Main>
 
+</NotPage>
 
 @code {
-    private Event _event = default!;
+    private Event? _event;
 
     [Inject]
     private INotBehind<Event> _behind { get; set; } = default!;
@@ -57,16 +67,18 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var @event = await _behind.Read(default);
-        GuardHelper.ThrowIfDefault(@event);
-
-        _event = @event;
-        await _behind.Initialize(_event.Id);
+        await InitializeEnduranceEvent();
     }
 
-    private async Task RenderCreate()
+    private async Task OpenCreateForm()
     {
         await _formNavigator.Create();
-        await OnInitializedAsync();
+        await InitializeEnduranceEvent();
+    }
+
+    async Task InitializeEnduranceEvent()
+    {
+        _event = await _behind.Initialize(0);
+        GuardHelper.ThrowIfDefault(_event);
     }
 }

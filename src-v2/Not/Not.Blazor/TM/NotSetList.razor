@@ -6,38 +6,43 @@
 @using Not.Services
 
 @inherits NotComponent
-
 @typeparam T where T : DomainEntity
 @typeparam TForm where TForm : NotForm<T>
 
-<MudPaper Elevation="0" Class="@Class">
-@if (Items != null && Items.Any())
-{
-    <NotH2 Class="pt-6 pl-6">@Name</NotH2>
-    <NotButtonCreate Class="mt-1 ml-6 mb-3" OnClick="CreateHandler" />
-    <MudDivider />
-    @foreach (var item in Items)
+<MudPaper Elevation="0" Class="pa-4">
+
+    <MudStack Row="true" Class="mb-2">
+        <NotH2>@Name</NotH2>
+        <MudSpacer />
+        <NotButtonCreate OnClick="CreateHandler" />
+    </MudStack>
+
+    @if (Items == null || !Items.Any())
     {
-        <div class="d-grid mt-1 ml-6 mb-1">
-            <div class="grid-row-1">@item</div>
-            <div class="grid-row-1 action-column">
-                <NotButtonUpdate  Size="Size.Small" OnClick="() => this._contestantNavigator.Update(UpdateRoute, item)">Update</NotButtonUpdate>
-                <NotButtonDelete Class="ml-1" Size="Size.Small" OnClick="() => DeleteHandler(item)" />
-            </div>
-        </div>
-        <MudDivider />
+        <MudText Typo="Typo.body1">@EmptyMessage</MudText>
     }
-}
-else
-{
-    <MudPaper Elevation="0">
-        <div class="pa-6">
-            <NotH2>@Name</NotH2>
-            <NotButtonCreate OnClick="CreateHandler" Class="toolbar-button" />
-            <p>@EmptyMessage</p>
-        </div>
-    </MudPaper>
-}
+    else
+    {
+        @foreach (var item in Items)    
+        {
+            <MudStack Row="true">
+                <MudText Typo="Typo.body1" Class="pa-4">@item</MudText>
+                <MudSpacer />
+                <MudIconButton Icon="@Icons.Material.Filled.Update"
+                               Color="Color.Primary"
+                               Variant="Variant.Text"
+                               Size="Size.Medium"
+                               OnClick="() => this._contestantNavigator.Update(UpdateRoute, item)" />
+
+                <MudIconButton Icon="@Icons.Material.Outlined.Delete"
+                               Color="Color.Error"
+                               Variant="Variant.Text"
+                               Size="Size.Medium"
+                               OnClick="() => DeleteHandler(item)" />
+            </MudStack>
+            <MudDivider />
+        }        
+    }
 </MudPaper>
 
 @code {
@@ -47,7 +52,6 @@ else
     public string UpdateRoute { get; set; } = default!;
 
     public string EmptyMessage { get; set; } = default!;
-    public string Class { get; set; } = default!;
     public IEnumerable<T> Items { get; set; } = default!;
 
     protected override async Task OnInitializedAsync()
@@ -56,13 +60,12 @@ else
         Name = Localizer.Get(Name);
         if(EmptyMessage == default)
         {
-
             string defaultMessage = $"No {Name.ToLower()} have been created for this event.";
             EmptyMessage = Localizer.Get(defaultMessage);
         }
-        Class += " children-component half-width";
         Items = await _setBehind.GetAll();
     }
+
     // TODO: Implement ObservableBehind pattern
     public async Task CreateHandler()
     {
@@ -70,6 +73,7 @@ else
         Items = await _setBehind.GetAll();
         await InvokeAsync(StateHasChanged);
     }
+
     public async Task DeleteHandler(T item)
     {
         await _setBehind.Delete(item);
