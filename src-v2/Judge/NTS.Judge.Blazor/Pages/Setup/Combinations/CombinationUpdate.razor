@@ -2,14 +2,18 @@
 @using Not.Blazor.Components;
 @using Not.Blazor.Navigation;
 @using Not.Blazor.TM.Forms.Components
+@using Not.Blazor.TM.Pages
 
 @attribute [Route(COMBINATION_UPDATE)]
 @inherits NotComponent
 
-<MudPaper Elevation="0">
-    <NotTitle Content="Update Combination" />
-    <NotFormUpdate T="Combination" TForm="CombinationForm" Entity="_navigator.ConsumeParameter<Combination>()" UpdateAction="Update" />
-</MudPaper>
+<NotPage Title="Configure Combination">
+
+    <Main>
+        <NotFormUpdate T="Combination" TForm="CombinationForm" Entity="_navigator.ConsumeParameter<Combination>()" UpdateAction="Update" />
+    </Main>
+
+</NotPage>
 
 @code {
     [Inject]

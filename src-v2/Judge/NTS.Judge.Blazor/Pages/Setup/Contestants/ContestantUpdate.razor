@@ -2,14 +2,18 @@
 @using Not.Blazor.Components;
 @using Not.Blazor.Navigation;
 @using Not.Blazor.TM.Forms.Components
+@using Not.Blazor.TM.Pages
 
 @attribute [Route(CONTESTANT_UPDATE)]
 @inherits NotComponent
 
-<MudPaper Elevation="0">
-    <NotTitle Content="Update Contestant" />
-    <NotFormUpdate T="Contestant" TForm="ContestantForm" Entity="_navigator.ConsumeParameter<Contestant>()" UpdateAction="Update" />
-</MudPaper>
+<NotPage Title="Configure Contestant">
+
+    <Main>
+        <NotFormUpdate T="Contestant" TForm="ContestantForm" Entity="_navigator.ConsumeParameter<Contestant>()" UpdateAction="Update" />
+    </Main>
+
+</NotPage>
 
 @code {
     private Contestant _contestant { get; set; } = default!;

@@ -2,14 +2,18 @@
 @using Not.Blazor.Components;
 @using Not.Blazor.Navigation;
 @using Not.Blazor.TM.Forms.Components
+@using Not.Blazor.TM.Pages
 
 @attribute [Route(HORSE_UPDATE)]
 @inherits NotComponent
 
-<MudPaper Elevation="0">
-    <NotTitle Content="Update Horse" />
-    <NotFormUpdate T="Horse" TForm="HorseForm" Entity="_navigator.ConsumeParameter<Horse>()" UpdateAction="Update"  />
-</MudPaper>
+<NotPage Title="Configure Horse">
+
+    <Main>
+        <NotFormUpdate T="Horse" TForm="HorseForm" Entity="_navigator.ConsumeParameter<Horse>()" UpdateAction="Update" />
+    </Main>
+
+</NotPage>
 
 @code{
     private Horse _horse {get; set;} = default!;

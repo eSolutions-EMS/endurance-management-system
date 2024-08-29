@@ -2,14 +2,18 @@
 @using Not.Blazor.Components;
 @using Not.Blazor.Navigation;
 @using Not.Blazor.TM.Forms.Components
+@using Not.Blazor.TM.Pages
 
 @attribute [Route(PHASE_UPDATE)]
 @inherits NotComponent
 
-<MudPaper Elevation="0">
-    <NotTitle Content="Update Phase" />
-    <NotFormUpdate T="Phase" TForm="PhaseForm" Entity="_navigator.ConsumeParameter<Phase>()" UpdateAction="Update" />
-</MudPaper>
+<NotPage Title="Configure Phase">
+
+    <Main>
+        <NotFormUpdate T="Phase" TForm="PhaseForm" Entity="_navigator.ConsumeParameter<Phase>()" UpdateAction="Update" />
+    </Main>
+
+</NotPage>
 
 @code {
     [Inject]

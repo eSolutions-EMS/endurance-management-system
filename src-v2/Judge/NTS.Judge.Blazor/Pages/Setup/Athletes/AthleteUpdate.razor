@@ -2,14 +2,18 @@
 @using Not.Blazor.Components;
 @using Not.Blazor.Navigation;
 @using Not.Blazor.TM.Forms.Components
+@using Not.Blazor.TM.Pages
 
 @attribute [Route(ATHLETE_UPDATE)]
 @inherits NotComponent
 
-<MudPaper Elevation="0">
-    <NotTitle Content="Update Athlete" />
-    <NotFormUpdate T="Athlete" TForm="AthleteForm" Entity="_navigator.ConsumeParameter<Athlete>()" UpdateAction="Update" />
-</MudPaper>
+<NotPage Title="Configure Athlete">
+
+    <Main>
+        <NotFormUpdate T="Athlete" TForm="AthleteForm" Entity="_navigator.ConsumeParameter<Athlete>()" UpdateAction="Update" />
+    </Main>
+
+</NotPage>
 
 @code {
     [Inject]
