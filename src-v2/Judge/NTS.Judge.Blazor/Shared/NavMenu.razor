@@ -1,17 +1,17 @@
 
+@inherits NotComponent
 
-@* TODO: // Inherit NotComponent and use Localizer *@
 <MudNavMenu>
-    <MudNavGroup Title="Setup" Expanded="true">
-        <MudNavLink Href="@ENDURANCE_EVENT_PAGE" Match="NavLinkMatch.All">Setup</MudNavLink>
-        <MudNavLink Href="@ATHLETES_HORSES_PAGE" Match="NavLinkMatch.Prefix">Athletes & Horses</MudNavLink>
-        <MudNavLink Href="@COMBINATIONS_PAGE" Match="NavLinkMatch.Prefix">Combinations</MudNavLink>
-        <MudNavLink Href="@LOOPS_PAGE" Match="NavLinkMatch.Prefix">Loops</MudNavLink>
+    <MudNavGroup Title="@Localizer.Get("Setup")" Expanded="true">
+        <MudNavLink Href="@ENDURANCE_EVENT_PAGE" Match="NavLinkMatch.All">@Localizer.Get("Endurance Event")</MudNavLink>
+        <MudNavLink Href="@ATHLETES_HORSES_PAGE" Match="NavLinkMatch.Prefix">@Localizer.Get("Athletes & Horses")</MudNavLink>
+        <MudNavLink Href="@COMBINATIONS_PAGE" Match="NavLinkMatch.Prefix">@Localizer.Get("Combinations")</MudNavLink>
+        <MudNavLink Href="@LOOPS_PAGE" Match="NavLinkMatch.Prefix">@Localizer.Get("Loops")</MudNavLink>
     </MudNavGroup>
-    <MudNavGroup Title="Dashboard" Expanded="true">
-        <MudNavLink Href="@DASHBOARD_PAGE" Match="NavLinkMatch.Prefix">Dashboard</MudNavLink>
-        <MudNavLink Href="@RANKLIST_PAGE" Match="NavLinkMatch.Prefix">Ranklist</MudNavLink>
-        <MudNavLink Href="@HANDOUTS_PAGE" Match="NavLinkMatch.Prefix">Handouts</MudNavLink>
+    <MudNavGroup Title="@Localizer.Get("Dashboard")" Expanded="true">
+        <MudNavLink Href="@DASHBOARD_PAGE" Match="NavLinkMatch.Prefix">@Localizer.Get("Dashboard")</MudNavLink>
+        <MudNavLink Href="@RANKLIST_PAGE" Match="NavLinkMatch.Prefix">@Localizer.Get("Ranklist")</MudNavLink>
+        <MudNavLink Href="@HANDOUTS_PAGE" Match="NavLinkMatch.Prefix">@Localizer.Get("Handouts")</MudNavLink>
     </MudNavGroup>
     <MudNavGroup Title="Demos">
         <MudNavLink Href="/localization-demo" Match="NavLinkMatch.Prefix">Localization</MudNavLink>
