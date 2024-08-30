@@ -8,6 +8,11 @@ public class NotComponent : ComponentBase
     [Inject]
     protected ILocalizer Localizer { get; set; } = default!;
 
+    [Parameter]
+    public string? Style { get; set; }
+    [Parameter]
+    public string? Class { get; set; }
+
     protected async Task Observe(IObservableBehind observable)
     {
         observable.Subscribe(Render);

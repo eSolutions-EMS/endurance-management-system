@@ -13,7 +13,7 @@
 <NotPage Title="Configure Competition">
 
     <Main>
-        <MudGrid Spacing="8" Style="margin-top:0!important;">
+        <NotGrid Spacing="8">
             
             <MudItem xs="12">
                 <NotFormUpdate T="Competition" TForm="CompetitionForm" Entity="_competition" UpdateAction="Update" />
@@ -27,7 +27,7 @@
                 <NotSetList Name="Contestants" T="Contestant" TForm="ContestantForm" UpdateRoute="@CONTESTANT_UPDATE" />
             </MudItem>
 
-        </MudGrid>
+        </NotGrid>
     </Main>
 
 </NotPage>

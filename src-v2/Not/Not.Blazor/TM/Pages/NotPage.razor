@@ -3,7 +3,7 @@
 
 @inherits NotComponent
 
-<MudGrid Style="margin-top:0 !important;" Spacing="4">
+<NotGrid Spacing="4" Class="@("not-page " + Class)">
     
     <MudItem xs="12">
         <NotTitle Content="@Title" />
@@ -12,7 +12,7 @@
     @if (!HasContent)
     {
         <MudItem xs="12">
-            <MudPaper Elevation="3" Class="pa-12" Style="min-height:500px">
+            <MudPaper Elevation="3" Class="not-mid-height pa-12">
                 <NotTrueCenterText Typo="Typo.h5" Content="@EmptyMessage" />
 
                 @if (EmptyContent != null)
@@ -25,19 +25,24 @@
     else
     {
         <MudItem xs="@mainXs" Class="not-page-content">
-            <MudPaper Elevation="3" Class="pa-4">
-                @Main
-            </MudPaper>
+            <MudPaper Elevation="3" Class="pa-4">@Main</MudPaper>
         </MudItem>
 
-        @if (Rightbar != null)
+        if (Main2 != null)
+        {
+            <MudItem xs="@mainXs" Class="not-page-content">
+                <MudPaper Elevation="3" Class="pa-4">@Main2</MudPaper>
+            </MudItem>
+        }
+
+        if (Rightbar != null)
         {
             <MudItem xs="@RightBarXS" Class="not-page-rightbar">
                 @Rightbar
             </MudItem>
         }
     }
-</MudGrid>
+</NotGrid>
 
 @code {
     const int GRID_MAX_WIDTH = 12;
@@ -51,6 +56,8 @@
     [Parameter]
     public RenderFragment? Main { get; set; } = default!;
     [Parameter]
+    public RenderFragment? Main2 { get; set; } = default!;
+    [Parameter]
     public RenderFragment? Rightbar { get; set; } = default!;
     [Parameter]
     public int RightBarXS { get; set; } = 3;
@@ -63,8 +70,8 @@
 }
 
 <style>
-    .not-page-content > .mud-paper > .mud-grid:first-child > .mud-grid-item,
-    .not-page-rightbar > .mud-grid:first-child > .mud-grid-item {
+    .not-page .not-page-content > .mud-paper > .mud-grid:first-child > .mud-grid-item,
+    .not-page .not-page-rightbar > .mud-grid:first-child > .mud-grid-item {
         padding-top:0;
     }
 </style>

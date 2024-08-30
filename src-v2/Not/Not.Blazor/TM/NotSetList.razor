@@ -9,7 +9,7 @@
 @typeparam T where T : DomainEntity
 @typeparam TForm where TForm : NotForm<T>
 
-<MudPaper Elevation="0" Class="pa-4">
+<MudPaper Elevation="0" Class="@("pa-4 " + Class)" Style="@Style">
 
     <MudStack Row="true" Class="mb-2">
         <NotH2 Class="pt-1">@Name</NotH2>

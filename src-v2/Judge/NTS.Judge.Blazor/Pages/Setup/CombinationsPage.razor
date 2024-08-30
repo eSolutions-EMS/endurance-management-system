@@ -6,16 +6,10 @@
 @attribute [Route(COMBINATIONS_PAGE)]
 @inherits NotComponent
 
-<NotPage Title="Athlete & Horse Combinations">
+<NotPage Title="Athlete & Horse Combinations" Class="not-mid-width">
     
     <Main>
-        <MudContainer Class="ma-20">
-            <NotSetList Name="Combinations" T="Combination" TForm="CombinationForm" UpdateRoute="@COMBINATION_UPDATE" />
-        </MudContainer>
+        <NotSetList Name="Combinations" T="Combination" TForm="CombinationForm" UpdateRoute="@COMBINATION_UPDATE" />
     </Main>
 
 </NotPage>
-
-@code {
-    
-}

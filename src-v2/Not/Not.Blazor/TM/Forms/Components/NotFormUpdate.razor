@@ -7,8 +7,8 @@
 @typeparam T where T : DomainEntity;
 @typeparam TForm where TForm : NotForm<T>;
 
-<MudContainer Style="max-width:600px; margin:auto;">
-    <NotDynamic T="TForm" @ref="_notUpdate" />
+<MudContainer Class="not-page-mid-width">
+    <NotDynamic T="TForm" @ref="_form" />
 
     <MudButton Class="mt-4" Variant="Variant.Filled" Color="Color.Primary" OnClick="Update">
         @Localizer.Get("Update")
@@ -16,7 +16,7 @@
 </MudContainer>
 
 @code {
-    private NotDynamic<TForm>? _notUpdate;
+    private NotDynamic<TForm>? _form;
 
     [Parameter]
     public T Entity { get; set; } = default!;
@@ -25,26 +25,27 @@
 
     protected override async Task OnInitializedAsync()
     {
+        // TODO: maybe use OnParametersSet?
         // Needs to wait untill ref is evaluated. Also this makes it necessary to trigger a manual rerender of TForm
         // https://learn.microsoft.com/en-us/aspnet/core/blazor/components/lifecycle?view=aspnetcore-8.0#handle-incomplete-async-actions-at-render
-        while (_notUpdate == null || Entity == null)
+        while (_form == null || Entity == null)
         {
             await Task.Delay(TimeSpan.FromMilliseconds(10));
         }
-        _notUpdate!.Instance.SetUpdateModel(Entity);
-        _notUpdate!.Instance.TriggerRender();
+        _form!.Instance.SetUpdateModel(Entity);
+        _form!.Instance.TriggerRender();
     }
 
     protected async Task Update()
     {
         try
         {
-            var entity = _notUpdate!.Instance.SubmitUpdate();
+            var entity = _form!.Instance.SubmitUpdate();
             await UpdateAction(entity);
         }
         catch (DomainException domainException)
         {
-            await _notUpdate!.Instance.AddValidationError(domainException.Property, domainException.Message);
+            await _form!.Instance.AddValidationError(domainException.Property, domainException.Message);
         }
     }
 }

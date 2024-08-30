@@ -6,14 +6,10 @@
 @attribute [Route(LOOPS_PAGE)]
 @inherits NotComponent
 
-<NotPage Title="Loops">
+<NotPage Title="Loops" Class="not-mid-width">
 
     <Main>
         <NotSetList T="Loop" TForm="LoopForm" Name="Loops" UpdateRoute="@LOOP_UPDATE" />
     </Main>
 
 </NotPage>
-
-@code {
-
-}
