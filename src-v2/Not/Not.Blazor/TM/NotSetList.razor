@@ -3,6 +3,7 @@
 @using Not.Blazor.Mud.Components
 @using Not.Blazor.Navigation
 @using Not.Blazor.TM.Forms.Components
+@using Not.Exceptions
 @using Not.Services
 
 @inherits NotComponent
@@ -47,7 +48,7 @@
 
 @code {
     [Parameter]
-    public string Name { get; set; } = default!;
+    public string? Name { get; set; }
     [Parameter]
     public string UpdateRoute { get; set; } = default!;
 
@@ -56,8 +57,10 @@
 
     protected override async Task OnInitializedAsync()
     {
+        GuardHelper.ThrowIfDefault(UpdateRoute);
+
+        Name = Localizer.Get(Name ?? GetDefaultName());
         //TODO improve the default message to enable a single translation entry for all empty component messages
-        Name = Localizer.Get(Name);
         if(EmptyMessage == default)
         {
             string defaultMessage = $"No {Name.ToLower()} have been created for this event.";
@@ -85,4 +88,9 @@
     private INotSetBehind<T> _setBehind { get; set; } = default!;
     [Inject]
     private IFormNavigator<T, TForm> _contestantNavigator { get; set; } = default!;
+
+    string GetDefaultName()
+    {
+        return $"{typeof(T).Name}s";
+    }
 }

@@ -36,7 +36,7 @@ public class Competition : DomainEntity, ISummarizable, IParent<Contestant>, IPa
         }
         if (startTime.DateTime < DateTime.Today)
         {
-            throw new DomainException(nameof(DateTime), "Competition date cannot be in the past");
+            throw new DomainException(nameof(StartTime), "Competition date cannot be in the past");
         }
 
         Name = name;
