@@ -5,10 +5,17 @@ namespace NTS.Domain.Setup.Entities;
 public class Competition : DomainEntity, ISummarizable, IParent<Contestant>, IParent<Phase>
 {
 
-    public static Competition Create(string name, CompetitionType type, DateTimeOffset start, int? criRecovery) => new(name, type, start, criRecovery);
-    public static Competition Update(int id, string name, CompetitionType type, DateTimeOffset start,
-       int? criRecovery, IEnumerable<Phase> phases, IEnumerable<Contestant> contestants)
-       => new(id, name, type, start, criRecovery, phases, contestants);
+    public static Competition Create(string name, CompetitionType type, DateTimeOffset start, int? criRecovery)
+        => new(name, type, start, criRecovery);
+    public static Competition Update(
+        int id,
+        string name,
+        CompetitionType type,
+        DateTimeOffset start,
+        int? criRecovery,
+        IEnumerable<Phase> phases,
+        IEnumerable<Contestant> contestants)
+        => new(id, name, type, start, criRecovery, phases, contestants);
 
     private List<Phase> _phases = new();
     private List<Contestant> _contestants = new();
@@ -63,16 +70,16 @@ public class Competition : DomainEntity, ISummarizable, IParent<Contestant>, IPa
     public string Summarize()
 	{
 		var summary = new Summarizer(this);
-		summary.Add("Phases".Localize(), _phases);
-		summary.Add("Contestants".Localize(), _contestants);
+		summary.Add("phases".Localize(), _phases);
+		summary.Add("contestants".Localize(), _contestants);
 		return summary.ToString();
 	}
 	public override string ToString()
 	{
-		var sb = new StringBuilder();
-        sb.Append($"{LocalizationHelper.Get(Type)}, {"Phases".Localize()}: {Phases.Count}, {"Contestant".Localize()}: {Contestants.Count}, ");
-		sb.Append($"{"Start".Localize()}: {this.StartTime.ToString("f", CultureInfo.CurrentCulture)}");
-		return sb.ToString();
+        return Combine(
+            LocalizationHelper.Get(Type),
+            $"{"phases".Localize()}: {Phases.Count}",
+            $"{"start".Localize()}: {StartTime:f}");
 	}
 
     public void Add(Contestant child)

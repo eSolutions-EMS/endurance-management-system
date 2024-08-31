@@ -1,7 +1,6 @@
 ﻿using NTS.Domain.Setup.Import;
 using Newtonsoft.Json;
 using NTS.Domain.Extensions;
-using Not.Reflection;
 
 namespace NTS.Domain.Setup.Entities;
 
@@ -81,7 +80,7 @@ public class Event : DomainEntity, ISummarizable, IImportable, IParent<Official>
 	}
 	public override string ToString()
 	{
-        return $"{this.Place}, {this.Country}";
+        return Combine(Place, Country);
 	}
 
     private void ThrowIfInvalidRole(Official member)

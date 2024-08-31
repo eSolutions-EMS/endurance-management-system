@@ -20,17 +20,10 @@ public class Combination : DomainEntity, ISummarizable, IImportable, IParent
         {
             throw new DomainException(nameof(Number), "Combination Number is required");
         }
-        if (athlete == null)
-        {
-            throw new DomainException(nameof(Athlete), "Athlete is required");
-        }
-        if (horse == null)
-        {
-            throw new DomainException(nameof(Horse), "Horse is required");
-        }
+
         Number = number;
-        Athlete = athlete;
-        Horse = horse;
+        Athlete = athlete ?? throw new DomainException(nameof(Athlete), "Athlete is required");
+        Horse = horse ?? throw new DomainException(nameof(Horse), "Horse is required");
     }
 
     public int Number { get; private set; }
@@ -45,6 +38,6 @@ public class Combination : DomainEntity, ISummarizable, IImportable, IParent
 
 	public override string ToString()
 	{
-        return $"{"#".Localize()}{Number}: {Athlete}, {Horse}";
+        return Combine($"{"#".Localize()}{Number}", Athlete, Horse);
 	}
 }

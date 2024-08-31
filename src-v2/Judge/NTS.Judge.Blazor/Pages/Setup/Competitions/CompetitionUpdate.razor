@@ -20,10 +20,12 @@
             </MudItem>
 
             <MudItem xs="6">
+                @* //TODO: behind creates multiple phases at once. *@
                 <NotSetList T="Phase" TForm="PhaseForm" UpdateRoute="@PHASE_UPDATE" />
             </MudItem>
 
             <MudItem xs="6">
+                @* //TODO: behind creates multiple contestants at once. *@
                 <NotSetList T="Contestant" TForm="ContestantForm" UpdateRoute="@CONTESTANT_UPDATE" />
             </MudItem>
 
