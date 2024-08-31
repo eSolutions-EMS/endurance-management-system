@@ -4,7 +4,7 @@ namespace NTS.Domain.Core.Objects;
 
 public record DocumentHeader : DomainObject
 {
-    private DocumentHeader()
+    private DocumentHeader() // TODO: remove
     {
     }
     public DocumentHeader(string @event, PopulatedPlace populatedPlace, EventSpan eventSpan, IEnumerable<Official> officials)
@@ -12,21 +12,21 @@ public record DocumentHeader : DomainObject
         Title = @event;
         PopulatedPlace = populatedPlace;
         EventSpan = eventSpan;
-        PresidentGroundJury = officials.FirstOrDefault(x => x.Role == OfficialRole.PresidentGroundJury);
-        PresidentVet = officials.FirstOrDefault(x => x.Role == OfficialRole.PresidentVet);
-        FeiTechDelegate = officials.FirstOrDefault(x => x.Role == OfficialRole.FeiTechDelegate);
-        FeiVetDelegate = officials.FirstOrDefault(x => x.Role == OfficialRole.FeiVetDelegate);
-        ActiveVet = officials.FirstOrDefault(x => x.Role == OfficialRole.ActiveVet);
+        GroundJuryPresident = officials.FirstOrDefault(x => x.Role == OfficialRole.GroundJuryPresident);
+        VeterinaryCommissionPresident = officials.FirstOrDefault(x => x.Role == OfficialRole.VeterinaryCommissionPresident);
+        TechnicalDelegate = officials.FirstOrDefault(x => x.Role == OfficialRole.TechnicalDelegate);
+        ForeignVeterinaryDelegate = officials.FirstOrDefault(x => x.Role == OfficialRole.ForeignVeterinaryDelegate);
         ForeignJudge = officials.FirstOrDefault(x => x.Role == OfficialRole.ForeignJudge);
+        ChiefSteward = officials.FirstOrDefault(x => x.Role == OfficialRole.ChiefSteward);
     }
 
     public string Title { get; private set; }
     public PopulatedPlace PopulatedPlace { get; private set; }
     public EventSpan EventSpan { get; private set; }
-    public Official? PresidentGroundJury { get; private set; }
-    public Official? PresidentVet { get;  private set; }
-    public Official? FeiTechDelegate { get; private set; }
-    public Official? FeiVetDelegate { get; private set; }
-    public Official? ActiveVet { get; private set; }
+    public Official? GroundJuryPresident { get; private set; }
+    public Official? VeterinaryCommissionPresident { get;  private set; }
+    public Official? TechnicalDelegate { get; private set; }
+    public Official? ForeignVeterinaryDelegate { get; private set; }
     public Official? ForeignJudge { get; private set; }
+    public Official? ChiefSteward { get; private set; }
 }

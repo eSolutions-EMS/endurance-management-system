@@ -1,6 +1,7 @@
 ﻿using NTS.Domain.Setup.Import;
 using Newtonsoft.Json;
 using NTS.Domain.Extensions;
+using Not.Reflection;
 
 namespace NTS.Domain.Setup.Entities;
 
@@ -91,7 +92,7 @@ public class Event : DomainEntity, ISummarizable, IImportable, IParent<Official>
             var existing = _officials.FirstOrDefault(x => x.Role == role);
             if (existing != null && existing != member)
             {
-                throw new DomainException("Official '{0}' already exists", member.Role.ToString());
+                throw new DomainException("Official '{0}' already exists", member.Role.GetDescription());
             }
         }
     }

@@ -1,13 +1,17 @@
-﻿namespace Not.Blazor.TM.Models;
+﻿using Not.Extensions;
+
+namespace Not.Blazor.TM.Models;
 
 public class NotListModel
 {
     public static IEnumerable<NotListModel<T>> FromEnum<T>()
+        where T : Enum
     {
         var values = Enum.GetValues(typeof(T));
         foreach (var value in values)
         {
-            yield return new NotListModel<T>((T)value);
+            var enumValue = (T)value;
+            yield return new NotListModel<T>(enumValue, enumValue.GetDescription());
         }
     }
 

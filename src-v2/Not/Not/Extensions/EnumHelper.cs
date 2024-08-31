@@ -2,6 +2,7 @@
 using Not.Reflection;
 
 namespace Not.Extensions;
+
 public static class EnumHelper
 {
     public static string GetDescription(this Enum value)
