@@ -70,7 +70,7 @@ public class Competition : DomainEntity, ISummarizable, IParent<Contestant>, IPa
 	public override string ToString()
 	{
 		var sb = new StringBuilder();
-		sb.Append($"{LocalizationHelper.Get(Type)}, {"Phases".Localize()}: {Phases.Count}, {"Contestant".Localize()}: {Contestants.Count}, ");
+        sb.Append($"{LocalizationHelper.Get(Type)}, {"Phases".Localize()}: {Phases.Count}, {"Contestant".Localize()}: {Contestants.Count}, ");
 		sb.Append($"{"Start".Localize()}: {this.StartTime.ToString("f", CultureInfo.CurrentCulture)}");
 		return sb.ToString();
 	}

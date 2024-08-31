@@ -10,22 +10,20 @@ public static class LocalizationHelper
 	{
 		return _localizer.Get(args);
 	}
+}
 
-	public static string Localize(this string text)
-	{
-		return _localizer.Get(text);
-	}
+public static class LocalizationExtensions
+{
+    public static string Localize(this string text)
+    {
+        return LocalizationHelper.Get(text);
+    }
 
-	public static string Localize(params object[] args)
-	{
-		return Get(args);
-	}
-
-    public static IEnumerable<string> LocalizeSeparately(IEnumerable<string> words)
+    public static IEnumerable<string> Localize(this IEnumerable<string> words)
     {
         foreach (var word in words)
         {
-            yield return _localizer.Get(word);
+            yield return LocalizationHelper.Get(word);
         }
     }
 }
