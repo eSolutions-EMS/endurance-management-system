@@ -1,0 +1,83 @@
+﻿@using NTS.Domain.Core.Aggregates.Participations
+@using NTS.Judge.Blazor.Enums
+@using NTS.Judge.Blazor.Ports
+@using Not.Structures
+
+@inherits NotComponent
+
+@if (SelectActive)
+{
+    <MudSelect @ref="multiSelect" T="string" Label="Failed to Qualify Reason" MultiSelection="true" Delimiter="+" Value="@FTQReasonValue" ValueChanged="OnChange" Placeholder="Select a reason">
+        @foreach (var failToQualifyCode in SelectListModel.SelectList<FTQCodes>())
+        {
+            <MudSelectItem T="string" Value="@failToQualifyCode.Value">
+                @failToQualifyCode.Value
+                <div class="font-size-10">@failToQualifyCode.Description</div>
+            </MudSelectItem>
+        }
+    </MudSelect>
+}
+@if (ReasonActive)
+{
+    <MudTextField @ref="reasonInput" @bind-Value="Reason" Label="Reason" Variant="Variant.Outlined"></MudTextField>
+}
+<MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Update">
+    @Localizer.Get("Update")
+</MudButton>
+
+    
+
+
+@code {
+    [Inject]
+    IParticipationBehind _participationBehind { get; set; } = default!;
+    [Parameter]
+    public bool SelectActive { get; set; } = false;
+    [Parameter]
+    public bool ReasonActive { get; set; } = false;
+    [Parameter] 
+    public EventCallback<FormData> OnSubmit { get; set; }
+
+    private string? Reason = null;
+    private string? FTQReasonValue = null;
+    private MudTextField<string> reasonInput = default!;
+    private MudSelect<string> multiSelect = default!;
+
+    public void OnChange(string reason)
+    {
+        FTQReasonValue = reason;
+        if (reason.Contains("FTC"))
+        {
+            ReasonActive = true;
+        }
+    }
+
+    public async Task Update()
+    {
+        var participation = _participationBehind.SelectedParticipation;
+        var tandemNumber = participation!.Tandem.Number;
+        var multiselect_values = multiSelect.SelectedValues;
+        var formData = new FormData(tandemNumber, Reason, multiselect_values);
+        if (OnSubmit.HasDelegate)
+        {
+            await OnSubmit.InvokeAsync(formData);
+        }
+    }
+
+    public class FormData
+    {
+        public int TandemNumber { get; set; }
+        public string? Reason { get; set; }
+        public List<FTQCodes> Codes { get; set; } = new List<FTQCodes>();
+
+        public FormData(int number, string? reason, IEnumerable<string> selected_values)
+        {
+            TandemNumber = number;
+            Reason = reason;
+            foreach (var value in selected_values)
+            {
+                Codes.Add((FTQCodes)Enum.Parse(typeof(FTQCodes), value));
+            }
+        }
+    }
+}

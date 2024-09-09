@@ -22,10 +22,6 @@
     <InspectionsPanel />
 
     <EliminationsPanel/>
-
-    <MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Update">
-        @Localizer.Get("Update")
-    </MudButton>
 </MudPaper>
 
 @code {
@@ -86,10 +82,4 @@
     //             break;
     //     }
     // }
-
-    public async Task Update()
-    {
-        var participation = _participationBehind.SelectedParticipation;     
-        //await UpdateParticipant();
-    }
 }
