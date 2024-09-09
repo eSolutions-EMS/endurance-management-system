@@ -1,7 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<RuleSet Name="Rules for The Entire EMS Solution" Description="These rules define the general code style across the entire solution" ToolsVersion="16.0">
-  <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
-    <Rule Id="SA1413" Action="None" />
-    <Rule Id="SA1633" Action="None" />
-  </Rules>
-</RuleSet>
