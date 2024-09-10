@@ -1,17 +1,27 @@
 ﻿@using NTS.Domain.Objects
 @using NTS.Judge.Blazor.Ports
-<h3>TimeSnapshot</h3>
 
+<h4>Time Snapshot</h4>
 
-<MudPaper Class="d-flex flex-column mb-4" Elevation="0">
-    <MudTextField @ref="timeInput" @bind-Value="TimeValue" T="string" Label="Time" Mask="@(new PatternMask("00:00:00"))" Class="one-third-width" />
+<MudPaper Class="d-flex flex-row mb-4" Elevation="0">
+    <MudTextField @ref="timeInput" @bind-Value="TimeValue" T="string" Label="Time" Mask="@(new PatternMask("00:00:00"))" Class="one-third-width mr-2"/>
+    <MudButtonGroup Color="Color.Tertiary" Size="Size.Small" Variant="Variant.Filled">
+        <MudButton OnClick="SnapshotTime">Snapshot</MudButton>
+        <MudButton OnClick="Send">Save</MudButton>
+    </MudButtonGroup>
 </MudPaper>
 
 @code {
     [Inject]
     IParticipationBehind _participationBehind { get; set; } = default!;
     private MudTextField<string> timeInput = default!;
-    private string TimeValue = default!;
+    private string TimeValue = "00:00:00";
+
+    public void SnapshotTime()
+    {
+        var currentTime = DateTime.Now.TimeOfDay;
+        TimeValue = currentTime.ToString();
+    }
 
     public Snapshot CreateSnapshot(DateTime timeStampDateTime)
     {
@@ -19,20 +29,16 @@
         var currentPhase = participation!.Phases.Current;
         var timestamp = new Timestamp(timeStampDateTime);
 
-        SnapshotType snapshotType;
+        SnapshotType snapshotType = SnapshotType.Stage;
         SnapshotMethod snapshotMethod = SnapshotMethod.Manual;
-        //redo logic and test
-        if (currentPhase?.ArriveTime == null)
-        {
-            snapshotType = SnapshotType.Stage;
+        //test
+        if (currentPhase?.ArriveTime == null && currentPhase.IsFinal)
+        {        
+            snapshotType = SnapshotType.Final;
         }
-        else if (currentPhase.InspectTime == null && currentPhase.IsFinal == false)
+        else if (currentPhase.InspectTime == null )
         {
             snapshotType = SnapshotType.Vet;
-        }
-        else
-        {
-            snapshotType = SnapshotType.Final;
         }
         Snapshot snapshot = new Snapshot(participation!.Tandem.Number, snapshotType, snapshotMethod, timestamp);
         return snapshot;
