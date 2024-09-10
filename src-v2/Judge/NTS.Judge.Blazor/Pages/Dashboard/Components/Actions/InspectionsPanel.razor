@@ -1,30 +1,48 @@
-﻿@using NTS.Judge.Blazor.Ports
-<h3>InspectionsPanel</h3>
+﻿@using NTS.Domain.Core.Aggregates.Participations
+@using NTS.Judge.Blazor.Ports
+@using Not.Blazor.TM
 
+<h4>Inspections Panel</h4>
 
-    <MudPaper Class="@("d-flex flex-row mb-4 ")" Elevation="0">
-        <NotSwitch Label="Reinspection" Value="ReinspectionToggled" ValueChanged="ToggleReinspection" 
-                   IconForTrue="@Icons.Material.Filled._360" IconForFalse="@Icons.Material.Filled._360" />
-        <NotSwitch Label="Required Inspection" Value="RequiredInspectionToggled" ValueChanged="ToggleRequiredInspection"
-                   IconForTrue="@Icons.Material.Filled.HourglassEmpty" IconForFalse="@Icons.Material.Filled.HourglassEmpty" />
-    </MudPaper>
+@{
+    BeforeRender();
+}
+
+<MudPaper Class="d-flex flex-row mb-4" Elevation="0">
+    <NotSwitch Label="Reinspection" Value="ReinspectionToggled" ValueChanged="ToggleReinspection" 
+               IconForTrue="@Icons.Material.Filled._360" IconForFalse="@Icons.Material.Filled._360" />
+    <NotSwitch Label="Required Inspection" Value="RequiredInspectionToggled" ValueChanged="ToggleRequiredInspection"
+               IconForTrue="@Icons.Material.Filled.HourglassEmpty" IconForFalse="@Icons.Material.Filled.HourglassEmpty" />
+</MudPaper>
 
 @code {
     [Inject]
     IParticipationBehind _participationBehind { get; set; } = default!;
-    private bool ReinspectionToggled = false;
-    private bool RequiredInspectionToggled = false;
+
+    Participation _selectedParticipation = default!;
+    [Parameter]
+    public bool ReinspectionToggled { get; set; } = false;
+    [Parameter]
+    public bool RequiredInspectionToggled { get; set; } = false;
+
+    protected void BeforeRender()
+    {
+        _selectedParticipation = _participationBehind.SelectedParticipation!;
+        var currentPhase = _selectedParticipation.Phases.Current;
+        ReinspectionToggled = currentPhase.IsReinspectionRequested;
+        RequiredInspectionToggled = currentPhase.IsRIRequested;
+    }
 
     private async void ToggleReinspection(bool value)
     {
         ReinspectionToggled = value;
-        _participationBehind.SelectedParticipation?.RequestReinspection(value);
+        _participationBehind.RequestReinspection(value);
         await InvokeAsync(StateHasChanged); // TODO test without as it should re-render on its own
     }
     private async void ToggleRequiredInspection(bool value)
     {
         RequiredInspectionToggled = value;
-        _participationBehind.SelectedParticipation?.RequestRequiredInspection(value);
+        _participationBehind.RequestRequiredInspection(value);
         await InvokeAsync(StateHasChanged); // TODO test without
     }
 }

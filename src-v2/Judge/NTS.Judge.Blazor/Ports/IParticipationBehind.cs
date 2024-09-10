@@ -12,6 +12,8 @@ public interface IParticipationBehind : IObservableBehind
     IEnumerable<IGrouping<double, Participation>> ParticipationsByDistance { get; }
     Participation? SelectedParticipation { get; set; }
     void SelectParticipation(int number);
+    void RequestReinspection(bool requestFlag);
+    void RequestRequiredInspection(bool requestFlag);
     Task Process(Snapshot snapshot);
     Task Update(IPhaseState state);
     Task RevokeQualification(int number, QualificationRevokeType type, string? reason = null, params FTQCodes[] ftqCodes);

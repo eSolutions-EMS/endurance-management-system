@@ -42,6 +42,18 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
         EmitChange();
     }
 
+    public void RequestReinspection(bool requestFlag)
+    {
+        SelectedParticipation!.RequestReinspection(requestFlag);
+        _participationRepository.Update(SelectedParticipation);
+    }
+
+    public void RequestRequiredInspection(bool requestFlag)
+    {
+        SelectedParticipation!.RequestRequiredInspection(requestFlag);
+        _participationRepository.Update(SelectedParticipation);
+    }
+
     public async Task Process(Snapshot snapshot)
     {
         if (SelectedParticipation == default)
