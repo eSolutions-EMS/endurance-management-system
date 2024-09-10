@@ -5,9 +5,9 @@
 
 @inherits NotComponent
 
-@if (SelectActive)
+@if (SelectInputActive)
 {
-    <MudSelect @ref="multiSelect" T="string" Label="Failed to Qualify Reason" MultiSelection="true" Delimiter="+" Value="@FTQReasonValue" ValueChanged="OnChange" Placeholder="Select a reason">
+    <MudSelect @ref="multiSelect" T="string" Label="Failed to Qualify Reason" MultiSelection="true" Delimiter="+" Value="@FTQReason" ValueChanged="OnChange" Placeholder="Select a reason">
         @foreach (var failToQualifyCode in SelectListModel.SelectList<FTQCodes>())
         {
             <MudSelectItem T="string" Value="@failToQualifyCode.Value">
@@ -17,38 +17,55 @@
         }
     </MudSelect>
 }
-@if (ReasonActive)
+@if (ReasonInputActive)
 {
     <MudTextField @ref="reasonInput" @bind-Value="Reason" Label="Reason" Variant="Variant.Outlined"></MudTextField>
 }
 <MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Update">
-    @Localizer.Get("Update")
+    @Localizer.Get(SubmitButtonMessage)
 </MudButton>
-
-    
-
 
 @code {
     [Inject]
     IParticipationBehind _participationBehind { get; set; } = default!;
+
     [Parameter]
-    public bool SelectActive { get; set; } = false;
+    public bool ReasonInputActive { get; set; } = false;
     [Parameter]
-    public bool ReasonActive { get; set; } = false;
+    public bool SelectInputActive { get; set; } = false;
+    [Parameter]
+    public string? Reason { get; set; } = null;
+    [Parameter]
+    public string? FTQReason{ get; set; } = null;
+    [Parameter]
+    public bool RevokedQualification { get; set; } = false;
     [Parameter] 
     public EventCallback<FormData> OnSubmit { get; set; }
 
-    private string? Reason = null;
-    private string? FTQReasonValue = null;
-    private MudTextField<string> reasonInput = default!;
+
+    private MudTextField<string?> reasonInput = default!;
     private MudSelect<string> multiSelect = default!;
+
+    private string SubmitButtonMessage = default!;
+
+    protected override void OnParametersSet()
+    {
+        if (RevokedQualification)
+        {
+            SubmitButtonMessage = "Restore Qualification";
+        }
+        else
+        {
+            SubmitButtonMessage = "Eliminate Participant";
+        }
+    }
 
     public void OnChange(string reason)
     {
-        FTQReasonValue = reason;
+        FTQReason = reason;
         if (reason.Contains("FTC"))
         {
-            ReasonActive = true;
+            ReasonInputActive = true;
         }
     }
 
