@@ -2,7 +2,7 @@
 @using NTS.Judge.Blazor.Enums
 @using NTS.Judge.Blazor.Ports
 @using Not.Structures
-@using static NTS.Judge.Blazor.Pages.Dashboard.Components.Actions.ToggleForm
+@using static NTS.Judge.Blazor.Pages.Dashboard.Components.Actions.EliminationToggleForm
 
 <h4>Eliminations Panel</h4>
 
@@ -16,7 +16,7 @@
         <MudToggleItem Text="Failed to Qualify" Value="@("FailToQualify")" />
     </MudToggleGroup>
     <MudCollapse Expanded="_toggleFormActive">
-        <ToggleForm ReasonActive="_reasonActive" SelectActive="_selectActive" OnSubmit="Submit"></ToggleForm>
+        <EliminationToggleForm ReasonActive="_reasonActive" SelectActive="_selectActive" OnSubmit="Submit"></EliminationToggleForm>
     </MudCollapse>
 </MudPaper>
 
