@@ -8,24 +8,28 @@ namespace NTS.Domain.Core.Objects;
 
 public class Ranklist : ReadOnlyCollection<RankingEntry>
 {
-    private static FeiRanker _feiRanker = new();
-    private static Ranker[] _regionalRankers = [ new BulgariaRanker() ];
+    private readonly static FeiRanker _feiRanker = new();
+    private readonly static Ranker[] _regionalRankers = [ new BulgariaRanker() ];
 
     public Ranklist(Ranking ranking, IEnumerable<Participation> participations)
-        : base(Rank(ranking.Category, ranking.Entries, participations))
+        : base(Rank(ranking, ranking.Entries, participations))
     {
         Name = ranking.Name;
         Category = ranking.Category;
+        Ruleset = ranking.Ruleset;
     }
 
     public string Title => $"{Category}: {Name}";
     public string Name { get; }
     public AthleteCategory Category { get; }
+    public CompetitionRuleset Ruleset { get; }
 
-    private static IList<RankingEntry> Rank(AthleteCategory category, IEnumerable<RankingEntry> entries, IEnumerable<Participation> participations)
+    private static IList<RankingEntry> Rank(Ranking ranking, IEnumerable<Participation> participations)
     {
-        var ranker = GetRanker(StaticOptions.Configuration);
-        return ranker.Rank(category, entries, participations);
+        var ranker = ranking.Ruleset == CompetitionRuleset.Regional
+            ? GetRanker(StaticOptions.Configuration)
+            : _feiRanker;
+        return ranker.Rank(ranking, participations);
     }
 
     private static Ranker GetRanker(IRegionalConfiguration? configuration)

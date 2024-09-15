@@ -10,18 +10,18 @@ internal class BulgariaRanker : FeiRanker
         Country = new Country("BGR", "Bulgaria");
     }
 
-    public override IList<RankingEntry> Rank(AthleteCategory category, IEnumerable<RankingEntry> entries, IEnumerable<Participation> participations)
+    public override IList<RankingEntry> Rank(Ranking ranking, IEnumerable<Participation> participations)
     {
-        if (category != AthleteCategory.Senior)
+        if (ranking.Category != AthleteCategory.Senior)
         {
-            return BaseOrder(entries, participations)
+            return BaseOrder(ranking.Entries, participations)
                 .ThenBy(x => x.Participation.GetTotal()?.RecoveryIntervalWithoutFinal)
                 .Select(x => x.RankingEntry)
                 .ToList();
         }
         else
         {
-            return base.Rank(category, entries, participations);
+            return base.Rank(ranking.Category, ranking.Entries, participations);
         }
     }
 }
