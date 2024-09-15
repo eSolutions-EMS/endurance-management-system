@@ -18,7 +18,7 @@ public record Total : DomainObject
             (result, x) => (result + x.GetRecoverySpan())!);
         RecoveryIntervalWithoutFinal = (RecoveryInterval - completedPhases.FirstOrDefault(x => x.IsFinal)?.GetRecoverySpan())
             ?? RecoveryInterval;
-        Interval = (RideInterval + RecoveryInterval)!;
+        Interval = (RideInterval + RecoveryIntervalWithoutFinal)!;
         AverageSpeed = new Speed(totalLength, Interval);
     }
 
