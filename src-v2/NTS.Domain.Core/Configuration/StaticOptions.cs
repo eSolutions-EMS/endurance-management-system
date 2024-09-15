@@ -1,14 +1,21 @@
-﻿namespace NTS.Domain.Configuration;
+﻿using Not.Domain.Ports;
+using Not.Injection;
+using Not.Startup;
 
-public static class StaticOptions
+namespace NTS.Domain.Core.Configuration;
+
+public class StaticOptions : IStartupInitializer, ISingletonService
 {
-    public static IRegionalConfiguration? Configuration { get; set; }
+    readonly IStaticOptionsProvider<Model> _provider;
+    
+    static Model? _options;
+    public static IRegionalConfiguration? RegionalConfiguration { get; set; }
 
     public static bool ShouldOnlyUseAverageLoopSpeed(CompetitionRuleset ruleset)
     {
         if (!ShouldUseRegionalConfiguration(ruleset))
         {
-            return Configuration!.ShouldOnlyUseAverageLoopSpeed;
+            return RegionalConfiguration!.ShouldOnlyUseAverageLoopSpeed;
         }
         return false;
     }
@@ -24,6 +31,23 @@ public static class StaticOptions
 
     static bool ShouldUseRegionalConfiguration(CompetitionRuleset ruleset)
     {
-        return ruleset == CompetitionRuleset.Regional && Configuration != null;
+        return ruleset == CompetitionRuleset.Regional && RegionalConfiguration != null;
+    }
+
+    public StaticOptions(IStaticOptionsProvider<Model> provider)
+    {
+        _provider = provider;
+    }
+
+    public void RunAtStartup()
+    {
+        _options = _provider.Get();
+        RegionalConfiguration = RegionalConfigurationProvider.Get(_options.SelectedCountry);
+    }
+
+    public class Model
+    {
+        public Country[] Countries { get; set; } = [];  
+        public Country? SelectedCountry { get; set; }
     }
 }

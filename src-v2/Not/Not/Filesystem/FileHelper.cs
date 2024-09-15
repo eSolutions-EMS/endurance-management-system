@@ -2,17 +2,19 @@
 
 public class FileHelper
 {
-    public static async Task Write(string path, string content)
+    public static async Task WriteAsync(string content, string path)
     {
-        if (!File.Exists(path))
-        {
-            var directoryPath = path[..path.LastIndexOf('\\')];
-            Directory.CreateDirectory(directoryPath);
-        }
+        CreateDirectoryIfDoesNotExist(path);
         await File.WriteAllTextAsync(path, content);
     }
 
-    public static async Task<string?> SafeReadString(string path)
+    public static void Write(string content, string path)
+    {
+        CreateDirectoryIfDoesNotExist(path);
+        File.WriteAllText(path, content);
+    }
+
+    public static async Task<string?> SafeReadStringAsync(string path)
     {
         try
         {
@@ -21,6 +23,27 @@ public class FileHelper
         catch (Exception)
         {
             return null;
+        }
+    }
+
+    public static string? SafeReadString(string path)
+    {
+        try
+        {
+            return File.ReadAllText(path);
+        }
+        catch (Exception)
+        {
+            return null;
+        }
+    }
+
+    private static void CreateDirectoryIfDoesNotExist(string path)
+    {
+        if (!File.Exists(path))
+        {
+            var directoryPath = path[..path.LastIndexOf('\\')];
+            Directory.CreateDirectory(directoryPath);
         }
     }
 }

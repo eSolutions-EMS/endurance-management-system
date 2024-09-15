@@ -1,4 +1,4 @@
-﻿namespace NTS.Domain.Configuration;
+﻿namespace NTS.Domain.Core.Configuration;
 
 public abstract class RegionalConfiguration : IRegionalConfiguration
 {

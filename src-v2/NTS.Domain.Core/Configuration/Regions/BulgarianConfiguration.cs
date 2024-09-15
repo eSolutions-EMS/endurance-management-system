@@ -1,6 +1,4 @@
-﻿using NTS.Domain.Configuration;
-
-namespace NTS.Domain.Core.Configuration.Regions;
+﻿namespace NTS.Domain.Core.Configuration.Regions;
 
 public class BulgarianConfiguration : RegionalConfiguration
 {
