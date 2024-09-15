@@ -42,7 +42,10 @@ public class FileHelper
     {
         if (!File.Exists(path))
         {
-            var directoryPath = path[..path.LastIndexOf('\\')];
+            var forwardSlashIndex = path.LastIndexOf('/');
+            var backwardsSlashIndex = path.LastIndexOf('\\');
+            var lastSeparator = Math.Max(forwardSlashIndex, backwardsSlashIndex);
+            var directoryPath = path[..lastSeparator];
             Directory.CreateDirectory(directoryPath);
         }
     }
