@@ -170,7 +170,7 @@ public class EmsToCoreImporter : IEmsToCoreImporter
         {
             EmsCategory.Seniors => AthleteCategory.Senior,
             EmsCategory.Children => AthleteCategory.Children,
-            EmsCategory.JuniorOrYoungAdults => AthleteCategory.JuniorOrYoundAdult,
+            EmsCategory.JuniorOrYoungAdults => AthleteCategory.JuniorOrYoungAdult,
             _ => throw new NotImplementedException(),
         };
     }

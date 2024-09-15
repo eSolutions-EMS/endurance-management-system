@@ -8,13 +8,20 @@ public class Contestant : DomainEntity, ISummarizable
     private List<Combination> _combinations = new();
 
     [JsonConstructor]
-    private Contestant(int id, DateTimeOffset? startTimeOverride, bool isUnranked, Combination combination) : this(startTimeOverride, isUnranked, combination) 
+    private Contestant(int id, DateTimeOffset? startTimeOverride, bool isUnranked, Combination combination)
     {
         Id = id;
+        StartTimeOverride = startTimeOverride;
+        IsUnranked = isUnranked;
+        Combination = combination;
     }
+    // TODO: use this ctor to validate and then call the JsonCtor to assign the property values
+    // then remove private setter where not needed as serialization happens through the ctor anyway
+    // Move the ID generation logic in protected method in DomainEntity and call inside this() to generate ID
+    // as oposed to generating it automatically in DomainEntity ctor
     private Contestant(DateTimeOffset? startTimeOverride, bool isUnranked, Combination combination)
     {
-        if ( startTimeOverride != null && startTimeOverride.Value.DateTime.CompareTo(DateTime.Today) < 0)
+        if (startTimeOverride != null && startTimeOverride.Value.DateTime.CompareTo(DateTime.Today) < 0)
         {
             throw new DomainException(nameof(StartTimeOverride), "Start time cannot be in the past");
         }

@@ -5,5 +5,5 @@ public enum AthleteCategory
 {
     Senior = 1,
     Children = 2,
-    JuniorOrYoundAdult = 3
+    JuniorOrYoungAdult = 3
 }

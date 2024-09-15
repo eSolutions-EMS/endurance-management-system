@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using NTS.Domain.Configuration;
 using static NTS.Domain.Core.Aggregates.Participations.SnapshotResultType;
 
 namespace NTS.Domain.Core.Aggregates.Participations;
@@ -9,7 +10,6 @@ public class Phase : DomainEntity, IPhaseState
     bool _isSeparateFinish = false;
 
     private Timestamp? VetTime => ReinspectTime ?? InspectTime;
-    private bool IsFeiRulesAndNotFinal => CompetitionType == CompetitionType.FEI && !IsFinal;
 
     [JsonConstructor]
     private Phase(int id) : base(id) { }
@@ -112,7 +112,11 @@ public class Phase : DomainEntity, IPhaseState
 
     public Speed? GetAverageSpeed()
     {
-        return IsFeiRulesAndNotFinal ? GetAveragePhaseSpeed() : GetAverageLoopSpeed();
+        if (StaticOptions.Configuration?.AlwaysUseAverageLoopSpeed ?? false)
+        {
+            return GetAverageLoopSpeed();
+        }
+        return IsFinal ? GetAverageLoopSpeed() : GetAveragePhaseSpeed();
     }
 
     public bool IsComplete()
