@@ -9,7 +9,7 @@ public class EventFormModel
     {
         //mock default values for testing
         Place = "Каспичан";
-        Country = new Country("BG", "Bulgaria");
+        Country = new Country("BG", "zz", "Bulgaria");
     }
     public EventFormModel(Event @event)
     {

@@ -8,6 +8,6 @@ internal class RegionalConfigurationProvider
 
     public static IRegionalConfiguration? Get(Country? country)
     {
-        return _configurations.FirstOrDefault(x => x.Country == country);
+        return _configurations.FirstOrDefault(x => x.CountryIsoCode == country?.IsoCode);
     }
 }

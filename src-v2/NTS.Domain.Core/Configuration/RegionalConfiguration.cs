@@ -2,17 +2,17 @@
 
 public abstract class RegionalConfiguration : IRegionalConfiguration
 {
-    protected RegionalConfiguration(Country country)
+    protected RegionalConfiguration(string countryIsoCode)
     {
-        Country = country;
+        CountryIsoCode = countryIsoCode;
     }
 
-    public Country Country { get; set; }
+    public string CountryIsoCode { get; set; }
     public bool ShouldOnlyUseAverageLoopSpeed { get; set; }
 }
 
 public interface IRegionalConfiguration
 {
-    Country Country { get; }
+    string CountryIsoCode { get; }
     bool ShouldOnlyUseAverageLoopSpeed { get; }
 }

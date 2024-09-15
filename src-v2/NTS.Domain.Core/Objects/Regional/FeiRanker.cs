@@ -27,7 +27,7 @@ internal class FeiRanker : Ranker
 
 internal abstract class Ranker
 {
-    public Country? Country { get; protected set; }
+    public string? CountryIsoCode { get; protected set; }
     public abstract IList<RankingEntry> Rank(Ranking ranking, IEnumerable<Participation> participations);
 
     public record Pair(RankingEntry RankingEntry, Participation Participation);

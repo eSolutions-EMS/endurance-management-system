@@ -7,7 +7,7 @@ internal class BulgariaRanker : FeiRanker
 {
     public BulgariaRanker()
     {
-        Country = new Country("BGR", "Bulgaria");
+        CountryIsoCode = "BGR";
     }
 
     public override IList<RankingEntry> Rank(Ranking ranking, IEnumerable<Participation> participations)

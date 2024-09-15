@@ -65,7 +65,7 @@ public class EmsToCoreImporter : IEmsToCoreImporter
 
     private Event CreateEvent(EmsEnduranceEvent emsEvent, bool adjustTime)
     {
-        var country = new Country(emsEvent.Country.IsoCode, emsEvent.Country.Name);
+        var country = new Country(emsEvent.Country.IsoCode, "zz", emsEvent.Country.Name);
         var startTime = emsEvent.Competitions.OrderBy(x => x.StartTime).First().StartTime;
         if (adjustTime)
         {

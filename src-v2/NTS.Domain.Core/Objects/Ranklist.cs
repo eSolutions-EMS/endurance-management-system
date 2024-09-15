@@ -33,6 +33,6 @@ public class Ranklist : ReadOnlyCollection<RankingEntry>
 
     private static Ranker GetRanker(IRegionalConfiguration? configuration)
     {
-        return _regionalRankers.FirstOrDefault(x => x.Country == configuration?.Country) ?? _feiRanker;
+        return _regionalRankers.FirstOrDefault(x => x.CountryIsoCode == configuration?.CountryIsoCode) ?? _feiRanker;
     }
 }   

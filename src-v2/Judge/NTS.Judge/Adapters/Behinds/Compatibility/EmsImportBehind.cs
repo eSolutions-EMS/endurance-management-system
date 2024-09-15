@@ -29,7 +29,7 @@ public class EmsImportBehind : IEmsImportBehind
         var contents = await File.ReadAllTextAsync(emsStateFilePath);
         var emsState = contents.FromJson<EmsState>();
 
-        var country = new Country(emsState.Event.Country.IsoCode, emsState.Event.Country.Name);
+        var country = new Country(emsState.Event.Country.IsoCode, "zz", emsState.Event.Country.Name);
         var @event = Event.Create(emsState.Event.PopulatedPlace, country);
 
         foreach (var offical in CreateOfficials(emsState.Event))

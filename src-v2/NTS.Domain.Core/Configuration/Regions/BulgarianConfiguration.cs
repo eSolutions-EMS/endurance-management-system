@@ -2,7 +2,7 @@
 
 public class BulgarianConfiguration : RegionalConfiguration
 {
-    public BulgarianConfiguration() : base(new Country("BGR", "Bulgaria")) // TODO: figure out country infra
+    public BulgarianConfiguration() : base("BGR") // TODO: figure out country infra
     {
         ShouldOnlyUseAverageLoopSpeed = true;
     }
