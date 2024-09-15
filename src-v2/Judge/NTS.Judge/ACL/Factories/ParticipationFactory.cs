@@ -60,7 +60,7 @@ public class ParticipationFactory
         DateTimeOffset? previousTime = null;
         foreach (var lap in competition.Laps)
         {
-            var type = EmsCompetitionTypeToCompetitionType(competition.Type);
+            var type = CompetitionFactory.MapCompetitionRuleset(competition.Type);
             
             var record = emsParticipation.Participant.LapRecords.FirstOrDefault(x => x.Lap == lap);
 
@@ -126,7 +126,7 @@ public class ParticipationFactory
 
             phases.Add(phase);
         }
-        var ruleset = EmsCompetitionTypeToCompetitionType(competition.Type);
+        var ruleset = CompetitionFactory.MapCompetitionRuleset(competition.Type);
         var participation = new Participation(competition.Name, ruleset, tandem, phases);
         if (finalRecord?.Result?.Type == EmsResultType.FailedToQualify)
         {
@@ -141,16 +141,6 @@ public class ParticipationFactory
             participation.Disqualify(finalRecord.Result.Code);
         }
         return participation;
-    }
-
-    private static CompetitionRuleset EmsCompetitionTypeToCompetitionType(EmsCompetitionType emsCompetitionType)
-    {
-        return emsCompetitionType switch
-        {
-            EmsCompetitionType.National => CompetitionRuleset.Regional,
-            EmsCompetitionType.International => CompetitionRuleset.FEI,
-            _ => throw new NotImplementedException(),
-        };
     }
 
     private static DateTime AdjustTime(ref DateTimeOffset? previousTime, DateTime currentTime, TimeSpan diff, bool shouldAdjust)

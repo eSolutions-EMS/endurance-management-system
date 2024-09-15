@@ -146,12 +146,13 @@ public class EmsToCoreImporter : IEmsToCoreImporter
 
             }
         }
-        foreach (var (competition, entriesByCategory) in entriesforClassification)
+        foreach (var (emsCompetition, entriesByCategory) in entriesforClassification)
         {
             foreach (var (category, tuples) in entriesByCategory)
             {
                 var entries = tuples.Select(x => x.entry);
-                result.Add(new Ranking(competition.Name, category, entries));
+                var competition = new Competition(emsCompetition.Name, CompetitionFactory.MapCompetitionRuleset(emsCompetition.Type));
+                result.Add(new Ranking(competition, category, entries));
             }
             
 

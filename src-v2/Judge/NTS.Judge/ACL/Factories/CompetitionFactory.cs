@@ -24,13 +24,23 @@ public class CompetitionFactory
         return competition;
     }
 
-    static EmsCompetitionType MapEmsCompetitionType(CompetitionRuleset ruleset)
+    public static EmsCompetitionType MapEmsCompetitionType(CompetitionRuleset ruleset)
     {
         return ruleset switch
         {
             CompetitionRuleset.Regional => EmsCompetitionType.National,
             CompetitionRuleset.FEI => EmsCompetitionType.International,
             _ => throw new NotImplementedException()
+        };
+    }
+
+    public static CompetitionRuleset MapCompetitionRuleset(EmsCompetitionType emsCompetitionType)
+    {
+        return emsCompetitionType switch
+        {
+            EmsCompetitionType.National => CompetitionRuleset.Regional,
+            EmsCompetitionType.International => CompetitionRuleset.FEI,
+            _ => throw new NotImplementedException(),
         };
     }
 }
