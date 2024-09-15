@@ -27,7 +27,7 @@ public class CompetitionFormModel
 
     public int? Id { get; set; }
     public string Name { get; set; }
-    public CompetitionType Type { get; set; } = CompetitionType.National;
+    public CompetitionRuleset Type { get; set; } = CompetitionRuleset.Regional;
     public DateTime? StartDay { get; set; } = DateTime.Now;
     public TimeSpan? StartTime { get; set; } = DateTime.Now.TimeOfDay;
     public bool UseAutomaticCRI { get; set; }

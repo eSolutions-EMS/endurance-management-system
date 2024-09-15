@@ -126,8 +126,8 @@ public class ParticipationFactory
 
             phases.Add(phase);
         }
-
-        var participation = new Participation(competition.Name, tandem, phases);
+        var ruleset = EmsCompetitionTypeToCompetitionType(competition.Type);
+        var participation = new Participation(competition.Name, ruleset, tandem, phases);
         if (finalRecord?.Result?.Type == EmsResultType.FailedToQualify)
         {
             participation.FailToQualify(FTQCodes.GA);
@@ -143,12 +143,12 @@ public class ParticipationFactory
         return participation;
     }
 
-    private static CompetitionType EmsCompetitionTypeToCompetitionType(EmsCompetitionType emsCompetitionType)
+    private static CompetitionRuleset EmsCompetitionTypeToCompetitionType(EmsCompetitionType emsCompetitionType)
     {
         return emsCompetitionType switch
         {
-            EmsCompetitionType.National => CompetitionType.National,
-            EmsCompetitionType.International => CompetitionType.FEI,
+            EmsCompetitionType.National => CompetitionRuleset.Regional,
+            EmsCompetitionType.International => CompetitionRuleset.FEI,
             _ => throw new NotImplementedException(),
         };
     }

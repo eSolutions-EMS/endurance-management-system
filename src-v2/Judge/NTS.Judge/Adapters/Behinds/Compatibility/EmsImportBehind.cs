@@ -1,4 +1,5 @@
-﻿using Not.Application.Ports.CRUD;
+﻿using MudBlazor;
+using Not.Application.Ports.CRUD;
 using Not.Extensions;
 using Not.Serialization;
 using NTS.Compatibility.EMS;
@@ -55,17 +56,17 @@ public class EmsImportBehind : IEmsImportBehind
             yield return Competition.Create(emsCompetition.Name, MapType(emsCompetition.Type), emsCompetition.StartTime.ToDateTimeOffset(), 10);
         }
 
-        CompetitionType MapType(NTS.Compatibility.EMS.Entities.Competitions.EmsCompetitionType emsType)
+        CompetitionRuleset MapType(NTS.Compatibility.EMS.Entities.Competitions.EmsCompetitionType emsType)
         {
             if (emsType == NTS.Compatibility.EMS.Entities.Competitions.EmsCompetitionType.National)
             {
-                return CompetitionType.National;
+                return CompetitionRuleset.Regional;
             }
             else if (emsType == NTS.Compatibility.EMS.Entities.Competitions.EmsCompetitionType.International)
             {
-                return CompetitionType.FEI;
+                return CompetitionRuleset.FEI;
             }
-            return CompetitionType.Qualification;
+            throw new Exception();
         }
     }
 
