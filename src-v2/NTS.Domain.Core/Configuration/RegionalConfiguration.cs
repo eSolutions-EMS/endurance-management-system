@@ -8,11 +8,11 @@ public abstract class RegionalConfiguration : IRegionalConfiguration
     }
 
     public Country Country { get; set; }
-    public bool AlwaysUseAverageLoopSpeed { get; set; }
+    public bool ShouldOnlyUseAverageLoopSpeed { get; set; }
 }
 
 public interface IRegionalConfiguration
 {
     Country Country { get; }
-    bool AlwaysUseAverageLoopSpeed { get; }
+    bool ShouldOnlyUseAverageLoopSpeed { get; }
 }

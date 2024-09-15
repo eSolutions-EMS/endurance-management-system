@@ -5,10 +5,11 @@ namespace NTS.Domain.Core.Objects.Regional;
 
 internal class FeiRanker : Ranker
 {
-    public override IList<RankingEntry> Rank(AthleteCategory category, IEnumerable<RankingEntry> entries, IEnumerable<Participation> participations)
+    public override IList<RankingEntry> Rank(Ranking ranking, IEnumerable<Participation> participations)
     {
-        var ids = entries.Select(x => x.ParticipationId).ToList();
-        return BaseOrder(entries, participations)
+
+        var ids = ranking.Entries.Select(x => x.ParticipationId).ToList();
+        return BaseOrder(ranking.Entries, participations)
             .ThenBy(x => x.Participation.Phases.Last().ArriveTime)
             .Select(x => x.RankingEntry)
             .ToList();
@@ -27,10 +28,7 @@ internal class FeiRanker : Ranker
 internal abstract class Ranker
 {
     public Country? Country { get; protected set; }
-    public abstract IList<RankingEntry> Rank(
-        AthleteCategory category,
-        IEnumerable<RankingEntry> entries,
-        IEnumerable<Participation> participations);
+    public abstract IList<RankingEntry> Rank(Ranking ranking, IEnumerable<Participation> participations);
 
     public record Pair(RankingEntry RankingEntry, Participation Participation);
 }

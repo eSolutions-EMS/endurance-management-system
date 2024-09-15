@@ -6,6 +6,6 @@ public class BulgarianConfiguration : RegionalConfiguration
 {
     public BulgarianConfiguration() : base(new Country("BGR", "Bulgaria")) // TODO: figure out country infra
     {
-        AlwaysUseAverageLoopSpeed = true;
+        ShouldOnlyUseAverageLoopSpeed = true;
     }
 }

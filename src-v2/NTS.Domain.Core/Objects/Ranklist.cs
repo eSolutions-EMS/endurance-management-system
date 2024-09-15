@@ -11,8 +11,7 @@ public class Ranklist : ReadOnlyCollection<RankingEntry>
     private readonly static FeiRanker _feiRanker = new();
     private readonly static Ranker[] _regionalRankers = [ new BulgariaRanker() ];
 
-    public Ranklist(Ranking ranking, IEnumerable<Participation> participations)
-        : base(Rank(ranking, ranking.Entries, participations))
+    public Ranklist(Ranking ranking, IEnumerable<Participation> participations) : base(Rank(ranking, participations))
     {
         Name = ranking.Name;
         Category = ranking.Category;
@@ -26,7 +25,7 @@ public class Ranklist : ReadOnlyCollection<RankingEntry>
 
     private static IList<RankingEntry> Rank(Ranking ranking, IEnumerable<Participation> participations)
     {
-        var ranker = ranking.Ruleset == CompetitionRuleset.Regional
+        var ranker = StaticOptions.ShouldUseRegionalRanker(ranking.Ruleset)
             ? GetRanker(StaticOptions.Configuration)
             : _feiRanker;
         return ranker.Rank(ranking, participations);

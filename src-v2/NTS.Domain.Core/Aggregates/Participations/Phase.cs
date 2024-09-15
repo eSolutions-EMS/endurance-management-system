@@ -18,7 +18,7 @@ public class Phase : DomainEntity, IPhaseState
         double length,
         int maxRecovery,
         int rest,
-        CompetitionType competitionType,
+        CompetitionRuleset competitionType,
         bool isFinal,
         int? criRecovery,
         Timestamp startTimestamp,
@@ -46,12 +46,12 @@ public class Phase : DomainEntity, IPhaseState
         IsRIRequested = isRequiredInspectionRequested;
         IsCRIRequested = isCompulsoryRequiredInspectionRequested;
     }
-    public Phase(double length, int maxRecovery, int rest, CompetitionType competitionType, bool isFinal, int? criRecovery)
+    public Phase(double length, int maxRecovery, int rest, CompetitionRuleset competitionType, bool isFinal, int? criRecovery)
     {
         Length = length;
         MaxRecovery = maxRecovery;
         Rest = rest;
-        CompetitionType = competitionType;
+        CompetitionRuleset = competitionType;
         IsFinal = isFinal;
         CRIRecovery = criRecovery;
     }
@@ -60,7 +60,7 @@ public class Phase : DomainEntity, IPhaseState
     public double Length { get; private set; }
     public int MaxRecovery { get; private set; }
     public int Rest { get; private set; }
-    public CompetitionType CompetitionType { get; private set; }
+    public CompetitionRuleset CompetitionRuleset { get; private set; }
     public bool IsFinal { get; private set; }
     public int? CRIRecovery { get; private set; } // TODO: int CRIRecovery? wtf?
     public Timestamp? StartTime { get; internal set; }
@@ -112,7 +112,7 @@ public class Phase : DomainEntity, IPhaseState
 
     public Speed? GetAverageSpeed()
     {
-        if (StaticOptions.Configuration?.AlwaysUseAverageLoopSpeed ?? false)
+        if (StaticOptions.ShouldOnlyUseAverageLoopSpeed(CompetitionRuleset))
         {
             return GetAverageLoopSpeed();
         }

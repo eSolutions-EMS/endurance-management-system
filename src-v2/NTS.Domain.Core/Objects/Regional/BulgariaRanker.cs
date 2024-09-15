@@ -21,7 +21,7 @@ internal class BulgariaRanker : FeiRanker
         }
         else
         {
-            return base.Rank(ranking.Category, ranking.Entries, participations);
+            return base.Rank(ranking, participations);
         }
     }
 }
