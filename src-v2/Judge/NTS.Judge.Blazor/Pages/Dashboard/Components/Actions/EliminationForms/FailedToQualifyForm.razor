@@ -1,0 +1,63 @@
+﻿@using NTS.Domain.Core.Aggregates.Participations
+@using NTS.Domain.Objects
+@using NTS.Judge.Blazor.Enums
+@using NTS.Judge.Blazor.Ports
+@using Not.Structures
+@inherits NotComponent
+
+<MudSelect @ref="multiSelect" T="string" Label="Failed to Qualify Reason" MultiSelection="true" Delimiter="+" Value="@FTQReason" ValueChanged="OnChange" Placeholder="Select a reason">
+    @foreach (var failToQualifyCode in SelectListModel.SelectList<FTQCodes>())
+    {
+        <MudSelectItem T="string" Value="@failToQualifyCode.Value">
+            @failToQualifyCode.Value
+            <div class="font-size-10">@failToQualifyCode.Description</div>
+        </MudSelectItem>
+    }
+</MudSelect>
+<MudTextField @ref="reasonInput" @bind-Value="Reason" Label="Reason" Variant="Variant.Outlined"></MudTextField>
+<MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Update">
+    @Localizer.Get(SubmitButtonMessage)
+</MudButton>
+
+@code {
+    [Inject]
+    IParticipationBehind _participationBehind { get; set; } = default!;
+
+    private MudTextField<string?> reasonInput = default!;
+    private MudSelect<string> multiSelect = default!;
+    private string SubmitButtonMessage = "";
+
+    public string? Reason { get; set; } = null;
+    public string? FTQReason { get; set; } = null;
+
+    public async Task Update()
+    {
+        Participation? participation = _participationBehind.SelectedParticipation;
+        var tandemNumber = participation!.Tandem.Number;
+        var selectedValues = multiSelect.SelectedValues;
+        var reason = reasonInput.Value;
+        List<FTQCodes> codes = new List<FTQCodes>();
+        foreach (var value in selectedValues)
+        {
+            codes.Add((FTQCodes)Enum.Parse(typeof(FTQCodes), value));
+        }
+        if (codes.Contains(FTQCodes.FTC))
+        {
+            await _participationBehind.RevokeQualification(tandemNumber, QualificationRevokeType.FailToCompleteLoop, reason, codes.ToArray());
+        }
+        else
+        {
+            await _participationBehind.RevokeQualification(tandemNumber, QualificationRevokeType.FailToQualify, null, codes.ToArray());
+        }
+        
+    }
+
+    public void OnChange(string reason)
+    {
+        // FTQReason = reason;
+        // if (reason.Contains("FTC"))
+        // {
+        //     ReasonInputActive = true;
+        // }
+    }
+}

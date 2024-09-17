@@ -1,0 +1,21 @@
+﻿@using NTS.Domain.Core.Aggregates.Participations
+@using NTS.Judge.Blazor.Enums
+@using NTS.Judge.Blazor.Ports
+@inherits NotComponent
+
+<MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Update">
+    @Localizer.Get(SubmitButtonMessage)
+</MudButton>
+
+@code {
+    [Inject]
+    IParticipationBehind _participationBehind { get; set; } = default!;
+
+    private string SubmitButtonMessage = "";
+    public async Task Update()
+    {
+        Participation? participation = _participationBehind.SelectedParticipation;
+        var tandemNumber = participation!.Tandem.Number;
+        await _participationBehind.RevokeQualification(tandemNumber, QualificationRevokeType.FinishNotRanked);
+    }
+}

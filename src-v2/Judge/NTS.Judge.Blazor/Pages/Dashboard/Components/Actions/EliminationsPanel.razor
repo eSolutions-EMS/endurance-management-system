@@ -1,30 +1,36 @@
 ﻿@using NTS.Domain.Core.Aggregates.Participations
 @using NTS.Judge.Blazor.Enums
+@using NTS.Judge.Blazor.Pages.Dashboard.Components.Actions.EliminationForms
 @using NTS.Judge.Blazor.Ports
 @using Not.Structures
-@using System.Diagnostics
-@using static NTS.Judge.Blazor.Pages.Dashboard.Components.Actions.EliminationToggleForm
+
+@inherits NotComponent
 
 <h4>Eliminations Panel</h4>
-
-@{
-    BeforeRender();
-}
 
 <MudPaper Class="d-flex flex-column mb-2" Elevation="0">
     <MudToggleGroup @ref="toggleGroup" T="string" TextClass="@SmallTextClass" Delimiters="true" Color="Color.Error" Rounded="true"
                     SelectionMode="SelectionMode.ToggleSelection" Style="width: 20rem" ValueChanged="OnToggle" Value="ToggleGroupSelection">
-        <MudToggleItem Text="Withdrawn" Value="@("Withdraw")" />
-        <MudToggleItem Text="Retired" Value="@("Retire")" />
-        <MudToggleItem Text="Finished Not Ranked" Value="@("FinishNotRanked")" />
-        <MudToggleItem Text="Disqualified" Value="@("Disqualify")" />
-        <MudToggleItem Text="Failed to Qualify" Value="@("FailToQualify")" />
+        <MudToggleItem Text="Withdrawn" Value="@("WD")" />
+        <MudToggleItem Text="Retired" Value="@("RET")" />
+        <MudToggleItem Text="Finished Not Ranked" Value="@("FNR")" />
+        <MudToggleItem Text="Disqualified" Value="@("DQ")" />
+        <MudToggleItem Text="Failed to Qualify" Value="@("FTQ")" />
     </MudToggleGroup>
-    <MudCollapse Expanded="_toggleFormActive">
-        <EliminationToggleForm ReasonInputActive="_reasonActive" Reason="@_reason" 
-                               SelectInputActive="_selectActive" FTQReason="@_select" 
-                               OnSubmit="Submit">
-         </EliminationToggleForm>
+    <MudCollapse Expanded="@(ToggleGroupSelection=="WD")">
+        <WithdrawForm />
+    </MudCollapse>
+    <MudCollapse Expanded="@(ToggleGroupSelection=="RET")">
+        <RetireForm/>
+    </MudCollapse>
+    <MudCollapse Expanded="@(ToggleGroupSelection=="FNR")">
+        <FinishNotRankedForm/>
+    </MudCollapse>
+    <MudCollapse Expanded="@(ToggleGroupSelection=="DQ")">
+        <DisqualifyForm/>
+    </MudCollapse>
+    <MudCollapse Expanded="@(ToggleGroupSelection=="FTQ")">
+        <FailedToQualifyForm/>
     </MudCollapse>
 </MudPaper>
 
@@ -34,100 +40,17 @@
 
     private MudToggleGroup<string> toggleGroup = default!;
     private Participation _selectedParticipation = default!;
-    private bool _reasonActive = false;
-    private string? _reason = default!;
-    private bool _selectActive = false;
-    private string? _select = default!;
-    private bool _toggleFormActive { get; set; } = false;
-    private bool _participationRevoked = false;
-    private QualificationRevokeType? _qualificationRevokeType = null; 
+
     private string SmallTextClass = "font-size-10";
     private string ToggleGroupSelection = "";
 
-    protected void BeforeRender()
+    protected override async Task OnInitializedAsync()
     {
-        _selectedParticipation = _participationBehind.SelectedParticipation!;
-        _participationRevoked = _selectedParticipation.IsNotQualified;
-        if (_participationRevoked)
-        {
-            _toggleFormActive = true;
-            var notQualifiedCode = _selectedParticipation.NotQualified!.ToString();
-            var codes = notQualifiedCode.Split(" ");
-            _select =  codes.Length > 1 ? codes[1] : null ;
-            _reason = _selectedParticipation.NotQualified.Complement;
-            if (_reason != null)
-            {
-                _reasonActive = true;
-            }
-            else
-            {
-                _reasonActive = false;
-            }
-            if (_select != null)
-            {
-                _selectActive = true;
-            }
-            else
-            {
-                _selectActive = false;
-            }
-            ToggleButtonProgrammatically(codes, _reason);
-        }
+        await Observe(_participationBehind);
     }
 
     public void OnToggle(string value)
     {
-        _reasonActive = false;
-        _selectActive = false;
         ToggleGroupSelection = value;
-        if (value != null)
-        {
-            _toggleFormActive = true;
-            _qualificationRevokeType = (QualificationRevokeType)Enum.Parse(typeof(QualificationRevokeType), value);
-        }
-        else
-        {
-            _toggleFormActive = false;
-        }
-        if (value == "FinishNotRanked" || value == "Disqualify")
-        {
-            _reasonActive = true;
-        }
-        else if (value == "FaiToQualify")
-        {
-            _selectActive = true;
-        }
-    }
-
-    public async void Submit(FormData data)
-    {
-        if (data.Codes.Contains(FTQCodes.FTC))
-        {
-            _qualificationRevokeType = QualificationRevokeType.FailToCompleteLoop;
-        }
-        if (_qualificationRevokeType == null)
-        {
-            await _participationBehind.RestoreQualification(data.TandemNumber);
-        }
-        else
-        {
-            await _participationBehind.RevokeQualification(data.TandemNumber, (QualificationRevokeType)_qualificationRevokeType, data.Reason, data.Codes.ToArray());
-        }
-    }
-
-    public void ToggleButtonProgrammatically(string[] codes, string? reason)
-    {
-        var eliminationCode = codes[0];
-        var EliminationCodesPairs = new Dictionary<string, string>{
-            { "WD" , "Withdraw" },
-            { "RET", "Retire" },
-            { "FNR", "FinishNotRanked" },
-            { "DQ", "Diqualify" },
-            { "FTQ", "FailToQualify" }
-        };
-        if (EliminationCodesPairs.TryGetValue(eliminationCode, out string value))
-        {
-            ToggleGroupSelection = value;
-        }
     }
 }
