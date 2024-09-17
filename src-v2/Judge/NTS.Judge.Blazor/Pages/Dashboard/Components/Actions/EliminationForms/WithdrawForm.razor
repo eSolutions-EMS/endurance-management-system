@@ -3,9 +3,12 @@
 @using NTS.Judge.Blazor.Ports
 @inherits NotComponent
 
-<MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Update">
-    @Localizer.Get(SubmitButtonMessage)
-</MudButton>
+@if (Withdrawn != null)
+{
+    <MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Update">
+        @Localizer.Get(SubmitButtonMessage)
+    </MudButton>
+}
 
 @code {
     [Inject]
@@ -18,4 +21,7 @@
         var tandemNumber = participation!.Tandem.Number;
         await _participationBehind.RevokeQualification(tandemNumber, QualificationRevokeType.FinishNotRanked);
     }
+
+    [Parameter]
+    public Withdrawn? Withdrawn { get; set; } = default!;
 }

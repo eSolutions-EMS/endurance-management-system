@@ -15,10 +15,10 @@
         <MudToggleItem Text="Retired" Value="@("RET")" />
         <MudToggleItem Text="Finished Not Ranked" Value="@("FNR")" />
         <MudToggleItem Text="Disqualified" Value="@("DQ")" />
-        <MudToggleItem Text="Failed to Qualify" Value="@("FTQ")" />
+        <MudToggleItem Text="Failed to Qualify" Value="@NotQualified.FAILED_TO_QUALIFY" />
     </MudToggleGroup>
-    <MudCollapse Expanded="@(ToggleGroupSelection=="WD")">
-        <WithdrawForm />
+    <MudCollapse Expanded="@(_notQualified?.EliminationCode == NotQualified.FAILED_TO_QUALIFY)">
+        <WithdrawForm Withdrawn="_notQualified as Withdrawn" />
     </MudCollapse>
     <MudCollapse Expanded="@(ToggleGroupSelection=="RET")">
         <RetireForm/>
@@ -35,6 +35,8 @@
 </MudPaper>
 
 @code {
+    NotQualified? _notQualified => _participationBehind.SelectedParticipation?.NotQualified;
+
     [Inject]
     IParticipationBehind _participationBehind { get; set; } = default!;
 

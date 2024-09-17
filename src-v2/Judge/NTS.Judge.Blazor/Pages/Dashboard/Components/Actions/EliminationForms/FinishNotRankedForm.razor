@@ -5,9 +5,9 @@
 
 @inherits NotComponent
 
-@if (_finishedNotRanked != null)
+@if (_formModel?.Reason != null)
 {
-    <MudTextField @ref="reasonInput" @bind-Value="_finishedNotRanked.Complement" Label="Reason" Variant="Variant.Outlined"></MudTextField>
+    <MudTextField @ref="reasonInput" @bind-Value="_formModel.Reason" Label="Reason" Variant="Variant.Outlined"></MudTextField>
 }
 
 <MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Update">
@@ -16,7 +16,7 @@
 
 @code {
     FinishedNotRanked? _finishedNotRanked => _participationBehind.SelectedParticipation?.NotQualified as FinishedNotRanked;
-    FInishNotRankedFormModel _formModel => new FInishNotRankedFormModel(_finishedNotRanked)
+    FInishNotRankedFormModel? _formModel => _finishedNotRanked != null ? new FInishNotRankedFormModel(_finishedNotRanked) : null;
 
     [Inject]
     IParticipationBehind _participationBehind { get; set; } = default!;
@@ -51,9 +51,9 @@
     {
         public FInishNotRankedFormModel(FinishedNotRanked finishedNotRanked)
         {
-            Reason = finishedNotRanked.Complement;
+            Reason = finishedNotRanked.Complement ?? "";
         }
 
-        public string? Reason { get; set; }
+        public string Reason { get; set; }
     }
 }

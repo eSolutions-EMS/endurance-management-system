@@ -67,7 +67,7 @@ public record FailedToQualify : NotQualified
         }
         Codes = codes;
     }
-    public FailedToQualify(string complement) : base(complement)
+    public FailedToQualify(string complement) : base(complement, FAILED_TO_QUALIFY)
     {
         Codes = new List<FTQCodes>{FTQCodes.FTC};
     }
@@ -132,13 +132,17 @@ public enum FTQCodes
 
 public abstract record NotQualified : DomainObject
 {
+    public const string FAILED_TO_QUALIFY = "FTQ";
+
     protected NotQualified()
     {
     }
-    protected NotQualified(string complement)
+    protected NotQualified(string complement, string eliminationCode)
     {
         Complement = complement;
+        EliminationCode = eliminationCode;
     }
 
-    public string? Complement { get; private set; }
+    public string EliminationCode { get; }
+    public string? Complement { get; set; }
 }
