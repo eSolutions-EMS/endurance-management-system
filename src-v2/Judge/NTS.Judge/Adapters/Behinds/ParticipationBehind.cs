@@ -4,6 +4,7 @@ using Not.Exceptions;
 using NTS.Domain.Core.Aggregates.Participations;
 using NTS.Domain.Objects;
 using NTS.Judge.Blazor.Enums;
+using NTS.Judge.Blazor.Pages.Dashboard.Components.Actions.EliminationForms;
 using NTS.Judge.Blazor.Ports;
 
 namespace NTS.Judge.Adapters.Behinds;
@@ -31,7 +32,8 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
     public override async Task Initialize()
     {
         Participations = await _participationRepository.ReadAll();
-        SelectedParticipation = Participations.FirstOrDefault();
+        //hardcoded to test GetFormData method
+        SelectedParticipation = Participations.First(e=>e.Tandem.Number==4);//.FirstOrDefault();
     }
 
     public void SelectParticipation(int number)
@@ -129,5 +131,22 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
     public async Task<Participation?> Get(int id)
     {
         return await _participationRepository.Read(id);
+    }
+
+    public FormData? GetFormData()
+    {
+        var eliminationCode = SelectedParticipation?.NotQualified?.ToString();
+        if (eliminationCode == null)
+        {
+            return null;
+        }
+        else
+        {
+            var tandemNumber = SelectedParticipation!.Tandem.Number;
+            var reason = SelectedParticipation.NotQualified?.Complement;
+            var codeReasons = eliminationCode.Split(" ")[1];
+            var multiSelectReasons = codeReasons.Split("+");
+            return new FormData(eliminationCode, tandemNumber, reason, multiSelectReasons);
+        }
     }
 }

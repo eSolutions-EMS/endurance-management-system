@@ -2,6 +2,7 @@
 using NTS.Domain.Core.Aggregates.Participations;
 using NTS.Domain.Objects;
 using NTS.Judge.Blazor.Enums;
+using NTS.Judge.Blazor.Pages.Dashboard.Components.Actions.EliminationForms;
 
 namespace NTS.Judge.Blazor.Ports;
 
@@ -19,4 +20,5 @@ public interface IParticipationBehind : IObservableBehind
     Task RevokeQualification(int number, QualificationRevokeType type, string? reason = null, params FTQCodes[] ftqCodes);
     Task RestoreQualification(int number);
     Task<Participation?> Get(int id);
+    FormData? GetFormData();
 }
