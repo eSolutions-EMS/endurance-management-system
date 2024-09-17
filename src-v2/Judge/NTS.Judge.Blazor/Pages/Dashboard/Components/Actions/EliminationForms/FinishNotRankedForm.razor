@@ -2,14 +2,22 @@
 @using NTS.Judge.Blazor.Enums
 @using NTS.Judge.Blazor.Ports
 @using System.Diagnostics
+
 @inherits NotComponent
 
-<MudTextField @ref="reasonInput" @bind-Value="Reason" Label="Reason" Variant="Variant.Outlined"></MudTextField>
+@if (_finishedNotRanked != null)
+{
+    <MudTextField @ref="reasonInput" @bind-Value="_finishedNotRanked.Complement" Label="Reason" Variant="Variant.Outlined"></MudTextField>
+}
+
 <MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Update">
     @Localizer.Get(SubmitButtonMessage)
 </MudButton>
 
 @code {
+    FinishedNotRanked? _finishedNotRanked => _participationBehind.SelectedParticipation?.NotQualified as FinishedNotRanked;
+    FInishNotRankedFormModel _formModel => new FInishNotRankedFormModel(_finishedNotRanked)
+
     [Inject]
     IParticipationBehind _participationBehind { get; set; } = default!;
 
@@ -18,6 +26,7 @@
     private string SubmitButtonMessage = "";
     [Parameter]
     public bool RevokedQualification { get; set; } = default!;
+    FormData? _formData;
 
     protected override async Task OnInitializedAsync()
     {
@@ -26,7 +35,7 @@
 
     protected override void OnParametersSet()
     {
-        var data = _participationBehind.GetFormData();
+        _formData = _participationBehind.GetFormData();
         Debug.WriteLine("Ruckai ruckai");
     }
 
@@ -36,5 +45,15 @@
         var reason = participation?.NotQualified?.Complement;
         var tandemNumber = participation!.Tandem.Number;
         await _participationBehind.RevokeQualification(tandemNumber, QualificationRevokeType.FinishNotRanked, reason);
+    }
+
+    public class FInishNotRankedFormModel
+    {
+        public FInishNotRankedFormModel(FinishedNotRanked finishedNotRanked)
+        {
+            Reason = finishedNotRanked.Complement;
+        }
+
+        public string? Reason { get; set; }
     }
 }
