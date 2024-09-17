@@ -10,49 +10,45 @@
 
 <MudPaper Class="d-flex flex-column mb-2" Elevation="0">
     <MudToggleGroup @ref="toggleGroup" T="string" TextClass="@SmallTextClass" Delimiters="true" Color="Color.Error" Rounded="true"
-                    SelectionMode="SelectionMode.ToggleSelection" Style="width: 20rem" ValueChanged="OnToggle" Value="ToggleGroupSelection">
-        <MudToggleItem Text="Withdrawn" Value="@("WD")" />
-        <MudToggleItem Text="Retired" Value="@("RET")" />
-        <MudToggleItem Text="Finished Not Ranked" Value="@("FNR")" />
-        <MudToggleItem Text="Disqualified" Value="@("DQ")" />
-        <MudToggleItem Text="Failed to Qualify" Value="@NotQualified.FAILED_TO_QUALIFY" />
+                    SelectionMode="SelectionMode.ToggleSelection" Style="width: 20rem" Value="_notQualified?.EliminationCode">
+        <MudToggleItem Text="Withdrawn" Value="@(NotQualified.WITHDRAWN)" />
+        <MudToggleItem Text="Retired" Value="@(NotQualified.RETIRED)" />
+        <MudToggleItem Text="Finished Not Ranked" Value="@(NotQualified.FINISHED_NOT_RANKED)" />
+        <MudToggleItem Text="Disqualified" Value="@(NotQualified.DISQUALIFIED)" />
+        <MudToggleItem Text="Failed to Qualify" Value="@(NotQualified.FAILED_TO_QUALIFY)" />
     </MudToggleGroup>
-    <MudCollapse Expanded="@(_notQualified?.EliminationCode == NotQualified.FAILED_TO_QUALIFY)">
-        <WithdrawForm Withdrawn="_notQualified as Withdrawn" />
-    </MudCollapse>
-    <MudCollapse Expanded="@(ToggleGroupSelection=="RET")">
-        <RetireForm/>
-    </MudCollapse>
-    <MudCollapse Expanded="@(ToggleGroupSelection=="FNR")">
-        <FinishNotRankedForm/>
-    </MudCollapse>
-    <MudCollapse Expanded="@(ToggleGroupSelection=="DQ")">
-        <DisqualifyForm/>
-    </MudCollapse>
-    <MudCollapse Expanded="@(ToggleGroupSelection=="FTQ")">
-        <FailedToQualifyForm/>
-    </MudCollapse>
+    @if(_notQualified != null )
+    {
+        <MudCollapse Expanded="@(_notQualified?.EliminationCode == NotQualified.WITHDRAWN)">
+            <WithdrawForm Withdrawn="_notQualified as Withdrawn" />
+        </MudCollapse>
+        <MudCollapse Expanded="@(_notQualified?.EliminationCode == NotQualified.RETIRED)">
+            <RetireForm Retired="_notQualified as Retired"/>
+        </MudCollapse>
+        <MudCollapse Expanded="@(_notQualified?.EliminationCode == NotQualified.FINISHED_NOT_RANKED)">
+            <FinishNotRankedForm FinishedNotRanked="_notQualified as FinishedNotRanked"/>
+        </MudCollapse>
+        <MudCollapse Expanded="@(_notQualified?.EliminationCode == NotQualified.DISQUALIFIED)">
+            <DisqualifyForm Disqualified="_notQualified as Disqualified"/>
+        </MudCollapse>
+        <MudCollapse Expanded="@(_notQualified!.EliminationCode.Contains(NotQualified.FAILED_TO_QUALIFY))">
+            <FailedToQualifyForm FailedToQualify="_notQualified as FailedToQualify"/>
+        </MudCollapse>
+    }
+
 </MudPaper>
 
 @code {
-    NotQualified? _notQualified => _participationBehind.SelectedParticipation?.NotQualified;
-
     [Inject]
     IParticipationBehind _participationBehind { get; set; } = default!;
+    NotQualified? _notQualified => _participationBehind.SelectedParticipation?.NotQualified;
 
     private MudToggleGroup<string> toggleGroup = default!;
     private Participation _selectedParticipation = default!;
-
     private string SmallTextClass = "font-size-10";
-    private string ToggleGroupSelection = "";
 
     protected override async Task OnInitializedAsync()
     {
         await Observe(_participationBehind);
-    }
-
-    public void OnToggle(string value)
-    {
-        ToggleGroupSelection = value;
     }
 }

@@ -5,9 +5,9 @@
 
 @inherits NotComponent
 
-@if (_formModel?.Reason != null)
+@if (FinishedNotRanked != null)
 {
-    <MudTextField @ref="reasonInput" @bind-Value="_formModel.Reason" Label="Reason" Variant="Variant.Outlined"></MudTextField>
+    <MudTextField @ref="reasonInput" @bind-Value="FinishedNotRanked.Complement" Label="Reason" Variant="Variant.Outlined"></MudTextField>
 }
 
 <MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Update">
@@ -15,28 +15,17 @@
 </MudButton>
 
 @code {
-    FinishedNotRanked? _finishedNotRanked => _participationBehind.SelectedParticipation?.NotQualified as FinishedNotRanked;
-    FInishNotRankedFormModel? _formModel => _finishedNotRanked != null ? new FInishNotRankedFormModel(_finishedNotRanked) : null;
-
     [Inject]
     IParticipationBehind _participationBehind { get; set; } = default!;
-
+    [Parameter]
+    public FinishedNotRanked? FinishedNotRanked { get; set; } = default!;
     private MudTextField<string?> reasonInput = default!;
     public string? Reason { get; set; } = null;
-    private string SubmitButtonMessage = "";
-    [Parameter]
-    public bool RevokedQualification { get; set; } = default!;
-    FormData? _formData;
+    private string SubmitButtonMessage = "Save";
 
     protected override async Task OnInitializedAsync()
     {
         await Observe(_participationBehind);
-    }
-
-    protected override void OnParametersSet()
-    {
-        _formData = _participationBehind.GetFormData();
-        Debug.WriteLine("Ruckai ruckai");
     }
 
     public async Task Update()
@@ -45,15 +34,5 @@
         var reason = participation?.NotQualified?.Complement;
         var tandemNumber = participation!.Tandem.Number;
         await _participationBehind.RevokeQualification(tandemNumber, QualificationRevokeType.FinishNotRanked, reason);
-    }
-
-    public class FInishNotRankedFormModel
-    {
-        public FInishNotRankedFormModel(FinishedNotRanked finishedNotRanked)
-        {
-            Reason = finishedNotRanked.Complement ?? "";
-        }
-
-        public string Reason { get; set; }
     }
 }

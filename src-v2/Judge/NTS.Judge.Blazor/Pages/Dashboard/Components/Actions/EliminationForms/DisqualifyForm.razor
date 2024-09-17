@@ -3,7 +3,11 @@
 @using NTS.Judge.Blazor.Ports
 @inherits NotComponent
 
-<MudTextField @ref="reasonInput" @bind-Value="Reason" Label="Reason" Variant="Variant.Outlined"></MudTextField>
+@if(Disqualified != null)
+{
+    <MudTextField @ref="reasonInput" @bind-Value="Disqualified.Complement" Label="Reason" Variant="Variant.Outlined"></MudTextField>
+}
+
 <MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Update">
     @Localizer.Get(SubmitButtonMessage)
 </MudButton>
@@ -25,4 +29,6 @@
         var tandemNumber = participation!.Tandem.Number;
         await _participationBehind.RevokeQualification(tandemNumber, QualificationRevokeType.Disqualify, reason);
     }
+    [Parameter]
+    public Disqualified? Disqualified { get; set; }
 }

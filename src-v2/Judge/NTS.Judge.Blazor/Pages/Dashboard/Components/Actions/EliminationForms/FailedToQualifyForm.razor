@@ -3,18 +3,26 @@
 @using NTS.Judge.Blazor.Enums
 @using NTS.Judge.Blazor.Ports
 @using Not.Structures
+
 @inherits NotComponent
 
-<MudSelect @ref="multiSelect" T="string" Label="Failed to Qualify Reason" MultiSelection="true" Delimiter="+" Value="@FTQReason" ValueChanged="OnChange" Placeholder="Select a reason">
-    @foreach (var failToQualifyCode in SelectListModel.SelectList<FTQCodes>())
+@if(FailedToQualify != null)
+{
+    <MudSelect @ref="multiSelect" T="string" Label="Failed to Qualify Reason" MultiSelection="true" Delimiter="+" Value="@FTQReason" Placeholder="Select a reason">
+        @foreach (var failToQualifyCode in SelectListModel.SelectList<FTQCodes>())
+        {
+            <MudSelectItem T="string" Value="@failToQualifyCode.Value">
+                @failToQualifyCode.Value
+                <div class="font-size-10">@failToQualifyCode.Description</div>
+            </MudSelectItem>
+        }
+    </MudSelect>
+    @if (FTQReason != null && FTQReason.Contains("FTC"))
     {
-        <MudSelectItem T="string" Value="@failToQualifyCode.Value">
-            @failToQualifyCode.Value
-            <div class="font-size-10">@failToQualifyCode.Description</div>
-        </MudSelectItem>
+        <MudTextField @ref="reasonInput" @bind-Value="FailedToQualify.Complement" Label="Reason" Variant="Variant.Outlined"></MudTextField>
     }
-</MudSelect>
-<MudTextField @ref="reasonInput" @bind-Value="Reason" Label="Reason" Variant="Variant.Outlined"></MudTextField>
+}
+
 <MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Update">
     @Localizer.Get(SubmitButtonMessage)
 </MudButton>
@@ -22,13 +30,20 @@
 @code {
     [Inject]
     IParticipationBehind _participationBehind { get; set; } = default!;
+    [Parameter]
+    public FailedToQualify? FailedToQualify { get; set; }
 
     private MudTextField<string?> reasonInput = default!;
     private MudSelect<string> multiSelect = default!;
-    private string SubmitButtonMessage = "";
+    private string SubmitButtonMessage = "Save";
 
     public string? Reason { get; set; } = null;
     public string? FTQReason { get; set; } = null;
+
+    protected override void OnParametersSet()
+    {
+        FTQReason = ParseFTQCodesToString();
+    }
 
     public async Task Update()
     {
@@ -49,15 +64,25 @@
         {
             await _participationBehind.RevokeQualification(tandemNumber, QualificationRevokeType.FailToQualify, null, codes.ToArray());
         }
-        
+
     }
 
-    public void OnChange(string reason)
+    public string ParseFTQCodesToString()
     {
-        // FTQReason = reason;
-        // if (reason.Contains("FTC"))
-        // {
-        //     ReasonInputActive = true;
-        // }
+        string parsedCodes = "";
+        var codesCount = FailedToQualify?.Codes.Count();
+        for(int i = 0; i < codesCount; i++)
+        {
+            var code = FailedToQualify?.Codes.ElementAt(i);
+            if (i == 0 || i == codesCount - 1)
+            {
+                parsedCodes += code.ToString();
+            }
+            else
+            {
+                parsedCodes += code.ToString() + "+";
+            }
+        }
+        return parsedCodes;
     }
 }
