@@ -18,7 +18,7 @@ public class CountriesContext : ICountriesContext
 
     public ReadOnlyCollection<Country> Countries { get; }
 
-    public async Task<IEnumerable<Country>> Search(string partialName)
+    public async Task<IEnumerable<Country>> Search(string partialName, CancellationToken token)
     {
         if (partialName is null or "")
         {
@@ -31,5 +31,5 @@ public class CountriesContext : ICountriesContext
 public interface ICountriesContext : ISingletonService
 {
     ReadOnlyCollection<Country> Countries { get; }
-    Task<IEnumerable<Country>> Search(string partialName);
+    Task<IEnumerable<Country>> Search(string partialName, CancellationToken token);
 }

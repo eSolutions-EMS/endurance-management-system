@@ -16,7 +16,7 @@
 
 @code {
     [Parameter]
-    public Func<string, Task<IEnumerable<T>>> Search { get; set; } = default!;
+    public Func<string, CancellationToken, Task<IEnumerable<T>>> Search { get; set; } = default!;
     [Parameter]
     public string? Class { get; set; }
     [Parameter]
