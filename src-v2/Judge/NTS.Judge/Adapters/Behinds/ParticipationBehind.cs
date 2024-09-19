@@ -32,8 +32,7 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
     public override async Task Initialize()
     {
         Participations = await _participationRepository.ReadAll();
-        //hardcoded to test GetFormData method
-        SelectedParticipation = Participations.First(e=>e.Tandem.Number==4);//.FirstOrDefault();
+        SelectedParticipation = Participations.FirstOrDefault();
     }
 
     public void SelectParticipation(int number)
