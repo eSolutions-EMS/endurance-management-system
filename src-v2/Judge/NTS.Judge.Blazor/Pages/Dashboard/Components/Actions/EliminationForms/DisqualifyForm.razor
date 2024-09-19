@@ -4,8 +4,13 @@
 @inherits NotComponent
 
 <MudTextField @ref="reasonInput" @bind-Value="Reason" Label="Reason" Variant="Variant.Outlined"></MudTextField>
-<MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Update">
-    @Localizer.Get(SubmitButtonMessage)
+
+<MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Revoke">
+    @Localizer.Get("Eliminate")
+</MudButton>
+
+<MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Restore">
+    @Localizer.Get("Restore")
 </MudButton>
 
 @code {
@@ -15,32 +20,27 @@
     [Parameter]
     public Disqualified? Disqualified { get; set; }
 
-    private string? Reason {
+    private string? Reason 
+    {
         get => Disqualified != null ? Disqualified.Complement : _value;
         set { _value = value; }
     }
     private string? _value;
     private MudTextField<string?> reasonInput = default!;
-    private string SubmitButtonMessage = "Save";
 
-    protected override void OnParametersSet()
-    {
-        if (Disqualified != null)
-        {
-            SubmitButtonMessage = "Restore Qualification";
-        }
-    }
-
-    public async Task Update()
+    public async Task Revoke()
     {
         Participation? participation = _participationBehind.SelectedParticipation;
         var tandemNumber = participation!.Tandem.Number;
-        var reason = participation?.NotQualified?.Complement;
-        if (participation.IsNotQualified)
-        {
-            await _participationBehind.RestoreQualification(tandemNumber);
-        }
+        var reason = Reason;
         await _participationBehind.RevokeQualification(tandemNumber, QualificationRevokeType.Disqualify, reason);
     }
 
+    public async Task Restore()
+    {
+        Participation? participation = _participationBehind.SelectedParticipation;
+        var tandemNumber = participation!.Tandem.Number;
+        _value = null;
+        await _participationBehind.RestoreQualification(tandemNumber);
+    }
 }

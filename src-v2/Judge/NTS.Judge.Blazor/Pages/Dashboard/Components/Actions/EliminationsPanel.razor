@@ -41,6 +41,8 @@
 @code {
     [Inject]
     IParticipationBehind _participationBehind { get; set; } = default!;
+    [Parameter]
+    public string? InitialValue { get; set; }
     NotQualified? _notQualified => _participationBehind.SelectedParticipation?.NotQualified;
     private string? _buttonValue {
         get => _notQualified != null ? _notQualified.EliminationCode : _value; 
@@ -51,10 +53,14 @@
     private string SmallTextClass = "font-size-10";
     private string? _value;
 
-
     protected override async Task OnInitializedAsync()
     {
         await Observe(_participationBehind);
+    }
+
+    protected override void OnParametersSet()
+    {
+        _value = InitialValue;
     }
 
     public void OnToggle(string value)

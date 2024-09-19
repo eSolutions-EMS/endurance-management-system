@@ -6,7 +6,7 @@
 
 @inherits NotComponent
 
-<MudSelect @ref="multiSelect" T="string" Label="Failed to Qualify Reason" MultiSelection="true" Delimiter="+" Value="@FTQReason" ValueChanged="OnChange" Placeholder="Select a reason">
+<MudSelect @ref="multiSelect" T="string" Label="Failed to Qualify Reason" MultiSelection="true" Delimiter="+" Value="@FTQReason" Placeholder="Select a reason">
     @foreach (var failToQualifyCode in SelectListModel.SelectList<FTQCodes>())
     {
         <MudSelectItem T="string" Value="@failToQualifyCode.Value">
@@ -20,8 +20,12 @@
 </MudCollapse>
 
 
-<MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Update">
-    @Localizer.Get(SubmitButtonMessage)
+<MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Revoke">
+    @Localizer.Get("Eliminate")
+</MudButton>
+
+<MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Restore">
+    @Localizer.Get("Restore")
 </MudButton>
 
 @code {
@@ -41,28 +45,14 @@
         set { _reasonValue = value; }
     }
     private string? _reasonValue;
-    private bool _reasonInputActive = false;
+    private bool _reasonInputActive => FTQReason != null ? FTQReason.Contains("FTC") : false;
     private MudTextField<string?> reasonInput = default!;
     private MudSelect<string> multiSelect = default!;
-    private string SubmitButtonMessage = "Save";
 
-    protected override void OnParametersSet()
-    {
-        if (FailedToQualify != null)
-        {
-            SubmitButtonMessage = "Restore Qualification";
-        }
-    }
-
-    public async Task Update()
+    public async Task Revoke()
     {
         Participation? participation = _participationBehind.SelectedParticipation;
         var tandemNumber = participation!.Tandem.Number;
-        if (participation.IsNotQualified)
-        {
-            await _participationBehind.RestoreQualification(tandemNumber);
-            return;
-        }
         var selectedValues = multiSelect.SelectedValues;
         var reason = reasonInput.Value;
         List<FTQCodes> codes = new List<FTQCodes>();
@@ -80,16 +70,13 @@
         }
     }
 
-    public void OnChange(string value)
+    public async Task Restore()
     {
-        if (value.Contains("FTC"))
-        {
-            _reasonInputActive = true;
-        }
-        else
-        {
-            _reasonInputActive = false;
-        }
+        Participation? participation = _participationBehind.SelectedParticipation;
+        var tandemNumber = participation!.Tandem.Number;
+        _reasonValue = null;
+        _value = null;
+        await _participationBehind.RestoreQualification(tandemNumber);
     }
 
     public string ParseFTQCodesToString(IEnumerable<FTQCodes> FTQ_codes)

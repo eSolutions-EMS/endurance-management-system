@@ -4,8 +4,12 @@
 
 @inherits NotComponent
 
-<MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Update">
-    @Localizer.Get(SubmitButtonMessage)
+<MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Revoke">
+    @Localizer.Get("Eliminate")
+</MudButton>
+
+<MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Restore">
+    @Localizer.Get("Restore")
 </MudButton>
 
 
@@ -14,27 +18,18 @@
     IParticipationBehind _participationBehind { get; set; } = default!;
     [Parameter]
     public Withdrawn? Withdrawn { get; set; } = default!;
-    private string SubmitButtonMessage = "Save";
 
-    protected override void OnParametersSet()
-    {
-        if (Withdrawn != null)
-        {
-            SubmitButtonMessage = "Restore Qualification";
-        }
-    }
-
-    public async Task Update()
+    public async Task Revoke()
     {
         Participation? participation = _participationBehind.SelectedParticipation;
         var tandemNumber = participation!.Tandem.Number;
-        if (participation.IsNotQualified)
-        {
-            await _participationBehind.RestoreQualification(tandemNumber);
-        }
-        else
-        {
-            await _participationBehind.RevokeQualification(tandemNumber, QualificationRevokeType.Withdraw);
-        }
+        await _participationBehind.RevokeQualification(tandemNumber, QualificationRevokeType.Withdraw);
+    }
+
+    public async Task Restore()
+    {
+        Participation? participation = _participationBehind.SelectedParticipation;
+        var tandemNumber = participation!.Tandem.Number;
+        await _participationBehind.RestoreQualification(tandemNumber);
     }
 }
