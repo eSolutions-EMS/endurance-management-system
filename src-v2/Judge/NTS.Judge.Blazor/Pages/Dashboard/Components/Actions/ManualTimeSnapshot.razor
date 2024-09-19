@@ -1,11 +1,13 @@
 ﻿@using NTS.Domain.Objects
 @using NTS.Judge.Blazor.Ports
 
+@inherits NotComponent
+
 <h4>Time Snapshot</h4>
 
 <MudPaper Class="d-flex flex-row mb-4" Elevation="0">
     <MudTextField @ref="timeInput" @bind-Value="TimeValue" T="string" Label="Time" Mask="@(new PatternMask("00:00:00"))" Class="one-third-width mr-2"/>
-    <MudButtonGroup Color="Color.Tertiary" Size="Size.Small" Variant="Variant.Filled">
+    <MudButtonGroup Color="Color.Tertiary" Size="Size.Small" Variant="Variant.Filled" VerticalAlign="true">
         <MudButton OnClick="SnapshotTime">Snapshot</MudButton>
         <MudButton OnClick="Send">Save</MudButton>
     </MudButtonGroup>
@@ -16,6 +18,11 @@
     IParticipationBehind _participationBehind { get; set; } = default!;
     private MudTextField<string> timeInput = default!;
     private string TimeValue = "00:00:00";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Observe(_participationBehind);
+    }
 
     public void SnapshotTime()
     {
