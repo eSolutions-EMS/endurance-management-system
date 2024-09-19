@@ -142,10 +142,3 @@ public interface IPhaseState
     public Timestamp? InspectTime { get; }
     public Timestamp? ReinspectTime { get; }
 }
-
-public enum PhaseState
-{
-    Ongoing = 1,
-    Arrived = 2,
-    Presented = 3
-}

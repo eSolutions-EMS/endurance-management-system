@@ -74,23 +74,6 @@ public class Participation : DomainEntity, IAggregateRoot
         EvaluatePhase(phase);
     }
 
-    public PhaseState GetPhaseState()
-    {
-        var phase = Phases.Current;
-        if(phase?.ArriveTime == null)
-        {
-            return PhaseState.Ongoing;
-        }
-        else if(phase?.InspectTime == null)
-        {
-            return PhaseState.Arrived;
-        }
-        else
-        {
-            return PhaseState.Presented;
-        }
-    }
-
     public void RequestReinspection(bool requested)
     {
         Phases.Current.IsReinspectionRequested = requested;

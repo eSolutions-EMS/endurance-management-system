@@ -56,6 +56,7 @@
         if (TimeValue != "00:00:00")
         {
             var convertedInput = TimeSpan.Parse(TimeValue);
+            TimeValue = "00:00:00";
             var time = DateTime.Today + convertedInput;
             var snapshot = CreateSnapshot(time);
             _participationBehind?.Process(snapshot);
