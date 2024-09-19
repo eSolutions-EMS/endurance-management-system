@@ -5,10 +5,8 @@
 
 @inherits NotComponent
 
-@if (FinishedNotRanked != null)
-{
-    <MudTextField @ref="reasonInput" @bind-Value="FinishedNotRanked.Complement" Label="Reason" Variant="Variant.Outlined"></MudTextField>
-}
+
+<MudTextField @ref="reasonInput" @bind-Value="Reason" Label="Reason" Variant="Variant.Outlined"></MudTextField>
 
 <MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Update">
     @Localizer.Get(SubmitButtonMessage)
@@ -19,20 +17,35 @@
     IParticipationBehind _participationBehind { get; set; } = default!;
     [Parameter]
     public FinishedNotRanked? FinishedNotRanked { get; set; } = default!;
+    private string? Reason
+    {
+        get => FinishedNotRanked != null ? FinishedNotRanked.Complement : _value;
+        set { _value = value; }
+    }
+    private string? _value;
     private MudTextField<string?> reasonInput = default!;
-    public string? Reason { get; set; } = null;
     private string SubmitButtonMessage = "Save";
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnParametersSet()
     {
-        await Observe(_participationBehind);
+        if (FinishedNotRanked != null)
+        {
+            SubmitButtonMessage = "Restore Qualification";
+        }
     }
 
     public async Task Update()
     {
         Participation? participation = _participationBehind.SelectedParticipation;
-        var reason = participation?.NotQualified?.Complement;
         var tandemNumber = participation!.Tandem.Number;
-        await _participationBehind.RevokeQualification(tandemNumber, QualificationRevokeType.FinishNotRanked, reason);
+        var reason = participation?.NotQualified?.Complement;
+        if (participation.IsNotQualified)
+        {
+            await _participationBehind.RestoreQualification(tandemNumber);
+        }
+        else
+        {
+            await _participationBehind.RevokeQualification(tandemNumber, QualificationRevokeType.FinishNotRanked, reason);
+        }       
     }
 }

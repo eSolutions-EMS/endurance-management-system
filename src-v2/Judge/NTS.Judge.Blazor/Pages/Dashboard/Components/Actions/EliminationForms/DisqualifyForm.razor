@@ -3,11 +3,7 @@
 @using NTS.Judge.Blazor.Ports
 @inherits NotComponent
 
-@if(Disqualified != null)
-{
-    <MudTextField @ref="reasonInput" @bind-Value="Disqualified.Complement" Label="Reason" Variant="Variant.Outlined"></MudTextField>
-}
-
+<MudTextField @ref="reasonInput" @bind-Value="Reason" Label="Reason" Variant="Variant.Outlined"></MudTextField>
 <MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Update">
     @Localizer.Get(SubmitButtonMessage)
 </MudButton>
@@ -16,19 +12,35 @@
 
     [Inject]
     IParticipationBehind _participationBehind { get; set; } = default!;
+    [Parameter]
+    public Disqualified? Disqualified { get; set; }
 
+    private string? Reason {
+        get => Disqualified != null ? Disqualified.Complement : _value;
+        set { _value = value; }
+    }
+    private string? _value;
     private MudTextField<string?> reasonInput = default!;
-    private string SubmitButtonMessage = "";
+    private string SubmitButtonMessage = "Save";
 
-    public string? Reason { get; set; } = null;
+    protected override void OnParametersSet()
+    {
+        if (Disqualified != null)
+        {
+            SubmitButtonMessage = "Restore Qualification";
+        }
+    }
 
     public async Task Update()
     {
         Participation? participation = _participationBehind.SelectedParticipation;
-        var reason = participation?.NotQualified?.Complement;
         var tandemNumber = participation!.Tandem.Number;
+        var reason = participation?.NotQualified?.Complement;
+        if (participation.IsNotQualified)
+        {
+            await _participationBehind.RestoreQualification(tandemNumber);
+        }
         await _participationBehind.RevokeQualification(tandemNumber, QualificationRevokeType.Disqualify, reason);
     }
-    [Parameter]
-    public Disqualified? Disqualified { get; set; }
+
 }

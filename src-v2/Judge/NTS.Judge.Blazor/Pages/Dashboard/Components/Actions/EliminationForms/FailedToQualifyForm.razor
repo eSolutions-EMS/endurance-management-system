@@ -6,22 +6,19 @@
 
 @inherits NotComponent
 
-@if(FailedToQualify != null)
-{
-    <MudSelect @ref="multiSelect" T="string" Label="Failed to Qualify Reason" MultiSelection="true" Delimiter="+" Value="@FTQReason" Placeholder="Select a reason">
-        @foreach (var failToQualifyCode in SelectListModel.SelectList<FTQCodes>())
-        {
-            <MudSelectItem T="string" Value="@failToQualifyCode.Value">
-                @failToQualifyCode.Value
-                <div class="font-size-10">@failToQualifyCode.Description</div>
-            </MudSelectItem>
-        }
-    </MudSelect>
-    @if (FTQReason != null && FTQReason.Contains("FTC"))
+<MudSelect @ref="multiSelect" T="string" Label="Failed to Qualify Reason" MultiSelection="true" Delimiter="+" Value="@FTQReason" ValueChanged="OnChange" Placeholder="Select a reason">
+    @foreach (var failToQualifyCode in SelectListModel.SelectList<FTQCodes>())
     {
-        <MudTextField @ref="reasonInput" @bind-Value="FailedToQualify.Complement" Label="Reason" Variant="Variant.Outlined"></MudTextField>
+        <MudSelectItem T="string" Value="@failToQualifyCode.Value">
+            @failToQualifyCode.Value
+            <div class="font-size-10">@failToQualifyCode.Description</div>
+        </MudSelectItem>
     }
-}
+</MudSelect>
+<MudCollapse Expanded="_reasonInputActive">
+    <MudTextField @ref="reasonInput" @bind-Value="Reason" Label="Reason" Variant="Variant.Outlined"></MudTextField>
+</MudCollapse>
+
 
 <MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Update">
     @Localizer.Get(SubmitButtonMessage)
@@ -32,23 +29,40 @@
     IParticipationBehind _participationBehind { get; set; } = default!;
     [Parameter]
     public FailedToQualify? FailedToQualify { get; set; }
-
+    private string? FTQReason
+    {
+        get => FailedToQualify != null ? ParseFTQCodesToString(FailedToQualify!.Codes) : _value;
+        set { _value = value; }
+    }
+    private string? _value;
+    public string? Reason 
+    { 
+        get => FailedToQualify != null && FailedToQualify.Codes != null ? FailedToQualify.Complement : _reasonValue;
+        set { _reasonValue = value; }
+    }
+    private string? _reasonValue;
+    private bool _reasonInputActive = false;
     private MudTextField<string?> reasonInput = default!;
     private MudSelect<string> multiSelect = default!;
     private string SubmitButtonMessage = "Save";
 
-    public string? Reason { get; set; } = null;
-    public string? FTQReason { get; set; } = null;
-
     protected override void OnParametersSet()
     {
-        FTQReason = ParseFTQCodesToString();
+        if (FailedToQualify != null)
+        {
+            SubmitButtonMessage = "Restore Qualification";
+        }
     }
 
     public async Task Update()
     {
         Participation? participation = _participationBehind.SelectedParticipation;
         var tandemNumber = participation!.Tandem.Number;
+        if (participation.IsNotQualified)
+        {
+            await _participationBehind.RestoreQualification(tandemNumber);
+            return;
+        }
         var selectedValues = multiSelect.SelectedValues;
         var reason = reasonInput.Value;
         List<FTQCodes> codes = new List<FTQCodes>();
@@ -64,13 +78,24 @@
         {
             await _participationBehind.RevokeQualification(tandemNumber, QualificationRevokeType.FailToQualify, null, codes.ToArray());
         }
-
     }
 
-    public string ParseFTQCodesToString()
+    public void OnChange(string value)
+    {
+        if (value.Contains("FTC"))
+        {
+            _reasonInputActive = true;
+        }
+        else
+        {
+            _reasonInputActive = false;
+        }
+    }
+
+    public string ParseFTQCodesToString(IEnumerable<FTQCodes> FTQ_codes)
     {
         string parsedCodes = "";
-        var codesCount = FailedToQualify?.Codes.Count();
+        var codesCount = FTQ_codes.Count();
         for(int i = 0; i < codesCount; i++)
         {
             var code = FailedToQualify?.Codes.ElementAt(i);

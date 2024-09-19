@@ -16,10 +16,25 @@
     public Withdrawn? Withdrawn { get; set; } = default!;
     private string SubmitButtonMessage = "Save";
 
+    protected override void OnParametersSet()
+    {
+        if (Withdrawn != null)
+        {
+            SubmitButtonMessage = "Restore Qualification";
+        }
+    }
+
     public async Task Update()
     {
         Participation? participation = _participationBehind.SelectedParticipation;
         var tandemNumber = participation!.Tandem.Number;
-        await _participationBehind.RevokeQualification(tandemNumber, QualificationRevokeType.FinishNotRanked);
+        if (participation.IsNotQualified)
+        {
+            await _participationBehind.RestoreQualification(tandemNumber);
+        }
+        else
+        {
+            await _participationBehind.RevokeQualification(tandemNumber, QualificationRevokeType.Withdraw);
+        }
     }
 }
