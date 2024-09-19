@@ -71,6 +71,7 @@ public record FailedToQualify : NotQualified
             throw new DomainException($"'Failed to Complete' requires a writen explanation from officials. Please provide 'complement'");
         }
         Codes = codes;
+        EliminationCode = FAILED_TO_QUALIFY;
     }
     [JsonConstructor]
     public FailedToQualify(string complement) : base(complement, FAILED_TO_QUALIFY)
@@ -157,6 +158,6 @@ public abstract record NotQualified : DomainObject
         EliminationCode = eliminationCode;
     }
 
-    public string EliminationCode { get; }
+    public string EliminationCode { get; protected set; }
     public string? Complement { get; set; }
 }
