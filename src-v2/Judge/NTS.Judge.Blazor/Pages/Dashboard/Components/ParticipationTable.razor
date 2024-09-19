@@ -28,7 +28,7 @@
                 <TableData Value="@phase.ArriveTime" />
                 <TableData Value="@phase.InspectTime" />
                 <TableData Value="@phase.ReinspectTime" />
-                <TableData Value="@(phase.IsCRIRequested ? null : phase.RequiredInspectionTime)" />
+                <TableData Value="@(!phase.IsCRIRequested && phase.IsRIRequested ? phase.RequiredInspectionTime : null)" />
                 <TableData Value="@(phase.IsCRIRequested ? phase.RequiredInspectionTime : null)" />
                 <TableData Value="@phase.RecoverySpan" />
                 <TableData Value="@phase.LoopSpan" />
