@@ -47,12 +47,16 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
     {
         SelectedParticipation!.RequestReinspection(requestFlag);
         _participationRepository.Update(SelectedParticipation);
+
+        EmitChange();
     }
 
     public void RequestRequiredInspection(bool requestFlag)
     {
         SelectedParticipation!.RequestRequiredInspection(requestFlag);
         _participationRepository.Update(SelectedParticipation);
+
+        EmitChange();
     }
 
     public async Task Process(Snapshot snapshot)
@@ -116,6 +120,8 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
             participation.FailToCompleteLoop(reason);
         }
         await _participationRepository.Update(participation);
+
+        EmitChange();
     }
 
     public async Task RestoreQualification(int number)
@@ -125,27 +131,12 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
 
         participation.RestoreQualification();
         await _participationRepository.Update(participation);
+
+        EmitChange();
     }
 
     public async Task<Participation?> Get(int id)
     {
         return await _participationRepository.Read(id);
-    }
-
-    public FormData? GetFormData()
-    {
-        var eliminationCode = SelectedParticipation?.NotQualified?.ToString();
-        if (eliminationCode == null)
-        {
-            return null;
-        }
-        else
-        {
-            var tandemNumber = SelectedParticipation!.Tandem.Number;
-            var reason = SelectedParticipation.NotQualified?.Complement;
-            var codeReasons = eliminationCode.Split(" ")[1];
-            var multiSelectReasons = codeReasons.Split("+");
-            return new FormData(eliminationCode, tandemNumber, reason, multiSelectReasons);
-        }
     }
 }

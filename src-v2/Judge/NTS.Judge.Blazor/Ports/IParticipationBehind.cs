@@ -20,5 +20,4 @@ public interface IParticipationBehind : IObservableBehind
     Task RevokeQualification(int number, QualificationRevokeType type, string? reason = null, params FTQCodes[] ftqCodes);
     Task RestoreQualification(int number);
     Task<Participation?> Get(int id);
-    FormData? GetFormData();
 }
