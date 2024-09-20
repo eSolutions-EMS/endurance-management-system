@@ -19,6 +19,8 @@
     IParticipationBehind _participationBehind { get; set; } = default!;
     [Parameter]
     public Disqualified? Disqualified { get; set; }
+    [Parameter]
+    public EventCallback OnSubmission { get; set; }
 
     private string? Reason 
     {
@@ -40,7 +42,7 @@
     {
         Participation? participation = _participationBehind.SelectedParticipation;
         var tandemNumber = participation!.Tandem.Number;
-        _value = null;
+        await OnSubmission.InvokeAsync();
         await _participationBehind.RestoreQualification(tandemNumber);
     }
 }

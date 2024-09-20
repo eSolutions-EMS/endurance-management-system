@@ -21,6 +21,9 @@
     IParticipationBehind _participationBehind { get; set; } = default!;
     [Parameter]
     public FinishedNotRanked? FinishedNotRanked { get; set; } = default!;
+    [Parameter]
+    public EventCallback OnSubmission { get; set; }
+
     private string? Reason
     {
         get => FinishedNotRanked != null ? FinishedNotRanked.Complement : _value;
@@ -41,7 +44,7 @@
     {
         Participation? participation = _participationBehind.SelectedParticipation;
         var tandemNumber = participation!.Tandem.Number;
-        _value = null;
+        await OnSubmission.InvokeAsync();
         await _participationBehind.RestoreQualification(tandemNumber);
     }
 }

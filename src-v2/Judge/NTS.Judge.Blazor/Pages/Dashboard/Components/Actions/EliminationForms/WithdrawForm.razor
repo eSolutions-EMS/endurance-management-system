@@ -18,6 +18,8 @@
     IParticipationBehind _participationBehind { get; set; } = default!;
     [Parameter]
     public Withdrawn? Withdrawn { get; set; } = default!;
+    [Parameter]
+    public EventCallback OnSubmission { get; set; }
 
     public async Task Revoke()
     {
@@ -30,6 +32,7 @@
     {
         Participation? participation = _participationBehind.SelectedParticipation;
         var tandemNumber = participation!.Tandem.Number;
+        await OnSubmission.InvokeAsync();
         await _participationBehind.RestoreQualification(tandemNumber);
     }
 }
