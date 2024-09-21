@@ -6,7 +6,7 @@
 <h4>Time Snapshot</h4>
 
 <MudPaper Class="d-flex flex-row mb-4" Elevation="0">
-    <MudTextField @ref="timeInput" @bind-Value="TimeValue" T="string" Label="Time" Mask="@(new PatternMask("00:00:00"))" Class="one-third-width mr-2"/>
+    <MudTextField @bind-Value="TimeValue" T="string" Label="Time" Mask="@(new PatternMask("00:00:00"))" Class="one-third-width mr-2"/>
     <MudButtonGroup Color="Color.Tertiary" Size="Size.Small" Variant="Variant.Filled" VerticalAlign="true">
         <MudButton OnClick="SnapshotTime">Snapshot</MudButton>
         <MudButton OnClick="Send">Save</MudButton>
@@ -16,8 +16,9 @@
 @code {
     [Inject]
     IParticipationBehind _participationBehind { get; set; } = default!;
-    private MudTextField<string> timeInput = default!;
-    private string TimeValue = "00:00:00";
+    private const string NULL_TIME = "00:00:00";
+    private string TimeValue = NULL_TIME;
+    
 
     protected override async Task OnInitializedAsync()
     {
@@ -38,7 +39,6 @@
 
         SnapshotType snapshotType = SnapshotType.Stage;
         SnapshotMethod snapshotMethod = SnapshotMethod.Manual;
-        //test
         if (currentPhase?.ArriveTime == null && currentPhase.IsFinal)
         {        
             snapshotType = SnapshotType.Final;
@@ -53,13 +53,13 @@
 
     public void Send()
     {
-        if (TimeValue != "00:00:00")
+        if (TimeValue != NULL_TIME)
         {
             var convertedInput = TimeSpan.Parse(TimeValue);
-            TimeValue = "00:00:00";
+            TimeValue = NULL_TIME;
             var time = DateTime.Today + convertedInput;
             var snapshot = CreateSnapshot(time);
-            _participationBehind?.Process(snapshot);
+            _participationBehind.Process(snapshot);
         }
     }
 }
