@@ -23,7 +23,7 @@ public static class ReflectionHelper
 
     public static FieldInfo? GetEnumField(this Type type, object instance)
     {
-        var stringValue = instance as string;
+        var stringValue = instance.ToString();
         if (stringValue == null) return null;
         return type.GetField(stringValue);
     }

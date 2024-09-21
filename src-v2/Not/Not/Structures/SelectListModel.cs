@@ -4,7 +4,7 @@ namespace Not.Structures;
 
 public class SelectListModel
 {
-    public static IEnumerable<SelectListModel> SelectList<T>()
+    public static IEnumerable<SelectListModel> SelectListFromEnum<T>()
     {
         var enumValues = Enum.GetValues(typeof(T)).Cast<Enum>();
         var selectItems = enumValues.Select(s => new SelectListModel(s.ToString(), s.GetDescription()));
