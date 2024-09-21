@@ -73,6 +73,12 @@ public record FailedToQualify : NotQualified
         Codes = codes;
         EliminationCode = FAILED_TO_QUALIFY;
     }
+
+    public FailedToQualify(string complement ,params FTQCodes[] codes) : base(complement, FAILED_TO_QUALIFY)
+    {
+        Codes = codes;
+        EliminationCode = FAILED_TO_QUALIFY;
+    }
     [JsonConstructor]
     public FailedToQualify(string complement) : base(complement, FAILED_TO_QUALIFY)
     {

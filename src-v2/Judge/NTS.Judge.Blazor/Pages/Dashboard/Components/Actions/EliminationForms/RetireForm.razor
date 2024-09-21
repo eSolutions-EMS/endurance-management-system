@@ -3,7 +3,7 @@
 @using NTS.Judge.Blazor.Ports
 @inherits NotComponent
 
-<MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Revoke">
+<MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Eliminate">
     @Localizer.Get("Eliminate")
 </MudButton>
 
@@ -17,20 +17,20 @@
     [Parameter]
     public Retired? Retired { get; set; }
     [Parameter]
-    public EventCallback OnSubmission { get; set; }
+    public EventCallback OnRestore { get; set; }
+    [Parameter]
+    public EventCallback OnEliminate { get; set; }
 
-    public async Task Revoke()
+    public async Task Eliminate()
     {
         Participation? participation = _participationBehind.SelectedParticipation;
         var tandemNumber = participation!.Tandem.Number;
-        await _participationBehind.RevokeQualification(tandemNumber, QualificationRevokeType.Retire);
+        await _participationBehind.Retire(tandemNumber);
+        await OnEliminate.InvokeAsync();
     }
 
     public async Task Restore()
     {
-        Participation? participation = _participationBehind.SelectedParticipation;
-        var tandemNumber = participation!.Tandem.Number;
-        await OnSubmission.InvokeAsync();
-        await _participationBehind.RestoreQualification(tandemNumber);
+        await OnRestore.InvokeAsync();
     }
 }

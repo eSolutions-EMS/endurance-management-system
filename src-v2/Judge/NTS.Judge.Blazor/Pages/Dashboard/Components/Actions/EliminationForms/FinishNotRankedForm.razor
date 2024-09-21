@@ -5,11 +5,10 @@
 
 @inherits NotComponent
 
+<MudTextField @bind-Value="Reason" Label="Reason" Variant="Variant.Outlined"></MudTextField>
 
-<MudTextField @ref="reasonInput" @bind-Value="Reason" Label="Reason" Variant="Variant.Outlined"></MudTextField>
-
-<MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Revoke">
-    @Localizer.Get("Eliminate");
+<MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Eliminate">
+    @Localizer.Get("Eliminate")
 </MudButton>
 
 <MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Restore">
@@ -22,29 +21,27 @@
     [Parameter]
     public FinishedNotRanked? FinishedNotRanked { get; set; } = default!;
     [Parameter]
-    public EventCallback OnSubmission { get; set; }
+    public EventCallback OnRestore { get; set; }
+    [Parameter]
+    public EventCallback OnEliminate { get; set; }
 
     private string? Reason
     {
-        get => FinishedNotRanked != null ? FinishedNotRanked.Complement : _value;
-        set { _value = value; }
+        get => _reasonValue != null ? _reasonValue : FinishedNotRanked?.Complement;
+        set { _reasonValue = value; }
     }
-    private string? _value;
-    private MudTextField<string?> reasonInput = default!;
+    private string? _reasonValue;
 
-    public async Task Revoke()
+    public async Task Eliminate()
     {
         Participation? participation = _participationBehind.SelectedParticipation;
         var tandemNumber = participation!.Tandem.Number;
-        var reason = Reason;
-        await _participationBehind.RevokeQualification(tandemNumber, QualificationRevokeType.FinishNotRanked, reason);   
+        await _participationBehind.FinishNotRanked(tandemNumber, Reason); 
+        await OnEliminate.InvokeAsync();
     }
 
     public async Task Restore()
     {
-        Participation? participation = _participationBehind.SelectedParticipation;
-        var tandemNumber = participation!.Tandem.Number;
-        await OnSubmission.InvokeAsync();
-        await _participationBehind.RestoreQualification(tandemNumber);
+        await OnRestore.InvokeAsync();
     }
 }

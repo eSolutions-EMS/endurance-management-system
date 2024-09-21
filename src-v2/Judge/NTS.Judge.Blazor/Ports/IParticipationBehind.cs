@@ -17,7 +17,12 @@ public interface IParticipationBehind : IObservableBehind
     void RequestRequiredInspection(bool requestFlag);
     Task Process(Snapshot snapshot);
     Task Update(IPhaseState state);
-    Task RevokeQualification(int number, QualificationRevokeType type, string? reason = null, params FTQCodes[] ftqCodes);
+    Task Withdraw(int number);
+    Task Retire(int number);
+    Task FinishNotRanked(int number, string reason);
+    Task Disqualify(int number, string reason);
+    Task FailToQualify(int number, FTQCodes[] ftqCodes);
+    Task FailToCompleteLoop(int number, string? reason, FTQCodes[] ftqCodes);
     Task RestoreQualification(int number);
     Task<Participation?> Get(int id);
 }

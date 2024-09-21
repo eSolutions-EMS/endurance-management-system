@@ -5,7 +5,7 @@
 
 <MudTextField @ref="reasonInput" @bind-Value="Reason" Label="Reason" Variant="Variant.Outlined"></MudTextField>
 
-<MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Revoke">
+<MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Eliminate">
     @Localizer.Get("Eliminate")
 </MudButton>
 
@@ -20,29 +20,28 @@
     [Parameter]
     public Disqualified? Disqualified { get; set; }
     [Parameter]
-    public EventCallback OnSubmission { get; set; }
+    public EventCallback OnRestore { get; set; }
+    [Parameter]
+    public EventCallback OnEliminate { get; set; }
 
     private string? Reason 
     {
-        get => Disqualified != null ? Disqualified.Complement : _value;
-        set { _value = value; }
+        get => _reasonValue != null ? _reasonValue : Disqualified?.Complement;
+        set { _reasonValue = value; }
     }
-    private string? _value;
+    private string? _reasonValue;
     private MudTextField<string?> reasonInput = default!;
 
-    public async Task Revoke()
+    public async Task Eliminate()
     {
         Participation? participation = _participationBehind.SelectedParticipation;
         var tandemNumber = participation!.Tandem.Number;
-        var reason = Reason;
-        await _participationBehind.RevokeQualification(tandemNumber, QualificationRevokeType.Disqualify, reason);
+        await _participationBehind.Disqualify(tandemNumber, Reason);
+        await OnEliminate.InvokeAsync();
     }
 
     public async Task Restore()
     {
-        Participation? participation = _participationBehind.SelectedParticipation;
-        var tandemNumber = participation!.Tandem.Number;
-        await OnSubmission.InvokeAsync();
-        await _participationBehind.RestoreQualification(tandemNumber);
+        await OnRestore.InvokeAsync();
     }
 }

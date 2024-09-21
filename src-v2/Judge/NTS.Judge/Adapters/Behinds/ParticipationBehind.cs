@@ -87,38 +87,63 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
         await _participationRepository.Update(participation);
     }
 
-    public async Task RevokeQualification(int number, QualificationRevokeType type, string? reason = null, params FTQCodes[] ftqCodes)
+    public async Task Withdraw(int number)
     {
-        GuardHelper.ThrowIfDefault(type);
-
         var participation = Participations.FirstOrDefault(x => x.Tandem.Number == number);
         GuardHelper.ThrowIfDefault(participation);
+        participation.Withdraw();
+        await _participationRepository.Update(participation);
 
-        if (type == QualificationRevokeType.Withdraw)
-        {
-            participation.Withdraw();
-        }
-        if (type == QualificationRevokeType.Retire)
-        {
-            participation.Retire();
-        }
-        if (type == QualificationRevokeType.Disqualify)
-        {
-            participation.Disqualify(reason);
-        }
-        if (type == QualificationRevokeType.FinishNotRanked)
-        {
-            participation.FinishNotRanked(reason);
-        }
-        if (type == QualificationRevokeType.FailToQualify)
-        {
-            GuardHelper.ThrowIfDefault(ftqCodes);
-            participation.FailToQualify(ftqCodes);
-        }
-        if (type == QualificationRevokeType.FailToCompleteLoop)
-        {
-            participation.FailToCompleteLoop(reason);
-        }
+        EmitChange();
+    }
+
+    public async Task Retire(int number)
+    {
+        var participation = Participations.FirstOrDefault(x => x.Tandem.Number == number);
+        GuardHelper.ThrowIfDefault(participation);
+        participation.Retire();
+        await _participationRepository.Update(participation);
+
+        EmitChange();
+    }
+
+    public async Task FinishNotRanked(int number, string reason)
+    {
+        var participation = Participations.FirstOrDefault(x => x.Tandem.Number == number);
+        GuardHelper.ThrowIfDefault(participation);
+        participation.FinishNotRanked(reason);
+        await _participationRepository.Update(participation);
+
+        EmitChange();
+    }
+
+    public async Task Disqualify(int number, string reason)
+    {
+        var participation = Participations.FirstOrDefault(x => x.Tandem.Number == number);
+        GuardHelper.ThrowIfDefault(participation);
+        participation.Disqualify(reason);
+        await _participationRepository.Update(participation);
+
+        EmitChange();
+    }
+
+    public async Task FailToQualify(int number, params FTQCodes[] ftqCodes)
+    {
+        var participation = Participations.FirstOrDefault(x => x.Tandem.Number == number);
+        GuardHelper.ThrowIfDefault(participation);
+        GuardHelper.ThrowIfDefault(ftqCodes);
+        participation.FailToQualify(ftqCodes);
+        await _participationRepository.Update(participation);
+
+        EmitChange();
+    }
+
+    public async Task FailToCompleteLoop(int number, string? reason, params FTQCodes[] ftqCodes)
+    {
+        var participation = Participations.FirstOrDefault(x => x.Tandem.Number == number);
+        GuardHelper.ThrowIfDefault(participation);
+        GuardHelper.ThrowIfDefault(ftqCodes);
+        participation.FailToCompleteLoop(reason, ftqCodes);
         await _participationRepository.Update(participation);
 
         EmitChange();
