@@ -3,7 +3,7 @@
 @using NTS.Judge.Blazor.Ports
 @inherits NotComponent
 
-<MudTextField @ref="reasonInput" @bind-Value="Reason" Label="Reason" Variant="Variant.Outlined"></MudTextField>
+<MudTextField @bind-Value="Reason" Label="Reason" Variant="Variant.Outlined"></MudTextField>
 
 <MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Eliminate">
     @Localizer.Get("Eliminate")
@@ -23,14 +23,12 @@
     public EventCallback OnRestore { get; set; }
     [Parameter]
     public EventCallback OnEliminate { get; set; }
+    private string? Reason { get; set; }
 
-    private string? Reason 
+    protected override void OnParametersSet()
     {
-        get => _reasonValue != null ? _reasonValue : Disqualified?.Complement;
-        set { _reasonValue = value; }
+        Reason = Disqualified?.Complement;
     }
-    private string? _reasonValue;
-    private MudTextField<string?> reasonInput = default!;
 
     public async Task Eliminate()
     {

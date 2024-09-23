@@ -24,13 +24,12 @@
     public EventCallback OnRestore { get; set; }
     [Parameter]
     public EventCallback OnEliminate { get; set; }
+    private string? Reason { get; set; }
 
-    private string? Reason
+    protected override void OnParametersSet()
     {
-        get => _reasonValue != null ? _reasonValue : FinishedNotRanked?.Complement;
-        set { _reasonValue = value; }
+        Reason = FinishedNotRanked?.Complement;
     }
-    private string? _reasonValue;
 
     public async Task Eliminate()
     {
