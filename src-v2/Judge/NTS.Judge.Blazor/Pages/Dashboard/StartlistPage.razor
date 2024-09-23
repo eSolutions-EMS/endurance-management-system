@@ -7,11 +7,11 @@
 @attribute [Route(STARTLIST_PAGE)]
 @inherits NotComponent
 
-<NotH1>@Localizer.Get("Startlist")</NotH1>
+<NotH1>@Localizer.Get("Start History")</NotH1>
 
 <MudGrid Style="margin-top:0 !important;">
     <MudTabs @ref="@Tabs" PanelClass="px-4 py-6" Elevation="4"
-        Rounded ApplyEffectsToContainer>
+             Rounded ApplyEffectsToContainer>
         @foreach (var tab in UserTabs)
         {
             <MudTabPanel ID="@tab.Id" Text="@tab.Label">
@@ -28,23 +28,26 @@
                         <tbody>
                             @foreach (var row in groupedData)
                             {
-                                <tr>
-                                    @foreach (var x in row.ToString().Split(","))
-                                    {
-                                        <td>@x</td>
-                                    }
-                                    <td><NotTimer StartTime="@row.StartIn()" StopTimerAtTime="-15"/></td>
-                                </tr>
+                                if (tab.Label.Contains(row.TotalDistance.ToString()))
+                                {
+                                    <tr>
+                                        @foreach (var x in row.ToString().Split(","))
+                                        {
+                                            <td>@x</td>
+                                        }
+                                        <td><NotTimer StartTime="@row.StartIn()" StopTimerAtTime="-15" /></td>
+                                    </tr>
+                                }
                             }
                         </tbody>
                     </MudSimpleTable>
                 </ChildContent>
             </MudTabPanel>
         }
-        </MudTabs>
+    </MudTabs>
 </MudGrid>
 
-@code{
+@code {
     [Inject]
     private IStartlistBehind _behind { get; set; } = default!;
 
@@ -61,16 +64,17 @@
     protected override async Task OnInitializedAsync()
     {
         await _behind.Initialize();
-        @foreach(var grouping in _behind.StartlistByDistance)
+        var starts = _behind.UpcomingStarts.StartlistByDistance();
+        foreach (var start in starts)
         {
-            @foreach (var row in grouping.OrderBy(x => x.TotalDistance).DistinctBy(x=>x.TotalDistance))
+            TabView tab = new TabView();
+            tab.Label = $"{start.TotalDistance.FloorWholeNumberToTens()} {@Localizer.Get("KM")}";
+            tab.Id = Guid.NewGuid();
+            if (!UserTabs.Any(t => t.Label == tab.Label))
             {
-                TabView tab = new TabView();
-                tab.Label = $"{row.TotalDistance.FloorWholeNumberToTens()} {@Localizer.Get("KM")}";
-                tab.Id = Guid.NewGuid();
                 UserTabs.Add(tab);
-                groupedData.Add(row);
             }
+            groupedData.Add(start);
         }
     }
     public bool dense = false;
@@ -78,6 +82,6 @@
     public bool bordered = false;
     public bool striped = false;
     public Color color = Color.Primary;
-    public string[] headings = { "Number", "Athlete", "Loop", "StartTime", "StartIn" };
+    public string[] headings = { "Number", "Athlete", "Loop", "Start Time", "Start In" };
     public List<Start> groupedData { get; set; } = new List<Start>();
 }
