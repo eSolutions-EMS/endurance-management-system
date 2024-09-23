@@ -3,56 +3,70 @@ using NTS.Domain;
 
 namespace NTS.Domain.Core.Objects;
 
-public class StartHistory
+public class StartList
 {
-    public StartHistory(IEnumerable<Participation> participations)
+    public const string START_HISTORY = "start_history";
+    public const string UPCOMING_STARTS = "upcoming_starts";
+    public StartList(IEnumerable<Participation> participations,string type)
     {
-        foreach (var participation in participations)
+        if(type==UPCOMING_STARTS)
         {
-            foreach (var phase in participation.Phases)
+            foreach (var participation in participations)
             {
-                var loopNumber = participation.Phases.NumberOf(phase ?? participation.Phases.Last());
-                var previousStart = new Start(participation.Tandem.Name, participation.Tandem.Number, loopNumber, phase.Length, participation.Phases.Distance, phase, phase.OutTime);
-                PreviousStarts.Add(previousStart);
+                if (!participation.IsNotQualified)
+                {
+                    var phase = participation.Phases.Current;
+                    if (phase.OutTime != null && phase.StartTime != null)
+                    {
+                        var upcomingStart = new Start(participation);
+                        Starts.Add(upcomingStart);
+                    }
+                }
+            }
+        }
+        else
+        {
+            foreach (var participation in participations)
+            {
+                foreach(var phase in participation.Phases)
+                {
+                    var loopNumber = participation.Phases.NumberOf(phase ?? participation.Phases.Last());
+                    if(phase.OutTime!=null)
+                    {
+                        var startRecord = new Start(participation.Tandem.Name, participation.Tandem.Number, loopNumber, phase.Length, participation.Phases.Distance, phase, phase.OutTime != null ? phase.OutTime : phase.StartTime);
+                        Starts.Add(startRecord);
+                    }
+                }
             }
         }
     }
-    public List<Start> PreviousStarts { get; private set; } = new List<Start>();
-    public IEnumerable<IGrouping<double, Start>> StartlistByDistance => PreviousStarts.GroupBy(p => p.Distance);
-}
+    
+    public List<Start> Starts = new List<Start>();
 
-public class StartList
-{
-    public StartList(IEnumerable<Participation> participations)
+    public IEnumerable<Start> StartlistByDistance()
     {
-        foreach(var participation in participations)
-        {
-            var phase = participation.Phases.Current;
-            var loopNumber = participation.Phases.NumberOf(phase ?? participation.Phases.Last());
-            var upcomingStart = new Start(participation.Tandem.Name, participation.Tandem.Number, loopNumber, phase.Length, participation.Phases.Distance, phase, phase.OutTime);
-            UpcomingStarts.Add(upcomingStart);
-        }
+        return Starts
+            .GroupBy(sh => Tuple.Create(sh.TotalDistance, sh.Athlete))
+            .OrderBy(g => g.Key.Item1)
+            .ThenBy(g => g.Key.Item2) //returns IOrderedEnumerable<IGrouping<Tuple<double, Person>, Start>>
+            .FlattenGroupedItems();
     }
-    public Person Athlete { get; private set; }
-    public List<Start> UpcomingStarts = new List<Start>();
-    IEnumerable<IGrouping<double?, Start>> StartlistByDistance { get; }
 }
 public class Start
 {
     public Start(Participation participation)
     {
-        var phaseStart = new PhaseStart(participation);
         Athlete = participation.Tandem.Name;
         Number = participation.Tandem.Number;
-        LoopNumber = phaseStart.LoopNumber;
+        LoopNumber = participation.Phases.CurrentNumber;
         Distance = participation.Phases.Current.Length;
-        StartAt = phaseStart.StartAt;
+        StartAt = participation.Phases.OutTime != null? participation.Phases.OutTime : participation.Phases.Current.StartTime;
         GuardHelper.ThrowIfDefault(participation?.Phases?.Current);
         CurrentPhase = participation?.Phases?.Current;
-        TotalDistance = participation?.Phases?.Distance;
+        TotalDistance = participation!.Phases!.Distance;
     }
 
-    public Start(Person athlete, int number, int loopNumber, double distance, double? totalDistance, Phase phase, Timestamp startAt)
+    public Start(Person athlete, int number, int loopNumber, double distance, double totalDistance, Phase phase, Timestamp startAt)
     {
         Athlete = athlete;
         Number = number;
@@ -67,11 +81,13 @@ public class Start
     public int Number { get; private set; }
     public int LoopNumber { get; private set; }
     public double Distance { get; private set; }
-    public double? TotalDistance { get; private set; }
+    public double TotalDistance { get; private set; }
     public Phase CurrentPhase { get; private set; }
-    public Timestamp StartAt { get; private set; }
+    public Timestamp? StartAt { get; private set; }
+
     public string StartIn()
     {
+        if(StartAt == null) return string.Empty;
         if (StartAt > Timestamp.Now())
         {
             return (StartAt - Timestamp.Now()).ToString();
