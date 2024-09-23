@@ -2,6 +2,7 @@
 using NTS.Domain;
 using NTS.Domain.Core.Aggregates.Participations;
 using NTS.Domain.Core.Objects;
+using NTS.Judge.Blazor.Pages.Dashboard;
 using NTS.Judge.Blazor.Ports;
 
 namespace NTS.Judge.Adapters.Behinds;
@@ -14,21 +15,14 @@ public class StartlistBehind : IStartlistBehind
         _participations = participations;
     }
 
-    public List<Start> Startlist { get; private set; } = new List<Start>();
-    public IEnumerable<IGrouping<double?, Start>> StartlistByDistance => Startlist.GroupBy(x => x.TotalDistance);
-
+    public StartList UpcomingStarts { get; private set; } = default!;
+    public StartList StartHistory { get; private set; } = default!;
 
     public async Task Initialize()
     {
         var participations = await _participations.ReadAll();
-
-        foreach (var participation in participations)
-        {
-            if (participation.Phases.OutTime != null && participation.IsNotQualified == false)
-            {
-                Startlist.Add(new Start(participation));
-            }
-        }
+        UpcomingStarts = new StartList(participations, StartList.UPCOMING_STARTS);
+        StartHistory = new StartList(participations, StartList.START_HISTORY);
     }
 
     public void Subscribe(Func<Task> action)

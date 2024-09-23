@@ -6,6 +6,6 @@ namespace NTS.Judge.Blazor.Ports;
 
 public interface IStartlistBehind : IObservableBehind
 {
-    List<Start> Startlist { get; }
-    IEnumerable<IGrouping<double?, Start>> StartlistByDistance { get; }
+    StartList UpcomingStarts { get; }
+    StartList StartHistory { get; }
 }
