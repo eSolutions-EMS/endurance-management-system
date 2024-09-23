@@ -52,7 +52,7 @@ public class StartList
             .FlattenGroupedItems();
     }
 }
-public class Start
+public class Start : IComparable<Start>
 {
     public Start(Participation participation)
     {
@@ -106,5 +106,17 @@ public class Start
     {
         var result = $"{Number}, {Athlete}, #{LoopNumber}: {Distance}km, {StartAt}";
         return result;
+    }
+
+    public int CompareTo(Start other)
+    {
+        if (other == null) return 1;
+
+        // First compare Athlete
+        int athleteComparison = string.Compare(Athlete, other.Athlete, StringComparison.Ordinal);
+        if (athleteComparison != 0) return athleteComparison;
+
+        // Then compare Competition Distance if Athlete is the same
+        return string.Compare(TotalDistance.ToString(), other.TotalDistance.ToString(), StringComparison.Ordinal);
     }
 }
