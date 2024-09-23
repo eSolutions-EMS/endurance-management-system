@@ -17,7 +17,7 @@
     private string _displayTime = default!;
     private string _color = default!;
 
-    protected override void OnInitialized()
+    protected override void OnParametersSet()
     {
         _time = TimeSpan.Parse(StartTime);
         FormatTime();
@@ -50,7 +50,7 @@
         {
             _color = _theme.Palette.Warning.Value;
         }
-        else if (_time > TimeSpan.FromMinutes(StopTimerAtTime))
+        else
         {
             _color = _theme.Palette.Error.Value;
         }
