@@ -8,6 +8,11 @@
 
 <NotH1>@Localizer.Get("Dashboard")</NotH1>
 
+<MudButton OnClick="@(() => _snackbar.Add("Kur", Severity.Info))">info</MudButton>
+<MudButton OnClick="@(() => _snackbar.Add("Zelen", Severity.Success))">success</MudButton>
+<MudButton OnClick="@(() => _snackbar.Add("Jalt", Severity.Warning))">warn</MudButton>
+<MudButton OnClick="@(() => _snackbar.Add("Cherven", Severity.Error))">errrrrrr</MudButton>
+
 @if (!_participationBehind.Participations.Any())
 {
     <NotH2>@Localizer.Get("No participations")</NotH2>
@@ -19,6 +24,8 @@ else
 }
 
 @code {
+    [Inject]
+    ISnackbar _snackbar { get; set; } = default!;
     [Inject]
     private IEmsImportBehind _importBehind { get; set; } = default!;
     [Inject]
