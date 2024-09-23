@@ -5,7 +5,7 @@
 @inherits NotComponent;
 
 @* //TODO: probably extract this chipset into NotChipGroup component or something similar. Also used in DashboardComponent *@
-<MudChipSet @ref="_chipSet" SelectedChipChanged="x => _behind.SelectRanking((int)x.Value)">
+<MudChipSet T="int" @ref="_chipSet" SelectedChipChanged="x => _behind.SelectRanking((int)x.Value)">
     @foreach (var grouping in _rankingsByDistance)
     {
         <MudText Class="pl-4"><strong>@($"{grouping.Key}")</strong></MudText>
@@ -18,8 +18,8 @@
 </MudChipSet>
 
 @code {
-    private MudChipSet _chipSet = default!;
-    private MudChip? _selectedChip;
+    private MudChipSet<int> _chipSet = default!;
+    private MudChip<int>? _selectedChip;
     private IEnumerable<IGrouping<string, Ranking>> _rankingsByDistance = Enumerable.Empty<IGrouping<string, Ranking>>();
 
     [Inject]
