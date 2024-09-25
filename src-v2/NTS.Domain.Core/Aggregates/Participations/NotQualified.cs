@@ -1,10 +1,12 @@
-﻿using System.ComponentModel;
+﻿using Newtonsoft.Json;
+using System.ComponentModel;
 
 namespace NTS.Domain.Core.Aggregates.Participations;
 
 public record Withdrawn : NotQualified
 {
-    public Withdrawn()
+    [JsonConstructor]
+    public Withdrawn() : base(WITHDRAWN)
     {
     }
     public override string ToString()
@@ -15,7 +17,8 @@ public record Withdrawn : NotQualified
 
 public record Retired : NotQualified
 {
-    public Retired()
+    [JsonConstructor]
+    public Retired() : base(RETIRED) 
     {
     }
     public override string ToString()
@@ -29,7 +32,8 @@ public record Disqualified : NotQualified
     private Disqualified()
     {
     }
-    public Disqualified(string complement) : base(complement)
+    [JsonConstructor]
+    public Disqualified(string complement) : base(complement, DISQUALIFIED)
     {
     }
 
@@ -44,7 +48,8 @@ public record FinishedNotRanked : NotQualified
     private FinishedNotRanked()
     {
     }
-    public FinishedNotRanked(string complement) : base(complement)
+    [JsonConstructor]
+    public FinishedNotRanked(string complement) : base(complement, FINISHED_NOT_RANKED)
     {
     }
 
@@ -66,8 +71,16 @@ public record FailedToQualify : NotQualified
             throw new DomainException($"'Failed to Complete' requires a writen explanation from officials. Please provide 'complement'");
         }
         Codes = codes;
+        EliminationCode = FAILED_TO_QUALIFY;
     }
-    public FailedToQualify(string complement) : base(complement)
+
+    public FailedToQualify(string complement ,params FTQCodes[] codes) : base(complement, FAILED_TO_QUALIFY)
+    {
+        Codes = codes;
+        EliminationCode = FAILED_TO_QUALIFY;
+    }
+    [JsonConstructor]
+    public FailedToQualify(string complement) : base(complement, FAILED_TO_QUALIFY)
     {
         Codes = new List<FTQCodes>{FTQCodes.FTC};
     }
@@ -132,13 +145,25 @@ public enum FTQCodes
 
 public abstract record NotQualified : DomainObject
 {
+    public const string WITHDRAWN = "WD";
+    public const string RETIRED = "RET";
+    public const string FINISHED_NOT_RANKED = "FNR";
+    public const string DISQUALIFIED = "DQ";
+    public const string FAILED_TO_QUALIFY = "FTQ";
+    
     protected NotQualified()
     {
     }
-    protected NotQualified(string complement)
+    protected NotQualified(string eliminationCode)
+    {
+        EliminationCode = eliminationCode;
+    }
+    protected NotQualified(string complement, string eliminationCode)
     {
         Complement = complement;
+        EliminationCode = eliminationCode;
     }
 
-    public string? Complement { get; private set; }
+    public string EliminationCode { get; protected set; }
+    public string? Complement { get; set; }
 }

@@ -1,0 +1,72 @@
+﻿@using NTS.Domain.Objects
+@using NTS.Judge.Blazor.Ports
+
+@inherits NotComponent
+
+<h4>Time Snapshot</h4>
+
+<MudPaper Class="d-flex flex-row mb-4" Elevation="0">
+    <MudTextField @bind-Value="TimeValue" T="string" Label="Time" Mask="@(new PatternMask("00:00:00"))" Class="one-third-width mr-2"/>
+    <MudButtonGroup Color="Color.Tertiary" Size="Size.Small" Variant="Variant.Filled" VerticalAlign="true">
+        <MudButton OnClick="SnapshotTime">Snapshot</MudButton>
+        <MudButton OnClick="Send">Save</MudButton>
+    </MudButtonGroup>
+</MudPaper>
+
+@code {
+    [Inject]
+    IParticipationBehind _participationBehind { get; set; } = default!;
+    private const string NULL_TIME = "00:00:00";
+    private string TimeValue = NULL_TIME;
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Observe(_participationBehind);
+    }
+
+    public void SnapshotTime()
+    {
+        var currentTime = DateTime.Now.TimeOfDay;
+        TimeValue = currentTime.ToString();
+    }
+
+    public Snapshot CreateSnapshot(DateTime timeStampDateTime)
+    {
+        var participation = _participationBehind.SelectedParticipation;
+        var currentPhase = participation!.Phases.Current;
+        var timestamp = new Timestamp(timeStampDateTime);
+
+        SnapshotType snapshotType = SnapshotType.Stage;
+        SnapshotMethod snapshotMethod = SnapshotMethod.Manual;
+        Snapshot snapshot; //TODO: zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
+        if (currentPhase?.ArriveTime == null)
+        {        
+            if (currentPhase.IsFinal)
+            {
+                snapshot = new FinishSnapshot(participation!.Tandem.Number, snapshotMethod, timestamp);
+            }
+            else
+            {
+                snapshot = new StageSnapshot(participation!.Tandem.Number, snapshotMethod, timestamp);
+            }
+        }
+        else
+        {
+            snapshot = new VetgateSnapshot(participation!.Tandem.Number, snapshotMethod, timestamp);
+        }
+        return snapshot;
+    }
+
+    public void Send()
+    {
+        if (TimeValue != NULL_TIME)
+        {
+            var convertedInput = TimeSpan.Parse(TimeValue);
+            TimeValue = NULL_TIME;
+            var time = DateTime.Today + convertedInput;
+            var snapshot = CreateSnapshot(time);
+            _participationBehind.Process(snapshot);
+        }
+    }
+}

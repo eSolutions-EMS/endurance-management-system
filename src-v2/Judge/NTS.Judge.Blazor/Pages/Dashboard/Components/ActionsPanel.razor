@@ -1,295 +1,30 @@
 ﻿@using NTS.Domain.Core.Aggregates.Participations
 @using NTS.Domain.Objects
 @using NTS.Domain.Core.Entities
+@using NTS.Judge.Blazor.Pages.Dashboard.Components.Actions
 @using NTS.Judge.Blazor.Ports
 @using NTS.Judge.Blazor.Enums
-@using Not.Structures
 @using Not.Blazor.TM
 @using Not.Events
 
 @inherits NotComponent
 
-@{
-    BeforeRender();
-}
+<h3>Actions</h3>
 
 <MudPaper Class="d-flex flex-column half-width" Elevation="0">
-    <MudPaper Class="d-flex flex-column mb-4" Elevation="0">
-        <MudTextField @ref="timeInput" @bind-Value="TimeValue" T="string" Label="Time" Mask="@(new PatternMask("00:00:00"))" Class="one-third-width" />
-    </MudPaper>
-    <MudPaper Class="@("d-flex flex-row mb-4 "+CheckboxDisplay)" Elevation="0">
-        <MudCheckBox T="bool" Value="ReinspectionToggled" ValueChanged="ToggleReinspection" Color="Color.Secondary">
-            <MudIcon Class="pt-3" Style="margin-left: -12px;" Icon="@Icons.Material.Filled._360" V />Reinspection
-        </MudCheckBox>
-        <MudCheckBox T="bool" Value="ReqInsToggled" ValueChanged="ToggleReqIns" Color="Color.Primary">
-            <MudIcon Class="pt-3" Style="margin-left: -12px;" Icon="@Icons.Material.Filled.HourglassEmpty" />Required Inspection
-        </MudCheckBox>
-    </MudPaper>
-    <MudPaper Class="d-flex flex-column mb-2" Elevation="0">
-        <MudToggleGroup @ref="toggleGroup" T="string" TextClass="@SmallTextClass" Delimiters="true" Color="Color.Error" Rounded="true"
-            SelectionMode="SelectionMode.ToggleSelection" Style="width: 20rem" ValueChanged="OnToggle" Value="ToggleGroupSelection">
-            <MudToggleItem Text="Withdrawn" Value="@("Withdrawn")" />
-            <MudToggleItem Text="Retired" Value="@("Retired")" />
-            <MudToggleItem Text="Finished Not Ranked" Value="@("FinishedNotRanked")" />
-            <MudToggleItem Text="Disqualified" Value="@("Disqualified")" />
-            <MudToggleItem Text="Failed to Qualify" Value="@("FailedToQualify")" />
-        </MudToggleGroup>
-        <MudSelect @ref="multiSelect" T="string" Class="@MultiSelectClasses" Label="Failed to Qualify Reason" MultiSelection="true" Delimiter="+" Value="@FTQReasonValue" ValueChanged="OnChange" Placeholder="Select a reason">
-            @foreach (var failToQualifyCode in SelectListModel.SelectList<FTQCodes>())
-            {
-                <MudSelectItem T="string" Value="@failToQualifyCode.Value">
-                    @failToQualifyCode.Value
-                    <div class="font-size-10">@failToQualifyCode.Description</div>
-                </MudSelectItem>
-            }
-        </MudSelect>
-        <MudTextField @ref="reasonInput" @bind-Value="Reason" Class="@ReasonClasses" Label="Reason" Variant="Variant.Outlined"></MudTextField>
-    </MudPaper>
+    <ManualTimeSnapshot />
 
-    <MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Update">
-        @Localizer.Get("Update")
-    </MudButton>
+    <InspectionsPanel />
+
+    <EliminationsPanel />
 </MudPaper>
 
 @code {
     [Inject]
     IParticipationBehind _participationBehind { get; set; } = default!;
-    Participation _selectedParticipation { get; set; } = default!;
-    NotQualified _notQualified { get; set; } = default!;
-    Phase _currentPhase { get; set; } = default!;
-
-    private MudTextField<string> timeInput = default!;
-    private MudToggleGroup<string> toggleGroup = default!;
-    private MudTextField<string> reasonInput = default!;
-    private MudSelect<string> multiSelect = default!;
-    private string TimeValue = default!;
-    private bool ReinspectionToggled = false;
-    private bool ReqInsToggled = false;
-    private string ToggleGroupSelection = "";
-
-    private bool _rerenderReasonInputs = false;
-    private string SmallTextClass = "font-size-10";
-    private string CheckboxDisplay = "hidden";
-    private string ReasonClasses = "hidden";
-    private string MultiSelectClasses = "hidden";
-    private string Reason = "";
-    private string FTQReasonValue = "";
 
     protected override async Task OnInitializedAsync()
     {
         await Observe(_participationBehind);
-    }
-
-    public void BeforeRender()
-    {
-        _selectedParticipation = _participationBehind.SelectedParticipation;
-        _notQualified = _selectedParticipation.NotQualified;
-        _currentPhase = _selectedParticipation.Phases.Current;
-
-        var phaseState = _selectedParticipation.GetPhaseState();
-        if(phaseState == PhaseState.Presented)
-        {
-            CheckboxDisplay = "";
-        }
-        else
-        {
-            CheckboxDisplay = "hidden";
-        }
-        TimeValue = "00:00:00";
-        ReinspectionToggled = _currentPhase?.IsReinspectionRequested ?? false;
-        ReqInsToggled = _currentPhase?.IsRIRequested ?? false;
-        switch (_notQualified)
-        {
-            case Withdrawn:
-                ToggleGroupSelection = "Withdrawn";
-                ReasonClasses = "hidden";
-                MultiSelectClasses = "hidden";
-                break;
-            case Retired:
-                ToggleGroupSelection = "Retired";
-                ReasonClasses = "hidden";
-                MultiSelectClasses = "hidden";
-                break;
-            case FinishedNotRanked:
-                ToggleGroupSelection = "FinishedNotRanked";
-                Reason = _notQualified.Complement!;
-                ReasonClasses = "";
-                MultiSelectClasses = "hidden";
-                break;
-            case Disqualified:
-                ToggleGroupSelection = "Disqualified";
-                Reason = _notQualified.Complement!;
-                ReasonClasses = "";
-                MultiSelectClasses = "hidden";
-                break;
-            case FailedToQualify:
-                ToggleGroupSelection = "FailedToQualify";
-                FTQReasonValue = _notQualified.ToString();
-                FTQReasonValue = FTQReasonValue.Replace("FTQ ", "");
-                MultiSelectClasses = "";
-                ReasonClasses = "hidden";
-                if (FTQReasonValue.Contains("FTC"))
-                {
-                    Reason = _selectedParticipation?.NotQualified.Complement!;
-                    ReasonClasses = "";
-                }
-                break;
-        }
-    }
-
-    private async void ToggleReinspection(bool value)
-    {
-        ReinspectionToggled = value;
-        await _participationBehind.RequestReinspection(value);
-    }
-
-    private async void ToggleReqIns(bool value)
-    {
-        ReqInsToggled = value;
-        await _participationBehind.RequestRequiredInspection(value);
-    }
-
-    public void AddInput(ref string inputClass)
-    {
-        if (inputClass.Length > 0)
-        {
-            inputClass = "";
-        }
-        else
-        {
-            inputClass = "hidden";
-            Reason = "";
-        }
-        InvokeAsync(StateHasChanged);
-    }
-
-    private void HideInput()
-    {
-        ReasonClasses = "hidden";
-        MultiSelectClasses = "hidden";
-    }
-
-    public void OnChange(string reason)
-    {
-        FTQReasonValue = reason;
-        if (reason.Contains("FTC"))
-        {
-            AddInput(ref ReasonClasses);
-        }
-    }
-
-    public void OnToggle(string value)
-    {
-        HideInput();
-        if(value == "FinishedNotRanked" || value == "Disqualified")
-        {
-            AddInput(ref ReasonClasses);
-
-        }
-        else if(value == "FailedToQualify")
-        {
-            AddInput(ref MultiSelectClasses);   
-        }
-        ToggleGroupSelection = value;
-    }
-
-    public async Task UpdateParticipant()
-    {
-        if (_participationBehind.SelectedParticipation == null)
-        {
-            return;
-        }
-        var tandemNumber = _participationBehind.SelectedParticipation.Tandem.Number;
-
-        if (ToggleGroupSelection == "Withdrawn")
-        {
-            await _participationBehind.RevokeQualification(tandemNumber, QualificationRevokeType.Withdraw);
-        }
-        else if (ToggleGroupSelection == "Retired")
-        {
-            await _participationBehind.RevokeQualification(tandemNumber, QualificationRevokeType.Retire);
-        }
-        else if (ToggleGroupSelection == "FinishedNotRanked")
-        {
-            await _participationBehind.RevokeQualification(tandemNumber, QualificationRevokeType.FinishNotRanked, reasonInput.Value);
-        }
-        else if (ToggleGroupSelection == "Disqualified")
-        {
-            await _participationBehind.RevokeQualification(tandemNumber, QualificationRevokeType.Disqualify, reasonInput.Value);
-        }
-        else if (ToggleGroupSelection == "FailedToQualify")
-        {
-            var multiselect_values = multiSelect.SelectedValues;
-            List<FTQCodes> codes = new List<FTQCodes>();
-            foreach(var value in multiselect_values)
-            {
-                codes.Add((FTQCodes)Enum.Parse(typeof(FTQCodes), value));
-            }
-            if (codes.Contains(FTQCodes.FTC) && (Reason==null || Reason==""))
-            {
-                //TO DO: add validation message here
-                return;
-            }else if (codes.Contains(FTQCodes.FTC))
-            {
-                await _participationBehind.RevokeQualification(tandemNumber, QualificationRevokeType.FailToCompleteLoop, Reason, codes.ToArray());
-            }
-            else if (!codes.Contains(FTQCodes.FTC))
-            {
-                HideInput();
-                await _participationBehind.RevokeQualification(tandemNumber, QualificationRevokeType.FailToQualify, null, codes.ToArray());
-            }  
-        }
-        else
-        {
-            await _participationBehind.RestoreQualification(tandemNumber);
-        }
-        await InvokeAsync(StateHasChanged);
-    }
-
-    public async Task Update()
-    {
-        var participation = _participationBehind.SelectedParticipation;
-        PhaseState phaseState;
-        if (participation == null)
-        {
-            return;
-        }
-        else
-        {
-            phaseState = participation.GetPhaseState();
-        }
-        if (TimeValue!="00:00:00")
-        {
-            var convertedInput = TimeSpan.Parse(TimeValue);
-            var time = DateTime.Today + convertedInput;
-            var snapshot = CreateSnapshot(time);
-            _participationBehind?.Process(snapshot);
-        }       
-        await UpdateParticipant();
-    }
-
-    public Snapshot CreateSnapshot(DateTime time)
-    {
-        GuardHelper.ThrowIfDefault(_participationBehind.SelectedParticipation);
-
-        var currentPhase = _participationBehind.SelectedParticipation.Phases.Current;
-        var tandemNumber = _participationBehind.SelectedParticipation.Tandem.Number;
-        var method = SnapshotMethod.Manual;
-        var timestamp = new Timestamp(time);
-
-        SnapshotType snapshotType;
-        return new VetgateSnapshot(tandemNumber, method, timestamp);
-        if (currentPhase?.ArriveTime == null) // TODO: fix snapshottype conditions
-        {
-            return new StageSnapshot(tandemNumber, method, timestamp);
-        }
-        else if (currentPhase.InspectTime == null && currentPhase.IsFinal == false)
-        {
-            return new VetgateSnapshot(tandemNumber, method, timestamp);
-        }
-        else
-        {
-            return new FinishSnapshot(tandemNumber, method, timestamp);
-        }
     }
 }

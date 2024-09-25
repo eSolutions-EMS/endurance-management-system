@@ -1,0 +1,89 @@
+﻿@using NTS.Domain.Core.Aggregates.Participations
+@using NTS.Domain.Objects
+@using NTS.Judge.Blazor.Enums
+@using NTS.Judge.Blazor.Ports
+@using Not.Structures
+
+@inherits NotComponent
+
+<MudSelect T="string" Label="Failed to Qualify Reason" MultiSelection="true" Delimiter="+" SelectedValues="@FTQReason" SelectedValuesChanged="SetInputState" Placeholder="Select a reason">
+    @foreach (var failToQualifyCode in SelectListModel.SelectListFromEnum<FTQCodes>())
+    {
+        <MudSelectItem T="string" Value="@failToQualifyCode.Value">
+            @failToQualifyCode.Value
+            <div class="font-size-10">@failToQualifyCode.Description</div>
+        </MudSelectItem>
+    }
+</MudSelect>
+<MudCollapse Expanded="_reasonInputState">
+    <MudTextField @bind-Value="Reason" Label="Reason" Variant="Variant.Outlined"></MudTextField>
+</MudCollapse>
+
+<MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Eliminate">
+    @Localizer.Get("Eliminate")
+</MudButton>
+
+<MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Restore">
+    @Localizer.Get("Restore")
+</MudButton>
+
+@code {
+    [Inject]
+    IParticipationBehind _participationBehind { get; set; } = default!;
+    [Parameter]
+    public FailedToQualify? FailedToQualify { get; set; }
+    [Parameter]
+    public EventCallback OnRestore { get; set; }
+    [Parameter]
+    public EventCallback OnEliminate { get; set; }
+
+    private IEnumerable<string>? FTQReason { get; set; }
+    public string? Reason { get; set; }
+    private bool _reasonInputState;
+
+    protected override void OnParametersSet()
+    {
+        FTQReason = ParseFTQCodesToStrings(FailedToQualify?.Codes);
+        Reason = FailedToQualify?.Complement;
+        _reasonInputState = FTQReason != null ? FTQReason.Contains("FTC") : false;
+    }
+
+    public async Task Eliminate()
+    {
+        var tandemNumber = _participationBehind!.SelectedParticipation!.Tandem.Number;
+        List<FTQCodes> codes = new List<FTQCodes>();
+        foreach (var value in FTQReason)
+        {
+            codes.Add((FTQCodes)Enum.Parse(typeof(FTQCodes), value));
+        }
+        if (codes.Contains(FTQCodes.FTC))
+        {
+            await _participationBehind.FailToCompleteLoop(tandemNumber, Reason, codes.ToArray());
+        }
+        else
+        {
+            await _participationBehind.FailToQualify(tandemNumber, codes.ToArray());
+        }
+        await OnEliminate.InvokeAsync();
+    }
+
+    public void SetInputState(IEnumerable<string> values)
+    {
+        FTQReason = values;
+        _reasonInputState = FTQReason != null ? FTQReason.Contains("FTC") : false;
+    }
+
+    public async Task Restore()
+    {
+        await OnRestore.InvokeAsync();
+    }
+
+    public IEnumerable<string>? ParseFTQCodesToStrings(IEnumerable<FTQCodes>? FTQ_codes)
+    {
+        if (FTQ_codes == null)
+        {
+            return null;
+        }
+        return FTQ_codes.Select(c => c.ToString());
+    }
+}

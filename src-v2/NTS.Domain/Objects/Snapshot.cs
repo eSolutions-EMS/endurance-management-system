@@ -1,5 +1,4 @@
 ﻿using NTS.Domain.Enums;
-using System.ComponentModel.DataAnnotations;
 
 namespace NTS.Domain.Objects;
 

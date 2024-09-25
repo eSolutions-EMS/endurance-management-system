@@ -14,8 +14,12 @@
     width: 30%;
 }
 
-.hidden{
+.hidden {
     display: none !important;
+}
+
+.children-component {
+    margin-top:10px;
 }
 
 .action-button-top {

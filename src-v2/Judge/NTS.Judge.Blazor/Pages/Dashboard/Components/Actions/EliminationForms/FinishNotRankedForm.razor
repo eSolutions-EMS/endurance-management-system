@@ -1,0 +1,46 @@
+﻿@using NTS.Domain.Core.Aggregates.Participations
+@using NTS.Judge.Blazor.Enums
+@using NTS.Judge.Blazor.Ports
+@using System.Diagnostics
+
+@inherits NotComponent
+
+<MudTextField @bind-Value="Reason" Label="Reason" Variant="Variant.Outlined"></MudTextField>
+
+<MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Eliminate">
+    @Localizer.Get("Eliminate")
+</MudButton>
+
+<MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Restore">
+    @Localizer.Get("Restore")
+</MudButton>
+
+@code {
+    [Inject]
+    IParticipationBehind _participationBehind { get; set; } = default!;
+    [Parameter]
+    public FinishedNotRanked? FinishedNotRanked { get; set; } = default!;
+    [Parameter]
+    public EventCallback OnRestore { get; set; }
+    [Parameter]
+    public EventCallback OnEliminate { get; set; }
+    private string? Reason { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        Reason = FinishedNotRanked?.Complement;
+    }
+
+    public async Task Eliminate()
+    {
+        Participation? participation = _participationBehind.SelectedParticipation;
+        var tandemNumber = participation!.Tandem.Number;
+        await _participationBehind.FinishNotRanked(tandemNumber, Reason); 
+        await OnEliminate.InvokeAsync();
+    }
+
+    public async Task Restore()
+    {
+        await OnRestore.InvokeAsync();
+    }
+}

@@ -1,5 +1,4 @@
 ﻿using Not.Events;
-using Newtonsoft.Json;
 using NTS.Domain.Core.Events.Participations;
 using static NTS.Domain.Core.Aggregates.Participations.SnapshotResultType;
 
@@ -72,23 +71,6 @@ public class Participation : DomainEntity, IAggregateRoot
         EvaluatePhase(phase);
     }
 
-    public PhaseState GetPhaseState()
-    {
-        var phase = Phases.Current;
-        if(phase?.ArriveTime == null)
-        {
-            return PhaseState.Ongoing;
-        }
-        else if(phase?.InspectTime == null)
-        {
-            return PhaseState.Arrived;
-        }
-        else
-        {
-            return PhaseState.Presented;
-        }
-    }
-
     public void ChangeReinspection(bool isRequested)
     {
         if (!isRequested)
@@ -111,6 +93,7 @@ public class Participation : DomainEntity, IAggregateRoot
         {
             Phases.Current.IsRIRequested = isRequested;
         }
+        Phases.Current.IsReinspectionRequested = isRequested;
     }
 
     public void Withdraw()
@@ -137,9 +120,9 @@ public class Participation : DomainEntity, IAggregateRoot
         RevokeQualification(new FailedToQualify(codes));
     }
 
-    public void FailToCompleteLoop(string reason)
+    public void FailToCompleteLoop(string reason, params FTQCodes[] codes)
     {
-        RevokeQualification(new FailedToQualify(reason));
+        RevokeQualification(new FailedToQualify(reason, codes));
     }
 
     private void EvaluatePhase(Phase phase)
