@@ -16,8 +16,8 @@
 @code {
     [Inject]
     IParticipationBehind _participationBehind { get; set; } = default!;
-    private const string NULL_TIME = "00:00:00";
-    private string TimeValue = NULL_TIME;
+    private const string DEFAULT_TIME = "00:00:00";
+    private string TimeValue = DEFAULT_TIME;
     
 
     protected override async Task OnInitializedAsync()
@@ -53,10 +53,10 @@
 
     public void Send()
     {
-        if (TimeValue != NULL_TIME)
+        if (TimeValue != DEFAULT_TIME)
         {
             var convertedInput = TimeSpan.Parse(TimeValue);
-            TimeValue = NULL_TIME;
+            TimeValue = DEFAULT_TIME;
             var time = DateTime.Today + convertedInput;
             var snapshot = CreateSnapshot(time);
             _participationBehind.Process(snapshot);

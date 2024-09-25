@@ -107,7 +107,7 @@ public class Participation : DomainEntity, IAggregateRoot
         RevokeQualification(new FailedToQualify(codes));
     }
 
-    public void FailToCompleteLoop(string reason, params FTQCodes[] codes)
+    public void FailToQualify(string reason, params FTQCodes[] codes)
     {
         RevokeQualification(new FailedToQualify(reason, codes));
     }

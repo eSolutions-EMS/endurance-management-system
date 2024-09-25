@@ -10,7 +10,7 @@
 
 <MudPaper Class="d-flex flex-column mb-2" Elevation="0">
     <MudToggleGroup T="string" TextClass="@SmallTextClass" Delimiters="true" Color="Color.Error" Rounded="true"
-                    SelectionMode="SelectionMode.ToggleSelection" Style="width: 20rem" Value="_toggledButtonValue" ValueChanged="OnToggle" >
+                    SelectionMode="SelectionMode.ToggleSelection" Style="width: 20rem" @bind-Value="_toggledButtonValue" >
         <MudToggleItem Text="Withdrawn" Value="@(NotQualified.WITHDRAWN)" />
         <MudToggleItem Text="Retired" Value="@(NotQualified.RETIRED)" />
         <MudToggleItem Text="Finished Not Ranked" Value="@(NotQualified.FINISHED_NOT_RANKED)" />
@@ -21,23 +21,23 @@
     {
         <MudCollapse Expanded="@(_toggledButtonValue == NotQualified.WITHDRAWN)" >
             <WithdrawForm Withdrawn="_notQualified as Withdrawn"
-                          OnRestore="RestoreAndUntoggle" OnEliminate="ResetButtonPrivateValue" />
+                          OnRestore="RestoreHandler" OnEliminate="EliminateHandler" />
         </MudCollapse>
         <MudCollapse Expanded="@(_toggledButtonValue == NotQualified.RETIRED)">
             <RetireForm Retired="_notQualified as Retired"
-                        OnRestore="RestoreAndUntoggle" OnEliminate="ResetButtonPrivateValue" />
+                        OnRestore="RestoreHandler" OnEliminate="EliminateHandler" />
         </MudCollapse>
         <MudCollapse Expanded="@(_toggledButtonValue == NotQualified.FINISHED_NOT_RANKED)">
             <FinishNotRankedForm FinishedNotRanked="_notQualified as FinishedNotRanked"
-                                 OnRestore="RestoreAndUntoggle" OnEliminate="ResetButtonPrivateValue" />
+                                 OnRestore="RestoreHandler" OnEliminate="EliminateHandler" />
         </MudCollapse>
         <MudCollapse Expanded="@(_toggledButtonValue == NotQualified.DISQUALIFIED)">
             <DisqualifyForm Disqualified="_notQualified as Disqualified"
-                            OnRestore="RestoreAndUntoggle" OnEliminate="ResetButtonPrivateValue" />
+                            OnRestore="RestoreHandler" OnEliminate="EliminateHandler" />
         </MudCollapse>
-        <MudCollapse Expanded="@(_toggledButtonValue.Contains(NotQualified.FAILED_TO_QUALIFY))">
+        <MudCollapse Expanded="@(_toggledButtonValue == NotQualified.FAILED_TO_QUALIFY)">
             <FailedToQualifyForm FailedToQualify="_notQualified as FailedToQualify"
-                                 OnRestore="RestoreAndUntoggle" OnEliminate="ResetButtonPrivateValue" />
+                                 OnRestore="RestoreHandler" OnEliminate="EliminateHandler" />
         </MudCollapse>
     }
 </MudPaper>
@@ -47,10 +47,10 @@
     IParticipationBehind _participationBehind { get; set; } = default!;
     NotQualified? _notQualified => _participationBehind.SelectedParticipation?.NotQualified;
     private string? _toggledButtonValue {
-        get => _eliminationCodeValue != null ? _eliminationCodeValue : _notQualified?.EliminationCode;
-        set { _eliminationCodeValue = value; }
+        get => _value != null ? _value : _notQualified?.EliminationCode;
+        set => _value = value; 
     }
-    private string? _eliminationCodeValue;
+    private string? _value;
     private string SmallTextClass = "font-size-10";
 
     protected override async Task OnInitializedAsync()
@@ -58,20 +58,19 @@
         await Observe(_participationBehind);
     }
 
-    public void OnToggle(string value)
+    public void ToggleOff()
     {
-        _toggledButtonValue = value;
-    }
-
-    public async Task RestoreAndUntoggle()
-    {
-        var tandemNumber = _participationBehind!.SelectedParticipation!.Tandem.Number;
-        await _participationBehind.RestoreQualification(tandemNumber);
         _toggledButtonValue = null;
     }
 
-    public void ResetButtonPrivateValue()
+    public async Task RestoreHandler()
     {
-        _eliminationCodeValue = null;
+        await _participationBehind.RestoreQualification();
+        ToggleOff();
+    }
+
+    public void EliminateHandler()
+    {
+        _value = null;
     }
 }

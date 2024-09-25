@@ -87,9 +87,10 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
         await _participationRepository.Update(participation);
     }
 
-    public async Task Withdraw(int number)
+    public async Task Withdraw()
     {
-        var participation = Participations.FirstOrDefault(x => x.Tandem.Number == number);
+        var tandemNumber = SelectedParticipation!.Tandem.Number;
+        var participation = Participations.FirstOrDefault(x => x.Tandem.Number == tandemNumber);
         GuardHelper.ThrowIfDefault(participation);
         participation.Withdraw();
         await _participationRepository.Update(participation);
@@ -97,9 +98,10 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
         EmitChange();
     }
 
-    public async Task Retire(int number)
+    public async Task Retire()
     {
-        var participation = Participations.FirstOrDefault(x => x.Tandem.Number == number);
+        var tandemNumber = SelectedParticipation!.Tandem.Number;
+        var participation = Participations.FirstOrDefault(x => x.Tandem.Number == tandemNumber);
         GuardHelper.ThrowIfDefault(participation);
         participation.Retire();
         await _participationRepository.Update(participation);
@@ -107,9 +109,10 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
         EmitChange();
     }
 
-    public async Task FinishNotRanked(int number, string reason)
+    public async Task FinishNotRanked(string reason)
     {
-        var participation = Participations.FirstOrDefault(x => x.Tandem.Number == number);
+        var tandemNumber = SelectedParticipation!.Tandem.Number;
+        var participation = Participations.FirstOrDefault(x => x.Tandem.Number == tandemNumber);
         GuardHelper.ThrowIfDefault(participation);
         participation.FinishNotRanked(reason);
         await _participationRepository.Update(participation);
@@ -117,9 +120,10 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
         EmitChange();
     }
 
-    public async Task Disqualify(int number, string reason)
+    public async Task Disqualify(string reason)
     {
-        var participation = Participations.FirstOrDefault(x => x.Tandem.Number == number);
+        var tandemNumber = SelectedParticipation!.Tandem.Number;
+        var participation = Participations.FirstOrDefault(x => x.Tandem.Number == tandemNumber);
         GuardHelper.ThrowIfDefault(participation);
         participation.Disqualify(reason);
         await _participationRepository.Update(participation);
@@ -127,9 +131,10 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
         EmitChange();
     }
 
-    public async Task FailToQualify(int number, params FTQCodes[] ftqCodes)
+    public async Task FailToQualify(params FTQCodes[] ftqCodes)
     {
-        var participation = Participations.FirstOrDefault(x => x.Tandem.Number == number);
+        var tandemNumber = SelectedParticipation!.Tandem.Number;
+        var participation = Participations.FirstOrDefault(x => x.Tandem.Number == tandemNumber);
         GuardHelper.ThrowIfDefault(participation);
         GuardHelper.ThrowIfDefault(ftqCodes);
         participation.FailToQualify(ftqCodes);
@@ -138,20 +143,22 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
         EmitChange();
     }
 
-    public async Task FailToCompleteLoop(int number, string? reason, params FTQCodes[] ftqCodes)
+    public async Task FailToQualify(string? reason, params FTQCodes[] ftqCodes)
     {
-        var participation = Participations.FirstOrDefault(x => x.Tandem.Number == number);
+        var tandemNumber = SelectedParticipation!.Tandem.Number;
+        var participation = Participations.FirstOrDefault(x => x.Tandem.Number == tandemNumber);
         GuardHelper.ThrowIfDefault(participation);
         GuardHelper.ThrowIfDefault(ftqCodes);
-        participation.FailToCompleteLoop(reason, ftqCodes);
+        participation.FailToQualify(reason, ftqCodes);
         await _participationRepository.Update(participation);
 
         EmitChange();
     }
 
-    public async Task RestoreQualification(int number)
+    public async Task RestoreQualification()
     {
-        var participation = Participations.FirstOrDefault(x => x.Tandem.Number == number);
+        var tandemNumber = SelectedParticipation!.Tandem.Number;
+        var participation = Participations.FirstOrDefault(x => x.Tandem.Number == tandemNumber);
         GuardHelper.ThrowIfDefault(participation);
 
         participation.RestoreQualification();

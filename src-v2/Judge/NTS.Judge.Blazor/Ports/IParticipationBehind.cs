@@ -1,8 +1,6 @@
 ﻿using Not.Blazor.Ports.Behinds;
 using NTS.Domain.Core.Aggregates.Participations;
 using NTS.Domain.Objects;
-using NTS.Judge.Blazor.Enums;
-using NTS.Judge.Blazor.Pages.Dashboard.Components.Actions.EliminationForms;
 
 namespace NTS.Judge.Blazor.Ports;
 
@@ -17,12 +15,12 @@ public interface IParticipationBehind : IObservableBehind
     void RequestRequiredInspection(bool requestFlag);
     Task Process(Snapshot snapshot);
     Task Update(IPhaseState state);
-    Task Withdraw(int number);
-    Task Retire(int number);
-    Task FinishNotRanked(int number, string reason);
-    Task Disqualify(int number, string reason);
-    Task FailToQualify(int number, FTQCodes[] ftqCodes);
-    Task FailToCompleteLoop(int number, string? reason, FTQCodes[] ftqCodes);
-    Task RestoreQualification(int number);
+    Task Withdraw();
+    Task Retire();
+    Task FinishNotRanked(string reason);
+    Task Disqualify(string reason);
+    Task FailToQualify(FTQCodes[] ftqCodes);
+    Task FailToQualify(string? reason, FTQCodes[] ftqCodes);
+    Task RestoreQualification();
     Task<Participation?> Get(int id);
 }
