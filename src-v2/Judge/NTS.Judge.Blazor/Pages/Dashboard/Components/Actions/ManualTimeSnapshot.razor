@@ -3,15 +3,13 @@
 
 @inherits NotComponent
 
-<h4>Time Snapshot</h4>
-
-<MudPaper Class="d-flex flex-row mb-4" Elevation="0">
-    <MudTextField @bind-Value="TimeValue" T="string" Label="Time" Mask="@(new PatternMask("00:00:00"))" Class="one-third-width mr-2"/>
-    <MudButtonGroup Color="Color.Tertiary" Size="Size.Small" Variant="Variant.Filled" VerticalAlign="true">
-        <MudButton OnClick="SnapshotTime">Snapshot</MudButton>
-        <MudButton OnClick="Send">Save</MudButton>
+<MudStack Row="true" AlignItems="AlignItems.Center">
+    <MudTextField @bind-Value="TimeValue" T="string" Label="Time" Mask="@(new PatternMask("00:00:00"))" Class="mr-2"/>
+    <MudButtonGroup OverrideStyles="false" Size="Size.Medium">
+        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="Process">Process</MudButton>
+        <MudIconButton Icon="@Icons.Material.Outlined.Timer" Color="Color.Primary" Variant="Variant.Outlined" OnClick="SnapshotTime">Snapshot</MudIconButton>
     </MudButtonGroup>
-</MudPaper>
+</MudStack>
 
 @code {
     [Inject]
@@ -42,7 +40,7 @@
            timestamp);
     }
 
-    public void Send()
+    public void Process()
     {
         if (TimeValue == NULL_TIME)
         {
