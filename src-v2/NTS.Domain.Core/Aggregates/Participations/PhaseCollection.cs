@@ -51,13 +51,14 @@ public class PhaseCollection : ReadOnlyCollection<Phase>
         next.StartTime = Current.GetOutTime();
     }
 
-    private void SelectNext()
+    internal bool SelectNext()
     {
         if (Current == this.Last())
         {
-            throw new GuardException("Cannot select next Phase. Current Phase is the final phase");
+            return false;
         }
         Current = GetNext();
+        return true;
     }
 
     private Phase GetNext()

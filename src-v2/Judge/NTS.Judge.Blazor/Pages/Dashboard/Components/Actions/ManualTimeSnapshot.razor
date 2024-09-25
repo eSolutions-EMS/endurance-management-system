@@ -33,40 +33,32 @@
 
     public Snapshot CreateSnapshot(DateTime timeStampDateTime)
     {
-        var participation = _participationBehind.SelectedParticipation;
-        var currentPhase = participation!.Phases.Current;
         var timestamp = new Timestamp(timeStampDateTime);
 
-        SnapshotType snapshotType = SnapshotType.Stage;
-        SnapshotMethod snapshotMethod = SnapshotMethod.Manual;
-        Snapshot snapshot; //TODO: zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
-        if (currentPhase?.ArriveTime == null)
-        {        
-            if (currentPhase.IsFinal)
-            {
-                snapshot = new FinishSnapshot(participation!.Tandem.Number, snapshotMethod, timestamp);
-            }
-            else
-            {
-                snapshot = new StageSnapshot(participation!.Tandem.Number, snapshotMethod, timestamp);
-            }
-        }
-        else
-        {
-            snapshot = new VetgateSnapshot(participation!.Tandem.Number, snapshotMethod, timestamp);
-        }
-        return snapshot;
+        return new Snapshot(
+            _participationBehind.SelectedParticipation!.Tandem.Number, 
+           SnapshotType.Automatic,
+           SnapshotMethod.Manual,
+           timestamp);
     }
 
     public void Send()
     {
-        if (TimeValue != NULL_TIME)
+        if (TimeValue == NULL_TIME)
         {
-            var convertedInput = TimeSpan.Parse(TimeValue);
-            TimeValue = NULL_TIME;
-            var time = DateTime.Today + convertedInput;
-            var snapshot = CreateSnapshot(time);
-            _participationBehind.Process(snapshot);
+            return;
         }
+
+        var inputTime = TimeSpan.Parse(TimeValue);
+        var time = DateTime.Today + inputTime;
+        var timestamp = new Timestamp(time);
+        var snapshot = new Snapshot(
+            _participationBehind.SelectedParticipation!.Tandem.Number,
+           SnapshotType.Automatic,
+           SnapshotMethod.Manual,
+           timestamp);
+        _participationBehind.Process(snapshot);
+
+        TimeValue = NULL_TIME;
     }
 }

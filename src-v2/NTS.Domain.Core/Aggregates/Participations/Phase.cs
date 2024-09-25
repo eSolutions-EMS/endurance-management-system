@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using NTS.Domain.Objects;
 using static NTS.Domain.Core.Aggregates.Participations.SnapshotResultType;
 
 namespace NTS.Domain.Core.Aggregates.Participations;
@@ -130,22 +131,14 @@ public class Phase : DomainEntity, IPhaseState
 
     internal SnapshotResult Process(Snapshot snapshot)
     {
-        if (snapshot is FinishSnapshot finishSnapshot)
+        return snapshot.Type switch
         {
-            return Finish(finishSnapshot);
-        }
-        else if (snapshot is StageSnapshot stageSnapshot)
-        {
-            return Arrive(stageSnapshot);
-        }
-        else if (snapshot is VetgateSnapshot vetgateSnapshot)
-        {
-            return Inspect(vetgateSnapshot);
-        }
-        else
-        {
-            throw GuardHelper.Exception($"Invalid snapshot '{snapshot.GetType()}'");
-        }
+            SnapshotType.Vet => Inspect(snapshot),
+            SnapshotType.Stage => Arrive(snapshot),
+            SnapshotType.Final => Finish(snapshot),
+            SnapshotType.Automatic => Automatic(snapshot),
+            _ => throw GuardHelper.Exception($"Invalid snapshot '{snapshot.GetType()}'"),
+        };
     }
 
     internal void Update(IPhaseState state)
@@ -209,7 +202,24 @@ public class Phase : DomainEntity, IPhaseState
         Gate = $"GATE{number}/{totalDistanceSoFar:0.##}";
     }
 
-    SnapshotResult Finish(FinishSnapshot snapshot)
+    SnapshotResult Automatic(Snapshot snapshot)
+    {
+        if (ArriveTime == null && IsFinal)
+        {
+            return Finish(snapshot);
+        }
+        if (ArriveTime == null)
+        {
+            return Arrive(snapshot);
+        }
+        if (VetTime == null)
+        {
+            return Inspect(snapshot);
+        }
+        return SnapshotResult.NotApplied(snapshot, NotAppliedDueToInapplicableAutomatic);
+    }
+
+    SnapshotResult Finish(Snapshot snapshot)
     {
         if (_isSeparateFinish && !IsFinal)
         {
@@ -225,7 +235,7 @@ public class Phase : DomainEntity, IPhaseState
         return SnapshotResult.Applied(snapshot);
     }
 
-    SnapshotResult Arrive(StageSnapshot snapshot)
+    SnapshotResult Arrive(Snapshot snapshot)
     {
         if (_isSeparateFinish && IsFinal)
         {
