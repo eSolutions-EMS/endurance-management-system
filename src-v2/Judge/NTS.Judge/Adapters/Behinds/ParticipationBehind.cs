@@ -11,6 +11,7 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
 {
     private readonly IRepository<Participation> _participationRepository;
     private readonly IRepository<SnapshotResult> _snapshotResultRepository;
+    private Participation? _selectedParticipation;
 
     public ParticipationBehind(
         IRepository<Participation> participationRepository,
@@ -22,7 +23,15 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
 
     public IEnumerable<Participation> Participations { get; private set; } = new List<Participation>();
     public IEnumerable<IGrouping<double, Participation>> ParticipationsByDistance => Participations.GroupBy(x => x.Phases.Distance);
-    public Participation? SelectedParticipation { get; set; }
+    public Participation? SelectedParticipation
+    {
+        get => _selectedParticipation; 
+        set
+        {
+            _selectedParticipation = value;
+            EmitChange();
+        } 
+    }
 
     // TODO: we need a better solution to load items as they have been changed in addition to load on startup.
     // Example case: importing previous data: as it is currently we have to restart the app after import
@@ -32,14 +41,6 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
         Participations = await _participationRepository.ReadAll();
         SelectedParticipation = Participations.FirstOrDefault();
         return Participations.Any();
-    }
-
-    public void SelectParticipation(int number)
-    {
-        SelectedParticipation = Participations.FirstOrDefault(x => x.Tandem.Number == number);
-        GuardHelper.ThrowIfDefault(SelectedParticipation);
-        
-        EmitChange();
     }
 
     public void RequestReinspection(bool requestFlag)
