@@ -5,6 +5,7 @@
 @using NTS.Judge.Blazor.Ports
 @using Not.Blazor.TM.Pages
 @using Not.Events
+@using Not.Ports
  
 @attribute [Route(DASHBOARD_PAGE)]
 @inherits NotComponent
@@ -16,6 +17,10 @@
     </EmptyContent>
 
     <Main>
+        <MudButton OnClick="@(() => _notify.Informed("Info"))">Info</MudButton>
+        <MudButton OnClick="@(() => _notify.Succeeded("Success"))">Success</MudButton>
+        <MudButton OnClick="@(() => _notify.Warned("Warning"))">Warning</MudButton>
+        <MudButton OnClick="@(() => _notify.Failed("Error"))">Error</MudButton>
         <DashboardComponent />
     </Main>
 
@@ -30,6 +35,8 @@
 </NotPage>
 
 @code {
+    [Inject]
+    INotify _notify { get; set; } = default!;
     [Inject]
     private IEmsImportBehind _importBehind { get; set; } = default!;
     [Inject]

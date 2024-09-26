@@ -1,4 +1,5 @@
-﻿using Not.Application.Ports.CRUD;
+﻿using MudBlazor;
+using Not.Application.Ports.CRUD;
 using Not.Blazor.Ports.Behinds;
 using Not.Exceptions;
 using NTS.Domain.Core.Aggregates.Participations;
@@ -9,6 +10,7 @@ namespace NTS.Judge.Adapters.Behinds;
 
 public class ParticipationBehind : ObservableBehind, IParticipationBehind
 {
+    private readonly ISnackbar _snackbar;
     private readonly IRepository<Participation> _participationRepository;
     private readonly IRepository<SnapshotResult> _snapshotResultRepository;
     private Participation? _selectedParticipation;
