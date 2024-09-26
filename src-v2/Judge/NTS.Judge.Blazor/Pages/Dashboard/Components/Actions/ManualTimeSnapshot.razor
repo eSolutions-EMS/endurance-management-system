@@ -4,7 +4,7 @@
 @inherits NotComponent
 
 <MudStack Row="true" AlignItems="AlignItems.Center">
-    <MudTextField @bind-Value="TimeValue" T="string" Label="Time" Mask="@(new PatternMask("00:00:00"))" Class="mr-2"/>
+    <MudTextField @bind-Value="_time" T="string" Label="Time" Mask="@(new PatternMask("00:00:00"))" Class="mr-2"/>
     <MudButtonGroup OverrideStyles="false" Size="Size.Medium">
         <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="Process">Process</MudButton>
         <MudIconButton Icon="@Icons.Material.Outlined.Timer" Color="Color.Primary" Variant="Variant.Outlined" OnClick="SnapshotTime">Snapshot</MudIconButton>
@@ -14,10 +14,9 @@
 @code {
     [Inject]
     IParticipationBehind _participationBehind { get; set; } = default!;
-    private const string NULL_TIME = "00:00:00";
-    private string TimeValue = NULL_TIME;
-
-
+    private const string DEFAULT_TIME = "00:00:00";
+    private string _time = DEFAULT_TIME;
+    
     protected override async Task OnInitializedAsync()
     {
         await Observe(_participationBehind);
@@ -26,7 +25,7 @@
     public void SnapshotTime()
     {
         var currentTime = DateTime.Now.TimeOfDay;
-        TimeValue = currentTime.ToString();
+        _time = currentTime.ToString();
     }
 
     public Snapshot CreateSnapshot(DateTime timeStampDateTime)
@@ -42,12 +41,12 @@
 
     public void Process()
     {
-        if (TimeValue == NULL_TIME)
+        if (_time == DEFAULT_TIME)
         {
             return;
         }
 
-        var inputTime = TimeSpan.Parse(TimeValue);
+        var inputTime = TimeSpan.Parse(_time);
         var time = DateTime.Today + inputTime;
         var timestamp = new Timestamp(time);
         var snapshot = new Snapshot(
@@ -57,6 +56,6 @@
            timestamp);
         _participationBehind.Process(snapshot);
 
-        TimeValue = NULL_TIME;
+        _time = DEFAULT_TIME;
     }
 }
