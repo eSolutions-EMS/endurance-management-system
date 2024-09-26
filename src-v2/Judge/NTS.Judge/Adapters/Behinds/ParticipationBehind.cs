@@ -3,7 +3,6 @@ using Not.Blazor.Ports.Behinds;
 using Not.Exceptions;
 using NTS.Domain.Core.Aggregates.Participations;
 using NTS.Domain.Objects;
-using NTS.Judge.Blazor.Enums;
 using NTS.Judge.Blazor.Ports;
 
 namespace NTS.Judge.Adapters.Behinds;
@@ -22,7 +21,8 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
     }
 
     public IEnumerable<Participation> Participations { get; private set; } = new List<Participation>();
-    public Participation? SelectedParticipation { get; set; } = default!;
+    public IEnumerable<IGrouping<double, Participation>> ParticipationsByDistance => Participations.GroupBy(x => x.Phases.Distance);
+    public Participation? SelectedParticipation { get; set; }
 
     // TODO: we need a better solution to load items as they have been changed in addition to load on startup.
     // Example case: importing previous data: as it is currently we have to restart the app after import
@@ -39,6 +39,22 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
         SelectedParticipation = Participations.FirstOrDefault(x => x.Tandem.Number == number);
         GuardHelper.ThrowIfDefault(SelectedParticipation);
         
+        EmitChange();
+    }
+
+    public void RequestReinspection(bool requestFlag)
+    {
+        SelectedParticipation!.ChangeReinspection(requestFlag);
+        _participationRepository.Update(SelectedParticipation);
+
+        EmitChange();
+    }
+
+    public void RequestRequiredInspection(bool requestFlag)
+    {
+        SelectedParticipation!.ChangeRequiredInspection(requestFlag);
+        _participationRepository.Update(SelectedParticipation);
+
         EmitChange();
     }
 
@@ -69,39 +85,65 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
         await _participationRepository.Update(participation);
     }
 
-    public async Task RevokeQualification(int number, QualificationRevokeType type, string? reason = null, params FTQCodes[] ftqCodes)
+    public async Task Withdraw(int number)
     {
-        GuardHelper.ThrowIfDefault(type);
-
         var participation = Participations.FirstOrDefault(x => x.Tandem.Number == number);
         GuardHelper.ThrowIfDefault(participation);
-
-        if (type == QualificationRevokeType.Withdraw)
-        {
-            participation.Withdraw();
-        }
-        if (type == QualificationRevokeType.Retire)
-        {
-            participation.Retire();
-        }
-        if (type == QualificationRevokeType.Disqualify)
-        {
-            participation.Disqualify(reason);
-        }
-        if (type == QualificationRevokeType.FinishNotRanked)
-        {
-            participation.FinishNotRanked(reason);
-        }
-        if (type == QualificationRevokeType.FailToQualify)
-        {
-            GuardHelper.ThrowIfDefault(ftqCodes);
-            participation.FailToQualify(ftqCodes);
-        }
-        if (type == QualificationRevokeType.FailToCompleteLoop)
-        {
-            participation.FailToCompleteLoop(reason);
-        }
+        participation.Withdraw();
         await _participationRepository.Update(participation);
+
+        EmitChange();
+    }
+
+    public async Task Retire(int number)
+    {
+        var participation = Participations.FirstOrDefault(x => x.Tandem.Number == number);
+        GuardHelper.ThrowIfDefault(participation);
+        participation.Retire();
+        await _participationRepository.Update(participation);
+
+        EmitChange();
+    }
+
+    public async Task FinishNotRanked(int number, string reason)
+    {
+        var participation = Participations.FirstOrDefault(x => x.Tandem.Number == number);
+        GuardHelper.ThrowIfDefault(participation);
+        participation.FinishNotRanked(reason);
+        await _participationRepository.Update(participation);
+
+        EmitChange();
+    }
+
+    public async Task Disqualify(int number, string reason)
+    {
+        var participation = Participations.FirstOrDefault(x => x.Tandem.Number == number);
+        GuardHelper.ThrowIfDefault(participation);
+        participation.Disqualify(reason);
+        await _participationRepository.Update(participation);
+
+        EmitChange();
+    }
+
+    public async Task FailToQualify(int number, params FTQCodes[] ftqCodes)
+    {
+        var participation = Participations.FirstOrDefault(x => x.Tandem.Number == number);
+        GuardHelper.ThrowIfDefault(participation);
+        GuardHelper.ThrowIfDefault(ftqCodes);
+        participation.FailToQualify(ftqCodes);
+        await _participationRepository.Update(participation);
+
+        EmitChange();
+    }
+
+    public async Task FailToCompleteLoop(int number, string? reason, params FTQCodes[] ftqCodes)
+    {
+        var participation = Participations.FirstOrDefault(x => x.Tandem.Number == number);
+        GuardHelper.ThrowIfDefault(participation);
+        GuardHelper.ThrowIfDefault(ftqCodes);
+        participation.FailToCompleteLoop(reason, ftqCodes);
+        await _participationRepository.Update(participation);
+
         EmitChange();
     }
 
@@ -112,28 +154,6 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
 
         participation.RestoreQualification();
         await _participationRepository.Update(participation);
-        EmitChange();
-    }
-
-    public async Task RequestRequiredInspection(bool isRequested)
-    {
-        if (SelectedParticipation == null)
-        {
-            return;
-        }
-        SelectedParticipation.ChangeRequiredInspection(isRequested);
-        await _participationRepository.Update(SelectedParticipation);
-        EmitChange();
-    }
-
-    public async Task RequestReinspection(bool isRequested)
-    {
-        if (SelectedParticipation == null)
-        {
-            return;
-        }
-        SelectedParticipation.ChangeReinspection(isRequested);
-        await _participationRepository.Update(SelectedParticipation);
         EmitChange();
     }
 

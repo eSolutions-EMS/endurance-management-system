@@ -15,10 +15,10 @@ public class SnapshotFactory
         
         return emsType switch
         {
-            EmsWitnessEventType.VetIn => new VetgateSnapshot(number, method, timestamp),
+            EmsWitnessEventType.VetIn => new Snapshot(number, SnapshotType.Vet, method, timestamp),
             EmsWitnessEventType.Arrival => isFinal
-                ? new FinishSnapshot(number, method, timestamp)
-                : new StageSnapshot(number, method, timestamp),
+                ? new Snapshot(number, SnapshotType.Final, method, timestamp)
+                : new Snapshot(number, SnapshotType.Stage, method, timestamp),
             _ => throw new Exception($"Invalid WitnessEventType for participant '{participant.Number}'"),
         };
     }

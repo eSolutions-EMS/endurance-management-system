@@ -30,5 +30,6 @@ public enum SnapshotResultType
     NotAppliedDueToSeparateStageLine = 5,
     NotAppliedDueToSeparateFinishLine = 6,
     NotAppliedDueToDuplicateArrive = 7,
-    NotAppliedDueToDuplicateInspect = 8 
+    NotAppliedDueToDuplicateInspect = 8,
+    NotAppliedDueToInapplicableAutomatic = 9,
 }

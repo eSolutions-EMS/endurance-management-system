@@ -1,0 +1,36 @@
+﻿@using NTS.Domain.Core.Aggregates.Participations
+@using NTS.Judge.Blazor.Enums
+@using NTS.Judge.Blazor.Ports
+@inherits NotComponent
+
+<MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Eliminate">
+    @Localizer.Get("Eliminate")
+</MudButton>
+
+<MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Restore">
+    @Localizer.Get("Restore")
+</MudButton>
+
+@code {
+    [Inject]
+    IParticipationBehind _participationBehind { get; set; } = default!;
+    [Parameter]
+    public Retired? Retired { get; set; }
+    [Parameter]
+    public EventCallback OnRestore { get; set; }
+    [Parameter]
+    public EventCallback OnEliminate { get; set; }
+
+    public async Task Eliminate()
+    {
+        Participation? participation = _participationBehind.SelectedParticipation;
+        var tandemNumber = participation!.Tandem.Number;
+        await _participationBehind.Retire(tandemNumber);
+        await OnEliminate.InvokeAsync();
+    }
+
+    public async Task Restore()
+    {
+        await OnRestore.InvokeAsync();
+    }
+}

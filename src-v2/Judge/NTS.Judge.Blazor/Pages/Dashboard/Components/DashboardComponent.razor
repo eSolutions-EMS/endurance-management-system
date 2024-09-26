@@ -62,7 +62,6 @@
         }
         _behind.SelectParticipation((int)chip.Value);
         GuardHelper.ThrowIfDefault(_behind.SelectedParticipation);
-        await InvokeAsync(StateHasChanged); // TODO: think this sisnt necessary
     }
 }
 

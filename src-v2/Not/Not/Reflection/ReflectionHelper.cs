@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿using Not.Exceptions;
+using System.ComponentModel;
+using System.Reflection;
 
 namespace Not.Reflection;
 
@@ -19,21 +21,11 @@ public static class ReflectionHelper
         return typeof(T).Name;
     }
 
-    public static Type GetType(this object instance)
+    public static FieldInfo? GetEnumField(this Type type, object instance)
     {
-        return instance.GetType();
-    }
-
-    public static FieldInfo? GetField(this Type type, object instance)
-    {
-        if (instance.ToString() != null)
-        {
-            return type.GetField(instance.ToString());
-        }
-        else
-        {
-            return null;
-        }        
+        var stringValue = instance.ToString();
+        if (stringValue == null) return null;
+        return type.GetField(stringValue);
     }
 
     public static PropertyInfo Property(this Type type, string name)
@@ -52,8 +44,6 @@ public static class ReflectionHelper
     {
         return property.GetValue(instance);
     }
-
-
 
     public static void Set(this PropertyInfo property, object instance, object value)
     {
