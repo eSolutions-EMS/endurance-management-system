@@ -16,10 +16,6 @@
     </EmptyContent>
 
     <Main>
-        <MudButton OnClick="@(() => _snackbar.Add("Kur", Severity.Info))">info</MudButton>
-        <MudButton OnClick="@(() => _snackbar.Add("Zelen", Severity.Success))">success</MudButton>
-        <MudButton OnClick="@(() => _snackbar.Add("Jalt", Severity.Warning))">warn</MudButton>
-        <MudButton OnClick="@(() => _snackbar.Add("Cherven", Severity.Error))">errrrrrr</MudButton>
         <DashboardComponent />
     </Main>
 
@@ -34,8 +30,6 @@
 </NotPage>
 
 @code {
-    [Inject]
-    ISnackbar _snackbar { get; set; } = default!;
     [Inject]
     private IEmsImportBehind _importBehind { get; set; } = default!;
     [Inject]
