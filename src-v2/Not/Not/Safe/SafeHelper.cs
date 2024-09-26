@@ -20,7 +20,7 @@ public static class SafeHelper
         }
         catch (DomainExceptionBase validation)
         {
-            Notify.Warn(validation);
+            NotifyHelper.Warn(validation);
         }
         catch (Exception ex)
         {
@@ -42,7 +42,7 @@ public static class SafeHelper
 
         catch (DomainExceptionBase validation)
         {
-            Notify.Warn(validation);
+            NotifyHelper.Warn(validation);
         }
         catch (Exception ex)
         {
@@ -52,7 +52,7 @@ public static class SafeHelper
 
     static void HandleError(Exception ex)
     {
-        Notify.Error(ex);
+        NotifyHelper.Error(ex);
         WriteToTraceConsole(ex);
     }
 

@@ -1,10 +1,9 @@
 ﻿using Not.Events;
 using Not.Exceptions;
-using System;
 
 namespace Not.Notifier;
 
-public static class Notify
+public static class NotifyHelper
 {
     public static void Inform(string message)
     {
