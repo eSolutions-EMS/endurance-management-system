@@ -1,10 +1,11 @@
-﻿using Not.Localization;
+﻿using Not.Exceptions;
+using Not.Localization;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Not.Domain;
 
 //TODO: Create AggregateDomainException and modify domains to batch their validation exceptions before throwing
-public class DomainException : Exception
+public class DomainException : DomainExceptionBase
 {
     public DomainException(string property, string message) : base(message.Localize())
     {
