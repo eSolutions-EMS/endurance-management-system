@@ -6,16 +6,16 @@
 
 @inherits EliminationForm
 
-<MudSelect T="FTQCodes" Label="Failed to Qualify Reason" MultiSelection="true" Delimiter="+"
-    SelectedValues="@Codes" SelectedValuesChanged="SetInputState" Placeholder="Select a reason">
+<MudSelect @bind-SelectedValues="@Codes" Label="Failed to Qualify Reason" MultiSelection="true" Delimiter="+" Placeholder="Select a reason">
     @foreach (var failToQualifyCode in SelectListModel.FromEnum<FTQCodes>())
     {
-        <MudSelectItem T="string" Value="@failToQualifyCode.Value">
+        <MudSelectItem Value="@failToQualifyCode.Value">
             @failToQualifyCode.Value
             <div class="font-size-10">@failToQualifyCode.Description</div>
         </MudSelectItem>
     }
 </MudSelect>
+
 <MudCollapse Expanded="Codes.Contains(FTQCodes.FTC)">
     <MudTextField @bind-Value="Reason" Label="Reason" Variant="Variant.Outlined"></MudTextField>
 </MudCollapse>
@@ -37,11 +37,11 @@
 
     protected override void OnParametersSet()
     {
-       if(FailedToQualify != null)
-       {
+        if (FailedToQualify != null)
+        {
             Codes = FailedToQualify.Codes;
             Reason = FailedToQualify.Complement;
-       }
+        }
     }
 
     public override async Task Eliminate()
@@ -60,10 +60,5 @@
             await _participationBehind.FailToQualify(codes.ToArray());
         }
         await OnEliminate.InvokeAsync();
-    }
-
-    public void SetInputState(IEnumerable<FTQCodes> values)
-    {
-        Codes = values;
     }
 }

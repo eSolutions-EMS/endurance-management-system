@@ -4,22 +4,23 @@ namespace Not.Structures;
 
 public class SelectListModel
 {
-    public static IEnumerable<SelectListModel> FromEnum<T>()
-         where T : struct
+    public static IEnumerable<SelectListModel<T>> FromEnum<T>()
+         where T : struct, Enum
     {
-        var enumValues = Enum.GetValues(typeof(T)).Cast<Enum>();
-        var selectItems = enumValues.Select(s => new SelectListModel(s.ToString(), s.GetDescription()));
+        var enumValues = Enum.GetValues<T>();
+        var selectItems = enumValues.Select(s => new SelectListModel<T>(s, s.GetDescription()));
         return selectItems;
     }
-    public SelectListModel(string value, string description)
-    {
-        Value = value;
-        Description = description;
-    }
-
-    public string Value { get; set; }
-    public string Description { get; set; }
 }
 
+public class SelectListModel<T>
+{
+    public SelectListModel(T value, string description)
+    {
+        Value = value;
+        Description = description;  
+    }
 
-
+    public T Value { get; set; }
+    public string Description { get; set; }
+}
