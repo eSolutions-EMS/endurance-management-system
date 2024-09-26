@@ -1,5 +1,5 @@
-﻿using Not.Concurrency;
-using Not.Injection;
+﻿using Not.Injection;
+using Not.Safe;
 
 namespace Not.Events;
 
@@ -14,11 +14,11 @@ public class EventManager : IEventManager
     }
     public void Subscribe(Func<Task> action)
     {
-        NotDelegate += () => TaskHelper.Run(() => action());
+        NotDelegate += () => SafeHelper.RunAsync(() => action());
     }
     public void Subscribe(Action action)
     {
-        NotDelegate += () => TaskHelper.Run(() => { action(); return Task.CompletedTask; });
+        NotDelegate += () => SafeHelper.RunAsync(() => { action(); return Task.CompletedTask; });
     }
 }
 
@@ -33,11 +33,11 @@ public class EventManager<T> : IEventManager<T>
     }
     public void Subscribe(Func<T, Task> action)
     {
-        GenericEvent += x => TaskHelper.Run(() => action(x));
+        GenericEvent += x => SafeHelper.RunAsync(() => action(x));
     }
     public void Subscribe(Action<T> action)
     {
-        GenericEvent += x => TaskHelper.Run(() => { action(x); return Task.CompletedTask; });
+        GenericEvent += x => SafeHelper.RunAsync(() => { action(x); return Task.CompletedTask; });
     }
 }
 

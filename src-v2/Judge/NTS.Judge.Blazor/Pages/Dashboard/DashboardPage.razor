@@ -5,7 +5,7 @@
 @using NTS.Judge.Blazor.Ports
 @using Not.Blazor.TM.Pages
 @using Not.Events
-@using Not.Ports
+@using Not.Notifier
  
 @attribute [Route(DASHBOARD_PAGE)]
 @inherits NotComponent
@@ -17,10 +17,10 @@
     </EmptyContent>
 
     <Main>
-        <MudButton OnClick="@(() => _notify.Informed("Info"))">Info</MudButton>
-        <MudButton OnClick="@(() => _notify.Succeeded("Success"))">Success</MudButton>
-        <MudButton OnClick="@(() => _notify.Warned("Warning"))">Warning</MudButton>
-        <MudButton OnClick="@(() => _notify.Failed("Error"))">Error</MudButton>
+        <MudButton OnClick="@(() => Notify.Informed("Info"))">Info</MudButton>
+        <MudButton OnClick="@(() => Notify.Succeeded("Success"))">Success</MudButton>
+        <MudButton OnClick="@(() => Notify.Warned("Warning"))">Warning</MudButton>
+        <MudButton OnClick="@(Error)">Error</MudButton>
         <DashboardComponent />
     </Main>
 
@@ -35,8 +35,6 @@
 </NotPage>
 
 @code {
-    [Inject]
-    INotify _notify { get; set; } = default!;
     [Inject]
     private IEmsImportBehind _importBehind { get; set; } = default!;
     [Inject]
@@ -53,7 +51,24 @@
         using var stringReader = new StreamReader(stream);
         var contents = await stringReader.ReadToEndAsync();
         await _importBehind.ImportCore(contents);
-        
+
         await _participationBehind.Initialize();
+    }
+
+    private void Error()
+    {
+        try
+        {
+            ZZ();
+        }
+        catch (Exception ex)
+        {
+            Notify.Failed(ex.Message + Environment.NewLine + ex.StackTrace);
+        }
+    }
+
+    private void ZZ()
+    {
+        throw new Exception("This is an exception message in order to test printing exception capabilities of Snackbar");
     }
 }
