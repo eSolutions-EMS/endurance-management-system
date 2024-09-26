@@ -43,6 +43,7 @@
 @code {
     [Inject]
     IParticipationBehind _participationBehind { get; set; } = default!;
+
     NotQualified? _notQualified => _participationBehind.SelectedParticipation?.NotQualified;
     private string? _toggledButtonValue {
         get => _value != null ? _value : _notQualified?.EliminationCode;

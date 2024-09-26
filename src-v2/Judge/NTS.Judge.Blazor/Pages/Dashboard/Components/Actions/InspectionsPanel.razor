@@ -16,8 +16,8 @@
     IParticipationBehind _participationBehind { get; set; } = default!;
     Participation _selectedParticipation => _participationBehind.SelectedParticipation!;
     Phase? _currentPhase => _selectedParticipation.Phases.Current;
-    bool _reinspectionToggled => _currentPhase.IsReinspectionRequested;
-    bool _requiredInspectionToggled => _currentPhase.IsRIRequested;
+    bool _reinspectionToggled => _currentPhase?.IsReinspectionRequested ?? false;
+    bool _requiredInspectionToggled => _currentPhase?.IsRIRequested ?? false;
 
     protected override async Task OnInitializedAsync()
     {

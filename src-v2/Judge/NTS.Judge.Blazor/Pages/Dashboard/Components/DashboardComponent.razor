@@ -13,7 +13,7 @@
         <NotAutocomplete T="Participation" @bind-Value="_behind.SelectedParticipation" Search="Search" Class="mb-2 dashboard-autocomplete" />
     </MudItem>
     <MudItem xs="3">
-        <MudChipSet SelectedChipChanged="SelectParticipation">
+        <MudChipSet T="int" SelectedChipChanged="SelectParticipation">
             @foreach (var grouping in _behind.Participations.GroupBy(x => x.Phases.Distance))
             {
                 <MudText Class="pl-4"><strong>@($"{grouping.Key} {@Localizer.Get("KM")}")</strong></MudText>
@@ -52,7 +52,7 @@
         return Task.FromResult(result);
     }
 
-    private async Task SelectParticipation(MudChip? chip)
+    private void SelectParticipation(MudChip<int>? chip)
     {
         // TODO: Update MudBlazor version since docs show a new Property SelectionMode, 
         // which can prevent the current behavior that allows to Toggle the selection off
