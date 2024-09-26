@@ -180,18 +180,25 @@ public class Phase : DomainEntity, IPhaseState
 
     internal void RequestRequiredInspection()
     {
+        if (IsRIRequested)
+        {
+            return;
+        }
+
         if (IsCRIRequested)
         {
             throw new DomainException("Required inspection is not valid, because there is already " +
                 "a Compulsory required inspection for this participation");
         }
-
         IsRIRequested = true;
     }
 
     internal void DisableReinspection()
     {
-        GuardHelper.ThrowIfDefault(IsReinspectionRequested);
+        if (!IsReinspectionRequested)
+        {
+            return;
+        }
 
         if (ReinspectTime != null)
         {
