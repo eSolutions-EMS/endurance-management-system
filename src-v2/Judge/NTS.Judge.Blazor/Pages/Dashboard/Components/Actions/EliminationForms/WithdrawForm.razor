@@ -2,7 +2,7 @@
 @using NTS.Judge.Blazor.Enums
 @using NTS.Judge.Blazor.Ports
 
-@inherits NotComponent
+@inherits EliminationForm
 
 <MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Eliminate">
     @Localizer.Get("Eliminate")
@@ -14,25 +14,12 @@
 
 
 @code {
-    [Inject]
-    IParticipationBehind _participationBehind { get; set; } = default!;
     [Parameter]
     public Withdrawn? Withdrawn { get; set; } = default!;
-    [Parameter]
-    public EventCallback OnRestore { get; set; }
-    [Parameter]
-    public EventCallback OnEliminate { get; set; }
 
-    public async Task Eliminate()
+    public override async Task Eliminate()
     {
-        Participation? participation = _participationBehind.SelectedParticipation;
-        var tandemNumber = participation!.Tandem.Number;
-        await _participationBehind.Withdraw(tandemNumber);
+        await _participationBehind.Withdraw();
         await OnEliminate.InvokeAsync();
-    }
-
-    public async Task Restore()
-    {
-        await OnRestore.InvokeAsync();
     }
 }

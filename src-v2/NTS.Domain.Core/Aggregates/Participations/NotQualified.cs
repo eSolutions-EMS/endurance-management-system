@@ -13,6 +13,7 @@ public record Withdrawn : NotQualified
     {
         return "WD";
     }
+
 }
 
 public record Retired : NotQualified
@@ -64,20 +65,18 @@ public record FailedToQualify : NotQualified
     private FailedToQualify()
     {
     }
-    public FailedToQualify(params FTQCodes[] codes)
+    public FailedToQualify(params FTQCodes[] codes) : base(FAILED_TO_QUALIFY)
     {
         if (codes.Contains(FTQCodes.FTC))
         {
             throw new DomainException($"'Failed to Complete' requires a writen explanation from officials. Please provide 'complement'");
         }
         Codes = codes;
-        EliminationCode = FAILED_TO_QUALIFY;
     }
 
     public FailedToQualify(string complement ,params FTQCodes[] codes) : base(complement, FAILED_TO_QUALIFY)
     {
         Codes = codes;
-        EliminationCode = FAILED_TO_QUALIFY;
     }
     [JsonConstructor]
     public FailedToQualify(string complement) : base(complement, FAILED_TO_QUALIFY)

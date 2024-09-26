@@ -1,7 +1,8 @@
 ﻿@using NTS.Domain.Core.Aggregates.Participations
 @using NTS.Judge.Blazor.Enums
 @using NTS.Judge.Blazor.Ports
-@inherits NotComponent
+
+@inherits EliminationForm
 
 <MudTextField @bind-Value="Reason" Label="Reason" Variant="Variant.Outlined"></MudTextField>
 
@@ -14,15 +15,8 @@
 </MudButton>
 
 @code {
-
-    [Inject]
-    IParticipationBehind _participationBehind { get; set; } = default!;
     [Parameter]
     public Disqualified? Disqualified { get; set; }
-    [Parameter]
-    public EventCallback OnRestore { get; set; }
-    [Parameter]
-    public EventCallback OnEliminate { get; set; }
     private string? Reason { get; set; }
 
     protected override void OnParametersSet()
@@ -30,16 +24,9 @@
         Reason = Disqualified?.Complement;
     }
 
-    public async Task Eliminate()
+    public override async Task Eliminate()
     {
-        Participation? participation = _participationBehind.SelectedParticipation;
-        var tandemNumber = participation!.Tandem.Number;
-        await _participationBehind.Disqualify(tandemNumber, Reason);
+        await _participationBehind.Disqualify(Reason);
         await OnEliminate.InvokeAsync();
-    }
-
-    public async Task Restore()
-    {
-        await OnRestore.InvokeAsync();
     }
 }

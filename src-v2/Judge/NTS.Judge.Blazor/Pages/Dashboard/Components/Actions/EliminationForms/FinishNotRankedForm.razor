@@ -3,7 +3,7 @@
 @using NTS.Judge.Blazor.Ports
 @using System.Diagnostics
 
-@inherits NotComponent
+@inherits EliminationForm
 
 <MudTextField @bind-Value="Reason" Label="Reason" Variant="Variant.Outlined"></MudTextField>
 
@@ -16,31 +16,19 @@
 </MudButton>
 
 @code {
-    [Inject]
-    IParticipationBehind _participationBehind { get; set; } = default!;
     [Parameter]
     public FinishedNotRanked? FinishedNotRanked { get; set; } = default!;
-    [Parameter]
-    public EventCallback OnRestore { get; set; }
-    [Parameter]
-    public EventCallback OnEliminate { get; set; }
-    private string? Reason { get; set; }
+
+    private string? Reason;
 
     protected override void OnParametersSet()
     {
         Reason = FinishedNotRanked?.Complement;
     }
 
-    public async Task Eliminate()
+    public override async Task Eliminate()
     {
-        Participation? participation = _participationBehind.SelectedParticipation;
-        var tandemNumber = participation!.Tandem.Number;
-        await _participationBehind.FinishNotRanked(tandemNumber, Reason); 
+        await _participationBehind.FinishNotRanked(Reason);
         await OnEliminate.InvokeAsync();
-    }
-
-    public async Task Restore()
-    {
-        await OnRestore.InvokeAsync();
     }
 }
