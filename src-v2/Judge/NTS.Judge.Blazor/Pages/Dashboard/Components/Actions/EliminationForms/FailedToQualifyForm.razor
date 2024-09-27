@@ -46,19 +46,7 @@
 
     public override async Task Eliminate()
     {
-        var codes = new List<FTQCodes>();
-        foreach (var value in Codes)
-        {
-            codes.Add(value);
-        }
-        if (codes.Contains(FTQCodes.FTC))
-        {
-            await _participationBehind.FailToQualify(Reason, codes.ToArray());
-        }
-        else
-        {
-            await _participationBehind.FailToQualify(codes.ToArray());
-        }
+        await _participationBehind.FailToQualify(Reason, Codes.ToArray());
         await OnEliminate.InvokeAsync();
     }
 

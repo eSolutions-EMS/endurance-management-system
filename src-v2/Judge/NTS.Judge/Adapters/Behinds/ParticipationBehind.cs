@@ -131,18 +131,6 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
         EmitChange();
     }
 
-    public async Task FailToQualify(params FTQCodes[] ftqCodes)
-    {
-        var tandemNumber = SelectedParticipation!.Tandem.Number;
-        var participation = Participations.FirstOrDefault(x => x.Tandem.Number == tandemNumber);
-        GuardHelper.ThrowIfDefault(participation);
-        GuardHelper.ThrowIfDefault(ftqCodes);
-        participation.FailToQualify(ftqCodes);
-        await _participationRepository.Update(participation);
-
-        EmitChange();
-    }
-
     public async Task FailToQualify(string? reason, params FTQCodes[] ftqCodes)
     {
         var tandemNumber = SelectedParticipation!.Tandem.Number;
