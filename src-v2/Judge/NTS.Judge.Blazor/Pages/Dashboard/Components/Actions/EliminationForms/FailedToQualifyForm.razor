@@ -10,9 +10,9 @@
     SelectedValues="@Codes" SelectedValuesChanged="SetInputState" Placeholder="Select a reason">
     @foreach (var failToQualifyCode in SelectListModel.FromEnum<FTQCodes>())
     {
-        <MudSelectItem T="string" Value="@failToQualifyCode.Value">
-            @failToQualifyCode.Value
-            <div class="font-size-10">@failToQualifyCode.Description</div>
+        <MudSelectItem Value="@failToQualifyCode.Value">
+            <MudText Typo="Typo.body2">@failToQualifyCode.Value</MudText>
+            <MudText Typo="Typo.subtitle2">@failToQualifyCode.Description</MudText>
         </MudSelectItem>
     }
 </MudSelect>
@@ -32,26 +32,27 @@
     [Parameter]
     public FailedToQualify? FailedToQualify { get; set; }
 
-    private IEnumerable<FTQCodes> Codes { get; set; } = new List<FTQCodes>();
+    private List<FTQCodes> Codes { get; set; } = new List<FTQCodes>();
     public string? Reason { get; set; }
 
     protected override void OnParametersSet()
     {
-       if(FailedToQualify != null)
-       {
-            Codes = FailedToQualify.Codes;
+        if(FailedToQualify != null)
+        {
+            Codes = FailedToQualify.Codes.ToList();
             Reason = FailedToQualify.Complement;
-       }
+        }
     }
 
     public override async Task Eliminate()
     {
+        //TO DO: Validate for incorrect inputs
         await _participationBehind.FailToQualify(Reason, Codes.ToArray());
         await OnEliminate.InvokeAsync();
     }
 
     public void SetInputState(IEnumerable<FTQCodes> values)
     {
-        Codes = values;
+        Codes = values.ToList();
     }
 }
