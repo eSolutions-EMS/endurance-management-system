@@ -4,6 +4,7 @@ using Not.Collections;
 using Not.Concurrency;
 using Not.Events;
 using Not.Exceptions;
+using Not.Safe;
 using NTS.Domain.Core.Aggregates.Participations;
 using NTS.Domain.Core.Entities;
 using NTS.Domain.Core.Events.Participations;
@@ -19,7 +20,7 @@ public class HandoutsBehind : ObservableBehind, IHandoutsBehind
     private readonly IRepository<Participation> _participations;
     private readonly IRepository<Event> _events;
     private readonly IRepository<Official> _officials;
-    private ConcurrentList<HandoutDocument> _documents = new();
+    private ConcurrentList<HandoutDocument> _documents = [];
 
     public HandoutsBehind(
         IRepository<Handout> handouts,
@@ -38,7 +39,7 @@ public class HandoutsBehind : ObservableBehind, IHandoutsBehind
     public void RunAtStartup()
     {
         // TODO: subscribe to updates for Event, Official
-        EventHelper.Subscribe<PhaseCompleted>(CreateHandout);
+        EventHelper.Subscribe<PhaseCompleted>(PhaseCompletedHandler);
     }
 
     protected override async Task<bool> PerformInitialization()
@@ -61,18 +62,18 @@ public class HandoutsBehind : ObservableBehind, IHandoutsBehind
     
     // TODO: we need a separete list and delete method that executes only after print is initiated,
     // otherwise if the user clicks print and then back the handouts would be deleted
-    public async Task<IEnumerable<HandoutDocument>> PopAll() 
+    async Task<IEnumerable<HandoutDocument>> SafePopAll()
     {
         await _semaphore.WaitAsync();
 
         await _handoutRepository.Delete(x => true);
         var handouts = _documents.PopAll();
-        
+
         _semaphore.Release();
         return handouts;
     }
 
-    public async void CreateHandout(PhaseCompleted phaseCompleted)
+    async void PhaseCompletedHandler(PhaseCompleted phaseCompleted)
     {
         var @event = await _events.Read(0);
         var officials = await _officials.ReadAll();
@@ -93,7 +94,7 @@ public class HandoutsBehind : ObservableBehind, IHandoutsBehind
         EmitChange();
     }
 
-    private async Task HandleExistingHandout(PhaseCompleted phaseCompleted)
+    async Task HandleExistingHandout(PhaseCompleted phaseCompleted)
     {
         var existing = await _handoutRepository.Read(x => x.ParticipationId == phaseCompleted.Participation.Id);
         if (existing != null)
@@ -103,8 +104,11 @@ public class HandoutsBehind : ObservableBehind, IHandoutsBehind
         }
     }
 
-    public async Task<Participation?> GetParticipation(int id)
+    #region SafePattern
+    public async Task<IEnumerable<HandoutDocument>> PopAll()
     {
-        return await _participations.Read(id);
+        return await SafeHelper.Run(SafePopAll) ?? [];
     }
+
+    #endregion
 }

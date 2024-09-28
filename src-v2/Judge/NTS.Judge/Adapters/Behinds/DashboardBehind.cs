@@ -1,5 +1,6 @@
 ﻿using Not.Application.Ports.CRUD;
 using Not.Domain;
+using Not.Safe;
 using NTS.Domain.Core.Aggregates.Participations;
 using NTS.Domain.Core.Entities;
 using NTS.Judge.Blazor.Ports;
@@ -24,8 +25,8 @@ public class DashboardBehind : IDashboardBehind
         _coreOfficialRepository = coreOfficialRepository;
         _participationRepository = participationRepository;
     }
-
-    public async Task Start()
+    
+    async Task SafeStart()
     {
         var setupEvent = await _setupRepository.Read(0);
         if (setupEvent == null)
@@ -37,7 +38,7 @@ public class DashboardBehind : IDashboardBehind
         await CreateOfficials(setupEvent.Officials);
     }
 
-    private async Task CreateEvent(Domain.Setup.Entities.Event setupEvent)
+    async Task CreateEvent(Domain.Setup.Entities.Event setupEvent)
     {
         if (!setupEvent.Competitions.Any())
         {
@@ -51,7 +52,7 @@ public class DashboardBehind : IDashboardBehind
         await _coreEventRespository.Create(@event);
     }
 
-    private async Task CreateOfficials(IEnumerable<Domain.Setup.Entities.Official> setupOfficials)
+    async Task CreateOfficials(IEnumerable<Domain.Setup.Entities.Official> setupOfficials)
     {
         foreach (var setupOfficial in setupOfficials)
         {
@@ -59,4 +60,12 @@ public class DashboardBehind : IDashboardBehind
             await _coreOfficialRepository.Create(official);
         }
     }
+
+    #region SafePattern
+    public Task Start()
+    {
+        return SafeHelper.Run(SafeStart);
+    }
+
+    #endregion
 }

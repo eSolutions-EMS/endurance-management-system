@@ -28,6 +28,24 @@ public static class SafeHelper
         }
     }
 
+    public static async Task<T?> Run<T>(Func<Task<T>> action)
+    {
+        try
+        {
+            return await action();
+        }
+        catch (DomainExceptionBase validation)
+        {
+            NotifyHelper.Warn(validation);
+            return default;
+        }
+        catch (Exception ex)
+        {
+            HandleError(ex);
+            return default;
+        }
+    }
+
     public static Task RunAsync<T>(Func<T, Task> action, T argument)
     {
         return Task.Run(() => Run(action, argument));

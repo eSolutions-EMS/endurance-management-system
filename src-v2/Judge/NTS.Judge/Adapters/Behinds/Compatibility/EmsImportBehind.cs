@@ -1,6 +1,7 @@
 ﻿using MudBlazor;
 using Not.Application.Ports.CRUD;
 using Not.Extensions;
+using Not.Safe;
 using Not.Serialization;
 using NTS.Compatibility.EMS;
 using NTS.Compatibility.EMS.Entities.EnduranceEvents;
@@ -24,7 +25,17 @@ public class EmsImportBehind : IEmsImportBehind
         _emsToCoreImporter = emsToCoreImporter;
     }
 
-    public async Task Import(string emsStateFilePath)
+    public Task Import(string path)
+    {
+        return SafeHelper.Run(() => SafeImport(path));
+    }
+
+    public Task ImportCore(string contents)
+    {
+        return SafeHelper.Run(() => SafeImportCore(contents));
+    }
+
+    async Task SafeImport(string emsStateFilePath)
     {
         var contents = await File.ReadAllTextAsync(emsStateFilePath);
         var emsState = contents.FromJson<EmsState>();
@@ -44,12 +55,12 @@ public class EmsImportBehind : IEmsImportBehind
         await _eventRepository.Update(@event);
     }
 
-    public async Task ImportCore(string contents)
+    async Task SafeImportCore(string contents)
     {
         await _emsToCoreImporter.Import(contents);
     }
 
-    private IEnumerable<Competition> CreateCompetitions(EmsEnduranceEvent emsEvent)
+    IEnumerable<Competition> CreateCompetitions(EmsEnduranceEvent emsEvent)
     {
         foreach (var emsCompetition in emsEvent.Competitions)
         {
@@ -70,7 +81,7 @@ public class EmsImportBehind : IEmsImportBehind
         }
     }
 
-    private IEnumerable<Official> CreateOfficials(EmsEnduranceEvent emsEvent)
+    IEnumerable<Official> CreateOfficials(EmsEnduranceEvent emsEvent)
     {
         var result = new List<Official>
         {

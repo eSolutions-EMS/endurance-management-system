@@ -1,7 +1,7 @@
-﻿using MudBlazor;
-using Not.Application.Ports.CRUD;
+﻿using Not.Application.Ports.CRUD;
 using Not.Blazor.Ports.Behinds;
 using Not.Exceptions;
+using Not.Safe;
 using NTS.Domain.Core.Aggregates.Participations;
 using NTS.Domain.Objects;
 using NTS.Judge.Blazor.Ports;
@@ -10,7 +10,6 @@ namespace NTS.Judge.Adapters.Behinds;
 
 public class ParticipationBehind : ObservableBehind, IParticipationBehind
 {
-    private readonly ISnackbar _snackbar;
     private readonly IRepository<Participation> _participationRepository;
     private readonly IRepository<SnapshotResult> _snapshotResultRepository;
     private Participation? _selectedParticipation;
@@ -45,23 +44,23 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
         return Participations.Any();
     }
 
-    public void RequestReinspection(bool requestFlag)
+    async Task SafeRequestReinspection(bool requestFlag)
     {
         SelectedParticipation!.ChangeReinspection(requestFlag);
-        _participationRepository.Update(SelectedParticipation);
+        await _participationRepository.Update(SelectedParticipation);
 
         EmitChange();
     }
 
-    public void RequestRequiredInspection(bool requestFlag)
+    async Task SafeRequestRequiredInspection(bool requestFlag)
     {
         SelectedParticipation!.ChangeRequiredInspection(requestFlag);
-        _participationRepository.Update(SelectedParticipation);
+        await _participationRepository.Update(SelectedParticipation);
 
         EmitChange();
     }
 
-    public async Task Process(Snapshot snapshot)
+    async Task SafeProcess(Snapshot snapshot)
     {
         var participation = Participations.FirstOrDefault(x => x.Tandem.Number == snapshot.Number);
         if (participation == null)
@@ -78,7 +77,7 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
         EmitChange();
     }
 
-    public async Task Update(IPhaseState state)
+    async Task SafeUpdate(IPhaseState state)
     {
         //probably should use Participations collection to ensure a single point of truth is used for the data
         var participation = await _participationRepository.Read(x => x.Phases.Any(y => y.Id == state.Id));
@@ -88,7 +87,7 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
         await _participationRepository.Update(participation);
     }
 
-    public async Task Withdraw()
+    async Task SafeWithdraw()
     {
         GuardHelper.ThrowIfDefault(SelectedParticipation);
         SelectedParticipation.Withdraw();
@@ -97,7 +96,7 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
         EmitChange();
     }
 
-    public async Task Retire()
+    async Task SafeRetire()
     {
         GuardHelper.ThrowIfDefault(SelectedParticipation);
         SelectedParticipation.Retire();
@@ -106,7 +105,7 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
         EmitChange();
     }
 
-    public async Task FinishNotRanked(string reason)
+    async Task SafeFinishNotRanked(string reason)
     {
         GuardHelper.ThrowIfDefault(SelectedParticipation);
         SelectedParticipation.FinishNotRanked(reason);
@@ -115,7 +114,7 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
         EmitChange();
     }
 
-    public async Task Disqualify(string reason)
+    async Task SafeDisqualify(string reason)
     {
         GuardHelper.ThrowIfDefault(SelectedParticipation);
         SelectedParticipation.Disqualify(reason);
@@ -124,7 +123,7 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
         EmitChange();
     }
 
-    public async Task FailToQualify(string? reason, params FTQCodes[] ftqCodes)
+    async Task SafeFailToQualify(string? reason, params FTQCodes[] ftqCodes)
     {
         GuardHelper.ThrowIfDefault(SelectedParticipation);
         GuardHelper.ThrowIfDefault(ftqCodes);
@@ -134,7 +133,7 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
         EmitChange();
     }
 
-    public async Task RestoreQualification()
+    async Task SafeRestoreQualification()
     {
         GuardHelper.ThrowIfDefault(SelectedParticipation);
         SelectedParticipation.RestoreQualification();
@@ -143,8 +142,66 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
         EmitChange();
     }
 
-    public async Task<Participation?> Get(int id)
+    #region SafePattern
+
+    async Task<Participation?> SafeGet(int id)
     {
         return await _participationRepository.Read(id);
     }
+
+    public async Task Update(IPhaseState state)
+    {
+        await SafeHelper.Run(() => SafeUpdate(state));
+    }
+    public async Task Process(Snapshot snapshot)
+    {
+        await SafeHelper.Run(() => SafeProcess(snapshot));
+    }
+
+    public async Task RequestReinspection(bool isRequested)
+    {
+        await SafeHelper.Run(() => SafeRequestReinspection(isRequested));
+    }
+
+    public async Task RequestRequiredInspection(bool isRequested)
+    {
+        await SafeHelper.Run(() => SafeRequestRequiredInspection(isRequested));
+    }
+
+    public async Task Withdraw()
+    {
+        await SafeHelper.Run(SafeWithdraw);
+    }
+
+    public async Task Retire()
+    {
+        await SafeHelper.Run(SafeRetire);
+    }
+
+    public async Task FinishNotRanked(string reason)
+    {
+        await SafeHelper.Run(() => SafeFinishNotRanked(reason));
+    }
+
+    public async Task Disqualify(string reason)
+    {
+        await SafeHelper.Run(() => SafeDisqualify(reason));
+    }
+
+    public async Task FailToQualify(string? reason, params FTQCodes[] ftqCodes)
+    {
+        await SafeHelper.Run(() => SafeFailToQualify(reason, ftqCodes));
+    }
+
+    public async Task RestoreQualification()
+    {
+        await SafeHelper.Run(RestoreQualification);
+    }
+
+    public async Task<Participation?> Get(int id)
+    {
+        return await SafeHelper.Run(() => SafeGet(id));
+    }
+
+    #endregion
 }

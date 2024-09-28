@@ -1,5 +1,6 @@
 ﻿using Not.Events;
 using Not.Injection;
+using Not.Safe;
 
 namespace Not.Blazor.Ports.Behinds;
 
@@ -24,11 +25,12 @@ public abstract class ObservableBehind : IObservableBehind
         {
             await _semaphore.WaitAsync();
 
-            if (_isInitialized)
+            if (_isInitialized) //TODO: why not move this outside of the semaphore?
             {
                 return;
             }
-            _isInitialized = await PerformInitialization();
+
+            _isInitialized = await SafeHelper.Run(PerformInitialization); // TODO: test
         }
         finally
         {

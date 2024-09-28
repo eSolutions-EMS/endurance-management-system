@@ -24,6 +24,7 @@ public abstract class TreeRepository<T, TState> : IRepository<T>
 
     public async Task<T> Create(T entity)
     {
+        throw new Exception("test");
         var state = await _store.Transact();
         state.Root = entity;
         await _store.Commit(state);
