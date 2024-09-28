@@ -120,9 +120,16 @@ public class Participation : DomainEntity, IAggregateRoot
         RevokeQualification(new FailedToQualify(codes));
     }
 
-    public void FailToQualify(string reason, params FTQCodes[] codes)
+    public void FailToQualify(string? reason, params FTQCodes[] codes)
     {
-        RevokeQualification(new FailedToQualify(reason, codes));
+        if(reason == null)
+        {
+            RevokeQualification(new FailedToQualify(codes));
+        }
+        else
+        {
+            RevokeQualification(new FailedToQualify(reason, codes));
+        }
     }
 
     private void EvaluatePhase(Phase phase)
