@@ -46,7 +46,7 @@
 
     public override async Task Eliminate()
     {
-        //TO DO: Validate for incorrect inputs
+        //TODO: Validate for incorrect inputs
         await _participationBehind.FailToQualify(Reason, Codes.ToArray());
         await OnEliminate.InvokeAsync();
     }

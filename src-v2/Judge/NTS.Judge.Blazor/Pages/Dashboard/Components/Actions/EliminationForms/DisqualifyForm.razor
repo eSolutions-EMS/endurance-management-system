@@ -26,7 +26,7 @@
 
     public override async Task Eliminate()
     {
-        //TO DO: Validate for null Reason
+        //TODO: Validate for null Reason
         await _participationBehind.Disqualify(Reason);
         await OnEliminate.InvokeAsync();
     }

@@ -3,8 +3,6 @@ using Not.Blazor.Ports.Behinds;
 using Not.Exceptions;
 using NTS.Domain.Core.Aggregates.Participations;
 using NTS.Domain.Objects;
-using NTS.Judge.Blazor.Enums;
-using NTS.Judge.Blazor.Pages.Dashboard.Components.Actions.EliminationForms;
 using NTS.Judge.Blazor.Ports;
 
 namespace NTS.Judge.Adapters.Behinds;
