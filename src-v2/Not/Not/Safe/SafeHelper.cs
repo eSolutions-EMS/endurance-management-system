@@ -5,6 +5,11 @@ using System.Text;
 
 namespace Not.Safe;
 
+// SafeHelper is essentially a centralized error-handler. 
+// It's the main character in what I'm calling Safe Pattern:
+// - Ensures that all backend entry points are error-handled (especially useful in non-web scenarios)
+// - public methods are prefixed with "Safe" and changed to private
+// - public methods with OG names are added to invoke the Safe methods within SafeHelper.Run
 public static class SafeHelper
 {
     public static Task RunAsync(Func<Task> action)
