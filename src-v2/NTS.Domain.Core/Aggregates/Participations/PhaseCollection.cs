@@ -7,40 +7,63 @@ public class PhaseCollection : ReadOnlyCollection<Phase>
 {
     public PhaseCollection(IEnumerable<Phase> phases) : base(phases.ToList())
     {
-        var gate = 0d;
-        for (var i = 0; i < this.Count; i++)
+        var distanceSoFar = 0d;
+        foreach (var phase in phases)
         {
-            var phase = this[i];
-            var distanceFromStart = gate += phase.Length;
-            phase.InternalGate = $"{i + 1}/{distanceFromStart:0.##}";
+            distanceSoFar += phase.Length;
+            var number = phases.NumberOf(phase);
+            phase.SetGate(number, distanceSoFar);
         }
-        Current = this.LastOrDefault(x => x.IsComplete) ?? this.First();
+        Current = this.LastOrDefault(x => x.IsComplete()) ?? this.First();
     }
 
-    public Phase? Current { get; private set; } 
-    internal int CurrentNumber => this.NumberOf(Current ?? this.Last());
+    public Phase Current { get; private set; }
     public double Distance => this.Sum(x => x.Length);
-    internal Timestamp? OutTime => this.LastOrDefault(x => x.OutTime != null)?.OutTime;
-
+    
     public override string ToString()
     {
-        return $"{Distance}{"km".Localize()}: {this.Count(x => x.IsComplete)}/{this.Count}";
+        var completed = this.Count(x => x.IsComplete());
+        return $"{Distance}{"km".Localize()}: {completed}/{this.Count}";
     }
 
-    internal void Next()
+    internal SnapshotResult Process(Snapshot snapshot)
     {
-        if (Current == null)
+        var isComplete = Current.IsComplete();
+        if (isComplete && Current.IsFinal)
         {
-            return;
+            return SnapshotResult.NotApplied(snapshot, SnapshotResultType.NotAppliedDueToParticipationComplete);
         }
+        var notProcessingWindow = TimeSpan.FromMinutes(30); // TODO settings: use settings?
+        if (isComplete && snapshot.Timestamp > Current.GetOutTime() + notProcessingWindow)
+        {
+            SelectNext();
+        }
+        return Current.Process(snapshot);
+    }
+
+    internal void StartNext()
+    {
+        if (!Current.IsComplete())
+        {
+            throw GuardHelper.Exception("Cannot start next phase while current is active");
+        }
+        var next = GetNext();
+        next.StartTime = Current.GetOutTime();
+    }
+
+    internal bool SelectNext()
+    {
+        if (Current == this.Last())
+        {
+            return false;
+        }
+        Current = GetNext();
+        return true;
+    }
+
+    private Phase GetNext()
+    {
         var currentIndex = this.IndexOf(Current);
-        if (currentIndex == Count - 1)
-        {
-            return;
-        }
-        var current = this[currentIndex];
-        var next = this[currentIndex + 1];
-        next.StartTime = current.OutTime;
-        Current = next;
+        return this[++currentIndex];
     }
 }

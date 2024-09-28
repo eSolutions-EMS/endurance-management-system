@@ -31,6 +31,7 @@ public class Phase : DomainEntity, ISummarizable, IImportable
         Recovery = recovery;
 		Rest = rest;
 	}
+
     public Loop? Loop { get; set; }
     public int Recovery { get; private set; }
     public int Rest { get; private set; }
@@ -38,10 +39,12 @@ public class Phase : DomainEntity, ISummarizable, IImportable
     public override string ToString()
     {
         var min = "min".Localize();
-		var rec = "Recovery".Localize();
-        var loop = "Loop".Localize();
-        var phase = "Phase".Localize();
+		var rec = "recovery".Localize();
+        var loop = "loop".Localize();
 		var rest = "Rest".Localize();
-		return $"{phase} -> {loop}: {Loop} {rec}: {Recovery}{min} {rest}: {Rest}{min}";
+        return Combine(
+            $"{loop}: {Loop}",
+            $"{rec}: {Recovery}{min}",
+            $"{rest}: {Rest}{min}");
     }
 }

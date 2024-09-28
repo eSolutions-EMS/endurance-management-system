@@ -1,0 +1,15 @@
+﻿@using NTS.Domain.Setup.Entities
+@using Not.Blazor.TM
+@using Not.Blazor.TM.Pages
+@using NTS.Judge.Blazor.Pages.Setup.Combinations
+
+@attribute [Route(COMBINATIONS_PAGE)]
+@inherits NotComponent
+
+<NotPage Title="Pair Athletes and Horses" Class="not-mid-width">
+    
+    <Main>
+        <NotSetList T="Combination" TForm="CombinationForm" UpdateRoute="@COMBINATION_UPDATE" />
+    </Main>
+
+</NotPage>

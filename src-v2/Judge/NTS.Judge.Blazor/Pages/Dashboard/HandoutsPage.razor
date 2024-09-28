@@ -1,8 +1,34 @@
 ﻿@using NTS.Judge.Blazor.Pages.Dashboard.Handouts
+@using NTS.Judge.Blazor.Ports
+@using Not.Blazor.TM.Pages
 
 @attribute [Route(HANDOUTS_PAGE)]
 @inherits NotComponent
 
-<NotH1>@Localizer.Get("Handouts")</NotH1>
+<NotPage Title="Handouts" HasContent="@_behind.Documents.Any()" EmptyMessage="No handouts to print :)" RightBarXS="2">
 
-<HandoutsList />
+    <Main>
+        <HandoutsList Documents="_behind.Documents" />
+    </Main>
+
+    <Rightbar>
+        <NotButtonPrimary OnClick="PopAndPrint">Print</NotButtonPrimary>
+    </Rightbar>
+
+</NotPage>
+
+@code {
+    [Inject]
+    IHandoutsBehind _behind { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Observe(_behind);
+    }
+
+    private void PopAndPrint()
+    {
+        var handouts = _behind.PopAll();
+        // TODO: add printing
+    }
+}

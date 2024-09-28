@@ -22,7 +22,7 @@ public class Ranklist : ReadOnlyCollection<RankingEntry>
         var ids = entries.Select(x => x.ParticipationId).ToList();
         var ranked = entries
             .Select(x => new { Entry = x, Participation = participations.First(y => x.ParticipationId == y.Id) })
-            .OrderBy(x => x.Participation.IsNotQualified)
+            .OrderBy(x => x.Participation.IsNotQualified())
             .ThenByDescending(x => !x.Entry.IsRanked)
             .ThenBy(x => x.Participation.Phases.Last().ArriveTime)
             .Select(x => x.Entry)

@@ -2,7 +2,6 @@
 using Not.Application.Ports.CRUD;
 using Not.Blazor.Ports.Behinds;
 using Not.Exceptions;
-using static MudBlazor.CategoryTypes;
 
 namespace NTS.Judge.Events;
 
@@ -16,14 +15,14 @@ public class EventBehind : INotBehind<Event>, INotSetBehind<Official>, INotSetBe
         _eventRepository = eventRepository;
     }
 
-    public async Task<IEnumerable<Official>> GetAll()
+    Task<IEnumerable<Official>> IReadAllBehind<Official>.GetAll()
     {
-        return _event?.Officials ?? Enumerable.Empty<Official>();
+        return Task.FromResult(_event?.Officials ?? Enumerable.Empty<Official>());
     }
 
-    async Task<IEnumerable<Competition>> IReadAllBehind<Competition>.GetAll()
+    Task<IEnumerable<Competition>> IReadAllBehind<Competition>.GetAll()
     {
-        return _event?.Competitions ?? Enumerable.Empty<Competition>();
+        return Task.FromResult(_event?.Competitions ?? Enumerable.Empty<Competition>());
     }
 
     public async Task<Event?> Read(int id)
@@ -105,7 +104,6 @@ public class EventBehind : INotBehind<Event>, INotSetBehind<Official>, INotSetBe
     public async Task<Event> Initialize(int id)
     {
         _event = await _eventRepository.Read(id);
-        GuardHelper.ThrowIfDefault(_event);
         return _event;
     }
 }

@@ -5,21 +5,34 @@
 @using Not.Blazor.TM
 @using Not.Blazor.TM.Forms.Components
 @using NTS.Judge.Blazor.Pages.Setup.Contestants
-
+@using Not.Blazor.TM.Pages
 
 @attribute [Route(COMPETITION_UPDATE)]
 @inherits NotComponent
 
-<MudPaper Elevation="0" Class="pl-6 pr-6">
-    <NotH2>@Localizer.Get("Update Competition")</NotH2>
-    <NotFormUpdate T="Competition" TForm="CompetitionForm" Entity="_competition" UpdateAction="Update" />
-</MudPaper>
+<NotPage Title="Configure Competition">
 
-<MudPaper Class="d-flex justify-space-between pr-6" Elevation="0">
-    <NotSetList Name="Phases" T="Phase" TForm="PhaseForm" UpdateRoute="@PHASE_UPDATE" />
-    <MudDivider Vertical="true" FlexItem="true" />
-    <NotSetList Name="Contestants" T="Contestant" TForm="ContestantForm" UpdateRoute="@CONTESTANT_UPDATE" />
-</MudPaper>
+    <Main>
+        <NotGrid Spacing="8">
+            
+            <MudItem xs="12">
+                <NotFormUpdate T="Competition" TForm="CompetitionForm" Entity="_competition" UpdateAction="Update" />
+            </MudItem>
+
+            <MudItem xs="6">
+                @* //TODO: behind creates multiple phases at once. *@
+                <NotSetList T="Phase" TForm="PhaseForm" UpdateRoute="@PHASE_UPDATE" />
+            </MudItem>
+
+            <MudItem xs="6">
+                @* //TODO: behind creates multiple contestants at once. *@
+                <NotSetList T="Contestant" TForm="ContestantForm" UpdateRoute="@CONTESTANT_UPDATE" />
+            </MudItem>
+
+        </NotGrid>
+    </Main>
+
+</NotPage>
 
 @code {
     private Competition _competition { get; set; } = default!;
@@ -38,8 +51,7 @@
 
     protected async Task Update(Competition competition)
     {
-
         await _setBehind.Update(competition);
-        _navigator.NavigateTo(SETUP_PAGE);
+        _navigator.NavigateTo(ENDURANCE_EVENT_PAGE);
     }
 }

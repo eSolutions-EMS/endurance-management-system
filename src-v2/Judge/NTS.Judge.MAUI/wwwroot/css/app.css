@@ -9,17 +9,16 @@
     margin-left:20px;
 }
 
-.half-width {
-    display: inline-block;
-    width: 48%;
-}
-
 .one-third-width {
     display: inline-block;
     width: 30%;
 }
 
-.children-component{
+.hidden {
+    display: none !important;
+}
+
+.children-component {
     margin-top:10px;
 }
 

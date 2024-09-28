@@ -48,4 +48,9 @@ public abstract class DomainEntity : IEquatable<DomainEntity>, IIdentifiable
 	{
         throw new NotImplementedException($"'{this.GetType().Name}' has to override ToString() to provide short info");
 	}
+
+    protected string Combine(params object?[] values)
+    {
+        return string.Join(" | ", values.Where(x => x != null));
+    }
 }

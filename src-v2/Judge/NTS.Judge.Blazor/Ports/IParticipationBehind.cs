@@ -8,7 +8,6 @@ public interface IParticipationBehind : IObservableBehind
 {
     // TODO: this should probably be removed and Participations can be returned from Start instead
     IEnumerable<Participation> Participations { get; }
-    IEnumerable<IGrouping<double, Participation>> ParticipationsByDistance { get; }
     Participation? SelectedParticipation { get; set; }
     void SelectParticipation(int number);
     void RequestReinspection(bool requestFlag);

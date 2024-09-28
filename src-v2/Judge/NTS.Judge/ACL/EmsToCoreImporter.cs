@@ -85,35 +85,31 @@ public class EmsToCoreImporter : IEmsToCoreImporter
         var result = new List<Official>();
         if (emsEvent.PresidentGroundJury != null)
         {
-            result.Add(new (new Person(emsEvent.PresidentGroundJury.Name), PresidentGroundJury));
+            result.Add(new (new Person(emsEvent.PresidentGroundJury.Name), GroundJuryPresident));
         }
         if (emsEvent.PresidentVetCommittee != null)
         {
-            result.Add(new(new Person(emsEvent.PresidentVetCommittee.Name), PresidentVet));
+            result.Add(new(new Person(emsEvent.PresidentVetCommittee.Name), VeterinaryCommissionPresident));
         }
         if (emsEvent.FeiTechDelegate != null)
         {
-            result.Add(new(new Person(emsEvent.FeiTechDelegate.Name), FeiTechDelegate));
+            result.Add(new(new Person(emsEvent.FeiTechDelegate.Name), TechnicalDelegate));
         }
         if (emsEvent.FeiVetDelegate != null)
         {
-            result.Add(new(new Person(emsEvent.FeiVetDelegate.Name), FeiVetDelegate));
+            result.Add(new(new Person(emsEvent.FeiVetDelegate.Name), ForeignVeterinaryDelegate));
         }
         if (emsEvent.ForeignJudge != null)
         {
             result.Add(new(new Person(emsEvent.ForeignJudge.Name), ForeignJudge));
         }
-        if (emsEvent.ActiveVet != null)
-        {
-            result.Add(new(new Person(emsEvent.ActiveVet.Name), ActiveVet));
-        }
         foreach (var jury in emsEvent.MembersOfJudgeCommittee)
         {
-            result.Add(new (new Person(jury.Name), MemberJudge));
+            result.Add(new (new Person(jury.Name), GroundJury));
         };
         foreach (var vet in emsEvent.MembersOfVetCommittee)
         {
-            result.Add(new(new Person(vet.Name), MemberVet));
+            result.Add(new(new Person(vet.Name), VeterinaryCommission));
         }
         return result;
     }

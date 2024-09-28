@@ -73,20 +73,19 @@ public class EmsImportBehind : IEmsImportBehind
     {
         var result = new List<Official>
         {
-            Official.Create(emsEvent.PresidentGroundJury.Name, PresidentGroundJury),
-            Official.Create(emsEvent.PresidentVetCommittee.Name, PresidentVet),
-            Official.Create(emsEvent.FeiTechDelegate.Name, FeiTechDelegate),
-            Official.Create(emsEvent.FeiVetDelegate.Name, FeiVetDelegate),
+            Official.Create(emsEvent.PresidentGroundJury.Name, GroundJuryPresident),
+            Official.Create(emsEvent.PresidentVetCommittee.Name, VeterinaryCommissionPresident),
+            Official.Create(emsEvent.FeiTechDelegate.Name, TechnicalDelegate),
+            Official.Create(emsEvent.FeiVetDelegate.Name, ForeignVeterinaryDelegate),
             Official.Create(emsEvent.ForeignJudge.Name, ForeignJudge),
-            Official.Create(emsEvent.ActiveVet.Name, ActiveVet),
         };
         foreach (var jury in emsEvent.MembersOfJudgeCommittee)
         {
-            result.Add(Official.Create(jury.Name, MemberJudge));
+            result.Add(Official.Create(jury.Name, GroundJury));
         };
         foreach (var vet in emsEvent.MembersOfVetCommittee)
         {
-            result.Add(Official.Create(vet.Name, MemberVet));
+            result.Add(Official.Create(vet.Name, VeterinaryCommission));
         }
         return result;
     }

@@ -15,6 +15,6 @@ public class IdTag : DomainEntity, ISummarizable
 
     public override string ToString()
 	{
-		return $"{"Id".Localize()}: {this.TagId}, {"Position".Localize()}: {this.Position}";
+		return Combine($"{"id".Localize()}: {this.TagId}", $"{"position".Localize()}: {this.Position}");
 	}
 }

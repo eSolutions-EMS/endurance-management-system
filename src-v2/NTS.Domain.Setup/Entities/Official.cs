@@ -33,10 +33,10 @@ public class Official : DomainEntity, ISummarizable, IImportable
 
 	public override string ToString()
 	{
-        return $"{Get(this.Role)}: {this.Person}";
+        return Combine(Role.GetDescription(), Person);
     }
     public bool IsUniqueRole()
     {
-        return Role is PresidentVet or PresidentGroundJury or ActiveVet or FeiVetDelegate or FeiTechDelegate or ForeignJudge;
+        return Role is VeterinaryCommissionPresident or GroundJuryPresident or  ForeignVeterinaryDelegate or TechnicalDelegate or ForeignJudge;
     }
 }

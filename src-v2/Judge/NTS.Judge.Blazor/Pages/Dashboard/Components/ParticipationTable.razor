@@ -2,21 +2,21 @@
 
 @* <MudButton OnClick="FlipAxis">Flip</MudButton> *@
 
-<table class="rtable @_axisClass">
+<table class="rtable mt-6 @_axisClass">
     <thead>
         <tr>
             <th>Gate</th>
             <th>Start</th>
             <th>Arrive</th>
-            <th>VetIn</th>
-            <th>ReIn</th>
+            <th>Present</th>
+            <th>Represent</th>
             <th>RI Time</th>
             <th>CRI Time</th>
             <th>Recovery</th>
-            <th>Loop Time</th>
-            <th>Phase Time</th>
-            <th>Loop Speed</th>
-            <th>Phase Speed</th>
+            <th>Loop T</th>
+            <th>Phase T</th>
+            <th>Loop S</th>
+            <th>Phase S</th>
         </tr>
     </thead>
     <tbody>
@@ -28,13 +28,13 @@
                 <TableData Value="@phase.ArriveTime" />
                 <TableData Value="@phase.InspectTime" />
                 <TableData Value="@phase.ReinspectTime" />
-                <TableData Value="@(!phase.IsCRIRequested && phase.IsRIRequested ? phase.RequiredInspectionTime : null)" />
-                <TableData Value="@(phase.IsCRIRequested ? phase.RequiredInspectionTime : null)" />
-                <TableData Value="@phase.RecoverySpan" />
-                <TableData Value="@phase.LoopSpan" />
-                <TableData Value="@phase.PhaseSpan" />
-                <TableData Value="@phase.AverageLoopSpeed" />
-                <TableData Value="@phase.AveragePhaseSpeed" />
+                <TableData Value="@(phase.IsRIRequested ? phase.GetRequiredInspectionTime() : null)" />
+                <TableData Value="@(phase.IsCRIRequested ? phase.GetRequiredInspectionTime() : null)" />
+                <TableData Value="@phase.GetRecoverySpan()" />
+                <TableData Value="@phase.GetLoopSpan()" />
+                <TableData Value="@phase.GetPhaseSpan()" />
+                <TableData Value="@phase.GetAverageLoopSpeed()" />
+                <TableData Value="@phase.GetAveragePhaseSpeed()" />
             </tr>
         }
     </tbody>
@@ -114,15 +114,14 @@
 
         .rtable th {
             text-align: left;
-            text-transform: uppercase;
             background: #f2f0e6;
+            font-weight: normal;
         }
 
         .rtable th,
         .rtable td {
             padding: 6px 12px;
             border: 1px solid #d9d7ce;
-            min-width: 110px;
         }
 
     .rtable--flip {

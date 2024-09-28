@@ -8,6 +8,7 @@
     <MudAppBar Elevation="1">
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => ToggleDrawer())" />
         <MudSpacer />
+        <NotH3 Style="color:#9ca2b8">NTS v0.1</NotH3>
         <MudIconButton Icon="@Icons.Material.Filled.MoreVert" Color="Color.Inherit" Edge="Edge.End" />
     </MudAppBar>
 
@@ -20,7 +21,7 @@
 
     <MudMainContent>
         <CascadingValue Value="@_themeProvider">
-            <MudContainer MaxWidth="MaxWidth.Large" Class="py-12">
+            <MudContainer MaxWidth="MaxWidth.Large" Class="py-4">
                 @Body
             </MudContainer>
         </CascadingValue>
@@ -38,3 +39,13 @@
         this._drawerOpen = !this._drawerOpen;
     }
 }
+
+<style>
+    .not-mid-width {
+        max-width: 800px;
+        margin: auto;
+    }
+    .not-mid-height {
+        min-height: 400px;
+    }
+</style>

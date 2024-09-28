@@ -2,23 +2,27 @@
 @using NTS.Domain.Setup.Entities
 @using NTS.Judge.Blazor.Pages.Dashboard.Components
 @using NTS.Judge.Blazor.Ports
+@using Not.Blazor.TM.Pages
 @using Not.Events
  
 @attribute [Route(DASHBOARD_PAGE)]
 @inherits NotComponent
 
-<NotH1>@Localizer.Get("Dashboard")</NotH1>
+<NotPage Title="Dashboard" HasContent="_participationBehind.Participations.Any()" EmptyMessage="No participations">
+    
+    <EmptyContent>
+        <InputFile OnChange="ImportEmsData" />
+    </EmptyContent>
 
-@if (!_participationBehind.Participations.Any())
-{
-    <NotH2>@Localizer.Get("No participations")</NotH2>
-    <InputFile OnChange="ImportEmsData" />
-}
-else
-{
-    <DashboardComponent />
-    <ActionsPanel />
-}
+    <Main>
+        <DashboardComponent />
+    </Main>
+
+    <Rightbar>
+        <ActionsPanel />
+    </Rightbar>
+
+</NotPage>
 
 @code {
     [Inject]
@@ -37,5 +41,7 @@ else
         using var stringReader = new StreamReader(stream);
         var contents = await stringReader.ReadToEndAsync();
         await _importBehind.ImportCore(contents);
+        
+        await _participationBehind.Initialize();
     }
 }

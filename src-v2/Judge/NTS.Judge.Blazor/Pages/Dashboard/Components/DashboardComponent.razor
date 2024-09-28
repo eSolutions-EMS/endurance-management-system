@@ -9,27 +9,27 @@
 @inherits NotComponent
 
 <MudGrid Spacing="5" Style="margin-top:0;"> @* TODO: extract NotGrid? style's necessary because Spacing does -40% margin style for some reason, which breaks the vertical layout. *@
-    <MudItem xs="10">
+    <MudItem xs="12">
         <NotAutocomplete T="Participation" @bind-Value="_behind.SelectedParticipation" Search="Search" Class="mb-2 dashboard-autocomplete" />
-    </MudItem>
-    <MudItem xs="7">
-        <ParticipationTable Phases="_behind.SelectedParticipation?.Phases" />
     </MudItem>
     <MudItem xs="3">
         <MudChipSet SelectedChipChanged="SelectParticipation">
-            @foreach (var grouping in _behind.ParticipationsByDistance)
+            @foreach (var grouping in _behind.Participations.GroupBy(x => x.Phases.Distance))
             {
                 <MudText Class="pl-4"><strong>@($"{grouping.Key} {@Localizer.Get("KM")}")</strong></MudText>
                 <MudDivider />
                 @foreach (var participation in grouping.OrderBy(x => x.Tandem.Number))
                 {
                     var number = participation.Tandem.Number;
-                    var color = participation.IsNotQualified ? Color.Error : Color.Primary;
+                    var color = participation.IsNotQualified() ? Color.Error : Color.Primary;
                     // TODO: Update Mudblazor and use bind-Selected: https://mudblazor.com/components/chipset#binding-chips-in-a-selection
                     <MudChip Text="@number.ToString()" Value="@number" Color="@color" Style="min-width: 1rem" />
                 }
             }
         </MudChipSet>
+    </MudItem>
+    <MudItem xs="9">
+        <ParticipationTable Phases="_behind.SelectedParticipation?.Phases" />
     </MudItem>
 </MudGrid>
 
@@ -66,6 +66,9 @@
 }
 
 <style>
+    .dashboard-autocomplete .mud-select-input {
+        margin-top: 0 !important;
+    }
     .dashboard-autocomplete input {
         font-size: 1.5rem !important;
     }

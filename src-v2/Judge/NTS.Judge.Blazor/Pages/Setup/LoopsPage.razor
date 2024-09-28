@@ -1,0 +1,15 @@
+﻿@using NTS.Domain.Setup.Entities
+@using NTS.Judge.Blazor.Pages.Setup.Loops
+@using Not.Blazor.TM
+@using Not.Blazor.TM.Pages
+
+@attribute [Route(LOOPS_PAGE)]
+@inherits NotComponent
+
+<NotPage Title="Configure Loops" Class="not-mid-width">
+
+    <Main>
+        <NotSetList T="Loop" TForm="LoopForm" UpdateRoute="@LOOP_UPDATE" />
+    </Main>
+
+</NotPage>

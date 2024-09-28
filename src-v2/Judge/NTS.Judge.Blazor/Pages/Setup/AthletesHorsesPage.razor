@@ -1,0 +1,26 @@
+﻿@using NTS.Domain.Setup.Entities
+@using NTS.Judge.Blazor.Pages.Setup.Athletes
+@using NTS.Judge.Blazor.Pages.Setup.Horses
+@using Not.Blazor.TM
+@using Not.Blazor.TM.Pages
+
+@attribute [Route(ATHLETES_HORSES_PAGE)]
+@inherits NotComponent
+
+<NotPage Title="Athletes & Horses">
+
+    <Main>
+        <MudGrid Spacing="8" Style="margin-top:0!important;">
+            
+            <MudItem xs="6">
+                <NotSetList T="Athlete" TForm="AthleteForm" UpdateRoute="@ATHLETE_UPDATE" />
+            </MudItem>
+            
+            <MudItem xs="6">
+                <NotSetList T="Horse" TForm="HorseForm" UpdateRoute="@HORSE_UPDATE" />
+            </MudItem>
+
+        </MudGrid>
+    </Main>
+
+</NotPage>

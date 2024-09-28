@@ -6,7 +6,7 @@ using NTS.Judge.Blazor.Ports;
 
 namespace NTS.Judge.Adapters.Behinds;
 
-public class DashboardBehind : IDasboardBehind
+public class DashboardBehind : IDashboardBehind
 {
     private readonly IRepository<Domain.Setup.Entities.Event> _setupRepository;
     private readonly IRepository<Event> _coreEventRespository;

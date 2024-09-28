@@ -3,23 +3,20 @@
 
 @inherits NotComponent
 
-<h4>Time Snapshot</h4>
-
-<MudPaper Class="d-flex flex-row mb-4" Elevation="0">
-    <MudTextField @bind-Value="TimeValue" T="string" Label="Time" Mask="@(new PatternMask("00:00:00"))" Class="one-third-width mr-2"/>
-    <MudButtonGroup Color="Color.Tertiary" Size="Size.Small" Variant="Variant.Filled" VerticalAlign="true">
-        <MudButton OnClick="SnapshotTime">Snapshot</MudButton>
-        <MudButton OnClick="Send">Save</MudButton>
+<MudStack Row="true" AlignItems="AlignItems.Center">
+    <MudTextField @bind-Value="_time" T="string" Label="Time" Mask="@(new PatternMask("00:00:00"))" Class="mr-2"/>
+    <MudButtonGroup OverrideStyles="false" Size="Size.Medium">
+        <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="Process">Process</MudButton>
+        <MudIconButton Icon="@Icons.Material.Outlined.Timer" Color="Color.Primary" Variant="Variant.Outlined" OnClick="SnapshotTime">Snapshot</MudIconButton>
     </MudButtonGroup>
-</MudPaper>
+</MudStack>
 
 @code {
     [Inject]
     IParticipationBehind _participationBehind { get; set; } = default!;
     private const string DEFAULT_TIME = "00:00:00";
-    private string TimeValue = DEFAULT_TIME;
+    private string _time = DEFAULT_TIME;
     
-
     protected override async Task OnInitializedAsync()
     {
         await Observe(_participationBehind);
@@ -28,38 +25,37 @@
     public void SnapshotTime()
     {
         var currentTime = DateTime.Now.TimeOfDay;
-        TimeValue = currentTime.ToString();
+        _time = currentTime.ToString();
     }
 
     public Snapshot CreateSnapshot(DateTime timeStampDateTime)
     {
-        var participation = _participationBehind.SelectedParticipation;
-        var currentPhase = participation!.Phases.Current;
         var timestamp = new Timestamp(timeStampDateTime);
 
-        SnapshotType snapshotType = SnapshotType.Stage;
-        SnapshotMethod snapshotMethod = SnapshotMethod.Manual;
-        if (currentPhase?.ArriveTime == null && currentPhase.IsFinal)
-        {        
-            snapshotType = SnapshotType.Final;
-        }
-        else if (currentPhase.InspectTime == null )
-        {
-            snapshotType = SnapshotType.Vet;
-        }
-        Snapshot snapshot = new Snapshot(participation!.Tandem.Number, snapshotType, snapshotMethod, timestamp);
-        return snapshot;
+        return new Snapshot(
+            _participationBehind.SelectedParticipation!.Tandem.Number, 
+           SnapshotType.Automatic,
+           SnapshotMethod.Manual,
+           timestamp);
     }
 
-    public void Send()
+    public void Process()
     {
-        if (TimeValue != DEFAULT_TIME)
+        if (_time == DEFAULT_TIME)
         {
-            var convertedInput = TimeSpan.Parse(TimeValue);
-            TimeValue = DEFAULT_TIME;
-            var time = DateTime.Today + convertedInput;
-            var snapshot = CreateSnapshot(time);
-            _participationBehind.Process(snapshot);
+            return;
         }
+
+        var inputTime = TimeSpan.Parse(_time);
+        var time = DateTime.Today + inputTime;
+        var timestamp = new Timestamp(time);
+        var snapshot = new Snapshot(
+            _participationBehind.SelectedParticipation!.Tandem.Number,
+           SnapshotType.Automatic,
+           SnapshotMethod.Manual,
+           timestamp);
+        _participationBehind.Process(snapshot);
+
+        _time = DEFAULT_TIME;
     }
 }

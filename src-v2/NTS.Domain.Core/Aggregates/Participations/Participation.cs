@@ -1,8 +1,6 @@
 ﻿using Not.Events;
-using static NTS.Domain.Enums.SnapshotType;
-using static NTS.Domain.Core.Aggregates.Participations.SnapshotResultType;
-using Newtonsoft.Json;
 using NTS.Domain.Core.Events.Participations;
+using static NTS.Domain.Core.Aggregates.Participations.SnapshotResultType;
 
 namespace NTS.Domain.Core.Aggregates.Participations;
 
@@ -26,11 +24,20 @@ public class Participation : DomainEntity, IAggregateRoot
     public Tandem Tandem { get; private set; }
     public PhaseCollection Phases { get; private set; }
     public NotQualified? NotQualified { get; private set; }
-    public bool IsNotQualified => NotQualified != null;
-    [JsonIgnore] // TODO: see how to get rid of this. Why is Newtonsoft deserialization trying to create Total instance?
-    public Total? Total => Phases.Any(x => x.IsComplete)
-        ? new Total(Phases)
-        : default;
+    
+    public bool IsNotQualified()
+    {
+        return NotQualified != null;
+    }
+    
+    public Total? GetTotal()
+    {
+        if (Phases.All(x => !x.IsComplete()))
+        {
+            return null;
+        }
+        return new Total(Phases);
+    }
 
     public override string ToString()
     {
@@ -48,20 +55,10 @@ public class Participation : DomainEntity, IAggregateRoot
         {
             return SnapshotResult.NotApplied(snapshot, NotAppliedDueToNotQualified);
         }
-        if (Phases.Current == null)
-        {
-            return SnapshotResult.NotApplied(snapshot, NotAppliedDueToComplete);
-        }
-        if (snapshot.Timestamp < Phases.Current.StartTime + NOT_SNAPSHOTABLE_WINDOW)
-        {
-            return SnapshotResult.NotApplied(snapshot, NotAppliedDueToNotStarted);
-        }
 
-        var result = snapshot.Type == Vet
-            ? Phases.Current.Inspect(snapshot)
-            : Phases.Current.Arrive(snapshot);
+        var result = Phases.Current.Process(snapshot);
         EvaluatePhase(Phases.Current);
-
+        
         return result;
     }
 
@@ -74,15 +71,31 @@ public class Participation : DomainEntity, IAggregateRoot
         EvaluatePhase(phase);
     }
 
-    public void RequestReinspection(bool requested)
+    public void ChangeReinspection(bool isRequested)
     {
-        Phases.Current.IsReinspectionRequested = requested;
+        if (!isRequested)
+        {
+            Phases.Current.DisableReinspection();
+        }
+        else
+        {
+            Phases.Current.IsReinspectionRequested = true;
+        }
     }
 
-    public void RequestRequiredInspection(bool requested)
+    public void ChangeRequiredInspection(bool isRequested)
     {
-        Phases.Current.IsRIRequested = requested;
+        if (isRequested)
+        {
+            Phases.Current.RequestRequiredInspection();
+        }
+        else
+        {
+            Phases.Current.IsRIRequested = isRequested;
+        }
+        Phases.Current.IsReinspectionRequested = isRequested;
     }
+
     public void Withdraw()
     {
         RevokeQualification(new Withdrawn());
@@ -135,11 +148,11 @@ public class Participation : DomainEntity, IAggregateRoot
         {
             RestoreQualification();
         }
-        if (phase.IsComplete)
+        if (phase.IsComplete())
         {
             var phaseCompleted = new PhaseCompleted(this);
             EventHelper.Emit(phaseCompleted);
-            Phases.Next();
+            Phases.StartNext();
         }
     }
 

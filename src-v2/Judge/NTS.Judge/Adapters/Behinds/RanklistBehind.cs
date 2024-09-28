@@ -18,8 +18,18 @@ public class RanklistBehind : ObservableBehind, IRanklistBehind
         _rankings = rankings;
         _participations = participations;
     }
-
     public Ranklist? Ranklist { get; private set; }
+
+    protected override async Task<bool> PerformInitialization()
+    {
+        var ranking = await _rankings.Read(x => true);
+        if (ranking == null)
+        {
+            return false;
+        }
+        Ranklist = await CreateRanklist(ranking);
+        return true;
+    }
 
     public async Task<IEnumerable<Ranking>> GetRankings()
     {
@@ -33,17 +43,6 @@ public class RanklistBehind : ObservableBehind, IRanklistBehind
 
         Ranklist = await CreateRanklist(ranking);
         EmitChange();
-    }
-
-    // This isn't currently used. Consider wheather or not Initialize should be part of IObservableBehind
-    public override async Task Initialize()
-    {
-        var ranking = await _rankings.Read(x => true);
-        if (ranking == null)
-        {
-            return;
-        }
-        Ranklist = await CreateRanklist(ranking);
     }
 
     private async Task<Ranklist> CreateRanklist(Ranking ranking)

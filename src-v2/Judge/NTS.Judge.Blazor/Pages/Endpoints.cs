@@ -3,7 +3,10 @@
 public static class Endpoints
 {
     public const string PRINT_PAGE = "/print";
-    public const string SETUP_PAGE = "/";
+    public const string ENDURANCE_EVENT_PAGE = "/";
+    public const string ATHLETES_HORSES_PAGE = "/athletes-horses";
+    public const string COMBINATIONS_PAGE = "/combinations";
+    public const string LOOPS_PAGE = "/loops";
     public const string OFFICIAL_UPDATE = "/official-update";
     public const string LOOP_UPDATE = "/loop-update";
     public const string COMPETITION_UPDATE = "/competition-update";

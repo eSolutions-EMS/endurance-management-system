@@ -27,10 +27,11 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
     // TODO: we need a better solution to load items as they have been changed in addition to load on startup.
     // Example case: importing previous data: as it is currently we have to restart the app after import
     // Maybe some sort of observable repositories?
-    public override async Task Initialize()
+    protected override async Task<bool> PerformInitialization()
     {
         Participations = await _participationRepository.ReadAll();
         SelectedParticipation = Participations.FirstOrDefault();
+        return Participations.Any();
     }
 
     public void SelectParticipation(int number)
@@ -43,7 +44,7 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
 
     public void RequestReinspection(bool requestFlag)
     {
-        SelectedParticipation!.RequestReinspection(requestFlag);
+        SelectedParticipation!.ChangeReinspection(requestFlag);
         _participationRepository.Update(SelectedParticipation);
 
         EmitChange();
@@ -51,7 +52,7 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
 
     public void RequestRequiredInspection(bool requestFlag)
     {
-        SelectedParticipation!.RequestRequiredInspection(requestFlag);
+        SelectedParticipation!.ChangeRequiredInspection(requestFlag);
         _participationRepository.Update(SelectedParticipation);
 
         EmitChange();
@@ -59,16 +60,15 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
 
     public async Task Process(Snapshot snapshot)
     {
-        if (SelectedParticipation == default)
+        var participation = Participations.FirstOrDefault(x => x.Tandem.Number == snapshot.Number);
+        if (participation == null)
         {
-            SelectParticipation(snapshot.Number);
+            return;
         }
-        GuardHelper.ThrowIfDefault(SelectedParticipation);
-
-        var result = SelectedParticipation?.Process(snapshot);
+        var result = participation.Process(snapshot);
         if (result.Type == SnapshotResultType.Applied)
         {
-            await _participationRepository.Update(SelectedParticipation);
+            await _participationRepository.Update(participation);
         }
         await _snapshotResultRepository.Create(result);
 
@@ -136,7 +136,7 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
         GuardHelper.ThrowIfDefault(SelectedParticipation);
         SelectedParticipation.RestoreQualification();
         await _participationRepository.Update(SelectedParticipation);
-
+        
         EmitChange();
     }
 

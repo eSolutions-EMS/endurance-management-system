@@ -61,43 +61,67 @@ public class ParticipationFactory
         foreach (var lap in competition.Laps)
         {
             var type = EmsCompetitionTypeToCompetitionType(competition.Type);
-            var phase = new Phase(
-                lap.LengthInKm,
-                lap.MaxRecoveryTimeInMins,
-                lap.RestTimeInMins,
-                type,
-                lap.IsFinal, 
-                null);
-            var record = emsParticipation.Participant.LapRecords.FirstOrDefault(x => x.Lap == lap);
             
+            var record = emsParticipation.Participant.LapRecords.FirstOrDefault(x => x.Lap == lap);
+
+            Phase phase = null;
             if (record != null)
             {
+                Timestamp? startTimestamp = null;
                 if (phases.Any())
                 {
                     // Adjusting isnt necessary since it's already done in the previous iteration
-                    var outTime = phases.Last().OutTime!;
+                    var outTime = phases.Last().GetOutTime()!;
                     previousTime = outTime.DateTime;
-                    phase.StartTime = new Timestamp(outTime);
+                    startTimestamp = new Timestamp(outTime);
                 }
                 else
                 {
-                    phase.StartTime = new Timestamp(AdjustTime(ref previousTime, record.StartTime, TimeSpan.Zero, adjustTime));
+                    startTimestamp = new Timestamp(AdjustTime(ref previousTime, record.StartTime, TimeSpan.Zero, adjustTime));
                 }
+
+                DateTime? arriveTime = null;
+                DateTime? inspectTime = null;
+                DateTime? reinspectTime = null;
                 if (record.ArrivalTime.HasValue)
                 {
-                    phase.ArriveTime = new Timestamp(AdjustTime(ref previousTime, record.ArrivalTime.Value, record.ArrivalTime.Value - record.StartTime, adjustTime));
+                    arriveTime = AdjustTime(ref previousTime, record.ArrivalTime.Value, record.ArrivalTime.Value - record.StartTime, adjustTime);
                 }
                 if (record.InspectionTime.HasValue)
                 {
-                    phase.InspectTime = new Timestamp(AdjustTime(ref previousTime, record.InspectionTime.Value, record.InspectionTime.Value - record.ArrivalTime!.Value, adjustTime));
+                    inspectTime = AdjustTime(ref previousTime, record.InspectionTime.Value, record.InspectionTime.Value - record.ArrivalTime!.Value, adjustTime);
                 }
                 if (record.ReInspectionTime.HasValue)
                 {
-                    phase.ReinspectTime = new Timestamp(AdjustTime(ref previousTime, record.ReInspectionTime.Value, record.ReInspectionTime.Value - record.InspectionTime!.Value, adjustTime));
+                    reinspectTime = AdjustTime(ref previousTime, record.ReInspectionTime.Value, record.ReInspectionTime.Value - record.InspectionTime!.Value, adjustTime);
                 }
-                phase.IsReinspectionRequested = record.IsRequiredInspectionRequired;
-                phase.IsCRIRequested = record.IsRequiredInspectionRequired;
+
+                phase = new Phase(
+                    lap.LengthInKm,
+                    lap.MaxRecoveryTimeInMins,
+                    lap.RestTimeInMins,
+                    type,
+                    lap.IsFinal,
+                    null,
+                    startTimestamp,
+                    arriveTime,
+                    inspectTime,
+                    reinspectTime,
+                    record.IsReinspectionRequired,
+                    record.IsRequiredInspectionRequired,
+                    record.IsRequiredInspectionRequired);
+                
                 finalRecord = record;
+            }
+            else
+            {
+                phase = new Phase(
+                    lap.LengthInKm,
+                    lap.MaxRecoveryTimeInMins,
+                    lap.RestTimeInMins,
+                    type,
+                    lap.IsFinal,
+                    null);
             }
 
             phases.Add(phase);

@@ -7,13 +7,38 @@ namespace Not.Blazor.Ports.Behinds;
 // To EnduranceEvent to avoid name conflicts
 public abstract class ObservableBehind : IObservableBehind
 {
+    readonly SemaphoreSlim _semaphore = new(1);
+    bool _isInitialized;
     private readonly IEventManager _stateChanged = new EventManager();
 
-    public abstract Task Initialize();
+    /// <summary>
+    /// Initialize the state of an ObservableBehind. 
+    /// If the state has been initialized successfully It cannot be initialized again.
+    /// </summary>
+    /// <returns>Indicates weather or not the state has been initialized successfully</returns>
+    protected abstract Task<bool> PerformInitialization();
+
+    public async Task Initialize()
+    {
+        try
+        {
+            await _semaphore.WaitAsync();
+
+            if (_isInitialized)
+            {
+                return;
+            }
+            _isInitialized = await PerformInitialization();
+        }
+        finally
+        {
+            _semaphore.Release();
+        }
+    }
     
     public void Subscribe(Func<Task> action)
     {
-        _stateChanged.Subscribe(async () => await action());
+        _stateChanged.Subscribe(action);
     }
 
     protected void EmitChange()

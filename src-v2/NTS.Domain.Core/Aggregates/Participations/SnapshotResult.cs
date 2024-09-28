@@ -25,10 +25,11 @@ public enum SnapshotResultType
 {
     Applied = 1,
     NotAppliedDueToNotQualified = 2,
-    NotAppliedDueToComplete = 3,
+    NotAppliedDueToParticipationComplete = 3,
     NotAppliedDueToNotStarted = 4,
     NotAppliedDueToSeparateStageLine = 5,
     NotAppliedDueToSeparateFinishLine = 6,
     NotAppliedDueToDuplicateArrive = 7,
-    NotAppliedDueToDuplicateInsped = 8
+    NotAppliedDueToDuplicateInspect = 8,
+    NotAppliedDueToInapplicableAutomatic = 9,
 }

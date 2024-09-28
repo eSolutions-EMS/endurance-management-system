@@ -1,15 +1,52 @@
-﻿using static NTS.Domain.Enums.SnapshotType;
+﻿using Newtonsoft.Json;
+using NTS.Domain.Objects;
 using static NTS.Domain.Core.Aggregates.Participations.SnapshotResultType;
 
 namespace NTS.Domain.Core.Aggregates.Participations;
 
-// TODO: probably should be a record
 public class Phase : DomainEntity, IPhaseState
 {
-    internal string InternalGate { get; set; }
+    // TODO: settings - Add setting for separate final. This is useful for some events such as Shumen where we need separate detection for the actual final
+    bool _isSeparateFinish = false;
+
     private Timestamp? VetTime => ReinspectTime ?? InspectTime;
     private bool IsFeiRulesAndNotFinal => CompetitionType == CompetitionType.FEI && !IsFinal;
 
+    [JsonConstructor]
+    private Phase(int id) : base(id) { }
+    // TODO: remove after EMS imports are not longer necessary
+    public Phase(
+        double length,
+        int maxRecovery,
+        int rest,
+        CompetitionType competitionType,
+        bool isFinal,
+        int? criRecovery,
+        Timestamp startTimestamp,
+        DateTime? arriveTime,
+        DateTime? inspectTime,
+        DateTime? reinspectTime,
+        bool isReinspectionRequested,
+        bool isRequiredInspectionRequested,
+        bool isCompulsoryRequiredInspectionRequested) : this(length, maxRecovery, rest, competitionType, isFinal, criRecovery)
+    {
+        StartTime = startTimestamp;
+        if (arriveTime != null)
+        {
+            ArriveTime = new Timestamp(arriveTime.Value);
+        }
+        if (inspectTime != null)
+        {
+            InspectTime = new Timestamp(inspectTime.Value);
+        }
+        if (reinspectTime != null)
+        {
+            ReinspectTime = new Timestamp(reinspectTime.Value);
+        }
+        IsReinspectionRequested = isReinspectionRequested;
+        IsRIRequested = isRequiredInspectionRequested;
+        IsCRIRequested = isCompulsoryRequiredInspectionRequested;
+    }
     public Phase(double length, int maxRecovery, int rest, CompetitionType competitionType, bool isFinal, int? criRecovery)
     {
         Length = length;
@@ -20,75 +57,88 @@ public class Phase : DomainEntity, IPhaseState
         CRIRecovery = criRecovery;
     }
 
-    public string Gate => $"GATE{InternalGate}"; // TODO: fix InternalGate complexity
+    public string Gate { get; private set; }
     public double Length { get; private set; }
     public int MaxRecovery { get; private set; }
     public int Rest { get; private set; }
     public CompetitionType CompetitionType { get; private set; }
     public bool IsFinal { get; private set; }
     public int? CRIRecovery { get; private set; } // TODO: int CRIRecovery? wtf?
-    
-    //> Temporarily set to public for EMS import testing
-    public Timestamp? StartTime { get; set; }
-    public Timestamp? ArriveTime { get; set; }
-    public Timestamp? InspectTime { get; set; }
-    public bool IsReinspectionRequested { get; set; }
+    public Timestamp? StartTime { get; internal set; }
+    public Timestamp? ArriveTime { get; private set; }
+    public Timestamp? InspectTime { get; private set; } // TODO: domain consistency rename InspectTime -> PresentationTime (and others)
+    public bool IsReinspectionRequested { get; internal set; }
+    public Timestamp? ReinspectTime { get; private set; }
+    public bool IsRIRequested { get; internal set; }
+    public bool IsCRIRequested { get; internal set; }
 
-    public Timestamp? ReinspectTime { get; set; }
-    public bool IsRIRequested { get; set; }
-    public bool IsCRIRequested { get; set; }
-    //< Temporarily set to public for EMS import testing
-
-    public Timestamp? RequiredInspectionTime => VetTime?.Add(TimeSpan.FromMinutes(Rest - 15)); //TODO: settings?
-    public Timestamp? OutTime => ArriveTime == null ? null : VetTime?.Add(TimeSpan.FromMinutes(Rest));
-    public TimeInterval? LoopSpan => ArriveTime - StartTime;
-    public TimeInterval? PhaseSpan => VetTime - StartTime;
-    public TimeInterval? Span => IsFeiRulesAndNotFinal ? PhaseSpan : LoopSpan;
-    public TimeInterval? RecoverySpan => VetTime - ArriveTime;
-    public Speed? AverageLoopSpeed => Length / LoopSpan;
-    public Speed? AveragePhaseSpeed => Length / PhaseSpan;
-    public Speed? AverageSpeed => IsFeiRulesAndNotFinal ? AveragePhaseSpeed : AverageLoopSpeed;
-    public bool IsComplete => OutTime != null;
-
-    internal SnapshotResult Arrive(Snapshot snapshot)
+    public Timestamp? GetRequiredInspectionTime()
     {
-        // TODO: settings - Add setting for separate final. This is useful for some events such as Shumen where we need separate detection for the actual final
-        var isSeparateFinal = false;
-        if (isSeparateFinal && snapshot.Type == Final && !IsFinal)
-        {
-            return SnapshotResult.NotApplied(snapshot, NotAppliedDueToSeparateStageLine);
-        }
-        if (isSeparateFinal && snapshot.Type == Stage && IsFinal)
-        {
-            return SnapshotResult.NotApplied(snapshot, NotAppliedDueToSeparateFinishLine);
-        }
-        if (ArriveTime != null)
-        {
-            return SnapshotResult.NotApplied(snapshot, NotAppliedDueToDuplicateArrive);
-        }
-        ArriveTime = snapshot.Timestamp;
-        HandleCRI();
-
-        return SnapshotResult.Applied(snapshot);
+        return VetTime?.Add(TimeSpan.FromMinutes(Rest - 15)); //TODO: settings
     }
 
-    internal SnapshotResult Inspect(Snapshot snapshot)
+    public Timestamp? GetOutTime()
     {
-        if (IsReinspectionRequested && ReinspectTime != null || InspectTime != null)
+        if (ArriveTime == null)
         {
-            return SnapshotResult.NotApplied(snapshot, NotAppliedDueToSeparateFinishLine);
+            return null;
         }
-        if (IsReinspectionRequested)
-        {
-            ReinspectTime = snapshot.Timestamp;
-        }
-        else
-        {
-            InspectTime = snapshot.Timestamp;
-        }
-        HandleCRI();
+        return VetTime?.Add(TimeSpan.FromMinutes(Rest));
+    }
 
-        return SnapshotResult.Applied(snapshot);
+    public TimeInterval? GetLoopSpan()
+    {
+        return ArriveTime - StartTime;
+    }
+
+    public TimeInterval? GetPhaseSpan()
+    {
+        return VetTime - StartTime;
+    }
+
+    public TimeInterval? GetRecoverySpan()
+    {
+        return VetTime - ArriveTime;
+    }
+
+    public Speed? GetAverageLoopSpeed()
+    {
+        return Length / GetLoopSpan();
+    }
+
+    public Speed? GetAveragePhaseSpeed()
+    {
+        return Length / GetPhaseSpan();
+    }
+
+    public Speed? GetAverageSpeed()
+    {
+        return IsFeiRulesAndNotFinal ? GetAveragePhaseSpeed() : GetAverageLoopSpeed();
+    }
+
+    public bool IsComplete()
+    {
+        if (IsReinspectionRequested && ReinspectTime == null)
+        {
+            return false;
+        }
+        if (ArriveTime == null || InspectTime == null)
+        {
+            return false;
+        }
+        return true;
+    }
+
+    internal SnapshotResult Process(Snapshot snapshot)
+    {
+        return snapshot.Type switch
+        {
+            SnapshotType.Vet => Inspect(snapshot),
+            SnapshotType.Stage => Arrive(snapshot),
+            SnapshotType.Final => Finish(snapshot),
+            SnapshotType.Automatic => Automatic(snapshot),
+            _ => throw GuardHelper.Exception($"Invalid snapshot '{snapshot.GetType()}'"),
+        };
     }
 
     internal void Update(IPhaseState state)
@@ -116,12 +166,108 @@ public class Phase : DomainEntity, IPhaseState
 
     internal bool ViolatesRecoveryTime()
     {
-        return RecoverySpan > TimeSpan.FromMinutes(MaxRecovery);
+        return GetRecoverySpan() > TimeSpan.FromMinutes(MaxRecovery);
     }
 
     internal bool ViolatesSpeedRestriction(Speed? minSpeed, Speed? maxSpeed)
     {
-        return AverageSpeed < minSpeed || AverageSpeed > maxSpeed;
+        return GetAverageSpeed() < minSpeed || GetAverageSpeed() > maxSpeed;
+    }
+
+    internal void RequestRequiredInspection()
+    {
+        if (IsCRIRequested)
+        {
+            throw new DomainException("Required inspection is not valid, because there is already " +
+                "a Compulsory required inspection for this participation");
+        }
+
+        IsRIRequested = true;
+    }
+
+    internal void DisableReinspection()
+    {
+        GuardHelper.ThrowIfDefault(IsReinspectionRequested);
+
+        if (ReinspectTime != null)
+        {
+            throw new DomainException("Cannot disable Reinspection because time of Reinspection is already present");
+        }
+
+        IsReinspectionRequested = false;
+    }
+
+    internal void SetGate(int number, double totalDistanceSoFar)
+    {
+        Gate = $"GATE{number}/{totalDistanceSoFar:0.##}";
+    }
+
+    SnapshotResult Automatic(Snapshot snapshot)
+    {
+        if (ArriveTime == null && IsFinal)
+        {
+            return Finish(snapshot);
+        }
+        if (ArriveTime == null)
+        {
+            return Arrive(snapshot);
+        }
+        if (VetTime == null)
+        {
+            return Inspect(snapshot);
+        }
+        return SnapshotResult.NotApplied(snapshot, NotAppliedDueToInapplicableAutomatic);
+    }
+
+    SnapshotResult Finish(Snapshot snapshot)
+    {
+        if (_isSeparateFinish && !IsFinal)
+        {
+            return SnapshotResult.NotApplied(snapshot, NotAppliedDueToSeparateStageLine);
+        }
+        if (ArriveTime != null)
+        {
+            return SnapshotResult.NotApplied(snapshot, NotAppliedDueToDuplicateArrive);
+        }
+
+        ArriveTime = snapshot.Timestamp;
+        HandleCRI();
+        return SnapshotResult.Applied(snapshot);
+    }
+
+    SnapshotResult Arrive(Snapshot snapshot)
+    {
+        if (_isSeparateFinish && IsFinal)
+        {
+            return SnapshotResult.NotApplied(snapshot, NotAppliedDueToSeparateFinishLine);
+        }
+        if (ArriveTime != null)
+        {
+            return SnapshotResult.NotApplied(snapshot, NotAppliedDueToDuplicateArrive);
+        }
+
+        ArriveTime = snapshot.Timestamp;
+        HandleCRI();
+        return SnapshotResult.Applied(snapshot);
+    }
+
+    SnapshotResult Inspect(Snapshot snapshot)
+    {
+        if (IsReinspectionRequested && ReinspectTime != null && InspectTime != null)
+        {
+            return SnapshotResult.NotApplied(snapshot, NotAppliedDueToDuplicateInspect);
+        }
+
+        if (IsReinspectionRequested)
+        {
+            ReinspectTime = snapshot.Timestamp;
+        }
+        else
+        {
+            InspectTime = snapshot.Timestamp;
+        }
+        HandleCRI();
+        return SnapshotResult.Applied(snapshot);
     }
 
     private void HandleCRI()
@@ -130,7 +276,7 @@ public class Phase : DomainEntity, IPhaseState
         {
             return;
         }
-        IsCRIRequested = RecoverySpan >= TimeSpan.FromMinutes(CRIRecovery.Value);
+        IsCRIRequested = GetRecoverySpan() >= TimeSpan.FromMinutes(CRIRecovery.Value);
     }
 }
 
