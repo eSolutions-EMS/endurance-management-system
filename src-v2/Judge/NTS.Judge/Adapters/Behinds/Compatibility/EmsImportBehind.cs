@@ -1,5 +1,4 @@
-﻿using MudBlazor;
-using Not.Application.Ports.CRUD;
+﻿using Not.Application.Ports.CRUD;
 using Not.Extensions;
 using Not.Safe;
 using Not.Serialization;
@@ -23,16 +22,6 @@ public class EmsImportBehind : IEmsImportBehind
     {
         _eventRepository = eventRepository;
         _emsToCoreImporter = emsToCoreImporter;
-    }
-
-    public Task Import(string path)
-    {
-        return SafeHelper.Run(() => SafeImport(path));
-    }
-
-    public Task ImportCore(string contents)
-    {
-        return SafeHelper.Run(() => SafeImportCore(contents));
     }
 
     async Task SafeImport(string emsStateFilePath)
@@ -101,4 +90,18 @@ public class EmsImportBehind : IEmsImportBehind
         }
         return result;
     }
+
+    #region SafePattern
+
+    public Task Import(string path)
+    {
+        return SafeHelper.Run(() => SafeImport(path));
+    }
+
+    public Task ImportCore(string contents)
+    {
+        return SafeHelper.Run(() => SafeImportCore(contents));
+    }
+
+    #endregion
 }
