@@ -73,7 +73,7 @@
     [Inject]
     IHandoutsBehind _behind { get; set; } = default!;
 
-    protected override void OnInitialized()
+    protected override void OnInitialized() // TODO: set async
     {
         Observe(_behind);
     }

@@ -1,0 +1,24 @@
+﻿@using NTS.Domain.Core.Aggregates.Participations
+@using NTS.Judge.Blazor.Enums
+@using NTS.Judge.Blazor.Ports
+
+@inherits EliminationForm
+
+<MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Eliminate">
+    @Localizer.Get("Eliminate")
+</MudButton>
+
+<MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Restore">
+    @Localizer.Get("Restore")
+</MudButton>
+
+@code {
+    [Parameter]
+    public Retired? Retired { get; set; }
+
+    public override async Task Eliminate()
+    {
+        await _participationBehind.Retire();
+        await OnEliminate.InvokeAsync();
+    }
+}

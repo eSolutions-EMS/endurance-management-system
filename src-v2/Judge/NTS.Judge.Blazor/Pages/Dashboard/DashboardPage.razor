@@ -2,6 +2,7 @@
 @using NTS.Domain.Setup.Entities
 @using NTS.Judge.Blazor.Pages.Dashboard.Components
 @using NTS.Judge.Blazor.Ports
+@using Not.Events
  
 @attribute [Route(DASHBOARD_PAGE)]
 @inherits NotComponent
@@ -16,6 +17,7 @@
 else
 {
     <DashboardComponent />
+    <ActionsPanel />
 }
 
 @code {

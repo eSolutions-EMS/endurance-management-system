@@ -7,7 +7,7 @@ namespace Not.Blazor.Ports.Behinds;
 // To EnduranceEvent to avoid name conflicts
 public abstract class ObservableBehind : IObservableBehind
 {
-    private IEventManager _stateChanged = new EventManager();
+    private readonly IEventManager _stateChanged = new EventManager();
 
     public abstract Task Initialize();
     

@@ -1,0 +1,58 @@
+﻿@using NTS.Domain.Core.Aggregates.Participations
+@using NTS.Domain.Objects
+@using NTS.Judge.Blazor.Enums
+@using NTS.Judge.Blazor.Ports
+@using Not.Structures
+
+@inherits EliminationForm
+
+<MudSelect T="FTQCodes" Label="Failed to Qualify Reason" MultiSelection="true" Delimiter="+"
+    SelectedValues="@Codes" SelectedValuesChanged="SetInputState" Placeholder="Select a reason">
+    @foreach (var failToQualifyCode in SelectListModel.FromEnum<FTQCodes>())
+    {
+        <MudSelectItem Value="@failToQualifyCode.Value">
+            <MudText Typo="Typo.body2">@failToQualifyCode.Value</MudText>
+            <MudText Typo="Typo.subtitle2">@failToQualifyCode.Description</MudText>
+        </MudSelectItem>
+    }
+</MudSelect>
+<MudCollapse Expanded="Codes.Contains(FTQCodes.FTC)">
+    <MudTextField @bind-Value="Reason" Label="Reason" Variant="Variant.Outlined"></MudTextField>
+</MudCollapse>
+
+<MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Eliminate">
+    @Localizer.Get("Eliminate")
+</MudButton>
+
+<MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Restore">
+    @Localizer.Get("Restore")
+</MudButton>
+
+@code {
+    [Parameter]
+    public FailedToQualify? FailedToQualify { get; set; }
+
+    private List<FTQCodes> Codes { get; set; } = new List<FTQCodes>();
+    public string? Reason { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        if(FailedToQualify != null)
+        {
+            Codes = FailedToQualify.Codes.ToList();
+            Reason = FailedToQualify.Complement;
+        }
+    }
+
+    public override async Task Eliminate()
+    {
+        //TODO: Validate for incorrect inputs
+        await _participationBehind.FailToQualify(Reason, Codes.ToArray());
+        await OnEliminate.InvokeAsync();
+    }
+
+    public void SetInputState(IEnumerable<FTQCodes> values)
+    {
+        Codes = values.ToList();
+    }
+}

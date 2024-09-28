@@ -74,6 +74,15 @@ public class Participation : DomainEntity, IAggregateRoot
         EvaluatePhase(phase);
     }
 
+    public void RequestReinspection(bool requested)
+    {
+        Phases.Current.IsReinspectionRequested = requested;
+    }
+
+    public void RequestRequiredInspection(bool requested)
+    {
+        Phases.Current.IsRIRequested = requested;
+    }
     public void Withdraw()
     {
         RevokeQualification(new Withdrawn());
@@ -93,14 +102,21 @@ public class Participation : DomainEntity, IAggregateRoot
         RevokeQualification(new FinishedNotRanked(reason));
     }
 
-    public void FailToQualify(FTQCodes code)
+    public void FailToQualify(params FTQCodes[] codes)
     {
-        RevokeQualification(new FailedToQualify(code));
+        RevokeQualification(new FailedToQualify(codes));
     }
 
-    public void FailToCompleteLoop(string reason)
+    public void FailToQualify(string? reason, params FTQCodes[] codes)
     {
-        RevokeQualification(new FailedToQualify(reason));
+        if(reason == null)
+        {
+            RevokeQualification(new FailedToQualify(codes));
+        }
+        else
+        {
+            RevokeQualification(new FailedToQualify(reason, codes));
+        }
     }
 
     private void EvaluatePhase(Phase phase)

@@ -1,0 +1,33 @@
+﻿@using NTS.Domain.Core.Aggregates.Participations
+@using NTS.Judge.Blazor.Enums
+@using NTS.Judge.Blazor.Ports
+
+@inherits EliminationForm
+
+<MudTextField @bind-Value="Reason" Label="Reason" Variant="Variant.Outlined"></MudTextField>
+
+<MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Eliminate">
+    @Localizer.Get("Eliminate")
+</MudButton>
+
+<MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Restore">
+    @Localizer.Get("Restore")
+</MudButton>
+
+@code {
+    [Parameter]
+    public Disqualified? Disqualified { get; set; }
+    private string? Reason { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        Reason = Disqualified?.Complement;
+    }
+
+    public override async Task Eliminate()
+    {
+        //TODO: Validate for null Reason
+        await _participationBehind.Disqualify(Reason);
+        await OnEliminate.InvokeAsync();
+    }
+}

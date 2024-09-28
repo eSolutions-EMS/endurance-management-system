@@ -1,0 +1,75 @@
+﻿@using NTS.Domain.Core.Aggregates.Participations
+@using NTS.Judge.Blazor.Enums
+@using NTS.Judge.Blazor.Pages.Dashboard.Components.Actions.EliminationForms
+@using NTS.Judge.Blazor.Ports
+@using Not.Structures
+
+@inherits NotComponent
+
+<h4>Eliminations Panel</h4>
+
+<MudPaper Class="d-flex flex-column mb-2" Elevation="0">
+    <MudToggleGroup T="string" TextClass="@SmallTextClass" Delimiters="true" Color="Color.Error" Rounded="true"
+                    SelectionMode="SelectionMode.ToggleSelection" Style="width: 20rem" @bind-Value="_toggledButtonValue" >
+        <MudToggleItem Text="Withdrawn" Value="@(NotQualified.WITHDRAWN)" />
+        <MudToggleItem Text="Retired" Value="@(NotQualified.RETIRED)" />
+        <MudToggleItem Text="Finished Not Ranked" Value="@(NotQualified.FINISHED_NOT_RANKED)" />
+        <MudToggleItem Text="Disqualified" Value="@(NotQualified.DISQUALIFIED)" />
+        <MudToggleItem Text="Failed to Qualify" Value="@(NotQualified.FAILED_TO_QUALIFY)" />
+    </MudToggleGroup>
+    @if(_notQualified != null || _toggledButtonValue != null)
+    {
+        <MudCollapse Expanded="@(_toggledButtonValue == NotQualified.WITHDRAWN)" >
+            <WithdrawForm Withdrawn="_notQualified as Withdrawn"
+                          OnRestore="RestoreHandler" OnEliminate="EliminateHandler" />
+        </MudCollapse>
+        <MudCollapse Expanded="@(_toggledButtonValue == NotQualified.RETIRED)">
+            <RetireForm Retired="_notQualified as Retired"
+                        OnRestore="RestoreHandler" OnEliminate="EliminateHandler" />
+        </MudCollapse>
+        <MudCollapse Expanded="@(_toggledButtonValue == NotQualified.FINISHED_NOT_RANKED)">
+            <FinishNotRankedForm FinishedNotRanked="_notQualified as FinishedNotRanked"
+                                 OnRestore="RestoreHandler" OnEliminate="EliminateHandler" />
+        </MudCollapse>
+        <MudCollapse Expanded="@(_toggledButtonValue == NotQualified.DISQUALIFIED)">
+            <DisqualifyForm Disqualified="_notQualified as Disqualified"
+                            OnRestore="RestoreHandler" OnEliminate="EliminateHandler" />
+        </MudCollapse>
+        <MudCollapse Expanded="@(_toggledButtonValue == NotQualified.FAILED_TO_QUALIFY)">
+            <FailedToQualifyForm FailedToQualify="_notQualified as FailedToQualify"
+                                 OnRestore="RestoreHandler" OnEliminate="EliminateHandler" />
+        </MudCollapse>
+    }
+</MudPaper>
+
+@code {
+    [Inject]
+    IParticipationBehind _participationBehind { get; set; } = default!;
+    NotQualified? _notQualified => _participationBehind.SelectedParticipation?.NotQualified;
+    private string? _toggledButtonValue {
+        get => _value != null ? _value : _notQualified?.EliminationCode;
+        set => _value = value; 
+    }
+    private string? _value;
+    private string SmallTextClass = "font-size-10";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Observe(_participationBehind);
+    }
+
+    public void ToggleOff()
+    {
+        _toggledButtonValue = null;
+    }
+
+    public void RestoreHandler()
+    {
+        ToggleOff();
+    }
+
+    public void EliminateHandler()
+    {
+        _value = null;
+    }
+}

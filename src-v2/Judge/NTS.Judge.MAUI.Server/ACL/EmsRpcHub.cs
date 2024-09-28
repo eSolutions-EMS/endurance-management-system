@@ -137,25 +137,25 @@ public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, 
             EventHelper.Subscribe<QualificationRevoked>(SendParticipantEntryRemove);
         }
 
-        public void SendStartlistEntryUpdate(PhaseCompleted phaseCompleted)
+        public async void SendStartlistEntryUpdate(PhaseCompleted phaseCompleted)
         {
             var emsParticipation = ParticipationFactory.CreateEms(phaseCompleted.Participation);
             var entry = new EmsStartlistEntry(emsParticipation);
-            _hub.Clients.All.ReceiveEntry(entry, EmsCollectionAction.AddOrUpdate);
+            await _hub.Clients.All.ReceiveEntry(entry, EmsCollectionAction.AddOrUpdate);
         }
 
-        public void SendParticipantEntryAddOrUpdate(QualificationRestored qualificationRestored)
+        public async void SendParticipantEntryAddOrUpdate(QualificationRestored qualificationRestored)
         {
             var emsParticipation = ParticipationFactory.CreateEms(qualificationRestored.Participation);
             var entry = new EmsParticipantEntry(emsParticipation);
-            _hub.Clients.All.ReceiveEntryUpdate(entry, EmsCollectionAction.AddOrUpdate);
+            await _hub.Clients.All.ReceiveEntryUpdate(entry, EmsCollectionAction.AddOrUpdate);
         }
 
-        public void SendParticipantEntryRemove(QualificationRevoked qualificationRevoked)
+        public async void SendParticipantEntryRemove(QualificationRevoked qualificationRevoked)
         {
             var emsParticipation = ParticipationFactory.CreateEms(qualificationRevoked.Participation);
             var entry = new EmsParticipantEntry(emsParticipation);
-            _hub.Clients.All.ReceiveEntryUpdate(entry, EmsCollectionAction.Remove);
+            await _hub.Clients.All.ReceiveEntryUpdate(entry, EmsCollectionAction.Remove);
         }
 
         public void Dispose()
@@ -163,27 +163,27 @@ public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, 
             // TODO: Dispose
         }
 
-        public Task ReceiveSnapshot(Snapshot snapshot)
+        public async Task ReceiveSnapshot(Snapshot snapshot)
         {
-            return Task.CompletedTask;
+            await Task.CompletedTask;
         }
 
-        public Task SendStartCreated(PhaseCompleted phaseCompleted)
+        public async Task SendStartCreated(PhaseCompleted phaseCompleted)
         {
             SendStartlistEntryUpdate(phaseCompleted);
-            return Task.CompletedTask;
+            await Task.CompletedTask;
         }
 
-        public Task SendQualificationRevoked(QualificationRevoked revoked)
+        public async Task SendQualificationRevoked(QualificationRevoked revoked)
         {
             SendParticipantEntryRemove(revoked);
-            return Task.CompletedTask;
+            await Task.CompletedTask;
         }
 
-        public Task SendQualificationRestored(QualificationRestored restored)
+        public async Task SendQualificationRestored(QualificationRestored restored)
         {
             SendParticipantEntryAddOrUpdate(restored);
-            return Task.CompletedTask;
+            await Task.CompletedTask;
         }
     }
 }
