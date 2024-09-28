@@ -82,11 +82,9 @@ public class CompetitionChildrenBehind : INotSetBehind<Contestant>, INotSetBehin
         return entity;
     }
 
-    async Task<Competition> SafeInitialize(int id)
+    async Task<Competition?> SafeInitialize(int id)
     {
-        _competition = await _competitionReader.Read(id);
-        GuardHelper.ThrowIfDefault(_competition);
-        return _competition;
+        return await _competitionReader.Read(id);
     }
 
     #region SafePatter
@@ -131,11 +129,8 @@ public class CompetitionChildrenBehind : INotSetBehind<Contestant>, INotSetBehin
         return await SafeHelper.Run(() => Delete(phase)) ?? phase;
     }
 
-    public async Task<Competition> Initialize(int id)
+    public async Task<Competition?> Initialize(int id)
     {
-        //TODO: figure out this case. Probably should return null which will then allow for handling in component
-        // but not sure if the extra code is worth it. maybe rethink the INotParentBehind.Initialize ?
-        // also: EventBehind.Initialize
         return await SafeHelper.Run(() => SafeInitialize(id)); 
     }
 

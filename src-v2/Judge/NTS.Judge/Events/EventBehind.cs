@@ -102,11 +102,9 @@ public class EventBehind : INotBehind<Event>, INotSetBehind<Official>, INotSetBe
         return child;
     }
 
-    async Task<Event> SafeInitialize(int id)
+    async Task<Event?> SafeInitialize(int id)
     {
-        _event = await _eventRepository.Read(id);
-        GuardHelper.ThrowIfDefault(_event);
-        return _event;
+        return await _eventRepository.Read(id);
     }
 
     #region SafePattern 
@@ -171,7 +169,7 @@ public class EventBehind : INotBehind<Event>, INotSetBehind<Official>, INotSetBe
         return await SafeHelper.Run(() => SafeDelete(competition)) ?? competition;
     }
 
-    public async Task<Event> Initialize(int id)
+    public async Task<Event?> Initialize(int id)
     {
         return await SafeHelper.Run(() => SafeInitialize(id));
     }
