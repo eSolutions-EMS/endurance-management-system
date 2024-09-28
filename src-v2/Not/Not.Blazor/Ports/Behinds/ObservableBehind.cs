@@ -21,16 +21,15 @@ public abstract class ObservableBehind : IObservableBehind
 
     public async Task Initialize()
     {
+        if (_isInitialized)
+        {
+            return;
+        }
+
         try
         {
             await _semaphore.WaitAsync();
-
-            if (_isInitialized) //TODO: why not move this outside of the semaphore?
-            {
-                return;
-            }
-
-            _isInitialized = await SafeHelper.Run(PerformInitialization); // TODO: test
+            _isInitialized = await SafeHelper.Run(PerformInitialization);
         }
         finally
         {
