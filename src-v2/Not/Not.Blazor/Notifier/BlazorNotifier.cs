@@ -1,4 +1,5 @@
 ﻿using MudBlazor;
+using Not.Blazor.Mud.Extensions;
 using Not.Events;
 using Not.Notifier;
 
@@ -6,6 +7,8 @@ namespace Not.Blazor.Notifier;
 
 public class BlazorNotifier : ComponentBase
 {
+    private readonly TimeSpan _failedDuration = TimeSpan.FromSeconds(30);
+
     [Inject]
     ISnackbar _snackbar { get; set; } = default!;
 
@@ -29,7 +32,7 @@ public class BlazorNotifier : ComponentBase
 
     void AddSnack(Failed failed)
     {
-        _snackbar.Add(failed.Message, Severity.Error);
+        _snackbar.Add(failed.Message, Severity.Error, config => config.SetVisibleDuration(_failedDuration));
     }
 
     void AddSnack(Succeeded succeeded)

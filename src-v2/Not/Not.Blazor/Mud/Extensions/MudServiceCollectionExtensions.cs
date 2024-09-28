@@ -15,10 +15,10 @@ public static class MudServiceCollectionExtensions
             {
                 config.SnackbarConfiguration.PositionClass = Defaults.Classes.Position.BottomCenter;
                 config.SnackbarConfiguration.ShowCloseIcon = true;
-                config.SnackbarConfiguration.VisibleStateDuration = 10000; // seconds
                 config.SnackbarConfiguration.SnackbarVariant = Variant.Filled;
                 config.SnackbarConfiguration.HideTransitionDuration = 200;
                 config.SnackbarConfiguration.ShowTransitionDuration = 200;
+                config.SnackbarConfiguration.SetVisibleDuration(TimeSpan.FromSeconds(10));
 
                 if (customConfiguration != null)
                 {
