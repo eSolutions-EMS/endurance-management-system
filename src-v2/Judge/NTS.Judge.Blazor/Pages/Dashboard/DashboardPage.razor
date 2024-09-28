@@ -17,10 +17,6 @@
     </EmptyContent>
 
     <Main>
-        <MudButton OnClick="@(() => NotifyHelper.Inform("Info"))">Info</MudButton>
-        <MudButton OnClick="@(() => NotifyHelper.Success("Success"))">Success</MudButton>
-        <MudButton OnClick="@(() => NotifyHelper.Warn("Warning"))">Warning</MudButton>
-        <MudButton OnClick="@(Error)">Error</MudButton>
         <DashboardComponent />
     </Main>
 
@@ -53,22 +49,5 @@
         await _importBehind.ImportCore(contents);
 
         await _participationBehind.Initialize();
-    }
-
-    private void Error()
-    {
-        try
-        {
-            ZZ();
-        }
-        catch (Exception ex)
-        {
-            NotifyHelper.Error(ex);
-        }
-    }
-
-    private void ZZ()
-    {
-        throw new Exception("This is an exception message in order to test printing exception capabilities of Snackbar");
     }
 }
