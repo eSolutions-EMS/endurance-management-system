@@ -18,7 +18,7 @@
 
     <Main>
         <MudButton OnClick="@(() => NotifyHelper.Inform("Info"))">Info</MudButton>
-        <MudButton OnClick="@(() => NotifyHelper.Succeeded("Success"))">Success</MudButton>
+        <MudButton OnClick="@(() => NotifyHelper.Success("Success"))">Success</MudButton>
         <MudButton OnClick="@(() => NotifyHelper.Warn("Warning"))">Warning</MudButton>
         <MudButton OnClick="@(Error)">Error</MudButton>
         <DashboardComponent />
@@ -63,7 +63,7 @@
         }
         catch (Exception ex)
         {
-            NotifyHelper.Error(ex.Message + Environment.NewLine + ex.StackTrace);
+            NotifyHelper.Error(ex);
         }
     }
 

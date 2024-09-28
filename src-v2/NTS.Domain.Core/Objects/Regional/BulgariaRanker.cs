@@ -14,7 +14,7 @@ internal class BulgariaRanker : FeiRanker
     {
         if (ranking.Category != AthleteCategory.Senior)
         {
-            return BaseOrder(ranking.Entries, participations)
+            return OrderByNotEliminatedAndRanked(ranking.Entries, participations)
                 .ThenBy(x => x.Participation.GetTotal()?.RecoveryIntervalWithoutFinal)
                 .Select(x => x.RankingEntry)
                 .ToList();

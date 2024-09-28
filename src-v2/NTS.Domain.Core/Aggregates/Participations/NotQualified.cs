@@ -30,9 +30,6 @@ public record Retired : NotQualified
 
 public record Disqualified : NotQualified
 {
-    private Disqualified()
-    {
-    }
     [JsonConstructor]
     public Disqualified(string complement) : base(complement, DISQUALIFIED)
     {
@@ -46,9 +43,6 @@ public record Disqualified : NotQualified
 
 public record FinishedNotRanked : NotQualified
 {
-    private FinishedNotRanked()
-    {
-    }
     [JsonConstructor]
     public FinishedNotRanked(string complement) : base(complement, FINISHED_NOT_RANKED)
     {
@@ -62,9 +56,6 @@ public record FinishedNotRanked : NotQualified
 
 public record FailedToQualify : NotQualified
 {
-    private FailedToQualify()
-    {
-    }
     public FailedToQualify(params FTQCodes[] codes) : base(FAILED_TO_QUALIFY)
     {
         if (codes.Contains(FTQCodes.FTC))
@@ -150,9 +141,6 @@ public abstract record NotQualified : DomainObject
     public const string DISQUALIFIED = "DQ";
     public const string FAILED_TO_QUALIFY = "FTQ";
     
-    protected NotQualified()
-    {
-    }
     protected NotQualified(string eliminationCode)
     {
         EliminationCode = eliminationCode;

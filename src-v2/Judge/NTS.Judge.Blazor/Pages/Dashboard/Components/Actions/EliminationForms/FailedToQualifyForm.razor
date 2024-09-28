@@ -10,8 +10,8 @@
     @foreach (var failToQualifyCode in SelectListModel.FromEnum<FTQCodes>())
     {
         <MudSelectItem Value="@failToQualifyCode.Value">
-            @failToQualifyCode.Value
-            <div class="font-size-10">@failToQualifyCode.Description</div>
+            <MudText Typo="Typo.body2">@failToQualifyCode.Value</MudText>
+            <MudText Typo="Typo.subtitle2">@failToQualifyCode.Description</MudText>
         </MudSelectItem>
     }
 </MudSelect>
@@ -32,33 +32,22 @@
     [Parameter]
     public FailedToQualify? FailedToQualify { get; set; }
 
-    private IEnumerable<FTQCodes> Codes { get; set; } = new List<FTQCodes>();
+    private IEnumerable<FTQCodes> Codes { get; set; } = [];
     public string? Reason { get; set; }
 
     protected override void OnParametersSet()
     {
         if (FailedToQualify != null)
         {
-            Codes = FailedToQualify.Codes;
+            Codes = FailedToQualify.Codes.ToList();
             Reason = FailedToQualify.Complement;
         }
     }
 
     public override async Task Eliminate()
     {
-        var codes = new List<FTQCodes>();
-        foreach (var value in Codes)
-        {
-            codes.Add(value);
-        }
-        if (codes.Contains(FTQCodes.FTC))
-        {
-            await _participationBehind.FailToQualify(Reason, codes.ToArray());
-        }
-        else
-        {
-            await _participationBehind.FailToQualify(codes.ToArray());
-        }
+        //TODO: Validate for incorrect inputs
+        await _participationBehind.FailToQualify(Reason, Codes.ToArray());
         await OnEliminate.InvokeAsync();
     }
 }

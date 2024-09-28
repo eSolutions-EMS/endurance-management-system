@@ -90,80 +90,56 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
 
     public async Task Withdraw()
     {
-        var tandemNumber = SelectedParticipation!.Tandem.Number;
-        var participation = Participations.FirstOrDefault(x => x.Tandem.Number == tandemNumber);
-        GuardHelper.ThrowIfDefault(participation);
-        participation.Withdraw();
-        await _participationRepository.Update(participation);
+        GuardHelper.ThrowIfDefault(SelectedParticipation);
+        SelectedParticipation.Withdraw();
+        await _participationRepository.Update(SelectedParticipation);
 
         EmitChange();
     }
 
     public async Task Retire()
     {
-        var tandemNumber = SelectedParticipation!.Tandem.Number;
-        var participation = Participations.FirstOrDefault(x => x.Tandem.Number == tandemNumber);
-        GuardHelper.ThrowIfDefault(participation);
-        participation.Retire();
-        await _participationRepository.Update(participation);
+        GuardHelper.ThrowIfDefault(SelectedParticipation);
+        SelectedParticipation.Retire();
+        await _participationRepository.Update(SelectedParticipation);
 
         EmitChange();
     }
 
     public async Task FinishNotRanked(string reason)
     {
-        var tandemNumber = SelectedParticipation!.Tandem.Number;
-        var participation = Participations.FirstOrDefault(x => x.Tandem.Number == tandemNumber);
-        GuardHelper.ThrowIfDefault(participation);
-        participation.FinishNotRanked(reason);
-        await _participationRepository.Update(participation);
+        GuardHelper.ThrowIfDefault(SelectedParticipation);
+        SelectedParticipation.FinishNotRanked(reason);
+        await _participationRepository.Update(SelectedParticipation);
 
         EmitChange();
     }
 
     public async Task Disqualify(string reason)
     {
-        var tandemNumber = SelectedParticipation!.Tandem.Number;
-        var participation = Participations.FirstOrDefault(x => x.Tandem.Number == tandemNumber);
-        GuardHelper.ThrowIfDefault(participation);
-        participation.Disqualify(reason);
-        await _participationRepository.Update(participation);
-
-        EmitChange();
-    }
-
-    public async Task FailToQualify(params FTQCodes[] ftqCodes)
-    {
-        var tandemNumber = SelectedParticipation!.Tandem.Number;
-        var participation = Participations.FirstOrDefault(x => x.Tandem.Number == tandemNumber);
-        GuardHelper.ThrowIfDefault(participation);
-        GuardHelper.ThrowIfDefault(ftqCodes);
-        participation.FailToQualify(ftqCodes);
-        await _participationRepository.Update(participation);
+        GuardHelper.ThrowIfDefault(SelectedParticipation);
+        SelectedParticipation.Disqualify(reason);
+        await _participationRepository.Update(SelectedParticipation);
 
         EmitChange();
     }
 
     public async Task FailToQualify(string? reason, params FTQCodes[] ftqCodes)
     {
-        var tandemNumber = SelectedParticipation!.Tandem.Number;
-        var participation = Participations.FirstOrDefault(x => x.Tandem.Number == tandemNumber);
-        GuardHelper.ThrowIfDefault(participation);
+        GuardHelper.ThrowIfDefault(SelectedParticipation);
         GuardHelper.ThrowIfDefault(ftqCodes);
-        participation.FailToQualify(reason, ftqCodes);
-        await _participationRepository.Update(participation);
+        SelectedParticipation.FailToQualify(reason, ftqCodes);
+        await _participationRepository.Update(SelectedParticipation);
 
         EmitChange();
     }
 
     public async Task RestoreQualification()
     {
-        var tandemNumber = SelectedParticipation!.Tandem.Number;
-        var participation = Participations.FirstOrDefault(x => x.Tandem.Number == tandemNumber);
-        GuardHelper.ThrowIfDefault(participation);
-
-        participation.RestoreQualification();
-        await _participationRepository.Update(participation);
+        GuardHelper.ThrowIfDefault(SelectedParticipation);
+        SelectedParticipation.RestoreQualification();
+        await _participationRepository.Update(SelectedParticipation);
+        
         EmitChange();
     }
 

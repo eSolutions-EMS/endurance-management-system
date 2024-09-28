@@ -29,5 +29,4 @@ public static class NotifyHelper
     {
         EventHelper.Emit(new Failed(exception.Message + Environment.NewLine + exception.StackTrace));
     }
-
 }

@@ -9,13 +9,15 @@ internal class FeiRanker : Ranker
     {
 
         var ids = ranking.Entries.Select(x => x.ParticipationId).ToList();
-        return BaseOrder(ranking.Entries, participations)
+        return OrderByNotEliminatedAndRanked(ranking.Entries, participations)
             .ThenBy(x => x.Participation.Phases.Last().ArriveTime)
             .Select(x => x.RankingEntry)
             .ToList();
     }
 
-    protected IOrderedEnumerable<Pair> BaseOrder(IEnumerable<RankingEntry> entries, IEnumerable<Participation> participations)
+    protected IOrderedEnumerable<Pair> OrderByNotEliminatedAndRanked(
+        IEnumerable<RankingEntry> entries,
+        IEnumerable<Participation> participations)
     {
         var ids = entries.Select(x => x.ParticipationId).ToList();
         return entries
