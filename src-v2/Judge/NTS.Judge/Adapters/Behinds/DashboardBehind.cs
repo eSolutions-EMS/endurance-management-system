@@ -1,5 +1,6 @@
 ﻿using Not.Application.Ports.CRUD;
 using Not.Domain;
+using Not.Notifier;
 using Not.Safe;
 using NTS.Domain.Core.Aggregates.Participations;
 using NTS.Domain.Core.Entities;
@@ -42,7 +43,8 @@ public class DashboardBehind : IDashboardBehind
     {
         if (!setupEvent.Competitions.Any())
         {
-            return; //TODO: Notification
+            NotifyHelper.Warn("Cannot start Endurance event: there are no competitions configured");
+            return;
         }
         var competitionStartTimes = setupEvent.Competitions.Select(x => x.StartTime);
         var startDate = competitionStartTimes.First();
