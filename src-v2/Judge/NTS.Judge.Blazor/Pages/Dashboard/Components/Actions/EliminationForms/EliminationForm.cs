@@ -16,6 +16,7 @@ public abstract class EliminationForm : NotComponent
 
     public async Task Restore()
     {
+        await _participationBehind.RestoreQualification();
         await OnRestore.InvokeAsync();
     }
 }
