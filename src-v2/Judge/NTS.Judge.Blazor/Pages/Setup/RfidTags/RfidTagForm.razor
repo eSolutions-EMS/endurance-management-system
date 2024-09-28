@@ -1,0 +1,50 @@
+﻿@using NTS.Judge.Blazor.Ports
+@using NTS.Domain.Setup.Entities
+
+<MudText Class="mt-2" Typo="Typo.body2">Scan Rfid Chip (optional)</MudText>
+
+<MudContainer Class="d-flex flex-row">
+    @if(Tag!=null && !_awaitingInput){
+        <MudText Class="mt-2"> Contestant Number: @Tag.Number | Tag Id: @Tag.TagId</MudText>
+    }
+    @if(_awaitingInput)
+    {
+        <MudProgressCircular Class="mr-2" Color="Color.Primary" Size="Size.Small" Indeterminate="true" />
+    }
+    @if (Tag == null)
+    {
+        <MudTooltip Text="Add Tag">
+            <MudFab Class="ml-2" Color="Color.Primary" Size="Size.Small" 
+            StartIcon="@Icons.Material.Filled.Add" OnClick="AddTagHandler" />
+        </MudTooltip>
+    }
+    else
+    {
+        <MudTooltip Text="Remove Tag">
+            <MudFab Class="ml-2" Color="Color.Secondary" Size="Size.Small"
+            StartIcon="@Icons.Material.Filled.Delete" OnClick="RemoveTagHandler" />
+        </MudTooltip>
+    }
+</MudContainer>
+
+
+@code {
+    [Inject]
+    public ITagWriter _tagWriter { get; set; } = default!;
+    [Parameter]
+    public int CombinationNumber {get; set; }
+    public IdTag? Tag { get; private set; }
+    public bool _awaitingInput = false;
+
+    public async Task AddTagHandler()
+    {
+        _awaitingInput = true;
+        Tag = await _tagWriter.WriteTag(CombinationNumber);
+        _awaitingInput = false;
+    }
+
+    public void RemoveTagHandler()
+    {
+        Tag = null;
+    }
+}
