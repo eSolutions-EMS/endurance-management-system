@@ -5,16 +5,16 @@ namespace NTS.Domain.Setup.Entities;
 
 public class Combination : DomainEntity, ISummarizable, IImportable, IParent
 {
-    public static Combination Create(int number, Athlete athlete, Horse horse) => new(number, athlete, horse);
+    public static Combination Create(int number, Athlete athlete, Horse horse, IdTag? tag) => new(number, athlete, horse, tag);
 
-    public static Combination Update(int id, int number, Athlete athlete, Horse horse) => new(id, number, athlete, horse);
+    public static Combination Update(int id, int number, Athlete athlete, Horse horse, IdTag? tag) => new(id, number, athlete, horse, tag);
 
     [JsonConstructor]
-    public Combination(int id, int number, Athlete athlete, Horse horse) : this(number, athlete, horse)
+    public Combination(int id, int number, Athlete athlete, Horse horse, IdTag? tag) : this(number, athlete, horse, tag)
     {
         Id = id;
     }
-    public Combination(int number, Athlete athlete, Horse horse)
+    public Combination(int number, Athlete athlete, Horse horse, IdTag? tag)
     {
         if (number == default)
         {
@@ -24,11 +24,13 @@ public class Combination : DomainEntity, ISummarizable, IImportable, IParent
         Number = number;
         Athlete = athlete ?? throw new DomainException(nameof(Athlete), "Athlete is required");
         Horse = horse ?? throw new DomainException(nameof(Horse), "Horse is required");
+        Tag = tag;
     }
 
     public int Number { get; private set; }
     public Athlete Athlete { get; private set; }
     public Horse Horse { get; private set; }
+    public IdTag? Tag { get; private set; }
 
     public string Summarize()
     {
