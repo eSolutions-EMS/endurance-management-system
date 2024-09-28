@@ -1,6 +1,6 @@
 ﻿namespace NTS.Domain.Objects;
 
-public record TimeInterval : DomainObject
+public record TimeInterval : DomainObject, IComparable<TimeInterval>
 {
     public static TimeInterval Zero => new(TimeSpan.Zero);
 
@@ -21,6 +21,11 @@ public record TimeInterval : DomainObject
     public override string ToString()
     {
         return Span.ToString(Span.TotalDays > 1 ? @"dd\.hh\:mm\:ss" : @"hh\:mm\:ss");
+    }
+
+    public int CompareTo(TimeInterval? other)
+    {
+        return Span.CompareTo(other?.Span);
     }
 
     public static implicit operator TimeSpan?(TimeInterval? interval)

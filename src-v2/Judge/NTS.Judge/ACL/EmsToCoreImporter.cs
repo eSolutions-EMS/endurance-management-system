@@ -65,7 +65,7 @@ public class EmsToCoreImporter : IEmsToCoreImporter
 
     private Event CreateEvent(EmsEnduranceEvent emsEvent, bool adjustTime)
     {
-        var country = new Country(emsEvent.Country.IsoCode, emsEvent.Country.Name);
+        var country = new Country(emsEvent.Country.IsoCode, "zz", emsEvent.Country.Name);
         var startTime = emsEvent.Competitions.OrderBy(x => x.StartTime).First().StartTime;
         if (adjustTime)
         {
@@ -146,12 +146,13 @@ public class EmsToCoreImporter : IEmsToCoreImporter
 
             }
         }
-        foreach (var (competition, entriesByCategory) in entriesforClassification)
+        foreach (var (emsCompetition, entriesByCategory) in entriesforClassification)
         {
             foreach (var (category, tuples) in entriesByCategory)
             {
                 var entries = tuples.Select(x => x.entry);
-                result.Add(new Ranking(competition.Name, category, entries));
+                var competition = new Competition(emsCompetition.Name, CompetitionFactory.MapCompetitionRuleset(emsCompetition.Type));
+                result.Add(new Ranking(competition, category, entries));
             }
             
 
@@ -170,7 +171,7 @@ public class EmsToCoreImporter : IEmsToCoreImporter
         {
             EmsCategory.Seniors => AthleteCategory.Senior,
             EmsCategory.Children => AthleteCategory.Children,
-            EmsCategory.JuniorOrYoungAdults => AthleteCategory.JuniorOrYoundAdult,
+            EmsCategory.JuniorOrYoungAdults => AthleteCategory.JuniorOrYoungAdult,
             _ => throw new NotImplementedException(),
         };
     }

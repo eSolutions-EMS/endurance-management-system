@@ -10,7 +10,7 @@ public class AthleteFormModel
         Name = "Gucci Petrov";
         Club = "Конярче ООД";
         Category = "Олимпийски надежди";
-        Country = new Country("BG", "Bulgaria");
+        Country = new Country("BG", "zz", "Bulgaria");
     }
     public AthleteFormModel(Athlete athlete)
     {

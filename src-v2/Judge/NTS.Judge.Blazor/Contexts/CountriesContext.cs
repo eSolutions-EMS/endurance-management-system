@@ -10,9 +10,9 @@ public class CountriesContext : ICountriesContext
     {
         this.Countries = new(new List<Country>()
         {
-            new Country("BG", "Bulgaria"),
-            new Country("US", "United States of America"),
-            new Country("GB", "Great Britain"),
+            new Country("BG", "zz", "Bulgaria"),
+            new Country("US", "zz", "United States of America"),
+            new Country("GB", "zz", "Great Britain"),
         });
     }
 

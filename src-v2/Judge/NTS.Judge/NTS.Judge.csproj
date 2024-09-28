@@ -17,4 +17,10 @@
     <ProjectReference Include="..\..\Not\Not.Application\Not.Application.csproj" />
     <ProjectReference Include="..\NTS.Judge.Blazor\NTS.Judge.Blazor.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Resources\config\static-options.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
 </Project>

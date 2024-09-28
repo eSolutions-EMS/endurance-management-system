@@ -13,14 +13,14 @@ public class Participation : DomainEntity, IAggregateRoot
     private Participation(int id) : base(id)
     {
     }
-    public Participation(string competition, Tandem tandem, IEnumerable<Phase> phases)
+    public Participation(string competitionName, CompetitionRuleset ruleset, Tandem tandem, IEnumerable<Phase> phases)
     {
-        Competition = competition;
+        Competition = new Competition(competitionName, ruleset);
         Tandem = tandem;
         Phases = new(phases);
     }
 
-    public string Competition { get; private set; }
+    public Competition Competition { get; private set; }
     public Tandem Tandem { get; private set; }
     public PhaseCollection Phases { get; private set; }
     public NotQualified? NotQualified { get; private set; }

@@ -1,4 +1,5 @@
-﻿using Not.Application.Ports.CRUD;
+﻿using MudBlazor;
+using Not.Application.Ports.CRUD;
 using Not.Extensions;
 using Not.Serialization;
 using NTS.Compatibility.EMS;
@@ -28,7 +29,7 @@ public class EmsImportBehind : IEmsImportBehind
         var contents = await File.ReadAllTextAsync(emsStateFilePath);
         var emsState = contents.FromJson<EmsState>();
 
-        var country = new Country(emsState.Event.Country.IsoCode, emsState.Event.Country.Name);
+        var country = new Country(emsState.Event.Country.IsoCode, "zz", emsState.Event.Country.Name);
         var @event = Event.Create(emsState.Event.PopulatedPlace, country);
 
         foreach (var offical in CreateOfficials(emsState.Event))
@@ -55,17 +56,17 @@ public class EmsImportBehind : IEmsImportBehind
             yield return Competition.Create(emsCompetition.Name, MapType(emsCompetition.Type), emsCompetition.StartTime.ToDateTimeOffset(), 10);
         }
 
-        CompetitionType MapType(NTS.Compatibility.EMS.Entities.Competitions.EmsCompetitionType emsType)
+        CompetitionRuleset MapType(NTS.Compatibility.EMS.Entities.Competitions.EmsCompetitionType emsType)
         {
             if (emsType == NTS.Compatibility.EMS.Entities.Competitions.EmsCompetitionType.National)
             {
-                return CompetitionType.National;
+                return CompetitionRuleset.Regional;
             }
             else if (emsType == NTS.Compatibility.EMS.Entities.Competitions.EmsCompetitionType.International)
             {
-                return CompetitionType.FEI;
+                return CompetitionRuleset.FEI;
             }
-            return CompetitionType.Qualification;
+            throw new Exception();
         }
     }
 

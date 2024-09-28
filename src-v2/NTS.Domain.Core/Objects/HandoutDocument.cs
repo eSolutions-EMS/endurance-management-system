@@ -7,7 +7,7 @@ public record HandoutDocument : DomainObject
 {
     public HandoutDocument(Participation participation, Event enduranceEvent, IEnumerable<Official> officials)
     {
-        Header = new DocumentHeader(participation.Competition, enduranceEvent.PopulatedPlace, enduranceEvent.EventSpan, officials);
+        Header = new DocumentHeader(participation.Competition.Name, enduranceEvent.PopulatedPlace, enduranceEvent.EventSpan, officials);
         Tandem = participation.Tandem;
         Phases = participation.Phases;
     }

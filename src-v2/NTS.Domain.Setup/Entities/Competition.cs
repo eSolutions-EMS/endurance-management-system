@@ -5,12 +5,12 @@ namespace NTS.Domain.Setup.Entities;
 public class Competition : DomainEntity, ISummarizable, IParent<Contestant>, IParent<Phase>
 {
 
-    public static Competition Create(string name, CompetitionType type, DateTimeOffset start, int? criRecovery)
+    public static Competition Create(string name, CompetitionRuleset type, DateTimeOffset start, int? criRecovery)
         => new(name, type, start, criRecovery);
     public static Competition Update(
         int id,
         string name,
-        CompetitionType type,
+        CompetitionRuleset type,
         DateTimeOffset start,
         int? criRecovery,
         IEnumerable<Phase> phases,
@@ -25,7 +25,7 @@ public class Competition : DomainEntity, ISummarizable, IParent<Contestant>, IPa
     private Competition(
         int id, 
         string name, 
-        CompetitionType type,
+        CompetitionRuleset type,
         DateTimeOffset startTime,
         int? criRecovery,
         IEnumerable<Phase> phases,
@@ -35,7 +35,7 @@ public class Competition : DomainEntity, ISummarizable, IParent<Contestant>, IPa
         _phases = phases.ToList();
         _contestants = contestants.ToList();
     }
-    private Competition(string name, CompetitionType type, DateTimeOffset startTime, int? criRecovery)
+    private Competition(string name, CompetitionRuleset type, DateTimeOffset startTime, int? criRecovery)
     {
         if (type == default)
         {
@@ -53,7 +53,7 @@ public class Competition : DomainEntity, ISummarizable, IParent<Contestant>, IPa
     }
 
     public string Name { get; private set; }
-    public CompetitionType Type { get; private set; }
+    public CompetitionRuleset Type { get; private set; }
 	public DateTimeOffset StartTime { get; private set; }
     public int? CriRecovery { get; private set; }
     public IReadOnlyList<Phase> Phases
