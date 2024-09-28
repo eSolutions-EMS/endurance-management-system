@@ -64,6 +64,7 @@ public class DashboardBehind : IDashboardBehind
     }
 
     #region SafePattern
+
     public Task Start()
     {
         return SafeHelper.Run(SafeStart);
