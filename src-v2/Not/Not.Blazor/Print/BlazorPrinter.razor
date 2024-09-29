@@ -1,0 +1,26 @@
+﻿@if (_markup != null)
+{
+    @(_markup)
+}
+
+<NotButtonPrimary Text="Print" />
+
+@code {
+    MarkupString? _markup;
+
+    [Parameter, EditorRequired]
+    public PrintOptions Configuration { get; set; } = default!;
+    [Parameter]
+    public IServiceProvider ServiceProvider { get; set; } = default!;
+
+    protected override void OnInitialized()
+    {
+        GuardHelper.ThrowIfDefault(Configuration);
+
+        if (ServiceProvider != null)
+        {
+            Configuration.Use(ServiceProvider);
+        }
+        _markup = Configuration.ToMarkup();
+    }
+}

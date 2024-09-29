@@ -45,6 +45,18 @@ public class HandoutsBehind : ObservableBehind, IHandoutsBehind
     protected override async Task<bool> PerformInitialization()
     {
         var handouts = await _handoutRepository.ReadAll();
+
+        if (!handouts.Any())
+        {
+            var allParticipations = await _participations.ReadAll();
+            var list = new List<Handout>();
+            foreach (var participation in allParticipations)
+            {
+                list.Add(new Handout(participation));
+            }
+            handouts = list;
+        }
+
         var participations = await _participations.ReadAll(x => handouts.Any(y => y.ParticipationId == x.Id));
         var enduranceEvent = await _events.Read(0);
         var officials = await _officials.ReadAll();
@@ -66,7 +78,7 @@ public class HandoutsBehind : ObservableBehind, IHandoutsBehind
     {
         await _semaphore.WaitAsync();
 
-        await _handoutRepository.Delete(x => true);
+        //await _handoutRepository.Delete(x => true);
         var handouts = _documents.PopAll();
 
         _semaphore.Release();
