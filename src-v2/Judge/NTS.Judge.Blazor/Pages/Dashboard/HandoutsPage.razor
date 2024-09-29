@@ -3,7 +3,7 @@
 @using Not.Blazor.Print
 
 @attribute [Route(HANDOUTS_PAGE)]
-@inherits NotComponent
+@inherits PrintableComponent
 
 <NotPage Title="Handouts" HasContent="@_behind.Documents.Any()" EmptyMessage="No handouts to print :)" RightBarXS="2">
 
@@ -22,6 +22,7 @@
     IHandoutsBehind _behind { get; set; } = default!;
     [Inject]
     INavigator _navigator { get; set; } = default!;
+    // PrintOptions? _printOptions;
 
     protected override async Task OnInitializedAsync()
     {
@@ -30,9 +31,8 @@
 
     private async Task PopAndPrint()
     {
+        // TODO: secure race conditions
+        await Print();
         var handouts = await _behind.PopAll();
-        var options = PrintOptions.Create<HandoutsList>();
-        options.Set(x => x.Documents, handouts);
-        _navigator.NavigateTo(Endpoints.PRINT_PAGE, options);
     }
 }

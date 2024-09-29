@@ -1,5 +1,9 @@
 ﻿@using Not.Blazor.Notifier
+@using Not.Blazor.Print
+@using static Not.Blazor.Print.PrintableComponent
+
 @inherits LayoutComponentBase
+@implements IDisposable
 
 <MudThemeProvider @ref="_themeProvider" />
 <MudDialogProvider CloseOnEscapeKey="true" CloseButton="true" MaxWidth="MaxWidth.Small" FullWidth="true" />
@@ -29,14 +33,12 @@
     }
 
     <MudMainContent>
-        <CascadingValue Value="ToggleLayoutVisibility">
-            <CascadingValue Value="@_themeProvider">
-                <MudContainer MaxWidth="MaxWidth.Large" Class="py-4">
-                    @Body
-                </MudContainer>
+        <CascadingValue Value="@_themeProvider">
+            <MudContainer MaxWidth="MaxWidth.Large" Class="py-4">
+                @Body
+            </MudContainer>
 
-                <BlazorNotifier />
-            </CascadingValue>
+            <BlazorNotifier />
         </CascadingValue>
     </MudMainContent>
 </MudLayout>
@@ -46,12 +48,22 @@
     private bool _hideLayout;
     private bool _drawerOpen = true;
 
+    protected override void OnInitialized()
+    {
+        PrintableComponent.ToggleVisibilityEvent += ToggleLayoutVisibility;
+    }
+
+    public void Dispose()
+    {
+        PrintableComponent.ToggleVisibilityEvent -= ToggleLayoutVisibility;
+    }
+
     void ToggleDrawer()
     {
         this._drawerOpen = !this._drawerOpen;
     }
 
-    async Task ToggleLayoutVisibility()
+    async void ToggleLayoutVisibility()
     {
         _hideLayout = !_hideLayout;
         await InvokeAsync(StateHasChanged);
