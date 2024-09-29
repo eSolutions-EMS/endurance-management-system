@@ -66,9 +66,9 @@ function insertPageBreaks() {
             printable.style.pageBreakBefore = 'always';
             remainingHeight = a4Height;
             console.log('inserting page break')
-        } else {
-            remainingHeight -= articleHeight;
         }
+
+        remainingHeight -= articleHeight;
         console.log('remaining height', remainingHeight)
     });
 }
