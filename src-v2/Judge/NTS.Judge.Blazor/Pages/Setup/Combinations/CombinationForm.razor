@@ -14,14 +14,13 @@
                Items="_athletes" @bind-Value="_model.Athlete" />
     <NotSelect T="Horse" Label="@Localizer.Get("Horse")" Placeholder="@Localizer.Get("Select a horse")"
                Items="_horses" @bind-Value="_model.Horse" />
-    <RfidTagForm @ref="_tagForm" CombinationNumber="_model.Number" />
+    <RfidTagScanner CombinationNumber="_model.Number" Value="_model.Tag" />
 </EditForm>
 
 @code {
     private MudNumericField<int> _numberField = default!;
     private NotSelect<Athlete> _athleteField = default!;
     private NotSelect<Horse> _horseField = default!;
-    private RfidTagForm _tagForm = default!;
     private CombinationFormModel _model { get; set; } = new();
     private List<NotListModel<Athlete>> _athletes = new();
     private List<NotListModel<Horse>> _horses = new();
@@ -53,13 +52,11 @@
 
     public override Combination SubmitCreate()
     {
-        _model.Tag = _tagForm.Tag;
         return Combination.Create(_model.Number, _model.Athlete, _model.Horse, _model.Tag); 
     }
 
     public override Combination SubmitUpdate()
     {
-        _model.Tag = _tagForm.Tag;
         return Combination.Update(_model.Id, _model.Number, _model.Athlete, _model.Horse, _model.Tag);
     }
 }
