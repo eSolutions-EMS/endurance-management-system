@@ -1,6 +1,11 @@
-﻿
-<NotButtonPrimary Text="Print" OnClick="_printInterop.Print" />
+﻿@using Not.Blazor.Components
 
+@inherits NotComponent
+
+@if (!_hideButton)
+{
+    <NotButtonPrimary Text="Print" OnClick="Print" />
+}
 @if (_markup != null)
 {
     @(_markup)
@@ -11,11 +16,14 @@
     IPrintInterop _printInterop { get; set; } = default!;
 
     MarkupString? _markup;
+    bool _hideButton;
 
     [Parameter, EditorRequired]
     public PrintOptions Configuration { get; set; } = default!;
     [Parameter]
     public IServiceProvider ServiceProvider { get; set; } = default!;
+    [CascadingParameter]
+    public Func<Task> ToggleLayoutVisibility { get; set; } = default!;
 
     protected override void OnInitialized()
     {
@@ -26,5 +34,19 @@
             Configuration.Use(ServiceProvider);
         }
         _markup = Configuration.ToMarkup();
+    }
+
+    async Task Print()
+    {
+        await ToggleVisibility();
+        await _printInterop.Print();
+        await ToggleVisibility();
+    }
+
+    async Task ToggleVisibility()
+    {
+        await ToggleLayoutVisibility();
+        _hideButton = !_hideButton;
+        await Render();
     }
 }

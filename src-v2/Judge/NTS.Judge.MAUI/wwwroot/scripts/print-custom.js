@@ -1,6 +1,20 @@
 export function printCustom() {
     insertPageBreaks();
+    var padding = removeMainContentPadding()
     window.print();
+    restoreMainContentPadding(padding);
+}
+
+function removeMainContentPadding() {
+    var main = document.querySelector('.mud-main-content');
+    let padding = main.style.paddingTop;
+    main.style.paddingTop = 0;
+    return padding;
+}
+
+function restoreMainContentPadding(padding) {
+    var main = document.querySelector('.mud-main-content');
+    main.style.paddingTop = padding;
 }
 
 function getDpi() {
@@ -51,7 +65,7 @@ function insertPageBreaks() {
         if (articleHeight > remainingHeight) {
             printable.style.pageBreakBefore = 'always';
             remainingHeight = a4Height;
-            consle.log('inserting page break')
+            console.log('inserting page break')
         } else {
             remainingHeight -= articleHeight;
         }
