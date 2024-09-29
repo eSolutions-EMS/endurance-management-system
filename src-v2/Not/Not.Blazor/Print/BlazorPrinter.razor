@@ -17,7 +17,6 @@
     [Parameter]
     public IServiceProvider ServiceProvider { get; set; } = default!;
 
-
     protected override void OnInitialized()
     {
         GuardHelper.ThrowIfDefault(Configuration);
