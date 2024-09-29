@@ -20,5 +20,5 @@ public class CombinationFormModel
     public int Number { get; set; }
     public Athlete? Athlete { get; set; }
     public Horse? Horse { get; set;}
-    public IdTag? Tag { get; set; }
+    public Tag? Tag { get; set; }
 }

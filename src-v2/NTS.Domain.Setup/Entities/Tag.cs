@@ -1,6 +1,6 @@
 ﻿namespace NTS.Domain.Setup.Entities;
 
-public class IdTag : DomainEntity, ISummarizable
+public class Tag : DomainEntity, ISummarizable
 {
     //remove when integrating controllers
     //public IdTag(string tagData)
@@ -10,7 +10,7 @@ public class IdTag : DomainEntity, ISummarizable
     //    Id = int.Parse(id);
     //    Number = int.Parse(number);
     //}
-    public IdTag(string tagId, int number)
+    public Tag(string tagId, int number)
     {
 		TagId = tagId;
         Number = number;
