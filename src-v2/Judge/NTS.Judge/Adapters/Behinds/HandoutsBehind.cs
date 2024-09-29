@@ -62,8 +62,9 @@ public class HandoutsBehind : ObservableBehind, IHandoutsBehind
         var officials = await _officials.ReadAll();
         GuardHelper.ThrowIfDefault(enduranceEvent);
 
-        var documents = handouts.Select(x => new HandoutDocument(
-            participations.First(y => y.Id == x.ParticipationId),
+        var documents = handouts.Select(handout => new HandoutDocument(
+            handout,
+            participations.First(y => y.Id == handout.ParticipationId),
             enduranceEvent, 
             officials));
         _documents = new(documents);
@@ -71,18 +72,16 @@ public class HandoutsBehind : ObservableBehind, IHandoutsBehind
         EmitChange();
         return true;
     }
-    
-    // TODO: we need a separete list and delete method that executes only after print is initiated,
-    // otherwise if the user clicks print and then back the handouts would be deleted
-    async Task<IEnumerable<HandoutDocument>> SafePopAll()
+
+    async Task SafeDelete(IEnumerable<HandoutDocument> documents)
     {
         await _semaphore.WaitAsync();
 
-        //await _handoutRepository.Delete(x => true);
-        var handouts = _documents.PopAll();
+        var ids = documents.Select(x => x.HandoutId);
+        await _handoutRepository.Delete(x => ids.Contains(x.Id));
+        _documents.RemoveRange(documents);
 
         _semaphore.Release();
-        return handouts;
     }
 
     async void PhaseCompletedHandler(PhaseCompleted phaseCompleted)
@@ -98,7 +97,7 @@ public class HandoutsBehind : ObservableBehind, IHandoutsBehind
         var handout = new Handout(phaseCompleted.Participation);
         await _handoutRepository.Create(handout);
 
-        var document = new HandoutDocument(phaseCompleted.Participation, @event, officials);
+        var document = new HandoutDocument(handout, phaseCompleted.Participation, @event, officials);
         _documents.Add(document);
 
         _semaphore.Release();
@@ -112,14 +111,16 @@ public class HandoutsBehind : ObservableBehind, IHandoutsBehind
         if (existing != null)
         {
             await _handoutRepository.Delete(existing);
+            //TODO: is this extension necessary :?
             _documents.RemoveIfExisting(x => x.Tandem.Number == phaseCompleted.Participation.Tandem.Number);
         }
     }
 
     #region SafePattern
-    public async Task<IEnumerable<HandoutDocument>> PopAll()
+
+    public async Task Delete(IEnumerable<HandoutDocument> documents)
     {
-        return await SafeHelper.Run(SafePopAll) ?? [];
+        await SafeHelper.Run(() => SafeDelete(documents));
     }
 
     #endregion

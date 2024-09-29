@@ -22,7 +22,6 @@
     IHandoutsBehind _behind { get; set; } = default!;
     [Inject]
     INavigator _navigator { get; set; } = default!;
-    // PrintOptions? _printOptions;
 
     protected override async Task OnInitializedAsync()
     {
@@ -31,8 +30,8 @@
 
     private async Task PopAndPrint()
     {
-        // TODO: secure race conditions
+        var handouts = _behind.Documents.ToList();
         await Print();
-        var handouts = await _behind.PopAll();
+        await _behind.Delete(handouts);
     }
 }
