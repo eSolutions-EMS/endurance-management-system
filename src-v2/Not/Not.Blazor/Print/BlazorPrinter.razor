@@ -1,17 +1,22 @@
-﻿@if (_markup != null)
+﻿
+<NotButtonPrimary Text="Print" OnClick="_printInterop.Print" />
+
+@if (_markup != null)
 {
     @(_markup)
 }
 
-<NotButtonPrimary Text="Print" />
-
 @code {
+    [Inject]
+    IPrintInterop _printInterop { get; set; } = default!;
+
     MarkupString? _markup;
 
     [Parameter, EditorRequired]
     public PrintOptions Configuration { get; set; } = default!;
     [Parameter]
     public IServiceProvider ServiceProvider { get; set; } = default!;
+
 
     protected override void OnInitialized()
     {
