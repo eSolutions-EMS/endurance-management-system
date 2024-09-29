@@ -1,6 +1,6 @@
 ﻿@using NTS.Judge.Blazor.Pages.Dashboard.Handouts
 @using NTS.Judge.Blazor.Ports
-@using Not.Blazor.TM.Pages
+@using Not.Blazor.Print
 
 @attribute [Route(HANDOUTS_PAGE)]
 @inherits NotComponent
@@ -20,15 +20,19 @@
 @code {
     [Inject]
     IHandoutsBehind _behind { get; set; } = default!;
+    [Inject]
+    INavigator _navigator { get; set; } = default!;
 
     protected override async Task OnInitializedAsync()
     {
         await Observe(_behind);
     }
 
-    private void PopAndPrint()
+    private async Task PopAndPrint()
     {
-        var handouts = _behind.PopAll();
-        // TODO: add printing
+        var handouts = await _behind.PopAll();
+        var options = PrintOptions.Create<HandoutsList>();
+        options.Set(x => x.Documents, handouts);
+        _navigator.NavigateTo(Endpoints.PRINT_PAGE, options);
     }
 }
