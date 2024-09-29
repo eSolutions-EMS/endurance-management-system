@@ -1,51 +1,52 @@
 ﻿@using NTS.Judge.Blazor.Ports
 @using NTS.Domain.Setup.Entities
 
-<MudPaper Class="d-flex flex-row pt-3 pb-3" Style="height:70px" Elevation="0">
-    <MudText Class="mr-4 mt-4" Typo="Typo.caption">Scan Rfid Chip</MudText>
-    @if(Tag!=null && !_awaitingInput){
+<MudInputLabel Class="mr-4 mt-2 font-size-12">Scan Rfid Tag</MudInputLabel>
+<MudPaper Class="d-flex flex-row pb-3" Style="height:5px" Elevation="0">
+    @if(@Value!=null && !_awaitingInput){
         <MudPaper Class="d-flex flex-column align-self-center mt-3">
-            <MudText Class="ml-2 mr-2" Typo="Typo.overline"> Tag Id: @Tag.TagId</MudText>
+            <MudText Class="ml-2 mr-2" Typo="Typo.overline"> Tag Id: @Value.TagId</MudText>
         </MudPaper>
     }
     @if(_awaitingInput)
     {
-        <MudPaper Class="d-flex flex-column ml-4 mr-4" Elevation="0">
+        <MudPaper Class="d-flex flex-column mt-2" Elevation="0" >
             <MudProgressCircular Class="align-self-center" Color="Color.Primary" Size="Size.Small" Indeterminate="true" />
             <MudText Typo="Typo.overline" Color="Color.Primary">
-                Waiting for Chip Scan
+                Waiting for Tag Scan
             </MudText>
         </MudPaper>
     }
-    else if(Tag==null)
+    else if(Value==null)
     {
-        <MudButton Class="ml-4 mt-3" Color="Color.Primary" Size="Size.Small" Variant="Variant.Filled"
+        <MudButton Class="mt-3" Color="Color.Primary" Size="Size.Small" Variant="Variant.Filled"
                StartIcon="@Icons.Material.Filled.Add" OnClick="AddTagHandler">Add Tag</MudButton>
     }
     else
     {
-        <MudButton Class="ml-4 mt-3" Color="Color.Secondary" Size="Size.Small" Variant="Variant.Filled"
+        <MudButton Class="ml-4 mt-3" Color="Color.Error" Size="Size.Small" Variant="Variant.Filled"
                StartIcon="@Icons.Material.Filled.Delete" OnClick="RemoveTagHandler">Remove Tag</MudButton>
     }
 </MudPaper>
 
 @code {
     [Inject]
-    public ITagWriter _tagWriter { get; set; } = default!;
+    public ITagBehind _tagWriter { get; set; } = default!;
     [Parameter]
     public int CombinationNumber {get; set; }
-    public IdTag? Tag { get; private set; }
+    [Parameter]
+    public Tag? Value { get; set; }
     public bool _awaitingInput = false;
 
     public async Task AddTagHandler()
     {
         _awaitingInput = true;
-        Tag = await _tagWriter.WriteTag(CombinationNumber);
+        Value = await _tagWriter.WriteTag(CombinationNumber);
         _awaitingInput = false;
     }
 
     public void RemoveTagHandler()
     {
-        Tag = null;
+        Value = null;
     }
 }
