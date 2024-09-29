@@ -3,12 +3,12 @@
 
 <MudInputLabel Class="mr-4 mt-2 font-size-12">Scan Rfid Tag</MudInputLabel>
 <MudPaper Class="d-flex flex-row pb-3" Style="height:5px" Elevation="0">
-    @if(@Value!=null && !_awaitingInput){
+    @if(@Value!=null && !_awaitingScan){
         <MudPaper Class="d-flex flex-column align-self-center mt-3">
             <MudText Class="ml-2 mr-2" Typo="Typo.overline"> Tag Id: @Value.TagId</MudText>
         </MudPaper>
     }
-    @if(_awaitingInput)
+    @if(_awaitingScan)
     {
         <MudPaper Class="d-flex flex-column mt-2" Elevation="0" >
             <MudProgressCircular Class="align-self-center" Color="Color.Primary" Size="Size.Small" Indeterminate="true" />
@@ -20,32 +20,32 @@
     else if(Value==null)
     {
         <MudButton Class="mt-3" Color="Color.Primary" Size="Size.Small" Variant="Variant.Filled"
-               StartIcon="@Icons.Material.Filled.Add" OnClick="AddTagHandler">Add Tag</MudButton>
+               StartIcon="@Icons.Material.Filled.Add" OnClick="AddTag">Add Tag</MudButton>
     }
     else
     {
         <MudButton Class="ml-4 mt-3" Color="Color.Error" Size="Size.Small" Variant="Variant.Filled"
-               StartIcon="@Icons.Material.Filled.Delete" OnClick="RemoveTagHandler">Remove Tag</MudButton>
+               StartIcon="@Icons.Material.Filled.Delete" OnClick="RemoveTag">Remove Tag</MudButton>
     }
 </MudPaper>
 
 @code {
     [Inject]
-    public ITagBehind _tagWriter { get; set; } = default!;
+    public ITagBehind _tagBehind { get; set; } = default!;
     [Parameter]
     public int CombinationNumber {get; set; }
     [Parameter]
     public Tag? Value { get; set; }
-    public bool _awaitingInput = false;
+    public bool _awaitingScan = false;
 
-    public async Task AddTagHandler()
+    public async Task AddTag()
     {
-        _awaitingInput = true;
-        Value = await _tagWriter.WriteTag(CombinationNumber);
-        _awaitingInput = false;
+        _awaitingScan = true;
+        Value = await _tagBehind.WriteTag(CombinationNumber);
+        _awaitingScan = false;
     }
 
-    public void RemoveTagHandler()
+    public void RemoveTag()
     {
         Value = null;
     }
