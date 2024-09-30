@@ -3,11 +3,6 @@
 
 <MudInputLabel Class="mr-4 mt-2 font-size-12">Scan Rfid Tag</MudInputLabel>
 <MudPaper Class="d-flex flex-row pb-3" Style="height:55px" Elevation="0">
-    @if(@Value!=null && !_awaitingScan){
-        <MudPaper Class="d-flex flex-column align-self-center mt-3">
-            <MudText Class="ml-2 mr-2" Typo="Typo.overline"> @Value.ToString() </MudText>
-        </MudPaper>
-    }
     @if(_awaitingScan)
     {
         <MudPaper Class="d-flex flex-column mt-2" Elevation="0" >
@@ -17,15 +12,22 @@
             </MudText>
         </MudPaper>
     }
-    else if(Value==null)
-    {
-        <MudButton Class="mt-3" Color="Color.Primary" Size="Size.Small" Variant="Variant.Filled"
-               StartIcon="@Icons.Material.Filled.Add" OnClick="AddTag">Add Tag</MudButton>
-    }
     else
     {
-        <MudButton Class="ml-4 mt-3" Color="Color.Error" Size="Size.Small" Variant="Variant.Filled"
-               StartIcon="@Icons.Material.Filled.Delete" OnClick="RemoveTag">Remove Tag</MudButton>
+        if (Value == null)
+        {
+            <MudButton Class="mt-3" Color="Color.Primary" Size="Size.Small" Variant="Variant.Filled"
+                       StartIcon="@Icons.Material.Filled.Add" OnClick="AddTag">Add Tag</MudButton>
+        }
+        else
+        {
+            <MudPaper Class="d-flex flex-column align-self-center mt-3">
+                <MudText Class="ml-2 mr-2" Typo="Typo.overline"> @Value.ToString() </MudText>
+            </MudPaper>
+
+            <MudButton Class="ml-4 mt-3" Color="Color.Error" Size="Size.Small" Variant="Variant.Filled"
+                       StartIcon="@Icons.Material.Filled.Delete" OnClick="RemoveTag">Remove Tag</MudButton>
+        }
     }
 </MudPaper>
 
