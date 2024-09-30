@@ -1,6 +1,8 @@
 ﻿@using NTS.Judge.Blazor.Ports
 @using NTS.Domain.Setup.Entities
 
+@inherits BindableValueComponent<Tag>
+
 <MudInputLabel Class="mr-4 mt-2 font-size-12">Scan Rfid Tag</MudInputLabel>
 <MudPaper Class="d-flex flex-row pb-3" Style="height:55px" Elevation="0">
     @if(_awaitingScan)
@@ -35,9 +37,7 @@
     [Inject]
     public ITagBehind _tagBehind { get; set; } = default!;
     [Parameter]
-    public int CombinationNumber {get; set; }
-    [Parameter]
-    public Tag? Value { get; set; }
+    public int CombinationNumber { get; set; }
     public bool _awaitingScan = false;
 
     public async Task AddTag()
