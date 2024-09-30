@@ -17,10 +17,10 @@ public abstract class PrintableComponent : NotComponent, IDisposable
         ToggleVisibilityEvent += VisibilityToggleHook;
     }
 
-    protected async Task Print()
+    protected async Task OpenPrintDialog()
     {
         InvokeToggle();
-        await _printInterop.Print();
+        await _printInterop.OpenPrintDialog();
         InvokeToggle();
     }
 

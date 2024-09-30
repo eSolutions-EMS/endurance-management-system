@@ -1,5 +1,6 @@
 ﻿@using NTS.Judge.Blazor.Pages.Dashboard.Handouts
 @using NTS.Judge.Blazor.Ports
+@using Not.Blazor.Mud.Extensions
 @using Not.Blazor.Print
 
 @attribute [Route(HANDOUTS_PAGE)]
@@ -21,7 +22,7 @@
     [Inject]
     IHandoutsBehind _behind { get; set; } = default!;
     [Inject]
-    INavigator _navigator { get; set; } = default!;
+    IDialogService _dialogService { get; set; } = default!;
 
     protected override async Task OnInitializedAsync()
     {
@@ -32,8 +33,12 @@
     {
         var handouts = _behind.Documents.ToList();
 
-        // TODO: figure out if user clicked print or cancel and dont delete on cancel
-        await Print();
-        await _behind.Delete(handouts);
+        await OpenPrintDialog();
+        var dialog = await _dialogService.ShowAsync<HandoutsPrintConfirmationDialog>();
+        var result = await dialog.Result;
+        if (!result?.Canceled ?? false)
+        {
+            await _behind.Delete(handouts);
+        }
     }
 }
