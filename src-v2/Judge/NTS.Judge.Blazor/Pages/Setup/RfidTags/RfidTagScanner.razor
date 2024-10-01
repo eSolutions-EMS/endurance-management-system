@@ -4,34 +4,34 @@
 @inherits BindableValueComponent<Tag>
 
 <MudInputLabel Class="mr-4 mt-2 font-size-12">Scan Rfid Tag</MudInputLabel>
-<MudPaper Class="d-flex flex-row pb-3" Style="height:55px" Elevation="0">
+<MudStack Style="height:80px" Row="true">
     @if(_awaitingScan)
     {
-        <MudPaper Class="d-flex flex-column mt-2" Elevation="0" >
+        <MudStack Class="mt-3" >
             <MudProgressCircular Class="align-self-center" Color="Color.Primary" Size="Size.Small" Indeterminate="true" />
             <MudText Typo="Typo.overline" Color="Color.Primary">
                 Waiting for Tag Scan
             </MudText>
-        </MudPaper>
+        </MudStack>
     }
     else
     {
         if (Value == null)
         {
-            <MudButton Class="mt-3" Color="Color.Primary" Size="Size.Small" Variant="Variant.Filled"
+            <MudButton Style="height:32px" Class="mt-3" Color="Color.Primary" Size="Size.Small" Variant="Variant.Filled"
                        StartIcon="@Icons.Material.Filled.Add" OnClick="AddTag">Add Tag</MudButton>
         }
         else
         {
-            <MudPaper Class="d-flex flex-column align-self-center mt-3">
-                <MudText Class="ml-2 mr-2" Typo="Typo.overline"> @Value.ToString() </MudText>
+            <MudPaper Style="height:32px" Class="mt-3">
+                <MudText Class="ml-2 mr-2" Typo="Typo.overline"> @Value </MudText>
             </MudPaper>
 
-            <MudButton Class="ml-4 mt-3" Color="Color.Error" Size="Size.Small" Variant="Variant.Filled"
+            <MudButton Style="height:32px" Class="ml-3 mt-3" Color="Color.Error" Size="Size.Small" Variant="Variant.Filled"
                        StartIcon="@Icons.Material.Filled.Delete" OnClick="RemoveTag">Remove Tag</MudButton>
         }
     }
-</MudPaper>
+</MudStack>
 
 @code {
     [Inject]
