@@ -1,3 +1,4 @@
+@using Not.Blazor.Navigation
 
 @inherits NotComponent
 
@@ -20,3 +21,13 @@
         <MudNavLink Href="@PRINT_PAGE" Match="NavLinkMatch.Prefix">Print HTML</MudNavLink>
     </MudNavGroup>
 </MudNavMenu>
+
+@code {
+    [Inject]
+    INavigationInitializer _navigationInitializer { get; set; } = default!;
+
+    protected override void OnInitialized()
+    {
+        _navigationInitializer.SetLandingPage(ENDURANCE_EVENT_PAGE);
+    }
+}

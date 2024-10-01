@@ -1,14 +1,14 @@
-﻿using Microsoft.AspNetCore.Components;
-using Not.Blazor.Navigation;
+﻿using Not.Blazor.Navigation;
 using Not.Exceptions;
 
 namespace Not.Blazor.TM.Navigation;
 
 // Cannot be singleton as long as it uses NavigationManager: https://github.com/dotnet/maui/issues/8583
-public class NotNavigator : INavigator
+public class NotNavigator : INavigator, INavigationInitializer
 {
     private readonly NavigationManager _blazorNavigationManager;
     private static Parameters? _parameters;
+    private static Stack<(string endpoint, Parameters? parameters)>? _breadCrumbs;
 
     public NotNavigator(NavigationManager blazorNavigationManager)
     {
@@ -17,13 +17,47 @@ public class NotNavigator : INavigator
 
     public void NavigateTo(string endpoint)
     {
+        GuardHelper.ThrowIfDefault(_breadCrumbs);
+
+        _breadCrumbs.Push((endpoint, null));
         NavigateForward(endpoint);
     }
 
     public void NavigateTo<T>(string endpoint, T parameter)
     {
+        GuardHelper.ThrowIfDefault(_breadCrumbs);
+
         _parameters = Parameters.Create(parameter);
+        _breadCrumbs.Push((endpoint, _parameters));
         NavigateForward(endpoint);
+    }
+
+    public void NavigateBack()
+    {
+        GuardHelper.ThrowIfDefault(_breadCrumbs);
+
+        // Pop current
+        if (!_breadCrumbs.TryPop(out var _))
+        {
+            return;
+        }
+        // Pop previous
+        if (!_breadCrumbs.TryPop(out var previousCrumb))
+        {
+            return;
+        }
+        _parameters = previousCrumb.parameters;
+        NavigateForward(previousCrumb.endpoint);
+    }
+
+    public void SetLandingPage(string landing)
+    {
+        if (_breadCrumbs != null)
+        {
+            return;
+        }
+        _breadCrumbs = [];
+        _breadCrumbs.Push((landing, null));
     }
 
     public T ConsumeParameter<T>()
