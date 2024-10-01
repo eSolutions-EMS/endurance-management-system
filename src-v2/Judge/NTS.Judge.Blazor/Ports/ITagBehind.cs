@@ -1,8 +1,9 @@
 ﻿using Not.Injection;
+using NTS.Domain.Objects;
 using NTS.Domain.Setup.Entities;
 
 namespace NTS.Judge.Blazor.Ports;
-public interface ITagBehind : ITransientService
+public interface ITagWrite : ISingletonService
 {
-    Task<Tag> WriteTag(int number);
+    Task<Tag> Write(int number);
 }
