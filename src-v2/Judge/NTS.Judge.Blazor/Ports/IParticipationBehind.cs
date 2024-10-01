@@ -12,7 +12,6 @@ public interface IParticipationBehind : IObservableBehind
     void SelectParticipation(int number);
     void RequestReinspection(bool requestFlag);
     void RequestRequiredInspection(bool requestFlag);
-    Task Process(Snapshot snapshot);
     Task Update(IPhaseState state);
     Task Withdraw();
     Task Retire();
