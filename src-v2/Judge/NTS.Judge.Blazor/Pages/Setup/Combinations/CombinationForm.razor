@@ -1,4 +1,5 @@
-﻿@using NTS.Domain.Setup.Entities;
+﻿@using NTS.Domain.Core.Configuration
+@using NTS.Domain.Setup.Entities;
 @using NTS.Judge.Blazor.Pages.Setup.RfidTags
 @using Not.Blazor.Forms;
 @using Not.Blazor.TM;
@@ -14,7 +15,10 @@
                Items="_athletes" @bind-Value="_model.Athlete" />
     <NotSelect T="Horse" Label="@Localizer.Get("Horse")" Placeholder="@Localizer.Get("Select a horse")"
                Items="_horses" @bind-Value="_model.Horse" />
-    <RfidTagScanner CombinationNumber="_model.Number" @bind-Value="_model.Tag" />
+    @if (StaticOptions.RfidDetection())
+    {
+        <RfidTagScanner CombinationNumber="_model.Number" @bind-Value="_model.Tag" />
+    }
 </EditForm>
 
 @code {
