@@ -35,7 +35,7 @@
 
 @code {
     [Inject]
-    public ITagBehind _tagBehind { get; set; } = default!;
+    public ITagWrite _tagWriter { get; set; } = default!;
     [Parameter]
     public int CombinationNumber { get; set; }
     public bool _awaitingScan = false;
@@ -43,7 +43,7 @@
     public async Task AddTag()
     {
         _awaitingScan = true;
-        Value = await _tagBehind.WriteTag(CombinationNumber);
+        Value = await _tagWriter.Write(CombinationNumber);
         _awaitingScan = false;
     }
 
