@@ -7,12 +7,15 @@
 
 @inherits EliminationForm
 
-<MudSelect @bind-SelectedValues="@Codes" Label="Failed to Qualify Reason" MultiSelection="true" Delimiter="+" Placeholder="Select a reason">
-    @foreach (var failToQualifyCode in SelectListModel.FromEnum<FTQCodes>())
+<MudSelect @bind-SelectedValues="@Codes" MultiSelection="true" Delimiter="+" Class="mt-4"
+    Label="@Localizer.Get("Failed to Qualify Reason")" Placeholder="@Localizer.Get("Select a reason")">
+    
+    @foreach (var ftqCode in SelectListModel.FromEnum<FTQCodes>())
     {
-        <MudSelectItem Value="@failToQualifyCode.Value">
-            <MudText Typo="Typo.body2">@failToQualifyCode.Value</MudText>
-            <MudText Typo="Typo.subtitle2">@failToQualifyCode.Description</MudText>
+        <MudSelectItem Value="@ftqCode.Value">
+            <MudText Typo="Typo.body1">@ftqCode.Value</MudText>
+
+            <MudText Typo="Typo.caption">@ftqCode.Description</MudText>
         </MudSelectItem>
     }
 </MudSelect>
