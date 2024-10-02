@@ -22,7 +22,6 @@
                 {
                     var number = participation.Tandem.Number;
                     var color = participation.IsNotQualified() ? Color.Error : Color.Primary;
-                    // TODO: Update Mudblazor and use bind-Selected: https://mudblazor.com/components/chipset#binding-chips-in-a-selection
                     <MudChip Text="@number.ToString()" Value="@participation" Color="@color" Style="min-width: 1rem" />
                 }
             }
