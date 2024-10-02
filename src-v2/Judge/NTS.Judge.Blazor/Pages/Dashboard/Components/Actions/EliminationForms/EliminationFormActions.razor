@@ -1,0 +1,11 @@
+﻿
+<MudStack Row="true" Class="mt-4">
+    <NotButtonDanger Text="Eliminate" OnClick="Form.Eliminate" />
+
+    <NotButtonPrimary Text="Restore" OnClick="Form.Restore" />
+</MudStack>
+
+@code {
+    [Parameter, EditorRequired]
+    public EliminationForm Form { get; set; } = default!;
+}

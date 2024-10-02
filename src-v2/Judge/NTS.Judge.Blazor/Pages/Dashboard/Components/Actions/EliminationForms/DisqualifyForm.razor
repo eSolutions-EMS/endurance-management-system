@@ -4,30 +4,25 @@
 
 @inherits EliminationForm
 
-<MudTextField @bind-Value="Reason" Label="Reason" Variant="Variant.Outlined"></MudTextField>
+<MudTextField @bind-Value="_reason" Label="Reason" Variant="Variant.Outlined" />
 
-<MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Eliminate">
-    @Localizer.Get("Eliminate")
-</MudButton>
-
-<MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Restore">
-    @Localizer.Get("Restore")
-</MudButton>
+<EliminationFormActions Form="this" />
 
 @code {
+    string? _reason { get; set; }
+
     [Parameter]
     public Disqualified? Disqualified { get; set; }
-    private string? Reason { get; set; }
 
     protected override void OnParametersSet()
     {
-        Reason = Disqualified?.Complement;
+        _reason = Disqualified?.Complement;
     }
 
-    public override async Task Eliminate()
+    protected override async Task EliminateAction()
     {
         //TODO: Validate for null Reason
-        await _participationBehind.Disqualify(Reason);
+        await _participationBehind.Disqualify(_reason);
         await OnEliminate.InvokeAsync();
     }
 }

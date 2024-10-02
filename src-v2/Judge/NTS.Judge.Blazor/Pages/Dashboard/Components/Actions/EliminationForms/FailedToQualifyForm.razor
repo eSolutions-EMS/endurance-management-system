@@ -17,37 +17,31 @@
 </MudSelect>
 
 <MudCollapse Expanded="Codes.Contains(FTQCodes.FTC)">
-    <MudTextField @bind-Value="Reason" Label="Reason" Variant="Variant.Outlined"></MudTextField>
+    <MudTextField @bind-Value="_reason" Label="Reason" Variant="Variant.Outlined"></MudTextField>
 </MudCollapse>
 
-<MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Eliminate">
-    @Localizer.Get("Eliminate")
-</MudButton>
-
-<MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Restore">
-    @Localizer.Get("Restore")
-</MudButton>
+<EliminationFormActions Form="this" />
 
 @code {
+    IEnumerable<FTQCodes> Codes { get; set; } = [];
+    string? _reason;
+
     [Parameter]
     public FailedToQualify? FailedToQualify { get; set; }
-
-    private IEnumerable<FTQCodes> Codes { get; set; } = [];
-    public string? Reason { get; set; }
 
     protected override void OnParametersSet()
     {
         if (FailedToQualify != null)
         {
             Codes = FailedToQualify.Codes.ToList();
-            Reason = FailedToQualify.Complement;
+            _reason = FailedToQualify.Complement;
         }
     }
 
-    public override async Task Eliminate()
+    protected override async Task EliminateAction()
     {
         //TODO: Validate for incorrect inputs
-        await _participationBehind.FailToQualify(Reason, Codes.ToArray());
+        await _participationBehind.FailToQualify(_reason, Codes.ToArray());
         await OnEliminate.InvokeAsync();
     }
 }

@@ -4,19 +4,13 @@
 
 @inherits EliminationForm
 
-<MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Eliminate">
-    @Localizer.Get("Eliminate")
-</MudButton>
-
-<MudButton Class="mt-4 one-third-width" Variant="Variant.Filled" Color="Color.Primary" OnClick="Restore">
-    @Localizer.Get("Restore")
-</MudButton>
+<EliminationFormActions Form="this" />
 
 @code {
     [Parameter]
     public Retired? Retired { get; set; }
 
-    public override async Task Eliminate()
+    protected override async Task EliminateAction()
     {
         await _participationBehind.Retire();
         await OnEliminate.InvokeAsync();
