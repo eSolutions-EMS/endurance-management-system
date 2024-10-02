@@ -128,7 +128,7 @@ public class Participation : DomainEntity, IAggregateRoot
         }
         else
         {
-            RevokeQualification(new FailedToQualify(reason, codes));
+            RevokeQualification(new FailedToQualify(codes, reason));
         }
     }
 
