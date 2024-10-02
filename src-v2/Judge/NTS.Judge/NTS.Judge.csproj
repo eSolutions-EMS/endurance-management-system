@@ -7,12 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="rfid.dll" />
-    <None Remove="rfid_core.dll" />
-    <None Remove="Vup.dll" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\..\Compatibility.EMS\NTS.Compabitility.EMS.csproj" />
     <ProjectReference Include="..\..\Not\Not.Storage\Not.Storage.csproj" />
     <ProjectReference Include="..\..\NTS.Application\NTS.Application.csproj" />
@@ -24,11 +18,28 @@
     <ProjectReference Include="..\NTS.Judge.Blazor\NTS.Judge.Blazor.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="Vup">
-      <HintPath>Vup.dll</HintPath>
-    </Reference>
-  </ItemGroup>
+	<ItemGroup>
+		<Content Include="rfid.dll">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="rfid_core.dll">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Include="Vup.dll">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+		</Content>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="Microsoft.Windows.Compatibility" Version="8.0.8" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Reference Include="Vup">
+	    <HintPath>Vup.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
 
   <ItemGroup>
     <None Update="Resources\config\static-options.json">

@@ -1,9 +1,7 @@
-﻿using NTS.Domain;
-using NTS.Domain.Core.Configuration;
-using NTS.Domain.Objects;
-using NTS.Domain.Setup.Entities;
+﻿using NTS.Domain.Setup.Entities;
 using NTS.Judge.Blazor.Ports;
 using NTS.Judge.Hardware;
+
 namespace NTS.Judge.Adapters.Behinds;
 
 public class TagWriterBehind : ITagWrite
