@@ -13,11 +13,12 @@
     
         @foreach (var ftqCode in SelectListModel.FromEnum<FTQCodes>())
         {
-            <MudSelectItem Value="@ftqCode.Value">
-                <MudText Typo="Typo.body1">@ftqCode.Value</MudText>
+            <MudTooltip Text="@ftqCode.Description" Inline="false">
+                <MudSelectItem Value="@ftqCode.Value">
+                    <MudText Typo="Typo.body1">@ftqCode.Value</MudText>
+                </MudSelectItem>
+            </MudTooltip>
 
-                <MudText Typo="Typo.caption">@ftqCode.Description</MudText>
-            </MudSelectItem>
         }
     </MudSelect>
 
