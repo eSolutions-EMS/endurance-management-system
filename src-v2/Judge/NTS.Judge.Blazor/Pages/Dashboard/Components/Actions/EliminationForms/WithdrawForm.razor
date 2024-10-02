@@ -16,6 +16,5 @@
     protected override async Task EliminateAction()
     {
         await _participationBehind.Withdraw();
-        await OnEliminate.InvokeAsync();
     }
 }

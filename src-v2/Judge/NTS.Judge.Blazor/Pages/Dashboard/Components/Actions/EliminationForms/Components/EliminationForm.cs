@@ -20,6 +20,7 @@ public abstract class EliminationForm : NotComponent
     internal async Task Eliminate()
     {
         await EliminateAction();
+        await OnEliminate.InvokeAsync();
         IsEliminated = true;
     }
 
