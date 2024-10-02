@@ -8,7 +8,7 @@
 @inherits EliminationForm
 
 <MudPaper Elevation="1" Class="pa-2">
-    <MudSelect @bind-SelectedValues="@Codes" MultiSelection="true" Delimiter="+" Class="mt-4"
+    <MudSelect @bind-SelectedValues="@_codes" MultiSelection="true" Delimiter="+" Class="mt-4"
         Label="@Localizer.Get("Failed to Qualify Reason")" Placeholder="@Localizer.Get("Select a reason")">
     
         @foreach (var ftqCode in SelectListModel.FromEnum<FTQCodes>())
@@ -21,7 +21,7 @@
         }
     </MudSelect>
 
-    <MudCollapse Expanded="Codes.Contains(FTQCodes.FTC)">
+    <MudCollapse Expanded="_codes.Contains(FTQCodes.FTC)">
         <EliminationFormReason @bind-Value="_reason" />
     </MudCollapse>
 
@@ -29,7 +29,7 @@
 </MudPaper>
 
 @code {
-    IEnumerable<FTQCodes> Codes { get; set; } = [];
+    IEnumerable<FTQCodes> _codes { get; set; } = [];
     string? _reason;
 
     [Parameter]
@@ -39,7 +39,7 @@
     {
         if (FailedToQualify != null)
         {
-            Codes = FailedToQualify.Codes.ToList();
+            _codes = FailedToQualify.Codes.ToList();
             _reason = FailedToQualify.Complement;
         }
     }
@@ -47,6 +47,6 @@
     protected override async Task EliminateAction()
     {
         //TODO: Validate for incorrect inputs
-        await _participationBehind.FailToQualify(_reason, Codes.ToArray());
+        await _participationBehind.FailToQualify(_reason, _codes.ToArray());
     }
 }
