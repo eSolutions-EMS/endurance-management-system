@@ -6,43 +6,46 @@
 
 @inherits NotComponent
 
-<MudPaper Class="d-flex flex-column mb-2" Elevation="0">
+<MudStack Class="@Class">
 
-    <MudToggleGroup @bind-Value="_toggleValue" Delimiters="true" Color="Color.Error" SelectionMode="SelectionMode.ToggleSelection">
-        <MudToggleItem Value="NotQualified.WITHDRAWN" />
+    <MudPaper Elevation="1">
+        <MudToggleGroup @bind-Value="_toggleValue" Delimiters="true" Color="Color.Error" SelectionMode="SelectionMode.ToggleSelection">
 
-        <MudToggleItem Value="NotQualified.RETIRED" />
+            <MudToggleItem Value="NotQualified.WITHDRAWN" />
 
-        <MudToggleItem Value="NotQualified.FINISHED_NOT_RANKED" />
+            <MudToggleItem Value="NotQualified.RETIRED" />
 
-        <MudToggleItem Value="NotQualified.DISQUALIFIED" />
+            <MudToggleItem Value="NotQualified.FINISHED_NOT_RANKED" />
 
-        <MudToggleItem Value="NotQualified.FAILED_TO_QUALIFY" />
-    </MudToggleGroup>
+            <MudToggleItem Value="NotQualified.DISQUALIFIED" />
 
-    @if(_notQualified != null || _toggleValue != null)
-    {
-        <MudCollapse Expanded="@(_toggleValue == NotQualified.WITHDRAWN)" >
-            <WithdrawForm Withdrawn="_notQualified as Withdrawn" />
+            <MudToggleItem Value="NotQualified.FAILED_TO_QUALIFY" />
+        </MudToggleGroup>
+
+        <MudCollapse Expanded="_toggleValue != null">
+            @if (_toggleValue == NotQualified.WITHDRAWN)
+            {
+                <WithdrawForm Withdrawn="_notQualified as Withdrawn" />
+            }
+            else if (_toggleValue == NotQualified.RETIRED)
+            {
+                <RetireForm Retired="_notQualified as Retired" />
+            }
+            else if (_toggleValue == NotQualified.FINISHED_NOT_RANKED)
+            {
+                <FinishNotRankedForm FinishedNotRanked="_notQualified as FinishedNotRanked" />
+            }
+            else if (_toggleValue == NotQualified.DISQUALIFIED)
+            {
+                <DisqualifyForm Disqualified="_notQualified as Disqualified" />
+            }
+            else if (_toggleValue == NotQualified.FAILED_TO_QUALIFY)
+            {
+                <FailedToQualifyForm FailedToQualify="_notQualified as FailedToQualify" />
+            }
         </MudCollapse>
-
-        <MudCollapse Expanded="@(_toggleValue == NotQualified.RETIRED)">
-            <RetireForm Retired="_notQualified as Retired" />
-        </MudCollapse>
-
-        <MudCollapse Expanded="@(_toggleValue == NotQualified.FINISHED_NOT_RANKED)">
-            <FinishNotRankedForm FinishedNotRanked="_notQualified as FinishedNotRanked" />
-        </MudCollapse>
-
-        <MudCollapse Expanded="@(_toggleValue == NotQualified.DISQUALIFIED)">
-            <DisqualifyForm Disqualified="_notQualified as Disqualified" />
-        </MudCollapse>
-
-        <MudCollapse Expanded="@(_toggleValue == NotQualified.FAILED_TO_QUALIFY)">
-            <FailedToQualifyForm FailedToQualify="_notQualified as FailedToQualify" />
-        </MudCollapse>
-    }
-</MudPaper>
+    </MudPaper>
+</MudStack>
 
 @code {
     [Inject]

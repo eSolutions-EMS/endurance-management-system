@@ -4,11 +4,11 @@
 
 @inherits NotComponent
 
-<MudPaper Class="d-flex flex-row mb-4" Elevation="0">
+<MudStack Class="@Class">
     <NotSwitch Label="Represent" Value="_represent" ValueChanged="ToggleReinspection" />
 
     <NotSwitch Label="Require Inspection" Value="_requireInspection" ValueChanged="ToggleRequiredInspection" />
-</MudPaper>
+</MudStack>
 
 @code {
     [Inject]
