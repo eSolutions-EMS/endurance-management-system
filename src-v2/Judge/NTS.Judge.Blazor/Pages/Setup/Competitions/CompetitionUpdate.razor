@@ -16,7 +16,7 @@
         <NotGrid Spacing="8">
             
             <MudItem xs="12">
-                <NotFormUpdate T="Competition" TForm="CompetitionForm" Entity="_competition" UpdateAction="Update" />
+                <NotFormUpdate T="Competition" TForm="CompetitionForm" Entity="_competition" />
             </MudItem>
 
             <MudItem xs="6">
@@ -37,8 +37,6 @@
 @code {
     private Competition _competition { get; set; } = default!;
     [Inject]
-    private INotSetBehind<Competition> _setBehind { get; set; } = default!;
-    [Inject]
     private INotParentBehind<Competition> _competitionWithChildren { get; set; } = default!;
     [Inject]
     private INavigator _navigator { get; set; } = default!;
@@ -47,11 +45,5 @@
     {
         var competition = _navigator.ConsumeParameter<Competition>();
         _competition = await _competitionWithChildren.Initialize(competition.Id);
-    }
-
-    protected async Task Update(Competition competition)
-    {
-        await _setBehind.Update(competition);
-        _navigator.NavigateBack();
     }
 }

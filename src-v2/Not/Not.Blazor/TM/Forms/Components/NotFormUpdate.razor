@@ -16,12 +16,15 @@
 </MudContainer>
 
 @code {
-    private NotDynamic<TForm>? _form;
+    NotDynamic<TForm>? _form;
+
+    [Inject]
+    INavigator _navigator { get; set; } = default!;
+    [Inject]
+    IUpdateBehind<T> _behind { get; set; } = default!;
 
     [Parameter]
     public T Entity { get; set; } = default!;
-    [Parameter]
-    public Func<T, Task> UpdateAction { get; set; } = default!;
 
     protected override async Task OnInitializedAsync()
     {
@@ -36,12 +39,13 @@
         _form!.Instance.TriggerRender();
     }
 
-    protected async Task Update()
+    async Task Update()
     {
         try
         {
             var entity = _form!.Instance.SubmitUpdate();
-            await UpdateAction(entity);
+            await _behind.Update(entity);
+            _navigator.NavigateBack();
         }
         catch (DomainException domainException)
         {
