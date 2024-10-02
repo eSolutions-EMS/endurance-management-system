@@ -1,5 +1,6 @@
 ﻿using Not.Blazor.Navigation;
 using Not.Exceptions;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Not.Blazor.TM.Navigation;
 
@@ -17,7 +18,7 @@ public class NotNavigator : INavigator, ICrumbsNavigator
 
     public void NavigateTo(string endpoint)
     {
-        GuardHelper.ThrowIfDefault(_breadCrumbs);
+        ValidateCrumbs();
 
         _breadCrumbs.Push((endpoint, null));
         NavigateForward(endpoint);
@@ -25,7 +26,7 @@ public class NotNavigator : INavigator, ICrumbsNavigator
 
     public void NavigateTo<T>(string endpoint, T parameter)
     {
-        GuardHelper.ThrowIfDefault(_breadCrumbs);
+        ValidateCrumbs();
 
         _parameters = Parameters.Create(parameter);
         _breadCrumbs.Push((endpoint, _parameters));
@@ -34,15 +35,14 @@ public class NotNavigator : INavigator, ICrumbsNavigator
 
     public void NavigateBack()
     {
-        GuardHelper.ThrowIfDefault(_breadCrumbs);
+        ValidateCrumbs();
 
         // Pop current
         if (!_breadCrumbs.TryPop(out var _))
         {
             return;
         }
-        // Pop previous
-        if (!_breadCrumbs.TryPop(out var previousCrumb))
+        if (!_breadCrumbs.TryPeek(out var previousCrumb))
         {
             return;
         }
@@ -67,7 +67,16 @@ public class NotNavigator : INavigator, ICrumbsNavigator
         return result;
     }
 
-    private void NavigateForward(string endpoint)
+    [DoesNotReturn]
+    void ValidateCrumbs()
+    {
+        if (_breadCrumbs == null)
+        {
+            throw GuardHelper.Exception($"Crumbs are not initialized. NavigateBack cannot function without navigating using LandTo");
+        }
+    }
+
+    void NavigateForward(string endpoint)
     {
         _blazorNavigationManager.NavigateTo(endpoint);
     }

@@ -22,3 +22,13 @@
         <MudNavLink Href="@PRINT_PAGE" Match="NavLinkMatch.Prefix">Print HTML</MudNavLink>
     </MudNavGroup>
 </MudNavMenu>
+
+@code {
+    [Inject]
+    ICrumbsNavigator _landNavigator { get; set; } = default!;
+
+    protected override void OnInitialized()
+    {
+        _landNavigator.LandTo(ENDURANCE_EVENT_PAGE);
+    }
+}
