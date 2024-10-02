@@ -1,4 +1,5 @@
-﻿@using Not.Services;
+﻿@using Not.Blazor.Mud.Components
+@using Not.Services;
 @using Not.Blazor.Components;
 @using Not.Blazor.Forms;
 @using Not.Blazor.Navigation;
@@ -9,10 +10,12 @@
 
 <MudContainer Class="not-page-mid-width">
     <NotDynamic T="TForm" @ref="_form" />
+    
+    <MudStack Row="true" Class="mt-4">
+        <NotButtonUpdate OnClick="Update" />
 
-    <MudButton Class="mt-4" Variant="Variant.Filled" Color="Color.Primary" OnClick="Update">
-        @Localizer.Get("Update")
-    </MudButton>
+        <NotButtonBack OnClick="NavigateBack" /> 
+    </MudStack>
 </MudContainer>
 
 @code {
@@ -45,11 +48,16 @@
         {
             var entity = _form!.Instance.SubmitUpdate();
             await _behind.Update(entity);
-            _navigator.NavigateBack();
+            NavigateBack();
         }
         catch (DomainException domainException)
         {
             await _form!.Instance.AddValidationError(domainException.Property, domainException.Message);
         }
+    }
+
+    void NavigateBack()
+    {
+        _navigator.NavigateBack();
     }
 }
