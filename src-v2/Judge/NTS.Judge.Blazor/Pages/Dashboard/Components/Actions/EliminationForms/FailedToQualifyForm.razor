@@ -44,7 +44,7 @@
         }
     }
 
-    protected override async Task EliminateAction()
+    internal override async Task Eliminate()
     {
         //TODO: Validate for incorrect inputs
         await _participationBehind.FailToQualify(_reason, _codes.ToArray());

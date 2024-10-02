@@ -8,25 +8,13 @@ public abstract class EliminationForm : NotComponent
     [Inject]
     protected IParticipationBehind _participationBehind { get; set; } = default!;
 
-    [Parameter]
-    public EventCallback OnRestore { get; set; }
-    [Parameter]
-    public EventCallback OnEliminate { get; set; }
-
     public bool IsEliminated => _participationBehind.SelectedParticipation?.NotQualified != null;
 
-    protected abstract Task EliminateAction();
-
-    internal async Task Eliminate()
-    {
-        await EliminateAction();
-        await OnEliminate.InvokeAsync();
-    }
+    internal abstract Task Eliminate();
 
     internal async Task Restore()
     {
         await _participationBehind.RestoreQualification();
-        await OnRestore.InvokeAsync();
     }
 }
 

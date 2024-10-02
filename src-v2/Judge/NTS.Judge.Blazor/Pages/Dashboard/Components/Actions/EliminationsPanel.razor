@@ -23,23 +23,23 @@
     @if(_notQualified != null || _toggleValue != null)
     {
         <MudCollapse Expanded="@(_toggleValue == NotQualified.WITHDRAWN)" >
-            <WithdrawForm Withdrawn="_notQualified as Withdrawn" OnRestore="RestoreHandler" OnEliminate="EliminateHandler" />
+            <WithdrawForm Withdrawn="_notQualified as Withdrawn" />
         </MudCollapse>
 
         <MudCollapse Expanded="@(_toggleValue == NotQualified.RETIRED)">
-            <RetireForm Retired="_notQualified as Retired" OnRestore="RestoreHandler" OnEliminate="EliminateHandler" />
+            <RetireForm Retired="_notQualified as Retired" />
         </MudCollapse>
 
         <MudCollapse Expanded="@(_toggleValue == NotQualified.FINISHED_NOT_RANKED)">
-            <FinishNotRankedForm FinishedNotRanked="_notQualified as FinishedNotRanked" OnRestore="RestoreHandler" OnEliminate="EliminateHandler" />
+            <FinishNotRankedForm FinishedNotRanked="_notQualified as FinishedNotRanked" />
         </MudCollapse>
 
         <MudCollapse Expanded="@(_toggleValue == NotQualified.DISQUALIFIED)">
-            <DisqualifyForm Disqualified="_notQualified as Disqualified" OnRestore="RestoreHandler" OnEliminate="EliminateHandler" />
+            <DisqualifyForm Disqualified="_notQualified as Disqualified" />
         </MudCollapse>
 
         <MudCollapse Expanded="@(_toggleValue == NotQualified.FAILED_TO_QUALIFY)">
-            <FailedToQualifyForm FailedToQualify="_notQualified as FailedToQualify" OnRestore="RestoreHandler" OnEliminate="EliminateHandler" />
+            <FailedToQualifyForm FailedToQualify="_notQualified as FailedToQualify" />
         </MudCollapse>
     }
 </MudPaper>
@@ -61,17 +61,12 @@
         await Observe(_participationBehind);
     }
 
-    void ToggleOff()
+    protected override void OnBeforeRender()
     {
-        _toggleValue = null;
+        ResetInput();
     }
 
-    void RestoreHandler()
-    {
-        ToggleOff();
-    }
-
-    void EliminateHandler()
+    void ResetInput()
     {
         _inputValue = null;
     }

@@ -23,7 +23,7 @@
         _reason = FinishedNotRanked?.Complement;
     }
 
-    protected override async Task EliminateAction()
+    internal override async Task Eliminate()
     {
         //TO DO: Validate for null Reason
         await _participationBehind.FinishNotRanked(_reason);

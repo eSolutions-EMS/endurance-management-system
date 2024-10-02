@@ -13,7 +13,7 @@
     [Parameter]
     public Withdrawn? Withdrawn { get; set; } = default!;
 
-    protected override async Task EliminateAction()
+    internal override async Task Eliminate()
     {
         await _participationBehind.Withdraw();
     }

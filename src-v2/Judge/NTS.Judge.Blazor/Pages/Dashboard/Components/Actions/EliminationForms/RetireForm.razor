@@ -13,7 +13,7 @@
     [Parameter]
     public Retired? Retired { get; set; }
 
-    protected override async Task EliminateAction()
+    internal override async Task Eliminate()
     {
         await _participationBehind.Retire();
     }
