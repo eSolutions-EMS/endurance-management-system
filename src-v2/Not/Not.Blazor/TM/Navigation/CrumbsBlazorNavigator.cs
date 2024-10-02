@@ -5,7 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace Not.Blazor.TM.Navigation;
 
 // Cannot be singleton as long as it uses NavigationManager: https://github.com/dotnet/maui/issues/8583
-public class CrumbsBlazorNavigator : ICrumsNavigator, ILandNavigator
+public class CrumbsBlazorNavigator : ICrumbsNavigator, ILandNavigator
 {
     private readonly NavigationManager _blazorNavigationManager;
     private static Parameters? _parameters;
