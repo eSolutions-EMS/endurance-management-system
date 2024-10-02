@@ -7,35 +7,39 @@
 @inherits NotComponent
 
 <MudPaper Class="d-flex flex-column mb-2" Elevation="0">
-    <MudToggleGroup T="string" TextClass="@SmallTextClass" Delimiters="true" Color="Color.Error" Rounded="true"
-                    SelectionMode="SelectionMode.ToggleSelection" Style="width: 20rem" @bind-Value="_toggledButtonValue" >
-        <MudToggleItem Text="Withdrawn" Value="@(NotQualified.WITHDRAWN)" />
-        <MudToggleItem Text="Retired" Value="@(NotQualified.RETIRED)" />
-        <MudToggleItem Text="Finished Not Ranked" Value="@(NotQualified.FINISHED_NOT_RANKED)" />
-        <MudToggleItem Text="Disqualified" Value="@(NotQualified.DISQUALIFIED)" />
-        <MudToggleItem Text="Failed to Qualify" Value="@(NotQualified.FAILED_TO_QUALIFY)" />
+
+    <MudToggleGroup @bind-Value="_toggleValue" Delimiters="true" Color="Color.Error" SelectionMode="SelectionMode.ToggleSelection">
+        <MudToggleItem Value="NotQualified.WITHDRAWN" />
+
+        <MudToggleItem Value="NotQualified.RETIRED" />
+
+        <MudToggleItem Value="NotQualified.FINISHED_NOT_RANKED" />
+
+        <MudToggleItem Value="NotQualified.DISQUALIFIED" />
+
+        <MudToggleItem Value="NotQualified.FAILED_TO_QUALIFY" />
     </MudToggleGroup>
-    @if(_notQualified != null || _toggledButtonValue != null)
+
+    @if(_notQualified != null || _toggleValue != null)
     {
-        <MudCollapse Expanded="@(_toggledButtonValue == NotQualified.WITHDRAWN)" >
-            <WithdrawForm Withdrawn="_notQualified as Withdrawn"
-                          OnRestore="RestoreHandler" OnEliminate="EliminateHandler" />
+        <MudCollapse Expanded="@(_toggleValue == NotQualified.WITHDRAWN)" >
+            <WithdrawForm Withdrawn="_notQualified as Withdrawn" OnRestore="RestoreHandler" OnEliminate="EliminateHandler" />
         </MudCollapse>
-        <MudCollapse Expanded="@(_toggledButtonValue == NotQualified.RETIRED)">
-            <RetireForm Retired="_notQualified as Retired"
-                        OnRestore="RestoreHandler" OnEliminate="EliminateHandler" />
+
+        <MudCollapse Expanded="@(_toggleValue == NotQualified.RETIRED)">
+            <RetireForm Retired="_notQualified as Retired" OnRestore="RestoreHandler" OnEliminate="EliminateHandler" />
         </MudCollapse>
-        <MudCollapse Expanded="@(_toggledButtonValue == NotQualified.FINISHED_NOT_RANKED)">
-            <FinishNotRankedForm FinishedNotRanked="_notQualified as FinishedNotRanked"
-                                 OnRestore="RestoreHandler" OnEliminate="EliminateHandler" />
+
+        <MudCollapse Expanded="@(_toggleValue == NotQualified.FINISHED_NOT_RANKED)">
+            <FinishNotRankedForm FinishedNotRanked="_notQualified as FinishedNotRanked" OnRestore="RestoreHandler" OnEliminate="EliminateHandler" />
         </MudCollapse>
-        <MudCollapse Expanded="@(_toggledButtonValue == NotQualified.DISQUALIFIED)">
-            <DisqualifyForm Disqualified="_notQualified as Disqualified"
-                            OnRestore="RestoreHandler" OnEliminate="EliminateHandler" />
+
+        <MudCollapse Expanded="@(_toggleValue == NotQualified.DISQUALIFIED)">
+            <DisqualifyForm Disqualified="_notQualified as Disqualified" OnRestore="RestoreHandler" OnEliminate="EliminateHandler" />
         </MudCollapse>
-        <MudCollapse Expanded="@(_toggledButtonValue == NotQualified.FAILED_TO_QUALIFY)">
-            <FailedToQualifyForm FailedToQualify="_notQualified as FailedToQualify"
-                                 OnRestore="RestoreHandler" OnEliminate="EliminateHandler" />
+
+        <MudCollapse Expanded="@(_toggleValue == NotQualified.FAILED_TO_QUALIFY)">
+            <FailedToQualifyForm FailedToQualify="_notQualified as FailedToQualify" OnRestore="RestoreHandler" OnEliminate="EliminateHandler" />
         </MudCollapse>
     }
 </MudPaper>
@@ -45,30 +49,30 @@
     IParticipationBehind _participationBehind { get; set; } = default!;
 
     NotQualified? _notQualified => _participationBehind.SelectedParticipation?.NotQualified;
-    private string? _toggledButtonValue {
-        get => _value != null ? _value : _notQualified?.EliminationCode;
-        set => _value = value; 
+    string? _toggleValue
+    {
+        get => _inputValue != null ? _inputValue : _notQualified?.EliminationCode;
+        set => _inputValue = value; 
     }
-    private string? _value;
-    private string SmallTextClass = "font-size-10";
+    string? _inputValue;
 
     protected override async Task OnInitializedAsync()
     {
         await Observe(_participationBehind);
     }
 
-    public void ToggleOff()
+    void ToggleOff()
     {
-        _toggledButtonValue = null;
+        _toggleValue = null;
     }
 
-    public void RestoreHandler()
+    void RestoreHandler()
     {
         ToggleOff();
     }
 
-    public void EliminateHandler()
+    void EliminateHandler()
     {
-        _value = null;
+        _inputValue = null;
     }
 }
