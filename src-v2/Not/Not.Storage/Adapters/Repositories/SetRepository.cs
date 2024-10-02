@@ -13,7 +13,7 @@ public abstract class SetRepository<T, TState> : IRepository<T>
         _store = store;
     }
 
-    public async Task<T> Create(T entity)
+    public virtual async Task<T> Create(T entity)
     {
         var state = await _store.Transact();
         state.EntitySet.Add(entity);
@@ -89,11 +89,16 @@ public abstract class SetRepository<T, TState> : IRepository<T>
     {
         var state = await _store.Transact();
 
-        var index = state.EntitySet.IndexOf(entity);
-        state.EntitySet.Remove(entity);
-        state.EntitySet.Insert(index, entity);
+        PerformUpdate(state, entity);
 
         await _store.Commit(state);
         return entity;
+    }
+
+    protected virtual void PerformUpdate(TState state, T entity)
+    {
+        var index = state.EntitySet.IndexOf(entity);
+        state.EntitySet.Remove(entity);
+        state.EntitySet.Insert(index, entity);
     }
 }
