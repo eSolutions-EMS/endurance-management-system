@@ -1,36 +1,60 @@
 ﻿using Not.Application.Ports.CRUD;
 using Not.Blazor.Ports.Behinds;
+using Not.Safe;
 using NTS.Domain.Setup.Entities;
 
 namespace NTS.Judge.Events;
+
 public class HorseBehind : INotSetBehind<Horse>
 {
     private readonly IRepository<Horse> _horseRepository;
-    private Horse? _horse;
 
     public HorseBehind(IRepository<Horse> horseRepository)
     {
         _horseRepository = horseRepository;
     }
 
-    public Task<IEnumerable<Horse>> GetAll()
+    Task<IEnumerable<Horse>> SafeGetAll()
     {
         return _horseRepository.ReadAll();
     }
 
-    public async Task<Horse> Create(Horse entity)
+    Task<Horse> SafeCreate(Horse entity)
     {
-        _horse = await _horseRepository.Create(entity);
-        return _horse;
+        return _horseRepository.Create(entity);
     }
 
-    public async Task<Horse> Update(Horse entity)
+    Task<Horse> SafeUpdate(Horse entity)
     {
-        return await _horseRepository.Update(entity);
+        return _horseRepository.Update(entity);
     }
 
-    public async Task<Horse> Delete(Horse entity)
+    Task<Horse> SafeDelete(Horse entity)
     {
-        return await _horseRepository.Delete(entity);
+        return _horseRepository.Delete(entity);
     }
+
+    #region SafePattern
+
+    public async Task<IEnumerable<Horse>> GetAll()
+    {
+        return await SafeHelper.Run(SafeGetAll) ?? [];
+    }
+
+    public async Task<Horse> Create(Horse horse)
+    {
+        return await SafeHelper.Run(() => SafeCreate(horse)) ?? horse;
+    }
+
+    public async Task<Horse> Update(Horse horse)
+    {
+        return await SafeHelper.Run(() => SafeUpdate(horse)) ?? horse;
+    }
+
+    public async Task<Horse> Delete(Horse horse)
+    {
+        return await SafeHelper.Run(() => SafeDelete(horse)) ?? horse;
+    }
+
+    #endregion
 }

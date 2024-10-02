@@ -6,8 +6,7 @@
 
 @inherits EliminationForm
 
-<MudSelect T="FTQCodes" Label="Failed to Qualify Reason" MultiSelection="true" Delimiter="+"
-    SelectedValues="@Codes" SelectedValuesChanged="SetInputState" Placeholder="Select a reason">
+<MudSelect @bind-SelectedValues="@Codes" Label="Failed to Qualify Reason" MultiSelection="true" Delimiter="+" Placeholder="Select a reason">
     @foreach (var failToQualifyCode in SelectListModel.FromEnum<FTQCodes>())
     {
         <MudSelectItem Value="@failToQualifyCode.Value">
@@ -16,6 +15,7 @@
         </MudSelectItem>
     }
 </MudSelect>
+
 <MudCollapse Expanded="Codes.Contains(FTQCodes.FTC)">
     <MudTextField @bind-Value="Reason" Label="Reason" Variant="Variant.Outlined"></MudTextField>
 </MudCollapse>
@@ -32,12 +32,12 @@
     [Parameter]
     public FailedToQualify? FailedToQualify { get; set; }
 
-    private List<FTQCodes> Codes { get; set; } = new List<FTQCodes>();
+    private IEnumerable<FTQCodes> Codes { get; set; } = [];
     public string? Reason { get; set; }
 
     protected override void OnParametersSet()
     {
-        if(FailedToQualify != null)
+        if (FailedToQualify != null)
         {
             Codes = FailedToQualify.Codes.ToList();
             Reason = FailedToQualify.Complement;
@@ -49,10 +49,5 @@
         //TODO: Validate for incorrect inputs
         await _participationBehind.FailToQualify(Reason, Codes.ToArray());
         await OnEliminate.InvokeAsync();
-    }
-
-    public void SetInputState(IEnumerable<FTQCodes> values)
-    {
-        Codes = values.ToList();
     }
 }

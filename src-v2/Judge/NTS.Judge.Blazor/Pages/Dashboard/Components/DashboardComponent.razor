@@ -10,20 +10,20 @@
 
 <MudGrid Spacing="5" Style="margin-top:0;"> @* TODO: extract NotGrid? style's necessary because Spacing does -40% margin style for some reason, which breaks the vertical layout. *@
     <MudItem xs="12">
-        <NotAutocomplete T="Participation" @bind-Value="_behind.SelectedParticipation" Search="Search" Class="mb-2 dashboard-autocomplete" />
+        <NotAutocomplete T="Participation" @bind-value="_behind.SelectedParticipation" Search="Search" Class="mb-2 dashboard-autocomplete" />
     </MudItem>
     <MudItem xs="3">
-        <MudChipSet SelectedChipChanged="SelectParticipation">
-            @foreach (var grouping in _behind.Participations.GroupBy(x => x.Phases.Distance))
+        <MudChipSet @bind-SelectedValue="_behind.SelectedParticipation" SelectionMode="SelectionMode.SingleSelection">
+            @foreach (var grouping in _behind.Participations.GroupBy(x => x.Phases.Distance)) // TODO: move grouping in field
             {
                 <MudText Class="pl-4"><strong>@($"{grouping.Key} {@Localizer.Get("KM")}")</strong></MudText>
-                <MudDivider />
+                <MudDivider /> 
                 @foreach (var participation in grouping.OrderBy(x => x.Tandem.Number))
                 {
                     var number = participation.Tandem.Number;
                     var color = participation.IsNotQualified() ? Color.Error : Color.Primary;
                     // TODO: Update Mudblazor and use bind-Selected: https://mudblazor.com/components/chipset#binding-chips-in-a-selection
-                    <MudChip Text="@number.ToString()" Value="@number" Color="@color" Style="min-width: 1rem" />
+                    <MudChip Text="@number.ToString()" Value="@participation" Color="@color" Style="min-width: 1rem" />
                 }
             }
         </MudChipSet>
@@ -50,18 +50,6 @@
         }
         var result = _behind.Participations.Where(x => x.ToString().ToLower().Contains(term.ToLower()));
         return Task.FromResult(result);
-    }
-
-    private async Task SelectParticipation(MudChip? chip)
-    {
-        // TODO: Update MudBlazor version since docs show a new Property SelectionMode, 
-        // which can prevent the current behavior that allows to Toggle the selection off
-        if (chip == null)
-        {
-            return;
-        }
-        _behind.SelectParticipation((int)chip.Value);
-        GuardHelper.ThrowIfDefault(_behind.SelectedParticipation);
     }
 }
 

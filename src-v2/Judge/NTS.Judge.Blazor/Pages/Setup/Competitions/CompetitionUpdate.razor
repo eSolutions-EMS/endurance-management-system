@@ -10,7 +10,7 @@
 @attribute [Route(COMPETITION_UPDATE)]
 @inherits NotComponent
 
-<NotPage Title="Configure Competition">
+<NotPage Title="Configure Competition" HasContent="_competition != null" EmptyMessage="Competition does not exist">
 
     <Main>
         <NotGrid Spacing="8">
@@ -35,7 +35,7 @@
 </NotPage>
 
 @code {
-    private Competition _competition { get; set; } = default!;
+    private Competition? _competition { get; set; } = default!;
     [Inject]
     private INotParentBehind<Competition> _competitionWithChildren { get; set; } = default!;
     [Inject]
