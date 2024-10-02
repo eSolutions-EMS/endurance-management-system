@@ -67,6 +67,15 @@ public class CrumbsBlazorNavigator : ICrumsNavigator, ILandNavigator
         return result;
     }
 
+    public void Initialize(string landingEndpoint)
+    {
+        if (_breadCrumbs != null)
+        {
+            return;
+        }
+        LandTo(landingEndpoint);
+    }
+
     [DoesNotReturn]
     void ValidateCrumbs()
     {

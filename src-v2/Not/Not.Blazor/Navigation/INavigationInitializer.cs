@@ -9,4 +9,5 @@ namespace Not.Blazor.Navigation;
 public interface ILandNavigator : ITransientService
 {
     void LandTo(string endpoint);
+    void Initialize(string landingEndpoint);
 }
