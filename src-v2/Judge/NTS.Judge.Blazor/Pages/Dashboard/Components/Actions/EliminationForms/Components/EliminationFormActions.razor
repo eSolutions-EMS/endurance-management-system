@@ -1,8 +1,10 @@
 ﻿
 <MudStack Row="true" Class="mt-4" Justify="Justify.FlexEnd">
-    <NotButtonDanger Text="Eliminate" OnClick="Form.Eliminate" StartIcon="@Icons.Material.Outlined.Cancel" />
+    <NotButtonDanger Text="Eliminate" OnClick="Form.Eliminate" Disabled="Form.IsEliminated" 
+        StartIcon="@Icons.Material.Outlined.Cancel" />
 
-    <NotButtonPrimary Text="Restore" OnClick="Form.Restore" StartIcon="@Icons.Material.Outlined.SettingsBackupRestore" />
+    <NotButtonPrimary Text="Restore" OnClick="Form.Restore" Disabled="!Form.IsEliminated" 
+        StartIcon="@Icons.Material.Outlined.SettingsBackupRestore" />
 </MudStack>
 
 @code {

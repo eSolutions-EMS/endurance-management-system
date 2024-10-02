@@ -13,7 +13,7 @@ public abstract class EliminationForm : NotComponent
     [Parameter]
     public EventCallback OnEliminate { get; set; }
 
-    protected bool IsEliminated { get; private set; }
+    public bool IsEliminated => _participationBehind.SelectedParticipation?.NotQualified != null;
 
     protected abstract Task EliminateAction();
 
@@ -21,14 +21,12 @@ public abstract class EliminationForm : NotComponent
     {
         await EliminateAction();
         await OnEliminate.InvokeAsync();
-        IsEliminated = true;
     }
 
     internal async Task Restore()
     {
         await _participationBehind.RestoreQualification();
         await OnRestore.InvokeAsync();
-        IsEliminated = false;
     }
 }
 
