@@ -56,7 +56,7 @@ public record FinishedNotRanked : NotQualified
 
 public record FailedToQualify : NotQualified
 {
-    public FailedToQualify(params FTQCodes[] codes) : base(FAILED_TO_QUALIFY)
+    public FailedToQualify(FTQCodes[] codes) : base(FAILED_TO_QUALIFY)
     {
         if (codes == null || codes.Length == 0)
         {
@@ -70,14 +70,14 @@ public record FailedToQualify : NotQualified
         Codes = codes;
     }
 
-    public FailedToQualify(string complement ,params FTQCodes[] codes) : base(complement, FAILED_TO_QUALIFY)
+    public FailedToQualify(string complement, FTQCodes[] codes) : base(complement, FAILED_TO_QUALIFY)
     {
         Codes = codes;
     }
     [JsonConstructor]
     public FailedToQualify(string complement) : base(complement, FAILED_TO_QUALIFY)
     {
-        Codes = new List<FTQCodes>{FTQCodes.FTC};
+        Codes = [ FTQCodes.FTC ];
     }
 
     public IEnumerable<FTQCodes> Codes { get; private set; } = new List<FTQCodes>();
