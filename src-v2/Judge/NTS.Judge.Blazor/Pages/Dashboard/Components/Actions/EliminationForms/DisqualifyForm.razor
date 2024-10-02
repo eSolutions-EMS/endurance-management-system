@@ -1,10 +1,11 @@
 ﻿@using NTS.Domain.Core.Aggregates.Participations
 @using NTS.Judge.Blazor.Enums
+@using NTS.Judge.Blazor.Pages.Dashboard.Components.Actions.EliminationForms.Components
 @using NTS.Judge.Blazor.Ports
 
 @inherits EliminationForm
 
-<MudTextField @bind-Value="_reason" Label="Reason" Variant="Variant.Outlined" />
+<EliminationFormReason @bind-Value="_reason" />
 
 <EliminationFormActions Form="this" />
 
