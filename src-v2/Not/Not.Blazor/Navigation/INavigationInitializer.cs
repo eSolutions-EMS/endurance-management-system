@@ -2,7 +2,7 @@
 
 namespace Not.Blazor.Navigation;
 
-public interface INavigationInitializer : ITransientService
+public interface ICrumbsNavigator : ITransientService
 {
-    void SetLandingPage(string endpoint);
+    void LandTo(string endpoint);
 }

@@ -4,7 +4,7 @@ using Not.Exceptions;
 namespace Not.Blazor.TM.Navigation;
 
 // Cannot be singleton as long as it uses NavigationManager: https://github.com/dotnet/maui/issues/8583
-public class NotNavigator : INavigator, INavigationInitializer
+public class NotNavigator : INavigator, ICrumbsNavigator
 {
     private readonly NavigationManager _blazorNavigationManager;
     private static Parameters? _parameters;
@@ -50,14 +50,10 @@ public class NotNavigator : INavigator, INavigationInitializer
         NavigateForward(previousCrumb.endpoint);
     }
 
-    public void SetLandingPage(string landing)
+    public void LandTo(string landing)
     {
-        if (_breadCrumbs != null)
-        {
-            return;
-        }
         _breadCrumbs = [];
-        _breadCrumbs.Push((landing, null));
+        NavigateTo(landing);
     }
 
     public T ConsumeParameter<T>()
