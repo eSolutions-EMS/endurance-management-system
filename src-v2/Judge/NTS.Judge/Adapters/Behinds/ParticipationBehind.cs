@@ -195,7 +195,7 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
 
     public async Task RestoreQualification()
     {
-        await SafeHelper.Run(RestoreQualification);
+        await SafeHelper.Run(SafeRestoreQualification);
     }
 
     public Participation? Get(int id)
