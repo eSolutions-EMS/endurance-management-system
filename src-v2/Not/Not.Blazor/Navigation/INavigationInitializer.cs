@@ -2,7 +2,11 @@
 
 namespace Not.Blazor.Navigation;
 
-public interface ICrumbsNavigator : ITransientService
+/// <summary>
+/// Landing servers as a start for Crumbs navigation. I.e. we need to Land and set a landing page
+/// in order to be able to call NavigateBack and use that landing endpoint to go back to
+/// </summary>
+public interface ILandNavigator : ITransientService
 {
     void LandTo(string endpoint);
 }

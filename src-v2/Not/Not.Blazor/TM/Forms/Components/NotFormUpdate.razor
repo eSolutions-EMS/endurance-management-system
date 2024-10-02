@@ -19,7 +19,7 @@
     NotDynamic<TForm>? _form;
 
     [Inject]
-    INavigator _navigator { get; set; } = default!;
+    ICrumsNavigator _navigator { get; set; } = default!;
     [Inject]
     IUpdateBehind<T> _behind { get; set; } = default!;
 

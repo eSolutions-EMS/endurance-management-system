@@ -9,7 +9,7 @@
 
 @code {
     [Inject]
-    ICrumbsNavigator _crumbs { get; set; } = default!;
+    ILandNavigator _landNavigator { get; set; } = default!;
     [Inject]
     NavigationManager _navigationManager { get; set; } = default!;
 
@@ -22,6 +22,6 @@
 
     void Land()
     {
-        _crumbs.LandTo(Endpoint);
+        _landNavigator.LandTo(Endpoint);
     }
 }

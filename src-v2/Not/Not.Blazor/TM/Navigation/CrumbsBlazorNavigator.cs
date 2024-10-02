@@ -5,13 +5,13 @@ using System.Diagnostics.CodeAnalysis;
 namespace Not.Blazor.TM.Navigation;
 
 // Cannot be singleton as long as it uses NavigationManager: https://github.com/dotnet/maui/issues/8583
-public class NotNavigator : INavigator, ICrumbsNavigator
+public class CrumbsBlazorNavigator : ICrumsNavigator, ILandNavigator
 {
     private readonly NavigationManager _blazorNavigationManager;
     private static Parameters? _parameters;
     private static Stack<(string endpoint, Parameters? parameters)>? _breadCrumbs;
 
-    public NotNavigator(NavigationManager blazorNavigationManager)
+    public CrumbsBlazorNavigator(NavigationManager blazorNavigationManager)
     {
         _blazorNavigationManager = blazorNavigationManager;
     }
@@ -89,7 +89,7 @@ public class NotNavigator : INavigator, ICrumbsNavigator
         {
             if (parameter == null)
             {
-                throw GuardHelper.Exception($"Parameter of type '{typeof(T)}' is null. {nameof(NotNavigator)} parameters cannot be null");
+                throw GuardHelper.Exception($"Parameter of type '{typeof(T)}' is null. {nameof(CrumbsBlazorNavigator)} parameters cannot be null");
             }
             return new Parameters(parameter);
         }
