@@ -7,24 +7,26 @@
 
 @inherits EliminationForm
 
-<MudSelect @bind-SelectedValues="@Codes" MultiSelection="true" Delimiter="+" Class="mt-4"
-    Label="@Localizer.Get("Failed to Qualify Reason")" Placeholder="@Localizer.Get("Select a reason")">
+<MudPaper Elevation="1" Class="pa-2">
+    <MudSelect @bind-SelectedValues="@Codes" MultiSelection="true" Delimiter="+" Class="mt-4"
+        Label="@Localizer.Get("Failed to Qualify Reason")" Placeholder="@Localizer.Get("Select a reason")">
     
-    @foreach (var ftqCode in SelectListModel.FromEnum<FTQCodes>())
-    {
-        <MudSelectItem Value="@ftqCode.Value">
-            <MudText Typo="Typo.body1">@ftqCode.Value</MudText>
+        @foreach (var ftqCode in SelectListModel.FromEnum<FTQCodes>())
+        {
+            <MudSelectItem Value="@ftqCode.Value">
+                <MudText Typo="Typo.body1">@ftqCode.Value</MudText>
 
-            <MudText Typo="Typo.caption">@ftqCode.Description</MudText>
-        </MudSelectItem>
-    }
-</MudSelect>
+                <MudText Typo="Typo.caption">@ftqCode.Description</MudText>
+            </MudSelectItem>
+        }
+    </MudSelect>
 
-<MudCollapse Expanded="Codes.Contains(FTQCodes.FTC)">
-    <EliminationFormReason @bind-Value="_reason" />
-</MudCollapse>
+    <MudCollapse Expanded="Codes.Contains(FTQCodes.FTC)">
+        <EliminationFormReason @bind-Value="_reason" />
+    </MudCollapse>
 
-<EliminationFormActions Form="this" />
+    <EliminationFormActions Form="this" />
+</MudPaper>
 
 @code {
     IEnumerable<FTQCodes> Codes { get; set; } = [];
