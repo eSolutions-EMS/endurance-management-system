@@ -1,8 +1,10 @@
-﻿using NTS.Domain;
+﻿using Microsoft.Extensions.DependencyInjection;
+using NTS.Domain;
 using NTS.Domain.Core.Configuration;
 using NTS.Domain.Objects;
 using NTS.Domain.Setup.Entities;
 using NTS.Judge.Blazor.Ports;
+using NTS.Judge.Blazor.Services;
 using NTS.Judge.Hardware;
 
 namespace NTS.Judge.Adapters.Behinds;
@@ -10,10 +12,9 @@ namespace NTS.Judge.Adapters.Behinds;
 public class TagReaderBehind : ITagRead
 {
     private VupVF747pController VF747PController;
-
-    public TagReaderBehind()
+    public TagReaderBehind(ILogger logger)
     {
-        VF747PController = new VupVF747pController("192.168.68.128", TimeSpan.FromMilliseconds(10));
+        VF747PController = new VupVF747pController("192.168.68.128", logger, TimeSpan.FromMilliseconds(10));
         VF747PController.Connect();
     }
 
