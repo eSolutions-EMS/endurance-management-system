@@ -158,12 +158,12 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
         await SafeHelper.Run(() => SafeProcess(snapshot));
     }
 
-    public async Task RequestReinspection(bool isRequested)
+    public async Task RequestRepresent(bool isRequested)
     {
         await SafeHelper.Run(() => SafeRequestReinspection(isRequested));
     }
 
-    public async Task RequestRequiredInspection(bool isRequested)
+    public async Task RequireInspection(bool isRequested)
     {
         await SafeHelper.Run(() => SafeRequestRequiredInspection(isRequested));
     }
