@@ -3,6 +3,7 @@
 @using NTS.Judge.Blazor.Pages.Dashboard.Components.Actions.EliminationForms.Components
 @using NTS.Judge.Blazor.Ports
 @using System.Diagnostics
+@using Not.Notifier
 
 @inherits EliminationForm
 
@@ -25,7 +26,11 @@
 
     internal override async Task Eliminate()
     {
-        //TO DO: Validate for null Reason
+        if (_reason == null)
+        {
+            NotifyHelper.Warn("Reason is required");
+            return;
+        }
         await _participationBehind.FinishNotRanked(_reason);
     }
 }

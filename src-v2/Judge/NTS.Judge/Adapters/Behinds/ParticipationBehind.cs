@@ -122,10 +122,10 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
         EmitChange();
     }
 
-    async Task SafeFailToQualify(string? reason, params FTQCodes[] ftqCodes)
+    async Task SafeFailToQualify(string? reason, FTQCodes[] ftqCodes)
     {
         GuardHelper.ThrowIfDefault(SelectedParticipation);
-        GuardHelper.ThrowIfDefault(ftqCodes);
+
         SelectedParticipation.FailToQualify(reason, ftqCodes);
         await _participationRepository.Update(SelectedParticipation);
 

@@ -58,9 +58,14 @@ public record FailedToQualify : NotQualified
 {
     public FailedToQualify(params FTQCodes[] codes) : base(FAILED_TO_QUALIFY)
     {
+        if (codes == null || codes.Length == 0)
+        {
+            throw new DomainException($"Cannot eliminate as FTQ without FTQ codes");
+        }
         if (codes.Contains(FTQCodes.FTC))
         {
-            throw new DomainException($"'Failed to Complete' requires a writen explanation from officials. Please provide 'complement'");
+            throw new DomainException(
+                $"Rules require a written explanation for FTC (Failed to Complete) elimination. Please provide '{nameof(Complement)}'");
         }
         Codes = codes;
     }
@@ -147,7 +152,7 @@ public abstract record NotQualified : DomainObject
     }
     protected NotQualified(string complement, string eliminationCode)
     {
-        Complement = complement;
+        Complement = complement ?? throw new DomainException($"Cannot eliminate as '{eliminationCode}' without reason");
         EliminationCode = eliminationCode;
     }
 

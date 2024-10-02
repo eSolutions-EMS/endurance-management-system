@@ -2,6 +2,7 @@
 @using NTS.Judge.Blazor.Enums
 @using NTS.Judge.Blazor.Pages.Dashboard.Components.Actions.EliminationForms.Components
 @using NTS.Judge.Blazor.Ports
+@using Not.Notifier
 
 @inherits EliminationForm
 
@@ -24,7 +25,11 @@
 
     internal override async Task Eliminate()
     {
-        //TODO: Validate for null Reason
+        if (_reason == null)
+        {
+            NotifyHelper.Warn("Reason is required");
+            return;
+        }
         await _participationBehind.Disqualify(_reason);
     }
 }
