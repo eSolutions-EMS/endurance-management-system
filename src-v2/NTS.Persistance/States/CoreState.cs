@@ -12,11 +12,11 @@ public class CoreState : NotState,
     ISetState<Handout>
 {
     public Event? Event { get; set; }
-    public List<Official> Officials { get; } = new();
-    public List<Participation> Participations { get; } = new();
-    public List<Ranking> Rankings { get; } = new();
-    public List<SnapshotResult> SnapshotResults { get; } = new();
-    public List<Handout> Handouts { get; } = new();
+    public List<Official> Officials { get; } = [];
+    public List<Participation> Participations { get; } = [];
+    public List<Ranking> Rankings { get; } = [];
+    public List<SnapshotResult> SnapshotResults { get; } = [];
+    public List<Handout> Handouts { get; } = [];
 
     Event? ITreeState<Event>.Root { get => Event; set => Event = value; }
     List<Official> ISetState<Official>.EntitySet => Officials;
