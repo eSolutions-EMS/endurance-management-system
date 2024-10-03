@@ -1,24 +1,12 @@
-﻿using NTS.Domain.Setup.Entities;
-using NTS.Persistence.Exceptions;
+﻿
+using NTS.Domain.Setup.Entities;
 using NTS.Persistence.Setup;
 
 namespace NTS.Persistence.Adapters;
-
 public class AthleteRepository : SetRepository<Athlete, SetupState>
 {
     public AthleteRepository(IStore<SetupState> store) : base(store)
     {
-    }
-
-    public override async Task<Athlete> Delete(Athlete entity)
-    {
-        var state = await Store.Transact();
-        var parent = state.Combinations.FirstOrDefault(x => x.Athlete == entity);
-        if (parent != null)
-        {
-            throw new ParentalViolationException($"'{entity}' cannot be deleted because it's contained in '{parent}'");
-        }
-        return entity;
     }
 
     protected override void PerformUpdate(SetupState state, Athlete entity)

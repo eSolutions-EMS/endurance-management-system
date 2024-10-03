@@ -1,29 +1,59 @@
 ﻿using NTS.Domain.Setup.Entities;
-using NTS.Persistence.Exceptions;
 using NTS.Persistence.Setup;
 
 namespace NTS.Persistence.Adapters;
 
 public class LoopRepository : SetRepository<Loop, SetupState>
 {
+    private readonly IStore<SetupState> _store;
+
     public LoopRepository(IStore<SetupState> store) : base(store)
     {
+        _store = store;
     }
 
+    public override async Task<Loop> Update(Loop entity)
+    {
+        await UpdateLoopValue(entity);
+        return entity;
+    }
     public override async Task<Loop> Delete(Loop entity)
     {
-        var state = await Store.Transact();
-        var parent = state.Event!.Competitions.SelectMany(x => x.Phases).FirstOrDefault(x => x.Loop == entity);
-        if (parent != null)
-        {
-            throw new ParentalViolationException($"Loop '{entity}' cannot be deleted because it's contained in '{parent}'");
-        }
+        await UpdateLoopValue(entity,true);
         return entity;
     }
 
-    protected override void PerformUpdate(SetupState state, Loop entity)
+    private async Task UpdateLoopValue(Loop entity, bool isDelete=false) 
     {
-        var match = state.Loops.First(x => x == entity);
-        match.Distance = entity.Distance;
+        var state = await _store.Transact();
+        for(int i = 0; i < state.Loops.Count; i++)
+        {
+            if (state.Loops[i] == entity)
+            {
+                if (isDelete)
+                {
+                    state.Loops.RemoveAt(i);
+                }
+                else
+                {
+                    state.Loops[i] = entity;
+                }
+            }
+        }
+        foreach (var phase in state.Event!.Competitions.SelectMany(x => x.Phases))
+        {
+            if (phase.Loop == entity)
+            {
+                if (isDelete)
+                {
+                    phase.Loop = null;
+                }
+                else
+                {
+                    phase.Loop = entity;
+                }
+            }
+        }
+        await _store.Commit(state);
     }
 }

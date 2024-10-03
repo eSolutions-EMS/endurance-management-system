@@ -24,8 +24,8 @@ public class Horse : DomainEntity, ISummarizable, IImportable
         FeiId = feiId;
     }
 
-	public string? FeiId { get; internal set; }
-	public string Name { get; internal set; }
+	public string? FeiId { get; private set; }
+	public string Name { get; private set; }
 
 	public string Summarize()
 	{

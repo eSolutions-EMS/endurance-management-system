@@ -107,7 +107,7 @@ public class HandoutsBehind : ObservableBehind, IHandoutsBehind
 
     async Task HandleExistingHandout(PhaseCompleted phaseCompleted)
     {
-        var existing = await _handoutRepository. Read(x => x.ParticipationId == phaseCompleted.Participation.Id);
+        var existing = await _handoutRepository.Read(x => x.ParticipationId == phaseCompleted.Participation.Id);
         if (existing != null)
         {
             await _handoutRepository.Delete(existing);

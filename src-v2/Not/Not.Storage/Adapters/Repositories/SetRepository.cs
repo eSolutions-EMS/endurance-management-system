@@ -6,92 +6,92 @@ public abstract class SetRepository<T, TState> : IRepository<T>
     where T : DomainEntity
     where TState : class, ISetState<T>, new()
 {
+    private readonly IStore<TState> _store;
+
     public SetRepository(IStore<TState> store)
     {
-        Store = store;
+        _store = store;
     }
-
-    protected IStore<TState> Store { get; }
 
     public virtual async Task<T> Create(T entity)
     {
-        var state = await Store.Transact();
+        var state = await _store.Transact();
         state.EntitySet.Add(entity);
-        await Store.Commit(state);
+        await _store.Commit(state);
         return entity;
     }
 
 
     public async Task<T> Delete(int id)
     {
-        var state = await Store.Transact();
+        var state = await _store.Transact();
         var match = state.EntitySet.FirstOrDefault(x => x.Id == id);
         if (match == null)
         {
             return default;
         }
         state.EntitySet.Remove(match);
-        await Store.Commit(state);
+        await _store.Commit(state);
         return match;
     }
 
     public async Task<T> Delete(Predicate<T> filter)
     {
-        var state = await Store.Transact();
+        var state = await _store.Transact();
         state.EntitySet.RemoveAll(filter);
-        await Store.Commit(state);
+        await _store.Commit(state);
         return default!;
     }
 
     public virtual async Task<T> Delete(T entity)
     {
-        var state = await Store.Transact();
+        var state = await _store.Transact();
         state.EntitySet.Remove(entity);
-        await Store.Commit(state);
+        await _store.Commit(state);
         return entity;
     }
 
     public async Task Delete(IEnumerable<T> entities)
     {
-        var state = await Store.Transact();
+        var state = await _store.Transact();
         foreach (var entity in entities)
         {
             state.EntitySet.Remove(entity);
         }
-        await Store.Commit(state);
+        await _store.Commit(state);
     }
 
     public async Task<T?> Read(int id)
     {
-        var state = await Store.Readonly();
+        var state = await _store.Readonly();
         return state.EntitySet.FirstOrDefault(x => x.Id == id);
     }
 
     public async Task<IEnumerable<T>> ReadAll()
     {
-        var state = await Store.Readonly();
+        var state = await _store.Readonly();
         return state.EntitySet;
     }
 
     public async Task<IEnumerable<T>> ReadAll(Predicate<T> filter)
     {
-        var state = await Store.Readonly();
+        var state = await _store.Readonly();
         return state.EntitySet.Where(x => filter(x));
     }
 
     public async Task<T?> Read(Predicate<T> filter)
     {
-        var state = await Store.Readonly();
+        var state = await _store.Readonly();
         return state.EntitySet.FirstOrDefault(x => filter(x));
     }
 
     public virtual async Task<T> Update(T entity)
     {
-        var state = await Store.Transact();
+        var state = await _store.Transact();
 
         PerformUpdate(state, entity);
 
-        await Store.Commit(state);
+        await _store.Commit(state);
         return entity;
     }
 
