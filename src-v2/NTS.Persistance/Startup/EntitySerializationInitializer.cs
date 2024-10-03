@@ -1,6 +1,7 @@
 ﻿using Not.Injection;
 using Not.Serialization;
 using Not.Startup;
+using NTS.Domain.Core.Aggregates.Participations;
 using NTS.Domain.Setup.Entities;
 using NTS.Persistence.Converters;
 
@@ -14,5 +15,6 @@ public class EntitySerializationInitializer : IStartupInitializer, ITransientSer
         SerializationExtensions.AddConverter(new EntityReferenceEqualityGuardConverter<Athlete>());
         SerializationExtensions.AddConverter(new EntityReferenceEqualityGuardConverter<Combination>());
         SerializationExtensions.AddConverter(new EntityReferenceEqualityGuardConverter<Loop>());
+        SerializationExtensions.AddConverter(new EntityReferenceEqualityGuardConverter<Participation>());
     }
 }
