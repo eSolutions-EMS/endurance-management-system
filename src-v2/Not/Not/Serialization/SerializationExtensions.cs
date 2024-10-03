@@ -27,10 +27,7 @@ public static class SerializationExtensions
     public static string ToJson(this object obj)
     {
         var result = JsonConvert.SerializeObject(obj, _settings);
-        foreach (var converter in _converters)
-        {
-            converter.Reset();
-        }
+        ResetConverters();
         return result;
     }
 
@@ -42,11 +39,16 @@ public static class SerializationExtensions
         {
             throw new Exception($"Cannot serialize '{json}' to type of '{typeof(T)}'");
         }
+        ResetConverters();
+        return result;
+    }
+
+    static void ResetConverters()
+    {
         foreach (var converter in _converters)
         {
             converter.Reset();
         }
-        return result;
     }
 }
 
