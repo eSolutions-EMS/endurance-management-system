@@ -26,9 +26,9 @@ public class Combination : DomainEntity, ISummarizable, IImportable, IParent
         Horse = horse ?? throw new DomainException(nameof(Horse), "Horse is required");
     }
 
-    public int Number { get; internal set; }
-    public Athlete Athlete { get; internal set; }
-    public Horse Horse { get; internal set; }
+    public int Number { get; private set; }
+    public Athlete Athlete { get; private set; }
+    public Horse Horse { get; private set; }
 
     public string Summarize()
     {

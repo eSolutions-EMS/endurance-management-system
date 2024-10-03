@@ -28,11 +28,11 @@ public class Athlete : DomainEntity, ISummarizable, IImportable
         Category = category ?? throw new DomainException(nameof(Category), "Category is required");
 	}
 
-	public string? FeiId { get; internal set; }
-	public Person Person { get; internal set; }
-	public Country Country { get; internal set; }
-	public Club Club { get; internal set; }
-    public string Category { get; internal set; }    
+	public string? FeiId { get; private set; }
+	public Person Person { get; private set; }
+	public Country Country { get; private set; }
+	public Club Club { get; private set; }
+    public string Category { get; private set; }    
 
 	public override string ToString()
 	{
