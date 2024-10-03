@@ -24,6 +24,11 @@ public abstract class BranchRepository<T, TState> : IRepository<T>
     protected abstract IParent<T>? GetParent(TState state, int childId);
     protected abstract T? Get(TState state, int id);
 
+    protected virtual void PerformUpdate(TState state, T entity)
+    {
+
+    }
+
     public virtual async Task<T?> Read(int id)
     {
         var state = await _store.Readonly();
@@ -75,7 +80,6 @@ public abstract class BranchRepository<T, TState> : IRepository<T>
     {
         throw NotImplemented();
     }
-
     private Exception NotImplemented()
     {
         return new NotImplementedException($"Only 'Read' and 'Update' operations are implemented on '{nameof(BranchRepository<T, TState>)}'");

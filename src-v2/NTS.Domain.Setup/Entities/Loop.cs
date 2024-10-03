@@ -20,7 +20,7 @@ public class Loop : DomainEntity
 
         Distance = distance;
     }
-    public double Distance { get; set; }
+    public double Distance { get; internal set; }
 
     public override string ToString() 
     {
