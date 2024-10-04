@@ -1,0 +1,24 @@
+﻿
+<MudCollapse  Expanded="_expanded" Class="@(Class + _displayedClass)">
+    @ChildContent
+</MudCollapse>
+
+@code {
+    [Parameter]
+    public RenderFragment ChildContent { get; set; } = default!;
+    [Parameter]
+    public string Class { get; set; } = default!;
+    [Parameter]
+    public bool Expanded { get; set; }
+    [Parameter]
+    public bool Displayed { get; set; }
+
+    private bool _expanded;
+    private string _displayedClass;
+
+    protected override void OnParametersSet()
+    {
+        _expanded = Expanded || Displayed;
+        _displayedClass = Displayed ? "" : "d-none";
+    }
+}
