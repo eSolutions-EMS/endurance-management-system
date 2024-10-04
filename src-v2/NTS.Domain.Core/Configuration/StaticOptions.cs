@@ -6,15 +6,12 @@ namespace NTS.Domain.Core.Configuration;
 
 public class StaticOptions : IStartupInitializer, ISingletonService
 {
-    private const string RFID = "Rfid";
-    private const string Vision = "ComputerVision";
-
     readonly IStaticOptionsProvider<Model> _provider;
     
     static Model? _options;
     public static IRegionalConfiguration? RegionalConfiguration { get; set; }
-    public static bool RfidDetectionEnabled => _options != default && _options.DetectionMode.ToString() == RFID;
-    public static bool VisionDetectionEnabled => _options != default &&  _options.DetectionMode.ToString() == Vision;
+    public static bool RfidDetectionEnabled => _options != default && _options.DetectionMode == DetectionMode.Rfid;
+    public static bool VisionDetectionEnabled => _options != default &&  _options.DetectionMode == DetectionMode.ComputerVision;
 
     public static bool ShouldOnlyUseAverageLoopSpeed(CompetitionRuleset ruleset)
     {
