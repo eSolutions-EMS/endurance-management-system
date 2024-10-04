@@ -15,7 +15,7 @@
                Items="_athletes" @bind-Value="_model.Athlete" />
     <NotSelect T="Horse" Label="@Localizer.Get("Horse")" Placeholder="@Localizer.Get("Select a horse")"
                Items="_horses" @bind-Value="_model.Horse" />
-    @if (StaticOptions.RfidDetection())
+    @if (StaticOptions.RfidDetectionEnabled)
     {
         <RfidTagScanner CombinationNumber="_model.Number" @bind-Value="_model.Tag" />
     }

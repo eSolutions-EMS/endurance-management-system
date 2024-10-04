@@ -6,11 +6,15 @@ namespace NTS.Domain.Core.Configuration;
 
 public class StaticOptions : IStartupInitializer, ISingletonService
 {
+    private const string RFID = "Rfid";
+    private const string Vision = "ComputerVision";
+
     readonly IStaticOptionsProvider<Model> _provider;
     
     static Model? _options;
     public static IRegionalConfiguration? RegionalConfiguration { get; set; }
-    public static DetectionConfiguration? DetectionConfiguration { get; set; }
+    public static bool RfidDetectionEnabled => _options != default && _options.DetectionMode.ToString() == RFID;
+    public static bool VisionDetectionEnabled => _options != default &&  _options.DetectionMode.ToString() == Vision;
 
     public static bool ShouldOnlyUseAverageLoopSpeed(CompetitionRuleset ruleset)
     {
@@ -30,11 +34,6 @@ public class StaticOptions : IStartupInitializer, ISingletonService
         return true;
     }
 
-    public static bool RfidDetection()
-    {
-        return DetectionConfiguration.IsRfid();
-    }
-
     static bool ShouldUseRegionalConfiguration(CompetitionRuleset ruleset)
     {
         return ruleset == CompetitionRuleset.Regional && RegionalConfiguration != null;
@@ -49,13 +48,12 @@ public class StaticOptions : IStartupInitializer, ISingletonService
     {
         _options = _provider.Get();
         RegionalConfiguration = RegionalConfigurationProvider.Get(_options.SelectedCountry);
-        DetectionConfiguration = new DetectionConfiguration(_options.DetectionMode);
     }
 
     public class Model
     {
         public Country[] Countries { get; set; } = [];  
         public Country? SelectedCountry { get; set; }
-        public DetectionMode DetectionMode { get; set; }
+        public DetectionConfiguration DetectionMode { get; set; }
     }
 }
