@@ -17,7 +17,7 @@
                Items="_horses" @bind-Value="_model.Horse" />
     @if (StaticOptions.RfidDetectionEnabled)
     {
-        <RfidTagScanner CombinationNumber="_model.Number" @bind-Value="_model.Tag" />
+        <RfidTagWriter CombinationNumber="_model.Number" @bind-Value="_model.Tag" />
     }
 </EditForm>
 
