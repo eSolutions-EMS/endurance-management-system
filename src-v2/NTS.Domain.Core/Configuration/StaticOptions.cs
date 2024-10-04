@@ -10,8 +10,14 @@ public class StaticOptions : IStartupInitializer, ISingletonService
     
     static Model? _options;
     public static IRegionalConfiguration? RegionalConfiguration { get; set; }
-    public static bool RfidDetectionEnabled => _options != default && _options.DetectionMode == DetectionMode.Rfid;
-    public static bool VisionDetectionEnabled => _options != default &&  _options.DetectionMode == DetectionMode.ComputerVision;
+    public static bool RfidDetectionEnabled()
+    {
+        return _options != default && _options.DetectionMode == DetectionMode.Rfid;
+    }
+    public static bool VisionDetectionEnabled()
+    {
+        return _options != default && _options.DetectionMode == DetectionMode.ComputerVision;
+    }
 
     public static bool ShouldOnlyUseAverageLoopSpeed(CompetitionRuleset ruleset)
     {
