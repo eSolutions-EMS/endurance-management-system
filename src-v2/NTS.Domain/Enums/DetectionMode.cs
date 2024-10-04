@@ -1,6 +1,6 @@
 ﻿namespace NTS.Domain.Enums;
 
-public enum DetectionConfiguration
+public enum DetectionMode
 { 
     Manual = 0,
     Rfid = 1,

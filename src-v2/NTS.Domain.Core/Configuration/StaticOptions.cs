@@ -54,6 +54,6 @@ public class StaticOptions : IStartupInitializer, ISingletonService
     {
         public Country[] Countries { get; set; } = [];  
         public Country? SelectedCountry { get; set; }
-        public DetectionConfiguration DetectionMode { get; set; }
+        public DetectionMode DetectionMode { get; set; }
     }
 }
