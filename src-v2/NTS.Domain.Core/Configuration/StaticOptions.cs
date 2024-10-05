@@ -10,11 +10,11 @@ public class StaticOptions : IStartupInitializer, ISingletonService
     
     static Model? _options;
     public static IRegionalConfiguration? RegionalConfiguration { get; set; }
-    public static bool RfidDetectionEnabled()
+    public static bool IsRfidDetectionEnabled()
     {
         return _options != default && _options.DetectionMode == DetectionMode.Rfid;
     }
-    public static bool VisionDetectionEnabled()
+    public static bool IsVisionDetectionEnabled()
     {
         return _options != default && _options.DetectionMode == DetectionMode.ComputerVision;
     }
