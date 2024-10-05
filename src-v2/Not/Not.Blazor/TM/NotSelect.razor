@@ -7,10 +7,17 @@
 @inherits BindableValueComponent<T>
 @implements IMudBaseInputWrapper<T>
 
-<MudSelect T="T" @bind-Value="Value" @ref="MudBaseInput" Placeholder="@Placeholder" Label="@Localizer.Get(Label)">
+<MudSelect T="T" @bind-Value="Value" @ref="MudBaseInput" Placeholder="@Placeholder" Label="@Localizer.Get(Label)" >
     @foreach (var item in Items)
     {
         <MudSelectItem Value="@item.Value">@item.Label</MudSelectItem>
+    }
+    @if(!Items.Any())
+    {
+        var typeName = typeof(T).ToString().Split(".").Last();
+        var emptyLabel = Localizer.Get($"No items available in this list yet. Populate the {typeName} collection first.");
+        var emptyItem = new NotListModel<T>(emptyLabel);
+         <MudSelectItem Value="emptyItem.Value">@emptyItem.Label</MudSelectItem>
     }
 </MudSelect>
 
@@ -22,7 +29,6 @@
     public string Label { get; set; } = default!;
     [Parameter]
     public string Placeholder { get; set; } = default!;
-
 
     public MudBaseInput<T> MudBaseInput { get; private set; } = default!;
 }

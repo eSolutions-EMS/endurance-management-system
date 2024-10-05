@@ -32,6 +32,11 @@ public class NotListModel<T>
         Label = label ?? value!.ToString()!;
     }
 
-    public T Value { get; }
+    public NotListModel(string label)
+    {
+        Label = label;
+    }
+
+    public T? Value { get; } = default!;
     public string Label { get; }
 }
