@@ -3,6 +3,12 @@
     margin-bottom: 5px;
 }
 
+.spinner-label {
+    background-color: white;
+    line-height: 1;
+    z-index: 1;
+}
+
 .action-column{
     display:inline-flex;
     justify-self:flex-end;
