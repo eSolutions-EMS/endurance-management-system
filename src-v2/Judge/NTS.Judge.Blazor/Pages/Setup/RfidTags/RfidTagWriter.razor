@@ -1,6 +1,7 @@
 ﻿@using NTS.Judge.Blazor.Ports
 @using NTS.Domain.Setup.Entities
 @using Not.Blazor.TM
+@using Not.Notifier
 
 @inherits BindableValueComponent<Tag>
 
@@ -24,7 +25,7 @@
         }
     }
     <MudCollapse Expanded="_awaitingScan">
-        <NotLabelledSpinner Label="Waiting for Tag Scan"/>
+        <MudProgressCircular Class="ml-4" Color="Color.Primary" Size="Size.Medium" Indeterminate="true" />
     </MudCollapse>
 </MudStack>
 
@@ -38,6 +39,7 @@
     public async Task AddTag()
     {
         _awaitingScan = true;
+        NotifyHelper.Inform("Waiting for Tag Scan");
         Value = await _tagBehind.WriteTag(CombinationNumber);
         _awaitingScan = false;
     }
