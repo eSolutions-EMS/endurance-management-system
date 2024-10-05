@@ -5,32 +5,27 @@
 @inherits BindableValueComponent<Tag>
 
 <MudInputLabel Class="mr-4 mt-2 font-size-12">@Localizer.Get("Scan Rfid Tag")</MudInputLabel>
-<MudStack Row="true">
-    <NotCollapse Displayed="_awaitingScan">
-            <MudStack Class="mt-3">
-                <MudProgressCircular Class="align-self-center" Color="Color.Primary" Size="Size.Small" Indeterminate="true" />
-                <MudText Typo="Typo.overline" Color="Color.Primary">
-                    @Localizer.Get("Waiting for Tag Scan")
-                </MudText>
-            </MudStack>
-    </NotCollapse>
-    @if (!_awaitingScan)
-    {
+<MudStack Class="mt-3 mb-1" StretchItems="StretchItems.None" Row="true">
+     @if (!_awaitingScan)
+     {
         @if (Value == null)
         {
-            <MudButton Class="mt-3" Color="Color.Primary" Size="Size.Small" Variant="Variant.Filled"
+            <MudButton Color="Color.Primary" Size="Size.Small" Variant="Variant.Filled"
                        StartIcon="@Icons.Material.Filled.Add" OnClick="AddTag">@Localizer.Get("Add Tag")</MudButton>
         }
         else
         {
-            <MudPaper Class="mt-3">
+            <MudPaper >
                 <MudText Class="ml-2 mr-2" Typo="Typo.overline"> @Value </MudText>
             </MudPaper>
 
-            <MudButton Class="ml-3 mt-3" Color="Color.Error" Size="Size.Small" Variant="Variant.Filled"
+            <MudButton Color="Color.Error" Size="Size.Small" Variant="Variant.Filled"
                    StartIcon="@Icons.Material.Filled.Delete" OnClick="RemoveTag">@Localizer.Get("Remove Tag")</MudButton>
         }
     }
+    <MudCollapse Expanded="_awaitingScan">
+        <NotLabelledSpinner Label="Waiting for Tag Scan"/>
+    </MudCollapse>
 </MudStack>
 
 @code {
