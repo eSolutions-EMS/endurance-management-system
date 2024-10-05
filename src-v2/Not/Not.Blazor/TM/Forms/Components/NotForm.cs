@@ -3,6 +3,7 @@ using MudBlazor;
 using Not.Blazor.Components;
 using Not.Blazor.Forms;
 using Not.Exceptions;
+using Not.Notifier;
 
 namespace Not.Blazor.TM.Forms.Components;
 
@@ -44,14 +45,12 @@ public abstract class NotForm<T> : NotComponent, ICreateForm<T>, IUpdateForm<T>
     {
         if (field == null)
         {
-            // TODO: fix by adding toaster dependency to fallback to when Property is null
-            // i.e a general domain exception is raised, rather than one tied to a specific form field
-            throw new NotImplementedException($"Add INotifier fallback!: {message}");
+            NotifyHelper.Warn(message);
+            return;
         }
 
         if (!ValidationInjectors.TryGetValue(field, out var injector))
         {
-            //TODO: use IDefaultNotifier or something
             throw GuardHelper.Exception(
                 $"Key '{field}' not found in {nameof(NotForm<T>)}.{nameof(ValidationInjectors)}. " +
                 $"Make sure all field components have a ref pointer in there.");

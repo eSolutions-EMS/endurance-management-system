@@ -7,8 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="8.0.7" />
-    <PackageReference Include="MudBlazor" Version="6.17.0" />
+    <PackageReference Include="MudBlazor" Version="7.8.0" />
     <PackageReference Include="BlazorTemplater" Version="1.5.1" />
     <PackageReference Include="PreMailer.Net" Version="2.6.0" />
   </ItemGroup>

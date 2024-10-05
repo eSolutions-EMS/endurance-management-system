@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using MudBlazor.Services;
+using Not.Blazor.Mud.Extensions;
 
 namespace NTS.Judge.Blazor.Startup;
 
@@ -9,7 +9,7 @@ public static class JudgeBlazorStartup
     {
         services
             .AddLocalization(x => x.ResourcesPath = "Resources/Localization")
-            .AddMudServices();
+            .AddNotMudBlazor();
         return services;
     }
 }

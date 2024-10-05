@@ -1,39 +1,60 @@
 ﻿using Not.Application.Ports.CRUD;
 using Not.Blazor.Ports.Behinds;
-using Not.Domain;
-using Not.Exceptions;
+using Not.Safe;
 using NTS.Domain.Setup.Entities;
-using static MudBlazor.CategoryTypes;
 
 namespace NTS.Judge.Events;
+
 public class AthleteBehind : INotSetBehind<Athlete>
 {
     private readonly IRepository<Athlete> _athleteRepository;
-    private Athlete? _athlete;
 
     public AthleteBehind(IRepository<Athlete> athleteRepository)
     {
         _athleteRepository = athleteRepository;
     }
 
-    public Task<IEnumerable<Athlete>> GetAll()
+    Task<IEnumerable<Athlete>> SafeGetAll()
     {
         return _athleteRepository.ReadAll();
     }
 
-    public async Task<Athlete> Create(Athlete entity)
+    Task<Athlete> SafeCreate(Athlete entity)
     {
-        _athlete = await _athleteRepository.Create(entity);
-        return _athlete;
+        return _athleteRepository.Create(entity);
     }
 
-    public async Task<Athlete> Update(Athlete entity)
+    Task<Athlete> SafeUpdate(Athlete entity)
     {
-        return await _athleteRepository.Update(entity);
+        return _athleteRepository.Update(entity);
     }
 
-    public async Task<Athlete> Delete(Athlete entity)
+    Task<Athlete> SafeDelete(Athlete entity)
     {
-        return await _athleteRepository.Delete(entity);
+        return _athleteRepository.Delete(entity);
     }
+
+    #region SafePattern
+    
+    public async Task<IEnumerable<Athlete>> GetAll()
+    {
+        return await SafeHelper.Run(SafeGetAll) ?? [];
+    }
+
+    public async Task<Athlete> Create(Athlete athlete)
+    {
+        return await SafeHelper.Run(() => SafeCreate(athlete)) ?? athlete;
+    }
+
+    public async Task<Athlete> Update(Athlete athlete)
+    {
+        return await SafeHelper.Run(() => SafeUpdate(athlete)) ?? athlete;
+    }
+
+    public async Task<Athlete> Delete(Athlete athlete)
+    {
+        return await SafeHelper.Run(() => SafeDelete(athlete)) ?? athlete;
+    }
+
+    #endregion
 }
