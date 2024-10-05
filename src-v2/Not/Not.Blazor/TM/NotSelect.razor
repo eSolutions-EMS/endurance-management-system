@@ -15,9 +15,10 @@
     @if(!Items.Any())
     {
         var typeName = typeof(T).ToString().Split(".").Last();
-        var emptyLabel = Localizer.Get($"No items available in this list yet. Populate the {typeName} collection first.");
-        var emptyItem = new NotListModel<T>(emptyLabel);
-         <MudSelectItem Value="emptyItem.Value">@emptyItem.Label</MudSelectItem>
+        var emptyLabel = $"No items available in this list yet. <br/>To add items populate the <b>{typeName}</b> collection.";
+        var localizedMessage = Localizer.Get(emptyLabel);
+        var emptyItem = new NotListModel<T>(localizedMessage);
+         <MudSelectItem Class="py-10 px-5" Value="emptyItem.Value">@(new MarkupString(emptyItem.Label))</MudSelectItem>
     }
 </MudSelect>
 
