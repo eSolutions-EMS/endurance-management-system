@@ -13,6 +13,7 @@ public class NotDialogs<T, TForm> : IDialogs<T, TForm>
 {
     private readonly IDialogService _mudDialogService;
     private readonly ILocalizer _localizer;
+    private readonly DialogOptions _options = new DialogOptions { BackdropClick = false };
 
     public NotDialogs(IDialogService mudDialogService, ILocalizer localizer)
     {
@@ -23,8 +24,7 @@ public class NotDialogs<T, TForm> : IDialogs<T, TForm>
     public async Task RenderCreate()
     {
         var title = _localizer.Get("Create", " ", ReflectionHelper.GetName<T>());
-        var options = new DialogOptions { BackdropClick = false };
-        var dialog = await _mudDialogService.ShowAsync<NotFormCreate<T, TForm>>(title, options);
+        var dialog = await _mudDialogService.ShowAsync<NotFormCreate<T, TForm>>(title, _options);
         await dialog.Result;
     }
 }
