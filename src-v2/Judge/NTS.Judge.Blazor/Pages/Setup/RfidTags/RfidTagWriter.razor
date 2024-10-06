@@ -5,9 +5,10 @@
 
 @inherits BindableValueComponent<Tag>
 
+
 <MudInputLabel Class="mr-4 mt-2 font-size-12">@Localizer.Get("Scan Rfid Tag")</MudInputLabel>
-<MudStack Class="mt-3 mb-1" AlignItems="AlignItems.Center" Row="true">
-     @if (!_awaitingScan)
+<MudStack Class="mt-3 mb-n3" Style="height:52px;" AlignItems="AlignItems.Start" Row="true">
+    @if (!_awaitingScan)
      {
         @if (Value == null)
         {
@@ -24,8 +25,11 @@
                    StartIcon="@Icons.Material.Filled.Delete" OnClick="RemoveTag">@Localizer.Get("Remove Tag")</MudButton>
         }
     }
-    <MudProgressCircular Style="@_spinnerStyle" Class="ml-4" Color="Color.Primary" Size="Size.Medium" Indeterminate="true" />
+    <MudCollapse Expanded="_awaitingScan">
+        <MudProgressCircular Class="ml-4" Color="Color.Primary" Size="Size.Medium" Indeterminate="true" />
+    </MudCollapse>
 </MudStack>
+
 
 @code {
     [Inject]
@@ -34,7 +38,6 @@
     public int CombinationNumber { get; set; }
 
     private bool _awaitingScan = false;
-    private string _spinnerStyle => _awaitingScan ? "visibility:visible;" : "visibility:hidden;";
 
     public async Task AddTag()
     {
