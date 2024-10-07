@@ -1,15 +1,11 @@
-﻿using Not.Domain;
-using MudBlazor;
+﻿using MudBlazor;
 using Not.Blazor.Components;
 using Not.Blazor.Forms;
-using Not.Exceptions;
 using Not.Notifier;
 
 namespace Not.Blazor.TM.Forms.Components;
 
-// TODO: https://github.com/Not-Endurance/not-timing-system/issues/267
 public abstract class NotForm<T> : NotComponent, ICreateForm<T>, IUpdateForm<T>
-    where T : DomainEntity
 {
     /// <summary>
     /// Contains refs to the actual field components, necessary in order to render Mud validation messages from the DomainException
@@ -17,10 +13,25 @@ public abstract class NotForm<T> : NotComponent, ICreateForm<T>, IUpdateForm<T>
     /// </summary>
     protected Dictionary<string, MudValidationInjector> ValidationInjectors { get; set; } = new();
 
-    public abstract T SubmitCreate();
-    public abstract T SubmitUpdate();
-    public abstract void SetUpdateModel(T entity);
-    public abstract void RegisterValidationInjectors();
+    [Parameter]
+    public T Model { get; set; } = default!;
+
+    public virtual T SubmitCreate()
+    {
+        throw new NotImplementedException();
+    }
+    public virtual T SubmitUpdate()
+    {
+        throw new NotImplementedException();
+    }
+    public virtual void SetUpdateModel(T entity)
+    {
+        throw new NotImplementedException();
+    }
+    public virtual void RegisterValidationInjectors()
+    {
+        throw new NotImplementedException();
+    }
 
     protected override void OnInitialized()
     {

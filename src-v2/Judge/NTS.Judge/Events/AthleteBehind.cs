@@ -2,51 +2,55 @@
 using Not.Blazor.Ports.Behinds;
 using Not.Safe;
 using NTS.Domain.Setup.Entities;
+using NTS.Judge.Blazor.Pages.Setup.Athletes;
 
 namespace NTS.Judge.Events;
 
-public class AthleteBehind : INotSetBehind<Athlete>
+public class AthleteBehind : ObservableBehind<Athlete>,
+    IListBehind<Athlete>,
+    ICreateBehind<AthleteFormModel>,
+    IUpdateBehind<AthleteFormModel>
 {
-    private readonly IRepository<Athlete> _athleteRepository;
+    readonly IRepository<Athlete> _athleteRepository;
+
+    public IReadOnlyList<Athlete> Items => ObservableCollection;
 
     public AthleteBehind(IRepository<Athlete> athleteRepository)
     {
         _athleteRepository = athleteRepository;
     }
 
-    Task<IEnumerable<Athlete>> SafeGetAll()
+    async Task<AthleteFormModel> SafeCreate(AthleteFormModel entity)
     {
-        return _athleteRepository.ReadAll();
+        var athlete = Athlete.Create(entity.Name, entity.FeiId, entity.Country, entity.Club, entity.Category);
+        await _athleteRepository.Create(athlete);
+        ObservableCollection.AddOrReplace(athlete);
+        return entity;
     }
 
-    Task<Athlete> SafeCreate(Athlete entity)
+    async Task<AthleteFormModel> SafeUpdate(AthleteFormModel entity)
     {
-        return _athleteRepository.Create(entity);
+        var athlete = Athlete.Update(entity.Id, entity.Name, entity.FeiId, entity.Country, entity.Club, entity.Category);
+        await _athleteRepository.Update(athlete);
+        ObservableCollection.AddOrReplace(athlete);
+        return entity;
     }
 
-    Task<Athlete> SafeUpdate(Athlete entity)
+    async Task<Athlete> SafeDelete(Athlete entity)
     {
-        return _athleteRepository.Update(entity);
-    }
-
-    Task<Athlete> SafeDelete(Athlete entity)
-    {
-        return _athleteRepository.Delete(entity);
+        await _athleteRepository.Delete(x => x.Id == entity.Id);
+        ObservableCollection.Remove(entity.Id);
+        return entity;
     }
 
     #region SafePattern
-    
-    public async Task<IEnumerable<Athlete>> GetAll()
-    {
-        return await SafeHelper.Run(SafeGetAll) ?? [];
-    }
 
-    public async Task<Athlete> Create(Athlete athlete)
+    public async Task<AthleteFormModel> Create(AthleteFormModel athlete)
     {
         return await SafeHelper.Run(() => SafeCreate(athlete)) ?? athlete;
     }
 
-    public async Task<Athlete> Update(Athlete athlete)
+    public async Task<AthleteFormModel> Update(AthleteFormModel athlete)
     {
         return await SafeHelper.Run(() => SafeUpdate(athlete)) ?? athlete;
     }
@@ -54,6 +58,13 @@ public class AthleteBehind : INotSetBehind<Athlete>
     public async Task<Athlete> Delete(Athlete athlete)
     {
         return await SafeHelper.Run(() => SafeDelete(athlete)) ?? athlete;
+    }
+
+    protected override async Task<bool> PerformInitialization()
+    {
+        var athletes = await _athleteRepository.ReadAll();
+        ObservableCollection.AddRange(athletes);
+        return athletes.Any();
     }
 
     #endregion

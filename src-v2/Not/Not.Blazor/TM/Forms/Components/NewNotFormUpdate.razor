@@ -34,20 +34,19 @@
         // TODO: maybe use OnParametersSet?
         // Needs to wait untill ref is evaluated. Also this makes it necessary to trigger a manual rerender of TForm
         // https://learn.microsoft.com/en-us/aspnet/core/blazor/components/lifecycle?view=aspnetcore-8.0#handle-incomplete-async-actions-at-render
-        while (_form == null || Model == null)
-        {
-            await Task.Delay(TimeSpan.FromMilliseconds(10));
-        }
-        _form!.Instance.SetUpdateModel(Model);
-        _form!.Instance.TriggerRender();
+        // while (_form == null || Model == null)
+        // {
+        //     await Task.Delay(TimeSpan.FromMilliseconds(10));
+        // }
+        // _form!.Instance.SetUpdateModel(Model);
+        // _form!.Instance.TriggerRender();
     }
 
     async Task Update()
     {
         try
         {
-            var entity = _form!.Instance.SubmitUpdate();
-            await _behind.Update(entity);
+            await _behind.Update(Model);
             NavigateBack();
         }
         catch (DomainException domainException)

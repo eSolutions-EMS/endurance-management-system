@@ -13,7 +13,6 @@ namespace Not.Blazor.Forms;
 /// and wraps form input field components for entity <typeparamref name="T"/>
 /// </typeparam>
 public interface IFormNavigator<T, TFields> : ITransientService
-    where T : DomainEntity
     where TFields : NotForm<T>
 {
     /// <summary>

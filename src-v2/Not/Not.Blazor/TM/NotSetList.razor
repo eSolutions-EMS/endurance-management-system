@@ -2,12 +2,13 @@
 @using Not.Blazor.Forms
 @using Not.Blazor.Mud.Components
 @using Not.Blazor.Navigation
+@using Not.Blazor.TM.Forms
 @using Not.Blazor.TM.Forms.Components
 @using Not.Exceptions
 @using Not.Services
 
 @inherits NotComponent
-@typeparam T where T : DomainEntity
+@typeparam T
 @typeparam TForm where TForm : NotForm<T>
 
 <MudPaper Elevation="0" Class="@("pa-4 " + Class)" Style="@Style">
@@ -62,7 +63,7 @@
         GuardHelper.ThrowIfDefault(UpdateRoute);
 
         Name = Localizer.Get(Name ?? GetDefaultName());
-        //TODO improve the default message to enable a single translation entry for all empty component messages
+        //TODO improve the default message to enable a single translation entry for all empty component messagesz
         if(EmptyMessage == default)
         {
             string defaultMessage = $"No {Name.ToLower()} have been created for this event.";
