@@ -11,7 +11,7 @@
 @inherits NotComponent
 @typeparam T where T : DomainEntity
 @typeparam TModel where TModel : IFormModel<T>, new()
-@typeparam TForm where TForm : NotForm<TModel>
+@typeparam TForm where TForm : FormTM<TModel>
 
 <MudPaper Elevation="0" Class="@("pa-4 " + Class)" Style="@Style">
 
@@ -36,7 +36,7 @@
 
                 <MudSpacer />
 
-                <NotIconButtonUpdate OnClick="() => this._formNavigator.Update(UpdateRoute, CreateModel(entity))" />
+                <NotIconButtonUpdate OnClick="() => _formNavigator.Update(UpdateRoute, CreateModel(entity))" />
 
                 <NotIconButtonDelete OnClick="() => DeleteHandler(entity)" />
             </MudStack>
@@ -74,7 +74,6 @@
         await Observe(_behind);
     }
 
-    // TODO: Implement ObservableBehind pattern
     public async Task CreateHandler()
     {
         await _formNavigator.Create();

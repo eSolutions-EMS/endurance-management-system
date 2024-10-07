@@ -9,7 +9,7 @@ namespace Not.Blazor.TM.Forms;
 
 public class NotFormNavigator<T, TFields> : IFormNavigator<T, TFields>
     where T : DomainEntity
-    where TFields : NotForm<T>
+    where TFields : FormTM<T>
 {
     private readonly IDialogs<T, TFields> _notDialogs;
     private readonly ICrumbsNavigator _navigator;
@@ -34,7 +34,7 @@ public class NotFormNavigator<T, TFields> : IFormNavigator<T, TFields>
 
 public class FormTM<T, TForm>
     where T : new()
-    where TForm : NotForm<T>
+    where TForm : FormTM<T>
 {
     private readonly DialogTM<T, TForm> _dialog;
     private readonly ICrumbsNavigator _navigator;

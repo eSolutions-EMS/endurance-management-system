@@ -6,7 +6,7 @@
 
 @inherits NotComponent
 @typeparam T where T : new();
-@typeparam TForm where TForm : NotForm<T>
+@typeparam TForm where TForm : FormTM<T>
 
 <MudDialog>
     <DialogContent>
@@ -14,26 +14,23 @@
     </DialogContent>
 
     <DialogActions>
-        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Create">
-            @Localizer.Get("Create")
-        </MudButton>
+        <NotButtonCreate OnClick="Create" />
     </DialogActions>
 </MudDialog>
 
 @code {
-    private T _model = new T();
-    private NotDynamic<T, TForm>? _dynamicForm;
+    T _model = new T();
+    NotDynamic<T, TForm>? _dynamicForm;
     [Inject]
-    private ICreateBehind<T> _behind { get; set; } = default!;
+    ICreateBehind<T> _behind { get; set; } = default!;
 
     [CascadingParameter]
     protected MudDialogInstance Dialog { get; set; } = default!;
 
-    private async Task Create()
+    async Task Create()
     {
         try
         {
-            // var entity = _dynamicForm!.Instance.SubmitCreate();
             await _behind.Create(_model);
             Dialog.Close(DialogResult.Ok(true));
         }

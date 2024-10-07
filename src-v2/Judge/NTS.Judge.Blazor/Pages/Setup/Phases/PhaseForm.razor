@@ -6,7 +6,7 @@
 @using Not.Blazor.TM.Forms;
 @using Not.Blazor.TM.Forms.Components;
 
-@inherits NotForm<Phase>;
+@inherits FormTM<Phase>;
 
 <EditForm Model="_model">
     <NotSelect T="Loop" Label="@Localizer.Get("Loop distance")" Placeholder="@Localizer.Get("Select a loop")"

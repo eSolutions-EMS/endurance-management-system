@@ -8,7 +8,7 @@
 @using Not.Extensions;
 @using NTS.Judge.Blazor.Pages.Setup.Combinations;
 
-@inherits NotForm<Contestant>;
+@inherits FormTM<Contestant>;
 
 <EditForm Model="_model">
     <NotSelect T="Combination" Label="@Localizer.Get("Combination")" Placeholder="@Localizer.Get("Select a combination")"

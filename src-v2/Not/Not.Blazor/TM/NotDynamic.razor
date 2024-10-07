@@ -2,7 +2,7 @@
 @using Not.Exceptions;
 
 @typeparam T
-@typeparam TForm where TForm : NotForm<T>
+@typeparam TForm where TForm : FormTM<T>
 
 @if (Model == null)
 {
@@ -27,7 +27,7 @@ else
         {
             return;
         }
-        var key = nameof(NotForm<T>.Model);
+        var key = nameof(FormTM<T>.Model);
         if (_parameters.ContainsKey(key))
         {
             _parameters[key] = Model;

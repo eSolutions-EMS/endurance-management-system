@@ -1,5 +1,4 @@
 ﻿using Not.Injection;
-using Not.Domain;
 using Not.Blazor.TM.Forms.Components;
 
 namespace Not.Blazor.Forms;
@@ -13,7 +12,7 @@ namespace Not.Blazor.Forms;
 /// and wraps form input field components for entity <typeparamref name="T"/>
 /// </typeparam>
 public interface IFormNavigator<T, TFields> : ITransientService
-    where TFields : NotForm<T>
+    where TFields : FormTM<T>
 {
     /// <summary>
     /// Renders a dialog using <typeparamref name="TFields"/> for entity <typeparamref name="T"/>

@@ -7,7 +7,7 @@
 @using Not.Blazor.TM.Models;
 @using Not.Blazor.TM;
 
-@inherits NotForm<Official>;
+@inherits FormTM<Official>;
 
 <EditForm Model="_model">
     <MudTextField @ref="_nameField" @bind-Value="_model.Name" Label="@Localizer.Get("Name")" />

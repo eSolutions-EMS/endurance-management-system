@@ -5,7 +5,7 @@ using Not.Notifier;
 
 namespace Not.Blazor.TM.Forms.Components;
 
-public abstract class NotForm<T> : NotComponent, ICreateForm<T>, IUpdateForm<T>
+public abstract class FormTM<T> : NotComponent, ICreateForm<T>, IUpdateForm<T>
 {
     /// <summary>
     /// Contains refs to the actual field components, necessary in order to render Mud validation messages from the DomainException
@@ -63,7 +63,7 @@ public abstract class NotForm<T> : NotComponent, ICreateForm<T>, IUpdateForm<T>
         if (!ValidationInjectors.TryGetValue(field, out var injector))
         {
             throw GuardHelper.Exception(
-                $"Key '{field}' not found in {nameof(NotForm<T>)}.{nameof(ValidationInjectors)}. " +
+                $"Key '{field}' not found in {nameof(FormTM<T>)}.{nameof(ValidationInjectors)}. " +
                 $"Make sure all field components have a ref pointer in there.");
         }
 

@@ -6,7 +6,7 @@
 @using Not.Blazor.TM.Forms;
 @using Not.Blazor.TM.Forms.Components;
 
-@inherits NotForm<Event>;
+@inherits FormTM<Event>;
 
 <EditForm Model="_model">
     <MudTextField @ref="_placeField" @bind-Value="_model.Place" Label="@Localizer.Get(nameof(Event.Place))" />

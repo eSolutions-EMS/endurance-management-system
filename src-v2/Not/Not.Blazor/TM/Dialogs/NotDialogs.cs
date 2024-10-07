@@ -7,7 +7,7 @@ using Not.Reflection;
 namespace Not.Blazor.TM.Dialogs;
 
 public class NotDialogs<T, TForm> : IDialogs<T, TForm>
-    where TForm : NotForm<T>
+    where TForm : FormTM<T>
 {
     private readonly IDialogService _mudDialogService;
     private readonly ILocalizer _localizer;
@@ -28,7 +28,7 @@ public class NotDialogs<T, TForm> : IDialogs<T, TForm>
 
 public class DialogTM<T, TForm>
     where T : new()
-    where TForm : NotForm<T>
+    where TForm : FormTM<T>
 {
     private readonly IDialogService _mudDialogService;
     private readonly ILocalizer _localizer;
@@ -42,7 +42,7 @@ public class DialogTM<T, TForm>
     public async Task RenderCreate()
     {
         var title = _localizer.Get("Create", " ", ReflectionHelper.GetName<T>());
-        var dialog = await _mudDialogService.ShowAsync<NewNotFormCreate<T, TForm>>(title);
+        var dialog = await _mudDialogService.ShowAsync<FormCreateTM<T, TForm>>(title);
         await dialog.Result;
     }
 }

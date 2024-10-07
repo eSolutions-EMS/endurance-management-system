@@ -6,7 +6,7 @@
 
 @inherits NotComponent
 @typeparam T;
-@typeparam TForm where TForm : NotForm<T>;
+@typeparam TForm where TForm : FormTM<T>;
 
 <MudContainer Class="not-page-mid-width">
     <NotDynamic T="T" TForm="TForm" @ref="_form" Model="Model"/>
