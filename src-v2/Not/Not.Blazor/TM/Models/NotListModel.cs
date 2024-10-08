@@ -23,7 +23,7 @@ public class NotListModel
         }
     }
 
-    public static NotListModel<T> GetEmptyValue<T>()
+    public static NotListModel<T> CreateEmptyValue<T>()
     {
         return new NotListModel<T>();
     }
