@@ -52,8 +52,10 @@
     [Inject]
     IListBehind<T> _behind { get; set; } = default!;
     [Inject]
-    FormTM<TModel, TForm> _formNavigator { get; set; } = default!;
+    FormManager<TModel, TForm> _formNavigator { get; set; } = default!;
 
+    [Parameter]
+    public int? ParentId { get; set; }
     [Parameter]
     public string Name { get; set; } = default!;
     [Parameter, EditorRequired]
@@ -71,7 +73,8 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await Observe(_behind);
+        IEnumerable<object> args = ParentId != null ? [ ParentId ] : [];
+        await Observe(_behind, args);
     }
 
     public async Task CreateHandler()

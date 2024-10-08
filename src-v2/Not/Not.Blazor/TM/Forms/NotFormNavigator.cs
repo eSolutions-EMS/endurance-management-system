@@ -32,14 +32,14 @@ public class NotFormNavigator<T, TFields> : IFormNavigator<T, TFields>
     }
 }
 
-public class FormTM<T, TForm>
+public class FormManager<T, TForm>
     where T : new()
     where TForm : FormTM<T>
 {
     private readonly DialogTM<T, TForm> _dialog;
     private readonly ICrumbsNavigator _navigator;
 
-    public FormTM(DialogTM<T, TForm> dialog, ICrumbsNavigator navigator)
+    public FormManager(DialogTM<T, TForm> dialog, ICrumbsNavigator navigator)
     {
         _dialog = dialog;
         _navigator = navigator;

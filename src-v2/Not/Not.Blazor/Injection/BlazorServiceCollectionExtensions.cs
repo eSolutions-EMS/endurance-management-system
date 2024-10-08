@@ -13,6 +13,6 @@ public static class BlazorServiceCollectionExtensions
         return services
             .AddNotMudBlazor()
             .AddTransient(typeof(DialogTM<,>))
-            .AddTransient(typeof(FormTM<,>));
+            .AddTransient(typeof(FormManager<,>));
     }
 }

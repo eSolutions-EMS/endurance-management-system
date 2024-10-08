@@ -23,16 +23,16 @@
     List<NotListModel<Horse>> _horses = [];
 
     [Inject]
-    INotSetBehind<Athlete> _athleteSetBehind { get; set; } = default!;
+    IListBehind<Athlete> _athletesBehind { get; set; } = default!;
     [Inject]
-    INotSetBehind<Horse> _horseSetBehind { get; set; } = default!;
+    IListBehind<Horse> _horsesBehind { get; set; } = default!;
 
     protected async override Task OnInitializedAsync()
     {
-        var athletes = await _athleteSetBehind.GetAll();
-        var horses = await _horseSetBehind.GetAll();
-        _athletes = NotListModel.FromEntity<Athlete>(athletes).ToList();
-        _horses = NotListModel.FromEntity<Horse>(horses).ToList();
+        await Observe(_athletesBehind);
+        await Observe(_horsesBehind);
+        _athletes = NotListModel.FromEntity<Athlete>(_athletesBehind.Items).ToList();
+        _horses = NotListModel.FromEntity<Horse>(_horsesBehind.Items).ToList();
     }
 
     public override void RegisterValidationInjectors()
