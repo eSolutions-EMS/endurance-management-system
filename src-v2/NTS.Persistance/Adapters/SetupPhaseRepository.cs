@@ -3,6 +3,6 @@ using NTS.Persistence.Setup;
 
 namespace NTS.Persistence.Adapters;
 
-public class SetupEventRepository(IStore<SetupState> store) : RootRepository<Event, SetupState>(store)
+public class SetupPhaseRepository(IStore<SetupState> store) : SetRepository<Phase, SetupState>(store)
 {
 }

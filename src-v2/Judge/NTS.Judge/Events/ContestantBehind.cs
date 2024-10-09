@@ -11,7 +11,7 @@ public class ContestantBehind : SimpleCrudBehind<Contestant, ContestantFormModel
 {
     private readonly IRepository<Competition> _competitions;
 
-    public ContestantBehind(IRepository<Competition> competitions) : base(null!)
+    public ContestantBehind(IRepository<Competition> competitions, IRepository<Contestant> participations) : base(participations)
     {
         _competitions = competitions;
     }
@@ -36,30 +36,22 @@ public class ContestantBehind : SimpleCrudBehind<Contestant, ContestantFormModel
         return false; // This allows us to change the parent competition
     }
 
-    protected override async Task<ContestantFormModel> SafeCreate(ContestantFormModel model)
+    protected override async Task OnBeforeCreate(Contestant entity)
     {
-        var entity = CreateEntity(model);
         CompetitionChildrenBehind.Competition!.Add(entity);
         await _competitions.Update(CompetitionChildrenBehind.Competition);
-        ObservableCollection.AddOrReplace(entity);
-        return model;
     }
 
-    protected override async Task<ContestantFormModel> SafeUpdate(ContestantFormModel model)
+    protected override async Task OnBeforeUpdate(Contestant entity)
     {
-        var entity = UpdateEntity(model);
         CompetitionChildrenBehind.Competition!.Update(entity);
         await _competitions.Update(CompetitionChildrenBehind.Competition);
-        ObservableCollection.AddOrReplace(entity);
-        return model;
     }
 
-    protected override async Task<Contestant> SafeDelete(Contestant entity)
+    protected override async Task OnBeforeDelete(Contestant entity)
     {
         CompetitionChildrenBehind.Competition!.Remove(entity);
         await _competitions.Update(CompetitionChildrenBehind.Competition);
-        ObservableCollection.Remove(entity);
-        return entity;
     }
 
     protected override Contestant CreateEntity(ContestantFormModel model)

@@ -12,18 +12,18 @@ public class EventBehind : ObservableBehind, IEnduranceEventBehind
 {
     public static Event? StaticEnduranceEvent { get; internal set; }
 
-    private readonly IRepository<Event> StaticEnduranceEventRepository;
+    private readonly IRepository<Event> _events;
 
-    public EventBehind(IRepository<Event> eventRepository)
+    public EventBehind(IRepository<Event> events)
     {
-        StaticEnduranceEventRepository = eventRepository;
+        _events = events;
     }
 
     public EventFormModel? Model { get; private set; }
 
     protected override async Task<bool> PerformInitialization(params IEnumerable<object> _)
     {
-        StaticEnduranceEvent = await StaticEnduranceEventRepository.Read(0);
+        StaticEnduranceEvent = await _events.Read(0);
         if (StaticEnduranceEvent == null)
         {
             return false;
@@ -36,7 +36,7 @@ public class EventBehind : ObservableBehind, IEnduranceEventBehind
     async Task<EventFormModel> SafeCreate(EventFormModel model)
     {
         StaticEnduranceEvent = Event.Create(model.Place, model.Country);
-        await StaticEnduranceEventRepository.Create(StaticEnduranceEvent);
+        await _events.Create(StaticEnduranceEvent);
         Model = model;
         EmitChange();
         return model;
@@ -45,7 +45,7 @@ public class EventBehind : ObservableBehind, IEnduranceEventBehind
     async Task<EventFormModel> SafeUpdate(EventFormModel model)
     {
         StaticEnduranceEvent = Event.Update(model.Id, model.Place, model.Country, model.Competitions, model.Officials);
-        await StaticEnduranceEventRepository.Update(StaticEnduranceEvent);
+        await _events.Update(StaticEnduranceEvent);
         Model = model;
         EmitChange();
         return model;
@@ -56,7 +56,7 @@ public class EventBehind : ObservableBehind, IEnduranceEventBehind
         GuardHelper.ThrowIfDefault(StaticEnduranceEvent);
 
         StaticEnduranceEvent.Add(child);
-        await StaticEnduranceEventRepository.Update(StaticEnduranceEvent);
+        await _events.Update(StaticEnduranceEvent);
         return child;
     }
 
@@ -65,7 +65,7 @@ public class EventBehind : ObservableBehind, IEnduranceEventBehind
         GuardHelper.ThrowIfDefault(StaticEnduranceEvent);
 
         StaticEnduranceEvent.Remove(child);
-        await StaticEnduranceEventRepository.Update(StaticEnduranceEvent);
+        await _events.Update(StaticEnduranceEvent);
         return child;
     }
 
@@ -74,13 +74,13 @@ public class EventBehind : ObservableBehind, IEnduranceEventBehind
         GuardHelper.ThrowIfDefault(StaticEnduranceEvent);
 
         StaticEnduranceEvent.Update(child);
-        await StaticEnduranceEventRepository.Update(StaticEnduranceEvent);
+        await _events.Update(StaticEnduranceEvent);
         return child;
     }
 
     async Task<Event?> SafeInitialize(int id)
     {
-        return StaticEnduranceEvent = await StaticEnduranceEventRepository.Read(id);
+        return StaticEnduranceEvent = await _events.Read(id);
     }
 
     #region SafePattern 

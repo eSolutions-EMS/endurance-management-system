@@ -9,7 +9,7 @@ public class CompetitionBehind : SimpleCrudBehind<Competition, CompetitionFormMo
 {
     private readonly IRepository<Event> _events;
 
-    public CompetitionBehind(IRepository<Event> events) : base(null!)
+    public CompetitionBehind(IRepository<Event> events, IRepository<Competition> competitions) : base(competitions)
     {
         _events = events;
     }
@@ -21,30 +21,22 @@ public class CompetitionBehind : SimpleCrudBehind<Competition, CompetitionFormMo
         return EventBehind.StaticEnduranceEvent != null;
     }
 
-    protected override async Task<CompetitionFormModel> SafeCreate(CompetitionFormModel model)
+    protected override async Task OnBeforeCreate(Competition entity)
     {
-        var entity = CreateEntity(model);
         EventBehind.StaticEnduranceEvent!.Add(entity);
         await _events.Update(EventBehind.StaticEnduranceEvent);
-        ObservableCollection.AddOrReplace(entity);
-        return model;
     }
 
-    protected override async Task<CompetitionFormModel> SafeUpdate(CompetitionFormModel model)
+    protected override async Task OnBeforeUpdate(Competition entity)
     {
-        var entity = UpdateEntity(model);
         EventBehind.StaticEnduranceEvent!.Update(entity);
         await _events.Update(EventBehind.StaticEnduranceEvent);
-        ObservableCollection.AddOrReplace(entity);
-        return model;
     }
 
-    protected override async Task<Competition> SafeDelete(Competition entity)
+    protected override async Task OnBeforeDelete(Competition entity)
     {
         EventBehind.StaticEnduranceEvent!.Remove(entity);
         await _events.Update(EventBehind.StaticEnduranceEvent);
-        ObservableCollection.Remove(entity);
-        return entity;
     }
 
     protected override Competition CreateEntity(CompetitionFormModel model)

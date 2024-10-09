@@ -10,7 +10,7 @@ public class PhaseBehind : SimpleCrudBehind<Phase, PhaseFormModel>
 {
     private readonly IRepository<Competition> _competitions;
 
-    public PhaseBehind(IRepository<Competition> competitions) : base(null!)
+    public PhaseBehind(IRepository<Competition> competitions, IRepository<Phase> phase) : base(phase)
     {
         _competitions = competitions;
     }
@@ -35,30 +35,22 @@ public class PhaseBehind : SimpleCrudBehind<Phase, PhaseFormModel>
         return false; // This allows us to change the parent competition
     }
 
-    protected override async Task<PhaseFormModel> SafeCreate(PhaseFormModel model)
+    protected override async Task OnBeforeCreate(Phase entity)
     {
-        var entity = CreateEntity(model);
         CompetitionChildrenBehind.Competition!.Add(entity);
         await _competitions.Update(CompetitionChildrenBehind.Competition);
-        ObservableCollection.AddOrReplace(entity);
-        return model;
     }
 
-    protected override async Task<PhaseFormModel> SafeUpdate(PhaseFormModel model)
+    protected override async Task OnBeforeUpdate(Phase entity)
     {
-        var entity = UpdateEntity(model);
         CompetitionChildrenBehind.Competition!.Update(entity);
         await _competitions.Update(CompetitionChildrenBehind.Competition);
-        ObservableCollection.AddOrReplace(entity);
-        return model;
     }
 
-    protected override async Task<Phase> SafeDelete(Phase entity)
+    protected override async Task OnBeforeDelete(Phase entity)
     {
         CompetitionChildrenBehind.Competition!.Remove(entity);
         await _competitions.Update(CompetitionChildrenBehind.Competition);
-        ObservableCollection.Remove(entity);
-        return entity;
     }
 
     protected override Phase CreateEntity(PhaseFormModel model)
