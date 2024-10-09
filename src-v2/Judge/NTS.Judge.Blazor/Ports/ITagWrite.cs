@@ -4,5 +4,5 @@ using NTS.Domain.Setup.Entities;
 namespace NTS.Judge.Blazor.Ports;
 public interface ITagWrite : ISingletonService
 {
-    Task<Tag> Write(int number);
+    Task<Tag> WriteAsync(int number);
 }
