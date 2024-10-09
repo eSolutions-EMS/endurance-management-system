@@ -9,8 +9,21 @@
 
   <ItemGroup>
     <Reference Include="Vup">
-      <HintPath>..\Judge\NTS.Judge\Vup.dll</HintPath>
+      <HintPath>Vup.dll</HintPath>
     </Reference>
   </ItemGroup>
-
+	
+  <ItemGroup>
+  	<Content Include="rfid.dll">
+  		<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  	</Content>
+  	<Content Include="rfid_core.dll">
+  		<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  	</Content>
+  	<Content Include="Vup.dll">
+  		<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  		<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+  	</Content>
+  </ItemGroup>
+	
 </Project>
