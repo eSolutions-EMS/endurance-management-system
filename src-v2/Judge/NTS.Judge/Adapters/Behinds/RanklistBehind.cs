@@ -1,6 +1,7 @@
 ﻿using Not.Application.Ports.CRUD;
 using Not.Blazor.Ports.Behinds;
 using Not.Exceptions;
+using Not.Safe;
 using NTS.Domain.Core.Aggregates.Participations;
 using NTS.Domain.Core.Entities;
 using NTS.Domain.Core.Objects;
@@ -18,6 +19,7 @@ public class RanklistBehind : ObservableBehind, IRanklistBehind
         _rankings = rankings;
         _participations = participations;
     }
+
     public Ranklist? Ranklist { get; private set; }
 
     protected override async Task<bool> PerformInitialization()
@@ -31,12 +33,12 @@ public class RanklistBehind : ObservableBehind, IRanklistBehind
         return true;
     }
 
-    public async Task<IEnumerable<Ranking>> GetRankings()
+    async Task<IEnumerable<Ranking>> SafeGetRankings()
     {
         return await _rankings.ReadAll();
     }
 
-    public async Task SelectRanking(int id)
+    async Task SafeSelectRanking(int id)
     {
         var ranking = await _rankings.Read(id);
         GuardHelper.ThrowIfDefault(ranking);
@@ -45,9 +47,23 @@ public class RanklistBehind : ObservableBehind, IRanklistBehind
         EmitChange();
     }
 
-    private async Task<Ranklist> CreateRanklist(Ranking ranking)
+    async Task<Ranklist> CreateRanklist(Ranking ranking)
     {
         var participations = await _participations.ReadAll();
         return new Ranklist(ranking, participations);
     }
+
+    #region SafePattern
+    
+    public async Task<IEnumerable<Ranking>> GetRankings()
+    {
+        return await SafeHelper.Run(SafeGetRankings) ?? [];
+    }
+
+    public async Task SelectRanking(int id)
+    {
+        await SafeHelper.Run(() => SafeSelectRanking(id));
+    }
+
+    #endregion
 }

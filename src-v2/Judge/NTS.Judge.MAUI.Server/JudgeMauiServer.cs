@@ -1,5 +1,5 @@
 ﻿using EMS.Judge.Api.Services;
-using Not.Concurrency;
+using Not.Safe;
 using NTS.Judge.MAUI.Server.ACL;
 using NTS.Judge.MAUI.Server.ACL.Handshake;
 
@@ -14,7 +14,7 @@ public class JudgeMauiServer
 
     public static Task Start(IServiceProvider callerProvider)
     {
-        return TaskHelper.Run(() => { StartServer(callerProvider); return Task.CompletedTask; });
+        return SafeHelper.RunAsync(() => { StartServer(callerProvider); return Task.CompletedTask; });
     }
 
     private static void StartServer(IServiceProvider callerProvider)

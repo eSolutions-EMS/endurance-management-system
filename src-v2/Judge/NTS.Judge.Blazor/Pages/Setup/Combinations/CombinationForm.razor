@@ -15,9 +15,9 @@
                Items="_athletes" @bind-Value="_model.Athlete" />
     <NotSelect T="Horse" Label="@Localizer.Get("Horse")" Placeholder="@Localizer.Get("Select a horse")"
                Items="_horses" @bind-Value="_model.Horse" />
-    @if (StaticOptions.RfidDetection())
+    @if (StaticOptions.IsRfidDetectionEnabled())
     {
-        <RfidTagScanner CombinationNumber="_model.Number" @bind-Value="_model.Tag" />
+        <RfidTagWriter CombinationNumber="_model.Number" @bind-Value="_model.Tag" />
     }
 </EditForm>
 

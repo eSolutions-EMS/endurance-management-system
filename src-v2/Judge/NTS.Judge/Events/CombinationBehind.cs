@@ -1,39 +1,60 @@
 ﻿using Not.Application.Ports.CRUD;
 using Not.Blazor.Ports.Behinds;
-using Not.Domain;
-using Not.Exceptions;
+using Not.Safe;
 using NTS.Domain.Setup.Entities;
-using static MudBlazor.CategoryTypes;
 
 namespace NTS.Judge.Events;
+
 public class CombinationBehind : INotSetBehind<Combination>
 {
     private readonly IRepository<Combination> _combinationRepository;
-    private Combination? _combination;
 
     public CombinationBehind(IRepository<Combination> combinationRepository)
     {
         _combinationRepository = combinationRepository;
     }
 
-    public Task<IEnumerable<Combination>> GetAll()
+    Task<IEnumerable<Combination>> SafeGetAll()
     {
         return _combinationRepository.ReadAll();
     }
 
+    Task<Combination> SafeCreate(Combination entity)
+    {
+        return _combinationRepository.Create(entity);
+    }
+
+    Task<Combination> SafeUpdate(Combination entity)
+    {
+        return _combinationRepository.Update(entity);
+    }
+
+    Task<Combination> SafeDelete(Combination entity)
+    {
+        return _combinationRepository.Delete(entity);
+    }
+
+    #region SafePattern
+
+    public async Task<IEnumerable<Combination>> GetAll()
+    {
+        return await SafeHelper.Run(SafeGetAll) ?? [];
+    }
+
     public async Task<Combination> Create(Combination entity)
     {
-        _combination = await _combinationRepository.Create(entity);
-        return _combination;
+        return await SafeHelper.Run(() => SafeCreate(entity)) ?? entity;
     }
 
     public async Task<Combination> Update(Combination entity)
     {
-        return await _combinationRepository.Update(entity);
+        return await SafeHelper.Run(() => SafeUpdate(entity)) ?? entity;
     }
 
     public async Task<Combination> Delete(Combination entity)
     {
-        return await _combinationRepository.Delete(entity);
+        return await SafeHelper.Run(() => SafeDelete(entity)) ?? entity;
     }
+
+    #endregion
 }
