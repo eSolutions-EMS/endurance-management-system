@@ -18,7 +18,6 @@ public interface IParticipationBehind : IObservableBehind
     Task RequestReinspection(bool requestFlag);
     Task RequestRequiredInspection(bool requestFlag);
     Task Process(Snapshot snapshot);
-    Task Process(Snapshot snapshot);
     Task Update(IPhaseState state);
     Task Withdraw();
     Task Retire();
