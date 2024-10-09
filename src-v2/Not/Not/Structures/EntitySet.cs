@@ -6,7 +6,7 @@ namespace Not.Structures;
 public class EntitySet<T> : IReadOnlyList<T>
     where T : IIdentifiable
 {
-    readonly Action? _action;
+    Action? _action;
     Dictionary<int, T> _dictionary = [];
 
     public EntitySet()
@@ -14,6 +14,11 @@ public class EntitySet<T> : IReadOnlyList<T>
     }
 
     public EntitySet(Action action)
+    {
+        _action = action;
+    }
+
+    public void Sub(Action action)
     {
         _action = action;
     }

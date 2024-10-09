@@ -1,42 +1,18 @@
 ﻿using Not.Application.Adapters.Behinds;
 using Not.Application.Ports.CRUD;
 using NTS.Domain.Setup.Entities;
+using NTS.Judge.Contexts;
 using NTS.Judge.Setup.Competitions;
 
 namespace NTS.Judge.Events;
 
 public class CompetitionBehind : SimpleCrudBehind<Competition, CompetitionFormModel>
 {
-    private readonly IRepository<Event> _events;
+    private readonly EventParentContext _parentContext;
 
-    public CompetitionBehind(IRepository<Event> events, IRepository<Competition> competitions) : base(competitions)
+    public CompetitionBehind(IRepository<Competition> competitions, EventParentContext parentContext) : base(competitions, parentContext)
     {
-        _events = events;
-    }
-
-    protected override async Task<bool> PerformInitialization(params IEnumerable<object> args)
-    {
-        EventBehind.StaticEnduranceEvent = await _events.Read(0);
-        ObservableCollection.AddRange(EventBehind.StaticEnduranceEvent?.Competitions ?? []);
-        return EventBehind.StaticEnduranceEvent != null;
-    }
-
-    protected override async Task OnBeforeCreate(Competition entity)
-    {
-        EventBehind.StaticEnduranceEvent!.Add(entity);
-        await _events.Update(EventBehind.StaticEnduranceEvent);
-    }
-
-    protected override async Task OnBeforeUpdate(Competition entity)
-    {
-        EventBehind.StaticEnduranceEvent!.Update(entity);
-        await _events.Update(EventBehind.StaticEnduranceEvent);
-    }
-
-    protected override async Task OnBeforeDelete(Competition entity)
-    {
-        EventBehind.StaticEnduranceEvent!.Remove(entity);
-        await _events.Update(EventBehind.StaticEnduranceEvent);
+        this._parentContext = parentContext;
     }
 
     protected override Competition CreateEntity(CompetitionFormModel model)

@@ -18,13 +18,13 @@ public class SetupState : NotState,
     // in order to be the first to be serialized. Otherwise updates on those entities will be ignored
     // because the obsoleted entities will be serialized first and the updates will be lost to a $domainRef
     public List<Loop> Loops { get; } = [];
+    public List<Official> Officials { get; } = [];
     public List<Horse> Horses { get; } = [];
     public List<Athlete> Athletes { get; } = [];
+    public List<Phase> Phases { get; } = [];
     public List<Combination> Combinations { get; } = [];
     public List<Contestant> Participations { get; } = [];
     public List<Competition> Competitions { get; } = [];
-    public List<Phase> Phases { get; } = [];
-    public List<Official> Officials { get; } = [];
     public Event? Event { get; set; }
 
     Event? ITreeState<Event>.Root
