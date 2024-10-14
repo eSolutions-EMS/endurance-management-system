@@ -15,7 +15,7 @@ internal class FeiRanker : Ranker
     {
         return entries
             .OrderBy(x => x.Participation.IsNotQualified())
-            .ThenByDescending(x => !x.IsRanked);
+            .ThenBy(x => x.IsNotRanked);
     }
 }
 
