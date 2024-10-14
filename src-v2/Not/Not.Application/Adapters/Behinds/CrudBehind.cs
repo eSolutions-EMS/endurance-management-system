@@ -5,7 +5,6 @@ using Not.Domain;
 using Not.Exceptions;
 using Not.Reflection;
 using Not.Safe;
-using Not.Structures;
 
 namespace Not.Application.Adapters.Behinds;
 
@@ -69,35 +68,6 @@ public abstract class CrudBehind<T, TModel> : ObservableListBehind<T>, IListBehi
         }
     }
 
-    // TODO: probably remove SafeCreate and SafeUpdate as they interfere with Form validation mechanism
-    // where errors are handled anyway. Use SafeHelper for form validation mechanism:
-    // use optional parameter to override the default validation behavior
-    async Task<TModel> SafeCreate(TModel model)
-    {
-        var entity = CreateEntity(model);
-        await OnBeforeCreate(entity);
-        await _repository.Create(entity);
-        ObservableList.AddOrReplace(entity);
-        return model;
-    }
-
-    async Task<TModel> SafeUpdate(TModel model)
-    {
-        var entity = UpdateEntity(model);
-        await OnBeforeUpdate(entity);
-        await _repository.Update(entity);
-        ObservableList.AddOrReplace(entity);
-        return model;
-    }
-
-    async Task<T> SafeDelete(T entity)
-    {
-        await OnBeforeDelete(entity);
-        await _repository.Delete(entity);
-        ObservableList.Remove(entity);
-        return entity;
-    }
-
     protected override async Task<bool> PerformInitialization(params IEnumerable<object> arguments)
     {
         if (_parentContext != null)
@@ -132,20 +102,40 @@ public abstract class CrudBehind<T, TModel> : ObservableListBehind<T>, IListBehi
         }
     }
 
+    public async Task<TModel> Update(TModel model)
+    {
+        var entity = UpdateEntity(model);
+        await OnBeforeUpdate(entity);
+        await _repository.Update(entity);
+        ObservableList.AddOrReplace(entity);
+        return model;
+    }
+
     public async Task<TModel> Create(TModel model)
     {
-        return await SafeHelper.Run(() => SafeCreate(model)) ?? model;
+        var entity = CreateEntity(model);
+        await OnBeforeCreate(entity);
+        await _repository.Create(entity);
+        ObservableList.AddOrReplace(entity);
+        return model;
     }
+
+    async Task<T> SafeDelete(T entity)
+    {
+        await OnBeforeDelete(entity);
+        await _repository.Delete(entity);
+        ObservableList.Remove(entity);
+        return entity;
+    }
+
+    #region Safe pattern
 
     public async Task<T> Delete(T entity)
     {
         return await SafeHelper.Run(() => SafeDelete(entity)) ?? entity;
     }
 
-    public async Task<TModel> Update(TModel model)
-    {
-        return await SafeHelper.Run(() => SafeUpdate(model)) ?? model;
-    }
+    #endregion
 
     public void Dispose()
     {

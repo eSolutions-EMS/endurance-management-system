@@ -1,4 +1,5 @@
 ﻿@using Not.Blazor.Mud.Components
+@using Not.Safe
 @using Not.Services;
 @using Not.Blazor.Components;
 @using Not.Blazor.Forms;
@@ -31,15 +32,18 @@
 
     async Task Update()
     {
-        try
-        {
-            await _behind.Update(Model);
-            NavigateBack();
-        }
-        catch (DomainException domainException)
-        {
-            await _form.Instance.AddValidationError(domainException.Property, domainException.Message);
-        }
+        await SafeHelper.Run(Submit, InjectValidation);
+    }
+
+    async Task Submit()
+    {
+        await _behind.Update(Model);
+        NavigateBack();
+    }
+
+    async Task InjectValidation(DomainExceptionBase validation)
+    {
+        await _form!.Instance.AddValidationError(validation.Property, validation.Message);
     }
 
     void NavigateBack()

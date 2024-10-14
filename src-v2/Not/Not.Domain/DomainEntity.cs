@@ -75,6 +75,17 @@ public abstract class DomainEntity : IEquatable<DomainEntity>, IIdentifiable
         return instance ?? throw GetRequiredException(field);
     }
 
+
+    [return: NotNull]
+    protected static string Required(string field, string? value)
+    {
+        if (string.IsNullOrEmpty(value))
+        {
+            throw GetRequiredException(field);
+        }
+        return value;
+    }
+
     static DomainException GetRequiredException(string field)
     {
         return new DomainException(field, "Please provide value");
