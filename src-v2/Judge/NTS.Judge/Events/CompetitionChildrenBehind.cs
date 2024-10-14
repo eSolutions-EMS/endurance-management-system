@@ -87,7 +87,7 @@ public class CompetitionChildrenBehind : INotSetBehind<Contestant>, INotSetBehin
         return _competition = await _competitionReader.Read(id);
     }
 
-    #region SafePatter
+    #region SafePattern
 
     async Task<IEnumerable<Contestant>> IReadAllBehind<Contestant>.GetAll()
     {
@@ -126,7 +126,7 @@ public class CompetitionChildrenBehind : INotSetBehind<Contestant>, INotSetBehin
 
     public async Task<Phase> Delete(Phase phase)
     {
-        return await SafeHelper.Run(() => Delete(phase)) ?? phase;
+        return await SafeHelper.Run(() => SafeDelete(phase)) ?? phase;
     }
 
     public async Task<Competition?> Initialize(int id)
