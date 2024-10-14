@@ -9,11 +9,11 @@ public class CompetitionParentContext(IRepository<Competition> entities) : Behin
     IParentContext<Phase>,
     IParentContext<Contestant>
 {
-    readonly EntitySet<Phase> _phases = new();
-    readonly EntitySet<Contestant> _contestants = new();
+    readonly ObservableList<Phase> _phases = new();
+    readonly ObservableList<Contestant> _contestants = new();
 
-    EntitySet<Phase> IParentContext<Phase>.Children => _phases;
-    EntitySet<Contestant> IParentContext<Contestant>.Children => _contestants;
+    ObservableList<Phase> IParentContext<Phase>.Children => _phases;
+    ObservableList<Contestant> IParentContext<Contestant>.Children => _contestants;
 
     public async Task Load(int parentId)
     {

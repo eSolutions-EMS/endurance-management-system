@@ -7,7 +7,7 @@ using NTS.Judge.Contexts;
 
 namespace NTS.Judge.Events;
 
-public class OfficialBehind : SimpleCrudBehind<Official, OfficialFormModel>
+public class OfficialBehind : CrudBehind<Official, OfficialFormModel>
 {
     public OfficialBehind(IRepository<Official> official, EventParentContext enduraceEventContext) : base(official, enduraceEventContext)
     {

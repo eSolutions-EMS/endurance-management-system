@@ -5,7 +5,7 @@ using NTS.Judge.Blazor.Pages.Setup.Loops;
 
 namespace NTS.Judge.Events;
 
-public class LoopBehind : SimpleCrudBehind<Loop, LoopFormModel>
+public class LoopBehind : CrudBehind<Loop, LoopFormModel>
 {
     public LoopBehind(IRepository<Loop> loopRepository) : base(loopRepository)
     {

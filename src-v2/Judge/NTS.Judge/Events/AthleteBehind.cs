@@ -5,7 +5,7 @@ using NTS.Judge.Blazor.Pages.Setup.Athletes;
 
 namespace NTS.Judge.Events;
 
-public class AthleteBehind : SimpleCrudBehind<Athlete, AthleteFormModel>
+public class AthleteBehind : CrudBehind<Athlete, AthleteFormModel>
 {
     public AthleteBehind(IRepository<Athlete> repository) : base(repository)
     {

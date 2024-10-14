@@ -5,7 +5,7 @@ using NTS.Judge.Blazor.Pages.Setup.Horses;
 
 namespace NTS.Judge.Events;
 
-public class HorseBehind : SimpleCrudBehind<Horse, HorseFormModel>
+public class HorseBehind : CrudBehind<Horse, HorseFormModel>
 {
     public HorseBehind(IRepository<Horse> repository) : base(repository)
     {

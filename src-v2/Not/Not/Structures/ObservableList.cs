@@ -4,14 +4,10 @@ using System.Collections;
 
 namespace Not.Structures;
 
-public class EntitySet<T> : IReadOnlyList<T>
+public class ObservableList<T> : IReadOnlyList<T>
     where T : IIdentifiable
 {
     Dictionary<int, T> _dictionary = [];
-
-    public EntitySet()
-    {
-    }
 
     public SyncEventManager Changed { get; } = new();
 

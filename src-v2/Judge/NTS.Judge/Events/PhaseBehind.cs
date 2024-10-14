@@ -6,7 +6,7 @@ using NTS.Judge.Contexts;
 
 namespace NTS.Judge.Events;
 
-public class PhaseBehind : SimpleCrudBehind<Phase, PhaseFormModel>
+public class PhaseBehind : CrudBehind<Phase, PhaseFormModel>
 {
     private readonly CompetitionParentContext _parentContext;
 

@@ -9,30 +9,35 @@ using Not.Structures;
 
 namespace Not.Application.Adapters.Behinds;
 
-public abstract class SimpleCrudBehind<T, TModel> : ObservableBehind, IListBehind<T>, IFormBehind<TModel>, IDisposable
+public abstract class CrudBehind<T, TModel> : ObservableListBehind<T>, IListBehind<T>, IFormBehind<TModel>, IDisposable
     where T : DomainEntity
 {
     readonly Guid _loadedSubscriptionId;
     readonly IParentContext<T>? _parentContext;
     readonly IRepository<T> _repository;
 
-    protected SimpleCrudBehind(IRepository<T> repository, IParentContext<T> parentContext)
+    /// <summary>
+    /// Instantiates a CRUD behind capable of handling child items
+    /// </summary>
+    /// <param name="repository">Items repository</param>
+    /// <param name="parentContext">ParentContext defines the necessary operations in order to update item's parent when item changes</param>
+    protected CrudBehind(IRepository<T> repository, IParentContext<T> parentContext) : base(parentContext.Children)
     {
-        ObservableItems = parentContext.Children;
         _repository = repository;
         _parentContext = parentContext;
-        _loadedSubscriptionId = ObservableItems.Changed.Subscribe(EmitChange);
+        _loadedSubscriptionId = ObservableList.Changed.Subscribe(EmitChange);
     }
-    protected SimpleCrudBehind(IRepository<T> repository)
+    /// <summary>
+    /// Instatiates a basic CRUD behind for a standalone or root-level entity
+    /// </summary>
+    /// <param name="repository">Entity's repository</param>
+    protected CrudBehind(IRepository<T> repository) : base([])
     {
-        ObservableItems = new();
         _repository = repository;
-        _loadedSubscriptionId = ObservableItems.Changed.Subscribe(EmitChange);
+        _loadedSubscriptionId = ObservableList.Changed.Subscribe(EmitChange);
     }
 
-    protected EntitySet<T> ObservableItems { get; }
-
-    public IReadOnlyList<T> Items => ObservableItems;
+    public IReadOnlyList<T> Items => ObservableList;
 
     protected abstract T CreateEntity(TModel model);
     protected abstract T UpdateEntity(TModel model);
@@ -72,7 +77,7 @@ public abstract class SimpleCrudBehind<T, TModel> : ObservableBehind, IListBehin
         var entity = CreateEntity(model);
         await OnBeforeCreate(entity);
         await _repository.Create(entity);
-        ObservableItems.AddOrReplace(entity);
+        ObservableList.AddOrReplace(entity);
         return model;
     }
 
@@ -81,7 +86,7 @@ public abstract class SimpleCrudBehind<T, TModel> : ObservableBehind, IListBehin
         var entity = UpdateEntity(model);
         await OnBeforeUpdate(entity);
         await _repository.Update(entity);
-        ObservableItems.AddOrReplace(entity);
+        ObservableList.AddOrReplace(entity);
         return model;
     }
 
@@ -89,7 +94,7 @@ public abstract class SimpleCrudBehind<T, TModel> : ObservableBehind, IListBehin
     {
         await OnBeforeDelete(entity);
         await _repository.Delete(entity);
-        ObservableItems.Remove(entity);
+        ObservableList.Remove(entity);
         return entity;
     }
 
@@ -122,7 +127,7 @@ public abstract class SimpleCrudBehind<T, TModel> : ObservableBehind, IListBehin
         else
         {
             var entities = await _repository.ReadAll();
-            ObservableItems.AddRange(entities);
+            ObservableList.AddRange(entities);
             return entities.Any();
         }
     }
@@ -144,6 +149,7 @@ public abstract class SimpleCrudBehind<T, TModel> : ObservableBehind, IListBehin
 
     public void Dispose()
     {
-        _parentContext?.Children.Changed.Unsubscribe(_loadedSubscriptionId); //TODO: test
+        _parentContext?.Children.Changed.Unsubscribe(_loadedSubscriptionId);
+        GC.SuppressFinalize(this);
     }
 }

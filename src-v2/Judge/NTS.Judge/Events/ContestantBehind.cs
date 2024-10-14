@@ -7,7 +7,7 @@ using NTS.Judge.Contexts;
 
 namespace NTS.Judge.Events;
 
-public class ContestantBehind : SimpleCrudBehind<Contestant, ContestantFormModel>
+public class ContestantBehind : CrudBehind<Contestant, ContestantFormModel>
 {
     public ContestantBehind(IRepository<Contestant> participations, CompetitionParentContext parentContext)
         : base(participations, parentContext)

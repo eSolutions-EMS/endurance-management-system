@@ -10,7 +10,7 @@ public interface IParentContext<T> : ISingletonService
     bool HasLoaded();
     Task Load(int parentId);
     Task Persist();
-    EntitySet<T> Children { get; }
+    ObservableList<T> Children { get; }
     void Add(T child);
     void Update(T child);
     void Remove(T child);

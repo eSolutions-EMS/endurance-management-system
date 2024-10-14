@@ -9,11 +9,11 @@ public class EventParentContext(IRepository<Event> entities) : BehindContext<Eve
     IParentContext<Competition>,
     IParentContext<Official>
 {
-    readonly EntitySet<Competition> _competitions = new();
-    readonly EntitySet<Official> _officials = new();
+    readonly ObservableList<Competition> _competitions = new();
+    readonly ObservableList<Official> _officials = new();
 
-    EntitySet<Competition> IParentContext<Competition>.Children => _competitions;
-    EntitySet<Official> IParentContext<Official>.Children => _officials;
+    ObservableList<Competition> IParentContext<Competition>.Children => _competitions;
+    ObservableList<Official> IParentContext<Official>.Children => _officials;
 
     public async Task Load(int parentId)
     {

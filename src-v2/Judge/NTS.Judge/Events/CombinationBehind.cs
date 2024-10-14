@@ -5,7 +5,7 @@ using NTS.Judge.Blazor.Pages.Setup.Combinations;
 
 namespace NTS.Judge.Events;
 
-public class CombinationBehind : SimpleCrudBehind<Combination, CombinationFormModel>
+public class CombinationBehind : CrudBehind<Combination, CombinationFormModel>
 {
     public CombinationBehind(IRepository<Combination> repository) : base(repository)
     {

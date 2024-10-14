@@ -6,7 +6,7 @@ using NTS.Judge.Setup.Competitions;
 
 namespace NTS.Judge.Events;
 
-public class CompetitionBehind : SimpleCrudBehind<Competition, CompetitionFormModel>
+public class CompetitionBehind : CrudBehind<Competition, CompetitionFormModel>
 {
     private readonly EventParentContext _parentContext;
 
