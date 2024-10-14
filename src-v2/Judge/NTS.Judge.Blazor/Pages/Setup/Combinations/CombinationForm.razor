@@ -1,4 +1,6 @@
-﻿@using NTS.Domain.Setup.Entities;
+﻿@using NTS.Domain.Core.Configuration
+@using NTS.Domain.Setup.Entities;
+@using NTS.Judge.Blazor.Pages.Setup.RfidTags
 @using Not.Blazor.Forms;
 @using Not.Blazor.TM;
 @using Not.Blazor.TM.Models;
@@ -13,6 +15,10 @@
                Items="_athletes" @bind-Value="_model.Athlete" />
     <NotSelect T="Horse" Label="@Localizer.Get("Horse")" Placeholder="@Localizer.Get("Select a horse")"
                Items="_horses" @bind-Value="_model.Horse" />
+    @if (StaticOptions.IsRfidDetectionEnabled())
+    {
+        <RfidTagWriter CombinationNumber="_model.Number" @bind-Value="_model.Tag" />
+    }
 </EditForm>
 
 @code {
@@ -50,11 +56,11 @@
 
     public override Combination SubmitCreate()
     {
-        return Combination.Create(_model.Number, _model.Athlete, _model.Horse);
+        return Combination.Create(_model.Number, _model.Athlete, _model.Horse, _model.Tag); 
     }
 
     public override Combination SubmitUpdate()
     {
-        return Combination.Update(_model.Id, _model.Number, _model.Athlete, _model.Horse);
+        return Combination.Update(_model.Id, _model.Number, _model.Athlete, _model.Horse, _model.Tag);
     }
 }

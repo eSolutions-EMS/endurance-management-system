@@ -22,6 +22,11 @@ public class NotListModel
             yield return new NotListModel<T>(value);
         }
     }
+
+    public static NotListModel<T> CreateEmptyValue<T>()
+    {
+        return new NotListModel<T>();
+    }
 }
 
 public class NotListModel<T>
@@ -32,6 +37,11 @@ public class NotListModel<T>
         Label = label ?? value!.ToString()!;
     }
 
-    public T Value { get; }
+    public NotListModel()
+    {
+        Label = "No items in this list yet.";
+    }
+
+    public T? Value { get; } = default!;
     public string Label { get; }
 }
