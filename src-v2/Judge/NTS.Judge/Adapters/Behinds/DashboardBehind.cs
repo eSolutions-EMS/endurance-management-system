@@ -17,7 +17,6 @@ public class DashboardBehind : ObservableBehind, IDashboardBehind, ISnapshotProc
     private readonly IRepository<Official> _coreOfficialRepository;
     private readonly IRepository<Participation> _participationRepository;
     private readonly IRepository<SnapshotResult> _snapshotResultRepository;
-    private ITagRead _tagReader;
 
     public DashboardBehind(
         IRepository<Domain.Setup.Entities.Event> setupRepository,
@@ -32,7 +31,6 @@ public class DashboardBehind : ObservableBehind, IDashboardBehind, ISnapshotProc
         _coreOfficialRepository = coreOfficialRepository;
         _participationRepository = participationRepository;
         _snapshotResultRepository = snapshotResultRepository;
-        _tagReader = tagReader;
     }
 
     public IEnumerable<Participation> Participations { get; private set; } = new List<Participation>();
@@ -53,10 +51,6 @@ public class DashboardBehind : ObservableBehind, IDashboardBehind, ISnapshotProc
         }
         await CreateEvent(setupEvent);
         await CreateOfficials(setupEvent.Officials);
-        foreach(var tag in await _tagReader.ReadTags())
-        {
-            await Process(tag);
-        };
     }
 
     public async Task Process(Snapshot snapshot)

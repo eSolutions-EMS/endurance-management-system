@@ -16,6 +16,15 @@ public class StaticOptions : IStartupInitializer, ISingletonService
         return _options != default && _options.DetectionMode == DetectionMode.Rfid;
     }
 
+    public static SnapshotType RfidSnapshotType()
+    {
+        if(_options == null)
+        {
+            throw new GuardException("Internal options property was not found. Check if static-options.json is configured.");
+        }
+        return _options.RfidSnapshotType;
+    }
+
     public static bool IsVisionDetectionEnabled()
     {
         return _options != default && _options.DetectionMode == DetectionMode.ComputerVision;
