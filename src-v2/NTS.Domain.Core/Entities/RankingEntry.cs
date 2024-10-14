@@ -1,4 +1,5 @@
-﻿using NTS.Domain.Core.Aggregates.Participations;
+﻿using Not.Localization;
+using NTS.Domain.Core.Aggregates.Participations;
 
 namespace NTS.Domain.Core.Entities;
 
@@ -7,17 +8,20 @@ public class RankingEntry : DomainEntity
     private RankingEntry(int id) : base(id)
     {
     }
-    public RankingEntry(int participationId, bool isRanked)
+    public RankingEntry(Participation participation, bool isNotRanked)
     {
-        ParticipationId = participationId;
-        IsRanked = isRanked;
+        Participation = participation;
+        IsNotRanked = isNotRanked;
     }
 
-    public int ParticipationId { get; private set; }
-    public bool IsRanked { get; private set; }
+    public Participation Participation { get; private set; }
+    public bool IsNotRanked { get; private set; } 
 
     public override string ToString()
     {
-        return $"IsRanked: {IsRanked}, {ParticipationId}";
+        var message = IsNotRanked
+            ? $"({"not ranked".Localize()}) "
+            : "";
+        return message + Participation.ToString();
     }
 }
