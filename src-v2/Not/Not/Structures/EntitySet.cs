@@ -13,7 +13,7 @@ public class EntitySet<T> : IReadOnlyList<T>
     {
     }
 
-    public SyncEventManager Changed { get; } = new();
+    public EventManager Changed { get; } = new();
 
     public void AddOrReplace(T item)
     {
