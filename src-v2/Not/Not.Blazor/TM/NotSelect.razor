@@ -14,13 +14,13 @@
     }
     @if(!Items.Any())
     {
-        var emptyItem = NotListModel.Empty<T>();
-        <MudSelectItem Class="pa-4" Value="emptyItem.Value">@(new MarkupString(emptyItem.Label))</MudSelectItem>
+        <MudSelectItem Class="pa-4" Value="_empty.Value">@(new MarkupString(_empty.Label))</MudSelectItem>
     }
 </MudSelect>
 
 @code {
-    // TODO: Implement Validation injection for custom input components
+    static NotListModel<T> _empty = NotListModel.Empty<T>();
+
     [Parameter]
     public List<NotListModel<T>> Items { get; set; } = new();
     [Parameter]
