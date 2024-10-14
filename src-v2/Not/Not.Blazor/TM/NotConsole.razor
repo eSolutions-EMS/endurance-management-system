@@ -1,0 +1,40 @@
+﻿<MudDialog TitleClass="mud-console-header py-0 " Class="mud-console" ContentClass="pa-1">
+    <DialogContent>
+        <MudText Typo="Typo.overline" Class="mud-console-output">
+            @foreach (var line in OutputLines)
+            {
+                <div>@line</div>
+            }
+        </MudText>
+    </DialogContent>
+</MudDialog>
+
+@code {
+    [Parameter]
+    public List<string> OutputLines { get; set; } = new List<string>();
+
+    public void AddOutput(string newLine)
+    {
+        OutputLines.Add(newLine);
+        InvokeAsync(StateHasChanged);
+    }
+
+    public void ClearConsole()
+    {
+        OutputLines.Clear();
+        InvokeAsync(StateHasChanged);
+    }
+}
+
+<style>
+    .mud-console{
+        border-radius: 0px;
+        background-color: rgb( 1, 36, 86);
+        color: rgb(192, 192, 192);
+    }
+    .mud-console-header{
+        border: 1px solid rgb( 1, 36, 86);
+        background-color: rgb(192, 192, 192);
+        color: rgb( 1, 36, 86);
+    }
+</style>
