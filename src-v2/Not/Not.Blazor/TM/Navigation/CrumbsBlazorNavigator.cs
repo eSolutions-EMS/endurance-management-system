@@ -9,7 +9,7 @@ public class CrumbsBlazorNavigator : ICrumbsNavigator, ILandNavigator
 {
     private readonly NavigationManager _blazorNavigationManager;
     private static Parameters? _parameters;
-    private static Stack<(string endpoint, Parameters? parameters)>? _breadCrumbs;
+    private static Stack<(string endpoint, Parameters? parameters)>? _crumbs;
 
     public CrumbsBlazorNavigator(NavigationManager blazorNavigationManager)
     {
@@ -20,7 +20,7 @@ public class CrumbsBlazorNavigator : ICrumbsNavigator, ILandNavigator
     {
         ValidateCrumbs();
 
-        _breadCrumbs.Push((endpoint, null));
+        _crumbs.Push((endpoint, null));
         NavigateForward(endpoint);
     }
 
@@ -29,20 +29,24 @@ public class CrumbsBlazorNavigator : ICrumbsNavigator, ILandNavigator
         ValidateCrumbs();
 
         _parameters = Parameters.Create(parameter);
-        _breadCrumbs.Push((endpoint, _parameters));
+        _crumbs.Push((endpoint, _parameters));
         NavigateForward(endpoint);
+    }
+
+    public bool CanNavigateBack()
+    {
+        return _crumbs?.Count >= 2;
     }
 
     public void NavigateBack()
     {
         ValidateCrumbs();
 
-        // Pop current
-        if (!_breadCrumbs.TryPop(out var _))
+        if (!_crumbs.TryPop(out var _))
         {
             return;
         }
-        if (!_breadCrumbs.TryPeek(out var previousCrumb))
+        if (!_crumbs.TryPeek(out var previousCrumb))
         {
             return;
         }
@@ -50,9 +54,11 @@ public class CrumbsBlazorNavigator : ICrumbsNavigator, ILandNavigator
         NavigateForward(previousCrumb.endpoint);
     }
 
+    //TODO: add can navigate and hide back if cannot
+
     public void LandTo(string landing)
     {
-        _breadCrumbs = [];
+        _crumbs = [];
         NavigateTo(landing);
     }
 
@@ -66,10 +72,9 @@ public class CrumbsBlazorNavigator : ICrumbsNavigator, ILandNavigator
         _parameters = null;
         return result;
     }
-
     public void Initialize(string landingEndpoint)
     {
-        if (_breadCrumbs != null)
+        if (_crumbs != null)
         {
             return;
         }
@@ -79,7 +84,7 @@ public class CrumbsBlazorNavigator : ICrumbsNavigator, ILandNavigator
     [DoesNotReturn]
     void ValidateCrumbs()
     {
-        if (_breadCrumbs == null)
+        if (_crumbs == null)
         {
             throw GuardHelper.Exception($"Crumbs are not initialized. NavigateBack cannot function without navigating using LandTo");
         }

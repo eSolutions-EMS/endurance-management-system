@@ -7,6 +7,7 @@ public interface ICrumbsNavigator : ITransientService
     void NavigateTo(string endpoint);
     void NavigateTo<T>(string endpoint, T parameter);
     void NavigateBack();
+    void CanNavigateBack();
     T ConsumeParameter<T>();
 }
 
