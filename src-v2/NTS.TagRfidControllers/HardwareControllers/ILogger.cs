@@ -1,4 +1,4 @@
-﻿namespace Rfid.Hardware;
+﻿namespace NTS.TagRfidControllers.HardwareControllers;
 
 public interface ILogger
 {

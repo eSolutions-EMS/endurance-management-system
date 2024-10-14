@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using System;
-using Vup.reader;
-using System.Threading;
+﻿using Vup.reader;
 
-namespace Rfid.Hardware;
+namespace NTS.TagRfidControllers.HardwareControllers;
 
 public class VupVD67Controller : RfidController
 {

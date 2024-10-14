@@ -2,7 +2,7 @@
 using System.Text;
 using Vup.reader;
 
-namespace Rfid.Hardware;
+namespace NTS.TagRfidControllers.HardwareControllers;
 
 public class VupVF747pController : RfidController
 { 
@@ -39,10 +39,11 @@ public class VupVF747pController : RfidController
 
     public IEnumerable<string> StartReading()
     {
-        if (!this.IsConnected)
+        while (!this.IsConnected)
         {
             this.Connect();
         }
+        Console.WriteLine("Listening for tags...");
         var antennaIndices = this.GetAntennaIndices();
         this.IsReading = true;
         while (this.IsReading && this.reader.IsConnected)

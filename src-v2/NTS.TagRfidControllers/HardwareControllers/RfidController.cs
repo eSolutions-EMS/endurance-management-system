@@ -1,7 +1,6 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 
-namespace Rfid.Hardware;
+namespace NTS.TagRfidControllers.HardwareControllers;
 
 public abstract class RfidController
 {
