@@ -10,10 +10,21 @@ public class StaticOptions : IStartupInitializer, ISingletonService
     
     static Model? _options;
     public static IRegionalConfiguration? RegionalConfiguration { get; set; }
+
     public static bool IsRfidDetectionEnabled()
     {
         return _options != default && _options.DetectionMode == DetectionMode.Rfid;
     }
+
+    public static SnapshotType RfidSnapshotType()
+    {
+        if(_options == null)
+        {
+            throw new GuardException("Internal options property was not found. Check if static-options.json is configured.");
+        }
+        return _options.RfidSnapshotType;
+    }
+
     public static bool IsVisionDetectionEnabled()
     {
         return _options != default && _options.DetectionMode == DetectionMode.ComputerVision;
@@ -58,5 +69,6 @@ public class StaticOptions : IStartupInitializer, ISingletonService
         public Country[] Countries { get; set; } = [];  
         public Country? SelectedCountry { get; set; }
         public DetectionMode DetectionMode { get; set; }
+        public SnapshotType RfidSnapshotType { get; set; }
     }
 }

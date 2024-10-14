@@ -1,0 +1,77 @@
+﻿@using NTS.Domain.Objects
+@using NTS.Judge.Blazor.Ports;
+@using Not.Blazor.TM
+
+@inject IDialogService DialogService
+@implements IDisposable
+@inherits NotComponent
+
+<MudStack Class="ma-5">
+    <MudButton Color="Color.Primary" Variant="Variant.Filled" Disabled="_enduranceEventStarted" OnClick="Start">@Localizer.Get(connectMessage)</MudButton>
+    <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="Dispose">@Localizer.Get("Stop Reading")</MudButton>
+    <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="OpenConsole">@Localizer.Get("Open Console")</MudButton>
+</MudStack>
+
+@code {
+    [Inject]
+    private ITagRead _reader { get; set; } = default!;
+    [Inject]
+    private IParticipationBehind _participationBehind { get; set; } = default!;
+    private bool _enduranceEventStarted;
+    private string connectMessage = "Start Reading";
+    private List<string> ConsoleLines = new List<string>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Observe(_reader);
+    }
+
+    protected override void OnParametersSet()
+    {
+        //think of when to call these methods
+        ProcessTags(_reader.GetSnapshots());
+        OpenDialogAsync(_reader.GetOutputMessages());
+    }
+
+    public void Start()
+    {
+        _reader.ReadTags(true);
+    }
+
+    public async void ProcessTags(List<RfidSnapshot> rfidSnapshots)
+    {
+        foreach(RfidSnapshot snapshot in rfidSnapshots)
+        {
+            await _participationBehind.Process(snapshot);
+            _reader.TagWasProcessed(snapshot);
+        }
+    }
+
+    public void OpenConsole()
+    {
+        OpenDialogAsync(_reader.GetOutputMessages());
+    }
+
+    private Task OpenDialogAsync(List<string> outputLines)
+    {
+        var options = new DialogOptions()
+        {
+            NoHeader = false,
+            MaxWidth = MaxWidth.Medium,
+            CloseButton = false
+        };
+        var parameters = new DialogParameters<NotConsole>()
+        {   
+            { x => x.OutputLines, outputLines }
+        };
+
+        return DialogService.ShowAsync<NotConsole>("Endurance Console", parameters, options);
+    }
+
+    public void Dispose()
+    {
+        _reader.ReadTags(false);
+        _enduranceEventStarted = false;
+        _reader.Dispose();
+    }
+}

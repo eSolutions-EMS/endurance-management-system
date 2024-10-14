@@ -1,0 +1,29 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Vup">
+      <HintPath>Vup.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+	
+  <ItemGroup>
+  	<Content Include="rfid.dll">
+  		<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  	</Content>
+  	<Content Include="rfid_core.dll">
+  		<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  	</Content>
+  	<Content Include="Vup.dll">
+  		<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+  		<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+  	</Content>
+  </ItemGroup>
+	
+</Project>
