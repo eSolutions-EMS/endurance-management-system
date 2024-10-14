@@ -1,12 +1,30 @@
-﻿using Rfid.Entities;
-using RfidWriter;
+﻿using NTS.TagRfidControllers.Writer;
+using NTS.TagRfidControllers.Reader;
 class RfidControllers
 {
     static async Task Main(string[] args)
     {
-        var argument = Int32.Parse(args[0]);
+        if(args.Length == 1)
+        {
+            var argument = Int32.Parse(args[0]);
+            await WriteTag(argument);
+            return;
+        }
+        else
+        {
+            await ReadTags();
+        }
+    }
+
+    static async Task WriteTag(int combinationNumber)
+    {
         var writer = new Writer();
-        var tag  = await Task.Run(()=>writer.Write(argument));
-        return;
+        await Task.Run(() => writer.Write(combinationNumber));
+    }
+
+    static async Task ReadTags()
+    {
+        var reader = new Reader();
+        await Task.Run(() => reader.ReadTags());
     }
 }

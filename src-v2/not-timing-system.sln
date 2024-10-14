@@ -52,7 +52,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_EMS", "_EMS", "{60852EE2-A
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NTS.Compabitility.EMS", "Compatibility.EMS\NTS.Compabitility.EMS.csproj", "{AEEE20E5-A226-40CE-B4B2-804FF44CE8F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NTS.TagRfidControllers", "NTS.TagRfidControllers\NTS.TagRfidControllers.csproj", "{28E0CF13-ED82-40C1-B322-79BB313C556E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NTS.TagRfidControllers", "NTS.TagRfidControllers\NTS.TagRfidControllers.csproj", "{28E0CF13-ED82-40C1-B322-79BB313C556E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
