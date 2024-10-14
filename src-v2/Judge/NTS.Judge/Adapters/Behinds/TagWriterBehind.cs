@@ -26,7 +26,7 @@ public class TagWriterBehind : ITagWrite
             using (Process process = Process.Start(processStartInfo))
             {
                 output = await process.StandardOutput.ReadToEndAsync();
-                error = await process.StandardError.ReadToEndAsync();
+                error = await process.StandardError.ReadToEndAsync(); 
 
                 process.WaitForExit();
             }
@@ -35,7 +35,7 @@ public class TagWriterBehind : ITagWrite
         {
             // Log error.
         }
-        string tagId = output.Split(" ").Last();
+        string tagId = output.Split("TagId Written: ").Last();
         return new Tag(tagId, number);
     }
 }

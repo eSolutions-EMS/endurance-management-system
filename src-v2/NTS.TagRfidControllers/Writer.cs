@@ -1,7 +1,7 @@
-﻿using Rfid.Entities;
-using Rfid.Hardware;
+﻿using NTS.TagRfidControllers.Entities;
+using NTS.TagRfidControllers.HardwareControllers;
 
-namespace RfidWriter
+namespace NTS.TagRfidControllers.Writer
 {
     public class Writer
     {
@@ -18,7 +18,7 @@ namespace RfidWriter
             var id = data.Substring(9);
             var tag = new Tag(id, number);
             VD67Controller.Write(tag.PrepareToWrite());
-            Console.WriteLine(" " + id.Substring(1));
+            Console.WriteLine("TagId Written: " + id.Substring(1));
             return tag;
         }
     }
