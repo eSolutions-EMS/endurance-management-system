@@ -1,30 +1,23 @@
 ﻿using AngleSharp.Dom;
 using Not.Application.Ports.CRUD;
-using Not.Blazor.Ports.Behinds;
 using Not.Domain;
-using Not.Events;
 using Not.Exceptions;
+
 namespace Not.Application.Contexts;
 
-public abstract class BehindContext<T> : IBehindContext<T>
+public abstract class BehindContext<T>(IRepository<T> entities)
     where T : DomainEntity
 {
-    protected BehindContext(IRepository<T> entities)
-    {
-        Repository = entities;
-    }
-    protected IRepository<T> Repository { get; }
+    protected IRepository<T> Repository { get; } = entities;
 
     public T? Entity { get; set; }
-
-    public EventManager Loaded { get; } = new();
 
     public bool HasLoaded()
     {
         return Entity != null;
     }
 
-    public async Task Update()
+    public async Task Persist()
     {
         GuardHelper.ThrowIfDefault(Entity);
         await Repository.Update(Entity);

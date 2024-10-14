@@ -39,6 +39,37 @@ public class EventManager : IEventManager
     }
 }
 
+public class SyncEventManager
+{
+    event NotEventHandler? NotDelegate;
+    readonly Dictionary<Guid, NotEventHandler> _actionSubscriptions = [];
+
+    public void Emit()
+    {
+        NotDelegate?.Invoke();
+    }
+    public void Subscribe(Func<Task> action)
+    {
+        NotDelegate += () => SafeHelper.RunAsync(() => action());
+    }
+    public Guid Subscribe(Action action)
+    {
+        var guid = Guid.NewGuid();
+        NotEventHandler safeAction = async () => await SafeHelper.Run(() => { action(); return Task.CompletedTask; });
+        _actionSubscriptions.Add(guid, safeAction);
+        NotDelegate += safeAction;
+        return guid;
+    }
+    public void Unsubscribe(Guid guid)
+    {
+        if (!_actionSubscriptions.TryGetValue(guid, out var subscription))
+        {
+            return;
+        }
+        NotDelegate -= subscription;
+    }
+}
+
 public class EventManager<T> : IEventManager<T>
     where T : IEvent
 {

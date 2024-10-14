@@ -1,7 +1,6 @@
 ﻿using Not.Events;
 using Not.Injection;
 using Not.Safe;
-using Not.Structures;
 
 namespace Not.Blazor.Ports.Behinds;
 
@@ -47,17 +46,6 @@ public abstract class ObservableBehind : IObservableBehind
     {
         _stateChanged.Emit();
     }
-}
-
-public abstract class ObservableBehind<T> : ObservableBehind
-    where T : IIdentifiable
-{
-    protected ObservableBehind()
-    {
-        ObservableCollection = new(EmitChange);
-    }
-
-    protected EntitySet<T> ObservableCollection { get; }
 }
 
 public interface IObservableBehind : INotBehind, ISingletonService

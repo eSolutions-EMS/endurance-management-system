@@ -12,27 +12,27 @@ namespace Not.Application.Adapters.Behinds;
 public abstract class SimpleCrudBehind<T, TModel> : ObservableBehind, IListBehind<T>, IFormBehind<TModel>, IDisposable
     where T : DomainEntity
 {
-    readonly Guid? _loadedSubscriptionId;
+    readonly Guid _loadedSubscriptionId;
     readonly IParentContext<T>? _parentContext;
     readonly IRepository<T> _repository;
 
     protected SimpleCrudBehind(IRepository<T> repository, IParentContext<T> parentContext)
     {
+        ObservableItems = parentContext.Children;
         _repository = repository;
         _parentContext = parentContext;
-        ObservableCollection = parentContext.Children;
-        ObservableCollection.Sub(EmitChange);
-        //_loadedSubscriptionId = _parentContext.Loaded.Subscribe(EmitChange);
+        _loadedSubscriptionId = ObservableItems.Changed.Subscribe(EmitChange);
     }
     protected SimpleCrudBehind(IRepository<T> repository)
     {
+        ObservableItems = new();
         _repository = repository;
-        ObservableCollection = new(EmitChange);
+        _loadedSubscriptionId = ObservableItems.Changed.Subscribe(EmitChange);
     }
 
-    protected EntitySet<T> ObservableCollection { get; }
+    protected EntitySet<T> ObservableItems { get; }
 
-    public IReadOnlyList<T> Items => ObservableCollection;
+    public IReadOnlyList<T> Items => ObservableItems;
 
     protected abstract T CreateEntity(TModel model);
     protected abstract T UpdateEntity(TModel model);
@@ -42,7 +42,7 @@ public abstract class SimpleCrudBehind<T, TModel> : ObservableBehind, IListBehin
         if (_parentContext != null)
         {
             _parentContext.Add(entity);
-            await _parentContext.Update();
+            await _parentContext.Persist();
         }
     }
 
@@ -51,7 +51,7 @@ public abstract class SimpleCrudBehind<T, TModel> : ObservableBehind, IListBehin
         if (_parentContext != null)
         {
             _parentContext.Update(entity);
-            await _parentContext.Update();
+            await _parentContext.Persist();
         }
     }
 
@@ -60,7 +60,7 @@ public abstract class SimpleCrudBehind<T, TModel> : ObservableBehind, IListBehin
         if (_parentContext != null)
         {
             _parentContext.Remove(entity);
-            await _parentContext.Update();
+            await _parentContext.Persist();
         }
     }
 
@@ -72,7 +72,7 @@ public abstract class SimpleCrudBehind<T, TModel> : ObservableBehind, IListBehin
         var entity = CreateEntity(model);
         await OnBeforeCreate(entity);
         await _repository.Create(entity);
-        ObservableCollection.AddOrReplace(entity);
+        ObservableItems.AddOrReplace(entity);
         return model;
     }
 
@@ -81,7 +81,7 @@ public abstract class SimpleCrudBehind<T, TModel> : ObservableBehind, IListBehin
         var entity = UpdateEntity(model);
         await OnBeforeUpdate(entity);
         await _repository.Update(entity);
-        ObservableCollection.AddOrReplace(entity);
+        ObservableItems.AddOrReplace(entity);
         return model;
     }
 
@@ -89,7 +89,7 @@ public abstract class SimpleCrudBehind<T, TModel> : ObservableBehind, IListBehin
     {
         await OnBeforeDelete(entity);
         await _repository.Delete(entity);
-        ObservableCollection.Remove(entity);
+        ObservableItems.Remove(entity);
         return entity;
     }
 
@@ -122,7 +122,7 @@ public abstract class SimpleCrudBehind<T, TModel> : ObservableBehind, IListBehin
         else
         {
             var entities = await _repository.ReadAll();
-            ObservableCollection.AddRange(entities);
+            ObservableItems.AddRange(entities);
             return entities.Any();
         }
     }
@@ -144,9 +144,6 @@ public abstract class SimpleCrudBehind<T, TModel> : ObservableBehind, IListBehin
 
     public void Dispose()
     {
-        if (_loadedSubscriptionId != null)
-        {
-            _parentContext?.Loaded.Unsubscribe(_loadedSubscriptionId.Value); //TODO: test
-        }
+        _parentContext?.Children.Changed.Unsubscribe(_loadedSubscriptionId); //TODO: test
     }
 }

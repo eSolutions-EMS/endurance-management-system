@@ -9,31 +9,21 @@ public class EventParentContext(IRepository<Event> entities) : BehindContext<Eve
     IParentContext<Competition>,
     IParentContext<Official>
 {
-    EntitySet<Competition> _competitions = new();
-    EntitySet<Official> _officials = new();
+    readonly EntitySet<Competition> _competitions = new();
+    readonly EntitySet<Official> _officials = new();
 
-    EntitySet<Competition> IParentContext<Competition>.Children
-    {
-        get => _competitions;
-        set => _competitions = value;
-    }
-    EntitySet<Official> IParentContext<Official>.Children 
-    {
-        get => _officials;
-        set => _officials = value; 
-    }
+    EntitySet<Competition> IParentContext<Competition>.Children => _competitions;
+    EntitySet<Official> IParentContext<Official>.Children => _officials;
 
     public async Task Load(int parentId)
     {
         Entity = await Repository.Read(parentId);
-        if (_competitions != null)
+        if (Entity == null)
         {
-            _competitions.AddRange(Entity!.Competitions);
+            return;
         }
-        if (_officials != null)
-        {
-            _officials.AddRange(Entity!.Officials);
-        }
+        _competitions.AddRange(Entity!.Competitions);
+        _officials.AddRange(Entity!.Officials);
     }
 
     public void Add(Competition child)

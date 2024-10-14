@@ -1,4 +1,5 @@
-﻿using Not.Exceptions;
+﻿using Not.Events;
+using Not.Exceptions;
 using System.Collections;
 
 namespace Not.Structures;
@@ -6,68 +7,53 @@ namespace Not.Structures;
 public class EntitySet<T> : IReadOnlyList<T>
     where T : IIdentifiable
 {
-    Action? _action;
     Dictionary<int, T> _dictionary = [];
 
     public EntitySet()
     {
     }
 
-    public EntitySet(Action action)
-    {
-        _action = action;
-    }
-
-    public void Sub(Action action)
-    {
-        _action = action;
-    }
+    public SyncEventManager Changed { get; } = new();
 
     public void AddOrReplace(T item)
     {
         GuardHelper.ThrowIfDefault(item);
 
-        if (_dictionary.ContainsKey(item.Id))
+        if (!_dictionary.TryAdd(item.Id, item))
         {
             _dictionary[item.Id] = item;
         }
-        else
-        {
-            _dictionary.Add(item.Id, item);
-        }
 
-        _action?.Invoke();
+        Changed.Emit();
     }
 
     public bool Remove(T item)
     {
         GuardHelper.ThrowIfDefault(item);
         var result = _dictionary.Remove(item.Id);
-        _action?.Invoke();
+        Changed.Emit();
         return result;
     }
 
     public bool Remove(int id)
     {
         var result = _dictionary.Remove(id);
-        _action?.Invoke();
+        Changed.Emit();
         return result;
     }
 
     public void AddRange(IEnumerable<T> items)
     {
         _dictionary = items.ToDictionary(x => x.Id, x => x);
-        _action?.Invoke();
+        Changed.Emit();
     }
 
     public T this[int index]
     {
         get
         {
-            if (index > _dictionary.Count)
-            {
-                throw new ArgumentOutOfRangeException("index");
-            }
+            ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(index, _dictionary.Count);
+
             var count = 0;
             foreach (var item in this)
             {
@@ -77,7 +63,7 @@ public class EntitySet<T> : IReadOnlyList<T>
                 }
             }
             // Should never be reached
-            throw new ArgumentOutOfRangeException("index");
+            throw new Exception();
         }
     }
 
