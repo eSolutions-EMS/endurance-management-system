@@ -14,6 +14,7 @@ public class CombinationFormModel : IFormModel<Combination>
     public int Number { get; set; }
     public Athlete? Athlete { get; set; }
     public Horse? Horse { get; set;}
+    public Tag? Tag { get; set; }
 
     public void FromEntity(Combination combination)
     {
@@ -21,5 +22,6 @@ public class CombinationFormModel : IFormModel<Combination>
         Number = combination.Number;
         Athlete = combination.Athlete;
         Horse = combination.Horse;
+        Tag = combination.Tag;
     }
 }

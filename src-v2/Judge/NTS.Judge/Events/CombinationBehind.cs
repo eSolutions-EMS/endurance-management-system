@@ -13,11 +13,11 @@ public class CombinationBehind : SimpleCrudBehind<Combination, CombinationFormMo
 
     protected override Combination CreateEntity(CombinationFormModel model)
     {
-        return Combination.Create(model.Number, model.Athlete, model.Horse);
+        return Combination.Create(model.Number, model.Athlete, model.Horse, model.Tag);
     }
 
     protected override Combination UpdateEntity(CombinationFormModel model)
     {
-        return Combination.Update(model.Id, model.Number, model.Athlete, model.Horse);
+        return Combination.Update(model.Id, model.Number, model.Athlete, model.Horse, model.Tag);
     }
 }

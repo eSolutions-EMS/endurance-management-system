@@ -12,6 +12,11 @@
     {
         <MudSelectItem Value="@item.Value">@item.Label</MudSelectItem>
     }
+    @if(!Items.Any())
+    {
+        var emptyItem = NotListModel.Empty<T>();
+        <MudSelectItem Class="pa-4" Value="emptyItem.Value">@(new MarkupString(emptyItem.Label))</MudSelectItem>
+    }
 </MudSelect>
 
 @code {
@@ -22,7 +27,6 @@
     public string Label { get; set; } = default!;
     [Parameter]
     public string Placeholder { get; set; } = default!;
-
 
     public MudBaseInput<T?> MudBaseInput { get; private set; } = default!;
 }
