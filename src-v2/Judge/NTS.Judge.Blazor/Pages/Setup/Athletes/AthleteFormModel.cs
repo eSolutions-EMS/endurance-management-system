@@ -1,5 +1,4 @@
-﻿using Not.Blazor.Forms;
-using Not.Blazor.Ports;
+﻿using Not.Blazor.Ports;
 using NTS.Domain.Objects;
 using NTS.Domain.Setup.Entities;
 
@@ -7,13 +6,6 @@ namespace NTS.Judge.Blazor.Pages.Setup.Athletes;
 
 public class AthleteFormModel : IFormModel<Athlete>
 {
-    public static AthleteFormModel FromEntiy(Athlete athlete)
-    {
-        var model = new AthleteFormModel();
-        model.FromEntity(athlete);
-        return model;
-    }
-
     public AthleteFormModel()
     {
         // mock data for testing
