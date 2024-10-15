@@ -15,7 +15,10 @@
     <MudStack Row="true" Class="mt-4">
         <NotButtonUpdate OnClick="Update" />
 
-        <NotButtonBack OnClick="NavigateBack" /> 
+        @if (_navigator.CanNavigateBack())
+        {
+            <NotButtonBack OnClick="NavigateBack" />
+        }
     </MudStack>
 </MudContainer>
 
