@@ -1,5 +1,5 @@
 ﻿namespace Not.Events;
 
-public delegate void NotEventHandler();
+public delegate void EventDelegate();
 
-public delegate void NotHandler<T>(T payload);
+public delegate void EventDelegate<T>(T payload);

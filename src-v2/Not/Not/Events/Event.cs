@@ -43,9 +43,9 @@ public abstract class EventBase<T>
     }
 }
 
-public class Event : EventBase<NotEventHandler>, IEventSubscriber
+public class Event : EventBase<EventDelegate>, IEventSubscriber
 {
-    event NotEventHandler? _delegate;
+    event EventDelegate? _delegate;
 
     public void Emit()
     {
@@ -72,20 +72,20 @@ public class Event : EventBase<NotEventHandler>, IEventSubscriber
         return InternalSubscribe(() => SafeHelper.RunAsync(() => ReturnCompletedTask(action)));
     }
 
-    protected override void AddHandler(NotEventHandler handler)
+    protected override void AddHandler(EventDelegate handler)
     {
         _delegate += handler;
     }
 
-    protected override void RemoveHandler(NotEventHandler handler)
+    protected override void RemoveHandler(EventDelegate handler)
     {
         _delegate -= handler;
     }
 }
 
-public class Event<T> : EventBase<NotHandler<T>>, IEventManager<T>
+public class Event<T> : EventBase<EventDelegate<T>>, IEventManager<T>
 {
-    event NotHandler<T>? _delegate;
+    event EventDelegate<T>? _delegate;
 
     public void Emit(T data)
     {
@@ -112,12 +112,12 @@ public class Event<T> : EventBase<NotHandler<T>>, IEventManager<T>
         return InternalSubscribe(x => SafeHelper.RunAsync(() => ReturnCompletedTask(action, x)));
     }
 
-    protected override void AddHandler(NotHandler<T> handler)
+    protected override void AddHandler(EventDelegate<T> handler)
     {
         _delegate += handler;
     }
 
-    protected override void RemoveHandler(NotHandler<T> handler)
+    protected override void RemoveHandler(EventDelegate<T> handler)
     {
         _delegate -= handler;
     }
