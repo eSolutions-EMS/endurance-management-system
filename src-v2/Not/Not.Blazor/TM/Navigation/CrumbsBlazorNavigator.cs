@@ -1,29 +1,65 @@
-﻿using Microsoft.AspNetCore.Components;
-using Not.Blazor.Navigation;
+﻿using Not.Blazor.Navigation;
 using Not.Exceptions;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Not.Blazor.TM.Navigation;
 
 // Cannot be singleton as long as it uses NavigationManager: https://github.com/dotnet/maui/issues/8583
-public class NotNavigator : INavigator
+public class CrumbsBlazorNavigator : ICrumbsNavigator, ILandNavigator
 {
     private readonly NavigationManager _blazorNavigationManager;
     private static Parameters? _parameters;
+    private static Stack<(string endpoint, Parameters? parameters)>? _crumbs;
 
-    public NotNavigator(NavigationManager blazorNavigationManager)
+    public CrumbsBlazorNavigator(NavigationManager blazorNavigationManager)
     {
         _blazorNavigationManager = blazorNavigationManager;
     }
 
     public void NavigateTo(string endpoint)
     {
+        ValidateCrumbs();
+
+        _crumbs.Push((endpoint, null));
         NavigateForward(endpoint);
     }
 
     public void NavigateTo<T>(string endpoint, T parameter)
     {
+        ValidateCrumbs();
+
         _parameters = Parameters.Create(parameter);
+        _crumbs.Push((endpoint, _parameters));
         NavigateForward(endpoint);
+    }
+
+    public bool CanNavigateBack()
+    {
+        return _crumbs?.Count >= 2;
+    }
+
+    public void NavigateBack()
+    {
+        ValidateCrumbs();
+
+        if (!_crumbs.TryPop(out var _))
+        {
+            return;
+        }
+        if (!_crumbs.TryPeek(out var previousCrumb))
+        {
+            return;
+        }
+        _parameters = previousCrumb.parameters;
+        NavigateForward(previousCrumb.endpoint);
+    }
+
+    //TODO: add can navigate and hide back if cannot
+
+    public void LandTo(string landing)
+    {
+        _crumbs = [];
+        NavigateTo(landing);
     }
 
     public T ConsumeParameter<T>()
@@ -36,8 +72,25 @@ public class NotNavigator : INavigator
         _parameters = null;
         return result;
     }
+    public void Initialize(string landingEndpoint)
+    {
+        if (_crumbs != null)
+        {
+            return;
+        }
+        LandTo(landingEndpoint);
+    }
 
-    private void NavigateForward(string endpoint)
+    [DoesNotReturn]
+    void ValidateCrumbs()
+    {
+        if (_crumbs == null)
+        {
+            throw GuardHelper.Exception($"Crumbs are not initialized. NavigateBack cannot function without navigating using LandTo");
+        }
+    }
+
+    void NavigateForward(string endpoint)
     {
         _blazorNavigationManager.NavigateTo(endpoint);
     }
@@ -50,7 +103,7 @@ public class NotNavigator : INavigator
         {
             if (parameter == null)
             {
-                throw GuardHelper.Exception($"Parameter of type '{typeof(T)}' is null. {nameof(NotNavigator)} parameters cannot be null");
+                throw GuardHelper.Exception($"Parameter of type '{typeof(T)}' is null. {nameof(CrumbsBlazorNavigator)} parameters cannot be null");
             }
             return new Parameters(parameter);
         }
