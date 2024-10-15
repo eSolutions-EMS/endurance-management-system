@@ -1,6 +1,5 @@
 ﻿using Not.Injection;
 using Not.Safe;
-using System.Reflection.Emit;
 
 namespace Not.Events;
 
@@ -45,7 +44,7 @@ public abstract class EventBase<T>
     }
 }
 
-public class EventManager : EventBase<NotEventHandler>, IEventManager
+public class Event : EventBase<NotEventHandler>, IEventManager
 {
     event NotEventHandler? _delegate;
 
@@ -85,7 +84,7 @@ public class EventManager : EventBase<NotEventHandler>, IEventManager
     }
 }
 
-public class EventManager<T> : EventBase<NotHandler<T>>, IEventManager<T>
+public class Event<T> : EventBase<NotHandler<T>>, IEventManager<T>
     where T : IEvent
 {
     event NotHandler<T>? _delegate;

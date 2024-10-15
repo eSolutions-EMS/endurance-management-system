@@ -9,7 +9,7 @@ public class ObservableList<T> : IReadOnlyList<T>
 {
     Dictionary<int, T> _dictionary = [];
 
-    public EventManager ChangedEvent { get; } = new();
+    public Event ChangedEvent { get; } = new();
 
     public void AddOrReplace(T item)
     {

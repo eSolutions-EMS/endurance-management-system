@@ -6,10 +6,10 @@ namespace Not.Notifier;
 
 public static class Notifications
 {
-    public readonly static EventManager<Informed> InformedEvent = new();
-    public readonly static EventManager<Succeeded> SucceededEvent = new();
-    public readonly static EventManager<Warned> WarnedEvent = new();
-    public readonly static EventManager<Failed> FailedEvent = new();
+    public readonly static Event<Informed> InformedEvent = new();
+    public readonly static Event<Succeeded> SucceededEvent = new();
+    public readonly static Event<Warned> WarnedEvent = new();
+    public readonly static Event<Failed> FailedEvent = new();
 }
 
 public static class NotifyHelper

@@ -6,9 +6,9 @@ namespace NTS.Domain.Core.Aggregates.Participations;
 
 public class Participation : DomainEntity, IAggregateRoot
 {
-    public readonly static EventManager<PhaseCompleted> PhaseCompletedEvent = new();
-    public readonly static EventManager<QualificationRevoked> QualificationRevokedEvent = new();
-    public readonly static EventManager<QualificationRestored> QualificationRestoredEvent = new();
+    public readonly static Event<PhaseCompleted> PhaseCompletedEvent = new();
+    public readonly static Event<QualificationRevoked> QualificationRevokedEvent = new();
+    public readonly static Event<QualificationRestored> QualificationRestoredEvent = new();
 
     private static readonly TimeSpan NOT_SNAPSHOTABLE_WINDOW = TimeSpan.FromMinutes(30);
     private static readonly FailedToQualify OUT_OF_TIME = new ([FTQCodes.OT]);

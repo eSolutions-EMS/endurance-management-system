@@ -10,7 +10,7 @@ public abstract class ObservableBehind : IObservableBehind
 {
     readonly SemaphoreSlim _semaphore = new(1);
     bool _isInitialized;
-    private readonly IEventManager _stateChanged = new EventManager();
+    private readonly IEventManager _stateChanged = new Event();
 
     /// <summary>
     /// Initialize the state of an ObservableBehind. 
