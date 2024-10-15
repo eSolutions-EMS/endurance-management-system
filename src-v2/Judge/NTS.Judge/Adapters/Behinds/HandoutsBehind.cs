@@ -38,7 +38,7 @@ public class HandoutsBehind : ObservableBehind, IHandoutsBehind
     public void RunAtStartup()
     {
         // TODO: subscribe to updates for Event, Official
-        Participation.PhaseCompletedEvent.Subscribe(PhaseCompletedHandler);
+        Participation.PhaseCompletedEvent.SubscribeAsync(PhaseCompletedHandler);
     }
 
     protected override async Task<bool> PerformInitialization(params IEnumerable<object> arguments)

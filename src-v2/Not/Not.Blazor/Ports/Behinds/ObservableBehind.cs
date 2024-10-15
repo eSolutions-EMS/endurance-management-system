@@ -39,7 +39,7 @@ public abstract class ObservableBehind : IObservableBehind
     
     public void Subscribe(Func<Task> action)
     {
-        _stateChanged.Subscribe(action);
+        _stateChanged.SubscribeAsync(action);
     }
 
     protected void EmitChange()

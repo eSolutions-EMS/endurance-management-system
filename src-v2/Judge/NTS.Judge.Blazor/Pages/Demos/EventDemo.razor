@@ -30,7 +30,7 @@
 
     private void Subscribe()
     {
-        this._event.Subscribe(async e =>
+        this._event.SubscribeAsync(async e =>
         {
             this.result = e.Number.ToString();
             await this.InvokeAsync(this.StateHasChanged);

@@ -1,5 +1,5 @@
 ﻿namespace Not.Events;
 
-internal delegate void NotEventHandler();
+public delegate void NotEventHandler();
 
-internal delegate void NotHandler<T>(T payload);
+public delegate void NotHandler<T>(T payload);

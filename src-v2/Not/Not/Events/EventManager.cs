@@ -1,5 +1,6 @@
 ﻿using Not.Injection;
 using Not.Safe;
+using System.Reflection.Emit;
 
 namespace Not.Events;
 
@@ -7,9 +8,45 @@ namespace Not.Events;
 // - use custom delegate and maybe extensions methods
 // - events should be instances of deleage attached at appropraite places
 // - should not have to instantiate a new EventManager to fire or subscribe to event
-public class EventManager : IEventManager
+public abstract class EventBase<T>
 {
-    readonly Dictionary<Guid, NotEventHandler> _handlersByGuid = [];
+    readonly Dictionary<Guid, T> _handlersByGuid = [];
+
+    protected abstract void AddHandler(T handler);
+    protected abstract void RemoveHandler(T handler);
+
+    protected Guid InternalSubscribe(T handler)
+    {
+        var guid = Guid.NewGuid();
+        _handlersByGuid.Add(guid, handler);
+        AddHandler(handler);
+        return guid;
+    }
+
+    protected Task ReturnCompletedTask(Action action)
+    {
+        action();
+        return Task.CompletedTask;
+    }
+
+    protected Task ReturnCompletedTask<TArgument>(Action<TArgument> action, TArgument argument)
+    {
+        action(argument);
+        return Task.CompletedTask;
+    }
+
+    public void Unsubscribe(Guid guid)
+    {
+        if (!_handlersByGuid.TryGetValue(guid, out var handler))
+        {
+            return;
+        }
+        RemoveHandler(handler);
+    }
+}
+
+public class EventManager : EventBase<NotEventHandler>, IEventManager
+{
     event NotEventHandler? _delegate;
 
     public void Emit()
@@ -19,67 +56,38 @@ public class EventManager : IEventManager
 
     public Guid Subscribe(Func<Task> action)
     {
+        return InternalSubscribe(() => SafeHelper.Run(() => action()));
+    }
+
+    public Guid Subscribe(Action action)
+    {
+        return InternalSubscribe(() => SafeHelper.Run(() => ReturnCompletedTask(action)));
+    }
+
+    public Guid SubscribeAsync(Func<Task> action)
+    {
         return InternalSubscribe(() => SafeHelper.RunAsync(() => action()));
     }
 
-    public Guid Subscribe(Action action)
+    public Guid SubscribeAsync(Action action)
     {
-        return InternalSubscribe(() => SafeHelper.RunAsync(() => { action(); return Task.CompletedTask; }));
+        return InternalSubscribe(() => SafeHelper.RunAsync(() => ReturnCompletedTask(action)));
     }
 
-    public void Unsubscribe(Guid guid) 
+    protected override void AddHandler(NotEventHandler handler)
     {
-        if (!_handlersByGuid.TryGetValue(guid, out var subscription))
-        {
-            return;
-        }
-        _delegate -= subscription;
-    }
-
-    Guid InternalSubscribe(NotEventHandler handler)
-    {
-        var guid = Guid.NewGuid();
-        _handlersByGuid.Add(guid, handler);
         _delegate += handler;
-        return guid;
+    }
+
+    protected override void RemoveHandler(NotEventHandler handler)
+    {
+        _delegate -= handler;
     }
 }
 
-public class SyncEventManager
-{
-    event NotEventHandler? NotDelegate;
-    readonly Dictionary<Guid, NotEventHandler> _actionSubscriptions = [];
-
-    public void Emit()
-    {
-        NotDelegate?.Invoke();
-    }
-    public void Subscribe(Func<Task> action)
-    {
-        NotDelegate += () => SafeHelper.RunAsync(() => action());
-    }
-    public Guid Subscribe(Action action)
-    {
-        var guid = Guid.NewGuid();
-        NotEventHandler safeAction = async () => await SafeHelper.Run(() => { action(); return Task.CompletedTask; });
-        _actionSubscriptions.Add(guid, safeAction);
-        NotDelegate += safeAction;
-        return guid;
-    }
-    public void Unsubscribe(Guid guid)
-    {
-        if (!_actionSubscriptions.TryGetValue(guid, out var subscription))
-        {
-            return;
-        }
-        NotDelegate -= subscription;
-    }
-}
-
-public class EventManager<T> : IEventManager<T>
+public class EventManager<T> : EventBase<NotHandler<T>>, IEventManager<T>
     where T : IEvent
 {
-    readonly Dictionary<Guid, NotHandler<T>> _handlersByGuid = [];
     event NotHandler<T>? _delegate;
 
     public void Emit(T data)
@@ -89,37 +97,40 @@ public class EventManager<T> : IEventManager<T>
 
     public Guid Subscribe(Func<T, Task> action)
     {
-        return InternalSubscribe(x => SafeHelper.RunAsync(() => action(x)));
+        return InternalSubscribe(x => SafeHelper.Run(() => action(x)));
     }
 
     public Guid Subscribe(Action<T> action)
     {
-        return InternalSubscribe(x => SafeHelper.RunAsync(() => { action(x); return Task.CompletedTask; }));
+        return InternalSubscribe(x => SafeHelper.Run(() => ReturnCompletedTask(action, x)));
     }
 
-    public void Unsubscribe(Guid guid)
+    public Guid SubscribeAsync(Func<T, Task> action)
     {
-        if (!_handlersByGuid.TryGetValue(guid, out var subscription))
-        {
-            return;
-        }
-        _delegate -= subscription;
+        return InternalSubscribe(x => SafeHelper.RunAsync(() => action(x)));
     }
 
-    Guid InternalSubscribe(NotHandler<T> handler)
+    public Guid SubscribeAsync(Action<T> action)
     {
-        var guid = Guid.NewGuid();
-        _handlersByGuid.Add(guid, handler);
+        return InternalSubscribe(x => SafeHelper.RunAsync(() => ReturnCompletedTask(action, x)));
+    }
+
+    protected override void AddHandler(NotHandler<T> handler)
+    {
         _delegate += handler;
-        return guid;
+    }
+
+    protected override void RemoveHandler(NotHandler<T> handler)
+    {
+        _delegate -= handler;
     }
 }
 
 public interface IEventManager : ITransientService
 {
     void Emit();
-    Guid Subscribe(Func<Task> action);
-    Guid Subscribe(Action action);
+    Guid SubscribeAsync(Func<Task> action);
+    Guid SubscribeAsync(Action action);
     void Unsubscribe(Guid guid);
 }
 
@@ -127,6 +138,6 @@ public interface IEventManager<T> : ITransientService
     where T : IEvent
 {
     void Emit(T data);
-    Guid Subscribe(Func<T, Task> action);
-    Guid Subscribe(Action<T> action);
+    Guid SubscribeAsync(Func<T, Task> action);
+    Guid SubscribeAsync(Action<T> action);
 }

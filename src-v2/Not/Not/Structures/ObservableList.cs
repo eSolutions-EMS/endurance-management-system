@@ -9,7 +9,7 @@ public class ObservableList<T> : IReadOnlyList<T>
 {
     Dictionary<int, T> _dictionary = [];
 
-    public SyncEventManager Changed { get; } = new();
+    public EventManager ChangedEvent { get; } = new();
 
     public void AddOrReplace(T item)
     {
@@ -20,28 +20,28 @@ public class ObservableList<T> : IReadOnlyList<T>
             _dictionary[item.Id] = item;
         }
 
-        Changed.Emit();
+        ChangedEvent.Emit();
     }
 
     public bool Remove(T item)
     {
         GuardHelper.ThrowIfDefault(item);
         var result = _dictionary.Remove(item.Id);
-        Changed.Emit();
+        ChangedEvent.Emit();
         return result;
     }
 
     public bool Remove(int id)
     {
         var result = _dictionary.Remove(id);
-        Changed.Emit();
+        ChangedEvent.Emit();
         return result;
     }
 
     public void AddRange(IEnumerable<T> items)
     {
         _dictionary = items.ToDictionary(x => x.Id, x => x);
-        Changed.Emit();
+        ChangedEvent.Emit();
     }
 
     public T this[int index]

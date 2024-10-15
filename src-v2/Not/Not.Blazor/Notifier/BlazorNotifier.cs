@@ -13,10 +13,10 @@ public class BlazorNotifier : ComponentBase
 
     public BlazorNotifier()
     {
-        Notifications.InformedEvent.Subscribe(AddSnack);
-        Notifications.SucceededEvent.Subscribe(AddSnack);
-        Notifications.WarnedEvent.Subscribe(AddSnack);
-        Notifications.FailedEvent.Subscribe(AddSnack);
+        Notifications.InformedEvent.SubscribeAsync(AddSnack);
+        Notifications.SucceededEvent.SubscribeAsync(AddSnack);
+        Notifications.WarnedEvent.SubscribeAsync(AddSnack);
+        Notifications.FailedEvent.SubscribeAsync(AddSnack);
     }
 
     void AddSnack(Informed informed)
