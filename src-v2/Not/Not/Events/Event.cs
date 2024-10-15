@@ -44,7 +44,7 @@ public abstract class EventBase<T>
     }
 }
 
-public class Event : EventBase<NotEventHandler>, IEventManager
+public class Event : EventBase<NotEventHandler>, IEventSubscriber
 {
     event NotEventHandler? _delegate;
 
@@ -125,18 +125,20 @@ public class Event<T> : EventBase<NotHandler<T>>, IEventManager<T>
     }
 }
 
-public interface IEventManager : ITransientService
+public interface IEventSubscriber
 {
-    void Emit();
+    Guid Subscribe(Func<Task> action);
+    Guid Subscribe(Action action);
     Guid SubscribeAsync(Func<Task> action);
     Guid SubscribeAsync(Action action);
     void Unsubscribe(Guid guid);
 }
 
-public interface IEventManager<T> : ITransientService
+public interface IEventManager<T>
     where T : IEvent
 {
-    void Emit(T data);
+    Guid Subscribe(Func<T, Task> action);
+    Guid Subscribe(Action<T> action);
     Guid SubscribeAsync(Func<T, Task> action);
     Guid SubscribeAsync(Action<T> action);
 }
