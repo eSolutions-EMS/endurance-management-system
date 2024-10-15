@@ -1,5 +1,4 @@
-﻿using Not.Injection;
-using Not.Safe;
+﻿using Not.Safe;
 
 namespace Not.Events;
 
@@ -85,7 +84,6 @@ public class Event : EventBase<NotEventHandler>, IEventSubscriber
 }
 
 public class Event<T> : EventBase<NotHandler<T>>, IEventManager<T>
-    where T : IEvent
 {
     event NotHandler<T>? _delegate;
 
@@ -135,7 +133,6 @@ public interface IEventSubscriber
 }
 
 public interface IEventManager<T>
-    where T : IEvent
 {
     Guid Subscribe(Func<T, Task> action);
     Guid Subscribe(Action<T> action);
