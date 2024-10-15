@@ -2,47 +2,6 @@
 
 namespace Not.Events;
 
-// Redesign EventManager:
-// - use custom delegate and maybe extensions methods
-// - events should be instances of deleage attached at appropraite places
-// - should not have to instantiate a new EventManager to fire or subscribe to event
-public abstract class EventBase<T>
-{
-    readonly Dictionary<Guid, T> _handlersByGuid = [];
-
-    protected abstract void AddHandler(T handler);
-    protected abstract void RemoveHandler(T handler);
-
-    protected Guid InternalSubscribe(T handler)
-    {
-        var guid = Guid.NewGuid();
-        _handlersByGuid.Add(guid, handler);
-        AddHandler(handler);
-        return guid;
-    }
-
-    protected Task ReturnCompletedTask(Action action)
-    {
-        action();
-        return Task.CompletedTask;
-    }
-
-    protected Task ReturnCompletedTask<TArgument>(Action<TArgument> action, TArgument argument)
-    {
-        action(argument);
-        return Task.CompletedTask;
-    }
-
-    public void Unsubscribe(Guid guid)
-    {
-        if (!_handlersByGuid.TryGetValue(guid, out var handler))
-        {
-            return;
-        }
-        RemoveHandler(handler);
-    }
-}
-
 public class Event : EventBase<EventDelegate>, IEventSubscriber
 {
     event EventDelegate? _delegate;
@@ -83,7 +42,7 @@ public class Event : EventBase<EventDelegate>, IEventSubscriber
     }
 }
 
-public class Event<T> : EventBase<EventDelegate<T>>, IEventManager<T>
+public class Event<T> : EventBase<EventDelegate<T>>, IEventSubscriber<T>
 {
     event EventDelegate<T>? _delegate;
 
@@ -121,21 +80,4 @@ public class Event<T> : EventBase<EventDelegate<T>>, IEventManager<T>
     {
         _delegate -= handler;
     }
-}
-
-public interface IEventSubscriber
-{
-    Guid Subscribe(Func<Task> action);
-    Guid Subscribe(Action action);
-    Guid SubscribeAsync(Func<Task> action);
-    Guid SubscribeAsync(Action action);
-    void Unsubscribe(Guid guid);
-}
-
-public interface IEventManager<T>
-{
-    Guid Subscribe(Func<T, Task> action);
-    Guid Subscribe(Action<T> action);
-    Guid SubscribeAsync(Func<T, Task> action);
-    Guid SubscribeAsync(Action<T> action);
 }
