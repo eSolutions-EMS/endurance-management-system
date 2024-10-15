@@ -2,7 +2,6 @@
 using Not.Blazor.Ports.Behinds;
 using Not.Collections;
 using Not.Concurrency;
-using Not.Events;
 using Not.Exceptions;
 using Not.Safe;
 using NTS.Domain.Core.Aggregates.Participations;
@@ -39,7 +38,7 @@ public class HandoutsBehind : ObservableBehind, IHandoutsBehind
     public void RunAtStartup()
     {
         // TODO: subscribe to updates for Event, Official
-        EventHelper.Subscribe<PhaseCompleted>(PhaseCompletedHandler);
+        Participation.PhaseCompletedEvent.Subscribe(PhaseCompletedHandler);
     }
 
     protected override async Task<bool> PerformInitialization(params IEnumerable<object> arguments)

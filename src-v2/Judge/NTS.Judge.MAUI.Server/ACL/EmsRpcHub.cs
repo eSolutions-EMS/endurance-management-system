@@ -133,9 +133,9 @@ public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, 
         {
             _hub = hub;
 
-            EventHelper.Subscribe<PhaseCompleted>(SendStartlistEntryUpdate);
-            EventHelper.Subscribe<QualificationRestored>(SendParticipantEntryAddOrUpdate);
-            EventHelper.Subscribe<QualificationRevoked>(SendParticipantEntryRemove);
+            Participation.PhaseCompletedEvent.Subscribe(SendStartlistEntryUpdate);
+            Participation.QualificationRevokedEvent.Subscribe(SendQualificationRevoked);
+            Participation.QualificationRestoredEvent.Subscribe(SendQualificationRestored);
         }
 
         public async void SendStartlistEntryUpdate(PhaseCompleted phaseCompleted)

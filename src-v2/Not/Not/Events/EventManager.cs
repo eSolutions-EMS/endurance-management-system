@@ -10,7 +10,7 @@ namespace Not.Events;
 // - should not have to instantiate a new EventManager to fire or subscribe to event
 public class EventManager : IEventManager
 {
-    static event NotEventHandler? NotDelegate;
+    event NotEventHandler? NotDelegate;
     readonly Dictionary<Guid, NotEventHandler> _actionSubscriptions = [];
 
     public void Emit()
@@ -73,7 +73,7 @@ public class SyncEventManager
 public class EventManager<T> : IEventManager<T>
     where T : IEvent
 {
-    private static event NotHandler<T>? GenericEvent;
+    private event NotHandler<T>? GenericEvent;
 
     public void Emit(T data)
     {
