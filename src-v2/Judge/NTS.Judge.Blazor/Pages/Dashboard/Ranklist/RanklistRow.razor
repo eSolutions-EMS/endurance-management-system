@@ -85,9 +85,9 @@
         _total = participation.GetTotal();
         _totalInterval = _total?.RideInterval + _total?.RecoveryIntervalWithoutFinal;
 
-        if (!Entry.IsRanked)
+        if (Entry.IsNotRanked)
         {
-            _rank = "unranked";
+            _rank = Localizer.Get("NOT");
             return;
         }
         if (participation.IsNotQualified())

@@ -41,7 +41,6 @@ public class CrumbsBlazorNavigator : ICrumbsNavigator, ILandNavigator
     {
         ValidateCrumbs();
 
-        // Pop current
         if (!_crumbs.TryPop(out var _))
         {
             return;
@@ -70,7 +69,6 @@ public class CrumbsBlazorNavigator : ICrumbsNavigator, ILandNavigator
         _parameters = null;
         return result;
     }
-
     public void Initialize(string landingEndpoint)
     {
         if (_crumbs != null)
