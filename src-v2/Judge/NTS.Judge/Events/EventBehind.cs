@@ -1,10 +1,10 @@
 ﻿using NTS.Domain.Setup.Entities;
 using Not.Application.Ports.CRUD;
-using Not.Blazor.Ports.Behinds;
 using Not.Safe;
 using NTS.Judge.Blazor.Pages.Setup.Ports;
 using NTS.Judge.Blazor.Setup.Events;
 using NTS.Judge.Contexts;
+using Not.Application.Adapters.Behinds;
 
 namespace NTS.Judge.Events;
 

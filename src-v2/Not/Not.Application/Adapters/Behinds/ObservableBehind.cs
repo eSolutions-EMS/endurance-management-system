@@ -1,8 +1,8 @@
-﻿using Not.Events;
-using Not.Injection;
+﻿using Not.Blazor.Ports.Behinds;
+using Not.Events;
 using Not.Safe;
 
-namespace Not.Blazor.Ports.Behinds;
+namespace Not.Application.Adapters.Behinds;
 
 // TODO: Probably rename to EventBehind. However we need to rename the Domain entity Event
 // To EnduranceEvent to avoid name conflicts
@@ -46,10 +46,4 @@ public abstract class ObservableBehind : IObservableBehind
     {
         _stateChanged.Emit();
     }
-}
-
-public interface IObservableBehind : INotBehind, ISingletonService
-{
-    Task Initialize(params IEnumerable<object> arguments);
-    void Subscribe(Func<Task> action);
 }

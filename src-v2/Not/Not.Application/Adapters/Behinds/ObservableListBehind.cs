@@ -1,6 +1,6 @@
 ﻿using Not.Structures;
 
-namespace Not.Blazor.Ports.Behinds;
+namespace Not.Application.Adapters.Behinds;
 
 public abstract class ObservableListBehind<T> : ObservableBehind
     where T : IIdentifiable
