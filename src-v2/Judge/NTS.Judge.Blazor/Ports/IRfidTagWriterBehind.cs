@@ -2,7 +2,7 @@
 using NTS.Domain.Setup.Entities;
 
 namespace NTS.Judge.Blazor.Ports;
-public interface ITagBehind : ITransientService
+public interface IRfidTagWriterBehind : ITransientService
 {
     Task<Tag> WriteTag(int number);
 }

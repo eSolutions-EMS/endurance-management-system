@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace NTS.Judge.Adapters.Behinds;
-public class TagBehind : ITagBehind
+public class RfidTagWriterBehind : IRfidTagWriterBehind
 {
     public async Task<Tag> WriteTag(int number)
     {
