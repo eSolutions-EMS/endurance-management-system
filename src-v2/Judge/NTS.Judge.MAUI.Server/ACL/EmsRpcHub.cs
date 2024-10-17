@@ -82,11 +82,11 @@ public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, 
             .ReadAll(x => x.Phases.All(x => !x.IsComplete()))
             .Result
             .Select(ParticipantEntryFactory.Create);
-        var @event = _events.Read(0);
+        var @event = _events.Read(0).Result;
         return new EmsParticipantsPayload
         {
             Participants = participants.ToList(),
-            EventId = @event.Id,
+            EventId = @event!.Id,
         };
     }
     public Task ReceiveWitnessEvent(IEnumerable<EmsParticipantEntry> entries, EmsWitnessEventType type)
