@@ -6,21 +6,39 @@ using NTS.Domain.Enums;
 using NTS.Domain.Objects;
 using NTS.Judge.Blazor.Ports;
 using NTS.Judge.HardwareControllers;
+using System.Collections.Concurrent;
 
 namespace NTS.Judge.Adapters.Behinds;
 
 public class RfidTagReaderBehind : IRfidTagReaderBehind
 {
     private VupVF747pController VF747PController;
+    private ConcurrentQueue<string> _readData = new ConcurrentQueue<string>();
     public RfidTagReaderBehind()
     {
         VF747PController = new VupVF747pController("192.168.68.128", TimeSpan.FromMilliseconds(10));
     }
 
-    public async Task ReadTags()
+    public async Task StartReading(bool readFlag=true)
     {
-        var data_array = await Task.Run(VF747PController.StartReading);
-        foreach (var tagData in data_array)
+        if (readFlag)
+        {
+            var data = await Task.Run(VF747PController.StartReading);
+            foreach (var item in data)
+            {
+                _readData.Enqueue(item);
+            }
+        }
+        else
+        {
+            VF747PController.StopReading();
+        }
+
+    }
+
+    public void ProcessTags()
+    {
+        foreach (var tagData in _readData)
         {
             var number = int.Parse(tagData.Substring(0, 3));
             var timestamp = new Timestamp(DateTime.Now);
