@@ -137,9 +137,11 @@ public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, 
 
         public void RunAtStartup()
         {
-            Participation.PhaseCompletedEvent.SubscribeAsync(SendStartlistEntryUpdate);
-            Participation.QualificationRevokedEvent.SubscribeAsync(SendQualificationRevoked);
-            Participation.QualificationRestoredEvent.SubscribeAsync(SendQualificationRestored);
+            // Disable methods as currently Server to Client SignalR calls aren't working 
+            // see: https://github.com/Not-Endurance/not-timing-system/issues/307
+            //Participation.PhaseCompletedEvent.SubscribeAsync(SendStartlistEntryUpdate);
+            //Participation.QualificationRevokedEvent.SubscribeAsync(SendQualificationRevoked);
+            //Participation.QualificationRestoredEvent.SubscribeAsync(SendQualificationRestored);
         }
 
         public async void SendStartlistEntryUpdate(PhaseCompleted phaseCompleted)
