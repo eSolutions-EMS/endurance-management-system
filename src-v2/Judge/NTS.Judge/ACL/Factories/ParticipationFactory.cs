@@ -4,8 +4,6 @@ using NTS.Domain.Objects;
 using NTS.Judge.ACL.Bridge;
 using EmsParticipation = NTS.Compatibility.EMS.Entities.Participations.EmsParticipation;
 using EmsCompetition = NTS.Compatibility.EMS.Entities.Competitions.EmsCompetition;
-using EmsCompetitionType = NTS.Compatibility.EMS.Entities.Competitions.EmsCompetitionType;
-using NTS.Domain.Enums;
 using NTS.Domain;
 using NTS.Compatibility.EMS.Entities.Results;
 using NTS.Compatibility.EMS.Entities.LapRecords;
@@ -36,6 +34,9 @@ public class ParticipationFactory
                 break;
             }
             var emsRecord = new EmsLapRecord(phase.StartTime.DateTime.DateTime, emsLap);
+            emsRecord.ArrivalTime = phase.ArriveTime?.DateTime.DateTime;
+            emsRecord.InspectionTime = phase.InspectTime?.DateTime.DateTime;
+            emsRecord.ReInspectionTime = phase.ReinspectTime?.DateTime.DateTime;
             emsParticipant.Add(emsRecord);
         }
         var competition = CompetitionFactory.Create(participation);
