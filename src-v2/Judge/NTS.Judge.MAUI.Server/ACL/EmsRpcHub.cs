@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Not.Application.Ports.CRUD;
 using Not.Concurrency;
-using Not.Events;
 using Not.Safe;
 using Not.Startup;
 using NTS.Compatibility.EMS.Entities;
@@ -9,7 +8,6 @@ using NTS.Compatibility.EMS.Entities.EMS;
 using NTS.Compatibility.EMS.Enums;
 using NTS.Compatibility.EMS.RPC;
 using NTS.Domain.Core.Aggregates.Participations;
-using NTS.Domain.Core.Entities;
 using NTS.Domain.Core.Events.Participations;
 using NTS.Domain.Objects;
 using NTS.Judge.ACL.Factories;
@@ -18,7 +16,7 @@ using NTS.Judge.Ports;
 
 namespace NTS.Judge.MAUI.Server.ACL;
 
-public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, IEmsEmsParticipantstHubProcedures
+public class EmsRpcHub : Hub<Compatibility.EMS.RPC.IEmsClientProcedures>, IEmsStartlistHubProcedures, IEmsEmsParticipantstHubProcedures
 {
     private readonly IRepository<Participation> _participations;
     private readonly IRepository<Domain.Core.Entities.Event> _events;
@@ -78,15 +76,13 @@ public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, 
 
     public EmsParticipantsPayload SendParticipants()
     {
-        var participants = _participations
-            .ReadAll(x => x.Phases.All(x => !x.IsComplete()))
-            .Result
-            .Select(ParticipantEntryFactory.Create);
-        var @event = _events.Read(0);
+        var participations = _participations.ReadAll(x => !x.IsNotQualified() && x.Phases.Any(x => !x.IsComplete())).Result;
+        var participants = participations.Select(ParticipantEntryFactory.Create);
+        var @event = _events.Read(0).Result;
         return new EmsParticipantsPayload
         {
             Participants = participants.ToList(),
-            EventId = @event.Id,
+            EventId = @event!.Id,
         };
     }
     public Task ReceiveWitnessEvent(IEnumerable<EmsParticipantEntry> entries, EmsWitnessEventType type)
@@ -124,13 +120,13 @@ public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, 
         return Task.CompletedTask;
     }
 
-    public class ClientService : IDisposable, IClientProcedures, IStartupInitializer
+    public class ClientService : IDisposable, Ports.IClientProcedures, IStartupInitializer
     {
-        private readonly IHubContext<EmsRpcHub, IEmsClientProcedures> _hub;
+        private readonly IHubContext<EmsRpcHub, Compatibility.EMS.RPC.IEmsClientProcedures> _hub;
 
         public ClientService(
             IRepository<Participation> participations,
-            IHubContext<EmsRpcHub, IEmsClientProcedures> hub)
+            IHubContext<EmsRpcHub, Compatibility.EMS.RPC.IEmsClientProcedures> hub)
         {
             _hub = hub;
         }
@@ -141,7 +137,7 @@ public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, 
             Participation.QualificationRevokedEvent.SubscribeAsync(SendQualificationRevoked);
             Participation.QualificationRestoredEvent.SubscribeAsync(SendQualificationRestored);
         }
-
+            
         public async void SendStartlistEntryUpdate(PhaseCompleted phaseCompleted)
         {
             var emsParticipation = ParticipationFactory.CreateEms(phaseCompleted.Participation);

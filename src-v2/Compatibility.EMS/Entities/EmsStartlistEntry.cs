@@ -30,7 +30,8 @@ public class EmsStartlistEntry : IComparable<EmsStartlistEntry>, IEquatable<EmsS
         Distance = participation.Distance!.Value;
         IsRestOver = StartTime < DateTime.Now;
         Stage = participation.Participant.LapRecords.Count + 1;
-        StartTime = GetLastNextStartTime(participation) ?? throw new Exception("Missing NextStartTime on record"); ;
+        // Dont use GetLastNextStartTime because in NTS we have create next Phase as soon as current is complete
+        StartTime = participation.Participant.LapRecords.Last().StartTime;
     }
 
     private DateTime? GetLastNextStartTime(EmsParticipation participation)

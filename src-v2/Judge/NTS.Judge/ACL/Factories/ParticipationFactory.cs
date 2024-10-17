@@ -36,6 +36,9 @@ public class ParticipationFactory
                 break;
             }
             var emsRecord = new EmsLapRecord(phase.StartTime.DateTime.DateTime, emsLap);
+            emsRecord.ArrivalTime = phase.ArriveTime?.DateTime.DateTime;
+            emsRecord.InspectionTime = phase.InspectTime?.DateTime.DateTime;
+            emsRecord.ReInspectionTime = phase.ReinspectTime?.DateTime.DateTime;
             emsParticipant.Add(emsRecord);
         }
         var competition = CompetitionFactory.Create(participation);

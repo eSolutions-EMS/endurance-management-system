@@ -30,7 +30,7 @@ public abstract class CrudBehind<T, TModel> : ObservableListBehind<T>, IListBehi
     /// Instatiates a basic CRUD behind for a standalone or root-level entity
     /// </summary>
     /// <param name="repository">Entity's repository</param>
-    protected CrudBehind(IRepository<T> repository) : base([])
+    protected CrudBehind(IRepository<T> repository)
     {
         _repository = repository;
         _loadedSubscriptionId = ObservableList.ChangedEvent.Subscribe(EmitChange);
