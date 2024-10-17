@@ -1,8 +1,11 @@
 ﻿using Not.Injection;
+using NTS.Domain.Objects;
 
 namespace NTS.Judge.Blazor.Ports;
 public interface IRfidTagReaderBehind : ISingletonService
 {
     Task StartReading(bool readFlag);
-    void ProcessTags();
+    IEnumerable<Snapshot> ProcessTags();
+
+    //void ProcessTags();
 }

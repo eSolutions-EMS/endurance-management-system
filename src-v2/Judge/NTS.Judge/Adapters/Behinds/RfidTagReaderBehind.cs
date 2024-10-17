@@ -36,7 +36,7 @@ public class RfidTagReaderBehind : IRfidTagReaderBehind
 
     }
 
-    public void ProcessTags()
+    public IEnumerable<Snapshot> ProcessTags()
     {
         foreach (var tagData in _readData)
         {
@@ -44,6 +44,18 @@ public class RfidTagReaderBehind : IRfidTagReaderBehind
             var timestamp = new Timestamp(DateTime.Now);
             var snapshot = new Snapshot(number, StaticOptions.GetRfidSnapshotType(), SnapshotMethod.RFID, timestamp);
             //process here?
+            yield return snapshot;
         }
     }
+
+    //public void ProcessTags()
+    //{
+    //    foreach (var tagData in _readData)
+    //    {
+    //        var number = int.Parse(tagData.Substring(0, 3));
+    //        var timestamp = new Timestamp(DateTime.Now);
+    //        var snapshot = new Snapshot(number, StaticOptions.GetRfidSnapshotType(), SnapshotMethod.RFID, timestamp);
+    //        //process here?
+    //    }
+    //}
 }
