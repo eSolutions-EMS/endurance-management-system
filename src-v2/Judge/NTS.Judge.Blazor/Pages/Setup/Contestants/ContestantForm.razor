@@ -17,7 +17,7 @@
     <NotSwitch @bind-Value="_overrideStartTime" Label="Override Start Time"/>
     @if (_overrideStartTime)
     {
-        <MudTimePicker DisableToolbar="true" @ref="_timeField" @bind-Time="_model.StartTimeOverride" Label="@Localizer.Get("Start Time")" />
+        <MudTimePicker ShowToolbar="false" @ref="_timeField" @bind-Time="_model.StartTimeOverride" Label="@Localizer.Get("Start Time")" />
     }
     <NotSwitch @bind-Value="_overrideMaxSpeed" Label="Override Max Speed" />
     @if (_overrideMaxSpeed)

@@ -14,7 +14,7 @@
     <NotSelect @ref="_ruleField" T="CompetitionRuleset" Label="Ruleset" @bind-Value="_model.Ruleset" Items="_competitionRules" />
     <NotSelect @ref="_typeField" T="CompetitionType" Label="Type" @bind-Value="_model.Type" Items="_competitionTypes" />
     <MudDatePicker ShowToolbar="false" @ref="_dayField" @bind-Date="_model.StartDay" Label="@Localizer.Get("Date")" />
-    <MudTimePicker ShowToolbar="true" @ref="_timeField" @bind-Time="_model.StartTime" Label="@Localizer.Get("Time")" />
+    <MudTimePicker ShowToolbar="false" @ref="_timeField" @bind-Time="_model.StartTime" Label="@Localizer.Get("Time")" />
     <NotSwitch @bind-Value="_model.UseAutomaticCRI" Label="Use automatic CRI" />
     @if (_model.UseAutomaticCRI)
     {
