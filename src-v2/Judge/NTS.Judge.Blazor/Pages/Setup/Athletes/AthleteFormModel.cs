@@ -9,7 +9,7 @@ public class AthleteFormModel
         // mock data for testing
         Name = "Gucci Petrov";
         Club = "Конярче ООД";
-        Category = "Олимпийски надежди";
+        Category = AthleteCategory.Senior; //use Senier as the default value of the FormModel prop
         Country = new Country("BG", "zz", "Bulgaria");
     }
     public AthleteFormModel(Athlete athlete)
@@ -27,6 +27,6 @@ public class AthleteFormModel
     public string? FeiId { get; set; }
     public Country Country { get; set; }
     public string Club { get; set; }
-    public string Category { get; set; }
+    public AthleteCategory Category { get; set; }
 
 }
