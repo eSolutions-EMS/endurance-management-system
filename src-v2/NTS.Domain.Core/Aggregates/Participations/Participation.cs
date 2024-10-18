@@ -33,6 +33,11 @@ public class Participation : DomainEntity, IAggregateRoot
     {
         return NotQualified != null;
     }
+
+    public bool IsComplete()
+    {
+        return Phases.All(x => x.IsComplete());
+    }
     
     public Total? GetTotal()
     {

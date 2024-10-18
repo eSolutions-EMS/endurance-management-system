@@ -33,7 +33,7 @@ public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, 
 
     public Dictionary<int, EmsStartlist> SendStartlist()
     {
-        var participations = _participations.ReadAll().Result;
+        var participations = _participations.ReadAll(x => !x.IsNotQualified()).Result;
         var emsParticipations = participations
             .Select(ParticipationFactory.CreateEms);
         
@@ -79,14 +79,14 @@ public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, 
     public EmsParticipantsPayload SendParticipants()
     {
         var participants = _participations
-            .ReadAll(x => x.Phases.All(x => !x.IsComplete()))
+            .ReadAll(x => !x.IsNotQualified() && !x.IsComplete())
             .Result
             .Select(ParticipantEntryFactory.Create);
         var @event = _events.Read(0).Result;
         return new EmsParticipantsPayload
         {
             Participants = participants.ToList(),
-            EventId = @event!.Id,
+            EventId = @event?.Id ?? 0,
         };
     }
     public Task ReceiveWitnessEvent(IEnumerable<EmsParticipantEntry> entries, EmsWitnessEventType type)
