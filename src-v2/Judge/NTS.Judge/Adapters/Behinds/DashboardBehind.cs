@@ -34,7 +34,7 @@ public class DashboardBehind : IDashboardBehind
         _participationRepository = participationRepository;
         _rankingRepository = rankingRepository;
     }
-    
+
     async Task SafeStart()
     {
         var setupEvent = await _setupRepository.Read(0);
@@ -44,7 +44,19 @@ public class DashboardBehind : IDashboardBehind
             throw new DomainException("Cannot start - event is not configured");
         }
         await CreateEvent(setupEvent);
+        if (!setupEvent.Officials.Any())
+        {
+            throw new DomainException("Cannot start - officials aren't configured");
+        }
         await CreateOfficials(setupEvent.Officials);
+        if (!setupEvent.Competitions.ElementAt(0).Phases.Any())
+        {
+            throw new DomainException("Cannot start - phases aren't configured");
+        }
+        if (!setupEvent.Competitions.ElementAt(0).Contestants.Any())
+        {
+            throw new DomainException("Cannot start - contestants aren't configured");
+        }
         await CreateParticipations(setupEvent);
     }
 
