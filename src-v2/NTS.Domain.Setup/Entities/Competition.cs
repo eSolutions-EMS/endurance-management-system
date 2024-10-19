@@ -41,7 +41,8 @@ public class Competition : DomainEntity, ISummarizable, IParent<Contestant>, IPa
     {
         if (type == default)
         {
-            throw new DomainException(nameof(type), "Competition Type is required");
+            //CompetitionType defualt is enabled to ensure EmsImportBehind function correctly
+            //throw new DomainException(nameof(type), "Competition Type is required");
         }
         if (startTime.DateTime < DateTime.Today)
         {

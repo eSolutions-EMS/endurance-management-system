@@ -53,10 +53,10 @@ public class EmsImportBehind : IEmsImportBehind
     {
         foreach (var emsCompetition in emsEvent.Competitions)
         {
-            yield return Competition.Create(emsCompetition.Name, MapType(emsCompetition.Type), emsCompetition.StartTime.ToDateTimeOffset(), 10);
+            yield return Competition.Create(emsCompetition.Name, MapRuleset(emsCompetition.Type), default, emsCompetition.StartTime.ToDateTimeOffset(), 10);
         }
 
-        CompetitionRuleset MapType(NTS.Compatibility.EMS.Entities.Competitions.EmsCompetitionType emsType)
+        CompetitionRuleset MapRuleset(NTS.Compatibility.EMS.Entities.Competitions.EmsCompetitionType emsType)
         {
             if (emsType == NTS.Compatibility.EMS.Entities.Competitions.EmsCompetitionType.National)
             {
