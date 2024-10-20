@@ -73,7 +73,7 @@ public class Participation : DomainEntity, IAggregateRoot
             return SnapshotResult.NotApplied(snapshot, NotAppliedDueToNotQualified);
         }
 
-        var result = Phases.Current.Process(snapshot);
+        var result = Phases.Process(snapshot);
         EvaluatePhase(Phases.Current);
 
         return result;
