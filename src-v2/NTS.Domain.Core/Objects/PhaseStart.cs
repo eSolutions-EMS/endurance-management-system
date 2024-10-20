@@ -10,7 +10,7 @@ public record PhaseStart : DomainObject
 
     public PhaseStart(Participation participation)
     {
-        if (participation.IsNotQualified())
+        if (participation.IsEliminated())
         {
             throw GuardHelper.Exception($"{participation} cannot start");
         }

@@ -3,52 +3,52 @@ using System.ComponentModel;
 
 namespace NTS.Domain.Core.Entities.ParticipationAggregate;
 
-public record Withdrawn : NotQualified
+public record Withdrawn : Eliminated
 {
     public Withdrawn() : base(WITHDRAWN)
     {
     }
 }
 
-public record Retired : NotQualified
+public record Retired : Eliminated
 {
     public Retired() : base(RETIRED)
     {
     }
 }
 
-public record Disqualified : NotQualified
+public record Disqualified : Eliminated
 {
     public Disqualified(string complement) : base(DISQUALIFIED, complement)
     {
     }
 }
 
-public record FinishedNotRanked : NotQualified
+public record FinishedNotRanked : Eliminated
 {
     public FinishedNotRanked(string complement) : base(FINISHED_NOT_RANKED, complement)
     {
     }
 }
 
-public record FailedToQualify : NotQualified
+public record FailedToQualify : Eliminated
 {
     [JsonConstructor]
     public FailedToQualify(FTQCodes[] codes, string? complement) : base(FAILED_TO_QUALIFY)
     {
         PreventInvalidFTC(codes, complement);
-        Codes = codes;
+        FtqCodes = codes;
         Complement = complement; // Doesn't use base ctor with complement, because it is not required here
     }
     public FailedToQualify(FTQCodes[] codes) : this(IsNotEmpty(codes), null)
     {
     }
 
-    public IEnumerable<FTQCodes> Codes { get; private set; } = [];
+    public IEnumerable<FTQCodes> FtqCodes { get; private set; } = [];
 
     public override string ToString()
     {
-        var codes = string.Join('+', Codes);
+        var codes = string.Join('+', FtqCodes);
         return $"FTQ {codes}";
     }
 
@@ -123,7 +123,7 @@ public enum FTQCodes
     FTC = 9
 }
 
-public abstract record NotQualified : DomainObject
+public abstract record Eliminated : DomainObject
 {
     public const string WITHDRAWN = "WD";
     public const string RETIRED = "RET";
@@ -131,21 +131,21 @@ public abstract record NotQualified : DomainObject
     public const string DISQUALIFIED = "DQ";
     public const string FAILED_TO_QUALIFY = "FTQ";
 
-    protected NotQualified(string eliminationCode)
+    protected Eliminated(string eliminationCode)
     {
-        EliminationCode = eliminationCode;
+        Code = eliminationCode;
     }
-    protected NotQualified(string eliminationCode, string complement) : this(eliminationCode)
+    protected Eliminated(string eliminationCode, string complement) : this(eliminationCode)
     {
         Complement = IsNotNullOrEmpty(complement, eliminationCode);
     }
 
-    public string EliminationCode { get; }
+    public string Code { get; }
     public string? Complement { get; protected set; }
 
     public override string ToString()
     {
-        return EliminationCode;
+        return Code;
     }
 
     static string IsNotNullOrEmpty(string complement, string eliminationCode)

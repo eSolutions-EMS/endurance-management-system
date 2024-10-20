@@ -21,7 +21,7 @@
                 @foreach (var participation in participations)
                 {
                     var number = participation.Tandem.Number;
-                    var color = participation.IsNotQualified() ? Color.Error : Color.Primary;
+                    var color = participation.IsEliminated() ? Color.Error : Color.Primary;
                     <MudChip Text="@number.ToString()" Value="@participation" Color="@color" Style="min-width: 1rem" />
                 }
             }

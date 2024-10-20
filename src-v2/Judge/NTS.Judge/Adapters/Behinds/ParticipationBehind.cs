@@ -136,7 +136,7 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
     async Task SafeRestoreQualification()
     {
         GuardHelper.ThrowIfDefault(SelectedParticipation);
-        SelectedParticipation.RestoreQualification();
+        SelectedParticipation.Restore();
         await _participationRepository.Update(SelectedParticipation);
         
         EmitChange();

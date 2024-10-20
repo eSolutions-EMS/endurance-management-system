@@ -8,19 +8,19 @@ namespace NTS.Domain.Core.Entities;
 public class Participation : DomainEntity, IAggregateRoot
 {
     public readonly static Event<PhaseCompleted> PhaseCompletedEvent = new();
-    public readonly static Event<QualificationRevoked> QualificationRevokedEvent = new();
-    public readonly static Event<QualificationRestored> QualificationRestoredEvent = new();
+    public readonly static Event<ParticipationEliminated> EliminatedEvent = new();
+    public readonly static Event<ParticipationRestored> RestoredEvent = new();
 
     private static readonly TimeSpan NOT_SNAPSHOTABLE_WINDOW = TimeSpan.FromMinutes(30);
     private static readonly FailedToQualify OUT_OF_TIME = new([FTQCodes.OT]);
     private static readonly FailedToQualify SPEED_RESTRICTION = new([FTQCodes.SP]);
 
-    private Participation(int id, Competition competition, Tandem tandem, PhaseCollection phases, NotQualified? notQualified) : base(id)
+    private Participation(int id, Competition competition, Tandem tandem, PhaseCollection phases, Eliminated? notQualified) : base(id)
     {
         Competition = competition;
         Tandem = tandem;
         Phases = phases;
-        NotQualified = notQualified;
+        Eliminated = notQualified;
     }
     public Participation(string competitionName, CompetitionRuleset ruleset, Tandem tandem, IEnumerable<Phase> phases)
         : this(
@@ -35,11 +35,11 @@ public class Participation : DomainEntity, IAggregateRoot
     public Competition Competition { get; private set; }
     public Tandem Tandem { get; private set; }
     public PhaseCollection Phases { get; private set; }
-    public NotQualified? NotQualified { get; private set; }
+    public Eliminated? Eliminated { get; private set; } 
 
-    public bool IsNotQualified()
+    public bool IsEliminated()
     {
-        return NotQualified != null;
+        return Eliminated != null;
     }
 
     public bool IsComplete()
@@ -59,16 +59,16 @@ public class Participation : DomainEntity, IAggregateRoot
     public override string ToString()
     {
         var result = $"{Tandem}, {Phases}";
-        if (NotQualified != null)
+        if (Eliminated != null)
         {
-            result += $", {NotQualified}";
+            result += $", {Eliminated}";
         }
         return result;
     }
 
     public SnapshotResult Process(Snapshot snapshot)
     {
-        if (NotQualified != null)
+        if (Eliminated != null)
         {
             return SnapshotResult.NotApplied(snapshot, NotAppliedDueToNotQualified);
         }
@@ -114,43 +114,43 @@ public class Participation : DomainEntity, IAggregateRoot
 
     public void Withdraw()
     {
-        RevokeQualification(new Withdrawn());
+        Eliminate(new Withdrawn());
     }
     public void Retire()
     {
-        RevokeQualification(new Retired());
+        Eliminate(new Retired());
     }
 
     public void Disqualify(string reason)
     {
-        RevokeQualification(new Disqualified(reason));
+        Eliminate(new Disqualified(reason));
     }
 
     public void FinishNotRanked(string reason)
     {
-        RevokeQualification(new FinishedNotRanked(reason));
+        Eliminate(new FinishedNotRanked(reason));
     }
 
     public void FailToQualify(FTQCodes[] codes, string? reason)
     {
-        RevokeQualification(new FailedToQualify(codes, reason));
+        Eliminate(new FailedToQualify(codes, reason));
     }
 
     private void EvaluatePhase(Phase phase)
     {
         if (phase.ViolatesRecoveryTime())
         {
-            RevokeQualification(OUT_OF_TIME);
+            Eliminate(OUT_OF_TIME);
             return;
         }
         if (phase.ViolatesSpeedRestriction(Tandem.MinAverageSpeed, Tandem.MaxAverageSpeed))
         {
-            RevokeQualification(SPEED_RESTRICTION);
+            Eliminate(SPEED_RESTRICTION);
             return;
         }
-        if (NotQualified == OUT_OF_TIME || NotQualified == SPEED_RESTRICTION)
+        if (Eliminated == OUT_OF_TIME || Eliminated == SPEED_RESTRICTION)
         {
-            RestoreQualification();
+            Restore();
         }
         if (phase.IsComplete())
         {
@@ -160,16 +160,17 @@ public class Participation : DomainEntity, IAggregateRoot
         }
     }
 
-    private void RevokeQualification(NotQualified notQualified)
+    private void Eliminate(Eliminated notQualified)
     {
-        NotQualified = notQualified;
-        var qualificationRevoked = new QualificationRevoked(this);
-        QualificationRevokedEvent.Emit(qualificationRevoked);
+        Eliminated = notQualified;
+        var qualificationRevoked = new ParticipationEliminated(this);
+        EliminatedEvent.Emit(qualificationRevoked);
     }
-    public void RestoreQualification()
+
+    public void Restore()
     {
-        NotQualified = null;
-        var qualificationRestored = new QualificationRestored(this);
-        QualificationRestoredEvent.Emit(qualificationRestored);
+        Eliminated = null;
+        var qualificationRestored = new ParticipationRestored(this);
+        RestoredEvent.Emit(qualificationRestored);
     }
 }

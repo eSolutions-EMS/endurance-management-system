@@ -32,7 +32,7 @@ public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, 
 
     public Dictionary<int, EmsStartlist> SendStartlist()
     {
-        var participations = _participations.ReadAll(x => !x.IsNotQualified()).Result;
+        var participations = _participations.ReadAll(x => !x.IsEliminated()).Result;
         var emsParticipations = participations
             .Select(ParticipationFactory.CreateEms);
         
@@ -78,7 +78,7 @@ public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, 
     public EmsParticipantsPayload SendParticipants()
     {
         var participants = _participations
-            .ReadAll(x => !x.IsNotQualified() && !x.IsComplete())
+            .ReadAll(x => !x.IsEliminated() && !x.IsComplete())
             .Result
             .Select(ParticipantEntryFactory.Create);
         var enduranceEvent = _events.Read(0).Result;
@@ -150,14 +150,14 @@ public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, 
             await _hub.Clients.All.ReceiveEntry(entry, EmsCollectionAction.AddOrUpdate);
         }
 
-        public async void SendParticipantEntryAddOrUpdate(QualificationRestored qualificationRestored)
+        public async void SendParticipantEntryAddOrUpdate(ParticipationRestored qualificationRestored)
         {
             var emsParticipation = ParticipationFactory.CreateEms(qualificationRestored.Participation);
             var entry = new EmsParticipantEntry(emsParticipation);
             await _hub.Clients.All.ReceiveEntryUpdate(entry, EmsCollectionAction.AddOrUpdate);
         }
 
-        public async void SendParticipantEntryRemove(QualificationRevoked qualificationRevoked)
+        public async void SendParticipantEntryRemove(ParticipationEliminated qualificationRevoked)
         {
             var emsParticipation = ParticipationFactory.CreateEms(qualificationRevoked.Participation);
             var entry = new EmsParticipantEntry(emsParticipation);
@@ -180,13 +180,13 @@ public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, 
             await Task.CompletedTask;
         }
 
-        public async Task SendQualificationRevoked(QualificationRevoked revoked)
+        public async Task SendParticipationEliminated(ParticipationEliminated revoked)
         {
             SendParticipantEntryRemove(revoked);
             await Task.CompletedTask;
         }
 
-        public async Task SendQualificationRestored(QualificationRestored restored)
+        public async Task SendParticipationRestored(ParticipationRestored restored)
         {
             SendParticipantEntryAddOrUpdate(restored);
             await Task.CompletedTask;
