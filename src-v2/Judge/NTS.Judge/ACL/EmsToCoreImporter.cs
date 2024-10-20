@@ -7,7 +7,7 @@ using static NTS.Domain.Enums.OfficialRole;
 using NTS.Compatibility.EMS.Entities.Competitions;
 using NTS.Domain.Enums;
 using NTS.Judge.ACL.Factories;
-using NTS.Domain.Core.Aggregates.Participations;
+using NTS.Domain.Core.Entities.ParticipationAggregate;
 using NTS.Compatibility.EMS.Enums;
 using Not.Application.Ports.CRUD;
 using Not.Injection;

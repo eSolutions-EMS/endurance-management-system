@@ -1,9 +1,8 @@
 ﻿using Newtonsoft.Json;
 using NTS.Domain.Core.Configuration;
-using NTS.Domain.Core.Entities;
 using static NTS.Domain.Core.Entities.SnapshotResultType;
 
-namespace NTS.Domain.Core.Aggregates.Participations;
+namespace NTS.Domain.Core.Entities.ParticipationAggregate;
 
 public class Phase : DomainEntity, IPhaseState
 {
@@ -39,7 +38,7 @@ public class Phase : DomainEntity, IPhaseState
         phase.IsReinspectionRequested = isReinspectionRequested;
         phase.IsRequiredInspectionRequested = isRequiredInspectionRequested;
         phase.IsRequiredInspectionCompulsory = isCompulsoryRequiredInspectionRequested;
-        
+
         return phase;
     }
 
@@ -50,7 +49,7 @@ public class Phase : DomainEntity, IPhaseState
 
     [JsonConstructor]
     private Phase(
-        int id, 
+        int id,
         string gate,
         double length,
         int maxRecovery,
@@ -64,7 +63,7 @@ public class Phase : DomainEntity, IPhaseState
         Timestamp? representTime,
         bool isRepresentationRequested,
         bool isRequiredInspectionRequested,
-        bool isRequiredInspectionCompulsory) : base(id) 
+        bool isRequiredInspectionCompulsory) : base(id)
     {
         Gate = gate;
         Length = length;

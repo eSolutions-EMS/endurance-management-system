@@ -1,9 +1,9 @@
 ﻿using Not.Events;
-using NTS.Domain.Core.Entities;
+using NTS.Domain.Core.Entities.ParticipationAggregate;
 using NTS.Domain.Core.Events.Participations;
 using static NTS.Domain.Core.Entities.SnapshotResultType;
 
-namespace NTS.Domain.Core.Aggregates.Participations;
+namespace NTS.Domain.Core.Entities;
 
 public class Participation : DomainEntity, IAggregateRoot
 {
@@ -12,8 +12,8 @@ public class Participation : DomainEntity, IAggregateRoot
     public readonly static Event<QualificationRestored> QualificationRestoredEvent = new();
 
     private static readonly TimeSpan NOT_SNAPSHOTABLE_WINDOW = TimeSpan.FromMinutes(30);
-    private static readonly FailedToQualify OUT_OF_TIME = new ([FTQCodes.OT]);
-    private static readonly FailedToQualify SPEED_RESTRICTION = new ([FTQCodes.SP]);
+    private static readonly FailedToQualify OUT_OF_TIME = new([FTQCodes.OT]);
+    private static readonly FailedToQualify SPEED_RESTRICTION = new([FTQCodes.SP]);
 
     private Participation(int id, Competition competition, Tandem tandem, PhaseCollection phases, NotQualified? notQualified) : base(id)
     {
@@ -36,7 +36,7 @@ public class Participation : DomainEntity, IAggregateRoot
     public Tandem Tandem { get; private set; }
     public PhaseCollection Phases { get; private set; }
     public NotQualified? NotQualified { get; private set; }
-    
+
     public bool IsNotQualified()
     {
         return NotQualified != null;
@@ -46,7 +46,7 @@ public class Participation : DomainEntity, IAggregateRoot
     {
         return Phases.All(x => x.IsComplete());
     }
-    
+
     public Total? GetTotal()
     {
         if (Phases.All(x => !x.IsComplete()))
@@ -75,7 +75,7 @@ public class Participation : DomainEntity, IAggregateRoot
 
         var result = Phases.Current.Process(snapshot);
         EvaluatePhase(Phases.Current);
-        
+
         return result;
     }
 

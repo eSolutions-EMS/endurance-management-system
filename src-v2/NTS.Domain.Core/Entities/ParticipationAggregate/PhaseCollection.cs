@@ -1,8 +1,7 @@
 ﻿using Not.Localization;
-using NTS.Domain.Core.Entities;
 using System.Collections.ObjectModel;
 
-namespace NTS.Domain.Core.Aggregates.Participations;
+namespace NTS.Domain.Core.Entities.ParticipationAggregate;
 
 public class PhaseCollection : ReadOnlyCollection<Phase>
 {
@@ -20,11 +19,11 @@ public class PhaseCollection : ReadOnlyCollection<Phase>
 
     public Phase Current { get; private set; }
     public double Distance => this.Sum(x => x.Length);
-    
+
     public override string ToString()
     {
         var completed = this.Count(x => x.IsComplete());
-        return $"{Distance}{"km".Localize()}: {completed}/{this.Count}";
+        return $"{Distance}{"km".Localize()}: {completed}/{Count}";
     }
 
     internal SnapshotResult Process(Snapshot snapshot)
@@ -64,7 +63,7 @@ public class PhaseCollection : ReadOnlyCollection<Phase>
 
     private Phase GetNext()
     {
-        var currentIndex = this.IndexOf(Current);
+        var currentIndex = IndexOf(Current);
         return this[++currentIndex];
     }
 }

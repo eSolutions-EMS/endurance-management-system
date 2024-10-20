@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.ComponentModel;
 
-namespace NTS.Domain.Core.Aggregates.Participations;
+namespace NTS.Domain.Core.Entities.ParticipationAggregate;
 
 public record Withdrawn : NotQualified
 {
@@ -12,7 +12,7 @@ public record Withdrawn : NotQualified
 
 public record Retired : NotQualified
 {
-    public Retired() : base(RETIRED) 
+    public Retired() : base(RETIRED)
     {
     }
 }
@@ -130,7 +130,7 @@ public abstract record NotQualified : DomainObject
     public const string FINISHED_NOT_RANKED = "FNR";
     public const string DISQUALIFIED = "DQ";
     public const string FAILED_TO_QUALIFY = "FTQ";
-    
+
     protected NotQualified(string eliminationCode)
     {
         EliminationCode = eliminationCode;
@@ -152,7 +152,7 @@ public abstract record NotQualified : DomainObject
     {
         if (string.IsNullOrWhiteSpace(complement))
         {
-            throw new DomainException($"Please provide reason to eliminate as '{eliminationCode}'"); 
+            throw new DomainException($"Please provide reason to eliminate as '{eliminationCode}'");
         }
         return complement;
     }

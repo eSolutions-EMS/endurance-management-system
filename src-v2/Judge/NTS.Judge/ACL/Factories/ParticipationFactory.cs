@@ -1,5 +1,5 @@
 ﻿using NTS.Compatibility.EMS.Entities.Participants;
-using NTS.Domain.Core.Aggregates.Participations;
+using NTS.Domain.Core.Entities.ParticipationAggregate;
 using NTS.Domain.Objects;
 using NTS.Judge.ACL.Bridge;
 using EmsParticipation = NTS.Compatibility.EMS.Entities.Participations.EmsParticipation;
@@ -7,6 +7,7 @@ using EmsCompetition = NTS.Compatibility.EMS.Entities.Competitions.EmsCompetitio
 using NTS.Domain;
 using NTS.Compatibility.EMS.Entities.Results;
 using NTS.Compatibility.EMS.Entities.LapRecords;
+using NTS.Domain.Core.Entities;
 
 namespace NTS.Judge.ACL.Factories;
 

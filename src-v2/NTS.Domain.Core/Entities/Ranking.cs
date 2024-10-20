@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using NTS.Domain.Core.Aggregates.Participations;
+using NTS.Domain.Core.Entities.ParticipationAggregate;
 using System.Collections.ObjectModel;
 
 namespace NTS.Domain.Core.Entities;

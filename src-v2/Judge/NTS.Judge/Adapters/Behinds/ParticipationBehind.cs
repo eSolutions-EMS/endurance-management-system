@@ -2,7 +2,7 @@
 using Not.Application.Ports.CRUD;
 using Not.Exceptions;
 using Not.Safe;
-using NTS.Domain.Core.Aggregates.Participations;
+using NTS.Domain.Core.Entities.ParticipationAggregate;
 using NTS.Domain.Core.Entities;
 using NTS.Domain.Objects;
 using NTS.Judge.Blazor.Ports;

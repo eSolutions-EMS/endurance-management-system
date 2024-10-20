@@ -4,7 +4,6 @@ using Not.Collections;
 using Not.Concurrency;
 using Not.Exceptions;
 using Not.Safe;
-using NTS.Domain.Core.Aggregates.Participations;
 using NTS.Domain.Core.Entities;
 using NTS.Domain.Core.Events.Participations;
 using NTS.Domain.Core.Objects;

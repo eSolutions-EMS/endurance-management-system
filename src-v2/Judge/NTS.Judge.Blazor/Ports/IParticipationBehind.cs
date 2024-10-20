@@ -1,5 +1,6 @@
 ﻿using Not.Blazor.Ports.Behinds;
-using NTS.Domain.Core.Aggregates.Participations;
+using NTS.Domain.Core.Entities;
+using NTS.Domain.Core.Entities.ParticipationAggregate;
 using NTS.Domain.Objects;
 
 namespace NTS.Judge.Blazor.Ports;

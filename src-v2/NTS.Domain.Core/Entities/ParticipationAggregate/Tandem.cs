@@ -1,6 +1,6 @@
 ﻿using Not.Localization;
 
-namespace NTS.Domain.Core.Aggregates.Participations;
+namespace NTS.Domain.Core.Entities.ParticipationAggregate;
 
 // TODO: probably shoudl be a record
 public class Tandem : DomainEntity
@@ -58,7 +58,7 @@ public class Tandem : DomainEntity
     public Speed? MinAverageSpeed { get; private set; }
     public Speed? MaxAverageSpeed { get; private set; }
     public string Distance
-    { 
+    {
         get => FormatDistance(_distance);
         set => _distance = decimal.Parse(value);
     }

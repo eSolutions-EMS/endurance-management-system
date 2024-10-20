@@ -2,7 +2,6 @@
 using Not.Domain;
 using Not.Notifier;
 using Not.Safe;
-using NTS.Domain.Core.Aggregates.Participations;
 using NTS.Domain.Core.Entities;
 using NTS.Judge.Blazor.Ports;
 

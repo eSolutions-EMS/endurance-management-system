@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using NTS.Domain.Core.Aggregates.Participations;
 
 namespace NTS.Domain.Core.Entities;
 
