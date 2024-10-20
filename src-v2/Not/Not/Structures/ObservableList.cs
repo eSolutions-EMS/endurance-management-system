@@ -22,7 +22,7 @@ public class ObservableList<T> : IReadOnlyList<T>
 
         ChangedEvent.Emit();
     }
-
+     
     public bool Remove(T item)
     {
         GuardHelper.ThrowIfDefault(item);
@@ -38,10 +38,24 @@ public class ObservableList<T> : IReadOnlyList<T>
         return result;
     }
 
+    public void RemoveRange(IEnumerable<T> items)
+    {
+        foreach (var item in items)
+        {
+            _dictionary.Remove(item.Id);
+        }
+        ChangedEvent.Emit();
+    }
+
     public void AddRange(IEnumerable<T> items)
     {
         _dictionary = items.ToDictionary(x => x.Id, x => x);
         ChangedEvent.Emit();
+    }
+
+    public bool Contains(T item)
+    {
+        return _dictionary.ContainsKey(item.Id);
     }
 
     public T this[int index]

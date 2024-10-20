@@ -1,7 +1,5 @@
 ﻿using Not.Application.Adapters.Behinds;
 using Not.Application.Ports.CRUD;
-using Not.Collections;
-using Not.Concurrency;
 using Not.Exceptions;
 using Not.Safe;
 using NTS.Domain.Core.Entities;
@@ -11,14 +9,13 @@ using NTS.Judge.Blazor.Ports;
 
 namespace NTS.Judge.Adapters.Behinds;
 
-public class HandoutsBehind : ObservableBehind, IHandoutsBehind
+public class HandoutsBehind : ObservableListBehind<HandoutDocument>, IHandoutsBehind
 {
     private readonly SemaphoreSlim _semaphore = new(1);
     private readonly IRepository<Handout> _handoutRepository;
     private readonly IRepository<Participation> _participations;
     private readonly IRepository<EnduranceEvent> _events;
     private readonly IRepository<Official> _officials;
-    private ConcurrentList<HandoutDocument> _documents = [];
 
     public HandoutsBehind(
         IRepository<Handout> handouts,
@@ -32,7 +29,7 @@ public class HandoutsBehind : ObservableBehind, IHandoutsBehind
         _officials = officials;
     }
 
-    public IReadOnlyList<HandoutDocument> Documents => _documents.AsReadOnly();
+    public IReadOnlyList<HandoutDocument> Documents => ObservableList;
 
     public void RunAtStartup()
     {
@@ -60,10 +57,9 @@ public class HandoutsBehind : ObservableBehind, IHandoutsBehind
         var officials = await _officials.ReadAll();
         GuardHelper.ThrowIfDefault(enduranceEvent);
 
-        var documents = handouts.Select(handout => new HandoutDocument(handout, enduranceEvent, officials));
-        _documents = new(documents);
+        var documents = handouts.Select(handout => new HandoutDocument(handout.Participation, enduranceEvent, officials));
+        ObservableList.AddRange(documents);
         
-        EmitChange();
         return true;
     }
 
@@ -71,9 +67,9 @@ public class HandoutsBehind : ObservableBehind, IHandoutsBehind
     {
         await _semaphore.WaitAsync();
 
-        var ids = documents.Select(x => x.HandoutId);
+        var ids = documents.Select(x => x.Id);
         await _handoutRepository.Delete(x => ids.Contains(x.Id));
-        _documents.RemoveRange(documents);
+        ObservableList.RemoveRange(documents); 
 
         _semaphore.Release();
     }
@@ -84,30 +80,16 @@ public class HandoutsBehind : ObservableBehind, IHandoutsBehind
         var officials = await _officials.ReadAll();
         GuardHelper.ThrowIfDefault(enduranceEvent);
 
+        var handout = new Handout(phaseCompleted.Participation);
+        var document = new HandoutDocument(phaseCompleted.Participation, enduranceEvent, officials);
+
         await _semaphore.WaitAsync();
 
-        await HandleExistingHandout(phaseCompleted);
-
-        var handout = new Handout(phaseCompleted.Participation);
-        await _handoutRepository.Create(handout);
-
-        var document = new HandoutDocument(handout, enduranceEvent, officials);
-        _documents.Add(document);
+        await _handoutRepository.Delete(x => x.Participation == phaseCompleted.Participation);
+        await _handoutRepository.Create(handout); 
+        ObservableList.AddOrReplace(document);
 
         _semaphore.Release();
-
-        EmitChange();
-    }
-
-    async Task HandleExistingHandout(PhaseCompleted phaseCompleted)
-    {
-        var existing = await _handoutRepository.Read(x => x.Participation == phaseCompleted.Participation);
-        if (existing != null)
-        {
-            await _handoutRepository.Delete(existing);
-            //TODO: is this extension necessary :?
-            _documents.RemoveIfExisting(x => x.Tandem.Number == phaseCompleted.Participation.Tandem.Number);
-        }
     }
 
     #region SafePattern
