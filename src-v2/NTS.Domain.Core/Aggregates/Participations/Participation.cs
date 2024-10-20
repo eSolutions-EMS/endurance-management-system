@@ -1,6 +1,7 @@
 ﻿using Not.Events;
+using NTS.Domain.Core.Entities;
 using NTS.Domain.Core.Events.Participations;
-using static NTS.Domain.Core.Aggregates.Participations.SnapshotResultType;
+using static NTS.Domain.Core.Entities.SnapshotResultType;
 
 namespace NTS.Domain.Core.Aggregates.Participations;
 

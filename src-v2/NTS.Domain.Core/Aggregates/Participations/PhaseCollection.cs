@@ -1,4 +1,5 @@
 ﻿using Not.Localization;
+using NTS.Domain.Core.Entities;
 using System.Collections.ObjectModel;
 
 namespace NTS.Domain.Core.Aggregates.Participations;
