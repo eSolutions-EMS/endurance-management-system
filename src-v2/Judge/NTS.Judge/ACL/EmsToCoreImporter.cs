@@ -16,13 +16,13 @@ namespace NTS.Judge.ACL;
 
 public class EmsToCoreImporter : IEmsToCoreImporter
 {
-    private readonly IRepository<Event> _events;
+    private readonly IRepository<EnduranceEvent> _events;
     private readonly IRepository<Official> _officials;
     private readonly IRepository<Participation> _participations;
     private readonly IRepository<Ranking> _classfications;
 
     public EmsToCoreImporter(
-        IRepository<Event> events,
+        IRepository<EnduranceEvent> events,
         IRepository<Official> officials,
         IRepository<Participation> participations,
         IRepository<Ranking> classfications)
@@ -43,12 +43,12 @@ public class EmsToCoreImporter : IEmsToCoreImporter
 
         var emsState = emsJson.FromJson<EmsState>();
 
-        var @event = CreateEvent(emsState.Event, adjustTime);
+        var enduranceEvent = CreateEvent(emsState.Event, adjustTime);
         //TODOL interesting why some imports fail without ToList? 2024-vakarel (finished) for example
         var officials = CreateOfficials(emsState.Event).ToList();
         var (rankings, participations) = CreateRankingsAndParticipations(emsState, adjustTime);
 
-        await _events.Create(@event);
+        await _events.Create(enduranceEvent);
         foreach (var official in officials)
         {
             await _officials.Create(official);
@@ -63,7 +63,7 @@ public class EmsToCoreImporter : IEmsToCoreImporter
         }
     }
 
-    private Event CreateEvent(EmsEnduranceEvent emsEvent, bool adjustTime)
+    private EnduranceEvent CreateEvent(EmsEnduranceEvent emsEvent, bool adjustTime)
     {
         var country = new Country(emsEvent.Country.IsoCode, "zz", emsEvent.Country.Name);
         var startTime = emsEvent.Competitions.OrderBy(x => x.StartTime).First().StartTime;
@@ -71,7 +71,7 @@ public class EmsToCoreImporter : IEmsToCoreImporter
         {
             startTime = DateTime.UtcNow.AddHours(-1);
         }
-        return new Event(
+        return new EnduranceEvent(
             country,
             emsEvent.PopulatedPlace,
             "populated place",

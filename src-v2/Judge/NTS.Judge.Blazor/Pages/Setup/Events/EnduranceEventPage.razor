@@ -21,7 +21,7 @@
     </EmptyContent>
 
     <Main>
-        <FormUpdateTM T="EventFormModel" TForm="EventForm" Model="_behind.Model" />
+        <FormUpdateTM T="EnduranceEventFormModel" TForm="EnduranceEventForm" Model="_behind.Model" />
     </Main>
 
     <Main2>
@@ -44,7 +44,7 @@
     [Inject]
     IEnduranceEventBehind _behind { get; set; } = default!;
     [Inject]
-    FormManager<EventFormModel, EventForm> _form { get; set; } = default!;
+    FormManager<EnduranceEventFormModel, EnduranceEventForm> _form { get; set; } = default!;
 
     protected override async Task OnInitializedAsync()
     {

@@ -10,14 +10,14 @@ namespace NTS.Judge.Adapters.Behinds;
 
 public class DashboardBehind : IDashboardBehind
 {
-    private readonly IRepository<Domain.Setup.Entities.Event> _setupRepository;
-    private readonly IRepository<Event> _coreEventRespository;
+    private readonly IRepository<Domain.Setup.Entities.EnduranceEvent> _setupRepository;
+    private readonly IRepository<EnduranceEvent> _coreEventRespository;
     private readonly IRepository<Official> _coreOfficialRepository;
     private readonly IRepository<Participation> _participationRepository;
 
     public DashboardBehind(
-        IRepository<Domain.Setup.Entities.Event> setupRepository,
-        IRepository<Event> coreEventRespository,
+        IRepository<Domain.Setup.Entities.EnduranceEvent> setupRepository,
+        IRepository<EnduranceEvent> coreEventRespository,
         IRepository<Official> coreOfficialRepository,
         IRepository<Participation> participationRepository)
     {
@@ -39,7 +39,7 @@ public class DashboardBehind : IDashboardBehind
         await CreateOfficials(setupEvent.Officials);
     }
 
-    async Task CreateEvent(Domain.Setup.Entities.Event setupEvent)
+    async Task CreateEvent(Domain.Setup.Entities.EnduranceEvent setupEvent)
     {
         if (!setupEvent.Competitions.Any())
         {
@@ -50,8 +50,8 @@ public class DashboardBehind : IDashboardBehind
         var startDate = competitionStartTimes.First();
         var endDate = competitionStartTimes.Last();
 
-        var @event = new Event(setupEvent.Country, setupEvent.Place, "", startDate, endDate, null, null, null); // TODO: fix city and place
-        await _coreEventRespository.Create(@event);
+        var enduranceEvent = new EnduranceEvent(setupEvent.Country, setupEvent.Place, "", startDate, endDate, null, null, null); // TODO: fix city and place
+        await _coreEventRespository.Create(enduranceEvent);
     }
 
     async Task CreateOfficials(IEnumerable<Domain.Setup.Entities.Official> setupOfficials)

@@ -21,13 +21,13 @@ namespace NTS.Judge.MAUI.Server.ACL;
 public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, IEmsEmsParticipantstHubProcedures
 {
     private readonly IRepository<Participation> _participations;
-    private readonly IRepository<Domain.Core.Entities.Event> _events;
+    private readonly IRepository<Domain.Core.Entities.EnduranceEvent> _events;
     private readonly IParticipationBehind _participationBehind;
 
     public EmsRpcHub(IJudgeServiceProvider judgeProvider)
     {
         _participations = judgeProvider.GetRequiredService<IRepository<Participation>>();
-        _events = judgeProvider.GetRequiredService<IRepository<Domain.Core.Entities.Event>>();
+        _events = judgeProvider.GetRequiredService<IRepository<Domain.Core.Entities.EnduranceEvent>>();
         _participationBehind = judgeProvider.GetRequiredService<IParticipationBehind>();
     }
 
@@ -82,11 +82,11 @@ public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, 
             .ReadAll(x => !x.IsNotQualified() && !x.IsComplete())
             .Result
             .Select(ParticipantEntryFactory.Create);
-        var @event = _events.Read(0).Result;
+        var enduranceEvent = _events.Read(0).Result;
         return new EmsParticipantsPayload
         {
             Participants = participants.ToList(),
-            EventId = @event?.Id ?? 0,
+            EventId = enduranceEvent?.Id ?? 0,
         };
     }
     public Task ReceiveWitnessEvent(IEnumerable<EmsParticipantEntry> entries, EmsWitnessEventType type)

@@ -5,7 +5,7 @@ using NTS.Domain.Setup.Entities;
 
 namespace NTS.Judge.Contexts;
 
-public class EventParentContext(IRepository<Event> entities) : BehindContext<Event>(entities),
+public class EventParentContext(IRepository<EnduranceEvent> entities) : BehindContext<EnduranceEvent>(entities),
     IParentContext<Competition>,
     IParentContext<Official>
 {

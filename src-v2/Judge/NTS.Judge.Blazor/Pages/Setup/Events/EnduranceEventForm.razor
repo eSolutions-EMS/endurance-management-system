@@ -6,10 +6,10 @@
 @using Not.Blazor.TM.Forms;
 @using Not.Blazor.TM.Forms.Components;
 
-@inherits FormTM<EventFormModel>;
+@inherits FormTM<EnduranceEventFormModel>;
 
 <EditForm Model="Model">
-    <MudTextField @ref="_placeField" @bind-Value="Model.Place" Label="@Localizer.Get(nameof(Event.Place))" />
+    <MudTextField @ref="_placeField" @bind-Value="Model.Place" Label="@Localizer.Get(nameof(EnduranceEvent.Place))" />
 
     <NotAutocomplete T="Country" @ref="_countryField" @bind-Value="Model.Country" Label="@nameof(Athlete.Country)" Search="_countries.Search" />
 </EditForm>

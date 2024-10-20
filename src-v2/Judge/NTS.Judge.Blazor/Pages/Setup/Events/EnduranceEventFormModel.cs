@@ -4,9 +4,9 @@ using NTS.Domain.Setup.Entities;
 
 namespace NTS.Judge.Blazor.Setup.Events;
 
-public class EventFormModel : IFormModel<Event>
+public class EnduranceEventFormModel : IFormModel<EnduranceEvent>
 {
-    public EventFormModel()
+    public EnduranceEventFormModel()
     {
         //mock default values for testing
         Place = "Каспичан";
@@ -20,12 +20,12 @@ public class EventFormModel : IFormModel<Event>
     public IReadOnlyCollection<Competition> Competitions { get; private set; } = [];
     public IReadOnlyCollection<Official> Officials { get; private set; } = [];
 
-    public void FromEntity(Event @event)
+    public void FromEntity(EnduranceEvent enduranceEvent)
     {
-        Id = @event.Id;
-        Place = @event.Place;
-        Country = @event.Country;
-        Competitions = @event.Competitions;
-        Officials = @event.Officials;
+        Id = enduranceEvent.Id;
+        Place = enduranceEvent.Place;
+        Country = enduranceEvent.Country;
+        Competitions = enduranceEvent.Competitions;
+        Officials = enduranceEvent.Officials;
     }
 }

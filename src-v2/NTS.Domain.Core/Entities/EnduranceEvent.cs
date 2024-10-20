@@ -1,15 +1,13 @@
-﻿using JsonNet.PrivatePropertySetterResolver;
-using Newtonsoft.Json;
-using NTS.Domain.Core.Objects;
+﻿using NTS.Domain.Core.Objects;
 
 namespace NTS.Domain.Core.Entities;
 
-public class Event : DomainEntity
+public class EnduranceEvent : DomainEntity
 {
-    private Event(int id) : base(id)
+    private EnduranceEvent(int id) : base(id)
     {
     }
-    public Event(
+    public EnduranceEvent(
         Country country,
         string city,
         string place,

@@ -10,16 +10,16 @@ namespace NTS.Judge.Events;
 
 public class EventBehind : ObservableBehind, IEnduranceEventBehind
 {
-    private readonly IRepository<Event> _events;
+    private readonly IRepository<EnduranceEvent> _events;
     private readonly EventParentContext _context;
 
-    public EventBehind(IRepository<Event> events, EventParentContext context)
+    public EventBehind(IRepository<EnduranceEvent> events, EventParentContext context)
     {
         _events = events;
         _context = context;
     }
 
-    public EventFormModel? Model { get; private set; }
+    public EnduranceEventFormModel? Model { get; private set; }
 
     protected override async Task<bool> PerformInitialization(params IEnumerable<object> _)
     {
@@ -28,23 +28,23 @@ public class EventBehind : ObservableBehind, IEnduranceEventBehind
         {
             return false;
         }
-        Model = new EventFormModel();
+        Model = new EnduranceEventFormModel();
         Model.FromEntity(_context.Entity);
         return false;
     }
 
-    async Task<EventFormModel> SafeCreate(EventFormModel model)
+    async Task<EnduranceEventFormModel> SafeCreate(EnduranceEventFormModel model)
     {
-        _context.Entity = Event.Create(model.Place, model.Country);
+        _context.Entity = EnduranceEvent.Create(model.Place, model.Country);
         await _events.Create(_context.Entity);
         Model = model;
         EmitChange();
         return model;
     }
 
-    async Task<EventFormModel> SafeUpdate(EventFormModel model)
+    async Task<EnduranceEventFormModel> SafeUpdate(EnduranceEventFormModel model)
     {
-        _context.Entity = Event.Update(model.Id, model.Place, model.Country, model.Competitions, model.Officials);
+        _context.Entity = EnduranceEvent.Update(model.Id, model.Place, model.Country, model.Competitions, model.Officials);
         await _events.Update(_context.Entity);
         Model = model;
         EmitChange();
@@ -53,17 +53,17 @@ public class EventBehind : ObservableBehind, IEnduranceEventBehind
 
     #region SafePattern 
 
-    public async Task<EventFormModel> Create(EventFormModel @event)
+    public async Task<EnduranceEventFormModel> Create(EnduranceEventFormModel enduranceEvent)
     {
-        return await SafeHelper.Run(() => SafeCreate(@event)) ?? @event;
+        return await SafeHelper.Run(() => SafeCreate(enduranceEvent)) ?? enduranceEvent;
     }
 
-    public async Task<EventFormModel> Update(EventFormModel @event)
+    public async Task<EnduranceEventFormModel> Update(EnduranceEventFormModel enduranceEvent)
     {
-        return await SafeHelper.Run(() => SafeUpdate(@event)) ?? @event;
+        return await SafeHelper.Run(() => SafeUpdate(enduranceEvent)) ?? enduranceEvent;
     }
 
-    public Task<Event> Delete(Event @event)
+    public Task<EnduranceEvent> Delete(EnduranceEvent enduranceEvent)
     {
         throw new NotImplementedException("Endurance event cannot be deleted");
     }

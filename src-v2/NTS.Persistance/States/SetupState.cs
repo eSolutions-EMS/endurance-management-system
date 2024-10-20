@@ -3,7 +3,7 @@
 namespace NTS.Persistence.Setup;
 
 public class SetupState : NotState,
-    ITreeState<Event>,
+    ITreeState<EnduranceEvent>,
     ISetState<Loop>,
     ISetState<Horse>,
     ISetState<Athlete>,
@@ -25,12 +25,12 @@ public class SetupState : NotState,
     public List<Combination> Combinations { get; } = [];
     public List<Contestant> Participations { get; } = [];
     public List<Competition> Competitions { get; } = [];
-    public Event? Event { get; set; }
+    public EnduranceEvent? EnduranceEvent { get; set; }
 
-    Event? ITreeState<Event>.Root
+    EnduranceEvent? ITreeState<EnduranceEvent>.Root
     {
-        get => Event; 
-        set => Event = value;
+        get => EnduranceEvent; 
+        set => EnduranceEvent = value;
     }
     List<Loop> ISetState<Loop>.EntitySet => Loops;
     List<Horse> ISetState<Horse>.EntitySet => Horses;

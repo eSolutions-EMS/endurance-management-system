@@ -17,14 +17,14 @@ public class HandoutsBehind : ObservableBehind, IHandoutsBehind
     private readonly SemaphoreSlim _semaphore = new(1);
     private readonly IRepository<Handout> _handoutRepository;
     private readonly IRepository<Participation> _participations;
-    private readonly IRepository<Event> _events;
+    private readonly IRepository<EnduranceEvent> _events;
     private readonly IRepository<Official> _officials;
     private ConcurrentList<HandoutDocument> _documents = [];
 
     public HandoutsBehind(
         IRepository<Handout> handouts,
         IRepository<Participation> participations,
-        IRepository<Event> events,
+        IRepository<EnduranceEvent> events,
         IRepository<Official> officials)
     {
         _handoutRepository = handouts;
@@ -81,9 +81,9 @@ public class HandoutsBehind : ObservableBehind, IHandoutsBehind
 
     async void PhaseCompletedHandler(PhaseCompleted phaseCompleted)
     {
-        var @event = await _events.Read(0);
+        var enduranceEvent = await _events.Read(0);
         var officials = await _officials.ReadAll();
-        GuardHelper.ThrowIfDefault(@event);
+        GuardHelper.ThrowIfDefault(enduranceEvent);
 
         await _semaphore.WaitAsync();
 
@@ -92,7 +92,7 @@ public class HandoutsBehind : ObservableBehind, IHandoutsBehind
         var handout = new Handout(phaseCompleted.Participation);
         await _handoutRepository.Create(handout);
 
-        var document = new HandoutDocument(handout, @event, officials);
+        var document = new HandoutDocument(handout, enduranceEvent, officials);
         _documents.Add(document);
 
         _semaphore.Release();

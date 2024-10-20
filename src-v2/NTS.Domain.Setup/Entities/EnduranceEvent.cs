@@ -4,18 +4,23 @@ using NTS.Domain.Extensions;
 
 namespace NTS.Domain.Setup.Entities;
 
-public class Event : DomainEntity, ISummarizable, IImportable, IParent<Official>, IParent<Competition> 
+public class EnduranceEvent : DomainEntity, ISummarizable, IImportable, IParent<Official>, IParent<Competition> 
 {
-    public static Event Create(string? place, Country? country) => new(place, country);
+    public static EnduranceEvent Create(string? place, Country? country) => new(place, country);
 
-    public static Event Update(int id, string? place, Country? country, IEnumerable<Competition> competitions, IEnumerable<Official> officials)
+    public static EnduranceEvent Update(
+        int id,
+        string? place,
+        Country? country,
+        IEnumerable<Competition> competitions,
+        IEnumerable<Official> officials)
         => new(id, place, country, competitions, officials);
 
     private List<Competition> _competitions = [];
     private List<Official> _officials = [];
 
     [JsonConstructor]
-    private Event(int id, string? place, Country? country, IEnumerable<Competition> competitions, IEnumerable<Official> officials)
+    private EnduranceEvent(int id, string? place, Country? country, IEnumerable<Competition> competitions, IEnumerable<Official> officials)
         : base(id)
     {
         Place = Capitalized(nameof(Place), place);
@@ -24,7 +29,7 @@ public class Event : DomainEntity, ISummarizable, IImportable, IParent<Official>
         _officials = officials.ToList();
     }
 
-    private Event(string? place, Country? country) : this(GenerateId(), place,  country, [], [])
+    private EnduranceEvent(string? place, Country? country) : this(GenerateId(), place,  country, [], [])
     {
     }
 
@@ -44,7 +49,7 @@ public class Event : DomainEntity, ISummarizable, IImportable, IParent<Official>
     public IReadOnlyList<Official> Officials
     {
         get => _officials.AsReadOnly();
-        private set => _officials = value.ToList();
+        private set => _officials = value.ToList(); //TODO: code style: https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0305
     }
     public IReadOnlyList<Competition> Competitions
     {
