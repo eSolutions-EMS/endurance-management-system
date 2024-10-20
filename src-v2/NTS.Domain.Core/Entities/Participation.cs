@@ -110,7 +110,6 @@ public class Participation : DomainEntity, IAggregateRoot
         {
             Phases.Current.IsRequiredInspectionRequested = false;
         }
-        Phases.Current.IsReinspectionRequested = isRequested;
     }
 
     public void Withdraw()
