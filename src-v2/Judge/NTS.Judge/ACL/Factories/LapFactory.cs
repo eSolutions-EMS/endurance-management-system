@@ -15,7 +15,7 @@ public class LapFactory
             {
                 Id = phase.Id,
                 IsFinal = participation.Phases.Last() == phase ? true : false,
-                IsCompulsoryInspectionRequired = phase.IsCRIRequested,
+                IsCompulsoryInspectionRequired = phase.IsRequiredInspectionCompulsory,
                 LengthInKm = phase.Length,
                 MaxRecoveryTimeInMins = phase.MaxRecovery,
                 OrderBy = ++i,

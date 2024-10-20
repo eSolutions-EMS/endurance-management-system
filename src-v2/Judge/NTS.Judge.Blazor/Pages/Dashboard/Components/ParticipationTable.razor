@@ -26,10 +26,10 @@
                 <TableData Value="@phase.Gate" />
                 <TableData Value="@phase.StartTime" />
                 <TableData Value="@phase.ArriveTime" />
-                <TableData Value="@phase.InspectTime" />
-                <TableData Value="@phase.ReinspectTime" />
-                <TableData Value="@(phase.IsRIRequested ? phase.GetRequiredInspectionTime() : null)" />
-                <TableData Value="@(phase.IsCRIRequested ? phase.GetRequiredInspectionTime() : null)" />
+                <TableData Value="@phase.PresentTime" />
+                <TableData Value="@phase.RepresentTime" />
+                <TableData Value="@(phase.IsRequiredInspectionRequested ? phase.GetRequiredInspectionTime() : null)" />
+                <TableData Value="@(phase.IsRequiredInspectionCompulsory ? phase.GetRequiredInspectionTime() : null)" />
                 <TableData Value="@phase.GetRecoverySpan()" />
                 <TableData Value="@phase.GetLoopSpan()" />
                 <TableData Value="@phase.GetPhaseSpan()" />

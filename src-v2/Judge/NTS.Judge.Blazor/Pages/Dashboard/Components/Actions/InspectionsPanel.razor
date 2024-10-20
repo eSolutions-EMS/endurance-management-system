@@ -5,18 +5,19 @@
 @inherits NotComponent
 
 <MudStack Class="@Class">
-    <NotSwitch Label="Represent" Value="_represent" ValueChanged="ToggleReinspection" />
+    <NotSwitch Label="Representation" Value="_represent" ValueChanged="ToggleReinspection" />
 
-    <NotSwitch Label="Require Inspection" Value="_requireInspection" ValueChanged="ToggleRequiredInspection" />
+    <NotSwitch Label="Required Inspection" Value="_requireInspection" ValueChanged="ToggleRequiredInspection" />
 </MudStack>
 
 @code {
     [Inject]
     IParticipationBehind _participationBehind { get; set; } = default!;
+
     Participation _selectedParticipation => _participationBehind.SelectedParticipation!;
     Phase? _currentPhase => _selectedParticipation.Phases.Current;
     bool _represent => _currentPhase?.IsReinspectionRequested ?? false;
-    bool _requireInspection => _currentPhase?.IsRIRequested ?? false;
+    bool _requireInspection => _currentPhase?.IsRequiredInspectionRequested ?? false;
 
     protected override async Task OnInitializedAsync()
     {

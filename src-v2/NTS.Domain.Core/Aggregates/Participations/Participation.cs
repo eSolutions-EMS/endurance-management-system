@@ -89,13 +89,13 @@ public class Participation : DomainEntity, IAggregateRoot
 
     public void ChangeReinspection(bool isRequested)
     {
-        if (!isRequested)
+        if (isRequested)
         {
-            Phases.Current.DisableReinspection();
+            Phases.Current.IsReinspectionRequested = true;
         }
         else
         {
-            Phases.Current.IsReinspectionRequested = true;
+            Phases.Current.DisableReinspection();
         }
     }
 
@@ -107,7 +107,7 @@ public class Participation : DomainEntity, IAggregateRoot
         }
         else
         {
-            Phases.Current.IsRIRequested = isRequested;
+            Phases.Current.IsRequiredInspectionRequested = false;
         }
         Phases.Current.IsReinspectionRequested = isRequested;
     }

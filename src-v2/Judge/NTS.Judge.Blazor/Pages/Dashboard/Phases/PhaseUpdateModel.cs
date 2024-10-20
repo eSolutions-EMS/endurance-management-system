@@ -9,13 +9,13 @@ public class PhaseUpdateModel : IPhaseState
         Id = state.Id;
         StartTime = state.StartTime;
         ArriveTime = state.ArriveTime;
-        InspectTime = state.InspectTime;
-        ReinspectTime = state.ReinspectTime;
+        PresentTime = state.PresentTime;
+        RepresentTime = state.RepresentTime;
     }
 
     public int Id { get; }
     public Timestamp? StartTime { get; set; }
     public Timestamp? ArriveTime { get; set; }
-    public Timestamp? InspectTime { get; set; }
-    public Timestamp? ReinspectTime { get; set; }
+    public Timestamp? PresentTime { get; set; }
+    public Timestamp? RepresentTime { get; set; }
 }

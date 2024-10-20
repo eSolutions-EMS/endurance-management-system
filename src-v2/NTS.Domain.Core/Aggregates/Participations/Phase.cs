@@ -29,24 +29,23 @@ public class Phase : DomainEntity, IPhaseState
         }
         if (inspectTime != null)
         {
-            phase.InspectTime = new Timestamp(inspectTime.Value);
+            phase.PresentTime = new Timestamp(inspectTime.Value);
         }
         if (reinspectTime != null)
         {
-            phase.ReinspectTime = new Timestamp(reinspectTime.Value);
+            phase.RepresentTime = new Timestamp(reinspectTime.Value);
         }
         phase.IsReinspectionRequested = isReinspectionRequested;
-        phase.IsRIRequested = isRequiredInspectionRequested;
-        phase.IsCRIRequested = isCompulsoryRequiredInspectionRequested;
+        phase.IsRequiredInspectionRequested = isRequiredInspectionRequested;
+        phase.IsRequiredInspectionCompulsory = isCompulsoryRequiredInspectionRequested;
         
         return phase;
     }
 
-
     // TODO: settings - Add setting for separate final. This is useful for some events such as Shumen where we need separate detection for the actual final
     bool _isSeparateFinish = false;
 
-    private Timestamp? VetTime => ReinspectTime ?? InspectTime;
+    private Timestamp? VetTime => RepresentTime ?? PresentTime;
 
     [JsonConstructor]
     private Phase(
@@ -55,9 +54,9 @@ public class Phase : DomainEntity, IPhaseState
         double length,
         int maxRecovery,
         int rest,
-        CompetitionRuleset competitionRuleset,
+        CompetitionRuleset ruleset,
         bool isFinal,
-        int? compulsoryRequiredInspectionTreshold,
+        int? requiredImspectionCompulsoryThreshold,
         Timestamp? startTime,
         Timestamp? arriveTime,
         Timestamp? presentTime,
@@ -70,18 +69,18 @@ public class Phase : DomainEntity, IPhaseState
         Length = length;
         MaxRecovery = maxRecovery;
         Rest = rest;
-        CompetitionRuleset = competitionRuleset;
+        Ruleset = ruleset;
         IsFinal = isFinal;
-        CRIRecovery = compulsoryRequiredInspectionTreshold;
         StartTime = startTime;
         ArriveTime = arriveTime;
-        InspectTime = presentTime;
-        ReinspectTime = representTime;
+        PresentTime = presentTime;
+        RepresentTime = representTime;
         IsReinspectionRequested = isRepresentationRequested;
-        IsRIRequested = isRequiredInspectionRequested;
-        IsCRIRequested = isRequiredInspectionCompulsory;
+        IsRequiredInspectionRequested = isRequiredInspectionRequested;
+        IsRequiredInspectionCompulsory = isRequiredInspectionCompulsory;
+        RequiredInspectionCompulsoryThreshold = requiredImspectionCompulsoryThreshold;
     }
-   
+
     public Phase(
         double length,
         int maxRecovery,
@@ -112,16 +111,16 @@ public class Phase : DomainEntity, IPhaseState
     public double Length { get; private set; }
     public int MaxRecovery { get; private set; }
     public int Rest { get; private set; }
-    public CompetitionRuleset CompetitionRuleset { get; private set; }
+    public CompetitionRuleset Ruleset { get; private set; }
     public bool IsFinal { get; private set; }
-    public int? CRIRecovery { get; private set; } // TODO: int CRIRecovery? wtf?
     public Timestamp? StartTime { get; internal set; }
     public Timestamp? ArriveTime { get; private set; }
-    public Timestamp? InspectTime { get; private set; } // TODO: domain consistency rename InspectTime -> PresentationTime (and others)
+    public Timestamp? PresentTime { get; private set; }
+    public Timestamp? RepresentTime { get; private set; }
     public bool IsReinspectionRequested { get; internal set; }
-    public Timestamp? ReinspectTime { get; private set; }
-    public bool IsRIRequested { get; internal set; }
-    public bool IsCRIRequested { get; internal set; }
+    public bool IsRequiredInspectionRequested { get; internal set; }
+    public bool IsRequiredInspectionCompulsory { get; internal set; }
+    public int? RequiredInspectionCompulsoryThreshold { get; private set; }
 
     public Timestamp? GetRequiredInspectionTime()
     {
@@ -164,7 +163,7 @@ public class Phase : DomainEntity, IPhaseState
 
     public Speed? GetAverageSpeed()
     {
-        if (StaticOptions.ShouldOnlyUseAverageLoopSpeed(CompetitionRuleset))
+        if (StaticOptions.ShouldOnlyUseAverageLoopSpeed(Ruleset))
         {
             return GetAverageLoopSpeed();
         }
@@ -173,11 +172,11 @@ public class Phase : DomainEntity, IPhaseState
 
     public bool IsComplete()
     {
-        if (IsReinspectionRequested && ReinspectTime == null)
+        if (IsReinspectionRequested && RepresentTime == null)
         {
             return false;
         }
-        if (ArriveTime == null || InspectTime == null)
+        if (ArriveTime == null || PresentTime == null)
         {
             return false;
         }
@@ -204,19 +203,19 @@ public class Phase : DomainEntity, IPhaseState
             {
                 throw new DomainException(nameof(ArriveTime), "Arrive Time cannot be sooner than Start Time");
             }
-            if (state.InspectTime < state.StartTime)
+            if (state.PresentTime < state.StartTime)
             {
-                throw new DomainException(nameof(InspectTime), "Inspect Time cannot be sooner than Start Time");
+                throw new DomainException(nameof(PresentTime), "Inspect Time cannot be sooner than Start Time");
             }
-            if (state.ReinspectTime < state.ArriveTime)
+            if (state.RepresentTime < state.ArriveTime)
             {
-                throw new DomainException(nameof(ReinspectTime), "Reinspect Time cannot be sooner than Start Time");
+                throw new DomainException(nameof(RepresentTime), "Reinspect Time cannot be sooner than Start Time");
             }
         }
         StartTime = state.StartTime;
         ArriveTime = state.ArriveTime;
-        InspectTime = state.InspectTime;
-        ReinspectTime = state.ReinspectTime;
+        PresentTime = state.PresentTime;
+        RepresentTime = state.RepresentTime;
     }
 
     internal bool ViolatesRecoveryTime()
@@ -231,17 +230,15 @@ public class Phase : DomainEntity, IPhaseState
 
     internal void RequestRequiredInspection()
     {
-        if (IsRIRequested)
+        if (IsRequiredInspectionRequested)
         {
             return;
         }
-
-        if (IsCRIRequested)
+        if (IsRequiredInspectionCompulsory)
         {
-            throw new DomainException("Required inspection is not valid, because there is already " +
-                "a Compulsory required inspection for this participation");
+            throw new DomainException("Required inspection is compulsory");
         }
-        IsRIRequested = true;
+        IsRequiredInspectionRequested = true;
     }
 
     internal void DisableReinspection()
@@ -250,12 +247,10 @@ public class Phase : DomainEntity, IPhaseState
         {
             return;
         }
-
-        if (ReinspectTime != null)
+        if (RepresentTime != null)
         {
             throw new DomainException("Cannot disable Reinspection because time of Reinspection is already present");
         }
-
         IsReinspectionRequested = false;
     }
 
@@ -315,18 +310,18 @@ public class Phase : DomainEntity, IPhaseState
 
     SnapshotResult Inspect(Snapshot snapshot)
     {
-        if (IsReinspectionRequested && ReinspectTime != null && InspectTime != null)
+        if (IsReinspectionRequested && RepresentTime != null && PresentTime != null)
         {
             return SnapshotResult.NotApplied(snapshot, NotAppliedDueToDuplicateInspect);
         }
 
         if (IsReinspectionRequested)
         {
-            ReinspectTime = snapshot.Timestamp;
+            RepresentTime = snapshot.Timestamp;
         }
         else
         {
-            InspectTime = snapshot.Timestamp;
+            PresentTime = snapshot.Timestamp;
         }
         HandleCRI();
         return SnapshotResult.Applied(snapshot);
@@ -334,11 +329,11 @@ public class Phase : DomainEntity, IPhaseState
 
     private void HandleCRI()
     {
-        if (CRIRecovery == null)
+        if (RequiredInspectionCompulsoryThreshold == null)
         {
             return;
         }
-        IsCRIRequested = GetRecoverySpan() >= TimeSpan.FromMinutes(CRIRecovery.Value);
+        IsRequiredInspectionCompulsory = GetRecoverySpan() >= TimeSpan.FromMinutes(RequiredInspectionCompulsoryThreshold.Value);
     }
 }
 
@@ -347,6 +342,6 @@ public interface IPhaseState
     int Id { get; }
     public Timestamp? StartTime { get; }
     public Timestamp? ArriveTime { get; }
-    public Timestamp? InspectTime { get; }
-    public Timestamp? ReinspectTime { get; }
+    public Timestamp? PresentTime { get; }
+    public Timestamp? RepresentTime { get; }
 }
