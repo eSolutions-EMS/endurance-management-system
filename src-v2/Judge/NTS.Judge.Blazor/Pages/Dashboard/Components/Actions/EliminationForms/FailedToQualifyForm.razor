@@ -47,6 +47,6 @@
 
     internal override async Task Eliminate()
     {
-        await _participationBehind.FailToQualify(_reason, _codes.ToArray());
+        await _participationBehind.FailToQualify(_codes.ToArray(), _reason);
     }
 }

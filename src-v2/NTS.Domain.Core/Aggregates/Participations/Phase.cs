@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using NTS.Domain.Core.Configuration;
-using NTS.Domain.Objects;
 using static NTS.Domain.Core.Aggregates.Participations.SnapshotResultType;
 
 namespace NTS.Domain.Core.Aggregates.Participations;
@@ -13,7 +12,64 @@ public class Phase : DomainEntity, IPhaseState
     private Timestamp? VetTime => ReinspectTime ?? InspectTime;
 
     [JsonConstructor]
-    private Phase(int id) : base(id) { }
+    private Phase(
+        int id, 
+        string gate,
+        double length,
+        int maxRecovery,
+        int rest,
+        CompetitionRuleset competitionRuleset,
+        bool isFinal,
+        int? compulsoryRequiredInspectionTreshold,
+        Timestamp? startTime,
+        Timestamp? arriveTime,
+        Timestamp? presentTime,
+        Timestamp? representTime,
+        bool isRepresentationRequested,
+        bool isRequiredInspectionRequested,
+        bool isRequiredInspectionCompulsory) : base(id) 
+    {
+        Gate = gate;
+        Length = length;
+        MaxRecovery = maxRecovery;
+        Rest = rest;
+        CompetitionRuleset = competitionRuleset;
+        IsFinal = isFinal;
+        CRIRecovery = compulsoryRequiredInspectionTreshold;
+        StartTime = startTime;
+        ArriveTime = arriveTime;
+        InspectTime = presentTime;
+        ReinspectTime = representTime;
+        IsReinspectionRequested = isRepresentationRequested;
+        IsRIRequested = isRequiredInspectionRequested;
+        IsCRIRequested = isRequiredInspectionCompulsory;
+    }
+   
+    public Phase(
+        double length,
+        int maxRecovery,
+        int rest,
+        CompetitionRuleset competitionRuleset,
+        bool isFinal,
+        int? compulsoryRequiredInspectionTreshold)
+        : this(
+              GenerateId(),
+              "",
+              length,
+              maxRecovery,
+              rest,
+              competitionRuleset,
+              isFinal,
+              compulsoryRequiredInspectionTreshold,
+              null,
+              null,
+              null,
+              null,
+              false,
+              false,
+              false)
+    {
+    }
     // TODO: remove after EMS imports are not longer necessary
     public Phase(
         double length,
@@ -46,15 +102,6 @@ public class Phase : DomainEntity, IPhaseState
         IsReinspectionRequested = isReinspectionRequested;
         IsRIRequested = isRequiredInspectionRequested;
         IsCRIRequested = isCompulsoryRequiredInspectionRequested;
-    }
-    public Phase(double length, int maxRecovery, int rest, CompetitionRuleset competitionType, bool isFinal, int? criRecovery)
-    {
-        Length = length;
-        MaxRecovery = maxRecovery;
-        Rest = rest;
-        CompetitionRuleset = competitionType;
-        IsFinal = isFinal;
-        CRIRecovery = criRecovery;
     }
 
     public string Gate { get; private set; }

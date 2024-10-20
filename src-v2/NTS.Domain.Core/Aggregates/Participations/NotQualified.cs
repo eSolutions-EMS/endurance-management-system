@@ -5,58 +5,54 @@ namespace NTS.Domain.Core.Aggregates.Participations;
 
 public record Withdrawn : NotQualified
 {
-    [JsonConstructor]
     public Withdrawn() : base(WITHDRAWN)
     {
     }
-    public override string ToString()
-    {
-        return "WD";
-    }
-
 }
 
 public record Retired : NotQualified
 {
-    [JsonConstructor]
     public Retired() : base(RETIRED) 
     {
-    }
-    public override string ToString()
-    {
-        return "RET";
     }
 }
 
 public record Disqualified : NotQualified
 {
-    [JsonConstructor]
-    public Disqualified(string complement) : base(complement, DISQUALIFIED)
+    public Disqualified(string complement) : base(DISQUALIFIED, complement)
     {
-    }
-
-    public override string ToString()
-    {
-        return $"DQ";
     }
 }
 
 public record FinishedNotRanked : NotQualified
 {
-    [JsonConstructor]
-    public FinishedNotRanked(string complement) : base(complement, FINISHED_NOT_RANKED)
+    public FinishedNotRanked(string complement) : base(FINISHED_NOT_RANKED, complement)
     {
-    }
-
-    public override string ToString()
-    {
-        return $"FNR";
     }
 }
 
 public record FailedToQualify : NotQualified
 {
-    public FailedToQualify(FTQCodes[] codes) : this(null, codes)
+    [JsonConstructor]
+    public FailedToQualify(FTQCodes[] codes, string? complement) : base(FAILED_TO_QUALIFY)
+    {
+        PreventInvalidFTC(codes, complement);
+        Codes = codes;
+        Complement = complement; // Doesn't use base ctor with complement, because it is not required here
+    }
+    public FailedToQualify(FTQCodes[] codes) : this(IsNotEmpty(codes), null)
+    {
+    }
+
+    public IEnumerable<FTQCodes> Codes { get; private set; } = [];
+
+    public override string ToString()
+    {
+        var codes = string.Join('+', Codes);
+        return $"FTQ {codes}";
+    }
+
+    static FTQCodes[] IsNotEmpty(FTQCodes[] codes)
     {
         if (codes == null || codes.Length == 0)
         {
@@ -64,30 +60,17 @@ public record FailedToQualify : NotQualified
         }
         if (codes.Contains(FTQCodes.FTC))
         {
-            throw new DomainException(
-                $"Rules require a written explanation for FTC (Failed to Complete) elimination. Please provide '{nameof(Complement)}'");
         }
-        Codes = codes;
+        return codes;
     }
 
-    public FailedToQualify(FTQCodes[] codes, string complement) : this(complement, codes)
+    static void PreventInvalidFTC(FTQCodes[] codes, string? complement)
     {
-        Codes = codes;
-    }
-
-    [JsonConstructor]
-    private FailedToQualify(string? complement, FTQCodes[] codes) : base(FAILED_TO_QUALIFY)
-    {
-        Codes = codes;
-        Complement = complement;
-    }
-
-    public IEnumerable<FTQCodes> Codes { get; private set; } = new List<FTQCodes>();
-
-    public override string ToString()
-    {
-        var codes = string.Join('+', Codes);
-        return $"FTQ {codes}";
+        if (codes.Contains(FTQCodes.FTC) && string.IsNullOrWhiteSpace(complement))
+        {
+            throw new DomainException($"FEI rules require a written explanation for FTC" +
+                $" (Failed to Complete) elimination. Please provide '{nameof(Complement)}'");
+        }
     }
 }
 
@@ -152,12 +135,25 @@ public abstract record NotQualified : DomainObject
     {
         EliminationCode = eliminationCode;
     }
-    protected NotQualified(string complement, string eliminationCode)
+    protected NotQualified(string eliminationCode, string complement) : this(eliminationCode)
     {
-        Complement = complement ?? throw new DomainException($"Cannot eliminate as '{eliminationCode}' without reason");
-        EliminationCode = eliminationCode;
+        Complement = IsNotNullOrEmpty(complement, eliminationCode);
     }
 
-    public string EliminationCode { get; protected set; }
-    public string? Complement { get; set; }
+    public string EliminationCode { get; }
+    public string? Complement { get; protected set; }
+
+    public override string ToString()
+    {
+        return EliminationCode;
+    }
+
+    static string IsNotNullOrEmpty(string complement, string eliminationCode)
+    {
+        if (string.IsNullOrWhiteSpace(complement))
+        {
+            throw new DomainException($"Please provide reason to eliminate as '{eliminationCode}'"); 
+        }
+        return complement;
+    }
 }

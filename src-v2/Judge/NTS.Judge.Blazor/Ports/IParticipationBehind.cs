@@ -23,7 +23,7 @@ public interface IParticipationBehind : IObservableBehind
     Task Retire();
     Task FinishNotRanked(string reason);
     Task Disqualify(string reason);
-    Task FailToQualify(string? reason, FTQCodes[] ftqCodes);
+    Task FailToQualify(FTQCodes[] ftqCodes, string? reason);
     Task RestoreQualification();
     Participation? Get(int id);
 }

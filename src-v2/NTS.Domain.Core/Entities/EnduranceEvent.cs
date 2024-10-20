@@ -1,11 +1,24 @@
-﻿using NTS.Domain.Core.Objects;
+﻿using Newtonsoft.Json;
+using NTS.Domain.Core.Objects;
 
 namespace NTS.Domain.Core.Entities;
 
 public class EnduranceEvent : DomainEntity
 {
-    private EnduranceEvent(int id) : base(id)
+    [JsonConstructor]
+    private EnduranceEvent(
+        int id,
+        PopulatedPlace populatedPlace,
+        EventSpan eventSpan,
+        string? feiId,
+        string? feiCode,
+        string? showFeiId) : base(id)
     {
+        PopulatedPlace = populatedPlace;
+        EventSpan = eventSpan;
+        FeiId = feiId;
+        FeiCode = feiCode;
+        ShowFeiId = showFeiId;
     }
     public EnduranceEvent(
         Country country,
@@ -14,14 +27,15 @@ public class EnduranceEvent : DomainEntity
         DateTimeOffset startDate,
         DateTimeOffset endDate,
         string? feiId,
-        string? feiCode, 
-        string? showFeiId)
+        string? feiCode,
+        string? showFeiId) : this(
+            GenerateId(),
+            new PopulatedPlace(country, city, place),
+            new EventSpan(startDate, endDate),
+            feiId,
+            feiCode,
+            showFeiId)
     {
-        PopulatedPlace = new PopulatedPlace(country, city, place);
-        EventSpan = new EventSpan(startDate, endDate);
-        FeiId = feiId;
-        FeiCode = feiCode;
-        ShowFeiId = showFeiId;
     }
 
     public PopulatedPlace PopulatedPlace { get; private set; }

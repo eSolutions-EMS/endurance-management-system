@@ -131,7 +131,7 @@ public class ParticipationFactory
         var participation = new Participation(competition.Name, ruleset, tandem, phases);
         if (finalRecord?.Result?.Type == EmsResultType.FailedToQualify)
         {
-            participation.FailToQualify(FTQCodes.GA);
+            participation.FailToQualify([ FTQCodes.GA ], null);
         }
         if (finalRecord?.Result?.Type == EmsResultType.Resigned)
         {

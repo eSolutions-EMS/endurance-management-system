@@ -7,8 +7,26 @@ public class Tandem : DomainEntity
 {
     private decimal _distance;
 
-    private Tandem(int id) : base(id)
+    private Tandem(
+        int id,
+        int number,
+        Person name,
+        string horse,
+        string distance,
+        Country? country,
+        Club? club,
+        Speed? minSpeedLimit,
+        Speed? maxSpeedLimit) : base(id)
     {
+        Number = number;
+        Name = name;
+        Horse = horse;
+        Distance = distance;
+        Country = country;
+        Club = club;
+        MinAverageSpeed = minSpeedLimit;
+        MaxAverageSpeed = maxSpeedLimit;
+
     }
     public Tandem(
         int number,
@@ -18,16 +36,18 @@ public class Tandem : DomainEntity
         Country? country,
         Club? club,
         double? minAverageSpeedlimit,
-        double? maxAverageSpeedLimit)
+        double? maxAverageSpeedLimit) : this(
+            GenerateId(),
+            number,
+            name,
+            horse,
+            FormatDistance(distance),
+            country,
+            club,
+            Speed.Create(minAverageSpeedlimit),
+            Speed.Create(maxAverageSpeedLimit))
     {
-        Number = number;
-        Name = name;
-        Horse = horse;
         _distance = distance;
-        Country = country;
-        Club = club;
-        MinAverageSpeed = Speed.Create(minAverageSpeedlimit);
-        MaxAverageSpeed = Speed.Create(maxAverageSpeedLimit);
     }
 
     public int Number { get; private set; }
@@ -39,7 +59,7 @@ public class Tandem : DomainEntity
     public Speed? MaxAverageSpeed { get; private set; }
     public string Distance
     { 
-        get => _distance.ToString("#.##");
+        get => FormatDistance(_distance);
         set => _distance = decimal.Parse(value);
     }
 
@@ -59,5 +79,10 @@ public class Tandem : DomainEntity
         {
             return message + $" ({"max".Localize()} : {MaxAverageSpeed}   {kmph})";
         }
+    }
+
+    static string FormatDistance(decimal distance)
+    {
+        return distance.ToString("#.##");
     }
 }

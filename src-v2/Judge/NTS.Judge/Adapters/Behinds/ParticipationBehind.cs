@@ -122,11 +122,11 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
         EmitChange();
     }
 
-    async Task SafeFailToQualify(string? reason, FTQCodes[] ftqCodes)
+    async Task SafeFailToQualify(FTQCodes[] ftqCodes, string? reason)
     {
         GuardHelper.ThrowIfDefault(SelectedParticipation);
 
-        SelectedParticipation.FailToQualify(reason, ftqCodes);
+        SelectedParticipation.FailToQualify(ftqCodes, reason);
         await _participationRepository.Update(SelectedParticipation);
 
         EmitChange();
@@ -187,9 +187,9 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
         await SafeHelper.Run(() => SafeDisqualify(reason));
     }
 
-    public async Task FailToQualify(string? reason, params FTQCodes[] ftqCodes)
+    public async Task FailToQualify(FTQCodes[] ftqCodes, string? reason)
     {
-        await SafeHelper.Run(() => SafeFailToQualify(reason, ftqCodes));
+        await SafeHelper.Run(() => SafeFailToQualify(ftqCodes, reason));
     }
 
     public async Task RestoreQualification()

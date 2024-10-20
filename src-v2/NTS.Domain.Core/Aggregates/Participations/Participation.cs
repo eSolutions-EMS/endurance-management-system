@@ -14,14 +14,21 @@ public class Participation : DomainEntity, IAggregateRoot
     private static readonly FailedToQualify OUT_OF_TIME = new ([FTQCodes.OT]);
     private static readonly FailedToQualify SPEED_RESTRICTION = new ([FTQCodes.SP]);
 
-    private Participation(int id) : base(id)
+    private Participation(int id, Competition competition, Tandem tandem, PhaseCollection phases, NotQualified? notQualified) : base(id)
     {
+        Competition = competition;
+        Tandem = tandem;
+        Phases = phases;
+        NotQualified = notQualified;
     }
     public Participation(string competitionName, CompetitionRuleset ruleset, Tandem tandem, IEnumerable<Phase> phases)
+        : this(
+              GenerateId(),
+              new(competitionName, ruleset),
+              tandem,
+              new(phases),
+              null)
     {
-        Competition = new Competition(competitionName, ruleset);
-        Tandem = tandem;
-        Phases = new(phases);
     }
 
     public Competition Competition { get; private set; }
@@ -124,21 +131,9 @@ public class Participation : DomainEntity, IAggregateRoot
         RevokeQualification(new FinishedNotRanked(reason));
     }
 
-    public void FailToQualify(params FTQCodes[] codes)
+    public void FailToQualify(FTQCodes[] codes, string? reason)
     {
-        RevokeQualification(new FailedToQualify(codes));
-    }
-
-    public void FailToQualify(string? reason, params FTQCodes[] codes)
-    {
-        if(reason == null)
-        {
-            RevokeQualification(new FailedToQualify(codes));
-        }
-        else
-        {
-            RevokeQualification(new FailedToQualify(codes, reason));
-        }
+        RevokeQualification(new FailedToQualify(codes, reason));
     }
 
     private void EvaluatePhase(Phase phase)
