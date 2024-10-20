@@ -41,11 +41,15 @@ public class PhaseCollection : ReadOnlyCollection<Phase>
         return Current.Process(snapshot);
     }
 
-    internal void StartNext()
+    internal void StartIfNext()
     {
         if (!Current.IsComplete())
         {
             throw GuardHelper.Exception("Cannot start next phase while current is active");
+        }
+        if (IsLast())
+        {
+            return;
         }
         var next = GetNext();
         next.StartTime = Current.GetOutTime();
@@ -65,5 +69,10 @@ public class PhaseCollection : ReadOnlyCollection<Phase>
     {
         var currentIndex = IndexOf(Current);
         return this[++currentIndex];
+    }
+
+    bool IsLast()
+    {
+        return IndexOf(Current) == Count - 1;
     }
 }

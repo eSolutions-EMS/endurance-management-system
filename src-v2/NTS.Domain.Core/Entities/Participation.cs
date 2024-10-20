@@ -157,7 +157,7 @@ public class Participation : DomainEntity, IAggregateRoot
         {
             var phaseCompleted = new PhaseCompleted(this);
             PhaseCompletedEvent.Emit(phaseCompleted);
-            Phases.StartNext();
+            Phases.StartIfNext();
         }
     }
 
