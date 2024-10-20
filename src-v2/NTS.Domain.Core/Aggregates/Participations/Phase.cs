@@ -6,6 +6,43 @@ namespace NTS.Domain.Core.Aggregates.Participations;
 
 public class Phase : DomainEntity, IPhaseState
 {
+    public static Phase ImportFromEMS(double length,
+        int maxRecovery,
+        int rest,
+        CompetitionRuleset competitionType,
+        bool isFinal,
+        int? criRecovery,
+        Timestamp startTimestamp,
+        DateTime? arriveTime,
+        DateTime? inspectTime,
+        DateTime? reinspectTime,
+        bool isReinspectionRequested,
+        bool isRequiredInspectionRequested,
+        bool isCompulsoryRequiredInspectionRequested)
+    {
+        var phase = new Phase(length, maxRecovery, rest, competitionType, isFinal, criRecovery);
+
+        phase.StartTime = startTimestamp;
+        if (arriveTime != null)
+        {
+            phase.ArriveTime = new Timestamp(arriveTime.Value);
+        }
+        if (inspectTime != null)
+        {
+            phase.InspectTime = new Timestamp(inspectTime.Value);
+        }
+        if (reinspectTime != null)
+        {
+            phase.ReinspectTime = new Timestamp(reinspectTime.Value);
+        }
+        phase.IsReinspectionRequested = isReinspectionRequested;
+        phase.IsRIRequested = isRequiredInspectionRequested;
+        phase.IsCRIRequested = isCompulsoryRequiredInspectionRequested;
+        
+        return phase;
+    }
+
+
     // TODO: settings - Add setting for separate final. This is useful for some events such as Shumen where we need separate detection for the actual final
     bool _isSeparateFinish = false;
 
@@ -69,39 +106,6 @@ public class Phase : DomainEntity, IPhaseState
               false,
               false)
     {
-    }
-    // TODO: remove after EMS imports are not longer necessary
-    public Phase(
-        double length,
-        int maxRecovery,
-        int rest,
-        CompetitionRuleset competitionType,
-        bool isFinal,
-        int? criRecovery,
-        Timestamp startTimestamp,
-        DateTime? arriveTime,
-        DateTime? inspectTime,
-        DateTime? reinspectTime,
-        bool isReinspectionRequested,
-        bool isRequiredInspectionRequested,
-        bool isCompulsoryRequiredInspectionRequested) : this(length, maxRecovery, rest, competitionType, isFinal, criRecovery)
-    {
-        StartTime = startTimestamp;
-        if (arriveTime != null)
-        {
-            ArriveTime = new Timestamp(arriveTime.Value);
-        }
-        if (inspectTime != null)
-        {
-            InspectTime = new Timestamp(inspectTime.Value);
-        }
-        if (reinspectTime != null)
-        {
-            ReinspectTime = new Timestamp(reinspectTime.Value);
-        }
-        IsReinspectionRequested = isReinspectionRequested;
-        IsRIRequested = isRequiredInspectionRequested;
-        IsCRIRequested = isCompulsoryRequiredInspectionRequested;
     }
 
     public string Gate { get; private set; }

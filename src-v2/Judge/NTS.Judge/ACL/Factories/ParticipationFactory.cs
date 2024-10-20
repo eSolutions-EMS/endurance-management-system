@@ -97,7 +97,7 @@ public class ParticipationFactory
                     reinspectTime = AdjustTime(ref previousTime, record.ReInspectionTime.Value, record.ReInspectionTime.Value - record.InspectionTime!.Value, adjustTime);
                 }
 
-                phase = new Phase(
+                phase = Phase.ImportFromEMS(
                     lap.LengthInKm,
                     lap.MaxRecoveryTimeInMins,
                     lap.RestTimeInMins,
