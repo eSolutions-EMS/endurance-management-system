@@ -38,7 +38,7 @@ public class EmsImportBehind : IEmsImportBehind
         }
         foreach (var competition in CreateCompetitions(emsState.Event))
         {
-            enduranceEvent.Add(@competition);
+            enduranceEvent.Add(competition);
         }
 
         await _eventRepository.Update(enduranceEvent);
