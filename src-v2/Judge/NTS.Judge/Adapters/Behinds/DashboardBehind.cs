@@ -91,7 +91,7 @@ public class DashboardBehind : IDashboardBehind
             var setupPhases = competition.Phases;
             var competitionDistance = 0m;
             var phases = new List<Phase>();
-            var categoryEntriesPairs = new Dictionary<AthleteCategory, List<RankingEntry>>
+            var rankingEntriesByCategory = new Dictionary<AthleteCategory, List<RankingEntry>>
             {
                 { AthleteCategory.Senior, new List<RankingEntry>() },
                 { AthleteCategory.Children, new List<RankingEntry>() },
@@ -100,7 +100,8 @@ public class DashboardBehind : IDashboardBehind
             };
             foreach(var phase in setupPhases)
             {
-                phases.Add(new Phase(phase.Loop!.Distance, phase.Recovery, phase.Rest, competition.Ruleset, setupPhases.Last() == phase, competition.CriRecovery));
+                var corePhase = new Phase(phase.Loop!.Distance, phase.Recovery, phase.Rest, competition.Ruleset, setupPhases.Last() == phase, competition.CriRecovery);
+                phases.Add(corePhase);
                 competitionDistance += (decimal)phase.Loop!.Distance;
             }
             foreach(var contestant in competition.Contestants)
@@ -124,21 +125,15 @@ public class DashboardBehind : IDashboardBehind
                 var participation = new Participation(competition.Name, competition.Ruleset, tandem, phases);
                 await _participationRepository.Create(participation);
                 var rankingEntry = new RankingEntry(participation, !contestant.IsUnranked);
-                foreach(var pair in categoryEntriesPairs)
-                {
-                    if(pair.Key == combination.Athlete.Category)
-                    {
-                        pair.Value.Add(rankingEntry);
-                    }
-                }
+                rankingEntriesByCategory[combination.Athlete.Category].Add(rankingEntry);
             }
-            await CreateRankings(new Competition(competition.Name, competition.Ruleset), categoryEntriesPairs);
+            await CreateRankings(new Competition(competition.Name, competition.Ruleset), rankingEntriesByCategory);
         }
     }
 
-    async Task CreateRankings(Competition competition, Dictionary<AthleteCategory, List<RankingEntry>> categoryEntriesPairs)
+    async Task CreateRankings(Competition competition, Dictionary<AthleteCategory, List<RankingEntry>> rankingEntriesByCategory)
     {
-        foreach(var relation in categoryEntriesPairs)
+        foreach(var relation in rankingEntriesByCategory)
         {
             var ranking = new Ranking(competition, relation.Key, relation.Value);
             await _rankingRepository.Create(ranking);
