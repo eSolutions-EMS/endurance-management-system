@@ -80,10 +80,10 @@ public class Competition : DomainEntity, ISummarizable, IParent<Participation>, 
 
 	public override string ToString()
 	{
-        return Combine( //TODO: add name stupid! DO IT NOW!
-            LocalizationHelper.Get(Type),
-            $"{"phases".Localize()}: {Phases.Count}",
-            $"{"start".Localize()}: {Start:f}");
+        return Combine(
+            $"{Name} ({Phases.Count})",
+            Type.ToString().Localize(),
+            $"{Start:g}");
 	}
 
     public void Add(Participation child)
