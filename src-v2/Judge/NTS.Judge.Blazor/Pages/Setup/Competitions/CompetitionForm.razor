@@ -36,8 +36,8 @@
     public override void RegisterValidationInjectors()
     {
         RegisterInjector(nameof(Model.Name), () => _nameField);
-        RegisterInjector(nameof(Competition.StartTime), () => _dayField);
-        RegisterInjector(nameof(Competition.StartTime), () => _timeField);
+        RegisterInjector(nameof(Competition.Start), () => _dayField);
+        RegisterInjector(nameof(Competition.Start), () => _timeField);
         RegisterInjector(nameof(Model.Type), () => _typeField);
         RegisterInjector(nameof(Model.RequiredInspectionCompulsoryThreshold), () => _typeField);
     }

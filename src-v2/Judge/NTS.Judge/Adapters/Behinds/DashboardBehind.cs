@@ -45,7 +45,7 @@ public class DashboardBehind : IDashboardBehind
             NotifyHelper.Warn("Cannot start Endurance event: there are no competitions configured");
             return;
         }
-        var competitionStartTimes = setupEvent.Competitions.Select(x => x.StartTime);
+        var competitionStartTimes = setupEvent.Competitions.Select(x => x.Start);
         var startDate = competitionStartTimes.First();
         var endDate = competitionStartTimes.Last();
 

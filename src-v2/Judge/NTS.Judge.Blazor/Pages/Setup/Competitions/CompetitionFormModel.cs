@@ -43,8 +43,8 @@ public class CompetitionFormModel : IFormModel<Competition>
         Id = competition.Id;
         Name = competition.Name;
         Type = competition.Type;
-        DateTime? startDay = competition.StartTime.DateTime;
-        TimeSpan? startTime = competition.StartTime.DateTime.TimeOfDay;
+        DateTime? startDay = competition.Start.DateTime;
+        TimeSpan? startTime = competition.Start.DateTime.TimeOfDay;
         Day = startDay;
         Time = startTime;
         Phases = competition.Phases;

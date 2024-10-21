@@ -25,42 +25,42 @@ public class Competition : DomainEntity, ISummarizable, IParent<Contestant>, IPa
         int id, 
         string? name, 
         CompetitionRuleset? type,
-        DateTimeOffset startTime,
+        DateTimeOffset start,
         int? criRecovery,
         IEnumerable<Phase> phases,
         IEnumerable<Contestant> contestants) : base(id)
     {
         Name = Required(nameof(Name), name);
         Type = Required(nameof(Type), type);
-        StartTime = startTime;
+        Start = start;
         CriRecovery = criRecovery;
         _phases = phases.ToList();
         _contestants = contestants.ToList();
     }
 
-    private Competition(string? name, CompetitionRuleset? type, DateTimeOffset startTime, int? criRecovery) : this(
+    private Competition(string? name, CompetitionRuleset? type, DateTimeOffset start, int? criRecovery) : this(
         GenerateId(),
         name,
         type,
-        IsFuture(nameof(StartTime), startTime),
+        IsFuture(nameof(Start), start),
         criRecovery,
         [],
         [])
     {
     }
 
-    static DateTimeOffset IsFuture(string field, DateTimeOffset startTime)
+    static DateTimeOffset IsFuture(string field, DateTimeOffset start)
     {
-        if (startTime <= DateTimeOffset.Now)
+        if (start <= DateTimeOffset.Now)
         {
             throw new DomainException(field, "Competition start cannot be in the past");
         }
-        return startTime;
+        return start;
     }
 
     public string Name { get; private set; }
     public CompetitionRuleset Type { get; private set; }
-	public DateTimeOffset StartTime { get; private set; }
+	public DateTimeOffset Start { get; private set; }
     public int? CriRecovery { get; private set; } //TODO: change to TimSpan and rename to RequiredInspectionCompulsoryThreshold
     public IReadOnlyList<Phase> Phases
     {
@@ -86,7 +86,7 @@ public class Competition : DomainEntity, ISummarizable, IParent<Contestant>, IPa
         return Combine(
             LocalizationHelper.Get(Type),
             $"{"phases".Localize()}: {Phases.Count}",
-            $"{"start".Localize()}: {StartTime:f}");
+            $"{"start".Localize()}: {Start:f}");
 	}
 
     public void Add(Contestant child)
