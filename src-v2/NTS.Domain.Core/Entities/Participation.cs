@@ -1,4 +1,5 @@
-﻿using Not.Events;
+﻿using Newtonsoft.Json;
+using Not.Events;
 using NTS.Domain.Core.Entities.ParticipationAggregate;
 using NTS.Domain.Core.Objects.Payloads;
 using static NTS.Domain.Core.Entities.SnapshotResultType;
@@ -15,6 +16,7 @@ public class Participation : DomainEntity, IAggregateRoot
     private static readonly FailedToQualify OUT_OF_TIME = new([FtqCode.OT]);
     private static readonly FailedToQualify SPEED_RESTRICTION = new([FtqCode.SP]);
 
+    [JsonConstructor]
     private Participation(int id, Competition competition, Tandem tandem, PhaseCollection phases, Eliminated? notQualified) : base(id)
     {
         Competition = competition;
