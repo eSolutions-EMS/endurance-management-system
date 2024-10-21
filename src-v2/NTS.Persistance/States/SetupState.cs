@@ -8,7 +8,7 @@ public class SetupState : NotState,
     ISetState<Horse>,
     ISetState<Athlete>,
     ISetState<Combination>,
-    ISetState<Contestant>,
+    ISetState<Participation>,
     ISetState<Competition>,
     ISetState<Phase>,
     ISetState<Official>
@@ -23,7 +23,7 @@ public class SetupState : NotState,
     public List<Athlete> Athletes { get; } = [];
     public List<Phase> Phases { get; } = [];
     public List<Combination> Combinations { get; } = [];
-    public List<Contestant> Participations { get; } = [];
+    public List<Participation> Participations { get; } = [];
     public List<Competition> Competitions { get; } = [];
     public EnduranceEvent? EnduranceEvent { get; set; }
 
@@ -36,7 +36,7 @@ public class SetupState : NotState,
     List<Horse> ISetState<Horse>.EntitySet => Horses;
     List<Athlete> ISetState<Athlete>.EntitySet => Athletes;
     List<Combination> ISetState<Combination>.EntitySet => Combinations;
-    List<Contestant> ISetState<Contestant>.EntitySet => Participations;
+    List<Participation> ISetState<Participation>.EntitySet => Participations;
     List<Competition> ISetState<Competition>.EntitySet => Competitions;
     List<Official> ISetState<Official>.EntitySet => Officials;
     List<Phase> ISetState<Phase>.EntitySet => Phases;

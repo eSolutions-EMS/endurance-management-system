@@ -17,7 +17,7 @@ public class EntitySerializationInitializer : IStartupInitializer, ITransientSer
         SerializationExtensions.AddConverter(new EntityReferenceEqualityGuardConverter<Domain.Setup.Entities.Loop>());
         SerializationExtensions.AddConverter(new EntityReferenceEqualityGuardConverter<Domain.Setup.Entities.Competition>());
         SerializationExtensions.AddConverter(new EntityReferenceEqualityGuardConverter<Domain.Setup.Entities.Official>());
-        SerializationExtensions.AddConverter(new EntityReferenceEqualityGuardConverter<Domain.Setup.Entities.Contestant>());
+        SerializationExtensions.AddConverter(new EntityReferenceEqualityGuardConverter<Domain.Setup.Entities.Participation>());
         SerializationExtensions.AddConverter(new EntityReferenceEqualityGuardConverter<Domain.Setup.Entities.Phase>());
         SerializationExtensions.AddConverter(new EntityReferenceEqualityGuardConverter<Domain.Core.Entities.Participation>());
     }

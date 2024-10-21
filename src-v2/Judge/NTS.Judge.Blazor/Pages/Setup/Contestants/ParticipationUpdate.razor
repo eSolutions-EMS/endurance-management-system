@@ -4,13 +4,13 @@
 @using Not.Blazor.TM.Forms.Components
 @using Not.Blazor.TM.Pages
 
-@attribute [Route(CONTESTANT_UPDATE)]
+@attribute [Route(PARTICIPATION_UPDATE)]
 @inherits NotComponent
 
-<NotPage Title="Configure Contestant">
+<NotPage Title="Configure Participation">
 
     <Main>
-        <UpdateForm T="ContestantFormModel" TForm="ContestantForm" Model="_navigator.ConsumeParameter<ContestantFormModel>()" />
+        <UpdateForm T="ParticipationFormModel" TForm="ParticipationForm" Model="_navigator.ConsumeParameter<ParticipationFormModel>()" />
     </Main>
 
 </NotPage>

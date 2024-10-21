@@ -3,9 +3,9 @@ using NTS.Domain.Setup.Entities;
 
 namespace NTS.Judge.Blazor.Pages.Setup.Contestants;
 
-public class ContestantFormModel : IFormModel<Contestant>
+public class ParticipationFormModel : IFormModel<Participation>
 {
-    public ContestantFormModel()
+    public ParticipationFormModel()
     {
         // mock data for testing
         StartTimeOverride = null;
@@ -16,11 +16,11 @@ public class ContestantFormModel : IFormModel<Contestant>
     public bool IsNotRanked { get; set; }
     public Combination? Combination { get; set; }
 
-    public void FromEntity(Contestant contestant)
+    public void FromEntity(Participation participation)
     {
-        Id = contestant.Id;
-        StartTimeOverride = contestant.StartTimeOverride?.LocalDateTime.TimeOfDay;
-        IsNotRanked = contestant.IsNotRanked;
-        Combination = contestant.Combination;
+        Id = participation.Id;
+        StartTimeOverride = participation.StartTimeOverride?.LocalDateTime.TimeOfDay;
+        IsNotRanked = participation.IsNotRanked;
+        Combination = participation.Combination;
     }
 }

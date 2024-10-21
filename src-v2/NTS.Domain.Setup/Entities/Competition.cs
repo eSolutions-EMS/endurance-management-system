@@ -2,7 +2,7 @@ using Newtonsoft.Json;
 
 namespace NTS.Domain.Setup.Entities;
 
-public class Competition : DomainEntity, ISummarizable, IParent<Contestant>, IParent<Phase>
+public class Competition : DomainEntity, ISummarizable, IParent<Participation>, IParent<Phase>
 {
     public static Competition Create(string? name, CompetitionRuleset? type, DateTimeOffset start, int? compulsoryThresholdMinutes)
         => new(name, type, start, compulsoryThresholdMinutes);
@@ -14,11 +14,11 @@ public class Competition : DomainEntity, ISummarizable, IParent<Contestant>, IPa
         DateTimeOffset start,
         int? compulsoryThresholdMinutes,
         IEnumerable<Phase> phases,
-        IEnumerable<Contestant> contestants)
-        => new(id, name, type, start, ToTimeSpan(compulsoryThresholdMinutes), phases, contestants);
+        IEnumerable<Participation> participations)
+        => new(id, name, type, start, ToTimeSpan(compulsoryThresholdMinutes), phases, participations);
 
     List<Phase> _phases = [];
-    List<Contestant> _contestants = [];
+    List<Participation> _participations = [];
 
     [JsonConstructor]
     private Competition(
@@ -28,14 +28,14 @@ public class Competition : DomainEntity, ISummarizable, IParent<Contestant>, IPa
         DateTimeOffset start,
         TimeSpan? criRecovery,
         IEnumerable<Phase> phases,
-        IEnumerable<Contestant> contestants) : base(id)
+        IEnumerable<Participation> participations) : base(id)
     {
         Name = Required(nameof(Name), name);
         Type = Required(nameof(Type), type);
         Start = start;
         CompulsoryThreshold = criRecovery;
         _phases = phases.ToList();
-        _contestants = contestants.ToList();
+        _participations = participations.ToList();
     }
 
     private Competition(string? name, CompetitionRuleset? type, DateTimeOffset start, int? compulsoryThresholdMinutes) : this(
@@ -72,17 +72,17 @@ public class Competition : DomainEntity, ISummarizable, IParent<Contestant>, IPa
         get => _phases.AsReadOnly();
         private set => _phases = value.ToList();
     }
-    public IReadOnlyList<Contestant> Contestants
+    public IReadOnlyList<Participation> Participations
     {
-        get => _contestants.AsReadOnly();
-        private set => _contestants = value.ToList();
+        get => _participations.AsReadOnly();
+        private set => _participations = value.ToList();
     }
 
     public string Summarize()
 	{
 		var summary = new Summarizer(this);
 		summary.Add("phases".Localize(), _phases);
-		summary.Add("contestants".Localize(), _contestants);
+		summary.Add("contestants".Localize(), _participations);
 		return summary.ToString();
 	}
 
@@ -94,19 +94,19 @@ public class Competition : DomainEntity, ISummarizable, IParent<Contestant>, IPa
             $"{"start".Localize()}: {Start:f}");
 	}
 
-    public void Add(Contestant child)
+    public void Add(Participation child)
     {
-        _contestants.Add(child);
+        _participations.Add(child);
     }
 
-    public void Remove(Contestant child)
+    public void Remove(Participation child)
     {
-        _contestants.Remove(child);
+        _participations.Remove(child);
     }
 
-    public void Update(Contestant child)
+    public void Update(Participation child)
     {
-        _contestants.Remove(child);
+        _participations.Remove(child);
         Add(child);
     }
 

@@ -26,7 +26,7 @@ public class CompetitionFormModel : IFormModel<Competition>
         set => _requiredInspectionCompulsoryThreshold = value;
     }
     public IReadOnlyCollection<Phase> Phases { get; private set; } = [];
-    public IReadOnlyCollection<Contestant> Contestants { get; private set; } = [];
+    public IReadOnlyCollection<Participation> Participations { get; private set; } = [];
 
     public DateTimeOffset StartTime => CombineStartDayAndTime(Day, Time);
 
@@ -48,7 +48,7 @@ public class CompetitionFormModel : IFormModel<Competition>
         Day = startDay;
         Time = startTime;
         Phases = competition.Phases;
-        Contestants = competition.Contestants;
+        Participations = competition.Participations;
         CompulsoryThresholdMinutes = competition.CompulsoryThreshold?.Minutes;
         UseCompulsoryThreshold = competition.CompulsoryThreshold != null;
     }

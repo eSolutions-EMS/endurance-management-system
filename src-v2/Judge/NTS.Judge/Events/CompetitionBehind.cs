@@ -29,6 +29,6 @@ public class CompetitionBehind : CrudBehind<Competition, CompetitionFormModel>
             model.StartTime,
             model.CompulsoryThresholdMinutes,
             model.Phases,
-            model.Contestants);
+            model.Participations);
     }
 }

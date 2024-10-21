@@ -7,13 +7,13 @@ namespace NTS.Judge.Contexts;
 
 public class CompetitionParentContext(IRepository<Competition> entities) : BehindContext<Competition>(entities),
     IParentContext<Phase>,
-    IParentContext<Contestant>
+    IParentContext<Participation>
 {
     readonly ObservableList<Phase> _phases = new();
-    readonly ObservableList<Contestant> _contestants = new();
+    readonly ObservableList<Participation> _participations = new();
 
     ObservableList<Phase> IParentContext<Phase>.Children => _phases;
-    ObservableList<Contestant> IParentContext<Contestant>.Children => _contestants;
+    ObservableList<Participation> IParentContext<Participation>.Children => _participations;
 
     public async Task Load(int parentId)
     {
@@ -23,7 +23,7 @@ public class CompetitionParentContext(IRepository<Competition> entities) : Behin
             return;
         }
         _phases.AddRange(Entity.Phases);
-        _contestants.AddRange(Entity.Contestants);
+        _participations.AddRange(Entity.Participations);
     }
 
     public void Add(Phase child)
@@ -39,15 +39,15 @@ public class CompetitionParentContext(IRepository<Competition> entities) : Behin
         Entity!.Remove(child);
     }
 
-    public void Add(Contestant child)
+    public void Add(Participation child)
     {
         Entity!.Add(child);
     }
-    public void Update(Contestant child)
+    public void Update(Participation child)
     {
         Entity!.Update(child);
     }
-    public void Remove(Contestant child)
+    public void Remove(Participation child)
     {
         Entity!.Remove(child);
     }

@@ -7,7 +7,7 @@
 @using Not.Extensions;
 @using NTS.Judge.Blazor.Pages.Setup.Combinations;
 
-@inherits FormTM<ContestantFormModel>;
+@inherits FormTM<ParticipationFormModel>;
 
 <EditForm Model="Model">
     <NotSelect @ref="_combinaionField" T="Combination" Label="Combination" Placeholder="Select a combination" 
@@ -35,9 +35,9 @@
 
     public override void RegisterValidationInjectors()
     {
-        RegisterInjector(nameof(Contestant.Combination), () => _combinaionField);
-        RegisterInjector(nameof(Contestant.IsNotRanked), () => _isNotRankedField);
-        RegisterInjector(nameof(Contestant.StartTimeOverride), () => _timeField);
+        RegisterInjector(nameof(Participation.Combination), () => _combinaionField);
+        RegisterInjector(nameof(Participation.IsNotRanked), () => _isNotRankedField);
+        RegisterInjector(nameof(Participation.StartTimeOverride), () => _timeField);
     }
 
     protected override async Task OnInitializedAsync()

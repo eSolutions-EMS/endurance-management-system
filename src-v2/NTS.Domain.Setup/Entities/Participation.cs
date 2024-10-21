@@ -2,15 +2,15 @@
 
 namespace NTS.Domain.Setup.Entities;
 
-public class Contestant : DomainEntity, ISummarizable
+public class Participation : DomainEntity, ISummarizable
 {
-    public static Contestant Create(DateTimeOffset? newStart, bool isUnranked, Combination? combination) => new(newStart, isUnranked, combination);
-    public static Contestant Update(int id, DateTimeOffset? newStart, bool isUnranked, Combination? combination) => new(id, newStart, isUnranked, combination);
+    public static Participation Create(DateTimeOffset? newStart, bool isUnranked, Combination? combination) => new(newStart, isUnranked, combination);
+    public static Participation Update(int id, DateTimeOffset? newStart, bool isUnranked, Combination? combination) => new(id, newStart, isUnranked, combination);
     
     List<Combination> _combinations = [];
 
     [JsonConstructor]
-    private Contestant(int id, DateTimeOffset? startTimeOverride, bool isUnranked, Combination? combination) : base(id)
+    private Participation(int id, DateTimeOffset? startTimeOverride, bool isUnranked, Combination? combination) : base(id)
     {
         Id = id;
         StartTimeOverride = startTimeOverride;
@@ -18,7 +18,7 @@ public class Contestant : DomainEntity, ISummarizable
         Combination = Required(nameof(Combination), combination);
     }
 
-    private Contestant(DateTimeOffset? startTimeOverride, bool isUnranked, Combination? combination) : this(
+    private Participation(DateTimeOffset? startTimeOverride, bool isUnranked, Combination? combination) : this(
         GenerateId(),
         Validate(startTimeOverride),
         isUnranked,

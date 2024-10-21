@@ -27,7 +27,8 @@
 
             <MudItem xs="6">
                 @* //TODO: behind creates multiple contestants at once. *@
-                <CrudList T="Contestant" TModel="ContestantFormModel" TForm="ContestantForm" UpdateRoute="@CONTESTANT_UPDATE" ParentId="_competition!.Id" />
+                <CrudList T="Participation" TModel="ParticipationFormModel" TForm="ParticipationForm" 
+                    UpdateRoute="@PARTICIPATION_UPDATE" ParentId="_competition!.Id" />
             </MudItem>
 
         </NotGrid>
