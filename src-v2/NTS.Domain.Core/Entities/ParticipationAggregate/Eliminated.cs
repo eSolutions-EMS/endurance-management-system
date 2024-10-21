@@ -34,17 +34,17 @@ public record FinishedNotRanked : Eliminated
 public record FailedToQualify : Eliminated
 {
     [JsonConstructor]
-    public FailedToQualify(FTQCodes[] codes, string? complement) : base(FAILED_TO_QUALIFY)
+    public FailedToQualify(FtqCode[] codes, string? complement) : base(FAILED_TO_QUALIFY)
     {
         PreventInvalidFTC(codes, complement);
         FtqCodes = codes;
         Complement = complement; // Doesn't use base ctor with complement, because it is not required here
     }
-    public FailedToQualify(FTQCodes[] codes) : this(IsNotEmpty(codes), null)
+    public FailedToQualify(FtqCode[] codes) : this(IsNotEmpty(codes), null)
     {
     }
 
-    public IEnumerable<FTQCodes> FtqCodes { get; private set; } = [];
+    public IEnumerable<FtqCode> FtqCodes { get; private set; } = [];
 
     public override string ToString()
     {
@@ -52,21 +52,21 @@ public record FailedToQualify : Eliminated
         return $"FTQ {codes}";
     }
 
-    static FTQCodes[] IsNotEmpty(FTQCodes[] codes)
+    static FtqCode[] IsNotEmpty(FtqCode[] codes)
     {
         if (codes == null || codes.Length == 0)
         {
             throw new DomainException($"Cannot eliminate as FTQ without FTQ codes");
         }
-        if (codes.Contains(FTQCodes.FTC))
+        if (codes.Contains(FtqCode.FTC))
         {
         }
         return codes;
     }
 
-    static void PreventInvalidFTC(FTQCodes[] codes, string? complement)
+    static void PreventInvalidFTC(FtqCode[] codes, string? complement)
     {
-        if (codes.Contains(FTQCodes.FTC) && string.IsNullOrWhiteSpace(complement))
+        if (codes.Contains(FtqCode.FTC) && string.IsNullOrWhiteSpace(complement))
         {
             throw new DomainException($"FEI rules require a written explanation for FTC" +
                 $" (Failed to Complete) elimination. Please provide '{nameof(Complement)}'");
@@ -74,7 +74,7 @@ public record FailedToQualify : Eliminated
     }
 }
 
-public enum FTQCodes
+public enum FtqCode
 {
     /// <summary>
     /// Not respecting applicable speed restrictions

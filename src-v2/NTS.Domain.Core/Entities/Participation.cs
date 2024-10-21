@@ -12,8 +12,8 @@ public class Participation : DomainEntity, IAggregateRoot
     public readonly static Event<ParticipationRestored> RestoredEvent = new();
 
     private static readonly TimeSpan NOT_SNAPSHOTABLE_WINDOW = TimeSpan.FromMinutes(30);
-    private static readonly FailedToQualify OUT_OF_TIME = new([FTQCodes.OT]);
-    private static readonly FailedToQualify SPEED_RESTRICTION = new([FTQCodes.SP]);
+    private static readonly FailedToQualify OUT_OF_TIME = new([FtqCode.OT]);
+    private static readonly FailedToQualify SPEED_RESTRICTION = new([FtqCode.SP]);
 
     private Participation(int id, Competition competition, Tandem tandem, PhaseCollection phases, Eliminated? notQualified) : base(id)
     {
@@ -131,7 +131,7 @@ public class Participation : DomainEntity, IAggregateRoot
         Eliminate(new FinishedNotRanked(reason));
     }
 
-    public void FailToQualify(FTQCodes[] codes, string? reason)
+    public void FailToQualify(FtqCode[] codes, string? reason)
     {
         Eliminate(new FailedToQualify(codes, reason));
     }
