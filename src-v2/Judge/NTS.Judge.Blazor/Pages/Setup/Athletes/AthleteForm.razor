@@ -22,11 +22,11 @@
 
 @code {
     // TODO: Introduce NotText variants for consistency
-    private MudTextField<string> _nameField = default!;
+    private MudTextField<string?> _nameField = default!;
     private MudTextField<string?> _feiIdField = default!;
     private NotAutocomplete<Country?> _countryField = default!;
-    private MudTextField<string> _clubField = default!;
-    private MudTextField<string> _categoryField = default!;
+    private MudTextField<string?> _clubField = default!;
+    private MudTextField<string?> _categoryField = default!;
 
     [Inject]
     private ICountriesContext _countries { get; set; } = default!;

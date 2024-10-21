@@ -6,25 +6,19 @@ namespace NTS.Domain.Setup.Entities;
 
 public class Official : DomainEntity, ISummarizable, IImportable
 {
-    public static Official Create(string? names, OfficialRole? role) => new(RequiredPerson(names), role);
+    public static Official Create(string? names, OfficialRole? role) => new(Person.Create(names), role);
 
-    public static Official Update(int id, string? names, OfficialRole? role) => new(id, RequiredPerson(names), role);
-
-    static Person RequiredPerson(string? names)
-    {
-        var required = Required(nameof(Person), names);
-        return new Person(required);
-    }
+    public static Official Update(int id, string? names, OfficialRole? role) => new(id, Person.Create(names), role);
 
     [JsonConstructor]
-    private Official(int id, Person person, OfficialRole? role) : base(id)
+    private Official(int id, Person? person, OfficialRole? role) : base(id)
     {
         var name = person;
         this.Role = Required(nameof(Role), role);
-        this.Person =  new Person(name);
+        this.Person =  Required(nameof(Person), person);
     }
 
-    private Official(Person person, OfficialRole? role) : this(GenerateId(), person, role)
+    private Official(Person? person, OfficialRole? role) : this(GenerateId(), person, role)
     {
     }
 

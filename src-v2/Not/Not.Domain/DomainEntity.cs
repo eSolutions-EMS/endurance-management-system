@@ -61,12 +61,21 @@ public abstract class DomainEntity : IEquatable<DomainEntity>, IIdentifiable
         return RandomHelper.GenerateUniqueInteger();
     }
 
+    protected static T NotDefault<T>(string field, T value)
+        where T : struct
+    {
+        if (value.Equals(default))
+        {
+            throw GetRequiredException(field);
+        }
+        return value;
+    }
+
     protected static T Required<T>(string field, T? value)
         where T : struct
     {
         return value ?? throw GetRequiredException(field);
     }
-
 
     [return: NotNull]
     protected static T Required<T>(string field, T? instance)
@@ -75,11 +84,10 @@ public abstract class DomainEntity : IEquatable<DomainEntity>, IIdentifiable
         return instance ?? throw GetRequiredException(field);
     }
 
-
     [return: NotNull]
     protected static string Required(string field, string? value)
     {
-        if (string.IsNullOrEmpty(value))
+        if (string.IsNullOrWhiteSpace(value))
         {
             throw GetRequiredException(field);
         }

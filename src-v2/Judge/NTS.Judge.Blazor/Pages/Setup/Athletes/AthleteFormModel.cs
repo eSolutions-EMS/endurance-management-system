@@ -16,11 +16,11 @@ public class AthleteFormModel : IFormModel<Athlete>
     }
 
     public int Id { get; set; }
-    public string Name { get; set; }
+    public string? Name { get; set; }
     public string? FeiId { get; set; }
     public Country Country { get; set; }
-    public string Club { get; set; }
-    public string Category { get; set; }
+    public string? Club { get; set; }
+    public string? Category { get; set; }
 
     public void FromEntity(Athlete athlete)
     {

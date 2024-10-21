@@ -49,7 +49,7 @@ public class ParticipationFactory
     {
         var tandem = new Tandem(
             int.Parse(emsParticipation.Participant.Number),
-            new Person(emsParticipation.Participant.Athlete.Name),
+            new Person(emsParticipation.Participant.Athlete.Name.Split(" ", StringSplitOptions.RemoveEmptyEntries)),
             emsParticipation.Participant.Horse.Name,
             competition.Laps.Sum(x => (decimal)x.LengthInKm),
             null,
