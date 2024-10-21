@@ -3,8 +3,8 @@ using Not.Application.Ports.CRUD;
 using Not.Exceptions;
 using Not.Safe;
 using NTS.Domain.Core.Entities;
-using NTS.Domain.Core.Events.Participations;
 using NTS.Domain.Core.Objects;
+using NTS.Domain.Core.Objects.Payloads;
 using NTS.Judge.Blazor.Ports;
 
 namespace NTS.Judge.Adapters.Behinds;

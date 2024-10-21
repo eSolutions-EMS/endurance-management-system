@@ -1,6 +1,6 @@
 ﻿using NTS.Domain.Core.Entities;
 
-namespace NTS.Domain.Core.Events.Participations;
+namespace NTS.Domain.Core.Objects.Payloads;
 
 public record ParticipationEliminated : ParticipationEventBase
 {

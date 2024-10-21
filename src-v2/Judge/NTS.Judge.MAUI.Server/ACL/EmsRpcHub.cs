@@ -8,7 +8,7 @@ using NTS.Compatibility.EMS.Entities.EMS;
 using NTS.Compatibility.EMS.Enums;
 using NTS.Compatibility.EMS.RPC;
 using NTS.Domain.Core.Entities;
-using NTS.Domain.Core.Events.Participations;
+using NTS.Domain.Core.Objects.Payloads;
 using NTS.Domain.Objects;
 using NTS.Judge.ACL.Factories;
 using NTS.Judge.Blazor.Ports;
