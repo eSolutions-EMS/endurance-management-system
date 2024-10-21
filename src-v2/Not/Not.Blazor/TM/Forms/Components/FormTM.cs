@@ -35,9 +35,9 @@ public abstract class FormTM<T> : NotComponent
     {
         AddInjector(field, MudValidationInjector.Create(mudInputInstanceGetter));
     }
-    protected void RegisterInjector<TInput>(string field, Func<MudBooleanInput<TInput>> mudInputInstanceGetter)
+    protected void RegisterInjector(string field, Func<NotSwitch> mudInputInstanceGetter)
     {
-        AddInjector(field, MudValidationInjector.Create(mudInputInstanceGetter));
+        AddInjector(field, MudValidationInjector.Create<bool, bool>(mudInputInstanceGetter));
     }
 
     public async Task AddValidationError(string? field, string message)
