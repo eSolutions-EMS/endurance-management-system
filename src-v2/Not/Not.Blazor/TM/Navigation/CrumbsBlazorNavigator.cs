@@ -66,7 +66,7 @@ public class CrumbsBlazorNavigator : ICrumbsNavigator, ILandNavigator
             throw GuardHelper.Exception($"Cannot get parameter '{typeof(T)}'. There are no parameters on this landing");
         }
         var result = _parameters.Get<T>();
-        _parameters = null;
+        //_parameters = null;
         return result;
     }
     public void Initialize(string landingEndpoint)
