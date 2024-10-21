@@ -50,13 +50,13 @@ public class Tandem : DomainEntity
         _distance = distance;
     }
 
-    public int Number { get; private set; }
-    public Person Name { get; private set; }
-    public string Horse { get; private set; }
-    public Country? Country { get; private set; }
-    public Club? Club { get; private set; }
-    public Speed? MinAverageSpeed { get; private set; }
-    public Speed? MaxAverageSpeed { get; private set; }
+    public int Number { get; }
+    public Person Name { get; }
+    public string Horse { get; }
+    public Country? Country { get; }
+    public Club? Club { get; }
+    public Speed? MinAverageSpeed { get; }
+    public Speed? MaxAverageSpeed { get; }
     public string Distance
     {
         get => FormatDistance(_distance);

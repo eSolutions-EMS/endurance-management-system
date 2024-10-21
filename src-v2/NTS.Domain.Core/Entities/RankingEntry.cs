@@ -14,8 +14,8 @@ public class RankingEntry : DomainEntity
     {
     }
 
-    public Participation Participation { get; private set; }
-    public bool IsNotRanked { get; private set; } 
+    public Participation Participation { get; }
+    public bool IsNotRanked { get; } 
 
     public override string ToString()
     {

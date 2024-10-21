@@ -13,5 +13,5 @@ public class Handout : DomainEntity
     {
     }
 
-    public Participation Participation { get; private set; }
+    public Participation Participation { get; }
 }

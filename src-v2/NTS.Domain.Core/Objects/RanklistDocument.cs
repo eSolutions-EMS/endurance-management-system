@@ -10,5 +10,5 @@ public record RanklistDocument : Document
         Ranklist = ranklist;
     }
 
-    public Ranklist Ranklist { get; private set; }
+    public Ranklist Ranklist { get; }
 }

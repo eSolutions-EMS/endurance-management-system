@@ -22,9 +22,9 @@ public record Total : DomainObject
         AverageSpeed = new Speed(totalLength, Interval);
     }
 
-    public Speed AverageSpeed { get; private set; }
-    public TimeInterval Interval { get; private set; }
-    public TimeInterval RideInterval { get; private set; }
-    public TimeInterval RecoveryInterval { get; private set; }
-    public TimeInterval RecoveryIntervalWithoutFinal { get; private set; }
+    public Speed AverageSpeed { get; }
+    public TimeInterval Interval { get; }
+    public TimeInterval RideInterval { get; }
+    public TimeInterval RecoveryInterval { get; }
+    public TimeInterval RecoveryIntervalWithoutFinal { get; }
 }

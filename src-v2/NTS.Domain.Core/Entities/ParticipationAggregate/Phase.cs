@@ -108,18 +108,18 @@ public class Phase : DomainEntity
     }
 
     public string Gate { get; private set; }
-    public double Length { get; private set; }
-    public int MaxRecovery { get; private set; }
-    public int Rest { get; private set; }
-    public CompetitionRuleset Ruleset { get; private set; }
-    public bool IsFinal { get; private set; }
+    public double Length { get; }
+    public int MaxRecovery { get; }
+    public int Rest { get; }
+    public CompetitionRuleset Ruleset { get; }
+    public bool IsFinal { get; }
     public Timestamp? StartTime { get; internal set; }
     public Timestamp? ArriveTime { get; private set; }
     public Timestamp? PresentTime { get; private set; }
     public Timestamp? RepresentTime { get; private set; }
     public bool IsReinspectionRequested { get; internal set; }
     public bool IsRequiredInspectionRequested { get; internal set; }
-    public bool IsRequiredInspectionCompulsory { get; internal set; }
+    public bool IsRequiredInspectionCompulsory { get; private set; }
     public int? RequiredInspectionCompulsoryThreshold { get; private set; }
 
     public Timestamp? GetRequiredInspectionTime()

@@ -32,9 +32,9 @@ public class Participation : DomainEntity, IAggregateRoot
     {
     }
 
-    public Competition Competition { get; private set; }
-    public Tandem Tandem { get; private set; }
-    public PhaseCollection Phases { get; private set; }
+    public Competition Competition { get; }
+    public Tandem Tandem { get; }
+    public PhaseCollection Phases { get; }
     public Eliminated? Eliminated { get; private set; } 
 
     public bool IsEliminated()

@@ -11,8 +11,8 @@ public class Official : DomainEntity
     {
     }
 
-    public Person Person { get; private set; }
-    public OfficialRole Role { get; private set; }
+    public Person Person { get; }
+    public OfficialRole Role { get; }
 
     public override string ToString()
     {

@@ -25,10 +25,10 @@ public class Ranking : DomainEntity, IAggregateRoot
     {
     }
 
-    public string Name { get; private set; }
-    public CompetitionRuleset Ruleset { get; private set; }
-    public AthleteCategory Category { get;private set; }
-    public ReadOnlyCollection<RankingEntry> Entries { get; private set; }
+    public string Name { get; }
+    public CompetitionRuleset Ruleset { get; }
+    public AthleteCategory Category { get; }
+    public ReadOnlyCollection<RankingEntry> Entries { get; }
 
     public override string ToString()
     {
