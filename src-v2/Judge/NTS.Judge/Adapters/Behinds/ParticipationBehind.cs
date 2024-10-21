@@ -6,10 +6,12 @@ using NTS.Domain.Core.Entities.ParticipationAggregate;
 using NTS.Domain.Core.Entities;
 using NTS.Domain.Objects;
 using NTS.Judge.Blazor.Ports;
+using Not.Blazor.Ports.Behinds;
+using NTS.Judge.Blazor.Pages.Dashboard.Phases;
 
 namespace NTS.Judge.Adapters.Behinds;
 
-public class ParticipationBehind : ObservableBehind, IParticipationBehind
+public class ParticipationBehind : ObservableBehind, IParticipationBehind, IUpdateBehind<PhaseUpdateModel>
 {
     private readonly IRepository<Participation> _participationRepository;
     private readonly IRepository<SnapshotResult> _snapshotResultRepository;
@@ -52,6 +54,18 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
         EmitChange();
     }
 
+    public async Task<PhaseUpdateModel> Update(PhaseUpdateModel model)
+    {
+        //probably should use Participations collection to ensure a single point of truth is used for the data
+        var participation = Participations.FirstOrDefault(x => x.Phases.Any(y => y.Id == model.Id));
+        GuardHelper.ThrowIfDefault(participation);
+
+        participation.Update(model);
+        await _participationRepository.Update(participation);
+        EmitChange();
+        return model;
+    }
+
     async Task SafeRequestRequiredInspection(bool requestFlag)
     {
         SelectedParticipation!.ChangeRequiredInspection(requestFlag);
@@ -75,16 +89,6 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
         await _snapshotResultRepository.Create(result);
 
         EmitChange();
-    }
-
-    async Task SafeUpdate(IPhaseState state)
-    {
-        //probably should use Participations collection to ensure a single point of truth is used for the data
-        var participation = await _participationRepository.Read(x => x.Phases.Any(y => y.Id == state.Id));
-        GuardHelper.ThrowIfDefault(participation);
-
-        participation.Update(state);
-        await _participationRepository.Update(participation);
     }
 
     async Task SafeWithdraw()
@@ -149,10 +153,6 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
         return Participations.FirstOrDefault(x => x.Id == id);
     }
 
-    public async Task Update(IPhaseState state)
-    {
-        await SafeHelper.Run(() => SafeUpdate(state));
-    }
     public async Task Process(Snapshot snapshot)
     {
         await SafeHelper.Run(() => SafeProcess(snapshot));

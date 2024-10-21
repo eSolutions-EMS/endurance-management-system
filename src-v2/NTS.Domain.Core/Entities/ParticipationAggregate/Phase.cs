@@ -4,7 +4,7 @@ using static NTS.Domain.Core.Entities.SnapshotResultType;
 
 namespace NTS.Domain.Core.Entities.ParticipationAggregate;
 
-public class Phase : DomainEntity, IPhaseState
+public class Phase : DomainEntity
 {
     public static Phase ImportFromEMS(double length,
         int maxRecovery,
@@ -212,10 +212,10 @@ public class Phase : DomainEntity, IPhaseState
                 throw new DomainException(nameof(RepresentTime), "Reinspect Time cannot be sooner than Start Time");
             }
         }
-        StartTime = state.StartTime;
-        ArriveTime = state.ArriveTime;
-        PresentTime = state.PresentTime;
-        RepresentTime = state.RepresentTime;
+        StartTime = Timestamp.Create(state.StartTime);
+        ArriveTime = Timestamp.Create(state.ArriveTime);
+        PresentTime = Timestamp.Create(state.PresentTime);
+        RepresentTime = Timestamp.Create(state.RepresentTime);
     }
 
     internal bool ViolatesRecoveryTime()
@@ -340,8 +340,8 @@ public class Phase : DomainEntity, IPhaseState
 public interface IPhaseState
 {
     int Id { get; }
-    public Timestamp? StartTime { get; }
-    public Timestamp? ArriveTime { get; }
-    public Timestamp? PresentTime { get; }
-    public Timestamp? RepresentTime { get; }
+    public DateTimeOffset? StartTime { get; }
+    public DateTimeOffset? ArriveTime { get; }
+    public DateTimeOffset? PresentTime { get; }
+    public DateTimeOffset? RepresentTime { get; }
 }

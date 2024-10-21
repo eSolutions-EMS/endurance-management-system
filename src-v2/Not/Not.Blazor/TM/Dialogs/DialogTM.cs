@@ -21,8 +21,23 @@ public class DialogTM<T, TForm>
 
     public async Task RenderCreate()
     {
-        var title = _localizer.Get("Create", " ", ReflectionHelper.GetName<T>());
-        var dialog = await _mudDialogService.ShowAsync<CreateFormDialog<T, TForm>>(title, _options);
+        await Show<CreateFormDialog<T, TForm>>("Create", []);
+    }
+
+    public async Task RenderUpdate(T model)
+    {
+        var parameters = new DialogParameters<UpdateFormDialog<T, TForm>>
+        {
+            { x => x.Model, model }
+        };
+        await Show("Update", parameters);
+    }
+
+    async Task Show<TDialog>(string type, DialogParameters<TDialog> parameters)
+        where TDialog : IComponent
+    {
+        var title = _localizer.Get(type, " ", ReflectionHelper.GetName<T>());
+        var dialog = await _mudDialogService.ShowAsync<TDialog>(title, parameters, _options);
         await dialog.Result;
     }
 }
