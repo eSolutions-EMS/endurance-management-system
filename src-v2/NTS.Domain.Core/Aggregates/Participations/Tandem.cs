@@ -22,8 +22,8 @@ public class Tandem : DomainEntity
         decimal distance,
         Country? country,
         Club? club,
-        AthleteCategory athleteCategory,
-        CompetitionType competitionType,
+        AthleteCategory? athleteCategory,
+        CompetitionType? competitionType,
         double? maxSpeedOverride)
     {
 
