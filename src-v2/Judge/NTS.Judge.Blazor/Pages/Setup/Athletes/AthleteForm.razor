@@ -15,7 +15,7 @@
     <MudTextField @bind-Value="_model.FeiId" Label="Fei Id" HelperText="@Localizer.Get(OPTIONAL_FEI_ID)" Variant="Variant.Text" Margin="Margin.Dense" />
     <NotAutocomplete T="Country" @ref="_countryField" @bind-Value="_model.Country" Label="@nameof(Athlete.Country)" Search="_countries.Search" />
     <MudTextField @bind-Value="_model.Club" Label="@Localizer.Get("Club")" Variant="Variant.Text" Margin="Margin.Dense" />
-    <NotSelect @ref="_categoryField" T="AthleteCategory" Items="_categories" @bind-Value="_model.Category" Label="@Localizer.Get("Category")"/>
+    <NotSelect @ref="_categoryField" T="AthleteCategory" Items="_categories" @bind-Value="_model.Category" Label="Category"/>
 </EditForm>
 
 @code {
