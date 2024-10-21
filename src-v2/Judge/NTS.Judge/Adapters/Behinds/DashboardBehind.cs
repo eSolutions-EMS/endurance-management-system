@@ -107,21 +107,7 @@ public class DashboardBehind : IDashboardBehind
             foreach(var contestant in competition.Contestants)
             {
                 var combination = contestant.Combination;
-                var maxSpeed = (double?)null;
-                var minSpeed = (double?)null;
-                //consider adding magic ints to StaticOptions or constants
-                if(competition.Type == CompetitionType.Qualification)
-                {
-                    minSpeed = 10;
-                    maxSpeed = 16;
-                }
-                if(combination.Athlete.Category == AthleteCategory.Children)
-                {
-                    minSpeed = 8;
-                    maxSpeed = 12;
-                }
-                maxSpeed = contestant.MaxSpeedOverride != null ? contestant.MaxSpeedOverride : maxSpeed;
-                var tandem = new Tandem(combination.Number, combination.Athlete.Person, combination.Horse.Name, competitionDistance, combination.Athlete.Country, combination.Athlete.Club, minSpeed, maxSpeed);
+                var tandem = new Tandem(combination.Number, combination.Athlete.Person, combination.Horse.Name, competitionDistance, combination.Athlete.Country, combination.Athlete.Club, combination.Athlete.Category, competition.Type, contestant.MaxSpeedOverride);
                 var participation = new Participation(competition.Name, competition.Ruleset, tandem, phases);
                 await _participationRepository.Create(participation);
                 var rankingEntry = new RankingEntry(participation, !contestant.IsUnranked);
