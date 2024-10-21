@@ -37,7 +37,7 @@
     {
         RegisterInjector(nameof(Model.Name), () => _nameField);
         RegisterInjector(nameof(Competition.StartTime), () => _dayField);
-        // RegisterInjector(nameof(Competition.StartTime), () => _timeField); Current injetion infra doesnt support duplicate keys
+        RegisterInjector(nameof(Competition.StartTime), () => _timeField);
         RegisterInjector(nameof(Model.Type), () => _typeField);
         RegisterInjector(nameof(Model.RequiredInspectionCompulsoryThreshold), () => _typeField);
     }

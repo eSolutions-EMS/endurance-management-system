@@ -42,18 +42,18 @@ public class Competition : DomainEntity, ISummarizable, IParent<Contestant>, IPa
         GenerateId(),
         name,
         type,
-        NotBeforeToday(nameof(StartTime), startTime),
+        IsFuture(nameof(StartTime), startTime),
         criRecovery,
         [],
         [])
     {
     }
 
-    static DateTimeOffset NotBeforeToday(string field, DateTimeOffset startTime)
+    static DateTimeOffset IsFuture(string field, DateTimeOffset startTime)
     {
-        if (startTime.DateTime < DateTime.Today)
+        if (startTime <= DateTimeOffset.Now)
         {
-            throw new DomainException(field, "Start day cannot be in the past");
+            throw new DomainException(field, "Competition start cannot be in the past");
         }
         return startTime;
     }

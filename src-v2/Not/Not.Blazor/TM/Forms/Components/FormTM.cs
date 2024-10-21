@@ -10,7 +10,7 @@ public abstract class FormTM<T> : NotComponent
     /// Contains refs to the actual field components, necessary in order to render Mud validation messages from the DomainException
     /// This is a workaround until: https://github.com/eSolutions-EMS/endurance-management-system/issues/185
     /// </summary>
-    protected Dictionary<string, MudValidationInjector> ValidationInjectors { get; set; } = new();
+    protected Dictionary<string, List<MudValidationInjector>> ValidationInjectors { get; set; } = [];
 
     [Parameter]
     public T Model { get; set; } = default!;
@@ -24,20 +24,20 @@ public abstract class FormTM<T> : NotComponent
 
     protected void RegisterInjector<TInput>(string field, Func<MudBaseInput<TInput>> mudInputInstanceGetter)
     {
-        ValidationInjectors.Add(field, MudValidationInjector.Create(mudInputInstanceGetter));
+        AddInjector(field, MudValidationInjector.Create(mudInputInstanceGetter));
     }
 
     protected void RegisterInjector<TInput>(string field, Func<IMudBaseInputWrapper<TInput>> mudInputWrapper)
     {
-        ValidationInjectors.Add(field, MudValidationInjector.Create(mudInputWrapper));
+        AddInjector(field, MudValidationInjector.Create(mudInputWrapper));
     }
     protected void RegisterInjector<TInput>(string field, Func<MudPicker<TInput>> mudInputInstanceGetter)
     {
-        ValidationInjectors.Add(field, MudValidationInjector.Create(mudInputInstanceGetter));
+        AddInjector(field, MudValidationInjector.Create(mudInputInstanceGetter));
     }
     protected void RegisterInjector<TInput>(string field, Func<MudBooleanInput<TInput>> mudInputInstanceGetter)
     {
-        ValidationInjectors.Add(field, MudValidationInjector.Create(mudInputInstanceGetter));
+        AddInjector(field, MudValidationInjector.Create(mudInputInstanceGetter));
     }
 
     public async Task AddValidationError(string? field, string message)
@@ -47,20 +47,25 @@ public abstract class FormTM<T> : NotComponent
             NotifyHelper.Warn(message);
             return;
         }
-
-        if (!ValidationInjectors.TryGetValue(field, out var injector))
+        if (!ValidationInjectors.TryGetValue(field, out var injectors))
         {
             throw GuardHelper.Exception(
                 $"Key '{field}' not found in {nameof(FormTM<T>)}.{nameof(ValidationInjectors)}. " +
                 $"Make sure all field components have a ref pointer in there.");
         }
 
-        injector.Inject(message);
-        await InvokeAsync(StateHasChanged);
+        foreach (var injector in injectors)
+        {
+            injector.Inject(message);
+        }
+        await Render();
     }
 
-    internal void TriggerRender()
+    void AddInjector(string field, MudValidationInjector injector)
     {
-        StateHasChanged();
+        if (!ValidationInjectors.TryAdd(field, [injector]))
+        {
+            ValidationInjectors[field].Add(injector);
+        }
     }
 }
