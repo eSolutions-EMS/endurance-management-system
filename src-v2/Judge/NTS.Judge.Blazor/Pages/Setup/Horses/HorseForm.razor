@@ -1,4 +1,5 @@
-﻿@using NTS.Judge.Setup.Competitions
+﻿@using NTS.Domain.Setup.Entities
+@using NTS.Judge.Setup.Competitions
 @using Not.Blazor.TM.Forms;
 @using Not.Blazor.TM.Forms.Components;
 
@@ -12,12 +13,12 @@
 </EditForm>
 
 @code {
-    private MudTextField<string> _feiIdField = default!;
+    private MudTextField<string?> _feiIdField = default!;
     private MudTextField<string> _nameField = default!;
 
     public override void RegisterValidationInjectors()
     {
-        RegisterInjector(nameof(Model.FeiId), () => _feiIdField);
-        RegisterInjector(nameof(Model.Name), () => _nameField);
+        RegisterInjector(nameof(Horse.FeiId), () => _feiIdField);
+        RegisterInjector(nameof(Horse.Name), () => _nameField);
     }
 }

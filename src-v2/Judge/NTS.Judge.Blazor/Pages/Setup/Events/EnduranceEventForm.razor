@@ -22,7 +22,7 @@
 
     public override void RegisterValidationInjectors()
     {
-        RegisterInjector(nameof(Model.Place), () => _placeField);
-        RegisterInjector(nameof(Model.Country), () => _countryField);
+        RegisterInjector(nameof(EnduranceEvent.Place), () => _placeField);
+        RegisterInjector(nameof(EnduranceEvent.Country), () => _countryField);
     }
 }

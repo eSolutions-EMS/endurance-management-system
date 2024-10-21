@@ -1,4 +1,5 @@
-﻿@using NTS.Judge.Setup.Competitions
+﻿@using NTS.Domain.Setup.Entities
+@using NTS.Judge.Setup.Competitions
 @using Not.Blazor.TM.Forms;
 @using Not.Blazor.TM.Forms.Components;
 
@@ -13,6 +14,6 @@
 
     public override void RegisterValidationInjectors()
     {
-        RegisterInjector(nameof(Model.Distance), () => _distanceField);
+        RegisterInjector(nameof(Loop.Distance), () => _distanceField);
     }
 }

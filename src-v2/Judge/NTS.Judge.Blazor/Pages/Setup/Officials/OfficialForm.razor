@@ -22,7 +22,7 @@
 
     public override void RegisterValidationInjectors()
     {
-        RegisterInjector(nameof(Model.Name), () => _nameField);
-        RegisterInjector(nameof(Model.Role), () => _roleField);
+        RegisterInjector(nameof(Official.Person), () => _nameField);
+        RegisterInjector(nameof(Official.Role), () => _roleField);
     }
 }

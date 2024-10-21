@@ -17,8 +17,8 @@ public class Competition : DomainEntity, ISummarizable, IParent<Contestant>, IPa
         IEnumerable<Contestant> contestants)
         => new(id, name, type, start, criRecovery, phases, contestants);
 
-    private List<Phase> _phases = [];
-    private List<Contestant> _contestants = [];
+    List<Phase> _phases = [];
+    List<Contestant> _contestants = [];
 
     [JsonConstructor]
     private Competition(
@@ -93,10 +93,12 @@ public class Competition : DomainEntity, ISummarizable, IParent<Contestant>, IPa
     {
         _contestants.Add(child);
     }
+
     public void Remove(Contestant child)
     {
         _contestants.Remove(child);
     }
+
     public void Update(Contestant child)
     {
         _contestants.Remove(child);
@@ -107,10 +109,12 @@ public class Competition : DomainEntity, ISummarizable, IParent<Contestant>, IPa
     {
         _phases.Add(child);
     }
+
     public void Remove(Phase child)
     {
         _phases.Remove(child);
     }
+
     public void Update(Phase child)
     {
         _phases.Remove(child);

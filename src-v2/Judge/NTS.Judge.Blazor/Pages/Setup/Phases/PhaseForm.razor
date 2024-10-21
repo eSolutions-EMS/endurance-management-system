@@ -32,8 +32,8 @@
 
     public override void RegisterValidationInjectors()
     {
-        RegisterInjector(nameof(Model.Loop), () => _loopField);
-        RegisterInjector(nameof(Model.Recovery), () => _recoveryField);
-        RegisterInjector(nameof(Model.Rest), () => _restField);
+        RegisterInjector(nameof(Phase.Loop), () => _loopField);
+        RegisterInjector(nameof(Phase.Recovery), () => _recoveryField);
+        RegisterInjector(nameof(Phase.Rest), () => _restField);
     }
 }

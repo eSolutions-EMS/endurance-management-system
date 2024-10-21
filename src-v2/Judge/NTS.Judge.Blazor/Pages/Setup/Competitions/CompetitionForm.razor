@@ -35,11 +35,11 @@
 
     public override void RegisterValidationInjectors()
     {
-        RegisterInjector(nameof(Model.Name), () => _nameField);
+        RegisterInjector(nameof(Competition.Name), () => _nameField);
         RegisterInjector(nameof(Competition.Start), () => _dayField);
         RegisterInjector(nameof(Competition.Start), () => _timeField);
-        RegisterInjector(nameof(Model.Type), () => _typeField);
-        RegisterInjector(nameof(Model.RequiredInspectionCompulsoryThreshold), () => _typeField);
+        RegisterInjector(nameof(Competition.Type), () => _typeField);
+        RegisterInjector(nameof(Competition.CriRecovery), () => _typeField);
     }
 
     public void Test(bool value)
