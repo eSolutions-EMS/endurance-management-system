@@ -22,7 +22,7 @@ public class DialogTM<T, TForm>
     public async Task RenderCreate()
     {
         var title = _localizer.Get("Create", " ", ReflectionHelper.GetName<T>());
-        var dialog = await _mudDialogService.ShowAsync<FormCreateTM<T, TForm>>(title, _options);
+        var dialog = await _mudDialogService.ShowAsync<CreateFormDialog<T, TForm>>(title, _options);
         await dialog.Result;
     }
 }
