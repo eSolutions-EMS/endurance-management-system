@@ -14,16 +14,16 @@ public class Official : DomainEntity, ISummarizable, IImportable
     private Official(int id, Person? person, OfficialRole? role) : base(id)
     {
         var name = person;
-        this.Role = Required(nameof(Role), role);
-        this.Person =  Required(nameof(Person), person);
+        Role = Required(nameof(Role), role);
+        Person =  Required(nameof(Person), person);
     }
 
     private Official(Person? person, OfficialRole? role) : this(GenerateId(), person, role)
     {
     }
 
-    public Person Person { get; private set; }
-	public OfficialRole Role { get; private set; }
+    public Person Person { get; }
+	public OfficialRole Role { get; }
 
 	public override string ToString()
 	{

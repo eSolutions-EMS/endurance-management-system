@@ -21,10 +21,10 @@ public class Combination : DomainEntity, ISummarizable, IImportable, IParent
     {
     }
 
-    public int Number { get; private set; }
-    public Athlete Athlete { get; private set; }
-    public Horse Horse { get; private set; }
-    public Tag? Tag { get; private set; }
+    public int Number { get; }
+    public Athlete Athlete { get; }
+    public Horse Horse { get; }
+    public Tag? Tag { get; }
 
     public string Summarize()
     {

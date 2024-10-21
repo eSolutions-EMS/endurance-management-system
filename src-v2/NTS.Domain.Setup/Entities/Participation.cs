@@ -4,11 +4,12 @@ namespace NTS.Domain.Setup.Entities;
 
 public class Participation : DomainEntity, ISummarizable
 {
-    public static Participation Create(DateTimeOffset? newStart, bool isUnranked, Combination? combination) => new(newStart, isUnranked, combination);
-    public static Participation Update(int id, DateTimeOffset? newStart, bool isUnranked, Combination? combination) => new(id, newStart, isUnranked, combination);
-    
-    List<Combination> _combinations = [];
+    public static Participation Create(DateTimeOffset? newStart, bool isUnranked, Combination? combination)
+        => new(newStart, isUnranked, combination);
 
+    public static Participation Update(int id, DateTimeOffset? newStart, bool isUnranked, Combination? combination)
+        => new(id, newStart, isUnranked, combination);
+    
     [JsonConstructor]
     private Participation(int id, DateTimeOffset? startTimeOverride, bool isUnranked, Combination? combination) : base(id)
     {
@@ -24,7 +25,7 @@ public class Participation : DomainEntity, ISummarizable
         isUnranked,
         combination)
     {
-        throw new DomainException(nameof(IsNotRanked), "test");
+        throw new DomainException(nameof(IsNotRanked), "test"); // TODO: remove this test shit
     }
 
     static DateTimeOffset? Validate(DateTimeOffset? startTimeOverride)
@@ -36,15 +37,9 @@ public class Participation : DomainEntity, ISummarizable
         return startTimeOverride;
     }
 
-    public Combination Combination {  get; private set; }
-    public DateTimeOffset? StartTimeOverride { get; private set; }
-    public bool IsNotRanked { get; private set; }
-
-    public IReadOnlyList<Combination> Combinations
-    {
-        get => _combinations.AsReadOnly();
-        private set => _combinations = value.ToList();
-    }
+    public Combination Combination { get; }
+    public DateTimeOffset? StartTimeOverride { get; }
+    public bool IsNotRanked { get; }
 
     public string Summarize()
     {
@@ -61,22 +56,5 @@ public class Participation : DomainEntity, ISummarizable
             ? "not-ranked"
             : null;
         return Combine(Combination, startTimeMessage, isUnrankedMessage);
-    }
-
-    public void Add(Combination child)
-    {
-        _combinations.Add(child);
-    }
-
-    public void Remove(Combination child)
-    {
-        _combinations.Remove(child);
-    }
-
-    public void Update(Combination child)
-    {
-        _combinations.Remove(child);
-
-        Add(child);
     }
 }

@@ -7,7 +7,7 @@ public class Loop : DomainEntity
     public static Loop Update(int id, double distance) => new(id, distance);
 
     [JsonConstructor]
-    public Loop(int id, double distance) : this(distance)
+    public Loop(int id, double distance) : this(distance) //TODO: fix this ctor
     {
         Id = id;
     }
@@ -20,7 +20,7 @@ public class Loop : DomainEntity
 
         Distance = distance;
     }
-    public double Distance { get; set; }
+    public double Distance { get; }
 
     public override string ToString() 
     {

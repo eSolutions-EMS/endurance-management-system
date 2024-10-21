@@ -27,11 +27,11 @@ public class Athlete : DomainEntity, ISummarizable, IImportable
     {
 	}
 
-	public string? FeiId { get; private set; }
-	public Person Person { get; private set; }
-	public Country Country { get; private set; }
-	public Club Club { get; private set; }
-    public string Category { get; private set; }    
+    public string? FeiId { get; }
+    public Person Person { get; }
+    public Country Country { get; }
+    public Club Club { get; }
+    public string Category { get; }
 
 	public override string ToString()
 	{

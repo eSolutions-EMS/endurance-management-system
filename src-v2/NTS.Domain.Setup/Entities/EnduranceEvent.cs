@@ -44,18 +44,10 @@ public class EnduranceEvent : DomainEntity, ISummarizable, IImportable, IParent<
         return value;
     }
 
-    public string Place { get; private set; }
-    public Country Country { get; private set; }
-    public IReadOnlyList<Official> Officials
-    {
-        get => _officials.AsReadOnly();
-        private set => _officials = value.ToList(); //TODO: code style: https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/ide0305
-    }
-    public IReadOnlyList<Competition> Competitions
-    {
-        get => _competitions.AsReadOnly();
-        private set => _competitions = value.ToList();
-    }
+    public string Place { get; }
+    public Country Country { get; }
+    public IReadOnlyList<Official> Officials => _officials.AsReadOnly();
+    public IReadOnlyList<Competition> Competitions => _competitions.AsReadOnly();
 
     public void Add(Competition competition)
     {

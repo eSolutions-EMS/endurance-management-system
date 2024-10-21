@@ -63,20 +63,12 @@ public class Competition : DomainEntity, ISummarizable, IParent<Participation>, 
         return minutes != null ? TimeSpan.FromSeconds(minutes.Value) : null;
     }
 
-    public string Name { get; private set; }
-    public CompetitionRuleset Type { get; private set; }
-	public DateTimeOffset Start { get; private set; }
-    public TimeSpan? CompulsoryThreshold { get; private set; }
-    public IReadOnlyList<Phase> Phases
-    {
-        get => _phases.AsReadOnly();
-        private set => _phases = value.ToList();
-    }
-    public IReadOnlyList<Participation> Participations
-    {
-        get => _participations.AsReadOnly();
-        private set => _participations = value.ToList();
-    }
+    public string Name { get; }
+    public CompetitionRuleset Type { get; }
+	public DateTimeOffset Start { get; }
+    public TimeSpan? CompulsoryThreshold { get; }
+    public IReadOnlyList<Phase> Phases => _phases.AsReadOnly();
+    public IReadOnlyList<Participation> Participations => _participations.AsReadOnly();
 
     public string Summarize()
 	{
@@ -88,7 +80,7 @@ public class Competition : DomainEntity, ISummarizable, IParent<Participation>, 
 
 	public override string ToString()
 	{
-        return Combine(
+        return Combine( //TODO: add name stupid! DO IT NOW!
             LocalizationHelper.Get(Type),
             $"{"phases".Localize()}: {Phases.Count}",
             $"{"start".Localize()}: {Start:f}");

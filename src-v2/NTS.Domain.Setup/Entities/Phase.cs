@@ -29,14 +29,14 @@ public class Phase : DomainEntity, ISummarizable, IImportable
     {
         if (minutes <= 0)
         {
-            throw new DomainException(property, "Duration cannot be zero or negative minutes");
+            throw new DomainException(property, "Duration cannot be less than 1 minute");
         }
         return minutes;
     }
 
-    public Loop? Loop { get; set; }
-    public int Recovery { get; private set; }
-    public int Rest { get; private set; }
+    public Loop? Loop { get; }
+    public int Recovery { get; }
+    public int Rest { get; }
 
     public override string ToString()
     {
