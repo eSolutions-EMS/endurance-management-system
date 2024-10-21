@@ -4,18 +4,17 @@ using NTS.Domain.Core.Entities;
 
 namespace NTS.Domain.Core.Objects;
 
-public record HandoutDocument : DomainObject, IIdentifiable
+public record HandoutDocument : Document, IIdentifiable
 {
     public HandoutDocument(Participation participation, EnduranceEvent enduranceEvent, IEnumerable<Official> officials)
+        : base(new DocumentHeader(participation.Competition.Name, enduranceEvent.PopulatedPlace, enduranceEvent.EventSpan, officials))
     {
         Id = participation.Id;
-        Header = new DocumentHeader(participation.Competition.Name, enduranceEvent.PopulatedPlace, enduranceEvent.EventSpan, officials);
         Tandem = participation.Tandem;
         Phases = participation.Phases;
     }
 
     public int Id { get; }
-    public DocumentHeader Header { get; }
     public Tandem Tandem { get; }
     public PhaseCollection Phases { get; }
 }
