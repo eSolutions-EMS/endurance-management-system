@@ -56,7 +56,6 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind, IUpda
 
     public async Task<PhaseUpdateModel> Update(PhaseUpdateModel model)
     {
-        //probably should use Participations collection to ensure a single point of truth is used for the data
         var participation = Participations.FirstOrDefault(x => x.Phases.Any(y => y.Id == model.Id));
         GuardHelper.ThrowIfDefault(participation);
 

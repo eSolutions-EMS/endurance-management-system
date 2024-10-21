@@ -26,14 +26,14 @@ public class Competition : DomainEntity, ISummarizable, IParent<Participation>, 
         string? name, 
         CompetitionRuleset? type,
         DateTimeOffset start,
-        TimeSpan? criRecovery,
+        TimeSpan? compulsoryThresholdSpan,
         IEnumerable<Phase> phases,
         IEnumerable<Participation> participations) : base(id)
     {
         Name = Required(nameof(Name), name);
         Type = Required(nameof(Type), type);
         Start = start;
-        CompulsoryThreshold = criRecovery;
+        CompulsoryThreshold = compulsoryThresholdSpan;
         _phases = phases.ToList();
         _participations = participations.ToList();
     }
@@ -42,14 +42,14 @@ public class Competition : DomainEntity, ISummarizable, IParent<Participation>, 
         GenerateId(),
         name,
         type,
-        IsFuture(nameof(Start), start),
+        IsFutureTime(nameof(Start), start),
         ToTimeSpan(compulsoryThresholdMinutes),
         [],
         [])
     {
     }
 
-    static DateTimeOffset IsFuture(string field, DateTimeOffset start)
+    static DateTimeOffset IsFutureTime(string field, DateTimeOffset start)
     {
         if (start <= DateTimeOffset.Now)
         {
