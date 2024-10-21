@@ -39,6 +39,7 @@ public class NotListModel<T>
 
     public NotListModel()
     {
+        //TODO: Localize no items label
         Label = "No items in this list yet.";
     }
 
