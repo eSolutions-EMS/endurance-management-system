@@ -55,7 +55,7 @@
 
                 <MudItem>
                     <MudText Typo="Typo.h5">@($"{document.Tandem.Number} {document.Tandem.Name}, {document.Tandem.Horse}")</MudText>
-                    <ParticipationTable Phases="document.Phases" />
+                    <ParticipationTable Number="document.Tandem.Number" Phases="document.Phases" />
                 </MudItem>
             </MudItem>
         </MudItem>

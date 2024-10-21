@@ -49,7 +49,7 @@
 
     private string _axisClass = FLIPPED_AXIS_CLASS;
 
-    [Parameter]
+    [Parameter, EditorRequired]
     public int Number { get; set; }
     [Parameter]
     public PhaseCollection? Phases { get; set; }
