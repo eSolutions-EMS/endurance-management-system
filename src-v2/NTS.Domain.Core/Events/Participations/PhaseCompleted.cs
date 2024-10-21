@@ -1,5 +1,4 @@
-﻿using Not.Events;
-using NTS.Domain.Core.Entities;
+﻿using NTS.Domain.Core.Entities;
 
 namespace NTS.Domain.Core.Events.Participations;
 
