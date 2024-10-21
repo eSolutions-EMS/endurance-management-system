@@ -1,4 +1,5 @@
-﻿using Not.Localization;
+﻿using Newtonsoft.Json;
+using Not.Localization;
 
 namespace NTS.Domain.Core.Entities.ParticipationAggregate;
 
@@ -7,6 +8,7 @@ public class Tandem : DomainEntity
 {
     private decimal _distance;
 
+    [JsonConstructor]
     private Tandem(
         int id,
         int number,
