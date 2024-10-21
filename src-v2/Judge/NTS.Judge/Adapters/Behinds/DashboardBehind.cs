@@ -1,6 +1,5 @@
 ﻿using Not.Application.Ports.CRUD;
 using Not.Domain;
-using Not.Notifier;
 using Not.Safe;
 using NTS.Domain.Core.Aggregates.Participations;
 using NTS.Domain.Core.Entities;
@@ -8,8 +7,8 @@ using NTS.Domain.Enums;
 using NTS.Judge.Blazor.Ports;
 using Event = NTS.Domain.Core.Entities.Event;
 using Official = NTS.Domain.Core.Entities.Official;
-using Phase = NTS.Domain.Core.Aggregates.Participations.Phase;
 using Competition = NTS.Domain.Core.Aggregates.Participations.Competition;
+using NTS.Judge.Factories;
 
 namespace NTS.Judge.Adapters.Behinds;
 
@@ -41,37 +40,16 @@ public class DashboardBehind : IDashboardBehind
         if (setupEvent == null)
         {
             // TODO: Create ValidationException containing localization logic and inherit form it in DomainException. Use that here instead
-            throw new DomainException("Cannot start - event is not configured");
+            throw new DomainException("Cannot start - Event is not configured");
         }
         await CreateEvent(setupEvent);
-        if (!setupEvent.Officials.Any())
-        {
-            throw new DomainException("Cannot start - officials aren't configured");
-        }
         await CreateOfficials(setupEvent.Officials);
-        if (!setupEvent.Competitions.ElementAt(0).Phases.Any())
-        {
-            throw new DomainException("Cannot start - phases aren't configured");
-        }
-        if (!setupEvent.Competitions.ElementAt(0).Contestants.Any())
-        {
-            throw new DomainException("Cannot start - contestants aren't configured");
-        }
-        await CreateParticipations(setupEvent);
+        await CreateParticipationsAndRankings(setupEvent);
     }
 
     async Task CreateEvent(Domain.Setup.Entities.Event setupEvent)
     {
-        if (!setupEvent.Competitions.Any())
-        {
-            NotifyHelper.Warn("Cannot start Endurance event: there are no competitions configured");
-            return;
-        }
-        var competitionStartTimes = setupEvent.Competitions.Select(x => x.StartTime);
-        var startDate = competitionStartTimes.First();
-        var endDate = competitionStartTimes.Last();
-
-        var @event = new Event(setupEvent.Country, setupEvent.Place, "", startDate, endDate, null, null, null); // TODO: fix city and place
+        var @event = CoreFactory.CreateEvent(setupEvent);
         await _coreEventRespository.Create(@event);
     }
 
@@ -79,53 +57,35 @@ public class DashboardBehind : IDashboardBehind
     {
         foreach (var setupOfficial in setupOfficials)
         {
-            var official = new Official(setupOfficial.Person, setupOfficial.Role);
+            var official = CoreFactory.CreateOfficial(setupOfficial);
             await _coreOfficialRepository.Create(official);
         }
     }
 
-    async Task CreateParticipations(Domain.Setup.Entities.Event setupEvent) 
+    async Task CreateParticipationsAndRankings(Domain.Setup.Entities.Event setupEvent) 
     {
-        foreach(var competition in setupEvent.Competitions)
+        foreach (var competition in setupEvent.Competitions)
         {
-            var setupPhases = competition.Phases;
-            var competitionDistance = 0m;
-            var phases = new List<Phase>();
-            var rankingEntriesByCategory = new Dictionary<AthleteCategory, List<RankingEntry>>
-            {
-                { AthleteCategory.Senior, new List<RankingEntry>() },
-                { AthleteCategory.Children, new List<RankingEntry>() },
-                { AthleteCategory.JuniorOrYoungAdult, new List<RankingEntry>() },
-                { AthleteCategory.Training, new List<RankingEntry>() }
-            };
-            foreach(var phase in setupPhases)
-            {
-                var corePhase = new Phase(phase.Loop!.Distance, phase.Recovery, phase.Rest, competition.Ruleset, setupPhases.Last() == phase, competition.CriRecovery);
-                phases.Add(corePhase);
-                competitionDistance += (decimal)phase.Loop!.Distance;
-            }
-            foreach(var contestant in competition.Contestants)
-            {
-                var combination = contestant.Combination;
-                var tandem = new Tandem(combination.Number, combination.Athlete.Person, combination.Horse.Name, competitionDistance, combination.Athlete.Country, combination.Athlete.Club, combination.Athlete.Category, competition.Type, contestant.MaxSpeedOverride);
-                var participation = new Participation(competition.Name, competition.Ruleset, tandem, phases);
+            var participationsAndRankingEntries = CoreFactory.CreateParticipationAndRankingEntries(competition);
+            var participations = participationsAndRankingEntries.Participations;
+            var rankingEntriesByCategory = participationsAndRankingEntries.RankingEntriesByCategory;
+            foreach (var participation in participations) 
+            { 
                 await _participationRepository.Create(participation);
-                var rankingEntry = new RankingEntry(participation, !contestant.IsUnranked);
-                rankingEntriesByCategory[combination.Athlete.Category].Add(rankingEntry);
             }
             await CreateRankings(new Competition(competition.Name, competition.Ruleset), rankingEntriesByCategory);
-        }
+        }      
     }
 
     async Task CreateRankings(Competition competition, Dictionary<AthleteCategory, List<RankingEntry>> rankingEntriesByCategory)
     {
         foreach(var relation in rankingEntriesByCategory)
         {
-            var ranking = new Ranking(competition, relation.Key, relation.Value);
+            var ranking = CoreFactory.CreateRanking(competition, relation.Key, relation.Value);
             await _rankingRepository.Create(ranking);
         }
     }
-    
+
 
     #region SafePattern
 
