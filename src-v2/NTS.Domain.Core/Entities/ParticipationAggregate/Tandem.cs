@@ -15,8 +15,8 @@ public class Tandem : DomainEntity
         string distance,
         Country? country,
         Club? club,
-        Speed? minSpeedLimit,
-        Speed? maxSpeedLimit) : base(id)
+        Speed? minAverageSpeed,
+        Speed? maxAverageSpeed) : base(id)
     {
         Number = number;
         Name = name;
@@ -24,9 +24,8 @@ public class Tandem : DomainEntity
         Distance = distance;
         Country = country;
         Club = club;
-        MinAverageSpeed = minSpeedLimit;
-        MaxAverageSpeed = maxSpeedLimit;
-
+        MinAverageSpeed = minAverageSpeed;
+        MaxAverageSpeed = maxAverageSpeed;
     }
     public Tandem(
         int number,
@@ -65,20 +64,21 @@ public class Tandem : DomainEntity
 
     public override string ToString()
     {
-        var message = $"{"#".Localize()}{Number}: {Name}, {Horse}";
+        var result = $"{"#".Localize()}{Number}: {Name}, {Horse}";
         var kmph = "km/h".Localize();
         if (MinAverageSpeed != null && MaxAverageSpeed != null)
         {
-            return message + $" ({MinAverageSpeed}-{MaxAverageSpeed} {kmph})";
+            return result + $" ({MinAverageSpeed}-{MaxAverageSpeed} {kmph})";
         }
-        else if (MinAverageSpeed != null)
+        else if (MinAverageSpeed != null && MaxAverageSpeed == null)
         {
-            return message + $" ({"min".Localize()}:{MinAverageSpeed} {kmph})";
+            return result + $" ({"min".Localize()}:{MinAverageSpeed} {kmph})";
         }
-        else
+        else if (MinAverageSpeed == null && MaxAverageSpeed != null)
         {
-            return message + $" ({"max".Localize()} : {MaxAverageSpeed}   {kmph})";
+            return result + $" ({"max".Localize()} : {MaxAverageSpeed}   {kmph})";
         }
+        return result;
     }
 
     static string FormatDistance(decimal distance)
