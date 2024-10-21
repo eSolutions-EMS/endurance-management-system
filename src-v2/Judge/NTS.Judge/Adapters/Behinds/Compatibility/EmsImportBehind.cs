@@ -53,18 +53,19 @@ public class EmsImportBehind : IEmsImportBehind
     {
         foreach (var emsCompetition in emsEvent.Competitions)
         {
-            yield return Competition.Create(emsCompetition.Name, MapRuleset(emsCompetition.Type), default, emsCompetition.StartTime.ToDateTimeOffset(), 10);
+            var competitionType = MapRuleset(emsCompetition.Type);
+            yield return Competition.Create(emsCompetition.Name, competitionType.Item1, competitionType.Item2 ,emsCompetition.StartTime.ToDateTimeOffset(), 10);
         }
 
-        CompetitionRuleset MapRuleset(NTS.Compatibility.EMS.Entities.Competitions.EmsCompetitionType emsType)
+        (CompetitionRuleset, CompetitionType) MapRuleset(NTS.Compatibility.EMS.Entities.Competitions.EmsCompetitionType emsType)
         {
             if (emsType == NTS.Compatibility.EMS.Entities.Competitions.EmsCompetitionType.National)
             {
-                return CompetitionRuleset.Regional;
+                return (CompetitionRuleset.Regional, CompetitionType.Qualification);
             }
             else if (emsType == NTS.Compatibility.EMS.Entities.Competitions.EmsCompetitionType.International)
             {
-                return CompetitionRuleset.FEI;
+                return (CompetitionRuleset.FEI, CompetitionType.Star);
             }
             throw new Exception();
         }
