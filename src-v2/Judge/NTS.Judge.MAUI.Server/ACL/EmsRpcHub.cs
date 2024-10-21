@@ -149,16 +149,16 @@ public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, 
             await _hub.Clients.All.ReceiveEntry(entry, EmsCollectionAction.AddOrUpdate);
         }
 
-        public async void SendParticipantEntryAddOrUpdate(ParticipationRestored qualificationRestored)
+        public async void SendParticipantEntryAddOrUpdate(ParticipationRestored restored)
         {
-            var emsParticipation = ParticipationFactory.CreateEms(qualificationRestored.Participation);
+            var emsParticipation = ParticipationFactory.CreateEms(restored.Participation);
             var entry = new EmsParticipantEntry(emsParticipation);
             await _hub.Clients.All.ReceiveEntryUpdate(entry, EmsCollectionAction.AddOrUpdate);
         }
 
-        public async void SendParticipantEntryRemove(ParticipationEliminated qualificationRevoked)
+        public async void SendParticipantEntryRemove(ParticipationEliminated eliminated)
         {
-            var emsParticipation = ParticipationFactory.CreateEms(qualificationRevoked.Participation);
+            var emsParticipation = ParticipationFactory.CreateEms(eliminated.Participation);
             var entry = new EmsParticipantEntry(emsParticipation);
             await _hub.Clients.All.ReceiveEntryUpdate(entry, EmsCollectionAction.Remove);
         }
