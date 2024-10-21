@@ -16,6 +16,7 @@ public class MudValidationInjector
     protected PropertyInfo ValidationErrorsProperty { get; }
     protected MethodInfo AddValidationErrorMethod { get; }
 
+    // Change to use MudFormComponent<T, U>
     private MudValidationInjector(Type mudInputType, Func<object> mudInputInstanceGetter)
     {
         InstanceGetter = mudInputInstanceGetter;
@@ -41,6 +42,10 @@ public class MudValidationInjector
     public static MudValidationInjector Create<T>(Func<MudFormComponent<T, string>> getter)
     {
         return new MudValidationInjector(typeof(MudFormComponent<T, string>), getter);
+    }
+    public static MudValidationInjector Create<T>(Func<MudBooleanInput<T>> wrapperGetter)
+    {
+        return new MudValidationInjector(typeof(MudFormComponent<T, string>), () => wrapperGetter());
     }
     public static MudValidationInjector Create<T>(Func<IMudBaseInputWrapper<T>> wrapperGetter)
     {

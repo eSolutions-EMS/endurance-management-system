@@ -1,11 +1,10 @@
 ﻿using MudBlazor;
 using Not.Blazor.Components;
-using Not.Blazor.Forms;
 using Not.Notifier;
 
 namespace Not.Blazor.TM.Forms.Components;
 
-public abstract class FormTM<T> : NotComponent, ICreateForm<T>, IUpdateForm<T>
+public abstract class FormTM<T> : NotComponent
 {
     /// <summary>
     /// Contains refs to the actual field components, necessary in order to render Mud validation messages from the DomainException
@@ -16,22 +15,7 @@ public abstract class FormTM<T> : NotComponent, ICreateForm<T>, IUpdateForm<T>
     [Parameter]
     public T Model { get; set; } = default!;
 
-    public virtual T SubmitCreate()
-    {
-        throw new NotImplementedException();
-    }
-    public virtual T SubmitUpdate()
-    {
-        throw new NotImplementedException();
-    }
-    public virtual void SetUpdateModel(T entity)
-    {
-        throw new NotImplementedException();
-    }
-    public virtual void RegisterValidationInjectors()
-    {
-        throw new NotImplementedException();
-    }
+    public abstract void RegisterValidationInjectors();
 
     protected override void OnInitialized()
     {
@@ -48,6 +32,10 @@ public abstract class FormTM<T> : NotComponent, ICreateForm<T>, IUpdateForm<T>
         ValidationInjectors.Add(field, MudValidationInjector.Create(mudInputWrapper));
     }
     protected void RegisterInjector<TInput>(string field, Func<MudPicker<TInput>> mudInputInstanceGetter)
+    {
+        ValidationInjectors.Add(field, MudValidationInjector.Create(mudInputInstanceGetter));
+    }
+    protected void RegisterInjector<TInput>(string field, Func<MudBooleanInput<TInput>> mudInputInstanceGetter)
     {
         ValidationInjectors.Add(field, MudValidationInjector.Create(mudInputInstanceGetter));
     }
