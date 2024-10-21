@@ -17,7 +17,7 @@ public class CompetitionBehind : CrudBehind<Competition, CompetitionFormModel>
 
     protected override Competition CreateEntity(CompetitionFormModel model)
     {
-        return Competition.Create(model.Name, model.Type, model.StartTime, model.RequiredInspectionCompulsoryThreshold);
+        return Competition.Create(model.Name, model.Type, model.StartTime, model.CompulsoryThresholdMinutes);
     }
 
     protected override Competition UpdateEntity(CompetitionFormModel model)
@@ -27,7 +27,7 @@ public class CompetitionBehind : CrudBehind<Competition, CompetitionFormModel>
             model.Name,
             model.Type,
             model.StartTime,
-            model.RequiredInspectionCompulsoryThreshold,
+            model.CompulsoryThresholdMinutes,
             model.Phases,
             model.Contestants);
     }

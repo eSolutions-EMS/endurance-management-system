@@ -21,7 +21,7 @@
 
     @if (Model.UseCompulsoryThreshold)
     {
-        <MudNumericField @ref="_requiredInspectionCompulsoryThreshold" @bind-Value="Model.RequiredInspectionCompulsoryThreshold" />
+        <MudNumericField @ref="_requiredInspectionCompulsoryThreshold" @bind-Value="Model.CompulsoryThresholdMinutes" />
     }
 </EditForm>
 
@@ -39,12 +39,6 @@
         RegisterInjector(nameof(Competition.Start), () => _dayField);
         RegisterInjector(nameof(Competition.Start), () => _timeField);
         RegisterInjector(nameof(Competition.Type), () => _typeField);
-        RegisterInjector(nameof(Competition.CriRecovery), () => _typeField);
-    }
-
-    public void Test(bool value)
-    {
-        Model.UseCompulsoryThreshold = value;
-        StateHasChanged();
+        RegisterInjector(nameof(Competition.CompulsoryThreshold), () => _typeField);
     }
 }

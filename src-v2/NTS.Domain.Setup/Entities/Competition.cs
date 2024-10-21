@@ -4,18 +4,18 @@ namespace NTS.Domain.Setup.Entities;
 
 public class Competition : DomainEntity, ISummarizable, IParent<Contestant>, IParent<Phase>
 {
-    public static Competition Create(string? name, CompetitionRuleset? type, DateTimeOffset start, int? criRecovery)
-        => new(name, type, start, criRecovery);
+    public static Competition Create(string? name, CompetitionRuleset? type, DateTimeOffset start, int? compulsoryThresholdMinutes)
+        => new(name, type, start, compulsoryThresholdMinutes);
 
     public static Competition Update(
         int id,
         string? name,
         CompetitionRuleset? type,
         DateTimeOffset start,
-        int? criRecovery,
+        int? compulsoryThresholdMinutes,
         IEnumerable<Phase> phases,
         IEnumerable<Contestant> contestants)
-        => new(id, name, type, start, criRecovery, phases, contestants);
+        => new(id, name, type, start, ToTimeSpan(compulsoryThresholdMinutes), phases, contestants);
 
     List<Phase> _phases = [];
     List<Contestant> _contestants = [];
@@ -26,24 +26,24 @@ public class Competition : DomainEntity, ISummarizable, IParent<Contestant>, IPa
         string? name, 
         CompetitionRuleset? type,
         DateTimeOffset start,
-        int? criRecovery,
+        TimeSpan? criRecovery,
         IEnumerable<Phase> phases,
         IEnumerable<Contestant> contestants) : base(id)
     {
         Name = Required(nameof(Name), name);
         Type = Required(nameof(Type), type);
         Start = start;
-        CriRecovery = criRecovery;
+        CompulsoryThreshold = criRecovery;
         _phases = phases.ToList();
         _contestants = contestants.ToList();
     }
 
-    private Competition(string? name, CompetitionRuleset? type, DateTimeOffset start, int? criRecovery) : this(
+    private Competition(string? name, CompetitionRuleset? type, DateTimeOffset start, int? compulsoryThresholdMinutes) : this(
         GenerateId(),
         name,
         type,
         IsFuture(nameof(Start), start),
-        criRecovery,
+        ToTimeSpan(compulsoryThresholdMinutes),
         [],
         [])
     {
@@ -58,10 +58,15 @@ public class Competition : DomainEntity, ISummarizable, IParent<Contestant>, IPa
         return start;
     }
 
+    static TimeSpan? ToTimeSpan(int? minutes)
+    {
+        return minutes != null ? TimeSpan.FromSeconds(minutes.Value) : null;
+    }
+
     public string Name { get; private set; }
     public CompetitionRuleset Type { get; private set; }
 	public DateTimeOffset Start { get; private set; }
-    public int? CriRecovery { get; private set; } //TODO: change to TimSpan and rename to RequiredInspectionCompulsoryThreshold
+    public TimeSpan? CompulsoryThreshold { get; private set; }
     public IReadOnlyList<Phase> Phases
     {
         get => _phases.AsReadOnly();
