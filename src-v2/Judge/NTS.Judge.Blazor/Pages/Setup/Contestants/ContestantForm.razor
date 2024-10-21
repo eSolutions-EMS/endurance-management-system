@@ -10,7 +10,8 @@
 @inherits FormTM<ContestantFormModel>;
 
 <EditForm Model="Model">
-    <NotSelect T="Combination" Label="Combination" Placeholder="Select a combination" Items="_combinations" @bind-Value="Model.Combination" />
+    <NotSelect @ref="_combinaionField" T="Combination" Label="Combination" Placeholder="Select a combination" 
+        Items="_combinations" @bind-Value="Model.Combination" />
 
     <NotSwitch @ref="_isNotRankedField" @bind-Value="Model.IsNotRanked" Label="Unranked" />
 
@@ -23,6 +24,7 @@
 </EditForm>
 
 @code {
+    NotSelect<Combination> _combinaionField = default!;
     NotSwitch _isNotRankedField = default!;
     MudPicker<TimeSpan?> _timeField = default!;
     bool _overrideStartTime;
@@ -33,8 +35,9 @@
 
     public override void RegisterValidationInjectors()
     {
-        RegisterInjector(nameof(Contestant.StartTimeOverride), () => _timeField);
+        RegisterInjector(nameof(Contestant.Combination), () => _combinaionField);
         RegisterInjector(nameof(Contestant.IsNotRanked), () => _isNotRankedField);
+        RegisterInjector(nameof(Contestant.StartTimeOverride), () => _timeField);
     }
 
     protected override async Task OnInitializedAsync()
