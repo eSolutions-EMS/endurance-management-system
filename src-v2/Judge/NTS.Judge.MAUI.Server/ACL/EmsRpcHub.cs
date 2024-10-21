@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Not.Application.Ports.CRUD;
 using Not.Concurrency;
-using Not.Events;
 using Not.Safe;
 using Not.Startup;
 using NTS.Compatibility.EMS.Entities;

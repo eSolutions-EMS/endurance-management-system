@@ -1,6 +1,5 @@
 ﻿@using NTS.Domain.Setup.Entities;
 @using NTS.Judge.Setup.Competitions
-@using Not.Blazor.Forms;
 @using Not.Blazor.TM;
 @using Not.Blazor.TM.Models;
 @using Not.Blazor.TM.Forms;
@@ -9,7 +8,7 @@
 @inherits FormTM<PhaseFormModel>;
 
 <EditForm Model="Model">
-    <NotSelect T="Loop" Label="Loop distance" Placeholder="Select a loop" Items="_loops" @bind-Value="Model.Loop" />
+    <NotSelect @ref="_loopField" T="Loop" Label="Loop distance" Placeholder="Select a loop" Items="_loops" @bind-Value="Model.Loop" />
 
     <MudNumericField T="int" @ref="_recoveryField" @bind-Value="Model.Recovery" Min="0" Label="Recovery Time" />
 

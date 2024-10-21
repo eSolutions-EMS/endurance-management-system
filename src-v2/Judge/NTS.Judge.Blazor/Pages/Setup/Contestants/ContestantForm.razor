@@ -1,6 +1,5 @@
 ﻿@using NTS.Domain.Setup.Entities;
 @using NTS.Judge.Setup.Competitions
-@using Not.Blazor.Forms;
 @using Not.Blazor.TM;
 @using Not.Blazor.TM.Forms;
 @using Not.Blazor.TM.Forms.Components;
@@ -13,7 +12,7 @@
 <EditForm Model="Model">
     <NotSelect T="Combination" Label="Combination" Placeholder="Select a combination" Items="_combinations" @bind-Value="Model.Combination" />
 
-    <NotSwitch @bind-Value="Model.IsUnranked" Label="Unranked" />
+    <NotSwitch @ref="_isNotRankedField" @bind-Value="Model.IsNotRanked" Label="Unranked" />
 
     <NotSwitch @bind-Value="_overrideStartTime" Label="Override Start Time"/>
 
@@ -24,6 +23,7 @@
 </EditForm>
 
 @code {
+    NotSwitch _isNotRankedField = default!;
     MudPicker<TimeSpan?> _timeField = default!;
     bool _overrideStartTime;
     List<NotListModel<Combination>> _combinations = [];
@@ -34,6 +34,7 @@
     public override void RegisterValidationInjectors()
     {
         RegisterInjector(nameof(Model.StartTimeOverride), () => _timeField);
+        RegisterInjector(nameof(Model.IsNotRanked), () => _isNotRankedField);
     }
 
     protected override async Task OnInitializedAsync()

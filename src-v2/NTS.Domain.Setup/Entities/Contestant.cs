@@ -14,7 +14,7 @@ public class Contestant : DomainEntity, ISummarizable
     {
         Id = id;
         StartTimeOverride = startTimeOverride;
-        IsUnranked = isUnranked;
+        IsNotRanked = isUnranked;
         Combination = Required(nameof(Combination), combination);
     }
 
@@ -24,6 +24,7 @@ public class Contestant : DomainEntity, ISummarizable
         isUnranked,
         combination)
     {
+        throw new DomainException(nameof(IsNotRanked), "test");
     }
 
     static DateTimeOffset? Validate(DateTimeOffset? startTimeOverride)
@@ -37,7 +38,7 @@ public class Contestant : DomainEntity, ISummarizable
 
     public Combination Combination {  get; private set; }
     public DateTimeOffset? StartTimeOverride { get; private set; }
-    public bool IsUnranked { get; private set; }
+    public bool IsNotRanked { get; private set; }
 
     public IReadOnlyList<Combination> Combinations
     {
@@ -56,7 +57,7 @@ public class Contestant : DomainEntity, ISummarizable
         var startTimeMessage = StartTimeOverride != null 
             ? $"start: {StartTimeOverride.Value.ToLocalTime().TimeOfDay} "
             : null;
-        var isUnrankedMessage = IsUnranked
+        var isUnrankedMessage = IsNotRanked
             ? "not-ranked"
             : null;
         return Combine(Combination, startTimeMessage, isUnrankedMessage);

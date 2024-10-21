@@ -13,14 +13,14 @@ public class ContestantFormModel : IFormModel<Contestant>
 
     public int Id { get; set; }
     public TimeSpan? StartTimeOverride { get; set; }
-    public Boolean  IsUnranked { get; set; }
+    public bool IsNotRanked { get; set; }
     public Combination? Combination { get; set; }
 
     public void FromEntity(Contestant contestant)
     {
         Id = contestant.Id;
         StartTimeOverride = contestant.StartTimeOverride?.LocalDateTime.TimeOfDay;
-        IsUnranked = contestant.IsUnranked;
+        IsNotRanked = contestant.IsNotRanked;
         Combination = contestant.Combination;
     }
 }

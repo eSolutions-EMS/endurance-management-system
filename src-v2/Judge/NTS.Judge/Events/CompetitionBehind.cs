@@ -17,11 +17,18 @@ public class CompetitionBehind : CrudBehind<Competition, CompetitionFormModel>
 
     protected override Competition CreateEntity(CompetitionFormModel model)
     {
-        return Competition.Create(model.Name, model.Type, model.StartTime, model.CRIRecovery);
+        return Competition.Create(model.Name, model.Type, model.StartTime, model.RequiredInspectionCompulsoryThreshold);
     }
 
     protected override Competition UpdateEntity(CompetitionFormModel model)
     {
-        return Competition.Update(model.Id, model.Name, model.Type, model.StartTime, model.CRIRecovery, model.Phases, model.Contestants);
+        return Competition.Update(
+            model.Id,
+            model.Name,
+            model.Type,
+            model.StartTime,
+            model.RequiredInspectionCompulsoryThreshold,
+            model.Phases,
+            model.Contestants);
     }
 }

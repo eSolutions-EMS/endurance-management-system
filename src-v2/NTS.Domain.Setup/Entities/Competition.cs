@@ -61,7 +61,7 @@ public class Competition : DomainEntity, ISummarizable, IParent<Contestant>, IPa
     public string Name { get; private set; }
     public CompetitionRuleset Type { get; private set; }
 	public DateTimeOffset StartTime { get; private set; }
-    public int? CriRecovery { get; private set; } //TODO: change to TimSpan
+    public int? CriRecovery { get; private set; } //TODO: change to TimSpan and rename to RequiredInspectionCompulsoryThreshold
     public IReadOnlyList<Phase> Phases
     {
         get => _phases.AsReadOnly();

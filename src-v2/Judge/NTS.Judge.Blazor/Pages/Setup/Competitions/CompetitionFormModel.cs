@@ -6,7 +6,7 @@ namespace NTS.Judge.Setup.Competitions;
 
 public class CompetitionFormModel : IFormModel<Competition>
 {
-    private int? _compulsoryRequiredInspectionSpan;
+    private int? _requiredInspectionCompulsoryThreshold;
 
     public CompetitionFormModel()
     {
@@ -19,11 +19,11 @@ public class CompetitionFormModel : IFormModel<Competition>
     public CompetitionRuleset? Type { get; set; } = CompetitionRuleset.Regional;
     public DateTime? Day { get; set; } = DateTime.Now;
     public TimeSpan? Time { get; set; } = DateTime.Now.TimeOfDay;
-    public bool UseAutomaticCRI { get; set; }
-    public int? CRIRecovery 
+    public bool UseCompulsoryThreshold { get; set; }
+    public int? RequiredInspectionCompulsoryThreshold 
     {
-        get => UseAutomaticCRI ? _compulsoryRequiredInspectionSpan : null;
-        set => _compulsoryRequiredInspectionSpan = value;
+        get => UseCompulsoryThreshold ? _requiredInspectionCompulsoryThreshold : null;
+        set => _requiredInspectionCompulsoryThreshold = value;
     }
     public IReadOnlyCollection<Phase> Phases { get; private set; } = [];
     public IReadOnlyCollection<Contestant> Contestants { get; private set; } = [];
@@ -49,8 +49,8 @@ public class CompetitionFormModel : IFormModel<Competition>
         Time = startTime;
         Phases = competition.Phases;
         Contestants = competition.Contestants;
-        CRIRecovery = competition.CriRecovery;
-        UseAutomaticCRI = competition.CriRecovery != null;
+        RequiredInspectionCompulsoryThreshold = competition.CriRecovery;
+        UseCompulsoryThreshold = competition.CriRecovery != null;
     }
 }
  

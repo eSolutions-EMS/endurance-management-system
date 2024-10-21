@@ -1,6 +1,5 @@
 ﻿@using NTS.Domain.Setup.Entities;
 @using NTS.Judge.Setup.Competitions
-@using Not.Blazor.Forms;
 @using Not.Blazor.TM
 @using Not.Blazor.TM.Models;
 @using Not.Blazor.TM.Forms;
@@ -18,15 +17,16 @@
 
     <MudTimePicker DisableToolbar="true" @ref="_timeField" @bind-Time="Model.Time" Label="@Localizer.Get("Time")" />
 
-    <NotSwitch @bind-Value="Model.UseAutomaticCRI" Label="Use automatic CRI" />
+    <NotSwitch @bind-Value="Model.UseCompulsoryThreshold" Label="Use automatic CRI" />
 
-    @if (Model.UseAutomaticCRI)
+    @if (Model.UseCompulsoryThreshold)
     {
-        <MudNumericField @bind-Value="Model.CRIRecovery" />
+        <MudNumericField @ref="_requiredInspectionCompulsoryThreshold" @bind-Value="Model.RequiredInspectionCompulsoryThreshold" />
     }
 </EditForm>
 
 @code {
+    MudNumericField<int?> _requiredInspectionCompulsoryThreshold = default!;
     MudTextField<string?> _nameField = default!;
     NotSelect<CompetitionRuleset> _typeField = default!;
     MudPicker<DateTime?> _dayField = default!;
@@ -36,13 +36,15 @@
     public override void RegisterValidationInjectors()
     {
         RegisterInjector(nameof(Model.Name), () => _nameField);
-        RegisterInjector(nameof(Competition.StartTime), () => _timeField);
+        RegisterInjector(nameof(Competition.StartTime), () => _dayField);
+        // RegisterInjector(nameof(Competition.StartTime), () => _timeField); Current injetion infra doesnt support duplicate keys
         RegisterInjector(nameof(Model.Type), () => _typeField);
+        RegisterInjector(nameof(Model.RequiredInspectionCompulsoryThreshold), () => _typeField);
     }
 
     public void Test(bool value)
     {
-        Model.UseAutomaticCRI = value;
+        Model.UseCompulsoryThreshold = value;
         StateHasChanged();
     }
 }

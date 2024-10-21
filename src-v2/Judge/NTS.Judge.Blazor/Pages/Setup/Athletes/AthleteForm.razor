@@ -1,7 +1,6 @@
 ﻿@using NTS.Domain.Objects
 @using NTS.Domain.Setup.Entities;
 @using NTS.Judge.Blazor.Contexts
-@using Not.Blazor.Forms;
 @using Not.Blazor.TM
 @using Not.Blazor.TM.Forms;
 @using Not.Blazor.TM.Forms.Components;
@@ -11,18 +10,18 @@
 <EditForm Model="Model">
     <MudTextField @ref="_nameField" @bind-Value="Model.Name" Label="@Localizer.Get("Name")" />
 
-    <MudTextField @bind-Value="Model.FeiId" Label="Fei Id" HelperText="@Localizer.Get(OPTIONAL_FEI_ID)" Variant="Variant.Text" Margin="Margin.Dense" />
+    <MudTextField @ref="_feiIdField" @bind-Value="Model.FeiId" Label="Fei Id" HelperText="@Localizer.Get(OPTIONAL_FEI_ID)"
+        Variant="Variant.Text" Margin="Margin.Dense" />
 
     <NotAutocomplete T="Country" @ref="_countryField" @bind-Value="Model.Country" Label="@nameof(Athlete.Country)" Search="_countries.Search" />
 
-    <MudTextField @bind-Value="Model.Club" Label="Club" Variant="Variant.Text" Margin="Margin.Dense" />
+    <MudTextField @ref="_clubField" @bind-Value="Model.Club" Label="Club" Variant="Variant.Text" Margin="Margin.Dense" />
 
-    <MudTextField @bind-Value="Model.Category" Label="Category" Variant="Variant.Text" Margin="Margin.Dense" />
+    <MudTextField @ref="_categoryField" @bind-Value="Model.Category" Label="Category" Variant="Variant.Text" Margin="Margin.Dense" />
 </EditForm>
 
 @code {
     // TODO: Introduce NotText variants for consistency
-
     private MudTextField<string> _nameField = default!;
     private MudTextField<string?> _feiIdField = default!;
     private NotAutocomplete<Country?> _countryField = default!;
@@ -36,9 +35,8 @@
     {
         RegisterInjector(nameof(Model.Name), () => _nameField);
         RegisterInjector(nameof(Model.Country), () => _countryField);
-    }
-
-    public override void SetUpdateModel(AthleteFormModel Athlete)
-    {
+        RegisterInjector(nameof(Model.Club), () => _clubField);
+        RegisterInjector(nameof(Model.Category), () => _categoryField);
+        RegisterInjector(nameof(Model.FeiId), () => _feiIdField);
     }
 }

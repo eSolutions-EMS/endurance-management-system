@@ -16,11 +16,11 @@ public class ContestantBehind : CrudBehind<Contestant, ContestantFormModel>
 
     protected override Contestant CreateEntity(ContestantFormModel model)
     {
-        return Contestant.Create(model.StartTimeOverride?.ToDateTimeOffset(), model.IsUnranked, model.Combination);
+        return Contestant.Create(model.StartTimeOverride?.ToDateTimeOffset(), model.IsNotRanked, model.Combination);
     }
 
     protected override Contestant UpdateEntity(ContestantFormModel model)
     {
-        return Contestant.Update(model.Id, model.StartTimeOverride?.ToDateTimeOffset(), model.IsUnranked, model.Combination);
+        return Contestant.Update(model.Id, model.StartTimeOverride?.ToDateTimeOffset(), model.IsNotRanked, model.Combination);
     }
 }
