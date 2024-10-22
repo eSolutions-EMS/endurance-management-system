@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using NTS.Domain.Objects;
+using System.Text;
 
 namespace NTS.Judge.HardwareControllers;
 public abstract class RfidController
@@ -17,7 +18,11 @@ public abstract class RfidController
     public bool IsReading { get; protected set; }
     public bool IsWriting { get; protected set; }
 
-    public event EventHandler<string> MessageEvent;
+    public event EventHandler<(DateTime time, string data)> OnRead;
+    protected virtual void OnReadEvent((DateTime time, string data) e)
+    {
+        OnRead.Invoke(this,e);
+    }
     public void RaiseMessage(string message)
     {
         message = $"{this.Device} {message}";

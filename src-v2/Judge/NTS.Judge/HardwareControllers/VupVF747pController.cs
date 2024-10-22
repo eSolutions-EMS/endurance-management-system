@@ -1,7 +1,14 @@
 ﻿using Not.Logging;
+using NTS.Domain.Core.Configuration;
+using NTS.Domain.Enums;
+using NTS.Domain.Objects;
+using NTS.Domain;
+using System.Collections.Concurrent;
 using System.Diagnostics;
+using System.Dynamic;
 using System.Text;
 using Vup.reader;
+using NTS.Domain.Setup.Entities;
 
 namespace NTS.Judge.HardwareControllers;
 
@@ -10,6 +17,7 @@ public class VupVF747pController : RfidController
     private const int MAX_POWER = 27;
     private NetVupReader reader;
     private readonly string ipAddress;
+    private ConcurrentQueue<(DateTime,string)> data = new ConcurrentQueue<(DateTime, string)>();
 
     protected override string Device => "VF747p";
 
@@ -36,7 +44,7 @@ public class VupVF747pController : RfidController
         this.RaiseMessage($"Connected");
     }
 
-    public IEnumerable<string> StartReading()
+    public void StartReading()
     {
         if (!this.IsConnected)
         {
@@ -48,7 +56,8 @@ public class VupVF747pController : RfidController
         {
             foreach (var tag in this.ReadTags(antennaIndices))
             {
-                yield return tag;
+                data.Enqueue((DateTime.Now ,tag));
+                OnReadEvent((DateTime.Now, tag));
             }
             Thread.Sleep(this.throttle);
         }
