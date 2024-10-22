@@ -53,7 +53,7 @@ public class Phase : DomainEntity
         string gate,
         double length,
         int maxRecovery,
-        int rest,
+        int? rest,
         CompetitionRuleset ruleset,
         bool isFinal,
         TimeSpan? compulsoryThresholdSpan,
@@ -84,7 +84,7 @@ public class Phase : DomainEntity
     public Phase(
         double length,
         int maxRecovery,
-        int rest,
+        int? rest,
         CompetitionRuleset competitionRuleset,
         bool isFinal,
         TimeSpan? compulsoryThresholdSpan)
@@ -110,7 +110,7 @@ public class Phase : DomainEntity
     public string Gate { get; private set; }
     public double Length { get; }
     public int MaxRecovery { get; }
-    public int Rest { get; }
+    public int? Rest { get; }
     public CompetitionRuleset Ruleset { get; }
     public bool IsFinal { get; }
     public Timestamp? StartTime { get; internal set; }
@@ -124,16 +124,20 @@ public class Phase : DomainEntity
 
     public Timestamp? GetRequiredInspectionTime()
     {
-        return VetTime?.Add(TimeSpan.FromMinutes(Rest - 15)); //TODO: settings
+        if (Rest == null)
+        {
+            return null;
+        }
+        return VetTime?.Add(TimeSpan.FromMinutes(Rest.Value - 15)); //TODO: settings
     }
 
     public Timestamp? GetOutTime()
     {
-        if (ArriveTime == null)
+        if (ArriveTime == null || Rest == null)
         {
             return null;
         }
-        return VetTime?.Add(TimeSpan.FromMinutes(Rest));
+        return VetTime?.Add(TimeSpan.FromMinutes(Rest.Value));
     }
 
     public TimeInterval? GetLoopSpan()
