@@ -7,7 +7,9 @@ public class CombinationFormModel : IFormModel<Combination>
 {
     public CombinationFormModel()
     {
+#if DEBUG
         Number = 1337;
+#endif
     }
 
     public int Id { get; set; }

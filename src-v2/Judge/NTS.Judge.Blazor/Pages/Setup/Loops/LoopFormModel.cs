@@ -7,8 +7,9 @@ public class LoopFormModel : IFormModel<Loop>
 {
     public LoopFormModel()
     {
-        // mock data for testing
+#if DEBUG
         Distance = 20;
+#endif
     }
 
     public int Id { get; set; }

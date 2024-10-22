@@ -7,8 +7,10 @@ public class OfficialFormModel : IFormModel<Official>
 {
     public OfficialFormModel()
     {
+#if DEBUG
         Name = "Pesho Goshov";
         Role = OfficialRole.GroundJuryPresident;
+#endif
     }
 
     public int Id { get; private set; }

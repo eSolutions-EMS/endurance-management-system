@@ -7,14 +7,15 @@ public class HorseFormModel : IFormModel<Horse>
 {
     public HorseFormModel() 
     {
-        //TODO: if DEBUG
+#if DEBUG
         FeiId = "66";
         Name = "Хан Аспарух";
+#endif
     }
 
     public int Id { get; set; }
     public string? FeiId { get; set; }
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     public void FromEntity(Horse horse)
     {

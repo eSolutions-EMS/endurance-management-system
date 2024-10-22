@@ -7,9 +7,10 @@ public class PhaseFormModel : IFormModel<Phase>
 {
     public PhaseFormModel()
     {
-        // mock data for testing
+#if DEBUG
         Recovery = 15;
         Rest = 40;
+#endif
     }
 
     public int Id { get; set; }

@@ -8,11 +8,12 @@ public class AthleteFormModel : IFormModel<Athlete>
 {
     public AthleteFormModel()
     {
-        // mock data for testing
+#if DEBUG
         Name = "Gucci Petrov";
         Club = "Конярче ООД";
         Category = "Олимпийски надежди";
         Country = new Country("BG", "zz", "Bulgaria");
+#endif
     }
 
     public int Id { get; set; }

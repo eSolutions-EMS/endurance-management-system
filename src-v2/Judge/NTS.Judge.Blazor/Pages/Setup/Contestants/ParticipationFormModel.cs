@@ -7,8 +7,9 @@ public class ParticipationFormModel : IFormModel<Participation>
 {
     public ParticipationFormModel()
     {
-        // mock data for testing
+#if DEBUG
         StartTimeOverride = null;
+#endif
     }
 
     public int Id { get; set; }

@@ -10,8 +10,9 @@ public class CompetitionFormModel : IFormModel<Competition>
 
     public CompetitionFormModel()
     {
-        //TODO: remove mock default values for testing
+#if DEBUG
         Name = "Olympic Games";
+#endif
     }
 
     public int Id { get; set; }
