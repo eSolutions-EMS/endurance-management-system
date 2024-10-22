@@ -6,15 +6,28 @@
 @inherits NotComponent
 
 <MudStack Class="ma-6">
-    <NotButtonPrimary OnClick="Start" Text="Start Endurance Event"></NotButtonPrimary>
+    @if (_enduranceEventStarted)
+    {
+        <NotButtonPrimary OnClick="_reader.NotifyStatus" Text="Get Status"/>
+    }
+    else
+    {
+        <NotButtonPrimary OnClick="Start" Text="@StartMessage"/>
+    }
 </MudStack>
 
 @code {
     [Inject]
     private IDashboardBehind _dashboardBehind { get; set; } = default!;
+    [Inject]
+    private IRfidReaderBehind _reader { get; set; } = default!;
+    private bool _enduranceEventStarted;
+    private string StartMessage => _enduranceEventStarted ? "Reconnect" : "Start Endurance Event";
 
-    public void Start()
+    public async void Start()
     {
-        _dashboardBehind.Start();
+        _enduranceEventStarted = true;
+        _reader.StartReading();
+        await _dashboardBehind.Start();
     }
 }

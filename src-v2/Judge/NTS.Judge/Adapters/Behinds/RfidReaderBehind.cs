@@ -7,6 +7,7 @@ using NTS.Domain.Objects;
 using NTS.Judge.Blazor.Ports;
 using NTS.Judge.HardwareControllers;
 using System.Linq;
+using System.Reflection.PortableExecutable;
 using static MudBlazor.CategoryTypes;
 
 namespace NTS.Judge.Adapters.Behinds;
@@ -72,5 +73,21 @@ public class RfidReaderBehind : IRfidReaderBehind
     {
         await _snapshotProcessor.Process(snapshot);
         NotifyHelper.Inform("Processed: " + snapshot.ToString());
+    }
+
+    public void NotifyStatus()
+    {
+        const string deviceName = "Rfid Device ";
+        const string disconnectMessage = "not connected";
+        string readingMessage;
+        if (IsConnected())
+        {
+            readingMessage = IsReading() ? "continuosly detecting tags" : "isn't detecting tags";
+            NotifyHelper.Inform(deviceName + readingMessage);
+        }
+        else
+        {
+            NotifyHelper.Warn(deviceName + disconnectMessage);
+        }
     }
 }
