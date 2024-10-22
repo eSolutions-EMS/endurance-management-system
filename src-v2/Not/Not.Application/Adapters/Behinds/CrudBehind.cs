@@ -8,10 +8,9 @@ using Not.Safe;
 
 namespace Not.Application.Adapters.Behinds;
 
-public abstract class CrudBehind<T, TModel> : ObservableListBehind<T>, IListBehind<T>, IFormBehind<TModel>, IDisposable
+public abstract class CrudBehind<T, TModel> : ObservableListBehind<T>, IListBehind<T>, IFormBehind<TModel>
     where T : DomainEntity
 {
-    readonly Guid _loadedSubscriptionId;
     readonly IParentContext<T>? _parentContext;
     readonly IRepository<T> _repository;
 
@@ -24,7 +23,6 @@ public abstract class CrudBehind<T, TModel> : ObservableListBehind<T>, IListBehi
     {
         _repository = repository;
         _parentContext = parentContext;
-        _loadedSubscriptionId = ObservableList.ChangedEvent.Subscribe(EmitChange);
     }
     /// <summary>
     /// Instatiates a basic CRUD behind for a standalone or root-level entity
@@ -33,7 +31,6 @@ public abstract class CrudBehind<T, TModel> : ObservableListBehind<T>, IListBehi
     protected CrudBehind(IRepository<T> repository) : base([])
     {
         _repository = repository;
-        _loadedSubscriptionId = ObservableList.ChangedEvent.Subscribe(EmitChange);
     }
 
     public IReadOnlyList<T> Items => ObservableList;
@@ -136,10 +133,4 @@ public abstract class CrudBehind<T, TModel> : ObservableListBehind<T>, IListBehi
     }
 
     #endregion
-
-    public void Dispose()
-    {
-        _parentContext?.Children.ChangedEvent.Unsubscribe(_loadedSubscriptionId);
-        GC.SuppressFinalize(this);
-    }
 }

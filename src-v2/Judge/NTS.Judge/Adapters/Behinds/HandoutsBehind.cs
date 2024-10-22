@@ -1,15 +1,17 @@
 ﻿using Not.Application.Adapters.Behinds;
 using Not.Application.Ports.CRUD;
+using Not.Concurrency;
 using Not.Exceptions;
 using Not.Safe;
 using NTS.Domain.Core.Entities;
+using NTS.Domain.Core.Entities.ParticipationAggregate;
 using NTS.Domain.Core.Objects;
 using NTS.Domain.Core.Objects.Payloads;
 using NTS.Judge.Blazor.Ports;
 
 namespace NTS.Judge.Adapters.Behinds;
 
-public class HandoutsBehind : ObservableListBehind<HandoutDocument>, IHandoutsBehind
+public class HandoutsBehind : ObservableListBehind<HandoutDocument>, IHandoutsBehind, ICreateHandout
 {
     private readonly SemaphoreSlim _semaphore = new(1);
     private readonly IRepository<Handout> _handoutRepository;
@@ -31,28 +33,9 @@ public class HandoutsBehind : ObservableListBehind<HandoutDocument>, IHandoutsBe
 
     public IReadOnlyList<HandoutDocument> Documents => ObservableList;
 
-    public void RunAtStartup()
-    {
-        // TODO: subscribe to updates for Event, Official
-        Participation.PhaseCompletedEvent.SubscribeAsync(PhaseCompletedHandler);
-    }
-
     protected override async Task<bool> PerformInitialization(params IEnumerable<object> arguments)
     {
         var handouts = await _handoutRepository.ReadAll();
-
-        //TODO: REMOVE
-        if (!handouts.Any())
-        {
-            var allParticipations = await _participations.ReadAll();
-            var list = new List<Handout>();
-            foreach (var participation in allParticipations)
-            {
-                list.Add(new Handout(participation));
-            }
-            handouts = list;
-        }
-
         var enduranceEvent = await _events.Read(0);
         var officials = await _officials.ReadAll();
         GuardHelper.ThrowIfDefault(enduranceEvent);
@@ -61,6 +44,26 @@ public class HandoutsBehind : ObservableListBehind<HandoutDocument>, IHandoutsBe
         ObservableList.AddRange(documents);
         
         return true;
+    }
+    public void RunAtStartup()
+    {
+        // TODO: subscribe to updates for Event, Official
+        Participation.PhaseCompletedEvent.SubscribeAsync(PhaseCompletedHandler);
+    }
+
+    async Task SafeCreate(int number)
+    {
+        var participation = await _participations.Read(x => x.Tandem.Number == number);
+        GuardHelper.ThrowIfDefault(participation);
+
+        await CreateDocument(participation);
+    }
+
+    async Task<IEnumerable<Tandem>> SafeGetCombinations()
+    {
+        return await _participations
+            .ReadAll()
+            .Select(x => x.Tandem);
     }
 
     async Task SafeDelete(IEnumerable<HandoutDocument> documents)
@@ -76,17 +79,22 @@ public class HandoutsBehind : ObservableListBehind<HandoutDocument>, IHandoutsBe
 
     async void PhaseCompletedHandler(PhaseCompleted phaseCompleted)
     {
+        await CreateDocument(phaseCompleted.Participation);
+    }
+
+    async Task CreateDocument(Participation participation)
+    {
         var enduranceEvent = await _events.Read(0);
         var officials = await _officials.ReadAll();
         GuardHelper.ThrowIfDefault(enduranceEvent);
 
-        var handout = new Handout(phaseCompleted.Participation);
-        var document = new HandoutDocument(phaseCompleted.Participation, enduranceEvent, officials);
+        var handout = new Handout(participation);
+        var document = new HandoutDocument(participation, enduranceEvent, officials);
 
         await _semaphore.WaitAsync();
 
-        await _handoutRepository.Delete(x => x.Participation == phaseCompleted.Participation);
-        await _handoutRepository.Create(handout); 
+        await _handoutRepository.Delete(x => x.Participation == participation);
+        await _handoutRepository.Create(handout);
         ObservableList.AddOrReplace(document);
 
         _semaphore.Release();
@@ -97,6 +105,16 @@ public class HandoutsBehind : ObservableListBehind<HandoutDocument>, IHandoutsBe
     public async Task Delete(IEnumerable<HandoutDocument> documents)
     {
         await SafeHelper.Run(() => SafeDelete(documents));
+    }
+
+    public async Task Create(int number)
+    {
+        await SafeHelper.Run(() => SafeCreate(number));
+    }
+
+    public async Task<IEnumerable<Tandem>> GetCombinations()
+    {
+        return await SafeHelper.Run(SafeGetCombinations) ?? [];
     }
 
     #endregion

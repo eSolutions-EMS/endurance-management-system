@@ -1,4 +1,5 @@
-﻿@using NTS.Judge.Blazor.Ports
+﻿@using Not.Blazor.TM
+@using NTS.Judge.Blazor.Ports
 @using NTS.Domain.Core.Entities
 @using Not.Events
 
@@ -10,8 +11,7 @@
     <MudChipSet T="int" SelectedValue="_behind.Ranklist.RankingId" SelectedValueChanged="_behind.SelectRanking">
         @foreach (var grouping in _rankingsByDistance)
         {
-            <MudText Class="pl-4"><strong>@($"{grouping.Key}")</strong></MudText>
-            <MudDivider />
+            <TextDividerTM Text="@grouping.Key" />
             @foreach (var ranking in grouping.OrderBy(x => x.Category))
             {
                 <MudChip Text="@ranking.Category.ToString()" Value="@ranking.Id" Color="Color.Primary" Style="min-width: 1rem" />
