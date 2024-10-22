@@ -58,7 +58,7 @@ public class CoreFactory
                 phase.Rest,
                 setupCompetition.Ruleset,
                 setupPhases.Last() == phase,
-                setupCompetition.CompulsoryThreshold);
+                setupCompetition.CompulsoryThresholdSpan);
             phases.Add(corePhase);
             competitionDistance += (decimal)phase.Loop!.Distance;
         }
