@@ -29,6 +29,22 @@ public class NotComponent : ComponentBase
     {
     }
 
+    protected string CombineClass(string customClass)
+    {
+        return CombineWithSpace(Class, customClass);
+    }
+
+    protected string CombineStyle(string customStyle)
+    {
+        return CombineWithSpace(Style, customStyle);
+    }
+
+    string CombineWithSpace(params string?[] values)
+    {
+        var filtered = values.Where(x => !string.IsNullOrWhiteSpace(x));
+        return string.Join(" ", filtered);
+    }
+
     async Task OnEmit()
     {
         OnBeforeRender();

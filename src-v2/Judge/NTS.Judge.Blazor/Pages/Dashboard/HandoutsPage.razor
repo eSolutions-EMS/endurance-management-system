@@ -2,6 +2,7 @@
 @using NTS.Judge.Blazor.Ports
 @using Not.Blazor.Mud.Extensions
 @using Not.Blazor.Print
+@using Not.Blazor.TM
 
 @attribute [Route(HANDOUTS_PAGE)]
 @inherits PrintableComponent
@@ -13,7 +14,11 @@
     </Main>
 
     <Rightbar>
-        <NotButtonPrint OnClick="PopAndPrint" />
+        <TextDividerTM Text="Export" />
+        <NotButtonPrint Text="Print Preview" OnClick="OpenPrintPreview" />
+
+        <TextDividerTM Text="Manual handout" Class="mt-4" />
+        <HandoutForm />
     </Rightbar>
 
 </NotPage>
@@ -29,7 +34,7 @@
         await Observe(_behind);
     }
 
-    private async Task PopAndPrint()
+    private async Task OpenPrintPreview()
     {
         var handouts = _behind.Documents.ToList();
 
