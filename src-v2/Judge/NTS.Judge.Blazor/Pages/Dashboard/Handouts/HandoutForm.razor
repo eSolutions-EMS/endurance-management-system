@@ -5,12 +5,12 @@
 
 @inherits NotComponent
 
-<NotAutocomplete T="Tandem" @bind-value="_combination" Search="Search" Style="@Style" Class="@Class"/>
+<NotAutocomplete @bind-value="_combination" Search="Search" Style="@Style" Class="@Class" />
 
 <NotButtonCreate OnClick="Create" Class="mt-2" />
 
 @code {
-    Tandem? _combination;
+    Combination? _combination;
 
     [Inject]
     ICreateHandout _behind { get; set; } = default!;
@@ -25,7 +25,7 @@
         await _behind.Create(_combination.Number);
     }
 
-    async Task<IEnumerable<Tandem>> Search(string term)
+    async Task<IEnumerable<Combination>> Search(string term)
     {
         var combinations = await _behind.GetCombinations();
         if (string.IsNullOrEmpty(term))

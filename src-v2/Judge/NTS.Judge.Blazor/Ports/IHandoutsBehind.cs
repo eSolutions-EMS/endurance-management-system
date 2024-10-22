@@ -15,5 +15,5 @@ public interface IHandoutsBehind : IStartupInitializer, IObservableBehind, ISing
 public interface ICreateHandout
 {
     Task Create(int number);
-    Task<IEnumerable<Tandem>> GetCombinations();
+    Task<IEnumerable<Combination>> GetCombinations();
 }

@@ -53,17 +53,17 @@ public class HandoutsBehind : ObservableListBehind<HandoutDocument>, IHandoutsBe
 
     async Task SafeCreate(int number)
     {
-        var participation = await _participations.Read(x => x.Tandem.Number == number);
+        var participation = await _participations.Read(x => x.Combination.Number == number);
         GuardHelper.ThrowIfDefault(participation);
 
         await CreateDocument(participation);
     }
 
-    async Task<IEnumerable<Tandem>> SafeGetCombinations()
+    async Task<IEnumerable<Combination>> SafeGetCombinations()
     {
         return await _participations
             .ReadAll()
-            .Select(x => x.Tandem);
+            .Select(x => x.Combination);
     }
 
     async Task SafeDelete(IEnumerable<HandoutDocument> documents)
@@ -112,7 +112,7 @@ public class HandoutsBehind : ObservableListBehind<HandoutDocument>, IHandoutsBe
         await SafeHelper.Run(() => SafeCreate(number));
     }
 
-    public async Task<IEnumerable<Tandem>> GetCombinations()
+    public async Task<IEnumerable<Combination>> GetCombinations()
     {
         return await SafeHelper.Run(SafeGetCombinations) ?? [];
     }
