@@ -11,7 +11,7 @@ public class Phase : DomainEntity
         int rest,
         CompetitionRuleset competitionType,
         bool isFinal,
-        int? criRecovery,
+        TimeSpan? compulsoryThreshold,
         Timestamp startTimestamp,
         DateTime? arriveTime,
         DateTime? inspectTime,
@@ -20,7 +20,7 @@ public class Phase : DomainEntity
         bool isRequiredInspectionRequested,
         bool isCompulsoryRequiredInspectionRequested)
     {
-        var phase = new Phase(length, maxRecovery, rest, competitionType, isFinal, criRecovery);
+        var phase = new Phase(length, maxRecovery, rest, competitionType, isFinal, compulsoryThreshold);
 
         phase.StartTime = startTimestamp;
         if (arriveTime != null)
@@ -56,7 +56,7 @@ public class Phase : DomainEntity
         int rest,
         CompetitionRuleset ruleset,
         bool isFinal,
-        int? requiredImspectionCompulsoryThreshold,
+        TimeSpan? compulsoryThresholdSpan,
         Timestamp? startTime,
         Timestamp? arriveTime,
         Timestamp? presentTime,
@@ -78,7 +78,7 @@ public class Phase : DomainEntity
         IsReinspectionRequested = isRepresentationRequested;
         IsRequiredInspectionRequested = isRequiredInspectionRequested;
         IsRequiredInspectionCompulsory = isRequiredInspectionCompulsory;
-        RequiredInspectionCompulsoryThreshold = requiredImspectionCompulsoryThreshold;
+        CompulsoryThresholdSpan = compulsoryThresholdSpan;
     }
 
     public Phase(
@@ -87,7 +87,7 @@ public class Phase : DomainEntity
         int rest,
         CompetitionRuleset competitionRuleset,
         bool isFinal,
-        int? compulsoryRequiredInspectionTreshold)
+        TimeSpan? compulsoryThresholdSpan)
         : this(
               GenerateId(),
               "",
@@ -96,7 +96,7 @@ public class Phase : DomainEntity
               rest,
               competitionRuleset,
               isFinal,
-              compulsoryRequiredInspectionTreshold,
+              compulsoryThresholdSpan,
               null,
               null,
               null,
@@ -120,7 +120,7 @@ public class Phase : DomainEntity
     public bool IsReinspectionRequested { get; internal set; }
     public bool IsRequiredInspectionRequested { get; internal set; }
     public bool IsRequiredInspectionCompulsory { get; private set; }
-    public int? RequiredInspectionCompulsoryThreshold { get; private set; }
+    public TimeSpan? CompulsoryThresholdSpan { get; private set; }
 
     public Timestamp? GetRequiredInspectionTime()
     {
@@ -288,7 +288,7 @@ public class Phase : DomainEntity
         }
 
         ArriveTime = snapshot.Timestamp;
-        HandleCRI();
+        CheckCompulsoryThreshold();
         return SnapshotResult.Applied(snapshot);
     }
 
@@ -304,7 +304,7 @@ public class Phase : DomainEntity
         }
 
         ArriveTime = snapshot.Timestamp;
-        HandleCRI();
+        CheckCompulsoryThreshold();
         return SnapshotResult.Applied(snapshot);
     }
 
@@ -323,17 +323,17 @@ public class Phase : DomainEntity
         {
             PresentTime = snapshot.Timestamp;
         }
-        HandleCRI();
+        CheckCompulsoryThreshold();
         return SnapshotResult.Applied(snapshot);
     }
 
-    private void HandleCRI()
+    private void CheckCompulsoryThreshold()
     {
-        if (RequiredInspectionCompulsoryThreshold == null)
+        if (CompulsoryThresholdSpan == null)
         {
             return;
         }
-        IsRequiredInspectionCompulsory = GetRecoverySpan() >= TimeSpan.FromMinutes(RequiredInspectionCompulsoryThreshold.Value);
+        IsRequiredInspectionCompulsory = GetRecoverySpan() >= CompulsoryThresholdSpan;
     }
 }
 

@@ -11,7 +11,9 @@
 <EditForm Model="Model">
     <MudTextField @ref="_nameField" @bind-Value="Model.Name" Label="@Localizer.Get("Name")" />
 
-    <NotSelect Label="Type" @bind-Value="Model.Type" Items="_competitionTypes" />
+    <NotSelect @ref="_rulesetField" Label="Ruleset" @bind-Value="Model.Ruleset" Items="_competitionRules" />
+
+    <NotSelect @ref="_typeField" Label="Type" @bind-Value="Model.Type" Items="_competitionTypes" />
 
     <MudDatePicker DisableToolbar="true" @ref="_dayField" @bind-Date="Model.Day" Label="@Localizer.Get("Date")" />
 
@@ -28,10 +30,13 @@
 @code {
     MudNumericField<int?> _requiredInspectionCompulsoryThreshold = default!;
     MudTextField<string?> _nameField = default!;
-    NotSelect<CompetitionRuleset> _typeField = default!;
+    NotSelect<CompetitionType> _typeField = default!;
+    NotSelect<CompetitionRuleset> _rulesetField = default!;
     MudPicker<DateTime?> _dayField = default!;
     MudPicker<TimeSpan?> _timeField = default!;
-    List<NotListModel<CompetitionRuleset?>> _competitionTypes = NotListModel.FromEnum<CompetitionRuleset>().ToList();
+
+    List<NotListModel<CompetitionType>> _competitionTypes = NotListModel.FromEnum<CompetitionType>().ToList();
+    List<NotListModel<CompetitionRuleset>> _competitionRules = NotListModel.FromEnum<CompetitionRuleset>().ToList();
 
     public override void RegisterValidationInjectors()
     {
@@ -39,6 +44,7 @@
         RegisterInjector(nameof(Competition.Start), () => _dayField);
         RegisterInjector(nameof(Competition.Start), () => _timeField);
         RegisterInjector(nameof(Competition.Type), () => _typeField);
+        RegisterInjector(nameof(Competition.Ruleset), () => _rulesetField);
         RegisterInjector(nameof(Competition.CompulsoryThreshold), () => _typeField);
     }
 }

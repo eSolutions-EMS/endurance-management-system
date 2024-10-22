@@ -10,11 +10,11 @@ public record HandoutDocument : Document, IIdentifiable
         : base(new DocumentHeader(participation.Competition.Name, enduranceEvent.PopulatedPlace, enduranceEvent.EventSpan, officials))
     {
         Id = participation.Id;
-        Tandem = participation.Tandem;
+        Combination = participation.Combination;
         Phases = participation.Phases;
     }
 
     public int Id { get; }
-    public Tandem Tandem { get; }
+    public Combination Combination { get; }
     public PhaseCollection Phases { get; }
 }

@@ -16,9 +16,9 @@
 
 @code {
     private MudTextField<string?> _nameField = default!;
-    private NotSelect<OfficialRole?> _roleField = default!;
+    private NotSelect<OfficialRole> _roleField = default!;
 
-    private List<NotListModel<OfficialRole?>> _roles = NotListModel.FromEnum<OfficialRole>().ToList();
+    private List<NotListModel<OfficialRole>> _roles = NotListModel.FromEnum<OfficialRole>().ToList();
 
     public override void RegisterValidationInjectors()
     {

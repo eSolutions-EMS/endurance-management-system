@@ -21,12 +21,22 @@
     {
         <MudTimePicker @ref="_timeField" @bind-Time="Model.StartTimeOverride" ShowToolbar="false" Label="Start Time" />
     }
+
+    <NotSwitch @bind-Value="_overrideMaxSpeed" Label="Override Max Speed" />
+
+    @if (_overrideMaxSpeed)
+    {
+        <MudNumericField @ref="_maxSpeedOverrideField" @bind-Value="Model.MaxSpeedOverride" Label="Max speed penalty" Variant="Variant.Text" />
+    }
 </EditForm>
 
 @code {
     NotSelect<Combination> _combinaionField = default!;
     NotSwitch _isNotRankedField = default!;
     MudPicker<TimeSpan?> _timeField = default!;
+    MudNumericField<double?> _maxSpeedOverrideField = default!;
+    
+    bool _overrideMaxSpeed;
     bool _overrideStartTime;
     List<NotListModel<Combination>> _combinations = [];
 
@@ -38,6 +48,7 @@
         RegisterInjector(nameof(Participation.Combination), () => _combinaionField);
         RegisterInjector(nameof(Participation.IsNotRanked), () => _isNotRankedField);
         RegisterInjector(nameof(Participation.StartTimeOverride), () => _timeField);
+        RegisterInjector(nameof(Participation.MaxSpeedOverride), () => _maxSpeedOverrideField);
     }
 
     protected override async Task OnInitializedAsync()

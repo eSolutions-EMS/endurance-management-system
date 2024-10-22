@@ -20,8 +20,8 @@ public class ParticipationFactory
         
         var state = new EmsParticipantState
         {
-            Number = participation.Tandem.Number.ToString(),
-            MaxAverageSpeedInKmPh = (int)participation.Tandem.MinAverageSpeed!,
+            Number = participation.Combination.Number.ToString(),
+            MaxAverageSpeedInKmPh = (int)participation.Combination.MinAverageSpeed!,
             Unranked = true // TODO: fix when Unranked is added on Unranked level
         };
         var emsParticipant = new EmsParticipant(athlete, horse, state);
@@ -47,7 +47,7 @@ public class ParticipationFactory
 
     public static Participation CreateCore(EmsParticipation emsParticipation, EmsCompetition competition, bool adjustTime)
     {
-        var tandem = new Tandem(
+        var combination = new Combination(
             int.Parse(emsParticipation.Participant.Number),
             new Person(emsParticipation.Participant.Athlete.Name.Split(" ", StringSplitOptions.RemoveEmptyEntries)),
             emsParticipation.Participant.Horse.Name,
@@ -129,7 +129,7 @@ public class ParticipationFactory
             phases.Add(phase);
         }
         var ruleset = CompetitionFactory.MapCompetitionRuleset(competition.Type);
-        var participation = new Participation(competition.Name, ruleset, tandem, phases);
+        var participation = new Participation(competition.Name, ruleset, combination, phases);
         if (finalRecord?.Result?.Type == EmsResultType.FailedToQualify)
         {
             participation.FailToQualify([ FtqCode.GA ], null);

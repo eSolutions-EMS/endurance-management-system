@@ -10,7 +10,7 @@ public class HorseFactory
     {
         var state = new EmsHorseState
         {
-            Name = participation.Tandem.Horse
+            Name = participation.Combination.Horse
         };
         return new EmsHorse(state);
     }

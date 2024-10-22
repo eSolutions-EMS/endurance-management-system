@@ -15,7 +15,7 @@ public class OfficialFormModel : IFormModel<Official>
 
     public int Id { get; private set; }
     public string? Name { get; set; }
-    public OfficialRole? Role { get; set; }
+    public OfficialRole Role { get; set; } = OfficialRole.Steward;
 
     public void FromEntity(Official official)
     {
