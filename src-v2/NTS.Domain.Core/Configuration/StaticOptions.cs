@@ -6,14 +6,16 @@ namespace NTS.Domain.Core.Configuration;
 
 public class StaticOptions : IStartupInitializer, ISingletonService
 {
-    readonly IStaticOptionsProvider<Model> _provider;
     
     static Model? _options;
     public static IRegionalConfiguration? RegionalConfiguration { get; set; }
+    public static Country[] Countries => _options?.Countries ?? [];
+
     public static bool IsRfidDetectionEnabled()
     {
         return _options != default && _options.DetectionMode == DetectionMode.Rfid;
     }
+
     public static bool IsVisionDetectionEnabled()
     {
         return _options != default && _options.DetectionMode == DetectionMode.ComputerVision;
@@ -42,6 +44,10 @@ public class StaticOptions : IStartupInitializer, ISingletonService
         return ruleset == CompetitionRuleset.Regional && RegionalConfiguration != null;
     }
 
+    #region Instance is used in order to be initialized on Startup
+
+    readonly IStaticOptionsProvider<Model> _provider;
+
     public StaticOptions(IStaticOptionsProvider<Model> provider)
     {
         _provider = provider;
@@ -52,6 +58,8 @@ public class StaticOptions : IStartupInitializer, ISingletonService
         _options = _provider.Get();
         RegionalConfiguration = RegionalConfigurationProvider.Get(_options.SelectedCountry);
     }
+
+    #endregion
 
     public class Model
     {
