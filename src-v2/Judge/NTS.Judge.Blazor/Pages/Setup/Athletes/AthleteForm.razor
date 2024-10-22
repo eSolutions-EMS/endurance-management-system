@@ -4,6 +4,7 @@
 @using Not.Blazor.TM
 @using Not.Blazor.TM.Forms;
 @using Not.Blazor.TM.Forms.Components;
+@using Not.Blazor.TM.Models;
 
 @inherits FormTM<AthleteFormModel>;
 
@@ -17,7 +18,7 @@
 
     <MudTextField @ref="_clubField" @bind-Value="Model.Club" Label="Club" Variant="Variant.Text" Margin="Margin.Dense" />
 
-    <MudTextField @ref="_categoryField" @bind-Value="Model.Category" Label="Category" Variant="Variant.Text" Margin="Margin.Dense" />
+    <NotSelect @ref="_categoryField" T="AthleteCategory" Items="_categories" @bind-Value="Model.Category" Label="Category" />
 </EditForm>
 
 @code {
@@ -26,17 +27,18 @@
     private MudTextField<string?> _feiIdField = default!;
     private NotAutocomplete<Country?> _countryField = default!;
     private MudTextField<string?> _clubField = default!;
-    private MudTextField<string?> _categoryField = default!;
+    private NotSelect<AthleteCategory> _categoryField = default!;
 
     [Inject]
     private ICountriesContext _countries { get; set; } = default!;
+    private List<NotListModel<AthleteCategory>> _categories = NotListModel.FromEnum<AthleteCategory>().ToList();
 
     public override void RegisterValidationInjectors()
     {
         RegisterInjector(nameof(Athlete.Person), () => _nameField);
         RegisterInjector(nameof(Athlete.Country), () => _countryField);
         RegisterInjector(nameof(Athlete.Club), () => _clubField);
-        RegisterInjector(nameof(Athlete.Category), () => _categoryField);
         RegisterInjector(nameof(Athlete.FeiId), () => _feiIdField);
+        RegisterInjector(nameof(Athlete.Category), () => _categoryField);
     }
 }

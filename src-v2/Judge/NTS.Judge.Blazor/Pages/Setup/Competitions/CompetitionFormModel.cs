@@ -17,7 +17,9 @@ public class CompetitionFormModel : IFormModel<Competition>
 
     public int Id { get; set; }
     public string? Name { get; set; }
-    public CompetitionRuleset? Type { get; set; } = CompetitionRuleset.Regional;
+    public CompetitionType Type { get; set; } = CompetitionType.Qualification;
+    public CompetitionRuleset Ruleset { get; set; } = CompetitionRuleset.Regional;
+
     public DateTime? Day { get; set; } = DateTime.Now;
     public TimeSpan? Time { get; set; } = DateTime.Now.TimeOfDay;
     public bool UseCompulsoryThreshold { get; set; }
@@ -44,10 +46,9 @@ public class CompetitionFormModel : IFormModel<Competition>
         Id = competition.Id;
         Name = competition.Name;
         Type = competition.Type;
-        DateTime? startDay = competition.Start.DateTime;
-        TimeSpan? startTime = competition.Start.DateTime.TimeOfDay;
-        Day = startDay;
-        Time = startTime;
+        Day = competition.Start.DateTime;
+        Time = competition.Start.DateTime.TimeOfDay;
+        Ruleset = competition.Ruleset;
         Phases = competition.Phases;
         Participations = competition.Participations;
         CompulsoryThresholdMinutes = competition.CompulsoryThreshold?.Minutes;

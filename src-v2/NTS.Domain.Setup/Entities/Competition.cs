@@ -4,48 +4,63 @@ namespace NTS.Domain.Setup.Entities;
 
 public class Competition : DomainEntity, ISummarizable, IParent<Participation>, IParent<Phase>
 {
-    public static Competition Create(string? name, CompetitionRuleset? type, DateTimeOffset start, int? compulsoryThresholdMinutes)
-        => new(name, type, start, compulsoryThresholdMinutes);
+    public static Competition Create(
+        string? name,
+        CompetitionType? type,
+        CompetitionRuleset ruleset,
+        DateTimeOffset start,
+        int? compulsoryThresholdMinutes)
+        => new(name, type, ruleset, start, compulsoryThresholdMinutes);
 
     public static Competition Update(
         int id,
         string? name,
-        CompetitionRuleset? type,
+        CompetitionType type,
+        CompetitionRuleset? ruleset,
         DateTimeOffset start,
         int? compulsoryThresholdMinutes,
         IEnumerable<Phase> phases,
         IEnumerable<Participation> participations)
-        => new(id, name, type, start, ToTimeSpan(compulsoryThresholdMinutes), phases, participations);
+        => new(id, name, type, ruleset, start, ToTimeSpan(compulsoryThresholdMinutes), phases, participations);
 
-    List<Phase> _phases = [];
-    List<Participation> _participations = [];
+    readonly List<Phase> _phases = [];
+    readonly List<Participation> _participations = [];
 
     [JsonConstructor]
     private Competition(
         int id, 
         string? name, 
-        CompetitionRuleset? type,
+        CompetitionType? type,
+        CompetitionRuleset? ruleset,
         DateTimeOffset start,
         TimeSpan? compulsoryThresholdSpan,
         IEnumerable<Phase> phases,
         IEnumerable<Participation> participations) : base(id)
     {
-        Name = Required(nameof(Name), name);
-        Type = Required(nameof(Type), type);
-        Start = start;
-        CompulsoryThreshold = compulsoryThresholdSpan;
         _phases = phases.ToList();
         _participations = participations.ToList();
+        Name = Required(nameof(Name), name);
+        Type = Required(nameof(Type), type);
+        Ruleset = Required(nameof(Ruleset), ruleset);
+        Start = start;
+        CompulsoryThreshold = compulsoryThresholdSpan;
     }
 
-    private Competition(string? name, CompetitionRuleset? type, DateTimeOffset start, int? compulsoryThresholdMinutes) : this(
-        GenerateId(),
-        name,
-        type,
-        IsFutureTime(nameof(Start), start),
-        ToTimeSpan(compulsoryThresholdMinutes),
-        [],
-        [])
+    private Competition(
+        string? name,
+        CompetitionType? type,
+        CompetitionRuleset ruleset,
+        DateTimeOffset start,
+        int? compulsoryThresholdMinutes)
+            : this(
+                GenerateId(),
+                name,
+                type,
+                ruleset,
+                IsFutureTime(nameof(Start), start),
+                ToTimeSpan(compulsoryThresholdMinutes),
+                [],
+                [])
     {
     }
 
@@ -64,7 +79,8 @@ public class Competition : DomainEntity, ISummarizable, IParent<Participation>, 
     }
 
     public string Name { get; }
-    public CompetitionRuleset Type { get; }
+    public CompetitionType Type { get; }
+    public CompetitionRuleset Ruleset { get; }
 	public DateTimeOffset Start { get; }
     public TimeSpan? CompulsoryThreshold { get; }
     public IReadOnlyList<Phase> Phases => _phases.AsReadOnly();
@@ -88,6 +104,7 @@ public class Competition : DomainEntity, ISummarizable, IParent<Participation>, 
 
     public void Add(Participation child)
     {
+        child.SetSpeedLimits(Type);
         _participations.Add(child);
     }
 

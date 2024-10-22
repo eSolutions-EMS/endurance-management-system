@@ -1,9 +1,12 @@
 ﻿using Not.Application.Ports.CRUD;
 using Not.Domain;
-using Not.Notifier;
 using Not.Safe;
 using NTS.Domain.Core.Entities;
+using NTS.Domain.Enums;
 using NTS.Judge.Blazor.Ports;
+using Official = NTS.Domain.Core.Entities.Official;
+using NTS.Judge.Factories;
+using NTS.Domain.Core.Entities.ParticipationAggregate;
 
 namespace NTS.Judge.Adapters.Behinds;
 
@@ -13,52 +16,69 @@ public class DashboardBehind : IDashboardBehind
     private readonly IRepository<EnduranceEvent> _coreEventRespository;
     private readonly IRepository<Official> _coreOfficialRepository;
     private readonly IRepository<Participation> _participationRepository;
+    private readonly IRepository<Ranking> _rankingRepository;
 
     public DashboardBehind(
         IRepository<Domain.Setup.Entities.EnduranceEvent> setupRepository,
         IRepository<EnduranceEvent> coreEventRespository,
         IRepository<Official> coreOfficialRepository,
-        IRepository<Participation> participationRepository)
+        IRepository<Participation> participationRepository,
+        IRepository<Ranking> rankingRepository)
     {
         _setupRepository = setupRepository;
         _coreEventRespository = coreEventRespository;
         _coreOfficialRepository = coreOfficialRepository;
         _participationRepository = participationRepository;
+        _rankingRepository = rankingRepository;
     }
-    
+
     async Task SafeStart()
     {
         var setupEvent = await _setupRepository.Read(0);
         if (setupEvent == null)
         {
             // TODO: Create ValidationException containing localization logic and inherit form it in DomainException. Use that here instead
-            throw new DomainException("Cannot start - event is not configured");
+            throw new DomainException("Cannot start - Event is not configured");
         }
         await CreateEvent(setupEvent);
         await CreateOfficials(setupEvent.Officials);
+        await CreateParticipationsAndRankings(setupEvent);
     }
 
     async Task CreateEvent(Domain.Setup.Entities.EnduranceEvent setupEvent)
     {
-        if (!setupEvent.Competitions.Any())
-        {
-            NotifyHelper.Warn("Cannot start Endurance event: there are no competitions configured");
-            return;
-        }
-        var competitionStartTimes = setupEvent.Competitions.Select(x => x.Start);
-        var startDate = competitionStartTimes.First();
-        var endDate = competitionStartTimes.Last();
-
-        var enduranceEvent = new EnduranceEvent(setupEvent.Country, setupEvent.Place, "", startDate, endDate, null, null, null); // TODO: fix city and place
-        await _coreEventRespository.Create(enduranceEvent);
+        var @event = CoreFactory.CreateEvent(setupEvent);
+        await _coreEventRespository.Create(@event);
     }
 
     async Task CreateOfficials(IEnumerable<Domain.Setup.Entities.Official> setupOfficials)
     {
         foreach (var setupOfficial in setupOfficials)
         {
-            var official = new Official(setupOfficial.Person, setupOfficial.Role);
+            var official = CoreFactory.CreateOfficial(setupOfficial);
             await _coreOfficialRepository.Create(official);
+        }
+    }
+
+    async Task CreateParticipationsAndRankings(Domain.Setup.Entities.EnduranceEvent setupEvent) 
+    {
+        foreach (var competition in setupEvent.Competitions)
+        {
+            var (participations, rankingEntriesByCategory) = CoreFactory.CreateParticipationAndRankingEntries(competition);
+            foreach (var participation in participations) 
+            { 
+                await _participationRepository.Create(participation);
+            }
+            await CreateRankings(new Competition(competition.Name, competition.Ruleset), rankingEntriesByCategory);
+        }      
+    }
+
+    async Task CreateRankings(Competition competition, Dictionary<AthleteCategory, List<RankingEntry>> rankingEntriesByCategory)
+    {
+        foreach(var relation in rankingEntriesByCategory)
+        {
+            var ranking = CoreFactory.CreateRanking(competition, relation.Key, relation.Value);
+            await _rankingRepository.Create(ranking);
         }
     }
 
