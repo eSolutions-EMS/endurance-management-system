@@ -6,19 +6,19 @@ namespace NTS.Domain.Core.Configuration;
 
 public class StaticOptions : IStartupInitializer, ISingletonService
 {
-    
-    static Model? _options;
-    public static IRegionalConfiguration? RegionalConfiguration { get; set; }
-    public static Country[] Countries => _options?.Countries ?? [];
+    public static IRegionalConfiguration? RegionalConfiguration { get; private set; }
+    public static Country[] Countries { get; private set; } = [];
+    public static Country? SelectedCountry { get; private set; }
+    public static DetectionMode? Detection { get; private set; }
 
     public static bool IsRfidDetectionEnabled()
     {
-        return _options != default && _options.DetectionMode == DetectionMode.Rfid;
+        return Detection != default && Detection == DetectionMode.Rfid;
     }
 
     public static bool IsVisionDetectionEnabled()
     {
-        return _options != default && _options.DetectionMode == DetectionMode.ComputerVision;
+        return Detection != default && Detection == DetectionMode.ComputerVision;
     }
 
     public static bool ShouldOnlyUseAverageLoopSpeed(CompetitionRuleset ruleset)
@@ -55,8 +55,10 @@ public class StaticOptions : IStartupInitializer, ISingletonService
 
     public void RunAtStartup()
     {
-        _options = _provider.Get();
-        RegionalConfiguration = RegionalConfigurationProvider.Get(_options.SelectedCountry);
+        var options = _provider.Get();
+        SelectedCountry = options.SelectedCountry;
+        RegionalConfiguration = RegionalConfigurationProvider.Get(options.SelectedCountry);
+        Detection = options.DetectionMode;
     }
 
     #endregion
