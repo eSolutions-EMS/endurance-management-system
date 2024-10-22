@@ -87,8 +87,7 @@ public class Competition : DomainEntity, ISummarizable, IParent<Contestant>, IPa
 
     public void Add(Contestant child)
     {
-        var competitionType = Type;
-        child.SetSpeedLimits(competitionType);
+        child.SetSpeedLimits(Type);
         _contestants.Add(child);
     }
 

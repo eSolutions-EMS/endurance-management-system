@@ -5,7 +5,6 @@ namespace NTS.Domain.Core.Aggregates.Participations;
 // TODO: probably shoudl be a record
 public class Tandem : DomainEntity
 {
-    // TODO: implement Dependency Inversion for Setup and implement MinAverageSpeed, MaxAverageSpeed logic there
     private decimal _distance;
 
     private Tandem(int id) : base(id)

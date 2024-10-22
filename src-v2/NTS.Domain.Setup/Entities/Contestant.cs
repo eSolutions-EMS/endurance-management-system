@@ -46,8 +46,7 @@ public class Contestant : DomainEntity, ISummarizable
     public double? MinAverageSpeed { get; private set; }
     public double? MaxAverageSpeed {get; private set; }
 
-
-    public void SetSpeedLimits(CompetitionType competitionType)
+    internal void SetSpeedLimits(CompetitionType competitionType)
     {
         var athleteCategory = Combination.Athlete.Category;
         if (athleteCategory == AthleteCategory.Children)
@@ -64,6 +63,7 @@ public class Contestant : DomainEntity, ISummarizable
             }
             else
             {
+                // TODO: Check if children have max speed if they compete in CompetitionType == Star
                 // TODO: Use STARLEVEL_MIN_SPEED when correct value is known
                 MinAverageSpeed = null;//STARLEVEL_MIN_SPEED;
                 MaxAverageSpeed = null;
@@ -71,9 +71,10 @@ public class Contestant : DomainEntity, ISummarizable
         }
         if(MaxSpeedOverride != null)
         {
-            MaxAverageSpeed = Speed.Create(MaxSpeedOverride);
+            MaxAverageSpeed = MaxSpeedOverride;
         }
     }
+
     public IReadOnlyList<Combination> Combinations
     {
         get => _combinations.AsReadOnly();
