@@ -28,18 +28,18 @@ public class Participation : DomainEntity, ISummarizable
 
     private Participation(DateTimeOffset? startTimeOverride, bool isUnranked, Combination? combination, double? maxSpeedOverride) : this(
         GenerateId(),
-        Validate(startTimeOverride),
+        IsFutureTime(startTimeOverride),
         isUnranked,
         combination,
         maxSpeedOverride)
     {
     }
 
-    static DateTimeOffset? Validate(DateTimeOffset? startTimeOverride)
+    static DateTimeOffset? IsFutureTime(DateTimeOffset? startTimeOverride)
     {
-        if (startTimeOverride != null && startTimeOverride.Value.DateTime.CompareTo(DateTime.Today) < 0)
+        if (startTimeOverride != null && startTimeOverride.Value <= DateTimeOffset.Now)
         {
-            throw new DomainException(nameof(StartTimeOverride), "Start time cannot be in the past");
+            throw new DomainException(nameof(StartTimeOverride), "Please select future time");
         }
         return startTimeOverride;
     }
