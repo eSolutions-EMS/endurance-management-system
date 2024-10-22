@@ -20,6 +20,7 @@ public class Tandem : DomainEntity
         double? minAverageSpeedlimit,
         double? maxAverageSpeedLimit)
     {
+
         Number = number;
         Name = name;
         Horse = horse;
