@@ -7,7 +7,7 @@
 
 <MudStack Class="ma-5">
     <MudButton Color="Color.Primary" Variant="Variant.Filled" Disabled="_enduranceEventStarted" OnClick="Start">@Localizer.Get(connectMessage)</MudButton>
-    <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="GetTags">Get Tags</MudButton>
+    <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="GetStatus">Get Status</MudButton>
     <MudButton Color="Color.Primary" Variant="Variant.Filled" OnClick="Stop">@Localizer.Get("Stop Reading")</MudButton>
 </MudStack>
 
@@ -21,20 +21,26 @@
 
     public void Start()
     {
-        _reader.StartReading(true);
+        _reader.StartReading();
     }
 
-    public void GetTags()
+    public void GetStatus()
     {
-        var snapshots = _reader.ProcessTags();
-        foreach(var snapshot in snapshots)
+        const string messageBegin = "Rfid Device ";
+        var disconnectMessage = "not connected";
+        var readingMessage = _reader.IsReading() ? "continuosly detecting tags" : "isn't detecting tags";
+        if (_reader.IsConnected())
         {
-            NotifyHelper.Inform("Tag Detected: " + snapshot.Number + " at " + snapshot.Timestamp);
+            NotifyHelper.Inform(messageBegin+readingMessage);
+        }
+        else
+        {
+            NotifyHelper.Warn(messageBegin+disconnectMessage);
         }
     }
 
     public void Stop()
     {
-        _reader.StartReading(false);
+        _reader.StopReading();
     }
 }
