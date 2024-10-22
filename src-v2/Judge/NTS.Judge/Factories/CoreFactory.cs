@@ -60,7 +60,7 @@ public class CoreFactory
         foreach (var contestant in setupCompetition.Contestants)
         {
             var combination = contestant.Combination;
-            var tandem = new Tandem(combination.Number, combination.Athlete.Person, combination.Horse.Name, competitionDistance, combination.Athlete.Country, combination.Athlete.Club, combination.Athlete.Category, setupCompetition.Type, contestant.MaxSpeedOverride);
+            var tandem = new Tandem(combination.Number, combination.Athlete.Person, combination.Horse.Name, competitionDistance, combination.Athlete.Country, combination.Athlete.Club, contestant.MinAverageSpeed, contestant.MaxAverageSpeed);
             var participation = new Participation(setupCompetition.Name, setupCompetition.Ruleset, tandem, phases);
             participations.Add(participation);
             var rankingEntry = new RankingEntry(participation, !contestant.IsUnranked);

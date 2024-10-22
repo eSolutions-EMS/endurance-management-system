@@ -4,7 +4,6 @@ namespace NTS.Domain.Setup.Entities;
 
 public class Competition : DomainEntity, ISummarizable, IParent<Contestant>, IParent<Phase>
 {
-
     public static Competition Create(string name, CompetitionRuleset ruleset, CompetitionType type, DateTimeOffset start, int? criRecovery)
         => new(name, ruleset, type, start, criRecovery);
     public static Competition Update(
@@ -88,6 +87,8 @@ public class Competition : DomainEntity, ISummarizable, IParent<Contestant>, IPa
 
     public void Add(Contestant child)
     {
+        var competitionType = Type;
+        child.SetSpeedLimits(competitionType);
         _contestants.Add(child);
     }
 

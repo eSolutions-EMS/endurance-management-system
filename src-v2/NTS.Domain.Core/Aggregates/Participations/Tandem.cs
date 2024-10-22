@@ -6,11 +6,6 @@ namespace NTS.Domain.Core.Aggregates.Participations;
 public class Tandem : DomainEntity
 {
     // TODO: implement Dependency Inversion for Setup and implement MinAverageSpeed, MaxAverageSpeed logic there
-    const double CHILDREN_MIN_SPEED = 8;
-    const double CHILDREN_MAX_SPEED = 12;
-    const double QUALIFICATION_MIN_SPEED = 10;
-    const double QUALIFICATION_MAX_SPEED = 16;
-    //const double STARLEVEL_MAX_SPEED = 33;
     private decimal _distance;
 
     private Tandem(int id) : base(id)
@@ -23,9 +18,8 @@ public class Tandem : DomainEntity
         decimal distance,
         Country? country,
         Club? club,
-        AthleteCategory? athleteCategory,
-        CompetitionType? competitionType,
-        double? maxSpeedOverride)
+        double? minAverageSpeedlimit,
+        double? maxAverageSpeedLimit)
     {
 
         Number = number;
@@ -34,25 +28,8 @@ public class Tandem : DomainEntity
         _distance = distance;
         Country = country;
         Club = club;
-        if (athleteCategory == AthleteCategory.Children)
-        {
-            MinAverageSpeed = Speed.Create(CHILDREN_MIN_SPEED);
-            MaxAverageSpeed = Speed.Create(CHILDREN_MAX_SPEED);
-        }
-        else
-        {
-            if (competitionType == CompetitionType.Qualification)
-            {
-                MinAverageSpeed = Speed.Create(QUALIFICATION_MIN_SPEED);
-                MaxAverageSpeed = Speed.Create(QUALIFICATION_MAX_SPEED);
-            }
-            else
-            {
-                MinAverageSpeed = null; // check rules for param value Speed.Create(STARLEVEL_MAX_SPEED);
-                MaxAverageSpeed = null;
-            }
-        }
-        MaxAverageSpeed = maxSpeedOverride == null ? MaxAverageSpeed : Speed.Create(maxSpeedOverride);
+        MinAverageSpeed = Speed.Create(minAverageSpeedlimit);
+        MaxAverageSpeed = Speed.Create(maxAverageSpeedLimit);
     }
 
     public int Number { get; private set; }
