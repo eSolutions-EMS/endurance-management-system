@@ -13,13 +13,13 @@ public class AthleteFactory
         var athleteState = new EmsAthleteState
         {
             Category = EmsCategory.Seniors, //TODO: after athlete
-            Club = participation.Tandem.Club?.ToString(),
+            Club = participation.Combination.Club?.ToString(),
             FeiId = "", //TODO: after athlete
-            FirstName = participation.Tandem.Name.ToString().Split().First(),
-            LastName = participation.Tandem.Name.ToString().Split().Last(),
-            Id = participation.Tandem.Id,
+            FirstName = participation.Combination.Name.ToString().Split().First(),
+            LastName = participation.Combination.Name.ToString().Split().Last(),
+            Id = participation.Combination.Id,
         };
-        var country = new EmsCountry(participation.Tandem.Country?.IsoCode ?? "iso", participation.Tandem.Country?.Name ?? "country-name", 1337);
+        var country = new EmsCountry(participation.Combination.Country?.IsoCode ?? "iso", participation.Combination.Country?.Name ?? "country-name", 1337);
         return new EmsAthlete(athleteState, country);
     }
 }

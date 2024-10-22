@@ -96,7 +96,7 @@ public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, 
         {
             foreach (var entry in entries)
             {
-                var participation = await _participations.Read(x => x.Tandem.Number == int.Parse(entry.Number));
+                var participation = await _participations.Read(x => x.Combination.Number == int.Parse(entry.Number));
                 if (participation == null)
                 {
                     continue;

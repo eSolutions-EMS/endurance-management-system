@@ -19,7 +19,7 @@
                 <MudDivider /> 
                 @foreach (var participation in participations)
                 {
-                    var number = participation.Tandem.Number;
+                    var number = participation.Combination.Number;
                     var color = participation.IsEliminated() ? Color.Error : Color.Primary;
                     <MudChip Text="@number.ToString()" Value="@participation" Color="@color" Style="min-width: 1rem" />
                 }
@@ -27,7 +27,7 @@
         </MudChipSet>
     </MudItem>
     <MudItem xs="9">
-        <ParticipationTable Number="_behind.SelectedParticipation!.Tandem.Number" Phases="_behind.SelectedParticipation!.Phases" />
+        <ParticipationTable Number="_behind.SelectedParticipation!.Combination.Number" Phases="_behind.SelectedParticipation!.Phases" />
     </MudItem>
 </MudGrid>
 
@@ -47,7 +47,7 @@
         _participationsByDistance = _behind
             .Participations
             .GroupBy(x => x.Phases.Distance)
-            .Select(x => (x.Key, x.OrderBy(y => y.Tandem.Number)))
+            .Select(x => (x.Key, x.OrderBy(y => y.Combination.Number)))
             .OrderBy(x => x.Key)
             .ToList();
     }

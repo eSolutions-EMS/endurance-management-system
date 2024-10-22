@@ -75,7 +75,7 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind, IUpda
 
     async Task SafeProcess(Snapshot snapshot)
     {
-        var participation = Participations.FirstOrDefault(x => x.Tandem.Number == snapshot.Number);
+        var participation = Participations.FirstOrDefault(x => x.Combination.Number == snapshot.Number);
         if (participation == null)
         {
             return;

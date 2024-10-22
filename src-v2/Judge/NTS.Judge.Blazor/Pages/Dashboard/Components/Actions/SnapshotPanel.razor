@@ -45,7 +45,7 @@
         var time = DateTime.Today + inputTime;
         var timestamp = new Timestamp(time);
         var snapshot = new Snapshot(
-            _participationBehind.SelectedParticipation!.Tandem.Number,
+            _participationBehind.SelectedParticipation!.Combination.Number,
            SnapshotType.Automatic,
            SnapshotMethod.Manual,
            timestamp);

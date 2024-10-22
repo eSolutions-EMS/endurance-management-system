@@ -17,25 +17,25 @@ public class Participation : DomainEntity, IAggregateRoot
     private static readonly FailedToQualify SPEED_RESTRICTION = new([FtqCode.SP]);
 
     [JsonConstructor]
-    private Participation(int id, Competition competition, Tandem tandem, PhaseCollection phases, Eliminated? notQualified) : base(id)
+    private Participation(int id, Competition competition, Combination combination, PhaseCollection phases, Eliminated? notQualified) : base(id)
     {
         Competition = competition;
-        Tandem = tandem;
+        Combination = combination;
         Phases = phases;
         Eliminated = notQualified;
     }
-    public Participation(string competitionName, CompetitionRuleset ruleset, Tandem tandem, IEnumerable<Phase> phases)
+    public Participation(string competitionName, CompetitionRuleset ruleset, Combination combination, IEnumerable<Phase> phases)
         : this(
               GenerateId(),
               new(competitionName, ruleset),
-              tandem,
+              combination,
               new(phases),
               null)
     {
     }
 
     public Competition Competition { get; }
-    public Tandem Tandem { get; }
+    public Combination Combination { get; }
     public PhaseCollection Phases { get; }
     public Eliminated? Eliminated { get; private set; } 
 
@@ -60,7 +60,7 @@ public class Participation : DomainEntity, IAggregateRoot
 
     public override string ToString()
     {
-        var result = $"{Tandem}, {Phases}";
+        var result = $"{Combination}, {Phases}";
         if (Eliminated != null)
         {
             result += $", {Eliminated}";
@@ -145,7 +145,7 @@ public class Participation : DomainEntity, IAggregateRoot
             Eliminate(OUT_OF_TIME);
             return;
         }
-        if (phase.ViolatesSpeedRestriction(Tandem.MinAverageSpeed, Tandem.MaxAverageSpeed))
+        if (phase.ViolatesSpeedRestriction(Combination.MinAverageSpeed, Combination.MaxAverageSpeed))
         {
             Eliminate(SPEED_RESTRICTION);
             return;

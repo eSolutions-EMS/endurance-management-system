@@ -28,10 +28,10 @@
         <Two>
             <MudStack>
                 <MudItem>
-                    <MudText><strong>@_tandem.Number</strong> @_tandem.Name</MudText>
+                    <MudText><strong>@_combination.Number</strong> @_combination.Name</MudText>
                 </MudItem>
                 <MudItem>
-                    <MudText>@_tandem.Horse</MudText>
+                    <MudText>@_combination.Horse</MudText>
                 </MudItem>
             </MudStack>
         </Two>
@@ -58,14 +58,14 @@
     </RanklistTableFrame>
     <MudCollapse Expanded="_expanded">
         <MudDivider />
-        <ParticipationTable Phases="_phases" />
+        <ParticipationTable Number="_combination.Number" Phases="_phases" />
     </MudCollapse>
 }
 
 @code {
     private bool _expanded;
     private PhaseCollection _phases = default!;
-    private Tandem _tandem = default!;
+    private Combination _combination = default!;
     private Eliminated? _eliminated;
     private Total? _total;
     private TimeInterval? _totalInterval;
@@ -80,7 +80,7 @@
     {
         var participation = Entry.Participation;
         _phases = participation.Phases;
-        _tandem = participation.Tandem;
+        _combination = participation.Combination;
         _eliminated = participation.Eliminated;
         _total = participation.GetTotal();
         _totalInterval = _total?.RideInterval + _total?.RecoveryIntervalWithoutFinal;
