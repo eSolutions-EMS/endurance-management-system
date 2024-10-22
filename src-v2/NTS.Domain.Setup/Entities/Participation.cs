@@ -33,7 +33,6 @@ public class Participation : DomainEntity, ISummarizable
         combination,
         maxSpeedOverride)
     {
-        throw new DomainException(nameof(IsNotRanked), "test"); // TODO: remove this test shit
     }
 
     static DateTimeOffset? Validate(DateTimeOffset? startTimeOverride)
