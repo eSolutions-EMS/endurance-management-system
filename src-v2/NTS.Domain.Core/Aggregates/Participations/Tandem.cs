@@ -5,6 +5,7 @@ namespace NTS.Domain.Core.Aggregates.Participations;
 // TODO: probably shoudl be a record
 public class Tandem : DomainEntity
 {
+    // TODO: implement Dependency Inversion for Setup and implement MinAverageSpeed, MaxAverageSpeed logic there
     const double CHILDREN_MIN_SPEED = 8;
     const double CHILDREN_MAX_SPEED = 12;
     const double QUALIFICATION_MIN_SPEED = 10;
