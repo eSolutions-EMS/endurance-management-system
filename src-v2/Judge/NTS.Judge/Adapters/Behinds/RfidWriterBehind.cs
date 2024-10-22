@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace NTS.Judge.Adapters.Behinds;
 
-public class RfidTagWriterBehind : IRfidTagWriterBehind
+public class RfidWriterBehind : IRfidWriterBehind
 {
     private VupVD67Controller VD67Controller;
 
-    public RfidTagWriterBehind()
+    public RfidWriterBehind()
     {
         VD67Controller = new VupVD67Controller(TimeSpan.FromMilliseconds(100));
     }

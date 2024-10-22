@@ -11,13 +11,13 @@ using static MudBlazor.CategoryTypes;
 
 namespace NTS.Judge.Adapters.Behinds;
 
-public class RfidTagReaderBehind : IRfidTagReaderBehind
+public class RfidReaderBehind : IRfidReaderBehind
 {
     private readonly ISnapshotProcessor _snapshotProcessor;
     private VupVF747pController VF747PController;
     private List<Snapshot> processedSnapshots = new List<Snapshot>();
     private Task _readTask;
-    public RfidTagReaderBehind(ISnapshotProcessor snapshotProcessor)
+    public RfidReaderBehind(ISnapshotProcessor snapshotProcessor)
     {
         VF747PController = new VupVF747pController("192.168.68.128", TimeSpan.FromMilliseconds(10));
         _snapshotProcessor = snapshotProcessor;
