@@ -5,6 +5,7 @@ using NTS.Judge.Blazor.Pages.Setup.Ports;
 using NTS.Judge.Blazor.Setup.Events;
 using NTS.Judge.Contexts;
 using Not.Application.Adapters.Behinds;
+using Not.Application.Contexts;
 
 namespace NTS.Judge.Events;
 
@@ -12,11 +13,15 @@ public class EventBehind : ObservableBehind, IEnduranceEventBehind
 {
     private readonly IRepository<EnduranceEvent> _events;
     private readonly EventParentContext _context;
+    private readonly IParentContext<Competition> _competitionsContext;
+    private readonly IParentContext<Official> _participationsContext;
 
-    public EventBehind(IRepository<EnduranceEvent> events, EventParentContext context)
+    public EventBehind(IRepository<EnduranceEvent> events, EventParentContext context, IParentContext<Competition> competitionsContext, IParentContext<Official> participationContext)
     {
         _events = events;
         _context = context;
+        _competitionsContext = competitionsContext;
+        _participationsContext = participationContext;
     }
 
     public EnduranceEventFormModel? Model { get; private set; }
@@ -44,7 +49,7 @@ public class EventBehind : ObservableBehind, IEnduranceEventBehind
 
     async Task<EnduranceEventFormModel> SafeUpdate(EnduranceEventFormModel model)
     {
-        _context.Entity = EnduranceEvent.Update(model.Id, model.Place, model.Country, model.Competitions, model.Officials);
+        _context.Entity = EnduranceEvent.Update(model.Id, model.Place, model.Country, _competitionsContext.Children, _participationsContext.Children);
         await _events.Update(_context.Entity);
         Model = model;
         EmitChange();
