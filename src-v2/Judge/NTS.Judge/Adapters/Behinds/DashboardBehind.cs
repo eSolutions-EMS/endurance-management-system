@@ -4,7 +4,6 @@ using Not.Safe;
 using NTS.Domain.Core.Entities;
 using NTS.Domain.Enums;
 using NTS.Judge.Blazor.Ports;
-using Official = NTS.Domain.Core.Entities.Official;
 using NTS.Judge.Factories;
 using NTS.Domain.Core.Entities.ParticipationAggregate;
 
@@ -43,6 +42,11 @@ public class DashboardBehind : IDashboardBehind
         await CreateEvent(setupEvent);
         await CreateOfficials(setupEvent.Officials);
         await CreateParticipationsAndRankings(setupEvent);
+    }
+
+    async Task<bool> SafeIsEnduranceEventStarted()
+    {
+        return await _coreEventRespository.Read(0) != null;
     }
 
     async Task CreateEvent(Domain.Setup.Entities.EnduranceEvent setupEvent)
@@ -87,6 +91,11 @@ public class DashboardBehind : IDashboardBehind
     public Task Start()
     {
         return SafeHelper.Run(SafeStart);
+    }
+
+    public Task<bool> IsEnduranceEventStarted()
+    {
+        return SafeHelper.Run(SafeIsEnduranceEventStarted);
     }
 
     #endregion
