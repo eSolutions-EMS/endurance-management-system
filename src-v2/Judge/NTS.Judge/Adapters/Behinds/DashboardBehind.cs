@@ -47,6 +47,11 @@ public class DashboardBehind : IDashboardBehind
         await CreateParticipationsAndRankings(setupEvent);
     }
 
+    async Task<bool> SafeIsEnduranceEventStarted()
+    {
+        return await _coreEventRespository.Read(0) != null;
+    }
+
     async Task CreateEvent(Domain.Setup.Entities.Event setupEvent)
     {
         var @event = CoreFactory.CreateEvent(setupEvent);
@@ -90,6 +95,11 @@ public class DashboardBehind : IDashboardBehind
     public Task Start()
     {
         return SafeHelper.Run(SafeStart);
+    }
+
+    public Task<bool> IsEnduranceEventStarted()
+    {
+        return SafeHelper.Run(SafeIsEnduranceEventStarted);
     }
 
     #endregion

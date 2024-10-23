@@ -1,0 +1,36 @@
+﻿@using NTS.Domain.Objects
+@using NTS.Judge.Blazor.Pages.EnduranceEventState
+@using NTS.Judge.Blazor.Ports;
+@using Not.Blazor.TM
+@using Not.Notifier
+
+@inherits NotComponent
+
+<MudStack Class="ma-6">
+    @if (!_enduranceEventStarted)
+    {
+        <EnduranceEventStartButton StartMethod="Start"></EnduranceEventStartButton>
+    }
+    else
+    {
+        <RfidDetectionPanel EnduranceEventStarted="_enduranceEventStarted"></RfidDetectionPanel>
+    }
+</MudStack>
+
+@code {
+    [Inject]
+    private IDashboardBehind _dashboardBehind { get; set; } = default!;
+    bool _enduranceEventStarted;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _enduranceEventStarted = await _dashboardBehind.IsEnduranceEventStarted();
+    }
+
+    public async void Start()
+    {
+        await _dashboardBehind.Start();
+        _enduranceEventStarted = await _dashboardBehind.IsEnduranceEventStarted();
+        await InvokeAsync(StateHasChanged);
+    }
+}
