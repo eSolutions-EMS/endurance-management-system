@@ -26,10 +26,12 @@ public class RfidReaderBehind : IRfidReaderBehind
 
     public void StartReading()
     {
-        _readTask = Task.Run(VF747PController.StartReading);
-        VF747PController.OnRead += ProcessDetectedTags;
+        if(!VF747PController.IsConnected || !VF747PController.IsReading)
+        {
+            _readTask = Task.Run(VF747PController.StartReading);
+            VF747PController.OnRead += ProcessDetectedTags;
+        }
     }
-
     public void StopReading()
     {
         VF747PController.StopReading();
@@ -56,18 +58,8 @@ public class RfidReaderBehind : IRfidReaderBehind
         NotifyHelper.Inform("Processed: " + snapshot.ToString());
     }
 
-    public void NotifyStatus()
+    public bool IsConnected()
     {
-        const string deviceName = "Rfid Device ";
-        const string disconnectMessage = "not connected";
-        var readingMessage = VF747PController.IsReading ? "continuosly detecting tags" : "isn't detecting tags";
-        if (VF747PController.IsConnected)
-        {
-            NotifyHelper.Inform(deviceName + readingMessage);
-        }
-        else
-        {
-            NotifyHelper.Warn(deviceName + disconnectMessage);
-        }
+        return VF747PController.IsReading && VF747PController.IsConnected;
     }
 }

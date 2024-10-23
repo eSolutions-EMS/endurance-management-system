@@ -7,5 +7,5 @@ public interface IRfidReaderBehind : ISingletonService
 {
     void StartReading();
     void StopReading();
-    void NotifyStatus();
+    bool IsConnected();
 }
