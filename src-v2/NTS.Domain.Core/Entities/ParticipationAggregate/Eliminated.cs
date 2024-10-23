@@ -8,12 +8,22 @@ public record Withdrawn : Eliminated
     public Withdrawn() : base(WITHDRAWN)
     {
     }
+
+    public override string ToString()
+    {
+        return base.ToString();
+    }
 }
 
 public record Retired : Eliminated
 {
     public Retired() : base(RETIRED)
     {
+    }
+
+    public override string ToString()
+    {
+        return base.ToString();
     }
 }
 
@@ -22,12 +32,22 @@ public record Disqualified : Eliminated
     public Disqualified(string complement) : base(DISQUALIFIED, complement)
     {
     }
+
+    public override string ToString()
+    {
+        return base.ToString();
+    }
 }
 
 public record FinishedNotRanked : Eliminated
 {
     public FinishedNotRanked(string complement) : base(FINISHED_NOT_RANKED, complement)
     {
+    }
+
+    public override string ToString()
+    {
+        return base.ToString();
     }
 }
 
