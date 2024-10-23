@@ -50,6 +50,7 @@ public class CoreFactory
             { AthleteCategory.JuniorOrYoungAdult, new List<RankingEntry>() },
             { AthleteCategory.Training, new List<RankingEntry>() }
         };
+        DateTimeOffset? startTime = setupCompetition.Start;
         foreach (var phase in setupPhases)
         {
             var corePhase = new Phase(
@@ -58,7 +59,9 @@ public class CoreFactory
                 phase.Rest,
                 setupCompetition.Ruleset,
                 setupPhases.Last() == phase,
-                setupCompetition.CompulsoryThresholdSpan);
+                setupCompetition.CompulsoryThresholdSpan,
+                startTime);
+            startTime = null; //Set only first phase StartTime
             phases.Add(corePhase);
             competitionDistance += (decimal)phase.Loop!.Distance;
         }

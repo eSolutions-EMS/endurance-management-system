@@ -20,7 +20,7 @@ public class Phase : DomainEntity
         bool isRequiredInspectionRequested,
         bool isCompulsoryRequiredInspectionRequested)
     {
-        var phase = new Phase(length, maxRecovery, rest, competitionType, isFinal, compulsoryThreshold);
+        var phase = new Phase(length, maxRecovery, rest, competitionType, isFinal, compulsoryThreshold, startTimestamp.DateTime);
 
         phase.StartTime = startTimestamp;
         if (arriveTime != null)
@@ -87,7 +87,8 @@ public class Phase : DomainEntity
         int? rest,
         CompetitionRuleset competitionRuleset,
         bool isFinal,
-        TimeSpan? compulsoryThresholdSpan)
+        TimeSpan? compulsoryThresholdSpan,
+        DateTimeOffset? startTime)
         : this(
               GenerateId(),
               "",
@@ -97,7 +98,7 @@ public class Phase : DomainEntity
               competitionRuleset,
               isFinal,
               compulsoryThresholdSpan,
-              null,
+              Timestamp.Create(startTime),
               null,
               null,
               null,
