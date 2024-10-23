@@ -34,10 +34,10 @@ public record FinishedNotRanked : Eliminated
 public record FailedToQualify : Eliminated
 {
     [JsonConstructor]
-    public FailedToQualify(FtqCode[] codes, string? complement) : base(FAILED_TO_QUALIFY)
+    public FailedToQualify(FtqCode[] ftqCodes, string? complement) : base(FAILED_TO_QUALIFY)
     {
-        PreventInvalidFTC(codes, complement);
-        FtqCodes = codes;
+        PreventInvalidFTC(ftqCodes, complement);
+        FtqCodes = ftqCodes;
         Complement = complement; // Doesn't use base ctor with complement, because it is not required here
     }
     public FailedToQualify(FtqCode[] codes) : this(IsNotEmpty(codes), null)
