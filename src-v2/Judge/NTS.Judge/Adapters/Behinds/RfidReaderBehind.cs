@@ -16,22 +16,12 @@ public class RfidReaderBehind : IRfidReaderBehind
 {
     private readonly ISnapshotProcessor _snapshotProcessor;
     private VupVF747pController VF747PController;
-    private List<Snapshot> processedSnapshots = new List<Snapshot>();
+    private Dictionary<int, Timestamp> _deduplication;
     private Task _readTask;
     public RfidReaderBehind(ISnapshotProcessor snapshotProcessor)
     {
         VF747PController = new VupVF747pController("192.168.68.128", TimeSpan.FromMilliseconds(10));
         _snapshotProcessor = snapshotProcessor;
-    }
-
-    public bool IsConnected()
-    {
-        return VF747PController.IsConnected;
-    }
-
-    public bool IsReading()
-    {
-        return VF747PController.IsReading;
     }
 
     public void StartReading()
@@ -42,7 +32,7 @@ public class RfidReaderBehind : IRfidReaderBehind
 
     public void StopReading()
     {
-        //_readTask..Dispose();
+        VF747PController.StopReading();
         VF747PController.OnRead -= ProcessDetectedTags;
     }
 
@@ -50,23 +40,14 @@ public class RfidReaderBehind : IRfidReaderBehind
     {
         var number = int.Parse(e.data.Substring(0, 3));
         var timestamp = new Timestamp(e.timestamp);
-        var snapshot = processedSnapshots.Find(s => s.Number == number);
-        if(snapshot == null)
-        {   
-            snapshot = new Snapshot(number, StaticOptions.GetRfidSnapshotType(), SnapshotMethod.RFID, timestamp);
-            processedSnapshots.Add(snapshot);
-            Process(snapshot);
-        }
-        else
-        {
-            var now = DateTime.Now;
-            if ((now - snapshot!.Timestamp.DateTime) >= TimeSpan.FromSeconds(30))
-            {
-                snapshot.Timestamp = timestamp;
-                Process(snapshot);
-            }
-        }
 
+        if (_deduplication.ContainsKey(number) && _deduplication[number] + TimeSpan.FromSeconds(30) < DateTimeOffset.Now)
+        {
+            return;
+        }
+        _deduplication[number] = timestamp;
+        var snapshot = new Snapshot(number, StaticOptions.GetRfidSnapshotType(), SnapshotMethod.RFID, timestamp);
+        Process(snapshot);
     }
 
     async void Process(Snapshot snapshot)
@@ -79,10 +60,9 @@ public class RfidReaderBehind : IRfidReaderBehind
     {
         const string deviceName = "Rfid Device ";
         const string disconnectMessage = "not connected";
-        string readingMessage;
-        if (IsConnected())
+        var readingMessage = VF747PController.IsReading ? "continuosly detecting tags" : "isn't detecting tags";
+        if (VF747PController.IsConnected)
         {
-            readingMessage = IsReading() ? "continuosly detecting tags" : "isn't detecting tags";
             NotifyHelper.Inform(deviceName + readingMessage);
         }
         else
