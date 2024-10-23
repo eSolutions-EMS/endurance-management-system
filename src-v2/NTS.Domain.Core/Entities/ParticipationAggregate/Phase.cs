@@ -275,7 +275,7 @@ public class Phase : DomainEntity
         {
             return Arrive(snapshot);
         }
-        if (VetTime == null)
+        if (PresentTime == null || RepresentTime == null)
         {
             return Inspect(snapshot);
         }
