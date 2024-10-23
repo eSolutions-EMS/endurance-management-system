@@ -1,6 +1,7 @@
 ﻿@using NTS.Judge.Blazor.Pages.Dashboard.Ranklist
 @using NTS.Judge.Blazor.Ports
 @using Not.Blazor.Print
+@using Not.Blazor.TM
 @using Not.Blazor.TM.Pages
 
 @attribute [Route(RANKLIST_PAGE)]
@@ -14,6 +15,7 @@
     </Main>
 
     <Rightbar>
+        <TextDividerTM Text="Export" />
         <NotButtonPrint OnClick="OpenPrintDialog" Class="mb-4" />
 
         <RankingMenu />

@@ -1,4 +1,4 @@
-﻿@using NTS.Domain.Core.Aggregates.Participations
+﻿@using NTS.Domain.Core.Entities.ParticipationAggregate
 @using NTS.Domain.Objects
 @using NTS.Judge.Blazor.Enums
 @using NTS.Judge.Blazor.Pages.Dashboard.Components.Actions.EliminationForms.Components
@@ -11,7 +11,7 @@
     <MudSelect @bind-SelectedValues="@_codes" MultiSelection="true" Delimiter="+" Class="mt-4"
         Label="@Localizer.Get("Failed to Qualify Reason")" Placeholder="@Localizer.Get("Select a reason")">
     
-        @foreach (var ftqCode in SelectListModel.FromEnum<FTQCodes>())
+        @foreach (var ftqCode in SelectListModel.FromEnum<FtqCode>())
         {
              <MudTooltip Text="@ftqCode.Description" Inline="false" RootStyle="width:inherit;">
                 <MudSelectItem Value="@ftqCode.Value">
@@ -22,7 +22,7 @@
         }
     </MudSelect>
 
-    <MudCollapse Expanded="_codes.Contains(FTQCodes.FTC)">
+    <MudCollapse Expanded="_codes.Contains(FtqCode.FTC)">
         <EliminationFormReason @bind-Value="_reason" />
     </MudCollapse>
 
@@ -30,7 +30,7 @@
 </MudPaper>
 
 @code {
-    IEnumerable<FTQCodes> _codes { get; set; } = [];
+    IEnumerable<FtqCode> _codes { get; set; } = [];
     string? _reason;
 
     [Parameter]
@@ -40,13 +40,13 @@
     {
         if (FailedToQualify != null)
         {
-            _codes = FailedToQualify.Codes.ToList();
+            _codes = FailedToQualify.FtqCodes.ToList();
             _reason = FailedToQualify.Complement;
         }
     }
 
     internal override async Task Eliminate()
     {
-        await _participationBehind.FailToQualify(_reason, _codes.ToArray());
+        await _participationBehind.FailToQualify(_codes.ToArray(), _reason);
     }
 }

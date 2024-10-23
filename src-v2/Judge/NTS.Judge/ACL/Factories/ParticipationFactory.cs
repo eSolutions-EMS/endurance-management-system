@@ -1,14 +1,13 @@
 ﻿using NTS.Compatibility.EMS.Entities.Participants;
-using NTS.Domain.Core.Aggregates.Participations;
+using NTS.Domain.Core.Entities.ParticipationAggregate;
 using NTS.Domain.Objects;
 using NTS.Judge.ACL.Bridge;
 using EmsParticipation = NTS.Compatibility.EMS.Entities.Participations.EmsParticipation;
 using EmsCompetition = NTS.Compatibility.EMS.Entities.Competitions.EmsCompetition;
-using EmsCompetitionType = NTS.Compatibility.EMS.Entities.Competitions.EmsCompetitionType;
-using NTS.Domain.Enums;
 using NTS.Domain;
 using NTS.Compatibility.EMS.Entities.Results;
 using NTS.Compatibility.EMS.Entities.LapRecords;
+using NTS.Domain.Core.Entities;
 
 namespace NTS.Judge.ACL.Factories;
 
@@ -21,8 +20,8 @@ public class ParticipationFactory
         
         var state = new EmsParticipantState
         {
-            Number = participation.Tandem.Number.ToString(),
-            MaxAverageSpeedInKmPh = (int)participation.Tandem.MinAverageSpeed!,
+            Number = participation.Combination.Number.ToString(),
+            MaxAverageSpeedInKmPh = (int)participation.Combination.MinAverageSpeed!,
             Unranked = true // TODO: fix when Unranked is added on Unranked level
         };
         var emsParticipant = new EmsParticipant(athlete, horse, state);
@@ -36,6 +35,9 @@ public class ParticipationFactory
                 break;
             }
             var emsRecord = new EmsLapRecord(phase.StartTime.DateTime.DateTime, emsLap);
+            emsRecord.ArrivalTime = phase.ArriveTime?.DateTime.DateTime;
+            emsRecord.InspectionTime = phase.PresentTime?.DateTime.DateTime;
+            emsRecord.ReInspectionTime = phase.RepresentTime?.DateTime.DateTime;
             emsParticipant.Add(emsRecord);
         }
         var competition = CompetitionFactory.Create(participation);
@@ -45,9 +47,9 @@ public class ParticipationFactory
 
     public static Participation CreateCore(EmsParticipation emsParticipation, EmsCompetition competition, bool adjustTime)
     {
-        var tandem = new Tandem(
+        var combination = new Combination(
             int.Parse(emsParticipation.Participant.Number),
-            new Person(emsParticipation.Participant.Athlete.Name),
+            new Person(emsParticipation.Participant.Athlete.Name.Split(" ", StringSplitOptions.RemoveEmptyEntries)),
             emsParticipation.Participant.Horse.Name,
             competition.Laps.Sum(x => (decimal)x.LengthInKm),
             null,
@@ -96,7 +98,7 @@ public class ParticipationFactory
                     reinspectTime = AdjustTime(ref previousTime, record.ReInspectionTime.Value, record.ReInspectionTime.Value - record.InspectionTime!.Value, adjustTime);
                 }
 
-                phase = new Phase(
+                phase = Phase.ImportFromEMS(
                     lap.LengthInKm,
                     lap.MaxRecoveryTimeInMins,
                     lap.RestTimeInMins,
@@ -127,10 +129,10 @@ public class ParticipationFactory
             phases.Add(phase);
         }
         var ruleset = CompetitionFactory.MapCompetitionRuleset(competition.Type);
-        var participation = new Participation(competition.Name, ruleset, tandem, phases);
+        var participation = new Participation(competition.Name, ruleset, combination, phases);
         if (finalRecord?.Result?.Type == EmsResultType.FailedToQualify)
         {
-            participation.FailToQualify(FTQCodes.GA);
+            participation.FailToQualify([ FtqCode.GA ], null);
         }
         if (finalRecord?.Result?.Type == EmsResultType.Resigned)
         {

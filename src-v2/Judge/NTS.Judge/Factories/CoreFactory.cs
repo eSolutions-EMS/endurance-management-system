@@ -1,27 +1,25 @@
 ﻿using Not.Domain;
-using NTS.Domain.Core.Aggregates.Participations;
 using NTS.Domain.Core.Entities;
+using NTS.Domain.Core.Entities.ParticipationAggregate;
 using NTS.Domain.Enums;
-using Phase = NTS.Domain.Core.Aggregates.Participations.Phase;
-using Event = NTS.Domain.Core.Entities.Event;
-using Official = NTS.Domain.Core.Entities.Official;
-using Competition = NTS.Domain.Core.Aggregates.Participations.Competition;
 
 namespace NTS.Judge.Factories;
+
 public class CoreFactory
 {
-    public static Event CreateEvent (Domain.Setup.Entities.Event setupEvent)
+    public static EnduranceEvent CreateEvent (Domain.Setup.Entities.EnduranceEvent setupEvent)
     {
         if (!setupEvent.Competitions.Any())
         {
             throw new DomainException("Cannot start - Competitions aren't configured");
         }
-        var competitionStartTimes = setupEvent.Competitions.Select(x => x.StartTime);
+        var competitionStartTimes = setupEvent.Competitions.Select(x => x.Start);
         var startDate = competitionStartTimes.First();
         var endDate = competitionStartTimes.Last();
 
-        var @event = new Event(setupEvent.Country, setupEvent.Place, "", startDate, endDate, null, null, null); // TODO: fix city and pla
-        return @event;
+        // TODO: fix city and pla
+        var enduranceEvent = new EnduranceEvent(setupEvent.Country, setupEvent.Place, "", startDate, endDate, null, null, null);
+        return enduranceEvent;
     }
 
     public static Official CreateOfficial(Domain.Setup.Entities.Official official)
@@ -30,15 +28,16 @@ public class CoreFactory
         return coreOfficial;
     }
 
-    public static (List<Participation> Participations, Dictionary<AthleteCategory, List<RankingEntry>> RankingEntriesByCategory) CreateParticipationAndRankingEntries(Domain.Setup.Entities.Competition setupCompetition)
+    public static (List<Participation> Participations, Dictionary<AthleteCategory, List<RankingEntry>> RankingEntriesByCategory)
+        CreateParticipationAndRankingEntries(Domain.Setup.Entities.Competition setupCompetition)
     {
         if (setupCompetition.Phases.Count == 0)
         {
             throw new DomainException($"Cannot start - Phases of competition {setupCompetition.Name} aren't configured");
         }
-        if ( setupCompetition.Contestants.Count == 0)
+        if (setupCompetition.Participations.Count == 0)
         {
-            throw new DomainException($"Cannot start - Contestants of competition {setupCompetition.Name} aren't configured");
+            throw new DomainException($"Cannot start - Particiaptions of competition {setupCompetition.Name} aren't configured");
         }
         var setupPhases = setupCompetition.Phases;
         var competitionDistance = 0m;
@@ -53,18 +52,33 @@ public class CoreFactory
         };
         foreach (var phase in setupPhases)
         {
-            var corePhase = new Phase(phase.Loop!.Distance, phase.Recovery, phase.Rest, setupCompetition.Ruleset, setupPhases.Last() == phase, setupCompetition.CriRecovery);
+            var corePhase = new Phase(
+                phase.Loop!.Distance,
+                phase.Recovery,
+                phase.Rest,
+                setupCompetition.Ruleset,
+                setupPhases.Last() == phase,
+                setupCompetition.CompulsoryThreshold);
             phases.Add(corePhase);
             competitionDistance += (decimal)phase.Loop!.Distance;
         }
-        foreach (var contestant in setupCompetition.Contestants)
+        foreach (var contestant in setupCompetition.Participations)
         {
-            var combination = contestant.Combination;
-            var tandem = new Tandem(combination.Number, combination.Athlete.Person, combination.Horse.Name, competitionDistance, combination.Athlete.Country, combination.Athlete.Club, contestant.MinAverageSpeed, contestant.MaxAverageSpeed);
-            var participation = new Participation(setupCompetition.Name, setupCompetition.Ruleset, tandem, phases);
+            var setupCombination = contestant.Combination;
+            var combination = new Combination(
+                setupCombination.Number,
+                setupCombination.Athlete.Person, 
+                setupCombination.Horse.Name,
+                competitionDistance,
+                setupCombination.Athlete.Country,
+                setupCombination.Athlete.Club,
+                contestant.MinAverageSpeed,
+                contestant.MaxAverageSpeed);
+            var participation = new Participation(setupCompetition.Name, setupCompetition.Ruleset, combination, phases);
+            var rankingEntry = new RankingEntry(participation, contestant.IsNotRanked);
+            
             participations.Add(participation);
-            var rankingEntry = new RankingEntry(participation, !contestant.IsUnranked);
-            rankingEntriesByCategory[combination.Athlete.Category].Add(rankingEntry);
+            rankingEntriesByCategory[setupCombination.Athlete.Category].Add(rankingEntry);
         }
         return (participations, rankingEntriesByCategory);
     }

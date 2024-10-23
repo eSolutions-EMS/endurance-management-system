@@ -5,33 +5,34 @@ namespace NTS.Domain.Setup.Entities;
 
 public class Athlete : DomainEntity, ISummarizable, IImportable
 {
-    public static Athlete Create(string name, string? feiId, Country country, string club, AthleteCategory category)
-        => new(new Person(name), feiId, country, new Club(club), category);
+    public static Athlete Create(string? name, string? feiId, Country? country, string? club, AthleteCategory? category)
+        => new(Person.Create(name), feiId, country, Club.Create(club), category);
 
-    public static Athlete Update(int id, string name, string? feiId, Country country, string club, AthleteCategory category)
-        => new(id, new Person(name), feiId, country, new Club(club), category);
+    public static Athlete Update(int id, string? name, string? feiId, Country? country, string? club, AthleteCategory? category)
+        => new(id, Person.Create(name), feiId, country, Club.Create(club), category);
+
 
     [JsonConstructor]
-    private Athlete(int id, Person person, string? feiId, Country country, Club club, AthleteCategory category)
-        : this(person, feiId, country, club, category) 
+    private Athlete(int id, Person? person, string? feiId, Country? country, Club? club, AthleteCategory? category)
     {
-        Id = id;
+        FeiId = feiId;
+        Person = Required(nameof(Person), person);
+        Country = Required(nameof(Country), country);
+        Club = Required(nameof(Club), club);
+        Category = Required(nameof(Category), category);
     }
 
     //TODO: consider Club as persisted across Events (MAUI's raw resources?)b
-    private Athlete(Person person, string? feiId, Country country, Club club, AthleteCategory category) 
+    private Athlete(Person? person, string? feiId, Country? country, Club? club, AthleteCategory? category)
+        : this(GenerateId(), person, feiId, country, club, category)
     {
-        FeiId = feiId;
-		Person = person ?? throw new DomainException(nameof(Person), "Name is required");
-		Country = country ?? throw new DomainException(nameof(Country), "Country is required");
-		Club = club ?? throw new DomainException(nameof(Club), "Club is required");
-        Category = category == default ? throw new DomainException(nameof(Category), "Category is required") : category;
 	}
 
-	public string? FeiId { get; private set; }
-	public Person Person { get; private set; }
-	public Country Country { get; private set; }
-	public Club Club { get; private set; }
+    public string? FeiId { get; }
+    public Person Person { get; }
+    public Country Country { get; }
+    public Club Club { get; }
+
     public AthleteCategory Category { get; private set; }    
 
 	public override string ToString()

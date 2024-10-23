@@ -13,11 +13,10 @@ public class NotComponent : ComponentBase
     [Parameter]
     public string? Class { get; set; }
 
-    protected async Task Observe(IObservableBehind observable)
+    protected async Task Observe(IObservableBehind observable, params IEnumerable<object> arguments)
     {
         observable.Subscribe(OnEmit);
-
-        await observable.Initialize();
+        await observable.Initialize(arguments);
         await Render();
     }
 
@@ -28,6 +27,22 @@ public class NotComponent : ComponentBase
 
     protected virtual void OnBeforeRender()
     {
+    }
+
+    protected string CombineClass(string customClass)
+    {
+        return CombineWithSpace(Class, customClass);
+    }
+
+    protected string CombineStyle(string customStyle)
+    {
+        return CombineWithSpace(Style, customStyle);
+    }
+
+    string CombineWithSpace(params string?[] values)
+    {
+        var filtered = values.Where(x => !string.IsNullOrWhiteSpace(x));
+        return string.Join(" ", filtered);
     }
 
     async Task OnEmit()

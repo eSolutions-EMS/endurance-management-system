@@ -2,103 +2,120 @@ using Newtonsoft.Json;
 
 namespace NTS.Domain.Setup.Entities;
 
-public class Competition : DomainEntity, ISummarizable, IParent<Contestant>, IParent<Phase>
+public class Competition : DomainEntity, ISummarizable, IParent<Participation>, IParent<Phase>
 {
-    public static Competition Create(string name, CompetitionRuleset ruleset, CompetitionType type, DateTimeOffset start, int? criRecovery)
-        => new(name, ruleset, type, start, criRecovery);
+    public static Competition Create(
+        string? name,
+        CompetitionType? type,
+        CompetitionRuleset ruleset,
+        DateTimeOffset start,
+        int? compulsoryThresholdMinutes)
+        => new(name, type, ruleset, start, compulsoryThresholdMinutes);
+
     public static Competition Update(
         int id,
-        string name,
-        CompetitionRuleset ruleset,
+        string? name,
         CompetitionType type,
+        CompetitionRuleset? ruleset,
         DateTimeOffset start,
-        int? criRecovery,
+        int? compulsoryThresholdMinutes,
         IEnumerable<Phase> phases,
-        IEnumerable<Contestant> contestants)
-        => new(id, name, ruleset, type, start, criRecovery, phases, contestants);
+        IEnumerable<Participation> participations)
+        => new(id, name, type, ruleset, start, ToTimeSpan(compulsoryThresholdMinutes), phases, participations);
 
-    private List<Phase> _phases = new();
-    private List<Contestant> _contestants = new();
+    readonly List<Phase> _phases = [];
+    readonly List<Participation> _participations = [];
 
     [JsonConstructor]
-    private Competition(int id) : base(id) { }
     private Competition(
         int id, 
-        string name,
-        CompetitionRuleset ruleset,
-        CompetitionType type,
-        DateTimeOffset startTime,
-        int? criRecovery,
+        string? name, 
+        CompetitionType? type,
+        CompetitionRuleset? ruleset,
+        DateTimeOffset start,
+        TimeSpan? compulsoryThresholdSpan,
         IEnumerable<Phase> phases,
-        IEnumerable<Contestant> contestants) : this(name, ruleset, type, startTime, criRecovery)
+        IEnumerable<Participation> participations) : base(id)
     {
-        Id = id;
         _phases = phases.ToList();
-        _contestants = contestants.ToList();
-    }
-    private Competition(string name, CompetitionRuleset ruleset, CompetitionType type, DateTimeOffset startTime, int? criRecovery)
-    {
-        if (type == default)
-        {
-            throw new DomainException(nameof(type), "Competition Type is required");
-        }
-        if (startTime.DateTime < DateTime.Today)
-        {
-            throw new DomainException(nameof(StartTime), "Competition date cannot be in the past");
-        }
-
-        Name = name;
-        Ruleset = ruleset;
-        Type = type;
-        StartTime = startTime;
-        CriRecovery = criRecovery;
+        _participations = participations.ToList();
+        Name = Required(nameof(Name), name);
+        Type = Required(nameof(Type), type);
+        Ruleset = Required(nameof(Ruleset), ruleset);
+        Start = start;
+        CompulsoryThreshold = compulsoryThresholdSpan;
     }
 
-    public string Name { get; private set; }
-    public CompetitionRuleset Ruleset { get; private set; }
-    public CompetitionType Type { get; private set; }
-	public DateTimeOffset StartTime { get; private set; }
-    public int? CriRecovery { get; private set; }
-    public IReadOnlyList<Phase> Phases
+    private Competition(
+        string? name,
+        CompetitionType? type,
+        CompetitionRuleset ruleset,
+        DateTimeOffset start,
+        int? compulsoryThresholdMinutes)
+            : this(
+                GenerateId(),
+                name,
+                type,
+                ruleset,
+                IsFutureTime(nameof(Start), start),
+                ToTimeSpan(compulsoryThresholdMinutes),
+                [],
+                [])
     {
-        get => _phases.AsReadOnly();
-        private set => _phases = value.ToList();
     }
-    public IReadOnlyList<Contestant> Contestants
+
+    static DateTimeOffset IsFutureTime(string field, DateTimeOffset start)
     {
-        get => _contestants.AsReadOnly();
-        private set => _contestants = value.ToList();
+        if (start <= DateTimeOffset.Now)
+        {
+            throw new DomainException(field, "Competition start cannot be in the past");
+        }
+        return start;
     }
+
+    static TimeSpan? ToTimeSpan(int? minutes)
+    {
+        return minutes != null ? TimeSpan.FromSeconds(minutes.Value) : null;
+    }
+
+    public string Name { get; }
+    public CompetitionType Type { get; }
+    public CompetitionRuleset Ruleset { get; }
+	public DateTimeOffset Start { get; }
+    public TimeSpan? CompulsoryThreshold { get; }
+    public IReadOnlyList<Phase> Phases => _phases.AsReadOnly();
+    public IReadOnlyList<Participation> Participations => _participations.AsReadOnly();
 
     public string Summarize()
 	{
 		var summary = new Summarizer(this);
 		summary.Add("phases".Localize(), _phases);
-		summary.Add("contestants".Localize(), _contestants);
+		summary.Add("contestants".Localize(), _participations);
 		return summary.ToString();
 	}
+
 	public override string ToString()
 	{
         return Combine(
-            LocalizationHelper.Get(Type),
-            $"{"phases".Localize()}: {Phases.Count}",
-            $"{"start".Localize()}: {StartTime:f}");
+            $"{Name} ({Phases.Count})",
+            Type.ToString().Localize(),
+            $"{Start:g}");
 	}
 
-    public void Add(Contestant child)
+    public void Add(Participation child)
     {
         child.SetSpeedLimits(Type);
-        _contestants.Add(child);
+        _participations.Add(child);
     }
 
-    public void Remove(Contestant child)
+    public void Remove(Participation child)
     {
-        _contestants.Remove(child);
+        _participations.Remove(child);
     }
 
-    public void Update(Contestant child)
+    public void Update(Participation child)
     {
-        _contestants.Remove(child);
+        _participations.Remove(child);
         Add(child);
     }
 

@@ -5,7 +5,7 @@ namespace Not.Blazor.TM.Models;
 public class NotListModel
 {
     public static IEnumerable<NotListModel<T>> FromEnum<T>()
-        where T : Enum
+        where T : struct, Enum
     {
         var values = Enum.GetValues(typeof(T));
         foreach (var value in values)
@@ -23,7 +23,7 @@ public class NotListModel
         }
     }
 
-    public static NotListModel<T> GetEmptyValue<T>()
+    public static NotListModel<T> Empty<T>()
     {
         return new NotListModel<T>();
     }

@@ -1,21 +1,22 @@
-﻿using Not.Localization;
-using NTS.Domain.Core.Aggregates.Participations;
+﻿using Newtonsoft.Json;
+using Not.Localization;
 
 namespace NTS.Domain.Core.Entities;
 
 public class RankingEntry : DomainEntity
 {
-    private RankingEntry(int id) : base(id)
-    {
-    }
-    public RankingEntry(Participation participation, bool isNotRanked)
+    [JsonConstructor]
+    private RankingEntry(int id, Participation participation, bool isNotRanked) : base(id)
     {
         Participation = participation;
         IsNotRanked = isNotRanked;
     }
+    public RankingEntry(Participation participation, bool isNotRanked) : this(GenerateId(), participation, isNotRanked)
+    {
+    }
 
-    public Participation Participation { get; private set; }
-    public bool IsNotRanked { get; private set; } 
+    public Participation Participation { get; }
+    public bool IsNotRanked { get; } 
 
     public override string ToString()
     {

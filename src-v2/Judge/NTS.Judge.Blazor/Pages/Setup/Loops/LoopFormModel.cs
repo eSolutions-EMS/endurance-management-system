@@ -1,19 +1,23 @@
-﻿using NTS.Domain.Setup.Entities;
+﻿using Not.Blazor.Ports;
+using NTS.Domain.Setup.Entities;
 
 namespace NTS.Judge.Blazor.Pages.Setup.Loops;
-public class LoopFormModel
+
+public class LoopFormModel : IFormModel<Loop>
 {
     public LoopFormModel()
     {
-        // mock data for testing
+#if DEBUG
         Distance = 20;
-    }
-    public LoopFormModel(Loop Loop)
-    {
-        Id = Loop.Id;
-        Distance = Loop.Distance;
+#endif
     }
 
     public int Id { get; set; }
     public double Distance { get; set; }
+
+    public void FromEntity(Loop entity)
+    {
+        Id = entity.Id;
+        Distance = entity.Distance;
+    }
 }

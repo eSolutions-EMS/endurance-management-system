@@ -8,7 +8,7 @@ public class Tag : DomainEntity, ISummarizable
         Number = number;
     }
 
-    public string TagId { get; private set; }
+    public string TagId { get; }
     public int Number { get; }
 
     public string PrepareToWrite()

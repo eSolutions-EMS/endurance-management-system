@@ -1,4 +1,4 @@
-﻿@using NTS.Domain.Core.Aggregates.Participations
+﻿@using NTS.Domain.Core.Entities.ParticipationAggregate
 @using NTS.Domain.Core.Entities
 @using NTS.Domain.Objects
 @using NTS.Judge.Blazor.Pages.Dashboard.Components
@@ -10,9 +10,9 @@
 {
     <RanklistTableFrame Class="printable">
         <One>
-            @if (_notQualified != null)
+            @if (_eliminated != null)
             {
-                <MudText Typo="Typo.caption" Class="mr-4 pl-2" Style="width: 1rem;">@_notQualified</MudText>
+                <MudText Typo="Typo.caption" Class="mr-4 pl-2" Style="width: 1rem;">@_eliminated</MudText>
                 <MudIcon Icon="@Icons.Material.TwoTone.Flag" Color="Color.Error" Size="Size.Large" />
             }
             else if (_phases.Any(x => !x.IsComplete()))
@@ -28,10 +28,10 @@
         <Two>
             <MudStack>
                 <MudItem>
-                    <MudText><strong>@_tandem.Number</strong> @_tandem.Name</MudText>
+                    <MudText><strong>@_combination.Number</strong> @_combination.Name</MudText>
                 </MudItem>
                 <MudItem>
-                    <MudText>@_tandem.Horse</MudText>
+                    <MudText>@_combination.Horse</MudText>
                 </MudItem>
             </MudStack>
         </Two>
@@ -58,15 +58,15 @@
     </RanklistTableFrame>
     <MudCollapse Expanded="_expanded">
         <MudDivider />
-        <ParticipationTable Phases="_phases" />
+        <ParticipationTable Number="_combination.Number" Phases="_phases" />
     </MudCollapse>
 }
 
 @code {
     private bool _expanded;
     private PhaseCollection _phases = default!;
-    private Tandem _tandem = default!;
-    private NotQualified? _notQualified;
+    private Combination _combination = default!;
+    private Eliminated? _eliminated;
     private Total? _total;
     private TimeInterval? _totalInterval;
     private string? _rank;
@@ -80,8 +80,8 @@
     {
         var participation = Entry.Participation;
         _phases = participation.Phases;
-        _tandem = participation.Tandem;
-        _notQualified = participation.NotQualified;
+        _combination = participation.Combination;
+        _eliminated = participation.Eliminated;
         _total = participation.GetTotal();
         _totalInterval = _total?.RideInterval + _total?.RecoveryIntervalWithoutFinal;
 
@@ -90,7 +90,7 @@
             _rank = Localizer.Get("NOT");
             return;
         }
-        if (participation.IsNotQualified())
+        if (participation.IsEliminated())
         {
             _rank = null;
             return;

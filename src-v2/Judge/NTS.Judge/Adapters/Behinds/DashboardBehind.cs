@@ -1,28 +1,25 @@
 ﻿using Not.Application.Ports.CRUD;
 using Not.Domain;
 using Not.Safe;
-using NTS.Domain.Core.Aggregates.Participations;
 using NTS.Domain.Core.Entities;
 using NTS.Domain.Enums;
 using NTS.Judge.Blazor.Ports;
-using Event = NTS.Domain.Core.Entities.Event;
-using Official = NTS.Domain.Core.Entities.Official;
-using Competition = NTS.Domain.Core.Aggregates.Participations.Competition;
 using NTS.Judge.Factories;
+using NTS.Domain.Core.Entities.ParticipationAggregate;
 
 namespace NTS.Judge.Adapters.Behinds;
 
 public class DashboardBehind : IDashboardBehind
 {
-    private readonly IRepository<Domain.Setup.Entities.Event> _setupRepository;
-    private readonly IRepository<Event> _coreEventRespository;
+    private readonly IRepository<Domain.Setup.Entities.EnduranceEvent> _setupRepository;
+    private readonly IRepository<EnduranceEvent> _coreEventRespository;
     private readonly IRepository<Official> _coreOfficialRepository;
     private readonly IRepository<Participation> _participationRepository;
     private readonly IRepository<Ranking> _rankingRepository;
 
     public DashboardBehind(
-        IRepository<Domain.Setup.Entities.Event> setupRepository,
-        IRepository<Event> coreEventRespository,
+        IRepository<Domain.Setup.Entities.EnduranceEvent> setupRepository,
+        IRepository<EnduranceEvent> coreEventRespository,
         IRepository<Official> coreOfficialRepository,
         IRepository<Participation> participationRepository,
         IRepository<Ranking> rankingRepository)
@@ -52,7 +49,7 @@ public class DashboardBehind : IDashboardBehind
         return await _coreEventRespository.Read(0) != null;
     }
 
-    async Task CreateEvent(Domain.Setup.Entities.Event setupEvent)
+    async Task CreateEvent(Domain.Setup.Entities.EnduranceEvent setupEvent)
     {
         var @event = CoreFactory.CreateEvent(setupEvent);
         await _coreEventRespository.Create(@event);
@@ -67,7 +64,7 @@ public class DashboardBehind : IDashboardBehind
         }
     }
 
-    async Task CreateParticipationsAndRankings(Domain.Setup.Entities.Event setupEvent) 
+    async Task CreateParticipationsAndRankings(Domain.Setup.Entities.EnduranceEvent setupEvent) 
     {
         foreach (var competition in setupEvent.Competitions)
         {
@@ -88,7 +85,6 @@ public class DashboardBehind : IDashboardBehind
             await _rankingRepository.Create(ranking);
         }
     }
-
 
     #region SafePattern
 

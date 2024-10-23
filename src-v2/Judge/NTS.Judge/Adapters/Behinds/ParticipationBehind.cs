@@ -1,14 +1,23 @@
-﻿using Not.Application.Ports.CRUD;
-using Not.Blazor.Ports.Behinds;
+﻿using Not.Application.Adapters.Behinds;
+using Not.Application.Ports.CRUD;
 using Not.Exceptions;
 using Not.Safe;
-using NTS.Domain.Core.Aggregates.Participations;
+using NTS.Domain.Core.Entities.ParticipationAggregate;
+using NTS.Domain.Core.Entities;
 using NTS.Domain.Objects;
 using NTS.Judge.Blazor.Ports;
+using Not.Blazor.Ports.Behinds;
+using NTS.Judge.Blazor.Pages.Dashboard.Phases;
+using NTS.Domain;
+using NTS.Domain.Enums;
 
 namespace NTS.Judge.Adapters.Behinds;
 
-public class ParticipationBehind : ObservableBehind, IParticipationBehind
+public class ParticipationBehind : ObservableBehind, 
+    IParticipationBehind,
+    IUpdateBehind<PhaseUpdateModel>,
+    ISnapshotProcessor,
+    IManualProcessor
 {
     private readonly IRepository<Participation> _participationRepository;
     private readonly IRepository<SnapshotResult> _snapshotResultRepository;
@@ -36,7 +45,7 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
     // TODO: we need a better solution to load items as they have been changed in addition to load on startup.
     // Example case: importing previous data: as it is currently we have to restart the app after import
     // Maybe some sort of observable repositories?
-    protected override async Task<bool> PerformInitialization()
+    protected override async Task<bool> PerformInitialization(params IEnumerable<object> arguments)
     {
         Participations = await _participationRepository.ReadAll();
         SelectedParticipation = Participations.FirstOrDefault();
@@ -51,6 +60,17 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
         EmitChange();
     }
 
+    public async Task<PhaseUpdateModel> Update(PhaseUpdateModel model)
+    {
+        var participation = Participations.FirstOrDefault(x => x.Phases.Any(y => y.Id == model.Id));
+        GuardHelper.ThrowIfDefault(participation);
+
+        participation.Update(model);
+        await _participationRepository.Update(participation);
+        EmitChange();
+        return model;
+    }
+
     async Task SafeRequestRequiredInspection(bool requestFlag)
     {
         SelectedParticipation!.ChangeRequiredInspection(requestFlag);
@@ -59,9 +79,19 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
         EmitChange();
     }
 
+    async Task SafeProcess(Timestamp timestamp)
+    {
+        var snapshot = new Snapshot(
+            SelectedParticipation!.Combination.Number,
+            SnapshotType.Automatic,
+            SnapshotMethod.Manual,
+            timestamp);
+        await SafeProcess(snapshot);
+    }
+
     async Task SafeProcess(Snapshot snapshot)
     {
-        var participation = Participations.FirstOrDefault(x => x.Tandem.Number == snapshot.Number);
+        var participation = Participations.FirstOrDefault(x => x.Combination.Number == snapshot.Number);
         if (participation == null)
         {
             return;
@@ -74,16 +104,6 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
         await _snapshotResultRepository.Create(result);
 
         EmitChange();
-    }
-
-    async Task SafeUpdate(IPhaseState state)
-    {
-        //probably should use Participations collection to ensure a single point of truth is used for the data
-        var participation = await _participationRepository.Read(x => x.Phases.Any(y => y.Id == state.Id));
-        GuardHelper.ThrowIfDefault(participation);
-
-        participation.Update(state);
-        await _participationRepository.Update(participation);
     }
 
     async Task SafeWithdraw()
@@ -122,11 +142,11 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
         EmitChange();
     }
 
-    async Task SafeFailToQualify(string? reason, FTQCodes[] ftqCodes)
+    async Task SafeFailToQualify(FtqCode[] ftqCodes, string? reason)
     {
         GuardHelper.ThrowIfDefault(SelectedParticipation);
 
-        SelectedParticipation.FailToQualify(reason, ftqCodes);
+        SelectedParticipation.FailToQualify(ftqCodes, reason);
         await _participationRepository.Update(SelectedParticipation);
 
         EmitChange();
@@ -135,7 +155,7 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
     async Task SafeRestoreQualification()
     {
         GuardHelper.ThrowIfDefault(SelectedParticipation);
-        SelectedParticipation.RestoreQualification();
+        SelectedParticipation.Restore();
         await _participationRepository.Update(SelectedParticipation);
         
         EmitChange();
@@ -148,10 +168,6 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
         return Participations.FirstOrDefault(x => x.Id == id);
     }
 
-    public async Task Update(IPhaseState state)
-    {
-        await SafeHelper.Run(() => SafeUpdate(state));
-    }
     public async Task Process(Snapshot snapshot)
     {
         await SafeHelper.Run(() => SafeProcess(snapshot));
@@ -187,9 +203,9 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
         await SafeHelper.Run(() => SafeDisqualify(reason));
     }
 
-    public async Task FailToQualify(string? reason, params FTQCodes[] ftqCodes)
+    public async Task FailToQualify(FtqCode[] ftqCodes, string? reason)
     {
-        await SafeHelper.Run(() => SafeFailToQualify(reason, ftqCodes));
+        await SafeHelper.Run(() => SafeFailToQualify(ftqCodes, reason));
     }
 
     public async Task RestoreQualification()
@@ -200,6 +216,11 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
     public Participation? Get(int id)
     {
         return SafeHelper.Run(() => SafeGet(id));
+    }
+
+    public async Task Process(Timestamp timestamp)
+    {
+        await SafeHelper.Run(() => SafeProcess(timestamp));
     }
 
     #endregion

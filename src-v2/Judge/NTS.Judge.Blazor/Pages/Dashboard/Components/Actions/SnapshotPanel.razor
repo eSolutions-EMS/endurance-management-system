@@ -20,13 +20,8 @@
     const string DEFAULT_TIME = "00:00:00";
 
     [Inject]
-    IParticipationBehind _participationBehind { get; set; } = default!;
+    IManualProcessor _manualProcessor { get; set; } = default!;
     string _time = DEFAULT_TIME;
-
-    protected override async Task OnInitializedAsync()
-    {
-        await Observe(_participationBehind);
-    }
 
     void Snapshot()
     {
@@ -44,12 +39,7 @@
         var inputTime = TimeSpan.Parse(_time);
         var time = DateTime.Today + inputTime;
         var timestamp = new Timestamp(time);
-        var snapshot = new Snapshot(
-            _participationBehind.SelectedParticipation!.Tandem.Number,
-           SnapshotType.Automatic,
-           SnapshotMethod.Manual,
-           timestamp);
-        _participationBehind.Process(snapshot);
+        _manualProcessor.Process(timestamp);
 
         _time = DEFAULT_TIME;
     }

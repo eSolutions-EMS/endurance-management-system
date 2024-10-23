@@ -4,9 +4,9 @@ namespace NTS.Domain.Core.Objects;
 
 public record DocumentHeader : DomainObject
 {
-    public DocumentHeader(string @event, PopulatedPlace populatedPlace, EventSpan eventSpan, IEnumerable<Official> officials)
+    public DocumentHeader(string enduranceEvent, PopulatedPlace populatedPlace, EventSpan eventSpan, IEnumerable<Official> officials)
     {
-        Title = @event;
+        Title = enduranceEvent;
         PopulatedPlace = populatedPlace;
         EventSpan = eventSpan;
         GroundJuryPresident = officials.FirstOrDefault(x => x.Role == OfficialRole.GroundJuryPresident);
@@ -17,13 +17,13 @@ public record DocumentHeader : DomainObject
         ChiefSteward = officials.FirstOrDefault(x => x.Role == OfficialRole.ChiefSteward);
     }
 
-    public string Title { get; private set; }
-    public PopulatedPlace PopulatedPlace { get; private set; }
-    public EventSpan EventSpan { get; private set; }
-    public Official? GroundJuryPresident { get; private set; }
-    public Official? VeterinaryCommissionPresident { get;  private set; }
-    public Official? TechnicalDelegate { get; private set; }
-    public Official? ForeignVeterinaryDelegate { get; private set; }
-    public Official? ForeignJudge { get; private set; }
-    public Official? ChiefSteward { get; private set; }
+    public string Title { get; }
+    public PopulatedPlace PopulatedPlace { get; }
+    public EventSpan EventSpan { get; }
+    public Official? GroundJuryPresident { get; }
+    public Official? VeterinaryCommissionPresident { get; }
+    public Official? TechnicalDelegate { get; }
+    public Official? ForeignVeterinaryDelegate { get; }
+    public Official? ForeignJudge { get; }
+    public Official? ChiefSteward { get; }
 }
