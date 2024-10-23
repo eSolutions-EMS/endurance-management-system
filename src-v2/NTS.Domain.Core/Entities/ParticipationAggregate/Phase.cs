@@ -148,7 +148,7 @@ public class Phase : DomainEntity
 
     public TimeInterval? GetPhaseSpan()
     {
-        return VetTime - StartTime;
+        return IsFinal ? GetLoopSpan() : VetTime - StartTime;
     }
 
     public TimeInterval? GetRecoverySpan()
@@ -230,7 +230,8 @@ public class Phase : DomainEntity
 
     internal bool ViolatesSpeedRestriction(Speed? minSpeed, Speed? maxSpeed)
     {
-        return GetAverageSpeed() < minSpeed || GetAverageSpeed() > maxSpeed;
+        var averageSpeed = GetAverageSpeed();
+        return averageSpeed < minSpeed || averageSpeed > maxSpeed;
     }
 
     internal void RequestRequiredInspection()
