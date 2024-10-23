@@ -10,7 +10,7 @@ namespace NTS.Judge.Blazor.Ports;
 // - ISnapshotBehind
 // - IEliminationBehind
 
-public interface IParticipationBehind : IObservableBehind, ISnapshotProcessor
+public interface IParticipationBehind : IObservableBehind
 {
     // TODO: this should probably be removed and Participations can be returned from Start instead
     IEnumerable<Participation> Participations { get; }

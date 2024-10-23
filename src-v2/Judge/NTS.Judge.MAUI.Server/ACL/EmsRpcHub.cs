@@ -20,13 +20,13 @@ public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, 
 {
     private readonly IRepository<Participation> _participations;
     private readonly IRepository<Domain.Core.Entities.EnduranceEvent> _events;
-    private readonly IParticipationBehind _participationBehind;
+    private readonly ISnapshotProcessor _snapshotProcessor;
 
     public EmsRpcHub(IJudgeServiceProvider judgeProvider)
     {
         _participations = judgeProvider.GetRequiredService<IRepository<Participation>>();
         _events = judgeProvider.GetRequiredService<IRepository<Domain.Core.Entities.EnduranceEvent>>();
-        _participationBehind = judgeProvider.GetRequiredService<IParticipationBehind>();
+        _snapshotProcessor = judgeProvider.GetRequiredService<ISnapshotProcessor>();
     }
 
     public Dictionary<int, EmsStartlist> SendStartlist()
@@ -103,7 +103,7 @@ public class EmsRpcHub : Hub<IEmsClientProcedures>, IEmsStartlistHubProcedures, 
                 }
                 var isFinal = participation.Phases.Take(participation.Phases.Count - 1).All(x => x.IsComplete());
                 var snapshot = SnapshotFactory.Create(entry, type, isFinal);
-                await _participationBehind.Process(snapshot);
+                await _snapshotProcessor.Process(snapshot);
             }
         });
 

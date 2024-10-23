@@ -8,10 +8,16 @@ using NTS.Domain.Objects;
 using NTS.Judge.Blazor.Ports;
 using Not.Blazor.Ports.Behinds;
 using NTS.Judge.Blazor.Pages.Dashboard.Phases;
+using NTS.Domain;
+using NTS.Domain.Enums;
 
 namespace NTS.Judge.Adapters.Behinds;
 
-public class ParticipationBehind : ObservableBehind, IParticipationBehind, IUpdateBehind<PhaseUpdateModel>
+public class ParticipationBehind : ObservableBehind, 
+    IParticipationBehind,
+    IUpdateBehind<PhaseUpdateModel>,
+    ISnapshotProcessor,
+    IManualProcessor
 {
     private readonly IRepository<Participation> _participationRepository;
     private readonly IRepository<SnapshotResult> _snapshotResultRepository;
@@ -71,6 +77,16 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind, IUpda
         await _participationRepository.Update(SelectedParticipation);
 
         EmitChange();
+    }
+
+    async Task SafeProcess(Timestamp timestamp)
+    {
+        var snapshot = new Snapshot(
+            SelectedParticipation!.Combination.Number,
+            SnapshotType.Automatic,
+            SnapshotMethod.Manual,
+            timestamp);
+        await SafeProcess(snapshot);
     }
 
     async Task SafeProcess(Snapshot snapshot)
@@ -200,6 +216,11 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind, IUpda
     public Participation? Get(int id)
     {
         return SafeHelper.Run(() => SafeGet(id));
+    }
+
+    public async Task Process(Timestamp timestamp)
+    {
+        await SafeHelper.Run(() => SafeProcess(timestamp));
     }
 
     #endregion
