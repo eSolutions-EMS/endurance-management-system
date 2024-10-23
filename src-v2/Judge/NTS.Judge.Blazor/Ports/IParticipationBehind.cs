@@ -1,7 +1,6 @@
 ﻿using Not.Blazor.Ports.Behinds;
 using NTS.Domain.Core.Entities;
 using NTS.Domain.Core.Entities.ParticipationAggregate;
-using NTS.Domain.Objects;
 
 namespace NTS.Judge.Blazor.Ports;
 
@@ -18,7 +17,6 @@ public interface IParticipationBehind : IObservableBehind
     Participation? SelectedParticipation { get; set; }
     Task RequestRepresent(bool requestFlag);
     Task RequireInspection(bool requestFlag);
-    Task Process(Snapshot snapshot);
     Task Withdraw();
     Task Retire();
     Task FinishNotRanked(string reason);
