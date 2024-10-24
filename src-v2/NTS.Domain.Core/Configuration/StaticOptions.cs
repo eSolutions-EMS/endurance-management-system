@@ -66,10 +66,10 @@ public class StaticOptions : IStartupInitializer, ISingletonService
 
     public void RunAtStartup()
     {
-        var options = _provider.Get();
-        SelectedCountry = options.SelectedCountry;
-        RegionalConfiguration = RegionalConfigurationProvider.Get(options.SelectedCountry);
-        Detection = options.DetectionMode;
+        _options = _provider.Get();
+        SelectedCountry = _options.SelectedCountry;
+        RegionalConfiguration = RegionalConfigurationProvider.Get(_options.SelectedCountry);
+        Detection = _options.DetectionMode;
     }
 
     #endregion
