@@ -43,7 +43,11 @@ function getA4SizeInPixels() {
     let a4Width = 210 * (dpi / 25.4);  // A4 width in mm, converted to inches
     let a4Height = 297 * (dpi / 25.4); // A4 height in mm, converted to inches
 
-    return { width: a4Width, height: a4Height };
+    // Subtract header and footer paddings
+    let edgePadding = 0.067 * a4Height;
+    let workableHeight = a4Height - 2 * edgePadding;
+
+    return { width: a4Width, height: workableHeight };
 }
 
 function insertPageBreaks() {
