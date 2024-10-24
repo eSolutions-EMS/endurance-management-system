@@ -1,4 +1,5 @@
-﻿using Not.Domain;
+﻿using Not.Application.Ports.CRUD;
+using Not.Domain;
 using NTS.Domain.Core.Entities;
 using NTS.Domain.Core.Entities.ParticipationAggregate;
 using NTS.Domain.Enums;
@@ -28,8 +29,8 @@ public class CoreFactory
         return coreOfficial;
     }
 
-    public static (List<Participation> Participations, Dictionary<AthleteCategory, List<RankingEntry>> RankingEntriesByCategory)
-        CreateParticipationAndRankingEntries(Domain.Setup.Entities.Competition setupCompetition)
+    public static async Task<(List<Participation> Participations, Dictionary<AthleteCategory, List<RankingEntry>> RankingEntriesByCategory)>
+        CreateParticipationAndRankingEntriesAsync(Domain.Setup.Entities.Competition setupCompetition, IRepository<Participation> participationRepository)
     {
         if (setupCompetition.Phases.Count == 0)
         {
@@ -78,10 +79,22 @@ public class CoreFactory
                 contestant.MinAverageSpeed,
                 contestant.MaxAverageSpeed);
             var participation = new Participation(setupCompetition.Name, setupCompetition.Ruleset, combination, phases);
-            var rankingEntry = new RankingEntry(participation, contestant.IsNotRanked);
-            
-            participations.Add(participation);
-            rankingEntriesByCategory[setupCombination.Athlete.Category].Add(rankingEntry);
+            var storedParticipations = await participationRepository.ReadAll();
+            if(!storedParticipations.Any(p => p.Combination.Number == participation.Combination.Number))
+            {               
+                participations.Add(participation);
+                var rankingEntry = new RankingEntry(participation, contestant.IsNotRanked);
+                rankingEntriesByCategory[setupCombination.Athlete.Category].Add(rankingEntry);
+            }
+            else
+            {
+                var participationRef = storedParticipations.ToList().Find(p => p.Combination.Number == participation.Combination.Number);
+                if(participationRef != null)
+                {
+                    var rankingEntry = new RankingEntry(participationRef, contestant.IsNotRanked);
+                    rankingEntriesByCategory[setupCombination.Athlete.Category].Add(rankingEntry);
+                }
+            }
         }
         return (participations, rankingEntriesByCategory);
     }
