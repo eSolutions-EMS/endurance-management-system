@@ -31,6 +31,7 @@ public class DashboardBehind : IDashboardBehind
         _rankingRepository = rankingRepository;
     }
 
+    //TODO: IN THIS PR: fix EventSpan EndDay
     async Task SafeStart()
     {
         var setupEvent = await _setupRepository.Read(0);
