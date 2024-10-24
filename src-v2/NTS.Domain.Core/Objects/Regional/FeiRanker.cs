@@ -4,7 +4,7 @@ namespace NTS.Domain.Core.Objects.Regional;
 
 internal class FeiRanker : Ranker
 {
-    public override IList<RankingEntry> Rank(Ranking ranking)
+    public override List<RankingEntry> Rank(Ranking ranking)
     {
         return OrderByNotEliminatedAndRanked(ranking.Entries)
             .ThenBy(x => x.Participation.Phases.Last().ArriveTime)
@@ -23,5 +23,5 @@ internal class FeiRanker : Ranker
 internal abstract class Ranker
 {
     public string? CountryIsoCode { get; protected set; }
-    public abstract IList<RankingEntry> Rank(Ranking ranking);
+    public abstract List<RankingEntry> Rank(Ranking ranking);
 }
