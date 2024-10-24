@@ -1,11 +1,10 @@
-﻿using Not.Events;
-using NTS.Domain.Core.Entities;
+﻿using NTS.Domain.Core.Entities;
 
 namespace NTS.Domain.Core.Objects.Payloads;
 
-public abstract record ParticipationEventBase : DomainObject
+public abstract record ParticipationPayload : DomainObject
 {
-    public ParticipationEventBase(Participation participation)
+    public ParticipationPayload(Participation participation)
     {
         Participation = participation;
     }
