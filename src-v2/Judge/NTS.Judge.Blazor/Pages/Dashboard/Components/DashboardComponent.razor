@@ -20,7 +20,7 @@
                 @foreach (var participation in participations)
                 {
                     var number = participation.Combination.Number;
-                    var color = participation.IsEliminated() ? Color.Error : Color.Primary;
+                    var color = GetColor(participation);
                     <MudChip Text="@number.ToString()" Value="@participation" Color="@color" Style="min-width: 1rem" />
                 }
             }
@@ -60,6 +60,19 @@
         }
         var result = _behind.Participations.Where(x => x.ToString().ToLower().Contains(term.ToLower()));
         return Task.FromResult(result);
+    }
+
+    Color GetColor(Participation participation)
+    {
+        if (participation.IsEliminated())
+        {
+            return Color.Error;
+        }
+        if (participation.IsComplete())
+        {
+            return Color.Success;
+        }
+        return Color.Primary;
     }
 }
 
