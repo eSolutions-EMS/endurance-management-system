@@ -320,9 +320,17 @@ public class Phase : DomainEntity
         {
             return SnapshotResult.NotApplied(snapshot, NotAppliedDueToDuplicateInspect);
         }
+        if (snapshot.Timestamp <= ArriveTime)
+        {
+            throw new DomainException($"Presentation time cannot be before arrival '{ArriveTime}'");
+        }
 
         if (IsReinspectionRequested)
         {
+            if (snapshot.Timestamp <= PresentTime)
+            {
+                throw new DomainException($"Representation time cannot be before presentation '{PresentTime}'");
+            }
             RepresentTime = snapshot.Timestamp;
         }
         else
