@@ -59,6 +59,11 @@ function insertPageBreaks() {
     var printables = document.querySelectorAll('.printable');
     console.log('printables', printables)
 
+    // TODO: improve algorithm to factor in automatic scaling performed by the print engine.
+    // Setup: Configura a participation with 6 Phases - because the component is too wide
+    // the engine will scale everything down in order to fit the width.
+    // We should determine this scaling factor here and apply to the vertical calculations
+    // in order to prevent large gaps (that would clearly fit next component) after scaling
     printables.forEach(printable => {
         console.log('article', ++printablesCount)
         console.log('printable', printable)
