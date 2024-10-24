@@ -52,6 +52,10 @@
 
     Color GetColor(Participation participation)
     {
+        if (_behind.RecentlyProcessed.Contains(participation.Combination.Number))
+        {
+            return Color.Warning;
+        }
         if (participation.IsEliminated())
         {
             return Color.Error;
