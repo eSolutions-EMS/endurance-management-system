@@ -70,8 +70,12 @@ public class DashboardBehind : IDashboardBehind
         {
             var (participations, rankingEntriesByCategory) = CoreFactory.CreateParticipationAndRankingEntries(competition);
             foreach (var participation in participations) 
-            { 
-                await _participationRepository.Create(participation);
+            {
+               var storedParticipations = await _participationRepository.ReadAll();
+               if(!storedParticipations.Any(p => p.Combination.Number == participation.Combination.Number))
+               {
+                   await _participationRepository.Create(participation);
+               }
             }
             await CreateRankings(new Competition(competition.Name, competition.Ruleset), rankingEntriesByCategory);
         }      
