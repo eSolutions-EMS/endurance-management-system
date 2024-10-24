@@ -40,9 +40,8 @@ public class CoreFactory
         {
             throw new DomainException($"Cannot start - Particiaptions of competition {setupCompetition.Name} aren't configured");
         }
-        var setupPhases = setupCompetition.Phases;
+
         var competitionDistance = 0m;
-        var phases = new List<Phase>();
         var participations = new List<Participation>();
         var rankingEntriesByCategory = new Dictionary<AthleteCategory, List<RankingEntry>>
         {
@@ -51,23 +50,25 @@ public class CoreFactory
             { AthleteCategory.JuniorOrYoungAdult, new List<RankingEntry>() },
             { AthleteCategory.Training, new List<RankingEntry>() }
         };
-        DateTimeOffset? startTime = setupCompetition.Start;
-        foreach (var phase in setupPhases)
-        {
-            var corePhase = new Phase(
-                phase.Loop!.Distance,
-                phase.Recovery,
-                phase.Rest,
-                setupCompetition.Ruleset,
-                setupPhases.Last() == phase,
-                setupCompetition.CompulsoryThresholdSpan,
-                startTime);
-            startTime = null; //Set only first phase StartTime
-            phases.Add(corePhase);
-            competitionDistance += (decimal)phase.Loop!.Distance;
-        }
         foreach (var contestant in setupCompetition.Participations)
         {
+            DateTimeOffset? startTime = setupCompetition.Start;
+            var setupPhases = setupCompetition.Phases;
+            var phases = new List<Phase>();
+            foreach (var phase in setupPhases)
+            {
+                var corePhase = new Phase(
+                    phase.Loop!.Distance,
+                    phase.Recovery,
+                    phase.Rest,
+                    setupCompetition.Ruleset,
+                    setupPhases.Last() == phase,
+                    setupCompetition.CompulsoryThresholdSpan,
+                    startTime);
+                startTime = null; //Set only first phase StartTime
+                phases.Add(corePhase);
+                competitionDistance += (decimal)phase.Loop!.Distance;
+            }
             var setupCombination = contestant.Combination;
             var combination = new Combination(
                 setupCombination.Number,
