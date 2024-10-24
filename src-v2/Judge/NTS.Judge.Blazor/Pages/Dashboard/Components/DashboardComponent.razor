@@ -13,11 +13,11 @@
     </MudItem>
     <MudItem xs="3">
         <MudChipSet @bind-SelectedValue="_behind.SelectedParticipation" SelectionMode="SelectionMode.SingleSelection">
-            @foreach (var (distance, participations) in _participationsByDistance)
+            @foreach (var grouping in _behind.Participations.GroupBy(x => x.Phases.Distance)) // TODO: move grouping in field
             {
-                <MudText Class="pl-4"><strong>@($"{distance} {@Localizer.Get("KM")}")</strong></MudText>
+                <MudText Class="pl-4"><strong>@($"{grouping.Key} {@Localizer.Get("KM")}")</strong></MudText>
                 <MudDivider /> 
-                @foreach (var participation in participations)
+                @foreach (var participation in grouping.OrderBy(x => x.Combination.Number))
                 {
                     var number = participation.Combination.Number;
                     var color = GetColor(participation);
@@ -34,22 +34,10 @@
 @code {
     [Inject]
     private IParticipationBehind _behind { get; set; } = default!;
-    IEnumerable<(double, IOrderedEnumerable<Participation>)> _participationsByDistance = [];
 
     protected override async Task OnInitializedAsync()
     {
         await Observe(_behind);
-        SortParticipations();
-    }
-
-    void SortParticipations()
-    {
-        _participationsByDistance = _behind
-            .Participations
-            .GroupBy(x => x.Phases.Distance)
-            .Select(x => (x.Key, x.OrderBy(y => y.Combination.Number)))
-            .OrderBy(x => x.Key)
-            .ToList();
     }
 
     Task<IEnumerable<Participation>> Search(string term)
