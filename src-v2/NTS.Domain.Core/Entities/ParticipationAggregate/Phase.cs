@@ -77,7 +77,7 @@ public class Phase : DomainEntity
         RepresentTime = representTime;
         IsReinspectionRequested = isRepresentationRequested;
         IsRequiredInspectionRequested = isRequiredInspectionRequested;
-        IsRequiredInspectionCompulsory = isRequiredInspectionCompulsory;
+        IsRequiredInspectionCompulsory = isRequiredInspectionCompulsory && !isFinal;
         CompulsoryThresholdSpan = compulsoryThresholdSpan;
     }
 
@@ -347,7 +347,7 @@ public class Phase : DomainEntity
         {
             return;
         }
-        IsRequiredInspectionCompulsory = GetRecoverySpan() >= CompulsoryThresholdSpan;
+        IsRequiredInspectionCompulsory = GetRecoverySpan() >= CompulsoryThresholdSpan && !IsFinal;
     }
 }
 
