@@ -10,14 +10,18 @@ namespace NTS.Judge.Events;
 public class CompetitionBehind : CrudBehind<Competition, CompetitionFormModel>
 {
     private readonly EventParentContext _parentContext;
-    private readonly IParentContext<Phase> _phasesContext;
-    private readonly IParentContext<Participation> _participationsContext;
+    private readonly IParentContext<Phase> _phaseParent;
+    private readonly IParentContext<Participation> _participationParent;
 
-    public CompetitionBehind(IRepository<Competition> competitions, EventParentContext parentContext, IParentContext<Phase> phases, IParentContext<Participation> participations) : base(competitions, parentContext)
+    public CompetitionBehind(
+        IRepository<Competition> competitions,
+        EventParentContext parentContext,
+        IParentContext<Phase> phaseParent,
+        IParentContext<Participation> participationParent) : base(competitions, parentContext)
     {
-        this._parentContext = parentContext;
-        _phasesContext = phases;
-        _participationsContext = participations;
+        _parentContext = parentContext;
+        _phaseParent = phaseParent;
+        _participationParent = participationParent;
     }
 
     protected override Competition CreateEntity(CompetitionFormModel model)
@@ -34,7 +38,7 @@ public class CompetitionBehind : CrudBehind<Competition, CompetitionFormModel>
             model.Ruleset,
             model.StartTime,
             model.CompulsoryThresholdMinutes,
-            _phasesContext.Children,
-            _participationsContext.Children);
+            _phaseParent.Children,
+            _participationParent.Children);
     }
 }
