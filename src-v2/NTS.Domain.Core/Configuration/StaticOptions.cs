@@ -68,6 +68,7 @@ public class StaticOptions : IStartupInitializer, ISingletonService
     {
         _options = _provider.Get();
         SelectedCountry = _options.SelectedCountry;
+        Countries = _options.Countries;
         RegionalConfiguration = RegionalConfigurationProvider.Get(_options.SelectedCountry);
         Detection = _options.DetectionMode;
     }
