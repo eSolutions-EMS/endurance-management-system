@@ -17,6 +17,8 @@ public class RanklistBehind : ObservableBehind, IRanklistBehind
         _rankings = rankings;
     }
 
+    //TODO: Subscribe to PhaseCompleted, Eliminated, Restored and update Ranklist
+    // (currently you have to reselect before you see the changes)
     public Ranklist? Ranklist { get; private set; }
 
     protected override async Task<bool> PerformInitialization(params IEnumerable<object> arguments)
