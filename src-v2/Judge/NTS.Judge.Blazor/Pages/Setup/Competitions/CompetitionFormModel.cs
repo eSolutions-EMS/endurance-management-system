@@ -10,6 +10,8 @@ public class CompetitionFormModel : IFormModel<Competition>
 
     public CompetitionFormModel()
     {
+        UseCompulsoryThreshold = true;
+        CompulsoryThresholdMinutes = 10;
 #if DEBUG
         Name = "Olympic Games";
 #endif
