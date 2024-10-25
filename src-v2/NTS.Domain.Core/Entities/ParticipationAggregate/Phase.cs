@@ -343,11 +343,11 @@ public class Phase : DomainEntity
 
     private void CheckCompulsoryThreshold()
     {
-        if (CompulsoryThresholdSpan == null)
+        if (CompulsoryThresholdSpan == null || IsFinal)
         {
             return;
         }
-        IsRequiredInspectionCompulsory = GetRecoverySpan() >= CompulsoryThresholdSpan && !IsFinal;
+        IsRequiredInspectionCompulsory = GetRecoverySpan() >= CompulsoryThresholdSpan;
     }
 }
 
