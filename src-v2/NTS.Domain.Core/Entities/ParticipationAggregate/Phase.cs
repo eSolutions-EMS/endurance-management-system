@@ -77,7 +77,7 @@ public class Phase : DomainEntity
         RepresentTime = representTime;
         IsReinspectionRequested = isRepresentationRequested;
         IsRequiredInspectionRequested = isRequiredInspectionRequested;
-        IsRequiredInspectionCompulsory = isRequiredInspectionCompulsory && !isFinal;
+        IsRequiredInspectionCompulsory = isRequiredInspectionCompulsory;
         CompulsoryThresholdSpan = compulsoryThresholdSpan;
     }
 
