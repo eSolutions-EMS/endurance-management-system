@@ -53,17 +53,17 @@ public class Participation : DomainEntity, ISummarizable
     internal void SetSpeedLimits(CompetitionType competitionType)
     {
         var athleteCategory = Combination.Athlete.Category;
-        MinAverageSpeed = 10;
+        MinAverageSpeed = MIN_SPEED;
         if (competitionType == CompetitionType.Qualification)
         {
             if (athleteCategory == AthleteCategory.Children)
             {
-                MinAverageSpeed = 8;
-                MaxAverageSpeed = 12;
+                MinAverageSpeed = CHILDREN_MIN_SPEED;
+                MaxAverageSpeed = CHILDREN_MAX_SPEED;
             }
             else
             {
-                MaxAverageSpeed = 16;
+                MaxAverageSpeed = MAX_SPEED;
             }
         }
         if (MaxSpeedOverride != null)
