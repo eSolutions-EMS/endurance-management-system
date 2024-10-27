@@ -9,7 +9,7 @@
                  @ref="MudBaseInput"
                  @bind-Value="Value"
                  CoerceText="true"
-                 SearchFunc="Search"
+                 SearchFunc="(a, b) => Search(a)"
                  @onclick="HandleOnClick"
                  Class="@Class"
                  Label="@Localizer.Get(Label)" />
@@ -17,8 +17,6 @@
 @code {
     [Parameter]
     public Func<string, Task<IEnumerable<T>>> Search { get; set; } = default!;
-    [Parameter]
-    public string? Class { get; set; }
     [Parameter]
     public bool ResetValueOnClick { get; set; } = true;
     [Parameter]

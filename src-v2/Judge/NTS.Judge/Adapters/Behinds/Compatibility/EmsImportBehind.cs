@@ -1,5 +1,6 @@
 ﻿using Not.Application.Ports.CRUD;
 using Not.Extensions;
+using Not.Safe;
 using Not.Serialization;
 using NTS.Compatibility.EMS;
 using NTS.Compatibility.EMS.Entities.EnduranceEvents;
@@ -14,80 +15,94 @@ namespace NTS.Judge.Adapters.Behinds.Compatibility;
 
 public class EmsImportBehind : IEmsImportBehind
 {
-    private readonly IRepository<Event> _eventRepository;
+    private readonly IRepository<EnduranceEvent> _eventRepository;
     private readonly IEmsToCoreImporter _emsToCoreImporter;
 
-    public EmsImportBehind(IRepository<Event> eventRepository, IEmsToCoreImporter emsToCoreImporter)
+    public EmsImportBehind(IRepository<EnduranceEvent> eventRepository, IEmsToCoreImporter emsToCoreImporter)
     {
         _eventRepository = eventRepository;
         _emsToCoreImporter = emsToCoreImporter;
     }
 
-    public async Task Import(string emsStateFilePath)
+    async Task SafeImport(string emsStateFilePath)
     {
         var contents = await File.ReadAllTextAsync(emsStateFilePath);
         var emsState = contents.FromJson<EmsState>();
 
-        var country = new Country(emsState.Event.Country.IsoCode, emsState.Event.Country.Name);
-        var @event = Event.Create(emsState.Event.PopulatedPlace, country);
+        var country = new Country(emsState.Event.Country.IsoCode, "zz", emsState.Event.Country.Name);
+        var enduranceEvent = EnduranceEvent.Create(emsState.Event.PopulatedPlace, country);
 
         foreach (var offical in CreateOfficials(emsState.Event))
         {
-            @event.Add(offical);
+            enduranceEvent.Add(offical);
         }
         foreach (var competition in CreateCompetitions(emsState.Event))
         {
-            @event.Add(@competition);
+            enduranceEvent.Add(competition);
         }
 
-        await _eventRepository.Update(@event);
+        await _eventRepository.Update(enduranceEvent);
     }
 
-    public async Task ImportCore(string contents)
+    async Task SafeImportCore(string contents)
     {
         await _emsToCoreImporter.Import(contents);
     }
 
-    private IEnumerable<Competition> CreateCompetitions(EmsEnduranceEvent emsEvent)
+    IEnumerable<Competition> CreateCompetitions(EmsEnduranceEvent emsEvent)
     {
         foreach (var emsCompetition in emsEvent.Competitions)
         {
-            yield return Competition.Create(emsCompetition.Name, MapType(emsCompetition.Type), emsCompetition.StartTime.ToDateTimeOffset(), 10);
+            var (type, ruleset) = MapRuleset(emsCompetition.Type);
+            yield return Competition.Create(emsCompetition.Name, type, ruleset ,emsCompetition.StartTime.ToDateTimeOffset(), 10);
         }
 
-        CompetitionType MapType(NTS.Compatibility.EMS.Entities.Competitions.EmsCompetitionType emsType)
+        (CompetitionType type, CompetitionRuleset ruleset) MapRuleset(NTS.Compatibility.EMS.Entities.Competitions.EmsCompetitionType emsType)
         {
             if (emsType == NTS.Compatibility.EMS.Entities.Competitions.EmsCompetitionType.National)
             {
-                return CompetitionType.National;
+                return (CompetitionType.Qualification, CompetitionRuleset.Regional);
             }
             else if (emsType == NTS.Compatibility.EMS.Entities.Competitions.EmsCompetitionType.International)
             {
-                return CompetitionType.FEI;
+                return (CompetitionType.Star, CompetitionRuleset.FEI);
             }
-            return CompetitionType.Qualification;
+            throw new Exception();
         }
     }
 
-    private IEnumerable<Official> CreateOfficials(EmsEnduranceEvent emsEvent)
+    IEnumerable<Official> CreateOfficials(EmsEnduranceEvent emsEvent)
     {
         var result = new List<Official>
         {
-            Official.Create(emsEvent.PresidentGroundJury.Name, PresidentGroundJury),
-            Official.Create(emsEvent.PresidentVetCommittee.Name, PresidentVet),
-            Official.Create(emsEvent.FeiTechDelegate.Name, FeiTechDelegate),
-            Official.Create(emsEvent.FeiVetDelegate.Name, FeiVetDelegate),
+            Official.Create(emsEvent.PresidentGroundJury.Name, GroundJuryPresident),
+            Official.Create(emsEvent.PresidentVetCommittee.Name, VeterinaryCommissionPresident),
+            Official.Create(emsEvent.FeiTechDelegate.Name, TechnicalDelegate),
+            Official.Create(emsEvent.FeiVetDelegate.Name, ForeignVeterinaryDelegate),
             Official.Create(emsEvent.ForeignJudge.Name, ForeignJudge),
-            Official.Create(emsEvent.ActiveVet.Name, ActiveVet),
         };
         foreach (var jury in emsEvent.MembersOfJudgeCommittee)
         {
-            result.Add(Official.Create(jury.Name, MemberJudge));
+            result.Add(Official.Create(jury.Name, GroundJury));
         };
         foreach (var vet in emsEvent.MembersOfVetCommittee)
         {
-            result.Add(Official.Create(vet.Name, MemberVet));
+            result.Add(Official.Create(vet.Name, VeterinaryCommission));
         }
         return result;
     }
+
+    #region SafePattern
+
+    public Task Import(string path)
+    {
+        return SafeHelper.Run(() => SafeImport(path));
+    }
+
+    public Task ImportCore(string contents)
+    {
+        return SafeHelper.Run(() => SafeImportCore(contents));
+    }
+
+    #endregion
 }

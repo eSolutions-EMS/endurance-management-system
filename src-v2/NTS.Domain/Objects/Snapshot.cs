@@ -1,5 +1,4 @@
 ﻿using NTS.Domain.Enums;
-using System.ComponentModel.DataAnnotations;
 
 namespace NTS.Domain.Objects;
 
@@ -16,5 +15,10 @@ public record Snapshot : DomainObject, ISnapshot
     public int Number { get; }
     public SnapshotType Type { get; }
     public SnapshotMethod Method { get; }
-    public Timestamp Timestamp { get; }
+    public Timestamp Timestamp { get; set; }
+
+    public override string ToString()
+    {
+        return "#".Localize()+$"{Number} at {Timestamp}";
+    }
 }

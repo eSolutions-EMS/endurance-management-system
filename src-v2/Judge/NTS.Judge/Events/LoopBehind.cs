@@ -1,36 +1,23 @@
-﻿using Not.Application.Ports.CRUD;
-using Not.Blazor.Ports.Behinds;
+﻿using Not.Application.Adapters.Behinds;
+using Not.Application.Ports.CRUD;
 using NTS.Domain.Setup.Entities;
+using NTS.Judge.Blazor.Pages.Setup.Loops;
 
 namespace NTS.Judge.Events;
-public class LoopBehind : INotSetBehind<Loop>
+
+public class LoopBehind : CrudBehind<Loop, LoopFormModel>
 {
-    private readonly IRepository<Loop> _loopRepository;
-    private Loop? _loop;
-
-    public LoopBehind(IRepository<Loop> loopRepository)
+    public LoopBehind(IRepository<Loop> loopRepository) : base(loopRepository)
     {
-        _loopRepository = loopRepository;
     }
 
-    public Task<IEnumerable<Loop>> GetAll()
+    protected override Loop CreateEntity(LoopFormModel model)
     {
-        return _loopRepository.ReadAll();
+        return Loop.Create(model.Distance);
     }
 
-    public async Task<Loop> Create(Loop entity)
+    protected override Loop UpdateEntity(LoopFormModel model)
     {
-        _loop = await _loopRepository.Create(entity);
-        return _loop;
-    }
-
-    public async Task<Loop> Update(Loop entity)
-    {
-        return await _loopRepository.Update(entity);
-    }
-
-    public async Task<Loop> Delete(Loop entity)
-    {
-        return await _loopRepository.Delete(entity);
+        return Loop.Update(model.Id, model.Distance);
     }
 }

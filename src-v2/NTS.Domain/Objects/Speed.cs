@@ -2,6 +2,7 @@
 
 public record Speed : DomainObject
 {
+    // TODO: implement serialization of private fields and change to field
     public double _speed { get; private set; }
 
     public static Speed? Create(double? speed)

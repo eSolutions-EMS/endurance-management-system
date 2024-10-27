@@ -9,6 +9,6 @@ public class NotButtonSecondary : NotButtonBase
     {
         Color = Color.Secondary;
         Variant = Variant.Filled;
-        IconSize = Size.Small;
+        IconSize = Size.Medium;
     }
 }

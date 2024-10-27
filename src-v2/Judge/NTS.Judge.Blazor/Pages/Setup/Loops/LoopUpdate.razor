@@ -2,24 +2,20 @@
 @using Not.Blazor.Components;
 @using Not.Blazor.Navigation;
 @using Not.Blazor.TM.Forms.Components
+@using Not.Blazor.TM.Pages
 
 @attribute [Route(LOOP_UPDATE)]
 @inherits NotComponent
 
-<MudPaper Elevation="0">
-    <NotH2>@Localizer.Get("Update Loop")</NotH2>
-    <NotFormUpdate T="Loop" TForm="LoopForm" Entity="_navigator.ConsumeParameter<Loop>()" UpdateAction="Update" />
-</MudPaper>
+<NotPage Title="Configure Loop">
+
+    <Main>
+        <UpdateForm T="LoopFormModel" TForm="LoopForm" Model="_navigator.ConsumeParameter<LoopFormModel>()" />
+    </Main>
+
+</NotPage>
 
 @code {
     [Inject]
-    private INotSetBehind<Loop> _behind { get; set; } = default!;
-    [Inject]
-    private INavigator _navigator { get; set; } = default!;
-
-    protected async Task Update(Loop Loop)
-    {
-        await _behind.Update(Loop);
-        _navigator.NavigateTo(SETUP_PAGE);
-    }
+    private ICrumbsNavigator _navigator { get; set; } = default!;
 }

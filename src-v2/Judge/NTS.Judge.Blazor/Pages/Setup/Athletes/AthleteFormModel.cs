@@ -1,18 +1,29 @@
-﻿using NTS.Domain.Objects;
+﻿using Not.Blazor.Ports;
+using NTS.Domain.Objects;
 using NTS.Domain.Setup.Entities;
 
 namespace NTS.Judge.Blazor.Pages.Setup.Athletes;
-public class AthleteFormModel
+
+public class AthleteFormModel : IFormModel<Athlete>
 {
     public AthleteFormModel()
     {
-        // mock data for testing
+#if DEBUG
         Name = "Gucci Petrov";
         Club = "Конярче ООД";
-        Category = "Олимпийски надежди";
-        Country = new Country("BG", "Bulgaria");
+        Country = new Country("BG", "zz", "Bulgaria");
+#endif
     }
-    public AthleteFormModel(Athlete athlete)
+
+    public int Id { get; set; }
+    public string? Name { get; set; }
+    public string? FeiId { get; set; }
+    public Country? Country { get; set; }
+    public string? Club { get; set; }
+    public AthleteCategory Category { get; set; } = AthleteCategory.Senior;
+
+
+    public void FromEntity(Athlete athlete)
     {
         Id = athlete.Id;
         Name = athlete.Person;
@@ -21,12 +32,4 @@ public class AthleteFormModel
         Club = athlete.Club.ToString();
         Category = athlete.Category;
     }
-
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public string? FeiId { get; set; }
-    public Country Country { get; set; }
-    public string Club { get; set; }
-    public string Category { get; set; }
-
 }

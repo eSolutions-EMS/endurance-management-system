@@ -2,24 +2,20 @@
 @using Not.Blazor.Components;
 @using Not.Blazor.Navigation;
 @using Not.Blazor.TM.Forms.Components
+@using Not.Blazor.TM.Pages
 
 @attribute [Route(ATHLETE_UPDATE)]
 @inherits NotComponent
 
-<MudPaper Elevation="0">
-    <NotH2>@Localizer.Get("Update Athlete")</NotH2>
-    <NotFormUpdate T="Athlete" TForm="AthleteForm" Entity="_navigator.ConsumeParameter<Athlete>()" UpdateAction="Update" />
-</MudPaper>
+<NotPage Title="Configure Athlete">
+
+    <Main>
+        <UpdateForm T="AthleteFormModel" TForm="AthleteForm" Model="_navigator.ConsumeParameter<AthleteFormModel>()" />
+    </Main>
+
+</NotPage>
 
 @code {
     [Inject]
-    private INotSetBehind<Athlete> _behind { get; set; } = default!;
-    [Inject]
-    private INavigator _navigator { get; set; } = default!;
-
-    protected async Task Update(Athlete athlete)
-    {
-        await _behind.Update(athlete);
-        _navigator.NavigateTo(SETUP_PAGE);
-    }
+    private ICrumbsNavigator _navigator { get; set; } = default!;
 }

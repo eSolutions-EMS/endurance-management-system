@@ -1,36 +1,23 @@
-﻿using Not.Application.Ports.CRUD;
-using Not.Blazor.Ports.Behinds;
+﻿using Not.Application.Adapters.Behinds;
+using Not.Application.Ports.CRUD;
 using NTS.Domain.Setup.Entities;
+using NTS.Judge.Blazor.Pages.Setup.Horses;
 
 namespace NTS.Judge.Events;
-public class HorseBehind : INotSetBehind<Horse>
+
+public class HorseBehind : CrudBehind<Horse, HorseFormModel>
 {
-    private readonly IRepository<Horse> _horseRepository;
-    private Horse? _horse;
-
-    public HorseBehind(IRepository<Horse> horseRepository)
+    public HorseBehind(IRepository<Horse> repository) : base(repository)
     {
-        _horseRepository = horseRepository;
     }
 
-    public Task<IEnumerable<Horse>> GetAll()
+    protected override Horse CreateEntity(HorseFormModel model)
     {
-        return _horseRepository.ReadAll();
+        return Horse.Create(model.Name, model.FeiId);
     }
 
-    public async Task<Horse> Create(Horse entity)
+    protected override Horse UpdateEntity(HorseFormModel model)
     {
-        _horse = await _horseRepository.Create(entity);
-        return _horse;
-    }
-
-    public async Task<Horse> Update(Horse entity)
-    {
-        return await _horseRepository.Update(entity);
-    }
-
-    public async Task<Horse> Delete(Horse entity)
-    {
-        return await _horseRepository.Delete(entity);
+        return Horse.Update(model.Id, model.Name, model.FeiId);
     }
 }

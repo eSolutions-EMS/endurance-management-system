@@ -1,26 +1,19 @@
-﻿@using NTS.Domain.Setup.Entities;
-@using Not.Blazor.Components;
+﻿@using Not.Blazor.Components;
 @using Not.Blazor.Navigation;
 @using Not.Blazor.TM.Forms.Components
 
 @attribute [Route(HORSE_UPDATE)]
 @inherits NotComponent
 
-<MudPaper Elevation="0">
-    <NotH2>@Localizer.Get("Update Horse")</NotH2>
-    <NotFormUpdate T="Horse" TForm="HorseForm" Entity="_navigator.ConsumeParameter<Horse>()" UpdateAction="Update"  />
-</MudPaper>
+<NotPage Title="Configure Horse">
+
+    <Main>
+        <UpdateForm T="HorseFormModel" TForm="HorseForm" Model="_navigator.ConsumeParameter<HorseFormModel>()" />
+    </Main>
+
+</NotPage>
 
 @code{
-    private Horse _horse {get; set;} = default!;
     [Inject]
-    INotSetBehind<Horse> _setBehind { get; set; } = default!;
-    [Inject]
-    INavigator _navigator { get; set; } = default!;
-
-    protected async Task Update(Horse horse)
-    {
-        await _setBehind.Update(horse);
-        _navigator.NavigateTo(SETUP_PAGE);
-    }
+    ICrumbsNavigator _navigator { get; set; } = default!;
 }

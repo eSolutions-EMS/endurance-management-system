@@ -1,21 +1,15 @@
-﻿using Not.Logging.Filesystem;
+﻿using Not.Domain.Ports;
+using Not.Filesystem;
+using Not.Logging.Filesystem;
 using Not.Storage.Ports;
+using Not.Storage.StaticOptions;
 
 namespace NTS.Judge.Startup;
 
-public class JudgeContext : IFilesystemLoggerConfiguration, IFileStorageConfiguration
+public class JudgeContext : FilesystemContext, IFilesystemLoggerConfiguration, IFileStorageConfiguration, IStaticOptionsConfiguration
 {
+    string IStaticOptionsConfiguration.Path => GetAppDirectory("Resources/config");
     string IFilesystemLoggerConfiguration.Directory => GetAppDirectory("logs");
     string IFileStorageConfiguration.Path => GetAppDirectory("data");
-
-    private string GetAppDirectory(string subdirectory)
-    {
-        var basePath =
-#if DEBUG
-            "C:\\tmp\\nts";
-#else
-            Directory.GetCurrentDirectory();
-#endif
-        return Path.Combine(basePath, subdirectory);
-    }
 }
+

@@ -3,10 +3,11 @@ using System.Collections.ObjectModel;
 
 namespace Not.Concurrency;
 
-public class ConcurrentList<T> : IEnumerable<T>
+public class ConcurrentList<T> : IList<T>
 {
     private readonly List<T> _items = new();
     private readonly object _lock = new ();
+
 
     public ConcurrentList()
     {
@@ -83,5 +84,38 @@ public class ConcurrentList<T> : IEnumerable<T>
     IEnumerator IEnumerable.GetEnumerator()
     {
         return GetEnumerator();
+    }
+
+
+    public int Count => _items.Count;
+    public bool IsReadOnly => false;
+    public T this[int index]
+    { 
+        get => _items[index];
+        set => _items[index] = value; 
+    }
+    public int IndexOf(T item)
+    {
+        return _items.IndexOf(item);
+    }
+    public void Insert(int index, T item)
+    {
+        _items[index] = item;
+    }
+    public void RemoveAt(int index)
+    {
+        _items.RemoveAt(index);
+    }
+    public bool Contains(T item)
+    {
+        return _items.Contains(item);
+    }
+    public void CopyTo(T[] array, int arrayIndex)
+    {
+        _items.CopyTo(array, arrayIndex);
+    }
+    bool ICollection<T>.Remove(T item)
+    {
+        return _items.Remove(item);
     }
 }

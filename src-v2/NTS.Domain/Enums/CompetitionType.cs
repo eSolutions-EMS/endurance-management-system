@@ -1,8 +1,11 @@
-﻿namespace NTS.Domain.Enums;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace NTS.Domain.Enums;
 
 public enum CompetitionType
 {
-    FEI = 1,
-    National = 2,
-    Qualification = 3
+    [Display(Name = "Qualification")]
+    Qualification = 1,
+    [Display(Name = "Star Level")]
+    Star = 2
 }

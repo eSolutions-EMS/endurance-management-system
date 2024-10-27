@@ -1,25 +1,28 @@
-﻿@using NTS.Judge.Blazor.Ports
+﻿@using Not.Blazor.TM
+@using NTS.Judge.Blazor.Ports
 @using NTS.Domain.Core.Entities
 @using Not.Events
 
 @inherits NotComponent;
 
 @* //TODO: probably extract this chipset into NotChipGroup component or something similar. Also used in DashboardComponent *@
-<MudChipSet @ref="_chipSet" SelectedChipChanged="x => _behind.SelectRanking((int)x.Value)">
-    @foreach (var grouping in _rankingsByDistance)
-    {
-        <MudText Class="pl-4"><strong>@($"{grouping.Key}")</strong></MudText>
-        <MudDivider />
-        @foreach (var ranking in grouping.OrderBy(x => x.Category))
+@if (_behind.Ranklist != null)
+{
+    <MudChipSet T="int" SelectedValue="_behind.Ranklist.RankingId" SelectedValueChanged="_behind.SelectRanking">
+        @foreach (var grouping in _rankingsByDistance)
         {
-            <MudChip Text="@ranking.Category.ToString()" Value="@ranking.Id" Color="Color.Primary" Style="min-width: 1rem" />
+            <TextDividerTM Text="@grouping.Key" />
+            @foreach (var ranking in grouping.OrderBy(x => x.Category))
+            {
+                <MudChip Text="@ranking.Category.ToString()" Value="@ranking.Id" Color="Color.Primary" Style="min-width: 1rem" />
+            }
         }
-    }
-</MudChipSet>
+    </MudChipSet>
+}
+
 
 @code {
-    private MudChipSet _chipSet = default!;
-    private MudChip? _selectedChip;
+    private MudChip<int>? _selectedChip;
     private IEnumerable<IGrouping<string, Ranking>> _rankingsByDistance = Enumerable.Empty<IGrouping<string, Ranking>>();
 
     [Inject]
@@ -27,13 +30,9 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Observe(_behind);
+        await Observe(_behind);
 
         var rankings = await _behind.GetRankings();
         _rankingsByDistance = rankings.GroupBy(x => x.Name);
-        if (rankings.Any())
-        {
-            await _behind.SelectRanking(rankings.First().Id);
-        }
     }
 }

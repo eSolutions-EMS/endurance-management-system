@@ -1,0 +1,76 @@
+﻿@using NTS.Domain.Core.Entities.ParticipationAggregate
+@using NTS.Judge.Blazor.Enums
+@using NTS.Judge.Blazor.Pages.Dashboard.Components.Actions.EliminationForms
+@using NTS.Judge.Blazor.Ports
+@using Not.Structures
+
+@inherits NotComponent
+
+<MudStack Class="@Class">
+
+    <MudPaper Elevation="1">
+        <MudToggleGroup @bind-Value="_toggleValue" Delimiters="true" Color="Color.Error" SelectionMode="SelectionMode.ToggleSelection">
+
+            <MudToggleItem Value="Eliminated.WITHDRAWN" />
+
+            <MudToggleItem Value="Eliminated.RETIRED" />
+
+            <MudToggleItem Value="Eliminated.FINISHED_NOT_RANKED" />
+
+            <MudToggleItem Value="Eliminated.DISQUALIFIED" />
+
+            <MudToggleItem Value="Eliminated.FAILED_TO_QUALIFY" />
+        </MudToggleGroup>
+
+        <MudCollapse Expanded="_toggleValue != null">
+            @if (_toggleValue == Eliminated.WITHDRAWN)
+            {
+                <WithdrawForm Withdrawn="_eliminated as Withdrawn" />
+            }
+            else if (_toggleValue == Eliminated.RETIRED)
+            {
+                <RetireForm Retired="_eliminated as Retired" />
+            }
+            else if (_toggleValue == Eliminated.FINISHED_NOT_RANKED)
+            {
+                <FinishNotRankedForm FinishedNotRanked="_eliminated as FinishedNotRanked" />
+            }
+            else if (_toggleValue == Eliminated.DISQUALIFIED)
+            {
+                <DisqualifyForm Disqualified="_eliminated as Disqualified" />
+            }
+            else if (_toggleValue == Eliminated.FAILED_TO_QUALIFY)
+            {
+                <FailedToQualifyForm FailedToQualify="_eliminated as FailedToQualify" />
+            }
+        </MudCollapse>
+    </MudPaper>
+</MudStack>
+
+@code {
+    [Inject]
+    IParticipationBehind _participationBehind { get; set; } = default!;
+
+    Eliminated? _eliminated => _participationBehind.SelectedParticipation?.Eliminated;
+    string? _toggleValue
+    {
+        get => _inputValue != null ? _inputValue : _eliminated?.Code;
+        set => _inputValue = value; 
+    }
+    string? _inputValue;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Observe(_participationBehind);
+    }
+
+    protected override void OnBeforeRender()
+    {
+        ResetInput();
+    }
+
+    void ResetInput()
+    {
+        _inputValue = null;
+    }
+}

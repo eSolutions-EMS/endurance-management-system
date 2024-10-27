@@ -1,0 +1,46 @@
+﻿@using NTS.Domain.Objects
+@using NTS.Judge.Blazor.Ports
+
+@inherits NotComponent
+
+<MudStack Row="true" AlignItems="AlignItems.Center" Class="@Class">
+    <MudTextField @bind-Value="_time" Label="Time" Mask="_timeMask" />
+
+    <MudSpacer />
+
+    <MudButtonGroup OverrideStyles="false" Size="Size.Medium">
+        <NotButtonPrimary Text="Process" OnClick="Process" />
+
+        <MudIconButton Icon="@Icons.Material.Outlined.Timer" Color="Color.Primary" Variant="Variant.Outlined" OnClick="Snapshot" />
+    </MudButtonGroup>
+</MudStack>
+
+@code {
+    readonly static PatternMask _timeMask = new PatternMask("00:00:00");
+    const string DEFAULT_TIME = "00:00:00";
+
+    [Inject]
+    IManualProcessor _manualProcessor { get; set; } = default!;
+    string _time = DEFAULT_TIME;
+
+    void Snapshot()
+    {
+        var currentTime = DateTime.Now.TimeOfDay;
+        _time = currentTime.ToString();
+    }
+
+    void Process()
+    {
+        if (_time == DEFAULT_TIME)
+        {
+            return;
+        }
+
+        var inputTime = TimeSpan.Parse(_time);
+        var time = DateTime.Today + inputTime;
+        var timestamp = new Timestamp(time);
+        _manualProcessor.Process(timestamp);
+
+        _time = DEFAULT_TIME;
+    }
+}

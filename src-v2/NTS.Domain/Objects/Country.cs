@@ -2,7 +2,7 @@
 
 namespace NTS.Domain.Objects;
 
-public record Country(string IsoCode, string Name) : DomainObject, ISummarizable
+public record Country(string IsoCode, string NfCode, string Name) : DomainObject, ISummarizable
 {
 	public string Summarize()
 	{

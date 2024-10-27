@@ -1,7 +1,7 @@
-﻿using Not.Application.Ports.CRUD;
-using Not.Blazor.Ports.Behinds;
+﻿using Not.Application.Adapters.Behinds;
+using Not.Application.Ports.CRUD;
 using Not.Exceptions;
-using NTS.Domain.Core.Aggregates.Participations;
+using Not.Safe;
 using NTS.Domain.Core.Entities;
 using NTS.Domain.Core.Objects;
 using NTS.Judge.Blazor.Ports;
@@ -11,44 +11,50 @@ namespace NTS.Judge.Adapters.Behinds;
 public class RanklistBehind : ObservableBehind, IRanklistBehind
 {
     private readonly IRepository<Ranking> _rankings;
-    private readonly IRepository<Participation> _participations;
 
-    public RanklistBehind(IRepository<Ranking> rankings, IRepository<Participation> participations)
+    public RanklistBehind(IRepository<Ranking> rankings)
     {
         _rankings = rankings;
-        _participations = participations;
     }
 
     public Ranklist? Ranklist { get; private set; }
 
-    public async Task<IEnumerable<Ranking>> GetRankings()
-    {
-        return await _rankings.ReadAll();
-    }
-
-    public async Task SelectRanking(int id)
-    {
-        var ranking = await _rankings.Read(id);
-        GuardHelper.ThrowIfDefault(ranking);
-
-        Ranklist = await CreateRanklist(ranking);
-        EmitChange();
-    }
-
-    // This isn't currently used. Consider wheather or not Initialize should be part of IObservableBehind
-    public override async Task Initialize()
+    protected override async Task<bool> PerformInitialization(params IEnumerable<object> arguments)
     {
         var ranking = await _rankings.Read(x => true);
         if (ranking == null)
         {
-            return;
+            return false;
         }
-        Ranklist = await CreateRanklist(ranking);
+        Ranklist = new Ranklist(ranking);
+        return true;
     }
 
-    private async Task<Ranklist> CreateRanklist(Ranking ranking)
+    async Task<IEnumerable<Ranking>> SafeGetRankings()
     {
-        var participations = await _participations.ReadAll();
-        return new Ranklist(ranking, participations);
+        return await _rankings.ReadAll();
     }
+
+    async Task SafeSelectRanking(int id)
+    {
+        var ranking = await _rankings.Read(id);
+        GuardHelper.ThrowIfDefault(ranking);
+
+        Ranklist = new Ranklist(ranking);
+        EmitChange();
+    }
+
+    #region SafePattern
+    
+    public async Task<IEnumerable<Ranking>> GetRankings()
+    {
+        return await SafeHelper.Run(SafeGetRankings) ?? [];
+    }
+
+    public async Task SelectRanking(int id)
+    {
+        await SafeHelper.Run(() => SafeSelectRanking(id));
+    }
+
+    #endregion
 }

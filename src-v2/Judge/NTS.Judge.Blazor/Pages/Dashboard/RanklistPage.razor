@@ -1,15 +1,34 @@
 ﻿@using NTS.Judge.Blazor.Pages.Dashboard.Ranklist
+@using NTS.Judge.Blazor.Ports
+@using Not.Blazor.Print
+@using Not.Blazor.TM
+@using Not.Blazor.TM.Pages
 
 @attribute [Route(RANKLIST_PAGE)]
-@inherits NotComponent
+@inherits PrintableComponent
 
-<NotH1>@Localizer.Get("Ranklist")</NotH1>
+<NotPage Title="Ranklist" HasContent="_behind.Ranklist != null" EmptyMessage="The Event isn't started yet :)">
+    @* // TODO: Add Start button in EmptyContent *@
 
-<MudGrid Style="margin-top:0 !important;">
-    <MudItem xs="9">
+    <Main>
         <RanklistTable />
-    </MudItem>
-    <MudItem xs="3">
+    </Main>
+
+    <Rightbar>
+        <TextDividerTM Text="Export" />
+        <NotButtonPrint OnClick="OpenPrintDialog" Class="mb-4" />
+
         <RankingMenu />
-    </MudItem>
-</MudGrid>
+    </Rightbar>
+
+</NotPage>
+
+@code {
+    [Inject]
+    IRanklistBehind _behind { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Observe(_behind);
+    }
+}

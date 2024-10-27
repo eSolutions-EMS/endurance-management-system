@@ -1,12 +1,15 @@
 ﻿@using Not.Blazor.Components
+@using Not.Services
 
-@inherits BindableValueComponent<bool>
+@inherits MudSwitch<bool>
 
-<MudSwitch T="bool" @bind-Value="Value" Label="@Localizer.Get(Label)"
-           ThumbIcon="@(Value==true ? Icons.Material.Filled.Done : Icons.Material.Filled.Close)"
-           ThumbIconColor="@(Value==true ? Color.Success : Color.Error)" />
+<MudSwitch Value="Value" ValueChanged="ValueChanged" Label="@(Label != null ? _localizer.Get(Label) : null)" Style="Style" Class="Class"
+    Color="Color.Primary" Converter="Converter" Culture="Culture" Disabled="Disabled" LabelPosition="LabelPosition" 
+    Error="Error" ErrorText="ErrorText" />
 
 @code {
-    [Parameter]
-    public string Label { get; set; } = default!;
+    // TODO: convert to .cs only component in order to avoid having to propagate all properties manually
+    // investigate how cs only components work - it's something like doesn't override RenderTree method, I guess
+    [Inject]
+    ILocalizer _localizer { get; set; } = default!;
 }

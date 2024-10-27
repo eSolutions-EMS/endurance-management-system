@@ -1,0 +1,18 @@
+﻿@inherits NotComponent
+
+<MudPaper Elevation="0" Class="@CombineClass("mb-4")" Style="@Style">
+
+    <MudText Class="@CombineClass("pl-4")" Style="@Style">
+
+        <strong>@Localizer.Get(Text)</strong>
+
+    </MudText>
+        
+    <MudDivider />
+
+</MudPaper>
+
+@code {
+    [Parameter, EditorRequired]
+    public string Text { get; set; } = default!;
+}

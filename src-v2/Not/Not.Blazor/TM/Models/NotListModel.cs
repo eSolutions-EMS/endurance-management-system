@@ -1,13 +1,17 @@
-﻿namespace Not.Blazor.TM.Models;
+﻿using Not.Extensions;
+
+namespace Not.Blazor.TM.Models;
 
 public class NotListModel
 {
     public static IEnumerable<NotListModel<T>> FromEnum<T>()
+        where T : struct, Enum
     {
         var values = Enum.GetValues(typeof(T));
         foreach (var value in values)
         {
-            yield return new NotListModel<T>((T)value);
+            var enumValue = (T)value;
+            yield return new NotListModel<T>(enumValue, enumValue.GetDescription());
         }
     }
 
@@ -17,6 +21,11 @@ public class NotListModel
         {
             yield return new NotListModel<T>(value);
         }
+    }
+
+    public static NotListModel<T> Empty<T>()
+    {
+        return new NotListModel<T>();
     }
 }
 
@@ -28,6 +37,12 @@ public class NotListModel<T>
         Label = label ?? value!.ToString()!;
     }
 
-    public T Value { get; }
+    public NotListModel()
+    {
+        //TODO: Localize no items label
+        Label = "No items in this list yet.";
+    }
+
+    public T? Value { get; } = default!;
     public string Label { get; }
 }

@@ -1,35 +1,15 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using static Not.Localization.LocalizationHelper;
+﻿using Not.Exceptions;
 
 namespace Not.Domain;
 
-//TODO: Create AggregateDomainException and modify domains to batch their validation exceptions before throwing
-public class DomainException : Exception
+//TODO: Create AggregateDomainException and modify domains to batch their validation exceptions before throwing 
+public class DomainException : DomainExceptionBase
 {
-    public DomainException(string message) : base(Localize(message))
-    {
-    }
-    public DomainException(string property, string message) : base(Localize(message))
-    {
-        Property = property;
-    }
-    public DomainException(
-        string property, 
-        [StringSyntax(StringSyntaxAttribute.CompositeFormat)] string message, 
-        params string[] args)
-        : base(string.Format(Localize(message), LocalizeSeparately(args).ToArray()))
-    {
-        Property = property;
-    }
-    public DomainException(string message, params string[] args) : base(message)
-    {
-        this.Args = args;
-    }
-
-    public DomainException(params object[] args) : base(Localize(args))
+    public DomainException(string message) : base(message)
     {
     }
 
-    public string[] Args { get; } = Array.Empty<string>();
-    public string? Property { get; }
+    public DomainException(string property, string message) : base(property, message)
+    {
+    }
 }

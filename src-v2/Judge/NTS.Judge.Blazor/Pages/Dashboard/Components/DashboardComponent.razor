@@ -1,5 +1,4 @@
-﻿@using NTS.Domain.Core.Aggregates.Participations
-@using NTS.Domain.Core.Events
+﻿@using NTS.Domain.Core.Entities
 @using NTS.Judge.Blazor.Pages.Dashboard;
 @using NTS.Judge.Blazor.Ports
 @using Not.Blazor.TM
@@ -9,44 +8,51 @@
 @inherits NotComponent
 
 <MudGrid Spacing="5" Style="margin-top:0;"> @* TODO: extract NotGrid? style's necessary because Spacing does -40% margin style for some reason, which breaks the vertical layout. *@
-    <MudItem xs="10">
-        <NotAutocomplete T="Participation" @bind-Value="_selectedParticipation" Search="Search" Class="mb-2 dashboard-autocomplete" />
-    </MudItem>
-    <MudItem xs="7">
-        <ParticipationTable Phases="_selectedParticipation?.Phases" />
+    <MudItem xs="12">
+        <NotAutocomplete T="Participation" @bind-value="_behind.SelectedParticipation" Search="Search" Class="mb-2 dashboard-autocomplete" />
     </MudItem>
     <MudItem xs="3">
-        <MudChipSet SelectedChipChanged="SelectParticipation">
-            @foreach (var grouping in _behind.ParticipationsByDistance)
+        <MudChipSet @bind-SelectedValue="_behind.SelectedParticipation" SelectionMode="SelectionMode.SingleSelection">
+            @foreach (var (distance, participations) in _participationsByDistance)
             {
-                <MudText Class="pl-4"><strong>@($"{grouping.Key} {@Localizer.Get("KM")}")</strong></MudText>
-                <MudDivider />
-                @foreach (var participation in grouping.OrderBy(x => x.Tandem.Number))
+                <MudText Class="pl-4"><strong>@($"{distance} {@Localizer.Get("KM")}")</strong></MudText>
+                <MudDivider /> 
+                @foreach (var participation in participations)
                 {
-                    var number = participation.Tandem.Number;
-                    var color = participation.IsNotQualified ? Color.Error : Color.Primary;
-                    // TODO: Update Mudblazor and use bind-Selected: https://mudblazor.com/components/chipset#binding-chips-in-a-selection
-                    <MudChip Text="@number.ToString()" Value="@number" Color="@color" Style="min-width: 1rem" />
+                    var number = participation.Combination.Number;
+                    var color = participation.IsEliminated() ? Color.Error : Color.Primary;
+                    <MudChip Text="@number.ToString()" Value="@participation" Color="@color" Style="min-width: 1rem" />
                 }
             }
         </MudChipSet>
     </MudItem>
+    <MudItem xs="9">
+        <ParticipationTable Number="_behind.SelectedParticipation!.Combination.Number" Phases="_behind.SelectedParticipation!.Phases" />
+    </MudItem>
 </MudGrid>
 
 @code {
-    private Participation? _selectedParticipation = default!;
-
     [Inject]
     private IParticipationBehind _behind { get; set; } = default!;
+    IEnumerable<(double, IOrderedEnumerable<Participation>)> _participationsByDistance = [];
 
     protected override async Task OnInitializedAsync()
     {
-        await _behind.Initialize();
-        _selectedParticipation = _behind.Participations.FirstOrDefault();
-        Observe(_behind);
+        await Observe(_behind);
+        SortParticipations();
     }
 
-    private Task<IEnumerable<Participation>> Search(string term)
+    void SortParticipations()
+    {
+        _participationsByDistance = _behind
+            .Participations
+            .GroupBy(x => x.Phases.Distance)
+            .Select(x => (x.Key, x.OrderBy(y => y.Combination.Number)))
+            .OrderBy(x => x.Key)
+            .ToList();
+    }
+
+    Task<IEnumerable<Participation>> Search(string term)
     {
         if (string.IsNullOrEmpty(term))
         {
@@ -55,21 +61,12 @@
         var result = _behind.Participations.Where(x => x.ToString().ToLower().Contains(term.ToLower()));
         return Task.FromResult(result);
     }
-
-    private void SelectParticipation(MudChip? chip)
-    {
-        // TODO: Update MudBlazor version since docs show a new Property SelectionMode, 
-        // which can prevent the current behavior that allows to Toggle the selection off
-        if (chip == null)
-        {
-            return;
-        }
-        _selectedParticipation = _behind.Participations.FirstOrDefault(x => x.Tandem.Number == (int)chip.Value);
-        GuardHelper.ThrowIfDefault(_selectedParticipation);
-    }
 }
 
 <style>
+    .dashboard-autocomplete .mud-select-input {
+        margin-top: 0 !important;
+    }
     .dashboard-autocomplete input {
         font-size: 1.5rem !important;
     }

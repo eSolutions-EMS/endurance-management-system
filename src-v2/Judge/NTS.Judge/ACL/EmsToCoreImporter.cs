@@ -7,7 +7,7 @@ using static NTS.Domain.Enums.OfficialRole;
 using NTS.Compatibility.EMS.Entities.Competitions;
 using NTS.Domain.Enums;
 using NTS.Judge.ACL.Factories;
-using NTS.Domain.Core.Aggregates.Participations;
+using NTS.Domain.Core.Entities.ParticipationAggregate;
 using NTS.Compatibility.EMS.Enums;
 using Not.Application.Ports.CRUD;
 using Not.Injection;
@@ -16,13 +16,13 @@ namespace NTS.Judge.ACL;
 
 public class EmsToCoreImporter : IEmsToCoreImporter
 {
-    private readonly IRepository<Event> _events;
+    private readonly IRepository<EnduranceEvent> _events;
     private readonly IRepository<Official> _officials;
     private readonly IRepository<Participation> _participations;
     private readonly IRepository<Ranking> _classfications;
 
     public EmsToCoreImporter(
-        IRepository<Event> events,
+        IRepository<EnduranceEvent> events,
         IRepository<Official> officials,
         IRepository<Participation> participations,
         IRepository<Ranking> classfications)
@@ -43,12 +43,12 @@ public class EmsToCoreImporter : IEmsToCoreImporter
 
         var emsState = emsJson.FromJson<EmsState>();
 
-        var @event = CreateEvent(emsState.Event, adjustTime);
+        var enduranceEvent = CreateEvent(emsState.Event, adjustTime);
         //TODOL interesting why some imports fail without ToList? 2024-vakarel (finished) for example
         var officials = CreateOfficials(emsState.Event).ToList();
         var (rankings, participations) = CreateRankingsAndParticipations(emsState, adjustTime);
 
-        await _events.Create(@event);
+        await _events.Create(enduranceEvent);
         foreach (var official in officials)
         {
             await _officials.Create(official);
@@ -63,15 +63,15 @@ public class EmsToCoreImporter : IEmsToCoreImporter
         }
     }
 
-    private Event CreateEvent(EmsEnduranceEvent emsEvent, bool adjustTime)
+    private EnduranceEvent CreateEvent(EmsEnduranceEvent emsEvent, bool adjustTime)
     {
-        var country = new Country(emsEvent.Country.IsoCode, emsEvent.Country.Name);
+        var country = new Country(emsEvent.Country.IsoCode, "zz", emsEvent.Country.Name);
         var startTime = emsEvent.Competitions.OrderBy(x => x.StartTime).First().StartTime;
         if (adjustTime)
         {
             startTime = DateTime.UtcNow.AddHours(-1);
         }
-        return new Event(
+        return new EnduranceEvent(
             country,
             emsEvent.PopulatedPlace,
             "populated place",
@@ -85,35 +85,31 @@ public class EmsToCoreImporter : IEmsToCoreImporter
         var result = new List<Official>();
         if (emsEvent.PresidentGroundJury != null)
         {
-            result.Add(new (new Person(emsEvent.PresidentGroundJury.Name), PresidentGroundJury));
+            result.Add(new (Person.Create(emsEvent.PresidentGroundJury.Name), GroundJuryPresident));
         }
         if (emsEvent.PresidentVetCommittee != null)
         {
-            result.Add(new(new Person(emsEvent.PresidentVetCommittee.Name), PresidentVet));
+            result.Add(new(Person.Create(emsEvent.PresidentVetCommittee.Name), VeterinaryCommissionPresident));
         }
         if (emsEvent.FeiTechDelegate != null)
         {
-            result.Add(new(new Person(emsEvent.FeiTechDelegate.Name), FeiTechDelegate));
+            result.Add(new(Person.Create(emsEvent.FeiTechDelegate.Name), TechnicalDelegate));
         }
         if (emsEvent.FeiVetDelegate != null)
         {
-            result.Add(new(new Person(emsEvent.FeiVetDelegate.Name), FeiVetDelegate));
+            result.Add(new(Person.Create(emsEvent.FeiVetDelegate.Name), ForeignVeterinaryDelegate));
         }
         if (emsEvent.ForeignJudge != null)
         {
-            result.Add(new(new Person(emsEvent.ForeignJudge.Name), ForeignJudge));
-        }
-        if (emsEvent.ActiveVet != null)
-        {
-            result.Add(new(new Person(emsEvent.ActiveVet.Name), ActiveVet));
+            result.Add(new(Person.Create(emsEvent.ForeignJudge.Name), ForeignJudge));
         }
         foreach (var jury in emsEvent.MembersOfJudgeCommittee)
         {
-            result.Add(new (new Person(jury.Name), MemberJudge));
+            result.Add(new (Person.Create(jury.Name), GroundJury));
         };
         foreach (var vet in emsEvent.MembersOfVetCommittee)
         {
-            result.Add(new(new Person(vet.Name), MemberVet));
+            result.Add(new(Person.Create(vet.Name), VeterinaryCommission));
         }
         return result;
     }
@@ -129,7 +125,7 @@ public class EmsToCoreImporter : IEmsToCoreImporter
                 var competition = state.Event.Competitions.First(x => x.Id == competitionId);
                 var participation = ParticipationFactory.CreateCore(emsParticipation, competition, adjustTime);
                 var category = EmsCategoryToAthleteCategory(emsParticipation.Participant.Athlete.Category);
-                var entry = new RankingEntry(participation.Id, !emsParticipation.Participant.Unranked);
+                var entry = new RankingEntry(participation, !emsParticipation.Participant.Unranked);
                 if (entriesforClassification.ContainsKey(competition) && entriesforClassification[competition].ContainsKey(category))
                 {
                     entriesforClassification[competition][category].Add((entry, participation));
@@ -150,12 +146,13 @@ public class EmsToCoreImporter : IEmsToCoreImporter
 
             }
         }
-        foreach (var (competition, entriesByCategory) in entriesforClassification)
+        foreach (var (emsCompetition, entriesByCategory) in entriesforClassification)
         {
             foreach (var (category, tuples) in entriesByCategory)
             {
                 var entries = tuples.Select(x => x.entry);
-                result.Add(new Ranking(competition.Name, category, entries));
+                var competition = new Competition(emsCompetition.Name, CompetitionFactory.MapCompetitionRuleset(emsCompetition.Type));
+                result.Add(new Ranking(competition, category, entries));
             }
             
 
@@ -174,7 +171,7 @@ public class EmsToCoreImporter : IEmsToCoreImporter
         {
             EmsCategory.Seniors => AthleteCategory.Senior,
             EmsCategory.Children => AthleteCategory.Children,
-            EmsCategory.JuniorOrYoungAdults => AthleteCategory.JuniorOrYoundAdult,
+            EmsCategory.JuniorOrYoungAdults => AthleteCategory.JuniorOrYoungAdult,
             _ => throw new NotImplementedException(),
         };
     }

@@ -3,61 +3,56 @@
 
 @inherits NotComponent
 
-@if (_behind.Ranklist == null)
-{
-    <MudPaper>
-        <MudText>The event is not started yet</MudText>
-    </MudPaper>
-}
-else
-{
-    <NotH2>@_behind.Ranklist.Title</NotH2>
+<NotH2 Class="printable mb-4">@_behind.Ranklist!.Title</NotH2>
 
-    <RanklistTableFrame>
-        <One>
-            <MudText Typo="Typo.subtitle2">
-                @Localizer.Get("Rank")
-            </MudText>
-        </One>
-        <Two>
-            <MudText Typo="Typo.subtitle2">
-                @Localizer.Get("Tandem")
-            </MudText>
-        </Two>
-        <Three>
-            <MudText Typo="Typo.subtitle2">
-                @Localizer.Get("Arrive")
-            </MudText>
-        </Three>
-        <Four>
-            <MudText Typo="Typo.subtitle2">
-                @Localizer.Get("Speed")
-            </MudText>
-        </Four>
-        <Five>
-            <MudText Typo="Typo.subtitle2">
-                @Localizer.Get("Loop")
-            </MudText>
-        </Five>
-        <Six>
-            <MudText Typo="Typo.subtitle2">
-                @Localizer.Get("Recovery")
-            </MudText>
-        </Six>
-        <Seven>
-            <MudText Typo="Typo.subtitle2">
-                @Localizer.Get("Total")
-            </MudText>
-        </Seven>
-    </RanklistTableFrame>
+<RanklistTableFrame Class="printable">
+    <One>
+        <MudText Typo="Typo.subtitle2">
+            @Localizer.Get("Rank")
+        </MudText>
+    </One>
+    <Two>
+        <MudText Typo="Typo.subtitle2">
+            @Localizer.Get("Combination")
+        </MudText>
+    </Two>
+    <Three>
+        <MudText Typo="Typo.subtitle2">
+            @Localizer.Get("Arrive")
+        </MudText>
+    </Three>
+    <Four>
+        <MudText Typo="Typo.subtitle2">
+            @Localizer.Get("Speed")
+        </MudText>
+    </Four>
+    <Five>
+        <MudText Typo="Typo.subtitle2">
+            @Localizer.Get("Loop")
+        </MudText>
+    </Five>
+    <Six>
+        <MudText Typo="Typo.subtitle2">
+            @Localizer.Get("Recovery")
+        </MudText>
+    </Six>
+    <Seven>
+        <MudText Typo="Typo.subtitle2">
+            @Localizer.Get("Total")
+        </MudText>
+    </Seven>
+</RanklistTableFrame>
 
-    @for (var i = 0; i < _behind.Ranklist.Count; i++)
+
+@if (_behind.Ranklist != null)
+{
+    var count = 0;
+    @foreach (var entry in _behind.Ranklist)
     {
-        var entry = _behind.Ranklist[i];
-        <RanklistRow Entry="entry" Index="i" />
-        if (i != _behind.Ranklist.Count - 1)
+        <RanklistRow Entry="entry" Index="count" />
+        if (count++ != _behind.Ranklist.Count - 1)
         {
-           <MudDivider />
+            <MudDivider Class="printable" />
         }
     }
 }

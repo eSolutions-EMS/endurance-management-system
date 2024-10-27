@@ -1,8 +1,49 @@
 ﻿@using NTS.Judge.Blazor.Pages.Dashboard.Handouts
+@using NTS.Judge.Blazor.Ports
+@using Not.Blazor.Mud.Extensions
+@using Not.Blazor.Print
+@using Not.Blazor.TM
 
 @attribute [Route(HANDOUTS_PAGE)]
-@inherits NotComponent
+@inherits PrintableComponent
 
-<NotH1>@Localizer.Get("Handouts")</NotH1>
+<NotPage Title="Handouts" HasContent="@_behind.Documents.Any()" EmptyMessage="No handouts to print :)" RightBarXS="2">
 
-<HandoutsList />
+    <Main>
+        <HandoutsList Documents="_behind.Documents" />
+    </Main>
+
+    <Rightbar>
+        <TextDividerTM Text="Export" />
+        <NotButtonPrint Text="Print Preview" OnClick="OpenPrintPreview" />
+
+        <TextDividerTM Text="Manual handout" Class="mt-4" />
+        <HandoutForm />
+    </Rightbar>
+
+</NotPage>
+
+@code {
+    [Inject]
+    IHandoutsBehind _behind { get; set; } = default!;
+    [Inject]
+    IDialogService _dialogService { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Observe(_behind);
+    }
+
+    private async Task OpenPrintPreview()
+    {
+        var handouts = _behind.Documents.ToList();
+
+        await OpenPrintDialog();
+        var dialog = await _dialogService.ShowAsync<HandoutsPrintConfirmationDialog>();
+        var result = await dialog.Result;
+        if (!result?.Canceled ?? false)
+        {
+            await _behind.Delete(handouts);
+        }
+    }
+}

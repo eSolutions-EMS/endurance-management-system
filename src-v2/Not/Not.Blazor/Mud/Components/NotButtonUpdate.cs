@@ -6,7 +6,7 @@ public class NotButtonUpdate : NotButtonPrimary
 {
     public NotButtonUpdate()
     {
-        StartIcon = Icons.Material.Filled.Update;
-        UseText("Update");
+        StartIcon = Icons.Material.Filled.Create;
+        Text = "Update";
     }
 }

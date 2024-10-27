@@ -1,18 +1,21 @@
-﻿namespace NTS.Domain.Core.Entities;
+﻿using Newtonsoft.Json;
+
+namespace NTS.Domain.Core.Entities;
 
 public class Official : DomainEntity
 {
-    private Official(int id) : base(id)
+    [JsonConstructor]
+    private Official(int id, Person? person, OfficialRole? role) : base(id)
     {
+        Person = Required(nameof(Person), person);
+        Role = Required(nameof(Role), role);
     }
-    public Official(Person person, OfficialRole role)
+    public Official(Person? person, OfficialRole? role) : this(GenerateId(), person, role)
     {
-        Person = person;
-        Role = role;
     }
 
-    public Person Person { get; private set; }
-    public OfficialRole Role { get; private set; }
+    public Person Person { get; }
+    public OfficialRole Role { get; }
 
     public override string ToString()
     {

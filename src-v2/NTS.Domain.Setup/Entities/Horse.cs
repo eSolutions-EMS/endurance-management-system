@@ -5,7 +5,7 @@ namespace NTS.Domain.Setup.Entities;
 
 public class Horse : DomainEntity, ISummarizable, IImportable
 {
-    public static Horse Create(string name, string? feiId) => new (name, feiId);
+    public static Horse Create(string name, string? feiId) => new(name, feiId);
 
     public static Horse Update(int id, string name, string? feiId) => new(id, name, feiId); 
 
@@ -24,8 +24,8 @@ public class Horse : DomainEntity, ISummarizable, IImportable
         FeiId = feiId;
     }
 
-	public string? FeiId { get; private set; }
-	public string Name { get; private set; }
+	public string? FeiId { get; }
+	public string Name { get; }
 
 	public string Summarize()
 	{

@@ -1,0 +1,54 @@
+﻿@using NTS.Judge.Blazor.Ports
+@using NTS.Domain.Setup.Entities
+@using Not.Blazor.TM
+@using Not.Notifier
+
+@inherits BindableValueComponent<Tag>
+
+
+<MudInputLabel Class="mr-4 mt-2 font-size-12">@Localizer.Get("Scan Rfid Tag")</MudInputLabel>
+<MudStack Class="mt-3 mb-n3" Style="height:52px;" AlignItems="AlignItems.Start" Row="true">
+    @if (!_awaitingScan)
+     {
+        @if (Value == null)
+        {
+            <MudButton Color="Color.Primary" Size="Size.Small" Variant="Variant.Filled"
+                       StartIcon="@Icons.Material.Filled.Add" OnClick="AddTag">@Localizer.Get("Add Tag")</MudButton>
+        }
+        else
+        {
+            <MudPaper >
+                <MudText Class="ml-2 mr-2" Typo="Typo.overline"> @Value </MudText>
+            </MudPaper>
+
+            <MudButton Color="Color.Error" Size="Size.Small" Variant="Variant.Filled"
+                   StartIcon="@Icons.Material.Filled.Delete" OnClick="RemoveTag">@Localizer.Get("Remove Tag")</MudButton>
+        }
+    }
+    <MudCollapse Expanded="_awaitingScan">
+        <MudProgressCircular Class="ml-4" Color="Color.Primary" Size="Size.Medium" Indeterminate="true" />
+    </MudCollapse>
+</MudStack>
+
+
+@code {
+    [Inject]
+    public IRfidWriterBehind _tagBehind { get; set; } = default!;
+    [Parameter]
+    public int CombinationNumber { get; set; }
+
+    private bool _awaitingScan = false;
+
+    public async Task AddTag()
+    {
+        _awaitingScan = true;
+        NotifyHelper.Inform("Waiting for Tag Scan");
+        Value = await _tagBehind.WriteTag(CombinationNumber);
+        _awaitingScan = false;
+    }
+
+    public void RemoveTag()
+    {
+        Value = null;
+    }
+}

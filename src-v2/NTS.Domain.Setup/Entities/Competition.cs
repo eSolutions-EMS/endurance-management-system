@@ -2,86 +2,120 @@ using Newtonsoft.Json;
 
 namespace NTS.Domain.Setup.Entities;
 
-public class Competition : DomainEntity, ISummarizable, IParent<Contestant>, IParent<Phase>
+public class Competition : DomainEntity, ISummarizable, IParent<Participation>, IParent<Phase>
 {
+    public static Competition Create(
+        string? name,
+        CompetitionType? type,
+        CompetitionRuleset ruleset,
+        DateTimeOffset start,
+        int? compulsoryThresholdMinutes)
+        => new(name, type, ruleset, start, compulsoryThresholdMinutes);
 
-    public static Competition Create(string name, CompetitionType type, DateTimeOffset start, int? criRecovery) => new(name, type, start, criRecovery);
-    public static Competition Update(int id, string name, CompetitionType type, DateTimeOffset start,
-       int? criRecovery, IEnumerable<Phase> phases, IEnumerable<Contestant> contestants)
-       => new(id, name, type, start, criRecovery, phases, contestants);
+    public static Competition Update(
+        int id,
+        string? name,
+        CompetitionType type,
+        CompetitionRuleset? ruleset,
+        DateTimeOffset start,
+        int? compulsoryThresholdMinutes,
+        IEnumerable<Phase> phases,
+        IEnumerable<Participation> participations)
+        => new(id, name, type, ruleset, start, ToTimeSpan(compulsoryThresholdMinutes), phases, participations);
 
-    private List<Phase> _phases = new();
-    private List<Contestant> _contestants = new();
+    readonly List<Phase> _phases = [];
+    readonly List<Participation> _participations = [];
 
     [JsonConstructor]
-    private Competition(int id, string name, CompetitionType type, DateTimeOffset startTime, int? criRecovery, IEnumerable<Phase> phases, IEnumerable<Contestant> contestants)
-        : this(name, type, startTime, criRecovery)
+    private Competition(
+        int id, 
+        string? name, 
+        CompetitionType? type,
+        CompetitionRuleset? ruleset,
+        DateTimeOffset start,
+        TimeSpan? compulsoryThresholdSpan,
+        IEnumerable<Phase> phases,
+        IEnumerable<Participation> participations) : base(id)
     {
-        Id = id;
         _phases = phases.ToList();
-        _contestants = contestants.ToList();
+        _participations = participations.ToList();
+        Name = Required(nameof(Name), name);
+        Type = Required(nameof(Type), type);
+        Ruleset = Required(nameof(Ruleset), ruleset);
+        Start = start;
+        CompulsoryThreshold = compulsoryThresholdSpan;
     }
-    private Competition(string name, CompetitionType type, DateTimeOffset startTime, int? criRecovery)
+
+    private Competition(
+        string? name,
+        CompetitionType? type,
+        CompetitionRuleset ruleset,
+        DateTimeOffset start,
+        int? compulsoryThresholdMinutes)
+            : this(
+                GenerateId(),
+                name,
+                type,
+                ruleset,
+                IsFutureTime(nameof(Start), start),
+                ToTimeSpan(compulsoryThresholdMinutes),
+                [],
+                [])
     {
-        if (type == default)
+    }
+
+    static DateTimeOffset IsFutureTime(string field, DateTimeOffset start)
+    {
+        if (start <= DateTimeOffset.Now)
         {
-            throw new DomainException(nameof(type), "Competition Type is required");
+            throw new DomainException(field, "Competition start cannot be in the past");
         }
-
-        if (startTime.DateTime < DateTime.Today)
-        {
-            throw new DomainException(nameof(DateTime), "Competition date cannot be in the past");
-        }
-
-        Name = name;
-        Type = type;
-        StartTime = startTime;
-        CriRecovery = criRecovery;
+        return start;
     }
 
-    public string Name { get; private set; }
-    public CompetitionType Type { get; private set; }
-	public DateTimeOffset StartTime { get; private set; }
-    public int? CriRecovery { get; private set; }
-    public IReadOnlyList<Phase> Phases
+    static TimeSpan? ToTimeSpan(int? minutes)
     {
-        get => _phases.AsReadOnly();
-        private set => _phases = value.ToList();
+        return minutes != null ? TimeSpan.FromSeconds(minutes.Value) : null;
     }
-    public IReadOnlyList<Contestant> Contestants
-    {
-        get => _contestants.AsReadOnly();
-        private set => _contestants = value.ToList();
-    }
+
+    public string Name { get; }
+    public CompetitionType Type { get; }
+    public CompetitionRuleset Ruleset { get; }
+	public DateTimeOffset Start { get; }
+    public TimeSpan? CompulsoryThreshold { get; }
+    public IReadOnlyList<Phase> Phases => _phases.AsReadOnly();
+    public IReadOnlyList<Participation> Participations => _participations.AsReadOnly();
 
     public string Summarize()
 	{
 		var summary = new Summarizer(this);
-		summary.Add("Phases".Localize(), _phases);
-		summary.Add("Contestants".Localize(), _contestants);
+		summary.Add("phases".Localize(), _phases);
+		summary.Add("contestants".Localize(), _participations);
 		return summary.ToString();
 	}
+
 	public override string ToString()
 	{
-		var sb = new StringBuilder();
-		sb.Append($"{LocalizationHelper.Get(Type)}, {"Phases".Localize()}: {Phases.Count}, {"Contestant".Localize()}: {Contestants.Count}, ");
-		sb.Append($"{"Start".Localize()}: {this.StartTime.ToString("f", CultureInfo.CurrentCulture)}");
-		return sb.ToString();
+        return Combine(
+            $"{Name} ({Phases.Count})",
+            Type.ToString().Localize(),
+            $"{Start:g}");
 	}
 
-    public void Add(Contestant child)
+    public void Add(Participation child)
     {
-        _contestants.Add(child);
+        child.SetSpeedLimits(Type);
+        _participations.Add(child);
     }
 
-    public void Remove(Contestant child)
+    public void Remove(Participation child)
     {
-        _contestants.Remove(child);
+        _participations.Remove(child);
     }
 
-    public void Update(Contestant child)
+    public void Update(Participation child)
     {
-        _contestants.Remove(child);
+        _participations.Remove(child);
         Add(child);
     }
 

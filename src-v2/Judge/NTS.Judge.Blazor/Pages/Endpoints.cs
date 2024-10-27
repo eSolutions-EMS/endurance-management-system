@@ -2,12 +2,14 @@
 
 public static class Endpoints
 {
-    public const string PRINT_PAGE = "/print";
-    public const string SETUP_PAGE = "/";
+    public const string ENDURANCE_EVENT_PAGE = "/";
+    public const string ATHLETES_HORSES_PAGE = "/athletes-horses";
+    public const string COMBINATIONS_PAGE = "/combinations";
+    public const string LOOPS_PAGE = "/loops";
     public const string OFFICIAL_UPDATE = "/official-update";
     public const string LOOP_UPDATE = "/loop-update";
     public const string COMPETITION_UPDATE = "/competition-update";
-    public const string CONTESTANT_UPDATE = "/contestant-update";
+    public const string PARTICIPATION_UPDATE = "/participation-update";
     public const string PHASE_UPDATE = "/phase-update";
     public const string ATHLETE_UPDATE = "/athlete-update";
     public const string HORSE_UPDATE = "/horse-update";

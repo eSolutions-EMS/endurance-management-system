@@ -1,39 +1,23 @@
-﻿using Not.Application.Ports.CRUD;
-using Not.Blazor.Ports.Behinds;
-using Not.Domain;
-using Not.Exceptions;
+﻿using Not.Application.Adapters.Behinds;
+using Not.Application.Ports.CRUD;
 using NTS.Domain.Setup.Entities;
-using static MudBlazor.CategoryTypes;
+using NTS.Judge.Blazor.Pages.Setup.Combinations;
 
 namespace NTS.Judge.Events;
-public class CombinationBehind : INotSetBehind<Combination>
+
+public class CombinationBehind : CrudBehind<Combination, CombinationFormModel>
 {
-    private readonly IRepository<Combination> _combinationRepository;
-    private Combination? _combination;
-
-    public CombinationBehind(IRepository<Combination> combinationRepository)
+    public CombinationBehind(IRepository<Combination> repository) : base(repository)
     {
-        _combinationRepository = combinationRepository;
     }
 
-    public Task<IEnumerable<Combination>> GetAll()
+    protected override Combination CreateEntity(CombinationFormModel model)
     {
-        return _combinationRepository.ReadAll();
+        return Combination.Create(model.Number, model.Athlete, model.Horse, model.Tag);
     }
 
-    public async Task<Combination> Create(Combination entity)
+    protected override Combination UpdateEntity(CombinationFormModel model)
     {
-        _combination = await _combinationRepository.Create(entity);
-        return _combination;
-    }
-
-    public async Task<Combination> Update(Combination entity)
-    {
-        return await _combinationRepository.Update(entity);
-    }
-
-    public async Task<Combination> Delete(Combination entity)
-    {
-        return await _combinationRepository.Delete(entity);
+        return Combination.Update(model.Id, model.Number, model.Athlete, model.Horse, model.Tag);
     }
 }

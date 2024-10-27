@@ -1,4 +1,8 @@
-﻿using Not.Startup;
+﻿using Not.Filesystem;
+using Not.Serialization;
+using Not.Startup;
+using NTS.Domain.Core.Configuration;
+using NTS.Domain.Objects;
 using NTS.Judge.MAUI.Server;
 
 namespace NTS.Judge.MAUI;
@@ -19,10 +23,10 @@ public partial class App : Microsoft.Maui.Controls.Application
         StartIntegratedServer(serviceProvider);
     }
 
-    private void StartIntegratedServer(IServiceProvider sericeProvider)
+    private void StartIntegratedServer(IServiceProvider serviceProvider)
     {
-        JudgeMauiServer.Start(sericeProvider);
-
+        JudgeMauiServer.Start(serviceProvider);
+    
         Console.WriteLine("----------------------------------------");
         Console.WriteLine("|   Judge Integrated Server started    |");
         Console.WriteLine("----------------------------------------");

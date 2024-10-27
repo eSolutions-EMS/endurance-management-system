@@ -1,18 +1,28 @@
-﻿using Not.Application.Ports.CRUD;
-using Not.Blazor.Ports.Behinds;
+﻿using Not.Application.Adapters.Behinds;
+using Not.Application.Ports.CRUD;
 using Not.Exceptions;
-using NTS.Domain.Core.Aggregates.Participations;
+using Not.Safe;
+using NTS.Domain.Core.Entities.ParticipationAggregate;
+using NTS.Domain.Core.Entities;
 using NTS.Domain.Objects;
-using NTS.Judge.Blazor.Enums;
 using NTS.Judge.Blazor.Ports;
+using Not.Blazor.Ports.Behinds;
+using NTS.Judge.Blazor.Pages.Dashboard.Phases;
+using NTS.Domain;
+using NTS.Domain.Enums;
 
 namespace NTS.Judge.Adapters.Behinds;
 
-public class ParticipationBehind : ObservableBehind, IParticipationBehind
+public class ParticipationBehind : ObservableBehind, 
+    IParticipationBehind,
+    IUpdateBehind<PhaseUpdateModel>,
+    ISnapshotProcessor,
+    IManualProcessor
 {
     private readonly IRepository<Participation> _participationRepository;
     private readonly IRepository<SnapshotResult> _snapshotResultRepository;
-    
+    private Participation? _selectedParticipation;
+
     public ParticipationBehind(
         IRepository<Participation> participationRepository,
         IRepository<SnapshotResult> snapshotResultRepository)
@@ -22,21 +32,70 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
     }
 
     public IEnumerable<Participation> Participations { get; private set; } = new List<Participation>();
-    public IEnumerable<IGrouping<double, Participation>> ParticipationsByDistance => Participations.GroupBy(x => x.Phases.Distance);
+    public Participation? SelectedParticipation
+    {
+        get => _selectedParticipation; 
+        set
+        {
+            _selectedParticipation = value;
+            EmitChange();
+        } 
+    }
 
     // TODO: we need a better solution to load items as they have been changed in addition to load on startup.
     // Example case: importing previous data: as it is currently we have to restart the app after import
     // Maybe some sort of observable repositories?
-    public override async Task Initialize()
+    protected override async Task<bool> PerformInitialization(params IEnumerable<object> arguments)
     {
         Participations = await _participationRepository.ReadAll();
+        SelectedParticipation = Participations.FirstOrDefault();
+        return Participations.Any();
     }
 
-    public async Task Process(Snapshot snapshot)
+    async Task SafeRequestReinspection(bool requestFlag)
     {
-        var participation = Participations.FirstOrDefault(x => x.Tandem.Number == snapshot.Number);
+        SelectedParticipation!.ChangeReinspection(requestFlag);
+        await _participationRepository.Update(SelectedParticipation);
+
+        EmitChange();
+    }
+
+    public async Task<PhaseUpdateModel> Update(PhaseUpdateModel model)
+    {
+        var participation = Participations.FirstOrDefault(x => x.Phases.Any(y => y.Id == model.Id));
         GuardHelper.ThrowIfDefault(participation);
 
+        participation.Update(model);
+        await _participationRepository.Update(participation);
+        EmitChange();
+        return model;
+    }
+
+    async Task SafeRequestRequiredInspection(bool requestFlag)
+    {
+        SelectedParticipation!.ChangeRequiredInspection(requestFlag);
+        await _participationRepository.Update(SelectedParticipation);
+
+        EmitChange();
+    }
+
+    async Task SafeProcess(Timestamp timestamp)
+    {
+        var snapshot = new Snapshot(
+            SelectedParticipation!.Combination.Number,
+            SnapshotType.Automatic,
+            SnapshotMethod.Manual,
+            timestamp);
+        await SafeProcess(snapshot);
+    }
+
+    async Task SafeProcess(Snapshot snapshot)
+    {
+        var participation = Participations.FirstOrDefault(x => x.Combination.Number == snapshot.Number);
+        if (participation == null)
+        {
+            return;
+        }
         var result = participation.Process(snapshot);
         if (result.Type == SnapshotResultType.Applied)
         {
@@ -47,62 +106,122 @@ public class ParticipationBehind : ObservableBehind, IParticipationBehind
         EmitChange();
     }
 
-    public async Task Update(IPhaseState state)
+    async Task SafeWithdraw()
     {
-        var participation = await _participationRepository.Read(x => x.Phases.Any(y => y.Id == state.Id));
-        GuardHelper.ThrowIfDefault(participation);
+        GuardHelper.ThrowIfDefault(SelectedParticipation);
+        SelectedParticipation.Withdraw();
+        await _participationRepository.Update(SelectedParticipation);
 
-        participation.Update(state);
-        await _participationRepository.Update(participation);
+        EmitChange();
     }
 
-    public async Task RevokeQualification(int number, QualificationRevokeType type, FTQCodes? ftqCode = null, string? reason = null)
+    async Task SafeRetire()
     {
-        GuardHelper.ThrowIfDefault(type);
+        GuardHelper.ThrowIfDefault(SelectedParticipation);
+        SelectedParticipation.Retire();
+        await _participationRepository.Update(SelectedParticipation);
 
-        var participation = await _participationRepository.Read(x => x.Tandem.Number == number);
-        GuardHelper.ThrowIfDefault(participation);
-
-        if (type == QualificationRevokeType.Withdraw)
-        {
-            participation.Withdraw();
-        }
-        if (type == QualificationRevokeType.Retire)
-        {
-            participation.Retire();
-        }
-        if (type == QualificationRevokeType.Disqualify)
-        {
-            participation.Disqualify(reason);
-        }
-        if (type == QualificationRevokeType.FinishNotRanked)
-        {
-            participation.FinishNotRanked(reason);
-        }
-        if (type == QualificationRevokeType.FailToQualify)
-        {
-            GuardHelper.ThrowIfDefault(ftqCode);
-            participation.FailToQualify(ftqCode.Value);
-        }
-        if (type == QualificationRevokeType.FailToCompleteLoop)
-        {
-            participation.FailToCompleteLoop(reason);
-        }
-
-        await _participationRepository.Update(participation);
+        EmitChange();
     }
 
-    public async Task RestoreQualification(int number)
+    async Task SafeFinishNotRanked(string reason)
     {
-        var participation = await _participationRepository.Read(x => x.Tandem.Number == number);
-        GuardHelper.ThrowIfDefault(participation);
+        GuardHelper.ThrowIfDefault(SelectedParticipation);
+        SelectedParticipation.FinishNotRanked(reason);
+        await _participationRepository.Update(SelectedParticipation);
 
-        participation.RestoreQualification();
-        await _participationRepository.Update(participation);
+        EmitChange();
     }
 
-    public async Task<Participation?> Get(int id)
+    async Task SafeDisqualify(string reason)
     {
-        return await _participationRepository.Read(id);
+        GuardHelper.ThrowIfDefault(SelectedParticipation);
+        SelectedParticipation.Disqualify(reason);
+        await _participationRepository.Update(SelectedParticipation);
+
+        EmitChange();
     }
+
+    async Task SafeFailToQualify(FtqCode[] ftqCodes, string? reason)
+    {
+        GuardHelper.ThrowIfDefault(SelectedParticipation);
+
+        SelectedParticipation.FailToQualify(ftqCodes, reason);
+        await _participationRepository.Update(SelectedParticipation);
+
+        EmitChange();
+    }
+
+    async Task SafeRestoreQualification()
+    {
+        GuardHelper.ThrowIfDefault(SelectedParticipation);
+        SelectedParticipation.Restore();
+        await _participationRepository.Update(SelectedParticipation);
+        
+        EmitChange();
+    }
+
+    #region SafePattern
+
+    Participation? SafeGet(int id)
+    {
+        return Participations.FirstOrDefault(x => x.Id == id);
+    }
+
+    public async Task Process(Snapshot snapshot)
+    {
+        await SafeHelper.Run(() => SafeProcess(snapshot));
+    }
+
+    public async Task RequestRepresent(bool isRequested)
+    {
+        await SafeHelper.Run(() => SafeRequestReinspection(isRequested));
+    }
+
+    public async Task RequireInspection(bool isRequested)
+    {
+        await SafeHelper.Run(() => SafeRequestRequiredInspection(isRequested));
+    }
+
+    public async Task Withdraw()
+    {
+        await SafeHelper.Run(SafeWithdraw);
+    }
+
+    public async Task Retire()
+    {
+        await SafeHelper.Run(SafeRetire);
+    }
+
+    public async Task FinishNotRanked(string reason)
+    {
+        await SafeHelper.Run(() => SafeFinishNotRanked(reason));
+    }
+
+    public async Task Disqualify(string reason)
+    {
+        await SafeHelper.Run(() => SafeDisqualify(reason));
+    }
+
+    public async Task FailToQualify(FtqCode[] ftqCodes, string? reason)
+    {
+        await SafeHelper.Run(() => SafeFailToQualify(ftqCodes, reason));
+    }
+
+    public async Task RestoreQualification()
+    {
+        await SafeHelper.Run(SafeRestoreQualification);
+    }
+
+    public Participation? Get(int id)
+    {
+        return SafeHelper.Run(() => SafeGet(id));
+    }
+
+    public async Task Process(Timestamp timestamp)
+    {
+        await SafeHelper.Run(() => SafeProcess(timestamp));
+    }
+
+    #endregion
 }

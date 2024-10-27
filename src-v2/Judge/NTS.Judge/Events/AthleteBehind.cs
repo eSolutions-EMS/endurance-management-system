@@ -1,39 +1,23 @@
-﻿using Not.Application.Ports.CRUD;
-using Not.Blazor.Ports.Behinds;
-using Not.Domain;
-using Not.Exceptions;
+﻿using Not.Application.Adapters.Behinds;
+using Not.Application.Ports.CRUD;
 using NTS.Domain.Setup.Entities;
-using static MudBlazor.CategoryTypes;
+using NTS.Judge.Blazor.Pages.Setup.Athletes;
 
 namespace NTS.Judge.Events;
-public class AthleteBehind : INotSetBehind<Athlete>
+
+public class AthleteBehind : CrudBehind<Athlete, AthleteFormModel>
 {
-    private readonly IRepository<Athlete> _athleteRepository;
-    private Athlete? _athlete;
-
-    public AthleteBehind(IRepository<Athlete> athleteRepository)
+    public AthleteBehind(IRepository<Athlete> repository) : base(repository)
     {
-        _athleteRepository = athleteRepository;
     }
 
-    public Task<IEnumerable<Athlete>> GetAll()
+    protected override Athlete CreateEntity(AthleteFormModel model)
     {
-        return _athleteRepository.ReadAll();
+        return Athlete.Create(model.Name, model.FeiId, model.Country, model.Club, model.Category);
     }
 
-    public async Task<Athlete> Create(Athlete entity)
+    protected override Athlete UpdateEntity(AthleteFormModel model)
     {
-        _athlete = await _athleteRepository.Create(entity);
-        return _athlete;
-    }
-
-    public async Task<Athlete> Update(Athlete entity)
-    {
-        return await _athleteRepository.Update(entity);
-    }
-
-    public async Task<Athlete> Delete(Athlete entity)
-    {
-        return await _athleteRepository.Delete(entity);
+        return Athlete.Update(model.Id, model.Name, model.FeiId, model.Country, model.Club, model.Category);
     }
 }

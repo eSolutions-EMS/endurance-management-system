@@ -10,8 +10,8 @@ public record EventSpan : DomainObject
         EndDay = endDay;
     }
 
-    public DateTimeOffset StartDay { get; private set; }
-    public DateTimeOffset EndDay { get; private set; }
+    public DateTimeOffset StartDay { get; }
+    public DateTimeOffset EndDay { get; }
 
     public override string ToString()
     {
