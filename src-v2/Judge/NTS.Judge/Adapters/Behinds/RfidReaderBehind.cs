@@ -1,12 +1,21 @@
 ﻿using Not.Notifier;
+using Not.Serialization;
 using NTS.Domain;
 using NTS.Domain.Core.Configuration;
 using NTS.Domain.Enums;
 using NTS.Domain.Objects;
 using NTS.Judge.Blazor.Ports;
 using NTS.Judge.HardwareControllers;
+using System.Diagnostics;
 
 namespace NTS.Judge.Adapters.Behinds;
+
+public class LogModel
+{
+    public Exception Exception { get; set; }
+    public string Tag { get; set; }
+    public DateTime Timestamp { get; set; }
+}
 
 public class RfidReaderBehind : IRfidReaderBehind
 {
@@ -24,28 +33,41 @@ public class RfidReaderBehind : IRfidReaderBehind
     {
         if(!VF747PController.IsConnected || !VF747PController.IsReading)
         {
-            Task.Run(VF747PController.StartReading);
-            VF747PController.OnRead += OnRead;
+            //Task.Run(VF747PController.StartReading);
+            //VF747PController.OnRead += OnRead;
         }
     }
     public void StopReading()
     {
-        VF747PController.StopReading();
-        VF747PController.OnRead -= OnRead;
+        //VF747PController.StopReading();
+        //VF747PController.OnRead -= OnRead;
     }
 
     public async void OnRead(object? sender, (DateTime timestamp, string data) e)
     {
-        var number = int.Parse(e.data.Substring(0, 3));
-        var timestamp = new Timestamp(e.timestamp);
-
-        if (_deduplication.ContainsKey(number) && _deduplication[number] + TimeSpan.FromSeconds(30) < DateTimeOffset.Now)
+        try
         {
-            return;
+            var number = int.Parse(e.data.Substring(0, 3));
+            var timestamp = new Timestamp(e.timestamp);
+
+            if (_deduplication.ContainsKey(number) && _deduplication[number] + TimeSpan.FromSeconds(30) < DateTimeOffset.Now)
+            {
+                return;
+            }
+            _deduplication[number] = timestamp;
+            var snapshot = new Snapshot(number, StaticOptions.GetRfidSnapshotType(), SnapshotMethod.RFID, timestamp);
+            Process(snapshot);
         }
-        _deduplication[number] = timestamp;
-        var snapshot = new Snapshot(number, StaticOptions.GetRfidSnapshotType(), SnapshotMethod.RFID, timestamp);
-        Process(snapshot);
+        catch (Exception ex)
+        {
+            var now = DateTimeOffset.Now;
+            var (timestamp, tag) = e;
+            var model = new LogModel { Exception = ex, Timestamp = timestamp, Tag = tag };
+            var filename = now.ToString("HH-mm-ss.json");
+            var contents = model.ToJson();
+            var path = Path.Combine("C:/tmp/nts/logs", filename);
+            File.WriteAllText(path, contents);
+        }
     }
 
     async void Process(Snapshot snapshot)

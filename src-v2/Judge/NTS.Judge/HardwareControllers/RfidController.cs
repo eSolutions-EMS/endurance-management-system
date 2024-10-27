@@ -21,7 +21,7 @@ public abstract class RfidController
     public event EventHandler<(DateTime time, string data)> OnRead;
     protected virtual void OnReadEvent((DateTime time, string data) e)
     {
-        OnRead.Invoke(this,e);
+        OnRead?.Invoke(this,e);
     }
     public void RaiseMessage(string message)
     {
