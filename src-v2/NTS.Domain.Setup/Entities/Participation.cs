@@ -6,8 +6,8 @@ public class Participation : DomainEntity, ISummarizable
 {
     const double CHILDREN_MIN_SPEED = 8;
     const double CHILDREN_MAX_SPEED = 12;
-    const double QUALIFICATION_MIN_SPEED = 10;
-    const double QUALIFICATION_MAX_SPEED = 16;
+    const double MIN_SPEED = 10;
+    const double MAX_SPEED = 16;
 
     public static Participation Create(DateTimeOffset? newStart, bool isUnranked, Combination? combination, double? maxSpeedOverride)
         => new(newStart, isUnranked, combination, maxSpeedOverride);
@@ -19,7 +19,6 @@ public class Participation : DomainEntity, ISummarizable
     private Participation(int id, DateTimeOffset? startTimeOverride, bool isUnranked, Combination? combination, double? maxSpeedOverride)
         : base(id)
     {
-        Id = id;
         StartTimeOverride = startTimeOverride;
         IsNotRanked = isUnranked;
         Combination = Required(nameof(Combination), combination);
@@ -54,24 +53,17 @@ public class Participation : DomainEntity, ISummarizable
     internal void SetSpeedLimits(CompetitionType competitionType)
     {
         var athleteCategory = Combination.Athlete.Category;
-        if (athleteCategory == AthleteCategory.Children)
+        MinAverageSpeed = MIN_SPEED;
+        if (competitionType == CompetitionType.Qualification)
         {
-            MinAverageSpeed = CHILDREN_MIN_SPEED;
-            MaxAverageSpeed = CHILDREN_MAX_SPEED;
-        }
-        else
-        {
-            if (competitionType == CompetitionType.Qualification)
+            if (athleteCategory == AthleteCategory.Children)
             {
-                MinAverageSpeed = QUALIFICATION_MIN_SPEED;
-                MaxAverageSpeed = QUALIFICATION_MAX_SPEED;
+                MinAverageSpeed = CHILDREN_MIN_SPEED;
+                MaxAverageSpeed = CHILDREN_MAX_SPEED;
             }
             else
             {
-                // TODO: Check if children have max speed if they compete in CompetitionType == Star
-                // TODO: Use STARLEVEL_MIN_SPEED when correct value is known
-                MinAverageSpeed = null;//STARLEVEL_MIN_SPEED;
-                MaxAverageSpeed = null;
+                MaxAverageSpeed = MAX_SPEED;
             }
         }
         if (MaxSpeedOverride != null)

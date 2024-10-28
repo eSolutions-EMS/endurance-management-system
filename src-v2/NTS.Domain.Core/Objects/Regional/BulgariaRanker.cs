@@ -9,9 +9,9 @@ internal class BulgariaRanker : FeiRanker
         CountryIsoCode = "BGR";
     }
 
-    public override IList<RankingEntry> Rank(Ranking ranking)
+    public override List<RankingEntry> Rank(Ranking ranking)
     {
-        if (ranking.Category != AthleteCategory.Senior)
+        if (ranking.Category == AthleteCategory.Children)
         {
             return OrderByNotEliminatedAndRanked(ranking.Entries)
                 .ThenBy(x => x.Participation.GetTotal()?.RecoveryIntervalWithoutFinal)
