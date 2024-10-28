@@ -1,0 +1,18 @@
+﻿@using NTS.Domain.Core.Objects;
+@using NTS.Judge.Blazor.Pages.Dashboard.Ranklist;
+
+@inherits NotComponent
+
+<NotH2 Class="printable mb-4">@Ranklist.Title</NotH2>
+
+@foreach (var entry in Ranklist)
+{
+    <ProtocolRow Participation="entry.Participation" Class="printable" />
+
+    <MudDivider Class="printable" />
+}
+
+@code {
+    [Parameter, EditorRequired]
+    public Ranklist Ranklist { get; set; } = default!;
+}
