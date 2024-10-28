@@ -24,9 +24,21 @@
     <Rightbar>
         <TextDividerTM Text="Export" />
 
-        <NotButtonPrint OnClick="OpenPrintDialog" />
+        <MudButtonGroup OverrideStyles="false" Variant="Variant.Outlined" Class="align-center">
+            <MudMenu 
+                Icon="@Icons.Material.Filled.ArrowDropDown"
+                Color="Color.Primary"
+                Variant="Variant.Outlined" 
+                Class="sidebar-menu-button align-center"
+                Style="align-self:auto">
 
-        <NotButtonPrimary Text="@_showButtonText" Variant="Variant.Text" OnClick="ToggleShowButton" />
+                <MudMenuItem OnClick="ShowRanklist">@Localizer.Get("Ranklist")</MudMenuItem>
+
+                <MudMenuItem OnClick="ShowProtocol">@Localizer.Get("Protocol")</MudMenuItem>
+            </MudMenu>
+
+            <NotButtonPrint OnClick="OpenPrintDialog" />
+        </MudButtonGroup>
 
         <RankingMenu Class="mt-4" />
     </Rightbar>
@@ -34,7 +46,6 @@
 </NotPage>
 
 @code {
-    string _showButtonText => _showProtocol ? "Ranklist" : "Protocol";
     bool _showProtocol;
 
     [Inject]
@@ -45,8 +56,20 @@
         await Observe(_behind);
     }
 
-    void ToggleShowButton()
+    void ShowProtocol()
     {
-        _showProtocol = !_showProtocol;
+        _showProtocol = true;
+    }
+
+    void ShowRanklist()
+    {
+        _showProtocol = false;
     }
 }
+
+<style>
+    .sidebar-menu-button > button.mud-button-root {
+        padding-top: 6px !important;
+        padding-bottom: 5px !important;
+    }
+</style>
