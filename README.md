@@ -23,6 +23,8 @@ Dotnet 8 or later
 - [Appflow diagram](https://github.com/Not-Endurance/not-timing-system/blob/develop/diagrams/NTS%20v2%20Appflow.drawio.png)
 
 ### Project structure
+1. [src](https://github.com/Not-Endurance/not-timing-system/tree/develop/src) contains EMS and is already extracted in a separate repository and will be removed from here soon.
+2. [src-v2](https://github.com/Not-Endurance/not-timing-system/tree/develop/src-v2) contains the NTS code and will be renamed to src soon
 1. [_EMS](https://github.com/Not-Endurance/not-timing-system/tree/develop/src-v2/Compatibility.EMS) are objects from EMS necessary in order to achieve backwards compatibility with the mobile app [EMS.Witness](https://github.com/Not-Endurance/endurance-management-system/tree/release-witness-v5/src/Witness/EMS.Witness) You can see more of it's usage in [NTS.Judge/ACL](https://github.com/Not-Endurance/not-timing-system/tree/develop/src-v2/Judge/NTS.Judge/ACL) which stands for anti-corruption layer and essentially converts to and from EMS state
 2. [Not](https://github.com/Not-Endurance/not-timing-system/tree/develop/src-v2/Not) is a future library where I stuff all of the infrastructure and components in order to reuse them for future projects. They are completely stripped from business logic and are desidned to be configurable and exensible
 3. [Judge](https://github.com/Not-Endurance/not-timing-system/tree/develop/src-v2/Judge) contains the main app with the following separation:
