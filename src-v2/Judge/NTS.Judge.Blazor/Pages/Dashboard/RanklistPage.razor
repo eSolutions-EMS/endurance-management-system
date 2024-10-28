@@ -11,12 +11,22 @@
     @* // TODO: Add Start button in EmptyContent *@
 
     <Main>
-        <RanklistTable />
+        @if (_showProtocol)
+        {
+           <Protocol Ranklist="_behind.Ranklist!" />
+        }
+        else
+        {
+            <RanklistTable />
+        }
     </Main>
 
     <Rightbar>
         <TextDividerTM Text="Export" />
+
         <NotButtonPrint OnClick="OpenPrintDialog" Class="mb-4" />
+
+        <NotButtonPrimary Text="@_showButtonText" Variant="Variant.Text" OnClick="ToggleShowButton" />
 
         <RankingMenu />
     </Rightbar>
@@ -24,11 +34,19 @@
 </NotPage>
 
 @code {
+    string _showButtonText => _showProtocol ? "Ranklist" : "Protocol";
+    bool _showProtocol;
+
     [Inject]
     IRanklistBehind _behind { get; set; } = default!;
 
     protected override async Task OnInitializedAsync()
     {
         await Observe(_behind);
+    }
+
+    void ToggleShowButton()
+    {
+        _showProtocol = !_showProtocol;
     }
 }
