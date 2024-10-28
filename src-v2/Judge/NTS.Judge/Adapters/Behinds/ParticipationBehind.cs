@@ -19,6 +19,7 @@ public class ParticipationBehind : ObservableBehind,
     ISnapshotProcessor,
     IManualProcessor
 {
+    private readonly List<int> _recentlyProcessed = [];
     private readonly IRepository<Participation> _participationRepository;
     private readonly IRepository<SnapshotResult> _snapshotResultRepository;
     private Participation? _selectedParticipation;
@@ -31,13 +32,19 @@ public class ParticipationBehind : ObservableBehind,
         _snapshotResultRepository = snapshotResultRepository;
     }
 
-    public IEnumerable<Participation> Participations { get; private set; } = new List<Participation>();
+    public IReadOnlyList<int> RecentlyProcessed => _recentlyProcessed;
+    public IEnumerable<Participation> Participations { get; private set; } = [];
     public Participation? SelectedParticipation
     {
         get => _selectedParticipation; 
         set
         {
             _selectedParticipation = value;
+            var number = _selectedParticipation?.Combination.Number;
+            if (number != null)
+            {
+                _recentlyProcessed.Remove(number.Value);
+            }
             EmitChange();
         } 
     }
@@ -102,7 +109,7 @@ public class ParticipationBehind : ObservableBehind,
             await _participationRepository.Update(participation);
         }
         await _snapshotResultRepository.Create(result);
-
+        _recentlyProcessed.Add(participation.Combination.Number);
         EmitChange();
     }
 

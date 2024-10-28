@@ -15,6 +15,7 @@ public interface IParticipationBehind : IObservableBehind
     // TODO: this should probably be removed and Participations can be returned from Start instead
     IEnumerable<Participation> Participations { get; }
     Participation? SelectedParticipation { get; set; }
+    IReadOnlyList<int> RecentlyProcessed { get; }
     Task RequestRepresent(bool requestFlag);
     Task RequireInspection(bool requestFlag);
     Task Withdraw();
