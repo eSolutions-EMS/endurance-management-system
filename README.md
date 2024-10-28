@@ -11,7 +11,7 @@ Dotnet 8 or later
 2. In terminal scope to [src-v2](https://github.com/Not-Endurance/not-timing-system/tree/develop/src-v2) and run `dotnet workload restore` - this will install necessary workloads based on the solution
 
 ## WebView2
-MAUI Blazor hybrid apps use MS's WebView2 in order to run natively. This might not be necessary, I don't  recall if VS installer habdles it or you need to download manually. If you see a popup regarding WebView follow thr instructions or download manually [here](https://developer.microsoft.com/en-us/microsoft-edge/webview2/?form=MA13LH). You may need ro reboot after installation.
+MAUI Blazor hybrid apps use MS's WebView2 in order to run natively. This might not be necessary, I don't  recall if VS installer handles it or you need to download manually. If you see a popup regarding WebView follow the instructions or download manually [here](https://developer.microsoft.com/en-us/microsoft-edge/webview2/?form=MA13LH). You may need ro reboot after installation.
 
 ### Debug
 1. Configure `StaticOptions` - [static-options.json](https://github.com/Not-Endurance/not-timing-system/blob/develop/src-v2/Judge/NTS.Judge/Resources/config/static-options.json) is something like an ad hoc appsettings.json. It's packaged in the build process, but when debugging (DEBUG constant is defined) it's sourced from `C:\tmp\nts\Resources\config`. It's mostly necessary in order to provision Country dropdown lists in a few forms
