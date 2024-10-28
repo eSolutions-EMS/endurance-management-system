@@ -19,8 +19,8 @@ Dotnet 8 or later
 2.  Find and run `NTS.Judge.MAUI.exe` in order to start the application.
 
 ### Diagrams
-A reasonably-updated Domain Model diagram: https://github.com/Not-Endurance/not-timing-system/blob/develop/diagrams/NTS%20v2%20Domain%20Model.drawio.png
-Appflow diagram: https://github.com/Not-Endurance/not-timing-system/blob/develop/diagrams/NTS%20v2%20Appflow.drawio.png 
+- A reasonably-updated [Domain Model diagram](https://github.com/Not-Endurance/not-timing-system/blob/develop/diagrams/NTS%20v2%20Domain%20Model.drawio.png)
+- [Appflow diagram](https://github.com/Not-Endurance/not-timing-system/blob/develop/diagrams/NTS%20v2%20Appflow.drawio.png)
 
 ### Project structure
 1. [_EMS](https://github.com/Not-Endurance/not-timing-system/tree/develop/src-v2/Compatibility.EMS) are objects from EMS necessary in order to achieve backwards compatibility with the mobile app [EMS.Witness](https://github.com/Not-Endurance/endurance-management-system/tree/release-witness-v5/src/Witness/EMS.Witness) You can see more of it's usage in [NTS.Judge/ACL](https://github.com/Not-Endurance/not-timing-system/tree/develop/src-v2/Judge/NTS.Judge/ACL) which stands for anti-corruption layer and essentially converts to and from EMS state
