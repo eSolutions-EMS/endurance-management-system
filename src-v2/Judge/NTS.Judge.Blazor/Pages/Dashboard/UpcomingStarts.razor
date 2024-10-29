@@ -4,12 +4,11 @@
 @using Not.Blazor.TM
 @using Not.Extensions
 
-@* @attribute [Route(STARTLIST_HISTORY)] *@
 @inherits NotComponent
 
 
     <MudTabs @ref="@Tabs" PanelClass="px-4 py-6" Elevation="4"
-        Rounded ApplyEffectsToContainer>
+             Rounded ApplyEffectsToContainer>
         @foreach (var tab in UserTabs)
         {
             <MudTabPanel ID="@tab.Id" Text="@tab.Label">
@@ -26,13 +25,14 @@
                         <tbody>
                             @foreach (var row in groupedData)
                             {
-                               @*  if (tab.Label.Contains(row.TotalDistance.ToString()))
+                                @* if (tab.Label.Contains(row.TotalDistance.ToString()))
                                 { *@
                                     <tr>
                                         @foreach (var x in row.ToString().Split(", "))
                                         {
                                             <td>@x</td>
                                         }
+                                        <td><NotTimer StartTime="@row.StartIn()" StopTimerAtTime="-15" /></td>
                                     </tr>
                                 @* } *@
                             }
@@ -41,10 +41,10 @@
                 </ChildContent>
             </MudTabPanel>
         }
-        </MudTabs>
+    </MudTabs>
 
 
-@code{
+@code {
     [Inject]
     private IStartlistBehind _behind { get; set; } = default!;
 
@@ -61,7 +61,6 @@
     protected override async Task OnInitializedAsync()
     {
         await _behind.Initialize();
-        //var ringiringirae = _behind.StartHistory;
         var starts = _behind.StartHistory;//.StartlistByDistance();
         foreach (var start in starts)
         {
@@ -80,6 +79,6 @@
     public bool bordered = false;
     public bool striped = false;
     public Color color = Color.Primary;
-    public string[] headings = { "Number", "Athlete", "Loop", "Start Time" };
+    public string[] headings = { "Number", "Athlete", "Loop", "Start Time", "Start In" };
     public List<Start> groupedData { get; set; } = new List<Start>();
 }

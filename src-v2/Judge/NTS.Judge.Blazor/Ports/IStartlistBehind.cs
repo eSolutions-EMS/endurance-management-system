@@ -1,11 +1,12 @@
 ﻿using Not.Blazor.Ports.Behinds;
-using NTS.Domain.Core.Aggregates.Participations;
+using Not.Injection;
 using NTS.Domain.Core.Objects;
 
 namespace NTS.Judge.Blazor.Ports;
 
-public interface IStartlistBehind : IObservableBehind
+public interface IStartlistBehind : ISingletonService
 {
-    StartList UpcomingStarts { get; }
-    StartList StartHistory { get; }
+    Task Initialize();
+    IEnumerable<Start> UpcomingStarts { get; }
+    IEnumerable<Start> StartHistory { get; }
 }

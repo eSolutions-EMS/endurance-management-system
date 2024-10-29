@@ -1,88 +1,83 @@
-﻿using NTS.Domain.Core.Aggregates.Participations;
+﻿using NTS.Domain.Core.Entities.ParticipationAggregate;
 using NTS.Domain;
+using NTS.Domain.Core.Entities;
+using Not.Localization;
 
 namespace NTS.Domain.Core.Objects;
 
 public class StartList
 {
-    public const string START_HISTORY = "start_history";
-    public const string UPCOMING_STARTS = "upcoming_starts";
-    public StartList(IEnumerable<Participation> participations,string type)
+    public StartList(IEnumerable<Participation> participations)
     {
-        if(type==UPCOMING_STARTS)
-        {
             foreach (var participation in participations)
             {
-                if (!participation.IsNotQualified)
+                var phases = participation.Phases;
+                if (!participation.IsEliminated())
                 {
-                    var phase = participation.Phases.Current;
-                    if (phase.OutTime != null && phase.StartTime != null)
+                    foreach( var phase in phases)
                     {
-                        var upcomingStart = new Start(participation);
-                        Starts.Add(upcomingStart);
+                        if (phase.IsComplete())
+                        {
+                            var previousStart = new Start(participation.Combination.Name, participation.Combination.Number, phases.IndexOf(phase) + 1, participation.Phases.Current.Length, participation.Phases.Distance, phase.StartTime!);
+                            PreviousStarts.Add(previousStart);
+                        }
+                        else
+                        {
+                            if(phase == phases.Current && new Timestamp(DateTime.Now) - phase.StartTime < TimeSpan.FromMinutes(15))
+                            {
+                                var upcomingStart = new Start(participation.Combination.Name, participation.Combination.Number, phases.IndexOf(phase) + 1, participation.Phases.Current.Length, participation.Phases.Distance, phase.StartTime!);
+                                UpcomingStarts.Add(upcomingStart);
+                            }
+                        }
                     }
+                  
                 }
             }
-        }
-        else
-        {
-            foreach (var participation in participations)
-            {
-                foreach(var phase in participation.Phases)
-                {
-                    var loopNumber = participation.Phases.NumberOf(phase ?? participation.Phases.Last());
-                    if(phase.OutTime!=null)
-                    {
-                        var startRecord = new Start(participation.Tandem.Name, participation.Tandem.Number, loopNumber, phase.Length, participation.Phases.Distance, phase, phase.OutTime != null ? phase.OutTime : phase.StartTime);
-                        Starts.Add(startRecord);
-                    }
-                }
-            }
-        }
     }
-    
-    public List<Start> Starts = new List<Start>();
+    public List<Start> UpcomingStarts { get; set; } = new List<Start>();
+    public List<Start> PreviousStarts { get; set; } = new List<Start>();
 
-    public IEnumerable<Start> StartlistByDistance()
-    {
-        return Starts
-            .GroupBy(sh => Tuple.Create(sh.TotalDistance, sh.Athlete))
-            .OrderBy(g => g.Key.Item1)
-            .ThenBy(g => g.Key.Item2) //returns IOrderedEnumerable<IGrouping<Tuple<double, Person>, Start>>
-            .FlattenGroupedItems();
-    }
+    //public IEnumerable<Start> StartlistByDistance()
+    //{
+    //    return Starts
+    //        .GroupBy(sh => Tuple.Create(sh.TotalDistance, sh.Athlete))
+    //        .OrderBy(g => g.Key.Item1)
+    //        .ThenBy(g => g.Key.Item2) //returns IOrderedEnumerable<IGrouping<Tuple<double, Person>, Start>>
+    //        .FlattenGroupedItems();
+    //}
 }
 public class Start : IComparable<Start>
 {
     public Start(Participation participation)
     {
-        Athlete = participation.Tandem.Name;
-        Number = participation.Tandem.Number;
-        LoopNumber = participation.Phases.CurrentNumber;
+        var phases = participation.Phases;
+        Athlete = participation.Combination.Name;
+        Number = participation.Combination.Number;
+        PhaseNumber = phases.IndexOf(phases.Current)+1;
         Distance = participation.Phases.Current.Length;
-        StartAt = participation.Phases.OutTime != null? participation.Phases.OutTime : participation.Phases.Current.StartTime;
+        StartAt = participation.Phases.Current.StartTime;
         GuardHelper.ThrowIfDefault(participation?.Phases?.Current);
-        CurrentPhase = participation?.Phases?.Current;
+        //CurrentPhase = participation?.Phases?.Current;
         TotalDistance = participation!.Phases!.Distance;
     }
 
-    public Start(Person athlete, int number, int loopNumber, double distance, double totalDistance, Phase phase, Timestamp startAt)
+    public Start(Person athlete, int number, int loopNumber, double distance, double totalDistance, Timestamp startAt)
     {
         Athlete = athlete;
         Number = number;
-        LoopNumber = loopNumber;
+        PhaseNumber = loopNumber;
         Distance = distance;
         TotalDistance = totalDistance;
-        CurrentPhase = phase;
+        //CurrentPhase = phase;
         StartAt = startAt;
     }
 
     public Person Athlete { get; private set; }
     public int Number { get; private set; }
-    public int LoopNumber { get; private set; }
+    public int PhaseNumber { get; private set; }
     public double Distance { get; private set; }
     public double TotalDistance { get; private set; }
-    public Phase CurrentPhase { get; private set; }
+    //public Phase CurrentPhase { get; private set; }
     public Timestamp? StartAt { get; private set; }
 
     public string StartIn()
@@ -104,7 +99,7 @@ public class Start : IComparable<Start>
 
     public override string ToString()
     {
-        var result = $"{Number}, {Athlete}, #{LoopNumber}: {Distance}km, {StartAt}";
+        var result = $"{Number}, {Athlete}, {"#".Localize()}{PhaseNumber}: {Distance}km, {StartAt}";
         return result;
     }
 

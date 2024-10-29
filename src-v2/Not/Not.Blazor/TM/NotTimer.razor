@@ -23,8 +23,8 @@
         FormatTime();
         _timer = new Timer(1000);
         _timer.Elapsed += OnTimerElapsed;
-        _timer.AutoReset = true;
-        _timer.Enabled = true;
+        _timer.AutoReset = (_time > TimeSpan.FromMinutes(StopTimerAtTime));
+        _timer.Enabled = _time > TimeSpan.FromMinutes(StopTimerAtTime);
     }
 
     private void OnTimerElapsed(object? sender, System.Timers.ElapsedEventArgs e)
@@ -44,15 +44,15 @@
         _displayTime = _time.ToString().Replace("-", " - ");
         if (_time > TimeSpan.FromMinutes(5))
         {
-            _color = _theme.Palette.Success.Value;
+            _color = _theme.PaletteLight.Success.Value;
         }
         else if (_time > TimeSpan.FromMinutes(0))
         {
-            _color = _theme.Palette.Warning.Value;
+            _color = _theme.PaletteLight.Warning.Value;
         }
         else
         {
-            _color = _theme.Palette.Error.Value;
+            _color = _theme.PaletteLight.Error.Value;
         }
     }
 
