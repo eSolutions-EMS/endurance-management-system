@@ -9,42 +9,47 @@ public class StartList
 {
     public StartList(IEnumerable<Participation> participations)
     {
-            foreach (var participation in participations)
+        foreach (var participation in participations)
+        {
+            if (!participation.IsEliminated())
             {
                 var phases = participation.Phases;
-                if (!participation.IsEliminated())
+                var now = new Timestamp(DateTime.Now);
+                foreach (var phase in phases)
                 {
-                    foreach( var phase in phases)
+                    var index = phases.IndexOf(phase);
+                    if (phase.IsComplete())
                     {
-                        if (phase.IsComplete())
+                        var previousStart = new Start(participation.Combination.Name, participation.Combination.Number, index + 1, phases[index].Length, participation.Phases.Distance, phase.StartTime!);
+                        PreviousStarts.Add(previousStart);
+                    }
+                    else
+                    {
+                        if(phase == phases.Current && now - phase.StartTime < TimeSpan.FromMinutes(15))
                         {
-                            var previousStart = new Start(participation.Combination.Name, participation.Combination.Number, phases.IndexOf(phase) + 1, participation.Phases.Current.Length, participation.Phases.Distance, phase.StartTime!);
-                            PreviousStarts.Add(previousStart);
-                        }
-                        else
-                        {
-                            if(phase == phases.Current && new Timestamp(DateTime.Now) - phase.StartTime < TimeSpan.FromMinutes(15))
-                            {
-                                var upcomingStart = new Start(participation.Combination.Name, participation.Combination.Number, phases.IndexOf(phase) + 1, participation.Phases.Current.Length, participation.Phases.Distance, phase.StartTime!);
-                                UpcomingStarts.Add(upcomingStart);
-                            }
+                            var upcomingStart = new Start(participation.Combination.Name, participation.Combination.Number, index, phases[index].Length, participation.Phases.Distance, phase.StartTime!);
+                            UpcomingStarts.Add(upcomingStart);
                         }
                     }
-                  
                 }
             }
+        }
     }
     public List<Start> UpcomingStarts { get; set; } = new List<Start>();
     public List<Start> PreviousStarts { get; set; } = new List<Start>();
 
-    //public IEnumerable<Start> StartlistByDistance()
-    //{
-    //    return Starts
-    //        .GroupBy(sh => Tuple.Create(sh.TotalDistance, sh.Athlete))
-    //        .OrderBy(g => g.Key.Item1)
-    //        .ThenBy(g => g.Key.Item2) //returns IOrderedEnumerable<IGrouping<Tuple<double, Person>, Start>>
-    //        .FlattenGroupedItems();
-    //}
+    public IEnumerable<Start> GroupByDistanceAndAthlete()
+    {
+        var group1 = PreviousStarts
+            .GroupBy(sh => Tuple.Create(sh.TotalDistance, sh.Athlete));
+        var sort1 = group1
+            .OrderBy(g => g.Key.Item1);
+        var sort2 = sort1
+            .ThenBy(g => g.Key.Item2); //returns IOrderedEnumerable<IGrouping<Tuple<double, Person>, Start>>
+        var group = sort2
+            .FlattenGroupedItems();
+        return group;
+    }
 }
 public class Start : IComparable<Start>
 {

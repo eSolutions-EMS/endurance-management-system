@@ -1,4 +1,5 @@
 ﻿using Not.Application.Ports.CRUD;
+using Not.Exceptions;
 using NTS.Domain.Core.Entities;
 using NTS.Domain.Core.Objects;
 using NTS.Judge.Blazor.Ports;
@@ -12,7 +13,7 @@ public class StartlistBehind : IStartlistBehind
     {
         _participationRepository = participations;
     }
-
+    public StartList? StartList { get; private set; }
     public IEnumerable<Start> UpcomingStarts { get; private set; } = default!;
     public IEnumerable<Start> StartHistory { get; private set; } = default!;
 
@@ -20,7 +21,9 @@ public class StartlistBehind : IStartlistBehind
     {
         var participations = await _participationRepository.ReadAll();
         var startlist = new StartList(participations);
+        GuardHelper.ThrowIfDefault(startlist);
         UpcomingStarts = startlist.UpcomingStarts;
         StartHistory = startlist.PreviousStarts;
+        StartList = startlist;
     }
 }
