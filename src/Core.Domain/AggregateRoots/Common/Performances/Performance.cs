@@ -1,11 +1,11 @@
-﻿using Core.Domain.Common.Models;
-using Core.Domain.Enums;
-using Core.Domain.State.LapRecords;
-using Core.Domain.State.Participations;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using Core.Domain.Common.Models;
+using Core.Domain.Enums;
+using Core.Domain.State.LapRecords;
+using Core.Domain.State.Participations;
 
 namespace Core.Domain.AggregateRoots.Common.Performances;
 
@@ -45,6 +45,7 @@ public class Performance : IAggregate, IPerformance, INotifyPropertyChanged
         this.RaisePropertyChanged(nameof(this.AverageSpeedPhase));
         this.RaisePropertyChanged(nameof(this.NextStartTime));
     }
+
     public DateTime? RequiredInspectionTime { get; private set; }
     public DateTime? CompulsoryRequiredInspectionTime { get; private set; }
 
@@ -54,39 +55,48 @@ public class Performance : IAggregate, IPerformance, INotifyPropertyChanged
         {
             return null;
         }
-        var inspection = this.NextStartTime?.AddMinutes(REQUIRED_OR_COMPULSORY_INSPECTION_MINUTES_OFFSET);
+        var inspection = this.NextStartTime?.AddMinutes(
+            REQUIRED_OR_COMPULSORY_INSPECTION_MINUTES_OFFSET
+        );
         return inspection;
     }
 
     private DateTime? UpdateCompulsoryRequiredInspectionTime()
     {
-        if (!this.Record.Lap.IsCompulsoryInspectionRequired && (RecoverySpan == null || RecoverySpan < TimeSpan.FromMinutes(10)))
+        if (
+            !this.Record.Lap.IsCompulsoryInspectionRequired
+            && (RecoverySpan == null || RecoverySpan < TimeSpan.FromMinutes(10))
+        )
         {
             return null;
         }
-        var inspection = this.NextStartTime?.AddMinutes(REQUIRED_OR_COMPULSORY_INSPECTION_MINUTES_OFFSET);
+        var inspection = this.NextStartTime?.AddMinutes(
+            REQUIRED_OR_COMPULSORY_INSPECTION_MINUTES_OFFSET
+        );
         return inspection;
     }
 
     public double TotalLength { get; private set; }
 
     public TimeSpan? RecoverySpan { get; private set; }
-    private TimeSpan? UpdateRecoverySpan()
-        => this.Record.VetGateTime - this.Record.ArrivalTime;
+
+    private TimeSpan? UpdateRecoverySpan() => this.Record.VetGateTime - this.Record.ArrivalTime;
 
     public TimeSpan? Time { get; private set; }
-    private TimeSpan? UpdateTime()
-        => Performance.GetCorrectTime(this.Record, this.type);
+
+    private TimeSpan? UpdateTime() => Performance.GetCorrectTime(this.Record, this.type);
 
     public double? AverageSpeed { get; private set; }
+
     private double? UpdateAverageSpeed()
     {
         var lapLengthInKm = this.Record.Lap.LengthInKm;
         var totalHours = this.CalculateLoopTime()?.TotalHours;
-        return  lapLengthInKm / totalHours;
+        return lapLengthInKm / totalHours;
     }
 
     public double? AverageSpeedPhase { get; private set; }
+
     public double? UpdateAverageSpeedPhase()
     {
         var phaseTime = this.CalculatePhaseTime();
@@ -99,16 +109,13 @@ public class Performance : IAggregate, IPerformance, INotifyPropertyChanged
     }
 
     public DateTime? NextStartTime { get; private set; }
-    public DateTime? UpdateNextStartTime()
-        => this.Record.NextStarTime;
 
-    private TimeSpan? CalculateLoopTime()
-        => this.Record.ArrivalTime - this.Record.StartTime;
+    public DateTime? UpdateNextStartTime() => this.Record.NextStarTime;
 
-    private TimeSpan? CalculatePhaseTime()
-        => Record.Lap.IsFinal
-            ? CalculateLoopTime()
-            : Record.VetGateTime - Record.StartTime;
+    private TimeSpan? CalculateLoopTime() => this.Record.ArrivalTime - this.Record.StartTime;
+
+    private TimeSpan? CalculatePhaseTime() =>
+        Record.Lap.IsFinal ? CalculateLoopTime() : Record.VetGateTime - Record.StartTime;
 
     public int Id => this.Record.Id;
     public DateTime StartTime => this.Record.StartTime;
@@ -123,10 +130,14 @@ public class Performance : IAggregate, IPerformance, INotifyPropertyChanged
         var previousLength = 0d;
         foreach (var lapRecord in participation.Participant.LapRecords)
         {
-            var performance = new Performance(lapRecord, participation.CompetitionConstraint.Type, previousLength);
+            var performance = new Performance(
+                lapRecord,
+                participation.CompetitionConstraint.Type,
+                previousLength
+            );
             previousLength += lapRecord.Lap.LengthInKm;
             yield return performance;
-        } 
+        }
     }
 
     public static DateTime? GetFirstNextStartTime(Participation participation, int toSkip)
@@ -147,11 +158,11 @@ public class Performance : IAggregate, IPerformance, INotifyPropertyChanged
     {
         var lapLengthInKm = record.Lap.LengthInKm;
         var totalHours = GetCorrectTime(record, type)?.TotalHours;
-        return  lapLengthInKm / totalHours;
+        return lapLengthInKm / totalHours;
     }
 
-    private static TimeSpan? GetCorrectTime(LapRecord record, CompetitionType type)
-        => type == CompetitionType.National || record.Lap.IsFinal
+    private static TimeSpan? GetCorrectTime(LapRecord record, CompetitionType type) =>
+        type == CompetitionType.National || record.Lap.IsFinal
             ? TruncateToSeconds(record.ArrivalTime - record.StartTime)
             : TruncateToSeconds(record.VetGateTime - record.StartTime);
 
@@ -161,10 +172,16 @@ public class Performance : IAggregate, IPerformance, INotifyPropertyChanged
         {
             return null;
         }
-        return new TimeSpan(timeSpan.Value.Days, timeSpan.Value.Hours, timeSpan.Value.Minutes, timeSpan.Value.Seconds);
+        return new TimeSpan(
+            timeSpan.Value.Days,
+            timeSpan.Value.Hours,
+            timeSpan.Value.Minutes,
+            timeSpan.Value.Seconds
+        );
     }
 
     public event PropertyChangedEventHandler PropertyChanged;
+
     protected virtual void RaisePropertyChanged(string propertyName = null)
     {
         this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

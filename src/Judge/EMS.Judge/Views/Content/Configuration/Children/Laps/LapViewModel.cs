@@ -1,9 +1,9 @@
-﻿using EMS.Judge.Services;
-using EMS.Judge.Views.Content.Configuration.Core;
-using EMS.Judge.Application.Common;
-using Core.Domain.AggregateRoots.Configuration;
+﻿using Core.Domain.AggregateRoots.Configuration;
 using Core.Domain.Common.Models;
 using Core.Domain.State.Laps;
+using EMS.Judge.Application.Common;
+using EMS.Judge.Services;
+using EMS.Judge.Views.Content.Configuration.Core;
 
 namespace EMS.Judge.Views.Content.Configuration.Children.Laps;
 
@@ -19,8 +19,11 @@ public class LapViewModel : NestedConfigurationBase<LapView, Lap>, ILapState
     private int? restTimeInMinutes;
     private bool requireCompulsoryInspection;
 
-    private LapViewModel() : this(null, null) { }
-    public LapViewModel(IExecutor<ConfigurationRoot> executor, IQueries<Lap> laps) : base(laps)
+    private LapViewModel()
+        : this(null, null) { }
+
+    public LapViewModel(IExecutor<ConfigurationRoot> executor, IQueries<Lap> laps)
+        : base(laps)
     {
         this.executor = executor;
     }
@@ -31,13 +34,12 @@ public class LapViewModel : NestedConfigurationBase<LapView, Lap>, ILapState
         {
             return this.executor.Execute(
                 config => config.Laps.Create(this.ParentId.Value, this),
-                true);
+                true
+            );
         }
         else
         {
-            return this.executor.Execute(
-                config => config.Laps.Update(this),
-                true);
+            return this.executor.Execute(config => config.Laps.Update(this), true);
         }
     }
 
@@ -49,7 +51,7 @@ public class LapViewModel : NestedConfigurationBase<LapView, Lap>, ILapState
     public string IsFinalText
     {
         get => this.isFinalText;
-        set => this.SetProperty (ref this.isFinalText, value);
+        set => this.SetProperty(ref this.isFinalText, value);
     }
     public double? LengthInKmDisplay
     {

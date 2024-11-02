@@ -1,7 +1,7 @@
+using System;
 using Core.ConventionalServices;
 using JsonNet.PrivatePropertySetterResolver;
 using Newtonsoft.Json;
-using System;
 
 namespace EMS.Judge.Application.Common.Services;
 

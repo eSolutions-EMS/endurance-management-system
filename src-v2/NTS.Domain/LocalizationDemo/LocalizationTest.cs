@@ -2,13 +2,10 @@
 
 public class LocalizationTest : DomainEntity
 {
-    public LocalizationTest() : base(GenerateId())
-    {
-    }
+    public LocalizationTest()
+        : base(GenerateId()) { }
 
-    public string Success()
-        => "My dick Yanko";
+    public string Success() => "My dick Yanko";
 
-    public string Invalid()
-        => throw new DomainException("Kur {0}", "debel");
+    public string Invalid() => throw new DomainException("Kur {0}", "debel");
 }

@@ -6,13 +6,13 @@ namespace Not.Concurrency;
 public class ConcurrentList<T> : IList<T>
 {
     private readonly List<T> _items = new();
-    private readonly object _lock = new ();
-
+    private readonly object _lock = new();
 
     public ConcurrentList()
     {
         _items = new();
     }
+
     public ConcurrentList(IEnumerable<T> enumerable)
     {
         _items = enumerable.ToList();
@@ -20,7 +20,7 @@ public class ConcurrentList<T> : IList<T>
 
     public void Add(T item)
     {
-        lock(_lock)
+        lock (_lock)
         {
             _items.Add(item);
         }
@@ -28,7 +28,7 @@ public class ConcurrentList<T> : IList<T>
 
     public void AddRange(IEnumerable<T> collection)
     {
-        lock(_lock)
+        lock (_lock)
         {
             _items.AddRange(collection);
         }
@@ -36,7 +36,7 @@ public class ConcurrentList<T> : IList<T>
 
     public void Remove(T item)
     {
-        lock(_lock)
+        lock (_lock)
         {
             _items.Remove(item);
         }
@@ -44,7 +44,7 @@ public class ConcurrentList<T> : IList<T>
 
     public void RemoveRange(IEnumerable<T> collection)
     {
-        lock(_lock)
+        lock (_lock)
         {
             foreach (var item in collection)
             {
@@ -86,34 +86,39 @@ public class ConcurrentList<T> : IList<T>
         return GetEnumerator();
     }
 
-
     public int Count => _items.Count;
     public bool IsReadOnly => false;
     public T this[int index]
-    { 
+    {
         get => _items[index];
-        set => _items[index] = value; 
+        set => _items[index] = value;
     }
+
     public int IndexOf(T item)
     {
         return _items.IndexOf(item);
     }
+
     public void Insert(int index, T item)
     {
         _items[index] = item;
     }
+
     public void RemoveAt(int index)
     {
         _items.RemoveAt(index);
     }
+
     public bool Contains(T item)
     {
         return _items.Contains(item);
     }
+
     public void CopyTo(T[] array, int arrayIndex)
     {
         _items.CopyTo(array, arrayIndex);
     }
+
     bool ICollection<T>.Remove(T item)
     {
         return _items.Remove(item);

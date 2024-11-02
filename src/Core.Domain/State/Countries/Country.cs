@@ -5,8 +5,10 @@ namespace Core.Domain.State.Countries;
 
 public class Country : DomainBase<CountryException>, ICountryState
 {
-    private Country() {}
-    public Country(string isoCode, string name, int id) : base(GENERATE_ID)
+    private Country() { }
+
+    public Country(string isoCode, string name, int id)
+        : base(GENERATE_ID)
     {
         this.Id = id;
         this.IsoCode = this.Validator.IsRequired(isoCode, nameof(isoCode));

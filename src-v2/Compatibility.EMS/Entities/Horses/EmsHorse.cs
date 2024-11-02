@@ -5,8 +5,10 @@ namespace NTS.Compatibility.EMS.Entities.Horses;
 public class EmsHorse : EmsDomainBase<EmsHorseException>, IEmsHorseState
 {
     [Newtonsoft.Json.JsonConstructor]
-    private EmsHorse() {}
-    public EmsHorse(string feiId, string name, string breed, string club) : base(GENERATE_ID)
+    private EmsHorse() { }
+
+    public EmsHorse(string feiId, string name, string breed, string club)
+        : base(GENERATE_ID)
     {
         this.Name = name;
         this.Breed = breed;
@@ -21,7 +23,9 @@ public class EmsHorse : EmsDomainBase<EmsHorseException>, IEmsHorseState
         string breed,
         string trainerFeiId,
         string trainerFirstName,
-        string trainerLastName) : base(GENERATE_ID)
+        string trainerLastName
+    )
+        : base(GENERATE_ID)
     {
         this.Name = name;
         this.Breed = breed;
@@ -32,7 +36,8 @@ public class EmsHorse : EmsDomainBase<EmsHorseException>, IEmsHorseState
         this.TrainerLastName = trainerLastName;
     }
 
-    public EmsHorse(IEmsHorseState state) : base(GENERATE_ID)
+    public EmsHorse(IEmsHorseState state)
+        : base(GENERATE_ID)
     {
         this.FeiId = state.FeiId;
         this.Club = state.Club;

@@ -6,6 +6,7 @@ public enum CompetitionType
 {
     [Display(Name = "Qualification")]
     Qualification = 1,
+
     [Display(Name = "Star Level")]
-    Star = 2
+    Star = 2,
 }

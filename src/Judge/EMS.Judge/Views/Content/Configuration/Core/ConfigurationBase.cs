@@ -1,14 +1,14 @@
-﻿using EMS.Judge.Common;
-using EMS.Judge.Common.Components.Templates.SimpleListItem;
-using EMS.Judge.Services;
-using EMS.Judge.Application.Common;
+﻿using System.Collections.Generic;
+using Core.Domain.Common.Models;
 using Core.Mappings;
 using Core.Utilities;
-using Core.Domain.Common.Models;
+using EMS.Judge.Application.Common;
+using EMS.Judge.Common;
+using EMS.Judge.Common.Components.Templates.SimpleListItem;
 using EMS.Judge.Common.Extensions;
+using EMS.Judge.Services;
 using Prism.Commands;
 using Prism.Regions;
-using System.Collections.Generic;
 
 namespace EMS.Judge.Views.Content.Configuration.Core;
 
@@ -30,7 +30,9 @@ public abstract class ConfigurationBase<TView, TDomain> : ViewModelBase
         this.BoolItems = SimpleListItemViewModel.FromBool();
 
         this.Submit = new DelegateCommand(this.SubmitAction);
-        this.NavigateToUpdate = new DelegateCommand(() => Navigation.ChangeToUpdateConfiguration<TView>(this.Id));
+        this.NavigateToUpdate = new DelegateCommand(
+            () => Navigation.ChangeToUpdateConfiguration<TView>(this.Id)
+        );
     }
 
     public DelegateCommand Submit { get; }
@@ -56,6 +58,7 @@ public abstract class ConfigurationBase<TView, TDomain> : ViewModelBase
         var domainObject = this.Queries.GetOne(id);
         this.MapFrom(domainObject);
     }
+
     private void SubmitAction()
     {
         var result = this.Persist();

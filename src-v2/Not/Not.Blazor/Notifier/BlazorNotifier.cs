@@ -31,7 +31,11 @@ public class BlazorNotifier : ComponentBase
 
     void AddSnack(Failed failed)
     {
-        _snackbar.Add(failed.Message, Severity.Error, config => config.SetVisibleDuration(_failedDuration));
+        _snackbar.Add(
+            failed.Message,
+            Severity.Error,
+            config => config.SetVisibleDuration(_failedDuration)
+        );
     }
 
     void AddSnack(Succeeded succeeded)

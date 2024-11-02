@@ -5,6 +5,7 @@ namespace NTS.Compatibility.EMS.RPC;
 public class EmsStartlistEntry : IComparable<EmsStartlistEntry>, IEquatable<EmsStartlistEntry>
 {
     public EmsStartlistEntry() { }
+
     public EmsStartlistEntry(EmsParticipation participation, int toSkip = 0)
     {
         Number = participation.Participant.Number;
@@ -15,12 +16,11 @@ public class EmsStartlistEntry : IComparable<EmsStartlistEntry>, IEquatable<EmsS
         IsRestOver = StartTime < DateTime.Now;
 
         Stage = toSkip + 1;
-        var lapRecords = participation.Participant.LapRecords
-            .Skip(toSkip)
-            .ToList();
+        var lapRecords = participation.Participant.LapRecords.Skip(toSkip).ToList();
         var first = lapRecords.First();
         StartTime = first.StartTime;
     }
+
     public EmsStartlistEntry(EmsParticipation participation)
     {
         Number = participation.Participant.Number;
@@ -30,7 +30,10 @@ public class EmsStartlistEntry : IComparable<EmsStartlistEntry>, IEquatable<EmsS
         Distance = participation.Distance!.Value;
         IsRestOver = StartTime < DateTime.Now;
         Stage = participation.Participant.LapRecords.Count + 1;
-        StartTime = GetLastNextStartTime(participation) ?? throw new Exception("Missing NextStartTime on record"); ;
+        StartTime =
+            GetLastNextStartTime(participation)
+            ?? throw new Exception("Missing NextStartTime on record");
+        ;
     }
 
     private DateTime? GetLastNextStartTime(EmsParticipation participation)

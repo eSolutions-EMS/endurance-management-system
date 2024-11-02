@@ -2,10 +2,10 @@
 using Not.Domain;
 using Not.Safe;
 using NTS.Domain.Core.Entities;
+using NTS.Domain.Core.Entities.ParticipationAggregate;
 using NTS.Domain.Enums;
 using NTS.Judge.Blazor.Ports;
 using NTS.Judge.Factories;
-using NTS.Domain.Core.Entities.ParticipationAggregate;
 
 namespace NTS.Judge.Adapters.Behinds;
 
@@ -22,7 +22,8 @@ public class DashboardBehind : IDashboardBehind
         IRepository<EnduranceEvent> coreEventRespository,
         IRepository<Official> coreOfficialRepository,
         IRepository<Participation> participationRepository,
-        IRepository<Ranking> rankingRepository)
+        IRepository<Ranking> rankingRepository
+    )
     {
         _setupRepository = setupRepository;
         _coreEventRespository = coreEventRespository;
@@ -64,22 +65,32 @@ public class DashboardBehind : IDashboardBehind
         }
     }
 
-    async Task CreateParticipationsAndRankings(Domain.Setup.Entities.EnduranceEvent setupEvent) 
+    async Task CreateParticipationsAndRankings(Domain.Setup.Entities.EnduranceEvent setupEvent)
     {
         foreach (var competition in setupEvent.Competitions)
         {
-            var (participations, rankingEntriesByCategory) = await CoreFactory.CreateParticipationAndRankingEntriesAsync(competition, _participationRepository);
-            foreach (var participation in participations) 
+            var (participations, rankingEntriesByCategory) =
+                await CoreFactory.CreateParticipationAndRankingEntriesAsync(
+                    competition,
+                    _participationRepository
+                );
+            foreach (var participation in participations)
             {
                 await _participationRepository.Create(participation);
             }
-            await CreateRankings(new Competition(competition.Name, competition.Ruleset), rankingEntriesByCategory);
-        }      
+            await CreateRankings(
+                new Competition(competition.Name, competition.Ruleset),
+                rankingEntriesByCategory
+            );
+        }
     }
 
-    async Task CreateRankings(Competition competition, Dictionary<AthleteCategory, List<RankingEntry>> rankingEntriesByCategory)
+    async Task CreateRankings(
+        Competition competition,
+        Dictionary<AthleteCategory, List<RankingEntry>> rankingEntriesByCategory
+    )
     {
-        foreach(var relation in rankingEntriesByCategory)
+        foreach (var relation in rankingEntriesByCategory)
         {
             var ranking = CoreFactory.CreateRanking(competition, relation.Key, relation.Value);
             await _rankingRepository.Create(ranking);

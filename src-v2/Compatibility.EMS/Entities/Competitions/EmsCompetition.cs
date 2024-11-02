@@ -1,20 +1,24 @@
-using NTS.Compatibility.EMS.Entities.Laps;
 using System.Data;
 using NTS.Compatibility.EMS.Abstractions;
+using NTS.Compatibility.EMS.Entities.Laps;
 
 namespace NTS.Compatibility.EMS.Entities.Competitions;
 
 public class EmsCompetition : EmsDomainBase<EmsCompetitionException>
 {
     [Newtonsoft.Json.JsonConstructor]
-    private EmsCompetition() {}
-    public EmsCompetition(EmsCompetitionType type, string name) : base(GENERATE_ID)
+    private EmsCompetition() { }
+
+    public EmsCompetition(EmsCompetitionType type, string name)
+        : base(GENERATE_ID)
     {
         this.Type = type;
         this.Name = name;
         this.StartTime = DateTime.Now;
     }
-    public EmsCompetition(IEmsCompetitionState state) : base(GENERATE_ID)
+
+    public EmsCompetition(IEmsCompetitionState state)
+        : base(GENERATE_ID)
     {
         this.Type = state.Type;
         this.Name = state.Name;
@@ -28,10 +32,12 @@ public class EmsCompetition : EmsDomainBase<EmsCompetitionException>
     private List<EmsLap> laps = new();
     public EmsCompetitionType Type { get; internal set; }
     public string Name { get; internal set; }
+
     /// <summary>
     /// Used to build EnduranceEvent.FEIID and Competition.FEIID. Its located at EVENT DETAIL (Search Venue->Show->ShowName->EventCode) upper right, https://data.fei.org
     /// </summary>
     public string FeiCategoryEventNumber { get; internal set; }
+
     /// <summary>
     /// Used to Competition.FEIID. Its located at COMPETITION DETAIL (Search Venue->Show->ShowName->EventCode->CompetitionName), upper right, https://data.fei.org
     /// </summary>
@@ -55,6 +61,7 @@ public class EmsCompetition : EmsDomainBase<EmsCompetitionException>
         private set { this.laps = value.ToList(); }
     }
 }
+
 public enum EmsCompetitionType
 {
     Invalid = 0,

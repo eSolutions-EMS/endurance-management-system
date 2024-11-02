@@ -2,15 +2,17 @@
 
 namespace NTS.Compatibility.EMS.Abstractions;
 
-public abstract class EmsDomainBase<TException> : IEmsDomain, IEquatable<EmsDomainBase<TException>>, IEmsIdentifiable
+public abstract class EmsDomainBase<TException>
+    : IEmsDomain,
+        IEquatable<EmsDomainBase<TException>>,
+        IEmsIdentifiable
     where TException : EmsDomainExceptionBase, new()
 {
     protected const string GENERATE_ID = "GenerateIdFlag";
 
     // Empty constructor is used by mapping for existing (in the database) entries
-    protected EmsDomainBase()
-    {
-    }
+    protected EmsDomainBase() { }
+
     // Unused variable is needed mark the constructor which generates Id
     // That constructor should ONLY be used when creating NEW (no database entry) objects
     protected EmsDomainBase(string generateIdFlag)
@@ -20,14 +22,11 @@ public abstract class EmsDomainBase<TException> : IEmsDomain, IEquatable<EmsDoma
 
     public int Id { get; protected init; } // Keep setter for mapping
 
-    public override bool Equals(object? other)
-        => this.IsEqual(other);
+    public override bool Equals(object? other) => this.IsEqual(other);
 
-    public bool Equals(IEmsIdentifiable identifiable)
-        => this.IsEqual(identifiable);
+    public bool Equals(IEmsIdentifiable identifiable) => this.IsEqual(identifiable);
 
-    public bool Equals(EmsDomainBase<TException>? domain)
-        => this.IsEqual(domain);
+    public bool Equals(EmsDomainBase<TException>? domain) => this.IsEqual(domain);
 
     public static bool operator ==(EmsDomainBase<TException>? one, EmsDomainBase<TException>? two)
     {
@@ -38,8 +37,10 @@ public abstract class EmsDomainBase<TException> : IEmsDomain, IEquatable<EmsDoma
         return one.Equals(two);
     }
 
-    public static bool operator !=(EmsDomainBase<TException>? one, EmsDomainBase<TException>? two)
-        => !(one == two);
+    public static bool operator !=(
+        EmsDomainBase<TException>? one,
+        EmsDomainBase<TException>? two
+    ) => !(one == two);
 
     private bool IsEqual(object? other)
     {
@@ -63,8 +64,7 @@ public abstract class EmsDomainBase<TException> : IEmsDomain, IEquatable<EmsDoma
         return this.GetHashCode().Equals(other.GetHashCode());
     }
 
-    public override int GetHashCode()
-        => this.Id;
+    public override int GetHashCode() => this.Id;
 
     protected EmsValidator<TException> Validator { get; } = new();
 }

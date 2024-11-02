@@ -1,7 +1,8 @@
-﻿using NTS.Domain.Objects;
-using System.Text;
+﻿using System.Text;
+using NTS.Domain.Objects;
 
 namespace NTS.Judge.HardwareControllers;
+
 public abstract class RfidController
 {
     protected TimeSpan throttle;
@@ -19,10 +20,12 @@ public abstract class RfidController
     public bool IsWriting { get; protected set; }
 
     public event EventHandler<(DateTime time, string data)> OnRead;
+
     protected virtual void OnReadEvent((DateTime time, string data) e)
     {
-        OnRead.Invoke(this,e);
+        OnRead.Invoke(this, e);
     }
+
     public void RaiseMessage(string message)
     {
         message = $"{this.Device} {message}";
@@ -30,6 +33,7 @@ public abstract class RfidController
     }
 
     public event EventHandler<string> ErrorEvent;
+
     public void RaiseError(string error)
     {
         var message = $"{this.Device} ERROR: {error}";
@@ -40,10 +44,12 @@ public abstract class RfidController
     public abstract void Disconnect();
 
     protected abstract string Device { get; }
+
     protected virtual byte[] ConvertToByytes(string data)
     {
         return Encoding.UTF8.GetBytes(data);
     }
+
     protected virtual string ConvertToString(byte[] data)
     {
         return Encoding.UTF8.GetString(data);

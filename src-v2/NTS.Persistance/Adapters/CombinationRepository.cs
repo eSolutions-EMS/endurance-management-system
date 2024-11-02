@@ -5,7 +5,6 @@ namespace NTS.Persistence.Adapters;
 
 public class CombinationRepository : SetRepository<Combination, SetupState>
 {
-    public CombinationRepository(IStore<SetupState> store) : base(store)
-    {
-    }
+    public CombinationRepository(IStore<SetupState> store)
+        : base(store) { }
 }

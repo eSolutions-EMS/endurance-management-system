@@ -13,8 +13,8 @@ public record Club(string Name) : DomainObject
         return new Club(name);
     }
 
-	public override string ToString()
-	{
-		return Name;
-	}
+    public override string ToString()
+    {
+        return Name;
+    }
 }

@@ -5,7 +5,7 @@ namespace Not.Storage.Concurrency;
 
 internal class ConcurrencySynchronizer
 {
-    private readonly static SemaphoreSlim _semaphore = new(1);
+    private static readonly SemaphoreSlim _semaphore = new(1);
     private readonly TimeSpan _timout;
     private Guid? _lockId;
 

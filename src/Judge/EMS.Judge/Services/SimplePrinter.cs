@@ -1,10 +1,10 @@
-﻿using Core.ConventionalServices;
-using Core.Services;
-using System.IO;
+﻿using System.IO;
 using System.Printing;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Xps.Packaging;
+using Core.ConventionalServices;
+using Core.Services;
 
 namespace EMS.Judge.Services;
 
@@ -25,7 +25,7 @@ public class SimplePrinter : ISimplePrinter
             var printDialog = new PrintDialog
             {
                 PageRangeSelection = PageRangeSelection.AllPages,
-                UserPageRangeEnabled = true
+                UserPageRangeEnabled = true,
             };
             var shouldPrint = printDialog.ShowDialog();
             if (shouldPrint ?? false)

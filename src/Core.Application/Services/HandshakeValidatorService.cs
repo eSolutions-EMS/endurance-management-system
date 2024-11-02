@@ -1,7 +1,7 @@
-﻿using Core.ConventionalServices;
-using System.IO;
+﻿using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using Core.ConventionalServices;
 
 namespace Core.Application.Services;
 
@@ -14,7 +14,6 @@ public class HandshakeValidatorService : IHandshakeValidatorService
     public HandshakeValidatorService()
     {
         this._sha = new HMACSHA256(this.GetBytes(KEY));
-        
     }
 
     public byte[] CreatePayload(string thisApp)
@@ -41,8 +40,7 @@ public class HandshakeValidatorService : IHandshakeValidatorService
         return true;
     }
 
-    private byte[] GetBytes(string content)
-        => Encoding.UTF8.GetBytes(content);
+    private byte[] GetBytes(string content) => Encoding.UTF8.GetBytes(content);
 }
 
 public interface IHandshakeValidatorService : ITransientService

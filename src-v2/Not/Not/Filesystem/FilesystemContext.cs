@@ -11,7 +11,7 @@ public abstract class FilesystemContext
 #if DEBUG
             "C:\\tmp\\nts";
 #else
-            Directory.GetCurrentDirectory();
+        Directory.GetCurrentDirectory();
 #endif
         return Path.Combine(basePath, subdirectory);
     }

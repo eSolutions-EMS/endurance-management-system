@@ -1,13 +1,13 @@
-﻿using EMS.Judge.Views.Dialogs.Confirmation;
-using EMS.Judge.Views.Dialogs.Message;
-using EMS.Judge.Views.Dialogs.Startlists;
+﻿using System;
+using System.Collections.Generic;
 using Core.Models;
 using Core.Utilities;
+using EMS.Judge.Views.Dialogs.Confirmation;
+using EMS.Judge.Views.Dialogs.Message;
+using EMS.Judge.Views.Dialogs.Startlists;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Regions;
-using System;
-using System.Collections.Generic;
 
 namespace EMS.Judge.Common;
 

@@ -10,17 +10,18 @@ public record Speed : DomainObject
         return speed.HasValue ? new Speed(speed.Value) : null;
     }
 
-    private Speed()
-    {
-    }
+    private Speed() { }
+
     private Speed(double value)
     {
         _speed = value;
     }
+
     public Speed(double distance, double totalHours)
     {
         _speed = distance / totalHours;
     }
+
     public Speed(double distance, TimeInterval interval)
     {
         _speed = distance / interval.ToTotalHours();

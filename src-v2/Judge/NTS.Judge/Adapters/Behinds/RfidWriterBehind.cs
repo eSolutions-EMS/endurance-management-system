@@ -1,11 +1,11 @@
-﻿using NTS.Domain.Setup.Entities;
-using NTS.Judge.Blazor.Ports;
-using NTS.Judge.HardwareControllers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NTS.Domain.Setup.Entities;
+using NTS.Judge.Blazor.Ports;
+using NTS.Judge.HardwareControllers;
 
 namespace NTS.Judge.Adapters.Behinds;
 

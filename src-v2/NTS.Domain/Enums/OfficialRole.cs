@@ -8,7 +8,7 @@ public enum OfficialRole
 
     [Description("Chief steward")]
     ChiefSteward = 2,
-    
+
     [Description("Veterinary Commission")]
     VeterinaryCommission = 3,
 
@@ -26,7 +26,7 @@ public enum OfficialRole
 
     [Description("Foreign judge")]
     ForeignJudge = 8,
-    
+
     [Description("Foreign Veterinary Delegate")]
-    ForeignVeterinaryDelegate = 9
+    ForeignVeterinaryDelegate = 9,
 }

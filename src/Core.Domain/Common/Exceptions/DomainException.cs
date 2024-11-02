@@ -3,9 +3,8 @@
 public class DomainException : DomainExceptionBase
 {
     public DomainException(string entity, string message, params object[] arguments)
-        : this(entity, string.Format(message, arguments))
-    {
-    }
+        : this(entity, string.Format(message, arguments)) { }
+
     public DomainException(string entity, string message)
     {
         this.Entity = entity;

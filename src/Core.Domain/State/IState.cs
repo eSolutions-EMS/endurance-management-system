@@ -1,10 +1,10 @@
-﻿using Core.Domain.State.Athletes;
+﻿using System.Collections.Generic;
+using Core.Domain.State.Athletes;
 using Core.Domain.State.Countries;
 using Core.Domain.State.EnduranceEvents;
 using Core.Domain.State.Horses;
 using Core.Domain.State.Participants;
 using Core.Domain.State.Participations;
-using System.Collections.Generic;
 
 namespace Core.Domain.State;
 

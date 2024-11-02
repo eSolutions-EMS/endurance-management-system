@@ -24,7 +24,7 @@ public class CompetitionFormModel : IFormModel<Competition>
     public DateTime? Day { get; set; } = DateTime.Now;
     public TimeSpan? Time { get; set; } = DateTime.Now.TimeOfDay;
     public bool UseCompulsoryThreshold { get; set; }
-    public int? CompulsoryThresholdMinutes 
+    public int? CompulsoryThresholdMinutes
     {
         get => UseCompulsoryThreshold ? _requiredInspectionCompulsoryThreshold : null;
         set => _requiredInspectionCompulsoryThreshold = value;
@@ -56,4 +56,3 @@ public class CompetitionFormModel : IFormModel<Competition>
         UseCompulsoryThreshold = competition.CompulsoryThresholdSpan != null;
     }
 }
- 

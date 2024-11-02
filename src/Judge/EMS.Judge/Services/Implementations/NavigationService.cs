@@ -1,4 +1,6 @@
-﻿using EMS.Judge.Common;
+﻿using System;
+using EMS.Judge.Application.Common.Exceptions;
+using EMS.Judge.Common;
 using EMS.Judge.Common.Services.Implementations;
 using EMS.Judge.Views.Content.Configuration.ConfigurationMenu;
 using EMS.Judge.Views.Content.Configuration.Roots.Events;
@@ -6,11 +8,9 @@ using EMS.Judge.Views.Content.Hardware;
 using EMS.Judge.Views.Content.Import;
 using EMS.Judge.Views.Content.Manager;
 using EMS.Judge.Views.Content.Ranking;
-using EMS.Judge.Application.Common.Exceptions;
 using Prism.Regions;
-using System;
-using static EMS.Judge.DesktopConstants;
 using static Core.Localization.Strings;
+using static EMS.Judge.DesktopConstants;
 using NavigationParameters = Prism.Regions.NavigationParameters;
 
 namespace EMS.Judge.Services.Implementations;
@@ -19,10 +19,13 @@ public class NavigationService : NavigationServiceBase, INavigationService
 {
     private readonly IStatelessExecutor executor;
     private readonly IApplicationContext context;
+
     public NavigationService(
         IStatelessExecutor executor,
         IRegionManager regionManager,
-        IApplicationContext context) : base(regionManager)
+        IApplicationContext context
+    )
+        : base(regionManager)
     {
         this.executor = executor;
         this.context = context;
@@ -61,6 +64,7 @@ public class NavigationService : NavigationServiceBase, INavigationService
             this.ChangeTo<ManagerView>();
         });
     }
+
     public void NavigateToRanking()
     {
         this.executor.Execute(() =>
@@ -72,6 +76,7 @@ public class NavigationService : NavigationServiceBase, INavigationService
             this.ChangeTo<RankingView>(Regions.CONTENT_LEFT);
         });
     }
+
     public void NavigateToHardware()
     {
         this.executor.Execute(() => this.ChangeTo<HardwareView>(Regions.CONTENT_LEFT));
@@ -91,8 +96,14 @@ public class NavigationService : NavigationServiceBase, INavigationService
     {
         this.executor.Execute(() =>
         {
-            var principal = new NavigationParameter(DesktopConstants.NavigationParametersKeys.PARENT_VIEW_ID, principalId);
-            var childView = new NavigationParameter(DesktopConstants.NavigationParametersKeys.VIEW_ID, childViewId);
+            var principal = new NavigationParameter(
+                DesktopConstants.NavigationParametersKeys.PARENT_VIEW_ID,
+                principalId
+            );
+            var childView = new NavigationParameter(
+                DesktopConstants.NavigationParametersKeys.VIEW_ID,
+                childViewId
+            );
             this.ChangeTo(typeof(T), principal, childView);
         });
     }
@@ -102,7 +113,10 @@ public class NavigationService : NavigationServiceBase, INavigationService
     {
         this.executor.Execute(() =>
         {
-            var parameter = new NavigationParameter(DesktopConstants.NavigationParametersKeys.DOMAIN_ID, id);
+            var parameter = new NavigationParameter(
+                DesktopConstants.NavigationParametersKeys.DOMAIN_ID,
+                id
+            );
             this.ChangeTo(typeof(T), parameter);
         });
     }

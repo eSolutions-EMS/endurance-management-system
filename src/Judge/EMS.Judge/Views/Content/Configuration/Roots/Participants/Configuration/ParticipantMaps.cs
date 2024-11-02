@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
-using EMS.Judge.Common.Components.Templates.SimpleListItem;
-using EMS.Judge.Application.Common.Models;
-using Core.Mappings;
 using Core.Domain.State.Athletes;
 using Core.Domain.State.Horses;
 using Core.Domain.State.Participants;
+using Core.Mappings;
+using EMS.Judge.Application.Common.Models;
+using EMS.Judge.Common.Components.Templates.SimpleListItem;
 
 namespace EMS.Judge.Views.Content.Configuration.Roots.Participants.Configuration;
 
@@ -17,7 +17,5 @@ public class ParticipantMaps : ICustomMapConfiguration
         profile.CreateMap<Horse, SimpleListItemViewModel>();
     }
 
-    public void AddToMaps(IProfileExpression profile)
-    {
-    }
+    public void AddToMaps(IProfileExpression profile) { }
 }

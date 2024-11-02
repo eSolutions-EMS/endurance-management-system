@@ -7,7 +7,10 @@ namespace NTS.Judge.Blazor.Startup;
 
 public static class JudgeBlazorStartup
 {
-    public static IServiceCollection AddJudgeBlazor(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddJudgeBlazor(
+        this IServiceCollection services,
+        IConfiguration configuration
+    )
     {
         services
             .AddLocalization(x => x.ResourcesPath = "Resources/Localization")

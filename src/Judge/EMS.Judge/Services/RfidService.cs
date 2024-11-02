@@ -1,12 +1,13 @@
-﻿using Core.ConventionalServices;
+﻿using System;
+using System.Collections.Generic;
+using Core.ConventionalServices;
 using Core.Domain.State.Participants;
 using EMS.Judge.Application.Hardware;
 using EMS.Judge.Application.Services;
 using EMS.Judge.Common.Services;
-using System;
-using System.Collections.Generic;
 
 namespace EMS.Judge.Services;
+
 public class RfidService : IRfidService
 {
     private readonly ISettings settings;
@@ -16,10 +17,18 @@ public class RfidService : IRfidService
 
     private bool isReading;
 
-    public RfidService(ISettings settings, IPopupService popupService, Application.Services.ILogger logger)
+    public RfidService(
+        ISettings settings,
+        IPopupService popupService,
+        Application.Services.ILogger logger
+    )
     {
         this.vd67Controller = new VupVD67Controller(TimeSpan.FromMilliseconds(100));
-        this.vupVF747PController = new VupVF747pController("192.168.68.128", logger, TimeSpan.FromMilliseconds(10));
+        this.vupVF747PController = new VupVF747pController(
+            "192.168.68.128",
+            logger,
+            TimeSpan.FromMilliseconds(10)
+        );
         this.vd67Controller.ErrorEvent += (_, message) => this.RenderError(message);
         this.vupVF747PController.ErrorEvent += (_, message) => this.RenderError(message);
         this.settings = settings;
@@ -67,7 +76,7 @@ public class RfidService : IRfidService
         this.isReading = true;
         var data = this.vd67Controller.Read();
         this.isReading = false;
-        if (data  == null)
+        if (data == null)
         {
             throw new Exception("Cannot connect to RFID device.");
         }
@@ -92,18 +101,18 @@ public class RfidService : IRfidService
         foreach (var data in tags)
         {
             RfidTag tag;
-			try
+            try
             {
-				tag = new RfidTag(data);
-			}
-			catch (Exception)
+                tag = new RfidTag(data);
+            }
+            catch (Exception)
             {
                 Console.WriteLine($"Cannot parse RFID tag: {data}");
                 continue;
             }
-			yield return tag;
-		}
-	}
+            yield return tag;
+        }
+    }
 
     public void StopReading()
     {
@@ -124,7 +133,6 @@ public class RfidService : IRfidService
 
     public RfidTag Write(string position, string number)
     {
-
         if (!this.settings.StartVupRfid)
         {
             return null;
@@ -138,10 +146,12 @@ public class RfidService : IRfidService
 
     private void RenderError(string message)
     {
-        App.Current.Dispatcher.Invoke(delegate
-        {
-            this.popupService.RenderError(message);
-        });
+        App.Current.Dispatcher.Invoke(
+            delegate
+            {
+                this.popupService.RenderError(message);
+            }
+        );
     }
 }
 

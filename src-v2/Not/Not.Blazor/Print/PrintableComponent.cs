@@ -27,9 +27,7 @@ public abstract class PrintableComponent : NotComponent, IDisposable
     /// <summary>
     /// Make sure to Rerender when overriding this method otherwise changes might not be reflected
     /// </summary>
-    protected virtual void VisibilityToggleHook()
-    {
-    }
+    protected virtual void VisibilityToggleHook() { }
 
     public void Dispose()
     {

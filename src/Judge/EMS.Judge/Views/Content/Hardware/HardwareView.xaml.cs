@@ -1,17 +1,20 @@
-﻿using EMS.Judge.Common;
-using EMS.Judge.Common.Services;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using System.Windows.Input;
+using EMS.Judge.Common;
+using EMS.Judge.Common.Services;
 
 namespace EMS.Judge.Views.Content.Hardware;
 
 public partial class HardwareView : UserControl, IView
 {
     private readonly IInputHandler handler;
-    public HardwareView(IInputHandler handler) : this()
+
+    public HardwareView(IInputHandler handler)
+        : this()
     {
         this.handler = handler;
     }
+
     public HardwareView()
     {
         InitializeComponent();

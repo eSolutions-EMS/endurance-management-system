@@ -1,7 +1,7 @@
-﻿using EMS.Judge.Common;
-using EMS.Judge.Common.Services;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using System.Windows.Input;
+using EMS.Judge.Common;
+using EMS.Judge.Common.Services;
 
 namespace EMS.Judge.Views.Content.Configuration.Roots.Events;
 
@@ -14,7 +14,8 @@ public partial class EnduranceEventView : UserControl, IView
         InitializeComponent();
     }
 
-    public EnduranceEventView(IInputHandler inputInput) : this()
+    public EnduranceEventView(IInputHandler inputInput)
+        : this()
     {
         this.inputInput = inputInput;
     }

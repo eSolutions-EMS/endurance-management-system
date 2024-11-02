@@ -15,14 +15,17 @@ public class VisibilityToBooleanConverter : IValueConverter
             throw new InvalidOperationException($"Cannot convert '{value}' to bool.");
         }
 
-        return visibility == Visibility.Visible;;
+        return visibility == Visibility.Visible;
+        ;
     }
 
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
     {
         if (value is not bool boolean)
         {
-            throw new InvalidOperationException($"Cannot convert value '{value}' to {nameof(Visibility)} enum.");
+            throw new InvalidOperationException(
+                $"Cannot convert value '{value}' to {nameof(Visibility)} enum."
+            );
         }
 
         if (boolean)

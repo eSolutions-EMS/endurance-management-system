@@ -1,5 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System;
+﻿using System;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Core.Utilities;
 
@@ -14,7 +14,6 @@ public static class StaticProvider
             throw new InvalidOperationException("StaticProvider is already initialized");
         }
         StaticProvider.provider = provider;
-
     }
 
     public static T GetService<T>()

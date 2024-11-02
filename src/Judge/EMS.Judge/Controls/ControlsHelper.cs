@@ -5,11 +5,11 @@ namespace EMS.Judge.Controls;
 
 public static class ControlsHelper
 {
-    public static Style GetStyle(string key)
-        => (Style) System.Windows.Application.Current.FindResource(key);
+    public static Style GetStyle(string key) =>
+        (Style)System.Windows.Application.Current.FindResource(key);
 
-    public static void Scale(this UIElement control, double coefficient)
-        => ScaleElementTree(control, coefficient);
+    public static void Scale(this UIElement control, double coefficient) =>
+        ScaleElementTree(control, coefficient);
 
     /// <summary>
     /// Limited functionality.
@@ -43,7 +43,8 @@ public static class ControlsHelper
                 border.Padding.Left * coefficient,
                 border.Padding.Top * coefficient,
                 border.Padding.Right * coefficient,
-                border.Padding.Bottom * coefficient);
+                border.Padding.Bottom * coefficient
+            );
             border.Padding = padding;
             border.Height = border.ActualHeight * coefficient;
             border.Width = border.ActualWidth * coefficient;

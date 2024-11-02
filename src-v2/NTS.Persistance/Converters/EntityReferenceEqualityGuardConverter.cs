@@ -27,7 +27,11 @@ public class EntityReferenceEqualityGuardConverter<T> : JsonConverterBase
 
     public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
     {
-        var entity = value as T ?? throw new JsonSerializationException($"Unexpected value when converting: {value?.GetType().Name}");
+        var entity =
+            value as T
+            ?? throw new JsonSerializationException(
+                $"Unexpected value when converting: {value?.GetType().Name}"
+            );
 
         if (_instancesById.ContainsKey(entity.Id))
         {
@@ -50,7 +54,12 @@ public class EntityReferenceEqualityGuardConverter<T> : JsonConverterBase
         }
     }
 
-    public override object ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
+    public override object ReadJson(
+        JsonReader reader,
+        Type objectType,
+        object? existingValue,
+        JsonSerializer serializer
+    )
     {
         lock (_lock)
         {
@@ -62,7 +71,9 @@ public class EntityReferenceEqualityGuardConverter<T> : JsonConverterBase
                 var id = GetIdValue(jObject, DOMAIN_REF_PROPERTY);
                 if (!_instancesById.TryGetValue(id, out var existingEntity))
                 {
-                    throw new JsonSerializationException($"Unresolved domain reference value '{id}'");
+                    throw new JsonSerializationException(
+                        $"Unresolved domain reference value '{id}'"
+                    );
                 }
                 return existingEntity;
             }
@@ -89,9 +100,9 @@ public class EntityReferenceEqualityGuardConverter<T> : JsonConverterBase
         }
         return result.Value<int>();
     }
-    
+
     // Has to reset after each call to serialize / deserialize completes, because otherwise
-    // the dictionary will be full with all instances and will always serialize every object as 
+    // the dictionary will be full with all instances and will always serialize every object as
     // a domain reference, which in turn will result in failure during deserialization after app restart
     public override void Reset()
     {

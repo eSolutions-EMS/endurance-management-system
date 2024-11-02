@@ -4,13 +4,13 @@ namespace NTS.Domain.Objects;
 
 public record Country(string IsoCode, string NfCode, string Name) : DomainObject, ISummarizable
 {
-	public string Summarize()
-	{
-		return $"{Name}, {IsoCode}";
-	}
+    public string Summarize()
+    {
+        return $"{Name}, {IsoCode}";
+    }
 
-	public override string ToString()
-	{
-		return Name;
-	}
+    public override string ToString()
+    {
+        return Name;
+    }
 }

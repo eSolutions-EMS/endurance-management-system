@@ -5,9 +5,10 @@ using NTS.Domain.Setup.Entities;
 
 namespace NTS.Judge.Contexts;
 
-public class EventParentContext(IRepository<EnduranceEvent> entities) : BehindContext<EnduranceEvent>(entities),
-    IParentContext<Competition>,
-    IParentContext<Official>
+public class EventParentContext(IRepository<EnduranceEvent> entities)
+    : BehindContext<EnduranceEvent>(entities),
+        IParentContext<Competition>,
+        IParentContext<Official>
 {
     readonly ObservableList<Competition> _competitions = new();
     readonly ObservableList<Official> _officials = new();
@@ -30,10 +31,12 @@ public class EventParentContext(IRepository<EnduranceEvent> entities) : BehindCo
     {
         Entity!.Add(child);
     }
+
     public void Update(Competition child)
     {
         Entity!.Update(child);
     }
+
     public void Remove(Competition child)
     {
         Entity!.Remove(child);
@@ -43,10 +46,12 @@ public class EventParentContext(IRepository<EnduranceEvent> entities) : BehindCo
     {
         Entity?.Add(child);
     }
+
     public void Update(Official child)
     {
         Entity!.Update(child);
     }
+
     public void Remove(Official child)
     {
         Entity!.Remove(child);

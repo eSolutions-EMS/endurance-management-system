@@ -1,9 +1,10 @@
-﻿using Core.Application.Services;
+﻿using System.Timers;
+using Core.Application.Services;
 using Core.Events;
 using EMS.Witness.Shared.Toasts;
-using System.Timers;
 
 namespace EMS.Witness.Services;
+
 public class Toaster : IToaster, INotificationService, IDisposable
 {
     private readonly List<Toast> toastList = new();
@@ -21,7 +22,7 @@ public class Toaster : IToaster, INotificationService, IDisposable
 
     public event EventHandler? ToasterChanged;
     public event EventHandler? ToasterTimerElapsed;
-   
+
     public bool HasToasts => toastList.Count > 0;
 
     public List<Toast> GetToasts()
@@ -40,7 +41,7 @@ public class Toaster : IToaster, INotificationService, IDisposable
     {
         this.toastList.Add(toast);
         if (!this.ClearBurntToast())
-        { 
+        {
             this.ToasterChanged?.Invoke(this, EventArgs.Empty);
         }
     }
@@ -79,7 +80,7 @@ public class Toaster : IToaster, INotificationService, IDisposable
         var toastsToDelete = new List<Toast>();
         lock (lockObject)
         {
-			toastsToDelete = this.toastList.Where(item => item.IsBurnt).ToList();
+            toastsToDelete = this.toastList.Where(item => item.IsBurnt).ToList();
             if (!toastsToDelete.Any())
             {
                 return false;
@@ -87,8 +88,8 @@ public class Toaster : IToaster, INotificationService, IDisposable
 
             toastsToDelete.ForEach(toast => this.toastList.Remove(toast));
         }
-		
-		this.ToasterChanged?.Invoke(this, EventArgs.Empty);
+
+        this.ToasterChanged?.Invoke(this, EventArgs.Empty);
         return true;
     }
 
@@ -107,6 +108,6 @@ public class Toaster : IToaster, INotificationService, IDisposable
 public interface IToaster
 {
     void Add(string header, string? message, UiColor color, int seconds = 10);
-	List<Toast> GetToasts();
+    List<Toast> GetToasts();
     void ClearToast(Toast toast);
 }

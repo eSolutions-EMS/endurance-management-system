@@ -1,6 +1,6 @@
+using System;
 using Core.Domain.Enums;
 using Core.Models;
-using System;
 
 namespace Core.Domain.State.Competitions;
 

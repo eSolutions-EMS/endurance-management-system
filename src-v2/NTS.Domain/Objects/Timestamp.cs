@@ -21,13 +21,14 @@ public record Timestamp : DomainObject, IComparable<Timestamp>
         DateTime = dateTime;
     }
 
-    public Timestamp(Timestamp timestamp) : base(timestamp)
+    public Timestamp(Timestamp timestamp)
+        : base(timestamp)
     {
         DateTime = timestamp.DateTime;
     }
-    private Timestamp()
-    {
-    }
+
+    private Timestamp() { }
+
     private Timestamp(DateTimeOffset dateTime)
     {
         DateTime = dateTime;
@@ -44,6 +45,7 @@ public record Timestamp : DomainObject, IComparable<Timestamp>
     {
         return DateTime.LocalDateTime.ToString(format, formatProvider);
     }
+
     public override string ToString()
     {
         return DateTime.LocalDateTime.ToString("HH:mm:ss");
@@ -58,6 +60,7 @@ public record Timestamp : DomainObject, IComparable<Timestamp>
     {
         return left?.DateTime < right?.DateTime;
     }
+
     public static bool operator >(Timestamp? left, Timestamp? right)
     {
         return left?.DateTime > right?.DateTime;
@@ -67,6 +70,7 @@ public record Timestamp : DomainObject, IComparable<Timestamp>
     {
         return left?.DateTime <= right?.DateTime;
     }
+
     public static bool operator >=(Timestamp? left, Timestamp? right)
     {
         return left?.DateTime > right?.DateTime;
@@ -76,10 +80,12 @@ public record Timestamp : DomainObject, IComparable<Timestamp>
     {
         return left?.DateTime < right;
     }
+
     public static bool operator >(Timestamp? left, DateTimeOffset? right)
     {
         return left?.DateTime > right;
     }
+
     public static TimeInterval? operator -(Timestamp? left, Timestamp? right)
     {
         if (left == null || right == null)
@@ -88,10 +94,9 @@ public record Timestamp : DomainObject, IComparable<Timestamp>
         }
         return new TimeInterval(left!.DateTime - right!.DateTime);
     }
+
     public static Timestamp? operator +(Timestamp? left, TimeSpan? right)
     {
-        return left == null
-            ? null
-            : new Timestamp(left!.DateTime + (right ?? TimeSpan.Zero));
+        return left == null ? null : new Timestamp(left!.DateTime + (right ?? TimeSpan.Zero));
     }
 }

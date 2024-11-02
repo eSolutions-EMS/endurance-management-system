@@ -1,7 +1,7 @@
+using System;
 using Core.Domain.Common.Models;
 using Core.Domain.Enums;
 using Core.Domain.State.Countries;
-using System;
 
 namespace Core.Domain.State.Athletes;
 
@@ -9,19 +9,29 @@ public class Athlete : DomainBase<AthleteException>, IAthleteState
 {
     private const int ADULT_AGE_IN_YEARS = 18;
 
-    private Athlete() {}
-    public Athlete(string feiId, string firstName, string lastName, Country country, DateTime birthDate)
+    private Athlete() { }
+
+    public Athlete(
+        string feiId,
+        string firstName,
+        string lastName,
+        Country country,
+        DateTime birthDate
+    )
         : base(GENERATE_ID)
     {
         this.FeiId = feiId;
         this.FirstName = firstName;
         this.LastName = lastName;
         this.Country = country;
-        this.Category = birthDate.AddYears(ADULT_AGE_IN_YEARS) <= DateTime.Now
-            ? Category.Seniors
-            : Category.Children;
+        this.Category =
+            birthDate.AddYears(ADULT_AGE_IN_YEARS) <= DateTime.Now
+                ? Category.Seniors
+                : Category.Children;
     }
-    public Athlete(IAthleteState state, Country country) : base(GENERATE_ID)
+
+    public Athlete(IAthleteState state, Country country)
+        : base(GENERATE_ID)
     {
         this.FeiId = state.FeiId;
         this.Club = state.Club;

@@ -15,7 +15,7 @@ public class WatcherTool
         Console.WriteLine("  1. mode <mode> (arrive, vet, both)");
         Console.WriteLine("  2. #<tandem-number>");
         Console.WriteLine("  3. send <hh:mm:ss>");
-        
+
         _client = await WatcherClient.Create();
 
         while (true)
@@ -39,7 +39,7 @@ public class WatcherTool
             WatcherMode.Arrive => WitnessEventType.Arrival,
             WatcherMode.Vet => WitnessEventType.VetIn,
             WatcherMode.Both => WitnessEventType.Arrival,
-            _ => throw new Exception("Invalid mode")
+            _ => throw new Exception("Invalid mode"),
         };
         await _client.Send(participationEntry, type);
 
@@ -60,7 +60,7 @@ public class WatcherTool
             Number = number,
             Name = "tools",
             LapDistance = 1337,
-            LapNumber = 1337
+            LapNumber = 1337,
         };
     }
 
@@ -134,18 +134,13 @@ public record SendCommand : ICommand
         var hour = segments.First();
         var minute = segments.Skip(1).FirstOrDefault();
         var second = segments.Skip(2).FirstOrDefault();
-        Time = DateTime.Today
-            .AddHours(hour)
-            .AddMinutes(minute)
-            .AddSeconds(second);
+        Time = DateTime.Today.AddHours(hour).AddMinutes(minute).AddSeconds(second);
     }
 
     public DateTime Time { get; set; }
 }
 
-public interface ICommand
-{
-}
+public interface ICommand { }
 
 public enum WatcherMode
 {

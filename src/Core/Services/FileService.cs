@@ -1,17 +1,15 @@
-using Core.ConventionalServices;
-using JsonNet.PrivatePropertySetterResolver;
 using System;
 using System.IO;
+using Core.ConventionalServices;
+using JsonNet.PrivatePropertySetterResolver;
 
 namespace Core.Services;
 
 public class FileService : IFileService
 {
-    public FileInfo Get(string path)
-        => new FileInfo(path);
+    public FileInfo Get(string path) => new FileInfo(path);
 
-    public bool Exists(string path)
-        => File.Exists(path);
+    public bool Exists(string path) => File.Exists(path);
 
     public void Create(string filePath, string content)
     {
@@ -19,12 +17,13 @@ public class FileService : IFileService
         using var stream = new StreamWriter(filePath);
         stream.Write(content);
     }
+
     public void Append(string filePath, string content)
     {
         File.AppendAllText(filePath, content + Environment.NewLine);
     }
-    public void Delete(string path)
-        => File.Delete(path);
+
+    public void Delete(string path) => File.Delete(path);
 
     public string Read(string filePath)
     {
@@ -52,8 +51,7 @@ public class FileService : IFileService
         }
     }
 
-    public string GetExtension(string path)
-        => Path.GetExtension(path);
+    public string GetExtension(string path) => Path.GetExtension(path);
 
     private string SanitizePath(string filePath)
     {

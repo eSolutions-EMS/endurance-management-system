@@ -18,7 +18,10 @@ public static class TaskExtensions
         return (await enumerableTask).ToList();
     }
 
-    public static async Task<IEnumerable<TOut>> Select<T, TOut>(this Task<IEnumerable<T>> enumerableTask, Func<T, TOut> selector)
+    public static async Task<IEnumerable<TOut>> Select<T, TOut>(
+        this Task<IEnumerable<T>> enumerableTask,
+        Func<T, TOut> selector
+    )
     {
         var enumerable = await enumerableTask;
         return enumerable.Select(selector);

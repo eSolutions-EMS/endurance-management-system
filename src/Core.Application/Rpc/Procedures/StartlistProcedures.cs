@@ -1,7 +1,7 @@
-﻿using Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
-using Core.Enums;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
+using Core.Enums;
 
 namespace Core.Application.Rpc.Procedures;
 

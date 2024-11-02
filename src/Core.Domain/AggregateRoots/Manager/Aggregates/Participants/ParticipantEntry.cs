@@ -1,13 +1,13 @@
-﻿using Core.Domain.State.Participations;
-using System;
+﻿using System;
 using System.Linq;
+using Core.Domain.State.Participations;
 
 namespace Core.Domain.AggregateRoots.Manager.Aggregates.Participants;
 
 public class ParticipantEntry : IComparable<ParticipantEntry>, IEquatable<ParticipantEntry>
 {
     public ParticipantEntry() { }
-    
+
     internal ParticipantEntry(Participation participation)
     {
         this.Number = participation.Participant.Number;
@@ -16,13 +16,13 @@ public class ParticipantEntry : IComparable<ParticipantEntry>, IEquatable<Partic
         var record = participation.Participant.LapRecords.Last();
         this.LapDistance = record.Lap.LengthInKm;
     }
-    
+
     public int LapNumber { get; init; }
     public string Number { get; init; }
     public string Name { get; init; }
     public DateTime? ArriveTime { get; set; }
     public double LapDistance { get; set; }
-    
+
     public int CompareTo(ParticipantEntry other)
     {
         var thisNumber = int.Parse(this.Number);

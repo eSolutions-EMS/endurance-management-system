@@ -1,7 +1,7 @@
-﻿using Core.ConventionalServices;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Core.ConventionalServices;
 
 namespace EMS.Judge.Common.Services;
 
@@ -12,7 +12,8 @@ public class InputHandler : IInputHandler
         EventManager.RegisterClassHandler(
             typeof(TextBox),
             UIElement.GotKeyboardFocusEvent,
-            new KeyboardFocusChangedEventHandler(this.HandleKeyboardFocus));
+            new KeyboardFocusChangedEventHandler(this.HandleKeyboardFocus)
+        );
     }
 
     public void HandleScroll(object sender, MouseWheelEventArgs scrollEvent)
@@ -24,7 +25,10 @@ public class InputHandler : IInputHandler
 
     private void HandleKeyboardFocus(object sender, KeyboardFocusChangedEventArgs args)
     {
-        if (sender is TextBox {IsReadOnly: false} textBox && args.KeyboardDevice.IsKeyDown(Key.Tab))
+        if (
+            sender is TextBox { IsReadOnly: false } textBox
+            && args.KeyboardDevice.IsKeyDown(Key.Tab)
+        )
         {
             textBox.SelectAll();
         }

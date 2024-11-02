@@ -5,8 +5,10 @@ namespace NTS.Compatibility.EMS.Entities.Countries;
 public class EmsCountry : EmsDomainBase<EmsCountryException>
 {
     [Newtonsoft.Json.JsonConstructor]
-    private EmsCountry() {}
-    public EmsCountry(string isoCode, string name, int id) : base(GENERATE_ID)
+    private EmsCountry() { }
+
+    public EmsCountry(string isoCode, string name, int id)
+        : base(GENERATE_ID)
     {
         this.Id = id;
         this.IsoCode = this.Validator.IsRequired(isoCode, nameof(isoCode));

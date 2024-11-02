@@ -1,12 +1,12 @@
 ﻿using Core;
 using Core.Application;
+using Core.Application.Rpc;
 using Core.Application.Services;
 using Core.Domain;
 using Core.Localization;
-using EMS.Witness.Services;
 using EMS.Witness.Platforms.Services;
 using EMS.Witness.Rpc;
-using Core.Application.Rpc;
+using EMS.Witness.Services;
 
 namespace EMS.Witness;
 
@@ -14,8 +14,8 @@ public static class WitnessConfiguration
 {
     public static IServiceCollection AddWitnessServices(this IServiceCollection services)
     {
-        var assemblies = CoreConstants.Assemblies
-            .Concat(LocalizationConstants.Assemblies)
+        var assemblies = CoreConstants
+            .Assemblies.Concat(LocalizationConstants.Assemblies)
             .Concat(DomainConstants.Assemblies)
             .Concat(CoreApplicationConstants.Assemblies)
             .Concat(WitnessConstants.Assemblies)
@@ -28,7 +28,9 @@ public static class WitnessConfiguration
             .AddSingleton<INotificationService>(x => x.GetRequiredService<Toaster>())
             .AddTransient<IPermissionsService, PermissionsService>()
             .AddSingleton<WitnessContext>()
-            .AddSingleton<IWitnessContext>(provider => provider.GetRequiredService<WitnessContext>())
+            .AddSingleton<IWitnessContext>(provider =>
+                provider.GetRequiredService<WitnessContext>()
+            )
             .AddTransient<IDateService, DateService>()
             .AddSingleton<SignalRSocket>()
             .AddSingleton<IRpcSocket, SignalRSocket>(x => x.GetRequiredService<SignalRSocket>())

@@ -1,7 +1,7 @@
-﻿using Not.Services;
-using MudBlazor;
+﻿using MudBlazor;
 using Not.Blazor.TM.Forms.Components;
 using Not.Reflection;
+using Not.Services;
 
 namespace Not.Blazor.TM.Dialogs;
 
@@ -28,7 +28,7 @@ public class DialogTM<T, TForm>
     {
         var parameters = new DialogParameters<UpdateFormDialog<T, TForm>>
         {
-            { x => x.Model, model }
+            { x => x.Model, model },
         };
         await Show("Update", parameters);
     }

@@ -16,7 +16,7 @@ public class Person
     }
 
     [JsonConstructor]
-    public Person(string[] names) 
+    public Person(string[] names)
     {
         Names = names;
     }
@@ -24,9 +24,9 @@ public class Person
     public string[] Names { get; private set; } = [];
 
     public override string ToString()
-	{
-		return string.Join(DELIMITER, this.Names);
-	}
+    {
+        return string.Join(DELIMITER, this.Names);
+    }
 
     public static implicit operator string(Person member)
     {

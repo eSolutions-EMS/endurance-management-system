@@ -21,7 +21,6 @@ public abstract class SetRepository<T, TState> : IRepository<T>
         return entity;
     }
 
-
     public async Task<T> Delete(int id)
     {
         var state = await _store.Transact();

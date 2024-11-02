@@ -1,12 +1,12 @@
-﻿using EMS.Judge.Common;
-using EMS.Judge.Services;
-using Core.Utilities;
-using Core.Domain.AggregateRoots.Manager;
-using Core.Domain.AggregateRoots.Common.Performances;
-using Core.Domain.State.LapRecords;
-using Prism.Commands;
-using System;
+﻿using System;
 using System.Windows;
+using Core.Domain.AggregateRoots.Common.Performances;
+using Core.Domain.AggregateRoots.Manager;
+using Core.Domain.State.LapRecords;
+using Core.Utilities;
+using EMS.Judge.Common;
+using EMS.Judge.Services;
+using Prism.Commands;
 using static Core.Localization.Strings;
 
 namespace EMS.Judge.Controls.Manager;
@@ -15,6 +15,7 @@ public class PerformanceColumnModel : ViewModelBase, ILapRecordState
 {
     private readonly IExecutor<ManagerRoot> managerExecutor;
     private int index;
+
     public PerformanceColumnModel(Performance performance, int index, bool isReadonly)
     {
         this.index = index;
@@ -32,9 +33,8 @@ public class PerformanceColumnModel : ViewModelBase, ILapRecordState
     public bool IsReadonly { get; }
 
     public Visibility EditVisibility { get; set; }
-    public Visibility ReadonlyVisibility => this.EditVisibility == Visibility.Collapsed
-        ? Visibility.Visible
-        : Visibility.Collapsed;
+    public Visibility ReadonlyVisibility =>
+        this.EditVisibility == Visibility.Collapsed ? Visibility.Visible : Visibility.Collapsed;
 
     public DelegateCommand Edit { get; }
 
@@ -53,11 +53,14 @@ public class PerformanceColumnModel : ViewModelBase, ILapRecordState
 
     public void EditAction()
     {
-        this.managerExecutor.Execute(manager =>
-        {
-            var result = manager.EditRecord(this);
-            this.Update(result);
-        }, true);
+        this.managerExecutor.Execute(
+            manager =>
+            {
+                var result = manager.EditRecord(this);
+                this.Update(result);
+            },
+            true
+        );
     }
 
     public void Update(Performance performance)
@@ -75,8 +78,12 @@ public class PerformanceColumnModel : ViewModelBase, ILapRecordState
         this.IsReinspectionRequired = performance.IsReinspectionRequired;
         this.IsRequiredInspectionRequired = performance.IsRequiredInspectionRequired;
         this.ReInspectionTimeString = ValueSerializer.FormatTime(performance.ReInspectionTime);
-        this.RequiredInspectionTimeString = ValueSerializer.FormatTime(performance.RequiredInspectionTime);
-        this.CompulsoryRequiredInspectionTimeString = ValueSerializer.FormatTime(performance.CompulsoryRequiredInspectionTime);
+        this.RequiredInspectionTimeString = ValueSerializer.FormatTime(
+            performance.RequiredInspectionTime
+        );
+        this.CompulsoryRequiredInspectionTimeString = ValueSerializer.FormatTime(
+            performance.CompulsoryRequiredInspectionTime
+        );
 
         this.RaisePropertyChanged(nameof(this.ReInspectionTimeString));
         this.RaisePropertyChanged(nameof(this.RecoverySpanString));
@@ -93,22 +100,17 @@ public class PerformanceColumnModel : ViewModelBase, ILapRecordState
 
     private string CreateHeader(Performance performance)
     {
-        var lap = performance.Record.Lap.IsFinal
-            ? $"{FINAL}"
-            : $"{GATE.ToUpper()}{this.index}";
+        var lap = performance.Record.Lap.IsFinal ? $"{FINAL}" : $"{GATE.ToUpper()}{this.index}";
         var header = $"{lap}/{performance.TotalLength} {KM}";
         return header;
     }
 
-#region IPerformanceState implementation
+    #region IPerformanceState implementation
 
     public DateTime? ArrivalTime
     {
         get => ValueSerializer.ParseTime(this.ArrivalTimeString);
-        private set
-        {
-            this.ArrivalTimeString = ValueSerializer.FormatTime(value);
-        }
+        private set { this.ArrivalTimeString = ValueSerializer.FormatTime(value); }
     }
     public DateTime? InspectionTime
     {
@@ -129,9 +131,9 @@ public class PerformanceColumnModel : ViewModelBase, ILapRecordState
     public bool IsRequiredInspectionRequired { get; private set; }
     public int Id { get; private set; }
 
-#endregion
+    #endregion
 
-#region Setters
+    #region Setters
 
     public DateTime StartTime
     {
@@ -191,5 +193,5 @@ public class PerformanceColumnModel : ViewModelBase, ILapRecordState
 
     private static string AddKmSuffix(string value) => $"{value} {KM_PER_HOUR}";
 
-#endregion Setters;
+    #endregion Setters;
 }

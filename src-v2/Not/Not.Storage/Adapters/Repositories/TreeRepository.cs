@@ -65,6 +65,7 @@ public abstract class RootRepository<T, TState> : IRepository<T>
     {
         throw NotImplemented();
     }
+
     public Task<IEnumerable<T>> ReadAll()
     {
         throw NotImplemented();
@@ -77,6 +78,8 @@ public abstract class RootRepository<T, TState> : IRepository<T>
 
     private Exception NotImplemented()
     {
-        return new Exception("Only Create, Read and Update operations are implemented for Root entities.");
+        return new Exception(
+            "Only Create, Read and Update operations are implemented for Root entities."
+        );
     }
 }

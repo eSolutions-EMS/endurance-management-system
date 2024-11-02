@@ -1,11 +1,11 @@
-﻿using NTS.Domain.Setup.Entities;
+﻿using Not.Application.Adapters.Behinds;
+using Not.Application.Contexts;
 using Not.Application.Ports.CRUD;
 using Not.Safe;
+using NTS.Domain.Setup.Entities;
 using NTS.Judge.Blazor.Pages.Setup.Ports;
 using NTS.Judge.Blazor.Setup.Events;
 using NTS.Judge.Contexts;
-using Not.Application.Adapters.Behinds;
-using Not.Application.Contexts;
 
 namespace NTS.Judge.Events;
 
@@ -17,10 +17,11 @@ public class EventBehind : ObservableBehind, IEnduranceEventBehind
     private readonly IParentContext<Official> _officialParent;
 
     public EventBehind(
-        IRepository<EnduranceEvent> events, 
-        EventParentContext context, 
+        IRepository<EnduranceEvent> events,
+        EventParentContext context,
         IParentContext<Competition> compeitionParent,
-        IParentContext<Official> officialParent)
+        IParentContext<Official> officialParent
+    )
     {
         _events = events;
         _context = context;
@@ -58,7 +59,8 @@ public class EventBehind : ObservableBehind, IEnduranceEventBehind
             model.Place,
             model.Country,
             _competitionParent.Children,
-            _officialParent.Children);
+            _officialParent.Children
+        );
         await _events.Update(_context.Entity);
 
         Model = model;
@@ -66,7 +68,7 @@ public class EventBehind : ObservableBehind, IEnduranceEventBehind
         return model;
     }
 
-    #region SafePattern 
+    #region SafePattern
 
     public async Task<EnduranceEventFormModel> Create(EnduranceEventFormModel enduranceEvent)
     {

@@ -22,12 +22,13 @@ public class RfidReaderBehind : IRfidReaderBehind
 
     public void StartReading()
     {
-        if(!VF747PController.IsConnected || !VF747PController.IsReading)
+        if (!VF747PController.IsConnected || !VF747PController.IsReading)
         {
             Task.Run(VF747PController.StartReading);
             VF747PController.OnRead += OnRead;
         }
     }
+
     public void StopReading()
     {
         VF747PController.StopReading();
@@ -39,12 +40,20 @@ public class RfidReaderBehind : IRfidReaderBehind
         var number = int.Parse(e.data.Substring(0, 3));
         var timestamp = new Timestamp(e.timestamp);
 
-        if (_deduplication.ContainsKey(number) && _deduplication[number] + TimeSpan.FromSeconds(30) < DateTimeOffset.Now)
+        if (
+            _deduplication.ContainsKey(number)
+            && _deduplication[number] + TimeSpan.FromSeconds(30) < DateTimeOffset.Now
+        )
         {
             return;
         }
         _deduplication[number] = timestamp;
-        var snapshot = new Snapshot(number, StaticOptions.GetRfidSnapshotType(), SnapshotMethod.RFID, timestamp);
+        var snapshot = new Snapshot(
+            number,
+            StaticOptions.GetRfidSnapshotType(),
+            SnapshotMethod.RFID,
+            timestamp
+        );
         Process(snapshot);
     }
 

@@ -2,6 +2,4 @@
 
 namespace EMS.Judge.Events;
 
-public class SelectTabEvent : PubSubEvent<object>
-{
-}
+public class SelectTabEvent : PubSubEvent<object> { }

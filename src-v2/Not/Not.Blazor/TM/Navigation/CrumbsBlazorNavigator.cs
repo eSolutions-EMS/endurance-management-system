@@ -1,5 +1,5 @@
-﻿using Not.Blazor.Navigation;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
+using Not.Blazor.Navigation;
 
 namespace Not.Blazor.TM.Navigation;
 
@@ -63,12 +63,15 @@ public class CrumbsBlazorNavigator : ICrumbsNavigator, ILandNavigator
     {
         if (_parameters == null)
         {
-            throw GuardHelper.Exception($"Cannot get parameter '{typeof(T)}'. There are no parameters on this landing");
+            throw GuardHelper.Exception(
+                $"Cannot get parameter '{typeof(T)}'. There are no parameters on this landing"
+            );
         }
         var result = _parameters.Get<T>();
         //_parameters = null;
         return result;
     }
+
     public void Initialize(string landingEndpoint)
     {
         if (_crumbs != null)
@@ -83,7 +86,9 @@ public class CrumbsBlazorNavigator : ICrumbsNavigator, ILandNavigator
     {
         if (_crumbs == null)
         {
-            throw GuardHelper.Exception($"Crumbs are not initialized. NavigateBack cannot function without navigating using LandTo");
+            throw GuardHelper.Exception(
+                $"Crumbs are not initialized. NavigateBack cannot function without navigating using LandTo"
+            );
         }
     }
 
@@ -100,7 +105,9 @@ public class CrumbsBlazorNavigator : ICrumbsNavigator, ILandNavigator
         {
             if (parameter == null)
             {
-                throw GuardHelper.Exception($"Parameter of type '{typeof(T)}' is null. {nameof(CrumbsBlazorNavigator)} parameters cannot be null");
+                throw GuardHelper.Exception(
+                    $"Parameter of type '{typeof(T)}' is null. {nameof(CrumbsBlazorNavigator)} parameters cannot be null"
+                );
             }
             return new Parameters(parameter);
         }
@@ -115,7 +122,8 @@ public class CrumbsBlazorNavigator : ICrumbsNavigator, ILandNavigator
             if (_parameter is not T typedParameter)
             {
                 throw GuardHelper.Exception(
-                    $"Cannot get parameter of type '{typeof(T)}'/ Underlying type of parameter is '{_parameter.GetType()}'");
+                    $"Cannot get parameter of type '{typeof(T)}'/ Underlying type of parameter is '{_parameter.GetType()}'"
+                );
             }
             return typedParameter;
         }

@@ -22,7 +22,7 @@ public class RpcContext
 
     public string? Host
     {
-        get => this.host; 
+        get => this.host;
         internal set
         {
             if (value == null)
@@ -39,8 +39,8 @@ public class RpcContext
             }
         }
     }
-    public string? Url
-        => this.Host == null
+    public string? Url =>
+        this.Host == null
             ? null
             : $"{this.protocol.ToString().ToLower()}://{this.host}:{this.port}/{this.endpoint}";
 }

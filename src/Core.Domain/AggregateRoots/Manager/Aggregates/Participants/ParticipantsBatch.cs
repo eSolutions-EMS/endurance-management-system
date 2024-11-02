@@ -1,8 +1,8 @@
-﻿using Core.Utilities;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Core.Utilities;
 
 namespace Core.Domain.AggregateRoots.Manager.Aggregates.Participants;
 
@@ -14,7 +14,6 @@ public class ParticipantsBatch : IEquatable<ParticipantsBatch>, IComparable<Part
         this.Type = type;
         this.Participants = new ReadOnlyCollection<ParticipantEntry>(participants.ToList());
     }
-
 
     public DateTime SendAt { get; internal set; }
     public WitnessEventType Type { get; internal set; }

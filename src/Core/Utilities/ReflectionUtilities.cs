@@ -1,8 +1,8 @@
-using Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Core.Models;
 
 namespace Core.Utilities;
 
@@ -33,7 +33,9 @@ public static class ReflectionUtilities
         var propertyInfo = type.GetProperty(name);
         if (propertyInfo == null)
         {
-            throw new InvalidOperationException($"Property '{name}' does not exist on type '{type}'");
+            throw new InvalidOperationException(
+                $"Property '{name}' does not exist on type '{type}'"
+            );
         }
 
         return propertyInfo;
@@ -75,8 +77,7 @@ public static class ReflectionUtilities
             .GetExportedTypes()
             .Where(t => t.IsClass && !t.IsAbstract && typeof(T).IsAssignableFrom(t));
 
-        var descriptors = types
-            .Select(t => new TypeDescriptor<T>(t));
+        var descriptors = types.Select(t => new TypeDescriptor<T>(t));
 
         return descriptors;
     }

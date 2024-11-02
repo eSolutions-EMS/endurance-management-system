@@ -1,20 +1,20 @@
-﻿using EMS.Judge.Common.Components.Templates.SimpleListItem;
+﻿using System.Collections.ObjectModel;
+using System.Linq;
+using Core.Domain.AggregateRoots.Configuration;
+using Core.Domain.Common.Models;
+using Core.Domain.State.Countries;
+using Core.Domain.State.EnduranceEvents;
+using Core.Mappings;
+using EMS.Judge.Application.Common;
+using EMS.Judge.Application.Queries;
+using EMS.Judge.Common.Components.Templates.SimpleListItem;
 using EMS.Judge.Common.Services;
 using EMS.Judge.Services;
 using EMS.Judge.Views.Content.Configuration.Children.Competitions;
 using EMS.Judge.Views.Content.Configuration.Children.Personnel;
 using EMS.Judge.Views.Content.Configuration.Core;
-using EMS.Judge.Application.Common;
-using EMS.Judge.Application.Queries;
-using Core.Mappings;
-using Core.Domain.AggregateRoots.Configuration;
-using Core.Domain.Common.Models;
-using Core.Domain.State.Countries;
-using Core.Domain.State.EnduranceEvents;
 using Prism.Commands;
 using Prism.Regions;
-using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace EMS.Judge.Views.Content.Configuration.Roots.Events;
 
@@ -29,7 +29,9 @@ public class EnduranceEventViewModel : NestedConfigurationBase<EnduranceEventVie
         IPopupService popupService,
         IExecutor<ConfigurationRoot> executor,
         IEnduranceEventQuery enduranceEventQuery,
-        IQueries<Country> countryQueries) : base (enduranceEventQuery)
+        IQueries<Country> countryQueries
+    )
+        : base(enduranceEventQuery)
     {
         this.BackOnSubmit = false;
         this.popupService = popupService;
@@ -53,8 +55,8 @@ public class EnduranceEventViewModel : NestedConfigurationBase<EnduranceEventVie
     private string _feiCode;
     private string _showFeiId;
 
-    public override bool IsNavigationTarget(NavigationContext context)
-        => true;
+    public override bool IsNavigationTarget(NavigationContext context) => true;
+
     public override void OnNavigatedTo(NavigationContext context)
     {
         this.Load(default); // Only one Endurance event per state.
@@ -69,11 +71,13 @@ public class EnduranceEventViewModel : NestedConfigurationBase<EnduranceEventVie
         var enduranceEvent = this.enduranceEventQuery.Get();
         this.MapFrom(enduranceEvent);
     }
+
     protected override IDomain Persist()
     {
         var result = this.executor.Execute(
             config => config.Update(this.Name, this.CountryId, this.PopulatedPlace, ShowFeiId),
-            true);
+            true
+        );
         // TODO: probably remove
         // this.popupService.RenderOk();
         return result;

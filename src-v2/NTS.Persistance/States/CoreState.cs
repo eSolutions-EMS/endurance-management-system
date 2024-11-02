@@ -2,13 +2,14 @@
 
 namespace NTS.Persistence.States;
 
-public class CoreState : NotState,
-    ITreeState<EnduranceEvent>,
-    ISetState<Official>,
-    ISetState<Participation>,
-    ISetState<Ranking>,
-    ISetState<SnapshotResult>,
-    ISetState<Handout>
+public class CoreState
+    : NotState,
+        ITreeState<EnduranceEvent>,
+        ISetState<Official>,
+        ISetState<Participation>,
+        ISetState<Ranking>,
+        ISetState<SnapshotResult>,
+        ISetState<Handout>
 {
     // The order here is very important due to how EntityReferenceEqualityGuardConverter works
     // Root level entities (Loop, Horse etc) MUST precede their parent entities (Combination, Phase)
@@ -22,8 +23,8 @@ public class CoreState : NotState,
     public List<Handout> Handouts { get; } = [];
 
     EnduranceEvent? ITreeState<EnduranceEvent>.Root
-    { 
-        get => EnduranceEvent; 
+    {
+        get => EnduranceEvent;
         set => EnduranceEvent = value;
     }
     List<Official> ISetState<Official>.EntitySet => Officials;

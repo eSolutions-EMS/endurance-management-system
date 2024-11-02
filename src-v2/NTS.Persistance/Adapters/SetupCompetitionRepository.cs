@@ -4,6 +4,5 @@ using NTS.Persistence.Setup;
 
 namespace NTS.Persistence.Adapters;
 
-public class SetupCompetitionRepository(IStore<SetupState> store) : SetRepository<Competition, SetupState>(store)
-{
-}
+public class SetupCompetitionRepository(IStore<SetupState> store)
+    : SetRepository<Competition, SetupState>(store) { }

@@ -1,6 +1,6 @@
-﻿using Not.Events;
+﻿using System.Collections;
+using Not.Events;
 using Not.Exceptions;
-using System.Collections;
 
 namespace Not.Structures;
 
@@ -22,7 +22,7 @@ public class ObservableList<T> : IReadOnlyList<T>
 
         ChangedEvent.Emit();
     }
-     
+
     public bool Remove(T item)
     {
         GuardHelper.ThrowIfDefault(item);

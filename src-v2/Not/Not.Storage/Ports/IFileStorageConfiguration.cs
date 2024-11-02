@@ -4,4 +4,3 @@ public interface IFileStorageConfiguration
 {
     string Path { get; }
 }
-

@@ -1,6 +1,6 @@
-﻿using Core.Domain.AggregateRoots.Ranking.Aggregates;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows;
+using Core.Domain.AggregateRoots.Ranking.Aggregates;
 
 namespace EMS.Judge.Controls.Ranking;
 
@@ -17,14 +17,17 @@ public partial class RanklistControl
         set => this.SetValue(RANKLIST_PROPERTY, value);
     }
 
-    public static readonly DependencyProperty RANKLIST_PROPERTY =
-        DependencyProperty.Register(
-            nameof(Ranklist),
-            typeof(RanklistAggregate),
-            typeof(RanklistControl),
-            new PropertyMetadata(OnRanklistChanged));
+    public static readonly DependencyProperty RANKLIST_PROPERTY = DependencyProperty.Register(
+        nameof(Ranklist),
+        typeof(RanklistAggregate),
+        typeof(RanklistControl),
+        new PropertyMetadata(OnRanklistChanged)
+    );
 
-    private static void OnRanklistChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+    private static void OnRanklistChanged(
+        DependencyObject sender,
+        DependencyPropertyChangedEventArgs args
+    )
     {
         var control = (RanklistControl)sender;
         var participation = (RanklistAggregate)args.NewValue;
@@ -36,7 +39,9 @@ public partial class RanklistControl
         this.ItemsSource = CreateResultControls(rankList);
     }
 
-    public static IEnumerable<ParticipationResultModel> CreateResultControls(RanklistAggregate rankList)
+    public static IEnumerable<ParticipationResultModel> CreateResultControls(
+        RanklistAggregate rankList
+    )
     {
         var list = new List<ParticipationResultModel>();
         for (var i = 0; i < rankList.Count; i++)

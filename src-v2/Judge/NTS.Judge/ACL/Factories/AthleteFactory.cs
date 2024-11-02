@@ -19,7 +19,11 @@ public class AthleteFactory
             LastName = participation.Combination.Name.ToString().Split().Last(),
             Id = participation.Combination.Id,
         };
-        var country = new EmsCountry(participation.Combination.Country?.IsoCode ?? "iso", participation.Combination.Country?.Name ?? "country-name", 1337);
+        var country = new EmsCountry(
+            participation.Combination.Country?.IsoCode ?? "iso",
+            participation.Combination.Country?.Name ?? "country-name",
+            1337
+        );
         return new EmsAthlete(athleteState, country);
     }
 }

@@ -1,9 +1,9 @@
+using System.Collections.ObjectModel;
 using Newtonsoft.Json;
 using NTS.Compatibility.EMS.Abstractions;
 using NTS.Compatibility.EMS.Entities.Athletes;
 using NTS.Compatibility.EMS.Entities.Horses;
 using NTS.Compatibility.EMS.Entities.LapRecords;
-using System.Collections.ObjectModel;
 
 namespace NTS.Compatibility.EMS.Entities.Participants;
 
@@ -20,7 +20,9 @@ public class EmsParticipant : EmsDomainBase<EmsParticipantException>, IEmsPartic
     {
         this.lapRecordsReadonly = new(this.lapRecords);
     }
-    public EmsParticipant(EmsAthlete athlete, EmsHorse horse, IEmsParticipantState state = null) : base(GENERATE_ID)
+
+    public EmsParticipant(EmsAthlete athlete, EmsHorse horse, IEmsParticipantState state = null)
+        : base(GENERATE_ID)
     {
         this.lapRecordsReadonly = new ReadOnlyObservableCollection<EmsLapRecord>(this.lapRecords);
         this.Athlete = athlete;
@@ -29,7 +31,8 @@ public class EmsParticipant : EmsDomainBase<EmsParticipantException>, IEmsPartic
         if (!int.TryParse(state?.Number, out var _))
         {
             throw EmsHelper.Create<EmsParticipantException>(
-                $"Invalid '{nameof(Number)}' - '{state?.Number}'. Please enter a valid number");
+                $"Invalid '{nameof(Number)}' - '{state?.Number}'. Please enter a valid number"
+            );
         }
         this.Number = state?.Number;
         this.Unranked = state?.Unranked ?? false;
@@ -47,8 +50,7 @@ public class EmsParticipant : EmsDomainBase<EmsParticipantException>, IEmsPartic
         private set => this.lapRecords = new ObservableCollection<EmsLapRecord>(value.ToList());
     }
 
-    public void Add(EmsLapRecord record)
-        => this.lapRecords.Add(record);
+    public void Add(EmsLapRecord record) => this.lapRecords.Add(record);
 
     public string Name => FormatName(this.Number, this.Athlete.Name, this.Horse.Name);
 
@@ -63,11 +65,12 @@ public class EmsParticipant : EmsDomainBase<EmsParticipantException>, IEmsPartic
     }
 
     // Metadata for stats
-    public Dictionary<WitnessEventType, List<int>> DetectedHead { get; } = new()
-    {
-        { WitnessEventType.Arrival, new List<int>() },
-        { WitnessEventType.VetIn, new List<int>() },
-    };
+    public Dictionary<WitnessEventType, List<int>> DetectedHead { get; } =
+        new()
+        {
+            { WitnessEventType.Arrival, new List<int>() },
+            { WitnessEventType.VetIn, new List<int>() },
+        };
 
     public override string ToString()
     {

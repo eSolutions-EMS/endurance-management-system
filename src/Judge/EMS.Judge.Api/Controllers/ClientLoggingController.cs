@@ -1,6 +1,6 @@
-﻿using Core.Application.Http;
+﻿using System.Threading.Tasks;
+using Core.Application.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace EMS.Judge.Api.Controllers;
 

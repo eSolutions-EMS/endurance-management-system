@@ -1,4 +1,5 @@
-﻿using Core.Domain.AggregateRoots.Common.Performances;
+﻿using System;
+using Core.Domain.AggregateRoots.Common.Performances;
 using Core.Domain.AggregateRoots.Manager.WitnessEvents;
 using Core.Domain.Common.Exceptions;
 using Core.Domain.Common.Models;
@@ -8,7 +9,6 @@ using Core.Domain.State.Participations;
 using Core.Domain.State.Results;
 using Core.Domain.Validation;
 using Core.Enums;
-using System;
 using static Core.Localization.Strings;
 
 namespace Core.Domain.AggregateRoots.Manager.Aggregates;
@@ -25,8 +25,12 @@ public class LapRecordsAggregate : IAggregate
 
     public LapRecord Record { get; }
     public bool IsComplete =>
-        this.Record.ArrivalTime != null && this.Record.InspectionTime != null && !this.Record.IsReinspectionRequired
-        || this.Record.ArrivalTime != null && this.Record.ReInspectionTime != null && this.Record.IsReinspectionRequired;
+        this.Record.ArrivalTime != null
+            && this.Record.InspectionTime != null
+            && !this.Record.IsReinspectionRequired
+        || this.Record.ArrivalTime != null
+            && this.Record.ReInspectionTime != null
+            && this.Record.IsReinspectionRequired;
 
     internal void Vet(DateTime time)
     {
@@ -49,7 +53,8 @@ public class LapRecordsAggregate : IAggregate
             Witness.RaiseStartlistChanged(number, CollectionAction.AddOrUpdate);
         }
         Witness.RaiseParticipantChanged(number, CollectionAction.Remove);
-	}
+    }
+
     internal void FailToQualify(string number, string reason)
     {
         this.Record.Result = new Result(ResultType.FailedToQualify, reason);
@@ -58,32 +63,39 @@ public class LapRecordsAggregate : IAggregate
             Witness.RaiseStartlistChanged(number, CollectionAction.AddOrUpdate);
         }
         Witness.RaiseParticipantChanged(number, CollectionAction.Remove);
-	}
+    }
+
     internal void Resign(string reason)
     {
         this.Record.Result = new Result(ResultType.Resigned, reason);
     }
+
     internal void Complete(string number)
     {
-		this.Record.Result = new Result(ResultType.Successful);
+        this.Record.Result = new Result(ResultType.Successful);
         if (!this.Record.Lap.IsFinal)
         {
             Witness.RaiseStartlistChanged(number, CollectionAction.AddOrUpdate);
         }
         Witness.RaiseParticipantChanged(number, CollectionAction.AddOrUpdate);
-	}
+    }
+
     internal void RequireReInspection(bool isRequired)
     {
         this.Record.IsReinspectionRequired = isRequired;
     }
+
     internal void RequireCompulsoryInspection(bool isRequired)
     {
         if (this.Record.Lap.IsCompulsoryInspectionRequired)
         {
-            throw Helper.Create<LapRecordException>(REQUIRED_INSPECTION_IS_NOT_ALLOWED_ON_FINAL_MESSAGE);
+            throw Helper.Create<LapRecordException>(
+                REQUIRED_INSPECTION_IS_NOT_ALLOWED_ON_FINAL_MESSAGE
+            );
         }
         this.Record.IsRequiredInspectionRequired = isRequired;
     }
+
     internal void Edit(ILapRecordState state)
     {
         var inTime = state.InspectionTime;
@@ -99,12 +111,14 @@ public class LapRecordsAggregate : IAggregate
         this.validator.IsLaterThan(time, this.Record.StartTime, ARRIVAL_TERM);
         this.Record.ArrivalTime = time;
     }
+
     private void EnterIn(DateTime time)
     {
         // time = FixDateForToday(time);
         this.validator.IsLaterThan(time, this.Record.ArrivalTime, INSPECTION_TERM);
         this.Record.InspectionTime = time;
     }
+
     private void EnterReIn(DateTime time)
     {
         // time = FixDateForToday(time);
@@ -126,7 +140,10 @@ public class LapRecordsAggregate : IAggregate
         {
             return;
         }
-        if (averageSpeedLimit.HasValue && Performance.GetSpeed(this.Record, type) > averageSpeedLimit)
+        if (
+            averageSpeedLimit.HasValue
+            && Performance.GetSpeed(this.Record, type) > averageSpeedLimit
+        )
         {
             this.FailToQualify(participation.Participant.Number, "speed");
             return;

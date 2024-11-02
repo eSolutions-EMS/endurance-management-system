@@ -1,7 +1,6 @@
-﻿
-namespace Not.Storage.Ports.States;
+﻿namespace Not.Storage.Ports.States;
 
 public abstract class NotState : IState
 {
-    Guid? IState.TransactionId { get; set ; }
+    Guid? IState.TransactionId { get; set; }
 }

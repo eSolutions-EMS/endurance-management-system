@@ -1,4 +1,3 @@
-
 //await TagIdWriter.Run();
 //await Hardware.Run();
 

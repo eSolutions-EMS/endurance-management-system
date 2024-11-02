@@ -1,8 +1,8 @@
-﻿using Core.Domain.Common.Models;
-using Core.Mappings;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Core.Domain.Common.Models;
+using Core.Mappings;
 
 namespace Core.Domain.Common.Extensions;
 

@@ -3,5 +3,5 @@
 public enum EmsCollectionAction
 {
     AddOrUpdate = 1,
-    Remove = 2
+    Remove = 2,
 }

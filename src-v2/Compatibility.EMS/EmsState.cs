@@ -1,11 +1,11 @@
-﻿using NTS.Compatibility.EMS.Entities.Athletes;
+﻿using System.Collections.ObjectModel;
+using System.Text.Json.Serialization;
+using NTS.Compatibility.EMS.Entities.Athletes;
 using NTS.Compatibility.EMS.Entities.Countries;
 using NTS.Compatibility.EMS.Entities.EnduranceEvents;
 using NTS.Compatibility.EMS.Entities.Horses;
 using NTS.Compatibility.EMS.Entities.Participants;
 using NTS.Compatibility.EMS.Entities.Participations;
-using System.Collections.ObjectModel;
-using System.Text.Json.Serialization;
 
 namespace NTS.Compatibility.EMS;
 
@@ -16,9 +16,12 @@ public class EmsState
     public List<EmsAthlete> Athletes { get; private set; } = new();
     public List<EmsParticipant> Participants { get; private set; } = new();
     public List<EmsParticipation> Participations { get; private set; } = new();
+
     [JsonIgnore]
-    public IReadOnlyList<EmsCountry> Countries
-        => new ReadOnlyCollection<EmsCountry>(new List<EmsCountry> { new EmsCountry("BGN", "Bulgaria", 1337) });
+    public IReadOnlyList<EmsCountry> Countries =>
+        new ReadOnlyCollection<EmsCountry>(
+            new List<EmsCountry> { new EmsCountry("BGN", "Bulgaria", 1337) }
+        );
 
     public void Set(EmsState initial)
     {

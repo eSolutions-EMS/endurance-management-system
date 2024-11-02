@@ -23,7 +23,8 @@ public class HandoutsBehind : ObservableListBehind<HandoutDocument>, IHandoutsBe
         IRepository<Handout> handouts,
         IRepository<Participation> participations,
         IRepository<EnduranceEvent> events,
-        IRepository<Official> officials)
+        IRepository<Official> officials
+    )
     {
         _handoutRepository = handouts;
         _participations = participations;
@@ -40,11 +41,16 @@ public class HandoutsBehind : ObservableListBehind<HandoutDocument>, IHandoutsBe
         var officials = await _officials.ReadAll();
         GuardHelper.ThrowIfDefault(enduranceEvent);
 
-        var documents = handouts.Select(handout => new HandoutDocument(handout, enduranceEvent, officials));
+        var documents = handouts.Select(handout => new HandoutDocument(
+            handout,
+            enduranceEvent,
+            officials
+        ));
         ObservableList.AddRange(documents);
-        
+
         return true;
     }
+
     public void RunAtStartup()
     {
         // TODO: subscribe to updates for Event, Official
@@ -61,9 +67,7 @@ public class HandoutsBehind : ObservableListBehind<HandoutDocument>, IHandoutsBe
 
     async Task<IEnumerable<Combination>> SafeGetCombinations()
     {
-        return await _participations
-            .ReadAll()
-            .Select(x => x.Combination);
+        return await _participations.ReadAll().Select(x => x.Combination);
     }
 
     async Task SafeDelete(IEnumerable<HandoutDocument> documents)
@@ -72,7 +76,7 @@ public class HandoutsBehind : ObservableListBehind<HandoutDocument>, IHandoutsBe
 
         var ids = documents.Select(x => x.Id);
         await _handoutRepository.Delete(x => ids.Contains(x.Id));
-        ObservableList.RemoveRange(documents); 
+        ObservableList.RemoveRange(documents);
 
         _semaphore.Release();
     }

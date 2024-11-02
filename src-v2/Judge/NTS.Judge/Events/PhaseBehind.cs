@@ -10,7 +10,8 @@ public class PhaseBehind : CrudBehind<Phase, PhaseFormModel>
 {
     private readonly CompetitionParentContext _parentContext;
 
-    public PhaseBehind(IRepository<Phase> phase, CompetitionParentContext parentContext) : base(phase, parentContext)
+    public PhaseBehind(IRepository<Phase> phase, CompetitionParentContext parentContext)
+        : base(phase, parentContext)
     {
         _parentContext = parentContext;
     }

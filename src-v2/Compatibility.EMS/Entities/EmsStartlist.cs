@@ -5,9 +5,7 @@ namespace NTS.Compatibility.EMS.Entities;
 
 public class EmsStartlist : StartlistBase<EmsStartlistEntry>
 {
-    public EmsStartlist()
-    {
-    }
+    public EmsStartlist() { }
 
     public EmsStartlist(IEnumerable<EmsStartlistEntry> entries)
     {
@@ -89,9 +87,5 @@ public class StartlistBase<T> : List<T>
         OnCollectionChanged();
     }
 
-
-    protected virtual void OnCollectionChanged()
-    {
-    }
+    protected virtual void OnCollectionChanged() { }
 }
-

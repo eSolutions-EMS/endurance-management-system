@@ -4,7 +4,6 @@ namespace NTS.Domain.Core.Objects.Payloads;
 
 public record PhaseCompleted : ParticipationPayload
 {
-    public PhaseCompleted(Participation participation) : base(participation)
-    {
-    }
+    public PhaseCompleted(Participation participation)
+        : base(participation) { }
 }

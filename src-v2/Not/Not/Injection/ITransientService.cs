@@ -1,5 +1,3 @@
 ﻿namespace Not.Injection;
 
-public interface ITransientService
-{
-}
+public interface ITransientService { }

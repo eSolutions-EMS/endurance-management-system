@@ -9,12 +9,13 @@ public class VupVD67Controller : RfidController
 
     protected override string Device => "VD67";
 
-    public VupVD67Controller(TimeSpan? throttle = null) : base(throttle)
+    public VupVD67Controller(TimeSpan? throttle = null)
+        : base(throttle)
     {
         this.reader = new VD67Reader();
     }
 
-    public bool IsWaitingRead { get; private set; } 
+    public bool IsWaitingRead { get; private set; }
 
     public override void Connect()
     {
@@ -22,7 +23,9 @@ public class VupVD67Controller : RfidController
         var setPowerResult = this.reader.SetAntPower(0, 27);
         if (!connectionResult.Success || !setPowerResult.Success)
         {
-            this.RaiseError($"Connect failed '{connectionResult.ErrorCode}': '{connectionResult.Message}'");
+            this.RaiseError(
+                $"Connect failed '{connectionResult.ErrorCode}': '{connectionResult.Message}'"
+            );
             return;
         }
         this.RaiseMessage("Connected");
@@ -55,7 +58,9 @@ public class VupVD67Controller : RfidController
                 TAG_WRITE_START_INDEX,
                 TAG_DATA_LENGTH,
                 Array.Empty<byte>(),
-                Convert.FromHexString("00000000")); ;
+                Convert.FromHexString("00000000")
+            );
+            ;
             if (!result.Success)
             {
                 if (result.ErrorCode != NO_TAG_ERROR_CODE)
@@ -98,7 +103,9 @@ public class VupVD67Controller : RfidController
                 TAG_WRITE_START_INDEX,
                 TAG_DATA_LENGTH,
                 Array.Empty<byte>(),
-                Convert.FromHexString("00000000")); ;
+                Convert.FromHexString("00000000")
+            );
+            ;
             if (!result.Success)
             {
                 if (result.ErrorCode != NO_TAG_ERROR_CODE)
@@ -144,7 +151,13 @@ public class VupVD67Controller : RfidController
             try
             {
                 var bytes = this.ConvertToByytes(data);
-                var result = this.reader.Write6C(memory_bank.memory_bank_epc, 0, Array.Empty<byte>(), bytes, Convert.FromHexString("00000000"));
+                var result = this.reader.Write6C(
+                    memory_bank.memory_bank_epc,
+                    0,
+                    Array.Empty<byte>(),
+                    bytes,
+                    Convert.FromHexString("00000000")
+                );
                 if (!result.Success)
                 {
                     if (result.ErrorCode != NO_TAG_ERROR_CODE)
@@ -161,7 +174,9 @@ public class VupVD67Controller : RfidController
             }
             catch (Exception exception)
             {
-                throw new Exception($"Write ERROR: {exception.Message + Environment.NewLine + exception.StackTrace}");
+                throw new Exception(
+                    $"Write ERROR: {exception.Message + Environment.NewLine + exception.StackTrace}"
+                );
             }
 
             Thread.Sleep(this.throttle);

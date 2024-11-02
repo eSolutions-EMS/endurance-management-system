@@ -6,8 +6,10 @@ namespace Core.Domain.State.Horses;
 
 public class Horse : DomainBase<HorseException>, IHorseState
 {
-    private Horse() {}
-    public Horse(string feiId, string name, string breed, string club) : base(GENERATE_ID)
+    private Horse() { }
+
+    public Horse(string feiId, string name, string breed, string club)
+        : base(GENERATE_ID)
     {
         this.Name = name;
         this.Breed = breed;
@@ -22,7 +24,9 @@ public class Horse : DomainBase<HorseException>, IHorseState
         string breed,
         string trainerFeiId,
         string trainerFirstName,
-        string trainerLastName) : base(GENERATE_ID)
+        string trainerLastName
+    )
+        : base(GENERATE_ID)
     {
         this.Name = name;
         this.Breed = breed;
@@ -33,7 +37,8 @@ public class Horse : DomainBase<HorseException>, IHorseState
         this.TrainerLastName = trainerLastName;
     }
 
-    public Horse(IHorseState state) : base(GENERATE_ID)
+    public Horse(IHorseState state)
+        : base(GENERATE_ID)
     {
         this.FeiId = state.FeiId;
         this.Club = state.Club;

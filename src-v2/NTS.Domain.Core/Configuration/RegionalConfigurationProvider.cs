@@ -4,7 +4,7 @@ namespace NTS.Domain.Core.Configuration;
 
 internal class RegionalConfigurationProvider
 {
-    static readonly RegionalConfiguration[] _configurations = [ new BulgarianConfiguration() ];
+    static readonly RegionalConfiguration[] _configurations = [new BulgarianConfiguration()];
 
     public static IRegionalConfiguration? Get(Country? country)
     {

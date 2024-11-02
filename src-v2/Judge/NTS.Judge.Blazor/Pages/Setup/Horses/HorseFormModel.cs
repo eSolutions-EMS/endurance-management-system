@@ -5,7 +5,7 @@ namespace NTS.Judge.Blazor.Pages.Setup.Horses;
 
 public class HorseFormModel : IFormModel<Horse>
 {
-    public HorseFormModel() 
+    public HorseFormModel()
     {
 #if DEBUG
         Name = "Хан Аспарух";

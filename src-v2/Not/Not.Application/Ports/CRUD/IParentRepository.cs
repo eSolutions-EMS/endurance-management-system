@@ -3,6 +3,4 @@
 namespace Not.Application.Ports.CRUD;
 
 public interface IParentRepository<T> : ICreateChild<T>, IUpdateChild<T>, IDeleteChild<T>
-    where T : DomainEntity
-{
-}
+    where T : DomainEntity { }

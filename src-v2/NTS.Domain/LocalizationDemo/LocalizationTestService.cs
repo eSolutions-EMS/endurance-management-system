@@ -11,7 +11,7 @@ public class LocalizationTestService : ILocalizationTestService
 
     public string Rude()
     {
-       return new LocalizationTest().Invalid();
+        return new LocalizationTest().Invalid();
     }
 }
 

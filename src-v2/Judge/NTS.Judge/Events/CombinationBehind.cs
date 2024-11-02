@@ -7,9 +7,8 @@ namespace NTS.Judge.Events;
 
 public class CombinationBehind : CrudBehind<Combination, CombinationFormModel>
 {
-    public CombinationBehind(IRepository<Combination> repository) : base(repository)
-    {
-    }
+    public CombinationBehind(IRepository<Combination> repository)
+        : base(repository) { }
 
     protected override Combination CreateEntity(CombinationFormModel model)
     {

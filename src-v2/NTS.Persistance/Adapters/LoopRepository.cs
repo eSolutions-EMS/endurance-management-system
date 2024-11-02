@@ -3,6 +3,4 @@ using NTS.Persistence.Setup;
 
 namespace NTS.Persistence.Adapters;
 
-public class LoopRepository(IStore<SetupState> store) : SetRepository<Loop, SetupState>(store)
-{
-}
+public class LoopRepository(IStore<SetupState> store) : SetRepository<Loop, SetupState>(store) { }

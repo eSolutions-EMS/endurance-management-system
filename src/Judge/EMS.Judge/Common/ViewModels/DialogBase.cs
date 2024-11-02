@@ -1,5 +1,5 @@
-﻿using Prism.Services.Dialogs;
-using System;
+﻿using System;
+using Prism.Services.Dialogs;
 
 namespace EMS.Judge.Common.ViewModels;
 
@@ -9,12 +9,9 @@ public abstract class DialogBase : ViewModelBase, IDialogAware
 
     public abstract void OnDialogOpened(IDialogParameters parameters);
 
-    public virtual bool CanCloseDialog()
-        => true;
+    public virtual bool CanCloseDialog() => true;
 
-    public virtual void OnDialogClosed()
-    {
-    }
+    public virtual void OnDialogClosed() { }
 
     public event Action<IDialogResult> RequestClose;
 

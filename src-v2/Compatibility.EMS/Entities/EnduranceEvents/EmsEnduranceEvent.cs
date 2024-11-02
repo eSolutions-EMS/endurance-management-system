@@ -8,14 +8,24 @@ namespace NTS.Compatibility.EMS.Entities.EnduranceEvents;
 public class EmsEnduranceEvent : EmsDomainBase<EmsEnduranceEventException>
 {
     [Newtonsoft.Json.JsonConstructor]
-    private EmsEnduranceEvent()  { }
-    internal EmsEnduranceEvent(string name, EmsCountry country, string feiId, string feiCode, string showFeiId) : this(name, country)
+    private EmsEnduranceEvent() { }
+
+    internal EmsEnduranceEvent(
+        string name,
+        EmsCountry country,
+        string feiId,
+        string feiCode,
+        string showFeiId
+    )
+        : this(name, country)
     {
         FeiId = feiId;
         FeiCode = feiCode;
         ShowFeiId = showFeiId;
     }
-    internal EmsEnduranceEvent(string name, EmsCountry country) : base(GENERATE_ID)
+
+    internal EmsEnduranceEvent(string name, EmsCountry country)
+        : base(GENERATE_ID)
     {
         this.Name = name;
         this.Country = country;
@@ -44,6 +54,7 @@ public class EmsEnduranceEvent : EmsDomainBase<EmsEnduranceEventException>
     {
         throw new NotImplementedException();
     }
+
     public void Save(EmsPersonnel personnel)
     {
         throw new NotImplementedException();

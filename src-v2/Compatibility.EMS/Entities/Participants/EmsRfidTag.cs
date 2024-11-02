@@ -5,6 +5,7 @@ public class EmsRfidTag : IEquatable<EmsRfidTag>
     public const char EMPTY_CHAR = '0';
 
     public EmsRfidTag() { }
+
     public EmsRfidTag(string tagData)
     {
         var number = tagData.Substring(0, 3);
@@ -39,4 +40,4 @@ public class EmsRfidTag : IEquatable<EmsRfidTag>
         var position = this.Position.PadLeft(6, EMPTY_CHAR);
         return number + position + this.Id;
     }
-}   
+}

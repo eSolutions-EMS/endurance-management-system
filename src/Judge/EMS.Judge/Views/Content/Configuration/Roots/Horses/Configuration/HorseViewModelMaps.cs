@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
+using Core.Domain.State.Horses;
 using Core.Mappings;
 using Core.Mappings.Converters;
-using Core.Domain.State.Horses;
 
 namespace EMS.Judge.Views.Content.Configuration.Roots.Horses.Configuration;
 

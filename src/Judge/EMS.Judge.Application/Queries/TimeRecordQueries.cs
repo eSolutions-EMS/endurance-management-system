@@ -1,19 +1,16 @@
-﻿using Core.Domain.State;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Core.Domain.State;
 using Core.Domain.State.LapRecords;
 using EMS.Judge.Application.Common;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace EMS.Judge.Application.Queries;
 
 public class TimeRecordQueries : QueriesBase<LapRecord>
 {
-    public TimeRecordQueries(IStateContext context) : base(context)
-    {
-    }
+    public TimeRecordQueries(IStateContext context)
+        : base(context) { }
 
-    protected override List<LapRecord> Set => this.State
-        .Participants
-        .SelectMany(part => part.LapRecords)
-        .ToList();
+    protected override List<LapRecord> Set =>
+        this.State.Participants.SelectMany(part => part.LapRecords).ToList();
 }

@@ -1,6 +1,6 @@
+using System;
 using Microsoft.Extensions.DependencyInjection;
 using Prism.Ioc;
-using System;
 
 namespace EMS.Judge.Common.Objects;
 
@@ -29,7 +29,10 @@ internal class DesktopContainerAdapter
     {
         if (descriptor.ImplementationInstance != null)
         {
-            this.container.RegisterSingleton(descriptor.ServiceType, () => descriptor.ImplementationInstance);
+            this.container.RegisterSingleton(
+                descriptor.ServiceType,
+                () => descriptor.ImplementationInstance
+            );
         }
         else if (descriptor.ImplementationFactory != null)
         {
@@ -46,7 +49,10 @@ internal class DesktopContainerAdapter
     {
         if (descriptor.ImplementationInstance != null)
         {
-            this.container.Register(descriptor.ServiceType, () => descriptor.ImplementationInstance);
+            this.container.Register(
+                descriptor.ServiceType,
+                () => descriptor.ImplementationInstance
+            );
         }
         else if (descriptor.ImplementationFactory != null)
         {
@@ -59,8 +65,10 @@ internal class DesktopContainerAdapter
         }
     }
 
-    private Func<IContainerProvider, object> ToDryIotFactory(Func<IServiceProvider, object> factory)
-        => container =>
+    private Func<IContainerProvider, object> ToDryIotFactory(
+        Func<IServiceProvider, object> factory
+    ) =>
+        container =>
         {
             var provider = container.Resolve<IServiceProvider>();
             return factory(provider);

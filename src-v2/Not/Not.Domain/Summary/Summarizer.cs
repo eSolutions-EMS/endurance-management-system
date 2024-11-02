@@ -20,8 +20,8 @@ public class Summarizer
         }
     }
 
-	public override string ToString()
-	{
-		return this.sb.ToString();
-	}
+    public override string ToString()
+    {
+        return this.sb.ToString();
+    }
 }

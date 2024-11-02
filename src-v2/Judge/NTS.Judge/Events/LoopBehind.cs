@@ -7,9 +7,8 @@ namespace NTS.Judge.Events;
 
 public class LoopBehind : CrudBehind<Loop, LoopFormModel>
 {
-    public LoopBehind(IRepository<Loop> loopRepository) : base(loopRepository)
-    {
-    }
+    public LoopBehind(IRepository<Loop> loopRepository)
+        : base(loopRepository) { }
 
     protected override Loop CreateEntity(LoopFormModel model)
     {

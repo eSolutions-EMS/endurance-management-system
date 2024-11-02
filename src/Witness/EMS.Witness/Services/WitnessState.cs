@@ -6,13 +6,14 @@ namespace EMS.Witness.Services;
 public class WitnessState : IWitnessState
 {
     public static event EventHandler<EventArgs>? StateLoaded;
-    public ObservableCollection<ParticipantEntry> ParticipantSnapshots { get; private set; } = new();
+    public ObservableCollection<ParticipantEntry> ParticipantSnapshots { get; private set; } =
+        new();
     public ObservableCollection<ParticipantEntry> ParticipantSelected { get; private set; } = new();
     public SortedCollection<ParticipantsBatch> ParticipantHistory { get; private set; } = new();
-	public int? EventId { get; set; }
-	public string? HostIp { get; set; }
+    public int? EventId { get; set; }
+    public string? HostIp { get; set; }
 
-	public void Set(IWitnessState state)
+    public void Set(IWitnessState state)
     {
         this.ParticipantSnapshots = state.ParticipantSnapshots;
         this.ParticipantSelected = state.ParticipantSelected;

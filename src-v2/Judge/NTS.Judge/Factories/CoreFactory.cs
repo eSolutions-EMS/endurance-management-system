@@ -8,7 +8,7 @@ namespace NTS.Judge.Factories;
 
 public class CoreFactory
 {
-    public static EnduranceEvent CreateEvent (Domain.Setup.Entities.EnduranceEvent setupEvent)
+    public static EnduranceEvent CreateEvent(Domain.Setup.Entities.EnduranceEvent setupEvent)
     {
         if (!setupEvent.Competitions.Any())
         {
@@ -19,7 +19,16 @@ public class CoreFactory
         var endDate = competitionStartTimes.Last();
 
         // TODO: fix city and pla
-        var enduranceEvent = new EnduranceEvent(setupEvent.Country, setupEvent.Place, "", startDate, endDate, null, null, null);
+        var enduranceEvent = new EnduranceEvent(
+            setupEvent.Country,
+            setupEvent.Place,
+            "",
+            startDate,
+            endDate,
+            null,
+            null,
+            null
+        );
         return enduranceEvent;
     }
 
@@ -29,16 +38,25 @@ public class CoreFactory
         return coreOfficial;
     }
 
-    public static async Task<(List<Participation> Participations, Dictionary<AthleteCategory, List<RankingEntry>> RankingEntriesByCategory)>
-        CreateParticipationAndRankingEntriesAsync(Domain.Setup.Entities.Competition setupCompetition, IRepository<Participation> participationRepository)
+    public static async Task<(
+        List<Participation> Participations,
+        Dictionary<AthleteCategory, List<RankingEntry>> RankingEntriesByCategory
+    )> CreateParticipationAndRankingEntriesAsync(
+        Domain.Setup.Entities.Competition setupCompetition,
+        IRepository<Participation> participationRepository
+    )
     {
         if (setupCompetition.Phases.Count == 0)
         {
-            throw new DomainException($"Cannot start - Phases of competition {setupCompetition.Name} aren't configured");
+            throw new DomainException(
+                $"Cannot start - Phases of competition {setupCompetition.Name} aren't configured"
+            );
         }
         if (setupCompetition.Participations.Count == 0)
         {
-            throw new DomainException($"Cannot start - Particiaptions of competition {setupCompetition.Name} aren't configured");
+            throw new DomainException(
+                $"Cannot start - Particiaptions of competition {setupCompetition.Name} aren't configured"
+            );
         }
 
         var competitionDistance = 0m;
@@ -48,7 +66,7 @@ public class CoreFactory
             { AthleteCategory.Senior, new List<RankingEntry>() },
             { AthleteCategory.Children, new List<RankingEntry>() },
             { AthleteCategory.JuniorOrYoungAdult, new List<RankingEntry>() },
-            { AthleteCategory.Training, new List<RankingEntry>() }
+            { AthleteCategory.Training, new List<RankingEntry>() },
         };
         foreach (var contestant in setupCompetition.Participations)
         {
@@ -64,7 +82,8 @@ public class CoreFactory
                     setupCompetition.Ruleset,
                     setupPhases.Last() == phase,
                     setupCompetition.CompulsoryThresholdSpan,
-                    startTime);
+                    startTime
+                );
                 startTime = null; //Set only first phase StartTime
                 phases.Add(corePhase);
                 competitionDistance += (decimal)phase.Loop!.Distance;
@@ -72,25 +91,37 @@ public class CoreFactory
             var setupCombination = contestant.Combination;
             var combination = new Combination(
                 setupCombination.Number,
-                setupCombination.Athlete.Person, 
+                setupCombination.Athlete.Person,
                 setupCombination.Horse.Name,
                 competitionDistance,
                 setupCombination.Athlete.Country,
                 setupCombination.Athlete.Club,
                 contestant.MinAverageSpeed,
-                contestant.MaxAverageSpeed);
-            var participation = new Participation(setupCompetition.Name, setupCompetition.Ruleset, combination, phases);
+                contestant.MaxAverageSpeed
+            );
+            var participation = new Participation(
+                setupCompetition.Name,
+                setupCompetition.Ruleset,
+                combination,
+                phases
+            );
             var storedParticipations = await participationRepository.ReadAll();
-            if(!storedParticipations.Any(p => p.Combination.Number == participation.Combination.Number))
-            {               
+            if (
+                !storedParticipations.Any(p =>
+                    p.Combination.Number == participation.Combination.Number
+                )
+            )
+            {
                 participations.Add(participation);
                 var rankingEntry = new RankingEntry(participation, contestant.IsNotRanked);
                 rankingEntriesByCategory[setupCombination.Athlete.Category].Add(rankingEntry);
             }
             else
             {
-                var participationRef = storedParticipations.ToList().Find(p => p.Combination.Number == participation.Combination.Number);
-                if(participationRef != null)
+                var participationRef = storedParticipations
+                    .ToList()
+                    .Find(p => p.Combination.Number == participation.Combination.Number);
+                if (participationRef != null)
                 {
                     var rankingEntry = new RankingEntry(participationRef, contestant.IsNotRanked);
                     rankingEntriesByCategory[setupCombination.Athlete.Category].Add(rankingEntry);
@@ -100,7 +131,11 @@ public class CoreFactory
         return (participations, rankingEntriesByCategory);
     }
 
-    public static Ranking CreateRanking(Competition competition, AthleteCategory athleteCategory, IEnumerable<RankingEntry> rankingEntries)
+    public static Ranking CreateRanking(
+        Competition competition,
+        AthleteCategory athleteCategory,
+        IEnumerable<RankingEntry> rankingEntries
+    )
     {
         var ranking = new Ranking(competition, athleteCategory, rankingEntries);
         return ranking;

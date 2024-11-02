@@ -1,5 +1,5 @@
-﻿using Core.Mappings;
-using System.Reflection;
+﻿using System.Reflection;
+using Core.Mappings;
 
 namespace Core;
 

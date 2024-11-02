@@ -1,37 +1,43 @@
-﻿using EMS.Judge.Common;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows;
+using Core.Domain.AggregateRoots.Configuration;
+using Core.Domain.Common.Models;
+using Core.Domain.Enums;
+using Core.Domain.State.Competitions;
+using Core.Domain.State.Participations;
+using EMS.Judge.Application.Common;
+using EMS.Judge.Common;
 using EMS.Judge.Common.Components.Templates.ListItem;
 using EMS.Judge.Common.Components.Templates.SimpleListItem;
 using EMS.Judge.Services;
 using EMS.Judge.Views.Content.Configuration.Children.Competitions.AddParticipants;
 using EMS.Judge.Views.Content.Configuration.Children.Laps;
 using EMS.Judge.Views.Content.Configuration.Core;
-using EMS.Judge.Application.Common;
-using Core.Domain.AggregateRoots.Configuration;
-using Core.Domain.Common.Models;
-using Core.Domain.State.Competitions;
-using Core.Domain.Enums;
-using Core.Domain.State.Participations;
-using static Core.Localization.Strings;
 using Prism.Commands;
 using Prism.Regions;
-using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Windows;
+using static Core.Localization.Strings;
 
 namespace EMS.Judge.Views.Content.Configuration.Children.Competitions;
 
-public class CompetitionViewModel : NestedConfigurationBase<CompetitionView, Competition>,
-    ICompetitionState,
-    ICollapsable
+public class CompetitionViewModel
+    : NestedConfigurationBase<CompetitionView, Competition>,
+        ICompetitionState,
+        ICollapsable
 {
     private readonly IExecutor<ConfigurationRoot> executor;
     private readonly IQueries<Participation> participations;
-    public CompetitionViewModel() : this(null, null, null) { }
+
+    public CompetitionViewModel()
+        : this(null, null, null) { }
+
     public CompetitionViewModel(
         IExecutor<ConfigurationRoot> executor,
         IQueries<Participation> participations,
-        IQueries<Competition> competitions) : base(competitions)
+        IQueries<Competition> competitions
+    )
+        : base(competitions)
     {
         this.executor = executor;
         this.participations = participations;
@@ -43,8 +49,8 @@ public class CompetitionViewModel : NestedConfigurationBase<CompetitionView, Com
     public DelegateCommand AddParticipants { get; }
     public DelegateCommand ToggleVisibility { get; }
     public DelegateCommand CreateLap { get; }
-    public ObservableCollection<SimpleListItemViewModel> TypeItems { get; }
-        = new(SimpleListItemViewModel.FromEnum<CompetitionType>());
+    public ObservableCollection<SimpleListItemViewModel> TypeItems { get; } =
+        new(SimpleListItemViewModel.FromEnum<CompetitionType>());
     public ObservableCollection<LapViewModel> Laps { get; } = new();
     public ObservableCollection<ListItemViewModel> Participants { get; } = new();
 
@@ -65,11 +71,10 @@ public class CompetitionViewModel : NestedConfigurationBase<CompetitionView, Com
         base.OnNavigatedTo(context);
         this.LoadParticipations();
     }
+
     protected override IDomain Persist()
     {
-        var result = this.executor.Execute(
-            config => config.Competitions.Save(this),
-            true);
+        var result = this.executor.Execute(config => config.Competitions.Save(this), true);
         return result;
     }
 
@@ -77,15 +82,16 @@ public class CompetitionViewModel : NestedConfigurationBase<CompetitionView, Com
     {
         this.executor.Execute(
             x => x.Competitions.RemoveParticipation(this.Id, participation!.Value),
-            true);
+            true
+        );
         this.LoadParticipations();
     }
 
     private void LoadParticipations()
     {
         this.Participants.Clear();
-        var participations = this.participations
-            .GetAll()
+        var participations = this
+            .participations.GetAll()
             .Where(x => x.CompetitionsIds.Any(id => id == this.Id));
         foreach (var participation in participations)
         {
@@ -94,7 +100,8 @@ public class CompetitionViewModel : NestedConfigurationBase<CompetitionView, Com
                 participation.Id, // ??
                 participation.Participant.Name,
                 removeCommand,
-                REMOVE);
+                REMOVE
+            );
             this.Participants.Add(listItem);
         }
     }
@@ -102,7 +109,10 @@ public class CompetitionViewModel : NestedConfigurationBase<CompetitionView, Com
     private void NavigateToAddParticipants()
     {
         var tuple = (this.Id, this.Name);
-        var parameter = new NavigationParameter(DesktopConstants.NavigationParametersKeys.DATA, tuple);
+        var parameter = new NavigationParameter(
+            DesktopConstants.NavigationParametersKeys.DATA,
+            tuple
+        );
         this.Navigation.ChangeTo<AddParticipantsView>(parameter);
     }
 

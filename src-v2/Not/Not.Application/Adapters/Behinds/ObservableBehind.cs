@@ -13,7 +13,7 @@ public abstract class ObservableBehind : IObservableBehind
     private readonly Event _stateChanged = new();
 
     /// <summary>
-    /// Initialize the state of an ObservableBehind. 
+    /// Initialize the state of an ObservableBehind.
     /// If the state has been initialized successfully It cannot be initialized again.
     /// </summary>
     /// <returns>Indicates weather or not the state has been initialized successfully</returns>
@@ -36,7 +36,7 @@ public abstract class ObservableBehind : IObservableBehind
             _semaphore.Release();
         }
     }
-    
+
     public void Subscribe(Func<Task> action)
     {
         _stateChanged.SubscribeAsync(action);

@@ -1,14 +1,14 @@
-﻿using EMS.Judge.Common.Services;
-using EMS.Judge.Common.ViewModels;
-using EMS.Judge.Services;
-using EMS.Judge.Application.Services;
-using EMS.Judge.Application.Common;
-using EMS.Judge.Application.Common.Models;
-using Core.Mappings;
+﻿using System.Collections.Generic;
 using Core.Domain.AggregateRoots.Configuration;
 using Core.Domain.State.Participants;
-using System.Collections.Generic;
+using Core.Mappings;
+using EMS.Judge.Application.Common;
+using EMS.Judge.Application.Common.Models;
+using EMS.Judge.Application.Services;
 using EMS.Judge.Common.Components.Templates.ListItem;
+using EMS.Judge.Common.Services;
+using EMS.Judge.Common.ViewModels;
+using EMS.Judge.Services;
 
 namespace EMS.Judge.Views.Content.Configuration.Roots.Participants.Listing;
 
@@ -22,7 +22,9 @@ public class ParticipantListViewModel : SearchableListViewModelBase<ParticipantV
         IExecutor<ConfigurationRoot> executor,
         IQueries<Participant> participants,
         IPersistence persistence,
-        INavigationService navigation) : base(navigation, persistence, popupService)
+        INavigationService navigation
+    )
+        : base(navigation, persistence, popupService)
     {
         this.executor = executor;
         this.participants = participants;
@@ -30,9 +32,7 @@ public class ParticipantListViewModel : SearchableListViewModelBase<ParticipantV
 
     protected override IEnumerable<ListItemModel> LoadData()
     {
-        var participants = this.participants
-            .GetAll()
-            .MapEnumerable<ListItemModel>();
+        var participants = this.participants.GetAll().MapEnumerable<ListItemModel>();
         return participants;
     }
 
@@ -42,8 +42,6 @@ public class ParticipantListViewModel : SearchableListViewModelBase<ParticipantV
         return model;
     }
 
-    protected override void RemoveDomain(int id)
-        => this.executor.Execute(
-            config => config.Participants.Remove(id),
-            true);
+    protected override void RemoveDomain(int id) =>
+        this.executor.Execute(config => config.Participants.Remove(id), true);
 }

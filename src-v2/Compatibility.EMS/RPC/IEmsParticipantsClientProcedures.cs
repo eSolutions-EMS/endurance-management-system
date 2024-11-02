@@ -1,5 +1,5 @@
-﻿using NTS.Compatibility.EMS.Enums;
-using NTS.Compatibility.EMS.Entities.EMS;
+﻿using NTS.Compatibility.EMS.Entities.EMS;
+using NTS.Compatibility.EMS.Enums;
 
 namespace NTS.Compatibility.EMS.RPC;
 
