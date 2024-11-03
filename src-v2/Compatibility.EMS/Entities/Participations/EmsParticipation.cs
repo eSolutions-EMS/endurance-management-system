@@ -25,7 +25,7 @@ public class EmsParticipation : EmsDomainBase<EmsParticipationException>
         UpdateEvent?.Invoke(null, this);
     }
 
-    private List<int> competitionsIds = new();
+    private List<int> competitionsIds = [];
     public EmsParticipant Participant { get; private set; }
     public EmsCompetition CompetitionConstraint { get; internal set; }
     public WitnessEventType UpdateType { get; internal set; }

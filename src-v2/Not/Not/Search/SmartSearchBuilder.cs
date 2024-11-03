@@ -2,7 +2,7 @@
 
 public class SmartSearchBuilder<T>
 {
-    private readonly List<SearchBase<T>> _searches = new();
+    private readonly List<SearchBase<T>> _searches = [];
 
     public SmartSearch<T> Build()
     {

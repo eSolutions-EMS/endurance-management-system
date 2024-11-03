@@ -48,7 +48,7 @@ public class EmsLapRecord : EmsDomainBase<EmsLapRecordException>
         this.Lap.IsFinal ? null : this.VetGateTime?.AddMinutes(this.Lap.RestTimeInMins);
     public event PropertyChangedEventHandler PropertyChanged;
 
-    public Dictionary<WitnessEventType, EmsRfidTag> Detected { get; private set; } = new();
+    public Dictionary<WitnessEventType, EmsRfidTag> Detected { get; private set; } = [];
 
     protected virtual void RaisePropertyChanged(string propertyName = null)
     {

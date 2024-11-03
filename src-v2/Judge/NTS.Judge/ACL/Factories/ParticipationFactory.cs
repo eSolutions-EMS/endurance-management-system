@@ -36,10 +36,12 @@ public class ParticipationFactory
             {
                 break;
             }
-            var emsRecord = new EmsLapRecord(phase.StartTime.DateTime.DateTime, emsLap);
-            emsRecord.ArrivalTime = phase.ArriveTime?.DateTime.DateTime;
-            emsRecord.InspectionTime = phase.PresentTime?.DateTime.DateTime;
-            emsRecord.ReInspectionTime = phase.RepresentTime?.DateTime.DateTime;
+            var emsRecord = new EmsLapRecord(phase.StartTime.DateTime.DateTime, emsLap)
+            {
+                ArrivalTime = phase.ArriveTime?.DateTime.DateTime,
+                InspectionTime = phase.PresentTime?.DateTime.DateTime,
+                ReInspectionTime = phase.RepresentTime?.DateTime.DateTime
+            };
             emsParticipant.Add(emsRecord);
         }
         var competition = CompetitionFactory.Create(participation);
@@ -188,14 +190,7 @@ public class ParticipationFactory
         {
             return currentTime;
         }
-        if (previousTime.HasValue)
-        {
-            currentTime = (previousTime.Value + diff).DateTime;
-        }
-        else
-        {
-            currentTime = DateTimeOffset.Now.DateTime;
-        }
+        currentTime = previousTime.HasValue ? (previousTime.Value + diff).DateTime : DateTimeOffset.Now.DateTime;
         previousTime = currentTime;
         return currentTime;
     }

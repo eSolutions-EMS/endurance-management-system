@@ -48,20 +48,20 @@
         RegisterInjector(nameof(Combination.Horse), () => _horseField);
     }
 
-    Task<IEnumerable<Athlete>> SearchAthletes(string term)
+    Task<IEnumerable<Athlete?>> SearchAthletes(string term)
     {
         var result = Search(_athletesBehind.Items, term);
         return Task.FromResult(result);
     }
 
-    Task<IEnumerable<Horse>> SearchHorses(string term)
+    Task<IEnumerable<Horse?>> SearchHorses(string term)
     {
         var result = Search(_horsesBehind.Items, term);
         return Task.FromResult(result);
     }
 
     // TODO: extract search functionality somehow, because ToString() should be identical (maybe ToString should be configurable)
-    IEnumerable<T> Search<T>(IEnumerable<T> values, string term)
+    IEnumerable<T?> Search<T>(IEnumerable<T> values, string term)
     {
         if (string.IsNullOrWhiteSpace(term))
         {

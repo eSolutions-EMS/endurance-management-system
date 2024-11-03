@@ -31,10 +31,10 @@ public class EmsEnduranceEvent : EmsDomainBase<EmsEnduranceEventException>
         this.Country = country;
     }
 
-    private List<EmsPersonnel> membersOfVetCommittee = new();
-    private List<EmsPersonnel> membersOfJudgeCommittee = new();
-    private List<EmsPersonnel> stewards = new();
-    private List<EmsCompetition> competitions = new();
+    private List<EmsPersonnel> membersOfVetCommittee = [];
+    private List<EmsPersonnel> membersOfJudgeCommittee = [];
+    private List<EmsPersonnel> stewards = [];
+    private List<EmsCompetition> competitions = [];
 
     public string FeiCode { get; internal set; }
     public string ShowFeiId { get; internal set; }

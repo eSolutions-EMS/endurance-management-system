@@ -1,4 +1,5 @@
-﻿using NTS.Compatibility.EMS.Entities.EMS;
+﻿using NTS.Compatibility.EMS.Entities;
+using NTS.Compatibility.EMS.Entities.EMS;
 using NTS.Domain;
 using NTS.Domain.Enums;
 using NTS.Domain.Objects;

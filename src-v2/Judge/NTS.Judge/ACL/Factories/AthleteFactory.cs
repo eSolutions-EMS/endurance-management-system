@@ -2,7 +2,7 @@
 using NTS.Compatibility.EMS.Entities.Countries;
 using NTS.Compatibility.EMS.Enums;
 using NTS.Domain.Core.Entities;
-using NTS.Judge.ACL.Bridge;
+using NTS.Judge.ACL.Models;
 
 namespace NTS.Judge.ACL.Factories;
 

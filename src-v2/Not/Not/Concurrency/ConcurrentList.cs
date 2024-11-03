@@ -5,12 +5,12 @@ namespace Not.Concurrency;
 
 public class ConcurrentList<T> : IList<T>
 {
-    private readonly List<T> _items = new();
+    private readonly List<T> _items = [];
     private readonly object _lock = new();
 
     public ConcurrentList()
     {
-        _items = new();
+        _items = [];
     }
 
     public ConcurrentList(IEnumerable<T> enumerable)

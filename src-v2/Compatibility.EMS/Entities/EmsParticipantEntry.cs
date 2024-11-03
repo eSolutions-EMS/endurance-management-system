@@ -1,6 +1,6 @@
 ﻿using NTS.Compatibility.EMS.Entities.Participations;
 
-namespace NTS.Compatibility.EMS.Entities.EMS;
+namespace NTS.Compatibility.EMS.Entities;
 
 public class EmsParticipantEntry : IComparable<EmsParticipantEntry>, IEquatable<EmsParticipantEntry>
 {

@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using NTS.Domain.Objects;
 
-namespace NTS.Judge.HardwareControllers;
+namespace NTS.Judge.ACL.RFID;
 
 public abstract class RfidController
 {
@@ -28,7 +28,7 @@ public abstract class RfidController
 
     public void RaiseMessage(string message)
     {
-        message = $"{this.Device} {message}";
+        message = $"{Device} {message}";
         Console.WriteLine($"{DateTime.Now}: {message}");
     }
 
@@ -36,7 +36,7 @@ public abstract class RfidController
 
     public void RaiseError(string error)
     {
-        var message = $"{this.Device} ERROR: {error}";
+        var message = $"{Device} ERROR: {error}";
         Console.WriteLine($"{DateTime.Now}: {message}");
     }
 

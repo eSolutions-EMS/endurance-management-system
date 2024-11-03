@@ -12,7 +12,7 @@ public class EmsParticipant : EmsDomainBase<EmsParticipantException>, IEmsPartic
     public const int DEFAULT_MAX_AVERAGE_SPEED = 16;
     private const string NAME_FORMAT = "{0} - {1} with {2}";
 
-    private ObservableCollection<EmsLapRecord> lapRecords = new();
+    private ObservableCollection<EmsLapRecord> lapRecords = [];
     private readonly ReadOnlyObservableCollection<EmsLapRecord> lapRecordsReadonly;
 
     [JsonConstructor]
@@ -38,7 +38,7 @@ public class EmsParticipant : EmsDomainBase<EmsParticipantException>, IEmsPartic
         this.Unranked = state?.Unranked ?? false;
     }
 
-    public List<EmsRfidTag> RfidTags { get; internal set; } = new();
+    public List<EmsRfidTag> RfidTags { get; internal set; } = [];
     public bool Unranked { get; internal set; }
     public string Number { get; internal set; }
     public int? MaxAverageSpeedInKmPh { get; internal set; }

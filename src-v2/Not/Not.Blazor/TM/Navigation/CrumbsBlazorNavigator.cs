@@ -81,7 +81,7 @@ public class CrumbsBlazorNavigator : ICrumbsNavigator, ILandNavigator
         LandTo(landingEndpoint);
     }
 
-    [DoesNotReturn]
+    [MemberNotNull(nameof(_crumbs))]
     void ValidateCrumbs()
     {
         if (_crumbs == null)

@@ -5,20 +5,20 @@ namespace NTS.Domain.Setup.Entities;
 
 public class Horse : DomainEntity, ISummarizable, IImportable
 {
-    public static Horse Create(string name, string? feiId) => new(name, feiId);
+    public static Horse Create(string? name, string? feiId) => new(name, feiId);
 
-    public static Horse Update(int id, string name, string? feiId) => new(id, name, feiId);
+    public static Horse Update(int id, string? name, string? feiId) => new(id, name, feiId);
 
     [JsonConstructor]
-    private Horse(int id, string name, string? feiId)
+    private Horse(int id, string? name, string? feiId)
         : base(id)
     {
-        Name = name;
+        Name = Required(nameof(Name), name);
         FeiId = feiId;
     }
 
-    private Horse(string name, string? feiId)
-        : this(GenerateId(), Required(nameof(Name), name), feiId) { }
+    private Horse(string? name, string? feiId)
+        : this(GenerateId(), name, feiId) { }
 
     public string? FeiId { get; }
     public string Name { get; }

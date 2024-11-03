@@ -1,6 +1,6 @@
 ﻿using Vup.reader;
 
-namespace NTS.Judge.HardwareControllers;
+namespace NTS.Judge.ACL.RFID;
 
 public class VupVD67Controller : RfidController
 {
@@ -12,48 +12,48 @@ public class VupVD67Controller : RfidController
     public VupVD67Controller(TimeSpan? throttle = null)
         : base(throttle)
     {
-        this.reader = new VD67Reader();
+        reader = new VD67Reader();
     }
 
     public bool IsWaitingRead { get; private set; }
 
     public override void Connect()
     {
-        var connectionResult = this.reader.Connect();
-        var setPowerResult = this.reader.SetAntPower(0, 27);
+        var connectionResult = reader.Connect();
+        var setPowerResult = reader.SetAntPower(0, 27);
         if (!connectionResult.Success || !setPowerResult.Success)
         {
-            this.RaiseError(
+            RaiseError(
                 $"Connect failed '{connectionResult.ErrorCode}': '{connectionResult.Message}'"
             );
             return;
         }
-        this.RaiseMessage("Connected");
+        RaiseMessage("Connected");
     }
 
     public override void Disconnect()
     {
-        if (this.IsConnected)
+        if (IsConnected)
         {
-            this.reader.Disconnect();
-            this.IsConnected = false;
-            this.RaiseMessage("Disconnected!");
+            reader.Disconnect();
+            IsConnected = false;
+            RaiseMessage("Disconnected!");
         }
     }
 
     public string Read()
     {
-        if (!this.reader.IsConnected)
+        if (!reader.IsConnected)
         {
-            this.Connect();
+            Connect();
         }
-        this.IsWaitingRead = true;
-        this.IsReading = false;
-        this.IsWriting = false;
-        while (this.IsWaitingRead && this.reader.IsConnected)
+        IsWaitingRead = true;
+        IsReading = false;
+        IsWriting = false;
+        while (IsWaitingRead && reader.IsConnected)
         {
             string data;
-            var result = this.reader.Read6C(
+            var result = reader.Read6C(
                 memory_bank.memory_bank_epc,
                 TAG_WRITE_START_INDEX,
                 TAG_DATA_LENGTH,
@@ -65,14 +65,14 @@ public class VupVD67Controller : RfidController
             {
                 if (result.ErrorCode != NO_TAG_ERROR_CODE)
                 {
-                    this.RaiseError($"Read Failed '{result.ErrorCode}': {result.Message}");
+                    RaiseError($"Read Failed '{result.ErrorCode}': {result.Message}");
                 }
             }
             else
             {
-                data = this.ConvertToString(result.Result);
-                this.RaiseMessage($"Read: '{data}'");
-                this.IsWaitingRead = false;
+                data = ConvertToString(result.Result);
+                RaiseMessage($"Read: '{data}'");
+                IsWaitingRead = false;
                 return data;
             }
 
@@ -84,21 +84,21 @@ public class VupVD67Controller : RfidController
 
     public IEnumerable<string> StartReading()
     {
-        if (this.IsWaitingRead)
+        if (IsWaitingRead)
         {
-            this.RaiseError("Cannot start continious reading while waiting on Read.");
+            RaiseError("Cannot start continious reading while waiting on Read.");
             yield break;
         }
-        if (!this.reader.IsConnected)
+        if (!reader.IsConnected)
         {
-            this.Connect();
+            Connect();
         }
-        this.IsReading = true;
-        this.IsWriting = false;
-        while (this.IsReading && this.reader.IsConnected)
+        IsReading = true;
+        IsWriting = false;
+        while (IsReading && reader.IsConnected)
         {
             string data;
-            var result = this.reader.Read6C(
+            var result = reader.Read6C(
                 memory_bank.memory_bank_epc,
                 TAG_WRITE_START_INDEX,
                 TAG_DATA_LENGTH,
@@ -110,13 +110,13 @@ public class VupVD67Controller : RfidController
             {
                 if (result.ErrorCode != NO_TAG_ERROR_CODE)
                 {
-                    this.RaiseError($"Read Failed '{result.ErrorCode}': {result.Message}");
+                    RaiseError($"Read Failed '{result.ErrorCode}': {result.Message}");
                 }
             }
             else
             {
-                data = this.ConvertToString(result.Result);
-                this.RaiseMessage($"Read: '{data}'");
+                data = ConvertToString(result.Result);
+                RaiseMessage($"Read: '{data}'");
                 yield return data;
             }
             Thread.Sleep(throttle);
@@ -125,33 +125,33 @@ public class VupVD67Controller : RfidController
 
     public void StopReading()
     {
-        this.IsReading = false;
+        IsReading = false;
     }
 
     public string Write(string data)
     {
-        if (this.IsWaitingRead)
+        if (IsWaitingRead)
         {
-            this.RaiseError("Cannot write while waiting on Read.");
+            RaiseError("Cannot write while waiting on Read.");
             return null;
         }
-        if (!this.reader.IsConnected)
+        if (!reader.IsConnected)
         {
-            this.Connect();
+            Connect();
         }
         if (data.Length != TAG_DATA_LENGTH)
         {
-            this.RaiseError($"Tag data length must be exactly {TAG_DATA_LENGTH} symbols");
+            RaiseError($"Tag data length must be exactly {TAG_DATA_LENGTH} symbols");
             return null;
         }
-        this.IsReading = false;
-        this.IsWriting = true;
-        while (this.IsWriting && this.reader.IsConnected)
+        IsReading = false;
+        IsWriting = true;
+        while (IsWriting && reader.IsConnected)
         {
             try
             {
-                var bytes = this.ConvertToByytes(data);
-                var result = this.reader.Write6C(
+                var bytes = ConvertToByytes(data);
+                var result = reader.Write6C(
                     memory_bank.memory_bank_epc,
                     0,
                     Array.Empty<byte>(),
@@ -162,13 +162,13 @@ public class VupVD67Controller : RfidController
                 {
                     if (result.ErrorCode != NO_TAG_ERROR_CODE)
                     {
-                        this.RaiseError($"Read Failed '{result.ErrorCode}': {result.Message}");
+                        RaiseError($"Read Failed '{result.ErrorCode}': {result.Message}");
                     }
                 }
                 else
                 {
-                    this.RaiseMessage($"Write Successful: '{data}'");
-                    this.IsWriting = false;
+                    RaiseMessage($"Write Successful: '{data}'");
+                    IsWriting = false;
                     return data;
                 }
             }
@@ -179,7 +179,7 @@ public class VupVD67Controller : RfidController
                 );
             }
 
-            Thread.Sleep(this.throttle);
+            Thread.Sleep(throttle);
         }
         return null!;
     }

@@ -12,8 +12,8 @@ public static class GuardHelper
     /// Mainly used in order to prevent nullable warnings and guard against default values
     /// </summary>
     /// <exception cref="GuardException"></exception>
-    [DoesNotReturn]
-    public static void ThrowIfDefault<T>(T value)
+    // [DoesNotReturn]
+    public static void ThrowIfDefault<T>([NotNull] T value)
     {
         if (value?.Equals(default(T)) ?? true)
         {

@@ -29,7 +29,7 @@ public class EmsCompetition : EmsDomainBase<EmsCompetitionException>
         Rule = state.Rule;
     }
 
-    private List<EmsLap> laps = new();
+    private List<EmsLap> _laps = [];
     public EmsCompetitionType Type { get; internal set; }
     public string Name { get; internal set; }
 
@@ -48,17 +48,17 @@ public class EmsCompetition : EmsDomainBase<EmsCompetitionException>
 
     public void Save(EmsLap lap)
     {
-        if (laps.Contains(lap))
+        if (_laps.Contains(lap))
         {
-            laps.Remove(lap);
+            _laps.Remove(lap);
         }
-        laps.Add(lap);
+        _laps.Add(lap);
     }
 
     public IReadOnlyList<EmsLap> Laps
     {
-        get => this.laps.OrderBy(x => x.OrderBy).ToList().AsReadOnly();
-        private set { this.laps = value.ToList(); }
+        get => this._laps.OrderBy(x => x.OrderBy).ToList().AsReadOnly();
+        private set => this._laps = value.ToList();
     }
 }
 

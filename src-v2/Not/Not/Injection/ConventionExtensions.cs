@@ -17,7 +17,7 @@ public static class ConventionExtensions
     ) GetConventionalAssemblies(this IServiceCollection services)
     {
         var callingAssembly = Assembly.GetCallingAssembly();
-        var assemblies = callingAssembly.RecursiveGetReferencedAssemblies(new List<Assembly>());
+        var assemblies = callingAssembly.RecursiveGetReferencedAssemblies([]);
         return (services, assemblies);
     }
 

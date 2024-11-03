@@ -140,7 +140,7 @@ public class EmsRpcHub
         return Task.CompletedTask;
     }
 
-    public override Task OnDisconnectedAsync(Exception exception)
+    public override Task OnDisconnectedAsync(Exception? exception)
     {
         Console.WriteLine($"Disconnected: {Context.ConnectionId}");
         return Task.CompletedTask;
@@ -150,10 +150,7 @@ public class EmsRpcHub
     {
         private readonly IHubContext<EmsRpcHub, IEmsClientProcedures> _hub;
 
-        public ClientService(
-            IRepository<Participation> participations,
-            IHubContext<EmsRpcHub, IEmsClientProcedures> hub
-        )
+        public ClientService(IHubContext<EmsRpcHub, IEmsClientProcedures> hub)
         {
             _hub = hub;
         }
@@ -193,7 +190,7 @@ public class EmsRpcHub
             // TODO: Dispose
         }
 
-        public async Task ReceiveSnapshot(Snapshot snapshot)
+        public async Task ReceiveSnapshot(Snapshot _)
         {
             await Task.CompletedTask;
         }

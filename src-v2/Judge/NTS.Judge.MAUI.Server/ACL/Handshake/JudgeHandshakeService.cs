@@ -8,16 +8,16 @@ namespace Core.Application.Services;
 
 public class JudgeHandshakeService : INetworkBroadcastService, IHandshakeService
 {
-    private readonly IHandshakeValidatorService handshakeValidatorService;
+    private readonly IHandshakeValidatorService _handshakeValidatorService;
 
     public JudgeHandshakeService(IHandshakeValidatorService handshakeValidatorService)
     {
-        this.handshakeValidatorService = handshakeValidatorService;
+        this._handshakeValidatorService = handshakeValidatorService;
     }
 
     public async Task StartBroadcasting(CancellationToken token)
     {
-        var serverPayload = this.handshakeValidatorService.CreatePayload(Apps.JUDGE);
+        var serverPayload = this._handshakeValidatorService.CreatePayload(Apps.JUDGE);
         do
         {
             using var server = new UdpClient(NETWORK_BROADCAST_PORT);
@@ -27,7 +27,7 @@ public class JudgeHandshakeService : INetworkBroadcastService, IHandshakeService
             if (first == requestTask)
             {
                 var request = await requestTask;
-                if (this.handshakeValidatorService.ValidatePayload(request.Buffer, Apps.WITNESS))
+                if (this._handshakeValidatorService.ValidatePayload(request.Buffer, Apps.WITNESS))
                 {
                     Console.WriteLine(
                         $"Handshake with '{Apps.WITNESS}' on '{request.RemoteEndPoint.Address}'"
@@ -50,7 +50,7 @@ public class JudgeHandshakeService : INetworkBroadcastService, IHandshakeService
     {
         try
         {
-            var payload = this.handshakeValidatorService.CreatePayload(app);
+            var payload = this._handshakeValidatorService.CreatePayload(app);
             HandshakeResult handshake;
             do
             {
@@ -58,7 +58,7 @@ public class JudgeHandshakeService : INetworkBroadcastService, IHandshakeService
             } while (handshake.IsTimeout && !token.IsCancellationRequested);
 
             var response = handshake.Result!.Value;
-            if (this.handshakeValidatorService.ValidatePayload(response.Buffer, Apps.JUDGE))
+            if (this._handshakeValidatorService.ValidatePayload(response.Buffer, Apps.JUDGE))
             {
                 Console.WriteLine(
                     $"Handshake completed with '{Apps.JUDGE}' on '{response.RemoteEndPoint.Address}'"
@@ -66,7 +66,7 @@ public class JudgeHandshakeService : INetworkBroadcastService, IHandshakeService
                 return response.RemoteEndPoint.Address;
             }
         }
-        catch (Exception exception)
+        catch (Exception)
         {
             // TODO: logging/error handling
         }
@@ -94,7 +94,9 @@ public class JudgeHandshakeService : INetworkBroadcastService, IHandshakeService
             return new HandshakeResult(success.Result);
         }
         else
+        {
             return new HandshakeResult();
+        }
     }
 }
 

@@ -30,9 +30,10 @@ public class Phase : DomainEntity
             isFinal,
             compulsoryThreshold,
             startTimestamp.DateTime
-        );
-
-        phase.StartTime = startTimestamp;
+        )
+        {
+            StartTime = startTimestamp
+        };
         if (arriveTime != null)
         {
             phase.ArriveTime = new Timestamp(arriveTime.Value);

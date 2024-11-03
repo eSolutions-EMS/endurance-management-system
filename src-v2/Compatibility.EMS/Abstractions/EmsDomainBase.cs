@@ -15,7 +15,7 @@ public abstract class EmsDomainBase<TException>
 
     // Unused variable is needed mark the constructor which generates Id
     // That constructor should ONLY be used when creating NEW (no database entry) objects
-    protected EmsDomainBase(string generateIdFlag)
+    protected EmsDomainBase(string _)
     {
         this.Id = EmsDomainIdProvider.Generate();
     }
@@ -30,11 +30,7 @@ public abstract class EmsDomainBase<TException>
 
     public static bool operator ==(EmsDomainBase<TException>? one, EmsDomainBase<TException>? two)
     {
-        if (ReferenceEquals(one, null))
-        {
-            return ReferenceEquals(two, null);
-        }
-        return one.Equals(two);
+        return one is null ? two is null : one.Equals(two);
     }
 
     public static bool operator !=(
@@ -60,7 +56,6 @@ public abstract class EmsDomainBase<TException>
         {
             return false;
         }
-
         return this.GetHashCode().Equals(other.GetHashCode());
     }
 

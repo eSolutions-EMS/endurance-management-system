@@ -161,10 +161,9 @@ public class EmsToCoreImporter : IEmsToCoreImporter
                     entriesforClassification[competition]
                         .Add(
                             category,
-                            new List<(RankingEntry entry, Participation particpation)>
-                            {
+                            [
                                 (entry, participation),
-                            }
+                            ]
                         );
                 }
                 else
