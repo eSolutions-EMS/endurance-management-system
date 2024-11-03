@@ -39,4 +39,3 @@ dotnet_diagnostic.CS8766.severity = none
 
 # IDE0130: Namespace does not match folder structure
 dotnet_diagnostic.IDE0130.severity = none
-src-v2/Compatibility.EMS/.editorconfig

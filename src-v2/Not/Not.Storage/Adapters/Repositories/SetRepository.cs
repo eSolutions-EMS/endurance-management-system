@@ -1,5 +1,4 @@
-﻿using Not.Application.Ports.CRUD;
-using Not.Storage.Ports.States;
+﻿using Not.Storage.Ports.States;
 
 namespace Not.Storage.Adapters.Repositories;
 
@@ -24,8 +23,7 @@ public abstract class SetRepository<T, TState> : IRepository<T>
     public async Task Delete(int id)
     {
         var state = await _store.Transact();
-        var match = state.EntitySet.FirstOrDefault(x => x.Id == id);
-        state.EntitySet.Remove(match);
+        state.EntitySet.RemoveAll(x => x.Id == id);
         await _store.Commit(state);
     }
 

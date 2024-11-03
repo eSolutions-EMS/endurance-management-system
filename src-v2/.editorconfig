@@ -219,22 +219,11 @@ dotnet_naming_style._underscorefield.capitalization = camel_case
 dotnet_diagnostic.IDE0046.severity = none
 
 
-# IDE0058: Expression value is never used
+# IDE0058: Expression value is never used - i.e. when method's return value is not used
 dotnet_diagnostic.IDE0058.severity = none
 
 # CA1822: Mark members as static
 dotnet_diagnostic.CA1822.severity = none
 
-# CS8766: Nullability of reference types in return type doesn't match implicitly implemented member (possibly because of nullability attributes).
-dotnet_diagnostic.CS8766.severity = none
-
-[*.{cs,vb}]
-
-# IDE0305: Simplify collection initialization
-dotnet_diagnostic.IDE0305.severity = none
-
-# IDE0270: Use coalesce expression
-dotnet_diagnostic.IDE0270.severity = none
-
-# IDE0044: Add readonly modifier
-dotnet_diagnostic.IDE0044.severity = none
+# IDE0290: Use primary constructor
+dotnet_diagnostic.IDE0290.severity = none
