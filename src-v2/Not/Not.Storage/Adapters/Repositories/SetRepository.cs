@@ -1,4 +1,5 @@
-﻿using Not.Storage.Ports.States;
+﻿using Not.Application.Ports.CRUD;
+using Not.Storage.Ports.States;
 
 namespace Not.Storage.Adapters.Repositories;
 
@@ -13,41 +14,33 @@ public abstract class SetRepository<T, TState> : IRepository<T>
         _store = store;
     }
 
-    public async Task<T> Create(T entity)
+    public async Task Create(T entity)
     {
         var state = await _store.Transact();
         state.EntitySet.Add(entity);
         await _store.Commit(state);
-        return entity;
     }
 
-    public async Task<T> Delete(int id)
+    public async Task Delete(int id)
     {
         var state = await _store.Transact();
         var match = state.EntitySet.FirstOrDefault(x => x.Id == id);
-        if (match == null)
-        {
-            return default;
-        }
         state.EntitySet.Remove(match);
         await _store.Commit(state);
-        return match;
     }
 
-    public async Task<T> Delete(Predicate<T> filter)
+    public async Task Delete(Predicate<T> filter)
     {
         var state = await _store.Transact();
         state.EntitySet.RemoveAll(filter);
         await _store.Commit(state);
-        return default!;
     }
 
-    public virtual async Task<T> Delete(T entity)
+    public virtual async Task Delete(T entity)
     {
         var state = await _store.Transact();
         state.EntitySet.Remove(entity);
         await _store.Commit(state);
-        return entity;
     }
 
     public async Task Delete(IEnumerable<T> entities)
@@ -84,7 +77,7 @@ public abstract class SetRepository<T, TState> : IRepository<T>
         return state.EntitySet.FirstOrDefault(x => filter(x));
     }
 
-    public virtual async Task<T> Update(T entity)
+    public virtual async Task Update(T entity)
     {
         var state = await _store.Transact();
 
@@ -93,6 +86,5 @@ public abstract class SetRepository<T, TState> : IRepository<T>
         state.EntitySet.Insert(index, entity);
 
         await _store.Commit(state);
-        return entity;
     }
 }

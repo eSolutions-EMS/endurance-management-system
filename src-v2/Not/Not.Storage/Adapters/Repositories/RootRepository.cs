@@ -1,6 +1,4 @@
-﻿using Not.Application.Ports.CRUD;
-using Not.Domain;
-using Not.Storage.Ports.States;
+﻿using Not.Storage.Ports.States;
 
 namespace Not.Storage.Adapters.Repositories;
 
@@ -22,12 +20,11 @@ public abstract class RootRepository<T, TState> : IRepository<T>
         _store = store;
     }
 
-    public async Task<T> Create(T entity)
+    public async Task Create(T entity)
     {
         var state = await _store.Transact();
         state.Root = entity;
         await _store.Commit(state);
-        return entity;
     }
 
     public async Task<T?> Read(Predicate<T> _)
@@ -41,22 +38,22 @@ public abstract class RootRepository<T, TState> : IRepository<T>
         return state.Root;
     }
 
-    public async Task<T> Update(T entity)
+    public async Task Update(T entity)
     {
-        return await Create(entity);
+        await Create(entity);
     }
 
-    public Task<T> Delete(int id)
-    {
-        throw NotImplemented();
-    }
-
-    public Task<T> Delete(Predicate<T> filter)
+    public Task Delete(int id)
     {
         throw NotImplemented();
     }
 
-    public Task<T> Delete(T entity)
+    public Task Delete(Predicate<T> filter)
+    {
+        throw NotImplemented();
+    }
+
+    public Task Delete(T entity)
     {
         throw NotImplemented();
     }
