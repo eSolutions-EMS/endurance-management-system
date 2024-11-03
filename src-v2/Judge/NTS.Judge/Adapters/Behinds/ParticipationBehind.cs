@@ -69,7 +69,7 @@ public class ParticipationBehind
         EmitChange();
     }
 
-    public async Task<PhaseUpdateModel> Update(PhaseUpdateModel model)
+    public async Task Update(PhaseUpdateModel model)
     {
         var participation = Participations.FirstOrDefault(x => x.Phases.Any(y => y.Id == model.Id));
         GuardHelper.ThrowIfDefault(participation);
@@ -77,7 +77,6 @@ public class ParticipationBehind
         participation.Update(model);
         await _participationRepository.Update(participation);
         EmitChange();
-        return model;
     }
 
     async Task SafeRequestRequiredInspection(bool requestFlag)

@@ -106,37 +106,34 @@ public abstract class CrudBehind<T, TModel>
         }
     }
 
-    public async Task<TModel> Update(TModel model)
+    public async Task Update(TModel model)
     {
         var entity = UpdateEntity(model);
         await OnBeforeUpdate(entity);
         await _repository.Update(entity);
         ObservableList.AddOrReplace(entity);
-        return model;
     }
 
-    public async Task<TModel> Create(TModel model)
+    public async Task Create(TModel model)
     {
         var entity = CreateEntity(model);
         await OnBeforeCreate(entity);
         await _repository.Create(entity);
         ObservableList.AddOrReplace(entity);
-        return model;
     }
 
-    async Task<T> SafeDelete(T entity)
+    async Task SafeDelete(T entity)
     {
         await OnBeforeDelete(entity);
         await _repository.Delete(entity);
         ObservableList.Remove(entity);
-        return entity;
     }
 
     #region Safe pattern
 
-    public async Task<T> Delete(T entity)
+    public async Task Delete(T entity)
     {
-        return await SafeHelper.Run(() => SafeDelete(entity)) ?? entity;
+        await SafeHelper.Run(() => SafeDelete(entity));
     }
 
     #endregion

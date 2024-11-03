@@ -43,16 +43,15 @@ public class EventBehind : ObservableBehind, IEnduranceEventBehind
         return false;
     }
 
-    async Task<EnduranceEventFormModel> SafeCreate(EnduranceEventFormModel model)
+    async Task SafeCreate(EnduranceEventFormModel model)
     {
         _context.Entity = EnduranceEvent.Create(model.Place, model.Country);
         await _events.Create(_context.Entity);
         Model = model;
         EmitChange();
-        return model;
     }
 
-    async Task<EnduranceEventFormModel> SafeUpdate(EnduranceEventFormModel model)
+    async Task SafeUpdate(EnduranceEventFormModel model)
     {
         _context.Entity = EnduranceEvent.Update(
             model.Id,
@@ -65,19 +64,18 @@ public class EventBehind : ObservableBehind, IEnduranceEventBehind
 
         Model = model;
         EmitChange();
-        return model;
     }
 
     #region SafePattern
 
-    public async Task<EnduranceEventFormModel> Create(EnduranceEventFormModel enduranceEvent)
+    public async Task Create(EnduranceEventFormModel enduranceEvent)
     {
-        return await SafeHelper.Run(() => SafeCreate(enduranceEvent)) ?? enduranceEvent;
+        await SafeHelper.Run(() => SafeCreate(enduranceEvent));
     }
 
-    public async Task<EnduranceEventFormModel> Update(EnduranceEventFormModel enduranceEvent)
+    public async Task Update(EnduranceEventFormModel enduranceEvent)
     {
-        return await SafeHelper.Run(() => SafeUpdate(enduranceEvent)) ?? enduranceEvent;
+        await SafeHelper.Run(() => SafeUpdate(enduranceEvent));
     }
 
     public Task<EnduranceEvent> Delete(EnduranceEvent enduranceEvent)
