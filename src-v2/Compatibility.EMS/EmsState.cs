@@ -19,7 +19,9 @@ public class EmsState
 
     [JsonIgnore]
     public IReadOnlyList<EmsCountry> Countries =>
-        new ReadOnlyCollection<EmsCountry>([new("BGN", "Bulgaria", 1337)]);
+        new ReadOnlyCollection<EmsCountry>(
+            [new("BGN", "Bulgaria", 1337)]
+        );
 
     public void Set(EmsState initial)
     {

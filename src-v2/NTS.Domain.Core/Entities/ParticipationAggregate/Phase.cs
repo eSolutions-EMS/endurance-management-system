@@ -32,7 +32,7 @@ public class Phase : DomainEntity
             startTimestamp.DateTime
         )
         {
-            StartTime = startTimestamp,
+            StartTime = startTimestamp
         };
         if (arriveTime != null)
         {

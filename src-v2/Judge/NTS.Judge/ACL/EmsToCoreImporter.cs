@@ -158,7 +158,13 @@ public class EmsToCoreImporter : IEmsToCoreImporter
                 }
                 else if (entriesforClassification.ContainsKey(competition))
                 {
-                    entriesforClassification[competition].Add(category, [(entry, participation)]);
+                    entriesforClassification[competition]
+                        .Add(
+                            category,
+                            [
+                                (entry, participation),
+                            ]
+                        );
                 }
                 else
                 {
