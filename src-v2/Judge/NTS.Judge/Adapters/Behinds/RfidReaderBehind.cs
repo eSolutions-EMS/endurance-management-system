@@ -16,7 +16,10 @@ public class RfidReaderBehind : IRfidReaderBehind
 
     public RfidReaderBehind(ISnapshotProcessor snapshotProcessor)
     {
-        _vF747PController = new VupVF747pController("192.168.68.128", TimeSpan.FromMilliseconds(10));
+        _vF747PController = new VupVF747pController(
+            "192.168.68.128",
+            TimeSpan.FromMilliseconds(10)
+        );
         _snapshotProcessor = snapshotProcessor;
     }
 

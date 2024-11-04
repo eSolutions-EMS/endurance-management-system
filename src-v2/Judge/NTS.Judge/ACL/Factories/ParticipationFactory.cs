@@ -40,7 +40,7 @@ public class ParticipationFactory
             {
                 ArrivalTime = phase.ArriveTime?.DateTime.DateTime,
                 InspectionTime = phase.PresentTime?.DateTime.DateTime,
-                ReInspectionTime = phase.RepresentTime?.DateTime.DateTime
+                ReInspectionTime = phase.RepresentTime?.DateTime.DateTime,
             };
             emsParticipant.Add(emsRecord);
         }
@@ -190,7 +190,9 @@ public class ParticipationFactory
         {
             return currentTime;
         }
-        currentTime = previousTime.HasValue ? (previousTime.Value + diff).DateTime : DateTimeOffset.Now.DateTime;
+        currentTime = previousTime.HasValue
+            ? (previousTime.Value + diff).DateTime
+            : DateTimeOffset.Now.DateTime;
         previousTime = currentTime;
         return currentTime;
     }
