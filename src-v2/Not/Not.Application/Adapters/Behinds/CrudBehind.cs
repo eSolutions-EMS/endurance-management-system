@@ -18,7 +18,7 @@ public abstract class CrudBehind<T, TModel>
     readonly IRepository<T> _repository;
 
     /// <summary>
-    /// Instantiates a CRUD behind capable of handling child items
+    /// Instantiates a CRUD behind capable of handling child items using <seealso cref="IParentContext{T}"/>
     /// </summary>
     /// <param name="repository">Items repository</param>
     /// <param name="parentContext">ParentContext defines the necessary operations in order to update item's parent when item changes</param>
