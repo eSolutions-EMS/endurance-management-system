@@ -1,4 +1,4 @@
-name: Csharpier format (current dotnet version: 8)
+name: "Csharpier format (current dotnet version: 8)"
 on:
   pull_request:
     types:
