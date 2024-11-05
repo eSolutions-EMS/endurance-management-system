@@ -6,9 +6,13 @@
 
 @inherits NotComponent
 
-
-    <MudTabs @ref="@Tabs" PanelClass="px-4 py-6" Elevation="4"
-             Rounded ApplyEffectsToContainer>
+@if (Items.Count() == 0)
+{
+    <MudText Typo="Typo.body1">There aren't any upcoming starts at the moment.</MudText>
+}
+else
+{
+    <MudTabs @ref="@Tabs" PanelClass="px-4 py-6" Elevation="4" Rounded ApplyEffectsToContainer>
         @foreach (var tab in UserTabs)
         {
             <MudTabPanel ID="@tab.Id" Text="@tab.Label">
@@ -23,10 +27,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var row in groupedData)
+                            @foreach (var row in Items)
                             {
-                                @* if (tab.Label.Contains(row.TotalDistance.ToString()))
-                                { *@
+                                @if(tab.Label.Contains(row.TotalDistance.ToString())){
                                     <tr>
                                         @foreach (var x in row.ToString().Split(", "))
                                         {
@@ -34,7 +37,7 @@
                                         }
                                         <td><NotTimer StartTime="@row.StartIn()" StopTimerAtTime="-15" /></td>
                                     </tr>
-                                @* } *@
+                                }
                             }
                         </tbody>
                     </MudSimpleTable>
@@ -42,43 +45,35 @@
             </MudTabPanel>
         }
     </MudTabs>
+}
+  
 
 
 @code {
-    [Inject]
-    private IStartlistBehind _behind { get; set; } = default!;
+    [Parameter]
+    public IEnumerable<Start> Items { get; set; } = new List<Start>();
 
-    public class TabView
-    {
-        public string Label { get; set; }
-        public Guid Id { get; set; }
-        public bool ShowCloseIcon { get; set; } = true;
-    }
-    public MudTabs Tabs = default!;
-    public List<TabView> UserTabs = new();
-    public int UserIndex;
+    MudTabs Tabs = default!;
+    List<TabView> UserTabs = new();
+    int UserIndex;
+    bool dense = false;
+    bool hover = false;
+    bool bordered = false;
+    bool striped = false;
+    Color color = Color.Primary;
+    string[] headings = { "Number", "Athlete", "Loop", "Start Time", "Start In" };
 
-    protected override async Task OnInitializedAsync()
+    protected override void OnParametersSet()
     {
-        await _behind.Initialize();
-        var starts = _behind.StartHistory;//.StartlistByDistance();
-        foreach (var start in starts)
+        foreach (var start in Items)
         {
             TabView tab = new TabView();
-            tab.Label = $"{start.TotalDistance.FloorWholeNumberToTens()} {@Localizer.Get("KM")}";
+            tab.Label = $"{start.TotalDistance} {@Localizer.Get("KM")}";
             tab.Id = Guid.NewGuid();
             if (!UserTabs.Any(t => t.Label == tab.Label))
             {
                 UserTabs.Add(tab);
             }
-            groupedData.Add(start);
         }
     }
-    public bool dense = false;
-    public bool hover = false;
-    public bool bordered = false;
-    public bool striped = false;
-    public Color color = Color.Primary;
-    public string[] headings = { "Number", "Athlete", "Loop", "Start Time", "Start In" };
-    public List<Start> groupedData { get; set; } = new List<Start>();
 }
