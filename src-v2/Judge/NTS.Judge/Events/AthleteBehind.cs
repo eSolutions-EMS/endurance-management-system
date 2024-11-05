@@ -12,18 +12,23 @@ public class AthleteBehind : CrudBehind<Athlete, AthleteFormModel>
 
     protected override Athlete CreateEntity(AthleteFormModel model)
     {
-        return Athlete.Create(model.Name, model.FeiId, model.Country, model.Club, model.Category);
+        return Athlete.Create(
+            model.Name, 
+            model.FeiId, model.Country, model.Club, model.Category);
     }
 
     protected override Athlete UpdateEntity(AthleteFormModel model)
     {
         return Athlete.Update(
             model.Id,
+
+
+
+
             model.Name,
             model.FeiId,
             model.Country,
             model.Club,
-            model.Category
-        ); // TODO: fix csharpier dllszzzzzzzzzzzzzzzzzzz
+            model.Category); // TODO: fix csharpier dllszzzzzzzzzzzzzzzzzzz
     }
 }
