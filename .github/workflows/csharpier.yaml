@@ -11,13 +11,16 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event.pull_request.draft == false
     steps:
-      - name: Test Print branch
-        run: 'echo "Branch: ${{ github.event.pull_request.head.ref }}"'
+      - name: Print pull_request event
+        run: |
+          echo Branch:
+          echo "${{ github.event.pull_request }}"
 
       - name: Checkout code
         uses: actions/checkout@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}  # Provisioned automatically by GitHub
+          ref: ${{ github.event.pull_request.head.ref }}
 
       - name: Set up .NET
         uses: actions/setup-dotnet@v3
