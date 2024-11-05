@@ -1,14 +1,14 @@
-﻿using Core.Domain.AggregateRoots.Manager;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Core.Domain.AggregateRoots.Manager;
 using Core.Domain.AggregateRoots.Manager.Aggregates.Participants;
 using Core.Enums;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Core.Application.Rpc.Procedures;
 
 public interface IParticipantstHubProcedures
 {
-	ParticipantsPayload SendParticipants();
+    ParticipantsPayload SendParticipants();
     Task ReceiveWitnessEvent(IEnumerable<ParticipantEntry> entries, WitnessEventType type);
 }
 

@@ -1,11 +1,11 @@
-﻿using Core.Domain.State;
+﻿using System.Collections.Generic;
+using System.Reflection;
+using Core.Domain.State;
 using EMS.Judge.Application.Common;
 using EMS.Judge.Application.Models;
 using EMS.Judge.Application.Services;
 using EMS.Judge.Application.State;
 using Microsoft.Extensions.DependencyInjection;
-using System.Collections.Generic;
-using System.Reflection;
 
 namespace EMS.Judge.Application;
 
@@ -13,13 +13,15 @@ public static class ApplicationServices
 {
     public static IServiceCollection AddJudgeApplication(
         this IServiceCollection services,
-        IEnumerable<Assembly> assemblies)
+        IEnumerable<Assembly> assemblies
+    )
     {
-        services.Scan(scan => scan
-            .FromAssemblies(assemblies)
-            .AddClasses(classes => classes.AssignableTo(typeof(IQueries<>)))
-            .AsSelfWithInterfaces()
-            .WithTransientLifetime());
+        services.Scan(scan =>
+            scan.FromAssemblies(assemblies)
+                .AddClasses(classes => classes.AssignableTo(typeof(IQueries<>)))
+                .AsSelfWithInterfaces()
+                .WithTransientLifetime()
+        );
 
         services.AddState();
 

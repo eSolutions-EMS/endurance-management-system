@@ -1,5 +1,7 @@
 <Project>
- <PropertyGroup>
+
+  <PropertyGroup>
    <LangVersion>preview</LangVersion>
- </PropertyGroup>
+  </PropertyGroup>
+
 </Project>

@@ -7,5 +7,5 @@ public enum QualificationRevokeType
     Disqualify = 3,
     FinishNotRanked = 4,
     FailToQualify = 5,
-    FailToCompleteLoop = 6
+    FailToCompleteLoop = 6,
 }

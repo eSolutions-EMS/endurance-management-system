@@ -1,10 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using AutoMapper;
-using Core.Utilities;
-using System.Collections.Generic;
 using Core.Extensions;
+using Core.Utilities;
 
 namespace Core.Mappings;
 
@@ -26,9 +26,7 @@ public abstract class MappingProfile : Profile
 
     protected void AddConventionalMaps(IEnumerable<Type> instanceTypes)
     {
-        var types = instanceTypes
-            .Where(x => ConventionalMapType.IsAssignableFrom(x))
-            .ToList();
+        var types = instanceTypes.Where(x => ConventionalMapType.IsAssignableFrom(x)).ToList();
 
         foreach (var type in types)
         {
@@ -64,8 +62,8 @@ public abstract class MappingProfile : Profile
         }
     }
 
-    protected static IEnumerable<Type> GetMappingModels(Type source, Type mappingType)
-        => source
+    protected static IEnumerable<Type> GetMappingModels(Type source, Type mappingType) =>
+        source
             .GetInterfaces()
             .Where(i => i.IsGenericType && i.GetGenericTypeDefinition() == mappingType)
             .Select(i => i.GetGenericArguments().First());

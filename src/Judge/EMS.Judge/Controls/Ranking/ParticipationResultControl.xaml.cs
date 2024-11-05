@@ -15,17 +15,20 @@ public partial class ParticipationResultControl
         set => this.SetValue(PARTICIPATION_PROPERTY, value);
     }
 
-    public static readonly DependencyProperty PARTICIPATION_PROPERTY =
-        DependencyProperty.Register(
-            nameof(Participation),
-            typeof(ParticipationResultModel),
-            typeof(ParticipationResultControl),
-            new PropertyMetadata(OnParticipationChanged));
+    public static readonly DependencyProperty PARTICIPATION_PROPERTY = DependencyProperty.Register(
+        nameof(Participation),
+        typeof(ParticipationResultModel),
+        typeof(ParticipationResultControl),
+        new PropertyMetadata(OnParticipationChanged)
+    );
 
-    private static void OnParticipationChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+    private static void OnParticipationChanged(
+        DependencyObject sender,
+        DependencyPropertyChangedEventArgs args
+    )
     {
         var grid = (ParticipationResultControl)sender;
-        var participation = (ParticipationResultModel) args.NewValue;
+        var participation = (ParticipationResultModel)args.NewValue;
         grid.Populate(participation);
     }
 

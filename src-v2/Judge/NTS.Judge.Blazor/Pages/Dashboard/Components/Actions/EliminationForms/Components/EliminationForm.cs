@@ -1,5 +1,5 @@
-﻿using NTS.Judge.Blazor.Ports;
-using Not.Blazor.Components;
+﻿using Not.Blazor.Components;
+using NTS.Judge.Blazor.Ports;
 
 namespace NTS.Judge.Blazor.Pages.Dashboard.Components.Actions.EliminationForms;
 
@@ -17,4 +17,3 @@ public abstract class EliminationForm : NotComponent
         await _participationBehind.RestoreQualification();
     }
 }
-

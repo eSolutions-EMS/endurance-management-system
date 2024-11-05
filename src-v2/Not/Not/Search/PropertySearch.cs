@@ -37,14 +37,14 @@ internal abstract class PropertySearch<T, TValue> : SearchBase<T>
     {
         return EqualityComparer<TValue?>.Default.Equals(selected, search);
     }
+
     protected abstract TValue ConvertTerm(string term);
 }
 
 internal class StringPropertySearch<T> : PropertySearch<T, string>
 {
-    public StringPropertySearch(Func<T, string> selector) : base(selector)
-    {
-    }
+    public StringPropertySearch(Func<T, string> selector)
+        : base(selector) { }
 
     protected override string ConvertTerm(string value)
     {
@@ -59,17 +59,17 @@ internal class StringPropertySearch<T> : PropertySearch<T, string>
 
 internal class IntPropertySearch<T> : PropertySearch<T, int>
 {
-    public IntPropertySearch(Func<T, int> selector) : base(selector)
-    {
-    }
+    public IntPropertySearch(Func<T, int> selector)
+        : base(selector) { }
 
     protected override int ConvertTerm(string value)
     {
         if (!int.TryParse(value, out int search))
         {
-            throw new PropertyTermException($"Search term '{value}' cannot be parsed to a valid integer");
+            throw new PropertyTermException(
+                $"Search term '{value}' cannot be parsed to a valid integer"
+            );
         }
         return search;
     }
 }
-

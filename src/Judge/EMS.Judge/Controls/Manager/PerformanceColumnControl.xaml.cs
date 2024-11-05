@@ -1,7 +1,7 @@
-﻿using Prism.Commands;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using Prism.Commands;
 using static Core.Localization.Strings;
 
 namespace EMS.Judge.Controls.Manager;
@@ -17,32 +17,34 @@ public class PerformanceColumnControl : StackPanel
     }
     public bool IsReadonly
     {
-        get => (bool)this.GetValue(IS_READONLY_PROPERTY); 
+        get => (bool)this.GetValue(IS_READONLY_PROPERTY);
         set => this.SetValue(IS_READONLY_PROPERTY, value);
     }
 
-    public static readonly DependencyProperty IS_READONLY_PROPERTY =
-        DependencyProperty.Register(
-            nameof(IsReadonly),
-            typeof(bool),
-            typeof(PerformanceColumnControl));
+    public static readonly DependencyProperty IS_READONLY_PROPERTY = DependencyProperty.Register(
+        nameof(IsReadonly),
+        typeof(bool),
+        typeof(PerformanceColumnControl)
+    );
 
-    public static readonly DependencyProperty PERFORMANCE_PROPERTY =
-        DependencyProperty.Register(
-            nameof(Performance),
-            typeof(PerformanceColumnModel),
-            typeof(PerformanceColumnControl),
-            new PropertyMetadata(null, OnPerformanceChanged));
+    public static readonly DependencyProperty PERFORMANCE_PROPERTY = DependencyProperty.Register(
+        nameof(Performance),
+        typeof(PerformanceColumnModel),
+        typeof(PerformanceColumnControl),
+        new PropertyMetadata(null, OnPerformanceChanged)
+    );
 
     private static void OnPerformanceChanged(object sender, DependencyPropertyChangedEventArgs args)
     {
         var column = (PerformanceColumnControl)sender;
-        var performance = (PerformanceColumnModel) args.NewValue;
+        var performance = (PerformanceColumnModel)args.NewValue;
         column.Construct(performance);
     }
 
-    public PerformanceColumnControl() {}
-    public PerformanceColumnControl(PerformanceColumnModel performance, bool isReadonly) : this()
+    public PerformanceColumnControl() { }
+
+    public PerformanceColumnControl(PerformanceColumnModel performance, bool isReadonly)
+        : this()
     {
         this.IsReadonly = isReadonly;
         this.Performance = performance;
@@ -81,38 +83,48 @@ public class PerformanceColumnControl : StackPanel
         }
     }
 
-    private void AddHeader()
-        => this.CreateText(nameof(this.performance.HeaderValue));
-    private void AddArrivalInput()
-        => this.CreateInput(nameof(this.performance.ArrivalTimeString));
-    private void AddInspectionInput()
-        => this.CreateInput(nameof(this.performance.InspectionTimeString));
-    private void AddReInspectionInput()
-        => this.CreateInput(nameof(this.performance.ReInspectionTimeString));
-    private void AddRequiredInspectionInput()
-        => this.CreateInput(nameof(this.performance.RequiredInspectionTimeString));
-    private void AddCompulsoryInspectionInput()
-        => this.CreateInput(nameof(this.performance.CompulsoryRequiredInspectionTimeString));
-    private void AddArrivalText()
-        => this.CreateText(nameof(this.performance.ArrivalTimeString));
-    private void AddInspectionText()
-        => this.CreateText(nameof(this.performance.InspectionTimeString));
-    private void AddReInspectionText()
-        => this.CreateText(nameof(this.performance.ReInspectionTimeString));
-    private void AddRequiredInspectionText()
-        => this.CreateText(nameof(this.performance.RequiredInspectionTimeString));
-    private void AddCompulsoryInspectionText()
-        => this.CreateText(nameof(this.performance.CompulsoryRequiredInspectionTimeString));
-    private void AddNextStartTime()
-        => this.CreateText(nameof(this.performance.NextStartTimeString), true);
-    private void AddRecovery()
-        => this.CreateText(nameof(this.performance.RecoverySpanString));
-    private void AddTime()
-        => this.CreateText(nameof(this.performance.TimeString));
-    private void AddAverageSpeed()
-        => this.CreateText(nameof(this.performance.AverageSpeedString));
-    private void AddAverageSpeedTotal()
-        => this.CreateText(nameof(this.performance.AverageSpeedPhaseString));
+    private void AddHeader() => this.CreateText(nameof(this.performance.HeaderValue));
+
+    private void AddArrivalInput() => this.CreateInput(nameof(this.performance.ArrivalTimeString));
+
+    private void AddInspectionInput() =>
+        this.CreateInput(nameof(this.performance.InspectionTimeString));
+
+    private void AddReInspectionInput() =>
+        this.CreateInput(nameof(this.performance.ReInspectionTimeString));
+
+    private void AddRequiredInspectionInput() =>
+        this.CreateInput(nameof(this.performance.RequiredInspectionTimeString));
+
+    private void AddCompulsoryInspectionInput() =>
+        this.CreateInput(nameof(this.performance.CompulsoryRequiredInspectionTimeString));
+
+    private void AddArrivalText() => this.CreateText(nameof(this.performance.ArrivalTimeString));
+
+    private void AddInspectionText() =>
+        this.CreateText(nameof(this.performance.InspectionTimeString));
+
+    private void AddReInspectionText() =>
+        this.CreateText(nameof(this.performance.ReInspectionTimeString));
+
+    private void AddRequiredInspectionText() =>
+        this.CreateText(nameof(this.performance.RequiredInspectionTimeString));
+
+    private void AddCompulsoryInspectionText() =>
+        this.CreateText(nameof(this.performance.CompulsoryRequiredInspectionTimeString));
+
+    private void AddNextStartTime() =>
+        this.CreateText(nameof(this.performance.NextStartTimeString), true);
+
+    private void AddRecovery() => this.CreateText(nameof(this.performance.RecoverySpanString));
+
+    private void AddTime() => this.CreateText(nameof(this.performance.TimeString));
+
+    private void AddAverageSpeed() => this.CreateText(nameof(this.performance.AverageSpeedString));
+
+    private void AddAverageSpeedTotal() =>
+        this.CreateText(nameof(this.performance.AverageSpeedPhaseString));
+
     private void AddEdit()
     {
         var style = ControlsHelper.GetStyle("Button-Table");
@@ -129,21 +141,14 @@ public class PerformanceColumnControl : StackPanel
     private Border CreateCell(UIElement content)
     {
         var style = ControlsHelper.GetStyle("Border-Table");
-        var border = new Border
-        {
-            Style = style,
-            Child = content,
-        };
+        var border = new Border { Style = style, Child = content };
         return border;
     }
 
     private void CreateText(string value, bool bold = false)
     {
         var style = ControlsHelper.GetStyle("Text-Table");
-        var text = new TextBlock
-        {
-            Style = style,
-        };
+        var text = new TextBlock { Style = style };
         if (bold)
         {
             text.FontWeight = FontWeights.Bold;

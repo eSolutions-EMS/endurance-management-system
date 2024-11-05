@@ -1,14 +1,14 @@
-﻿using EMS.Judge.Services;
-using EMS.Judge.Application.Services;
-using EMS.Judge.Application.Common.Models;
-using Core.Utilities;
-using EMS.Judge.Common.Components.Templates.ListItem;
-using EMS.Judge.Common.Services;
-using Prism.Commands;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Core.Utilities;
+using EMS.Judge.Application.Common.Models;
+using EMS.Judge.Application.Services;
+using EMS.Judge.Common.Components.Templates.ListItem;
+using EMS.Judge.Common.Services;
+using EMS.Judge.Services;
+using Prism.Commands;
 using static Core.Localization.Strings;
 
 namespace EMS.Judge.Common.ViewModels;
@@ -18,7 +18,12 @@ public abstract class ListViewModelBase<TView> : ViewModelBase
 {
     private readonly IPersistence persistence;
     private readonly IPopupService popupService;
-    protected ListViewModelBase(INavigationService navigation, IPersistence persistence, IPopupService popupService)
+
+    protected ListViewModelBase(
+        INavigationService navigation,
+        IPersistence persistence,
+        IPopupService popupService
+    )
     {
         this.Executor = StaticProvider.GetService<IExecutor>();
         this.persistence = persistence;
@@ -32,8 +37,8 @@ public abstract class ListViewModelBase<TView> : ViewModelBase
     protected INavigationService Navigation { get; }
     protected IExecutor Executor { get; }
 
-    public ObservableCollection<ListItemViewModel> ListItems { get; protected init; }
-        = new (Enumerable.Empty<ListItemViewModel>());
+    public ObservableCollection<ListItemViewModel> ListItems { get; protected init; } =
+        new(Enumerable.Empty<ListItemViewModel>());
 
     public DelegateCommand Create { get; }
 
@@ -44,23 +49,26 @@ public abstract class ListViewModelBase<TView> : ViewModelBase
     }
 
     protected abstract IEnumerable<ListItemModel> LoadData();
+
     protected virtual void RemoveDomain(int id)
     {
         throw new NotImplementedException();
     }
 
-    protected virtual void Load() => this.Executor.Execute(() =>
-    {
-        var eventsList = this.LoadData();
+    protected virtual void Load() =>
+        this.Executor.Execute(
+            () =>
+            {
+                var eventsList = this.LoadData();
 
-        var viewModels = eventsList
-            .Select(this.ToViewModel)
-            .ToList();
+                var viewModels = eventsList.Select(this.ToViewModel).ToList();
 
-        this.ListItems.Clear();
-        this.ListItems.AddRange(viewModels);
-    }, false);
-    
+                this.ListItems.Clear();
+                this.ListItems.AddRange(viewModels);
+            },
+            false
+        );
+
     protected virtual void CreateAction()
     {
         if (this.AllowCreate)
@@ -68,30 +76,34 @@ public abstract class ListViewModelBase<TView> : ViewModelBase
             this.Navigation.ChangeTo<TView>();
         }
     }
+
     protected virtual void UpdateAction(int? id)
     {
         this.Navigation.ChangeToUpdateConfiguration<TView>(id!.Value);
     }
+
     protected virtual void RemoveAction(int? id)
     {
-        Action action = () => this.Executor.Execute(() =>
-        {
-            if (this.AllowDelete)
-            {
-                this.RemoveDomain(id!.Value);
-                var item = this.ListItems.FirstOrDefault(i => i.Id == id!.Value);
-                this.ListItems.Remove(item);
-            }
-        }, true);
+        Action action = () =>
+            this.Executor.Execute(
+                () =>
+                {
+                    if (this.AllowDelete)
+                    {
+                        this.RemoveDomain(id!.Value);
+                        var item = this.ListItems.FirstOrDefault(i => i.Id == id!.Value);
+                        this.ListItems.Remove(item);
+                    }
+                },
+                true
+            );
         this.popupService.RenderConfirmation(REMOVE_CONFIRMATION_MESSAGE, action);
     }
 
     protected virtual ListItemViewModel ToViewModel(ListItemModel listable)
     {
         var update = new DelegateCommand<int?>(this.UpdateAction);
-        var remove = this.AllowDelete
-            ? new DelegateCommand<int?>(this.RemoveAction)
-            : null;
+        var remove = this.AllowDelete ? new DelegateCommand<int?>(this.RemoveAction) : null;
         return new ListItemViewModel(listable.Id, listable.Name, update, UPDATE, remove);
     }
 }

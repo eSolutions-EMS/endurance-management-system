@@ -1,5 +1,5 @@
-﻿using NTS.Compatibility.EMS.Abstractions;
-using System;
+﻿using System;
+using NTS.Compatibility.EMS.Abstractions;
 
 namespace Core.Domain.State.LapRecords;
 

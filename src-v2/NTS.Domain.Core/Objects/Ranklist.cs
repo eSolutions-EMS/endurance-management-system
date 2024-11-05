@@ -1,14 +1,14 @@
-﻿using NTS.Domain.Core.Configuration;
+﻿using System.Collections;
+using NTS.Domain.Core.Configuration;
 using NTS.Domain.Core.Entities;
 using NTS.Domain.Core.Objects.Regional;
-using System.Collections;
 
 namespace NTS.Domain.Core.Objects;
 
 public class Ranklist : IReadOnlyList<RankingEntry>
 {
-    readonly static FeiRanker _feiRanker = new();
-    readonly static Ranker[] _regionalRankers = [ new BulgariaRanker() ];
+    static readonly FeiRanker _feiRanker = new();
+    static readonly Ranker[] _regionalRankers = [new BulgariaRanker()];
     readonly Ranking _ranking;
 
     List<RankingEntry> _entries;
@@ -69,7 +69,8 @@ public class Ranklist : IReadOnlyList<RankingEntry>
 
     static Ranker GetRanker(IRegionalConfiguration? configuration)
     {
-        return _regionalRankers.FirstOrDefault(x => x.CountryIsoCode == configuration?.CountryIsoCode) ?? _feiRanker;
+        return _regionalRankers.FirstOrDefault(x =>
+                x.CountryIsoCode == configuration?.CountryIsoCode
+            ) ?? _feiRanker;
     }
 }
-

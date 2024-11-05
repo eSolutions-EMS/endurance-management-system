@@ -1,8 +1,8 @@
-﻿using EMS.Judge.Common.Objects;
-using System;
+﻿using System;
 using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Media;
+using EMS.Judge.Common.Objects;
 
 namespace EMS.Judge.Converters;
 
@@ -29,6 +29,10 @@ public class SeverityToColorConverter : IValueConverter
         return color;
     }
 
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        => throw new NotImplementedException();
+    public object ConvertBack(
+        object value,
+        Type targetType,
+        object parameter,
+        CultureInfo culture
+    ) => throw new NotImplementedException();
 }

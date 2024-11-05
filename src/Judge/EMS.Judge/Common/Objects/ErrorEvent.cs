@@ -2,6 +2,4 @@
 
 namespace EMS.Judge.Common.Objects;
 
-public class ErrorEvent : PubSubEvent<string>
-{
-}
+public class ErrorEvent : PubSubEvent<string> { }

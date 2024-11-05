@@ -10,7 +10,9 @@ internal static class SingleLoggerValidator
     {
         if (_isLoggerConfigured)
         {
-            throw new Exception("Serilog static logger is already configured. Second logger is unsupported as it will simply replace the original");
+            throw new Exception(
+                "Serilog static logger is already configured. Second logger is unsupported as it will simply replace the original"
+            );
         }
         _isLoggerConfigured = true;
     }

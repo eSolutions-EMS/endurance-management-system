@@ -9,9 +9,8 @@ namespace NTS.Judge.Events;
 
 public class OfficialBehind : CrudBehind<Official, OfficialFormModel>
 {
-    public OfficialBehind(IRepository<Official> official, EventParentContext enduraceEventContext) : base(official, enduraceEventContext)
-    {
-    }
+    public OfficialBehind(IRepository<Official> official, EventParentContext enduraceEventContext)
+        : base(official, enduraceEventContext) { }
 
     protected override Official CreateEntity(OfficialFormModel model)
     {

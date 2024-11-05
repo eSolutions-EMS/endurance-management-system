@@ -1,15 +1,4 @@
-﻿using EMS.Judge.Controls.Manager;
-using EMS.Judge.Common;
-using EMS.Judge.Common.Services;
-using EMS.Judge.Events;
-using EMS.Judge.Services;
-using EMS.Judge.Application.Common;
-using Core.Domain.AggregateRoots.Manager;
-using Core.Domain.State.Participations;
-using Prism.Commands;
-using Prism.Events;
-using Prism.Regions;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -17,19 +6,31 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
-using Core.Events;
-using EMS.Judge.Application.Services;
+using Core.Domain.AggregateRoots.Manager;
 using Core.Domain.AggregateRoots.Manager.WitnessEvents;
-using Core.Domain.State;
 using Core.Domain.Enums;
+using Core.Domain.State;
+using Core.Domain.State.Participations;
+using Core.Events;
+using EMS.Judge.Application.Common;
+using EMS.Judge.Application.Services;
+using EMS.Judge.Common;
 using EMS.Judge.Common.Components.Templates.SimpleListItem;
+using EMS.Judge.Common.Services;
+using EMS.Judge.Controls.Manager;
+using EMS.Judge.Events;
+using EMS.Judge.Services;
+using Prism.Commands;
+using Prism.Events;
+using Prism.Regions;
 
 namespace EMS.Judge.Views.Content.Manager;
+
 public class ManagerViewModel : ViewModelBase
 {
     private static readonly DateTime Today = DateTime.Today;
-	private readonly ILogger logger;
-	private readonly IState state;
+    private readonly ILogger logger;
+    private readonly IState state;
     private readonly IRfidService rfidService;
     private readonly IEventAggregator eventAggregator;
     private readonly IExecutor<ManagerRoot> managerExecutor;
@@ -44,21 +45,24 @@ public class ManagerViewModel : ViewModelBase
         IEventAggregator eventAggregator,
         IPopupService popupService,
         IExecutor<ManagerRoot> managerExecutor,
-        IQueries<Participation> participations)
+        IQueries<Participation> participations
+    )
     {
-		this.logger = logger;
-		this.state = state;
+        this.logger = logger;
+        this.state = state;
         this.rfidService = rfidService;
         this.eventAggregator = eventAggregator;
         this.managerExecutor = managerExecutor;
         this.participations = participations;
         if (string.IsNullOrEmpty(settings.WitnessEventType))
         {
-            throw new Exception("WitnessEventType missing in settings. Correct values are: 'Arrival', 'VetIn'");
+            throw new Exception(
+                "WitnessEventType missing in settings. Correct values are: 'Arrival', 'VetIn'"
+            );
         }
-		this.EventTypeId = (int)Enum.Parse<WitnessEventType>(settings.WitnessEventType);
+        this.EventTypeId = (int)Enum.Parse<WitnessEventType>(settings.WitnessEventType);
 
-		this.Update = new DelegateCommand(this.UpdateAction);
+        this.Update = new DelegateCommand(this.UpdateAction);
         this.Start = new DelegateCommand(this.StartAction);
         this.Disqualify = new DelegateCommand(this.DisqualifyAction);
         this.FailToQualify = new DelegateCommand(this.FailToQualifyAction);
@@ -76,7 +80,8 @@ public class ManagerViewModel : ViewModelBase
                 this.SelectBy(participation as ParticipationGridModel);
             }
         });
-        Participation.UpdateEvent += (_, participation) => this.HandleParticipationUpdate(participation);
+        Participation.UpdateEvent += (_, participation) =>
+            this.HandleParticipationUpdate(participation);
         CoreEvents.StateLoadedEvent += async (_, __) =>
         {
             if (this.state.Event?.HasStarted ?? false)
@@ -120,13 +125,14 @@ public class ManagerViewModel : ViewModelBase
         }
     }
 
-	public ObservableCollection<SimpleListItemViewModel> EventTypes { get; }
-		= new(SimpleListItemViewModel.FromEnum<WitnessEventType>());
+    public ObservableCollection<SimpleListItemViewModel> EventTypes { get; } =
+        new(SimpleListItemViewModel.FromEnum<WitnessEventType>());
 
-	public ObservableCollection<string> DetectedFinishes { get; } = new();
+    public ObservableCollection<string> DetectedFinishes { get; } = new();
     public ObservableCollection<string> DetectedVets { get; } = new();
     public ObservableCollection<ParticipationGridModel> Participations { get; } = new();
     public ParticipationGridModel SelectedParticipation { get; set; }
+
     public override void OnNavigatedTo(NavigationContext context)
     {
         if (this.Participations.Any())
@@ -148,59 +154,91 @@ public class ManagerViewModel : ViewModelBase
 
     private void HandleParticipationUpdate(Participation participation)
     {
-        ThreadPool.QueueUserWorkItem(delegate
-        {
-            SynchronizationContext.SetSynchronizationContext(new
-                DispatcherSynchronizationContext(System.Windows.Application.Current.Dispatcher));
-
-            SynchronizationContext.Current!.Post(pl =>
+        ThreadPool.QueueUserWorkItem(
+            delegate
             {
-                if (participation.UpdateType == WitnessEventType.Arrival)
-                {
-                    this.DetectedFinishes.Add(participation.Participant.Number);
-                    Task.Run(() => this.ExpireParticipationUpdate(participation.UpdateType, participation.Participant.Number));
-                }
-                else if (participation.UpdateType == WitnessEventType.VetIn)
-                {
-                    this.DetectedVets.Add(participation.Participant.Number);
-                    Task.Run(() => this.ExpireParticipationUpdate(participation.UpdateType, participation.Participant.Number));
-                }
-            }, null);
-        });
+                SynchronizationContext.SetSynchronizationContext(
+                    new DispatcherSynchronizationContext(
+                        System.Windows.Application.Current.Dispatcher
+                    )
+                );
+
+                SynchronizationContext.Current!.Post(
+                    pl =>
+                    {
+                        if (participation.UpdateType == WitnessEventType.Arrival)
+                        {
+                            this.DetectedFinishes.Add(participation.Participant.Number);
+                            Task.Run(
+                                () =>
+                                    this.ExpireParticipationUpdate(
+                                        participation.UpdateType,
+                                        participation.Participant.Number
+                                    )
+                            );
+                        }
+                        else if (participation.UpdateType == WitnessEventType.VetIn)
+                        {
+                            this.DetectedVets.Add(participation.Participant.Number);
+                            Task.Run(
+                                () =>
+                                    this.ExpireParticipationUpdate(
+                                        participation.UpdateType,
+                                        participation.Participant.Number
+                                    )
+                            );
+                        }
+                    },
+                    null
+                );
+            }
+        );
     }
 
     private async Task ExpireParticipationUpdate(WitnessEventType type, string number)
     {
         await Task.Delay(TimeSpan.FromSeconds(300));
         // TODO: probably extract as utility? Also see RFID handlers
-        ThreadPool.QueueUserWorkItem(delegate
-        {
-            SynchronizationContext.SetSynchronizationContext(new
-                DispatcherSynchronizationContext(System.Windows.Application.Current.Dispatcher));
-
-            SynchronizationContext.Current!.Post(pl =>
+        ThreadPool.QueueUserWorkItem(
+            delegate
             {
-                if (type == WitnessEventType.Arrival)
-                {
-                    this.DetectedFinishes.Remove(number);
-                }
-                else if (type == WitnessEventType.VetIn)
-                {
-                    this.DetectedVets.Remove(number);
-                }
-            }, null);
-        });
+                SynchronizationContext.SetSynchronizationContext(
+                    new DispatcherSynchronizationContext(
+                        System.Windows.Application.Current.Dispatcher
+                    )
+                );
+
+                SynchronizationContext.Current!.Post(
+                    pl =>
+                    {
+                        if (type == WitnessEventType.Arrival)
+                        {
+                            this.DetectedFinishes.Remove(number);
+                        }
+                        else if (type == WitnessEventType.VetIn)
+                        {
+                            this.DetectedVets.Remove(number);
+                        }
+                    },
+                    null
+                );
+            }
+        );
     }
 
     private void StartAction()
     {
-        this.managerExecutor.Execute(manager =>
-        {
-            manager.Start();
-            this.ReloadParticipations();
-        }, true);
+        this.managerExecutor.Execute(
+            manager =>
+            {
+                manager.Start();
+                this.ReloadParticipations();
+            },
+            true
+        );
         this.StartReadingTags();
     }
+
     private void StartReadingTags()
     {
         if (!IsReadingTags)
@@ -230,18 +268,34 @@ public class ManagerViewModel : ViewModelBase
             });
         }
     }
-    private void UpdateAction()
-        => this.ExecuteAndRender((manager, number) => manager.UpdateRecord(number, this.InputTime));
-    private void DisqualifyAction()
-        => this.ExecuteAndRender((manager, number) => manager.Disqualify(number, this.NotQualifiedReason));
-    private void FailToQualifyAction()
-        => this.ExecuteAndRender((manager, number) => manager.FailToQualify(number, this.NotQualifiedReason));
-    private void ResignAction()
-        => this.ExecuteAndRender((manager, number) => manager.Resign(number, this.NotQualifiedReason));
-    private void ReInspectionAction()
-        => this.ExecuteAndRender((manager, number) => manager.RequireReInspection(number, this.ReInspectionValue));
-    private void RequireInspectionAction()
-        => this.ExecuteAndRender((manager, number) => manager.RequireCompulsoryInspection(number, this.RequireInspectionValue));
+
+    private void UpdateAction() =>
+        this.ExecuteAndRender((manager, number) => manager.UpdateRecord(number, this.InputTime));
+
+    private void DisqualifyAction() =>
+        this.ExecuteAndRender(
+            (manager, number) => manager.Disqualify(number, this.NotQualifiedReason)
+        );
+
+    private void FailToQualifyAction() =>
+        this.ExecuteAndRender(
+            (manager, number) => manager.FailToQualify(number, this.NotQualifiedReason)
+        );
+
+    private void ResignAction() =>
+        this.ExecuteAndRender((manager, number) => manager.Resign(number, this.NotQualifiedReason));
+
+    private void ReInspectionAction() =>
+        this.ExecuteAndRender(
+            (manager, number) => manager.RequireReInspection(number, this.ReInspectionValue)
+        );
+
+    private void RequireInspectionAction() =>
+        this.ExecuteAndRender(
+            (manager, number) =>
+                manager.RequireCompulsoryInspection(number, this.RequireInspectionValue)
+        );
+
     private void ExecuteAndRender(Action<ManagerRoot, string> action)
     {
         if (string.IsNullOrWhiteSpace(this.InputNumber))
@@ -249,11 +303,14 @@ public class ManagerViewModel : ViewModelBase
             return;
         }
         var number = this.InputNumber;
-        this.managerExecutor.Execute(manager =>
-        {
-            action(manager, number);
-            this.ReloadParticipations();
-        }, true);
+        this.managerExecutor.Execute(
+            manager =>
+            {
+                action(manager, number);
+                this.ReloadParticipations();
+            },
+            true
+        );
         this.SelectBy(number);
     }
 
@@ -296,21 +353,22 @@ public class ManagerViewModel : ViewModelBase
         if (participations.Any())
         {
             var models = new List<ParticipationGridModel>();
-            foreach (var participation in participations.Where(x => x.CompetitionConstraint != null).OrderBy(x => int.Parse(x.Participant.Number)))
+            foreach (
+                var participation in participations
+                    .Where(x => x.CompetitionConstraint != null)
+                    .OrderBy(x => int.Parse(x.Participant.Number))
+            )
             {
                 var viewModel = new ParticipationGridModel(participation, false);
                 models.Add(viewModel);
             }
-            models = models
-                .OrderBy(x => x.IsComplete)
-                .ThenBy(x => int.Parse(x.Number))
-                .ToList();
+            models = models.OrderBy(x => x.IsComplete).ThenBy(x => int.Parse(x.Number)).ToList();
             this.Participations.AddRange(models);
             this.SelectBy(this.Participations.First());
         }
     }
 
-#region setters
+    #region setters
     public Visibility StartVisibility
     {
         get => this.startVisibility;
@@ -351,7 +409,7 @@ public class ManagerViewModel : ViewModelBase
         get => this.requireInspectionValue;
         set => this.SetProperty(ref this.requireInspectionValue, value);
     }
-#endregion
+    #endregion
 
     private DateTime InputTime
     {

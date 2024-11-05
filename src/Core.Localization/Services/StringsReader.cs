@@ -1,16 +1,17 @@
-﻿using Core.ConventionalServices;
-using Core.Services;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Core.ConventionalServices;
+using Core.Services;
 using static Core.Localization.LocalizationConstants;
 
 namespace Core.Localization.Services;
 
 public class StringsReader : IStringsReader
 {
-    private const string ERROR_TEMPLATE = "Invalid translation file. {0} For more information: 'https://github.com/HorseSport-achobanov/endurance-judge/blob/develop/README.md#translation'";
+    private const string ERROR_TEMPLATE =
+        "Invalid translation file. {0} For more information: 'https://github.com/HorseSport-achobanov/endurance-judge/blob/develop/README.md#translation'";
     private readonly IFileService fileService;
 
     public StringsReader(IFileService fileService)
@@ -57,15 +58,18 @@ public class StringsReader : IStringsReader
     //     }
     // }
 
-    private (string key, string baseline, string translation) ParseColumnValues(string line, int lineNumber)
+    private (string key, string baseline, string translation) ParseColumnValues(
+        string line,
+        int lineNumber
+    )
     {
-        var values = line
-            .Split('|', StringSplitOptions.RemoveEmptyEntries)
+        var values = line.Split('|', StringSplitOptions.RemoveEmptyEntries)
             .Select(x => x.Trim())
             .ToList();
         if (values.Count != 3)
         {
-            var message = $"Line {lineNumber} has {values.Count} values. Each line should contain EXACTLY 3 values, separated by '|'.";
+            var message =
+                $"Line {lineNumber} has {values.Count} values. Each line should contain EXACTLY 3 values, separated by '|'.";
             this.Throw(message);
         }
         var key = values[0];

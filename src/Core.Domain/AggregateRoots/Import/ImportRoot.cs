@@ -1,3 +1,7 @@
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using Core.Domain.AggregateRoots.Import.Models;
 using Core.Domain.AggregateRoots.Import.Models.International;
 using Core.Domain.AggregateRoots.Import.Models.National;
@@ -12,12 +16,8 @@ using Core.Domain.State.Horses;
 using Core.Domain.State.Participants;
 using Core.Domain.Validation;
 using Core.Utilities;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using static Core.Localization.Strings;
 using static Core.Domain.DomainConstants;
+using static Core.Localization.Strings;
 
 namespace Core.Domain.AggregateRoots.Import;
 
@@ -82,14 +82,21 @@ public class ImportRoot : IAggregateRoot
                 "yyyy-mm-dd",
                 CultureInfo.InvariantCulture,
                 DateTimeStyles.None,
-                out var birthDate);
+                out var birthDate
+            );
             if (!hasParsed)
             {
                 continue;
             }
 
             var country = this.state.Countries.FirstOrDefault(x => x.IsoCode == data.CompetingFor);
-            var athlete = new Athlete(data.FEIID, data.FirstName, data.FamilyName, country, birthDate);
+            var athlete = new Athlete(
+                data.FEIID,
+                data.FirstName,
+                data.FamilyName,
+                country,
+                birthDate
+            );
             this.state.Athletes.Add(athlete);
         }
     }
@@ -116,7 +123,8 @@ public class ImportRoot : IAggregateRoot
                 data.StudBook,
                 data.TrainerFEIID,
                 data.TrainerFirstName,
-                data.TrainerFamilyName);
+                data.TrainerFamilyName
+            );
             this.state.Horses.Add(horse);
         }
     }
@@ -135,7 +143,9 @@ public class ImportRoot : IAggregateRoot
         foreach (var participantData in participantsData)
         {
             var athlete = this.state.Athletes.FirstOrDefault(x => x.FeiId == participantData.FEIID);
-            var horse = this.state.Horses.FirstOrDefault(x => x.FeiId == participantData.HorseEntry.First().FEIID);
+            var horse = this.state.Horses.FirstOrDefault(x =>
+                x.FeiId == participantData.HorseEntry.First().FEIID
+            );
             if (athlete != null && horse != null)
             {
                 var participant = new Participant(athlete, horse);

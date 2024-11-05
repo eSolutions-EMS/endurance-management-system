@@ -1,7 +1,7 @@
-﻿using Core.Domain.State.EnduranceEvents;
-using Core.Domain.State.Personnels;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using Core.Domain.State.EnduranceEvents;
+using Core.Domain.State.Personnels;
 
 namespace EMS.Judge.Application.Aggregates.Configurations;
 
@@ -16,15 +16,13 @@ public static class PersonnelAggregator
             enduranceEvent.ActiveVet,
             enduranceEvent.ForeignJudge,
             enduranceEvent.FeiTechDelegate,
-            enduranceEvent.FeiVetDelegate
+            enduranceEvent.FeiVetDelegate,
         };
 
         personnelList.AddRange(enduranceEvent.MembersOfJudgeCommittee);
         personnelList.AddRange(enduranceEvent.MembersOfVetCommittee);
         personnelList.AddRange(enduranceEvent.Stewards);
 
-        return personnelList
-            .Where(x => x != null)
-            .ToList();
+        return personnelList.Where(x => x != null).ToList();
     }
 }

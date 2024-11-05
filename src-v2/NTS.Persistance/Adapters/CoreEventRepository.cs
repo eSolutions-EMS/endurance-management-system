@@ -3,6 +3,5 @@ using NTS.Persistence.States;
 
 namespace NTS.Persistence.Adapters;
 
-public class CoreEventRepository(IStore<CoreState> store) : RootRepository<EnduranceEvent, CoreState>(store)
-{
-}
+public class CoreEventRepository(IStore<CoreState> store)
+    : RootRepository<EnduranceEvent, CoreState>(store) { }

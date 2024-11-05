@@ -1,4 +1,5 @@
 ﻿using EMS.Judge.Api.Services;
+
 namespace NTS.Judge.MAUI.Server;
 
 public static class DependencyInjection
@@ -25,6 +26,4 @@ public class JudgeServiceProvider : IJudgeServiceProvider
     }
 }
 
-public interface IJudgeServiceProvider : IServiceProvider
-{
-}
+public interface IJudgeServiceProvider : IServiceProvider { }

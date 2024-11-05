@@ -7,6 +7,7 @@ public class RfidTag : IEquatable<RfidTag>
     public const char EMPTY_CHAR = '0';
 
     public RfidTag() { }
+
     public RfidTag(string tagData)
     {
         var number = tagData.Substring(0, 3);
@@ -41,4 +42,4 @@ public class RfidTag : IEquatable<RfidTag>
         var position = this.Position.PadLeft(6, EMPTY_CHAR);
         return number + position + this.Id;
     }
-}   
+}

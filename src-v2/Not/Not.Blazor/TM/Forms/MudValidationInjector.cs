@@ -1,10 +1,10 @@
-﻿using MudBlazor;
-using System.Reflection;
+﻿using System.Reflection;
+using MudBlazor;
 using Not.Reflection;
 
 namespace Not.Blazor.TM.Forms;
 
-// Breaks Not* convention, because this is a workaround until 
+// Breaks Not* convention, because this is a workaround until
 // event-driven validation is implemented for MudBaseInput<T>
 public class MudValidationInjector
 {
@@ -34,8 +34,11 @@ public class MudValidationInjector
 
         ErrorProperty.Set(mudBaseInput, true);
         ErrorTextProperty.Set(mudBaseInput, message);
-        var validationErrorsList = ValidationErrorsProperty.Get(mudBaseInput)
-            ?? throw new Exception($"MudBlazor input component's ValidationErrors property is null'");
+        var validationErrorsList =
+            ValidationErrorsProperty.Get(mudBaseInput)
+            ?? throw new Exception(
+                $"MudBlazor input component's ValidationErrors property is null'"
+            );
         AddValidationErrorMethod.Invoke(validationErrorsList, new object[] { message });
     }
 
@@ -43,16 +46,25 @@ public class MudValidationInjector
     {
         return new MudValidationInjector(typeof(MudFormComponent<T, string>), getter);
     }
+
     public static MudValidationInjector Create<T>(Func<MudBooleanInput<T>> wrapperGetter)
     {
-        return new MudValidationInjector(typeof(MudFormComponent<T, string>), () => wrapperGetter());
+        return new MudValidationInjector(
+            typeof(MudFormComponent<T, string>),
+            () => wrapperGetter()
+        );
     }
+
     public static MudValidationInjector Create<T, TInternal>(Func<NotSwitch> wrapperGetter)
     {
         return new MudValidationInjector(typeof(NotSwitch), () => wrapperGetter());
     }
+
     public static MudValidationInjector Create<T>(Func<IMudBaseInputWrapper<T>> wrapperGetter)
     {
-        return new MudValidationInjector(typeof(MudFormComponent<T, string>), () => wrapperGetter().MudBaseInput);
+        return new MudValidationInjector(
+            typeof(MudFormComponent<T, string>),
+            () => wrapperGetter().MudBaseInput
+        );
     }
 }

@@ -40,7 +40,9 @@ public static class MappingApi
         return source.ProjectTo<TDestination>(Mapper.ConfigurationProvider);
     }
 
-    public static async Task<IEnumerable<TDestination>> MapEnumerable<TDestination>(this Task source)
+    public static async Task<IEnumerable<TDestination>> MapEnumerable<TDestination>(
+        this Task source
+    )
     {
         var value = await (dynamic)source;
         if (value is IEnumerable enumerable)
@@ -50,7 +52,8 @@ public static class MappingApi
 
         throw new ArgumentException(
             "Cannot map collection - argument value is not 'IEnumerable'.",
-            nameof(source));
+            nameof(source)
+        );
     }
 
     public static T MapFrom<T>(this T destination, T source)
@@ -84,8 +87,7 @@ public static class MappingApi
 
     private static IMapper Mapper;
 
-    public static void Initialize(IMapper mapper)
-        => Mapper = mapper;
+    public static void Initialize(IMapper mapper) => Mapper = mapper;
 
     private static void ValidateConfiguration()
     {

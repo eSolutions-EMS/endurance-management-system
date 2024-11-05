@@ -2,16 +2,17 @@
 
 namespace NTS.Persistence.Setup;
 
-public class SetupState : NotState,
-    ITreeState<EnduranceEvent>,
-    ISetState<Loop>,
-    ISetState<Horse>,
-    ISetState<Athlete>,
-    ISetState<Combination>,
-    ISetState<Participation>,
-    ISetState<Competition>,
-    ISetState<Phase>,
-    ISetState<Official>
+public class SetupState
+    : NotState,
+        ITreeState<EnduranceEvent>,
+        ISetState<Loop>,
+        ISetState<Horse>,
+        ISetState<Athlete>,
+        ISetState<Combination>,
+        ISetState<Participation>,
+        ISetState<Competition>,
+        ISetState<Phase>,
+        ISetState<Official>
 {
     // The order here is very important due to how EntityReferenceEqualityGuardConverter works
     // Root level entities (Loop, Horse etc) MUST precede their parent entities (Combination, Phase)
@@ -29,7 +30,7 @@ public class SetupState : NotState,
 
     EnduranceEvent? ITreeState<EnduranceEvent>.Root
     {
-        get => EnduranceEvent; 
+        get => EnduranceEvent;
         set => EnduranceEvent = value;
     }
     List<Loop> ISetState<Loop>.EntitySet => Loops;

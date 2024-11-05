@@ -1,5 +1,3 @@
 ﻿namespace Core.ConventionalServices;
 
-public interface ISingletonService : IService
-{
-}
+public interface ISingletonService : IService { }

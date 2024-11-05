@@ -11,13 +11,16 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event.pull_request.draft == false
     steps:
-      - name: Test Print branch
-        run: 'echo "Branch: ${{ github.event.pull_request.head.ref }}"'
+      - name: Print pull_request event
+        run: |
+          echo Branch:
+          echo "${{ github.event.pull_request }}"
 
       - name: Checkout code
         uses: actions/checkout@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}  # Provisioned automatically by GitHub
+          ref: ${{ github.event.pull_request.head.ref }}
 
       - name: Set up .NET
         uses: actions/setup-dotnet@v3
@@ -34,6 +37,12 @@ jobs:
       - name: Install Csharpier if not cached
         run: dotnet tool install -g csharpier || echo "Csharpier already installed"
 
+      - name: Prevent dlls changes workaround
+        run: |
+          git update-index --assume-unchanged src-v2/Judge/NTS.Judge/rfid.dll
+          git update-index --assume-unchanged src-v2/Judge/NTS.Judge/Vup.dll
+          git update-index --assume-unchanged src-v2/Judge/NTS.Judge/rfid_core.dll
+
       - name: Run Csharpier
         run: dotnet csharpier .
 
@@ -43,8 +52,12 @@ jobs:
             git config user.name "github-actions[bot]"
             git config user.email "github-actions[bot]@users.noreply.github.com"
             git add .
-            git commit -m "Apply Csharpier code formatting"
-            git push
+            if [[ `git status --porcelain` ]]; then
+              git commit -m "Apply Csharpier code formatting"
+              git push
+            else 
+              echo "No formatting changes needed"
+            fi
           else
             echo "No formatting changes needed"
           fi

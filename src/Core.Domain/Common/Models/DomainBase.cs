@@ -1,7 +1,7 @@
-﻿using Core.Domain.Common.Exceptions;
+﻿using System;
+using Core.Domain.Common.Exceptions;
 using Core.Domain.Validation;
 using Core.Models;
-using System;
 
 namespace Core.Domain.Common.Models;
 
@@ -11,9 +11,8 @@ public abstract class DomainBase<TException> : IDomain, IEquatable<DomainBase<TE
     protected const string GENERATE_ID = "GenerateIdFlag";
 
     // Empty constructor is used by mapping for existing (in the database) entries
-    protected DomainBase()
-    {
-    }
+    protected DomainBase() { }
+
     // Unused variable is needed mark the constructor which generates Id
     // That constructor should ONLY be used when creating NEW (no database entry) objects
     protected DomainBase(string generateIdFlag)
@@ -23,14 +22,11 @@ public abstract class DomainBase<TException> : IDomain, IEquatable<DomainBase<TE
 
     public int Id { get; protected init; } // Keep setter for mapping
 
-    public override bool Equals(object other)
-        => this.IsEqual(other);
+    public override bool Equals(object other) => this.IsEqual(other);
 
-    public bool Equals(IIdentifiable identifiable)
-        => this.IsEqual(identifiable);
+    public bool Equals(IIdentifiable identifiable) => this.IsEqual(identifiable);
 
-    public bool Equals(DomainBase<TException> domain)
-        => this.IsEqual(domain);
+    public bool Equals(DomainBase<TException> domain) => this.IsEqual(domain);
 
     public static bool operator ==(DomainBase<TException> one, DomainBase<TException> two)
     {
@@ -41,8 +37,8 @@ public abstract class DomainBase<TException> : IDomain, IEquatable<DomainBase<TE
         return one.Equals(two);
     }
 
-    public static bool operator !=(DomainBase<TException> one, DomainBase<TException> two)
-        => !(one == two);
+    public static bool operator !=(DomainBase<TException> one, DomainBase<TException> two) =>
+        !(one == two);
 
     private bool IsEqual(object other)
     {
@@ -66,8 +62,7 @@ public abstract class DomainBase<TException> : IDomain, IEquatable<DomainBase<TE
         return this.GetHashCode().Equals(other.GetHashCode());
     }
 
-    public override int GetHashCode()
-        => this.Id;
+    public override int GetHashCode() => this.Id;
 
     protected Validator<TException> Validator { get; } = new();
 }

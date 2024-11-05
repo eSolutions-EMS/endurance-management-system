@@ -1,13 +1,13 @@
-﻿using EMS.Judge.Common;
-using EMS.Judge.Common.Services;
-using EMS.Judge.Services;
+﻿using System;
+using System.Windows;
+using Core.Domain.AggregateRoots.Manager;
 using EMS.Judge.Application.Aggregates.Import;
 using EMS.Judge.Application.Services;
-using Core.Domain.AggregateRoots.Manager;
+using EMS.Judge.Common;
+using EMS.Judge.Common.Services;
+using EMS.Judge.Services;
 using Prism.Commands;
 using Prism.Regions;
-using System.Windows;
-using System;
 
 namespace EMS.Judge.Views.Content.Import;
 
@@ -26,7 +26,8 @@ public class ImportViewModel : ViewModelBase
         IApplicationContext context,
         IPersistence persistence,
         IExplorerService explorer,
-        INavigationService navigation)
+        INavigationService navigation
+    )
     {
         this.judgeSettings = judgeSettings;
         this.importExecutor = importExecutor;

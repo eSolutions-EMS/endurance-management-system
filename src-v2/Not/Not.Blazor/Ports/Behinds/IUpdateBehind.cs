@@ -4,5 +4,5 @@ namespace Not.Blazor.Ports.Behinds;
 
 public interface IUpdateBehind<T> : ISingletonService
 {
-    Task<T> Update(T entity);
+    Task Update(T entity);
 }

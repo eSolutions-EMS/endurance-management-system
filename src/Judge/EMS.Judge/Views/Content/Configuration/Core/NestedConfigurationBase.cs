@@ -1,9 +1,9 @@
-﻿using EMS.Judge.Common;
-using EMS.Judge.Application.Common;
+﻿using System;
 using Core.Domain.Common.Models;
+using EMS.Judge.Application.Common;
+using EMS.Judge.Common;
 using EMS.Judge.Common.Extensions;
 using Prism.Regions;
-using System;
 
 namespace EMS.Judge.Views.Content.Configuration.Core;
 
@@ -11,10 +11,10 @@ public abstract class NestedConfigurationBase<TView, TDomain> : ConfigurationBas
     where TView : IView
     where TDomain : IDomain
 {
-    private static readonly Random Random = new ();
-    protected NestedConfigurationBase(IQueries<TDomain> queries) : base(queries)
-    {
-    }
+    private static readonly Random Random = new();
+
+    protected NestedConfigurationBase(IQueries<TDomain> queries)
+        : base(queries) { }
 
     protected int? ParentId { get; private set; }
     protected int ViewId { get; private set; }
@@ -52,10 +52,14 @@ public abstract class NestedConfigurationBase<TView, TDomain> : ConfigurationBas
     }
 
     protected void NewForm<T>()
-        where T : IView => this.Executor.Execute(() =>
-    {
-        this.Persist();
-        var childViewId = Random.Next();
-        this.Navigation.ChangeToNewConfiguration<T>(this.Id, childViewId);
-    }, true);
+        where T : IView =>
+        this.Executor.Execute(
+            () =>
+            {
+                this.Persist();
+                var childViewId = Random.Next();
+                this.Navigation.ChangeToNewConfiguration<T>(this.Id, childViewId);
+            },
+            true
+        );
 }

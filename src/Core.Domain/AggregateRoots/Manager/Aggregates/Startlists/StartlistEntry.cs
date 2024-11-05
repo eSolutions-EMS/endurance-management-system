@@ -1,7 +1,7 @@
-﻿using Core.Domain.AggregateRoots.Common.Performances;
-using Core.Domain.State.Participations;
-using System;
+﻿using System;
 using System.Linq;
+using Core.Domain.AggregateRoots.Common.Performances;
+using Core.Domain.State.Participations;
 
 namespace Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
 
@@ -17,11 +17,9 @@ public class StartlistEntry : IComparable<StartlistEntry>, IEquatable<StartlistE
         this.CountryName = participation.Participant.Athlete.Country.Name;
         this.Distance = participation.Distance!.Value;
         this.IsRestOver = this.StartTime < DateTime.Now;
-        
+
         this.Stage = toSkip + 1;
-        var lapRecords = participation.Participant.LapRecords
-            .Skip(toSkip)
-            .ToList();
+        var lapRecords = participation.Participant.LapRecords.Skip(toSkip).ToList();
         var first = lapRecords.First();
         this.StartTime = first.StartTime;
     }
@@ -58,9 +56,9 @@ public class StartlistEntry : IComparable<StartlistEntry>, IEquatable<StartlistE
         var otherIsRestOver = other.StartTime < now;
         var isLateStart = this.StartTime < now && this.StartTime > now - maximumLateStart;
         var otherIsLateStart = other.StartTime < now && other.StartTime > now - maximumLateStart;
-        
+
         // Proprety assignment in order to render them differently in UI, stupid I know
-		if (isRestOver != this.IsRestOver)
+        if (isRestOver != this.IsRestOver)
         {
             this.IsRestOver = isRestOver;
         }
@@ -76,17 +74,17 @@ public class StartlistEntry : IComparable<StartlistEntry>, IEquatable<StartlistE
         {
             other.IsLateStart = otherIsLateStart;
         }
-		
+
         if (this.IsRestOver && !other.IsRestOver)
-		{
-			return 1;
-		}
-		if (!this.IsRestOver && other.IsRestOver)
-		{
-			return -1;
-		}
-		// Order past entries (IsRestOver == true) by start time descending
-		if (isRestOver && otherIsRestOver)
+        {
+            return 1;
+        }
+        if (!this.IsRestOver && other.IsRestOver)
+        {
+            return -1;
+        }
+        // Order past entries (IsRestOver == true) by start time descending
+        if (isRestOver && otherIsRestOver)
         {
             if (thisDiff > otherDiff)
             {

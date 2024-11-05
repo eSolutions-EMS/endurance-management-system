@@ -1,7 +1,7 @@
-﻿using EMS.Judge.Application.Services;
-using Core.ConventionalServices;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using Core.ConventionalServices;
+using EMS.Judge.Application.Services;
 
 namespace EMS.Judge.Services;
 
@@ -88,7 +88,7 @@ public class Executor : IExecutor
         try
         {
             var result = action();
-            if (persist)    
+            if (persist)
             {
                 this.persistence.SaveState();
             }
@@ -109,6 +109,7 @@ public interface IExecutor<out T> : ITransientService
     Task<bool> Execute(Func<T, Task> action, bool persist);
     TResult Execute<TResult>(Func<T, TResult> action, bool persist);
 }
+
 public interface IExecutor : ITransientService
 {
     public bool Execute(Action action, bool persist);

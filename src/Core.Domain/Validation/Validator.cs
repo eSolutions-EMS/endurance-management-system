@@ -1,11 +1,12 @@
-﻿using Core.Domain.Common.Exceptions;
-using System;
+﻿using System;
 using System.Linq;
+using Core.Domain.Common.Exceptions;
 using static Core.Localization.Strings;
 
 namespace Core.Domain.Validation;
 
-public class Validator<T> where T : DomainExceptionBase, new()
+public class Validator<T>
+    where T : DomainExceptionBase, new()
 {
     public TValue IsRequired<TValue>(TValue obj, string property)
     {
@@ -22,7 +23,11 @@ public class Validator<T> where T : DomainExceptionBase, new()
         var parts = name.Split(" ", StringSplitOptions.RemoveEmptyEntries);
         var firstName = parts.FirstOrDefault();
         var lastName = parts.LastOrDefault();
-        if (parts.Length < 2 || string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName))
+        if (
+            parts.Length < 2
+            || string.IsNullOrWhiteSpace(firstName)
+            || string.IsNullOrWhiteSpace(lastName)
+        )
         {
             throw Helper.Create<T>(INVALID_FULL_NAME_MESSAGE, name);
         }

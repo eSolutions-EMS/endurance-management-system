@@ -8,6 +8,4 @@ public interface IParent<T> : IParent
     void Update(T child);
 }
 
-public interface IParent
-{
-}
+public interface IParent { }

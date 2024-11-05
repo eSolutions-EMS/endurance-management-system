@@ -1,13 +1,13 @@
-﻿using EMS.Judge.Common.Services;
-using EMS.Judge.Common.ViewModels;
-using EMS.Judge.Services;
-using EMS.Judge.Application.Services;
-using EMS.Judge.Application.Common;
-using EMS.Judge.Application.Common.Models;
-using Core.Mappings;
+﻿using System.Collections.Generic;
 using Core.Domain.AggregateRoots.Configuration;
 using Core.Domain.State.Horses;
-using System.Collections.Generic;
+using Core.Mappings;
+using EMS.Judge.Application.Common;
+using EMS.Judge.Application.Common.Models;
+using EMS.Judge.Application.Services;
+using EMS.Judge.Common.Services;
+using EMS.Judge.Common.ViewModels;
+using EMS.Judge.Services;
 
 namespace EMS.Judge.Views.Content.Configuration.Roots.Horses.Listing;
 
@@ -21,7 +21,9 @@ public class HorseListViewModel : SearchableListViewModelBase<HorseView>
         IExecutor<ConfigurationRoot> executor,
         IQueries<Horse> horses,
         IPersistence persistence,
-        INavigationService navigation) : base(navigation, persistence, popupService)
+        INavigationService navigation
+    )
+        : base(navigation, persistence, popupService)
     {
         this.executor = executor;
         this.horses = horses;
@@ -29,13 +31,10 @@ public class HorseListViewModel : SearchableListViewModelBase<HorseView>
 
     protected override IEnumerable<ListItemModel> LoadData()
     {
-        var horses = this.horses
-            .GetAll()
-            .MapEnumerable<ListItemModel>();
+        var horses = this.horses.GetAll().MapEnumerable<ListItemModel>();
         return horses;
     }
-    protected override void RemoveDomain(int id)
-        => this.executor.Execute(
-            config => config.Horses.Remove(id),
-            true);
+
+    protected override void RemoveDomain(int id) =>
+        this.executor.Execute(config => config.Horses.Remove(id), true);
 }

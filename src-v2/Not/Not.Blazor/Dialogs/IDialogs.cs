@@ -1,5 +1,5 @@
-﻿using Not.Injection;
-using Not.Blazor.TM.Forms.Components;
+﻿using Not.Blazor.TM.Forms.Components;
+using Not.Injection;
 
 namespace Not.Blazor.Dialogs;
 

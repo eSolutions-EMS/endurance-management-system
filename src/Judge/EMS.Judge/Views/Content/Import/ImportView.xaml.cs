@@ -1,18 +1,21 @@
-﻿using EMS.Judge.Common;
-using EMS.Judge.Common.Services;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using System.Windows.Input;
+using EMS.Judge.Common;
+using EMS.Judge.Common.Services;
 
 namespace EMS.Judge.Views.Content.Import;
 
 public partial class ImportView : UserControl, IView
 {
     private readonly IInputHandler inputHandler;
-    public ImportView(IInputHandler inputHandler) : this()
+
+    public ImportView(IInputHandler inputHandler)
+        : this()
     {
         this.inputHandler = inputHandler;
         this.inputHandler = inputHandler;
     }
+
     public ImportView()
     {
         InitializeComponent();

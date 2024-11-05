@@ -5,7 +5,6 @@ namespace NTS.Persistence.Adapters;
 
 public class HorseRepository : SetRepository<Horse, SetupState>
 {
-    public HorseRepository(IStore<SetupState> store) : base(store)
-    {
-    }
+    public HorseRepository(IStore<SetupState> store)
+        : base(store) { }
 }

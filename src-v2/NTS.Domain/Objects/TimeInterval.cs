@@ -4,20 +4,20 @@ public record TimeInterval : DomainObject, IComparable<TimeInterval>
 {
     public static TimeInterval Zero => new(TimeSpan.Zero);
 
-    private TimeInterval()
-    {
-    }
+    private TimeInterval() { }
+
     public TimeInterval(TimeSpan timeSpan)
     {
         Span = timeSpan;
     }
-    
-    public TimeSpan Span { get; private set; }  
+
+    public TimeSpan Span { get; private set; }
 
     public double ToTotalHours()
     {
-        return Span.TotalHours; 
+        return Span.TotalHours;
     }
+
     public override string ToString()
     {
         return Span.ToString(Span.TotalDays > 1 ? @"dd\.hh\:mm\:ss" : @"hh\:mm\:ss");
@@ -50,7 +50,7 @@ public record TimeInterval : DomainObject, IComparable<TimeInterval>
         }
         return new TimeInterval(one!.Span - two!.Span);
     }
-        
+
     public static Speed? operator /(double num, TimeInterval? interval)
     {
         if (interval == null)

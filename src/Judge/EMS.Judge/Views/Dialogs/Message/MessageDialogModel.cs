@@ -1,8 +1,8 @@
-﻿using EMS.Judge.Common.Objects;
+﻿using EMS.Judge.Common.Extensions;
+using EMS.Judge.Common.Objects;
 using EMS.Judge.Common.ViewModels;
-using EMS.Judge.Common.Extensions;
-using static Core.Localization.Strings;
 using Prism.Services.Dialogs;
+using static Core.Localization.Strings;
 
 namespace EMS.Judge.Views.Dialogs.Message;
 
@@ -15,9 +15,8 @@ public class MessageDialogModel : DialogBase
     {
         this.Severity = parameters.GetSeverity();
         this.Message = parameters.GetMessage();
-        this.Title = this.Severity == MessageSeverity.Error
-            ? APPLICATION_ERROR
-            : VALIDATION_MESSAGE;
+        this.Title =
+            this.Severity == MessageSeverity.Error ? APPLICATION_ERROR : VALIDATION_MESSAGE;
     }
 
     public string Message

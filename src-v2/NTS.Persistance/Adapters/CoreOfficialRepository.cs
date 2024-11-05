@@ -3,6 +3,5 @@ using NTS.Persistence.States;
 
 namespace NTS.Persistence.Adapters;
 
-public class CoreOfficialRepository(IStore<CoreState> store) : SetRepository<Official, CoreState>(store)
-{
-}
+public class CoreOfficialRepository(IStore<CoreState> store)
+    : SetRepository<Official, CoreState>(store) { }

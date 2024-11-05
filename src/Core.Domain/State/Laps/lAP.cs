@@ -4,8 +4,10 @@ namespace Core.Domain.State.Laps;
 
 public class Lap : DomainBase<LapException>, ILapState
 {
-    private Lap() {}
-    public Lap(ILapState state) : base(GENERATE_ID)
+    private Lap() { }
+
+    public Lap(ILapState state)
+        : base(GENERATE_ID)
     {
         this.IsFinal = state.IsFinal;
         this.OrderBy = state.OrderBy;

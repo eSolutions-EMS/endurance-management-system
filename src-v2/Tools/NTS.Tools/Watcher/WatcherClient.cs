@@ -16,7 +16,8 @@ public class WatcherClient : RpcClient
         return new WatcherClient(socket);
     }
 
-    private WatcherClient(SignalRSocket socket) : base(socket)
+    private WatcherClient(SignalRSocket socket)
+        : base(socket)
     {
         _socket = socket;
     }
@@ -26,8 +27,12 @@ public class WatcherClient : RpcClient
         await _socket.Connect("localhost");
 
         var entries = new List<ParticipantEntry> { entry };
-        var result = await InvokeHubProcedure(nameof(IParticipantstHubProcedures.ReceiveWitnessEvent), entries, type);
-        
+        var result = await InvokeHubProcedure(
+            nameof(IParticipantstHubProcedures.ReceiveWitnessEvent),
+            entries,
+            type
+        );
+
         await _socket.Disconnect();
     }
 }

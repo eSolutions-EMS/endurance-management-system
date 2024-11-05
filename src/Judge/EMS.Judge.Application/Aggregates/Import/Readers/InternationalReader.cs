@@ -1,8 +1,8 @@
-﻿using Core.ConventionalServices;
-using Core.Services;
+﻿using System.Linq;
+using Core.ConventionalServices;
 using Core.Domain.AggregateRoots.Import.Models;
 using Core.Domain.AggregateRoots.Import.Models.International;
-using System.Linq;
+using Core.Services;
 
 namespace EMS.Judge.Application.Aggregates.Import.Readers;
 

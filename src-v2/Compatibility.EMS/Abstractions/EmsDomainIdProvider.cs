@@ -3,7 +3,7 @@
 public static class EmsDomainIdProvider
 {
     private static readonly Random Random = new();
-    private static readonly HashSet<int> DomainIds = new();
+    private static readonly HashSet<int> DomainIds = [];
 
     public static int Generate()
     {

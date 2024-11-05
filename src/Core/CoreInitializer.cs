@@ -8,8 +8,7 @@ public class CoreInitializer : IInitializer
 {
     private readonly IMapper mapper;
 
-    public CoreInitializer(IMapper mapper)
-        => this.mapper = mapper;
+    public CoreInitializer(IMapper mapper) => this.mapper = mapper;
 
     public int RunningOrder => 0;
 

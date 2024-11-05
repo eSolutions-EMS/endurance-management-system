@@ -1,11 +1,11 @@
-﻿using Not.Exceptions;
-using Not.Notifier;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Text;
+using Not.Exceptions;
+using Not.Notifier;
 
 namespace Not.Safe;
 
-// SafeHelper is essentially a centralized error-handler. 
+// SafeHelper is essentially a centralized error-handler.
 // It's the main character in what I'm calling Safe Pattern:
 // - Ensures that all backend entry points are error-handled (especially useful in non-web scenarios)
 // - public methods are prefixed with "Safe" and changed to private
@@ -40,12 +40,18 @@ public static class SafeHelper
         return Task.Run(() => Run(action, DefaultValidationHandler));
     }
 
-    public static Task RunAsync(Func<Task> action, Func<DomainExceptionBase, Task> validationHandler)
+    public static Task RunAsync(
+        Func<Task> action,
+        Func<DomainExceptionBase, Task> validationHandler
+    )
     {
         return Task.Run(() => Run(action, validationHandler));
     }
 
-    public static async Task Run(Func<Task> action, Func<DomainExceptionBase, Task> validationHandler)
+    public static async Task Run(
+        Func<Task> action,
+        Func<DomainExceptionBase, Task> validationHandler
+    )
     {
         try
         {
@@ -66,7 +72,10 @@ public static class SafeHelper
         return Run(action, DefaultValidationHandler);
     }
 
-    public static async Task<T?> Run<T>(Func<Task<T>> action, Func<DomainExceptionBase, Task> validationHandler)
+    public static async Task<T?> Run<T>(
+        Func<Task<T>> action,
+        Func<DomainExceptionBase, Task> validationHandler
+    )
     {
         try
         {
@@ -94,13 +103,16 @@ public static class SafeHelper
         return Task.Run(() => Run(action, argument));
     }
 
-    public static async Task Run<T>(Func<T, Task> action, T argument, Action<DomainExceptionBase> validationHandler)
+    public static async Task Run<T>(
+        Func<T, Task> action,
+        T argument,
+        Action<DomainExceptionBase> validationHandler
+    )
     {
         try
         {
             await action(argument);
         }
-
         catch (DomainExceptionBase validation)
         {
             validationHandler(validation);
@@ -132,13 +144,23 @@ public static class SafeHelper
     {
         // TODO: add notification
         var sb = new StringBuilder();
-        sb.AppendLine("!!!!!!!!!!!!!!!!!!!!!!!!! TASKHELPER EXCEPTION START !!!!!!!!!!!!!!!!!!!!!!!!!");
-        sb.AppendLine("!!!!!!!!!!!!!!!!!!!!!!!!! TASKHELPER EXCEPTION START !!!!!!!!!!!!!!!!!!!!!!!!!");
-        sb.AppendLine("!!!!!!!!!!!!!!!!!!!!!!!!! TASKHELPER EXCEPTION START !!!!!!!!!!!!!!!!!!!!!!!!!");
-        sb.AppendLine("!!!!!!!!!!!!!!!!!!!!!!!!! TASKHELPER EXCEPTION START !!!!!!!!!!!!!!!!!!!!!!!!!");
+        sb.AppendLine(
+            "!!!!!!!!!!!!!!!!!!!!!!!!! TASKHELPER EXCEPTION START !!!!!!!!!!!!!!!!!!!!!!!!!"
+        );
+        sb.AppendLine(
+            "!!!!!!!!!!!!!!!!!!!!!!!!! TASKHELPER EXCEPTION START !!!!!!!!!!!!!!!!!!!!!!!!!"
+        );
+        sb.AppendLine(
+            "!!!!!!!!!!!!!!!!!!!!!!!!! TASKHELPER EXCEPTION START !!!!!!!!!!!!!!!!!!!!!!!!!"
+        );
+        sb.AppendLine(
+            "!!!!!!!!!!!!!!!!!!!!!!!!! TASKHELPER EXCEPTION START !!!!!!!!!!!!!!!!!!!!!!!!!"
+        );
         sb.AppendLine(exception.Message);
         sb.AppendLine(exception.StackTrace);
-        sb.AppendLine("!!!!!!!!!!!!!!!!!!!!!!!!!! TASKHELPER EXCEPTION END !!!!!!!!!!!!!!!!!!!!!!!!!!");
+        sb.AppendLine(
+            "!!!!!!!!!!!!!!!!!!!!!!!!!! TASKHELPER EXCEPTION END !!!!!!!!!!!!!!!!!!!!!!!!!!"
+        );
 
         Trace.WriteLine(sb.ToString(), "console");
     }

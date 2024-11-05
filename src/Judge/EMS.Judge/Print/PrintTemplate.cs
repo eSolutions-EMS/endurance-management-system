@@ -1,10 +1,4 @@
-﻿using Core.Services;
-using Core.Utilities;
-using Core.Domain.State;
-using Mairegger.Printing.Content;
-using Mairegger.Printing.Definition;
-using Mairegger.Printing.PrintProcessor;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Windows;
@@ -12,8 +6,14 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 using System.Xaml;
-using Brushes = System.Windows.Media.Brushes;
 using Core.Domain.Enums;
+using Core.Domain.State;
+using Core.Services;
+using Core.Utilities;
+using Mairegger.Printing.Content;
+using Mairegger.Printing.Definition;
+using Mairegger.Printing.PrintProcessor;
+using Brushes = System.Windows.Media.Brushes;
 
 namespace EMS.Judge.Print;
 
@@ -45,12 +45,13 @@ public abstract class PrintTemplate : PrintProcessor
         var countryBlock = (Run)control.FindName("CountryName")!;
         var titleBlock = (Run)control.FindName("Title")!;
         var categoryBlock = (Run)control.FindName("Category")!;
-        var juryBlock = (Run) control.FindName("PresidentGroundJuryName")!;
-        var feiTechBlock = (Run) control.FindName("FeiTechDelegateName")!;
-        var feiVetBlock = (Run) control.FindName("FeiVetDelegateName")!;
-        var presidentVetBlock = (Run) control.FindName("PresidentVetCommitteeName")!;
+        var juryBlock = (Run)control.FindName("PresidentGroundJuryName")!;
+        var feiTechBlock = (Run)control.FindName("FeiTechDelegateName")!;
+        var feiVetBlock = (Run)control.FindName("FeiVetDelegateName")!;
+        var presidentVetBlock = (Run)control.FindName("PresidentVetCommitteeName")!;
 
-        eventNameBlock.Text = $"{this.State.Event.Name} - {DateTime.Now.ToString("dd MMM yyyy", CultureInfo.GetCultureInfo("en-GB"))}";
+        eventNameBlock.Text =
+            $"{this.State.Event.Name} - {DateTime.Now.ToString("dd MMM yyyy", CultureInfo.GetCultureInfo("en-GB"))}";
         populatedPlaceBlock.Text = this.State.Event.PopulatedPlace;
         countryBlock.Text = this.State.Event.Country.Name;
         juryBlock.Text = this.State.Event.PresidentGroundJury?.Name;
@@ -71,8 +72,7 @@ public abstract class PrintTemplate : PrintProcessor
         return new Border();
     }
 
-    public override IEnumerable<IPrintContent> ItemCollection()
-        => this.PrintItems;
+    public override IEnumerable<IPrintContent> ItemCollection() => this.PrintItems;
 
     private UIElement PrepareFooter()
     {
@@ -84,7 +84,8 @@ public abstract class PrintTemplate : PrintProcessor
 
         presidentGjBlock.Text = this.State.Event.PresidentGroundJury?.Name;
         chiefStewBlock.Text = this.State.Event.PresidentVetCommittee?.Name; // TODO: add chief steward personnel?
-        dateBlock.Text = DateTime.Now.ToString(CultureInfo.InvariantCulture);;
+        dateBlock.Text = DateTime.Now.ToString(CultureInfo.InvariantCulture);
+        ;
 
         return control;
     }

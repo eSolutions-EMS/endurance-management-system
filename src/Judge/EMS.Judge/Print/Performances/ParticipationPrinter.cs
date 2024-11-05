@@ -1,8 +1,8 @@
-﻿using EMS.Judge.Controls;
-using EMS.Judge.Controls.Manager;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using EMS.Judge.Controls;
+using EMS.Judge.Controls.Manager;
 
 namespace EMS.Judge.Print.Performances;
 
@@ -34,10 +34,7 @@ public class ParticipationPrinter : PrintTemplate
             Style = ControlsHelper.GetStyle("Border"),
             Margin = new Thickness(0, 0, 0, 10),
         };
-        var horizontalList = new StackPanel
-        {
-            Style = ControlsHelper.GetStyle("List-Horizontal"),
-        };
+        var horizontalList = new StackPanel { Style = ControlsHelper.GetStyle("List-Horizontal") };
         var firstColumn = this.CreateNumberText();
         var secondColumn = this.CreateAthleteData();
         var thirdColumn = this.CreateHorseData();
@@ -52,48 +49,45 @@ public class ParticipationPrinter : PrintTemplate
         return border;
     }
 
-    private UIElement CreateNumberText()
-        => new TextBlock
+    private UIElement CreateNumberText() =>
+        new TextBlock
         {
             Style = ControlsHelper.GetStyle("Text-Big"),
             Text = this.participation.Participant.Number.ToString(),
             Margin = new Thickness(50, 0, 0, 0),
         };
-    private UIElement CreateAthleteData()
-        => this.CreateColumn(
+
+    private UIElement CreateAthleteData() =>
+        this.CreateColumn(
             this.participation.Participant.Athlete.Name,
             this.participation.Participant.Athlete.FeiId,
-            new Thickness(50, 0, 0, 0));
-    private UIElement CreateHorseData()
-        => this.CreateColumn(
+            new Thickness(50, 0, 0, 0)
+        );
+
+    private UIElement CreateHorseData() =>
+        this.CreateColumn(
             this.participation.Participant.Horse.Name,
             this.participation.Participant.Horse.FeiId,
-            new Thickness(50, 0, 0, 0));
-    private UIElement CreateLastColumn()
-        => this.CreateColumn(
+            new Thickness(50, 0, 0, 0)
+        );
+
+    private UIElement CreateLastColumn() =>
+        this.CreateColumn(
             this.participation.Participant.Athlete.Country.Name,
             this.participation.Participant.Athlete.Club,
-            new Thickness(50, 0, 0, 0));
+            new Thickness(50, 0, 0, 0)
+        );
 
     private UIElement CreateColumn(string firstText, string secondText, Thickness margin)
     {
-
         var column = new StackPanel
         {
             Style = ControlsHelper.GetStyle("List-Vertical"),
             Margin = margin,
         };
         var textStyle = ControlsHelper.GetStyle("Text-Small");
-        var nameText = new TextBlock
-        {
-            Style = textStyle,
-            Text = firstText
-        };
-        var feiIdText = new TextBlock
-        {
-            Style = textStyle,
-            Text = secondText,
-        };
+        var nameText = new TextBlock { Style = textStyle, Text = firstText };
+        var feiIdText = new TextBlock { Style = textStyle, Text = secondText };
         column.Children.Add(nameText);
         column.Children.Add(feiIdText);
 

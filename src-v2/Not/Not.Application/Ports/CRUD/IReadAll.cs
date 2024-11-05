@@ -1,5 +1,5 @@
-﻿using Not.Injection;
-using Not.Domain;
+﻿using Not.Domain;
+using Not.Injection;
 
 namespace Not.Application.Ports.CRUD;
 

@@ -6,7 +6,8 @@ namespace NTS.Domain.Core.Entities.ParticipationAggregate;
 
 public class Phase : DomainEntity
 {
-    public static Phase ImportFromEMS(double length,
+    public static Phase ImportFromEMS(
+        double length,
         int maxRecovery,
         int rest,
         CompetitionRuleset competitionType,
@@ -18,11 +19,21 @@ public class Phase : DomainEntity
         DateTime? reinspectTime,
         bool isReinspectionRequested,
         bool isRequiredInspectionRequested,
-        bool isCompulsoryRequiredInspectionRequested)
+        bool isCompulsoryRequiredInspectionRequested
+    )
     {
-        var phase = new Phase(length, maxRecovery, rest, competitionType, isFinal, compulsoryThreshold, startTimestamp.DateTime);
-
-        phase.StartTime = startTimestamp;
+        var phase = new Phase(
+            length,
+            maxRecovery,
+            rest,
+            competitionType,
+            isFinal,
+            compulsoryThreshold,
+            startTimestamp.DateTime
+        )
+        {
+            StartTime = startTimestamp,
+        };
         if (arriveTime != null)
         {
             phase.ArriveTime = new Timestamp(arriveTime.Value);
@@ -63,7 +74,9 @@ public class Phase : DomainEntity
         Timestamp? representTime,
         bool isRepresentationRequested,
         bool isRequiredInspectionRequested,
-        bool isRequiredInspectionCompulsory) : base(id)
+        bool isRequiredInspectionCompulsory
+    )
+        : base(id)
     {
         Gate = gate;
         Length = length;
@@ -88,25 +101,25 @@ public class Phase : DomainEntity
         CompetitionRuleset competitionRuleset,
         bool isFinal,
         TimeSpan? compulsoryThresholdSpan,
-        DateTimeOffset? startTime)
+        DateTimeOffset? startTime
+    )
         : this(
-              GenerateId(),
-              "",
-              length,
-              maxRecovery,
-              rest,
-              competitionRuleset,
-              isFinal,
-              compulsoryThresholdSpan,
-              Timestamp.Create(startTime),
-              null,
-              null,
-              null,
-              false,
-              false,
-              false)
-    {
-    }
+            GenerateId(),
+            "",
+            length,
+            maxRecovery,
+            rest,
+            competitionRuleset,
+            isFinal,
+            compulsoryThresholdSpan,
+            Timestamp.Create(startTime),
+            null,
+            null,
+            null,
+            false,
+            false,
+            false
+        ) { }
 
     public string Gate { get; private set; }
     public double Length { get; }
@@ -206,15 +219,24 @@ public class Phase : DomainEntity
         {
             if (state.ArriveTime < state.StartTime)
             {
-                throw new DomainException(nameof(ArriveTime), "Arrive Time cannot be sooner than Start Time");
+                throw new DomainException(
+                    nameof(ArriveTime),
+                    "Arrive Time cannot be sooner than Start Time"
+                );
             }
             if (state.PresentTime < state.StartTime)
             {
-                throw new DomainException(nameof(PresentTime), "Inspect Time cannot be sooner than Start Time");
+                throw new DomainException(
+                    nameof(PresentTime),
+                    "Inspect Time cannot be sooner than Start Time"
+                );
             }
             if (state.RepresentTime < state.ArriveTime)
             {
-                throw new DomainException(nameof(RepresentTime), "Reinspect Time cannot be sooner than Start Time");
+                throw new DomainException(
+                    nameof(RepresentTime),
+                    "Reinspect Time cannot be sooner than Start Time"
+                );
             }
         }
         StartTime = Timestamp.Create(state.StartTime);
@@ -255,7 +277,9 @@ public class Phase : DomainEntity
         }
         if (RepresentTime != null)
         {
-            throw new DomainException("Cannot disable Reinspection because time of Reinspection is already present");
+            throw new DomainException(
+                "Cannot disable Reinspection because time of Reinspection is already present"
+            );
         }
         IsReinspectionRequested = false;
     }
@@ -329,7 +353,9 @@ public class Phase : DomainEntity
         {
             if (snapshot.Timestamp <= PresentTime)
             {
-                throw new DomainException($"Representation time cannot be before presentation '{PresentTime}'");
+                throw new DomainException(
+                    $"Representation time cannot be before presentation '{PresentTime}'"
+                );
             }
             RepresentTime = snapshot.Timestamp;
         }

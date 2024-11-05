@@ -1,5 +1,5 @@
-﻿using Not.Injection;
-using System;
+﻿using System;
+using Not.Injection;
 
 namespace Not.Encryption;
 

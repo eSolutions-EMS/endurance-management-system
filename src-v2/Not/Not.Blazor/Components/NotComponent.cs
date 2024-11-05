@@ -10,6 +10,7 @@ public class NotComponent : ComponentBase
 
     [Parameter]
     public string? Style { get; set; }
+
     [Parameter]
     public string? Class { get; set; }
 
@@ -25,9 +26,7 @@ public class NotComponent : ComponentBase
         await InvokeAsync(StateHasChanged);
     }
 
-    protected virtual void OnBeforeRender()
-    {
-    }
+    protected virtual void OnBeforeRender() { }
 
     protected string CombineClass(string customClass)
     {

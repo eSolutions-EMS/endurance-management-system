@@ -1,23 +1,24 @@
 ﻿using Not.Application.Adapters.Behinds;
 using Not.Application.Ports.CRUD;
+using Not.Blazor.Ports.Behinds;
 using Not.Exceptions;
 using Not.Safe;
-using NTS.Domain.Core.Entities.ParticipationAggregate;
-using NTS.Domain.Core.Entities;
-using NTS.Domain.Objects;
-using NTS.Judge.Blazor.Ports;
-using Not.Blazor.Ports.Behinds;
-using NTS.Judge.Blazor.Pages.Dashboard.Phases;
 using NTS.Domain;
+using NTS.Domain.Core.Entities;
+using NTS.Domain.Core.Entities.ParticipationAggregate;
 using NTS.Domain.Enums;
+using NTS.Domain.Objects;
+using NTS.Judge.Blazor.Pages.Dashboard.Phases;
+using NTS.Judge.Blazor.Ports;
 
 namespace NTS.Judge.Adapters.Behinds;
 
-public class ParticipationBehind : ObservableBehind, 
-    IParticipationBehind,
-    IUpdateBehind<PhaseUpdateModel>,
-    ISnapshotProcessor,
-    IManualProcessor
+public class ParticipationBehind
+    : ObservableBehind,
+        IParticipationBehind,
+        IUpdateBehind<PhaseUpdateModel>,
+        ISnapshotProcessor,
+        IManualProcessor
 {
     private readonly List<int> _recentlyProcessed = [];
     private readonly IRepository<Participation> _participationRepository;
@@ -26,7 +27,8 @@ public class ParticipationBehind : ObservableBehind,
 
     public ParticipationBehind(
         IRepository<Participation> participationRepository,
-        IRepository<SnapshotResult> snapshotResultRepository)
+        IRepository<SnapshotResult> snapshotResultRepository
+    )
     {
         _participationRepository = participationRepository;
         _snapshotResultRepository = snapshotResultRepository;
@@ -36,7 +38,7 @@ public class ParticipationBehind : ObservableBehind,
     public IEnumerable<Participation> Participations { get; private set; } = [];
     public Participation? SelectedParticipation
     {
-        get => _selectedParticipation; 
+        get => _selectedParticipation;
         set
         {
             _selectedParticipation = value;
@@ -46,7 +48,7 @@ public class ParticipationBehind : ObservableBehind,
                 _recentlyProcessed.Remove(number.Value);
             }
             EmitChange();
-        } 
+        }
     }
 
     // TODO: we need a better solution to load items as they have been changed in addition to load on startup.
@@ -67,7 +69,7 @@ public class ParticipationBehind : ObservableBehind,
         EmitChange();
     }
 
-    public async Task<PhaseUpdateModel> Update(PhaseUpdateModel model)
+    public async Task Update(PhaseUpdateModel model)
     {
         var participation = Participations.FirstOrDefault(x => x.Phases.Any(y => y.Id == model.Id));
         GuardHelper.ThrowIfDefault(participation);
@@ -75,7 +77,6 @@ public class ParticipationBehind : ObservableBehind,
         participation.Update(model);
         await _participationRepository.Update(participation);
         EmitChange();
-        return model;
     }
 
     async Task SafeRequestRequiredInspection(bool requestFlag)
@@ -92,13 +93,16 @@ public class ParticipationBehind : ObservableBehind,
             SelectedParticipation!.Combination.Number,
             SnapshotType.Automatic,
             SnapshotMethod.Manual,
-            timestamp);
+            timestamp
+        );
         await SafeProcess(snapshot);
     }
 
     async Task SafeProcess(Snapshot snapshot)
     {
-        var participation = Participations.FirstOrDefault(x => x.Combination.Number == snapshot.Number);
+        var participation = Participations.FirstOrDefault(x =>
+            x.Combination.Number == snapshot.Number
+        );
         if (participation == null)
         {
             return;
@@ -164,7 +168,7 @@ public class ParticipationBehind : ObservableBehind,
         GuardHelper.ThrowIfDefault(SelectedParticipation);
         SelectedParticipation.Restore();
         await _participationRepository.Update(SelectedParticipation);
-        
+
         EmitChange();
     }
 

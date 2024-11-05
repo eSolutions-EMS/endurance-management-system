@@ -2,6 +2,4 @@
 
 namespace EMS.Judge.Api.Rpc;
 
-public interface IClientProcedures : IParticipantsClientProcedures, IStartlistClientProcedures
-{
-}
+public interface IClientProcedures : IParticipantsClientProcedures, IStartlistClientProcedures { }

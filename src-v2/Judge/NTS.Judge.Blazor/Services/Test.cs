@@ -1,5 +1,3 @@
 ﻿namespace NTS.Judge.Blazor.Services;
 
-public interface TTest
-{
-}
+public interface TTest { }

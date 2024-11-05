@@ -1,6 +1,6 @@
-﻿using EMS.Judge.Controls.Ranking;
-using Core.Domain.AggregateRoots.Ranking.Aggregates;
+﻿using Core.Domain.AggregateRoots.Ranking.Aggregates;
 using Core.Domain.Enums;
+using EMS.Judge.Controls.Ranking;
 
 namespace EMS.Judge.Print.Performances;
 

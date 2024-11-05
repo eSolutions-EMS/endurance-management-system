@@ -10,7 +10,7 @@ public class StaticOptions : IStartupInitializer, ISingletonService
     public static Country[] Countries { get; private set; } = [];
     public static Country? SelectedCountry { get; private set; }
     public static DetectionMode? Detection { get; private set; }
-    
+
     static Model? _options;
 
     public static bool IsRfidDetectionEnabled()
@@ -22,7 +22,9 @@ public class StaticOptions : IStartupInitializer, ISingletonService
     {
         if (_options == null)
         {
-            throw new GuardException("Internal options property was not found. Check if static-options.json is configured.");
+            throw new GuardException(
+                "Internal options property was not found. Check if static-options.json is configured."
+            );
         }
         return _options.RfidSnapshotType;
     }
@@ -77,7 +79,7 @@ public class StaticOptions : IStartupInitializer, ISingletonService
 
     public class Model
     {
-        public Country[] Countries { get; set; } = [];  
+        public Country[] Countries { get; set; } = [];
         public Country? SelectedCountry { get; set; }
         public DetectionMode DetectionMode { get; set; }
         public SnapshotType RfidSnapshotType { get; set; }

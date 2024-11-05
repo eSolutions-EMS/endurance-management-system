@@ -1,4 +1,5 @@
 ﻿namespace Not.Events;
+
 public abstract class EventBase<T>
 {
     readonly Dictionary<Guid, T> _handlersByGuid = [];

@@ -1,14 +1,14 @@
-﻿using Core.Domain.Common.Exceptions;
+﻿using System.Linq;
+using Core.Domain.AggregateRoots.Configuration.Extensions;
+using Core.Domain.AggregateRoots.Manager.Aggregates;
+using Core.Domain.Common.Exceptions;
+using Core.Domain.Common.Extensions;
 using Core.Domain.Common.Models;
 using Core.Domain.State;
 using Core.Domain.State.Athletes;
 using Core.Domain.State.Horses;
 using Core.Domain.State.Participants;
 using Core.Domain.State.Participations;
-using Core.Domain.AggregateRoots.Configuration.Extensions;
-using Core.Domain.AggregateRoots.Manager.Aggregates;
-using Core.Domain.Common.Extensions;
-using System.Linq;
 using static Core.Localization.Strings;
 
 namespace Core.Domain.AggregateRoots.Configuration.Aggregates;
@@ -63,12 +63,15 @@ public class ParticipantsAggregate : IAggregate
         this.state.Participations.Remove(participation);
         this.state.Participants.Remove(participant);
     }
+
     public void AddParticipation(int competitionId, int participantId)
     {
         this.state.ValidateThatEventHasNotStarted();
 
         var competition = this.state.Event.Competitions.FindDomain(competitionId);
-        var participation = this.state.Participations.FirstOrDefault(x => x.Participant.Id == participantId);
+        var participation = this.state.Participations.FirstOrDefault(x =>
+            x.Participant.Id == participantId
+        );
         if (participation == null)
         {
             var participant = this.state.Participants.FindDomain(participantId);
@@ -78,11 +81,12 @@ public class ParticipantsAggregate : IAggregate
         }
         participation.Aggregate().Add(competition);
     }
-    private bool IsPartOfAnotherParticipant(Athlete athlete, int participantId)
-        => this.state.Participants.Any(x => x.Athlete.Equals(athlete) && x.Id != participantId);
 
-    private bool IsPartOfAnotherParticipant(Horse horse, int participantId)
-        => this.state.Participants.Any(x => x.Horse.Equals(horse) && x.Id != participantId);
+    private bool IsPartOfAnotherParticipant(Athlete athlete, int participantId) =>
+        this.state.Participants.Any(x => x.Athlete.Equals(athlete) && x.Id != participantId);
+
+    private bool IsPartOfAnotherParticipant(Horse horse, int participantId) =>
+        this.state.Participants.Any(x => x.Horse.Equals(horse) && x.Id != participantId);
 
     public void __REVERT_START_PARTICIPATIONS__()
     {

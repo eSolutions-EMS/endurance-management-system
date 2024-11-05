@@ -1,5 +1,5 @@
-﻿using Not.Random;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
+using Not.Random;
 
 namespace Not.Domain;
 
@@ -13,15 +13,14 @@ public abstract class DomainEntity : IEquatable<DomainEntity>, IIdentifiable
     // TODO: use DomainObject for ID, do private set
     public int Id { get; }
 
-    public static bool operator == (DomainEntity? left, DomainEntity? right)
-        => left?.IsEqual(right) ?? right is null;
-    public static bool operator !=(DomainEntity? left, DomainEntity? right)
-        => !(left == right);
+    public static bool operator ==(DomainEntity? left, DomainEntity? right) =>
+        left?.IsEqual(right) ?? right is null;
 
-    public bool Equals(DomainEntity? other)
-        => this.IsEqual(other);
-    public override bool Equals(object? other)
-        => this.IsEqual(other);
+    public static bool operator !=(DomainEntity? left, DomainEntity? right) => !(left == right);
+
+    public bool Equals(DomainEntity? other) => this.IsEqual(other);
+
+    public override bool Equals(object? other) => this.IsEqual(other);
 
     private bool IsEqual(object? other)
     {
@@ -33,17 +32,17 @@ public abstract class DomainEntity : IEquatable<DomainEntity>, IIdentifiable
         {
             return true;
         }
-        return this.GetHashCode() == other.GetHashCode()
-            && this.GetType() == other.GetType();
+        return this.GetHashCode() == other.GetHashCode() && this.GetType() == other.GetType();
     }
 
-    public override int GetHashCode()
-        => this.Id;
+    public override int GetHashCode() => this.Id;
 
-	public override string ToString()
-	{
-        throw new NotImplementedException($"'{this.GetType().Name}' has to override ToString() to provide short info");
-	}
+    public override string ToString()
+    {
+        throw new NotImplementedException(
+            $"'{this.GetType().Name}' has to override ToString() to provide short info"
+        );
+    }
 
     protected string Combine(params object?[] values)
     {

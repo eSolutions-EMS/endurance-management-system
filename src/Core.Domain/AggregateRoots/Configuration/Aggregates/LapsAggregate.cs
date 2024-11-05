@@ -1,12 +1,12 @@
-﻿using Core.Domain.Common.Exceptions;
+﻿using System;
+using System.Linq;
+using Core.Domain.AggregateRoots.Configuration.Extensions;
+using Core.Domain.Common.Exceptions;
+using Core.Domain.Common.Extensions;
 using Core.Domain.Common.Models;
 using Core.Domain.State;
 using Core.Domain.State.Laps;
 using Core.Domain.Validation;
-using Core.Domain.AggregateRoots.Configuration.Extensions;
-using Core.Domain.Common.Extensions;
-using System;
-using System.Linq;
 using static Core.Domain.DomainConstants.ErrorMessages;
 using static Core.Localization.Strings;
 
@@ -30,7 +30,10 @@ public class LapsAggregate : IAggregate
         var competition = this.state.Event.Competitions.FindDomain(competitionId);
         if (competition == null)
         {
-            var message = string.Format(CANNOT_CREATE_PHASE_COMPETITION_DOES_NOT_EXIST, competitionId);
+            var message = string.Format(
+                CANNOT_CREATE_PHASE_COMPETITION_DOES_NOT_EXIST,
+                competitionId
+            );
             throw new Exception(message);
         }
         var lap = competition.Laps.FindDomain(lapState.Id);
@@ -77,9 +80,7 @@ public class LapsAggregate : IAggregate
     private void Validate(ILapState lapState, int competitionId)
     {
         var competition = this.state.Event.Competitions.FindDomain(competitionId);
-        var otherLaps = competition.Laps
-            .Where(x => x.Id != lapState.Id)
-            .ToList();
+        var otherLaps = competition.Laps.Where(x => x.Id != lapState.Id).ToList();
         if (lapState.IsFinal)
         {
             if (otherLaps.Any(x => x.IsFinal))

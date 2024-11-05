@@ -1,16 +1,18 @@
-﻿using NTS.Compatibility.EMS.Abstractions;
+﻿using System.ComponentModel;
+using NTS.Compatibility.EMS.Abstractions;
 using NTS.Compatibility.EMS.Entities.Laps;
 using NTS.Compatibility.EMS.Entities.Participants;
 using NTS.Compatibility.EMS.Entities.Results;
-using System.ComponentModel;
 
 namespace NTS.Compatibility.EMS.Entities.LapRecords;
 
 public class EmsLapRecord : EmsDomainBase<EmsLapRecordException>
 {
     [Newtonsoft.Json.JsonConstructor]
-    public EmsLapRecord() {}
-    public EmsLapRecord(DateTime startTime, EmsLap lap) : base(GENERATE_ID)
+    public EmsLapRecord() { }
+
+    public EmsLapRecord(DateTime startTime, EmsLap lap)
+        : base(GENERATE_ID)
     {
         this.StartTime = startTime;
         this.Lap = lap;
@@ -41,15 +43,12 @@ public class EmsLapRecord : EmsDomainBase<EmsLapRecordException>
     public bool IsRequiredInspectionRequired { get; internal set; }
     public EmsResult Result { get; internal set; }
 
-    public DateTime? VetGateTime
-        => this.ReInspectionTime ?? this.InspectionTime;
-    public DateTime? NextStarTime
-        => this.Lap.IsFinal
-            ? null
-            : this.VetGateTime?.AddMinutes(this.Lap.RestTimeInMins);
+    public DateTime? VetGateTime => this.ReInspectionTime ?? this.InspectionTime;
+    public DateTime? NextStarTime =>
+        this.Lap.IsFinal ? null : this.VetGateTime?.AddMinutes(this.Lap.RestTimeInMins);
     public event PropertyChangedEventHandler PropertyChanged;
 
-    public Dictionary<WitnessEventType, EmsRfidTag> Detected { get; private set; } = new();
+    public Dictionary<WitnessEventType, EmsRfidTag> Detected { get; private set; } = [];
 
     protected virtual void RaisePropertyChanged(string propertyName = null)
     {

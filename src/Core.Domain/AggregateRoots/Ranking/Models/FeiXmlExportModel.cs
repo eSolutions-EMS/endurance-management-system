@@ -18,11 +18,16 @@ namespace Core.Domain.AggregateRoots.Ranking.Models;
 [System.SerializableAttribute()]
 [System.Diagnostics.DebuggerStepThroughAttribute()]
 [System.ComponentModel.DesignerCategoryAttribute("code")]
-[System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://www.fei.org/Result")]
-[System.Xml.Serialization.XmlRootAttribute(Namespace = "http://www.fei.org/Result", IsNullable = false)]
+[System.Xml.Serialization.XmlTypeAttribute(
+    AnonymousType = true,
+    Namespace = "http://www.fei.org/Result"
+)]
+[System.Xml.Serialization.XmlRootAttribute(
+    Namespace = "http://www.fei.org/Result",
+    IsNullable = false
+)]
 public partial class HorseSport
 {
-
     private ctGenerated generatedField;
 
     private ctIssuer issuerField;
@@ -32,40 +37,22 @@ public partial class HorseSport
     /// <remarks/>
     public ctGenerated Generated
     {
-        get
-        {
-            return this.generatedField;
-        }
-        set
-        {
-            this.generatedField = value;
-        }
+        get { return this.generatedField; }
+        set { this.generatedField = value; }
     }
 
     /// <remarks/>
     public ctIssuer Issuer
     {
-        get
-        {
-            return this.issuerField;
-        }
-        set
-        {
-            this.issuerField = value;
-        }
+        get { return this.issuerField; }
+        set { this.issuerField = value; }
     }
 
     /// <remarks/>
     public ctShowResultType EventResult
     {
-        get
-        {
-            return this.eventResultField;
-        }
-        set
-        {
-            this.eventResultField = value;
-        }
+        get { return this.eventResultField; }
+        set { this.eventResultField = value; }
     }
 }
 
@@ -77,7 +64,6 @@ public partial class HorseSport
 [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.fei.org/Result")]
 public partial class ctGenerated
 {
-
     private System.DateTime dateField;
 
     private string softwareField;
@@ -91,56 +77,32 @@ public partial class ctGenerated
     [System.Xml.Serialization.XmlAttributeAttribute(DataType = "date")]
     public System.DateTime Date
     {
-        get
-        {
-            return this.dateField;
-        }
-        set
-        {
-            this.dateField = value;
-        }
+        get { return this.dateField; }
+        set { this.dateField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string Software
     {
-        get
-        {
-            return this.softwareField;
-        }
-        set
-        {
-            this.softwareField = value;
-        }
+        get { return this.softwareField; }
+        set { this.softwareField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string SoftwareVersion
     {
-        get
-        {
-            return this.softwareVersionField;
-        }
-        set
-        {
-            this.softwareVersionField = value;
-        }
+        get { return this.softwareVersionField; }
+        set { this.softwareVersionField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string Organization
     {
-        get
-        {
-            return this.organizationField;
-        }
-        set
-        {
-            this.organizationField = value;
-        }
+        get { return this.organizationField; }
+        set { this.organizationField = value; }
     }
 }
 
@@ -152,21 +114,14 @@ public partial class ctGenerated
 [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.fei.org/Result")]
 public partial class ctEnduranceTotalTeam
 {
-
     private string timeField;
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string Time
     {
-        get
-        {
-            return this.timeField;
-        }
-        set
-        {
-            this.timeField = value;
-        }
+        get { return this.timeField; }
+        set { this.timeField = value; }
     }
 }
 
@@ -178,7 +133,6 @@ public partial class ctEnduranceTotalTeam
 [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.fei.org/Result")]
 public partial class ctPositionTeam
 {
-
     private string statusField;
 
     private int rankField;
@@ -189,28 +143,16 @@ public partial class ctPositionTeam
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string Status
     {
-        get
-        {
-            return this.statusField;
-        }
-        set
-        {
-            this.statusField = value;
-        }
+        get { return this.statusField; }
+        set { this.statusField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public int Rank
     {
-        get
-        {
-            return this.rankField;
-        }
-        set
-        {
-            this.rankField = value;
-        }
+        get { return this.rankField; }
+        set { this.rankField = value; }
     }
 
     /// <remarks/>
@@ -226,7 +168,6 @@ public partial class ctPositionTeam
 [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.fei.org/Result")]
 public partial class ctTeam
 {
-
     private int numberField;
 
     private bool numberFieldSpecified;
@@ -237,42 +178,24 @@ public partial class ctTeam
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public int Number
     {
-        get
-        {
-            return this.numberField;
-        }
-        set
-        {
-            this.numberField = value;
-        }
+        get { return this.numberField; }
+        set { this.numberField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlIgnoreAttribute()]
     public bool NumberSpecified
     {
-        get
-        {
-            return this.numberFieldSpecified;
-        }
-        set
-        {
-            this.numberFieldSpecified = value;
-        }
+        get { return this.numberFieldSpecified; }
+        set { this.numberFieldSpecified = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string NF
     {
-        get
-        {
-            return this.nfField;
-        }
-        set
-        {
-            this.nfField = value;
-        }
+        get { return this.nfField; }
+        set { this.nfField = value; }
     }
 }
 
@@ -284,7 +207,6 @@ public partial class ctTeam
 [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.fei.org/Result")]
 public partial class ctEnduranceTeamResult
 {
-
     private ctTeam teamField;
 
     private ctPositionTeam positionField;
@@ -296,53 +218,29 @@ public partial class ctEnduranceTeamResult
     /// <remarks/>
     public ctTeam Team
     {
-        get
-        {
-            return this.teamField;
-        }
-        set
-        {
-            this.teamField = value;
-        }
+        get { return this.teamField; }
+        set { this.teamField = value; }
     }
 
     /// <remarks/>
     public ctPositionTeam Position
     {
-        get
-        {
-            return this.positionField;
-        }
-        set
-        {
-            this.positionField = value;
-        }
+        get { return this.positionField; }
+        set { this.positionField = value; }
     }
 
     /// <remarks/>
     public ctPrizeMoney PrizeMoney
     {
-        get
-        {
-            return this.prizeMoneyField;
-        }
-        set
-        {
-            this.prizeMoneyField = value;
-        }
+        get { return this.prizeMoneyField; }
+        set { this.prizeMoneyField = value; }
     }
 
     /// <remarks/>
     public ctEnduranceTotalTeam Total
     {
-        get
-        {
-            return this.totalField;
-        }
-        set
-        {
-            this.totalField = value;
-        }
+        get { return this.totalField; }
+        set { this.totalField = value; }
     }
 }
 
@@ -354,7 +252,6 @@ public partial class ctEnduranceTeamResult
 [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.fei.org/Result")]
 public partial class ctPrizeMoney
 {
-
     private decimal valueField;
 
     private string inKindField;
@@ -367,56 +264,32 @@ public partial class ctPrizeMoney
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public decimal Value
     {
-        get
-        {
-            return this.valueField;
-        }
-        set
-        {
-            this.valueField = value;
-        }
+        get { return this.valueField; }
+        set { this.valueField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string InKind
     {
-        get
-        {
-            return this.inKindField;
-        }
-        set
-        {
-            this.inKindField = value;
-        }
+        get { return this.inKindField; }
+        set { this.inKindField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public decimal InKindValue
     {
-        get
-        {
-            return this.inKindValueField;
-        }
-        set
-        {
-            this.inKindValueField = value;
-        }
+        get { return this.inKindValueField; }
+        set { this.inKindValueField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlIgnoreAttribute()]
     public bool InKindValueSpecified
     {
-        get
-        {
-            return this.inKindValueFieldSpecified;
-        }
-        set
-        {
-            this.inKindValueFieldSpecified = value;
-        }
+        get { return this.inKindValueFieldSpecified; }
+        set { this.inKindValueFieldSpecified = value; }
     }
 }
 
@@ -428,7 +301,6 @@ public partial class ctPrizeMoney
 [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.fei.org/Result")]
 public partial class ctEnduranceTotal
 {
-
     private string timeField;
 
     private decimal averageSpeedField;
@@ -439,28 +311,16 @@ public partial class ctEnduranceTotal
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string Time
     {
-        get
-        {
-            return this.timeField;
-        }
-        set
-        {
-            this.timeField = value;
-        }
+        get { return this.timeField; }
+        set { this.timeField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public decimal AverageSpeed
     {
-        get
-        {
-            return this.averageSpeedField;
-        }
-        set
-        {
-            this.averageSpeedField = value;
-        }
+        get { return this.averageSpeedField; }
+        set { this.averageSpeedField = value; }
     }
 
     /// <remarks/>
@@ -476,7 +336,6 @@ public partial class ctEnduranceTotal
 [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.fei.org/Result")]
 public partial class ctEnduranceVetInspection
 {
-
     private stEnduranceVetTypeCode typeField;
 
     private string eliminationCodeField;
@@ -495,98 +354,56 @@ public partial class ctEnduranceVetInspection
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public stEnduranceVetTypeCode Type
     {
-        get
-        {
-            return this.typeField;
-        }
-        set
-        {
-            this.typeField = value;
-        }
+        get { return this.typeField; }
+        set { this.typeField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string EliminationCode
     {
-        get
-        {
-            return this.eliminationCodeField;
-        }
-        set
-        {
-            this.eliminationCodeField = value;
-        }
+        get { return this.eliminationCodeField; }
+        set { this.eliminationCodeField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public int HeartRate
     {
-        get
-        {
-            return this.heartRateField;
-        }
-        set
-        {
-            this.heartRateField = value;
-        }
+        get { return this.heartRateField; }
+        set { this.heartRateField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlIgnoreAttribute()]
     public bool HeartRateSpecified
     {
-        get
-        {
-            return this.heartRateFieldSpecified;
-        }
-        set
-        {
-            this.heartRateFieldSpecified = value;
-        }
+        get { return this.heartRateFieldSpecified; }
+        set { this.heartRateFieldSpecified = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string RecoveryTime
     {
-        get
-        {
-            return this.recoveryTimeField;
-        }
-        set
-        {
-            this.recoveryTimeField = value;
-        }
+        get { return this.recoveryTimeField; }
+        set { this.recoveryTimeField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public stEnduranceDuringReinspection DuringReinspection
     {
-        get
-        {
-            return this.duringReinspectionField;
-        }
-        set
-        {
-            this.duringReinspectionField = value;
-        }
+        get { return this.duringReinspectionField; }
+        set { this.duringReinspectionField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlIgnoreAttribute()]
     public bool DuringReinspectionSpecified
     {
-        get
-        {
-            return this.duringReinspectionFieldSpecified;
-        }
-        set
-        {
-            this.duringReinspectionFieldSpecified = value;
-        }
+        get { return this.duringReinspectionFieldSpecified; }
+        set { this.duringReinspectionFieldSpecified = value; }
     }
 }
 
@@ -596,7 +413,6 @@ public partial class ctEnduranceVetInspection
 [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.fei.org/Result")]
 public enum stEnduranceVetTypeCode
 {
-
     /// <remarks/>
     Standard,
 
@@ -610,7 +426,6 @@ public enum stEnduranceVetTypeCode
 [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.fei.org/Result")]
 public enum stEnduranceDuringReinspection
 {
-
     /// <remarks/>
     no,
 
@@ -631,7 +446,6 @@ public enum stEnduranceDuringReinspection
 [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.fei.org/Result")]
 public partial class ctEndurancePhaseResultScore
 {
-
     private decimal phaseAverageSpeedField;
 
     private bool phaseAverageSpeedFieldSpecified;
@@ -648,14 +462,8 @@ public partial class ctEndurancePhaseResultScore
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public decimal PhaseAverageSpeed
     {
-        get
-        {
-            return this.phaseAverageSpeedField;
-        }
-        set
-        {
-            this.phaseAverageSpeedField = value;
-        }
+        get { return this.phaseAverageSpeedField; }
+        set { this.phaseAverageSpeedField = value; }
     }
 
     /// <remarks/>
@@ -666,28 +474,16 @@ public partial class ctEndurancePhaseResultScore
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string PhaseTime
     {
-        get
-        {
-            return this.phaseTimeField;
-        }
-        set
-        {
-            this.phaseTimeField = value;
-        }
+        get { return this.phaseTimeField; }
+        set { this.phaseTimeField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public int Rank
     {
-        get
-        {
-            return this.rankField;
-        }
-        set
-        {
-            this.rankField = value;
-        }
+        get { return this.rankField; }
+        set { this.rankField = value; }
     }
 
     /// <remarks/>
@@ -698,14 +494,8 @@ public partial class ctEndurancePhaseResultScore
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string RecoveryTime
     {
-        get
-        {
-            return this.recoveryTimeField;
-        }
-        set
-        {
-            this.recoveryTimeField = value;
-        }
+        get { return this.recoveryTimeField; }
+        set { this.recoveryTimeField = value; }
     }
 }
 
@@ -717,7 +507,6 @@ public partial class ctEndurancePhaseResultScore
 [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.fei.org/Result")]
 public partial class ctEndurancePhaseResult
 {
-
     private ctEndurancePhaseResultScore resultField;
 
     private ctEnduranceVetInspection vetInspectionField;
@@ -727,41 +516,23 @@ public partial class ctEndurancePhaseResult
     /// <remarks/>
     public ctEndurancePhaseResultScore Result
     {
-        get
-        {
-            return this.resultField;
-        }
-        set
-        {
-            this.resultField = value;
-        }
+        get { return this.resultField; }
+        set { this.resultField = value; }
     }
 
     /// <remarks/>
     public ctEnduranceVetInspection VetInspection
     {
-        get
-        {
-            return this.vetInspectionField;
-        }
-        set
-        {
-            this.vetInspectionField = value;
-        }
+        get { return this.vetInspectionField; }
+        set { this.vetInspectionField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public int Number
     {
-        get
-        {
-            return this.numberField;
-        }
-        set
-        {
-            this.numberField = value;
-        }
+        get { return this.numberField; }
+        set { this.numberField = value; }
     }
 }
 
@@ -773,7 +544,6 @@ public partial class ctEndurancePhaseResult
 [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.fei.org/Result")]
 public partial class ctEnduranceDayResult
 {
-
     private ctEndurancePhaseResult[] phaseField;
 
     private int numberField;
@@ -786,42 +556,24 @@ public partial class ctEnduranceDayResult
     [System.Xml.Serialization.XmlElementAttribute("Phase")]
     public ctEndurancePhaseResult[] Phase
     {
-        get
-        {
-            return this.phaseField;
-        }
-        set
-        {
-            this.phaseField = value;
-        }
+        get { return this.phaseField; }
+        set { this.phaseField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public int Number
     {
-        get
-        {
-            return this.numberField;
-        }
-        set
-        {
-            this.numberField = value;
-        }
+        get { return this.numberField; }
+        set { this.numberField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute(DataType = "date")]
     public System.DateTime Date
     {
-        get
-        {
-            return this.dateField;
-        }
-        set
-        {
-            this.dateField = value;
-        }
+        get { return this.dateField; }
+        set { this.dateField = value; }
     }
 
     /// <remarks/>
@@ -837,7 +589,6 @@ public partial class ctEnduranceDayResult
 [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.fei.org/Result")]
 public partial class ctEnduranceFirstVetInspection
 {
-
     private stEnduranceFirstVetTypeCode typeField;
 
     private string eliminationCodeField;
@@ -846,28 +597,16 @@ public partial class ctEnduranceFirstVetInspection
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public stEnduranceFirstVetTypeCode Type
     {
-        get
-        {
-            return this.typeField;
-        }
-        set
-        {
-            this.typeField = value;
-        }
+        get { return this.typeField; }
+        set { this.typeField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string EliminationCode
     {
-        get
-        {
-            return this.eliminationCodeField;
-        }
-        set
-        {
-            this.eliminationCodeField = value;
-        }
+        get { return this.eliminationCodeField; }
+        set { this.eliminationCodeField = value; }
     }
 }
 
@@ -877,7 +616,6 @@ public partial class ctEnduranceFirstVetInspection
 [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.fei.org/Result")]
 public enum stEnduranceFirstVetTypeCode
 {
-
     /// <remarks/>
     First,
 }
@@ -890,7 +628,6 @@ public enum stEnduranceFirstVetTypeCode
 [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.fei.org/Result")]
 public partial class ctPositionIndiv
 {
-
     private string statusField;
 
     private int rankField;
@@ -905,28 +642,16 @@ public partial class ctPositionIndiv
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string Status
     {
-        get
-        {
-            return this.statusField;
-        }
-        set
-        {
-            this.statusField = value;
-        }
+        get { return this.statusField; }
+        set { this.statusField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public int Rank
     {
-        get
-        {
-            return this.rankField;
-        }
-        set
-        {
-            this.rankField = value;
-        }
+        get { return this.rankField; }
+        set { this.rankField = value; }
     }
 
     /// <remarks/>
@@ -937,28 +662,16 @@ public partial class ctPositionIndiv
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string Complement
     {
-        get
-        {
-            return this.complementField;
-        }
-        set
-        {
-            this.complementField = value;
-        }
+        get { return this.complementField; }
+        set { this.complementField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string ComplementData
     {
-        get
-        {
-            return this.complementDataField;
-        }
-        set
-        {
-            this.complementDataField = value;
-        }
+        get { return this.complementDataField; }
+        set { this.complementDataField = value; }
     }
 }
 
@@ -970,21 +683,14 @@ public partial class ctPositionIndiv
 [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.fei.org/Result")]
 public partial class ctEnduranceComplement
 {
-
     private bool bestConditionField;
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public bool BestCondition
     {
-        get
-        {
-            return this.bestConditionField;
-        }
-        set
-        {
-            this.bestConditionField = value;
-        }
+        get { return this.bestConditionField; }
+        set { this.bestConditionField = value; }
     }
 }
 
@@ -996,21 +702,14 @@ public partial class ctEnduranceComplement
 [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.fei.org/Result")]
 public partial class ctRefTeam
 {
-
     private string nameField;
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string Name
     {
-        get
-        {
-            return this.nameField;
-        }
-        set
-        {
-            this.nameField = value;
-        }
+        get { return this.nameField; }
+        set { this.nameField = value; }
     }
 }
 
@@ -1022,7 +721,6 @@ public partial class ctRefTeam
 [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.fei.org/Result")]
 public partial class ctHorse
 {
-
     private string fEIIDField;
 
     private string nameField;
@@ -1037,70 +735,40 @@ public partial class ctHorse
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string FEIID
     {
-        get
-        {
-            return this.fEIIDField;
-        }
-        set
-        {
-            this.fEIIDField = value;
-        }
+        get { return this.fEIIDField; }
+        set { this.fEIIDField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string Name
     {
-        get
-        {
-            return this.nameField;
-        }
-        set
-        {
-            this.nameField = value;
-        }
+        get { return this.nameField; }
+        set { this.nameField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public int HeadNumber
     {
-        get
-        {
-            return this.headNumberField;
-        }
-        set
-        {
-            this.headNumberField = value;
-        }
+        get { return this.headNumberField; }
+        set { this.headNumberField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlIgnoreAttribute()]
     public bool HeadNumberSpecified
     {
-        get
-        {
-            return this.headNumberFieldSpecified;
-        }
-        set
-        {
-            this.headNumberFieldSpecified = value;
-        }
+        get { return this.headNumberFieldSpecified; }
+        set { this.headNumberFieldSpecified = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string NFID
     {
-        get
-        {
-            return this.nFIDField;
-        }
-        set
-        {
-            this.nFIDField = value;
-        }
+        get { return this.nFIDField; }
+        set { this.nFIDField = value; }
     }
 }
 
@@ -1112,7 +780,6 @@ public partial class ctHorse
 [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.fei.org/Result")]
 public partial class ctEnduranceAthlete
 {
-
     private int fEIIDField;
 
     private string firstNameField;
@@ -1131,98 +798,56 @@ public partial class ctEnduranceAthlete
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public int FEIID
     {
-        get
-        {
-            return this.fEIIDField;
-        }
-        set
-        {
-            this.fEIIDField = value;
-        }
+        get { return this.fEIIDField; }
+        set { this.fEIIDField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string FirstName
     {
-        get
-        {
-            return this.firstNameField;
-        }
-        set
-        {
-            this.firstNameField = value;
-        }
+        get { return this.firstNameField; }
+        set { this.firstNameField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string FamilyName
     {
-        get
-        {
-            return this.familyNameField;
-        }
-        set
-        {
-            this.familyNameField = value;
-        }
+        get { return this.familyNameField; }
+        set { this.familyNameField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string CompetingFor
     {
-        get
-        {
-            return this.competingForField;
-        }
-        set
-        {
-            this.competingForField = value;
-        }
+        get { return this.competingForField; }
+        set { this.competingForField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string NFID
     {
-        get
-        {
-            return this.nFIDField;
-        }
-        set
-        {
-            this.nFIDField = value;
-        }
+        get { return this.nFIDField; }
+        set { this.nFIDField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public int AthleteNumber
     {
-        get
-        {
-            return this.athleteNumberField;
-        }
-        set
-        {
-            this.athleteNumberField = value;
-        }
+        get { return this.athleteNumberField; }
+        set { this.athleteNumberField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlIgnoreAttribute()]
     public bool AthleteNumberSpecified
     {
-        get
-        {
-            return this.athleteNumberFieldSpecified;
-        }
-        set
-        {
-            this.athleteNumberFieldSpecified = value;
-        }
+        get { return this.athleteNumberFieldSpecified; }
+        set { this.athleteNumberFieldSpecified = value; }
     }
 }
 
@@ -1234,7 +859,6 @@ public partial class ctEnduranceAthlete
 [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.fei.org/Result")]
 public partial class ctEnduranceIndivResult
 {
-
     private ctEnduranceAthlete athleteField;
 
     private ctHorse horseField;
@@ -1256,119 +880,65 @@ public partial class ctEnduranceIndivResult
     /// <remarks/>
     public ctEnduranceAthlete Athlete
     {
-        get
-        {
-            return this.athleteField;
-        }
-        set
-        {
-            this.athleteField = value;
-        }
+        get { return this.athleteField; }
+        set { this.athleteField = value; }
     }
 
     /// <remarks/>
     public ctHorse Horse
     {
-        get
-        {
-            return this.horseField;
-        }
-        set
-        {
-            this.horseField = value;
-        }
+        get { return this.horseField; }
+        set { this.horseField = value; }
     }
 
     /// <remarks/>
     public ctPrizeMoney PrizeMoney
     {
-        get
-        {
-            return this.prizeMoneyField;
-        }
-        set
-        {
-            this.prizeMoneyField = value;
-        }
+        get { return this.prizeMoneyField; }
+        set { this.prizeMoneyField = value; }
     }
 
     /// <remarks/>
     public ctRefTeam Team
     {
-        get
-        {
-            return this.teamField;
-        }
-        set
-        {
-            this.teamField = value;
-        }
+        get { return this.teamField; }
+        set { this.teamField = value; }
     }
 
     /// <remarks/>
     public ctEnduranceComplement Complement
     {
-        get
-        {
-            return this.complementField;
-        }
-        set
-        {
-            this.complementField = value;
-        }
+        get { return this.complementField; }
+        set { this.complementField = value; }
     }
 
     /// <remarks/>
     public ctPositionIndiv Position
     {
-        get
-        {
-            return this.positionField;
-        }
-        set
-        {
-            this.positionField = value;
-        }
+        get { return this.positionField; }
+        set { this.positionField = value; }
     }
 
     /// <remarks/>
     public ctEnduranceFirstVetInspection VetInspection
     {
-        get
-        {
-            return this.vetInspectionField;
-        }
-        set
-        {
-            this.vetInspectionField = value;
-        }
+        get { return this.vetInspectionField; }
+        set { this.vetInspectionField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlArrayItemAttribute("Day", IsNullable = false)]
     public ctEnduranceDayResult[] Phases
     {
-        get
-        {
-            return this.phasesField;
-        }
-        set
-        {
-            this.phasesField = value;
-        }
+        get { return this.phasesField; }
+        set { this.phasesField = value; }
     }
 
     /// <remarks/>
     public ctEnduranceTotal Total
     {
-        get
-        {
-            return this.totalField;
-        }
-        set
-        {
-            this.totalField = value;
-        }
+        get { return this.totalField; }
+        set { this.totalField = value; }
     }
 }
 
@@ -1380,7 +950,6 @@ public partial class ctEnduranceIndivResult
 [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.fei.org/Result")]
 public partial class ctEnduranceParticipations
 {
-
     private ctEnduranceIndivResult[] participationField;
 
     private ctEnduranceTeamResult[] teamParticipationField;
@@ -1389,28 +958,16 @@ public partial class ctEnduranceParticipations
     [System.Xml.Serialization.XmlElementAttribute("Participation")]
     public ctEnduranceIndivResult[] Participation
     {
-        get
-        {
-            return this.participationField;
-        }
-        set
-        {
-            this.participationField = value;
-        }
+        get { return this.participationField; }
+        set { this.participationField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlElementAttribute("TeamParticipation")]
     public ctEnduranceTeamResult[] TeamParticipation
     {
-        get
-        {
-            return this.teamParticipationField;
-        }
-        set
-        {
-            this.teamParticipationField = value;
-        }
+        get { return this.teamParticipationField; }
+        set { this.teamParticipationField = value; }
     }
 }
 
@@ -1422,7 +979,6 @@ public partial class ctEnduranceParticipations
 [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.fei.org/Result")]
 public partial class ctPrizeMoneyPlace
 {
-
     private int placeField;
 
     private bool placeFieldSpecified;
@@ -1441,98 +997,56 @@ public partial class ctPrizeMoneyPlace
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public int Place
     {
-        get
-        {
-            return this.placeField;
-        }
-        set
-        {
-            this.placeField = value;
-        }
+        get { return this.placeField; }
+        set { this.placeField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlIgnoreAttribute()]
     public bool PlaceSpecified
     {
-        get
-        {
-            return this.placeFieldSpecified;
-        }
-        set
-        {
-            this.placeFieldSpecified = value;
-        }
+        get { return this.placeFieldSpecified; }
+        set { this.placeFieldSpecified = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public decimal Amount
     {
-        get
-        {
-            return this.amountField;
-        }
-        set
-        {
-            this.amountField = value;
-        }
+        get { return this.amountField; }
+        set { this.amountField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlIgnoreAttribute()]
     public bool AmountSpecified
     {
-        get
-        {
-            return this.amountFieldSpecified;
-        }
-        set
-        {
-            this.amountFieldSpecified = value;
-        }
+        get { return this.amountFieldSpecified; }
+        set { this.amountFieldSpecified = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string InKind
     {
-        get
-        {
-            return this.inKindField;
-        }
-        set
-        {
-            this.inKindField = value;
-        }
+        get { return this.inKindField; }
+        set { this.inKindField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public decimal InKindValue
     {
-        get
-        {
-            return this.inKindValueField;
-        }
-        set
-        {
-            this.inKindValueField = value;
-        }
+        get { return this.inKindValueField; }
+        set { this.inKindValueField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlIgnoreAttribute()]
     public bool InKindValueSpecified
     {
-        get
-        {
-            return this.inKindValueFieldSpecified;
-        }
-        set
-        {
-            this.inKindValueFieldSpecified = value;
-        }
+        get { return this.inKindValueFieldSpecified; }
+        set { this.inKindValueFieldSpecified = value; }
     }
 }
 
@@ -1544,7 +1058,6 @@ public partial class ctPrizeMoneyPlace
 [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.fei.org/Result")]
 public partial class ctEndurancePrizeMoneyDetail
 {
-
     private ctPrizeMoneyPlace[] prizeField;
 
     private string currencyField;
@@ -1557,56 +1070,32 @@ public partial class ctEndurancePrizeMoneyDetail
     [System.Xml.Serialization.XmlElementAttribute("Prize")]
     public ctPrizeMoneyPlace[] Prize
     {
-        get
-        {
-            return this.prizeField;
-        }
-        set
-        {
-            this.prizeField = value;
-        }
+        get { return this.prizeField; }
+        set { this.prizeField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string Currency
     {
-        get
-        {
-            return this.currencyField;
-        }
-        set
-        {
-            this.currencyField = value;
-        }
+        get { return this.currencyField; }
+        set { this.currencyField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public decimal Total
     {
-        get
-        {
-            return this.totalField;
-        }
-        set
-        {
-            this.totalField = value;
-        }
+        get { return this.totalField; }
+        set { this.totalField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlIgnoreAttribute()]
     public bool TotalSpecified
     {
-        get
-        {
-            return this.totalFieldSpecified;
-        }
-        set
-        {
-            this.totalFieldSpecified = value;
-        }
+        get { return this.totalFieldSpecified; }
+        set { this.totalFieldSpecified = value; }
     }
 }
 
@@ -1618,7 +1107,6 @@ public partial class ctEndurancePrizeMoneyDetail
 [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.fei.org/Result")]
 public partial class ctPhaseDetailDetail
 {
-
     private int numberOfStarterField;
 
     private int numberOfFinisherField;
@@ -1627,28 +1115,16 @@ public partial class ctPhaseDetailDetail
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public int NumberOfStarter
     {
-        get
-        {
-            return this.numberOfStarterField;
-        }
-        set
-        {
-            this.numberOfStarterField = value;
-        }
+        get { return this.numberOfStarterField; }
+        set { this.numberOfStarterField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public int NumberOfFinisher
     {
-        get
-        {
-            return this.numberOfFinisherField;
-        }
-        set
-        {
-            this.numberOfFinisherField = value;
-        }
+        get { return this.numberOfFinisherField; }
+        set { this.numberOfFinisherField = value; }
     }
 }
 
@@ -1660,7 +1136,6 @@ public partial class ctPhaseDetailDetail
 [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.fei.org/Result")]
 public partial class ctPhaseDetailTime
 {
-
     private System.DateTime startField;
 
     private System.DateTime endField;
@@ -1669,28 +1144,16 @@ public partial class ctPhaseDetailTime
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public System.DateTime Start
     {
-        get
-        {
-            return this.startField;
-        }
-        set
-        {
-            this.startField = value;
-        }
+        get { return this.startField; }
+        set { this.startField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public System.DateTime End
     {
-        get
-        {
-            return this.endField;
-        }
-        set
-        {
-            this.endField = value;
-        }
+        get { return this.endField; }
+        set { this.endField = value; }
     }
 }
 
@@ -1702,7 +1165,6 @@ public partial class ctPhaseDetailTime
 [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.fei.org/Result")]
 public partial class ctEndurancePhaseDetailCourse
 {
-
     private int distanceField;
 
     private bool distanceFieldSpecified;
@@ -1719,84 +1181,48 @@ public partial class ctEndurancePhaseDetailCourse
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public int Distance
     {
-        get
-        {
-            return this.distanceField;
-        }
-        set
-        {
-            this.distanceField = value;
-        }
+        get { return this.distanceField; }
+        set { this.distanceField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlIgnoreAttribute()]
     public bool DistanceSpecified
     {
-        get
-        {
-            return this.distanceFieldSpecified;
-        }
-        set
-        {
-            this.distanceFieldSpecified = value;
-        }
+        get { return this.distanceFieldSpecified; }
+        set { this.distanceFieldSpecified = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public int HoldTime
     {
-        get
-        {
-            return this.holdTimeField;
-        }
-        set
-        {
-            this.holdTimeField = value;
-        }
+        get { return this.holdTimeField; }
+        set { this.holdTimeField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlIgnoreAttribute()]
     public bool HoldTimeSpecified
     {
-        get
-        {
-            return this.holdTimeFieldSpecified;
-        }
-        set
-        {
-            this.holdTimeFieldSpecified = value;
-        }
+        get { return this.holdTimeFieldSpecified; }
+        set { this.holdTimeFieldSpecified = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public bool CompulsoryReinspection
     {
-        get
-        {
-            return this.compulsoryReinspectionField;
-        }
-        set
-        {
-            this.compulsoryReinspectionField = value;
-        }
+        get { return this.compulsoryReinspectionField; }
+        set { this.compulsoryReinspectionField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlIgnoreAttribute()]
     public bool CompulsoryReinspectionSpecified
     {
-        get
-        {
-            return this.compulsoryReinspectionFieldSpecified;
-        }
-        set
-        {
-            this.compulsoryReinspectionFieldSpecified = value;
-        }
+        get { return this.compulsoryReinspectionFieldSpecified; }
+        set { this.compulsoryReinspectionFieldSpecified = value; }
     }
 }
 
@@ -1808,7 +1234,6 @@ public partial class ctEndurancePhaseDetailCourse
 [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.fei.org/Result")]
 public partial class ctEndurancePhaseDetail
 {
-
     private ctEndurancePhaseDetailCourse courseField;
 
     private ctPhaseDetailTime executionTimeField;
@@ -1824,82 +1249,46 @@ public partial class ctEndurancePhaseDetail
     /// <remarks/>
     public ctEndurancePhaseDetailCourse Course
     {
-        get
-        {
-            return this.courseField;
-        }
-        set
-        {
-            this.courseField = value;
-        }
+        get { return this.courseField; }
+        set { this.courseField = value; }
     }
 
     /// <remarks/>
     public ctPhaseDetailTime ExecutionTime
     {
-        get
-        {
-            return this.executionTimeField;
-        }
-        set
-        {
-            this.executionTimeField = value;
-        }
+        get { return this.executionTimeField; }
+        set { this.executionTimeField = value; }
     }
 
     /// <remarks/>
     public ctPhaseDetailDetail Detail
     {
-        get
-        {
-            return this.detailField;
-        }
-        set
-        {
-            this.detailField = value;
-        }
+        get { return this.detailField; }
+        set { this.detailField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public int Number
     {
-        get
-        {
-            return this.numberField;
-        }
-        set
-        {
-            this.numberField = value;
-        }
+        get { return this.numberField; }
+        set { this.numberField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public System.DateTime StartHour
     {
-        get
-        {
-            return this.startHourField;
-        }
-        set
-        {
-            this.startHourField = value;
-        }
+        get { return this.startHourField; }
+        set { this.startHourField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlIgnoreAttribute()]
     public bool StartHourSpecified
     {
-        get
-        {
-            return this.startHourFieldSpecified;
-        }
-        set
-        {
-            this.startHourFieldSpecified = value;
-        }
+        get { return this.startHourFieldSpecified; }
+        set { this.startHourFieldSpecified = value; }
     }
 }
 
@@ -1911,7 +1300,6 @@ public partial class ctEndurancePhaseDetail
 [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.fei.org/Result")]
 public partial class ctEnduranceDayDetail
 {
-
     private ctEndurancePhaseDetail[] phaseField;
 
     private int numberField;
@@ -1922,42 +1310,24 @@ public partial class ctEnduranceDayDetail
     [System.Xml.Serialization.XmlElementAttribute("Phase")]
     public ctEndurancePhaseDetail[] Phase
     {
-        get
-        {
-            return this.phaseField;
-        }
-        set
-        {
-            this.phaseField = value;
-        }
+        get { return this.phaseField; }
+        set { this.phaseField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public int Number
     {
-        get
-        {
-            return this.numberField;
-        }
-        set
-        {
-            this.numberField = value;
-        }
+        get { return this.numberField; }
+        set { this.numberField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute(DataType = "date")]
     public System.DateTime Date
     {
-        get
-        {
-            return this.dateField;
-        }
-        set
-        {
-            this.dateField = value;
-        }
+        get { return this.dateField; }
+        set { this.dateField = value; }
     }
 }
 
@@ -1969,7 +1339,6 @@ public partial class ctEnduranceDayDetail
 [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.fei.org/Result")]
 public partial class ctEndurancePhasesDetail
 {
-
     private ctEnduranceDayDetail[] dayField;
 
     private int totalNumberField;
@@ -1980,42 +1349,24 @@ public partial class ctEndurancePhasesDetail
     [System.Xml.Serialization.XmlElementAttribute("Day")]
     public ctEnduranceDayDetail[] Day
     {
-        get
-        {
-            return this.dayField;
-        }
-        set
-        {
-            this.dayField = value;
-        }
+        get { return this.dayField; }
+        set { this.dayField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public int TotalNumber
     {
-        get
-        {
-            return this.totalNumberField;
-        }
-        set
-        {
-            this.totalNumberField = value;
-        }
+        get { return this.totalNumberField; }
+        set { this.totalNumberField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlIgnoreAttribute()]
     public bool TotalNumberSpecified
     {
-        get
-        {
-            return this.totalNumberFieldSpecified;
-        }
-        set
-        {
-            this.totalNumberFieldSpecified = value;
-        }
+        get { return this.totalNumberFieldSpecified; }
+        set { this.totalNumberFieldSpecified = value; }
     }
 }
 
@@ -2027,7 +1378,6 @@ public partial class ctEndurancePhasesDetail
 [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.fei.org/Result")]
 public partial class ctEnduranceDescription
 {
-
     private ctEndurancePhasesDetail phasesField;
 
     private ctEndurancePrizeMoneyDetail prizesField;
@@ -2035,27 +1385,15 @@ public partial class ctEnduranceDescription
     /// <remarks/>
     public ctEndurancePhasesDetail Phases
     {
-        get
-        {
-            return this.phasesField;
-        }
-        set
-        {
-            this.phasesField = value;
-        }
+        get { return this.phasesField; }
+        set { this.phasesField = value; }
     }
 
     /// <remarks/>
     public ctEndurancePrizeMoneyDetail Prizes
     {
-        get
-        {
-            return this.prizesField;
-        }
-        set
-        {
-            this.prizesField = value;
-        }
+        get { return this.prizesField; }
+        set { this.prizesField = value; }
     }
 }
 
@@ -2067,7 +1405,6 @@ public partial class ctEnduranceDescription
 [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.fei.org/Result")]
 public partial class ctEnduranceCompetition
 {
-
     private ctEnduranceDescription descriptionField;
 
     private ctEnduranceParticipations participationListField;
@@ -2097,139 +1434,79 @@ public partial class ctEnduranceCompetition
     /// <remarks/>
     public ctEnduranceDescription Description
     {
-        get
-        {
-            return this.descriptionField;
-        }
-        set
-        {
-            this.descriptionField = value;
-        }
+        get { return this.descriptionField; }
+        set { this.descriptionField = value; }
     }
 
     /// <remarks/>
     public ctEnduranceParticipations ParticipationList
     {
-        get
-        {
-            return this.participationListField;
-        }
-        set
-        {
-            this.participationListField = value;
-        }
+        get { return this.participationListField; }
+        set { this.participationListField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string FEIID
     {
-        get
-        {
-            return this.fEIIDField;
-        }
-        set
-        {
-            this.fEIIDField = value;
-        }
+        get { return this.fEIIDField; }
+        set { this.fEIIDField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string NFID
     {
-        get
-        {
-            return this.nFIDField;
-        }
-        set
-        {
-            this.nFIDField = value;
-        }
+        get { return this.nFIDField; }
+        set { this.nFIDField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string ScheduleCompetitionNr
     {
-        get
-        {
-            return this.scheduleCompetitionNrField;
-        }
-        set
-        {
-            this.scheduleCompetitionNrField = value;
-        }
+        get { return this.scheduleCompetitionNrField; }
+        set { this.scheduleCompetitionNrField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string Rule
     {
-        get
-        {
-            return this.ruleField;
-        }
-        set
-        {
-            this.ruleField = value;
-        }
+        get { return this.ruleField; }
+        set { this.ruleField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string Name
     {
-        get
-        {
-            return this.nameField;
-        }
-        set
-        {
-            this.nameField = value;
-        }
+        get { return this.nameField; }
+        set { this.nameField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public bool Team
     {
-        get
-        {
-            return this.teamField;
-        }
-        set
-        {
-            this.teamField = value;
-        }
+        get { return this.teamField; }
+        set { this.teamField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlIgnoreAttribute()]
     public bool TeamSpecified
     {
-        get
-        {
-            return this.teamFieldSpecified;
-        }
-        set
-        {
-            this.teamFieldSpecified = value;
-        }
+        get { return this.teamFieldSpecified; }
+        set { this.teamFieldSpecified = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute(DataType = "date")]
     public System.DateTime StartDate
     {
-        get
-        {
-            return this.startDateField;
-        }
-        set
-        {
-            this.startDateField = value;
-        }
+        get { return this.startDateField; }
+        set { this.startDateField = value; }
     }
 
     /// <remarks/>
@@ -2240,14 +1517,8 @@ public partial class ctEnduranceCompetition
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public System.DateTime EndDate
     {
-        get
-        {
-            return this.endDateField;
-        }
-        set
-        {
-            this.endDateField = value;
-        }
+        get { return this.endDateField; }
+        set { this.endDateField = value; }
     }
 
     /// <remarks/>
@@ -2263,7 +1534,6 @@ public partial class ctEnduranceCompetition
 [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.fei.org/Result")]
 public partial class ctOfficialVeterinarianRole
 {
-
     private int fEIIDField;
 
     private bool fEIIDFieldSpecified;
@@ -2282,98 +1552,56 @@ public partial class ctOfficialVeterinarianRole
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public int FEIID
     {
-        get
-        {
-            return this.fEIIDField;
-        }
-        set
-        {
-            this.fEIIDField = value;
-        }
+        get { return this.fEIIDField; }
+        set { this.fEIIDField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlIgnoreAttribute()]
     public bool FEIIDSpecified
     {
-        get
-        {
-            return this.fEIIDFieldSpecified;
-        }
-        set
-        {
-            this.fEIIDFieldSpecified = value;
-        }
+        get { return this.fEIIDFieldSpecified; }
+        set { this.fEIIDFieldSpecified = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string NFID
     {
-        get
-        {
-            return this.nFIDField;
-        }
-        set
-        {
-            this.nFIDField = value;
-        }
+        get { return this.nFIDField; }
+        set { this.nFIDField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string FirstName
     {
-        get
-        {
-            return this.firstNameField;
-        }
-        set
-        {
-            this.firstNameField = value;
-        }
+        get { return this.firstNameField; }
+        set { this.firstNameField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string FamilyName
     {
-        get
-        {
-            return this.familyNameField;
-        }
-        set
-        {
-            this.familyNameField = value;
-        }
+        get { return this.familyNameField; }
+        set { this.familyNameField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string NF
     {
-        get
-        {
-            return this.nfField;
-        }
-        set
-        {
-            this.nfField = value;
-        }
+        get { return this.nfField; }
+        set { this.nfField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public stVeterinarianRole Role
     {
-        get
-        {
-            return this.roleField;
-        }
-        set
-        {
-            this.roleField = value;
-        }
+        get { return this.roleField; }
+        set { this.roleField = value; }
     }
 }
 
@@ -2383,7 +1611,6 @@ public partial class ctOfficialVeterinarianRole
 [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.fei.org/Result")]
 public enum stVeterinarianRole
 {
-
     /// <remarks/>
     President,
 
@@ -2402,7 +1629,6 @@ public enum stVeterinarianRole
 [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.fei.org/Result")]
 public partial class ctOfficialSteward
 {
-
     private int fEIIDField;
 
     private bool fEIIDFieldSpecified;
@@ -2421,98 +1647,56 @@ public partial class ctOfficialSteward
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public int FEIID
     {
-        get
-        {
-            return this.fEIIDField;
-        }
-        set
-        {
-            this.fEIIDField = value;
-        }
+        get { return this.fEIIDField; }
+        set { this.fEIIDField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlIgnoreAttribute()]
     public bool FEIIDSpecified
     {
-        get
-        {
-            return this.fEIIDFieldSpecified;
-        }
-        set
-        {
-            this.fEIIDFieldSpecified = value;
-        }
+        get { return this.fEIIDFieldSpecified; }
+        set { this.fEIIDFieldSpecified = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string NFID
     {
-        get
-        {
-            return this.nFIDField;
-        }
-        set
-        {
-            this.nFIDField = value;
-        }
+        get { return this.nFIDField; }
+        set { this.nFIDField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string FirstName
     {
-        get
-        {
-            return this.firstNameField;
-        }
-        set
-        {
-            this.firstNameField = value;
-        }
+        get { return this.firstNameField; }
+        set { this.firstNameField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string FamilyName
     {
-        get
-        {
-            return this.familyNameField;
-        }
-        set
-        {
-            this.familyNameField = value;
-        }
+        get { return this.familyNameField; }
+        set { this.familyNameField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string NF
     {
-        get
-        {
-            return this.nfField;
-        }
-        set
-        {
-            this.nfField = value;
-        }
+        get { return this.nfField; }
+        set { this.nfField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public stOfficialStewardRole Role
     {
-        get
-        {
-            return this.roleField;
-        }
-        set
-        {
-            this.roleField = value;
-        }
+        get { return this.roleField; }
+        set { this.roleField = value; }
     }
 }
 
@@ -2522,7 +1706,6 @@ public partial class ctOfficialSteward
 [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.fei.org/Result")]
 public enum stOfficialStewardRole
 {
-
     /// <remarks/>
     Chief,
 
@@ -2538,7 +1721,6 @@ public enum stOfficialStewardRole
 [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.fei.org/Result")]
 public partial class ctTechnicalDelegate
 {
-
     private int fEIIDField;
 
     private bool fEIIDFieldSpecified;
@@ -2555,84 +1737,48 @@ public partial class ctTechnicalDelegate
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public int FEIID
     {
-        get
-        {
-            return this.fEIIDField;
-        }
-        set
-        {
-            this.fEIIDField = value;
-        }
+        get { return this.fEIIDField; }
+        set { this.fEIIDField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlIgnoreAttribute()]
     public bool FEIIDSpecified
     {
-        get
-        {
-            return this.fEIIDFieldSpecified;
-        }
-        set
-        {
-            this.fEIIDFieldSpecified = value;
-        }
+        get { return this.fEIIDFieldSpecified; }
+        set { this.fEIIDFieldSpecified = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string NFID
     {
-        get
-        {
-            return this.nFIDField;
-        }
-        set
-        {
-            this.nFIDField = value;
-        }
+        get { return this.nFIDField; }
+        set { this.nFIDField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string FirstName
     {
-        get
-        {
-            return this.firstNameField;
-        }
-        set
-        {
-            this.firstNameField = value;
-        }
+        get { return this.firstNameField; }
+        set { this.firstNameField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string FamilyName
     {
-        get
-        {
-            return this.familyNameField;
-        }
-        set
-        {
-            this.familyNameField = value;
-        }
+        get { return this.familyNameField; }
+        set { this.familyNameField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string NF
     {
-        get
-        {
-            return this.nfField;
-        }
-        set
-        {
-            this.nfField = value;
-        }
+        get { return this.nfField; }
+        set { this.nfField = value; }
     }
 }
 
@@ -2644,7 +1790,6 @@ public partial class ctTechnicalDelegate
 [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.fei.org/Result")]
 public partial class ctOfficialJudge
 {
-
     private int fEIIDField;
 
     private bool fEIIDFieldSpecified;
@@ -2663,98 +1808,56 @@ public partial class ctOfficialJudge
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public int FEIID
     {
-        get
-        {
-            return this.fEIIDField;
-        }
-        set
-        {
-            this.fEIIDField = value;
-        }
+        get { return this.fEIIDField; }
+        set { this.fEIIDField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlIgnoreAttribute()]
     public bool FEIIDSpecified
     {
-        get
-        {
-            return this.fEIIDFieldSpecified;
-        }
-        set
-        {
-            this.fEIIDFieldSpecified = value;
-        }
+        get { return this.fEIIDFieldSpecified; }
+        set { this.fEIIDFieldSpecified = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string NFID
     {
-        get
-        {
-            return this.nFIDField;
-        }
-        set
-        {
-            this.nFIDField = value;
-        }
+        get { return this.nFIDField; }
+        set { this.nFIDField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string FirstName
     {
-        get
-        {
-            return this.firstNameField;
-        }
-        set
-        {
-            this.firstNameField = value;
-        }
+        get { return this.firstNameField; }
+        set { this.firstNameField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string FamilyName
     {
-        get
-        {
-            return this.familyNameField;
-        }
-        set
-        {
-            this.familyNameField = value;
-        }
+        get { return this.familyNameField; }
+        set { this.familyNameField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string NF
     {
-        get
-        {
-            return this.nfField;
-        }
-        set
-        {
-            this.nfField = value;
-        }
+        get { return this.nfField; }
+        set { this.nfField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public stOfficialJudgeRole Role
     {
-        get
-        {
-            return this.roleField;
-        }
-        set
-        {
-            this.roleField = value;
-        }
+        get { return this.roleField; }
+        set { this.roleField = value; }
     }
 }
 
@@ -2764,7 +1867,6 @@ public partial class ctOfficialJudge
 [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.fei.org/Result")]
 public enum stOfficialJudgeRole
 {
-
     /// <remarks/>
     President,
 
@@ -2783,7 +1885,6 @@ public enum stOfficialJudgeRole
 [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.fei.org/Result")]
 public partial class ctEnduranceOfficial
 {
-
     private ctOfficialJudge[] judgeField;
 
     private ctTechnicalDelegate[] technicalDelegateField;
@@ -2796,56 +1897,32 @@ public partial class ctEnduranceOfficial
     [System.Xml.Serialization.XmlElementAttribute("Judge")]
     public ctOfficialJudge[] Judge
     {
-        get
-        {
-            return this.judgeField;
-        }
-        set
-        {
-            this.judgeField = value;
-        }
+        get { return this.judgeField; }
+        set { this.judgeField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlElementAttribute("TechnicalDelegate")]
     public ctTechnicalDelegate[] TechnicalDelegate
     {
-        get
-        {
-            return this.technicalDelegateField;
-        }
-        set
-        {
-            this.technicalDelegateField = value;
-        }
+        get { return this.technicalDelegateField; }
+        set { this.technicalDelegateField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlElementAttribute("Steward")]
     public ctOfficialSteward[] Steward
     {
-        get
-        {
-            return this.stewardField;
-        }
-        set
-        {
-            this.stewardField = value;
-        }
+        get { return this.stewardField; }
+        set { this.stewardField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlElementAttribute("Veterinarian")]
     public ctOfficialVeterinarianRole[] Veterinarian
     {
-        get
-        {
-            return this.veterinarianField;
-        }
-        set
-        {
-            this.veterinarianField = value;
-        }
+        get { return this.veterinarianField; }
+        set { this.veterinarianField = value; }
     }
 }
 
@@ -2857,7 +1934,6 @@ public partial class ctEnduranceOfficial
 [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.fei.org/Result")]
 public partial class ctEnduranceEvent
 {
-
     private ctEnduranceOfficial officialsField;
 
     private ctEnduranceCompetition[] competitionsField;
@@ -2883,112 +1959,64 @@ public partial class ctEnduranceEvent
     /// <remarks/>
     public ctEnduranceOfficial Officials
     {
-        get
-        {
-            return this.officialsField;
-        }
-        set
-        {
-            this.officialsField = value;
-        }
+        get { return this.officialsField; }
+        set { this.officialsField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlArrayItemAttribute("Competition", IsNullable = false)]
     public ctEnduranceCompetition[] Competitions
     {
-        get
-        {
-            return this.competitionsField;
-        }
-        set
-        {
-            this.competitionsField = value;
-        }
+        get { return this.competitionsField; }
+        set { this.competitionsField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string FEIID
     {
-        get
-        {
-            return this.fEIIDField;
-        }
-        set
-        {
-            this.fEIIDField = value;
-        }
+        get { return this.fEIIDField; }
+        set { this.fEIIDField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string NFID
     {
-        get
-        {
-            return this.nFIDField;
-        }
-        set
-        {
-            this.nFIDField = value;
-        }
+        get { return this.nFIDField; }
+        set { this.nFIDField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string Code
     {
-        get
-        {
-            return this.codeField;
-        }
-        set
-        {
-            this.codeField = value;
-        }
+        get { return this.codeField; }
+        set { this.codeField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string NF
     {
-        get
-        {
-            return this.nfField;
-        }
-        set
-        {
-            this.nfField = value;
-        }
+        get { return this.nfField; }
+        set { this.nfField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string Name
     {
-        get
-        {
-            return this.nameField;
-        }
-        set
-        {
-            this.nameField = value;
-        }
+        get { return this.nameField; }
+        set { this.nameField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute(DataType = "date")]
     public System.DateTime StartDate
     {
-        get
-        {
-            return this.startDateField;
-        }
-        set
-        {
-            this.startDateField = value;
-        }
+        get { return this.startDateField; }
+        set { this.startDateField = value; }
     }
 
     /// <remarks/>
@@ -2999,14 +2027,8 @@ public partial class ctEnduranceEvent
     [System.Xml.Serialization.XmlAttributeAttribute(DataType = "date")]
     public System.DateTime EndDate
     {
-        get
-        {
-            return this.endDateField;
-        }
-        set
-        {
-            this.endDateField = value;
-        }
+        get { return this.endDateField; }
+        set { this.endDateField = value; }
     }
 
     /// <remarks/>
@@ -3022,7 +2044,6 @@ public partial class ctEnduranceEvent
 [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.fei.org/Result")]
 public partial class ctVenue
 {
-
     private string nameField;
 
     private string countryField;
@@ -3043,112 +2064,64 @@ public partial class ctVenue
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string Name
     {
-        get
-        {
-            return this.nameField;
-        }
-        set
-        {
-            this.nameField = value;
-        }
+        get { return this.nameField; }
+        set { this.nameField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string Country
     {
-        get
-        {
-            return this.countryField;
-        }
-        set
-        {
-            this.countryField = value;
-        }
+        get { return this.countryField; }
+        set { this.countryField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string FEIID
     {
-        get
-        {
-            return this.fEIIDField;
-        }
-        set
-        {
-            this.fEIIDField = value;
-        }
+        get { return this.fEIIDField; }
+        set { this.fEIIDField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string NFID
     {
-        get
-        {
-            return this.nFIDField;
-        }
-        set
-        {
-            this.nFIDField = value;
-        }
+        get { return this.nFIDField; }
+        set { this.nFIDField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public decimal Latitude
     {
-        get
-        {
-            return this.latitudeField;
-        }
-        set
-        {
-            this.latitudeField = value;
-        }
+        get { return this.latitudeField; }
+        set { this.latitudeField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlIgnoreAttribute()]
     public bool LatitudeSpecified
     {
-        get
-        {
-            return this.latitudeFieldSpecified;
-        }
-        set
-        {
-            this.latitudeFieldSpecified = value;
-        }
+        get { return this.latitudeFieldSpecified; }
+        set { this.latitudeFieldSpecified = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public decimal Longitude
     {
-        get
-        {
-            return this.longitudeField;
-        }
-        set
-        {
-            this.longitudeField = value;
-        }
+        get { return this.longitudeField; }
+        set { this.longitudeField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlIgnoreAttribute()]
     public bool LongitudeSpecified
     {
-        get
-        {
-            return this.longitudeFieldSpecified;
-        }
-        set
-        {
-            this.longitudeFieldSpecified = value;
-        }
+        get { return this.longitudeFieldSpecified; }
+        set { this.longitudeFieldSpecified = value; }
     }
 }
 
@@ -3160,7 +2133,6 @@ public partial class ctVenue
 [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.fei.org/Result")]
 public partial class ctShowResult
 {
-
     private ctVenue venueField;
 
     private ctEnduranceEvent[] enduranceEventField;
@@ -3182,70 +2154,40 @@ public partial class ctShowResult
     /// <remarks/>
     public ctVenue Venue
     {
-        get
-        {
-            return this.venueField;
-        }
-        set
-        {
-            this.venueField = value;
-        }
+        get { return this.venueField; }
+        set { this.venueField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlElementAttribute("EnduranceEvent")]
     public ctEnduranceEvent[] EnduranceEvent
     {
-        get
-        {
-            return this.enduranceEventField;
-        }
-        set
-        {
-            this.enduranceEventField = value;
-        }
+        get { return this.enduranceEventField; }
+        set { this.enduranceEventField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string FEIID
     {
-        get
-        {
-            return this.fEIIDField;
-        }
-        set
-        {
-            this.fEIIDField = value;
-        }
+        get { return this.fEIIDField; }
+        set { this.fEIIDField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string NFID
     {
-        get
-        {
-            return this.nFIDField;
-        }
-        set
-        {
-            this.nFIDField = value;
-        }
+        get { return this.nFIDField; }
+        set { this.nFIDField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute(DataType = "date")]
     public System.DateTime StartDate
     {
-        get
-        {
-            return this.startDateField;
-        }
-        set
-        {
-            this.startDateField = value;
-        }
+        get { return this.startDateField; }
+        set { this.startDateField = value; }
     }
 
     /// <remarks/>
@@ -3256,14 +2198,8 @@ public partial class ctShowResult
     [System.Xml.Serialization.XmlAttributeAttribute(DataType = "date")]
     public System.DateTime EndDate
     {
-        get
-        {
-            return this.endDateField;
-        }
-        set
-        {
-            this.endDateField = value;
-        }
+        get { return this.endDateField; }
+        set { this.endDateField = value; }
     }
 
     /// <remarks/>
@@ -3274,14 +2210,8 @@ public partial class ctShowResult
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string NF
     {
-        get
-        {
-            return this.nfField;
-        }
-        set
-        {
-            this.nfField = value;
-        }
+        get { return this.nfField; }
+        set { this.nfField = value; }
     }
 }
 
@@ -3293,20 +2223,13 @@ public partial class ctShowResult
 [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.fei.org/Result")]
 public partial class ctShowResultType
 {
-
     private ctShowResult showField;
 
     /// <remarks/>
     public ctShowResult Show
     {
-        get
-        {
-            return this.showField;
-        }
-        set
-        {
-            this.showField = value;
-        }
+        get { return this.showField; }
+        set { this.showField = value; }
     }
 }
 
@@ -3318,7 +2241,6 @@ public partial class ctShowResultType
 [System.Xml.Serialization.XmlTypeAttribute(Namespace = "http://www.fei.org/Result")]
 public partial class ctIssuer
 {
-
     private string nameField;
 
     private string emailField;
@@ -3327,27 +2249,15 @@ public partial class ctIssuer
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string Name
     {
-        get
-        {
-            return this.nameField;
-        }
-        set
-        {
-            this.nameField = value;
-        }
+        get { return this.nameField; }
+        set { this.nameField = value; }
     }
 
     /// <remarks/>
     [System.Xml.Serialization.XmlAttributeAttribute()]
     public string Email
     {
-        get
-        {
-            return this.emailField;
-        }
-        set
-        {
-            this.emailField = value;
-        }
+        get { return this.emailField; }
+        set { this.emailField = value; }
     }
 }

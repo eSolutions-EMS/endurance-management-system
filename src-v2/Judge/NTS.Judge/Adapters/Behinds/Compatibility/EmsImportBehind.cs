@@ -18,7 +18,10 @@ public class EmsImportBehind : IEmsImportBehind
     private readonly IRepository<EnduranceEvent> _eventRepository;
     private readonly IEmsToCoreImporter _emsToCoreImporter;
 
-    public EmsImportBehind(IRepository<EnduranceEvent> eventRepository, IEmsToCoreImporter emsToCoreImporter)
+    public EmsImportBehind(
+        IRepository<EnduranceEvent> eventRepository,
+        IEmsToCoreImporter emsToCoreImporter
+    )
     {
         _eventRepository = eventRepository;
         _emsToCoreImporter = emsToCoreImporter;
@@ -29,7 +32,11 @@ public class EmsImportBehind : IEmsImportBehind
         var contents = await File.ReadAllTextAsync(emsStateFilePath);
         var emsState = contents.FromJson<EmsState>();
 
-        var country = new Country(emsState.Event.Country.IsoCode, "zz", emsState.Event.Country.Name);
+        var country = new Country(
+            emsState.Event.Country.IsoCode,
+            "zz",
+            emsState.Event.Country.Name
+        );
         var enduranceEvent = EnduranceEvent.Create(emsState.Event.PopulatedPlace, country);
 
         foreach (var offical in CreateOfficials(emsState.Event))
@@ -54,16 +61,27 @@ public class EmsImportBehind : IEmsImportBehind
         foreach (var emsCompetition in emsEvent.Competitions)
         {
             var (type, ruleset) = MapRuleset(emsCompetition.Type);
-            yield return Competition.Create(emsCompetition.Name, type, ruleset ,emsCompetition.StartTime.ToDateTimeOffset(), 10);
+            yield return Competition.Create(
+                emsCompetition.Name,
+                type,
+                ruleset,
+                emsCompetition.StartTime.ToDateTimeOffset(),
+                10
+            );
         }
 
-        (CompetitionType type, CompetitionRuleset ruleset) MapRuleset(NTS.Compatibility.EMS.Entities.Competitions.EmsCompetitionType emsType)
+        (CompetitionType type, CompetitionRuleset ruleset) MapRuleset(
+            NTS.Compatibility.EMS.Entities.Competitions.EmsCompetitionType emsType
+        )
         {
             if (emsType == NTS.Compatibility.EMS.Entities.Competitions.EmsCompetitionType.National)
             {
                 return (CompetitionType.Qualification, CompetitionRuleset.Regional);
             }
-            else if (emsType == NTS.Compatibility.EMS.Entities.Competitions.EmsCompetitionType.International)
+            else if (
+                emsType
+                == NTS.Compatibility.EMS.Entities.Competitions.EmsCompetitionType.International
+            )
             {
                 return (CompetitionType.Star, CompetitionRuleset.FEI);
             }
@@ -84,7 +102,8 @@ public class EmsImportBehind : IEmsImportBehind
         foreach (var jury in emsEvent.MembersOfJudgeCommittee)
         {
             result.Add(Official.Create(jury.Name, GroundJury));
-        };
+        }
+        ;
         foreach (var vet in emsEvent.MembersOfVetCommittee)
         {
             result.Add(Official.Create(vet.Name, VeterinaryCommission));

@@ -1,13 +1,13 @@
-﻿using Core.Domain.Common.Exceptions;
+﻿using System;
+using System.Linq;
+using Core.Domain.AggregateRoots.Manager.WitnessEvents;
+using Core.Domain.Common.Exceptions;
 using Core.Domain.Common.Models;
 using Core.Domain.State.Competitions;
 using Core.Domain.State.LapRecords;
 using Core.Domain.State.Laps;
 using Core.Domain.State.Participants;
 using Core.Domain.State.Participations;
-using Core.Domain.AggregateRoots.Manager.WitnessEvents;
-using System;
-using System.Linq;
 using static Core.Localization.Strings;
 
 namespace Core.Domain.AggregateRoots.Manager.Aggregates;
@@ -20,8 +20,9 @@ public class ParticipationsAggregate : IAggregate
     internal ParticipationsAggregate(Participation participation)
     {
         this.Number = participation.Participant.Number;
-        var disqualifiedResult = participation.Participant.LapRecords.FirstOrDefault(
-            rec => rec.Result?.IsNotQualified ?? false);
+        var disqualifiedResult = participation.Participant.LapRecords.FirstOrDefault(rec =>
+            rec.Result?.IsNotQualified ?? false
+        );
         this.IsDisqualified = disqualifiedResult != null;
         this.DisqualifiedCode = disqualifiedResult?.Result.Code;
         this.participation = participation;
@@ -31,6 +32,7 @@ public class ParticipationsAggregate : IAggregate
     public string Number { get; }
     public bool IsDisqualified { get; }
     public string DisqualifiedCode { get; }
+
     // TODO maybe initialize Laps here?
     public LapRecord CurrentLap => this.participation.Participant.LapRecords.Last();
 
@@ -89,9 +91,14 @@ public class ParticipationsAggregate : IAggregate
             {
                 throw Helper.Create<ParticipantException>(
                     CANNOT_ADD_PARTICIPATION_DIFFERENT_PHASE_COUNT_MESSAGE,
-                    competition.Name);
+                    competition.Name
+                );
             }
-            for (var lapIndex = 0; lapIndex < this.participation.CompetitionConstraint.Laps.Count; lapIndex++)
+            for (
+                var lapIndex = 0;
+                lapIndex < this.participation.CompetitionConstraint.Laps.Count;
+                lapIndex++
+            )
             {
                 var lapConstraint = this.participation.CompetitionConstraint.Laps[lapIndex];
                 var lap = competition.Laps[lapIndex];
@@ -104,14 +111,19 @@ public class ParticipationsAggregate : IAggregate
                         this.participation.CompetitionConstraint.Name,
                         lapIndex + 1,
                         lap.LengthInKm,
-                        lapConstraint.LengthInKm);
+                        lapConstraint.LengthInKm
+                    );
                 }
             }
         }
         this.participation.Add(competition);
     }
 
-    private void CreateLapRecord(DateTime startTime, DateTime? arriveTime = null, DateTime? vetTime = null)
+    private void CreateLapRecord(
+        DateTime startTime,
+        DateTime? arriveTime = null,
+        DateTime? vetTime = null
+    )
     {
         if (this.NextLap == null)
         {
@@ -131,8 +143,8 @@ public class ParticipationsAggregate : IAggregate
         this.participation.Participant.Add(record);
     }
 
-    private Lap NextLap
-        => this.competitionConstraint.Laps.Count > this.participation.Participant.LapRecords.Count
+    private Lap NextLap =>
+        this.competitionConstraint.Laps.Count > this.participation.Participant.LapRecords.Count
             ? this.competitionConstraint.Laps[this.participation.Participant.LapRecords.Count]
             : null;
 

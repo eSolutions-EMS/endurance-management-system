@@ -1,6 +1,6 @@
-﻿using Not.Exceptions;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Reflection;
+using Not.Exceptions;
 
 namespace Not.Reflection;
 
@@ -29,7 +29,8 @@ public static class ReflectionHelper
     public static FieldInfo? GetEnumField(this Type type, object instance)
     {
         var stringValue = instance.ToString();
-        if (stringValue == null) return null;
+        if (stringValue == null)
+            return null;
         return type.GetField(stringValue);
     }
 

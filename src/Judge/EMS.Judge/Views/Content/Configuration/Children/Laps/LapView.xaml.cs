@@ -1,7 +1,7 @@
-﻿using EMS.Judge.Common;
-using EMS.Judge.Common.Services;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using System.Windows.Input;
+using EMS.Judge.Common;
+using EMS.Judge.Common.Services;
 
 namespace EMS.Judge.Views.Content.Configuration.Children.Laps;
 
@@ -14,7 +14,8 @@ public partial class LapView : UserControl, IView
         InitializeComponent();
     }
 
-    public LapView(IInputHandler inputInput) : this()
+    public LapView(IInputHandler inputInput)
+        : this()
     {
         this.inputInput = inputInput;
     }

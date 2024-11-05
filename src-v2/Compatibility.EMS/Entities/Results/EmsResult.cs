@@ -5,8 +5,10 @@ namespace NTS.Compatibility.EMS.Entities.Results;
 public class EmsResult : EmsDomainBase<EmsResultException>, IEmsResultState
 {
     [Newtonsoft.Json.JsonConstructor]
-    private EmsResult() {}
-    internal EmsResult(EmsResultType type, string code = null) : base(default)
+    private EmsResult() { }
+
+    internal EmsResult(EmsResultType type, string code = null)
+        : base(default)
     {
         this.Code = code;
         this.Type = type;
@@ -21,12 +23,17 @@ public class EmsResult : EmsDomainBase<EmsResultException>, IEmsResultState
         {
             switch (this.Type)
             {
-                case EmsResultType.Resigned: return "RET";
-                case EmsResultType.FailedToQualify: return "FTQ";
-                case EmsResultType.Disqualified: return "DSQ";
-                case EmsResultType.Successful: return "R";
+                case EmsResultType.Resigned:
+                    return "RET";
+                case EmsResultType.FailedToQualify:
+                    return "FTQ";
+                case EmsResultType.Disqualified:
+                    return "DSQ";
+                case EmsResultType.Successful:
+                    return "R";
                 case EmsResultType.Invalid:
-                default: throw EmsHelper.Create<EmsResultException>("Invalid result type");
+                default:
+                    throw EmsHelper.Create<EmsResultException>("Invalid result type");
             }
         }
     }
@@ -38,7 +45,6 @@ public class EmsResult : EmsDomainBase<EmsResultException>, IEmsResultState
             return string.Empty;
         }
         var typeString = string.Empty;
-        
 
         return $"{typeString.ToUpper()} {TypeCode}";
     }
@@ -50,5 +56,5 @@ public enum EmsResultType
     Resigned = 1,
     FailedToQualify = 2,
     Disqualified = 3,
-    Successful = 4
+    Successful = 4,
 }

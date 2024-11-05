@@ -5,17 +5,17 @@ namespace Not.Serialization;
 
 public static class SerializationExtensions
 {
-
     private static List<JsonConverterBase> _converters = [];
 
-    private static readonly JsonSerializerSettings _settings = new()
-    {
-        ContractResolver = new PrivatePropertySetterResolver(),
-        ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
-        Formatting = Formatting.Indented,
-        TypeNameHandling = TypeNameHandling.All,
-        ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
-    };
+    private static readonly JsonSerializerSettings _settings =
+        new()
+        {
+            ContractResolver = new PrivatePropertySetterResolver(),
+            ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
+            Formatting = Formatting.Indented,
+            TypeNameHandling = TypeNameHandling.All,
+            ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
+        };
 
     public static void AddConverter<T>(T converter)
         where T : JsonConverterBase
@@ -54,5 +54,5 @@ public static class SerializationExtensions
 
 public abstract class JsonConverterBase : JsonConverter
 {
-    public abstract void Reset(); 
+    public abstract void Reset();
 }

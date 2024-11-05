@@ -4,12 +4,12 @@ namespace Not.Localization;
 
 public static class LocalizationHelper
 {
-	private static readonly ILocalizer _localizer = ServiceLocator.Get<ILocalizer>();
+    private static readonly ILocalizer _localizer = ServiceLocator.Get<ILocalizer>();
 
-	public static string Get(params object[] args)
-	{
-		return _localizer.Get(args);
-	}
+    public static string Get(params object[] args)
+    {
+        return _localizer.Get(args);
+    }
 }
 
 public static class LocalizationExtensions

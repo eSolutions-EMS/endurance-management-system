@@ -21,7 +21,8 @@ public class PopupService : IPopupService
             "Edit time",
             "Keep the current time format",
             initialValue: formatted,
-            keyboard: Keyboard.Numeric);
+            keyboard: Keyboard.Numeric
+        );
         if (resultString == null)
         {
             return null;
@@ -31,7 +32,12 @@ public class PopupService : IPopupService
 
     public async Task<string> RenderActionSheet(string text, params string[] values)
     {
-        return await Application.Current.MainPage.DisplayActionSheet("Select Type", CLOSE, null, values);
+        return await Application.Current.MainPage.DisplayActionSheet(
+            "Select Type",
+            CLOSE,
+            null,
+            values
+        );
     }
 
     public async Task<WitnessEventType?> SelecEventType()
@@ -39,7 +45,8 @@ public class PopupService : IPopupService
         var result = await this.RenderActionSheet(
             "Select Type",
             WitnessEventType.Arrival.ToString(),
-            WitnessEventType.VetIn.ToString());
+            WitnessEventType.VetIn.ToString()
+        );
         if (result == CLOSE)
         {
             return null;

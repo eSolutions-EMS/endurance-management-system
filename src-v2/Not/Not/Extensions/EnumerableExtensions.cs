@@ -17,8 +17,6 @@ public static class EnumerableExtensions
     public static int NumberOf<T>(this IList<T> enumerable, T item)
     {
         var index = enumerable.IndexOf(item);
-        return index == NOT_FOUND
-            ? NOT_FOUND
-            : index + 1;
+        return index == NOT_FOUND ? NOT_FOUND : index + 1;
     }
 }

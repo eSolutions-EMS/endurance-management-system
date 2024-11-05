@@ -1,5 +1,5 @@
-﻿using Core.Utilities;
-using System.Reflection;
+﻿using System.Reflection;
+using Core.Utilities;
 
 namespace EMS.Judge.Api;
 

@@ -8,23 +8,33 @@ namespace NTS.Compatibility.EMS.Entities.EnduranceEvents;
 public class EmsEnduranceEvent : EmsDomainBase<EmsEnduranceEventException>
 {
     [Newtonsoft.Json.JsonConstructor]
-    private EmsEnduranceEvent()  { }
-    internal EmsEnduranceEvent(string name, EmsCountry country, string feiId, string feiCode, string showFeiId) : this(name, country)
+    private EmsEnduranceEvent() { }
+
+    internal EmsEnduranceEvent(
+        string name,
+        EmsCountry country,
+        string feiId,
+        string feiCode,
+        string showFeiId
+    )
+        : this(name, country)
     {
         FeiId = feiId;
         FeiCode = feiCode;
         ShowFeiId = showFeiId;
     }
-    internal EmsEnduranceEvent(string name, EmsCountry country) : base(GENERATE_ID)
+
+    internal EmsEnduranceEvent(string name, EmsCountry country)
+        : base(GENERATE_ID)
     {
         this.Name = name;
         this.Country = country;
     }
 
-    private List<EmsPersonnel> membersOfVetCommittee = new();
-    private List<EmsPersonnel> membersOfJudgeCommittee = new();
-    private List<EmsPersonnel> stewards = new();
-    private List<EmsCompetition> competitions = new();
+    private List<EmsPersonnel> membersOfVetCommittee = [];
+    private List<EmsPersonnel> membersOfJudgeCommittee = [];
+    private List<EmsPersonnel> stewards = [];
+    private List<EmsCompetition> competitions = [];
 
     public string FeiCode { get; internal set; }
     public string ShowFeiId { get; internal set; }
@@ -44,6 +54,7 @@ public class EmsEnduranceEvent : EmsDomainBase<EmsEnduranceEventException>
     {
         throw new NotImplementedException();
     }
+
     public void Save(EmsPersonnel personnel)
     {
         throw new NotImplementedException();

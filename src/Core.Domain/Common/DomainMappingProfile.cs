@@ -1,9 +1,9 @@
-﻿using Core.Domain.Common.Models;
+﻿using System;
+using System.Linq;
+using System.Reflection;
+using Core.Domain.Common.Models;
 using Core.Mappings;
 using Core.Utilities;
-using System.Reflection;
-using System;
-using System.Linq;
 
 namespace Core.Domain.Common;
 

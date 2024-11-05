@@ -1,11 +1,12 @@
-﻿using Not.Localization;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
+using Not.Localization;
 
 namespace NTS.Domain.Core.Entities.ParticipationAggregate;
 
 public class PhaseCollection : ReadOnlyCollection<Phase>
 {
-    public PhaseCollection(IEnumerable<Phase> phases) : base(phases.ToList())
+    public PhaseCollection(IEnumerable<Phase> phases)
+        : base(phases.ToList())
     {
         var distanceSoFar = 0d;
         foreach (var phase in phases)
@@ -31,7 +32,10 @@ public class PhaseCollection : ReadOnlyCollection<Phase>
         var isComplete = Current.IsComplete();
         if (isComplete && Current.IsFinal)
         {
-            return SnapshotResult.NotApplied(snapshot, SnapshotResultType.NotAppliedDueToParticipationComplete);
+            return SnapshotResult.NotApplied(
+                snapshot,
+                SnapshotResultType.NotAppliedDueToParticipationComplete
+            );
         }
         var notProcessingWindow = TimeSpan.FromMinutes(30); // TODO settings: use settings?
         if (isComplete && snapshot.Timestamp > Current.GetOutTime() + notProcessingWindow)

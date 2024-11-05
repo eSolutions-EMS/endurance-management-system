@@ -1,11 +1,11 @@
 ﻿using Core.Domain.AggregateRoots.Configuration.Aggregates;
+using Core.Domain.Common.Extensions;
 using Core.Domain.Common.Models;
 using Core.Domain.State;
 using Core.Domain.State.EnduranceEvents;
 using Core.Domain.State.Personnels;
 using Core.Domain.Validation;
 using Core.Utilities;
-using Core.Domain.Common.Extensions;
 using static Core.Localization.Strings;
 
 namespace Core.Domain.AggregateRoots.Configuration;
@@ -26,7 +26,12 @@ public class ConfigurationRoot : IAggregateRoot
         this.validator = new Validator<EnduranceEventException>();
     }
 
-    public EnduranceEvent Update(string name, int countryId, string populatedPlace, string showFeiId)
+    public EnduranceEvent Update(
+        string name,
+        int countryId,
+        string populatedPlace,
+        string showFeiId
+    )
     {
         this.validator.IsRequired(name, NAME);
         this.validator.IsRequired(populatedPlace, POPULATED_PLACE);

@@ -1,15 +1,15 @@
-﻿using EMS.Judge.Common.Services;
-using EMS.Judge.Common.ViewModels;
-using EMS.Judge.Services;
-using Core.Domain.AggregateRoots.Manager;
-using Prism.Commands;
-using Prism.Services.Dialogs;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Collections.Generic;
+using Core.Domain.AggregateRoots.Manager;
 using Core.Domain.AggregateRoots.Manager.Aggregates.Startlists;
+using EMS.Judge.Common.Services;
+using EMS.Judge.Common.ViewModels;
+using EMS.Judge.Services;
+using Prism.Commands;
+using Prism.Services.Dialogs;
 
 namespace EMS.Judge.Views.Dialogs.Startlists;
 
@@ -25,7 +25,11 @@ public class StartlistDialogModel : DialogBase
     private bool isFiveEnabled;
     private bool isSixEnabled;
 
-    public StartlistDialogModel(IExecutor<ManagerRoot> contestExecutor, ISimplePrinter simplePrinter, IInputHandler input)
+    public StartlistDialogModel(
+        IExecutor<ManagerRoot> contestExecutor,
+        ISimplePrinter simplePrinter,
+        IInputHandler input
+    )
     {
         this.contestExecutor = contestExecutor;
         this.input = input;
@@ -38,6 +42,7 @@ public class StartlistDialogModel : DialogBase
         this.SelectSix = new DelegateCommand(() => this.RenderList(6));
         this.Print = new DelegateCommand<Visual>(simplePrinter.Print);
     }
+
     public void HandleScroll(object sender, MouseWheelEventArgs mouseEvent)
     {
         this.input.HandleScroll(sender, mouseEvent);
@@ -67,9 +72,10 @@ public class StartlistDialogModel : DialogBase
 
     private void RenderList(int stage)
     {
-        var startlist = stage == 0
-            ? new Startlist(this.startlists.SelectMany(x => x.Value))
-            : this.startlists[stage];
+        var startlist =
+            stage == 0
+                ? new Startlist(this.startlists.SelectMany(x => x.Value))
+                : this.startlists[stage];
         var templates = startlist.Select(x => new StartTemplateModel(x));
         this.List.Clear();
         this.List.AddRange(templates);

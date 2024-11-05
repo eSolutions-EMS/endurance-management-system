@@ -9,10 +9,11 @@ namespace NTS.Judge.Events;
 
 public class ParticipationBehind : CrudBehind<Participation, ParticipationFormModel>
 {
-    public ParticipationBehind(IRepository<Participation> participations, CompetitionParentContext parentContext)
-        : base(participations, parentContext)
-    {
-    }
+    public ParticipationBehind(
+        IRepository<Participation> participations,
+        CompetitionParentContext parentContext
+    )
+        : base(participations, parentContext) { }
 
     protected override Participation CreateEntity(ParticipationFormModel model)
     {
@@ -20,7 +21,8 @@ public class ParticipationBehind : CrudBehind<Participation, ParticipationFormMo
             model.StartTimeOverride?.ToDateTimeOffset(),
             model.IsNotRanked,
             model.Combination,
-            model.MaxSpeedOverride);
+            model.MaxSpeedOverride
+        );
     }
 
     protected override Participation UpdateEntity(ParticipationFormModel model)
@@ -30,6 +32,7 @@ public class ParticipationBehind : CrudBehind<Participation, ParticipationFormMo
             model.StartTimeOverride?.ToDateTimeOffset(),
             model.IsNotRanked,
             model.Combination,
-            model.MaxSpeedOverride);
+            model.MaxSpeedOverride
+        );
     }
 }

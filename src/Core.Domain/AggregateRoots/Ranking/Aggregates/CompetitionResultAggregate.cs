@@ -1,24 +1,29 @@
-﻿using Core.Domain.Common.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Core.Domain.Common.Models;
 using Core.Domain.Enums;
 using Core.Domain.State.Competitions;
 using Core.Domain.State.EnduranceEvents;
 using Core.Domain.State.Participations;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Core.Domain.AggregateRoots.Ranking.Aggregates;
 
 public class CompetitionResultAggregate : IAggregate, ICompetitionData
 {
     private readonly List<Participation> participations;
+
     internal CompetitionResultAggregate(
         EnduranceEvent enduranceEvent,
         Competition competition,
-        List<Participation> participations)
+        List<Participation> participations
+    )
     {
         this.Id = competition.Id;
-        this.CompetitionLengthInKm = competition.Laps.Aggregate(0d, (total, x) => total + x.LengthInKm);
+        this.CompetitionLengthInKm = competition.Laps.Aggregate(
+            0d,
+            (total, x) => total + x.LengthInKm
+        );
         this.Name = competition.Name;
         this.EventName = enduranceEvent.Name;
         this.PopulatedPlace = enduranceEvent.PopulatedPlace;
@@ -48,6 +53,5 @@ public class CompetitionResultAggregate : IAggregate, ICompetitionData
     public DateTime CompetitionDate { get; }
     public double CompetitionLengthInKm { get; }
 
-    public RanklistAggregate Rank(Category category)
-        => new(category, this.participations);
+    public RanklistAggregate Rank(Category category) => new(category, this.participations);
 }

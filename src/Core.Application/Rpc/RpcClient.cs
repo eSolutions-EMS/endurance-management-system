@@ -1,7 +1,7 @@
-﻿using Core.Application.Rpc.Procedures;
-using Microsoft.AspNetCore.SignalR.Client;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using Core.Application.Rpc.Procedures;
+using Microsoft.AspNetCore.SignalR.Client;
 
 namespace Core.Application.Rpc;
 
@@ -18,17 +18,20 @@ public abstract class RpcClient
     {
         _socket.Procedures.Add(connection =>
         {
-            connection.On(name, () =>
-            {
-                try
+            connection.On(
+                name,
+                () =>
                 {
-                    action();
+                    try
+                    {
+                        action();
+                    }
+                    catch (Exception exception)
+                    {
+                        _socket.RaiseError(exception, name);
+                    }
                 }
-                catch (Exception exception)
-                {
-                    _socket.RaiseError(exception, name);
-                }
-            });
+            );
         });
     }
 
@@ -36,17 +39,20 @@ public abstract class RpcClient
     {
         _socket.Procedures.Add(connection =>
         {
-            connection.On<T>(name, a =>
-            {
-                try
+            connection.On<T>(
+                name,
+                a =>
                 {
-                    action(a);
+                    try
+                    {
+                        action(a);
+                    }
+                    catch (Exception exception)
+                    {
+                        _socket.RaiseError(exception, name, a);
+                    }
                 }
-                catch (Exception exception)
-                {
-                    _socket.RaiseError(exception, name, a);
-                }
-            });
+            );
         });
     }
 
@@ -54,17 +60,20 @@ public abstract class RpcClient
     {
         _socket.Procedures.Add(connection =>
         {
-            connection.On<T1, T2>(name, (a, b) =>
-            {
-                try
+            connection.On<T1, T2>(
+                name,
+                (a, b) =>
                 {
-                    action(a, b);
+                    try
+                    {
+                        action(a, b);
+                    }
+                    catch (Exception exception)
+                    {
+                        _socket.RaiseError(exception, name, a, b);
+                    }
                 }
-                catch (Exception exception)
-                {
-                    _socket.RaiseError(exception, name, a, b);
-                }
-            });
+            );
         });
     }
 
@@ -72,17 +81,20 @@ public abstract class RpcClient
     {
         _socket.Procedures.Add(connection =>
         {
-            connection.On<T1, T2, T3>(name, (a, b, c) =>
-            {
-                try
+            connection.On<T1, T2, T3>(
+                name,
+                (a, b, c) =>
                 {
-                    action(a, b, c);
+                    try
+                    {
+                        action(a, b, c);
+                    }
+                    catch (Exception exception)
+                    {
+                        _socket.RaiseError(exception, name, a, b, c);
+                    }
                 }
-                catch (Exception exception)
-                {
-                    _socket.RaiseError(exception, name, a, b, c);
-                }
-            });
+            );
         });
     }
 
@@ -100,7 +112,11 @@ public abstract class RpcClient
         }
     }
 
-    public async Task<RpcInvokeResult> InvokeHubProcedure<T1, T2>(string name, T1 parameter1, T2 parameter2)
+    public async Task<RpcInvokeResult> InvokeHubProcedure<T1, T2>(
+        string name,
+        T1 parameter1,
+        T2 parameter2
+    )
     {
         try
         {

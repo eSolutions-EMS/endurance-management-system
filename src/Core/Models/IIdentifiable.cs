@@ -2,7 +2,7 @@
 
 namespace Core.Models;
 
-public interface IIdentifiable/* : IEquatable<IIdentifiable>*/
+public interface IIdentifiable /* : IEquatable<IIdentifiable>*/
 {
     int Id { get; }
 }

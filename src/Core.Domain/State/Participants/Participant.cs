@@ -1,12 +1,12 @@
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using Core.Domain.AggregateRoots.Manager;
 using Core.Domain.Common.Exceptions;
 using Core.Domain.Common.Models;
 using Core.Domain.State.Athletes;
 using Core.Domain.State.Horses;
 using Core.Domain.State.LapRecords;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 
 namespace Core.Domain.State.Participants;
 
@@ -22,7 +22,9 @@ public class Participant : DomainBase<ParticipantException>, IParticipantState
     {
         this.lapRecordsReadonly = new(this.lapRecords);
     }
-    public Participant(Athlete athlete, Horse horse, IParticipantState state = null) : base(GENERATE_ID)
+
+    public Participant(Athlete athlete, Horse horse, IParticipantState state = null)
+        : base(GENERATE_ID)
     {
         this.lapRecordsReadonly = new ReadOnlyObservableCollection<LapRecord>(this.lapRecords);
         this.Athlete = athlete;
@@ -31,7 +33,8 @@ public class Participant : DomainBase<ParticipantException>, IParticipantState
         if (!int.TryParse(state?.Number, out var _))
         {
             throw Helper.Create<ParticipantException>(
-                $"Invalid '{nameof(Number)}' - '{state?.Number}'. Please enter a valid number");
+                $"Invalid '{nameof(Number)}' - '{state?.Number}'. Please enter a valid number"
+            );
         }
         this.Number = state?.Number;
         this.Unranked = state?.Unranked ?? false;
@@ -49,8 +52,7 @@ public class Participant : DomainBase<ParticipantException>, IParticipantState
         private set => this.lapRecords = new ObservableCollection<LapRecord>(value.ToList());
     }
 
-    public void Add(LapRecord record)
-        => this.lapRecords.Add(record);
+    public void Add(LapRecord record) => this.lapRecords.Add(record);
 
     public string Name => FormatName(this.Number, this.Athlete.Name, this.Horse.Name);
 
@@ -65,9 +67,10 @@ public class Participant : DomainBase<ParticipantException>, IParticipantState
     }
 
     // Metadata for stats
-    public Dictionary<WitnessEventType, List<int>> DetectedHead { get; } = new()
-    {
-        { WitnessEventType.Arrival, new List<int>() },
-        { WitnessEventType.VetIn, new List<int>() },
-    };
+    public Dictionary<WitnessEventType, List<int>> DetectedHead { get; } =
+        new()
+        {
+            { WitnessEventType.Arrival, new List<int>() },
+            { WitnessEventType.VetIn, new List<int>() },
+        };
 }

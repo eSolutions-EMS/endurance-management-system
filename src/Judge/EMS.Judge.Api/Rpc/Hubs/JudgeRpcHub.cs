@@ -1,4 +1,8 @@
-﻿using Core.Application.Rpc;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Core.Application.Rpc;
 using Core.Application.Rpc.Procedures;
 using Core.Domain.AggregateRoots.Manager;
 using Core.Domain.AggregateRoots.Manager.Aggregates.Participants;
@@ -8,38 +12,34 @@ using Core.Enums;
 using EMS.Judge.Api.Configuration;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace EMS.Judge.Api.Rpc.Hubs;
 
-public class JudgeRpcHub : Hub<IClientProcedures>, IStartlistHubProcedures, IParticipantstHubProcedures
+public class JudgeRpcHub
+    : Hub<IClientProcedures>,
+        IStartlistHubProcedures,
+        IParticipantstHubProcedures
 {
-	private readonly ManagerRoot managerRoot;
+    private readonly ManagerRoot managerRoot;
 
-	public JudgeRpcHub(IJudgeServiceProvider provider)
-	{
-		this.managerRoot = provider.GetRequiredService<ManagerRoot>();
-	}
-		
-	public Dictionary<int, Startlist> SendStartlist()
-	{
-		var startlist = this.managerRoot.GetStartList();
-		return startlist;
-	}
+    public JudgeRpcHub(IJudgeServiceProvider provider)
+    {
+        this.managerRoot = provider.GetRequiredService<ManagerRoot>();
+    }
+
+    public Dictionary<int, Startlist> SendStartlist()
+    {
+        var startlist = this.managerRoot.GetStartList();
+        return startlist;
+    }
 
     public ParticipantsPayload SendParticipants()
     {
         var participants = this.managerRoot.GetActiveParticipants();
         var eventId = managerRoot.GetEventId();
-        return new ParticipantsPayload
-        {
-            Participants = participants.ToList(),
-            EventId = eventId,
-        };
+        return new ParticipantsPayload { Participants = participants.ToList(), EventId = eventId };
     }
+
     public Task ReceiveWitnessEvent(IEnumerable<ParticipantEntry> entries, WitnessEventType type)
     {
         // Task.Run because Event hadling in dotnet seems to hold the current thread. Further investigation is needed
@@ -64,14 +64,14 @@ public class JudgeRpcHub : Hub<IClientProcedures>, IStartlistHubProcedures, IPar
     }
 
     public override Task OnConnectedAsync()
-	{
-		Console.WriteLine($"Connected: {this.Context.ConnectionId}");
+    {
+        Console.WriteLine($"Connected: {this.Context.ConnectionId}");
         return Task.CompletedTask;
-	}
+    }
 
-	public override Task OnDisconnectedAsync(Exception exception)
-	{
-		Console.WriteLine($"Disconnected: {this.Context.ConnectionId}");
+    public override Task OnDisconnectedAsync(Exception exception)
+    {
+        Console.WriteLine($"Disconnected: {this.Context.ConnectionId}");
         return Task.CompletedTask;
     }
 
@@ -82,7 +82,8 @@ public class JudgeRpcHub : Hub<IClientProcedures>, IStartlistHubProcedures, IPar
 
         public ClientService(
             IHubContext<JudgeRpcHub, IClientProcedures> hub,
-            IJudgeServiceProvider judgeServiceProvider)
+            IJudgeServiceProvider judgeServiceProvider
+        )
         {
             _hub = hub;
             _managerRoot = judgeServiceProvider.GetRequiredService<ManagerRoot>();
@@ -90,7 +91,10 @@ public class JudgeRpcHub : Hub<IClientProcedures>, IStartlistHubProcedures, IPar
             Witness.ParticipantChanged += SendParticipantEntryUpdate;
         }
 
-        public void SendStartlistEntryUpdate(object? _, (string Number, CollectionAction Action) args)
+        public void SendStartlistEntryUpdate(
+            object? _,
+            (string Number, CollectionAction Action) args
+        )
         {
             var entry = this._managerRoot.GetStarlistEntry(args.Number);
             if (entry == null)
@@ -100,7 +104,10 @@ public class JudgeRpcHub : Hub<IClientProcedures>, IStartlistHubProcedures, IPar
             _hub.Clients.All.ReceiveEntry(entry, args.Action);
         }
 
-        public void SendParticipantEntryUpdate(object? _, (string Number, CollectionAction Action) args)
+        public void SendParticipantEntryUpdate(
+            object? _,
+            (string Number, CollectionAction Action) args
+        )
         {
             var entry = this._managerRoot.GetParticipantEntry(args.Number);
             if (entry == null)

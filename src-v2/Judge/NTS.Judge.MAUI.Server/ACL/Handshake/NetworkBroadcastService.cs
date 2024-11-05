@@ -6,6 +6,7 @@ namespace EMS.Judge.Api.Services;
 public class NetworkBroadcastService : BackgroundService
 {
     private readonly INetworkBroadcastService networkService;
+
     public NetworkBroadcastService(IJudgeServiceProvider judgeServiceProvider)
     {
         this.networkService = judgeServiceProvider.GetRequiredService<INetworkBroadcastService>();

@@ -2,9 +2,10 @@
 
 public class Tag : DomainEntity, ISummarizable
 {
-    public Tag(string tagId, int number) : base(GenerateId())
+    public Tag(string tagId, int number)
+        : base(GenerateId())
     {
-		TagId = tagId;
+        TagId = tagId;
         Number = number;
     }
 
@@ -18,8 +19,9 @@ public class Tag : DomainEntity, ISummarizable
         var position = "".PadLeft(6, EMPTY_CHAR); // present for legacy compatibility
         return number + position + TagId;
     }
+
     public override string ToString()
-	{
+    {
         return Combine($"{"Tag Id".Localize()}: {TagId}");
     }
 }

@@ -16,25 +16,28 @@ public partial class ParticipationGridControl
         set => this.SetValue(IS_READONLY_PROPERTY, value);
     }
 
-    public static readonly DependencyProperty IS_READONLY_PROPERTY =
-        DependencyProperty.Register(
-            nameof(IsReadonly),
-            typeof(bool),
-            typeof(ParticipationGridControl));
+    public static readonly DependencyProperty IS_READONLY_PROPERTY = DependencyProperty.Register(
+        nameof(IsReadonly),
+        typeof(bool),
+        typeof(ParticipationGridControl)
+    );
 
-    public static readonly DependencyProperty PARTICIPATION_PROPERTY =
-        DependencyProperty.Register(
-            nameof(Participation),
-            typeof(ParticipationGridModel),
-            typeof(ParticipationGridControl),
-            new PropertyMetadata(OnParticipationChanged));
+    public static readonly DependencyProperty PARTICIPATION_PROPERTY = DependencyProperty.Register(
+        nameof(Participation),
+        typeof(ParticipationGridModel),
+        typeof(ParticipationGridControl),
+        new PropertyMetadata(OnParticipationChanged)
+    );
 
-    private static void OnParticipationChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
+    private static void OnParticipationChanged(
+        DependencyObject sender,
+        DependencyPropertyChangedEventArgs args
+    )
     {
         var grid = (ParticipationGridControl)sender;
         if (args.NewValue is not null)
         {
-            var participation = (ParticipationGridModel) args.NewValue;
+            var participation = (ParticipationGridModel)args.NewValue;
             grid.Table.ItemsSource = participation.Performances;
         }
     }

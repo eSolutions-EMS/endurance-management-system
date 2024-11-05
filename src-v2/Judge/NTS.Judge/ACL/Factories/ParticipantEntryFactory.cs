@@ -1,4 +1,4 @@
-﻿using NTS.Compatibility.EMS.Entities.EMS;
+﻿using NTS.Compatibility.EMS.Entities;
 using NTS.Domain.Core.Entities;
 
 namespace NTS.Judge.ACL.Factories;

@@ -1,5 +1,5 @@
-using Core.Domain.State.LapRecords;
 using System;
+using Core.Domain.State.LapRecords;
 
 namespace Core.Domain.AggregateRoots.Common.Performances;
 
