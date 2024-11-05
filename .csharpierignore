@@ -1,0 +1,4 @@
+*.dll
+*.json
+*resex
+*wwwroot/
