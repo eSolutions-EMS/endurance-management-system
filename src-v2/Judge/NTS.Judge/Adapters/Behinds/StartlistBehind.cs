@@ -13,7 +13,7 @@ namespace NTS.Judge.Adapters.Behinds;
 public class StartlistBehind : ObservableBehind, IStartlistBehind
 {
     private const double TimerTickInMilliseconds = 60000;
-    private const int ExpirationTimeOfPreviousStartsInMinutes = 2;
+    private const int ExpirationTimeOfPreviousStartsInMinutes = 15;
     private readonly IRepository<Participation> _participationRepository;
 
     public StartlistBehind(IRepository<Participation> participations)
