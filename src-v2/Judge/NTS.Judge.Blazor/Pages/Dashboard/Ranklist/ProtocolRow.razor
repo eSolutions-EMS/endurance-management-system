@@ -1,62 +1,69 @@
 ﻿@using NTS.Domain.Core.Entities
 @using NTS.Domain.Core.Entities.ParticipationAggregate
 @using NTS.Judge.Blazor.Pages.Dashboard.Components
+
 @inherits NotComponent
 
-@if (Participation.IsComplete())
-{
-    <MudStack Row="true" Class="printable">
+<MudStack Row="true" Class="printable">
 
-        <MudStack>
-            <MudText Typo="Typo.button" Align="Align.Center" Class="mud-button-text">@_combination.Number</MudText>
+    <MudStack>
+        <MudText Typo="Typo.button" Align="Align.Center" Class="mud-button-text">@_rankText</MudText>
 
-            <MudStack Justify="Justify.SpaceEvenly" Style="height:100%; width:140px">
-                <MudText Typo="Typo.body2" Align="Align.Right">@_combination.Name</MudText>
+        <MudStack Justify="Justify.SpaceEvenly" Style="height:100%; width:140px">
+            <MudText Typo="Typo.body2" Align="Align.Right">@_combination.Name</MudText>
 
-                <MudText Typo="Typo.body2" Align="Align.Right">@_combination.Horse</MudText>
+            <MudText Typo="Typo.body2" Align="Align.Right">@_combination.Horse</MudText>
 
-                <MudText Typo="Typo.body2" Align="Align.Right">@_combination.Club</MudText>
+            <MudText Typo="Typo.body2" Align="Align.Right">@_combination.Club</MudText>
 
-                <MudText Typo="Typo.body2" Align="Align.Right">@_combination.Country</MudText>
-            </MudStack>
+            <MudText Typo="Typo.body2" Align="Align.Right">@_combination.Country</MudText>
         </MudStack>
+    </MudStack>
 
-        <ParticipationTable Number="_combination.Number" Phases="Participation.Phases" />
+    <ParticipationTable Number="_combination.Number" Phases="_phases" />
 
+    @if (_total != null)
+    {
         <MudStack>
-            <MudText Typo="Typo.button" Align="Align.Center" Class="mud-button-text">@Localizer.Get("Total")</MudText>
+            <MudText Typo="Typo.button" Align="Align.Center" Class="mud-button-text">
+                @Localizer.Get("Total")
+            </MudText>
 
             <MudStack Justify="Justify.SpaceEvenly" Style="height:100%; width:125px">
                 <MudText Typo="Typo.body2" Align="Align.Center">
                     @Localizer.Get("Finished at:")
-                    <strong>@_total.Finish</strong>
+                    <strong>@_total!.Finish</strong>
                 </MudText>
 
                 <MudText Typo="Typo.body2" Align="Align.Center">
                     @Localizer.Get("Ride time (hrs):")
-                    <strong>@_total.RideInterval</strong>
+                    <strong>@_total!.RideInterval</strong>
                 </MudText>
 
                 <MudText Typo="Typo.body2" Align="Align.Center">
                     @Localizer.Get("Recovery (hrs):")
-                    <strong>@_total.RecoveryIntervalWithoutFinal</strong>
+                    <strong>@_total!.RecoveryIntervalWithoutFinal</strong>
                 </MudText>
             </MudStack>
         </MudStack>
-        
-    </MudStack>
-}
+    }
+
+</MudStack>
 
 @code {
     Combination _combination = default!;
-    Total _total = default!;
+    PhaseCollection _phases = default!;
+    Total? _total;
+    string? _rankText;
 
     [Parameter, EditorRequired]
-    public Participation Participation { get; set; } = default!;
+    public RankingEntry Entry { get; set; } = default!;
 
     protected override void OnParametersSet()
     {
-        _combination = Participation.Combination;
-        _total = Participation.GetTotal()!;
+        _rankText = Entry.Rank?.ToString() ?? Localizer.Get("Incomplete");
+        _combination = Entry.Participation.Combination;
+        _phases = Entry.Participation.Phases;
+        _total = Entry.Participation.GetTotal();
     }
 }

@@ -17,7 +17,8 @@ public class RankingEntry : DomainEntity
         : this(GenerateId(), participation, isNotRanked) { }
 
     public Participation Participation { get; internal set; }
-    public bool IsNotRanked { get; }
+    public int? Rank { get;internal set; }
+    public bool IsNotRanked { get; } 
 
     public override string ToString()
     {
