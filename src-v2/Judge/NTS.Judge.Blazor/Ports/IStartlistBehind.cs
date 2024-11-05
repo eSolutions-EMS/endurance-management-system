@@ -4,10 +4,9 @@ using NTS.Domain.Core.Objects;
 
 namespace NTS.Judge.Blazor.Ports;
 
-public interface IStartlistBehind : ISingletonService
+public interface IStartlistBehind : IObservableBehind, ISingletonService
 {
-    Task Initialize();
     StartList? StartList { get; }
-    IEnumerable<Start> UpcomingStarts { get; }
-    IEnumerable<Start> StartHistory { get; }
+    List<Start> UpcomingStarts { get; }
+    List<Start> StartHistory { get; }
 }
