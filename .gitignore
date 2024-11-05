@@ -370,4 +370,6 @@ src/**/judge-settings.json
 # VS Code
 .vscode
 
-*.dll
+*Vup.dll
+*rfid.dll
+*rfid_core.dll
