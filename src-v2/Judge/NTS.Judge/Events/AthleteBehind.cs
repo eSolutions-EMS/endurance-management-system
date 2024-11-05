@@ -22,6 +22,7 @@ public class AthleteBehind : CrudBehind<Athlete, AthleteFormModel>
             model.Name,
             model.FeiId,
             model.Country,
+            
             model.Club,
             model.Category
         );
