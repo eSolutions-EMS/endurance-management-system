@@ -37,6 +37,12 @@ jobs:
       - name: Install Csharpier if not cached
         run: dotnet tool install -g csharpier || echo "Csharpier already installed"
 
+      - name: Prevent dlls changes workaround
+        run: |
+          git update-index --assume-unchanged src-v2/Judge/NTS.Judge/rfid.dll
+          git update-index --assume-unchanged src-v2/Judge/NTS.Judge/Vup.dll
+          git update-index --assume-unchanged src-v2/Judge/NTS.Judge/rfid_core.dll
+
       - name: Run Csharpier
         run: dotnet csharpier .
 
