@@ -58,7 +58,13 @@ public class Ranklist : IReadOnlyList<RankingEntry>
         var ranker = StaticOptions.ShouldUseRegionalRanker(ranking.Ruleset)
             ? GetRanker(StaticOptions.RegionalConfiguration)
             : _feiRanker;
-        return ranker.Rank(ranking);
+        var ranked = ranker.Rank(ranking);
+        var rank = 0;
+        foreach (var entry in ranked)
+        {
+            entry.Rank = ++rank;
+        }
+        return ranked;
     }
 
     static Ranker GetRanker(IRegionalConfiguration? configuration)

@@ -7,8 +7,8 @@
 
 @inherits NotComponent
 
-<MudGrid Spacing="5" Style="margin-top:0;"> @* TODO: extract NotGrid? style's necessary because Spacing does -40% margin style for some reason, which breaks the vertical layout. *@
-    <MudItem xs="12">
+<MudGrid Style="margin-top:0;"> @* TODO: extract NotGrid? style's necessary because Spacing does -40% margin style for some reason, which breaks the vertical layout. *@
+    <MudItem xs="12" Class="mb-4">
         <NotAutocomplete T="Participation" @bind-value="_behind.SelectedParticipation" Search="Search" Class="mb-2 dashboard-autocomplete" />
     </MudItem>
     <MudItem xs="3">

@@ -46,14 +46,11 @@
 
 @if (_behind.Ranklist != null)
 {
-    var count = 0;
     @foreach (var entry in _behind.Ranklist)
     {
-        <RanklistRow Entry="entry" Index="count" />
-        if (count++ != _behind.Ranklist.Count - 1)
-        {
-            <MudDivider Class="printable" />
-        }
+        <RanklistRow Entry="entry"/>
+
+        <MudDivider Class="printable" />
     }
 }
 

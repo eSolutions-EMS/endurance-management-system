@@ -20,8 +20,10 @@ public record Total : DomainObject
             ?? RecoveryInterval;
         Interval = (RideInterval + RecoveryIntervalWithoutFinal)!;
         AverageSpeed = new Speed(totalLength, Interval);
+        Finish = phases.Last().ArriveTime;
     }
 
+    public Timestamp? Finish { get; }
     public Speed AverageSpeed { get; }
     public TimeInterval Interval { get; }
     public TimeInterval RideInterval { get; }
