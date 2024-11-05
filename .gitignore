@@ -369,3 +369,5 @@ src/**/judge-settings.json
 
 # VS Code
 .vscode
+
+.github/workflows/*
