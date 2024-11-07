@@ -1,41 +1,8 @@
-﻿using NTS.Domain.Core.Entities.ParticipationAggregate;
-using NTS.Domain;
-using NTS.Domain.Core.Entities;
-using Not.Localization;
+﻿using Not.Localization;
 
 namespace NTS.Domain.Core.Objects;
 
-public class StartList
-{
-    public StartList(IEnumerable<Participation> participations)
-    {
-        foreach (var participation in participations)
-        {
-            if (!participation.IsEliminated())
-            {
-                var phases = participation.Phases;
-                var now = new Timestamp(DateTime.Now);
-                foreach (var phase in phases.Where(p=>p.StartTime!=null))
-                {
-                    var index = phases.IndexOf(phase);
-                    if (now - phase.StartTime > TimeSpan.FromMinutes(15))
-                    {
-                        var previousStart = new Start(participation.Combination.Name, participation.Combination.Number, index + 1, phases[index].Length, participation.Phases.Distance, phase.StartTime!);
-                        PreviousStarts.Add(previousStart);
-                    }
-                    else
-                    {
-                        var upcomingStart = new Start(participation.Combination.Name, participation.Combination.Number, index + 1, phases[index].Length, participation.Phases.Distance, phase.StartTime!);
-                        UpcomingStarts.Add(upcomingStart);
-                    }
-                }
-            }
-        }
-    }
-    public List<Start> UpcomingStarts { get; set; } = new List<Start>();
-    public List<Start> PreviousStarts { get; set; } = new List<Start>();
-}
-public class Start
+public record Start : DomainObject
 {
     public Start(Person athlete, int number, int loopNumber, double distance, double totalDistance, Timestamp startAt)
     {
@@ -69,7 +36,7 @@ public class Start
 
     public override string ToString()
     {
-        var result = $"{Number}, {Athlete}, {"#".Localize()}{PhaseNumber}: {Distance}km, {StartAt}";
+        var result = Combine($"{Number}, {Athlete}, {"#".Localize()}{PhaseNumber}: {Distance}km, {StartAt}");
         return result;
     }
 }
