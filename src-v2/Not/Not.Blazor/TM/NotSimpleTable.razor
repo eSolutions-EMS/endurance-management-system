@@ -1,0 +1,52 @@
+﻿@typeparam T
+
+<MudSimpleTable Dense="@Dense" Hover="@Hover" Bordered="@Bordered" Striped="@Striped" Style="overflow-x: auto;">
+    <thead>
+        <tr>
+            @foreach (var heading in Headings)
+            {
+                <th>@heading</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @if(Items.Count() == 0)
+        {
+            <MudText Typo="Typo.body1">@EmptyMessage</MudText>
+        }
+        @foreach (var item in Items)
+        {
+            <tr>
+                @foreach (var cellValue in item.ToString().Split("|"))
+                {
+                    <td>@cellValue</td>
+                }
+                @if (CustomCellComponent != default)
+                {
+                    <td>
+                        @CustomCellComponent.Invoke(item)
+                    </td>
+                }                   
+            </tr>
+        }
+    </tbody>
+</MudSimpleTable>
+
+@code {
+    [Parameter, EditorRequired]
+    public IEnumerable<T> Items { get; set; } = new List<T>();
+    [Parameter, EditorRequired]
+    public string[] Headings { get; set; } = default!;
+    [Parameter]
+    public string EmptyMessage { get; set; } = "This table is still empty";
+    [Parameter]
+    public bool Dense { get; set; } = false;
+    [Parameter]
+    public bool Hover { get; set; } = false;
+    [Parameter]
+    public bool Bordered { get; set; } = false;
+    [Parameter]
+    public bool Striped { get; set; } = false;
+    [Parameter]
+    public RenderFragment<T> CustomCellComponent { get; set; } = default!;
+}
