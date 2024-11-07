@@ -20,32 +20,31 @@ public class StartlistBehind : ObservableBehind, IStartlistBehind
     {
         _participationRepository = participations;
     }
-    public StartList? StartList { get; private set; }
-    public List<Start> UpcomingStarts { get; private set; } = new List<Start>();
-    public List<Start> StartHistory { get; private set; } = new List<Start>();
+    public List<Start> Upcoming { get; private set; } = new List<Start>();
+    public List<Start> History { get; private set; } = new List<Start>();
     public TimerUtility _timer { get; set; }
 
     protected override async Task<bool> PerformInitialization(params IEnumerable<object> arguments)
     {
         var participations = await _participationRepository.ReadAll();
+        //figure out how to populate Startlist with new Starts when StartTime of each Phase is assigned
         var startlist = new StartList(participations);
         GuardHelper.ThrowIfDefault(startlist);
-        UpcomingStarts = startlist.UpcomingStarts;
-        StartHistory = startlist.PreviousStarts;
-        StartList = startlist;
+        Upcoming = startlist.Upcoming;
+        History = startlist.History;
         _timer = new TimerUtility(TimerTickInMilliseconds, upcomingStartExpire, () => true);
-        return UpcomingStarts.Any() && StartHistory.Any();
+        return Upcoming.Any() && History.Any();
     }
 
     private void upcomingStartExpire(object? sender, ElapsedEventArgs e)
     {
-        foreach (var start in UpcomingStarts.ToList())
+        foreach (var start in Upcoming.ToList())
         {
             var now = new Timestamp(DateTime.Now);
             if (now - start.StartAt > TimeSpan.FromMinutes(ExpirationTimeOfPreviousStartsInMinutes))
             {
-                UpcomingStarts.Remove(start);
-                StartHistory.Add(start);
+                Upcoming.Remove(start);
+                History.Add(start);
                 EmitChange();
             }
         }

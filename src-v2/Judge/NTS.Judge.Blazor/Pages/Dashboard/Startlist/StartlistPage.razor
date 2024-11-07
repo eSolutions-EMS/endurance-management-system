@@ -25,7 +25,7 @@
     protected override async Task OnInitializedAsync()
     {
         await Observe(_behind);
-        UpcomingStartsList = _behind.UpcomingStarts;
-        StartHistoryList = _behind.StartHistory;
+        UpcomingStartsList = _behind.Upcoming;
+        StartHistoryList = _behind.History;
     }
 }

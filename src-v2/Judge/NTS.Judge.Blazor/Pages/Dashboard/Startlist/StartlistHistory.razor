@@ -18,7 +18,7 @@ else
     <MudTabs @ref="@Tabs" PanelClass="px-4 py-6" Elevation="4" Rounded ApplyEffectsToContainer>
         @foreach (var tab in UserTabs)
         {
-            <MudTabPanel ID="@tab.Id" Text="@tab.Label">
+            <MudTabPanel ID="@tab.Id" Text="@tab.Header">
                 <ChildContent>
                     <MudDataGrid @ref="dataGrid" MultiSelection="true" Items="@Items.Where(g=>g.TotalDistance == tab.Key)" Dense="true"
                                  Hideable="true" Groupable="true" GroupExpanded="true">
@@ -62,10 +62,10 @@ else
         foreach (var start in Items)
         {
             TabModel tab = new TabModel();
-            tab.Label = $"{start.TotalDistance} {@Localizer.Get("KM")}";
+            tab.Header = $"{start.TotalDistance} {@Localizer.Get("KM")}";
             tab.Key = start.TotalDistance;
             tab.Id = Guid.NewGuid();
-            if (!UserTabs.Any(t => t.Label == tab.Label))
+            if (!UserTabs.Any(t => t.Header == tab.Header))
             {
                 UserTabs.Add(tab);
             }
