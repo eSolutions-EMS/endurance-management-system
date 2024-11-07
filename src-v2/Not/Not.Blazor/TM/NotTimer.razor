@@ -1,4 +1,5 @@
 ﻿@using System.Timers
+@inherits NotComponent
 @implements IDisposable
 
 <div style="@($"color:{@_color};")">
@@ -11,23 +12,29 @@
     [Parameter]
     public double StopTimerAtTime { get; set; } = default!;
 
+    const int TimerRefreshInMilliseconds = 1000;
+
     private Timer _timer = default!;
     private MudTheme _theme = new MudTheme();
     private TimeSpan _time = default!;
     private string _displayTime = default!;
     private string _color = default!;
 
+    protected override void OnInitialized()
+    {
+        _timer = new Timer(TimerRefreshInMilliseconds);
+    }
+
     protected override void OnParametersSet()
     {
         _time = TimeSpan.Parse(StartTime);
         FormatTime();
-        _timer = new Timer(1000);
         _timer.Elapsed += OnTimerElapsed;
         _timer.AutoReset = (_time > TimeSpan.FromMinutes(StopTimerAtTime));
         _timer.Enabled = _time > TimeSpan.FromMinutes(StopTimerAtTime);
     }
 
-    private void OnTimerElapsed(object? sender, System.Timers.ElapsedEventArgs e)
+    private async void OnTimerElapsed(object? sender, System.Timers.ElapsedEventArgs e)
     {
         _time = _time.Subtract(TimeSpan.FromSeconds(1));
         FormatTime();
@@ -36,7 +43,7 @@
             _timer.Enabled = false;
         }
         _displayTime = _time.ToString().Replace("-", " - ");
-        InvokeAsync(StateHasChanged);
+        await Render();
     }
 
     public void FormatTime()
