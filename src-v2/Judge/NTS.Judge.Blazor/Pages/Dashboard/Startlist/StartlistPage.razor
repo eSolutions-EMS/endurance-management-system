@@ -9,23 +9,23 @@
 
 <NotPage Elevation="0" Title="Startlist">
     <Main>
-        <UpcomingStarts Items="UpcomingStartsList"></UpcomingStarts>
+        <Upcoming Starts="UpcomingList"/>
     </Main>
     <Main2>
-        <StartlistHistory Items="StartHistoryList"></StartlistHistory>
+        <History Starts="HistoryList"/>
     </Main2>
 </NotPage>
 
 @code{
     [Inject]
     private IStartlistBehind _behind { get; set; } = default!;
-    private IEnumerable<Start> UpcomingStartsList { get; set; } = new List<Start>();
-    private IEnumerable<Start> StartHistoryList { get; set; } = new List<Start>();
+    private IEnumerable<Start> UpcomingList { get; set; } = new List<Start>();
+    private IEnumerable<Start> HistoryList { get; set; } = new List<Start>();
 
     protected override async Task OnInitializedAsync()
     {
         await Observe(_behind);
-        UpcomingStartsList = _behind.Upcoming;
-        StartHistoryList = _behind.History;
+        UpcomingList = _behind.Upcoming;
+        HistoryList = _behind.History;
     }
 }
