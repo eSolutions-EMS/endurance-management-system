@@ -1,0 +1,49 @@
+﻿@using NTS.Domain.Core.Objects
+@using NTS.Domain.Objects
+@using NTS.Domain.Setup.Entities
+@using NTS.Judge.Blazor.Ports
+@using System.Collections
+@using Not.Blazor.TM
+@using Not.Blazor.TM.Models
+@using Not.Extensions
+
+@inherits NotComponent
+
+<NotTrueCenterText Typo="Typo.h5" Content="History" Class="mb-4" />
+
+<MudTabs @ref="@Tabs" PanelClass="px-4 py-6" Elevation="4" Rounded ApplyEffectsToContainer>
+    @foreach (var tab in UserTabs)
+    {
+        <MudTabPanel ID="@tab.Id" Text="@tab.Header">
+            <ChildContent>
+                <NotSimpleTable T="Start" Headings="_tableHeadings"
+                                Items="Starts.Where(s=>tab.Header.Contains(s.TotalDistance.ToString())).OrderBy(s=>s.PhaseNumber)" />
+            </ChildContent>
+        </MudTabPanel>
+    }
+</MudTabs>
+
+@code{
+    [Parameter]
+    public IEnumerable<Start> Starts { get; set; } = new List<Start>();
+
+    string[] _tableHeadings = { "Number", "Athlete", "Loop", "Start Time" };
+    MudTabs Tabs = default!;
+    List<TabModel> UserTabs = new();
+    int UserIndex;
+
+    protected override void OnParametersSet()
+    {
+        foreach (var start in Starts)
+        {
+            TabModel tab = new TabModel();
+            tab.Header = $"{start.TotalDistance} {@Localizer.Get("KM")}";
+            tab.Key = start.TotalDistance;
+            tab.Id = Guid.NewGuid();
+            if (!UserTabs.Any(t => t.Header == tab.Header))
+            {
+                UserTabs.Add(tab);
+            }
+        }
+    }
+}
