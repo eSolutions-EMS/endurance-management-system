@@ -4,6 +4,7 @@
 @using NTS.Judge.Blazor.Ports
 @using System.Collections
 @using Not.Blazor.TM
+@using Not.Blazor.TM.Models
 @using Not.Extensions
 
 @inherits NotComponent
@@ -53,14 +54,14 @@ else
 
     MudDataGrid<Start> dataGrid = default!;
     MudTabs Tabs = default!;
-    List<TabView> UserTabs = new();
+    List<TabModel> UserTabs = new();
     int UserIndex;
 
     protected override void OnParametersSet()
     {
         foreach (var start in Items)
         {
-            TabView tab = new TabView();
+            TabModel tab = new TabModel();
             tab.Label = $"{start.TotalDistance} {@Localizer.Get("KM")}";
             tab.Key = start.TotalDistance;
             tab.Id = Guid.NewGuid();
