@@ -36,7 +36,7 @@ public record Start : DomainObject
 
     public override string ToString()
     {
-        var result = Combine($"{Number}, {Athlete}, {"#".Localize()}{PhaseNumber}: {Distance}km, {StartAt}");
+        var result = Combine(Number, Athlete, "#".Localize()+PhaseNumber+":"+Distance+"km".Localize(), StartAt);
         return result;
     }
 }
