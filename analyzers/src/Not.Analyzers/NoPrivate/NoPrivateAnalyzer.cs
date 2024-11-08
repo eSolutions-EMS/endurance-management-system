@@ -1,13 +1,13 @@
-using System.Collections.Immutable;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
+using Not.Analyzers.Base;
 
 namespace Not.Analyzers.NoPrivate
 {
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
-    public class NoPrivateAnalyzer : DiagnosticAnalyzer
+    public class NoPrivateAnalyzer : AnalyzerBase
     {
         public const string DiagnosticId = "NA0001";
         private static readonly LocalizableString Title = "Avoid using 'private' keyword";
@@ -19,16 +19,22 @@ namespace Not.Analyzers.NoPrivate
             DiagnosticId, Title, MessageFormat, Category,
             DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description);
 
-        private static readonly DiagnosticDescriptor ErrorRule = new DiagnosticDescriptor(
-            "NA0002",
-            "Internal analyzer error",
-            "An error occurred in NoPrivateAnalyzer: {0}",
-            "Debug",
-            DiagnosticSeverity.Warning,
-            isEnabledByDefault: true);
+        protected override IEnumerable<DiagnosticDescriptor> CustomRules => [Rule];
 
-        public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => 
-            ImmutableArray.Create(Rule, ErrorRule);
+        protected override void SafeAnalyzeSyntaxNode(SyntaxNodeAnalysisContext context)
+        {
+            if (context.Node is not MemberDeclarationSyntax declaration) 
+            {
+                return;
+            }
+
+            var privateModifier = declaration.Modifiers.FirstOrDefault(m => m.IsKind(SyntaxKind.PrivateKeyword));
+            if (privateModifier != default)
+            {
+                var diagnostic = Diagnostic.Create(Rule, privateModifier.GetLocation());
+                context.ReportDiagnostic(diagnostic);
+            }
+        }
 
         public override void Initialize(AnalysisContext context)
         {
@@ -40,33 +46,6 @@ namespace Not.Analyzers.NoPrivate
                 SyntaxKind.PropertyDeclaration,
                 SyntaxKind.ConstructorDeclaration,
                 SyntaxKind.ClassDeclaration);
-        }
-
-        private static void AnalyzeSyntaxNode(SyntaxNodeAnalysisContext context)
-        {
-            try
-            {
-                var declaration = context.Node as MemberDeclarationSyntax;
-                if (declaration == null) return;
-
-                var privateModifier = declaration.Modifiers
-                    .FirstOrDefault(m => m.IsKind(SyntaxKind.PrivateKeyword));
-                
-                if (privateModifier != default)
-                {
-                    var diagnostic = Diagnostic.Create(Rule, privateModifier.GetLocation());
-                    context.ReportDiagnostic(diagnostic);
-                }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"NoPrivateAnalyzer error: {ex}");
-                
-                var diagnostic = Diagnostic.Create(ErrorRule, 
-                    context.Node?.GetLocation(), 
-                    ex.ToString());
-                context.ReportDiagnostic(diagnostic);
-            }
         }
     }
 }
