@@ -17,11 +17,17 @@ namespace NoPrivate.Tests
             @"private int MyProperty { get; set; }",
             @"int MyProperty { get; set; }")]
         [InlineData(
+            @"private class MyPrivateClass { }",
+            @"class MyPrivateClass { }")]
+        [InlineData(
             @"private bool _field;",
             @"bool _field;")]
         [InlineData(
-            @"private class MyPrivateClass { }",
-            @"class MyPrivateClass { }")]
+            @"private readonly static bool _readonlyStaticField;",
+            @"readonly static bool _readonlyStaticField;")]
+        [InlineData(
+            @"private const bool _readonlyStaticField = true;",
+            @"const bool _readonlyStaticField = true;")]
         public async Task TestPrivateClass(string test, string expected)
         {
             var testClass = $@"class MyClass {{ {test} }}";
