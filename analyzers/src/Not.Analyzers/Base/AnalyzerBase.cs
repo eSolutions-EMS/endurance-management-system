@@ -6,11 +6,33 @@ namespace Not.Analyzers.Base;
 
 public abstract class AnalyzerBase : DiagnosticAnalyzer
 {
-    protected abstract IEnumerable<DiagnosticDescriptor> CustomRules { get; }
+    private readonly DiagnosticDescriptor _rule;
+    
+    public string DiagnosticId { get; }
+    
+    protected AnalyzerBase(
+        string diagnosticId,
+        string title,
+        string messageFormat,
+        string category = "Style",
+        DiagnosticSeverity severity = DiagnosticSeverity.Warning,
+        string? description = null)
+    {
+        DiagnosticId = diagnosticId;
+        _rule = new DiagnosticDescriptor(
+            diagnosticId,
+            title,
+            messageFormat,
+            category,
+            severity,
+            isEnabledByDefault: true,
+            description: description);
+    }
+
     protected abstract void SafeAnalyzeSyntaxNode(SyntaxNodeAnalysisContext context);
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics =>
-        ImmutableArray.Create([ErrorRule, ..CustomRules]);
+        ImmutableArray.Create([ErrorRule, _rule]);
 
     protected void AnalyzeSyntaxNode(SyntaxNodeAnalysisContext context)
     {
@@ -20,7 +42,7 @@ public abstract class AnalyzerBase : DiagnosticAnalyzer
         }
         catch (Exception ex)
         {
-            System.Diagnostics.Debug.WriteLine($"NoPrivateAnalyzer error: {ex}");
+            System.Diagnostics.Debug.WriteLine($"Analyzer error: {ex}");
             
             var diagnostic = Diagnostic.Create(ErrorRule, 
                 context.Node?.GetLocation(), 
@@ -29,10 +51,13 @@ public abstract class AnalyzerBase : DiagnosticAnalyzer
         }
     }
 
-    protected readonly DiagnosticDescriptor ErrorRule = new(
-        "NA0002",
+    protected Diagnostic CreateDiagnostic(Location location, params object[] messageArgs)
+        => Diagnostic.Create(_rule, location, messageArgs);
+
+    private static readonly DiagnosticDescriptor ErrorRule = new(
+        "NA0000",
         "Internal analyzer error",
-        "An error occurred in NoPrivateAnalyzer: {0}",
+        "An error occurred in analyzer: {0}",
         "Debug",
         DiagnosticSeverity.Warning,
         isEnabledByDefault: true);
