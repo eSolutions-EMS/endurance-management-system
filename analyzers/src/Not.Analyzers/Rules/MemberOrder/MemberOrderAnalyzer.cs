@@ -3,7 +3,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Not.Analyzers.Base;
-using Not.Analyzers.Helpers;
+using Not.Analyzers.Members;
 
 namespace Not.Analyzers.Rules.MemberOrder;
 
@@ -13,8 +13,8 @@ public class MemberOrderAnalyzer : AnalyzerBase
     public MemberOrderAnalyzer() : base(
         diagnosticId: "NA0003",
         title: "Member ordering rule violation",
-        messageFormat: "{0} should come before {1}",
-        description: "Members should be ordered according to the specified convention.")
+        messageFormat: "Member {0} should follow {1}",
+        description: "Members should be ordered accordingly.")
     {
     }
 
@@ -27,7 +27,7 @@ public class MemberOrderAnalyzer : AnalyzerBase
 
     protected override void SafeAnalyzeSyntaxNode(SyntaxNodeAnalysisContext context)
     {
-        if (context.Node is not ClassDeclarationSyntax classDeclaration)
+        if (context.Node is not TypeDeclarationSyntax classDeclaration)
         {
             return;
         }
@@ -42,12 +42,10 @@ public class MemberOrderAnalyzer : AnalyzerBase
             var currentKind = MemberKindHelper.GetMemberKind(currentMember);
             var nextKind = MemberKindHelper.GetMemberKind(nextMember);
 
-            if (!MemberOrderHelper.ShouldComeBefore(currentKind, nextKind))
+            if (MemberOrderHelper.ComepareOrder(currentKind, nextKind) > 0)
             {
-                context.ReportDiagnostic(CreateDiagnostic(
-                    nextMember.GetLocation(),
-                    currentKind.ToString(),
-                    nextKind.ToString()));
+                var diagnostic = CreateDiagnostic(classDeclaration.GetLocation(), currentKind, nextKind);
+                context.ReportDiagnostic(diagnostic);
             }
         }
     }

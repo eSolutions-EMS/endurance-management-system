@@ -3,11 +3,11 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Not.Analyzers.Objects;
 
-namespace Not.Analyzers.Helpers;
+namespace Not.Analyzers.Members;
 
 public class MemberKindHelper
 {
-public static MemberKind GetMemberKind(MemberDeclarationSyntax member)
+    public static MemberKind GetMemberKind(MemberDeclarationSyntax member)
     {
         return member switch
         {
@@ -36,7 +36,10 @@ public static MemberKind GetMemberKind(MemberDeclarationSyntax member)
             (_, true, true, _, true) => MemberKind.PublicStaticReadonly,
             (_, _, true, true, _) => MemberKind.PrivateReadonly,
             (_, _, false, true, _) => MemberKind.PrivateField,
-            _ => throw new ArgumentException("Unexpected field configuration")
+            (_, _, false, _, true) => MemberKind.PublicField,
+            _ => throw new ArgumentException(
+                $"Unexpected field configuration: name: {field.TryGetInferredMemberName()}, isConst: {isConst}" +
+                $", isStatic: {isStatic}, isReadonly: {isReadonly}, isPrivate: {isPrivate}, isPublic: {isPublic}")
         };
     }
 
@@ -70,6 +73,8 @@ public static MemberKind GetMemberKind(MemberDeclarationSyntax member)
         if (isAbstract)
             return MemberKind.AbstractMethod;
 
+        if (method.Modifiers.Any(SyntaxKind.PublicKeyword) && method.Modifiers.Any(SyntaxKind.StaticKeyword))
+            return MemberKind.PublicStaticMethod;
         if (method.Modifiers.Any(SyntaxKind.PublicKeyword))
             return MemberKind.PublicMethod;
         if (method.Modifiers.Any(SyntaxKind.ProtectedKeyword))

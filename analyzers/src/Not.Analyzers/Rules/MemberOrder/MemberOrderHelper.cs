@@ -19,9 +19,12 @@ public static class MemberOrderHelper
         ordering[MemberKind.PublicConst] = order++;
         ordering[MemberKind.PublicStaticReadonly] = order++;
 
+        ordering[MemberKind.PublicStaticMethod] = order++;
+
         // Instance Fields
         ordering[MemberKind.PrivateReadonly] = order++;
         ordering[MemberKind.PrivateField] = order++;
+        ordering[MemberKind.PublicField] = order++;
 
         // Constructors
         ordering[MemberKind.PrivateCtor] = order++;
@@ -49,6 +52,16 @@ public static class MemberOrderHelper
         _orderByMemberKind = ordering.ToImmutableDictionary();
     }
 
-    public static bool ShouldComeBefore(MemberKind first, MemberKind second)
-        => _orderByMemberKind[first] < _orderByMemberKind[second];
+    public static int ComepareOrder(MemberKind first, MemberKind second)
+    {
+        if (!_orderByMemberKind.TryGetValue(first, out var firstOrder))
+        {
+            throw new Exception($"Unknown member kind: {first}");
+        }
+        if (!_orderByMemberKind.TryGetValue(second, out var secondOrder))
+        {
+            throw new Exception($"Unknown member kind: {second}");
+        }
+        return Comparer<int>.Default.Compare(firstOrder, secondOrder);
+    }
 } 
