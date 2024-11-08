@@ -309,13 +309,6 @@ public class MemberOrderTests
             .OfType<MemberDeclarationSyntax>()
             .First();
 
-        var location = firstMember.GetLocation();
-        var diagnostic = analyzer.CreateDiagnostic(location, currentMember, nextMember);
-       
-        var result = new DiagnosticResult(diagnostic.Id, diagnostic.Severity)
-            .WithMessage(diagnostic.GetMessage())
-            .WithSpan(diagnostic.Location.GetLineSpan());
-
         var context = new CSharpCodeFixTest<MemberOrderAnalyzer, MemberOrderCodeFixProvider, DefaultVerifier>
         {
             ReferenceAssemblies = ReferenceAssemblies.Net.Net80,

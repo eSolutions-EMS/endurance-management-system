@@ -6,16 +6,18 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Editing;
 using Not.Analyzers.Base;
 using Not.Analyzers.Members;
+using Not.Analyzers.Rules.NoPrivate;
 
 namespace Not.Analyzers.Rules.MemberSpacing;
 
 [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(MemberSpacingCodeFixProvider)), Shared]
 public class MemberSpacingCodeFixProvider : CodeFixProviderBase
 {
-    protected override AnalyzerBase Analyzer => new MemberSpacingAnalyzer();
-    protected override string CodeFixTitle => "Fix member spacing";
+    public MemberSpacingCodeFixProvider() : base("Fix member spacing", new MemberSpacingAnalyzer())
+    {
+    }
 
-    protected override async Task<Document> ApplyFixAsync(
+    protected override async Task<Document> SafeCodeFixAction(
         Document document,
         MemberDeclarationSyntax declaration,
         CancellationToken cancellationToken)

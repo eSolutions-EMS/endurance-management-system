@@ -6,23 +6,22 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Editing;
 using Not.Analyzers.Base;
 using Not.Analyzers.Members;
+using Not.Analyzers.Rules.NoPrivate;
 
 namespace Not.Analyzers.Rules.MemberOrder;
 
 [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(MemberOrderCodeFixProvider)), Shared]
 public class MemberOrderCodeFixProvider : CodeFixProviderBase
 {
-    protected override AnalyzerBase Analyzer => new MemberOrderAnalyzer();
-    protected override string CodeFixTitle => "Fix member ordering";
+    public MemberOrderCodeFixProvider() : base("Fix member ordering", new MemberOrderAnalyzer())
+    {
+    }
 
-    protected override async Task<Document> ApplyFixAsync(
+    protected override async Task<Document> SafeCodeFixAction(
         Document document,
         MemberDeclarationSyntax declaration,
         CancellationToken cancellationToken)
     {
-        
-        
-        
         if (declaration is not TypeDeclarationSyntax typeDeclaration)
         {
             return document;

@@ -1,47 +1,21 @@
-using System.Collections.Immutable;
 using System.Composition;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Editing;
+using Not.Analyzers.Base;
 
 namespace Not.Analyzers.Rules.NoPrivate;
 
 [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(NoPrivateCodeFixProvider)), Shared]
-public class NoPrivateCodeFixProvider : CodeFixProvider
+public class NoPrivateCodeFixProvider : CodeFixProviderBase
 {
-    public sealed override ImmutableArray<string> FixableDiagnosticIds => [new NoPrivateAnalyzer().DiagnosticId];
-
-    public sealed override FixAllProvider GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;
-
-    public sealed override async Task RegisterCodeFixesAsync(CodeFixContext context)
+    public NoPrivateCodeFixProvider() : base("Remove 'private' keyword", new NoPrivateAnalyzer())
     {
-        var root = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
-        var diagnostic = context.Diagnostics[0];
-        var diagnosticSpan = diagnostic.Location.SourceSpan;
-
-        var declaration = root
-            ?.FindToken(diagnosticSpan.Start)
-            .Parent
-            ?.AncestorsAndSelf()
-            .OfType<MemberDeclarationSyntax>()
-            .First();
-        if (declaration == null)
-        {
-            return;
-        }
-
-        context.RegisterCodeFix(
-            CodeAction.Create(
-                title: "Remove 'private' keyword",
-                createChangedDocument: c => RemovePrivateKeywordAsync(context.Document, declaration, c),
-                equivalenceKey: nameof(NoPrivateCodeFixProvider)),
-            diagnostic);
     }
 
-    private async Task<Document> RemovePrivateKeywordAsync(
+    protected override async Task<Document> SafeCodeFixAction(
         Document document,
         MemberDeclarationSyntax declaration,
         CancellationToken cancellationToken)

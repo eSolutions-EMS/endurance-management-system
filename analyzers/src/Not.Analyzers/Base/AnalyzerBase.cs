@@ -6,6 +6,7 @@ namespace Not.Analyzers.Base;
 
 public abstract class AnalyzerBase : DiagnosticAnalyzer
 {
+    private readonly DiagnosticDescriptor _errorRule;
     private readonly DiagnosticDescriptor _rule;
     
     public string DiagnosticId { get; }
@@ -19,6 +20,13 @@ public abstract class AnalyzerBase : DiagnosticAnalyzer
         string? description = null)
     {
         DiagnosticId = diagnosticId;
+        _errorRule = new(
+            "NA0000",
+            "Internal analyzer error",
+            "An error occurred in analyzer: {0}",
+            "Debug",
+            DiagnosticSeverity.Warning,
+            isEnabledByDefault: true);
         _rule = new DiagnosticDescriptor(
             diagnosticId,
             title,
@@ -32,7 +40,7 @@ public abstract class AnalyzerBase : DiagnosticAnalyzer
     protected abstract void SafeAnalyzeSyntaxNode(SyntaxNodeAnalysisContext context);
 
     public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics =>
-        ImmutableArray.Create([ErrorRule, _rule]);
+        ImmutableArray.Create([_errorRule, _rule]);
 
     protected void AnalyzeSyntaxNode(SyntaxNodeAnalysisContext context)
     {
@@ -44,7 +52,7 @@ public abstract class AnalyzerBase : DiagnosticAnalyzer
         {
             System.Diagnostics.Debug.WriteLine($"Analyzer error: {ex}");
             
-            var diagnostic = Diagnostic.Create(ErrorRule, 
+            var diagnostic = Diagnostic.Create(_errorRule, 
                 context.Node?.GetLocation(), 
                 ex.ToString());
             context.ReportDiagnostic(diagnostic);
@@ -53,12 +61,4 @@ public abstract class AnalyzerBase : DiagnosticAnalyzer
 
     protected Diagnostic CreateDiagnostic(Location location, params object[] messageArgs)
         => Diagnostic.Create(_rule, location, messageArgs);
-
-    private static readonly DiagnosticDescriptor ErrorRule = new(
-        "NA0000",
-        "Internal analyzer error",
-        "An error occurred in analyzer: {0}",
-        "Debug",
-        DiagnosticSeverity.Warning,
-        isEnabledByDefault: true);
 }

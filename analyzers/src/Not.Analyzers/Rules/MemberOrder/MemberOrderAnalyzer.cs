@@ -42,7 +42,7 @@ public class MemberOrderAnalyzer : AnalyzerBase
             var currentKind = MemberKindHelper.GetMemberKind(currentMember);
             var nextKind = MemberKindHelper.GetMemberKind(nextMember);
 
-            if (MemberOrderHelper.ComepareOrder(currentKind, nextKind) > 0)
+            if (MemberOrderHelper.CompareOrder(currentKind, nextKind) > 0)
             {
                 var diagnostic = CreateDiagnostic(classDeclaration.GetLocation(), currentKind, nextKind);
                 context.ReportDiagnostic(diagnostic);
