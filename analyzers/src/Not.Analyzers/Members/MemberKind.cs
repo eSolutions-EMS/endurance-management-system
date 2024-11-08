@@ -25,11 +25,12 @@ public enum MemberKind
     InternalProperty = 15,
     PublicProperty = 16,
     
-    ProtectedMethod = 16,
-    InternalMethod = 17,
-    PublicMethod = 18,
-    PrivateMethod = 19,
+    ProtectedMethod = 17,
+    InternalMethod = 18,
+    PublicMethod = 19,
+    PrivateMethod = 20,
     
-    InternalClass = 20,
-    PrivateClass = 21,
+    ProtectedClass = 21,
+    InternalClass = 22,
+    PrivateClass = 23,
 } 

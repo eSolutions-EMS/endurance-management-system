@@ -22,6 +22,7 @@ public class MemberSpacingCodeFixProvider : CodeFixProviderBase
         MemberDeclarationSyntax declaration,
         CancellationToken cancellationToken)
     {
+        
         if (declaration is not TypeDeclarationSyntax typeDeclaration)
         {
             return document;
@@ -37,12 +38,14 @@ public class MemberSpacingCodeFixProvider : CodeFixProviderBase
             
             var currentKind = MemberKindHelper.GetMemberKind(currentMember);
             var nextKind = MemberKindHelper.GetMemberKind(nextMember);
-
-            if (MemberSpacingHelper.RequiresBlankLineBetween(currentKind, nextKind))
+            
+            var triviaInBetween = nextMember.GetLeadingTrivia();
+            if (MemberSpacingHelper.RequiresBlankLineBetween(currentKind, nextKind)
+                && !MemberSpacingHelper.HasLeadingBlankLine(nextMember))
             {
+                var triviaList = new SyntaxTriviaList(SyntaxFactory.EndOfLine("\n")).Concat(nextMember.GetLeadingTrivia());
                 members[i] = nextMember
-                    .WithLeadingTrivia(SyntaxFactory.EndOfLine("\n"))
-                    .WithLeadingTrivia(nextMember.GetLeadingTrivia());
+                    .WithLeadingTrivia(triviaList);
             }
         }
 

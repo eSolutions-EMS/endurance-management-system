@@ -25,14 +25,15 @@ public class MemberSpacingAnalyzer : AnalyzerBase
         context.RegisterSyntaxNodeAction(AnalyzeSyntaxNode, SyntaxKind.ClassDeclaration);
     }
 
+    // class definitions aren't currently being flagged if not separated, idk why.
     protected override void SafeAnalyzeSyntaxNode(SyntaxNodeAnalysisContext context)
     {
-        if (context.Node is not ClassDeclarationSyntax classDeclaration)
+        if (context.Node is not TypeDeclarationSyntax typeDeclaration)
         {
             return;
         }
 
-        var members = classDeclaration.Members;
+        var members = typeDeclaration.Members;
 
         for (int i = 0; i < members.Count - 1; i++)
         {
@@ -44,29 +45,15 @@ public class MemberSpacingAnalyzer : AnalyzerBase
 
             if (MemberSpacingHelper.RequiresBlankLineBetween(currentKind, nextKind))
             {
-                var triviaInBetween = nextMember.GetLeadingTrivia();
-                if (!HasRequiredBlankLine(triviaInBetween))
+                if (!MemberSpacingHelper.HasLeadingBlankLine(nextMember))
                 {
                     var diagnostic = CreateDiagnostic(
-                        nextMember.GetLocation(),
+                        typeDeclaration.GetLocation(),
                         currentKind.ToString(),
                         nextKind.ToString());
                     context.ReportDiagnostic(diagnostic);
                 }
             }
         }
-    }
-
-    private static bool HasRequiredBlankLine(SyntaxTriviaList trivia)
-    {
-        int newlineCount = 0;
-        foreach (var t in trivia)
-        {
-            if (t.IsKind(SyntaxKind.EndOfLineTrivia))
-                newlineCount++;
-            else if (!t.IsKind(SyntaxKind.WhitespaceTrivia))
-                newlineCount = 0;
-        }
-        return newlineCount >= 2; // One blank line means two newlines
     }
 }

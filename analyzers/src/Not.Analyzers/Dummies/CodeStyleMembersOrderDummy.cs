@@ -2,13 +2,13 @@
 
 public class CodeStyleMembersOrderDummy(bool NoPrimaryConstructor) : Base
 {
-    private bool _noPrivateOnField;
-    private bool NoPrivateOnProperty { get; }
+    bool _noPrivateOnField;
+    bool NoPrivateOnProperty { get; }
 
     public bool noPublicField;
     bool _notAssignedUnused;
 
-    private CodeStyleMembersOrderDummy()
+    CodeStyleMembersOrderDummy()
         : this(true) // shouldnt have private
     {
         if (_noPrivateFieldAfterPublicProperty) { }
@@ -36,7 +36,7 @@ public class CodeStyleMembersOrderDummy(bool NoPrimaryConstructor) : Base
 
     protected override void NoOverrideBellowPublicMethod() { }
 
-    private void NoPrivateOnMethod() { }
+    void NoPrivateOnMethod() { }
 
     public void NoPublicMethodAfterPrivateMethod() { }
 }
