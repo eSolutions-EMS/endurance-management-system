@@ -5,3 +5,4 @@
 Rule ID | Category | Severity | Notes
 --------|----------|----------|-------
 NA0001 | CodeStyle | Warning | NoPrivateAnalyzer
+NA0002 | Debug | Warning | NoPrivateAnalyzer
