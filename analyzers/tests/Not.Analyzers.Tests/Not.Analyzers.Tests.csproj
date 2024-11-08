@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Not.Analyzers\Not.Analyzers.csproj" />
+    <ProjectReference Include="..\..\src\Not.Analyzers\Not.Analyzers.csproj" />
   </ItemGroup>
 
 </Project>

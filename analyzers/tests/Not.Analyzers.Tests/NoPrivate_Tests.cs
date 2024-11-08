@@ -8,38 +8,35 @@ namespace NoPrivate.Tests
     {
         [Theory]
         [InlineData(
-            @"class MyClass { private MyClass() { } }",
-            @"class MyClass { MyClass() { } }",
-            1, 17, 1, 38)]
+            @"private MyClass() { }",
+            @"MyClass() { }")]
         [InlineData(
-            @"class MyClass{ private void MyMethod() { } }",
-            @"class MyClass{ void MyMethod() { } }",
-            1, 16, 1, 43)]
+            @"private void MyMethod() { }",
+            @"void MyMethod() { }")]
         [InlineData(
-            @"class MyClass { private int MyProperty { get; set; } }",
-            @"class MyClass { int MyProperty { get; set; } }",
-            1, 17, 1, 53)]
+            @"private int MyProperty { get; set; }",
+            @"int MyProperty { get; set; }")]
         [InlineData(
-            @"class MyClass { private bool _field; }",
-            @"class MyClass { bool _field; }",
-            1, 17, 1, 37)]
+            @"private bool _field;",
+            @"bool _field;")]
         [InlineData(
-            @"class MyClass { private class MyPrivateClass { } }",
-            @"class MyClass { class MyPrivateClass { } }",
-            1, 17, 1, 49)]
-        public async Task TestPrivateClass(string test, string expected, int startLine, int startColumn, int endLine, int endColumn)
+            @"private class MyPrivateClass { }",
+            @"class MyPrivateClass { }")]
+        public async Task TestPrivateClass(string test, string expected)
         {
+            var testClass = $@"class MyClass {{ {test} }}";
+            var expectedClass = $@"class MyClass {{ {expected} }}";
             var context = new CSharpCodeFixTest<NoPrivateAnalyzer, NoPrivateFixProvider, DefaultVerifier>
             {
                 ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
-                TestCode = test,
-                FixedCode = expected,
+                TestCode = testClass,
+                FixedCode = expectedClass,
                 ExpectedDiagnostics =
                 {
                     // Specify the diagnostic with message
                     DiagnosticResult.CompilerWarning("NA0001")
                         .WithMessage("The 'private' keyword is not necessary as members are private by default")
-                        .WithSpan(startLine, startColumn, endLine, endColumn)
+                        .WithSpan(1, 17, 1, 24)
                 }
             };
 

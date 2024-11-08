@@ -16,7 +16,7 @@
 </MudStack>
 
 @code {
-    readonly static PatternMask _timeMask = new PatternMask("00:00:00");
+    private readonly static PatternMask _timeMask = new PatternMask("00:00:00");
     const string DEFAULT_TIME = "00:00:00";
 
     [Inject]
