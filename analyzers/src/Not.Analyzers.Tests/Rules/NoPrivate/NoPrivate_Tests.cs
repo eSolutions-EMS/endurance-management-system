@@ -32,7 +32,7 @@ public class NoPrivateAnalyzerTests
     {
         var testClass = $@"class MyClass {{ {test} }}";
         var expectedClass = $@"class MyClass {{ {expected} }}";
-        var context = new CSharpCodeFixTest<NoPrivateAnalyzer, NoPrivateFixProvider, DefaultVerifier>
+        var context = new CSharpCodeFixTest<NoPrivateAnalyzer, NoPrivateCodeFixProvider, DefaultVerifier>
         {
             ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
             TestCode = testClass,

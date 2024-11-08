@@ -9,8 +9,8 @@ using Microsoft.CodeAnalysis.Editing;
 
 namespace Not.Analyzers.Rules.NoPrivate;
 
-[ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(NoPrivateFixProvider)), Shared]
-public class NoPrivateFixProvider : CodeFixProvider
+[ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(NoPrivateCodeFixProvider)), Shared]
+public class NoPrivateCodeFixProvider : CodeFixProvider
 {
     public sealed override ImmutableArray<string> FixableDiagnosticIds => [new NoPrivateAnalyzer().DiagnosticId];
 
@@ -37,7 +37,7 @@ public class NoPrivateFixProvider : CodeFixProvider
             CodeAction.Create(
                 title: "Remove 'private' keyword",
                 createChangedDocument: c => RemovePrivateKeywordAsync(context.Document, declaration, c),
-                equivalenceKey: nameof(NoPrivateFixProvider)),
+                equivalenceKey: nameof(NoPrivateCodeFixProvider)),
             diagnostic);
     }
 
