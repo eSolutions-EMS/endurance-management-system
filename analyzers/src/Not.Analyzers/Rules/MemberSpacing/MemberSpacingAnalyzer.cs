@@ -13,7 +13,7 @@ public class MemberSpacingAnalyzer : AnalyzerBase
     public MemberSpacingAnalyzer() : base(
         diagnosticId: "NA0004",
         title: "Member spacing rule violation",
-        messageFormat: "A blank line is required between {0} and {1}",
+        messageFormat: "Invalid spacing between {0} and {1}: {2}",
         description: "Members should be separated by blank lines according to the specified convention.")
     {
     }
@@ -42,17 +42,22 @@ public class MemberSpacingAnalyzer : AnalyzerBase
 
             var currentKind = MemberKindHelper.GetMemberKind(currentMember);
             var nextKind = MemberKindHelper.GetMemberKind(nextMember);
+            
+            var requiresBlankLine = MemberSpacingHelper.RequiresBlankLineBetween(currentKind, nextKind);
+            var hasBlankLine = MemberSpacingHelper.HasLeadingBlankLine(nextMember);
 
-            if (MemberSpacingHelper.RequiresBlankLineBetween(currentKind, nextKind))
+            if ((requiresBlankLine && !hasBlankLine) || (!requiresBlankLine && hasBlankLine))
             {
-                if (!MemberSpacingHelper.HasLeadingBlankLine(nextMember))
-                {
-                    var diagnostic = CreateDiagnostic(
-                        typeDeclaration.GetLocation(),
-                        currentKind.ToString(),
-                        nextKind.ToString());
-                    context.ReportDiagnostic(diagnostic);
-                }
+                var message = requiresBlankLine 
+                    ? "blank line required" 
+                    : "unnecessary blank line";
+                
+                var diagnostic = CreateDiagnostic(
+                    typeDeclaration.GetLocation(),
+                    currentKind.ToString(),
+                    nextKind.ToString(),
+                    message);
+                context.ReportDiagnostic(diagnostic);
             }
         }
     }

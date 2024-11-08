@@ -39,13 +39,21 @@ public class MemberSpacingCodeFixProvider : CodeFixProviderBase
             var currentKind = MemberKindHelper.GetMemberKind(currentMember);
             var nextKind = MemberKindHelper.GetMemberKind(nextMember);
             
-            var triviaInBetween = nextMember.GetLeadingTrivia();
-            if (MemberSpacingHelper.RequiresBlankLineBetween(currentKind, nextKind)
-                && !MemberSpacingHelper.HasLeadingBlankLine(nextMember))
+            var requiresBlankLine = MemberSpacingHelper.RequiresBlankLineBetween(currentKind, nextKind);
+            var hasBlankLine = MemberSpacingHelper.HasLeadingBlankLine(nextMember);
+
+            if (requiresBlankLine && !hasBlankLine)
             {
                 var triviaList = new SyntaxTriviaList(SyntaxFactory.EndOfLine("\n")).Concat(nextMember.GetLeadingTrivia());
-                members[i] = nextMember
-                    .WithLeadingTrivia(triviaList);
+                members[i] = nextMember.WithLeadingTrivia(triviaList);
+            }
+            else if (!requiresBlankLine && hasBlankLine)
+            {
+                var trivia = nextMember.GetLeadingTrivia()
+                    .Where(t => !t.IsKind(SyntaxKind.EndOfLineTrivia) || 
+                               !string.IsNullOrWhiteSpace(t.ToString()))
+                    .ToList();
+                members[i] = nextMember.WithLeadingTrivia(trivia);
             }
         }
 

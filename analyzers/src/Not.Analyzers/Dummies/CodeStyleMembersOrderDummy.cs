@@ -2,11 +2,13 @@
 
 public class CodeStyleMembersOrderDummy(bool NoPrimaryConstructor) : Base
 {
-    bool _noPrivateOnField;
-    bool NoPrivateOnProperty { get; }
+    public static void NoPublicStaticAfterCtor() { }
 
-    public bool noPublicField;
+    readonly bool _noPrivateOnField;
     bool _notAssignedUnused;
+    bool _noPrivateFieldAfterPublicProperty;
+    bool _noPrivateAfterCtor = true;
+    public bool noPublicField;
 
     CodeStyleMembersOrderDummy()
         : this(true) // shouldnt have private
@@ -23,22 +25,17 @@ public class CodeStyleMembersOrderDummy(bool NoPrimaryConstructor) : Base
         NoPublicMethodAfterPrivateMethod();
     }
 
-    public static void NoPublicStaticAfterCtor() { }
-
-    public bool NoPrimaryConstructor { get; } = NoPrimaryConstructor;
-
+    bool NoPrivateOnProperty { get; }
     bool NoPrivatePropertyAfterPublicProperty { get; }
     bool NoPrivatePropertyAfterCtor { get; }
-    bool _noPrivateFieldAfterPublicProperty;
-    bool _noPrivateAfterCtor = true;
-
-    public void PublicMethod() { }
+    public bool NoPrimaryConstructor { get; } = NoPrimaryConstructor;
 
     protected override void NoOverrideBellowPublicMethod() { }
 
-    void NoPrivateOnMethod() { }
-
+    public void PublicMethod() { }
     public void NoPublicMethodAfterPrivateMethod() { }
+
+    void NoPrivateOnMethod() { }
 }
 
 public abstract class Base
