@@ -31,6 +31,9 @@ public class MemberOrderCodeFixProvider : CodeFixProviderBase
         
         var orderedMembers = typeDeclaration.Members
             .OrderBy(MemberKindHelper.GetMemberKind)
+            .Select((member, index) => index == 0 
+                ? member.WithLeadingTrivia(member.GetLeadingTrivia().Where(t => !t.IsKind(SyntaxKind.EndOfLineTrivia)))
+                : member)
             .ToList();
 
         var newTypeDeclaration = typeDeclaration.WithMembers(SyntaxFactory.List(orderedMembers));
