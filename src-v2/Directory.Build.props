@@ -4,4 +4,13 @@
    <LangVersion>preview</LangVersion>
   </PropertyGroup>
 
+  <ItemGroup>
+    <!-- Attempt to use as a local nuget package.
+    <PackageReference Include="Not.Analyzers" Version="0.2.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference> -->
+    <Analyzer Include="$(SolutionDir)/../analyzers/build/Not.Analyzers.dll" />
+  </ItemGroup>
+
 </Project>
