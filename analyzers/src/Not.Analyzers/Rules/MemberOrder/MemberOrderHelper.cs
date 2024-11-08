@@ -52,7 +52,7 @@ public static class MemberOrderHelper
         _orderByMemberKind = ordering.ToImmutableDictionary();
     }
 
-    public static int ComepareOrder(MemberKind first, MemberKind second)
+    public static int CompareOrder(MemberKind first, MemberKind second)
     {
         if (!_orderByMemberKind.TryGetValue(first, out var firstOrder))
         {

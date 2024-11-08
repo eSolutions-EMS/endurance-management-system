@@ -3,7 +3,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Not.Analyzers.Base;
-using Not.Analyzers.Helpers;
+using Not.Analyzers.Members;
 
 namespace Not.Analyzers.Rules.MemberSpacing;
 
