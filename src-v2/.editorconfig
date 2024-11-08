@@ -227,3 +227,5 @@ dotnet_diagnostic.CA1822.severity = none
 
 # IDE0290: Use primary constructor
 dotnet_diagnostic.IDE0290.severity = none
+
+dotnet_diagnostic.MY0001.severity = warning
