@@ -11,6 +11,7 @@ namespace Not.Analyzers.Rules.MemberSpacing;
 public class MemberSpacingHelper
 {
     private static readonly ReadOnlyCollection<MemberKind[]> MemberGroups;
+    private static readonly ReadOnlyCollection<MemberKind> AlwaysSeparated;
  
     static MemberSpacingHelper()
     {
@@ -22,20 +23,28 @@ public class MemberSpacingHelper
             new[] { PrivateCtor, ProtectedCtor, PublicCtor },
             new[] { AbstractProperty, AbstractMethod },
             new[] { PrivateProperty, ProtectedProperty, InternalProperty, PublicProperty },
-            new[] { ProtectedMethod },
-            new[] { InternalMethod },
-            new[] { PublicMethod },
-            new[] { PrivateMethod },
-            new[] { ProtectedClass },
-            new[] { InternalClass },
-            new[] { PrivateClass }
         };
+        var alwaysSeparated = new List<MemberKind>
+        {
+            PublicMethod,
+            ProtectedMethod,
+            InternalMethod,
+            PrivateMethod,
+            ProtectedClass,
+            InternalClass,
+            PrivateClass
+        };  
 
         MemberGroups = new ReadOnlyCollection<MemberKind[]>(memberGroups);
+        AlwaysSeparated = new ReadOnlyCollection<MemberKind>(alwaysSeparated);
     }
     
     public static bool RequiresBlankLineBetween(MemberKind first, MemberKind second)
     {
+        if (AlwaysSeparated.Contains(first) || AlwaysSeparated.Contains(second))
+        {
+            return true;
+        }
         foreach (var group in MemberGroups)
         {
             if (group.Contains(first) && group.Contains(second))

@@ -25,7 +25,6 @@ public class MemberSpacingAnalyzer : AnalyzerBase
         context.RegisterSyntaxNodeAction(AnalyzeSyntaxNode, SyntaxKind.ClassDeclaration);
     }
 
-    // class definitions aren't currently being flagged if not separated, idk why.
     protected override void SafeAnalyzeSyntaxNode(SyntaxNodeAnalysisContext context)
     {
         if (context.Node is not TypeDeclarationSyntax typeDeclaration)
