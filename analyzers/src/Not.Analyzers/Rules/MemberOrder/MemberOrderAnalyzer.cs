@@ -10,8 +10,10 @@ namespace Not.Analyzers.Rules.MemberOrder;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public class MemberOrderAnalyzer : AnalyzerBase
 {
+    public const string RULE_ID = "NA0003";
+
     public MemberOrderAnalyzer() : base(
-        diagnosticId: "NA0003",
+        diagnosticId: RULE_ID,
         title: "Member ordering rule violation",
         messageFormat: "Member {0} should follow {1}",
         description: "Members should be ordered accordingly.")

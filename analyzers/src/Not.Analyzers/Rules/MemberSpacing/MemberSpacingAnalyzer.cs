@@ -10,8 +10,10 @@ namespace Not.Analyzers.Rules.MemberSpacing;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public class MemberSpacingAnalyzer : AnalyzerBase
 {
+    public const string RULE_ID = "NA0004";
+
     public MemberSpacingAnalyzer() : base(
-        diagnosticId: "NA0004",
+        diagnosticId: RULE_ID,
         title: "Member spacing rule violation",
         messageFormat: "Invalid spacing between {0} and {1}: {2}",
         description: "Members should be separated by blank lines according to the specified convention.")

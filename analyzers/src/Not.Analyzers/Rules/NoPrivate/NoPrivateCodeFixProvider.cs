@@ -11,7 +11,7 @@ namespace Not.Analyzers.Rules.NoPrivate;
 [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(NoPrivateCodeFixProvider)), Shared]
 public class NoPrivateCodeFixProvider : TypeMemberCodeFixProvider
 {
-    public NoPrivateCodeFixProvider() : base("Remove 'private' keyword", new NoPrivateAnalyzer())
+    public NoPrivateCodeFixProvider() : base("Remove 'private' keyword", NoPrivateAnalyzer.RULE_ID)
     {
     }
 

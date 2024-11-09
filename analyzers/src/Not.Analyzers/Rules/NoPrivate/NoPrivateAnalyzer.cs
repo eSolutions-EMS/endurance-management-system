@@ -9,8 +9,10 @@ namespace Not.Analyzers.Rules.NoPrivate;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public class NoPrivateAnalyzer : AnalyzerBase
 {
+    public const string RULE_ID = "NA0001";
+
     public NoPrivateAnalyzer() : base(
-        diagnosticId: "NA0001",
+        diagnosticId: RULE_ID,
         title: "Avoid using 'private' keyword",
         messageFormat: "The 'private' keyword is not necessary as members are private by default",
         description: "Avoid using 'private' keyword.")

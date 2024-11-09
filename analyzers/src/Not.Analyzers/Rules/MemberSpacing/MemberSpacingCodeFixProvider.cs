@@ -13,7 +13,7 @@ namespace Not.Analyzers.Rules.MemberSpacing;
 [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(MemberSpacingCodeFixProvider)), Shared]
 public class MemberSpacingCodeFixProvider : TypeMemberCodeFixProvider
 {
-    public MemberSpacingCodeFixProvider() : base("Fix member spacing", new MemberSpacingAnalyzer())
+    public MemberSpacingCodeFixProvider() : base("Fix member spacing", MemberSpacingAnalyzer.RULE_ID)
     {
     }
 

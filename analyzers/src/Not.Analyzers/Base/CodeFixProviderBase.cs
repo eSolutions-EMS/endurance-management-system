@@ -10,16 +10,16 @@ public abstract class CodeFixProviderBase : CodeFixProvider
 {
     readonly string _codeFixProviderName;
     private readonly string _title;
-    private readonly AnalyzerBase _analyzer;
+    private readonly string _ruleId;
 
-    public CodeFixProviderBase(string title, AnalyzerBase analyzer)
+    public CodeFixProviderBase(string title, string ruleId)
     {
         _codeFixProviderName = GetType().Name;
         _title = title;
-        _analyzer = analyzer;
+        this._ruleId = ruleId;
     }
 
-    public sealed override ImmutableArray<string> FixableDiagnosticIds => [_analyzer.DiagnosticId];
+    public sealed override ImmutableArray<string> FixableDiagnosticIds => [_ruleId];
 
     public sealed override FixAllProvider GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;
 

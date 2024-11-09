@@ -12,7 +12,7 @@ namespace Not.Analyzers.Rules.MemberOrder;
 [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(MemberOrderCodeFixProvider)), Shared]
 public class MemberOrderCodeFixProvider : TypeMemberCodeFixProvider
 {
-    public MemberOrderCodeFixProvider() : base("Fix member ordering", new MemberOrderAnalyzer())
+    public MemberOrderCodeFixProvider() : base("Fix member ordering", MemberOrderAnalyzer.RULE_ID)
     {
     }
 

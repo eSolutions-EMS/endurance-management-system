@@ -5,15 +5,8 @@ namespace Not.Analyzers.Base;
 
 public abstract class TypeMemberCodeFixProvider : CodeFixProviderBase
 {
-    readonly string _analyzerName;
-    private readonly string _title;
-    private readonly AnalyzerBase _analyzer;
-
-    public TypeMemberCodeFixProvider(string title, AnalyzerBase analyzer) : base(title, analyzer)
+    public TypeMemberCodeFixProvider(string title, string ruleId) : base(title, ruleId)
     {
-        _analyzerName = analyzer.GetType().Name;
-        _title = title;
-        _analyzer = analyzer;
     }
 
     public sealed override async Task RegisterCodeFixesAsync(CodeFixContext context)
