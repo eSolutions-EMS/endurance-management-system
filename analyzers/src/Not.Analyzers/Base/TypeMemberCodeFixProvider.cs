@@ -7,13 +7,13 @@ using Not.Analyzers.Base;
 
 namespace Not.Analyzers.Rules.NoPrivate;
 
-public abstract class TypeMemberCodeFixProviderBase : CodeFixProvider
+public abstract class TypeMemberCodeFixProvider : CodeFixProvider
 {
     private readonly DiagnosticDescriptor _errorRule;
     private readonly string _title;
     private readonly AnalyzerBase _analyzer;
 
-    public TypeMemberCodeFixProviderBase(string title, AnalyzerBase analyzer)
+    public TypeMemberCodeFixProvider(string title, AnalyzerBase analyzer)
     {
         _errorRule = new(
             "NA0000",

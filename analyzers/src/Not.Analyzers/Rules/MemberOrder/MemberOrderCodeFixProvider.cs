@@ -11,7 +11,7 @@ using Not.Analyzers.Rules.NoPrivate;
 namespace Not.Analyzers.Rules.MemberOrder;
 
 [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(MemberOrderCodeFixProvider)), Shared]
-public class MemberOrderCodeFixProvider : TypeMemberCodeFixProviderBase
+public class MemberOrderCodeFixProvider : TypeMemberCodeFixProvider
 {
     public MemberOrderCodeFixProvider() : base("Fix member ordering", new MemberOrderAnalyzer())
     {

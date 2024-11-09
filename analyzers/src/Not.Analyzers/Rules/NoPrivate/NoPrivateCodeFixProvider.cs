@@ -9,7 +9,7 @@ using Not.Analyzers.Base;
 namespace Not.Analyzers.Rules.NoPrivate;
 
 [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(NoPrivateCodeFixProvider)), Shared]
-public class NoPrivateCodeFixProvider : TypeMemberCodeFixProviderBase
+public class NoPrivateCodeFixProvider : TypeMemberCodeFixProvider
 {
     public NoPrivateCodeFixProvider() : base("Remove 'private' keyword", new NoPrivateAnalyzer())
     {
