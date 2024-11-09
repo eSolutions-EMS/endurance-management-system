@@ -8,16 +8,17 @@ public abstract class AnalyzerBase : DiagnosticAnalyzer
 {
     private readonly DiagnosticDescriptor _errorRule;
     private readonly DiagnosticDescriptor _rule;
-    
+
     public string DiagnosticId { get; }
-    
+
     protected AnalyzerBase(
         string diagnosticId,
         string title,
         string messageFormat,
         string category = "Style",
         DiagnosticSeverity severity = DiagnosticSeverity.Warning,
-        string? description = null)
+        string? description = null
+    )
     {
         DiagnosticId = diagnosticId;
         _errorRule = new(
@@ -26,7 +27,8 @@ public abstract class AnalyzerBase : DiagnosticAnalyzer
             "An error occurred in analyzer: {0}",
             "Debug",
             DiagnosticSeverity.Warning,
-            isEnabledByDefault: true);
+            isEnabledByDefault: true
+        );
         _rule = new DiagnosticDescriptor(
             diagnosticId,
             title,
@@ -34,7 +36,8 @@ public abstract class AnalyzerBase : DiagnosticAnalyzer
             category,
             severity,
             isEnabledByDefault: true,
-            description: description);
+            description: description
+        );
     }
 
     protected abstract void SafeAnalyzeSyntaxNode(SyntaxNodeAnalysisContext context);
@@ -51,14 +54,16 @@ public abstract class AnalyzerBase : DiagnosticAnalyzer
         catch (Exception ex)
         {
             System.Diagnostics.Debug.WriteLine($"Analyzer error: {ex}");
-            
-            var diagnostic = Diagnostic.Create(_errorRule, 
-                context.Node?.GetLocation(), 
-                ex.ToString());
+
+            var diagnostic = Diagnostic.Create(
+                _errorRule,
+                context.Node?.GetLocation(),
+                ex.ToString()
+            );
             context.ReportDiagnostic(diagnostic);
         }
     }
 
-    protected Diagnostic CreateDiagnostic(Location location, params object[] messageArgs)
-        => Diagnostic.Create(_rule, location, messageArgs);
+    protected Diagnostic CreateDiagnostic(Location location, params object[] messageArgs) =>
+        Diagnostic.Create(_rule, location, messageArgs);
 }

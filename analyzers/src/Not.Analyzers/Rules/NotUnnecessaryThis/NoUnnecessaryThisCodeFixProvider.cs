@@ -10,7 +10,7 @@
 // [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(NoUnnecessaryThisCodeFixProvider)), Shared]
 // public class NoUnnecessaryThisCodeFixProvider : CodeFixProviderBase
 // {
-//     public NoUnnecessaryThisCodeFixProvider() 
+//     public NoUnnecessaryThisCodeFixProvider()
 //         : base("Remove unnecessary 'this'", NoUnnecessaryThisAnalyzer.RULE_ID)
 //     {
 //     }
@@ -50,4 +50,4 @@
 //         var newRoot = root.ReplaceNode(memberAccess, memberAccess.Name);
 //         return document.WithSyntaxRoot(newRoot);
 //     }
-// } 
+// }

@@ -3,12 +3,13 @@ namespace Not.Analyzers.Dummies;
 public class CodeStyleThisDummy : List<int>
 {
     int _field;
-    
-    void Method() {
+
+    void Method()
+    {
         // invalid
-        _field = 1;  
-        this.NormalMethod();  
-        
+        _field = 1;
+        this.NormalMethod();
+
         // valid
         this.ToList();
         UseThisArgument(this);
@@ -24,7 +25,5 @@ public class CodeStyleThisDummy : List<int>
         throw new NotImplementedException();
     }
 
-    void UseThisArgument(object obj)
-    {
-    }
+    void UseThisArgument(object obj) { }
 }

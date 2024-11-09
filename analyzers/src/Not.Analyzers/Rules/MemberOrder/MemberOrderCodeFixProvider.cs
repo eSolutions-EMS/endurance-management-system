@@ -12,32 +12,41 @@ namespace Not.Analyzers.Rules.MemberOrder;
 [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(MemberOrderCodeFixProvider)), Shared]
 public class MemberOrderCodeFixProvider : TypeMemberCodeFixProvider
 {
-    public MemberOrderCodeFixProvider() : base("Fix member ordering", MemberOrderAnalyzer.RULE_ID)
-    {
-    }
+    public MemberOrderCodeFixProvider()
+        : base("Fix member ordering", MemberOrderAnalyzer.RULE_ID) { }
 
     protected override async Task<Document> SafeCodeFixAction(
         Document document,
         CSharpSyntaxNode node,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken
+    )
     {
         if (node is not TypeDeclarationSyntax typeDeclaration)
         {
             return document;
         }
 
-        var editor = await DocumentEditor.CreateAsync(document, cancellationToken).ConfigureAwait(false);
-        
-        var orderedMembers = typeDeclaration.Members
-            .OrderBy(MemberKindHelper.GetMemberKind)
-            .Select((member, index) => index == 0 
-                ? member.WithLeadingTrivia(member.GetLeadingTrivia().Where(t => !t.IsKind(SyntaxKind.EndOfLineTrivia)))
-                : member)
+        var editor = await DocumentEditor
+            .CreateAsync(document, cancellationToken)
+            .ConfigureAwait(false);
+
+        var orderedMembers = typeDeclaration
+            .Members.OrderBy(MemberKindHelper.GetMemberKind)
+            .Select(
+                (member, index) =>
+                    index == 0
+                        ? member.WithLeadingTrivia(
+                            member
+                                .GetLeadingTrivia()
+                                .Where(t => !t.IsKind(SyntaxKind.EndOfLineTrivia))
+                        )
+                        : member
+            )
             .ToList();
 
         var newTypeDeclaration = typeDeclaration.WithMembers(SyntaxFactory.List(orderedMembers));
         editor.ReplaceNode(typeDeclaration, newTypeDeclaration);
-        
+
         return editor.GetChangedDocument();
     }
-} 
+}

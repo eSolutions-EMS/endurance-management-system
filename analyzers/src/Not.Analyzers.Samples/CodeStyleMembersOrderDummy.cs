@@ -33,6 +33,7 @@ public class CodeStyleMembersOrderDummy(bool NoPrimaryConstructor) : Base
     protected override void NoOverrideBellowPublicMethod() { }
 
     public void PublicMethod() { }
+
     public void NoPublicMethodAfterPrivateMethod() { }
 
     void NoPrivateOnMethod() { }

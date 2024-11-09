@@ -12,7 +12,7 @@ public static class MemberOrderHelper
         // Initialize ordering - lower number means higher in file
         var ordering = new Dictionary<MemberKind, int>();
         var order = 0;
-        
+
         // Constants and Static Readonly Fields
         ordering[MemberKind.PrivateConst] = order++;
         ordering[MemberKind.PrivateStaticReadonly] = order++;
@@ -64,4 +64,4 @@ public static class MemberOrderHelper
         }
         return Comparer<int>.Default.Compare(firstOrder, secondOrder);
     }
-} 
+}

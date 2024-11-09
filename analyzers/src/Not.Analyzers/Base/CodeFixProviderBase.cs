@@ -21,28 +21,36 @@ public abstract class CodeFixProviderBase : CodeFixProvider
 
     public sealed override ImmutableArray<string> FixableDiagnosticIds => [_ruleId];
 
-    public sealed override FixAllProvider GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;
+    public sealed override FixAllProvider GetFixAllProvider() =>
+        WellKnownFixAllProviders.BatchFixer;
 
     protected abstract Task<Document> SafeCodeFixAction(
         Document document,
         CSharpSyntaxNode node,
-        CancellationToken cancellationToken);
+        CancellationToken cancellationToken
+    );
 
-    protected void RegisterCodeFix(CodeFixContext context, CSharpSyntaxNode node, Diagnostic diagnostic)
+    protected void RegisterCodeFix(
+        CodeFixContext context,
+        CSharpSyntaxNode node,
+        Diagnostic diagnostic
+    )
     {
         var action = CodeAction.Create(
             title: _title,
             createChangedDocument: c => CodeFixAction(context.Document, node, c),
-            equivalenceKey: _codeFixProviderName);
+            equivalenceKey: _codeFixProviderName
+        );
         context.RegisterCodeFix(action, diagnostic);
     }
 
     private async Task<Document> CodeFixAction(
         Document document,
         CSharpSyntaxNode node,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken
+    )
     {
-        try 
+        try
         {
             return await SafeCodeFixAction(document, node, cancellationToken);
         }

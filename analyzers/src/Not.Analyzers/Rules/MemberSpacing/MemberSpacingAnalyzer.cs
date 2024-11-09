@@ -12,13 +12,13 @@ public class MemberSpacingAnalyzer : AnalyzerBase
 {
     public const string RULE_ID = "NA0004";
 
-    public MemberSpacingAnalyzer() : base(
-        diagnosticId: RULE_ID,
-        title: "Member spacing rule violation",
-        messageFormat: "Invalid spacing between {0} and {1}: {2}",
-        description: "Members should be separated by blank lines according to the specified convention.")
-    {
-    }
+    public MemberSpacingAnalyzer()
+        : base(
+            diagnosticId: RULE_ID,
+            title: "Member spacing rule violation",
+            messageFormat: "Invalid spacing between {0} and {1}: {2}",
+            description: "Members should be separated by blank lines according to the specified convention."
+        ) { }
 
     public override void Initialize(AnalysisContext context)
     {
@@ -43,21 +43,23 @@ public class MemberSpacingAnalyzer : AnalyzerBase
 
             var currentKind = MemberKindHelper.GetMemberKind(currentMember);
             var nextKind = MemberKindHelper.GetMemberKind(nextMember);
-            
-            var requiresBlankLine = MemberSpacingHelper.RequiresBlankLineBetween(currentKind, nextKind);
+
+            var requiresBlankLine = MemberSpacingHelper.RequiresBlankLineBetween(
+                currentKind,
+                nextKind
+            );
             var hasBlankLine = MemberSpacingHelper.HasLeadingBlankLine(nextMember);
 
             if ((requiresBlankLine && !hasBlankLine) || (!requiresBlankLine && hasBlankLine))
             {
-                var message = requiresBlankLine 
-                    ? "blank line required" 
-                    : "unnecessary blank line";
-                
+                var message = requiresBlankLine ? "blank line required" : "unnecessary blank line";
+
                 var diagnostic = CreateDiagnostic(
                     typeDeclaration.GetLocation(),
                     currentKind.ToString(),
                     nextKind.ToString(),
-                    message);
+                    message
+                );
                 context.ReportDiagnostic(diagnostic);
             }
         }

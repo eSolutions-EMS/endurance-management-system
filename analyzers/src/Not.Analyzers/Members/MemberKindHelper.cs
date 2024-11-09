@@ -16,7 +16,7 @@ public class MemberKindHelper
             PropertyDeclarationSyntax prop => GetPropertyKind(prop),
             MethodDeclarationSyntax method => GetMethodKind(method),
             ClassDeclarationSyntax nestedClass => GetNestedClassKind(nestedClass),
-            _ => throw new ArgumentException($"Unsupported member type: {member.GetType().Name}")
+            _ => throw new ArgumentException($"Unsupported member type: {member.GetType().Name}"),
         };
     }
 
@@ -25,7 +25,9 @@ public class MemberKindHelper
         bool isConst = field.Modifiers.Any(SyntaxKind.ConstKeyword);
         bool isStatic = field.Modifiers.Any(SyntaxKind.StaticKeyword);
         bool isReadonly = field.Modifiers.Any(SyntaxKind.ReadOnlyKeyword);
-        bool isPrivate = field.Modifiers.Any(SyntaxKind.PrivateKeyword) || !field.Modifiers.Any(m => m.IsKind(SyntaxKind.PublicKeyword));
+        bool isPrivate =
+            field.Modifiers.Any(SyntaxKind.PrivateKeyword)
+            || !field.Modifiers.Any(m => m.IsKind(SyntaxKind.PublicKeyword));
         bool isPublic = field.Modifiers.Any(SyntaxKind.PublicKeyword);
 
         return (isConst, isStatic, isReadonly, isPrivate, isPublic) switch
@@ -38,8 +40,9 @@ public class MemberKindHelper
             (_, _, false, true, _) => MemberKind.PrivateField,
             (_, _, false, _, true) => MemberKind.PublicField,
             _ => throw new ArgumentException(
-                $"Unexpected field configuration: name: {field.TryGetInferredMemberName()}, isConst: {isConst}" +
-                $", isStatic: {isStatic}, isReadonly: {isReadonly}, isPrivate: {isPrivate}, isPublic: {isPublic}")
+                $"Unexpected field configuration: name: {field.TryGetInferredMemberName()}, isConst: {isConst}"
+                    + $", isStatic: {isStatic}, isReadonly: {isReadonly}, isPrivate: {isPrivate}, isPublic: {isPublic}"
+            ),
         };
     }
 
@@ -73,7 +76,10 @@ public class MemberKindHelper
         if (isAbstract)
             return MemberKind.AbstractMethod;
 
-        if (method.Modifiers.Any(SyntaxKind.PublicKeyword) && method.Modifiers.Any(SyntaxKind.StaticKeyword))
+        if (
+            method.Modifiers.Any(SyntaxKind.PublicKeyword)
+            && method.Modifiers.Any(SyntaxKind.StaticKeyword)
+        )
             return MemberKind.PublicStaticMethod;
         if (method.Modifiers.Any(SyntaxKind.PublicKeyword))
             return MemberKind.PublicMethod;

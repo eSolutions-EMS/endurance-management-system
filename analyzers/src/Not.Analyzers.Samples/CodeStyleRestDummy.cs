@@ -11,9 +11,7 @@ public class CodeStyleRestDummy
         ShouldNotAllowNestedInvocations(one, two);
     }
 
-    void ShouldNotAllowNestedInvocations(bool one, bool two)
-    {
-    }
+    void ShouldNotAllowNestedInvocations(bool one, bool two) { }
 
     bool Method1()
     {
@@ -27,7 +25,8 @@ public class CodeStyleRestDummy
 
     void EnforceSingleLineBraces()
     {
-        if (true) Console.WriteLine();
+        if (true)
+            Console.WriteLine();
         if (true)
             Console.WriteLine();
     }
@@ -40,4 +39,3 @@ public static class Extensions
         return !value;
     }
 }
-
