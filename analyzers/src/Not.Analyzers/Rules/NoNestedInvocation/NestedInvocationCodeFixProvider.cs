@@ -42,17 +42,23 @@ public class NestedInvocationCodeFixProvider : CodeFixProviderBase
             return document;
         }
 
-        // Extract nested invocations
-        var newStatements = await ExtractNestedInvocations(invocation, document, cancellationToken);
-
-        // Replace the original statement with new statements
-        var newBlock = block.ReplaceNode(statement, newStatements);
+        // Extract variable declarations and get the modified invocation
+        var (variableDeclarations, modifiedInvocation) = await ExtractNestedInvocations(invocation, document, cancellationToken);
+        var newInvocation = statement.ReplaceNode(invocation, modifiedInvocation);
+        var newStatements = new List<StatementSyntax>();
+        // Add statements before the og invocation
+        newStatements.AddRange(block.Statements.TakeWhile(s => s != statement));
+        newStatements.AddRange(variableDeclarations.Select(d => d.WithLeadingTrivia(statement.GetLeadingTrivia())));
+        newStatements.Add(newInvocation);
+        // Add statements after the og invocation
+        newStatements.AddRange(block.Statements.SkipWhile(s => s != statement).Skip(1));
+        
+        var newBlock = block.WithStatements(SyntaxFactory.List(newStatements));
         var newRoot = root!.ReplaceNode(block, newBlock);
-
         return document.WithSyntaxRoot(newRoot);
     }
 
-    private async Task<List<StatementSyntax>> ExtractNestedInvocations(
+    private async Task<(List<StatementSyntax> Declarations, InvocationExpressionSyntax ModifiedInvocation)> ExtractNestedInvocations(
         InvocationExpressionSyntax invocation,
         Document document,
         CancellationToken cancellationToken
@@ -66,100 +72,58 @@ public class NestedInvocationCodeFixProvider : CodeFixProviderBase
         var methodSymbol = semanticModel?.GetSymbolInfo(invocation).Symbol as IMethodSymbol;
         var parameters = methodSymbol?.Parameters;
 
-        var updatedArgs = invocation
-            .ArgumentList.Arguments.Select(
-                (arg, index) =>
-                {
-                    // Check if argument is directly a method invocation or contains nested invocations
-                    if (
-                        arg.Expression is not InvocationExpressionSyntax
-                        && !arg
-                            .Expression.DescendantNodes()
-                            .OfType<InvocationExpressionSyntax>()
-                            .Any()
+        // Process each argument and create variable declarations as needed
+        foreach (var (arg, index) in invocation.ArgumentList.Arguments.Select((a, i) => (a, i)))
+        {
+            // Skip if not a nested invocation
+            if (arg.Expression is not InvocationExpressionSyntax && 
+                !arg.Expression.DescendantNodes().OfType<InvocationExpressionSyntax>().Any())
+            {
+                continue;
+            }
+
+            // Get parameter name or fallback to a generic name
+            var baseName = "temp";
+            if (parameters != null && index < parameters.Value.Length)
+            {
+                baseName = parameters.Value[index].Name;
+            }
+            else if (arg.NameColon != null)
+            {
+                baseName = arg.NameColon.Name.Identifier.Text;
+            }
+
+            // Ensure unique name
+            var tempName = baseName;
+            while (statements.Any(s => ContainsVariableName(s, tempName)))
+            {
+                tempName = $"{baseName}{++tempCount}";
+            }
+
+            // Create variable declaration
+            var declaration = SyntaxFactory.LocalDeclarationStatement(
+                SyntaxFactory.VariableDeclaration(
+                    SyntaxFactory.IdentifierName("var"),
+                    SyntaxFactory.SeparatedList(
+                        [
+                            SyntaxFactory.VariableDeclarator(tempName)
+                                .WithInitializer(
+                                    SyntaxFactory.EqualsValueClause(arg.Expression)
+                                ),
+                        ]
                     )
-                    {
-                        return arg;
-                    }
+                )
+            );
 
-                    // Get parameter name or fallback to a generic name
-                    var baseName = "temp";
-                    if (parameters != null && index < parameters.Value.Length)
-                    {
-                        baseName = parameters.Value[index].Name;
-                    }
-                    else if (arg.NameColon != null)
-                    {
-                        baseName = arg.NameColon.Name.Identifier.Text;
-                    }
+            statements.Add(declaration);
 
-                    // Ensure unique name by adding number if needed
-                    var tempName = baseName;
-                    while (statements.Any(s => ContainsVariableName(s, tempName)))
-                    {
-                        tempName = $"{baseName}{++tempCount}";
-                    }
-
-                    // Add variable declaration
-                    var declaration = SyntaxFactory.LocalDeclarationStatement(
-                        SyntaxFactory.VariableDeclaration(
-                            SyntaxFactory.IdentifierName("var"),
-                            SyntaxFactory.SeparatedList(
-                                [
-                                    SyntaxFactory
-                                        .VariableDeclarator(tempName)
-                                        .WithInitializer(
-                                            SyntaxFactory.EqualsValueClause(arg.Expression)
-                                        ),
-                                ]
-                            )
-                        )
-                    );
-
-                    statements.Add(declaration);
-
-                    // Replace argument with temp variable
-                    return arg.WithExpression(SyntaxFactory.IdentifierName(tempName));
-                }
-            )
-            .ToArray();
-
-        var updatedInvocation = invocation.WithArgumentList(
-            SyntaxFactory.ArgumentList(SyntaxFactory.SeparatedList(updatedArgs))
-        );
-
-        // Find the containing statement and build up the full expression
-        var currentExpression = (ExpressionSyntax)updatedInvocation;
-        var currentNode = invocation.Parent;
-        var containingStatement = invocation.Ancestors().OfType<StatementSyntax>().FirstOrDefault();
-
-        // Build up the full expression by walking up the tree
-        while (currentNode != null && currentNode != containingStatement)
-        {
-            if (currentNode is MemberAccessExpressionSyntax memberAccess)
-            {
-                currentExpression = memberAccess.WithExpression(currentExpression);
-            }
-            else if (currentNode is ConditionalAccessExpressionSyntax conditionalAccess)
-            {
-                currentExpression = conditionalAccess.WithExpression(currentExpression);
-            }
-            currentNode = currentNode.Parent;
+            // Replace the argument in the original invocation
+            invocation = invocation.ReplaceNode(
+                arg.Expression, 
+                SyntaxFactory.IdentifierName(tempName));
         }
 
-        // Create the final statement based on the original containing statement type
-        StatementSyntax finalStatement;
-        if (containingStatement is ReturnStatementSyntax)
-        {
-            finalStatement = SyntaxFactory.ReturnStatement(currentExpression);
-        }
-        else
-        {
-            finalStatement = SyntaxFactory.ExpressionStatement(currentExpression);
-        }
-
-        statements.Add(finalStatement);
-        return statements;
+        return (statements, invocation);
     }
 
     private bool ContainsVariableName(StatementSyntax statement, string name)

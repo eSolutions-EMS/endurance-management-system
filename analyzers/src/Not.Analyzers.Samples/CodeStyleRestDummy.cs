@@ -24,11 +24,11 @@ public class CodeStyleRestDummy
         {
             return null;
         }
-        var b = DateTimeOffset.Now;
-        
-        VetTime.Value.Add(TimeSpan.FromMinutes(Rest.Value));
-        b.Add(TimeSpan.FromMinutes(Rest.Value));
-        return VetTime.Value.Add(TimeSpan.FromMinutes(Rest.Value));
+        var timeSpan = TimeSpan.FromMinutes(Rest.Value);
+        var b = VetTime?.Add(timeSpan); ;
+
+
+        return b;
     }
 
     void ShouldNotAllowNestedInvocations(bool one, Type two) { }
