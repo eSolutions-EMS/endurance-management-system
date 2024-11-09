@@ -9,6 +9,7 @@
     ".NETStandard,Version=v2.0/": {
       "Not.Analyzers/1.0.0": {
         "dependencies": {
+          "Microsoft.AspNetCore.Razor.Language": "6.0.35",
           "Microsoft.CodeAnalysis": "4.11.0",
           "Microsoft.CodeAnalysis.Analyzers": "3.3.4",
           "Microsoft.CodeAnalysis.CSharp": "4.11.0",
@@ -23,6 +24,14 @@
           "lib/netstandard2.0/Humanizer.dll": {
             "assemblyVersion": "2.14.0.0",
             "fileVersion": "2.14.1.48190"
+          }
+        }
+      },
+      "Microsoft.AspNetCore.Razor.Language/6.0.35": {
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.AspNetCore.Razor.Language.dll": {
+            "assemblyVersion": "6.0.35.0",
+            "fileVersion": "6.0.3524.46214"
           }
         }
       },
@@ -630,6 +639,13 @@
       "sha512": "sha512-lQKvtaTDOXnoVJ20ibTuSIOf2i0uO0MPbDhd1jm238I+U/2ZnRENj0cktKZhtchBMtCUSRQ5v4xBCUbKNmyVMw==",
       "path": "humanizer.core/2.14.1",
       "hashPath": "humanizer.core.2.14.1.nupkg.sha512"
+    },
+    "Microsoft.AspNetCore.Razor.Language/6.0.35": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-1yyDdIdpycWDhU42ZFlENNDcxjPA/Xi3d7hVl/bCL+q9P7AYnblvjMM0fRrOIa9Q9HN2J2+RDs5HMEkGjXKD+w==",
+      "path": "microsoft.aspnetcore.razor.language/6.0.35",
+      "hashPath": "microsoft.aspnetcore.razor.language.6.0.35.nupkg.sha512"
     },
     "Microsoft.Bcl.AsyncInterfaces/8.0.0": {
       "type": "package",
