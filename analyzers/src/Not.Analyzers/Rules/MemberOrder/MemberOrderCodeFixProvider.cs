@@ -6,7 +6,6 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Editing;
 using Not.Analyzers.Base;
 using Not.Analyzers.Members;
-using Not.Analyzers.Rules.NoPrivate;
 
 namespace Not.Analyzers.Rules.MemberOrder;
 
@@ -19,10 +18,10 @@ public class MemberOrderCodeFixProvider : TypeMemberCodeFixProvider
 
     protected override async Task<Document> SafeCodeFixAction(
         Document document,
-        MemberDeclarationSyntax declaration,
+        CSharpSyntaxNode node,
         CancellationToken cancellationToken)
     {
-        if (declaration is not TypeDeclarationSyntax typeDeclaration)
+        if (node is not TypeDeclarationSyntax typeDeclaration)
         {
             return document;
         }

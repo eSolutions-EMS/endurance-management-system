@@ -17,9 +17,14 @@ public class NoPrivateCodeFixProvider : TypeMemberCodeFixProvider
 
     protected override async Task<Document> SafeCodeFixAction(
         Document document,
-        MemberDeclarationSyntax declaration,
+        CSharpSyntaxNode node,
         CancellationToken cancellationToken)
     {
+        if (node is not MemberDeclarationSyntax declaration)
+        {
+            return document;
+        }
+
         var editor = await DocumentEditor.CreateAsync(document, cancellationToken).ConfigureAwait(false);
         var privateModifier = declaration.Modifiers.First(m => m.IsKind(SyntaxKind.PrivateKeyword));
         

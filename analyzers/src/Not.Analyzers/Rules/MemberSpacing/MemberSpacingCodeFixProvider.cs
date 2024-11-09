@@ -19,11 +19,10 @@ public class MemberSpacingCodeFixProvider : TypeMemberCodeFixProvider
 
     protected override async Task<Document> SafeCodeFixAction(
         Document document,
-        MemberDeclarationSyntax declaration,
+        CSharpSyntaxNode node,
         CancellationToken cancellationToken)
     {
-        
-        if (declaration is not TypeDeclarationSyntax typeDeclaration)
+        if (node is not TypeDeclarationSyntax typeDeclaration)
         {
             return document;
         }

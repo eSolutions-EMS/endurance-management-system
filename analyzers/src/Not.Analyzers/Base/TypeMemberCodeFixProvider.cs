@@ -1,39 +1,20 @@
-using System.Collections.Immutable;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Not.Analyzers.Base;
 
-namespace Not.Analyzers.Rules.NoPrivate;
+namespace Not.Analyzers.Base;
 
-public abstract class TypeMemberCodeFixProvider : CodeFixProvider
+public abstract class TypeMemberCodeFixProvider : CodeFixProviderBase
 {
-    private readonly DiagnosticDescriptor _errorRule;
+    readonly string _analyzerName;
     private readonly string _title;
     private readonly AnalyzerBase _analyzer;
 
-    public TypeMemberCodeFixProvider(string title, AnalyzerBase analyzer)
+    public TypeMemberCodeFixProvider(string title, AnalyzerBase analyzer) : base(title, analyzer)
     {
-        _errorRule = new(
-            "NA0000",
-            "Internal code fix provider error",
-            "An error occurred in code fix provider: {0}",
-            "Debug",
-            DiagnosticSeverity.Warning,
-            isEnabledByDefault: true);
+        _analyzerName = analyzer.GetType().Name;
         _title = title;
         _analyzer = analyzer;
     }
-
-    public sealed override ImmutableArray<string> FixableDiagnosticIds => [_analyzer.DiagnosticId];
-
-    public sealed override FixAllProvider GetFixAllProvider() => WellKnownFixAllProviders.BatchFixer;
-
-    protected abstract Task<Document> SafeCodeFixAction(
-        Document document,
-        MemberDeclarationSyntax declaration,
-        CancellationToken cancellationToken);
 
     public sealed override async Task RegisterCodeFixesAsync(CodeFixContext context)
     {
@@ -52,27 +33,6 @@ public abstract class TypeMemberCodeFixProvider : CodeFixProvider
             return;
         }
 
-        context.RegisterCodeFix(
-            CodeAction.Create(
-                title: _title,
-                createChangedDocument: c => SafeCodeFixAction(context.Document, declaration, c),
-                equivalenceKey: nameof(NoPrivateCodeFixProvider)),
-            diagnostic);
-    }
-
-    private async Task<Document> RemovePrivateKeywordAsync(
-        Document document,
-        MemberDeclarationSyntax declaration,
-        CancellationToken cancellationToken)
-    {
-        try 
-        {
-            return await SafeCodeFixAction(document, declaration, cancellationToken);
-        }
-        catch (Exception ex)
-        {
-            System.Diagnostics.Debug.WriteLine($"Code fixer {GetType().Name} error: {ex}");
-            return document;
-        }
+        RegisterCodeFix(context, declaration, diagnostic);
     }
 }
