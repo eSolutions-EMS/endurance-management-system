@@ -18,7 +18,6 @@ public class MemberSpacingHelper
         var memberGroups = new List<MemberKind[]>
         {
             new[] { PrivateConst, PrivateStaticReadonly, PublicConst, PublicStaticReadonly },
-            new[] { PublicStaticMethod },
             new[] { PrivateReadonly, PrivateField, PublicField },
             new[] { PrivateCtor, ProtectedCtor, PublicCtor },
             new[] { AbstractProperty, AbstractMethod },
@@ -26,6 +25,7 @@ public class MemberSpacingHelper
         };
         var alwaysSeparated = new List<MemberKind>
         {
+            PublicStaticMethod,
             PublicMethod,
             ProtectedMethod,
             InternalMethod,

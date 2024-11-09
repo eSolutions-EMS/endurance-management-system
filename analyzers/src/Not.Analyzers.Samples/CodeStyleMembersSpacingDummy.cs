@@ -9,6 +9,8 @@ internal class CodeStyleMembersSpacingDummy
 
     public static void Test() { }
 
+    public static void Test2() { }
+
     bool _privateField;
     protected bool ProtectedField;
     public bool PublicField;
