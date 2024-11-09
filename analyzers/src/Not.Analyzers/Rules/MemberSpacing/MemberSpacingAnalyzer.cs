@@ -24,10 +24,12 @@ public class MemberSpacingAnalyzer : AnalyzerBase
     {
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
         context.EnableConcurrentExecution();
-        context.RegisterSyntaxNodeAction(AnalyzeSyntaxNode, 
+        context.RegisterSyntaxNodeAction(
+            AnalyzeSyntaxNode,
             SyntaxKind.ClassDeclaration,
             SyntaxKind.RecordDeclaration,
-            SyntaxKind.StructDeclaration);
+            SyntaxKind.StructDeclaration
+        );
     }
 
     protected override void SafeAnalyzeSyntaxNode(SyntaxNodeAnalysisContext context)
