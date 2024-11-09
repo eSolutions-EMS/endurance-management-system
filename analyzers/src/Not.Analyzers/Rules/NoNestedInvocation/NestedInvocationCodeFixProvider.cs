@@ -128,8 +128,37 @@ public class NestedInvocationCodeFixProvider : CodeFixProviderBase
             SyntaxFactory.ArgumentList(SyntaxFactory.SeparatedList(updatedArgs))
         );
 
-        statements.Add(SyntaxFactory.ExpressionStatement(updatedInvocation));
+        // Find the containing statement and build up the full expression
+        var currentExpression = (ExpressionSyntax)updatedInvocation;
+        var currentNode = invocation.Parent;
+        var containingStatement = invocation.Ancestors().OfType<StatementSyntax>().FirstOrDefault();
 
+        // Build up the full expression by walking up the tree
+        while (currentNode != null && currentNode != containingStatement)
+        {
+            if (currentNode is MemberAccessExpressionSyntax memberAccess)
+            {
+                currentExpression = memberAccess.WithExpression(currentExpression);
+            }
+            else if (currentNode is ConditionalAccessExpressionSyntax conditionalAccess)
+            {
+                currentExpression = conditionalAccess.WithExpression(currentExpression);
+            }
+            currentNode = currentNode.Parent;
+        }
+
+        // Create the final statement based on the original containing statement type
+        StatementSyntax finalStatement;
+        if (containingStatement is ReturnStatementSyntax)
+        {
+            finalStatement = SyntaxFactory.ReturnStatement(currentExpression);
+        }
+        else
+        {
+            finalStatement = SyntaxFactory.ExpressionStatement(currentExpression);
+        }
+
+        statements.Add(finalStatement);
         return statements;
     }
 

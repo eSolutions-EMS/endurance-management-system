@@ -14,6 +14,23 @@ public class CodeStyleRestDummy
         ShouldNotAllowNestedInvocations(one, typeof(CodeStyleRestDummy));
     }
 
+
+    public int? Rest { get; set; } = 15;
+    public DateTimeOffset? VetTime { get; set; } = DateTimeOffset.Now;
+
+    public DateTimeOffset? GetOutTime()
+    {
+        if (Rest == null || VetTime == null)
+        {
+            return null;
+        }
+        var b = DateTimeOffset.Now;
+        
+        VetTime.Value.Add(TimeSpan.FromMinutes(Rest.Value));
+        b.Add(TimeSpan.FromMinutes(Rest.Value));
+        return VetTime.Value.Add(TimeSpan.FromMinutes(Rest.Value));
+    }
+
     void ShouldNotAllowNestedInvocations(bool one, Type two) { }
 
     bool Method1()

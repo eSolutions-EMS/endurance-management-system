@@ -1,4 +1,7 @@
-﻿namespace NTS.Judge.Blazor.CodeStyle;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
+
+namespace NTS.Judge.Blazor.CodeStyle;
 
 public class CodeStyleMembersOrderDummy(bool NoPrimaryConstructor) : Base
 {
@@ -39,7 +42,29 @@ public class CodeStyleMembersOrderDummy(bool NoPrimaryConstructor) : Base
     void NoPrivateOnMethod() { }
 }
 
-public abstract class Base
+public class EmsCountry : Base
 {
-    protected virtual void NoOverrideBellowPublicMethod() { }
+    [JsonConstructor]
+    EmsCountry() { }
+    public EmsCountry(string isoCode, string name, int id)
+        : base(id)
+    {
+        Id = id;
+        this.IsoCode = isoCode;
+        this.Name = name;
+    }
+
+    public string IsoCode { get; private set; }
+    public string Name { get; private set; }
+}
+
+public class Base
+{
+    protected Base(int id)
+    {
+        Id = id;    
+    }
+
+    public int Id { get; protected set; }
+
 }
