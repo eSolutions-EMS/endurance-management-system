@@ -13,11 +13,7 @@ public class CodeStyleNamingAndDummy // Cannot have And in class name
 
     public bool PublicPorpertyAndName { get; }
 
-    void PrivateMethodAndName()
-    {
-    }
+    void PrivateMethodAndName() { }
 
-    public void PublicMethodAndName()
-    {
-    }
+    public void PublicMethodAndName() { }
 }

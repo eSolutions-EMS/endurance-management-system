@@ -12,7 +12,7 @@ public class MemberSpacingHelper
 {
     private static readonly ReadOnlyCollection<MemberKind[]> MemberGroups;
     private static readonly ReadOnlyCollection<MemberKind> AlwaysSeparated;
- 
+
     static MemberSpacingHelper()
     {
         var memberGroups = new List<MemberKind[]>
@@ -32,13 +32,13 @@ public class MemberSpacingHelper
             PrivateMethod,
             ProtectedClass,
             InternalClass,
-            PrivateClass
-        };  
+            PrivateClass,
+        };
 
         MemberGroups = new ReadOnlyCollection<MemberKind[]>(memberGroups);
         AlwaysSeparated = new ReadOnlyCollection<MemberKind>(alwaysSeparated);
     }
-    
+
     public static bool RequiresBlankLineBetween(MemberKind first, MemberKind second)
     {
         if (AlwaysSeparated.Contains(first) || AlwaysSeparated.Contains(second))

@@ -10,7 +10,7 @@
 // public class NoUnnecessaryThisAnalyzer : AnalyzerBase
 // {
 //     public const string RULE_ID = "NA0005";
-    
+
 //     public NoUnnecessaryThisAnalyzer() : base(
 //         diagnosticId: RULE_ID,
 //         title: "Unnecessary use of 'this'",
@@ -29,7 +29,7 @@
 //     protected override void SafeAnalyzeSyntaxNode(SyntaxNodeAnalysisContext context)
 //     {
 //         var thisExpression = (ThisExpressionSyntax)context.Node;
-        
+
 //         if (thisExpression.Parent is MemberAccessExpressionSyntax memberAccess)
 //         {
 //             if (memberAccess.Parent is InvocationExpressionSyntax invocation)
@@ -49,4 +49,4 @@
 //             context.ReportDiagnostic(CreateDiagnostic(thisExpression.GetLocation()));
 //         }
 //     }
-// } 
+// }

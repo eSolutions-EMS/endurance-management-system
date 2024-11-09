@@ -6,11 +6,6 @@ public class CodeStyleNullableDummy : Abstraction, IAbstraction
     string _nonNullableCannotBeNull = null;
 }
 
+public abstract class Abstraction { }
 
-public abstract class Abstraction
-{
-}
-
-public interface IAbstraction
-{
-}
+public interface IAbstraction { }

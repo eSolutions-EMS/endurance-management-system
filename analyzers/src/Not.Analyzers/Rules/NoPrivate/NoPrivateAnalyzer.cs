@@ -11,22 +11,24 @@ public class NoPrivateAnalyzer : AnalyzerBase
 {
     public const string RULE_ID = "NA0001";
 
-    public NoPrivateAnalyzer() : base(
-        diagnosticId: RULE_ID,
-        title: "Avoid using 'private' keyword",
-        messageFormat: "The 'private' keyword is not necessary as members are private by default",
-        description: "Avoid using 'private' keyword.")
-    {
-    }
+    public NoPrivateAnalyzer()
+        : base(
+            diagnosticId: RULE_ID,
+            title: "Avoid using 'private' keyword",
+            messageFormat: "The 'private' keyword is not necessary as members are private by default",
+            description: "Avoid using 'private' keyword."
+        ) { }
 
     protected override void SafeAnalyzeSyntaxNode(SyntaxNodeAnalysisContext context)
     {
-        if (context.Node is not MemberDeclarationSyntax declaration) 
+        if (context.Node is not MemberDeclarationSyntax declaration)
         {
             return;
         }
 
-        var privateModifier = declaration.Modifiers.FirstOrDefault(m => m.IsKind(SyntaxKind.PrivateKeyword));
+        var privateModifier = declaration.Modifiers.FirstOrDefault(m =>
+            m.IsKind(SyntaxKind.PrivateKeyword)
+        );
         if (privateModifier != default)
         {
             context.ReportDiagnostic(CreateDiagnostic(privateModifier.GetLocation()));
@@ -37,11 +39,13 @@ public class NoPrivateAnalyzer : AnalyzerBase
     {
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
         context.EnableConcurrentExecution();
-        context.RegisterSyntaxNodeAction(AnalyzeSyntaxNode, 
-            SyntaxKind.FieldDeclaration, 
-            SyntaxKind.MethodDeclaration, 
+        context.RegisterSyntaxNodeAction(
+            AnalyzeSyntaxNode,
+            SyntaxKind.FieldDeclaration,
+            SyntaxKind.MethodDeclaration,
             SyntaxKind.PropertyDeclaration,
             SyntaxKind.ConstructorDeclaration,
-            SyntaxKind.ClassDeclaration);
+            SyntaxKind.ClassDeclaration
+        );
     }
 }

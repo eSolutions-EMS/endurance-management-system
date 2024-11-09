@@ -20,7 +20,7 @@ public class MemberOrderTests
                 private const int PRIVATE_CONSTANT = 2;
             }
             """;
-        
+
         var expected = """
             public class MyClass 
             {
@@ -42,7 +42,7 @@ public class MemberOrderTests
                 private static readonly int PrivateField = 2;
             }
             """;
-        
+
         var expected = """
             public class MyClass 
             {
@@ -51,7 +51,12 @@ public class MemberOrderTests
             }
             """;
 
-        await VerifyFix(test, expected, MemberKind.PublicStaticReadonly, MemberKind.PrivateStaticReadonly);
+        await VerifyFix(
+            test,
+            expected,
+            MemberKind.PublicStaticReadonly,
+            MemberKind.PrivateStaticReadonly
+        );
     }
 
     [Fact]
@@ -64,7 +69,7 @@ public class MemberOrderTests
                 private readonly string _readonlyField;
             }
             """;
-        
+
         var expected = """
             public class MyClass 
             {
@@ -86,7 +91,7 @@ public class MemberOrderTests
                 private MyClass() { }
             }
             """;
-        
+
         var expected = """
             public class MyClass 
             {
@@ -108,7 +113,7 @@ public class MemberOrderTests
                 public abstract string AbstractProperty { get; }
             }
             """;
-        
+
         var expected = """
             public abstract class MyClass 
             {
@@ -130,7 +135,7 @@ public class MemberOrderTests
                 protected abstract void AbstractMethod();
             }
             """;
-        
+
         var expected = """
             public abstract class MyClass 
             {
@@ -152,7 +157,7 @@ public class MemberOrderTests
                 internal class InternalNested { }
             }
             """;
-        
+
         var expected = """
             public class MyClass 
             {
@@ -174,7 +179,7 @@ public class MemberOrderTests
                 protected MyClass() { }
             }
             """;
-        
+
         var expected = """
             public class MyClass 
             {
@@ -196,7 +201,7 @@ public class MemberOrderTests
                 public MyClass() { }
             }
             """;
-        
+
         var expected = """
             public class MyClass 
             {
@@ -218,7 +223,7 @@ public class MemberOrderTests
                 protected abstract void AbstractMethod();
             }
             """;
-        
+
         var expected = """
             public abstract class MyClass 
             {
@@ -240,7 +245,7 @@ public class MemberOrderTests
                 internal string InternalProperty { get; set; }
             }
             """;
-        
+
         var expected = """
             public class MyClass 
             {
@@ -262,7 +267,7 @@ public class MemberOrderTests
                 internal void InternalMethod() { }
             }
             """;
-        
+
         var expected = """
             public class MyClass 
             {
@@ -284,7 +289,7 @@ public class MemberOrderTests
                 internal void InternalMethod() { }
             }
             """;
-        
+
         var expected = """
             public class MyClass 
             {
@@ -297,19 +302,22 @@ public class MemberOrderTests
     }
 
     private static async Task VerifyFix(
-        string test, 
-        string expected, 
+        string test,
+        string expected,
         MemberKind currentMember,
-        MemberKind nextMember)
+        MemberKind nextMember
+    )
     {
         var analyzer = new MemberOrderAnalyzer();
         var tree = CSharpSyntaxTree.ParseText(test);
         var root = tree.GetRoot();
-        var firstMember = root.DescendantNodes()
-            .OfType<MemberDeclarationSyntax>()
-            .First();
+        var firstMember = root.DescendantNodes().OfType<MemberDeclarationSyntax>().First();
 
-        var context = new CSharpCodeFixTest<MemberOrderAnalyzer, MemberOrderCodeFixProvider, DefaultVerifier>
+        var context = new CSharpCodeFixTest<
+            MemberOrderAnalyzer,
+            MemberOrderCodeFixProvider,
+            DefaultVerifier
+        >
         {
             ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
             TestCode = test,
@@ -318,4 +326,4 @@ public class MemberOrderTests
 
         await context.RunAsync();
     }
-} 
+}
