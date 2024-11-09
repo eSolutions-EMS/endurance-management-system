@@ -2,6 +2,9 @@
 
 public class CodeStyleRestDummy
 {
+    public static bool operator ==(CodeStyleRestDummy? one, CodeStyleRestDummy? two) => true;
+    public static bool operator !=(CodeStyleRestDummy? one, CodeStyleRestDummy? two) => !(one == two);
+
     bool? _nullableBool;
 
     public CodeStyleRestDummy()

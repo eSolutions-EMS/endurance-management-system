@@ -6,7 +6,6 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Editing;
 using Not.Analyzers.Base;
 using Not.Analyzers.Members;
-using Not.Analyzers.Rules.NoPrivate;
 
 namespace Not.Analyzers.Rules.MemberSpacing;
 

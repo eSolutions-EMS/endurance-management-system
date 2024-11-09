@@ -53,7 +53,7 @@ public class MemberSpacingAnalyzer : AnalyzerBase
             );
             var hasBlankLine = MemberSpacingHelper.HasLeadingBlankLine(nextMember);
 
-            if ((requiresBlankLine && !hasBlankLine) || (!requiresBlankLine && hasBlankLine))
+            if (requiresBlankLine && !hasBlankLine || !requiresBlankLine && hasBlankLine)
             {
                 var message = requiresBlankLine ? "blank line required" : "unnecessary blank line";
 
