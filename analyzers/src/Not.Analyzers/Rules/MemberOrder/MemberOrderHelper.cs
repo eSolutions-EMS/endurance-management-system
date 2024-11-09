@@ -42,6 +42,7 @@ public static class MemberOrderHelper
 
         // Methods
         ordering[MemberKind.ProtectedMethod] = order++;
+        ordering[MemberKind.InternalMethod] = order++;
         ordering[MemberKind.PublicMethod] = order++;
         ordering[MemberKind.PrivateMethod] = order++;
 
