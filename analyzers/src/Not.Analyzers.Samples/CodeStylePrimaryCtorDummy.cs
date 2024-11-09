@@ -15,15 +15,7 @@ public class CodeStylePrimaryCtorDummy
     public string Two { get; }
 }
 
-public record RecordPrimary
-{
-    public RecordPrimary(string test)
-    {
-        Test = test;
-    }
-
-    public string Test { get; }
-};
+public record RecordPrimary(string Test);
 
 public readonly struct StructPrimary
 {

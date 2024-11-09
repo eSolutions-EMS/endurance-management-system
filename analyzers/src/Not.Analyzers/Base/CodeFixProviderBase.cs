@@ -44,7 +44,7 @@ public abstract class CodeFixProviderBase : CodeFixProvider
         context.RegisterCodeFix(action, diagnostic);
     }
 
-    private async Task<Document> CodeFixAction(
+    public async Task<Document> CodeFixAction(
         Document document,
         CSharpSyntaxNode node,
         CancellationToken cancellationToken

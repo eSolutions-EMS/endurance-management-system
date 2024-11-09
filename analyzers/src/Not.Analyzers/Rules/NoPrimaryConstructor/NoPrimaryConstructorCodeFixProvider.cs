@@ -11,7 +11,7 @@ namespace Not.Analyzers.Rules.NoPrimaryConstructor;
 public class NoPrimaryConstructorCodeFixProvider : CodeFixProviderBase
 {
     public NoPrimaryConstructorCodeFixProvider()
-        : base("Convert to traditional constructor", NoPrimaryConstructorAnalyzer.DIAGNOSTIC_ID) { }
+        : base("Convert to traditional constructor", NoPrimaryConstructorAnalyzer.RULE_ID) { }
 
     public override async Task RegisterCodeFixesAsync(CodeFixContext context)
     {

@@ -9,9 +9,9 @@ namespace Not.Analyzers.Rules.NoPrimaryConstructor;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public class NoPrimaryConstructorAnalyzer : AnalyzerBase
 {
-    public const string DIAGNOSTIC_ID = "NA0008";
+    public const string RULE_ID = "NA0008";
     public NoPrimaryConstructorAnalyzer() : base(
-        DIAGNOSTIC_ID,
+        RULE_ID,
         title: "Primary constructor usage detected",
         messageFormat: "Primary constructors are not allowed",
         description: "Use traditional constructors instead of primary constructors.")
