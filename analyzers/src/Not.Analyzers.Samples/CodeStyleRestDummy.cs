@@ -11,10 +11,10 @@ public class CodeStyleRestDummy
     {
         var two = Method2();
         var one = Method1();
-        ShouldNotAllowNestedInvocations(one, two);
+        ShouldNotAllowNestedInvocations(one, typeof(CodeStyleRestDummy));
     }
 
-    void ShouldNotAllowNestedInvocations(bool one, bool two) { }
+    void ShouldNotAllowNestedInvocations(bool one, Type two) { }
 
     bool Method1()
     {

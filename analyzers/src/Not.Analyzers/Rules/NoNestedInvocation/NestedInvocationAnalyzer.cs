@@ -31,14 +31,41 @@ public class NestedInvocationAnalyzer : AnalyzerBase
 
         foreach (var argument in invocation.ArgumentList.Arguments)
         {
-            if (
-                argument.Expression is InvocationExpressionSyntax
-                || argument.Expression.DescendantNodes().OfType<InvocationExpressionSyntax>().Any()
-            )
+            if (HasNestedInvocation(argument.Expression))
             {
                 context.ReportDiagnostic(CreateDiagnostic(invocation.GetLocation()));
                 break;
             }
         }
+    }
+
+    private bool HasNestedInvocation(ExpressionSyntax expression)
+    {
+        // Check direct nested invocation
+        if (expression is InvocationExpressionSyntax nestedInvocation)
+        {
+            // Exclude typeof and nameof operators
+            var memberAccess = nestedInvocation.Expression as MemberAccessExpressionSyntax;
+            var identifier = nestedInvocation.Expression as IdentifierNameSyntax;
+            var methodName = (memberAccess?.Name ?? identifier)?.Identifier.Text;
+            
+            if (methodName is "typeof" or "nameof")
+                return false;
+                
+            return true;
+        }
+
+        // Check descendant invocations
+        foreach (var descendant in expression.DescendantNodes().OfType<InvocationExpressionSyntax>())
+        {
+            var memberAccess = descendant.Expression as MemberAccessExpressionSyntax;
+            var identifier = descendant.Expression as IdentifierNameSyntax;
+            var methodName = (memberAccess?.Name ?? identifier)?.Identifier.Text;
+            
+            if (methodName is not "typeof" and not "nameof")
+                return true;
+        }
+
+        return false;
     }
 }
