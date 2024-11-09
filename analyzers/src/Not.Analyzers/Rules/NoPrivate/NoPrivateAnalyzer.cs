@@ -45,7 +45,9 @@ public class NoPrivateAnalyzer : AnalyzerBase
             SyntaxKind.MethodDeclaration,
             SyntaxKind.PropertyDeclaration,
             SyntaxKind.ConstructorDeclaration,
-            SyntaxKind.ClassDeclaration
+            SyntaxKind.ClassDeclaration,
+            SyntaxKind.RecordDeclaration,
+            SyntaxKind.StructDeclaration
         );
     }
 }
