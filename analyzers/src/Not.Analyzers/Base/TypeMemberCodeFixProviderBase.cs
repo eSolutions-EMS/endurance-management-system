@@ -2,20 +2,18 @@ using System.Collections.Immutable;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CodeFixes;
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.Editing;
 using Not.Analyzers.Base;
 
 namespace Not.Analyzers.Rules.NoPrivate;
 
-public abstract class CodeFixProviderBase : CodeFixProvider
+public abstract class TypeMemberCodeFixProviderBase : CodeFixProvider
 {
     private readonly DiagnosticDescriptor _errorRule;
     private readonly string _title;
     private readonly AnalyzerBase _analyzer;
 
-    public CodeFixProviderBase(string title, AnalyzerBase analyzer)
+    public TypeMemberCodeFixProviderBase(string title, AnalyzerBase analyzer)
     {
         _errorRule = new(
             "NA0000",

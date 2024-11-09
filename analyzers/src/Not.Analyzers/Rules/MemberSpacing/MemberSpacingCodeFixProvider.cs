@@ -11,7 +11,7 @@ using Not.Analyzers.Rules.NoPrivate;
 namespace Not.Analyzers.Rules.MemberSpacing;
 
 [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(MemberSpacingCodeFixProvider)), Shared]
-public class MemberSpacingCodeFixProvider : CodeFixProviderBase
+public class MemberSpacingCodeFixProvider : TypeMemberCodeFixProviderBase
 {
     public MemberSpacingCodeFixProvider() : base("Fix member spacing", new MemberSpacingAnalyzer())
     {
