@@ -9,7 +9,7 @@
 // [DiagnosticAnalyzer(LanguageNames.CSharp)]
 // public class NoUnnecessaryThisAnalyzer : AnalyzerBase
 // {
-//     public const string RULE_ID = "NA1001";
+//     public const string RULE_ID = "NA0005";
     
 //     public NoUnnecessaryThisAnalyzer() : base(
 //         diagnosticId: RULE_ID,
