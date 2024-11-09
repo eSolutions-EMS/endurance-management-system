@@ -3,7 +3,10 @@
 public class CodeStyleRestDummy
 {
     public static bool operator ==(CodeStyleRestDummy? one, CodeStyleRestDummy? two) => true;
+
     public static bool operator !=(CodeStyleRestDummy? one, CodeStyleRestDummy? two) => !(one == two);
+
+    public static void StaticMethod() => Console.WriteLine("test");
 
     bool? _nullableBool;
 
@@ -14,9 +17,11 @@ public class CodeStyleRestDummy
         ShouldNotAllowNestedInvocations(one, typeof(CodeStyleRestDummy));
     }
 
-
     public int? Rest { get; set; } = 15;
     public DateTimeOffset? VetTime { get; set; } = DateTimeOffset.Now;
+
+
+    public void Method() => Console.WriteLine("test");
 
     public DateTimeOffset? GetOutTime()
     {
