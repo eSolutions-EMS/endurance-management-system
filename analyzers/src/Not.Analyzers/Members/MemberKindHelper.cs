@@ -17,6 +17,7 @@ public class MemberKindHelper
             MethodDeclarationSyntax method => GetMethodKind(method),
             ClassDeclarationSyntax nestedClass => GetNestedClassKind(nestedClass),
             OperatorDeclarationSyntax _ => MemberKind.PublicStaticMethod,
+            IndexerDeclarationSyntax _ => MemberKind.PublicProperty,
             _ => throw new ArgumentException($"Unsupported member type: {member.GetType().Name}"),
         };
     }
