@@ -136,11 +136,17 @@ public static class SafeHelper
 
     static void HandleError(Exception ex)
     {
+#if DEBUG
+        throw ex;
+#else
         NotifyHelper.Error(ex);
         WriteToTraceConsole(ex);
+#endif
     }
 
+#pragma warning disable IDE0051 // Used in RELEASE build
     static void WriteToTraceConsole(Exception exception)
+#pragma warning restore IDE0051
     {
         // TODO: add notification
         var sb = new StringBuilder();

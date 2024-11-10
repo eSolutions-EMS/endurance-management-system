@@ -58,7 +58,6 @@ public class StaticOptions : IStartupInitializer, ISingletonService
 
     readonly IStaticOptionsProvider<Model> _provider;
     static Model? OPTIONS;
-    public static bool TEST_MY_CASE = true;
 
     public StaticOptions(IStaticOptionsProvider<Model> provider)
     {

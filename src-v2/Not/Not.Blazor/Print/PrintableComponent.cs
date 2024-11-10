@@ -1,4 +1,5 @@
 ﻿using Not.Blazor.Components;
+using Not.Events;
 
 namespace Not.Blazor.Print;
 
@@ -6,7 +7,12 @@ public abstract class PrintableComponent : NotComponent, IDisposable
 {
     public delegate void ToggleVisibility();
 
-    public static ToggleVisibility? ToggleVisibilityEvent;
+    public static void OnToggle(Action handler)
+    {
+        TOGGLE_EVENT.Subscribe(handler);
+    }
+
+    static Event TOGGLE_EVENT = new();
 
     [Inject]
     IPrintInterop PrintInterop { get; set; } = default!;
@@ -15,7 +21,7 @@ public abstract class PrintableComponent : NotComponent, IDisposable
 
     protected override void OnInitialized()
     {
-        ToggleVisibilityEvent += VisibilityToggleHook;
+        TOGGLE_EVENT.Subscribe(VisibilityToggleHook);
     }
 
     protected async Task OpenPrintDialog()
@@ -32,11 +38,11 @@ public abstract class PrintableComponent : NotComponent, IDisposable
 
     public void Dispose()
     {
-        ToggleVisibilityEvent -= VisibilityToggleHook;
+        TOGGLE_EVENT.UnsubscribeAll();
     }
 
     void InvokeToggle()
     {
-        ToggleVisibilityEvent?.Invoke();
+        TOGGLE_EVENT.Emit();
     }
 }

@@ -4,7 +4,6 @@
 @using static Not.Blazor.Print.PrintableComponent
 
 @inherits NotComponent
-@implements IDisposable
 
 @if (_showOnlyMain)
 {
@@ -80,12 +79,7 @@ else
 
     protected override void OnInitialized()
     {
-        PrintableComponent.ToggleVisibilityEvent += ToggleVisibilityHandler;
-    }
-
-    public void Dispose()
-    {
-        PrintableComponent.ToggleVisibilityEvent -= ToggleVisibilityHandler;
+        PrintableComponent.OnToggle(ToggleVisibilityHandler);
     }
 
     async void ToggleVisibilityHandler()
