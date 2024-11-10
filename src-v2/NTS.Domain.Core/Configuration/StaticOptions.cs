@@ -6,17 +6,8 @@ namespace NTS.Domain.Core.Configuration;
 
 public class StaticOptions : IStartupInitializer, ISingletonService
 {
-    const string PRIVATE_CONST = "private";
-    static readonly string STATIC_PRIVATE_READONLY_CONST = "static private readonly";
-    public const string PUBLIC_CONST = "public";
-    public static readonly string STATIC_READONLY_CONST = "static readonly";
-
     public static bool IsRfidDetectionEnabled()
     {
-        if (PRIVATE_CONST == STATIC_PRIVATE_READONLY_CONST && PUBLIC_CONST == STATIC_READONLY_CONST)
-         {
-
-        }
         return Detection != default && Detection == DetectionMode.Rfid;
     }
 
