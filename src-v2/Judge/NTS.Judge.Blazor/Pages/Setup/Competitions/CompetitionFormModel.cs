@@ -6,7 +6,7 @@ namespace NTS.Judge.Setup.Competitions;
 
 public class CompetitionFormModel : IFormModel<Competition>
 {
-    private int? _requiredInspectionCompulsoryThreshold;
+    int? _requiredInspectionCompulsoryThreshold;
 
     public CompetitionFormModel()
     {
