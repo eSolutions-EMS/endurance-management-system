@@ -43,8 +43,6 @@ public class EventBehind : ObservableBehind, IEnduranceEventBehind
         return false;
     }
 
-    #region SafePattern
-
     public async Task Create(EnduranceEventFormModel enduranceEvent)
     {
         Task action() => SafeCreate(enduranceEvent);
@@ -84,6 +82,4 @@ public class EventBehind : ObservableBehind, IEnduranceEventBehind
         Model = model;
         EmitChange();
     }
-
-    #endregion
 }

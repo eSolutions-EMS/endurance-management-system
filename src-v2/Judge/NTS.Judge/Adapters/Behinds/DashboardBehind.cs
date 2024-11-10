@@ -32,8 +32,6 @@ public class DashboardBehind : IDashboardBehind
         _rankingRepository = rankingRepository;
     }
 
-    #region SafePattern
-
     public Task Start()
     {
         return SafeHelper.Run(SafeStart);
@@ -108,6 +106,4 @@ public class DashboardBehind : IDashboardBehind
             await _rankingRepository.Create(ranking);
         }
     }
-
-    #endregion
 }

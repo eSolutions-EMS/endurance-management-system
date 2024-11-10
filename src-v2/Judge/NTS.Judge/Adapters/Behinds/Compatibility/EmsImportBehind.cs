@@ -27,8 +27,6 @@ public class EmsImportBehind : IEmsImportBehind
         _emsToCoreImporter = emsToCoreImporter;
     }
 
-    #region SafePattern
-
     public Task Import(string path)
     {
         Task action() => SafeImport(path);
@@ -121,6 +119,4 @@ public class EmsImportBehind : IEmsImportBehind
         }
         return result;
     }
-
-    #endregion
 }

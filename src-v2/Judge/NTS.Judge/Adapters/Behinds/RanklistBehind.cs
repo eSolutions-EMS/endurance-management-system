@@ -34,8 +34,6 @@ public class RanklistBehind : ObservableBehind, IRanklistBehind
         return true;
     }
 
-    #region SafePattern
-
     public async Task<IEnumerable<Ranking>> GetRankings()
     {
         return await SafeHelper.Run(SafeGetRankings) ?? [];
@@ -65,6 +63,4 @@ public class RanklistBehind : ObservableBehind, IRanklistBehind
     {
         Ranklist?.Update(payload.Participation);
     }
-
-    #endregion
 }

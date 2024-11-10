@@ -57,8 +57,6 @@ public class HandoutsBehind : ObservableListBehind<HandoutDocument>, IHandoutsBe
         Participation.PhaseCompletedEvent.SubscribeAsync(PhaseCompletedHandler);
     }
 
-    #region SafePattern
-
     public async Task Delete(IEnumerable<HandoutDocument> documents)
     {
         Task action() => SafeDelete(documents);
@@ -122,6 +120,4 @@ public class HandoutsBehind : ObservableListBehind<HandoutDocument>, IHandoutsBe
 
         _semaphore.Release();
     }
-
-    #endregion
 }

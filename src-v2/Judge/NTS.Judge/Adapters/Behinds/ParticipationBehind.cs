@@ -234,12 +234,8 @@ public class ParticipationBehind
         EmitChange();
     }
 
-    #region SafePattern
-
     Participation? SafeGet(int id)
     {
         return Participations.FirstOrDefault(x => x.Id == id);
     }
-
-    #endregion
 }
