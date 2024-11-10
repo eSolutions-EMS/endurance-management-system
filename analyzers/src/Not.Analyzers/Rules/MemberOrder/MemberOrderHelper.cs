@@ -1,5 +1,5 @@
 using System.Collections.Immutable;
-using Not.Analyzers.Objects;
+using Not.Analyzers.Members;
 
 namespace Not.Analyzers.Rules.MemberOrder;
 
@@ -20,6 +20,8 @@ public static class MemberOrderHelper
         ordering[MemberKind.PublicStaticReadonly] = order++;
 
         ordering[MemberKind.PublicStaticMethod] = order++;
+        ordering[MemberKind.PublicImplicitOperator] = order++;
+        ordering[MemberKind.PublicOperator] = order++;
 
         // Instance Fields
         ordering[MemberKind.PrivateReadonly] = order++;
@@ -38,6 +40,7 @@ public static class MemberOrderHelper
         // Properties
         ordering[MemberKind.PrivateProperty] = order++;
         ordering[MemberKind.ProtectedProperty] = order++;
+        ordering[MemberKind.PublicIndexDeclarator] = order++;
         ordering[MemberKind.PublicProperty] = order++;
 
         // Methods

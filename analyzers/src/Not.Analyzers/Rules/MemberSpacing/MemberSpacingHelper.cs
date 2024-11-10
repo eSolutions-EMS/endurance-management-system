@@ -3,8 +3,8 @@ using System.Collections.ObjectModel;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Not.Analyzers.Objects;
-using static Not.Analyzers.Objects.MemberKind;
+using Not.Analyzers.Members;
+using static Not.Analyzers.Members.MemberKind;
 
 namespace Not.Analyzers.Rules.MemberSpacing;
 
@@ -22,11 +22,13 @@ public class MemberSpacingHelper
             new[] { PrivateCtor, ProtectedCtor, PublicCtor },
             new[] { PrivateProperty },
             new[] { AbstractProperty, AbstractMethod },
-            new[] { ProtectedProperty, InternalProperty, PublicProperty },
+            new[] { ProtectedProperty, InternalProperty, PublicIndexDeclarator, PublicProperty },
         };
         var alwaysSeparated = new List<MemberKind>
         {
             PublicStaticMethod,
+            PublicImplicitOperator,
+            PublicOperator,
             PublicMethod,
             ProtectedMethod,
             InternalMethod,

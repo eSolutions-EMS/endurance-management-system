@@ -1,7 +1,6 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Not.Analyzers.Objects;
 
 namespace Not.Analyzers.Members;
 
@@ -16,8 +15,9 @@ public class MemberKindHelper
             PropertyDeclarationSyntax prop => GetPropertyKind(prop),
             MethodDeclarationSyntax method => GetMethodKind(method),
             ClassDeclarationSyntax nestedClass => GetNestedClassKind(nestedClass),
-            OperatorDeclarationSyntax _ => MemberKind.PublicStaticMethod,
-            IndexerDeclarationSyntax _ => MemberKind.PublicProperty,
+            OperatorDeclarationSyntax _ => MemberKind.PublicOperator,
+            IndexerDeclarationSyntax _ => MemberKind.PublicIndexDeclarator,
+            ConversionOperatorDeclarationSyntax _ => MemberKind.PublicImplicitOperator,
             _ => throw new ArgumentException($"Unsupported member type: {member.GetType().Name}"),
         };
     }

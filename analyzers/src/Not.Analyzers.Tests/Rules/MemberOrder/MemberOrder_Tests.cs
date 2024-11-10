@@ -3,7 +3,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.CSharp.Testing;
 using Microsoft.CodeAnalysis.Testing;
-using Not.Analyzers.Objects;
+using Not.Analyzers.Members;
 using Not.Analyzers.Rules.MemberOrder;
 
 namespace Not.Analyzers.Tests.Rules.MemberOrder;
