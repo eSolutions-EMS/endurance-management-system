@@ -10,19 +10,24 @@ namespace Not.Analyzers.Rules.NoPrimaryConstructor;
 public class NoPrimaryConstructorAnalyzer : AnalyzerBase
 {
     public const string RULE_ID = "NA0008";
-    public NoPrimaryConstructorAnalyzer() : base(
-        RULE_ID,
-        title: "Primary constructor usage detected",
-        messageFormat: "Primary constructors are not allowed",
-        description: "Use traditional constructors instead of primary constructors.")
-    {
-    }
+
+    public NoPrimaryConstructorAnalyzer()
+        : base(
+            RULE_ID,
+            title: "Primary constructor usage detected",
+            messageFormat: "Primary constructors are not allowed",
+            description: "Use traditional constructors instead of primary constructors."
+        ) { }
 
     public override void Initialize(AnalysisContext context)
     {
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
         context.EnableConcurrentExecution();
-        context.RegisterSyntaxNodeAction(AnalyzeSyntaxNode, SyntaxKind.ClassDeclaration, SyntaxKind.RecordDeclaration);
+        context.RegisterSyntaxNodeAction(
+            AnalyzeSyntaxNode,
+            SyntaxKind.ClassDeclaration,
+            SyntaxKind.RecordDeclaration
+        );
     }
 
     protected override void SafeAnalyzeSyntaxNode(SyntaxNodeAnalysisContext context)
@@ -36,4 +41,4 @@ public class NoPrimaryConstructorAnalyzer : AnalyzerBase
             context.ReportDiagnostic(diagnostic);
         }
     }
-} 
+}
