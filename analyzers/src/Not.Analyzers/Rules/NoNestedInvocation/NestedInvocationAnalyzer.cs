@@ -31,7 +31,7 @@ public class NestedInvocationAnalyzer : AnalyzerBase
 
         foreach (var argument in invocation.ArgumentList.Arguments)
         {
-            if (HasNestedInvocation(argument.Expression))
+            if (HasNestedInvocation(argument.Expression, context.SemanticModel))
             {
                 context.ReportDiagnostic(CreateDiagnostic(invocation.GetLocation()));
                 break;
@@ -39,8 +39,14 @@ public class NestedInvocationAnalyzer : AnalyzerBase
         }
     }
 
-    private bool HasNestedInvocation(ExpressionSyntax expression)
+    private bool HasNestedInvocation(ExpressionSyntax expression, SemanticModel semanticModel)
     {
+        // Skip if the expression is inside a lambda expression
+        if (expression.Ancestors().Any(a => a is LambdaExpressionSyntax))
+        {
+            return false;
+        }
+
         // Check direct nested invocation
         if (expression is InvocationExpressionSyntax nestedInvocation)
         {
@@ -52,21 +58,21 @@ public class NestedInvocationAnalyzer : AnalyzerBase
             if (methodName is "typeof" or "nameof")
                 return false;
                 
-            // Only report if the invocation is a standalone expression
-            if (expression.Parent is ArgumentSyntax)
-                return true;
-                
-            return false;
+            return true;
         }
 
         // Check descendant invocations
         foreach (var descendant in expression.DescendantNodes().OfType<InvocationExpressionSyntax>())
         {
+            // Skip if the descendant is inside a lambda expression
+            if (descendant.Ancestors().Any(a => a is LambdaExpressionSyntax))
+                continue;
+
             var memberAccess = descendant.Expression as MemberAccessExpressionSyntax;
             var identifier = descendant.Expression as IdentifierNameSyntax;
             var methodName = (memberAccess?.Name ?? identifier)?.Identifier.Text;
             
-            if (methodName is not "typeof" and not "nameof" && descendant.Parent is ArgumentSyntax)
+            if (methodName is not "typeof" and not "nameof")
                 return true;
         }
 

@@ -1,12 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 
 namespace NTS.Judge.Blazor.CodeStyle;
 
 public class CodeStyleRestDummy
 {
     public static void StaticMethod() => Console.WriteLine("test");
+
+    public static IEnumerable<SelectListModel<T>> FromEnum<T>()
+        where T : struct, Enum
+    {
+        var enumValues = Enum.GetValues<T>();
+        var selectItems = enumValues.Select(s => new SelectListModel<T>(s, s.GetDescription()));
+        var selectItems2 = enumValues.Where(s => Convert((object)s)));
+        return selectItems;
+    }
+
 
     public static bool operator ==(CodeStyleRestDummy? one, CodeStyleRestDummy? two) => true;
 
@@ -57,6 +69,11 @@ public class CodeStyleRestDummy
         return false;
     }
 
+    object Convert(object obj)
+    {
+        return obj;
+    }
+
     void EnforceSingleLineBraces()
     {
         if (true)
@@ -80,5 +97,36 @@ public class Instance
     public int ConvertToInt()
     {
         return 5;
+    }
+}
+
+public class SelectListModel<T>
+{
+    public SelectListModel(T value, string description)
+    {
+        Value = value;
+        Description = description;
+    }
+
+    public T Value { get; set; }
+    public string Description { get; set; }
+}
+public static class EnumHelper
+{
+    public static string GetDescription(this Enum value)
+    {
+        var type = value.GetType();
+        var descriptionAttribute = GetEnumField(type, value)
+            ?.GetCustomAttributes(typeof(DescriptionAttribute), false)
+            .FirstOrDefault() as DescriptionAttribute;
+        return descriptionAttribute == null ? value.ToString() : descriptionAttribute.Description;
+    }
+
+    public static FieldInfo? GetEnumField(Type type, object instance)
+    {
+        var stringValue = instance.ToString();
+        if (stringValue == null)
+            return null;
+        return type.GetField(stringValue);
     }
 }
