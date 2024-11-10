@@ -5,5 +5,6 @@ namespace NTS.Persistence.Adapters;
 
 public class CoreEventRepository : RootRepository<EnduranceEvent, CoreState>
 {
-    public CoreEventRepository(IStore<CoreState> store) : base(store) { }
+    public CoreEventRepository(IStore<CoreState> store)
+        : base(store) { }
 }

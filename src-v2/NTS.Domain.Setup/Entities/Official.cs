@@ -15,7 +15,7 @@ public class Official : DomainEntity, ISummarizable, IImportable
     {
         return new(id, Person.Create(names), role);
     }
-    
+
     [JsonConstructor]
     Official(int id, Person? person, OfficialRole? role)
         : base(id)
@@ -23,6 +23,7 @@ public class Official : DomainEntity, ISummarizable, IImportable
         Role = Required(nameof(Role), role);
         Person = Required(nameof(Person), person);
     }
+
     Official(Person? person, OfficialRole? role)
         : this(GenerateId(), person, role) { }
 

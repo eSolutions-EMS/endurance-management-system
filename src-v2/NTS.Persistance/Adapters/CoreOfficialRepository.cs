@@ -5,5 +5,6 @@ namespace NTS.Persistence.Adapters;
 
 public class CoreOfficialRepository : SetRepository<Official, CoreState>
 {
-    public CoreOfficialRepository(IStore<CoreState> store) : base(store) { }
+    public CoreOfficialRepository(IStore<CoreState> store)
+        : base(store) { }
 }

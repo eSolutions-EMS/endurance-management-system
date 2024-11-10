@@ -29,7 +29,7 @@ public class EnduranceEvent
 
     List<Competition> _competitions = [];
     List<Official> _officials = [];
-    
+
     [JsonConstructor]
     EnduranceEvent(
         int id,
@@ -45,6 +45,7 @@ public class EnduranceEvent
         _competitions = competitions.ToList();
         _officials = officials.ToList();
     }
+
     EnduranceEvent(string? place, Country? country)
         : this(GenerateId(), place, country, [], []) { }
 

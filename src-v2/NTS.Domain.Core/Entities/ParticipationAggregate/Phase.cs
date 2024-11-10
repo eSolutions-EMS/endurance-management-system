@@ -55,7 +55,7 @@ public class Phase : DomainEntity
 
     // TODO: settings - Add setting for separate final. This is useful for some events such as Shumen where we need separate detection for the actual final
     bool _isSeparateFinish = false;
-    
+
     [JsonConstructor]
     Phase(
         int id,
@@ -91,6 +91,7 @@ public class Phase : DomainEntity
         IsRequiredInspectionCompulsory = isRequiredInspectionCompulsory;
         CompulsoryThresholdSpan = compulsoryThresholdSpan;
     }
+
     public Phase(
         double length,
         int maxRecovery,

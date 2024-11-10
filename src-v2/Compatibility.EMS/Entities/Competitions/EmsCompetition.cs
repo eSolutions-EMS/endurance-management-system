@@ -10,6 +10,7 @@ public class EmsCompetition : EmsDomainBase<EmsCompetitionException>
 
     [Newtonsoft.Json.JsonConstructor]
     EmsCompetition() { }
+
     public EmsCompetition(EmsCompetitionType type, string name)
         : base(GENERATE_ID)
     {
@@ -17,6 +18,7 @@ public class EmsCompetition : EmsDomainBase<EmsCompetitionException>
         Name = name;
         StartTime = DateTime.Now;
     }
+
     public EmsCompetition(IEmsCompetitionState state)
         : base(GENERATE_ID)
     {
@@ -31,10 +33,12 @@ public class EmsCompetition : EmsDomainBase<EmsCompetitionException>
 
     public EmsCompetitionType Type { get; internal set; }
     public string Name { get; internal set; }
+
     /// <summary>
     /// Used to build EnduranceEvent.FEIID and Competition.FEIID. Its located at EVENT DETAIL (Search Venue->Show->ShowName->EventCode) upper right, https://data.fei.org
     /// </summary>
     public string FeiCategoryEventNumber { get; internal set; }
+
     /// <summary>
     /// Used to Competition.FEIID. Its located at COMPETITION DETAIL (Search Venue->Show->ShowName->EventCode->CompetitionName), upper right, https://data.fei.org
     /// </summary>

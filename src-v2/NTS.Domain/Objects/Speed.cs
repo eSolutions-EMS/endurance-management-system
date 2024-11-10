@@ -23,14 +23,17 @@ public record Speed : DomainObject
     }
 
     Speed() { }
+
     Speed(double value)
     {
         _speed = value;
     }
+
     public Speed(double distance, double totalHours)
     {
         _speed = distance / totalHours;
     }
+
     public Speed(double distance, TimeInterval interval)
     {
         _speed = distance / interval.ToTotalHours();

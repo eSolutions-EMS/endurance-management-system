@@ -32,5 +32,5 @@ public enum MemberKind
     PrivateMethod,
     ProtectedClass,
     InternalClass,
-    PrivateClass
+    PrivateClass,
 }

@@ -20,7 +20,8 @@ public abstract class EmsDomainBase<TException>
 
     // Empty constructor is used by mapping for existing (in the database) entries
     protected EmsDomainBase() { }
-    protected EmsDomainBase(string _) // Unused variable is needed mark the constructor which generates Id. That constructor should ONLY be used when creating NEW (no database entry) objects    
+
+    protected EmsDomainBase(string _) // Unused variable is needed mark the constructor which generates Id. That constructor should ONLY be used when creating NEW (no database entry) objects
     {
         Id = EmsDomainIdProvider.Generate();
     }

@@ -54,15 +54,17 @@ public class NestedInvocationAnalyzer : AnalyzerBase
             var memberAccess = nestedInvocation.Expression as MemberAccessExpressionSyntax;
             var identifier = nestedInvocation.Expression as IdentifierNameSyntax;
             var methodName = (memberAccess?.Name ?? identifier)?.Identifier.Text;
-            
+
             if (methodName is "typeof" or "nameof")
                 return false;
-                
+
             return true;
         }
 
         // Check descendant invocations
-        foreach (var descendant in expression.DescendantNodes().OfType<InvocationExpressionSyntax>())
+        foreach (
+            var descendant in expression.DescendantNodes().OfType<InvocationExpressionSyntax>()
+        )
         {
             // Skip if the descendant is inside a lambda expression
             if (descendant.Ancestors().Any(a => a is LambdaExpressionSyntax))
@@ -71,7 +73,7 @@ public class NestedInvocationAnalyzer : AnalyzerBase
             var memberAccess = descendant.Expression as MemberAccessExpressionSyntax;
             var identifier = descendant.Expression as IdentifierNameSyntax;
             var methodName = (memberAccess?.Name ?? identifier)?.Identifier.Text;
-            
+
             if (methodName is not "typeof" and not "nameof")
                 return true;
         }

@@ -5,5 +5,6 @@ namespace NTS.Persistence.Adapters;
 
 public class SnapshotResultRepository : SetRepository<SnapshotResult, CoreState>
 {
-    public SnapshotResultRepository(IStore<CoreState> store) : base(store) { }
+    public SnapshotResultRepository(IStore<CoreState> store)
+        : base(store) { }
 }

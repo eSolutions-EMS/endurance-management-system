@@ -10,13 +10,7 @@ public class Combination : DomainEntity, ISummarizable, IImportable, IParent
         return new(number, athlete, horse, tag);
     }
 
-    public static Combination Update(
-        int id,
-        int number,
-        Athlete? athlete,
-        Horse? horse,
-        Tag? tag
-    )
+    public static Combination Update(int id, int number, Athlete? athlete, Horse? horse, Tag? tag)
     {
         return new(id, number, athlete, horse, tag);
     }
@@ -30,6 +24,7 @@ public class Combination : DomainEntity, ISummarizable, IImportable, IParent
         Horse = Required(nameof(Horse), horse);
         Tag = tag;
     }
+
     public Combination(int number, Athlete? athlete, Horse? horse, Tag? tag)
         : this(GenerateId(), number, athlete, horse, tag) { }
 

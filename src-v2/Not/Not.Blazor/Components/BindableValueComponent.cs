@@ -18,6 +18,7 @@ public class BindableValueComponent<T> : NotComponent
             ValueChanged.InvokeAsync(value);
         }
     }
+
     [Parameter]
     public EventCallback<T> ValueChanged { get; set; }
 }

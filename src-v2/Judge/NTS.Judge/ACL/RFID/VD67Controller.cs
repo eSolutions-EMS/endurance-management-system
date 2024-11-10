@@ -157,13 +157,7 @@ public class VupVD67Controller : RfidController
                 var bytes = ConvertToByytes(data);
                 var epc = Array.Empty<byte>();
                 var password = Convert.FromHexString("00000000");
-                var result = reader.Write6C(
-                    memory_bank.memory_bank_epc,
-                    0,
-                    epc,
-                    bytes,
-                    password
-                );
+                var result = reader.Write6C(memory_bank.memory_bank_epc, 0, epc, bytes, password);
                 if (!result.Success)
                 {
                     if (result.ErrorCode != NO_TAG_ERROR_CODE)

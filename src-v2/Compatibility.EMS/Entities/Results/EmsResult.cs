@@ -6,6 +6,7 @@ public class EmsResult : EmsDomainBase<EmsResultException>, IEmsResultState
 {
     [Newtonsoft.Json.JsonConstructor]
     EmsResult() { }
+
     internal EmsResult(EmsResultType type, string code = null)
         : base(default)
     {

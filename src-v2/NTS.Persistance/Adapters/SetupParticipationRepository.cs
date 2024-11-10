@@ -5,5 +5,6 @@ namespace NTS.Persistence.Adapters;
 
 public class SetupParticipationRepository : SetRepository<Participation, SetupState>
 {
-    public SetupParticipationRepository(IStore<SetupState> store) : base(store) { }
+    public SetupParticipationRepository(IStore<SetupState> store)
+        : base(store) { }
 }

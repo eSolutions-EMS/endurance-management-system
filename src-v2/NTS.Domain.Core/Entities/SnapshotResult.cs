@@ -21,6 +21,7 @@ public class SnapshotResult : DomainEntity
         Snapshot = snapshot;
         Type = type;
     }
+
     SnapshotResult(Snapshot snapshot, SnapshotResultType type)
         : this(GenerateId(), snapshot, type) { }
 

@@ -14,7 +14,7 @@ public class Horse : DomainEntity, ISummarizable, IImportable
     {
         return new(id, name, feiId);
     }
-    
+
     [JsonConstructor]
     Horse(int id, string? name, string? feiId)
         : base(id)
@@ -22,6 +22,7 @@ public class Horse : DomainEntity, ISummarizable, IImportable
         Name = Required(nameof(Name), name);
         FeiId = feiId;
     }
+
     Horse(string? name, string? feiId)
         : this(GenerateId(), name, feiId) { }
 

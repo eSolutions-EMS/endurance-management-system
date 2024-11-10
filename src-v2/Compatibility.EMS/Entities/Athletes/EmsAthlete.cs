@@ -10,7 +10,8 @@ public class EmsAthlete : EmsDomainBase<EmsAthleteException>
     const int ADULT_AGE_IN_YEARS = 18;
 
     [Newtonsoft.Json.JsonConstructor]
-EmsAthlete() { }
+    EmsAthlete() { }
+
     public EmsAthlete(
         string feiId,
         string firstName,
@@ -29,6 +30,7 @@ EmsAthlete() { }
                 ? EmsCategory.Seniors
                 : EmsCategory.Children;
     }
+
     public EmsAthlete(IEmsAthleteState state, EmsCountry country)
         : base(GENERATE_ID)
     {

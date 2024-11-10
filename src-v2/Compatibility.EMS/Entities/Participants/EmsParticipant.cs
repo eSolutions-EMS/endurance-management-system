@@ -25,6 +25,7 @@ public class EmsParticipant : EmsDomainBase<EmsParticipantException>, IEmsPartic
     {
         lapRecordsReadonly = new(this.lapRecords);
     }
+
     public EmsParticipant(EmsAthlete athlete, EmsHorse horse, IEmsParticipantState state = null)
         : base(GENERATE_ID)
     {
@@ -54,7 +55,7 @@ public class EmsParticipant : EmsDomainBase<EmsParticipantException>, IEmsPartic
         private set => lapRecords = new ObservableCollection<EmsLapRecord>(value.ToList());
     }
     public string Name => FormatName(this.Number, Athlete.Name, Horse.Name);
-    public Dictionary<WitnessEventType, List<int>> DetectedHead { get; } = // Metadata for stats    
+    public Dictionary<WitnessEventType, List<int>> DetectedHead { get; } = // Metadata for stats
         new()
         {
             { WitnessEventType.Arrival, new List<int>() },

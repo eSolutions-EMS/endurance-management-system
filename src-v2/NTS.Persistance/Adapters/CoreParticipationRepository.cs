@@ -5,5 +5,6 @@ namespace NTS.Persistence.Adapters;
 
 public class CoreParticipationRepository : SetRepository<Participation, CoreState>
 {
-    public CoreParticipationRepository(IStore<CoreState> store) : base(store) { }
+    public CoreParticipationRepository(IStore<CoreState> store)
+        : base(store) { }
 }

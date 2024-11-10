@@ -12,6 +12,7 @@ public class RankingEntry : DomainEntity
         Participation = participation;
         IsNotRanked = isNotRanked;
     }
+
     public RankingEntry(Participation participation, bool isNotRanked)
         : this(GenerateId(), participation, isNotRanked) { }
 

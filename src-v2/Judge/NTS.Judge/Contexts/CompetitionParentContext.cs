@@ -14,9 +14,7 @@ public class CompetitionParentContext
     readonly ObservableList<Participation> _participations = new();
 
     public CompetitionParentContext(IRepository<Competition> competitionRepository)
-        : base(competitionRepository)
-    {
-    }
+        : base(competitionRepository) { }
 
     ObservableList<Phase> IParentContext<Phase>.Children => _phases;
     ObservableList<Participation> IParentContext<Participation>.Children => _participations;

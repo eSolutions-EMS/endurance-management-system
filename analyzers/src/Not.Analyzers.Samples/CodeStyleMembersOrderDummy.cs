@@ -46,6 +46,7 @@ public class EmsCountry : Base
 {
     [JsonConstructor]
     EmsCountry() { }
+
     public EmsCountry(string isoCode, string name, int id)
         : base(id)
     {
@@ -62,9 +63,8 @@ public class Base
 {
     protected Base(int id)
     {
-        Id = id;    
+        Id = id;
     }
 
     public int Id { get; protected set; }
-
 }

@@ -35,6 +35,7 @@ public record TimeInterval : DomainObject, IComparable<TimeInterval>
     }
 
     TimeInterval() { }
+
     public TimeInterval(TimeSpan timeSpan)
     {
         Span = timeSpan;

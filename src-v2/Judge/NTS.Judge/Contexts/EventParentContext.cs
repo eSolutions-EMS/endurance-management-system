@@ -14,9 +14,7 @@ public class EventParentContext
     readonly ObservableList<Official> _officials = new();
 
     public EventParentContext(IRepository<EnduranceEvent> repository)
-        : base(repository)
-    {
-    }
+        : base(repository) { }
 
     ObservableList<Competition> IParentContext<Competition>.Children => _competitions;
     ObservableList<Official> IParentContext<Official>.Children => _officials;

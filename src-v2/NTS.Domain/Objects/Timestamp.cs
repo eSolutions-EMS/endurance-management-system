@@ -61,14 +61,17 @@ public record Timestamp : DomainObject, IComparable<Timestamp>
     }
 
     Timestamp() { }
+
     Timestamp(DateTimeOffset dateTime)
     {
         DateTime = dateTime;
     }
+
     public Timestamp(DateTime dateTime)
     {
         DateTime = dateTime;
     }
+
     public Timestamp(Timestamp timestamp)
         : base(timestamp)
     {

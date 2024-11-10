@@ -12,6 +12,7 @@ public class EmsParticipation : EmsDomainBase<EmsParticipationException>
 
     [Newtonsoft.Json.JsonConstructor]
     internal EmsParticipation() { }
+
     public EmsParticipation(EmsParticipant participant, EmsCompetition competition)
         : base(GENERATE_ID)
     {

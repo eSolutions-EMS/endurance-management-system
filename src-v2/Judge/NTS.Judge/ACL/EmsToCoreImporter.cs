@@ -89,7 +89,10 @@ public class EmsToCoreImporter : IEmsToCoreImporter
         var result = new List<Official>();
         if (emsEvent.PresidentGroundJury != null)
         {
-            var item = new Official(Person.Create(emsEvent.PresidentGroundJury.Name), GroundJuryPresident);
+            var item = new Official(
+                Person.Create(emsEvent.PresidentGroundJury.Name),
+                GroundJuryPresident
+            );
             result.Add(item);
         }
         if (emsEvent.PresidentVetCommittee != null)
@@ -102,12 +105,18 @@ public class EmsToCoreImporter : IEmsToCoreImporter
         }
         if (emsEvent.FeiTechDelegate != null)
         {
-            var item = new Official(Person.Create(emsEvent.FeiTechDelegate.Name), TechnicalDelegate);
+            var item = new Official(
+                Person.Create(emsEvent.FeiTechDelegate.Name),
+                TechnicalDelegate
+            );
             result.Add(item);
         }
         if (emsEvent.FeiVetDelegate != null)
         {
-            var item = new Official(Person.Create(emsEvent.FeiVetDelegate.Name), ForeignVeterinaryDelegate);
+            var item = new Official(
+                Person.Create(emsEvent.FeiVetDelegate.Name),
+                ForeignVeterinaryDelegate
+            );
             result.Add(item);
         }
         if (emsEvent.ForeignJudge != null)

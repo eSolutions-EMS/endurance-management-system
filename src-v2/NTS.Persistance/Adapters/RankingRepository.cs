@@ -5,5 +5,6 @@ namespace NTS.Persistence.Adapters;
 
 public class RankingRepository : SetRepository<Ranking, CoreState>
 {
-    public RankingRepository(IStore<CoreState> store) : base(store) { }
+    public RankingRepository(IStore<CoreState> store)
+        : base(store) { }
 }

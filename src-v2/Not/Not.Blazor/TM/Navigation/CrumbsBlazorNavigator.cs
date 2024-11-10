@@ -121,7 +121,8 @@ public class CrumbsBlazorNavigator : ICrumbsNavigator, ILandNavigator
         {
             if (_parameter is not T typedParameter)
             {
-                var message = $"Cannot get parameter of type '{typeof(T)}'/ Underlying type of parameter is '{_parameter.GetType()}'";
+                var message =
+                    $"Cannot get parameter of type '{typeof(T)}'/ Underlying type of parameter is '{_parameter.GetType()}'";
                 throw GuardHelper.Exception(message);
             }
             return typedParameter;

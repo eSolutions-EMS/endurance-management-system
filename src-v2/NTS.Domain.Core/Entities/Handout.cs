@@ -10,6 +10,7 @@ public class Handout : DomainEntity
     {
         Participation = participation;
     }
+
     public Handout(Participation participation)
         : this(GenerateId(), participation) { }
 

@@ -23,6 +23,7 @@ public class Phase : DomainEntity, ISummarizable, IImportable
         Recovery = recovery;
         Rest = rest;
     }
+
     public Phase(Loop? loop, int recovery, int? rest)
         : this(
             GenerateId(),

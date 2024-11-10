@@ -22,6 +22,7 @@ public class EnduranceEvent : DomainEntity
         FeiCode = feiCode;
         ShowFeiId = showFeiId;
     }
+
     public EnduranceEvent(
         Country country,
         string city,

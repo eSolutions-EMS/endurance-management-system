@@ -29,7 +29,7 @@ public class Participation : DomainEntity, ISummarizable
     {
         return new(id, newStart, isUnranked, combination, maxSpeedOverride);
     }
-    
+
     [JsonConstructor]
     Participation(
         int id,
@@ -45,6 +45,7 @@ public class Participation : DomainEntity, ISummarizable
         Combination = Required(nameof(Combination), combination);
         MaxSpeedOverride = maxSpeedOverride;
     }
+
     Participation(
         DateTimeOffset? startTimeOverride,
         bool isUnranked,

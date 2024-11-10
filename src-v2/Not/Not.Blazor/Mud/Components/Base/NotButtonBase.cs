@@ -13,6 +13,7 @@ public class NotButtonBase : MudButton
 
     protected override void OnParametersSet()
     {
-        ChildContent = Text == null ? null : new RenderFragment(x => x.AddContent(0, Localizer.Get(Text)));
+        ChildContent =
+            Text == null ? null : new RenderFragment(x => x.AddContent(0, Localizer.Get(Text)));
     }
 }

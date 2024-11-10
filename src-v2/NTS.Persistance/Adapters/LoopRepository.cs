@@ -5,5 +5,6 @@ namespace NTS.Persistence.Adapters;
 
 public class LoopRepository : SetRepository<Loop, SetupState>
 {
-    public LoopRepository(IStore<SetupState> store) : base(store) { }
+    public LoopRepository(IStore<SetupState> store)
+        : base(store) { }
 }

@@ -12,7 +12,6 @@ public abstract class ObservableBehind : IObservableBehind
     readonly Event _stateChanged = new();
     bool _isInitialized;
 
-
     /// <summary>
     /// Initialize the state of an ObservableBehind.
     /// If the state has been initialized successfully It cannot be initialized again.

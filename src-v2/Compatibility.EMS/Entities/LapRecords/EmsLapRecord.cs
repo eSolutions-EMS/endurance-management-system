@@ -14,6 +14,7 @@ public class EmsLapRecord : EmsDomainBase<EmsLapRecordException>
 
     [Newtonsoft.Json.JsonConstructor]
     public EmsLapRecord() { }
+
     public EmsLapRecord(DateTime startTime, EmsLap lap)
         : base(GENERATE_ID)
     {

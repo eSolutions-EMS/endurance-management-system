@@ -27,7 +27,7 @@ public class Athlete : DomainEntity, ISummarizable, IImportable
     {
         return new(id, Person.Create(name), feiId, country, Club.Create(club), category);
     }
-    
+
     [JsonConstructor]
     Athlete(
         int id,
@@ -45,6 +45,7 @@ public class Athlete : DomainEntity, ISummarizable, IImportable
         Club = Required(nameof(Club), club);
         Category = Required(nameof(Category), category);
     }
+
     Athlete( //TODO: consider Club as persisted across Events (MAUI's raw resources?)
         Person? person,
         string? feiId,

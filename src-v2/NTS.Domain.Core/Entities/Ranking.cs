@@ -21,6 +21,7 @@ public class Ranking : DomainEntity, IAggregateRoot
         Category = category;
         Entries = entries;
     }
+
     public Ranking(
         Competition competition,
         AthleteCategory category,

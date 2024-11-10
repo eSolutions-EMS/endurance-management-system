@@ -18,7 +18,12 @@ public class ParticipationBehind : CrudBehind<Participation, ParticipationFormMo
     protected override Participation CreateEntity(ParticipationFormModel model)
     {
         var newStart = model.StartTimeOverride?.ToDateTimeOffset();
-        return Participation.Create(newStart, model.IsNotRanked, model.Combination, model.MaxSpeedOverride);
+        return Participation.Create(
+            newStart,
+            model.IsNotRanked,
+            model.Combination,
+            model.MaxSpeedOverride
+        );
     }
 
     protected override Participation UpdateEntity(ParticipationFormModel model)

@@ -14,6 +14,7 @@ public abstract class FormTM<T> : NotComponent
     /// </summary>
     protected Dictionary<string, List<MudValidationInjector>> ValidationInjectors { get; set; } =
         [];
+
     [Parameter]
     public T Model { get; set; } = default!;
 

@@ -20,6 +20,7 @@ public class Loop : DomainEntity
     {
         Distance = PositiveDistance(distance);
     }
+
     public Loop(double distance)
         : this(GenerateId(), distance) { }
 

@@ -30,6 +30,7 @@ public class Participation : DomainEntity, IAggregateRoot
         Phases = phases;
         Eliminated = notQualified;
     }
+
     public Participation(
         string competitionName,
         CompetitionRuleset ruleset,

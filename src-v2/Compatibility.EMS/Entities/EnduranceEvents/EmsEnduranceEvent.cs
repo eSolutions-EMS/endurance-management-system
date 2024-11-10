@@ -14,6 +14,7 @@ public class EmsEnduranceEvent : EmsDomainBase<EmsEnduranceEventException>
 
     [Newtonsoft.Json.JsonConstructor]
     EmsEnduranceEvent() { }
+
     internal EmsEnduranceEvent(
         string name,
         EmsCountry country,
@@ -27,6 +28,7 @@ public class EmsEnduranceEvent : EmsDomainBase<EmsEnduranceEventException>
         FeiCode = feiCode;
         ShowFeiId = showFeiId;
     }
+
     internal EmsEnduranceEvent(string name, EmsCountry country)
         : base(GENERATE_ID)
     {

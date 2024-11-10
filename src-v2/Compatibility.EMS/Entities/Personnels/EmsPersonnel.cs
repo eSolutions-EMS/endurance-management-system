@@ -6,6 +6,7 @@ public class EmsPersonnel : EmsDomainBase<EmsPersonnelException>, IEmsPersonnelS
 {
     [Newtonsoft.Json.JsonConstructor]
     EmsPersonnel() { }
+
     public EmsPersonnel(IEmsPersonnelState state)
         : base(GENERATE_ID)
     {

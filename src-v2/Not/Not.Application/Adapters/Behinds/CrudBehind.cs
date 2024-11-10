@@ -28,6 +28,7 @@ public abstract class CrudBehind<T, TModel>
         _repository = repository;
         _parentContext = parentContext;
     }
+
     /// <summary>
     /// Instatiates a basic CRUD behind for a standalone or root-level entity
     /// </summary>
@@ -79,9 +80,10 @@ public abstract class CrudBehind<T, TModel>
             if (!_parentContext.HasLoaded() && !arguments.Any())
             {
                 var name = this.GetTypeName();
-                var message = $"{name} is used as standalone child behind. "
-                        + $"I.e. it depends on parent context '{_parentContext.GetTypeName()}' which isn't loaded."
-                        + $"Either use initialize the context preemptively or pass parentId to '{name}.{nameof(IObservableBehind.Initialize)}'";
+                var message =
+                    $"{name} is used as standalone child behind. "
+                    + $"I.e. it depends on parent context '{_parentContext.GetTypeName()}' which isn't loaded."
+                    + $"Either use initialize the context preemptively or pass parentId to '{name}.{nameof(IObservableBehind.Initialize)}'";
                 throw GuardHelper.Exception(message);
             }
             if (arguments.Any())

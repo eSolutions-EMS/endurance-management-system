@@ -5,6 +5,7 @@ namespace NTS.Compatibility.EMS.RPC;
 public class EmsStartlistEntry : IComparable<EmsStartlistEntry>, IEquatable<EmsStartlistEntry>
 {
     public EmsStartlistEntry() { }
+
     public EmsStartlistEntry(EmsParticipation participation, int toSkip = 0)
     {
         Number = participation.Participant.Number;
@@ -19,6 +20,7 @@ public class EmsStartlistEntry : IComparable<EmsStartlistEntry>, IEquatable<EmsS
         var first = lapRecords.First();
         StartTime = first.StartTime;
     }
+
     public EmsStartlistEntry(EmsParticipation participation)
     {
         Number = participation.Participant.Number;

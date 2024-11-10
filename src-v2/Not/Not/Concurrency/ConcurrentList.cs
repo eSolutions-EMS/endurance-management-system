@@ -12,6 +12,7 @@ public class ConcurrentList<T> : IList<T>
     {
         _items = [];
     }
+
     public ConcurrentList(IEnumerable<T> enumerable)
     {
         _items = enumerable.ToList();

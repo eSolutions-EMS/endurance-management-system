@@ -18,6 +18,7 @@ public class Result : ResultBase
     }
 
     internal Result() { }
+
     internal Result(IEnumerable<string> errors)
         : base(errors) { }
 }
@@ -35,6 +36,7 @@ public class Result<T> : ResultBase
 public abstract class ResultBase
 {
     protected ResultBase() { }
+
     protected ResultBase(IEnumerable<string> errors)
     {
         Errors = errors.ToArray();

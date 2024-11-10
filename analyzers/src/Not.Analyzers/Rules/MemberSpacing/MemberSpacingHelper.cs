@@ -18,12 +18,26 @@ public class MemberSpacingHelper
         var memberGroups = new List<MemberKind[]>
         {
             new[] { MemberKind.Delegate },
-            new[] { PrivateConst, PrivateStaticReadonly, PublicConst, PublicStaticReadonly, PublicStaticEvent },
+            new[]
+            {
+                PrivateConst,
+                PrivateStaticReadonly,
+                PublicConst,
+                PublicStaticReadonly,
+                PublicStaticEvent,
+            },
             new[] { PrivateReadonly, PrivateField, PrivateEvent, PublicField },
             new[] { PrivateCtor, ProtectedCtor, PublicCtor },
             new[] { PrivateProperty },
             new[] { AbstractProperty, AbstractMethod },
-            new[] { ProtectedProperty, InternalProperty, PublicIndexDeclarator, PublicEvent, PublicProperty },
+            new[]
+            {
+                ProtectedProperty,
+                InternalProperty,
+                PublicIndexDeclarator,
+                PublicEvent,
+                PublicProperty,
+            },
         };
         var alwaysSeparated = new List<MemberKind>
         {
@@ -64,15 +78,17 @@ public class MemberSpacingHelper
     {
         var trivia = member.GetLeadingTrivia().ToList();
         int newlineCount = 0;
-        
+
         // Process trivia in reverse order until we hit a doc comment or the start
         for (int i = trivia.Count - 1; i >= 0; i--)
         {
             var t = trivia[i];
-            
+
             // If we hit a doc comment, only count newlines that came before it
-            if (t.IsKind(SyntaxKind.SingleLineDocumentationCommentTrivia) || 
-                t.IsKind(SyntaxKind.MultiLineDocumentationCommentTrivia))
+            if (
+                t.IsKind(SyntaxKind.SingleLineDocumentationCommentTrivia)
+                || t.IsKind(SyntaxKind.MultiLineDocumentationCommentTrivia)
+            )
             {
                 newlineCount = 0;
                 // Count newlines before the doc comment
@@ -85,13 +101,13 @@ public class MemberSpacingHelper
                 }
                 break;
             }
-            
+
             if (t.IsKind(SyntaxKind.EndOfLineTrivia))
                 newlineCount++;
             else if (!t.IsKind(SyntaxKind.WhitespaceTrivia))
                 newlineCount = 0;
         }
-        
+
         return newlineCount >= 1;
     }
 }

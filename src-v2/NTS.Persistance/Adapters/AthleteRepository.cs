@@ -5,5 +5,6 @@ namespace NTS.Persistence.Adapters;
 
 public class AthleteRepository : SetRepository<Athlete, SetupState>
 {
-    public AthleteRepository(IStore<SetupState> store) : base(store) { }
+    public AthleteRepository(IStore<SetupState> store)
+        : base(store) { }
 }

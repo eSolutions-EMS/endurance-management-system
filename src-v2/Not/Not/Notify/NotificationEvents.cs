@@ -15,20 +15,24 @@ public abstract class NotifyEvent
 
 public class Informed : NotifyEvent
 {
-    public Informed(string message) : base(message.Localize()) { }
+    public Informed(string message)
+        : base(message.Localize()) { }
 }
 
 public class Warned : NotifyEvent
 {
-    public Warned(string message) : base(message.Localize()) { }
+    public Warned(string message)
+        : base(message.Localize()) { }
 }
 
 public class Succeeded : NotifyEvent
 {
-    public Succeeded(string message) : base(message.Localize()) { }
+    public Succeeded(string message)
+        : base(message.Localize()) { }
 }
 
 public class Failed : NotifyEvent
 {
-    public Failed(string message) : base(message.Localize()) { }
+    public Failed(string message)
+        : base(message.Localize()) { }
 }

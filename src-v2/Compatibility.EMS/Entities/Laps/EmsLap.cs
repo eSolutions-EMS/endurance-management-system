@@ -6,6 +6,7 @@ public class EmsLap : EmsDomainBase<EmsLapException>
 {
     [Newtonsoft.Json.JsonConstructor]
     EmsLap() { }
+
     public EmsLap(IEmsLapState state)
         : base(GENERATE_ID)
     {

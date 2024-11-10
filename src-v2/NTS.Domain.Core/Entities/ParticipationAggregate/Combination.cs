@@ -31,6 +31,7 @@ public class Combination : DomainEntity
         MinAverageSpeed = minAverageSpeed;
         MaxAverageSpeed = maxAverageSpeed;
     }
+
     public Combination(
         int number,
         Person name,

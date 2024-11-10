@@ -16,6 +16,7 @@ public class EmsState
     public List<EmsAthlete> Athletes { get; private set; } = [];
     public List<EmsParticipant> Participants { get; private set; } = [];
     public List<EmsParticipation> Participations { get; private set; } = [];
+
     [JsonIgnore]
     public IReadOnlyList<EmsCountry> Countries =>
         new ReadOnlyCollection<EmsCountry>([new("BGN", "Bulgaria", 1337)]);

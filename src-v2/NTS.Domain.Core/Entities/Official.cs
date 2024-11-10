@@ -11,6 +11,7 @@ public class Official : DomainEntity
         Person = Required(nameof(Person), person);
         Role = Required(nameof(Role), role);
     }
+
     public Official(Person? person, OfficialRole? role)
         : this(GenerateId(), person, role) { }
 

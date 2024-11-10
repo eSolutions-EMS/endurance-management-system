@@ -6,6 +6,7 @@ namespace NTS.Compatibility.EMS.Entities;
 public class EmsStartlist : StartlistBase<EmsStartlistEntry>
 {
     public EmsStartlist() { }
+
     public EmsStartlist(IEnumerable<EmsStartlistEntry> entries)
     {
         AddRange(entries);

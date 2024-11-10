@@ -15,14 +15,14 @@ public class CodeStyleRestDummy
     {
         var enumValues = Enum.GetValues<T>();
         var selectItems = enumValues.Select(s => new SelectListModel<T>(s, s.GetDescription()));
-        var selectItems2 = enumValues.Where(s => Convert((object)s)));
+        var selectItems2 = enumValues.Where(s => Convert((object)s));
         return selectItems;
     }
 
-
     public static bool operator ==(CodeStyleRestDummy? one, CodeStyleRestDummy? two) => true;
 
-    public static bool operator !=(CodeStyleRestDummy? one, CodeStyleRestDummy? two) => !(one == two);
+    public static bool operator !=(CodeStyleRestDummy? one, CodeStyleRestDummy? two) =>
+        !(one == two);
 
     bool? _nullableBool;
 
@@ -41,7 +41,6 @@ public class CodeStyleRestDummy
     public int? Rest { get; set; } = 15;
     public DateTimeOffset? VetTime { get; set; } = DateTimeOffset.Now;
 
-
     public void Method() => Console.WriteLine("test");
 
     public DateTimeOffset? GetOutTime()
@@ -51,8 +50,8 @@ public class CodeStyleRestDummy
             return null;
         }
         var timeSpan = TimeSpan.FromMinutes(Rest.Value);
-        var b = VetTime?.Add(timeSpan); ;
-
+        var b = VetTime?.Add(timeSpan);
+        ;
 
         return b;
     }
@@ -91,7 +90,6 @@ public static class Extensions
     }
 }
 
-
 public class Instance
 {
     public int ConvertToInt()
@@ -111,14 +109,16 @@ public class SelectListModel<T>
     public T Value { get; set; }
     public string Description { get; set; }
 }
+
 public static class EnumHelper
 {
     public static string GetDescription(this Enum value)
     {
         var type = value.GetType();
-        var descriptionAttribute = GetEnumField(type, value)
-            ?.GetCustomAttributes(typeof(DescriptionAttribute), false)
-            .FirstOrDefault() as DescriptionAttribute;
+        var descriptionAttribute =
+            GetEnumField(type, value)
+                ?.GetCustomAttributes(typeof(DescriptionAttribute), false)
+                .FirstOrDefault() as DescriptionAttribute;
         return descriptionAttribute == null ? value.ToString() : descriptionAttribute.Description;
     }
 
