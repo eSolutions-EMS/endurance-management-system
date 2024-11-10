@@ -7,7 +7,6 @@ public class ExceptionHandler<T> : ErrorBoundary
 {
     [Inject]
     public IStringLocalizer<T> StringLocalizer { get; set; } = default!;
-
     public string? Message => CurrentException?.Message;
-    public string? StackTrace => this.CurrentException?.StackTrace;
+    public string? StackTrace => CurrentException?.StackTrace;
 }

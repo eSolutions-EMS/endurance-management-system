@@ -2,7 +2,7 @@
 
 public class BindableValueComponent<T> : NotComponent
 {
-    private T? _value;
+    T? _value;
 
     [Parameter]
     public T? Value
@@ -18,7 +18,6 @@ public class BindableValueComponent<T> : NotComponent
             ValueChanged.InvokeAsync(value);
         }
     }
-
     [Parameter]
     public EventCallback<T> ValueChanged { get; set; }
 }

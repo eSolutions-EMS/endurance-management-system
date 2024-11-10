@@ -7,10 +7,8 @@ public class NotComponent : ComponentBase
 {
     [Inject]
     protected ILocalizer Localizer { get; set; } = default!;
-
     [Parameter]
     public string? Style { get; set; }
-
     [Parameter]
     public string? Class { get; set; }
 

@@ -6,17 +6,16 @@ namespace Not.Blazor.TM.Forms.Components;
 
 public abstract class FormTM<T> : NotComponent
 {
+    public abstract void RegisterValidationInjectors();
+
     /// <summary>
     /// Contains refs to the actual field components, necessary in order to render Mud validation messages from the DomainException
     /// This is a workaround until: https://github.com/eSolutions-EMS/endurance-management-system/issues/185
     /// </summary>
     protected Dictionary<string, List<MudValidationInjector>> ValidationInjectors { get; set; } =
         [];
-
     [Parameter]
     public T Model { get; set; } = default!;
-
-    public abstract void RegisterValidationInjectors();
 
     protected override void OnInitialized()
     {
@@ -28,7 +27,8 @@ public abstract class FormTM<T> : NotComponent
         Func<MudBaseInput<TInput>> mudInputInstanceGetter
     )
     {
-        AddInjector(field, MudValidationInjector.Create(mudInputInstanceGetter));
+        var injector = MudValidationInjector.Create(mudInputInstanceGetter);
+        AddInjector(field, injector);
     }
 
     protected void RegisterInjector<TInput>(
@@ -36,7 +36,8 @@ public abstract class FormTM<T> : NotComponent
         Func<IMudBaseInputWrapper<TInput>> mudInputWrapper
     )
     {
-        AddInjector(field, MudValidationInjector.Create(mudInputWrapper));
+        var injector = MudValidationInjector.Create(mudInputWrapper);
+        AddInjector(field, injector);
     }
 
     protected void RegisterInjector<TInput>(
@@ -44,12 +45,14 @@ public abstract class FormTM<T> : NotComponent
         Func<MudPicker<TInput>> mudInputInstanceGetter
     )
     {
-        AddInjector(field, MudValidationInjector.Create(mudInputInstanceGetter));
+        var injector = MudValidationInjector.Create(mudInputInstanceGetter);
+        AddInjector(field, injector);
     }
 
     protected void RegisterInjector(string field, Func<NotSwitch> mudInputInstanceGetter)
     {
-        AddInjector(field, MudValidationInjector.Create<bool, bool>(mudInputInstanceGetter));
+        var injector = MudValidationInjector.Create<bool, bool>(mudInputInstanceGetter);
+        AddInjector(field, injector);
     }
 
     public async Task AddValidationError(string? field, string message)

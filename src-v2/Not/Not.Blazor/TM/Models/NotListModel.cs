@@ -36,7 +36,6 @@ public class NotListModel<T>
         Value = value;
         Label = label ?? value!.ToString()!;
     }
-
     public NotListModel()
     {
         //TODO: Localize no items label
