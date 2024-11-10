@@ -1,17 +1,26 @@
-﻿namespace NTS.Judge.Blazor.CodeStyle;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace NTS.Judge.Blazor.CodeStyle;
 
 public class CodeStyleRestDummy
 {
+    public static void StaticMethod() => Console.WriteLine("test");
+
     public static bool operator ==(CodeStyleRestDummy? one, CodeStyleRestDummy? two) => true;
 
     public static bool operator !=(CodeStyleRestDummy? one, CodeStyleRestDummy? two) => !(one == two);
-
-    public static void StaticMethod() => Console.WriteLine("test");
 
     bool? _nullableBool;
 
     public CodeStyleRestDummy()
     {
+        var instances = new List<Instance> { new Instance(), new Instance() };
+
+        var a = instances.Select(x => x.ConvertToInt());
+        var b = instances.Select(x => x.ConvertToInt().ToString());
+
         var two = Method2();
         var one = Method1();
         ShouldNotAllowNestedInvocations(one, typeof(CodeStyleRestDummy));
@@ -62,5 +71,14 @@ public static class Extensions
     public static bool Flip(this bool value)
     {
         return !value;
+    }
+}
+
+
+public class Instance
+{
+    public int ConvertToInt()
+    {
+        return 5;
     }
 }

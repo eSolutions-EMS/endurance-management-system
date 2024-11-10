@@ -52,7 +52,11 @@ public class NestedInvocationAnalyzer : AnalyzerBase
             if (methodName is "typeof" or "nameof")
                 return false;
                 
-            return true;
+            // Only report if the invocation is a standalone expression
+            if (expression.Parent is ArgumentSyntax)
+                return true;
+                
+            return false;
         }
 
         // Check descendant invocations
@@ -62,7 +66,7 @@ public class NestedInvocationAnalyzer : AnalyzerBase
             var identifier = descendant.Expression as IdentifierNameSyntax;
             var methodName = (memberAccess?.Name ?? identifier)?.Identifier.Text;
             
-            if (methodName is not "typeof" and not "nameof")
+            if (methodName is not "typeof" and not "nameof" && descendant.Parent is ArgumentSyntax)
                 return true;
         }
 
