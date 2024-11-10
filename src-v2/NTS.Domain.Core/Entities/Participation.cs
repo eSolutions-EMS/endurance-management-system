@@ -16,7 +16,7 @@ public class Participation : DomainEntity, IAggregateRoot
     public static readonly Event<ParticipationRestored> RestoredEvent = new();
 
     [JsonConstructor]
-    private Participation(
+    Participation(
         int id,
         Competition competition,
         Combination combination,

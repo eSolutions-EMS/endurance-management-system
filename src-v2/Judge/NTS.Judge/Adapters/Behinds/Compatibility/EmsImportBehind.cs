@@ -77,7 +77,7 @@ public class EmsImportBehind : IEmsImportBehind
             yield return Competition.Create(emsCompetition.Name, type, ruleset, start, 10);
         }
 
-        (CompetitionType type, CompetitionRuleset ruleset) MapRuleset(
+        static (CompetitionType type, CompetitionRuleset ruleset) MapRuleset(
             NTS.Compatibility.EMS.Entities.Competitions.EmsCompetitionType emsType
         )
         {

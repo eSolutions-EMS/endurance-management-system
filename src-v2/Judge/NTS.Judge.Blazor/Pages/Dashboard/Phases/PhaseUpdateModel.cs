@@ -9,7 +9,6 @@ public class PhaseUpdateModel : IPhaseState, IFormModel<Phase>
     public const string TIME_MASK = "00:00:00";
 
     public PhaseUpdateModel() { }
-
     public PhaseUpdateModel(Phase phase)
     {
         FromEntity(phase);
@@ -19,7 +18,6 @@ public class PhaseUpdateModel : IPhaseState, IFormModel<Phase>
     public string? ArriveTimeInput { get; set; }
     public string? PresentTimeInput { get; set; }
     public string? RepresentTimeInput { get; set; }
-
     public int Id { get; private set; }
     public DateTimeOffset? StartTime
     {

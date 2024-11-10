@@ -9,7 +9,7 @@ public class EmsCompetition : EmsDomainBase<EmsCompetitionException>
     List<EmsLap> _laps = [];
 
     [Newtonsoft.Json.JsonConstructor]
-EmsCompetition() { }
+    EmsCompetition() { }
     public EmsCompetition(EmsCompetitionType type, string name)
         : base(GENERATE_ID)
     {
@@ -31,12 +31,10 @@ EmsCompetition() { }
 
     public EmsCompetitionType Type { get; internal set; }
     public string Name { get; internal set; }
-
     /// <summary>
     /// Used to build EnduranceEvent.FEIID and Competition.FEIID. Its located at EVENT DETAIL (Search Venue->Show->ShowName->EventCode) upper right, https://data.fei.org
     /// </summary>
     public string FeiCategoryEventNumber { get; internal set; }
-
     /// <summary>
     /// Used to Competition.FEIID. Its located at COMPETITION DETAIL (Search Venue->Show->ShowName->EventCode->CompetitionName), upper right, https://data.fei.org
     /// </summary>

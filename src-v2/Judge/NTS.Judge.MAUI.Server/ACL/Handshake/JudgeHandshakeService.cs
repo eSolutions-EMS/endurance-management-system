@@ -23,7 +23,8 @@ public class JudgeHandshakeService : INetworkBroadcastService, IHandshakeService
         {
             using var server = new UdpClient(NETWORK_BROADCAST_PORT);
             var requestTask = server.ReceiveAsync();
-            var timeout = Task.Delay(TimeSpan.FromSeconds(3));
+            var delay = TimeSpan.FromSeconds(3);
+            var timeout = Task.Delay(delay);
             var first = await Task.WhenAny(requestTask, timeout);
             if (first == requestTask)
             {
@@ -55,7 +56,7 @@ public class JudgeHandshakeService : INetworkBroadcastService, IHandshakeService
             HandshakeResult handshake;
             do
             {
-                handshake = await this.AttemptHandshake(payload);
+                handshake = await AttemptHandshake(payload);
             } while (handshake.IsTimeout && !token.IsCancellationRequested);
 
             var response = handshake.Result!.Value;

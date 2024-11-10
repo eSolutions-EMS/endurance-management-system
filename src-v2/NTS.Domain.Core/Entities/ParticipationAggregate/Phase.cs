@@ -137,6 +137,7 @@ public class Phase : DomainEntity
 
     internal SnapshotResult Process(Snapshot snapshot)
     {
+#pragma warning disable NA0006 // Avoid nested method invocations
         return snapshot.Type switch
         {
             SnapshotType.Vet => Inspect(snapshot),
@@ -145,6 +146,7 @@ public class Phase : DomainEntity
             SnapshotType.Automatic => Automatic(snapshot),
             _ => throw GuardHelper.Exception($"Invalid snapshot '{snapshot.GetType()}'"),
         };
+#pragma warning restore NA0006 // Avoid nested method invocations
     }
 
     internal void Update(IPhaseState state)
@@ -229,7 +231,8 @@ public class Phase : DomainEntity
         {
             return null;
         }
-        return VetTime?.Add(TimeSpan.FromMinutes(Rest.Value - 15)); //TODO: settings
+        var span = TimeSpan.FromMinutes(Rest.Value - 15); //TODO: settings
+        return VetTime?.Add(span);
     }
 
     public Timestamp? GetOutTime()
@@ -238,7 +241,8 @@ public class Phase : DomainEntity
         {
             return null;
         }
-        return VetTime?.Add(TimeSpan.FromMinutes(Rest.Value));
+        var span = TimeSpan.FromMinutes(Rest.Value);
+        return VetTime?.Add(span);
     }
 
     public TimeInterval? GetLoopSpan()

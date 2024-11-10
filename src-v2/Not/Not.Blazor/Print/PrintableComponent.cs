@@ -5,10 +5,11 @@ namespace Not.Blazor.Print;
 public abstract class PrintableComponent : NotComponent, IDisposable
 {
     public delegate void ToggleVisibility();
+
     public static ToggleVisibility? ToggleVisibilityEvent;
 
     [Inject]
-    IPrintInterop _printInterop { get; set; } = default!;
+    IPrintInterop PrintInterop { get; set; } = default!;
 
     protected bool IsButtonVisible { get; private set; }
 
@@ -20,7 +21,7 @@ public abstract class PrintableComponent : NotComponent, IDisposable
     protected async Task OpenPrintDialog()
     {
         InvokeToggle();
-        await _printInterop.OpenPrintDialog();
+        await PrintInterop.OpenPrintDialog();
         InvokeToggle();
     }
 

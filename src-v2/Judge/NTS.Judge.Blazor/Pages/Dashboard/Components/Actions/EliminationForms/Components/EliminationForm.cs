@@ -5,12 +5,11 @@ namespace NTS.Judge.Blazor.Pages.Dashboard.Components.Actions.EliminationForms;
 
 public abstract class EliminationForm : NotComponent
 {
+    internal abstract Task Eliminate();
+
     [Inject]
     protected IParticipationBehind _participationBehind { get; set; } = default!;
-
     public bool IsEliminated => _participationBehind.SelectedParticipation?.Eliminated != null;
-
-    internal abstract Task Eliminate();
 
     internal async Task Restore()
     {
