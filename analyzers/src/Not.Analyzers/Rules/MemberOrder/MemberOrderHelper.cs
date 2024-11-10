@@ -18,6 +18,7 @@ public static class MemberOrderHelper
         ordering[MemberKind.PrivateStaticReadonly] = order++;
         ordering[MemberKind.PublicConst] = order++;
         ordering[MemberKind.PublicStaticReadonly] = order++;
+        ordering[MemberKind.PublicStaticEvent] = order++;
 
         ordering[MemberKind.PublicStaticMethod] = order++;
         ordering[MemberKind.PublicImplicitOperator] = order++;
@@ -26,6 +27,7 @@ public static class MemberOrderHelper
         // Instance Fields
         ordering[MemberKind.PrivateReadonly] = order++;
         ordering[MemberKind.PrivateField] = order++;
+        ordering[MemberKind.PrivateEvent] = order++;
         ordering[MemberKind.PublicField] = order++;
 
         // Constructors
@@ -41,6 +43,7 @@ public static class MemberOrderHelper
         ordering[MemberKind.PrivateProperty] = order++;
         ordering[MemberKind.ProtectedProperty] = order++;
         ordering[MemberKind.PublicIndexDeclarator] = order++;
+        ordering[MemberKind.PublicEvent] = order++;
         ordering[MemberKind.PublicProperty] = order++;
 
         // Methods

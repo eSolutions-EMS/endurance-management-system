@@ -15,6 +15,7 @@ public class MemberKindHelper
             PropertyDeclarationSyntax prop => GetPropertyKind(prop),
             MethodDeclarationSyntax method => GetMethodKind(method),
             ClassDeclarationSyntax nestedClass => GetNestedClassKind(nestedClass),
+            EventFieldDeclarationSyntax eventField => GetEventFieldKind(eventField),
             OperatorDeclarationSyntax _ => MemberKind.PublicOperator,
             IndexerDeclarationSyntax _ => MemberKind.PublicIndexDeclarator,
             ConversionOperatorDeclarationSyntax _ => MemberKind.PublicImplicitOperator,
@@ -46,6 +47,21 @@ public class MemberKindHelper
                     + $", isStatic: {isStatic}, isReadonly: {isReadonly}, isPrivate: {isPrivate}, isPublic: {isPublic}"
             ),
         };
+    }
+
+    private static MemberKind GetEventFieldKind(EventFieldDeclarationSyntax eventField)
+    {
+        var isPublic = eventField.Modifiers.Any(SyntaxKind.StaticKeyword);
+        var isStatic = eventField.Modifiers.Any(SyntaxKind.StaticKeyword);
+        if (isPublic && isStatic)
+        {
+            return MemberKind.PublicStaticEvent;
+        }
+        if (eventField.Modifiers.Any(SyntaxKind.PublicKeyword))
+        {
+            return MemberKind.PublicEvent;
+        }
+        return MemberKind.PrivateEvent;
     }
 
     private static MemberKind GetConstructorKind(ConstructorDeclarationSyntax ctor)

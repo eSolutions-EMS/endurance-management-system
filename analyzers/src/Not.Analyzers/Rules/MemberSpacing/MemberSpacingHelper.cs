@@ -17,12 +17,12 @@ public class MemberSpacingHelper
     {
         var memberGroups = new List<MemberKind[]>
         {
-            new[] { PrivateConst, PrivateStaticReadonly, PublicConst, PublicStaticReadonly },
-            new[] { PrivateReadonly, PrivateField, PublicField },
+            new[] { PrivateConst, PrivateStaticReadonly, PublicConst, PublicStaticReadonly, PublicStaticEvent },
+            new[] { PrivateReadonly, PrivateField, PrivateEvent, PublicField },
             new[] { PrivateCtor, ProtectedCtor, PublicCtor },
             new[] { PrivateProperty },
             new[] { AbstractProperty, AbstractMethod },
-            new[] { ProtectedProperty, InternalProperty, PublicIndexDeclarator, PublicProperty },
+            new[] { ProtectedProperty, InternalProperty, PublicIndexDeclarator, PublicEvent, PublicProperty },
         };
         var alwaysSeparated = new List<MemberKind>
         {
