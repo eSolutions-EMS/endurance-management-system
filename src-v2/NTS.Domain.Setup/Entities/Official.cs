@@ -15,16 +15,16 @@ public class Official : DomainEntity, ISummarizable, IImportable
     {
         return new(id, Person.Create(names), role);
     }
-
+    
     [JsonConstructor]
-    private Official(int id, Person? person, OfficialRole? role)
+    Official(int id, Person? person, OfficialRole? role)
         : base(id)
     {
         var name = person;
         Role = Required(nameof(Role), role);
         Person = Required(nameof(Person), person);
     }
-    private Official(Person? person, OfficialRole? role)
+    Official(Person? person, OfficialRole? role)
         : this(GenerateId(), person, role) { }
 
     public Person Person { get; }

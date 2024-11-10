@@ -42,7 +42,7 @@ public class Competition : DomainEntity, ISummarizable, IParent<Participation>, 
     readonly List<Participation> _participations = [];
 
     [JsonConstructor]
-    private Competition(
+    Competition(
         int id,
         string? name,
         CompetitionType? type,
@@ -62,7 +62,7 @@ public class Competition : DomainEntity, ISummarizable, IParent<Participation>, 
         Start = start;
         CompulsoryThresholdSpan = compulsoryThresholdSpan;
     }
-    private Competition(
+    Competition(
         string? name,
         CompetitionType? type,
         CompetitionRuleset ruleset,

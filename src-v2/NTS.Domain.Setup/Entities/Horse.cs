@@ -14,15 +14,15 @@ public class Horse : DomainEntity, ISummarizable, IImportable
     {
         return new(id, name, feiId);
     }
-
+    
     [JsonConstructor]
-    private Horse(int id, string? name, string? feiId)
+    Horse(int id, string? name, string? feiId)
         : base(id)
     {
         Name = Required(nameof(Name), name);
         FeiId = feiId;
     }
-    private Horse(string? name, string? feiId)
+    Horse(string? name, string? feiId)
         : this(GenerateId(), name, feiId) { }
 
     public string? FeiId { get; }

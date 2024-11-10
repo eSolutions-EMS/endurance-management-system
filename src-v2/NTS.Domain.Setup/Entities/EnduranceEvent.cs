@@ -27,11 +27,11 @@ public class EnduranceEvent
         return new(id, place, country, competitions, officials);
     }
 
-    private List<Competition> _competitions = [];
-    private List<Official> _officials = [];
-
+    List<Competition> _competitions = [];
+    List<Official> _officials = [];
+    
     [JsonConstructor]
-    private EnduranceEvent(
+    EnduranceEvent(
         int id,
         string? place,
         Country? country,
@@ -45,7 +45,7 @@ public class EnduranceEvent
         _competitions = competitions.ToList();
         _officials = officials.ToList();
     }
-    private EnduranceEvent(string? place, Country? country)
+    EnduranceEvent(string? place, Country? country)
         : this(GenerateId(), place, country, [], []) { }
 
     static string Capitalized(string name, string? value)
@@ -110,7 +110,7 @@ public class EnduranceEvent
         return Combine(Place, Country);
     }
 
-    private void ValidateRole(Official member)
+    void ValidateRole(Official member)
     {
         var role = member.Role;
         if (member.IsUniqueRole())
