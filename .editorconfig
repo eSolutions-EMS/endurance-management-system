@@ -221,3 +221,9 @@ dotnet_diagnostic.IDE0052.severity = warning
 
 # Non-constant field names should not be uppercase
 dotnet_diagnostic.CA2211.severity = warning
+
+# Prefer collection initializers
+dotnet_diagnostic.IDE0028.severity = warning
+
+# Prever .Length and .Count over Any
+dotnet_diagnostic.CA1860.severity = none
