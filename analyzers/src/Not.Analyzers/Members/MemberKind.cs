@@ -2,6 +2,7 @@ namespace Not.Analyzers.Members;
 
 public enum MemberKind
 {
+    Delegate,
     PrivateConst,
     PrivateStaticReadonly,
     PublicConst,

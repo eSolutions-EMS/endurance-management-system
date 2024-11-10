@@ -13,6 +13,8 @@ public static class MemberOrderHelper
         var ordering = new Dictionary<MemberKind, int>();
         var order = 0;
 
+        ordering[MemberKind.Delegate] = order++;
+        
         // Constants and Static Readonly Fields
         ordering[MemberKind.PrivateConst] = order++;
         ordering[MemberKind.PrivateStaticReadonly] = order++;

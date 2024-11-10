@@ -19,6 +19,7 @@ public class MemberKindHelper
             OperatorDeclarationSyntax _ => MemberKind.PublicOperator,
             IndexerDeclarationSyntax _ => MemberKind.PublicIndexDeclarator,
             ConversionOperatorDeclarationSyntax _ => MemberKind.PublicImplicitOperator,
+            DelegateDeclarationSyntax _ => MemberKind.Delegate,
             _ => throw new ArgumentException($"Unsupported member type: {member.GetType().Name}"),
         };
     }
