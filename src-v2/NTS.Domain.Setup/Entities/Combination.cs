@@ -5,8 +5,10 @@ namespace NTS.Domain.Setup.Entities;
 
 public class Combination : DomainEntity, ISummarizable, IImportable, IParent
 {
-    public static Combination Create(int number, Athlete? athlete, Horse? horse, Tag? tag) =>
-        new(number, athlete, horse, tag);
+    public static Combination Create(int number, Athlete? athlete, Horse? horse, Tag? tag)
+    {
+        return new(number, athlete, horse, tag);
+    }
 
     public static Combination Update(
         int id,
@@ -14,7 +16,10 @@ public class Combination : DomainEntity, ISummarizable, IImportable, IParent
         Athlete? athlete,
         Horse? horse,
         Tag? tag
-    ) => new(id, number, athlete, horse, tag);
+    )
+    {
+        return new(id, number, athlete, horse, tag);
+    }
 
     [JsonConstructor]
     public Combination(int id, int number, Athlete? athlete, Horse? horse, Tag? tag)

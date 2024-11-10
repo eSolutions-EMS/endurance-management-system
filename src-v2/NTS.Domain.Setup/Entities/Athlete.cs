@@ -11,7 +11,10 @@ public class Athlete : DomainEntity, ISummarizable, IImportable
         Country? country,
         string? club,
         AthleteCategory? category
-    ) => new(Person.Create(name), feiId, country, Club.Create(club), category);
+    )
+    {
+        return new(Person.Create(name), feiId, country, Club.Create(club), category);
+    }
 
     public static Athlete Update(
         int id,
@@ -20,7 +23,10 @@ public class Athlete : DomainEntity, ISummarizable, IImportable
         Country? country,
         string? club,
         AthleteCategory? category
-    ) => new(id, Person.Create(name), feiId, country, Club.Create(club), category);
+    )
+    {
+        return new(id, Person.Create(name), feiId, country, Club.Create(club), category);
+    }
 
     [JsonConstructor]
     private Athlete(

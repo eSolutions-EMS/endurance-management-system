@@ -10,7 +10,10 @@ public class Competition : DomainEntity, ISummarizable, IParent<Participation>, 
         CompetitionRuleset ruleset,
         DateTimeOffset start,
         int? compulsoryThresholdMinutes
-    ) => new(name, type, ruleset, start, compulsoryThresholdMinutes);
+    )
+    {
+        return new(name, type, ruleset, start, compulsoryThresholdMinutes);
+    }
 
     public static Competition Update(
         int id,
@@ -21,8 +24,9 @@ public class Competition : DomainEntity, ISummarizable, IParent<Participation>, 
         int? compulsoryThresholdMinutes,
         IEnumerable<Phase> phases,
         IEnumerable<Participation> participations
-    ) =>
-        new(
+    )
+    {
+        return new(
             id,
             name,
             type,
@@ -32,6 +36,7 @@ public class Competition : DomainEntity, ISummarizable, IParent<Participation>, 
             phases,
             participations
         );
+    }
 
     readonly List<Phase> _phases = [];
     readonly List<Participation> _participations = [];

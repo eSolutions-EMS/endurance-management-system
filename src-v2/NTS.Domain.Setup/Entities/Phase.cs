@@ -5,10 +5,15 @@ namespace NTS.Domain.Setup.Entities;
 
 public class Phase : DomainEntity, ISummarizable, IImportable
 {
-    public static Phase Create(Loop? loop, int recovery, int? rest) => new(loop, recovery, rest);
+    public static Phase Create(Loop? loop, int recovery, int? rest)
+    {
+        return new(loop, recovery, rest);
+    }
 
-    public static Phase Update(int id, Loop? loop, int recovery, int? rest) =>
-        new(id, loop, recovery, rest);
+    public static Phase Update(int id, Loop? loop, int recovery, int? rest)
+    {
+        return new(id, loop, recovery, rest);
+    }
 
     [JsonConstructor]
     public Phase(int id, Loop? loop, int recovery, int? rest)

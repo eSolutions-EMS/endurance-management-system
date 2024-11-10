@@ -4,9 +4,15 @@ namespace NTS.Domain.Setup.Entities;
 
 public class Loop : DomainEntity
 {
-    public static Loop Create(double distance) => new(distance);
+    public static Loop Create(double distance)
+    {
+        return new(distance);
+    }
 
-    public static Loop Update(int id, double distance) => new(id, distance);
+    public static Loop Update(int id, double distance)
+    {
+        return new(id, distance);
+    }
 
     [JsonConstructor]
     public Loop(int id, double distance)

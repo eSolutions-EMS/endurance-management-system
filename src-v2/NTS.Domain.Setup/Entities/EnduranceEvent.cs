@@ -11,7 +11,10 @@ public class EnduranceEvent
         IParent<Official>,
         IParent<Competition>
 {
-    public static EnduranceEvent Create(string? place, Country? country) => new(place, country);
+    public static EnduranceEvent Create(string? place, Country? country)
+    {
+        return new(place, country);
+    }
 
     public static EnduranceEvent Update(
         int id,
@@ -19,7 +22,10 @@ public class EnduranceEvent
         Country? country,
         IEnumerable<Competition> competitions,
         IEnumerable<Official> officials
-    ) => new(id, place, country, competitions, officials);
+    )
+    {
+        return new(id, place, country, competitions, officials);
+    }
 
     private List<Competition> _competitions = [];
     private List<Official> _officials = [];

@@ -14,7 +14,10 @@ public class Participation : DomainEntity, ISummarizable
         bool isUnranked,
         Combination? combination,
         double? maxSpeedOverride
-    ) => new(newStart, isUnranked, combination, maxSpeedOverride);
+    )
+    {
+        return new(newStart, isUnranked, combination, maxSpeedOverride);
+    }
 
     public static Participation Update(
         int id,
@@ -22,7 +25,10 @@ public class Participation : DomainEntity, ISummarizable
         bool isUnranked,
         Combination? combination,
         double? maxSpeedOverride
-    ) => new(id, newStart, isUnranked, combination, maxSpeedOverride);
+    )
+    {
+        return new(id, newStart, isUnranked, combination, maxSpeedOverride);
+    }
 
     [JsonConstructor]
     private Participation(
