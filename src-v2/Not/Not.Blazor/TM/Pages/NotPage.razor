@@ -32,11 +32,14 @@ else
         }
         else
         {
-            <MudItem xs="@mainXs" Class="not-page-content">
-                <MudPaper Elevation="Elevation" Class="pa-4">@Main</MudPaper>
-            </MudItem>
+            if (!HideMain)
+            {
+                <MudItem xs="@mainXs" Class="not-page-content">
+                    <MudPaper Elevation="Elevation" Class="pa-4">@Main</MudPaper>
+                </MudItem>
+            }
 
-            if (Main2 != null)
+            if (Main2 != null && !HideMain2)
             {
                 <MudItem xs="@mainXs" Class="not-page-content">
                     <MudPaper Elevation="Elevation" Class="pa-4">@Main2</MudPaper>
@@ -80,6 +83,10 @@ else
     public RenderFragment? EmptyContent { get; set; }
     [Parameter]
     public int Elevation { get; set; } = DEFAULT_ELEVATION;
+    [Parameter]
+    public bool HideMain { get; set; } = false;
+    [Parameter]
+    public bool HideMain2 { get; set; } = false;
 
     protected override void OnInitialized()
     {
