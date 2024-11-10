@@ -4,24 +4,26 @@ namespace Not.Domain.Summary;
 
 public class Summarizer
 {
-    private readonly StringBuilder sb = new();
+    readonly StringBuilder sb = new();
 
     public Summarizer(object obj)
     {
-        this.sb.AppendLine(obj.ToString());
+        var value = obj.ToString();
+        sb.AppendLine(value);
     }
 
     public void Add(string label, IEnumerable<ISummarizable> summarizables)
     {
-        this.sb.AppendLine($"= {label}");
+        sb.AppendLine($"= {label}");
         foreach (var summarizable in summarizables)
         {
-            this.sb.AppendLine($"= {summarizable.Summarize()}");
+            var summaryLine = $"= {summarizable.Summarize()}";
+            sb.AppendLine(summaryLine);
         }
     }
 
     public override string ToString()
     {
-        return this.sb.ToString();
+        return sb.ToString();
     }
 }
