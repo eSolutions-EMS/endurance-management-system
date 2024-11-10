@@ -229,3 +229,6 @@ dotnet_diagnostic.CA1822.severity = none
 dotnet_diagnostic.IDE0290.severity = none
 
 dotnet_diagnostic.MY0001.severity = warning
+
+# IDE0003: Remove qualification
+dotnet_diagnostic.IDE0003.severity = warning

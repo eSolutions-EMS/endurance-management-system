@@ -32,7 +32,8 @@ public class Official : DomainEntity, ISummarizable, IImportable
 
     public override string ToString()
     {
-        return Combine(Role.GetDescription(), Person);
+        var values = Role.GetDescription();
+        return Combine(values, Person);
     }
 
     public bool IsUniqueRole()

@@ -90,15 +90,18 @@ public class Competition : DomainEntity, ISummarizable, IParent<Participation>, 
 
     public string Summarize()
     {
+        var phases = "phases".Localize();
+        var participations = "participations".Localize();
         var summary = new Summarizer(this);
-        summary.Add("phases".Localize(), _phases);
-        summary.Add("contestants".Localize(), _participations);
+        summary.Add(phases, _phases);
+        summary.Add(participations, _participations);
         return summary.ToString();
     }
 
     public override string ToString()
     {
-        return Combine($"{Name} ({Phases.Count})", Type.ToString().Localize(), $"{Start:g}");
+        var type = Type.ToString().Localize();
+        return Combine($"{Name} ({Phases.Count})", type, $"{Start:g}");
     }
 
     public void Add(Participation child)

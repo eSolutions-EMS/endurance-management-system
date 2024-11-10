@@ -46,6 +46,7 @@ public class Combination : DomainEntity, ISummarizable, IImportable, IParent
 
     public override string ToString()
     {
-        return Combine($"{"#".Localize()}{Number}", Athlete, Horse);
+        var number = $"{"#".Localize()}{Number}";
+        return Combine(number, Athlete, Horse);
     }
 }

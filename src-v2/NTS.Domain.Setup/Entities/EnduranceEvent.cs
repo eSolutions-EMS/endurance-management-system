@@ -88,9 +88,12 @@ public class EnduranceEvent
 
     public string Summarize()
     {
+        var officials = nameof(this.Officials).Localize();
+        var competitions = nameof(this.Competitions).Localize();
+
         var summary = new Summarizer(this);
-        summary.Add(nameof(this.Officials).Localize(), this.Officials);
-        summary.Add(nameof(this.Competitions).Localize(), this.Competitions);
+        summary.Add(officials, this.Officials);
+        summary.Add(competitions, this.Competitions);
         return summary.ToString();
     }
 
@@ -103,7 +106,8 @@ public class EnduranceEvent
     {
         Required(name, value);
 
-        if (string.IsNullOrEmpty(value) || !char.IsUpper(value.First()))
+        var character = value.First();
+        if (string.IsNullOrEmpty(value) || !char.IsUpper(character))
         {
             throw new DomainException(name, $"Has to be Capital case");
         }
