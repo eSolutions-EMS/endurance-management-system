@@ -8,7 +8,7 @@ namespace Not.Storage.Stores;
 public class JsonFileStore<T> : JsonStore<T>, IStore<T>
     where T : class, IState, new()
 {
-    private readonly ConcurrencySynchronizer _synchronizer;
+    readonly ConcurrencySynchronizer _synchronizer;
 
     public JsonFileStore(IFileStorageConfiguration configuration)
         : base(Path.Combine(configuration.Path, $"{typeof(T).Name}.json"))

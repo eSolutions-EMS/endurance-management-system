@@ -6,7 +6,7 @@ public abstract class SetRepository<T, TState> : IRepository<T>
     where T : DomainEntity
     where TState : class, ISetState<T>, new()
 {
-    private readonly IStore<TState> _store;
+    readonly IStore<TState> _store;
 
     public SetRepository(IStore<TState> store)
     {
