@@ -11,7 +11,6 @@ public abstract class ObservableListBehind<T> : ObservableBehind, IDisposable
     {
         _loadedSubscriptionId = ObservableList.ChangedEvent.Subscribe(EmitChange);
     }
-
     protected ObservableListBehind(ObservableList<T> list)
     {
         _loadedSubscriptionId = list.ChangedEvent.Subscribe(EmitChange);

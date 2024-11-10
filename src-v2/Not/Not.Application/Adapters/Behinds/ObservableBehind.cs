@@ -9,8 +9,9 @@ namespace Not.Application.Adapters.Behinds;
 public abstract class ObservableBehind : IObservableBehind
 {
     readonly SemaphoreSlim _semaphore = new(1);
+    readonly Event _stateChanged = new();
     bool _isInitialized;
-    private readonly Event _stateChanged = new();
+
 
     /// <summary>
     /// Initialize the state of an ObservableBehind.
@@ -18,6 +19,11 @@ public abstract class ObservableBehind : IObservableBehind
     /// </summary>
     /// <returns>Indicates weather or not the state has been initialized successfully</returns>
     protected abstract Task<bool> PerformInitialization(params IEnumerable<object> arguments);
+
+    protected void EmitChange()
+    {
+        _stateChanged.Emit();
+    }
 
     public async Task Initialize(params IEnumerable<object> arguments)
     {
@@ -40,10 +46,5 @@ public abstract class ObservableBehind : IObservableBehind
     public void Subscribe(Func<Task> action)
     {
         _stateChanged.SubscribeAsync(action);
-    }
-
-    protected void EmitChange()
-    {
-        _stateChanged.Emit();
     }
 }
