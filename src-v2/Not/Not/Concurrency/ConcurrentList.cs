@@ -5,8 +5,8 @@ namespace Not.Concurrency;
 
 public class ConcurrentList<T> : IList<T>
 {
-    private readonly List<T> _items = [];
-    private readonly object _lock = new();
+    readonly List<T> _items = [];
+    readonly object _lock = new();
 
     public ConcurrentList()
     {
@@ -17,6 +17,14 @@ public class ConcurrentList<T> : IList<T>
     {
         _items = enumerable.ToList();
     }
+
+    public T this[int index]
+    {
+        get => _items[index];
+        set => _items[index] = value;
+    }
+    public int Count => _items.Count;
+    public bool IsReadOnly => false;
 
     public void Add(T item)
     {
@@ -81,19 +89,6 @@ public class ConcurrentList<T> : IList<T>
         return _items.GetEnumerator();
     }
 
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
-    }
-
-    public int Count => _items.Count;
-    public bool IsReadOnly => false;
-    public T this[int index]
-    {
-        get => _items[index];
-        set => _items[index] = value;
-    }
-
     public int IndexOf(T item)
     {
         return _items.IndexOf(item);
@@ -117,6 +112,11 @@ public class ConcurrentList<T> : IList<T>
     public void CopyTo(T[] array, int arrayIndex)
     {
         _items.CopyTo(array, arrayIndex);
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
     }
 
     bool ICollection<T>.Remove(T item)

@@ -1,5 +1,5 @@
 using System.Collections.Immutable;
-using Not.Analyzers.Objects;
+using Not.Analyzers.Members;
 
 namespace Not.Analyzers.Rules.MemberOrder;
 
@@ -13,17 +13,23 @@ public static class MemberOrderHelper
         var ordering = new Dictionary<MemberKind, int>();
         var order = 0;
 
+        ordering[MemberKind.Delegate] = order++;
+
         // Constants and Static Readonly Fields
         ordering[MemberKind.PrivateConst] = order++;
         ordering[MemberKind.PrivateStaticReadonly] = order++;
         ordering[MemberKind.PublicConst] = order++;
         ordering[MemberKind.PublicStaticReadonly] = order++;
+        ordering[MemberKind.PublicStaticEvent] = order++;
 
         ordering[MemberKind.PublicStaticMethod] = order++;
+        ordering[MemberKind.PublicImplicitOperator] = order++;
+        ordering[MemberKind.PublicOperator] = order++;
 
         // Instance Fields
         ordering[MemberKind.PrivateReadonly] = order++;
         ordering[MemberKind.PrivateField] = order++;
+        ordering[MemberKind.PrivateEvent] = order++;
         ordering[MemberKind.PublicField] = order++;
 
         // Constructors
@@ -38,6 +44,8 @@ public static class MemberOrderHelper
         // Properties
         ordering[MemberKind.PrivateProperty] = order++;
         ordering[MemberKind.ProtectedProperty] = order++;
+        ordering[MemberKind.PublicIndexDeclarator] = order++;
+        ordering[MemberKind.PublicEvent] = order++;
         ordering[MemberKind.PublicProperty] = order++;
 
         // Methods

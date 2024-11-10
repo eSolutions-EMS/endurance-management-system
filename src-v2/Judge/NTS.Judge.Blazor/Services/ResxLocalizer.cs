@@ -6,7 +6,7 @@ namespace NTS.Judge.Blazor.Services;
 
 public class ResxLocalizer : LocalizerBase
 {
-    private readonly IStringLocalizer<Strings> _stringLocalizer;
+    readonly IStringLocalizer<Strings> _stringLocalizer;
 
     public ResxLocalizer(IStringLocalizer<Strings> stringLocalizer)
     {

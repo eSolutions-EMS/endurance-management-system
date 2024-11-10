@@ -3,5 +3,8 @@ using NTS.Persistence.States;
 
 namespace NTS.Persistence.Adapters;
 
-public class CoreParticipationRepository(IStore<CoreState> store)
-    : SetRepository<Participation, CoreState>(store) { }
+public class CoreParticipationRepository : SetRepository<Participation, CoreState>
+{
+    public CoreParticipationRepository(IStore<CoreState> store)
+        : base(store) { }
+}

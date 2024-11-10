@@ -6,10 +6,10 @@ namespace NTS.Domain.Core.Entities.ParticipationAggregate;
 // TODO: probably shoudl be a record
 public class Combination : DomainEntity
 {
-    private decimal _distance;
+    decimal _distance;
 
     [JsonConstructor]
-    private Combination(
+    Combination(
         int id,
         int number,
         Person name,

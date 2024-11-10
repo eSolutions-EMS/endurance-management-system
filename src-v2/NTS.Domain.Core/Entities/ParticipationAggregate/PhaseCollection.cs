@@ -21,12 +21,6 @@ public class PhaseCollection : ReadOnlyCollection<Phase>
     public Phase Current { get; private set; }
     public double Distance => this.Sum(x => x.Length);
 
-    public override string ToString()
-    {
-        var completed = this.Count(x => x.IsComplete());
-        return $"{Distance}{"km".Localize()}: {completed}/{Count}";
-    }
-
     internal SnapshotResult Process(Snapshot snapshot)
     {
         var isComplete = Current.IsComplete();
@@ -69,7 +63,13 @@ public class PhaseCollection : ReadOnlyCollection<Phase>
         return true;
     }
 
-    private Phase GetNext()
+    public override string ToString()
+    {
+        var completed = this.Count(x => x.IsComplete());
+        return $"{Distance}{"km".Localize()}: {completed}/{Count}";
+    }
+
+    Phase GetNext()
     {
         var currentIndex = IndexOf(Current);
         return this[++currentIndex];

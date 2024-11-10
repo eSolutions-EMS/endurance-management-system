@@ -6,7 +6,7 @@ namespace NTS.Judge.Setup.Competitions;
 
 public class CompetitionFormModel : IFormModel<Competition>
 {
-    private int? _requiredInspectionCompulsoryThreshold;
+    int? _requiredInspectionCompulsoryThreshold;
 
     public CompetitionFormModel()
     {
@@ -31,16 +31,7 @@ public class CompetitionFormModel : IFormModel<Competition>
     }
     public IReadOnlyCollection<Phase> Phases { get; private set; } = [];
     public IReadOnlyCollection<Participation> Participations { get; private set; } = [];
-
     public DateTimeOffset StartTime => CombineStartDayAndTime(Day, Time);
-
-    static DateTimeOffset CombineStartDayAndTime(DateTime? startDay, TimeSpan? startTime)
-    {
-        var start = startDay.GetValueOrDefault(DateTime.Today);
-        var startDayTime = start.Date.Add(startTime.GetValueOrDefault(DateTime.Now.TimeOfDay));
-        var startTimeOffset = startDayTime.ToDateTimeOffset();
-        return startTimeOffset;
-    }
 
     public void FromEntity(Competition competition)
     {
@@ -54,5 +45,14 @@ public class CompetitionFormModel : IFormModel<Competition>
         Participations = competition.Participations;
         CompulsoryThresholdMinutes = competition.CompulsoryThresholdSpan?.Minutes;
         UseCompulsoryThreshold = competition.CompulsoryThresholdSpan != null;
+    }
+
+    static DateTimeOffset CombineStartDayAndTime(DateTime? startDay, TimeSpan? startTime)
+    {
+        var today = startDay.GetValueOrDefault(DateTime.Today);
+        var nowTime = startTime.GetValueOrDefault(DateTime.Now.TimeOfDay);
+        var startDayTime = today.Date.Add(nowTime);
+        var startTimeOffset = startDayTime.ToDateTimeOffset();
+        return startTimeOffset;
     }
 }

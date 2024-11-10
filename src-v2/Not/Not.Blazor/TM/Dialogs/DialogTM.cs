@@ -9,9 +9,9 @@ public class DialogTM<T, TForm>
     where T : new()
     where TForm : FormTM<T>
 {
-    private readonly IDialogService _mudDialogService;
-    private readonly ILocalizer _localizer;
-    private readonly DialogOptions _options = new DialogOptions { BackdropClick = false };
+    readonly IDialogService _mudDialogService;
+    readonly ILocalizer _localizer;
+    readonly DialogOptions _options = new DialogOptions { BackdropClick = false };
 
     public DialogTM(IDialogService mudDialogService, ILocalizer localizer)
     {
@@ -36,7 +36,8 @@ public class DialogTM<T, TForm>
     async Task Show<TDialog>(string type, DialogParameters<TDialog> parameters)
         where TDialog : IComponent
     {
-        var title = _localizer.Get(type, " ", ReflectionHelper.GetName<T>());
+        var typeName = ReflectionHelper.GetName<T>();
+        var title = _localizer.Get(type, " ", typeName);
         var dialog = await _mudDialogService.ShowAsync<TDialog>(title, parameters, _options);
         await dialog.Result;
     }

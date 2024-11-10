@@ -9,8 +9,8 @@ public class Ranklist : IReadOnlyList<RankingEntry>
 {
     static readonly FeiRanker _feiRanker = new();
     static readonly Ranker[] _regionalRankers = [new BulgariaRanker()];
-    readonly Ranking _ranking;
 
+    readonly Ranking _ranking;
     List<RankingEntry> _entries;
 
     public Ranklist(Ranking ranking)
@@ -19,28 +19,18 @@ public class Ranklist : IReadOnlyList<RankingEntry>
         _ranking = ranking;
     }
 
-    #region IReadOnlyList implementation
-
-    public int Count => _entries.Count;
     public RankingEntry this[int index] => _entries[index];
-
-    public IEnumerator<RankingEntry> GetEnumerator()
-    {
-        return _entries.GetEnumerator();
-    }
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
-    }
-
-    #endregion
-
+    public int Count => _entries.Count;
     public int RankingId => _ranking.Id;
     public string Name => _ranking.Name;
     public AthleteCategory Category => _ranking.Category;
     public CompetitionRuleset Ruleset => _ranking.Ruleset;
     public string Title => $"{Category}: {Name}";
+
+    public IEnumerator<RankingEntry> GetEnumerator()
+    {
+        return _entries.GetEnumerator();
+    }
 
     public void Update(Participation participation)
     {
@@ -51,6 +41,11 @@ public class Ranklist : IReadOnlyList<RankingEntry>
         }
         existing.Participation = participation;
         _entries = Rank(_ranking);
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
     }
 
     static List<RankingEntry> Rank(Ranking ranking)

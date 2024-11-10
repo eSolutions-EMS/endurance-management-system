@@ -1,7 +1,10 @@
 ﻿using NTS.Domain.Setup.Entities;
-using NTS.Persistence.Setup;
+using NTS.Persistence.States;
 
 namespace NTS.Persistence.Adapters;
 
-public class SetupOfficialRepository(IStore<SetupState> store)
-    : SetRepository<Official, SetupState>(store) { }
+public class SetupOfficialRepository : SetRepository<Official, SetupState>
+{
+    public SetupOfficialRepository(IStore<SetupState> store)
+        : base(store) { }
+}

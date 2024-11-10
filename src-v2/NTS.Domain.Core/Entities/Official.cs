@@ -5,7 +5,7 @@ namespace NTS.Domain.Core.Entities;
 public class Official : DomainEntity
 {
     [JsonConstructor]
-    private Official(int id, Person? person, OfficialRole? role)
+    Official(int id, Person? person, OfficialRole? role)
         : base(id)
     {
         Person = Required(nameof(Person), person);

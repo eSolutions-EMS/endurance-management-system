@@ -6,20 +6,14 @@ namespace Not.Blazor.Mud.Components.Base;
 public class NotButtonBase : MudButton
 {
     [Inject]
-    private ILocalizer _localizer { get; set; } = default!;
-
-    protected override void OnParametersSet()
-    {
-        if (Text == null)
-        {
-            ChildContent = null;
-        }
-        else
-        {
-            ChildContent = new RenderFragment(x => x.AddContent(0, _localizer.Get(Text)));
-        }
-    }
+    ILocalizer Localizer { get; set; } = default!;
 
     [Parameter]
     public string? Text { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        ChildContent =
+            Text == null ? null : new RenderFragment(x => x.AddContent(0, Localizer.Get(Text)));
+    }
 }

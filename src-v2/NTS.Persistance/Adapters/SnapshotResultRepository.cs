@@ -3,5 +3,8 @@ using NTS.Persistence.States;
 
 namespace NTS.Persistence.Adapters;
 
-public class SnapshotResultRepository(IStore<CoreState> store)
-    : SetRepository<SnapshotResult, CoreState>(store) { }
+public class SnapshotResultRepository : SetRepository<SnapshotResult, CoreState>
+{
+    public SnapshotResultRepository(IStore<CoreState> store)
+        : base(store) { }
+}

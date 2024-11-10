@@ -1,14 +1,11 @@
-﻿using System;
-
-namespace NTS.Compatibility.EMS.Abstractions;
+﻿namespace NTS.Compatibility.EMS.Abstractions;
 
 public abstract class EmsDomainExceptionBase : Exception
 {
     protected abstract string Entity { get; }
-    protected string InitMessage { get; init; }
-    public override string Message => this.Prefix(this.InitMessage ?? this.Message);
 
-    private string Prefix(string message) => $"{this.Entity} {message}";
+    protected string InitMessage { get; init; }
+    public override string Message => Prefix(InitMessage ?? Message);
 
     internal static T Create<T>(string message)
         where T : EmsDomainExceptionBase, new()
@@ -22,5 +19,10 @@ public abstract class EmsDomainExceptionBase : Exception
     {
         var exception = new T { InitMessage = string.Format(message, arguments) };
         return exception;
+    }
+
+    string Prefix(string message)
+    {
+        return $"{Entity} {message}";
     }
 }

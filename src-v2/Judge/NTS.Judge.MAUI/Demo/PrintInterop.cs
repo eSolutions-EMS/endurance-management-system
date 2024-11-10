@@ -5,7 +5,7 @@ namespace NTS.Judge.MAUI.Demo;
 
 public class PrintInterop : IPrintInterop
 {
-    private readonly IJSRuntime _jsRuntime;
+    readonly IJSRuntime _jsRuntime;
 
     public PrintInterop(IJSRuntime jsRuntime)
     {

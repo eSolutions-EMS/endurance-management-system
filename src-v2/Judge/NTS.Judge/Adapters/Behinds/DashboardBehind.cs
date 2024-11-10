@@ -11,11 +11,11 @@ namespace NTS.Judge.Adapters.Behinds;
 
 public class DashboardBehind : IDashboardBehind
 {
-    private readonly IRepository<Domain.Setup.Entities.EnduranceEvent> _setupRepository;
-    private readonly IRepository<EnduranceEvent> _coreEventRespository;
-    private readonly IRepository<Official> _coreOfficialRepository;
-    private readonly IRepository<Participation> _participationRepository;
-    private readonly IRepository<Ranking> _rankingRepository;
+    readonly IRepository<Domain.Setup.Entities.EnduranceEvent> _setupRepository;
+    readonly IRepository<EnduranceEvent> _coreEventRespository;
+    readonly IRepository<Official> _coreOfficialRepository;
+    readonly IRepository<Participation> _participationRepository;
+    readonly IRepository<Ranking> _rankingRepository;
 
     public DashboardBehind(
         IRepository<Domain.Setup.Entities.EnduranceEvent> setupRepository,
@@ -30,6 +30,16 @@ public class DashboardBehind : IDashboardBehind
         _coreOfficialRepository = coreOfficialRepository;
         _participationRepository = participationRepository;
         _rankingRepository = rankingRepository;
+    }
+
+    public Task Start()
+    {
+        return SafeHelper.Run(SafeStart);
+    }
+
+    public Task<bool> IsEnduranceEventStarted()
+    {
+        return SafeHelper.Run(SafeIsEnduranceEventStarted);
     }
 
     async Task SafeStart()
@@ -96,18 +106,4 @@ public class DashboardBehind : IDashboardBehind
             await _rankingRepository.Create(ranking);
         }
     }
-
-    #region SafePattern
-
-    public Task Start()
-    {
-        return SafeHelper.Run(SafeStart);
-    }
-
-    public Task<bool> IsEnduranceEventStarted()
-    {
-        return SafeHelper.Run(SafeIsEnduranceEventStarted);
-    }
-
-    #endregion
 }

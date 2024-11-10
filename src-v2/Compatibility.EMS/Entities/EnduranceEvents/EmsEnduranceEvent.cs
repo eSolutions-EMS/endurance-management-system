@@ -7,8 +7,13 @@ namespace NTS.Compatibility.EMS.Entities.EnduranceEvents;
 
 public class EmsEnduranceEvent : EmsDomainBase<EmsEnduranceEventException>
 {
+    List<EmsPersonnel> membersOfVetCommittee = [];
+    List<EmsPersonnel> membersOfJudgeCommittee = [];
+    List<EmsPersonnel> stewards = [];
+    List<EmsCompetition> competitions = [];
+
     [Newtonsoft.Json.JsonConstructor]
-    private EmsEnduranceEvent() { }
+    EmsEnduranceEvent() { }
 
     internal EmsEnduranceEvent(
         string name,
@@ -27,14 +32,9 @@ public class EmsEnduranceEvent : EmsDomainBase<EmsEnduranceEventException>
     internal EmsEnduranceEvent(string name, EmsCountry country)
         : base(GENERATE_ID)
     {
-        this.Name = name;
-        this.Country = country;
+        Name = name;
+        Country = country;
     }
-
-    private List<EmsPersonnel> membersOfVetCommittee = [];
-    private List<EmsPersonnel> membersOfJudgeCommittee = [];
-    private List<EmsPersonnel> stewards = [];
-    private List<EmsCompetition> competitions = [];
 
     public string FeiCode { get; internal set; }
     public string ShowFeiId { get; internal set; }
@@ -49,6 +49,26 @@ public class EmsEnduranceEvent : EmsDomainBase<EmsEnduranceEventException>
     public EmsPersonnel FeiTechDelegate { get; internal set; }
     public EmsPersonnel FeiVetDelegate { get; internal set; }
     public EmsPersonnel ActiveVet { get; internal set; }
+    public IReadOnlyList<EmsPersonnel> MembersOfVetCommittee
+    {
+        get => membersOfVetCommittee.AsReadOnly();
+        private set => membersOfVetCommittee = value.ToList();
+    }
+    public IReadOnlyList<EmsPersonnel> MembersOfJudgeCommittee
+    {
+        get => membersOfJudgeCommittee.AsReadOnly();
+        private set => membersOfJudgeCommittee = value.ToList();
+    }
+    public IReadOnlyList<EmsPersonnel> Stewards
+    {
+        get => stewards.AsReadOnly();
+        private set => stewards = value.ToList();
+    }
+    public IReadOnlyList<EmsCompetition> Competitions
+    {
+        get => competitions.AsReadOnly();
+        private set => competitions = value.ToList();
+    }
 
     public void Save(EmsCompetition competition)
     {
@@ -58,26 +78,5 @@ public class EmsEnduranceEvent : EmsDomainBase<EmsEnduranceEventException>
     public void Save(EmsPersonnel personnel)
     {
         throw new NotImplementedException();
-    }
-
-    public IReadOnlyList<EmsPersonnel> MembersOfVetCommittee
-    {
-        get => this.membersOfVetCommittee.AsReadOnly();
-        private set => this.membersOfVetCommittee = value.ToList();
-    }
-    public IReadOnlyList<EmsPersonnel> MembersOfJudgeCommittee
-    {
-        get => this.membersOfJudgeCommittee.AsReadOnly();
-        private set => this.membersOfJudgeCommittee = value.ToList();
-    }
-    public IReadOnlyList<EmsPersonnel> Stewards
-    {
-        get => this.stewards.AsReadOnly();
-        private set => this.stewards = value.ToList();
-    }
-    public IReadOnlyList<EmsCompetition> Competitions
-    {
-        get => this.competitions.AsReadOnly();
-        private set => this.competitions = value.ToList();
     }
 }

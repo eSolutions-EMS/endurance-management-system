@@ -6,7 +6,7 @@ namespace NTS.Domain.Core.Entities;
 public class EnduranceEvent : DomainEntity
 {
     [JsonConstructor]
-    private EnduranceEvent(
+    EnduranceEvent(
         int id,
         PopulatedPlace populatedPlace,
         EventSpan eventSpan,

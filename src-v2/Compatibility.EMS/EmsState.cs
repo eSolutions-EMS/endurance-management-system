@@ -23,10 +23,10 @@ public class EmsState
 
     public void Set(EmsState initial)
     {
-        this.Event = initial.Event;
-        this.Horses = initial.Horses;
-        this.Athletes = initial.Athletes;
-        this.Participants = initial.Participants;
-        this.Participations = initial.Participations;
+        Event = initial.Event;
+        Horses = initial.Horses;
+        Athletes = initial.Athletes;
+        Participants = initial.Participants;
+        Participations = initial.Participations;
     }
 }

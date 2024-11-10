@@ -5,13 +5,13 @@ namespace NTS.Compatibility.EMS.Entities.Personnels;
 public class EmsPersonnel : EmsDomainBase<EmsPersonnelException>, IEmsPersonnelState
 {
     [Newtonsoft.Json.JsonConstructor]
-    private EmsPersonnel() { }
+    EmsPersonnel() { }
 
     public EmsPersonnel(IEmsPersonnelState state)
         : base(GENERATE_ID)
     {
-        this.Name = this.Validator.IsFullName(state.Name);
-        this.Role = this.Validator.IsRequired(state.Role, nameof(state.Role));
+        Name = Validator.IsFullName(state.Name);
+        Role = Validator.IsRequired(state.Role, nameof(state.Role));
     }
 
     public string Name { get; private set; }

@@ -7,8 +7,8 @@ public class EmsDomainException : EmsDomainExceptionBase
 
     public EmsDomainException(string entity, string message)
     {
-        this.Entity = entity;
-        this.InitMessage = message;
+        Entity = entity;
+        InitMessage = message;
     }
 
     protected override string Entity { get; }

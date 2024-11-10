@@ -9,9 +9,9 @@ namespace NTS.Judge.Events;
 
 public class CompetitionBehind : CrudBehind<Competition, CompetitionFormModel>
 {
-    private readonly EventParentContext _parentContext;
-    private readonly IParentContext<Phase> _phaseParent;
-    private readonly IParentContext<Participation> _participationParent;
+    readonly EventParentContext _parentContext;
+    readonly IParentContext<Phase> _phaseParent;
+    readonly IParentContext<Participation> _participationParent;
 
     public CompetitionBehind(
         IRepository<Competition> competitions,

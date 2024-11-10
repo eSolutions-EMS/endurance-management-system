@@ -6,6 +6,16 @@ public class Event : EventBase<EventDelegate>, IEventSubscriber
 {
     event EventDelegate? _delegate;
 
+    protected override void AddHandler(EventDelegate handler)
+    {
+        _delegate += handler;
+    }
+
+    protected override void RemoveHandler(EventDelegate handler)
+    {
+        _delegate -= handler;
+    }
+
     public void Emit()
     {
         _delegate?.Invoke();
@@ -30,21 +40,21 @@ public class Event : EventBase<EventDelegate>, IEventSubscriber
     {
         return InternalSubscribe(() => SafeHelper.RunAsync(() => ReturnCompletedTask(action)));
     }
-
-    protected override void AddHandler(EventDelegate handler)
-    {
-        _delegate += handler;
-    }
-
-    protected override void RemoveHandler(EventDelegate handler)
-    {
-        _delegate -= handler;
-    }
 }
 
 public class Event<T> : EventBase<EventDelegate<T>>, IEventSubscriber<T>
 {
     event EventDelegate<T>? _delegate;
+
+    protected override void AddHandler(EventDelegate<T> handler)
+    {
+        _delegate += handler;
+    }
+
+    protected override void RemoveHandler(EventDelegate<T> handler)
+    {
+        _delegate -= handler;
+    }
 
     public void Emit(T data)
     {
@@ -69,15 +79,5 @@ public class Event<T> : EventBase<EventDelegate<T>>, IEventSubscriber<T>
     public Guid SubscribeAsync(Action<T> action)
     {
         return InternalSubscribe(x => SafeHelper.RunAsync(() => ReturnCompletedTask(action, x)));
-    }
-
-    protected override void AddHandler(EventDelegate<T> handler)
-    {
-        _delegate += handler;
-    }
-
-    protected override void RemoveHandler(EventDelegate<T> handler)
-    {
-        _delegate -= handler;
     }
 }

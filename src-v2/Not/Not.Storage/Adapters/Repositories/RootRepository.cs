@@ -13,7 +13,7 @@ public abstract class RootRepository<T, TState> : IRepository<T>
     where T : DomainEntity
     where TState : class, ITreeState<T>, new()
 {
-    private readonly IStore<TState> _store;
+    readonly IStore<TState> _store;
 
     public RootRepository(IStore<TState> store)
     {
@@ -73,7 +73,7 @@ public abstract class RootRepository<T, TState> : IRepository<T>
         throw NotImplemented();
     }
 
-    private Exception NotImplemented()
+    Exception NotImplemented()
     {
         return new Exception(
             "Only Create, Read and Update operations are implemented for Root entities."

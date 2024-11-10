@@ -3,8 +3,8 @@ using System.Collections.ObjectModel;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Not.Analyzers.Objects;
-using static Not.Analyzers.Objects.MemberKind;
+using Not.Analyzers.Members;
+using static Not.Analyzers.Members.MemberKind;
 
 namespace Not.Analyzers.Rules.MemberSpacing;
 
@@ -17,15 +17,27 @@ public class MemberSpacingHelper
     {
         var memberGroups = new List<MemberKind[]>
         {
-            new[] { PrivateConst, PrivateStaticReadonly, PublicConst, PublicStaticReadonly },
-            new[] { PrivateReadonly, PrivateField, PublicField },
-            new[] { PrivateCtor, ProtectedCtor, PublicCtor },
+            new[] { MemberKind.Delegate },
+            new[]
+            {
+                PrivateConst,
+                PrivateStaticReadonly,
+                PublicConst,
+                PublicStaticReadonly,
+                PublicStaticEvent,
+            },
+            new[] { PrivateReadonly, PrivateField, PrivateEvent, PublicField },
             new[] { AbstractProperty, AbstractMethod },
-            new[] { PrivateProperty, ProtectedProperty, InternalProperty, PublicProperty },
+            new[] { PublicIndexDeclarator, PublicEvent },
         };
         var alwaysSeparated = new List<MemberKind>
         {
+            PrivateCtor,
+            ProtectedCtor,
+            PublicCtor,
             PublicStaticMethod,
+            PublicImplicitOperator,
+            PublicOperator,
             PublicMethod,
             ProtectedMethod,
             InternalMethod,
@@ -58,15 +70,38 @@ public class MemberSpacingHelper
 
     public static bool HasLeadingBlankLine(MemberDeclarationSyntax member)
     {
-        var trivia = member.GetLeadingTrivia();
+        var trivia = member.GetLeadingTrivia().ToList();
         int newlineCount = 0;
-        foreach (var t in trivia)
+
+        // Process trivia in reverse order until we hit a doc comment or the start
+        for (int i = trivia.Count - 1; i >= 0; i--)
         {
+            var t = trivia[i];
+
+            // If we hit a doc comment, only count newlines that came before it
+            if (
+                t.IsKind(SyntaxKind.SingleLineDocumentationCommentTrivia)
+                || t.IsKind(SyntaxKind.MultiLineDocumentationCommentTrivia)
+            )
+            {
+                newlineCount = 0;
+                // Count newlines before the doc comment
+                for (int j = i - 1; j >= 0; j--)
+                {
+                    if (trivia[j].IsKind(SyntaxKind.EndOfLineTrivia))
+                        newlineCount++;
+                    else if (!trivia[j].IsKind(SyntaxKind.WhitespaceTrivia))
+                        newlineCount = 0;
+                }
+                break;
+            }
+
             if (t.IsKind(SyntaxKind.EndOfLineTrivia))
                 newlineCount++;
             else if (!t.IsKind(SyntaxKind.WhitespaceTrivia))
                 newlineCount = 0;
         }
-        return newlineCount >= 1; // One blank line means two newlines
+
+        return newlineCount >= 1;
     }
 }

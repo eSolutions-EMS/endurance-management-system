@@ -22,6 +22,6 @@ public class Tag : DomainEntity, ISummarizable
 
     public override string ToString()
     {
-        return Combine($"{"Tag Id".Localize()}: {TagId}");
+        return $"{"Tag Id".Localize()}: {TagId}";
     }
 }

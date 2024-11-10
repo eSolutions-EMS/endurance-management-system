@@ -10,7 +10,8 @@ public class CountriesContext : ICountriesContext
     {
         if (string.IsNullOrWhiteSpace(term))
         {
-            return Task.FromResult(StaticOptions.Countries.AsEnumerable());
+            var countries = StaticOptions.Countries.AsEnumerable();
+            return Task.FromResult(countries);
         }
         var result = StaticOptions.Countries.Where(x =>
             x.Name.Contains(term, StringComparison.InvariantCultureIgnoreCase)

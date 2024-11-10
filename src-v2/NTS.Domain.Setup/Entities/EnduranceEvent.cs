@@ -11,7 +11,10 @@ public class EnduranceEvent
         IParent<Official>,
         IParent<Competition>
 {
-    public static EnduranceEvent Create(string? place, Country? country) => new(place, country);
+    public static EnduranceEvent Create(string? place, Country? country)
+    {
+        return new(place, country);
+    }
 
     public static EnduranceEvent Update(
         int id,
@@ -19,13 +22,16 @@ public class EnduranceEvent
         Country? country,
         IEnumerable<Competition> competitions,
         IEnumerable<Official> officials
-    ) => new(id, place, country, competitions, officials);
+    )
+    {
+        return new(id, place, country, competitions, officials);
+    }
 
-    private List<Competition> _competitions = [];
-    private List<Official> _officials = [];
+    List<Competition> _competitions = [];
+    List<Official> _officials = [];
 
     [JsonConstructor]
-    private EnduranceEvent(
+    EnduranceEvent(
         int id,
         string? place,
         Country? country,
@@ -40,19 +46,8 @@ public class EnduranceEvent
         _officials = officials.ToList();
     }
 
-    private EnduranceEvent(string? place, Country? country)
+    EnduranceEvent(string? place, Country? country)
         : this(GenerateId(), place, country, [], []) { }
-
-    static string Capitalized(string name, string? value)
-    {
-        Required(name, value);
-
-        if (string.IsNullOrEmpty(value) || !char.IsUpper(value.First()))
-        {
-            throw new DomainException(name, $"Has to be Capital case");
-        }
-        return value;
-    }
 
     public string Place { get; }
     public Country Country { get; }
@@ -94,9 +89,12 @@ public class EnduranceEvent
 
     public string Summarize()
     {
+        var officials = nameof(Officials).Localize();
+        var competitions = nameof(Competitions).Localize();
+
         var summary = new Summarizer(this);
-        summary.Add(nameof(this.Officials).Localize(), this.Officials);
-        summary.Add(nameof(this.Competitions).Localize(), this.Competitions);
+        summary.Add(officials, Officials);
+        summary.Add(competitions, Competitions);
         return summary.ToString();
     }
 
@@ -105,7 +103,19 @@ public class EnduranceEvent
         return Combine(Place, Country);
     }
 
-    private void ValidateRole(Official member)
+    static string Capitalized(string name, string? value)
+    {
+        Required(name, value);
+
+        var character = value.First();
+        if (string.IsNullOrEmpty(value) || !char.IsUpper(character))
+        {
+            throw new DomainException(name, $"Has to be Capital case");
+        }
+        return value;
+    }
+
+    void ValidateRole(Official member)
     {
         var role = member.Role;
         if (member.IsUniqueRole())
@@ -113,11 +123,10 @@ public class EnduranceEvent
             var existing = _officials.FirstOrDefault(x => x.Role == role);
             if (existing != null && existing != member)
             {
-                throw new DomainException(
-                    nameof(Official.Role),
-                    //TODO: Notification should localize the templates and arguments separately
-                    string.Format("Official '{0}' already exists", member.Role.GetDescription())
-                );
+                var description = member.Role.GetDescription();
+                //TODO: Notification should localize the templates and arguments separately
+                var message = string.Format("Official '{0}' already exists", description);
+                throw new DomainException(nameof(Official.Role), message);
             }
         }
     }

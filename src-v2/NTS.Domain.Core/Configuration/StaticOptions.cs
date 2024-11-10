@@ -6,13 +6,6 @@ namespace NTS.Domain.Core.Configuration;
 
 public class StaticOptions : IStartupInitializer, ISingletonService
 {
-    public static IRegionalConfiguration? RegionalConfiguration { get; private set; }
-    public static Country[] Countries { get; private set; } = [];
-    public static Country? SelectedCountry { get; private set; }
-    public static DetectionMode? Detection { get; private set; }
-
-    static Model? _options;
-
     public static bool IsRfidDetectionEnabled()
     {
         return Detection != default && Detection == DetectionMode.Rfid;
@@ -52,19 +45,20 @@ public class StaticOptions : IStartupInitializer, ISingletonService
         return true;
     }
 
-    static bool ShouldUseRegionalConfiguration(CompetitionRuleset ruleset)
-    {
-        return ruleset == CompetitionRuleset.Regional && RegionalConfiguration != null;
-    }
-
     #region Instance is used in order to be initialized on Startup
 
     readonly IStaticOptionsProvider<Model> _provider;
+    static Model? _options;
 
     public StaticOptions(IStaticOptionsProvider<Model> provider)
     {
         _provider = provider;
     }
+
+    public static IRegionalConfiguration? RegionalConfiguration { get; private set; }
+    public static Country[] Countries { get; private set; } = [];
+    public static Country? SelectedCountry { get; private set; }
+    public static DetectionMode? Detection { get; private set; }
 
     public void RunAtStartup()
     {
@@ -73,6 +67,11 @@ public class StaticOptions : IStartupInitializer, ISingletonService
         Countries = _options.Countries;
         RegionalConfiguration = RegionalConfigurationProvider.Get(_options.SelectedCountry);
         Detection = _options.DetectionMode;
+    }
+
+    static bool ShouldUseRegionalConfiguration(CompetitionRuleset ruleset)
+    {
+        return ruleset == CompetitionRuleset.Regional && RegionalConfiguration != null;
     }
 
     #endregion

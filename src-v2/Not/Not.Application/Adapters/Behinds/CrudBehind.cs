@@ -32,17 +32,17 @@ public abstract class CrudBehind<T, TModel>
     /// <summary>
     /// Instatiates a basic CRUD behind for a standalone or root-level entity
     /// </summary>
-    /// <param name="repository">Entity's repository</param>
+    /// <param name="repository">Entity's repository</param
     protected CrudBehind(IRepository<T> repository)
         : base([])
     {
         _repository = repository;
     }
 
-    public IReadOnlyList<T> Items => ObservableList;
-
     protected abstract T CreateEntity(TModel model);
     protected abstract T UpdateEntity(TModel model);
+
+    public IReadOnlyList<T> Items => ObservableList;
 
     protected virtual async Task OnBeforeCreate(T entity)
     {
@@ -80,18 +80,19 @@ public abstract class CrudBehind<T, TModel>
             if (!_parentContext.HasLoaded() && !arguments.Any())
             {
                 var name = this.GetTypeName();
-                throw GuardHelper.Exception(
+                var message =
                     $"{name} is used as standalone child behind. "
-                        + $"I.e. it depends on parent context '{_parentContext.GetTypeName()}' which isn't loaded."
-                        + $"Either use initialize the context preemptively or pass parentId to '{name}.{nameof(IObservableBehind.Initialize)}'"
-                );
+                    + $"I.e. it depends on parent context '{_parentContext.GetTypeName()}' which isn't loaded."
+                    + $"Either use initialize the context preemptively or pass parentId to '{name}.{nameof(IObservableBehind.Initialize)}'";
+                throw GuardHelper.Exception(message);
             }
             if (arguments.Any())
             {
                 var argument = arguments.First();
                 if (argument is not int parentId)
                 {
-                    throw GuardHelper.Exception($"Invalid argument '{argument.GetTypeName()}'");
+                    var message = $"Invalid argument '{argument.GetTypeName()}'";
+                    throw GuardHelper.Exception(message);
                 }
                 await _parentContext.Load(parentId);
             }
@@ -122,18 +123,18 @@ public abstract class CrudBehind<T, TModel>
         ObservableList.AddOrReplace(entity);
     }
 
-    async Task SafeDelete(T entity)
-    {
-        await OnBeforeDelete(entity);
-        await _repository.Delete(entity);
-        ObservableList.Remove(entity);
-    }
-
     #region Safe pattern
 
     public async Task Delete(T entity)
     {
         await SafeHelper.Run(() => SafeDelete(entity));
+    }
+
+    async Task SafeDelete(T entity)
+    {
+        await OnBeforeDelete(entity);
+        await _repository.Delete(entity);
+        ObservableList.Remove(entity);
     }
 
     #endregion

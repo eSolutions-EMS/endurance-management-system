@@ -8,39 +8,7 @@ namespace Not.Blazor.TM.Forms;
 // event-driven validation is implemented for MudBaseInput<T>
 public class MudValidationInjector
 {
-    private static readonly Type LIST_OF_STRING_TYPE = typeof(List<string>);
-
-    protected Func<object> InstanceGetter { get; }
-    protected PropertyInfo ErrorProperty { get; }
-    protected PropertyInfo ErrorTextProperty { get; }
-    protected PropertyInfo ValidationErrorsProperty { get; }
-    protected MethodInfo AddValidationErrorMethod { get; }
-
-    // Change to use MudFormComponent<T, U>
-    private MudValidationInjector(Type mudInputType, Func<object> mudInputInstanceGetter)
-    {
-        InstanceGetter = mudInputInstanceGetter;
-        // Generic parameter doesn't matter here as it's only used to obtain property names with nameof()
-
-        ErrorProperty = mudInputType.Property("Error");
-        ErrorTextProperty = mudInputType.Property("ErrorText");
-        ValidationErrorsProperty = mudInputType.Property("ValidationErrors");
-        AddValidationErrorMethod = LIST_OF_STRING_TYPE.Method(nameof(List<string>.Add));
-    }
-
-    public void Inject(string message)
-    {
-        var mudBaseInput = InstanceGetter();
-
-        ErrorProperty.Set(mudBaseInput, true);
-        ErrorTextProperty.Set(mudBaseInput, message);
-        var validationErrorsList =
-            ValidationErrorsProperty.Get(mudBaseInput)
-            ?? throw new Exception(
-                $"MudBlazor input component's ValidationErrors property is null'"
-            );
-        AddValidationErrorMethod.Invoke(validationErrorsList, new object[] { message });
-    }
+    static readonly Type LIST_OF_STRING_TYPE = typeof(List<string>);
 
     public static MudValidationInjector Create<T>(Func<MudFormComponent<T, string>> getter)
     {
@@ -66,5 +34,37 @@ public class MudValidationInjector
             typeof(MudFormComponent<T, string>),
             () => wrapperGetter().MudBaseInput
         );
+    }
+
+    // Change to use MudFormComponent<T, U>
+    MudValidationInjector(Type mudInputType, Func<object> mudInputInstanceGetter)
+    {
+        InstanceGetter = mudInputInstanceGetter;
+        // Generic parameter doesn't matter here as it's only used to obtain property names with nameof()
+
+        ErrorProperty = mudInputType.Property("Error");
+        ErrorTextProperty = mudInputType.Property("ErrorText");
+        ValidationErrorsProperty = mudInputType.Property("ValidationErrors");
+        AddValidationErrorMethod = LIST_OF_STRING_TYPE.Method(nameof(List<string>.Add));
+    }
+
+    protected Func<object> InstanceGetter { get; }
+    protected PropertyInfo ErrorProperty { get; }
+    protected PropertyInfo ErrorTextProperty { get; }
+    protected PropertyInfo ValidationErrorsProperty { get; }
+    protected MethodInfo AddValidationErrorMethod { get; }
+
+    public void Inject(string message)
+    {
+        var mudBaseInput = InstanceGetter();
+
+        ErrorProperty.Set(mudBaseInput, true);
+        ErrorTextProperty.Set(mudBaseInput, message);
+        var validationErrorsList =
+            ValidationErrorsProperty.Get(mudBaseInput)
+            ?? throw new Exception(
+                $"MudBlazor input component's ValidationErrors property is null'"
+            );
+        AddValidationErrorMethod.Invoke(validationErrorsList, new object[] { message });
     }
 }

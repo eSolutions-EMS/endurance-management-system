@@ -5,13 +5,16 @@ using NTS.Domain.Setup.Entities;
 
 namespace NTS.Judge.Contexts;
 
-public class CompetitionParentContext(IRepository<Competition> entities)
-    : BehindContext<Competition>(entities),
+public class CompetitionParentContext
+    : BehindContext<Competition>,
         IParentContext<Phase>,
         IParentContext<Participation>
 {
     readonly ObservableList<Phase> _phases = new();
     readonly ObservableList<Participation> _participations = new();
+
+    public CompetitionParentContext(IRepository<Competition> competitionRepository)
+        : base(competitionRepository) { }
 
     ObservableList<Phase> IParentContext<Phase>.Children => _phases;
     ObservableList<Participation> IParentContext<Participation>.Children => _participations;

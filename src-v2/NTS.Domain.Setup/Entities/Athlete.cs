@@ -11,7 +11,10 @@ public class Athlete : DomainEntity, ISummarizable, IImportable
         Country? country,
         string? club,
         AthleteCategory? category
-    ) => new(Person.Create(name), feiId, country, Club.Create(club), category);
+    )
+    {
+        return new(Person.Create(name), feiId, country, Club.Create(club), category);
+    }
 
     public static Athlete Update(
         int id,
@@ -20,10 +23,13 @@ public class Athlete : DomainEntity, ISummarizable, IImportable
         Country? country,
         string? club,
         AthleteCategory? category
-    ) => new(id, Person.Create(name), feiId, country, Club.Create(club), category);
+    )
+    {
+        return new(id, Person.Create(name), feiId, country, Club.Create(club), category);
+    }
 
     [JsonConstructor]
-    private Athlete(
+    Athlete(
         int id,
         Person? person,
         string? feiId,
@@ -40,8 +46,7 @@ public class Athlete : DomainEntity, ISummarizable, IImportable
         Category = Required(nameof(Category), category);
     }
 
-    //TODO: consider Club as persisted across Events (MAUI's raw resources?)b
-    private Athlete(
+    Athlete( //TODO: consider Club as persisted across Events (MAUI's raw resources?)
         Person? person,
         string? feiId,
         Country? country,
@@ -54,7 +59,6 @@ public class Athlete : DomainEntity, ISummarizable, IImportable
     public Person Person { get; }
     public Country Country { get; }
     public Club Club { get; }
-
     public AthleteCategory Category { get; private set; }
 
     public override string ToString()

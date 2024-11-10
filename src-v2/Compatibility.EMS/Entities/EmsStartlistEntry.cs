@@ -36,12 +36,6 @@ public class EmsStartlistEntry : IComparable<EmsStartlistEntry>, IEquatable<EmsS
         ;
     }
 
-    private DateTime? GetLastNextStartTime(EmsParticipation participation)
-    {
-        var currentRecord = participation.Participant.LapRecords.Last();
-        return currentRecord.NextStarTime;
-    }
-
     public string Number { get; init; }
     public string Name { get; init; }
     public string AthleteName { get; init; }
@@ -117,5 +111,11 @@ public class EmsStartlistEntry : IComparable<EmsStartlistEntry>, IEquatable<EmsS
     public bool Equals(EmsStartlistEntry other)
     {
         return Number == other?.Number;
+    }
+
+    DateTime? GetLastNextStartTime(EmsParticipation participation)
+    {
+        var currentRecord = participation.Participant.LapRecords.Last();
+        return currentRecord.NextStarTime;
     }
 }

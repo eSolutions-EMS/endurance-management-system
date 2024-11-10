@@ -13,11 +13,11 @@ namespace NTS.Judge.Adapters.Behinds;
 
 public class HandoutsBehind : ObservableListBehind<HandoutDocument>, IHandoutsBehind, ICreateHandout
 {
-    private readonly SemaphoreSlim _semaphore = new(1);
-    private readonly IRepository<Handout> _handoutRepository;
-    private readonly IRepository<Participation> _participations;
-    private readonly IRepository<EnduranceEvent> _events;
-    private readonly IRepository<Official> _officials;
+    readonly SemaphoreSlim _semaphore = new(1);
+    readonly IRepository<Handout> _handoutRepository;
+    readonly IRepository<Participation> _participations;
+    readonly IRepository<EnduranceEvent> _events;
+    readonly IRepository<Official> _officials;
 
     public HandoutsBehind(
         IRepository<Handout> handouts,
@@ -55,6 +55,23 @@ public class HandoutsBehind : ObservableListBehind<HandoutDocument>, IHandoutsBe
     {
         // TODO: subscribe to updates for Event, Official
         Participation.PhaseCompletedEvent.SubscribeAsync(PhaseCompletedHandler);
+    }
+
+    public async Task Delete(IEnumerable<HandoutDocument> documents)
+    {
+        Task action() => SafeDelete(documents);
+        await SafeHelper.Run(action);
+    }
+
+    public async Task Create(int number)
+    {
+        Task action() => SafeCreate(number);
+        await SafeHelper.Run(action);
+    }
+
+    public async Task<IEnumerable<Combination>> GetCombinations()
+    {
+        return await SafeHelper.Run(SafeGetCombinations) ?? [];
     }
 
     async Task SafeCreate(int number)
@@ -103,23 +120,4 @@ public class HandoutsBehind : ObservableListBehind<HandoutDocument>, IHandoutsBe
 
         _semaphore.Release();
     }
-
-    #region SafePattern
-
-    public async Task Delete(IEnumerable<HandoutDocument> documents)
-    {
-        await SafeHelper.Run(() => SafeDelete(documents));
-    }
-
-    public async Task Create(int number)
-    {
-        await SafeHelper.Run(() => SafeCreate(number));
-    }
-
-    public async Task<IEnumerable<Combination>> GetCombinations()
-    {
-        return await SafeHelper.Run(SafeGetCombinations) ?? [];
-    }
-
-    #endregion
 }

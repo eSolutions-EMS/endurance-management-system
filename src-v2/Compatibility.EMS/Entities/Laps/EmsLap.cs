@@ -5,17 +5,17 @@ namespace NTS.Compatibility.EMS.Entities.Laps;
 public class EmsLap : EmsDomainBase<EmsLapException>
 {
     [Newtonsoft.Json.JsonConstructor]
-    private EmsLap() { }
+    EmsLap() { }
 
     public EmsLap(IEmsLapState state)
         : base(GENERATE_ID)
     {
-        this.IsFinal = state.IsFinal;
-        this.OrderBy = state.OrderBy;
-        this.LengthInKm = state.LengthInKm;
-        this.MaxRecoveryTimeInMins = state.MaxRecoveryTimeInMins;
-        this.RestTimeInMins = state.RestTimeInMins;
-        this.IsCompulsoryInspectionRequired = state.IsCompulsoryInspectionRequired;
+        IsFinal = state.IsFinal;
+        OrderBy = state.OrderBy;
+        LengthInKm = state.LengthInKm;
+        MaxRecoveryTimeInMins = state.MaxRecoveryTimeInMins;
+        RestTimeInMins = state.RestTimeInMins;
+        IsCompulsoryInspectionRequired = state.IsCompulsoryInspectionRequired;
     }
 
     public bool IsFinal { get; internal set; }

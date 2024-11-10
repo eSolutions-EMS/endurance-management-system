@@ -5,16 +5,15 @@ namespace NTS.Domain.Setup.Entities;
 
 public class Combination : DomainEntity, ISummarizable, IImportable, IParent
 {
-    public static Combination Create(int number, Athlete? athlete, Horse? horse, Tag? tag) =>
-        new(number, athlete, horse, tag);
+    public static Combination Create(int number, Athlete? athlete, Horse? horse, Tag? tag)
+    {
+        return new(number, athlete, horse, tag);
+    }
 
-    public static Combination Update(
-        int id,
-        int number,
-        Athlete? athlete,
-        Horse? horse,
-        Tag? tag
-    ) => new(id, number, athlete, horse, tag);
+    public static Combination Update(int id, int number, Athlete? athlete, Horse? horse, Tag? tag)
+    {
+        return new(id, number, athlete, horse, tag);
+    }
 
     [JsonConstructor]
     public Combination(int id, int number, Athlete? athlete, Horse? horse, Tag? tag)
@@ -42,6 +41,7 @@ public class Combination : DomainEntity, ISummarizable, IImportable, IParent
 
     public override string ToString()
     {
-        return Combine($"{"#".Localize()}{Number}", Athlete, Horse);
+        var number = $"{"#".Localize()}{Number}";
+        return Combine(number, Athlete, Horse);
     }
 }

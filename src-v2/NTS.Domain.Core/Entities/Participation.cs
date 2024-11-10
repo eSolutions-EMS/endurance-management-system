@@ -8,16 +8,15 @@ namespace NTS.Domain.Core.Entities;
 
 public class Participation : DomainEntity, IAggregateRoot
 {
+    static readonly TimeSpan NOT_SNAPSHOTABLE_WINDOW = TimeSpan.FromMinutes(30);
+    static readonly FailedToQualify OUT_OF_TIME = new([FtqCode.OT]);
+    static readonly FailedToQualify SPEED_RESTRICTION = new([FtqCode.SP]);
     public static readonly Event<PhaseCompleted> PhaseCompletedEvent = new();
     public static readonly Event<ParticipationEliminated> EliminatedEvent = new();
     public static readonly Event<ParticipationRestored> RestoredEvent = new();
 
-    private static readonly TimeSpan NOT_SNAPSHOTABLE_WINDOW = TimeSpan.FromMinutes(30);
-    private static readonly FailedToQualify OUT_OF_TIME = new([FtqCode.OT]);
-    private static readonly FailedToQualify SPEED_RESTRICTION = new([FtqCode.SP]);
-
     [JsonConstructor]
-    private Participation(
+    Participation(
         int id,
         Competition competition,
         Combination combination,
@@ -145,7 +144,14 @@ public class Participation : DomainEntity, IAggregateRoot
         Eliminate(new FailedToQualify(codes, reason));
     }
 
-    private void EvaluatePhase(Phase phase)
+    public void Restore()
+    {
+        Eliminated = null;
+        var qualificationRestored = new ParticipationRestored(this);
+        RestoredEvent.Emit(qualificationRestored);
+    }
+
+    void EvaluatePhase(Phase phase)
     {
         if (phase.ViolatesRecoveryTime())
         {
@@ -171,17 +177,10 @@ public class Participation : DomainEntity, IAggregateRoot
         }
     }
 
-    private void Eliminate(Eliminated notQualified)
+    void Eliminate(Eliminated notQualified)
     {
         Eliminated = notQualified;
         var qualificationRevoked = new ParticipationEliminated(this);
         EliminatedEvent.Emit(qualificationRevoked);
-    }
-
-    public void Restore()
-    {
-        Eliminated = null;
-        var qualificationRestored = new ParticipationRestored(this);
-        RestoredEvent.Emit(qualificationRestored);
     }
 }

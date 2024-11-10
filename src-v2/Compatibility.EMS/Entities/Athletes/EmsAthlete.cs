@@ -7,10 +7,10 @@ namespace NTS.Compatibility.EMS.Entities.Athletes;
 
 public class EmsAthlete : EmsDomainBase<EmsAthleteException>
 {
-    private const int ADULT_AGE_IN_YEARS = 18;
+    const int ADULT_AGE_IN_YEARS = 18;
 
     [Newtonsoft.Json.JsonConstructor]
-    private EmsAthlete() { }
+    EmsAthlete() { }
 
     public EmsAthlete(
         string feiId,
@@ -21,11 +21,11 @@ public class EmsAthlete : EmsDomainBase<EmsAthleteException>
     )
         : base(GENERATE_ID)
     {
-        this.FeiId = feiId;
-        this.FirstName = firstName;
-        this.LastName = lastName;
-        this.Country = country;
-        this.Category =
+        FeiId = feiId;
+        FirstName = firstName;
+        LastName = lastName;
+        Country = country;
+        Category =
             birthDate.AddYears(ADULT_AGE_IN_YEARS) <= DateTime.Now
                 ? EmsCategory.Seniors
                 : EmsCategory.Children;
@@ -34,12 +34,12 @@ public class EmsAthlete : EmsDomainBase<EmsAthleteException>
     public EmsAthlete(IEmsAthleteState state, EmsCountry country)
         : base(GENERATE_ID)
     {
-        this.FeiId = state.FeiId;
-        this.Club = state.Club;
-        this.FirstName = state.FirstName;
-        this.LastName = state.LastName;
-        this.Category = state.Category;
-        this.Country = country;
+        FeiId = state.FeiId;
+        Club = state.Club;
+        FirstName = state.FirstName;
+        LastName = state.LastName;
+        Category = state.Category;
+        Country = country;
     }
 
     public string FeiId { get; internal set; }
@@ -48,6 +48,5 @@ public class EmsAthlete : EmsDomainBase<EmsAthleteException>
     public string Club { get; internal set; }
     public EmsCategory Category { get; internal set; }
     public EmsCountry Country { get; internal set; }
-
-    public string Name => $"{this.FirstName} {this.LastName}";
+    public string Name => $"{FirstName} {LastName}";
 }

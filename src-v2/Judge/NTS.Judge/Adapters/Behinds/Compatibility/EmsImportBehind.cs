@@ -15,8 +15,8 @@ namespace NTS.Judge.Adapters.Behinds.Compatibility;
 
 public class EmsImportBehind : IEmsImportBehind
 {
-    private readonly IRepository<EnduranceEvent> _eventRepository;
-    private readonly IEmsToCoreImporter _emsToCoreImporter;
+    readonly IRepository<EnduranceEvent> _eventRepository;
+    readonly IEmsToCoreImporter _emsToCoreImporter;
 
     public EmsImportBehind(
         IRepository<EnduranceEvent> eventRepository,
@@ -25,6 +25,18 @@ public class EmsImportBehind : IEmsImportBehind
     {
         _eventRepository = eventRepository;
         _emsToCoreImporter = emsToCoreImporter;
+    }
+
+    public Task Import(string path)
+    {
+        Task action() => SafeImport(path);
+        return SafeHelper.Run(action);
+    }
+
+    public Task ImportCore(string contents)
+    {
+        Task action() => SafeImportCore(contents);
+        return SafeHelper.Run(action);
     }
 
     async Task SafeImport(string emsStateFilePath)
@@ -61,16 +73,11 @@ public class EmsImportBehind : IEmsImportBehind
         foreach (var emsCompetition in emsEvent.Competitions)
         {
             var (type, ruleset) = MapRuleset(emsCompetition.Type);
-            yield return Competition.Create(
-                emsCompetition.Name,
-                type,
-                ruleset,
-                emsCompetition.StartTime.ToDateTimeOffset(),
-                10
-            );
+            var start = emsCompetition.StartTime.ToDateTimeOffset();
+            yield return Competition.Create(emsCompetition.Name, type, ruleset, start, 10);
         }
 
-        (CompetitionType type, CompetitionRuleset ruleset) MapRuleset(
+        static (CompetitionType type, CompetitionRuleset ruleset) MapRuleset(
             NTS.Compatibility.EMS.Entities.Competitions.EmsCompetitionType emsType
         )
         {
@@ -101,27 +108,15 @@ public class EmsImportBehind : IEmsImportBehind
         };
         foreach (var jury in emsEvent.MembersOfJudgeCommittee)
         {
-            result.Add(Official.Create(jury.Name, GroundJury));
+            var item = Official.Create(jury.Name, GroundJury);
+            result.Add(item);
         }
         ;
         foreach (var vet in emsEvent.MembersOfVetCommittee)
         {
-            result.Add(Official.Create(vet.Name, VeterinaryCommission));
+            var item = Official.Create(vet.Name, VeterinaryCommission);
+            result.Add(item);
         }
         return result;
     }
-
-    #region SafePattern
-
-    public Task Import(string path)
-    {
-        return SafeHelper.Run(() => SafeImport(path));
-    }
-
-    public Task ImportCore(string contents)
-    {
-        return SafeHelper.Run(() => SafeImportCore(contents));
-    }
-
-    #endregion
 }

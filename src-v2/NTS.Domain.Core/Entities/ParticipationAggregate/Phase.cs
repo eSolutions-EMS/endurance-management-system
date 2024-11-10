@@ -56,10 +56,8 @@ public class Phase : DomainEntity
     // TODO: settings - Add setting for separate final. This is useful for some events such as Shumen where we need separate detection for the actual final
     bool _isSeparateFinish = false;
 
-    private Timestamp? VetTime => RepresentTime ?? PresentTime;
-
     [JsonConstructor]
-    private Phase(
+    Phase(
         int id,
         string gate,
         double length,
@@ -121,6 +119,8 @@ public class Phase : DomainEntity
             false
         ) { }
 
+    Timestamp? VetTime => RepresentTime ?? PresentTime;
+
     public string Gate { get; private set; }
     public double Length { get; }
     public int MaxRecovery { get; }
@@ -136,73 +136,9 @@ public class Phase : DomainEntity
     public bool IsRequiredInspectionCompulsory { get; private set; }
     public TimeSpan? CompulsoryThresholdSpan { get; private set; }
 
-    public Timestamp? GetRequiredInspectionTime()
-    {
-        if (Rest == null)
-        {
-            return null;
-        }
-        return VetTime?.Add(TimeSpan.FromMinutes(Rest.Value - 15)); //TODO: settings
-    }
-
-    public Timestamp? GetOutTime()
-    {
-        if (ArriveTime == null || Rest == null)
-        {
-            return null;
-        }
-        return VetTime?.Add(TimeSpan.FromMinutes(Rest.Value));
-    }
-
-    public TimeInterval? GetLoopSpan()
-    {
-        return ArriveTime - StartTime;
-    }
-
-    public TimeInterval? GetPhaseSpan()
-    {
-        return IsFinal ? GetLoopSpan() : VetTime - StartTime;
-    }
-
-    public TimeInterval? GetRecoverySpan()
-    {
-        return VetTime - ArriveTime;
-    }
-
-    public Speed? GetAverageLoopSpeed()
-    {
-        return Length / GetLoopSpan();
-    }
-
-    public Speed? GetAveragePhaseSpeed()
-    {
-        return Length / GetPhaseSpan();
-    }
-
-    public Speed? GetAverageSpeed()
-    {
-        if (StaticOptions.ShouldOnlyUseAverageLoopSpeed(Ruleset))
-        {
-            return GetAverageLoopSpeed();
-        }
-        return IsFinal ? GetAverageLoopSpeed() : GetAveragePhaseSpeed();
-    }
-
-    public bool IsComplete()
-    {
-        if (IsReinspectionRequested && RepresentTime == null)
-        {
-            return false;
-        }
-        if (ArriveTime == null || PresentTime == null)
-        {
-            return false;
-        }
-        return true;
-    }
-
     internal SnapshotResult Process(Snapshot snapshot)
     {
+#pragma warning disable NA0006 // Avoid nested method invocations
         return snapshot.Type switch
         {
             SnapshotType.Vet => Inspect(snapshot),
@@ -211,6 +147,7 @@ public class Phase : DomainEntity
             SnapshotType.Automatic => Automatic(snapshot),
             _ => throw GuardHelper.Exception($"Invalid snapshot '{snapshot.GetType()}'"),
         };
+#pragma warning restore NA0006 // Avoid nested method invocations
     }
 
     internal void Update(IPhaseState state)
@@ -287,6 +224,73 @@ public class Phase : DomainEntity
     internal void SetGate(int number, double totalDistanceSoFar)
     {
         Gate = $"GATE{number}/{totalDistanceSoFar:0.##}";
+    }
+
+    public Timestamp? GetRequiredInspectionTime()
+    {
+        if (Rest == null)
+        {
+            return null;
+        }
+        var span = TimeSpan.FromMinutes(Rest.Value - 15); //TODO: settings
+        return VetTime?.Add(span);
+    }
+
+    public Timestamp? GetOutTime()
+    {
+        if (ArriveTime == null || Rest == null)
+        {
+            return null;
+        }
+        var span = TimeSpan.FromMinutes(Rest.Value);
+        return VetTime?.Add(span);
+    }
+
+    public TimeInterval? GetLoopSpan()
+    {
+        return ArriveTime - StartTime;
+    }
+
+    public TimeInterval? GetPhaseSpan()
+    {
+        return IsFinal ? GetLoopSpan() : VetTime - StartTime;
+    }
+
+    public TimeInterval? GetRecoverySpan()
+    {
+        return VetTime - ArriveTime;
+    }
+
+    public Speed? GetAverageLoopSpeed()
+    {
+        return Length / GetLoopSpan();
+    }
+
+    public Speed? GetAveragePhaseSpeed()
+    {
+        return Length / GetPhaseSpan();
+    }
+
+    public Speed? GetAverageSpeed()
+    {
+        if (StaticOptions.ShouldOnlyUseAverageLoopSpeed(Ruleset))
+        {
+            return GetAverageLoopSpeed();
+        }
+        return IsFinal ? GetAverageLoopSpeed() : GetAveragePhaseSpeed();
+    }
+
+    public bool IsComplete()
+    {
+        if (IsReinspectionRequested && RepresentTime == null)
+        {
+            return false;
+        }
+        if (ArriveTime == null || PresentTime == null)
+        {
+            return false;
+        }
+        return true;
     }
 
     SnapshotResult Automatic(Snapshot snapshot)
@@ -367,7 +371,7 @@ public class Phase : DomainEntity
         return SnapshotResult.Applied(snapshot);
     }
 
-    private void CheckCompulsoryThreshold()
+    void CheckCompulsoryThreshold()
     {
         if (CompulsoryThresholdSpan == null || IsFinal)
         {

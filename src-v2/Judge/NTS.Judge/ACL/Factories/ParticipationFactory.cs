@@ -1,7 +1,6 @@
 ﻿using NTS.Compatibility.EMS.Entities.LapRecords;
 using NTS.Compatibility.EMS.Entities.Participants;
 using NTS.Compatibility.EMS.Entities.Results;
-using NTS.Domain;
 using NTS.Domain.Core.Entities;
 using NTS.Domain.Core.Entities.ParticipationAggregate;
 using NTS.Domain.Objects;
@@ -179,7 +178,7 @@ public class ParticipationFactory
         return participation;
     }
 
-    private static DateTime AdjustTime(
+    static DateTime AdjustTime(
         ref DateTimeOffset? previousTime,
         DateTime currentTime,
         TimeSpan diff,

@@ -4,8 +4,6 @@ namespace NTS.Domain.Objects;
 
 public class Person
 {
-    internal static string DELIMITER = " ";
-
     public static Person? Create(string? names)
     {
         if (string.IsNullOrWhiteSpace(names))
@@ -14,6 +12,13 @@ public class Person
         }
         return new Person(names.Split(DELIMITER, StringSplitOptions.RemoveEmptyEntries));
     }
+
+    public static implicit operator string(Person member)
+    {
+        return member.ToString();
+    }
+
+    internal static string DELIMITER = " ";
 
     [JsonConstructor]
     public Person(string[] names)
@@ -25,11 +30,6 @@ public class Person
 
     public override string ToString()
     {
-        return string.Join(DELIMITER, this.Names);
-    }
-
-    public static implicit operator string(Person member)
-    {
-        return member.ToString();
+        return string.Join(DELIMITER, Names);
     }
 }

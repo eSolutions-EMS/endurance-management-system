@@ -5,15 +5,15 @@ namespace NTS.Compatibility.EMS.Entities.Horses;
 public class EmsHorse : EmsDomainBase<EmsHorseException>, IEmsHorseState
 {
     [Newtonsoft.Json.JsonConstructor]
-    private EmsHorse() { }
+    EmsHorse() { }
 
     public EmsHorse(string feiId, string name, string breed, string club)
         : base(GENERATE_ID)
     {
-        this.Name = name;
-        this.Breed = breed;
-        this.FeiId = feiId;
-        this.Club = club;
+        Name = name;
+        Breed = breed;
+        FeiId = feiId;
+        Club = club;
     }
 
     public EmsHorse(
@@ -27,26 +27,26 @@ public class EmsHorse : EmsDomainBase<EmsHorseException>, IEmsHorseState
     )
         : base(GENERATE_ID)
     {
-        this.Name = name;
-        this.Breed = breed;
-        this.IsStallion = isStallion;
-        this.FeiId = feiId;
-        this.TrainerFeiId = trainerFeiId;
-        this.TrainerFirstName = trainerFirstName;
-        this.TrainerLastName = trainerLastName;
+        Name = name;
+        Breed = breed;
+        IsStallion = isStallion;
+        FeiId = feiId;
+        TrainerFeiId = trainerFeiId;
+        TrainerFirstName = trainerFirstName;
+        TrainerLastName = trainerLastName;
     }
 
     public EmsHorse(IEmsHorseState state)
         : base(GENERATE_ID)
     {
-        this.FeiId = state.FeiId;
-        this.Club = state.Club;
-        this.IsStallion = state.IsStallion;
-        this.Breed = state.Breed;
-        this.TrainerFeiId = state.TrainerFeiId;
-        this.TrainerFirstName = state.TrainerFirstName;
-        this.TrainerLastName = state.TrainerLastName;
-        this.Name = this.Validator.IsRequired(state.Name, "Name");
+        FeiId = state.FeiId;
+        Club = state.Club;
+        IsStallion = state.IsStallion;
+        Breed = state.Breed;
+        TrainerFeiId = state.TrainerFeiId;
+        TrainerFirstName = state.TrainerFirstName;
+        TrainerLastName = state.TrainerLastName;
+        Name = Validator.IsRequired(state.Name, "Name");
     }
 
     public string FeiId { get; internal set; }
@@ -57,6 +57,5 @@ public class EmsHorse : EmsDomainBase<EmsHorseException>, IEmsHorseState
     public string TrainerFeiId { get; internal set; }
     public string TrainerFirstName { get; internal set; }
     public string TrainerLastName { get; internal set; }
-
-    public string TrainerName => $"{this.TrainerFirstName} {TrainerLastName}";
+    public string TrainerName => $"{TrainerFirstName} {TrainerLastName}";
 }

@@ -14,7 +14,7 @@ public class EmsValidator<T>
 
     public string IsFullName(string name)
     {
-        this.IsRequired(name, "Name");
+        IsRequired(name, "Name");
         var parts = name.Split(" ", StringSplitOptions.RemoveEmptyEntries);
         var firstName = parts.FirstOrDefault();
         var lastName = parts.LastOrDefault();

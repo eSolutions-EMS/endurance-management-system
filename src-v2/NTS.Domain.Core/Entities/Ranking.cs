@@ -7,7 +7,7 @@ namespace NTS.Domain.Core.Entities;
 public class Ranking : DomainEntity, IAggregateRoot
 {
     [JsonConstructor]
-    private Ranking(
+    Ranking(
         int id,
         string name,
         CompetitionRuleset ruleset,

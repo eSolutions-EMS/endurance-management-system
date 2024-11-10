@@ -16,10 +16,10 @@ namespace NTS.Judge.ACL;
 
 public class EmsToCoreImporter : IEmsToCoreImporter
 {
-    private readonly IRepository<EnduranceEvent> _events;
-    private readonly IRepository<Official> _officials;
-    private readonly IRepository<Participation> _participations;
-    private readonly IRepository<Ranking> _classfications;
+    readonly IRepository<EnduranceEvent> _events;
+    readonly IRepository<Official> _officials;
+    readonly IRepository<Participation> _participations;
+    readonly IRepository<Ranking> _classfications;
 
     public EmsToCoreImporter(
         IRepository<EnduranceEvent> events,
@@ -64,7 +64,7 @@ public class EmsToCoreImporter : IEmsToCoreImporter
         }
     }
 
-    private EnduranceEvent CreateEvent(EmsEnduranceEvent emsEvent, bool adjustTime)
+    EnduranceEvent CreateEvent(EmsEnduranceEvent emsEvent, bool adjustTime)
     {
         var country = new Country(emsEvent.Country.IsoCode, "zz", emsEvent.Country.Name);
         var startTime = emsEvent.Competitions.OrderBy(x => x.StartTime).First().StartTime;
@@ -84,47 +84,61 @@ public class EmsToCoreImporter : IEmsToCoreImporter
         );
     }
 
-    private IEnumerable<Official> CreateOfficials(EmsEnduranceEvent emsEvent)
+    IEnumerable<Official> CreateOfficials(EmsEnduranceEvent emsEvent)
     {
         var result = new List<Official>();
         if (emsEvent.PresidentGroundJury != null)
         {
-            result.Add(new(Person.Create(emsEvent.PresidentGroundJury.Name), GroundJuryPresident));
+            var item = new Official(
+                Person.Create(emsEvent.PresidentGroundJury.Name),
+                GroundJuryPresident
+            );
+            result.Add(item);
         }
         if (emsEvent.PresidentVetCommittee != null)
         {
-            result.Add(
-                new(
-                    Person.Create(emsEvent.PresidentVetCommittee.Name),
-                    VeterinaryCommissionPresident
-                )
+            var item = new Official(
+                Person.Create(emsEvent.PresidentVetCommittee.Name),
+                VeterinaryCommissionPresident
             );
+            result.Add(item);
         }
         if (emsEvent.FeiTechDelegate != null)
         {
-            result.Add(new(Person.Create(emsEvent.FeiTechDelegate.Name), TechnicalDelegate));
+            var item = new Official(
+                Person.Create(emsEvent.FeiTechDelegate.Name),
+                TechnicalDelegate
+            );
+            result.Add(item);
         }
         if (emsEvent.FeiVetDelegate != null)
         {
-            result.Add(new(Person.Create(emsEvent.FeiVetDelegate.Name), ForeignVeterinaryDelegate));
+            var item = new Official(
+                Person.Create(emsEvent.FeiVetDelegate.Name),
+                ForeignVeterinaryDelegate
+            );
+            result.Add(item);
         }
         if (emsEvent.ForeignJudge != null)
         {
-            result.Add(new(Person.Create(emsEvent.ForeignJudge.Name), ForeignJudge));
+            var item = new Official(Person.Create(emsEvent.ForeignJudge.Name), ForeignJudge);
+            result.Add(item);
         }
         foreach (var jury in emsEvent.MembersOfJudgeCommittee)
         {
-            result.Add(new(Person.Create(jury.Name), GroundJury));
+            var item = new Official(Person.Create(jury.Name), GroundJury);
+            result.Add(item);
         }
         ;
         foreach (var vet in emsEvent.MembersOfVetCommittee)
         {
-            result.Add(new(Person.Create(vet.Name), VeterinaryCommission));
+            var item = new Official(Person.Create(vet.Name), VeterinaryCommission);
+            result.Add(item);
         }
         return result;
     }
 
-    private (IEnumerable<Ranking>, IEnumerable<Participation>) CreateRankingsAndParticipations(
+    (IEnumerable<Ranking>, IEnumerable<Participation>) CreateRankingsAndParticipations(
         EmsState state,
         bool adjustTime
     )
@@ -200,7 +214,7 @@ public class EmsToCoreImporter : IEmsToCoreImporter
         return (result, participations);
     }
 
-    private AthleteCategory EmsCategoryToAthleteCategory(EmsCategory category)
+    AthleteCategory EmsCategoryToAthleteCategory(EmsCategory category)
     {
         return category switch
         {

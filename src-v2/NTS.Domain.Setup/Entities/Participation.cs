@@ -14,7 +14,10 @@ public class Participation : DomainEntity, ISummarizable
         bool isUnranked,
         Combination? combination,
         double? maxSpeedOverride
-    ) => new(newStart, isUnranked, combination, maxSpeedOverride);
+    )
+    {
+        return new(newStart, isUnranked, combination, maxSpeedOverride);
+    }
 
     public static Participation Update(
         int id,
@@ -22,10 +25,13 @@ public class Participation : DomainEntity, ISummarizable
         bool isUnranked,
         Combination? combination,
         double? maxSpeedOverride
-    ) => new(id, newStart, isUnranked, combination, maxSpeedOverride);
+    )
+    {
+        return new(id, newStart, isUnranked, combination, maxSpeedOverride);
+    }
 
     [JsonConstructor]
-    private Participation(
+    Participation(
         int id,
         DateTimeOffset? startTimeOverride,
         bool isUnranked,
@@ -40,7 +46,7 @@ public class Participation : DomainEntity, ISummarizable
         MaxSpeedOverride = maxSpeedOverride;
     }
 
-    private Participation(
+    Participation(
         DateTimeOffset? startTimeOverride,
         bool isUnranked,
         Combination? combination,
@@ -53,15 +59,6 @@ public class Participation : DomainEntity, ISummarizable
             combination,
             maxSpeedOverride
         ) { }
-
-    static DateTimeOffset? IsFutureTime(DateTimeOffset? startTimeOverride)
-    {
-        if (startTimeOverride != null && startTimeOverride.Value <= DateTimeOffset.Now)
-        {
-            throw new DomainException(nameof(StartTimeOverride), "Please select future time");
-        }
-        return startTimeOverride;
-    }
 
     public Combination Combination { get; }
     public bool IsNotRanked { get; }
@@ -106,5 +103,14 @@ public class Participation : DomainEntity, ISummarizable
                 : null;
         var isUnrankedMessage = IsNotRanked ? "not-ranked" : null;
         return Combine(Combination, startTimeMessage, isUnrankedMessage);
+    }
+
+    static DateTimeOffset? IsFutureTime(DateTimeOffset? startTimeOverride)
+    {
+        if (startTimeOverride != null && startTimeOverride.Value <= DateTimeOffset.Now)
+        {
+            throw new DomainException(nameof(StartTimeOverride), "Please select future time");
+        }
+        return startTimeOverride;
     }
 }

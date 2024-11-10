@@ -10,7 +10,10 @@ public class Competition : DomainEntity, ISummarizable, IParent<Participation>, 
         CompetitionRuleset ruleset,
         DateTimeOffset start,
         int? compulsoryThresholdMinutes
-    ) => new(name, type, ruleset, start, compulsoryThresholdMinutes);
+    )
+    {
+        return new(name, type, ruleset, start, compulsoryThresholdMinutes);
+    }
 
     public static Competition Update(
         int id,
@@ -21,8 +24,9 @@ public class Competition : DomainEntity, ISummarizable, IParent<Participation>, 
         int? compulsoryThresholdMinutes,
         IEnumerable<Phase> phases,
         IEnumerable<Participation> participations
-    ) =>
-        new(
+    )
+    {
+        return new(
             id,
             name,
             type,
@@ -32,12 +36,13 @@ public class Competition : DomainEntity, ISummarizable, IParent<Participation>, 
             phases,
             participations
         );
+    }
 
     readonly List<Phase> _phases = [];
     readonly List<Participation> _participations = [];
 
     [JsonConstructor]
-    private Competition(
+    Competition(
         int id,
         string? name,
         CompetitionType? type,
@@ -58,7 +63,7 @@ public class Competition : DomainEntity, ISummarizable, IParent<Participation>, 
         CompulsoryThresholdSpan = compulsoryThresholdSpan;
     }
 
-    private Competition(
+    Competition(
         string? name,
         CompetitionType? type,
         CompetitionRuleset ruleset,
@@ -76,20 +81,6 @@ public class Competition : DomainEntity, ISummarizable, IParent<Participation>, 
             []
         ) { }
 
-    static DateTimeOffset IsFutureTime(string field, DateTimeOffset start)
-    {
-        if (start <= DateTimeOffset.Now)
-        {
-            throw new DomainException(field, "Competition start cannot be in the past");
-        }
-        return start;
-    }
-
-    static TimeSpan? ToTimeSpan(int? minutes)
-    {
-        return minutes != null ? TimeSpan.FromMinutes(minutes.Value) : null;
-    }
-
     public string Name { get; }
     public CompetitionType Type { get; }
     public CompetitionRuleset Ruleset { get; }
@@ -100,15 +91,18 @@ public class Competition : DomainEntity, ISummarizable, IParent<Participation>, 
 
     public string Summarize()
     {
+        var phases = "phases".Localize();
+        var participations = "participations".Localize();
         var summary = new Summarizer(this);
-        summary.Add("phases".Localize(), _phases);
-        summary.Add("contestants".Localize(), _participations);
+        summary.Add(phases, _phases);
+        summary.Add(participations, _participations);
         return summary.ToString();
     }
 
     public override string ToString()
     {
-        return Combine($"{Name} ({Phases.Count})", Type.ToString().Localize(), $"{Start:g}");
+        var type = Type.ToString().Localize();
+        return Combine($"{Name} ({Phases.Count})", type, $"{Start:g}");
     }
 
     public void Add(Participation child)
@@ -142,5 +136,19 @@ public class Competition : DomainEntity, ISummarizable, IParent<Participation>, 
     {
         _phases.Remove(child);
         Add(child);
+    }
+
+    static DateTimeOffset IsFutureTime(string field, DateTimeOffset start)
+    {
+        if (start <= DateTimeOffset.Now)
+        {
+            throw new DomainException(field, "Competition start cannot be in the past");
+        }
+        return start;
+    }
+
+    static TimeSpan? ToTimeSpan(int? minutes)
+    {
+        return minutes != null ? TimeSpan.FromMinutes(minutes.Value) : null;
     }
 }

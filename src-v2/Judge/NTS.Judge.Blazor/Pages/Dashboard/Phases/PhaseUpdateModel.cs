@@ -19,7 +19,6 @@ public class PhaseUpdateModel : IPhaseState, IFormModel<Phase>
     public string? ArriveTimeInput { get; set; }
     public string? PresentTimeInput { get; set; }
     public string? RepresentTimeInput { get; set; }
-
     public int Id { get; private set; }
     public DateTimeOffset? StartTime
     {
