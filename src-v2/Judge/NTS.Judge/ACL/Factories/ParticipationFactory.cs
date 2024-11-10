@@ -1,7 +1,6 @@
 ﻿using NTS.Compatibility.EMS.Entities.LapRecords;
 using NTS.Compatibility.EMS.Entities.Participants;
 using NTS.Compatibility.EMS.Entities.Results;
-using NTS.Domain;
 using NTS.Domain.Core.Entities;
 using NTS.Domain.Core.Entities.ParticipationAggregate;
 using NTS.Domain.Objects;

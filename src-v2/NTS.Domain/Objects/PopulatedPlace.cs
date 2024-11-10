@@ -2,8 +2,8 @@
 
 public record PopulatedPlace : DomainObject
 {
-    private readonly string _city;
-    private readonly string? _location;
+    readonly string _city;
+    readonly string? _location;
 
     public PopulatedPlace(Country country, string city, string? location)
     {
@@ -25,7 +25,8 @@ public record PopulatedPlace : DomainObject
         {
             sb.Append($"{_city} ");
         }
-        sb.Append(Country.ToString());
+        var country = Country.ToString();
+        sb.Append(country);
         return sb.ToString();
     }
 }

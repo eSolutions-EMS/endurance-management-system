@@ -1,6 +1,6 @@
 ﻿using Not.Injection;
 
-namespace NTS.Domain;
+namespace NTS.Domain.LocalizationDemo;
 
 public class LocalizationTestService : ILocalizationTestService
 {

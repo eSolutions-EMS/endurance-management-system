@@ -1,5 +1,4 @@
 ﻿using Not.Notifier;
-using NTS.Domain;
 using NTS.Domain.Core.Configuration;
 using NTS.Domain.Enums;
 using NTS.Domain.Objects;

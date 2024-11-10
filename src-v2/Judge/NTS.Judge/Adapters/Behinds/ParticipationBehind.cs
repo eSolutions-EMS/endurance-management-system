@@ -3,7 +3,6 @@ using Not.Application.Ports.CRUD;
 using Not.Blazor.Ports.Behinds;
 using Not.Exceptions;
 using Not.Safe;
-using NTS.Domain;
 using NTS.Domain.Core.Entities;
 using NTS.Domain.Core.Entities.ParticipationAggregate;
 using NTS.Domain.Enums;
