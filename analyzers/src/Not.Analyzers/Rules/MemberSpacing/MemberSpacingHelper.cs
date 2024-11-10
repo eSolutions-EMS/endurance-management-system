@@ -20,8 +20,9 @@ public class MemberSpacingHelper
             new[] { PrivateConst, PrivateStaticReadonly, PublicConst, PublicStaticReadonly },
             new[] { PrivateReadonly, PrivateField, PublicField },
             new[] { PrivateCtor, ProtectedCtor, PublicCtor },
+            new[] { PrivateProperty },
             new[] { AbstractProperty, AbstractMethod },
-            new[] { PrivateProperty, ProtectedProperty, InternalProperty, PublicProperty },
+            new[] { ProtectedProperty, InternalProperty, PublicProperty },
         };
         var alwaysSeparated = new List<MemberKind>
         {
