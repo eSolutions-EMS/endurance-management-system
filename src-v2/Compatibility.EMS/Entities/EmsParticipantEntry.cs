@@ -5,7 +5,6 @@ namespace NTS.Compatibility.EMS.Entities;
 public class EmsParticipantEntry : IComparable<EmsParticipantEntry>, IEquatable<EmsParticipantEntry>
 {
     public EmsParticipantEntry() { }
-
     public EmsParticipantEntry(EmsParticipation participation)
     {
         Number = participation.Participant.Number;

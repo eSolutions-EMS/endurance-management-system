@@ -6,11 +6,16 @@
 public static class EmsHelper
 {
     internal static T Create<T>(string message)
-        where T : EmsDomainExceptionBase, new() => EmsDomainExceptionBase.Create<T>(message);
+        where T : EmsDomainExceptionBase, new()
+    {
+        return EmsDomainExceptionBase.Create<T>(message);
+    }
 
     internal static T Create<T>(string message, params object[] arguments)
-        where T : EmsDomainExceptionBase, new() =>
-        EmsDomainExceptionBase.Create<T>(message, arguments);
+        where T : EmsDomainExceptionBase, new()
+    {
+        return EmsDomainExceptionBase.Create<T>(message, arguments);
+    }
 
     internal static EmsDomainException Create(string entity, string message)
     {

@@ -6,7 +6,6 @@ namespace NTS.Compatibility.EMS.Entities;
 public class EmsStartlist : StartlistBase<EmsStartlistEntry>
 {
     public EmsStartlist() { }
-
     public EmsStartlist(IEnumerable<EmsStartlistEntry> entries)
     {
         AddRange(entries);
@@ -22,6 +21,8 @@ public class EmsStartlist : StartlistBase<EmsStartlistEntry>
 public class StartlistBase<T> : List<T>
     where T : IEquatable<T>
 {
+    protected virtual void OnCollectionChanged() { }
+
     public void Update(T item, EmsCollectionAction action)
     {
         var existing = this.FirstOrDefault(x => x.Equals(item));
@@ -86,6 +87,4 @@ public class StartlistBase<T> : List<T>
         base.RemoveAll(predicate);
         OnCollectionChanged();
     }
-
-    protected virtual void OnCollectionChanged() { }
 }

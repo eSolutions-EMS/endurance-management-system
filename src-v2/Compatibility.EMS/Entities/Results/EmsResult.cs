@@ -5,23 +5,22 @@ namespace NTS.Compatibility.EMS.Entities.Results;
 public class EmsResult : EmsDomainBase<EmsResultException>, IEmsResultState
 {
     [Newtonsoft.Json.JsonConstructor]
-    private EmsResult() { }
-
+    EmsResult() { }
     internal EmsResult(EmsResultType type, string code = null)
         : base(default)
     {
-        this.Code = code;
-        this.Type = type;
+        Code = code;
+        Type = type;
     }
 
-    public bool IsNotQualified => this.Type != EmsResultType.Successful;
+    public bool IsNotQualified => Type != EmsResultType.Successful;
     public string Code { get; private set; }
     public EmsResultType Type { get; private set; } = EmsResultType.Successful;
     public string TypeCode
     {
         get
         {
-            switch (this.Type)
+            switch (Type)
             {
                 case EmsResultType.Resigned:
                     return "RET";
@@ -40,7 +39,7 @@ public class EmsResult : EmsDomainBase<EmsResultException>, IEmsResultState
 
     public override string ToString()
     {
-        if (this.Type == EmsResultType.Successful)
+        if (Type == EmsResultType.Successful)
         {
             return string.Empty;
         }

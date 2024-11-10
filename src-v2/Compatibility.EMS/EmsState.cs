@@ -16,17 +16,16 @@ public class EmsState
     public List<EmsAthlete> Athletes { get; private set; } = [];
     public List<EmsParticipant> Participants { get; private set; } = [];
     public List<EmsParticipation> Participations { get; private set; } = [];
-
     [JsonIgnore]
     public IReadOnlyList<EmsCountry> Countries =>
         new ReadOnlyCollection<EmsCountry>([new("BGN", "Bulgaria", 1337)]);
 
     public void Set(EmsState initial)
     {
-        this.Event = initial.Event;
-        this.Horses = initial.Horses;
-        this.Athletes = initial.Athletes;
-        this.Participants = initial.Participants;
-        this.Participations = initial.Participations;
+        Event = initial.Event;
+        Horses = initial.Horses;
+        Athletes = initial.Athletes;
+        Participants = initial.Participants;
+        Participations = initial.Participations;
     }
 }
