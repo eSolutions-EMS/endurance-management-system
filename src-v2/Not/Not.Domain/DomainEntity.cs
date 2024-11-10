@@ -58,7 +58,7 @@ public abstract class DomainEntity : IEquatable<DomainEntity>, IIdentifiable
     }
 
     [return: NotNull]
-    protected static string Required(string field, string? value)
+    protected static string Required(string field, [NotNull] string? value)
     {
         if (string.IsNullOrWhiteSpace(value))
         {

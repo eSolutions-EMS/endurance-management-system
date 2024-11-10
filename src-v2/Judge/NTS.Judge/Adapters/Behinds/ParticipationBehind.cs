@@ -123,7 +123,7 @@ public class ParticipationBehind
 
     public Participation? Get(int id)
     {
-        Participation action() => SafeGet(id);
+        Participation? action() => SafeGet(id);
         return SafeHelper.Run(action);
     }
 
