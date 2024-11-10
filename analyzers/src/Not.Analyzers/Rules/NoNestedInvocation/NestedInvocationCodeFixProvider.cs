@@ -43,22 +43,31 @@ public class NestedInvocationCodeFixProvider : CodeFixProviderBase
         }
 
         // Extract variable declarations and get the modified invocation
-        var (variableDeclarations, modifiedInvocation) = await ExtractNestedInvocations(invocation, document, cancellationToken);
+        var (variableDeclarations, modifiedInvocation) = await ExtractNestedInvocations(
+            invocation,
+            document,
+            cancellationToken
+        );
         var newInvocation = statement.ReplaceNode(invocation, modifiedInvocation);
         var newStatements = new List<StatementSyntax>();
         // Add statements before the og invocation
         newStatements.AddRange(block.Statements.TakeWhile(s => s != statement));
-        newStatements.AddRange(variableDeclarations.Select(d => d.WithLeadingTrivia(statement.GetLeadingTrivia())));
+        newStatements.AddRange(
+            variableDeclarations.Select(d => d.WithLeadingTrivia(statement.GetLeadingTrivia()))
+        );
         newStatements.Add(newInvocation);
         // Add statements after the og invocation
         newStatements.AddRange(block.Statements.SkipWhile(s => s != statement).Skip(1));
-        
+
         var newBlock = block.WithStatements(SyntaxFactory.List(newStatements));
         var newRoot = root!.ReplaceNode(block, newBlock);
         return document.WithSyntaxRoot(newRoot);
     }
 
-    private async Task<(List<StatementSyntax> Declarations, InvocationExpressionSyntax ModifiedInvocation)> ExtractNestedInvocations(
+    private async Task<(
+        List<StatementSyntax> Declarations,
+        InvocationExpressionSyntax ModifiedInvocation
+    )> ExtractNestedInvocations(
         InvocationExpressionSyntax invocation,
         Document document,
         CancellationToken cancellationToken
@@ -76,8 +85,10 @@ public class NestedInvocationCodeFixProvider : CodeFixProviderBase
         foreach (var (arg, index) in invocation.ArgumentList.Arguments.Select((a, i) => (a, i)))
         {
             // Skip if not a nested invocation
-            if (arg.Expression is not InvocationExpressionSyntax && 
-                !arg.Expression.DescendantNodes().OfType<InvocationExpressionSyntax>().Any())
+            if (
+                arg.Expression is not InvocationExpressionSyntax
+                && !arg.Expression.DescendantNodes().OfType<InvocationExpressionSyntax>().Any()
+            )
             {
                 continue;
             }
@@ -106,10 +117,9 @@ public class NestedInvocationCodeFixProvider : CodeFixProviderBase
                     SyntaxFactory.IdentifierName("var"),
                     SyntaxFactory.SeparatedList(
                         [
-                            SyntaxFactory.VariableDeclarator(tempName)
-                                .WithInitializer(
-                                    SyntaxFactory.EqualsValueClause(arg.Expression)
-                                ),
+                            SyntaxFactory
+                                .VariableDeclarator(tempName)
+                                .WithInitializer(SyntaxFactory.EqualsValueClause(arg.Expression)),
                         ]
                     )
                 )
@@ -119,8 +129,9 @@ public class NestedInvocationCodeFixProvider : CodeFixProviderBase
 
             // Replace the argument in the original invocation
             invocation = invocation.ReplaceNode(
-                arg.Expression, 
-                SyntaxFactory.IdentifierName(tempName));
+                arg.Expression,
+                SyntaxFactory.IdentifierName(tempName)
+            );
         }
 
         return (statements, invocation);

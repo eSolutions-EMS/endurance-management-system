@@ -11,13 +11,13 @@ public class NoUnnecessaryThisAnalyzer : AnalyzerBase
 {
     public const string RULE_ID = "NA0005";
 
-    public NoUnnecessaryThisAnalyzer() : base(
-        diagnosticId: RULE_ID,
-        title: "Unnecessary use of 'this'",
-        messageFormat: "Unnecessary use of 'this' keyword",
-        description: "Avoid using 'this' keyword when accessing class members.")
-    {
-    }
+    public NoUnnecessaryThisAnalyzer()
+        : base(
+            diagnosticId: RULE_ID,
+            title: "Unnecessary use of 'this'",
+            messageFormat: "Unnecessary use of 'this' keyword",
+            description: "Avoid using 'this' keyword when accessing class members."
+        ) { }
 
     public override void Initialize(AnalysisContext context)
     {
@@ -35,7 +35,10 @@ public class NoUnnecessaryThisAnalyzer : AnalyzerBase
             if (memberAccess.Parent is InvocationExpressionSyntax invocation)
             {
                 var symbolInfo = context.SemanticModel.GetSymbolInfo(invocation);
-                if (symbolInfo.Symbol is IMethodSymbol methodSymbol && methodSymbol.IsExtensionMethod)
+                if (
+                    symbolInfo.Symbol is IMethodSymbol methodSymbol
+                    && methodSymbol.IsExtensionMethod
+                )
                 {
                     return;
                 }

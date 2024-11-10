@@ -1,23 +1,26 @@
+using System.Composition;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.CodeAnalysis.CodeFixes;
 using Not.Analyzers.Base;
-using System.Composition;
 
 namespace Not.Analyzers.Rules.NotUnnecessaryThis;
 
-[ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(NoUnnecessaryThisCodeFixProvider)), Shared]
+[
+    ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(NoUnnecessaryThisCodeFixProvider)),
+    Shared
+]
 public class NoUnnecessaryThisCodeFixProvider : CodeFixProviderBase
 {
     public NoUnnecessaryThisCodeFixProvider()
-        : base("Remove unnecessary 'this'", NoUnnecessaryThisAnalyzer.RULE_ID)
-    {
-    }
+        : base("Remove unnecessary 'this'", NoUnnecessaryThisAnalyzer.RULE_ID) { }
 
     public override async Task RegisterCodeFixesAsync(CodeFixContext context)
     {
-        var root = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
+        var root = await context
+            .Document.GetSyntaxRootAsync(context.CancellationToken)
+            .ConfigureAwait(false);
         var diagnostic = context.Diagnostics[0];
         var diagnosticSpan = diagnostic.Location.SourceSpan;
 
@@ -32,7 +35,8 @@ public class NoUnnecessaryThisCodeFixProvider : CodeFixProviderBase
     protected override async Task<Document> SafeCodeFixAction(
         Document document,
         CSharpSyntaxNode node,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken
+    )
     {
         if (node is not ThisExpressionSyntax thisExpression)
         {
