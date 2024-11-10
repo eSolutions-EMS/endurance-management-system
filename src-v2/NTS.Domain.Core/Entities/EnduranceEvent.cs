@@ -6,7 +6,7 @@ namespace NTS.Domain.Core.Entities;
 public class EnduranceEvent : DomainEntity
 {
     [JsonConstructor]
-    private EnduranceEvent(
+    EnduranceEvent(
         int id,
         PopulatedPlace populatedPlace,
         EventSpan eventSpan,
@@ -22,7 +22,6 @@ public class EnduranceEvent : DomainEntity
         FeiCode = feiCode;
         ShowFeiId = showFeiId;
     }
-
     public EnduranceEvent(
         Country country,
         string city,

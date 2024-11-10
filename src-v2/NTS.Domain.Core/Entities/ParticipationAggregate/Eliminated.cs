@@ -57,7 +57,6 @@ public record FailedToQualify : Eliminated
         FtqCodes = ftqCodes;
         Complement = complement; // Doesn't use base ctor with complement, because it is not required here
     }
-
     public FailedToQualify(FtqCode[] codes)
         : this(IsNotEmpty(codes), null) { }
 
@@ -103,7 +102,6 @@ public abstract record Eliminated : DomainObject
     {
         Code = eliminationCode;
     }
-
     protected Eliminated(string eliminationCode, string complement)
         : this(eliminationCode)
     {
