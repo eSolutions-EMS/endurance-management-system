@@ -1,7 +1,9 @@
 ﻿using NTS.Domain.Setup.Entities;
-using NTS.Persistence.Setup;
+using NTS.Persistence.States;
 
 namespace NTS.Persistence.Adapters;
 
-public class SetupEventRepository(IStore<SetupState> store)
-    : RootRepository<EnduranceEvent, SetupState>(store) { }
+public class SetupEventRepository : RootRepository<EnduranceEvent, SetupState>
+{
+    public SetupEventRepository(IStore<SetupState> store) : base(store) { }
+}

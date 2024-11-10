@@ -1,8 +1,9 @@
-using Not.Domain;
 using NTS.Domain.Setup.Entities;
-using NTS.Persistence.Setup;
+using NTS.Persistence.States;
 
 namespace NTS.Persistence.Adapters;
 
-public class SetupCompetitionRepository(IStore<SetupState> store)
-    : SetRepository<Competition, SetupState>(store) { }
+public class SetupCompetitionRepository : SetRepository<Competition, SetupState>
+{
+    public SetupCompetitionRepository(IStore<SetupState> store) : base(store) { }
+}
