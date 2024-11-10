@@ -162,6 +162,7 @@ public static class SafeHelper
             "!!!!!!!!!!!!!!!!!!!!!!!!!! TASKHELPER EXCEPTION END !!!!!!!!!!!!!!!!!!!!!!!!!!"
         );
 
-        Trace.WriteLine(sb.ToString(), "console");
+        var message = sb.ToString();
+        Trace.WriteLine(message, "console");
     }
 }

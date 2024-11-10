@@ -3,15 +3,32 @@ using Not.Localization;
 
 namespace Not.Notifier;
 
-public abstract class NotifyEvent(string message)
+public abstract class NotifyEvent
 {
-    public string Message { get; } = message;
+    protected NotifyEvent(string message)
+    {
+        Message = message;
+    }
+
+    public string Message { get; }
 }
 
-public class Informed(string message) : NotifyEvent(message.Localize()) { }
+public class Informed : NotifyEvent
+{
+    public Informed(string message) : base(message.Localize()) { }
+}
 
-public class Warned(string message) : NotifyEvent(message.Localize()) { }
+public class Warned : NotifyEvent
+{
+    public Warned(string message) : base(message.Localize()) { }
+}
 
-public class Succeeded(string message) : NotifyEvent(message.Localize()) { }
+public class Succeeded : NotifyEvent
+{
+    public Succeeded(string message) : base(message.Localize()) { }
+}
 
-public class Failed(string message) : NotifyEvent(message) { }
+public class Failed : NotifyEvent
+{
+    public Failed(string message) : base(message.Localize()) { }
+}

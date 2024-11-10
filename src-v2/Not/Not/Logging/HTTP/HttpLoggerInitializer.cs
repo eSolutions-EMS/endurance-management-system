@@ -5,7 +5,7 @@ namespace Not.Logging.HTTP;
 
 public class HttpLoggerInitializer : IStartupInitializer
 {
-    private readonly IHttpLoggerConfiguration _configuration;
+    readonly IHttpLoggerConfiguration _configuration;
 
     public HttpLoggerInitializer(IHttpLoggerConfiguration configuration)
     {

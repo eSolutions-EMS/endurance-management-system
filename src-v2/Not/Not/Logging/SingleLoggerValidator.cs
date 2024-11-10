@@ -4,8 +4,6 @@ namespace Not.Logging;
 
 internal static class SingleLoggerValidator
 {
-    private static bool _isLoggerConfigured;
-
     public static void Validate()
     {
         if (_isLoggerConfigured)
@@ -16,4 +14,6 @@ internal static class SingleLoggerValidator
         }
         _isLoggerConfigured = true;
     }
+
+    static bool _isLoggerConfigured;
 }

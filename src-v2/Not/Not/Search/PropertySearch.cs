@@ -2,11 +2,18 @@
 
 internal abstract class PropertySearch<T, TValue> : SearchBase<T>
 {
-    private readonly Func<T, TValue?> _selector;
+    readonly Func<T, TValue?> _selector;
 
     protected PropertySearch(Func<T, TValue?> selector)
     {
         _selector = selector;
+    }
+
+    protected abstract TValue ConvertTerm(string term);
+
+    protected virtual bool IsMatch(TValue? selected, TValue search)
+    {
+        return EqualityComparer<TValue?>.Default.Equals(selected, search);
     }
 
     public override IEnumerable<T> GetMatches(IEnumerable<T> instances, string value)
@@ -20,7 +27,8 @@ internal abstract class PropertySearch<T, TValue> : SearchBase<T>
             var term = ConvertTerm(value);
             foreach (var instance in instances)
             {
-                if (IsMatch(_selector(instance), term))
+                var selected = _selector(instance);
+                if (IsMatch(selected, term))
                 {
                     result.Add(instance);
                 }
@@ -32,13 +40,6 @@ internal abstract class PropertySearch<T, TValue> : SearchBase<T>
             return Enumerable.Empty<T>();
         }
     }
-
-    protected virtual bool IsMatch(TValue? selected, TValue search)
-    {
-        return EqualityComparer<TValue?>.Default.Equals(selected, search);
-    }
-
-    protected abstract TValue ConvertTerm(string term);
 }
 
 internal class StringPropertySearch<T> : PropertySearch<T, string>

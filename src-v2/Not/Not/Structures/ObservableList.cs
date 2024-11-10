@@ -9,7 +9,26 @@ public class ObservableList<T> : IReadOnlyList<T>
 {
     Dictionary<int, T> _dictionary = [];
 
+    public T this[int index]
+    {
+        get
+        {
+            ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(index, _dictionary.Count);
+
+            var count = 0;
+            foreach (var item in this)
+            {
+                if (count++ == index)
+                {
+                    return item;
+                }
+            }
+            // Should never be reached
+            throw new Exception();
+        }
+    }
     public Event ChangedEvent { get; } = new();
+    public int Count => _dictionary.Count;
 
     public void AddOrReplace(T item)
     {
@@ -57,27 +76,6 @@ public class ObservableList<T> : IReadOnlyList<T>
     {
         return _dictionary.ContainsKey(item.Id);
     }
-
-    public T this[int index]
-    {
-        get
-        {
-            ArgumentOutOfRangeException.ThrowIfGreaterThanOrEqual(index, _dictionary.Count);
-
-            var count = 0;
-            foreach (var item in this)
-            {
-                if (count++ == index)
-                {
-                    return item;
-                }
-            }
-            // Should never be reached
-            throw new Exception();
-        }
-    }
-
-    public int Count => _dictionary.Count;
 
     public IEnumerator<T> GetEnumerator()
     {

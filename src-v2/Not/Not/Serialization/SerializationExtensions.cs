@@ -5,9 +5,7 @@ namespace Not.Serialization;
 
 public static class SerializationExtensions
 {
-    private static List<JsonConverterBase> _converters = [];
-
-    private static readonly JsonSerializerSettings _settings =
+    static readonly JsonSerializerSettings _settings =
         new()
         {
             ContractResolver = new PrivatePropertySetterResolver(),
@@ -42,6 +40,8 @@ public static class SerializationExtensions
         ResetConverters();
         return result;
     }
+
+    static List<JsonConverterBase> _converters = [];
 
     static void ResetConverters()
     {

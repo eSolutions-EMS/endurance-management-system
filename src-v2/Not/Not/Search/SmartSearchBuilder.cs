@@ -2,17 +2,17 @@
 
 public class SmartSearchBuilder<T>
 {
-    private readonly List<SearchBase<T>> _searches = [];
-
-    public SmartSearch<T> Build()
-    {
-        return new SmartSearch<T>(_searches);
-    }
+    readonly List<SearchBase<T>> _searches = [];
 
     internal SmartSearchBuilder<T> Add(SearchBase<T> search)
     {
         _searches.Add(search);
         return this;
+    }
+
+    public SmartSearch<T> Build()
+    {
+        return new SmartSearch<T>(_searches);
     }
 }
 

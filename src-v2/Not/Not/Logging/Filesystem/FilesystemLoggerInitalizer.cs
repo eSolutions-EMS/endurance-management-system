@@ -5,7 +5,7 @@ namespace Not.Logging.Filesystem;
 
 public class FilesystemLoggerInitalizer : IStartupInitializer
 {
-    private readonly IFilesystemLoggerConfiguration _configuration;
+    readonly IFilesystemLoggerConfiguration _configuration;
 
     public FilesystemLoggerInitalizer(IFilesystemLoggerConfiguration configuration)
     {

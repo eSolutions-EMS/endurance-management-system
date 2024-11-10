@@ -6,10 +6,10 @@ namespace Not.Injection;
 
 public static class ConventionExtensions
 {
-    private const string NOT_PREFIX = "Not.";
-    private static readonly Type TransientType = typeof(ITransientService);
-    private static readonly Type ScopedType = typeof(IScopedService);
-    private static readonly Type SingletonType = typeof(ISingletonService);
+    const string NOT_PREFIX = "Not.";
+    static readonly Type TransientType = typeof(ITransientService);
+    static readonly Type ScopedType = typeof(IScopedService);
+    static readonly Type SingletonType = typeof(ISingletonService);
 
     public static (
         IServiceCollection services,
@@ -83,7 +83,7 @@ public static class ConventionExtensions
         return services;
     }
 
-    private static void AddSingleInstance(
+    static void AddSingleInstance(
         IServiceCollection services,
         IEnumerable<Type> interfaces,
         Type implementation,
@@ -123,7 +123,7 @@ public static class ConventionExtensions
         }
     }
 
-    private static void Add(IServiceCollection services, Type @interface, Type implementation)
+    static void Add(IServiceCollection services, Type @interface, Type implementation)
     {
         var service =
             @interface.IsGenericType && implementation.IsGenericType
@@ -161,7 +161,7 @@ public static class ConventionExtensions
         }
     }
 
-    private static void ThrowIfInvalidPolymorphicService(Type implementation)
+    static void ThrowIfInvalidPolymorphicService(Type implementation)
     {
         if (
             implementation.BaseType != null
@@ -189,7 +189,7 @@ public static class ConventionExtensions
         }
     }
 
-    private static Assembly[] RecursiveGetReferencedAssemblies(
+    static Assembly[] RecursiveGetReferencedAssemblies(
         this Assembly assembly,
         List<Assembly> result
     )
@@ -216,15 +216,23 @@ public static class ConventionExtensions
         return result.ToArray();
     }
 
-    private static bool IsConventionalService(this Type type) =>
-        type.IsTransient() || type.IsScoped() || type.IsSingleton();
+    static bool IsConventionalService(this Type type)
+    {
+        return type.IsTransient() || type.IsScoped() || type.IsSingleton();
+    }
 
-    private static bool IsTransient(this Type type) =>
-        type.Name != TransientType.Name && TransientType.IsAssignableFrom(type);
+    static bool IsTransient(this Type type)
+    {
+        return type.Name != TransientType.Name && TransientType.IsAssignableFrom(type);
+    }
 
-    private static bool IsScoped(this Type type) =>
-        type.Name != ScopedType.Name && ScopedType.IsAssignableFrom(type);
+    static bool IsScoped(this Type type)
+    {
+        return type.Name != ScopedType.Name && ScopedType.IsAssignableFrom(type);
+    }
 
-    private static bool IsSingleton(this Type type) =>
-        type.Name != SingletonType.Name && SingletonType.IsAssignableFrom(type);
+    static bool IsSingleton(this Type type)
+    {
+        return type.Name != SingletonType.Name && SingletonType.IsAssignableFrom(type);
+    }
 }
