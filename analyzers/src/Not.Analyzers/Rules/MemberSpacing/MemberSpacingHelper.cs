@@ -27,20 +27,14 @@ public class MemberSpacingHelper
                 PublicStaticEvent,
             },
             new[] { PrivateReadonly, PrivateField, PrivateEvent, PublicField },
-            new[] { PrivateCtor, ProtectedCtor, PublicCtor },
-            new[] { PrivateProperty },
             new[] { AbstractProperty, AbstractMethod },
-            new[]
-            {
-                ProtectedProperty,
-                InternalProperty,
-                PublicIndexDeclarator,
-                PublicEvent,
-                PublicProperty,
-            },
+            new[] { PublicIndexDeclarator, PublicEvent },
         };
         var alwaysSeparated = new List<MemberKind>
         {
+            PrivateCtor,
+            ProtectedCtor,
+            PublicCtor,
             PublicStaticMethod,
             PublicImplicitOperator,
             PublicOperator,

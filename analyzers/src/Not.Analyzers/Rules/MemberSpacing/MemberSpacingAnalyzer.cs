@@ -41,13 +41,20 @@ public class MemberSpacingAnalyzer : AnalyzerBase
 
         var members = typeDeclaration.Members;
 
-        for (int i = 0; i < members.Count - 1; i++)
+        for (var i = 0; i < members.Count - 1; i++)
         {
             var currentMember = members[i];
             var nextMember = members[i + 1];
 
             var currentKind = MemberKindHelper.GetMemberKind(currentMember);
             var nextKind = MemberKindHelper.GetMemberKind(nextMember);
+            if (MemberKindHelper.AreProperties(currentKind, nextKind))
+            {
+                // Ignore properties as csharpier is too opinionated about them:
+                // it does not agree case of annotations such as comments and attributes
+                // as it always adds an empty line above it.
+                continue;
+            }
 
             var requiresBlankLine = MemberSpacingHelper.RequiresBlankLineBetween(
                 currentKind,

@@ -24,6 +24,18 @@ public class MemberKindHelper
         };
     }
 
+    public static bool AreProperties(MemberKind first, MemberKind second)
+    {
+        return first == MemberKind.PrivateProperty
+            || second == MemberKind.PrivateProperty
+            || first == MemberKind.ProtectedProperty
+            || second == MemberKind.ProtectedProperty
+            || first == MemberKind.InternalProperty
+            || second == MemberKind.InternalProperty
+            || first == MemberKind.PublicProperty
+            || second == MemberKind.PublicProperty;
+    }
+
     private static MemberKind GetFieldKind(FieldDeclarationSyntax field)
     {
         bool isConst = field.Modifiers.Any(SyntaxKind.ConstKeyword);
