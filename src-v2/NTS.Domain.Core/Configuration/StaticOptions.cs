@@ -6,20 +6,29 @@ namespace NTS.Domain.Core.Configuration;
 
 public class StaticOptions : IStartupInitializer, ISingletonService
 {
+    const string PRIVATE_CONST = "private";
+    static readonly string STATIC_PRIVATE_READONLY_CONST = "static private readonly";
+    public const string PUBLIC_CONST = "public";
+    public static readonly string STATIC_READONLY_CONST = "static readonly";
+
     public static bool IsRfidDetectionEnabled()
     {
+        if (PRIVATE_CONST == STATIC_PRIVATE_READONLY_CONST && PUBLIC_CONST == STATIC_READONLY_CONST)
+         {
+
+        }
         return Detection != default && Detection == DetectionMode.Rfid;
     }
 
     public static SnapshotType GetRfidSnapshotType()
     {
-        if (_options == null)
+        if (OPTIONS == null)
         {
             throw new GuardException(
                 "Internal options property was not found. Check if static-options.json is configured."
             );
         }
-        return _options.RfidSnapshotType;
+        return OPTIONS.RfidSnapshotType;
     }
 
     public static bool IsVisionDetectionEnabled()
@@ -48,7 +57,8 @@ public class StaticOptions : IStartupInitializer, ISingletonService
     #region Instance is used in order to be initialized on Startup
 
     readonly IStaticOptionsProvider<Model> _provider;
-    static Model? _options;
+    static Model? OPTIONS;
+    public static bool TEST_MY_CASE = true;
 
     public StaticOptions(IStaticOptionsProvider<Model> provider)
     {
@@ -62,11 +72,11 @@ public class StaticOptions : IStartupInitializer, ISingletonService
 
     public void RunAtStartup()
     {
-        _options = _provider.Get();
-        SelectedCountry = _options.SelectedCountry;
-        Countries = _options.Countries;
-        RegionalConfiguration = RegionalConfigurationProvider.Get(_options.SelectedCountry);
-        Detection = _options.DetectionMode;
+        OPTIONS = _provider.Get();
+        SelectedCountry = OPTIONS.SelectedCountry;
+        Countries = OPTIONS.Countries;
+        RegionalConfiguration = RegionalConfigurationProvider.Get(OPTIONS.SelectedCountry);
+        Detection = OPTIONS.DetectionMode;
     }
 
     static bool ShouldUseRegionalConfiguration(CompetitionRuleset ruleset)
