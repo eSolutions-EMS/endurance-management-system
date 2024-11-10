@@ -35,4 +35,12 @@ public abstract class EventBase<T>
         }
         RemoveHandler(handler);
     }
+
+    public void UnsubscribeAll()
+    {
+        foreach (var handler in _handlersByGuid.Values)
+        {
+            RemoveHandler(handler);
+        }
+    }
 }

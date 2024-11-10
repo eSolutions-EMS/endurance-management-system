@@ -8,7 +8,6 @@ namespace NTS.Compatibility.EMS.Entities.Participations;
 public class EmsParticipation : EmsDomainBase<EmsParticipationException>
 {
     List<int> competitionsIds = [];
-    public static EventHandler<EmsParticipation> UpdateEvent;
 
     [Newtonsoft.Json.JsonConstructor]
     internal EmsParticipation() { }
@@ -35,11 +34,6 @@ public class EmsParticipation : EmsDomainBase<EmsParticipationException>
     {
         get => competitionsIds.AsReadOnly();
         private set => competitionsIds = value.ToList();
-    }
-
-    internal void RaiseUpdate()
-    {
-        UpdateEvent?.Invoke(null, this);
     }
 
     internal void Add(EmsCompetition competition)

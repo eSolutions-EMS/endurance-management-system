@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Diagnostics.CodeAnalysis;
+using Newtonsoft.Json;
 using NTS.Domain.Core.Configuration;
 using static NTS.Domain.Core.Entities.SnapshotResultType;
 
@@ -138,16 +139,19 @@ public class Phase : DomainEntity
 
     internal SnapshotResult Process(Snapshot snapshot)
     {
-#pragma warning disable NA0006 // Avoid nested method invocations
         return snapshot.Type switch
         {
             SnapshotType.Vet => Inspect(snapshot),
             SnapshotType.Stage => Arrive(snapshot),
             SnapshotType.Final => Finish(snapshot),
             SnapshotType.Automatic => Automatic(snapshot),
-            _ => throw GuardHelper.Exception($"Invalid snapshot '{snapshot.GetType()}'"),
+            _ => guardUnknownSnapshot(snapshot),
         };
-#pragma warning restore NA0006 // Avoid nested method invocations
+        static SnapshotResult guardUnknownSnapshot(Snapshot snapshot)
+        {
+            var message = $"Invalid snapshot '{snapshot.GetType()}'";
+            throw GuardHelper.Exception(message);
+        }
     }
 
     internal void Update(IPhaseState state)

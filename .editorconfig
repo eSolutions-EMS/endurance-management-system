@@ -166,54 +166,33 @@ dotnet_naming_rule.non_field_members_should_be_pascal_case.severity = warning
 dotnet_naming_rule.non_field_members_should_be_pascal_case.symbols = non_field_members
 dotnet_naming_rule.non_field_members_should_be_pascal_case.style = pascal_case
 
-dotnet_naming_rule.private_or_internal_field_should_be__underscorefield.severity = warning
-dotnet_naming_rule.private_or_internal_field_should_be__underscorefield.symbols = private_or_internal_field
-dotnet_naming_rule.private_or_internal_field_should_be__underscorefield.style = _underscorefield
+# Private non-static fields should have underscore prefix
+dotnet_naming_rule.private_fields_should_be_underscore.severity = warning
+dotnet_naming_rule.private_fields_should_be_underscore.symbols = private_fields
+dotnet_naming_rule.private_fields_should_be_underscore.style = underscore_style
 
-# Symbol specifications
+dotnet_naming_symbols.private_fields.applicable_kinds = field
+dotnet_naming_symbols.private_fields.applicable_accessibilities = private
+dotnet_naming_symbols.private_fields.required_modifiers = 
 
-# Constants should be UPPERCASE
-dotnet_naming_rule.constants_should_be_uppercase.severity = warning
-dotnet_naming_rule.constants_should_be_uppercase.symbols = constants
-dotnet_naming_rule.constants_should_be_uppercase.style = constant_style
+# Constants and static fields should be UPPERCASE
+dotnet_naming_rule.static_fields_should_be_uppercase.severity = warning
+dotnet_naming_rule.static_fields_should_be_uppercase.symbols = static_fields
+dotnet_naming_rule.static_fields_should_be_uppercase.style = constant_style
 
-dotnet_naming_symbols.constants.applicable_kinds = field
-dotnet_naming_symbols.constants.required_modifiers = const
+dotnet_naming_symbols.static_fields.applicable_kinds = field
+dotnet_naming_symbols.static_fields.applicable_accessibilities = *
+dotnet_naming_symbols.static_fields.required_modifiers = static
 
 dotnet_naming_style.constant_style.capitalization = all_upper
 dotnet_naming_style.constant_style.word_separator = _
 
-dotnet_naming_symbols.interface.applicable_kinds = interface
-dotnet_naming_symbols.interface.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
-dotnet_naming_symbols.interface.required_modifiers = 
+dotnet_naming_style.underscore_style.required_prefix = _
+dotnet_naming_style.underscore_style.capitalization = camel_case
 
-dotnet_naming_symbols.private_or_internal_field.applicable_kinds = field
-dotnet_naming_symbols.private_or_internal_field.applicable_accessibilities = internal, private, private_protected
-dotnet_naming_symbols.private_or_internal_field.required_modifiers = none
+dotnet_naming_style.constant_style.capitalization = all_upper
+dotnet_naming_style.constant_style.word_separator = _
 
-dotnet_naming_symbols.types.applicable_kinds = class, struct, interface, enum
-dotnet_naming_symbols.types.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
-dotnet_naming_symbols.types.required_modifiers = 
-
-dotnet_naming_symbols.non_field_members.applicable_kinds = property, event, method
-dotnet_naming_symbols.non_field_members.applicable_accessibilities = public, internal, private, protected, protected_internal, private_protected
-dotnet_naming_symbols.non_field_members.required_modifiers = 
-
-# Naming styles
-dotnet_naming_style.pascal_case.required_prefix = 
-dotnet_naming_style.pascal_case.required_suffix = 
-dotnet_naming_style.pascal_case.word_separator = 
-dotnet_naming_style.pascal_case.capitalization = pascal_case
-
-dotnet_naming_style.begins_with_i.required_prefix = I
-dotnet_naming_style.begins_with_i.required_suffix = 
-dotnet_naming_style.begins_with_i.word_separator = 
-dotnet_naming_style.begins_with_i.capitalization = pascal_case
-
-dotnet_naming_style._underscorefield.required_prefix = _
-dotnet_naming_style._underscorefield.required_suffix = 
-dotnet_naming_style._underscorefield.word_separator = 
-dotnet_naming_style._underscorefield.capitalization = camel_case
 
 # IDE0046: Convert to conditional expression
 dotnet_diagnostic.IDE0046.severity = none
@@ -232,3 +211,13 @@ dotnet_diagnostic.MY0001.severity = warning
 
 # IDE0003: Remove qualification
 dotnet_diagnostic.IDE0003.severity = warning
+
+# Follow membere naming configuration
+dotnet_diagnostic.IDE1006.severity = warning
+
+# Unused statements should be removed
+dotnet_diagnostic.IDE0051.severity = warning
+dotnet_diagnostic.IDE0052.severity = warning
+
+# Non-constant field names should not be uppercase
+dotnet_diagnostic.CA2211.severity = warning
