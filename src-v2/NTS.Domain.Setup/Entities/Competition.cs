@@ -80,20 +80,6 @@ public class Competition : DomainEntity, ISummarizable, IParent<Participation>, 
             []
         ) { }
 
-    static DateTimeOffset IsFutureTime(string field, DateTimeOffset start)
-    {
-        if (start <= DateTimeOffset.Now)
-        {
-            throw new DomainException(field, "Competition start cannot be in the past");
-        }
-        return start;
-    }
-
-    static TimeSpan? ToTimeSpan(int? minutes)
-    {
-        return minutes != null ? TimeSpan.FromMinutes(minutes.Value) : null;
-    }
-
     public string Name { get; }
     public CompetitionType Type { get; }
     public CompetitionRuleset Ruleset { get; }
@@ -146,5 +132,19 @@ public class Competition : DomainEntity, ISummarizable, IParent<Participation>, 
     {
         _phases.Remove(child);
         Add(child);
+    }
+
+    static DateTimeOffset IsFutureTime(string field, DateTimeOffset start)
+    {
+        if (start <= DateTimeOffset.Now)
+        {
+            throw new DomainException(field, "Competition start cannot be in the past");
+        }
+        return start;
+    }
+
+    static TimeSpan? ToTimeSpan(int? minutes)
+    {
+        return minutes != null ? TimeSpan.FromMinutes(minutes.Value) : null;
     }
 }

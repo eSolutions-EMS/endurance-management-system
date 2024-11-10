@@ -59,15 +59,6 @@ public class Participation : DomainEntity, ISummarizable
             maxSpeedOverride
         ) { }
 
-    static DateTimeOffset? IsFutureTime(DateTimeOffset? startTimeOverride)
-    {
-        if (startTimeOverride != null && startTimeOverride.Value <= DateTimeOffset.Now)
-        {
-            throw new DomainException(nameof(StartTimeOverride), "Please select future time");
-        }
-        return startTimeOverride;
-    }
-
     public Combination Combination { get; }
     public bool IsNotRanked { get; }
     public DateTimeOffset? StartTimeOverride { get; }
@@ -111,5 +102,14 @@ public class Participation : DomainEntity, ISummarizable
                 : null;
         var isUnrankedMessage = IsNotRanked ? "not-ranked" : null;
         return Combine(Combination, startTimeMessage, isUnrankedMessage);
+    }
+
+    static DateTimeOffset? IsFutureTime(DateTimeOffset? startTimeOverride)
+    {
+        if (startTimeOverride != null && startTimeOverride.Value <= DateTimeOffset.Now)
+        {
+            throw new DomainException(nameof(StartTimeOverride), "Please select future time");
+        }
+        return startTimeOverride;
     }
 }

@@ -31,6 +31,17 @@ public class Phase : DomainEntity, ISummarizable, IImportable
             NullOrPositiveRest(rest)
         ) { }
 
+    public Loop? Loop { get; }
+    public int Recovery { get; }
+    public int? Rest { get; }
+
+    public override string ToString()
+    {
+        var recovery = $"{Get("recovery")}: {Recovery}";
+        var rest = Rest != null ? $"{Get("rest")}: {Rest}" : null;
+        return Combine(Loop, recovery, rest);
+    }
+
     static int PositiveRecovery(int minutes)
     {
         if (minutes <= 0)
@@ -47,16 +58,5 @@ public class Phase : DomainEntity, ISummarizable, IImportable
             throw new DomainException(nameof(Rest), "Min value is 1 minute");
         }
         return minutes;
-    }
-
-    public Loop? Loop { get; }
-    public int Recovery { get; }
-    public int? Rest { get; }
-
-    public override string ToString()
-    {
-        var recovery = $"{Get("recovery")}: {Recovery}";
-        var rest = Rest != null ? $"{Get("rest")}: {Rest}" : null;
-        return Combine(Loop, recovery, rest);
     }
 }

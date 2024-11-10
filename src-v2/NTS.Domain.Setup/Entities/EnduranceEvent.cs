@@ -48,17 +48,6 @@ public class EnduranceEvent
     EnduranceEvent(string? place, Country? country)
         : this(GenerateId(), place, country, [], []) { }
 
-    static string Capitalized(string name, string? value)
-    {
-        Required(name, value);
-
-        if (string.IsNullOrEmpty(value) || !char.IsUpper(value.First()))
-        {
-            throw new DomainException(name, $"Has to be Capital case");
-        }
-        return value;
-    }
-
     public string Place { get; }
     public Country Country { get; }
     public IReadOnlyList<Official> Officials => _officials.AsReadOnly();
@@ -108,6 +97,17 @@ public class EnduranceEvent
     public override string ToString()
     {
         return Combine(Place, Country);
+    }
+
+    static string Capitalized(string name, string? value)
+    {
+        Required(name, value);
+
+        if (string.IsNullOrEmpty(value) || !char.IsUpper(value.First()))
+        {
+            throw new DomainException(name, $"Has to be Capital case");
+        }
+        return value;
     }
 
     void ValidateRole(Official member)
