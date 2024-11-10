@@ -1,5 +1,4 @@
-﻿using EMS.Judge.Api.Services;
-using Not.Safe;
+﻿using Not.Safe;
 using NTS.Judge.MAUI.Server.ACL;
 using NTS.Judge.MAUI.Server.ACL.Handshake;
 
@@ -21,7 +20,7 @@ public class JudgeMauiServer
         });
     }
 
-    private static void StartServer(IServiceProvider callerProvider)
+    static void StartServer(IServiceProvider callerProvider)
     {
         var builder = WebApplication.CreateBuilder();
         builder.Services.AddSingleton<IJudgeServiceProvider>(

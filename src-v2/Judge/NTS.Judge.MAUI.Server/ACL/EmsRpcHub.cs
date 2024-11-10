@@ -21,9 +21,9 @@ public class EmsRpcHub
         IEmsStartlistHubProcedures,
         IEmsEmsParticipantstHubProcedures
 {
-    private readonly IRepository<Participation> _participations;
-    private readonly IRepository<Domain.Core.Entities.EnduranceEvent> _events;
-    private readonly ISnapshotProcessor _snapshotProcessor;
+    readonly IRepository<Participation> _participations;
+    readonly IRepository<Domain.Core.Entities.EnduranceEvent> _events;
+    readonly ISnapshotProcessor _snapshotProcessor;
 
     public EmsRpcHub(IJudgeServiceProvider judgeProvider)
     {
@@ -148,7 +148,7 @@ public class EmsRpcHub
 
     public class ClientService : IDisposable, IClientProcedures, IStartupInitializer
     {
-        private readonly IHubContext<EmsRpcHub, IEmsClientProcedures> _hub;
+        readonly IHubContext<EmsRpcHub, IEmsClientProcedures> _hub;
 
         public ClientService(IHubContext<EmsRpcHub, IEmsClientProcedures> hub)
         {
