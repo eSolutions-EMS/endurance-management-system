@@ -178,7 +178,7 @@ public class ParticipationFactory
         return participation;
     }
 
-    private static DateTime AdjustTime(
+    static DateTime AdjustTime(
         ref DateTimeOffset? previousTime,
         DateTime currentTime,
         TimeSpan diff,

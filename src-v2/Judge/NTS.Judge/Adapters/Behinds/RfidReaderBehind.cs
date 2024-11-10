@@ -9,9 +9,9 @@ namespace NTS.Judge.Adapters.Behinds;
 
 public class RfidReaderBehind : IRfidReaderBehind
 {
-    private readonly ISnapshotProcessor _snapshotProcessor;
-    private VupVF747pController _vF747PController;
-    private Dictionary<int, Timestamp> _deduplication = [];
+    readonly ISnapshotProcessor _snapshotProcessor;
+    VupVF747pController _vF747PController;
+    Dictionary<int, Timestamp> _deduplication = [];
 
     public RfidReaderBehind(ISnapshotProcessor snapshotProcessor)
     {
@@ -39,7 +39,8 @@ public class RfidReaderBehind : IRfidReaderBehind
 
     public void OnRead(object? sender, (DateTime timestamp, string data) e)
     {
-        var number = int.Parse(e.data.Substring(0, 3));
+        var s = e.data.Substring(0, 3);
+        var number = int.Parse(s);
         var timestamp = new Timestamp(e.timestamp);
 
         if (
@@ -59,14 +60,15 @@ public class RfidReaderBehind : IRfidReaderBehind
         Process(snapshot);
     }
 
-    async void Process(Snapshot snapshot)
-    {
-        await _snapshotProcessor.Process(snapshot);
-        NotifyHelper.Inform("Processed: " + snapshot.ToString());
-    }
-
     public bool IsConnected()
     {
         return _vF747PController.IsReading && _vF747PController.IsConnected;
+    }
+
+    async void Process(Snapshot snapshot)
+    {
+        await _snapshotProcessor.Process(snapshot);
+        var message = "Processed: " + snapshot.ToString();
+        NotifyHelper.Inform(message);
     }
 }

@@ -19,10 +19,10 @@ public class ParticipationBehind
         ISnapshotProcessor,
         IManualProcessor
 {
-    private readonly List<int> _recentlyProcessed = [];
-    private readonly IRepository<Participation> _participationRepository;
-    private readonly IRepository<SnapshotResult> _snapshotResultRepository;
-    private Participation? _selectedParticipation;
+    readonly List<int> _recentlyProcessed = [];
+    readonly IRepository<Participation> _participationRepository;
+    readonly IRepository<SnapshotResult> _snapshotResultRepository;
+    Participation? _selectedParticipation;
 
     public ParticipationBehind(
         IRepository<Participation> participationRepository,
@@ -60,14 +60,6 @@ public class ParticipationBehind
         return Participations.Any();
     }
 
-    async Task SafeRequestReinspection(bool requestFlag)
-    {
-        SelectedParticipation!.ChangeReinspection(requestFlag);
-        await _participationRepository.Update(SelectedParticipation);
-
-        EmitChange();
-    }
-
     public async Task Update(PhaseUpdateModel model)
     {
         var participation = Participations.FirstOrDefault(x => x.Phases.Any(y => y.Id == model.Id));
@@ -75,6 +67,77 @@ public class ParticipationBehind
 
         participation.Update(model);
         await _participationRepository.Update(participation);
+        EmitChange();
+    }
+
+    public async Task Process(Snapshot snapshot)
+    {
+        Task action() => SafeProcess(snapshot);
+        await SafeHelper.Run(action);
+    }
+
+    public async Task RequestRepresent(bool isRequested)
+    {
+        Task action() => SafeRequestReinspection(isRequested);
+        await SafeHelper.Run(action);
+    }
+
+    public async Task RequireInspection(bool isRequested)
+    {
+        Task action() => SafeRequestRequiredInspection(isRequested);
+        await SafeHelper.Run(action);
+    }
+
+    public async Task Withdraw()
+    {
+        await SafeHelper.Run(SafeWithdraw);
+    }
+
+    public async Task Retire()
+    {
+        await SafeHelper.Run(SafeRetire);
+    }
+
+    public async Task FinishNotRanked(string reason)
+    {
+        Task action() => SafeFinishNotRanked(reason);
+        await SafeHelper.Run(action);
+    }
+
+    public async Task Disqualify(string reason)
+    {
+        Task action() => SafeDisqualify(reason);
+        await SafeHelper.Run(action);
+    }
+
+    public async Task FailToQualify(FtqCode[] ftqCodes, string? reason)
+    {
+        Task action() => SafeFailToQualify(ftqCodes, reason);
+        await SafeHelper.Run(action);
+    }
+
+    public async Task RestoreQualification()
+    {
+        await SafeHelper.Run(SafeRestoreQualification);
+    }
+
+    public Participation? Get(int id)
+    {
+        Participation action() => SafeGet(id);
+        return SafeHelper.Run(action);
+    }
+
+    public async Task Process(Timestamp timestamp)
+    {
+        Task action() => SafeProcess(timestamp);
+        await SafeHelper.Run(action);
+    }
+
+    async Task SafeRequestReinspection(bool requestFlag)
+    {
+        SelectedParticipation!.ChangeReinspection(requestFlag);
+        await _participationRepository.Update(SelectedParticipation);
+
         EmitChange();
     }
 
@@ -176,61 +239,6 @@ public class ParticipationBehind
     Participation? SafeGet(int id)
     {
         return Participations.FirstOrDefault(x => x.Id == id);
-    }
-
-    public async Task Process(Snapshot snapshot)
-    {
-        await SafeHelper.Run(() => SafeProcess(snapshot));
-    }
-
-    public async Task RequestRepresent(bool isRequested)
-    {
-        await SafeHelper.Run(() => SafeRequestReinspection(isRequested));
-    }
-
-    public async Task RequireInspection(bool isRequested)
-    {
-        await SafeHelper.Run(() => SafeRequestRequiredInspection(isRequested));
-    }
-
-    public async Task Withdraw()
-    {
-        await SafeHelper.Run(SafeWithdraw);
-    }
-
-    public async Task Retire()
-    {
-        await SafeHelper.Run(SafeRetire);
-    }
-
-    public async Task FinishNotRanked(string reason)
-    {
-        await SafeHelper.Run(() => SafeFinishNotRanked(reason));
-    }
-
-    public async Task Disqualify(string reason)
-    {
-        await SafeHelper.Run(() => SafeDisqualify(reason));
-    }
-
-    public async Task FailToQualify(FtqCode[] ftqCodes, string? reason)
-    {
-        await SafeHelper.Run(() => SafeFailToQualify(ftqCodes, reason));
-    }
-
-    public async Task RestoreQualification()
-    {
-        await SafeHelper.Run(SafeRestoreQualification);
-    }
-
-    public Participation? Get(int id)
-    {
-        return SafeHelper.Run(() => SafeGet(id));
-    }
-
-    public async Task Process(Timestamp timestamp)
-    {
-        await SafeHelper.Run(() => SafeProcess(timestamp));
     }
 
     #endregion

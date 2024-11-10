@@ -4,10 +4,9 @@ namespace NTS.Judge.ACL.RFID;
 
 public class VupVD67Controller : RfidController
 {
-    private const int NO_TAG_ERROR_CODE = 24;
-    private readonly VD67Reader reader = null!;
+    const int NO_TAG_ERROR_CODE = 24;
 
-    protected override string Device => "VD67";
+    readonly VD67Reader reader = null!;
 
     public VupVD67Controller(TimeSpan? throttle = null)
         : base(throttle)
@@ -15,6 +14,7 @@ public class VupVD67Controller : RfidController
         reader = new VD67Reader();
     }
 
+    protected override string Device => "VD67";
     public bool IsWaitingRead { get; private set; }
 
     public override void Connect()
@@ -53,12 +53,14 @@ public class VupVD67Controller : RfidController
         while (IsWaitingRead && reader.IsConnected)
         {
             string data;
+            var epc = Array.Empty<byte>();
+            var password = Convert.FromHexString("00000000");
             var result = reader.Read6C(
                 memory_bank.memory_bank_epc,
                 TAG_WRITE_START_INDEX,
                 TAG_DATA_LENGTH,
-                Array.Empty<byte>(),
-                Convert.FromHexString("00000000")
+                epc,
+                password
             );
             ;
             if (!result.Success)
@@ -76,7 +78,7 @@ public class VupVD67Controller : RfidController
                 return data;
             }
 
-            Thread.Sleep(throttle);
+            Thread.Sleep(Throttle);
         }
 
         return null;
@@ -98,12 +100,14 @@ public class VupVD67Controller : RfidController
         while (IsReading && reader.IsConnected)
         {
             string data;
+            var epc = Array.Empty<byte>();
+            var password = Convert.FromHexString("00000000");
             var result = reader.Read6C(
                 memory_bank.memory_bank_epc,
                 TAG_WRITE_START_INDEX,
                 TAG_DATA_LENGTH,
-                Array.Empty<byte>(),
-                Convert.FromHexString("00000000")
+                epc,
+                password
             );
             ;
             if (!result.Success)
@@ -119,7 +123,7 @@ public class VupVD67Controller : RfidController
                 RaiseMessage($"Read: '{data}'");
                 yield return data;
             }
-            Thread.Sleep(throttle);
+            Thread.Sleep(Throttle);
         }
     }
 
@@ -151,12 +155,14 @@ public class VupVD67Controller : RfidController
             try
             {
                 var bytes = ConvertToByytes(data);
+                var epc = Array.Empty<byte>();
+                var password = Convert.FromHexString("00000000");
                 var result = reader.Write6C(
                     memory_bank.memory_bank_epc,
                     0,
-                    Array.Empty<byte>(),
+                    epc,
                     bytes,
-                    Convert.FromHexString("00000000")
+                    password
                 );
                 if (!result.Success)
                 {
@@ -179,7 +185,7 @@ public class VupVD67Controller : RfidController
                 );
             }
 
-            Thread.Sleep(throttle);
+            Thread.Sleep(Throttle);
         }
         return null!;
     }

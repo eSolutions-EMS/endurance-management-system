@@ -11,7 +11,7 @@ namespace NTS.Judge.Adapters.Behinds;
 
 public class RanklistBehind : ObservableBehind, IRanklistBehind
 {
-    private readonly IRepository<Ranking> _rankings;
+    readonly IRepository<Ranking> _rankings;
 
     public RanklistBehind(IRepository<Ranking> rankings)
     {
@@ -34,6 +34,19 @@ public class RanklistBehind : ObservableBehind, IRanklistBehind
         return true;
     }
 
+    #region SafePattern
+
+    public async Task<IEnumerable<Ranking>> GetRankings()
+    {
+        return await SafeHelper.Run(SafeGetRankings) ?? [];
+    }
+
+    public async Task SelectRanking(int id)
+    {
+        Task action() => SafeSelectRanking(id);
+        await SafeHelper.Run(action);
+    }
+
     async Task<IEnumerable<Ranking>> SafeGetRankings()
     {
         return await _rankings.ReadAll();
@@ -51,18 +64,6 @@ public class RanklistBehind : ObservableBehind, IRanklistBehind
     void UpdateRanklist(ParticipationPayload payload)
     {
         Ranklist?.Update(payload.Participation);
-    }
-
-    #region SafePattern
-
-    public async Task<IEnumerable<Ranking>> GetRankings()
-    {
-        return await SafeHelper.Run(SafeGetRankings) ?? [];
-    }
-
-    public async Task SelectRanking(int id)
-    {
-        await SafeHelper.Run(() => SafeSelectRanking(id));
     }
 
     #endregion

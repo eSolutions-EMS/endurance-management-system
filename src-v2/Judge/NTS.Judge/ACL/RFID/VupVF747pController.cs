@@ -14,18 +14,22 @@ namespace NTS.Judge.ACL.RFID;
 
 public class VupVF747pController : RfidController
 {
-    private const int MAX_POWER = 27;
-    private NetVupReader reader;
-    private readonly string ipAddress;
+    const int MAX_POWER = 27;
 
-    protected override string Device => "VF747p";
+    readonly string _ipAddress;
+    NetVupReader reader;
+    int _oneCount = 0;
+    int _twoCount = 0;
+    int _threeCount = 0;
 
     public VupVF747pController(string ipAddress, TimeSpan? throttle = null)
         : base(throttle)
     {
-        this.ipAddress = ipAddress;
+        _ipAddress = ipAddress;
         reader = new NetVupReader(ipAddress, 1969, transport_protocol.tcp);
     }
+
+    protected override string Device => "VF747p";
 
     public override void Connect()
     {
@@ -33,7 +37,7 @@ public class VupVF747pController : RfidController
         if (!connectionResult.Success)
         {
             var message = string.IsNullOrEmpty(connectionResult.Message)
-                ? $"Unable to connect to VUP reader on IP '{ipAddress}'."
+                ? $"Unable to connect to VUP reader on IP '{_ipAddress}'."
                     + $" Make sure it's connected to the network and use 'Reconnect Hardware'"
                 : connectionResult.Message;
             RaiseError(message);
@@ -58,7 +62,7 @@ public class VupVF747pController : RfidController
             {
                 OnReadEvent((DateTime.Now, tag));
             }
-            Thread.Sleep(throttle);
+            Thread.Sleep(Throttle);
         }
     }
 
@@ -91,7 +95,7 @@ public class VupVF747pController : RfidController
         }
     }
 
-    private int[] GetAntennaIndices()
+    int[] GetAntennaIndices()
     {
         var antennaRead = reader.GetAntCount();
         if (!antennaRead.Success)
@@ -108,11 +112,7 @@ public class VupVF747pController : RfidController
         return indices.ToArray();
     }
 
-    private int _oneCount = 0;
-    private int _twoCount = 0;
-    private int _threeCount = 0;
-
-    private IEnumerable<string> ReadTags(IEnumerable<int> antennaIndices)
+    IEnumerable<string> ReadTags(IEnumerable<int> antennaIndices)
     {
         var readTimer = new Stopwatch();
         var reconnectTimer = new Stopwatch();
@@ -121,12 +121,12 @@ public class VupVF747pController : RfidController
             reader.SetWorkAnt(i);
 
             readTimer.Start();
+            var password = Convert.FromHexString("00000000");
             var tagsBytes = reader.List6C(
                 memory_bank.memory_bank_epc,
                 TAG_READ_START_INDEX,
                 TAG_DATA_LENGTH,
-                Convert.FromHexString("00000000")
-            );
+password);
             readTimer.Stop();
 
             if (readTimer.ElapsedMilliseconds is < 5)
@@ -136,11 +136,13 @@ public class VupVF747pController : RfidController
                 sb.AppendLine(
                     $"VF747p reader response indicates a disconnect. Response time: '{readTimer.ElapsedMilliseconds}'"
                 );
-                RaiseError(sb.ToString());
+                var error = sb.ToString();
+                RaiseError(error);
                 Reconnect();
                 reconnectTimer.Stop();
                 sb.AppendLine($"Reconnected after '{reconnectTimer.ElapsedMilliseconds}'");
-                LoggingHelper.Information("VF747p-disconnected\n" + sb.ToString());
+                var message = "VF747p-disconnected\n" + sb.ToString();
+                LoggingHelper.Information(message);
             }
 
             if (tagsBytes.Success)
@@ -165,17 +167,18 @@ public class VupVF747pController : RfidController
         return Enumerable.Empty<string>();
     }
 
-    private void Reconnect()
+    void Reconnect()
     {
         Disconnect();
-        reader = new NetVupReader(ipAddress, 1969, transport_protocol.tcp);
+        reader = new NetVupReader(_ipAddress, 1969, transport_protocol.tcp);
         var counter = 0;
         var before = DateTime.Now;
         do
         {
             Console.WriteLine($"Attempting to reconnect: {counter}");
             Connect();
-            Thread.Sleep(TimeSpan.FromSeconds(1));
+            var timeout = TimeSpan.FromSeconds(1);
+            Thread.Sleep(timeout);
             counter++;
         } while (!IsConnected);
         var after = DateTime.Now;

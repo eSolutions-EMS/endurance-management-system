@@ -11,10 +11,10 @@ namespace NTS.Judge.Events;
 
 public class EventBehind : ObservableBehind, IEnduranceEventBehind
 {
-    private readonly IRepository<EnduranceEvent> _events;
-    private readonly EventParentContext _context;
-    private readonly IParentContext<Competition> _competitionParent;
-    private readonly IParentContext<Official> _officialParent;
+    readonly IRepository<EnduranceEvent> _events;
+    readonly EventParentContext _context;
+    readonly IParentContext<Competition> _competitionParent;
+    readonly IParentContext<Official> _officialParent;
 
     public EventBehind(
         IRepository<EnduranceEvent> events,
@@ -43,6 +43,25 @@ public class EventBehind : ObservableBehind, IEnduranceEventBehind
         return false;
     }
 
+    #region SafePattern
+
+    public async Task Create(EnduranceEventFormModel enduranceEvent)
+    {
+        Task action() => SafeCreate(enduranceEvent);
+        await SafeHelper.Run(action);
+    }
+
+    public async Task Update(EnduranceEventFormModel enduranceEvent)
+    {
+        Task action() => SafeUpdate(enduranceEvent);
+        await SafeHelper.Run(action);
+    }
+
+    public Task<EnduranceEvent> Delete(EnduranceEvent enduranceEvent)
+    {
+        throw new NotImplementedException("Endurance event cannot be deleted");
+    }
+
     async Task SafeCreate(EnduranceEventFormModel model)
     {
         _context.Entity = EnduranceEvent.Create(model.Place, model.Country);
@@ -64,23 +83,6 @@ public class EventBehind : ObservableBehind, IEnduranceEventBehind
 
         Model = model;
         EmitChange();
-    }
-
-    #region SafePattern
-
-    public async Task Create(EnduranceEventFormModel enduranceEvent)
-    {
-        await SafeHelper.Run(() => SafeCreate(enduranceEvent));
-    }
-
-    public async Task Update(EnduranceEventFormModel enduranceEvent)
-    {
-        await SafeHelper.Run(() => SafeUpdate(enduranceEvent));
-    }
-
-    public Task<EnduranceEvent> Delete(EnduranceEvent enduranceEvent)
-    {
-        throw new NotImplementedException("Endurance event cannot be deleted");
     }
 
     #endregion

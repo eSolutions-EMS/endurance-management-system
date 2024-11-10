@@ -1,49 +1,33 @@
 ﻿using System.Text;
-using NTS.Domain.Objects;
 
 namespace NTS.Judge.ACL.RFID;
 
 public abstract class RfidController
 {
-    protected TimeSpan throttle;
     protected const int TAG_READ_START_INDEX = 0;
     protected const int TAG_WRITE_START_INDEX = 4;
     protected const int TAG_DATA_LENGTH = 12;
 
     public RfidController(TimeSpan? throttle = null)
     {
-        this.throttle = throttle ?? TimeSpan.FromMilliseconds(100);
+        Throttle = throttle ?? TimeSpan.FromMilliseconds(100);
     }
 
+    protected abstract string Device { get; }
+    public abstract void Connect();
+    public abstract void Disconnect();
+
+    protected TimeSpan Throttle { get; }
+    public event EventHandler<(DateTime time, string data)> OnRead;
+    public event EventHandler<string> ErrorEvent;
     public bool IsConnected { get; protected set; }
     public bool IsReading { get; protected set; }
     public bool IsWriting { get; protected set; }
-
-    public event EventHandler<(DateTime time, string data)> OnRead;
 
     protected virtual void OnReadEvent((DateTime time, string data) e)
     {
         OnRead.Invoke(this, e);
     }
-
-    public void RaiseMessage(string message)
-    {
-        message = $"{Device} {message}";
-        Console.WriteLine($"{DateTime.Now}: {message}");
-    }
-
-    public event EventHandler<string> ErrorEvent;
-
-    public void RaiseError(string error)
-    {
-        var message = $"{Device} ERROR: {error}";
-        Console.WriteLine($"{DateTime.Now}: {message}");
-    }
-
-    public abstract void Connect();
-    public abstract void Disconnect();
-
-    protected abstract string Device { get; }
 
     protected virtual byte[] ConvertToByytes(string data)
     {
@@ -53,5 +37,17 @@ public abstract class RfidController
     protected virtual string ConvertToString(byte[] data)
     {
         return Encoding.UTF8.GetString(data);
+    }
+
+    public void RaiseMessage(string message)
+    {
+        message = $"{Device} {message}";
+        Console.WriteLine($"{DateTime.Now}: {message}");
+    }
+
+    public void RaiseError(string error)
+    {
+        var message = $"{Device} ERROR: {error}";
+        Console.WriteLine($"{DateTime.Now}: {message}");
     }
 }
