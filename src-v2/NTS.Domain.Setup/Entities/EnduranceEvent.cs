@@ -88,12 +88,12 @@ public class EnduranceEvent
 
     public string Summarize()
     {
-        var officials = nameof(this.Officials).Localize();
-        var competitions = nameof(this.Competitions).Localize();
+        var officials = nameof(Officials).Localize();
+        var competitions = nameof(Competitions).Localize();
 
         var summary = new Summarizer(this);
-        summary.Add(officials, this.Officials);
-        summary.Add(competitions, this.Competitions);
+        summary.Add(officials, Officials);
+        summary.Add(competitions, Competitions);
         return summary.ToString();
     }
 
@@ -122,11 +122,10 @@ public class EnduranceEvent
             var existing = _officials.FirstOrDefault(x => x.Role == role);
             if (existing != null && existing != member)
             {
-                throw new DomainException(
-                    nameof(Official.Role),
-                    //TODO: Notification should localize the templates and arguments separately
-                    string.Format("Official '{0}' already exists", member.Role.GetDescription())
-                );
+                var description = member.Role.GetDescription();
+                //TODO: Notification should localize the templates and arguments separately
+                var message = string.Format("Official '{0}' already exists", description);
+                throw new DomainException(nameof(Official.Role), message);
             }
         }
     }
