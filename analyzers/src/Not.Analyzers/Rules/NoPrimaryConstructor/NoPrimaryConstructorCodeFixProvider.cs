@@ -7,7 +7,7 @@ using Not.Analyzers.Base;
 
 namespace Not.Analyzers.Rules.NoPrimaryConstructor;
 
-[ExportCodeFixProvider(LanguageNames.CSharp)]
+// [ExportCodeFixProvider(LanguageNames.CSharp)]
 public class NoPrimaryConstructorCodeFixProvider : CodeFixProviderBase
 {
     public NoPrimaryConstructorCodeFixProvider()
