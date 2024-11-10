@@ -1,6 +1,7 @@
 ﻿@typeparam T
+@inherits MudSimpleTable
 
-<MudSimpleTable Dense="@Dense" Hover="@Hover" Bordered="@Bordered" Striped="@Striped" Style="overflow-x: auto;">
+<MudSimpleTable Style="overflow-x: auto;">
     <thead>
         <tr>
             @foreach (var heading in Headings)
@@ -39,14 +40,6 @@
     public string[] Headings { get; set; } = default!;
     [Parameter]
     public string EmptyMessage { get; set; } = "This table is still empty";
-    [Parameter]
-    public bool Dense { get; set; } = false;
-    [Parameter]
-    public bool Hover { get; set; } = false;
-    [Parameter]
-    public bool Bordered { get; set; } = false;
-    [Parameter]
-    public bool Striped { get; set; } = false;
     [Parameter]
     public RenderFragment<T> CustomCellComponent { get; set; } = default!;
 }
