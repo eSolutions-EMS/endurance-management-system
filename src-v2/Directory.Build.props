@@ -2,6 +2,7 @@
 
   <PropertyGroup>
    <LangVersion>preview</LangVersion>
+   <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
   <ItemGroup>
