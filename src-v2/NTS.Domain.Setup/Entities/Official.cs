@@ -20,7 +20,6 @@ public class Official : DomainEntity, ISummarizable, IImportable
     Official(int id, Person? person, OfficialRole? role)
         : base(id)
     {
-        var name = person;
         Role = Required(nameof(Role), role);
         Person = Required(nameof(Person), person);
     }
