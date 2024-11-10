@@ -61,15 +61,36 @@ public class MemberSpacingHelper
 
     public static bool HasLeadingBlankLine(MemberDeclarationSyntax member)
     {
-        var trivia = member.GetLeadingTrivia();
+        var trivia = member.GetLeadingTrivia().ToList();
         int newlineCount = 0;
-        foreach (var t in trivia)
+        
+        // Process trivia in reverse order until we hit a doc comment or the start
+        for (int i = trivia.Count - 1; i >= 0; i--)
         {
+            var t = trivia[i];
+            
+            // If we hit a doc comment, only count newlines that came before it
+            if (t.IsKind(SyntaxKind.SingleLineDocumentationCommentTrivia) || 
+                t.IsKind(SyntaxKind.MultiLineDocumentationCommentTrivia))
+            {
+                newlineCount = 0;
+                // Count newlines before the doc comment
+                for (int j = i - 1; j >= 0; j--)
+                {
+                    if (trivia[j].IsKind(SyntaxKind.EndOfLineTrivia))
+                        newlineCount++;
+                    else if (!trivia[j].IsKind(SyntaxKind.WhitespaceTrivia))
+                        newlineCount = 0;
+                }
+                break;
+            }
+            
             if (t.IsKind(SyntaxKind.EndOfLineTrivia))
                 newlineCount++;
             else if (!t.IsKind(SyntaxKind.WhitespaceTrivia))
                 newlineCount = 0;
         }
-        return newlineCount >= 1; // One blank line means two newlines
+        
+        return newlineCount >= 1;
     }
 }
