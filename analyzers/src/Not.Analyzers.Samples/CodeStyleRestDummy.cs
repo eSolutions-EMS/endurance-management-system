@@ -24,6 +24,8 @@ public class CodeStyleRestDummy
     public static bool operator !=(CodeStyleRestDummy? one, CodeStyleRestDummy? two) =>
         !(one == two);
 
+    public static void StaticMethod() => Console.WriteLine("test");
+
     bool? _nullableBool;
 
     public CodeStyleRestDummy()
