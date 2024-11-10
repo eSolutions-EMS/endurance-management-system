@@ -1,13 +1,6 @@
-﻿using System.Collections.Concurrent;
-using System.Diagnostics;
-using System.Dynamic;
+﻿using System.Diagnostics;
 using System.Text;
 using Not.Logging;
-using NTS.Domain;
-using NTS.Domain.Core.Configuration;
-using NTS.Domain.Enums;
-using NTS.Domain.Objects;
-using NTS.Domain.Setup.Entities;
 using Vup.reader;
 
 namespace NTS.Judge.ACL.RFID;
@@ -126,7 +119,8 @@ public class VupVF747pController : RfidController
                 memory_bank.memory_bank_epc,
                 TAG_READ_START_INDEX,
                 TAG_DATA_LENGTH,
-password);
+                password
+            );
             readTimer.Stop();
 
             if (readTimer.ElapsedMilliseconds is < 5)

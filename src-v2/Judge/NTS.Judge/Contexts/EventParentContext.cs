@@ -5,13 +5,18 @@ using NTS.Domain.Setup.Entities;
 
 namespace NTS.Judge.Contexts;
 
-public class EventParentContext(IRepository<EnduranceEvent> entities)
-    : BehindContext<EnduranceEvent>(entities),
+public class EventParentContext
+    : BehindContext<EnduranceEvent>,
         IParentContext<Competition>,
         IParentContext<Official>
 {
     readonly ObservableList<Competition> _competitions = new();
     readonly ObservableList<Official> _officials = new();
+
+    public EventParentContext(IRepository<EnduranceEvent> repository)
+        : base(repository)
+    {
+    }
 
     ObservableList<Competition> IParentContext<Competition>.Children => _competitions;
     ObservableList<Official> IParentContext<Official>.Children => _officials;
