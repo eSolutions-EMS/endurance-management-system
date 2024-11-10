@@ -39,7 +39,6 @@ public class EnduranceEvent
         _competitions = competitions.ToList();
         _officials = officials.ToList();
     }
-
     private EnduranceEvent(string? place, Country? country)
         : this(GenerateId(), place, country, [], []) { }
 

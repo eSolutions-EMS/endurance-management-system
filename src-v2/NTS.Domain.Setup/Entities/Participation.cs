@@ -39,7 +39,6 @@ public class Participation : DomainEntity, ISummarizable
         Combination = Required(nameof(Combination), combination);
         MaxSpeedOverride = maxSpeedOverride;
     }
-
     private Participation(
         DateTimeOffset? startTimeOverride,
         bool isUnranked,

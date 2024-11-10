@@ -20,7 +20,6 @@ public class Official : DomainEntity, ISummarizable, IImportable
         Role = Required(nameof(Role), role);
         Person = Required(nameof(Person), person);
     }
-
     private Official(Person? person, OfficialRole? role)
         : this(GenerateId(), person, role) { }
 

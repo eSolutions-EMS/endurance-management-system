@@ -25,7 +25,6 @@ public class Combination : DomainEntity, ISummarizable, IImportable, IParent
         Horse = Required(nameof(Horse), horse);
         Tag = tag;
     }
-
     public Combination(int number, Athlete? athlete, Horse? horse, Tag? tag)
         : this(GenerateId(), number, athlete, horse, tag) { }
 

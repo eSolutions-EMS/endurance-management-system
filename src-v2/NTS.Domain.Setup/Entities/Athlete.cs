@@ -39,9 +39,7 @@ public class Athlete : DomainEntity, ISummarizable, IImportable
         Club = Required(nameof(Club), club);
         Category = Required(nameof(Category), category);
     }
-
-    //TODO: consider Club as persisted across Events (MAUI's raw resources?)b
-    private Athlete(
+    private Athlete( //TODO: consider Club as persisted across Events (MAUI's raw resources?)
         Person? person,
         string? feiId,
         Country? country,
@@ -54,7 +52,6 @@ public class Athlete : DomainEntity, ISummarizable, IImportable
     public Person Person { get; }
     public Country Country { get; }
     public Club Club { get; }
-
     public AthleteCategory Category { get; private set; }
 
     public override string ToString()

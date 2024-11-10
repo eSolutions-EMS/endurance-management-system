@@ -57,7 +57,6 @@ public class Competition : DomainEntity, ISummarizable, IParent<Participation>, 
         Start = start;
         CompulsoryThresholdSpan = compulsoryThresholdSpan;
     }
-
     private Competition(
         string? name,
         CompetitionType? type,

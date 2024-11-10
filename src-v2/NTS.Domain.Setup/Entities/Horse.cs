@@ -16,7 +16,6 @@ public class Horse : DomainEntity, ISummarizable, IImportable
         Name = Required(nameof(Name), name);
         FeiId = feiId;
     }
-
     private Horse(string? name, string? feiId)
         : this(GenerateId(), name, feiId) { }
 
