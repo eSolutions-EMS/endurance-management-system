@@ -1,6 +1,6 @@
 ﻿using Not.Injection;
 
-namespace Not.Services;
+namespace Not.Localization;
 
 public abstract class LocalizerBase : ILocalizer
 {

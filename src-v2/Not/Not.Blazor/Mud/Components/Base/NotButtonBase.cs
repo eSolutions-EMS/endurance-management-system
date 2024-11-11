@@ -1,5 +1,5 @@
 ﻿using MudBlazor;
-using Not.Services;
+using Not.Localization;
 
 namespace Not.Blazor.Mud.Components.Base;
 

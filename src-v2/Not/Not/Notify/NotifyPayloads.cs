@@ -1,7 +1,6 @@
-﻿using Not.Events;
-using Not.Localization;
+﻿using Not.Localization;
 
-namespace Not.Notifier;
+namespace Not.Notify;
 
 public abstract class NotifyEvent
 {

@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Localization;
-using Not.Services;
-using NTS.Judge.Blazor.Resources.Localization;
+using Not.Localization;
 
 namespace NTS.Judge.Blazor.Services;
 

@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Text;
 using Not.Exceptions;
-using Not.Notifier;
+using Not.Notify;
 
 namespace Not.Safe;
 

@@ -7,9 +7,9 @@ namespace Not.Injection;
 public static class ConventionExtensions
 {
     const string NOT_PREFIX = "Not.";
-    static readonly Type TransientType = typeof(ITransientService);
-    static readonly Type ScopedType = typeof(IScopedService);
-    static readonly Type SingletonType = typeof(ISingletonService);
+    static readonly Type _transientType = typeof(ITransientService);
+    static readonly Type _scopedType = typeof(IScopedService);
+    static readonly Type _singletonType = typeof(ISingletonService);
 
     public static (
         IServiceCollection services,
@@ -39,9 +39,9 @@ public static class ConventionExtensions
                 .GetInterfaces()
                 .Where(x =>
                     x.IsAssignableFrom(implementation)
-                    && x != TransientType
-                    && x != ScopedType
-                    && x != SingletonType
+                    && x != _transientType
+                    && x != _scopedType
+                    && x != _singletonType
                 )
                 .ToList();
             if (implementation.IsSingleton() && implementation.IsTransient())
@@ -223,16 +223,16 @@ public static class ConventionExtensions
 
     static bool IsTransient(this Type type)
     {
-        return type.Name != TransientType.Name && TransientType.IsAssignableFrom(type);
+        return type.Name != _transientType.Name && _transientType.IsAssignableFrom(type);
     }
 
     static bool IsScoped(this Type type)
     {
-        return type.Name != ScopedType.Name && ScopedType.IsAssignableFrom(type);
+        return type.Name != _scopedType.Name && _scopedType.IsAssignableFrom(type);
     }
 
     static bool IsSingleton(this Type type)
     {
-        return type.Name != SingletonType.Name && SingletonType.IsAssignableFrom(type);
+        return type.Name != _singletonType.Name && _singletonType.IsAssignableFrom(type);
     }
 }

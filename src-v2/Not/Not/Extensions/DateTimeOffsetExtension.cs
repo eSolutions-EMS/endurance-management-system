@@ -4,8 +4,8 @@ public static class DateTimeOffsetExtension
 {
     public static DateTimeOffset ToDateTimeOffset(this DateTime time)
     {
-        DateTime timeWithSpecifiedKind = DateTime.SpecifyKind(time, DateTimeKind.Local);
-        DateTimeOffset offsetTime = timeWithSpecifiedKind;
+        var timeWithSpecifiedKind = DateTime.SpecifyKind(time, DateTimeKind.Local);
+        var offsetTime = timeWithSpecifiedKind;
         return offsetTime;
     }
 

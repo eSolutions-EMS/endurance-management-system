@@ -1,6 +1,4 @@
-﻿using Not.Services;
-
-namespace Not.Localization;
+﻿namespace Not.Localization;
 
 public static class LocalizationHelper
 {

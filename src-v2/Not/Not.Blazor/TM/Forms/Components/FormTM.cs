@@ -1,6 +1,6 @@
 ﻿using MudBlazor;
 using Not.Blazor.Components;
-using Not.Notifier;
+using Not.Notify;
 
 namespace Not.Blazor.TM.Forms.Components;
 

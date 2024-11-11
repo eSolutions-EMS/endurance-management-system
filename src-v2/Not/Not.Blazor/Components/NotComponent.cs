@@ -1,5 +1,5 @@
 ﻿using Not.Blazor.Ports.Behinds;
-using Not.Services;
+using Not.Localization;
 
 namespace Not.Blazor.Components;
 

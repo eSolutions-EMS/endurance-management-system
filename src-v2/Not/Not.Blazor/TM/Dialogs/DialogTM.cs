@@ -1,7 +1,7 @@
 ﻿using MudBlazor;
 using Not.Blazor.TM.Forms.Components;
+using Not.Localization;
 using Not.Reflection;
-using Not.Services;
 
 namespace Not.Blazor.TM.Dialogs;
 
@@ -11,7 +11,7 @@ public class DialogTM<T, TForm>
 {
     readonly IDialogService _mudDialogService;
     readonly ILocalizer _localizer;
-    readonly DialogOptions _options = new DialogOptions { BackdropClick = false };
+    readonly DialogOptions _options = new() { BackdropClick = false };
 
     public DialogTM(IDialogService mudDialogService, ILocalizer localizer)
     {

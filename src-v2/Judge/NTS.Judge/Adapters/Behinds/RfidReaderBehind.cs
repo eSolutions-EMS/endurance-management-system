@@ -1,4 +1,4 @@
-﻿using Not.Notifier;
+﻿using Not.Notify;
 using NTS.Domain.Core.Configuration;
 using NTS.Domain.Enums;
 using NTS.Domain.Objects;

@@ -166,7 +166,7 @@ dotnet_naming_rule.non_field_members_should_be_pascal_case.severity = warning
 dotnet_naming_rule.non_field_members_should_be_pascal_case.symbols = non_field_members
 dotnet_naming_rule.non_field_members_should_be_pascal_case.style = pascal_case
 
-# Private non-static fields should have underscore prefix
+# Private fields should have underscore prefix
 dotnet_naming_rule.private_fields_should_be_underscore.severity = warning
 dotnet_naming_rule.private_fields_should_be_underscore.symbols = private_fields
 dotnet_naming_rule.private_fields_should_be_underscore.style = underscore_style
@@ -176,16 +176,13 @@ dotnet_naming_symbols.private_fields.applicable_accessibilities = private
 dotnet_naming_symbols.private_fields.required_modifiers = 
 
 # Constants and static fields should be UPPERCASE
-dotnet_naming_rule.static_fields_should_be_uppercase.severity = warning
-dotnet_naming_rule.static_fields_should_be_uppercase.symbols = static_fields
-dotnet_naming_rule.static_fields_should_be_uppercase.style = constant_style
+dotnet_naming_rule.constants_should_be_uppercase.severity = warning
+dotnet_naming_rule.constants_should_be_uppercase.symbols = const_fields
+dotnet_naming_rule.constants_should_be_uppercase.style = constant_style
 
-dotnet_naming_symbols.static_fields.applicable_kinds = field
-dotnet_naming_symbols.static_fields.applicable_accessibilities = *
-dotnet_naming_symbols.static_fields.required_modifiers = static
-
-dotnet_naming_style.constant_style.capitalization = all_upper
-dotnet_naming_style.constant_style.word_separator = _
+dotnet_naming_symbols.const_fields.applicable_kinds = field
+dotnet_naming_symbols.const_fields.applicable_accessibilities = *
+dotnet_naming_symbols.const_fields.required_modifiers = const
 
 dotnet_naming_style.underscore_style.required_prefix = _
 dotnet_naming_style.underscore_style.capitalization = camel_case
@@ -227,3 +224,5 @@ dotnet_diagnostic.IDE0028.severity = warning
 
 # Prever .Length and .Count over Any
 dotnet_diagnostic.CA1860.severity = none
+
+dotnet_diagnostic.RZ10012.severity = none
