@@ -1,7 +1,7 @@
 ﻿using Not.Startup;
 using Serilog;
 
-namespace Not.Logging.Loggers.Filesystem;
+namespace Not.Logging.Filesystem;
 
 public class FilesystemLoggerInitalizer : IStartupInitializer
 {

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Not.Logging.Loggers.Filesystem;
-using Not.Logging.Loggers.HTTP;
+using Not.Logging.Filesystem;
+using Not.Logging.HTTP;
 using Not.Startup;
 
 namespace Not.Logging.Builder;

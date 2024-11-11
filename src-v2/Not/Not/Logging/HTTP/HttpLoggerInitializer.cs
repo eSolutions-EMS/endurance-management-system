@@ -1,7 +1,7 @@
 ﻿using Not.Startup;
 using Serilog;
 
-namespace Not.Logging.Loggers.HTTP;
+namespace Not.Logging.HTTP;
 
 public class HttpLoggerInitializer : IStartupInitializer
 {
