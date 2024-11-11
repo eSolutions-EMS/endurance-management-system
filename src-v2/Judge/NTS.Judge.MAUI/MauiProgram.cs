@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
 using Not.Injection;
-using Not.Logging;
 using Not.MAUI.Logging;
 using Not.Storage.StaticOptions;
 using Not.Storage.Stores;
@@ -8,6 +7,7 @@ using NTS.Judge.Blazor.Startup;
 using NTS.Judge.MAUI.Server;
 using NTS.Judge.Startup;
 using NTS.Persistence.Startup;
+using Not.Logging.Builder;
 
 namespace NTS.Judge.MAUI;
 

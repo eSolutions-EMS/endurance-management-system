@@ -1,9 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Not.Logging.Filesystem;
-using Not.Logging.HTTP;
+using Not.Logging.Loggers.Filesystem;
+using Not.Logging.Loggers.HTTP;
 using Not.Startup;
 
-namespace Not.Logging;
+namespace Not.Logging.Builder;
 
 public static class Extensions
 {

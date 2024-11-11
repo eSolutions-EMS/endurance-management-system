@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace Not.Logging;
+namespace Not.Logging.Builder;
 
 public class NotLogBuilder
 {

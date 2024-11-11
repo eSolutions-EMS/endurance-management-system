@@ -1,4 +1,4 @@
-﻿namespace Not.Logging.Filesystem;
+﻿namespace Not.Logging.Loggers.Filesystem;
 
 public interface IFilesystemLoggerConfiguration
 {

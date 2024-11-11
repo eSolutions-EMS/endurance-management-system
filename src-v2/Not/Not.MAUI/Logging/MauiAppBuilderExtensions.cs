@@ -1,4 +1,5 @@
 ﻿using Not.Logging;
+using Not.Logging.Builder;
 using Serilog;
 
 namespace Not.MAUI.Logging;

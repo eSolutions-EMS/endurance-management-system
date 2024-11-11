@@ -1,6 +1,6 @@
 ﻿using Not.Domain.Ports;
 using Not.Filesystem;
-using Not.Logging.Filesystem;
+using Not.Logging.Loggers.Filesystem;
 using Not.Storage.Ports;
 using Not.Storage.StaticOptions;
 

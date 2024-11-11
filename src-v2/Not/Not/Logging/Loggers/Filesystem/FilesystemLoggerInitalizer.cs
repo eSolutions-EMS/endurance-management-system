@@ -1,7 +1,7 @@
 ﻿using Not.Startup;
 using Serilog;
 
-namespace Not.Logging.Filesystem;
+namespace Not.Logging.Loggers.Filesystem;
 
 public class FilesystemLoggerInitalizer : IStartupInitializer
 {
@@ -14,7 +14,7 @@ public class FilesystemLoggerInitalizer : IStartupInitializer
 
     public void RunAtStartup()
     {
-        SingleLoggerValidator.Validate();
+        LoggingHelper.Validate();
 
         Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Information()

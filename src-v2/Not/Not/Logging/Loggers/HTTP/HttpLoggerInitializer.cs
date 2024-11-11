@@ -1,7 +1,7 @@
 ﻿using Not.Startup;
 using Serilog;
 
-namespace Not.Logging.HTTP;
+namespace Not.Logging.Loggers.HTTP;
 
 public class HttpLoggerInitializer : IStartupInitializer
 {
@@ -14,7 +14,7 @@ public class HttpLoggerInitializer : IStartupInitializer
 
     public void RunAtStartup()
     {
-        SingleLoggerValidator.Validate();
+        LoggingHelper.Validate();
 
         // TODO: this has to be reworked to accept a hostResolutionTask and await it in the background
         // otherwise Host will always be null
