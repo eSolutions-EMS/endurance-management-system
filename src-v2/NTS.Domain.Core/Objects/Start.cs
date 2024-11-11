@@ -5,7 +5,14 @@ namespace NTS.Domain.Core.Objects;
 
 public record Start : DomainObject
 {
-    public Start(Person athlete, int number, int loopNumber, double distance, double totalDistance, Timestamp startAt)
+    public Start(
+        Person athlete,
+        int number,
+        int loopNumber,
+        double distance,
+        double totalDistance,
+        Timestamp startAt
+    )
     {
         Athlete = athlete;
         Number = number;
@@ -24,7 +31,8 @@ public record Start : DomainObject
 
     public string StartIn()
     {
-        if(StartAt == null) return string.Empty;
+        if (StartAt == null)
+            return string.Empty;
         if (StartAt > Timestamp.Now())
         {
             return (StartAt - Timestamp.Now()).ToString();
@@ -37,7 +45,7 @@ public record Start : DomainObject
 
     public override string ToString()
     {
-        var result = Combine(Number, Athlete, Distance+"km".Localize(), StartAt);
+        var result = Combine(Number, Athlete, Distance + "km".Localize(), StartAt);
         return result;
     }
 }

@@ -1,5 +1,3 @@
 ﻿namespace Not.Domain;
 
-public abstract record DomainObject
-{
-}
+public abstract record DomainObject { }

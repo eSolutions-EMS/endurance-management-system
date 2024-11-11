@@ -1,4 +1,6 @@
-﻿using Not.Application.Adapters.Behinds;
+﻿using System.Diagnostics;
+using System.Timers;
+using Not.Application.Adapters.Behinds;
 using Not.Application.Ports.CRUD;
 using Not.Exceptions;
 using NTS.Domain;
@@ -6,10 +8,9 @@ using NTS.Domain.Core.Entities;
 using NTS.Domain.Core.Objects;
 using NTS.Judge.Blazor.Ports;
 using NTS.Judge.Factories;
-using System.Diagnostics;
-using System.Timers;
 
 namespace NTS.Judge.Adapters.Behinds;
+
 public class StartlistBehind : ObservableBehind, IStartlistBehind
 {
     private const double TimerTickInMilliseconds = 1000;
