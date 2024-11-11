@@ -1,31 +1,32 @@
-﻿using NTS.Compatibility.EMS;
-using NTS.Domain.Core.Entities;
-using NTS.Domain.Objects;
-using Not.Serialization;
-using NTS.Compatibility.EMS.Entities.EnduranceEvents;
-using static NTS.Domain.Enums.OfficialRole;
-using NTS.Compatibility.EMS.Entities.Competitions;
-using NTS.Domain.Enums;
-using NTS.Judge.ACL.Factories;
-using NTS.Domain.Core.Entities.ParticipationAggregate;
-using NTS.Compatibility.EMS.Enums;
-using Not.Application.Ports.CRUD;
+﻿using Not.Application.Ports.CRUD;
 using Not.Injection;
+using Not.Serialization;
+using NTS.Compatibility.EMS;
+using NTS.Compatibility.EMS.Entities.Competitions;
+using NTS.Compatibility.EMS.Entities.EnduranceEvents;
+using NTS.Compatibility.EMS.Enums;
+using NTS.Domain.Core.Entities;
+using NTS.Domain.Core.Entities.ParticipationAggregate;
+using NTS.Domain.Enums;
+using NTS.Domain.Objects;
+using NTS.Judge.ACL.Factories;
+using static NTS.Domain.Enums.OfficialRole;
 
 namespace NTS.Judge.ACL;
 
 public class EmsToCoreImporter : IEmsToCoreImporter
 {
-    private readonly IRepository<EnduranceEvent> _events;
-    private readonly IRepository<Official> _officials;
-    private readonly IRepository<Participation> _participations;
-    private readonly IRepository<Ranking> _classfications;
+    readonly IRepository<EnduranceEvent> _events;
+    readonly IRepository<Official> _officials;
+    readonly IRepository<Participation> _participations;
+    readonly IRepository<Ranking> _classfications;
 
     public EmsToCoreImporter(
         IRepository<EnduranceEvent> events,
         IRepository<Official> officials,
         IRepository<Participation> participations,
-        IRepository<Ranking> classfications)
+        IRepository<Ranking> classfications
+    )
     {
         _events = events;
         _officials = officials;
@@ -63,7 +64,7 @@ public class EmsToCoreImporter : IEmsToCoreImporter
         }
     }
 
-    private EnduranceEvent CreateEvent(EmsEnduranceEvent emsEvent, bool adjustTime)
+    EnduranceEvent CreateEvent(EmsEnduranceEvent emsEvent, bool adjustTime)
     {
         var country = new Country(emsEvent.Country.IsoCode, "zz", emsEvent.Country.Name);
         var startTime = emsEvent.Competitions.OrderBy(x => x.StartTime).First().StartTime;
@@ -77,73 +78,121 @@ public class EmsToCoreImporter : IEmsToCoreImporter
             "populated place",
             new DateTimeOffset(startTime),
             new DateTimeOffset(startTime + TimeSpan.FromHours(12)),
-            null, null, null);
+            null,
+            null,
+            null
+        );
     }
 
-    private IEnumerable<Official> CreateOfficials(EmsEnduranceEvent emsEvent)
+    IEnumerable<Official> CreateOfficials(EmsEnduranceEvent emsEvent)
     {
         var result = new List<Official>();
         if (emsEvent.PresidentGroundJury != null)
         {
-            result.Add(new (Person.Create(emsEvent.PresidentGroundJury.Name), GroundJuryPresident));
+            var item = new Official(
+                Person.Create(emsEvent.PresidentGroundJury.Name),
+                GroundJuryPresident
+            );
+            result.Add(item);
         }
         if (emsEvent.PresidentVetCommittee != null)
         {
-            result.Add(new(Person.Create(emsEvent.PresidentVetCommittee.Name), VeterinaryCommissionPresident));
+            var item = new Official(
+                Person.Create(emsEvent.PresidentVetCommittee.Name),
+                VeterinaryCommissionPresident
+            );
+            result.Add(item);
         }
         if (emsEvent.FeiTechDelegate != null)
         {
-            result.Add(new(Person.Create(emsEvent.FeiTechDelegate.Name), TechnicalDelegate));
+            var item = new Official(
+                Person.Create(emsEvent.FeiTechDelegate.Name),
+                TechnicalDelegate
+            );
+            result.Add(item);
         }
         if (emsEvent.FeiVetDelegate != null)
         {
-            result.Add(new(Person.Create(emsEvent.FeiVetDelegate.Name), ForeignVeterinaryDelegate));
+            var item = new Official(
+                Person.Create(emsEvent.FeiVetDelegate.Name),
+                ForeignVeterinaryDelegate
+            );
+            result.Add(item);
         }
         if (emsEvent.ForeignJudge != null)
         {
-            result.Add(new(Person.Create(emsEvent.ForeignJudge.Name), ForeignJudge));
+            var item = new Official(Person.Create(emsEvent.ForeignJudge.Name), ForeignJudge);
+            result.Add(item);
         }
         foreach (var jury in emsEvent.MembersOfJudgeCommittee)
         {
-            result.Add(new (Person.Create(jury.Name), GroundJury));
-        };
+            var item = new Official(Person.Create(jury.Name), GroundJury);
+            result.Add(item);
+        }
+        ;
         foreach (var vet in emsEvent.MembersOfVetCommittee)
         {
-            result.Add(new(Person.Create(vet.Name), VeterinaryCommission));
+            var item = new Official(Person.Create(vet.Name), VeterinaryCommission);
+            result.Add(item);
         }
         return result;
     }
 
-    private (IEnumerable<Ranking>, IEnumerable<Participation>) CreateRankingsAndParticipations(EmsState state, bool adjustTime)
+    (IEnumerable<Ranking>, IEnumerable<Participation>) CreateRankingsAndParticipations(
+        EmsState state,
+        bool adjustTime
+    )
     {
         var result = new List<Ranking>();
-        var entriesforClassification = new Dictionary<EmsCompetition, Dictionary<AthleteCategory, List<(RankingEntry entry, Participation particpation)>>>();
+        var entriesforClassification =
+            new Dictionary<
+                EmsCompetition,
+                Dictionary<AthleteCategory, List<(RankingEntry entry, Participation particpation)>>
+            >();
         foreach (var emsParticipation in state.Participations)
         {
             foreach (var competitionId in emsParticipation.CompetitionsIds)
             {
                 var competition = state.Event.Competitions.First(x => x.Id == competitionId);
-                var participation = ParticipationFactory.CreateCore(emsParticipation, competition, adjustTime);
-                var category = EmsCategoryToAthleteCategory(emsParticipation.Participant.Athlete.Category);
+                var participation = ParticipationFactory.CreateCore(
+                    emsParticipation,
+                    competition,
+                    adjustTime
+                );
+                var category = EmsCategoryToAthleteCategory(
+                    emsParticipation.Participant.Athlete.Category
+                );
                 var entry = new RankingEntry(participation, !emsParticipation.Participant.Unranked);
-                if (entriesforClassification.ContainsKey(competition) && entriesforClassification[competition].ContainsKey(category))
+                if (
+                    entriesforClassification.ContainsKey(competition)
+                    && entriesforClassification[competition].ContainsKey(category)
+                )
                 {
                     entriesforClassification[competition][category].Add((entry, participation));
                 }
                 else if (entriesforClassification.ContainsKey(competition))
                 {
-                    entriesforClassification[competition].Add(category, new List<(RankingEntry entry, Participation particpation)> { (entry, participation) });
+                    entriesforClassification[competition].Add(category, [(entry, participation)]);
                 }
                 else
                 {
                     entriesforClassification.Add(
                         competition,
-                        new Dictionary<AthleteCategory, List<(RankingEntry entry, Participation particpation)>>
-                        { 
-                            { category, new List<(RankingEntry entry, Participation particpation)> { (entry, participation) } } 
-                        });
+                        new Dictionary<
+                            AthleteCategory,
+                            List<(RankingEntry entry, Participation particpation)>
+                        >
+                        {
+                            {
+                                category,
+                                new List<(RankingEntry entry, Participation particpation)>
+                                {
+                                    (entry, participation),
+                                }
+                            },
+                        }
+                    );
                 }
-
             }
         }
         foreach (var (emsCompetition, entriesByCategory) in entriesforClassification)
@@ -151,21 +200,21 @@ public class EmsToCoreImporter : IEmsToCoreImporter
             foreach (var (category, tuples) in entriesByCategory)
             {
                 var entries = tuples.Select(x => x.entry);
-                var competition = new Competition(emsCompetition.Name, CompetitionFactory.MapCompetitionRuleset(emsCompetition.Type));
+                var competition = new Competition(
+                    emsCompetition.Name,
+                    CompetitionFactory.MapCompetitionRuleset(emsCompetition.Type)
+                );
                 result.Add(new Ranking(competition, category, entries));
             }
-            
-
         }
         var participations = entriesforClassification
-            .Values
-            .SelectMany(x => x.Values)
+            .Values.SelectMany(x => x.Values)
             .SelectMany(x => x.Select(y => y.particpation))
             .Distinct();
         return (result, participations);
     }
 
-    private AthleteCategory EmsCategoryToAthleteCategory(EmsCategory category)
+    AthleteCategory EmsCategoryToAthleteCategory(EmsCategory category)
     {
         return category switch
         {

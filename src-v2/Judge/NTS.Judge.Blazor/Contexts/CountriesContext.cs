@@ -6,14 +6,16 @@ namespace NTS.Judge.Blazor.Contexts;
 
 public class CountriesContext : ICountriesContext
 {
-
     public Task<IEnumerable<Country>> Search(string term)
     {
         if (string.IsNullOrWhiteSpace(term))
         {
-            return Task.FromResult(StaticOptions.Countries.AsEnumerable());
+            var countries = StaticOptions.Countries.AsEnumerable();
+            return Task.FromResult(countries);
         }
-        var result = StaticOptions.Countries.Where(x => x.Name.Contains(term, StringComparison.InvariantCultureIgnoreCase));
+        var result = StaticOptions.Countries.Where(x =>
+            x.Name.Contains(term, StringComparison.InvariantCultureIgnoreCase)
+        );
         return Task.FromResult(result);
     }
 }

@@ -1,19 +1,20 @@
-﻿using Core.ConventionalServices;
-using Core.Services;
-using Core.Domain.AggregateRoots.Manager;
-using System;
-using System.IO;
-using Core.Application.Http;
-using System.Text;
+﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Text;
+using Core.Application.Http;
+using Core.ConventionalServices;
+using Core.Domain.AggregateRoots.Manager;
+using Core.Services;
 
 namespace EMS.Judge.Api.Services
 {
     public class Logger : ILogger
     {
         private const string FILE_NAME = "error.log";
-        
+
         private readonly IFileService fileService;
+
         public Logger(IFileService fileService)
         {
             this.fileService = fileService;
@@ -22,10 +23,14 @@ namespace EMS.Judge.Api.Services
         public void LogError(Exception exception, string message = "")
         {
             var now = DateTime.Now;
-            var formatted = 
-                $"{now}: " + message + exception.Message + Environment.NewLine
-                + exception.StackTrace + Environment.NewLine;
-            
+            var formatted =
+                $"{now}: "
+                + message
+                + exception.Message
+                + Environment.NewLine
+                + exception.StackTrace
+                + Environment.NewLine;
+
             this.Log(message);
         }
 
@@ -47,12 +52,18 @@ namespace EMS.Judge.Api.Services
         {
             var now = DateTime.Now;
             var message =
-                $"{now}: Error while executing Witness Event" + Environment.NewLine +
-                $"Event: {witnessEvent.Type}" + Environment.NewLine +
-                $"TagId: {witnessEvent.TagId}" + Environment.NewLine +
-                $"TimeStamp: {witnessEvent.Time}" + Environment.NewLine +
-                exception.Message + Environment.NewLine +
-                exception.StackTrace + Environment.NewLine;
+                $"{now}: Error while executing Witness Event"
+                + Environment.NewLine
+                + $"Event: {witnessEvent.Type}"
+                + Environment.NewLine
+                + $"TagId: {witnessEvent.TagId}"
+                + Environment.NewLine
+                + $"TimeStamp: {witnessEvent.Time}"
+                + Environment.NewLine
+                + exception.Message
+                + Environment.NewLine
+                + exception.StackTrace
+                + Environment.NewLine;
 
             this.Log(message);
         }

@@ -2,6 +2,4 @@
 
 namespace NTS.Application;
 
-public interface IUiContext : ISingletonService
-{
-}
+public interface IUiContext : ISingletonService { }

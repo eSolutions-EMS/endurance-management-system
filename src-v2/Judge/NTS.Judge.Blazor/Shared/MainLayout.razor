@@ -3,7 +3,6 @@
 @using static Not.Blazor.Print.PrintableComponent
 
 @inherits LayoutComponentBase
-@implements IDisposable
 
 <MudThemeProvider @ref="_themeProvider" />
 <MudDialogProvider CloseOnEscapeKey="true" CloseButton="true" MaxWidth="MaxWidth.Small" FullWidth="true" />
@@ -50,12 +49,7 @@
 
     protected override void OnInitialized()
     {
-        PrintableComponent.ToggleVisibilityEvent += ToggleLayoutVisibility;
-    }
-
-    public void Dispose()
-    {
-        PrintableComponent.ToggleVisibilityEvent -= ToggleLayoutVisibility;
+        PrintableComponent.OnToggle(ToggleLayoutVisibility);
     }
 
     void ToggleDrawer()

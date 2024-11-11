@@ -23,10 +23,10 @@ public partial class App : Microsoft.Maui.Controls.Application
         StartIntegratedServer(serviceProvider);
     }
 
-    private void StartIntegratedServer(IServiceProvider serviceProvider)
+    void StartIntegratedServer(IServiceProvider serviceProvider)
     {
         JudgeMauiServer.Start(serviceProvider);
-    
+
         Console.WriteLine("----------------------------------------");
         Console.WriteLine("|   Judge Integrated Server started    |");
         Console.WriteLine("----------------------------------------");

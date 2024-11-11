@@ -1,33 +1,35 @@
-﻿using NTS.Domain.Setup.Entities;
-using NTS.Judge.Blazor.Ports;
-using NTS.Judge.HardwareControllers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NTS.Domain.Setup.Entities;
+using NTS.Judge.ACL.RFID;
+using NTS.Judge.Blazor.Ports;
 
 namespace NTS.Judge.Adapters.Behinds;
 
 public class RfidWriterBehind : IRfidWriterBehind
 {
-    private VupVD67Controller VD67Controller;
+    VupVD67Controller _vD67Controller;
 
     public RfidWriterBehind()
     {
-        VD67Controller = new VupVD67Controller(TimeSpan.FromMilliseconds(100));
+        _vD67Controller = new VupVD67Controller(TimeSpan.FromMilliseconds(100));
     }
 
     public async Task<Tag> WriteTag(int number)
     {
-        var tag = await Task.Run(() =>
+        Tag function()
         {
-            var data = VD67Controller.Read();
+            var data = _vD67Controller.Read();
             var id = data.Substring(9);
             var tag = new Tag(id, number);
-            VD67Controller.Write(tag.PrepareToWrite());
+            var writeData = tag.PrepareToWrite();
+            _vD67Controller.Write(writeData);
             return tag;
-        });
+        }
+        var tag = await Task.Run(function);
         return tag;
     }
 }

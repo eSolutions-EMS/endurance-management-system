@@ -9,11 +9,15 @@ public static class DialogParameterExtensions
     private const string MESSAGE_KEY = "message-key";
     private const string START_LIST_KEY = "start-list-key";
 
-    public static IDialogParameters SetSeverity(this IDialogParameters parameters, MessageSeverity severity)
+    public static IDialogParameters SetSeverity(
+        this IDialogParameters parameters,
+        MessageSeverity severity
+    )
     {
         parameters.Add(SEVERITY_KEY, severity);
         return parameters;
     }
+
     public static MessageSeverity GetSeverity(this IDialogParameters parameters)
     {
         var severity = parameters.GetValue<MessageSeverity>(SEVERITY_KEY);
@@ -25,6 +29,7 @@ public static class DialogParameterExtensions
         parameters.Add(MESSAGE_KEY, message);
         return parameters;
     }
+
     public static string GetMessage(this IDialogParameters parameters)
     {
         var message = parameters.GetValue<string>(MESSAGE_KEY);

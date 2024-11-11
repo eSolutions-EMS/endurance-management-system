@@ -1,5 +1,3 @@
 ﻿namespace Not.Domain;
 
-public interface IAggregateRoot
-{
-}
+public interface IAggregateRoot { }

@@ -1,11 +1,12 @@
-﻿using Core.ConventionalServices;
-using System;
+﻿using System;
+using Core.ConventionalServices;
 
 namespace EMS.Judge.Services;
 
 public class StatelessExecutor : IStatelessExecutor
 {
     private readonly IErrorHandler errorHandler;
+
     public StatelessExecutor(IErrorHandler errorHandler)
     {
         this.errorHandler = errorHandler;

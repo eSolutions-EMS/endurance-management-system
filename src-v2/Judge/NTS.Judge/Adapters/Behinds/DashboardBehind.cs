@@ -2,33 +2,44 @@
 using Not.Domain;
 using Not.Safe;
 using NTS.Domain.Core.Entities;
+using NTS.Domain.Core.Entities.ParticipationAggregate;
 using NTS.Domain.Enums;
 using NTS.Judge.Blazor.Ports;
 using NTS.Judge.Factories;
-using NTS.Domain.Core.Entities.ParticipationAggregate;
 
 namespace NTS.Judge.Adapters.Behinds;
 
 public class DashboardBehind : IDashboardBehind
 {
-    private readonly IRepository<Domain.Setup.Entities.EnduranceEvent> _setupRepository;
-    private readonly IRepository<EnduranceEvent> _coreEventRespository;
-    private readonly IRepository<Official> _coreOfficialRepository;
-    private readonly IRepository<Participation> _participationRepository;
-    private readonly IRepository<Ranking> _rankingRepository;
+    readonly IRepository<Domain.Setup.Entities.EnduranceEvent> _setupRepository;
+    readonly IRepository<EnduranceEvent> _coreEventRespository;
+    readonly IRepository<Official> _coreOfficialRepository;
+    readonly IRepository<Participation> _participationRepository;
+    readonly IRepository<Ranking> _rankingRepository;
 
     public DashboardBehind(
         IRepository<Domain.Setup.Entities.EnduranceEvent> setupRepository,
         IRepository<EnduranceEvent> coreEventRespository,
         IRepository<Official> coreOfficialRepository,
         IRepository<Participation> participationRepository,
-        IRepository<Ranking> rankingRepository)
+        IRepository<Ranking> rankingRepository
+    )
     {
         _setupRepository = setupRepository;
         _coreEventRespository = coreEventRespository;
         _coreOfficialRepository = coreOfficialRepository;
         _participationRepository = participationRepository;
         _rankingRepository = rankingRepository;
+    }
+
+    public Task Start()
+    {
+        return SafeHelper.Run(SafeStart);
+    }
+
+    public Task<bool> IsEnduranceEventStarted()
+    {
+        return SafeHelper.Run(SafeIsEnduranceEventStarted);
     }
 
     async Task SafeStart()
@@ -64,39 +75,35 @@ public class DashboardBehind : IDashboardBehind
         }
     }
 
-    async Task CreateParticipationsAndRankings(Domain.Setup.Entities.EnduranceEvent setupEvent) 
+    async Task CreateParticipationsAndRankings(Domain.Setup.Entities.EnduranceEvent setupEvent)
     {
         foreach (var competition in setupEvent.Competitions)
         {
-            var (participations, rankingEntriesByCategory) = await CoreFactory.CreateParticipationAndRankingEntriesAsync(competition, _participationRepository);
-            foreach (var participation in participations) 
+            var (participations, rankingEntriesByCategory) =
+                await CoreFactory.CreateParticipationAndRankingEntriesAsync(
+                    competition,
+                    _participationRepository
+                );
+            foreach (var participation in participations)
             {
                 await _participationRepository.Create(participation);
             }
-            await CreateRankings(new Competition(competition.Name, competition.Ruleset), rankingEntriesByCategory);
-        }      
+            await CreateRankings(
+                new Competition(competition.Name, competition.Ruleset),
+                rankingEntriesByCategory
+            );
+        }
     }
 
-    async Task CreateRankings(Competition competition, Dictionary<AthleteCategory, List<RankingEntry>> rankingEntriesByCategory)
+    async Task CreateRankings(
+        Competition competition,
+        Dictionary<AthleteCategory, List<RankingEntry>> rankingEntriesByCategory
+    )
     {
-        foreach(var relation in rankingEntriesByCategory)
+        foreach (var relation in rankingEntriesByCategory)
         {
             var ranking = CoreFactory.CreateRanking(competition, relation.Key, relation.Value);
             await _rankingRepository.Create(ranking);
         }
     }
-
-    #region SafePattern
-
-    public Task Start()
-    {
-        return SafeHelper.Run(SafeStart);
-    }
-
-    public Task<bool> IsEnduranceEventStarted()
-    {
-        return SafeHelper.Run(SafeIsEnduranceEventStarted);
-    }
-
-    #endregion
 }

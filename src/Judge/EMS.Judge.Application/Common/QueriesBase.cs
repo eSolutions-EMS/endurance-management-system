@@ -1,8 +1,8 @@
-﻿using Core.Domain.Common.Models;
-using Core.Domain.State;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Core.Domain.Common.Models;
+using Core.Domain.State;
 
 namespace EMS.Judge.Application.Common;
 
@@ -19,7 +19,9 @@ public abstract class QueriesBase<T> : IQueries<T>
     protected abstract List<T> Set { get; }
 
     public virtual T GetOne(Predicate<T> predicate) => this.Set.Find(predicate);
+
     public virtual T GetOne(int id) => this.Set.Find(x => x.Id == id);
+
     public virtual List<T> GetAll() => this.Set.ToList();
 }
 

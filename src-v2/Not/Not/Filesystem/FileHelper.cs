@@ -38,7 +38,7 @@ public class FileHelper
         }
     }
 
-    private static void CreateDirectoryIfDoesNotExist(string path)
+    static void CreateDirectoryIfDoesNotExist(string path)
     {
         if (!File.Exists(path))
         {

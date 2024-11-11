@@ -1,0 +1,229 @@
+# -------------------------------------------------------------------------------------------#
+# EditorConfig only support enforcing rules when you opt-in. I.e. when the value is set to true.
+# Properties that do not exist or exist with value 'false' are identical.
+# This makes it oddly incapable unfortunately
+# -------------------------------------------------------------------------------------------#
+
+# Remove the line below if you want to inherit .editorconfig settings from higher directories
+root = true
+
+# C# files
+[*.cs]
+
+#### Core EditorConfig Options ####
+
+# Indentation and spacing
+indent_size = 4
+indent_style = space
+tab_width = 4
+
+# New line preferences
+end_of_line = lf
+insert_final_newline = true
+
+#### .NET Coding Conventions ####
+
+# Organize usings
+dotnet_sort_system_directives_first = true
+file_header_template = unset
+
+# Language keywords vs BCL types preferences
+dotnet_style_predefined_type_for_locals_parameters_members = true:warning
+dotnet_style_predefined_type_for_member_access = true:warning 
+
+# Parentheses preferences
+dotnet_style_parentheses_in_arithmetic_binary_operators = never_if_unnecessary
+dotnet_style_parentheses_in_other_binary_operators = never_if_unnecessary
+dotnet_style_parentheses_in_other_operators = never_if_unnecessary
+dotnet_style_parentheses_in_relational_binary_operators = never_if_unnecessary
+
+# Expression-level preferences
+dotnet_style_coalesce_expression = true:none
+dotnet_style_collection_initializer = true:warning
+dotnet_style_explicit_tuple_names = true:warning
+dotnet_style_namespace_match_folder = true:warning
+dotnet_style_null_propagation = true:warning
+dotnet_style_object_initializer = true:warning
+dotnet_style_operator_placement_when_wrapping = beginning_of_line:warning
+dotnet_style_prefer_compound_assignment = true:warning
+dotnet_style_prefer_conditional_expression_over_assignment = true:warning
+dotnet_style_prefer_conditional_expression_over_return = true:none
+dotnet_style_prefer_foreach_explicit_cast_in_source = when_strongly_typed:warning
+dotnet_style_prefer_inferred_anonymous_type_member_names = true:warning
+dotnet_style_prefer_inferred_tuple_names = true:warning
+dotnet_style_prefer_is_null_check_over_reference_equality_method = true:warning
+dotnet_style_prefer_simplified_boolean_expressions = true:warning
+dotnet_style_prefer_simplified_interpolation = true:warning
+dotnet_style_prefer_using_var_for_built_in_types = true:warning
+dotnet_style_prefer_using_var_when_declaring_anonymous_types = true:warning
+
+# Field preferences
+dotnet_style_readonly_field = true:none
+
+# Parameter preferences
+dotnet_code_quality_unused_parameters = all:warning
+
+# Suppression preferences
+dotnet_remove_unnecessary_suppression_exclusions = true:warning
+
+# New line preferences
+dotnet_style_allow_statement_immediately_after_block_experimental = true:warning
+
+#### C# Coding Conventions ####
+
+# var preferences
+csharp_style_var_for_built_in_types = true:warning
+csharp_style_var_when_type_is_apparent = true:warning
+
+# Expression-bodied members
+csharp_style_expression_bodied_accessors = true:warning
+csharp_style_expression_bodied_indexers = true:warning
+csharp_style_expression_bodied_lambdas = true:warning ## test when_on_single_line
+csharp_style_expression_bodied_local_functions = when_on_single_line:warning
+csharp_style_expression_bodied_properties = true:warning
+
+# Pattern matching preferences
+csharp_style_pattern_matching_over_as_with_null_check = true:warning
+csharp_style_pattern_matching_over_is_with_cast_check = true:warning
+csharp_style_prefer_extended_property_pattern = true:warning
+csharp_style_prefer_not_pattern = true:warning
+csharp_style_prefer_pattern_matching = true:warning
+csharp_style_prefer_switch_expression = true:warning
+
+# Null-checking preferences
+csharp_style_conditional_delegate_call = true:warning
+
+# Modifier preferences
+csharp_prefer_static_local_function = true:warning
+csharp_preferred_modifier_order = public,private,protected,internal,file,static,extern,new,virtual,abstract,sealed,override,readonly,unsafe,required,volatile,async:warning
+csharp_style_prefer_readonly_struct = true:warning
+
+# Code-block preferences
+csharp_prefer_braces = true:warning
+csharp_prefer_simple_using_statement = true:suggestion
+csharp_style_namespace_declarations = file_scoped:silent
+csharp_style_prefer_method_group_conversion = true:warning
+csharp_style_prefer_top_level_statements = true:warning
+
+# Expression-level preferences
+csharp_prefer_simple_default_expression = true:warning
+csharp_style_deconstructed_variable_declaration = true:warning
+csharp_style_implicit_object_creation_when_type_is_apparent = true:warning
+csharp_style_inlined_variable_declaration = true:warning
+csharp_style_prefer_index_operator = true:warning
+csharp_style_prefer_local_over_anonymous_function = true:warning
+csharp_style_prefer_null_check_over_type_check = true:warning
+csharp_style_prefer_tuple_swap = true:warning
+csharp_style_prefer_utf8_string_literals = true:warning
+csharp_style_throw_expression = true:warning
+csharp_style_unused_value_assignment_preference = discard_variable:warning
+csharp_style_unused_value_expression_statement_preference = discard_variable:warning
+
+# 'using' directive preferences
+csharp_using_directive_placement = outside_namespace:warning
+
+#### C# Formatting Rules ####
+
+# New line preferences
+csharp_new_line_before_catch = true:warning
+csharp_new_line_before_else = true:warning
+csharp_new_line_before_finally = true:warning
+csharp_new_line_before_open_brace = all #:warning causes dotnet format to put brace on same line for some reason
+csharp_new_line_between_query_expression_clauses = true:warning
+
+# Indentation preferences
+csharp_indent_block_contents = true:warning
+csharp_indent_case_contents = true:warning
+csharp_indent_case_contents_when_block = true:warning
+csharp_indent_labels = no_change
+csharp_indent_switch_labels = true:warning
+
+# Space preferences
+csharp_space_after_colon_in_inheritance_clause = true:warning
+csharp_space_after_comma = true:warning
+csharp_space_after_keywords_in_control_flow_statements = true:warning
+csharp_space_after_semicolon_in_for_statement = true:warning
+csharp_space_around_binary_operators = before_and_after
+csharp_space_around_declaration_statements = true:warning
+csharp_space_before_colon_in_inheritance_clause = true:warning
+csharp_space_between_square_brackets = true:warning
+
+# Wrapping preferences
+csharp_preserve_single_line_statements = true:warning
+
+#### Naming styles ####
+
+# Naming rules
+dotnet_naming_rule.interface_should_be_begins_with_i.severity = warning
+dotnet_naming_rule.interface_should_be_begins_with_i.symbols = interface
+dotnet_naming_rule.interface_should_be_begins_with_i.style = begins_with_i
+
+dotnet_naming_rule.types_should_be_pascal_case.severity = warning
+dotnet_naming_rule.types_should_be_pascal_case.symbols = types
+dotnet_naming_rule.types_should_be_pascal_case.style = pascal_case
+
+dotnet_naming_rule.non_field_members_should_be_pascal_case.severity = warning
+dotnet_naming_rule.non_field_members_should_be_pascal_case.symbols = non_field_members
+dotnet_naming_rule.non_field_members_should_be_pascal_case.style = pascal_case
+
+# Private non-static fields should have underscore prefix
+dotnet_naming_rule.private_fields_should_be_underscore.severity = warning
+dotnet_naming_rule.private_fields_should_be_underscore.symbols = private_fields
+dotnet_naming_rule.private_fields_should_be_underscore.style = underscore_style
+
+dotnet_naming_symbols.private_fields.applicable_kinds = field
+dotnet_naming_symbols.private_fields.applicable_accessibilities = private
+dotnet_naming_symbols.private_fields.required_modifiers = 
+
+# Constants and static fields should be UPPERCASE
+dotnet_naming_rule.static_fields_should_be_uppercase.severity = warning
+dotnet_naming_rule.static_fields_should_be_uppercase.symbols = static_fields
+dotnet_naming_rule.static_fields_should_be_uppercase.style = constant_style
+
+dotnet_naming_symbols.static_fields.applicable_kinds = field
+dotnet_naming_symbols.static_fields.applicable_accessibilities = *
+dotnet_naming_symbols.static_fields.required_modifiers = static
+
+dotnet_naming_style.constant_style.capitalization = all_upper
+dotnet_naming_style.constant_style.word_separator = _
+
+dotnet_naming_style.underscore_style.required_prefix = _
+dotnet_naming_style.underscore_style.capitalization = camel_case
+
+dotnet_naming_style.constant_style.capitalization = all_upper
+dotnet_naming_style.constant_style.word_separator = _
+
+
+# IDE0046: Convert to conditional expression
+dotnet_diagnostic.IDE0046.severity = none
+
+
+# IDE0058: Expression value is never used - i.e. when method's return value is not used
+dotnet_diagnostic.IDE0058.severity = none
+
+# CA1822: Mark members as static
+dotnet_diagnostic.CA1822.severity = none
+
+# IDE0290: Use primary constructor
+dotnet_diagnostic.IDE0290.severity = none
+
+dotnet_diagnostic.MY0001.severity = warning
+
+# IDE0003: Remove qualification
+dotnet_diagnostic.IDE0003.severity = warning
+
+# Follow membere naming configuration
+dotnet_diagnostic.IDE1006.severity = warning
+
+# Unused statements should be removed
+dotnet_diagnostic.IDE0051.severity = warning
+dotnet_diagnostic.IDE0052.severity = warning
+
+# Non-constant field names should not be uppercase
+dotnet_diagnostic.CA2211.severity = warning
+
+# Prefer collection initializers
+dotnet_diagnostic.IDE0028.severity = warning
+
+# Prever .Length and .Count over Any
+dotnet_diagnostic.CA1860.severity = none

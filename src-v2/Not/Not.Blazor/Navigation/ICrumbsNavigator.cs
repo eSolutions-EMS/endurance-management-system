@@ -10,4 +10,3 @@ public interface ICrumbsNavigator : ITransientService
     void NavigateBack();
     T ConsumeParameter<T>();
 }
-

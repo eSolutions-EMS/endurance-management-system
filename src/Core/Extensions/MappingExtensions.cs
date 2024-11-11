@@ -1,6 +1,6 @@
-﻿using AutoMapper;
-using System;
+﻿using System;
 using System.Linq.Expressions;
+using AutoMapper;
 
 namespace Core.Extensions;
 
@@ -10,11 +10,16 @@ public static class MappingExtensions
         TSource,
         TDestination,
         TSourceMember,
-        TDestinationMember>(
+        TDestinationMember
+    >(
         this IMappingExpression<TSource, TDestination> mapping,
         Expression<Func<TDestination, TDestinationMember>> destinationMemberSelector,
-        Expression<Func<TSource, TSourceMember>> sourceMemberSelector)
+        Expression<Func<TSource, TSourceMember>> sourceMemberSelector
+    )
     {
-        return mapping.ForMember(destinationMemberSelector, opt => opt.MapFrom(sourceMemberSelector));
+        return mapping.ForMember(
+            destinationMemberSelector,
+            opt => opt.MapFrom(sourceMemberSelector)
+        );
     }
 }

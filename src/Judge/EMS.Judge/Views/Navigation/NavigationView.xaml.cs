@@ -1,18 +1,21 @@
-using EMS.Judge.Common;
-using EMS.Judge.Common.Services;
 using System.Windows.Controls;
 using System.Windows.Input;
+using EMS.Judge.Common;
+using EMS.Judge.Common.Services;
 
 namespace EMS.Judge.Views.Navigation;
 
 public partial class NavigationView : UserControl, IView
 {
     private readonly IInputHandler inputHandler;
-    public NavigationView(IInputHandler inputHandler) : this()
+
+    public NavigationView(IInputHandler inputHandler)
+        : this()
     {
         this.inputHandler = inputHandler;
         this.inputHandler = inputHandler;
     }
+
     public NavigationView()
     {
         InitializeComponent();

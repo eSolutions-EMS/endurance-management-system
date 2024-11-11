@@ -1,13 +1,12 @@
-﻿using Newtonsoft.Json;
-using System.ComponentModel;
+﻿using System.ComponentModel;
+using Newtonsoft.Json;
 
 namespace NTS.Domain.Core.Entities.ParticipationAggregate;
 
 public record Withdrawn : Eliminated
 {
-    public Withdrawn() : base(WITHDRAWN)
-    {
-    }
+    public Withdrawn()
+        : base(WITHDRAWN) { }
 
     public override string ToString()
     {
@@ -17,9 +16,8 @@ public record Withdrawn : Eliminated
 
 public record Retired : Eliminated
 {
-    public Retired() : base(RETIRED)
-    {
-    }
+    public Retired()
+        : base(RETIRED) { }
 
     public override string ToString()
     {
@@ -29,9 +27,8 @@ public record Retired : Eliminated
 
 public record Disqualified : Eliminated
 {
-    public Disqualified(string complement) : base(DISQUALIFIED, complement)
-    {
-    }
+    public Disqualified(string complement)
+        : base(DISQUALIFIED, complement) { }
 
     public override string ToString()
     {
@@ -41,9 +38,8 @@ public record Disqualified : Eliminated
 
 public record FinishedNotRanked : Eliminated
 {
-    public FinishedNotRanked(string complement) : base(FINISHED_NOT_RANKED, complement)
-    {
-    }
+    public FinishedNotRanked(string complement)
+        : base(FINISHED_NOT_RANKED, complement) { }
 
     public override string ToString()
     {
@@ -54,15 +50,16 @@ public record FinishedNotRanked : Eliminated
 public record FailedToQualify : Eliminated
 {
     [JsonConstructor]
-    public FailedToQualify(FtqCode[] ftqCodes, string? complement) : base(FAILED_TO_QUALIFY)
+    public FailedToQualify(FtqCode[] ftqCodes, string? complement)
+        : base(FAILED_TO_QUALIFY)
     {
         PreventInvalidFTC(ftqCodes, complement);
         FtqCodes = ftqCodes;
         Complement = complement; // Doesn't use base ctor with complement, because it is not required here
     }
-    public FailedToQualify(FtqCode[] codes) : this(IsNotEmpty(codes), null)
-    {
-    }
+
+    public FailedToQualify(FtqCode[] codes)
+        : this(IsNotEmpty(codes), null) { }
 
     public IEnumerable<FtqCode> FtqCodes { get; private set; } = [];
 
@@ -78,9 +75,7 @@ public record FailedToQualify : Eliminated
         {
             throw new DomainException($"Cannot eliminate as FTQ without FTQ codes");
         }
-        if (codes.Contains(FtqCode.FTC))
-        {
-        }
+        if (codes.Contains(FtqCode.FTC)) { }
         return codes;
     }
 
@@ -88,8 +83,10 @@ public record FailedToQualify : Eliminated
     {
         if (codes.Contains(FtqCode.FTC) && string.IsNullOrWhiteSpace(complement))
         {
-            throw new DomainException($"FEI rules require a written explanation for FTC" +
-                $" (Failed to Complete) elimination. Please provide '{nameof(Complement)}'");
+            throw new DomainException(
+                $"FEI rules require a written explanation for FTC"
+                    + $" (Failed to Complete) elimination. Please provide '{nameof(Complement)}'"
+            );
         }
     }
 }
@@ -106,7 +103,9 @@ public abstract record Eliminated : DomainObject
     {
         Code = eliminationCode;
     }
-    protected Eliminated(string eliminationCode, string complement) : this(eliminationCode)
+
+    protected Eliminated(string eliminationCode, string complement)
+        : this(eliminationCode)
     {
         Complement = IsNotNullOrEmpty(complement, eliminationCode);
     }

@@ -5,4 +5,10 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-[assembly: SuppressMessage("Usage", "BL0007:Component parameters should be auto properties", Justification = "<Pending>", Scope = "member", Target = "~P:Not.Blazor.Components.BindableValueComponent`1.Value")]
+[assembly: SuppressMessage(
+    "Usage",
+    "BL0007:Component parameters should be auto properties",
+    Justification = "<Pending>",
+    Scope = "member",
+    Target = "~P:Not.Blazor.Components.BindableValueComponent`1.Value"
+)]

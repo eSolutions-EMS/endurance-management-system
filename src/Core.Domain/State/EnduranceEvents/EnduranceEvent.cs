@@ -1,24 +1,28 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Core.Domain.Common.Extensions;
 using Core.Domain.Common.Models;
 using Core.Domain.Enums;
 using Core.Domain.State.Competitions;
 using Core.Domain.State.Countries;
-using Core.Domain.State.Personnels;
-using Core.Domain.Common.Extensions;
 using Core.Domain.State.Participations;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Core.Domain.State.Personnels;
 
 namespace Core.Domain.State.EnduranceEvents;
 
 public class EnduranceEvent : DomainBase<EnduranceEventException>, IEnduranceEventState
 {
-    private EnduranceEvent()  { }
-    internal EnduranceEvent(string name, Country country, string showFeiId) : this(name, country)
+    private EnduranceEvent() { }
+
+    internal EnduranceEvent(string name, Country country, string showFeiId)
+        : this(name, country)
     {
         ShowFeiId = showFeiId;
     }
-    internal EnduranceEvent(string name, Country country) : base(GENERATE_ID)
+
+    internal EnduranceEvent(string name, Country country)
+        : base(GENERATE_ID)
     {
         this.Name = name;
         this.Country = country;
@@ -45,6 +49,7 @@ public class EnduranceEvent : DomainBase<EnduranceEventException>, IEnduranceEve
     {
         this.competitions.AddOrUpdate(competition);
     }
+
     public void Save(Personnel personnel)
     {
         switch (personnel.Role)

@@ -6,10 +6,7 @@ public class ExplorerService : IExplorerService
 {
     public string SelectDirectory()
     {
-        using var openFolderDialog = new CommonOpenFileDialog
-        {
-            IsFolderPicker = true
-        };
+        using var openFolderDialog = new CommonOpenFileDialog { IsFolderPicker = true };
 
         return this.GetPath(openFolderDialog);
     }

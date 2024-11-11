@@ -1,5 +1,3 @@
 ﻿namespace Not.Injection;
 
-public interface ISingletonService
-{
-}
+public interface ISingletonService { }

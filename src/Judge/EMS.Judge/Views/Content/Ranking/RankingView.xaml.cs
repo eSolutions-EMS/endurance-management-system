@@ -1,17 +1,20 @@
-﻿using EMS.Judge.Common;
-using EMS.Judge.Common.Services;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using System.Windows.Input;
+using EMS.Judge.Common;
+using EMS.Judge.Common.Services;
 
 namespace EMS.Judge.Views.Content.Ranking;
 
 public partial class RankingView : UserControl, IView
 {
     private readonly IInputHandler handler;
-    public RankingView(IInputHandler handler) : this()
+
+    public RankingView(IInputHandler handler)
+        : this()
     {
         this.handler = handler;
     }
+
     public RankingView()
     {
         InitializeComponent();

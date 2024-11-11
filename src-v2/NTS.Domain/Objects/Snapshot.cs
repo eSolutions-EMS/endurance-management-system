@@ -19,6 +19,6 @@ public record Snapshot : DomainObject, ISnapshot
 
     public override string ToString()
     {
-        return "#".Localize()+$"{Number} at {Timestamp}";
+        return "#".Localize() + $"{Number} at {Timestamp}";
     }
 }

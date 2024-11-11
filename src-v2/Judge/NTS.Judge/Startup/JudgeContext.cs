@@ -6,10 +6,13 @@ using Not.Storage.StaticOptions;
 
 namespace NTS.Judge.Startup;
 
-public class JudgeContext : FilesystemContext, IFilesystemLoggerConfiguration, IFileStorageConfiguration, IStaticOptionsConfiguration
+public class JudgeContext
+    : FilesystemContext,
+        IFilesystemLoggerConfiguration,
+        IFileStorageConfiguration,
+        IStaticOptionsConfiguration
 {
     string IStaticOptionsConfiguration.Path => GetAppDirectory("Resources/config");
     string IFilesystemLoggerConfiguration.Directory => GetAppDirectory("logs");
     string IFileStorageConfiguration.Path => GetAppDirectory("data");
 }
-

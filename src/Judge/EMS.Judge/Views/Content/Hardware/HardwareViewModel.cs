@@ -1,21 +1,21 @@
-﻿using EMS.Judge.Common;
-using EMS.Judge.Common.Services;
-using EMS.Judge.Views.Content.Hardware.Tags;
-using EMS.Judge.Views.Content.Manager;
-using EMS.Judge.Application.Common;
-using Core.Domain.AggregateRoots.Manager;
-using Core.Domain.State.Participations;
-using EMS.Judge.Application.Hardware;
-using Prism.Commands;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Media;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Threading;
+using Core.Domain.AggregateRoots.Manager;
+using Core.Domain.State.Participations;
+using EMS.Judge.Application.Common;
+using EMS.Judge.Application.Hardware;
 using EMS.Judge.Application.Services;
+using EMS.Judge.Common;
+using EMS.Judge.Common.Services;
+using EMS.Judge.Views.Content.Hardware.Tags;
+using EMS.Judge.Views.Content.Manager;
+using Prism.Commands;
 
 namespace EMS.Judge.Views.Content.Hardware;
 
@@ -29,7 +29,11 @@ public class HardwareViewModel : ViewModelBase
     private int power = 27;
     private bool isListing;
 
-    public HardwareViewModel(IQueries<Participation> participationQueries, IPopupService popupService, IPersistence persistence)
+    public HardwareViewModel(
+        IQueries<Participation> participationQueries,
+        IPopupService popupService,
+        IPersistence persistence
+    )
     {
         this.participationQueries = participationQueries;
         this.popupService = popupService;
@@ -73,7 +77,7 @@ public class HardwareViewModel : ViewModelBase
         set
         {
             this.SetProperty(ref this.isListing, value);
-            this.RaisePropertyChanged(nameof (this.IsNotListing));
+            this.RaisePropertyChanged(nameof(this.IsNotListing));
         }
     }
     public bool IsNotListing
@@ -118,29 +122,37 @@ public class HardwareViewModel : ViewModelBase
 
     private void HandleReadEventTag(object sender, RfidTags tagIds)
     {
-        ThreadPool.QueueUserWorkItem(delegate
-        {
-            SynchronizationContext.SetSynchronizationContext(new
-                DispatcherSynchronizationContext(System.Windows.Application.Current.Dispatcher));
-
-            SynchronizationContext.Current!.Post(_ =>
+        ThreadPool.QueueUserWorkItem(
+            delegate
             {
-                SystemSounds.Beep.Play();
-                foreach (var tagId in tagIds.Hexes)
-                {
-                    var existingTag = this.Tags.FirstOrDefault(x => x.Id == tagId);
-                    if (existingTag != null)
+                SynchronizationContext.SetSynchronizationContext(
+                    new DispatcherSynchronizationContext(
+                        System.Windows.Application.Current.Dispatcher
+                    )
+                );
+
+                SynchronizationContext.Current!.Post(
+                    _ =>
                     {
-                        existingTag.Detect();
-                    }
-                    else
-                    {
-                        var tag = new TagViewModel { DetectedCount = 1, Id = tagId };
-                        this.Tags.Add(tag);
-                    }
-                }
-            }, null);
-        });
+                        SystemSounds.Beep.Play();
+                        foreach (var tagId in tagIds.Hexes)
+                        {
+                            var existingTag = this.Tags.FirstOrDefault(x => x.Id == tagId);
+                            if (existingTag != null)
+                            {
+                                existingTag.Detect();
+                            }
+                            else
+                            {
+                                var tag = new TagViewModel { DetectedCount = 1, Id = tagId };
+                                this.Tags.Add(tag);
+                            }
+                        }
+                    },
+                    null
+                );
+            }
+        );
     }
 
     private void GenerateRfidStats()
@@ -151,22 +163,29 @@ public class HardwareViewModel : ViewModelBase
         var overallArrRates = new List<double>();
         var overallVetRates = new List<double>();
         var overallAverages = new List<double>();
-        foreach (var participation in this.participationQueries.GetAll().OrderBy(x => x.Participant.Number))
+        foreach (
+            var participation in this
+                .participationQueries.GetAll()
+                .OrderBy(x => x.Participant.Number)
+        )
         {
             var laps = participation.Participant.LapRecords;
             var ARRs = laps.Count;
-            var INs = laps.Count
+            var INs =
+                laps.Count
                 + laps.Count(x => x.IsReinspectionRequired)
                 + laps.Count(x => x.IsRequiredInspectionRequired);
 
-            var headArrDetections = participation.Participant.DetectedHead[WitnessEventType.Arrival];
+            var headArrDetections = participation.Participant.DetectedHead[
+                WitnessEventType.Arrival
+            ];
             var headVetDetections = participation.Participant.DetectedHead[WitnessEventType.VetIn];
 
             var headArrRate = (double)headArrDetections.Distinct().Count() / ARRs;
-            var headVetRate = (double) headVetDetections.Distinct().Count() / INs;
+            var headVetRate = (double)headVetDetections.Distinct().Count() / INs;
 
-            var overallArrRate = (double) headArrDetections.Distinct().Count() / ARRs;
-            var overallVetRate = (double) headVetDetections.Distinct().Count() / INs;
+            var overallArrRate = (double)headArrDetections.Distinct().Count() / ARRs;
+            var overallVetRate = (double)headVetDetections.Distinct().Count() / INs;
             var overallAverage = (overallArrRate + overallVetRate) / 2;
             overallArrRates.Add(overallArrRate);
             overallVetRates.Add(overallVetRate);
@@ -174,8 +193,9 @@ public class HardwareViewModel : ViewModelBase
 
             sb.AppendLine($"# {participation.Participant.Number} #".PadRight(75, '#'));
             sb.AppendLine(
-                $" - arr: {headArrDetections.Count}/{ARRs} ({this.FormatRate(headArrRate)})" +
-                $" - vet: {headVetDetections.Count}/{INs} ({this.FormatRate(headVetRate)})");
+                $" - arr: {headArrDetections.Count}/{ARRs} ({this.FormatRate(headArrRate)})"
+                    + $" - vet: {headVetDetections.Count}/{INs} ({this.FormatRate(headVetRate)})"
+            );
         }
         var arrAverage = overallArrRates.Sum() / overallArrRates.Count;
         var vetAverage = overallVetRates.Sum() / overallVetRates.Count;
@@ -189,6 +209,5 @@ public class HardwareViewModel : ViewModelBase
         this.persistence.LogStatistics(sb.ToString());
     }
 
-    private string FormatRate(double rate)
-        => $"{rate * 100:0.##}%";
+    private string FormatRate(double rate) => $"{rate * 100:0.##}%";
 }

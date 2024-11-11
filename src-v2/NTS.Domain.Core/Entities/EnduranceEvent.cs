@@ -6,13 +6,15 @@ namespace NTS.Domain.Core.Entities;
 public class EnduranceEvent : DomainEntity
 {
     [JsonConstructor]
-    private EnduranceEvent(
+    EnduranceEvent(
         int id,
         PopulatedPlace populatedPlace,
         EventSpan eventSpan,
         string? feiId,
         string? feiCode,
-        string? showFeiId) : base(id)
+        string? showFeiId
+    )
+        : base(id)
     {
         PopulatedPlace = populatedPlace;
         EventSpan = eventSpan;
@@ -20,6 +22,7 @@ public class EnduranceEvent : DomainEntity
         FeiCode = feiCode;
         ShowFeiId = showFeiId;
     }
+
     public EnduranceEvent(
         Country country,
         string city,
@@ -28,15 +31,16 @@ public class EnduranceEvent : DomainEntity
         DateTimeOffset endDate,
         string? feiId,
         string? feiCode,
-        string? showFeiId) : this(
+        string? showFeiId
+    )
+        : this(
             GenerateId(),
             new PopulatedPlace(country, city, place),
             new EventSpan(startDate, endDate),
             feiId,
             feiCode,
-            showFeiId)
-    {
-    }
+            showFeiId
+        ) { }
 
     public PopulatedPlace PopulatedPlace { get; }
     public EventSpan EventSpan { get; }

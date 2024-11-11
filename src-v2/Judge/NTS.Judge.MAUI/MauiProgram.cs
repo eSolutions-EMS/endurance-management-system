@@ -1,14 +1,13 @@
-﻿
-using NTS.Persistence.Startup;
-using NTS.Judge.Blazor.Startup;
+﻿using Microsoft.Extensions.Logging;
 using Not.Injection;
-using NTS.Judge.MAUI.Server;
-using Not.MAUI.Logging;
 using Not.Logging;
-using NTS.Judge.Startup;
-using Not.Storage.Stores;
+using Not.MAUI.Logging;
 using Not.Storage.StaticOptions;
-using Microsoft.Extensions.Logging;
+using Not.Storage.Stores;
+using NTS.Judge.Blazor.Startup;
+using NTS.Judge.MAUI.Server;
+using NTS.Judge.Startup;
+using NTS.Persistence.Startup;
 
 namespace NTS.Judge.MAUI;
 
@@ -38,12 +37,10 @@ public static class ServiceCollectionExtensions
         builder.Logging.AddDebug();
         builder.Services.AddBlazorWebViewDeveloperTools();
 #endif
-        builder
-            .ConfigureLogging()
-            .AddFilesystemLogger<JudgeContext>();
+        builder.ConfigureLogging().AddFilesystemLogger<JudgeContext>();
 
-        builder.Services
-            .AddJsonFileStore<JudgeContext>()
+        builder
+            .Services.AddJsonFileStore<JudgeContext>()
             .AddStaticOptionsStore<JudgeContext>()
             .AddJudgeBlazor(builder.Configuration)
             .AddInversedDependencies();

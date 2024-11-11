@@ -1,5 +1,3 @@
 ﻿namespace Core.ConventionalServices;
 
-public interface ITransientService : IService
-{
-}
+public interface ITransientService : IService { }

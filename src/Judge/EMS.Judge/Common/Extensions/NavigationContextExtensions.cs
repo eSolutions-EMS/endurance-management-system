@@ -1,5 +1,5 @@
-﻿using Prism.Regions;
-using System;
+﻿using System;
+using Prism.Regions;
 using static EMS.Judge.DesktopConstants;
 
 namespace EMS.Judge.Common.Extensions;
@@ -10,7 +10,9 @@ public static class NavigationContextExtensions
 
     public static bool IsExistingConfiguration(this NavigationContext context)
     {
-        var hasDomainId = context.Parameters.ContainsKey(DesktopConstants.NavigationParametersKeys.DOMAIN_ID);
+        var hasDomainId = context.Parameters.ContainsKey(
+            DesktopConstants.NavigationParametersKeys.DOMAIN_ID
+        );
         return hasDomainId;
     }
 
@@ -29,7 +31,10 @@ public static class NavigationContextExtensions
 
     public static int? LookForParentViewId(this NavigationContext context)
     {
-        var hasPrincipalId = context.Parameters.TryGetValue<int>(DesktopConstants.NavigationParametersKeys.PARENT_VIEW_ID, out var id);
+        var hasPrincipalId = context.Parameters.TryGetValue<int>(
+            DesktopConstants.NavigationParametersKeys.PARENT_VIEW_ID,
+            out var id
+        );
         if (!hasPrincipalId)
         {
             return null;
@@ -53,7 +58,10 @@ public static class NavigationContextExtensions
 
     public static object GetData(this NavigationContext context)
     {
-        var hasData = context.Parameters.TryGetValue<object>(DesktopConstants.NavigationParametersKeys.DATA, out var data);
+        var hasData = context.Parameters.TryGetValue<object>(
+            DesktopConstants.NavigationParametersKeys.DATA,
+            out var data
+        );
         if (!hasData)
         {
             return null;

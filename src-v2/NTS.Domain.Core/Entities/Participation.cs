@@ -9,36 +9,41 @@ namespace NTS.Domain.Core.Entities;
 
 public class Participation : DomainEntity, IAggregateRoot
 {
-    public readonly static Event<PhaseCompleted> PhaseCompletedEvent = new();
-    public readonly static Event<ParticipationEliminated> EliminatedEvent = new();
-    public readonly static Event<ParticipationRestored> RestoredEvent = new();
-
-    private static readonly TimeSpan NOT_SNAPSHOTABLE_WINDOW = TimeSpan.FromMinutes(30);
-    private static readonly FailedToQualify OUT_OF_TIME = new([FtqCode.OT]);
-    private static readonly FailedToQualify SPEED_RESTRICTION = new([FtqCode.SP]);
+    static readonly TimeSpan NOT_SNAPSHOTABLE_WINDOW = TimeSpan.FromMinutes(30);
+    static readonly FailedToQualify OUT_OF_TIME = new([FtqCode.OT]);
+    static readonly FailedToQualify SPEED_RESTRICTION = new([FtqCode.SP]);
+    public static readonly Event<PhaseCompleted> PhaseCompletedEvent = new();
+    public static readonly Event<ParticipationEliminated> EliminatedEvent = new();
+    public static readonly Event<ParticipationRestored> RestoredEvent = new();
 
     [JsonConstructor]
-    private Participation(int id, Competition competition, Combination combination, PhaseCollection phases, Eliminated? notQualified) : base(id)
+    Participation(
+        int id,
+        Competition competition,
+        Combination combination,
+        PhaseCollection phases,
+        Eliminated? notQualified
+    )
+        : base(id)
     {
         Competition = competition;
         Combination = combination;
         Phases = phases;
         Eliminated = notQualified;
     }
-    public Participation(string competitionName, CompetitionRuleset ruleset, Combination combination, IEnumerable<Phase> phases)
-        : this(
-              GenerateId(),
-              new(competitionName, ruleset),
-              combination,
-              new(phases),
-              null)
-    {
-    }
+
+    public Participation(
+        string competitionName,
+        CompetitionRuleset ruleset,
+        Combination combination,
+        IEnumerable<Phase> phases
+    )
+        : this(GenerateId(), new(competitionName, ruleset), combination, new(phases), null) { }
 
     public Competition Competition { get; }
     public Combination Combination { get; }
     public PhaseCollection Phases { get; }
-    public Eliminated? Eliminated { get; private set; } 
+    public Eliminated? Eliminated { get; private set; }
 
     public bool IsEliminated()
     {
@@ -119,6 +124,7 @@ public class Participation : DomainEntity, IAggregateRoot
     {
         Eliminate(new Withdrawn());
     }
+
     public void Retire()
     {
         Eliminate(new Retired());
@@ -139,14 +145,23 @@ public class Participation : DomainEntity, IAggregateRoot
         Eliminate(new FailedToQualify(codes, reason));
     }
 
-    private void EvaluatePhase(Phase phase)
+    public void Restore()
+    {
+        Eliminated = null;
+        var qualificationRestored = new ParticipationRestored(this);
+        RestoredEvent.Emit(qualificationRestored);
+    }
+
+    void EvaluatePhase(Phase phase)
     {
         if (phase.ViolatesRecoveryTime())
         {
             Eliminate(OUT_OF_TIME);
             return;
         }
-        if (phase.ViolatesSpeedRestriction(Combination.MinAverageSpeed, Combination.MaxAverageSpeed))
+        if (
+            phase.ViolatesSpeedRestriction(Combination.MinAverageSpeed, Combination.MaxAverageSpeed)
+        )
         {
             Eliminate(SPEED_RESTRICTION);
             return;
@@ -165,17 +180,10 @@ public class Participation : DomainEntity, IAggregateRoot
         }
     }
 
-    private void Eliminate(Eliminated notQualified)
+    void Eliminate(Eliminated notQualified)
     {
         Eliminated = notQualified;
         var qualificationRevoked = new ParticipationEliminated(this);
         EliminatedEvent.Emit(qualificationRevoked);
-    }
-
-    public void Restore()
-    {
-        Eliminated = null;
-        var qualificationRestored = new ParticipationRestored(this);
-        RestoredEvent.Emit(qualificationRestored);
     }
 }

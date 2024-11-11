@@ -1,5 +1,4 @@
-﻿using EMS.Judge.Api.Services;
-using Not.Safe;
+﻿using Not.Safe;
 using NTS.Judge.MAUI.Server.ACL;
 using NTS.Judge.MAUI.Server.ACL.Handshake;
 
@@ -14,13 +13,19 @@ public class JudgeMauiServer
 
     public static Task Start(IServiceProvider callerProvider)
     {
-        return SafeHelper.RunAsync(() => { StartServer(callerProvider); return Task.CompletedTask; });
+        return SafeHelper.RunAsync(() =>
+        {
+            StartServer(callerProvider);
+            return Task.CompletedTask;
+        });
     }
 
-    private static void StartServer(IServiceProvider callerProvider)
+    static void StartServer(IServiceProvider callerProvider)
     {
         var builder = WebApplication.CreateBuilder();
-        builder.Services.AddSingleton<IJudgeServiceProvider>(new JudgeServiceProvider(callerProvider));
+        builder.Services.AddSingleton<IJudgeServiceProvider>(
+            new JudgeServiceProvider(callerProvider)
+        );
         builder.Services.AddSignalR();
         builder.Services.AddHostedService<NetworkBroadcastService>();
 

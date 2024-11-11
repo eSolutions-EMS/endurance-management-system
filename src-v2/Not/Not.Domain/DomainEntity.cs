@@ -1,10 +1,20 @@
-﻿using Not.Random;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
+using Not.Random;
 
 namespace Not.Domain;
 
 public abstract class DomainEntity : IEquatable<DomainEntity>, IIdentifiable
 {
+    public static bool operator ==(DomainEntity? left, DomainEntity? right)
+    {
+        return left?.IsEqual(right) ?? right is null;
+    }
+
+    public static bool operator !=(DomainEntity? left, DomainEntity? right)
+    {
+        return !(left == right);
+    }
+
     protected DomainEntity(int id)
     {
         Id = id;
@@ -13,41 +23,10 @@ public abstract class DomainEntity : IEquatable<DomainEntity>, IIdentifiable
     // TODO: use DomainObject for ID, do private set
     public int Id { get; }
 
-    public static bool operator == (DomainEntity? left, DomainEntity? right)
-        => left?.IsEqual(right) ?? right is null;
-    public static bool operator !=(DomainEntity? left, DomainEntity? right)
-        => !(left == right);
-
-    public bool Equals(DomainEntity? other)
-        => this.IsEqual(other);
-    public override bool Equals(object? other)
-        => this.IsEqual(other);
-
-    private bool IsEqual(object? other)
-    {
-        if (other == null || other is not DomainEntity)
-        {
-            return false;
-        }
-        if (ReferenceEquals(this, other))
-        {
-            return true;
-        }
-        return this.GetHashCode() == other.GetHashCode()
-            && this.GetType() == other.GetType();
-    }
-
-    public override int GetHashCode()
-        => this.Id;
-
-	public override string ToString()
-	{
-        throw new NotImplementedException($"'{this.GetType().Name}' has to override ToString() to provide short info");
-	}
-
     protected string Combine(params object?[] values)
     {
-        return string.Join(" | ", values.Where(x => x != null));
+        var sections = values.Where(x => x != null);
+        return string.Join(" | ", sections);
     }
 
     protected static int GenerateId()
@@ -79,13 +58,48 @@ public abstract class DomainEntity : IEquatable<DomainEntity>, IIdentifiable
     }
 
     [return: NotNull]
-    protected static string Required(string field, string? value)
+    protected static string Required(string field, [NotNull] string? value)
     {
         if (string.IsNullOrWhiteSpace(value))
         {
             throw GetRequiredException(field);
         }
         return value;
+    }
+
+    public bool Equals(DomainEntity? other)
+    {
+        return IsEqual(other);
+    }
+
+    public override bool Equals(object? other)
+    {
+        return IsEqual(other);
+    }
+
+    public override int GetHashCode()
+    {
+        return Id;
+    }
+
+    public override string ToString()
+    {
+        throw new NotImplementedException(
+            $"'{GetType().Name}' has to override ToString() to provide short info"
+        );
+    }
+
+    bool IsEqual(object? other)
+    {
+        if (other is null or not DomainEntity)
+        {
+            return false;
+        }
+        if (ReferenceEquals(this, other))
+        {
+            return true;
+        }
+        return GetHashCode() == other.GetHashCode() && GetType() == other.GetType();
     }
 
     static DomainException GetRequiredException(string field)

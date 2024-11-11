@@ -1,8 +1,8 @@
-﻿using Core.ConventionalServices;
-using Core.Services;
+﻿using System.Linq;
+using Core.ConventionalServices;
 using Core.Domain.AggregateRoots.Import.Models.National;
+using Core.Services;
 using EMS.Judge.Application.Common.Services;
-using System.Linq;
 using static EMS.Judge.Application.ApplicationConstants;
 
 namespace EMS.Judge.Application.Aggregates.Import.Readers;
@@ -30,17 +30,27 @@ public class NationalReader : ExcelServiceBase, INationalReader
         var row = ApplicationConstants.ExcelMaps.ImportNational.FIRST_ENTRY_ROW;
         var data = new NationalData();
 
-        while(true)
+        while (true)
         {
-            var name = sheet.Cells[row, ApplicationConstants.ExcelMaps.ImportNational.NAME_COLUMN].Text;
-            var breed = sheet.Cells[row, ApplicationConstants.ExcelMaps.ImportNational.BREED_COLUMN].Text;
-            var feiId = sheet.Cells[row, ApplicationConstants.ExcelMaps.ImportNational.FEI_ID_COLUMN].Text;
-            var club = sheet.Cells[row, ApplicationConstants.ExcelMaps.ImportNational.CLUB_COLUMN].Text;
+            var name = sheet
+                .Cells[row, ApplicationConstants.ExcelMaps.ImportNational.NAME_COLUMN]
+                .Text;
+            var breed = sheet
+                .Cells[row, ApplicationConstants.ExcelMaps.ImportNational.BREED_COLUMN]
+                .Text;
+            var feiId = sheet
+                .Cells[row, ApplicationConstants.ExcelMaps.ImportNational.FEI_ID_COLUMN]
+                .Text;
+            var club = sheet
+                .Cells[row, ApplicationConstants.ExcelMaps.ImportNational.CLUB_COLUMN]
+                .Text;
 
-            if (string.IsNullOrWhiteSpace(name)
+            if (
+                string.IsNullOrWhiteSpace(name)
                 && string.IsNullOrWhiteSpace(breed)
                 && string.IsNullOrWhiteSpace(feiId)
-                && string.IsNullOrWhiteSpace(club))
+                && string.IsNullOrWhiteSpace(club)
+            )
             {
                 break;
             }

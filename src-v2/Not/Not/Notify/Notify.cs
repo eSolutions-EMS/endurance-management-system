@@ -6,10 +6,10 @@ namespace Not.Notifier;
 
 public static class Notifications
 {
-    public readonly static Event<Informed> InformedEvent = new();
-    public readonly static Event<Succeeded> SucceededEvent = new();
-    public readonly static Event<Warned> WarnedEvent = new();
-    public readonly static Event<Failed> FailedEvent = new();
+    public static readonly Event<Informed> InformedEvent = new();
+    public static readonly Event<Succeeded> SucceededEvent = new();
+    public static readonly Event<Warned> WarnedEvent = new();
+    public static readonly Event<Failed> FailedEvent = new();
 }
 
 public static class NotifyHelper
@@ -36,6 +36,8 @@ public static class NotifyHelper
 
     public static void Error(Exception exception)
     {
-        FailedEvent.Emit(new Failed(exception.Message + Environment.NewLine + exception.StackTrace));
+        FailedEvent.Emit(
+            new Failed(exception.Message + Environment.NewLine + exception.StackTrace)
+        );
     }
 }

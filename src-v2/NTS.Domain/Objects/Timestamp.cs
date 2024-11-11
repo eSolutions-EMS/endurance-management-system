@@ -1,4 +1,4 @@
-﻿namespace NTS.Domain;
+﻿namespace NTS.Domain.Objects;
 
 public record Timestamp : DomainObject, IComparable<Timestamp>
 {
@@ -16,21 +16,66 @@ public record Timestamp : DomainObject, IComparable<Timestamp>
         return new Timestamp(dateTime.Value);
     }
 
+    public static bool operator <(Timestamp? left, Timestamp? right)
+    {
+        return left?.DateTime < right?.DateTime;
+    }
+
+    public static bool operator >(Timestamp? left, Timestamp? right)
+    {
+        return left?.DateTime > right?.DateTime;
+    }
+
+    public static bool operator <=(Timestamp? left, Timestamp? right)
+    {
+        return left?.DateTime <= right?.DateTime;
+    }
+
+    public static bool operator >=(Timestamp? left, Timestamp? right)
+    {
+        return left?.DateTime > right?.DateTime;
+    }
+
+    public static bool operator <(Timestamp? left, DateTimeOffset? right)
+    {
+        return left?.DateTime < right;
+    }
+
+    public static bool operator >(Timestamp? left, DateTimeOffset? right)
+    {
+        return left?.DateTime > right;
+    }
+
+    public static TimeInterval? operator -(Timestamp? left, Timestamp? right)
+    {
+        if (left == null || right == null)
+        {
+            return null;
+        }
+        return new TimeInterval(left!.DateTime - right!.DateTime);
+    }
+
+    public static Timestamp? operator +(Timestamp? left, TimeSpan? right)
+    {
+        return left == null ? null : new Timestamp(left!.DateTime + (right ?? TimeSpan.Zero));
+    }
+
+    Timestamp() { }
+
+    Timestamp(DateTimeOffset dateTime)
+    {
+        DateTime = dateTime;
+    }
+
     public Timestamp(DateTime dateTime)
     {
         DateTime = dateTime;
     }
 
-    public Timestamp(Timestamp timestamp) : base(timestamp)
+    public Timestamp(Timestamp timestamp)
+        : base(timestamp)
     {
         DateTime = timestamp.DateTime;
-    }
-    private Timestamp()
-    {
-    }
-    private Timestamp(DateTimeOffset dateTime)
-    {
-        DateTime = dateTime;
     }
 
     public DateTimeOffset DateTime { get; private set; }
@@ -44,6 +89,7 @@ public record Timestamp : DomainObject, IComparable<Timestamp>
     {
         return DateTime.LocalDateTime.ToString(format, formatProvider);
     }
+
     public override string ToString()
     {
         return DateTime.LocalDateTime.ToString("HH:mm:ss");
@@ -52,46 +98,5 @@ public record Timestamp : DomainObject, IComparable<Timestamp>
     public int CompareTo(Timestamp? other)
     {
         return DateTime.CompareTo(other?.DateTime ?? DateTimeOffset.MinValue);
-    }
-
-    public static bool operator <(Timestamp? left, Timestamp? right)
-    {
-        return left?.DateTime < right?.DateTime;
-    }
-    public static bool operator >(Timestamp? left, Timestamp? right)
-    {
-        return left?.DateTime > right?.DateTime;
-    }
-
-    public static bool operator <=(Timestamp? left, Timestamp? right)
-    {
-        return left?.DateTime <= right?.DateTime;
-    }
-    public static bool operator >=(Timestamp? left, Timestamp? right)
-    {
-        return left?.DateTime > right?.DateTime;
-    }
-
-    public static bool operator <(Timestamp? left, DateTimeOffset? right)
-    {
-        return left?.DateTime < right;
-    }
-    public static bool operator >(Timestamp? left, DateTimeOffset? right)
-    {
-        return left?.DateTime > right;
-    }
-    public static TimeInterval? operator -(Timestamp? left, Timestamp? right)
-    {
-        if (left == null || right == null)
-        {
-            return null;
-        }
-        return new TimeInterval(left!.DateTime - right!.DateTime);
-    }
-    public static Timestamp? operator +(Timestamp? left, TimeSpan? right)
-    {
-        return left == null
-            ? null
-            : new Timestamp(left!.DateTime + (right ?? TimeSpan.Zero));
     }
 }

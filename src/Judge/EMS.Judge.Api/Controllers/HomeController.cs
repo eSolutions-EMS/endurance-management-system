@@ -1,10 +1,10 @@
-﻿using Core.Domain.State;
+﻿using System.Linq;
+using System.Net;
+using System.Net.Sockets;
+using Core.Domain.State;
 using EMS.Judge.Api.Configuration;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
-using System.Linq;
-using System.Net;
-using System.Net.Sockets;
 
 namespace EMS.Judge.Api.Controllers;
 
@@ -13,8 +13,8 @@ namespace EMS.Judge.Api.Controllers;
 public class HomeController : ControllerBase
 {
     private readonly IJudgeServiceProvider _judgeServiceProvider;
-    public HomeController(
-        IJudgeServiceProvider judgeServiceProvider)
+
+    public HomeController(IJudgeServiceProvider judgeServiceProvider)
     {
         _judgeServiceProvider = judgeServiceProvider;
     }
@@ -26,8 +26,8 @@ public class HomeController : ControllerBase
         var hostName = Dns.GetHostName();
         var ipHostInfo = Dns.GetHostEntry(hostName);
         var ip = ipHostInfo.AddressList.FirstOrDefault(x =>
-            x.AddressFamily == AddressFamily.InterNetwork
-            && x.ToString().StartsWith("192.168"));
+            x.AddressFamily == AddressFamily.InterNetwork && x.ToString().StartsWith("192.168")
+        );
 
         var state = _judgeServiceProvider.GetRequiredService<IState>();
         var content = $"IP: {ip} - {state?.Event?.Name}";

@@ -1,6 +1,6 @@
 ﻿using Not.Injection;
 
-namespace NTS.Domain;
+namespace NTS.Domain.LocalizationDemo;
 
 public class LocalizationTestService : ILocalizationTestService
 {
@@ -11,7 +11,7 @@ public class LocalizationTestService : ILocalizationTestService
 
     public string Rude()
     {
-       return new LocalizationTest().Invalid();
+        return new LocalizationTest().Invalid();
     }
 }
 

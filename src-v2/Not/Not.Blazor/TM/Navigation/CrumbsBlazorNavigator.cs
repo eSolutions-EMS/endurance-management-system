@@ -1,14 +1,14 @@
-﻿using Not.Blazor.Navigation;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
+using Not.Blazor.Navigation;
 
 namespace Not.Blazor.TM.Navigation;
 
 // Cannot be singleton as long as it uses NavigationManager: https://github.com/dotnet/maui/issues/8583
 public class CrumbsBlazorNavigator : ICrumbsNavigator, ILandNavigator
 {
-    private readonly NavigationManager _blazorNavigationManager;
-    private static Parameters? _parameters;
-    private static Stack<(string endpoint, Parameters? parameters)>? _crumbs;
+    readonly NavigationManager _blazorNavigationManager;
+    static Parameters? _parameters;
+    static Stack<(string endpoint, Parameters? parameters)>? _crumbs;
 
     public CrumbsBlazorNavigator(NavigationManager blazorNavigationManager)
     {
@@ -63,12 +63,15 @@ public class CrumbsBlazorNavigator : ICrumbsNavigator, ILandNavigator
     {
         if (_parameters == null)
         {
-            throw GuardHelper.Exception($"Cannot get parameter '{typeof(T)}'. There are no parameters on this landing");
+            throw GuardHelper.Exception(
+                $"Cannot get parameter '{typeof(T)}'. There are no parameters on this landing"
+            );
         }
         var result = _parameters.Get<T>();
         //_parameters = null;
         return result;
     }
+
     public void Initialize(string landingEndpoint)
     {
         if (_crumbs != null)
@@ -78,12 +81,14 @@ public class CrumbsBlazorNavigator : ICrumbsNavigator, ILandNavigator
         LandTo(landingEndpoint);
     }
 
-    [DoesNotReturn]
+    [MemberNotNull(nameof(_crumbs))]
     void ValidateCrumbs()
     {
         if (_crumbs == null)
         {
-            throw GuardHelper.Exception($"Crumbs are not initialized. NavigateBack cannot function without navigating using LandTo");
+            throw GuardHelper.Exception(
+                $"Crumbs are not initialized. NavigateBack cannot function without navigating using LandTo"
+            );
         }
     }
 
@@ -94,18 +99,20 @@ public class CrumbsBlazorNavigator : ICrumbsNavigator, ILandNavigator
 
     internal class Parameters
     {
-        private readonly object _parameter;
-
         public static Parameters Create<T>(T parameter)
         {
             if (parameter == null)
             {
-                throw GuardHelper.Exception($"Parameter of type '{typeof(T)}' is null. {nameof(CrumbsBlazorNavigator)} parameters cannot be null");
+                throw GuardHelper.Exception(
+                    $"Parameter of type '{typeof(T)}' is null. {nameof(CrumbsBlazorNavigator)} parameters cannot be null"
+                );
             }
             return new Parameters(parameter);
         }
 
-        private Parameters(object parameter)
+        readonly object _parameter;
+
+        Parameters(object parameter)
         {
             _parameter = parameter;
         }
@@ -114,8 +121,9 @@ public class CrumbsBlazorNavigator : ICrumbsNavigator, ILandNavigator
         {
             if (_parameter is not T typedParameter)
             {
-                throw GuardHelper.Exception(
-                    $"Cannot get parameter of type '{typeof(T)}'/ Underlying type of parameter is '{_parameter.GetType()}'");
+                var message =
+                    $"Cannot get parameter of type '{typeof(T)}'/ Underlying type of parameter is '{_parameter.GetType()}'";
+                throw GuardHelper.Exception(message);
             }
             return typedParameter;
         }

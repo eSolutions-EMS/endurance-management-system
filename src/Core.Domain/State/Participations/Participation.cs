@@ -1,17 +1,19 @@
-﻿using Core.Domain.AggregateRoots.Manager;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Core.Domain.AggregateRoots.Manager;
 using Core.Domain.Common.Models;
 using Core.Domain.State.Competitions;
 using Core.Domain.State.Participants;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Core.Domain.State.Participations;
 
 public class Participation : DomainBase<ParticipationException>
 {
-    internal Participation() {}
-    internal Participation(Participant participant, Competition competition) : base(GENERATE_ID)
+    internal Participation() { }
+
+    internal Participation(Participant participant, Competition competition)
+        : base(GENERATE_ID)
     {
         this.Participant = participant;
         this.CompetitionConstraint = competition;
@@ -19,6 +21,7 @@ public class Participation : DomainBase<ParticipationException>
     }
 
     public static EventHandler<Participation> UpdateEvent;
+
     internal void RaiseUpdate()
     {
         UpdateEvent?.Invoke(null, this);
@@ -29,16 +32,14 @@ public class Participation : DomainBase<ParticipationException>
     public Competition CompetitionConstraint { get; internal set; }
     public WitnessEventType UpdateType { get; internal set; }
 
-    public bool IsNotComplete
-        => !this.Participant.LapRecords.Any(x => x.Result?.IsNotQualified ?? false) &&
-            (this.Participant.LapRecords.Count != this.CompetitionConstraint?.Laps.Count
-            || this.Participant.LapRecords.Last().Result == null);
+    public bool IsNotComplete =>
+        !this.Participant.LapRecords.Any(x => x.Result?.IsNotQualified ?? false)
+        && (
+            this.Participant.LapRecords.Count != this.CompetitionConstraint?.Laps.Count
+            || this.Participant.LapRecords.Last().Result == null
+        );
 
-    public double? Distance
-        => this.CompetitionConstraint
-            ?.Laps
-            .Select(x => x.LengthInKm)
-            .Sum();
+    public double? Distance => this.CompetitionConstraint?.Laps.Select(x => x.LengthInKm).Sum();
 
     internal void Add(Competition competition)
     {
@@ -48,6 +49,7 @@ public class Participation : DomainBase<ParticipationException>
         }
         this.competitionsIds.Add(competition.Id);
     }
+
     internal void Remove(int competitionId)
     {
         this.competitionsIds.Remove(competitionId);

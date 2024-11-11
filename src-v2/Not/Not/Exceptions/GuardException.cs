@@ -6,7 +6,6 @@
 /// </summary>
 public class GuardException : NotException
 {
-    public GuardException(string message) : base($"WHOOPS! It seems you messed up: {message}")
-    {
-    }
+    public GuardException(string message)
+        : base($"WHOOPS! It seems you messed up: {message}") { }
 }

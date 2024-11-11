@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Diagnostics.CodeAnalysis;
+using Newtonsoft.Json;
 using NTS.Domain.Core.Configuration;
 using static NTS.Domain.Core.Entities.SnapshotResultType;
 
@@ -6,7 +7,8 @@ namespace NTS.Domain.Core.Entities.ParticipationAggregate;
 
 public class Phase : DomainEntity
 {
-    public static Phase ImportFromEMS(double length,
+    public static Phase ImportFromEMS(
+        double length,
         int maxRecovery,
         int rest,
         CompetitionRuleset competitionType,
@@ -18,11 +20,21 @@ public class Phase : DomainEntity
         DateTime? reinspectTime,
         bool isReinspectionRequested,
         bool isRequiredInspectionRequested,
-        bool isCompulsoryRequiredInspectionRequested)
+        bool isCompulsoryRequiredInspectionRequested
+    )
     {
-        var phase = new Phase(length, maxRecovery, rest, competitionType, isFinal, compulsoryThreshold, startTimestamp.DateTime);
-
-        phase.StartTime = startTimestamp;
+        var phase = new Phase(
+            length,
+            maxRecovery,
+            rest,
+            competitionType,
+            isFinal,
+            compulsoryThreshold,
+            startTimestamp.DateTime
+        )
+        {
+            StartTime = startTimestamp,
+        };
         if (arriveTime != null)
         {
             phase.ArriveTime = new Timestamp(arriveTime.Value);
@@ -45,10 +57,8 @@ public class Phase : DomainEntity
     // TODO: settings - Add setting for separate final. This is useful for some events such as Shumen where we need separate detection for the actual final
     bool _isSeparateFinish = false;
 
-    private Timestamp? VetTime => RepresentTime ?? PresentTime;
-
     [JsonConstructor]
-    private Phase(
+    Phase(
         int id,
         string gate,
         double length,
@@ -63,7 +73,9 @@ public class Phase : DomainEntity
         Timestamp? representTime,
         bool isRepresentationRequested,
         bool isRequiredInspectionRequested,
-        bool isRequiredInspectionCompulsory) : base(id)
+        bool isRequiredInspectionCompulsory
+    )
+        : base(id)
     {
         Gate = gate;
         Length = length;
@@ -88,25 +100,27 @@ public class Phase : DomainEntity
         CompetitionRuleset competitionRuleset,
         bool isFinal,
         TimeSpan? compulsoryThresholdSpan,
-        DateTimeOffset? startTime)
+        DateTimeOffset? startTime
+    )
         : this(
-              GenerateId(),
-              "",
-              length,
-              maxRecovery,
-              rest,
-              competitionRuleset,
-              isFinal,
-              compulsoryThresholdSpan,
-              Timestamp.Create(startTime),
-              null,
-              null,
-              null,
-              false,
-              false,
-              false)
-    {
-    }
+            GenerateId(),
+            "",
+            length,
+            maxRecovery,
+            rest,
+            competitionRuleset,
+            isFinal,
+            compulsoryThresholdSpan,
+            Timestamp.Create(startTime),
+            null,
+            null,
+            null,
+            false,
+            false,
+            false
+        ) { }
+
+    Timestamp? VetTime => RepresentTime ?? PresentTime;
 
     public string Gate { get; private set; }
     public double Length { get; }
@@ -123,13 +137,107 @@ public class Phase : DomainEntity
     public bool IsRequiredInspectionCompulsory { get; private set; }
     public TimeSpan? CompulsoryThresholdSpan { get; private set; }
 
+    internal SnapshotResult Process(Snapshot snapshot)
+    {
+        return snapshot.Type switch
+        {
+            SnapshotType.Vet => Inspect(snapshot),
+            SnapshotType.Stage => Arrive(snapshot),
+            SnapshotType.Final => Finish(snapshot),
+            SnapshotType.Automatic => Automatic(snapshot),
+            _ => guardUnknownSnapshot(snapshot),
+        };
+        static SnapshotResult guardUnknownSnapshot(Snapshot snapshot)
+        {
+            var message = $"Invalid snapshot '{snapshot.GetType()}'";
+            throw GuardHelper.Exception(message);
+        }
+    }
+
+    internal void Update(IPhaseState state)
+    {
+        if (state.StartTime != null)
+        {
+            if (state.ArriveTime < state.StartTime)
+            {
+                throw new DomainException(
+                    nameof(ArriveTime),
+                    "Arrive Time cannot be sooner than Start Time"
+                );
+            }
+            if (state.PresentTime < state.StartTime)
+            {
+                throw new DomainException(
+                    nameof(PresentTime),
+                    "Inspect Time cannot be sooner than Start Time"
+                );
+            }
+            if (state.RepresentTime < state.ArriveTime)
+            {
+                throw new DomainException(
+                    nameof(RepresentTime),
+                    "Reinspect Time cannot be sooner than Start Time"
+                );
+            }
+        }
+        StartTime = Timestamp.Create(state.StartTime);
+        ArriveTime = Timestamp.Create(state.ArriveTime);
+        PresentTime = Timestamp.Create(state.PresentTime);
+        RepresentTime = Timestamp.Create(state.RepresentTime);
+    }
+
+    internal bool ViolatesRecoveryTime()
+    {
+        return GetRecoverySpan() > TimeSpan.FromMinutes(MaxRecovery);
+    }
+
+    internal bool ViolatesSpeedRestriction(Speed? minSpeed, Speed? maxSpeed)
+    {
+        var averageSpeed = GetAverageSpeed();
+        return averageSpeed < minSpeed || averageSpeed > maxSpeed;
+    }
+
+    internal void RequestRequiredInspection()
+    {
+        if (IsRequiredInspectionRequested)
+        {
+            return;
+        }
+        if (IsRequiredInspectionCompulsory)
+        {
+            throw new DomainException("Required inspection is compulsory");
+        }
+        IsRequiredInspectionRequested = true;
+    }
+
+    internal void DisableReinspection()
+    {
+        if (!IsReinspectionRequested)
+        {
+            return;
+        }
+        if (RepresentTime != null)
+        {
+            throw new DomainException(
+                "Cannot disable Reinspection because time of Reinspection is already present"
+            );
+        }
+        IsReinspectionRequested = false;
+    }
+
+    internal void SetGate(int number, double totalDistanceSoFar)
+    {
+        Gate = $"GATE{number}/{totalDistanceSoFar:0.##}";
+    }
+
     public Timestamp? GetRequiredInspectionTime()
     {
         if (Rest == null)
         {
             return null;
         }
-        return VetTime?.Add(TimeSpan.FromMinutes(Rest.Value - 15)); //TODO: settings
+        var span = TimeSpan.FromMinutes(Rest.Value - 15); //TODO: settings
+        return VetTime?.Add(span);
     }
 
     public Timestamp? GetOutTime()
@@ -138,7 +246,8 @@ public class Phase : DomainEntity
         {
             return null;
         }
-        return VetTime?.Add(TimeSpan.FromMinutes(Rest.Value));
+        var span = TimeSpan.FromMinutes(Rest.Value);
+        return VetTime?.Add(span);
     }
 
     public TimeInterval? GetLoopSpan()
@@ -186,83 +295,6 @@ public class Phase : DomainEntity
             return false;
         }
         return true;
-    }
-
-    internal SnapshotResult Process(Snapshot snapshot)
-    {
-        return snapshot.Type switch
-        {
-            SnapshotType.Vet => Inspect(snapshot),
-            SnapshotType.Stage => Arrive(snapshot),
-            SnapshotType.Final => Finish(snapshot),
-            SnapshotType.Automatic => Automatic(snapshot),
-            _ => throw GuardHelper.Exception($"Invalid snapshot '{snapshot.GetType()}'"),
-        };
-    }
-
-    internal void Update(IPhaseState state)
-    {
-        if (state.StartTime != null)
-        {
-            if (state.ArriveTime < state.StartTime)
-            {
-                throw new DomainException(nameof(ArriveTime), "Arrive Time cannot be sooner than Start Time");
-            }
-            if (state.PresentTime < state.StartTime)
-            {
-                throw new DomainException(nameof(PresentTime), "Inspect Time cannot be sooner than Start Time");
-            }
-            if (state.RepresentTime < state.ArriveTime)
-            {
-                throw new DomainException(nameof(RepresentTime), "Reinspect Time cannot be sooner than Start Time");
-            }
-        }
-        StartTime = Timestamp.Create(state.StartTime);
-        ArriveTime = Timestamp.Create(state.ArriveTime);
-        PresentTime = Timestamp.Create(state.PresentTime);
-        RepresentTime = Timestamp.Create(state.RepresentTime);
-    }
-
-    internal bool ViolatesRecoveryTime()
-    {
-        return GetRecoverySpan() > TimeSpan.FromMinutes(MaxRecovery);
-    }
-
-    internal bool ViolatesSpeedRestriction(Speed? minSpeed, Speed? maxSpeed)
-    {
-        var averageSpeed = GetAverageSpeed();
-        return averageSpeed < minSpeed || averageSpeed > maxSpeed;
-    }
-
-    internal void RequestRequiredInspection()
-    {
-        if (IsRequiredInspectionRequested)
-        {
-            return;
-        }
-        if (IsRequiredInspectionCompulsory)
-        {
-            throw new DomainException("Required inspection is compulsory");
-        }
-        IsRequiredInspectionRequested = true;
-    }
-
-    internal void DisableReinspection()
-    {
-        if (!IsReinspectionRequested)
-        {
-            return;
-        }
-        if (RepresentTime != null)
-        {
-            throw new DomainException("Cannot disable Reinspection because time of Reinspection is already present");
-        }
-        IsReinspectionRequested = false;
-    }
-
-    internal void SetGate(int number, double totalDistanceSoFar)
-    {
-        Gate = $"GATE{number}/{totalDistanceSoFar:0.##}";
     }
 
     SnapshotResult Automatic(Snapshot snapshot)
@@ -329,7 +361,9 @@ public class Phase : DomainEntity
         {
             if (snapshot.Timestamp <= PresentTime)
             {
-                throw new DomainException($"Representation time cannot be before presentation '{PresentTime}'");
+                throw new DomainException(
+                    $"Representation time cannot be before presentation '{PresentTime}'"
+                );
             }
             RepresentTime = snapshot.Timestamp;
         }
@@ -341,7 +375,7 @@ public class Phase : DomainEntity
         return SnapshotResult.Applied(snapshot);
     }
 
-    private void CheckCompulsoryThreshold()
+    void CheckCompulsoryThreshold()
     {
         if (CompulsoryThresholdSpan == null || IsFinal)
         {

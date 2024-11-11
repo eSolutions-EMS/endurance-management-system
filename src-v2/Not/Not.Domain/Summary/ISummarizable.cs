@@ -2,5 +2,8 @@
 
 public interface ISummarizable
 {
-	string Summarize() => this.ToString()!;
+    string Summarize()
+    {
+        return ToString()!;
+    }
 }

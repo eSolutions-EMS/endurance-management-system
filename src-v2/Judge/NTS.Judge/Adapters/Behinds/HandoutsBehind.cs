@@ -13,17 +13,18 @@ namespace NTS.Judge.Adapters.Behinds;
 
 public class HandoutsBehind : ObservableListBehind<HandoutDocument>, IHandoutsBehind, ICreateHandout
 {
-    private readonly SemaphoreSlim _semaphore = new(1);
-    private readonly IRepository<Handout> _handoutRepository;
-    private readonly IRepository<Participation> _participations;
-    private readonly IRepository<EnduranceEvent> _events;
-    private readonly IRepository<Official> _officials;
+    readonly SemaphoreSlim _semaphore = new(1);
+    readonly IRepository<Handout> _handoutRepository;
+    readonly IRepository<Participation> _participations;
+    readonly IRepository<EnduranceEvent> _events;
+    readonly IRepository<Official> _officials;
 
     public HandoutsBehind(
         IRepository<Handout> handouts,
         IRepository<Participation> participations,
         IRepository<EnduranceEvent> events,
-        IRepository<Official> officials)
+        IRepository<Official> officials
+    )
     {
         _handoutRepository = handouts;
         _participations = participations;
@@ -40,15 +41,37 @@ public class HandoutsBehind : ObservableListBehind<HandoutDocument>, IHandoutsBe
         var officials = await _officials.ReadAll();
         GuardHelper.ThrowIfDefault(enduranceEvent);
 
-        var documents = handouts.Select(handout => new HandoutDocument(handout, enduranceEvent, officials));
+        var documents = handouts.Select(handout => new HandoutDocument(
+            handout,
+            enduranceEvent,
+            officials
+        ));
         ObservableList.AddRange(documents);
-        
+
         return true;
     }
+
     public void RunAtStartup()
     {
         // TODO: subscribe to updates for Event, Official
         Participation.PhaseCompletedEvent.SubscribeAsync(PhaseCompletedHandler);
+    }
+
+    public async Task Delete(IEnumerable<HandoutDocument> documents)
+    {
+        Task action() => SafeDelete(documents);
+        await SafeHelper.Run(action);
+    }
+
+    public async Task Create(int number)
+    {
+        Task action() => SafeCreate(number);
+        await SafeHelper.Run(action);
+    }
+
+    public async Task<IEnumerable<Combination>> GetCombinations()
+    {
+        return await SafeHelper.Run(SafeGetCombinations) ?? [];
     }
 
     async Task SafeCreate(int number)
@@ -61,9 +84,7 @@ public class HandoutsBehind : ObservableListBehind<HandoutDocument>, IHandoutsBe
 
     async Task<IEnumerable<Combination>> SafeGetCombinations()
     {
-        return await _participations
-            .ReadAll()
-            .Select(x => x.Combination);
+        return await _participations.ReadAll().Select(x => x.Combination);
     }
 
     async Task SafeDelete(IEnumerable<HandoutDocument> documents)
@@ -72,7 +93,7 @@ public class HandoutsBehind : ObservableListBehind<HandoutDocument>, IHandoutsBe
 
         var ids = documents.Select(x => x.Id);
         await _handoutRepository.Delete(x => ids.Contains(x.Id));
-        ObservableList.RemoveRange(documents); 
+        ObservableList.RemoveRange(documents);
 
         _semaphore.Release();
     }
@@ -99,23 +120,4 @@ public class HandoutsBehind : ObservableListBehind<HandoutDocument>, IHandoutsBe
 
         _semaphore.Release();
     }
-
-    #region SafePattern
-
-    public async Task Delete(IEnumerable<HandoutDocument> documents)
-    {
-        await SafeHelper.Run(() => SafeDelete(documents));
-    }
-
-    public async Task Create(int number)
-    {
-        await SafeHelper.Run(() => SafeCreate(number));
-    }
-
-    public async Task<IEnumerable<Combination>> GetCombinations()
-    {
-        return await SafeHelper.Run(SafeGetCombinations) ?? [];
-    }
-
-    #endregion
 }

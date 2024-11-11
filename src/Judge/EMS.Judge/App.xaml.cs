@@ -1,28 +1,27 @@
-﻿using Core.Events;
-using EMS.Judge.Common;
-using EMS.Judge.Views;
+﻿using System;
+using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
+using System.Windows;
+using Core.Events;
 using Core.Services;
 using Core.Utilities;
 using EMS.Judge.Api;
 using EMS.Judge.Application.Services;
+using EMS.Judge.Common;
 using EMS.Judge.Startup;
+using EMS.Judge.Views;
 using Microsoft.Extensions.DependencyInjection;
 using Prism.DryIoc;
 using Prism.Ioc;
 using Prism.Modularity;
 using Prism.Mvvm;
-using System;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace EMS.Judge;
 
 public partial class App : PrismApplication
 {
-    protected override void RegisterTypes(IContainerRegistry container)
-        => container.AddServices();
+    protected override void RegisterTypes(IContainerRegistry container) => container.AddServices();
 
     protected override Window CreateShell()
     {
@@ -35,7 +34,9 @@ public partial class App : PrismApplication
     {
         base.ConfigureModuleCatalog(moduleCatalog);
 
-        var moduleDescriptors = ReflectionUtilities.GetDescriptors<ModuleBase>(Assembly.GetExecutingAssembly());
+        var moduleDescriptors = ReflectionUtilities.GetDescriptors<ModuleBase>(
+            Assembly.GetExecutingAssembly()
+        );
         foreach (var descriptor in moduleDescriptors)
         {
             moduleCatalog.AddModule(descriptor.Type);
@@ -78,7 +79,8 @@ public partial class App : PrismApplication
                 .ToList();
 
             var viewModelType = typesInNamespace.FirstOrDefault(t =>
-                typeof(ViewModelBase).IsAssignableFrom(t));
+                typeof(ViewModelBase).IsAssignableFrom(t)
+            );
 
             return viewModelType;
         });

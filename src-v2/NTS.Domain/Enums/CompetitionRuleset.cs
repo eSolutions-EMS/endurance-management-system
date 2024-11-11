@@ -3,5 +3,5 @@
 public enum CompetitionRuleset
 {
     FEI = 1,
-    Regional = 2
+    Regional = 2,
 }

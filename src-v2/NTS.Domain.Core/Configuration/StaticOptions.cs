@@ -6,13 +6,6 @@ namespace NTS.Domain.Core.Configuration;
 
 public class StaticOptions : IStartupInitializer, ISingletonService
 {
-    public static IRegionalConfiguration? RegionalConfiguration { get; private set; }
-    public static Country[] Countries { get; private set; } = [];
-    public static Country? SelectedCountry { get; private set; }
-    public static DetectionMode? Detection { get; private set; }
-    
-    static Model? _options;
-
     public static bool IsRfidDetectionEnabled()
     {
         return Detection != default && Detection == DetectionMode.Rfid;
@@ -20,11 +13,13 @@ public class StaticOptions : IStartupInitializer, ISingletonService
 
     public static SnapshotType GetRfidSnapshotType()
     {
-        if (_options == null)
+        if (OPTIONS == null)
         {
-            throw new GuardException("Internal options property was not found. Check if static-options.json is configured.");
+            throw new GuardException(
+                "Internal options property was not found. Check if static-options.json is configured."
+            );
         }
-        return _options.RfidSnapshotType;
+        return OPTIONS.RfidSnapshotType;
     }
 
     public static bool IsVisionDetectionEnabled()
@@ -50,34 +45,40 @@ public class StaticOptions : IStartupInitializer, ISingletonService
         return true;
     }
 
-    static bool ShouldUseRegionalConfiguration(CompetitionRuleset ruleset)
-    {
-        return ruleset == CompetitionRuleset.Regional && RegionalConfiguration != null;
-    }
-
     #region Instance is used in order to be initialized on Startup
 
     readonly IStaticOptionsProvider<Model> _provider;
+    static Model? OPTIONS;
 
     public StaticOptions(IStaticOptionsProvider<Model> provider)
     {
         _provider = provider;
     }
 
+    public static IRegionalConfiguration? RegionalConfiguration { get; private set; }
+    public static Country[] Countries { get; private set; } = [];
+    public static Country? SelectedCountry { get; private set; }
+    public static DetectionMode? Detection { get; private set; }
+
     public void RunAtStartup()
     {
-        _options = _provider.Get();
-        SelectedCountry = _options.SelectedCountry;
-        Countries = _options.Countries;
-        RegionalConfiguration = RegionalConfigurationProvider.Get(_options.SelectedCountry);
-        Detection = _options.DetectionMode;
+        OPTIONS = _provider.Get();
+        SelectedCountry = OPTIONS.SelectedCountry;
+        Countries = OPTIONS.Countries;
+        RegionalConfiguration = RegionalConfigurationProvider.Get(OPTIONS.SelectedCountry);
+        Detection = OPTIONS.DetectionMode;
+    }
+
+    static bool ShouldUseRegionalConfiguration(CompetitionRuleset ruleset)
+    {
+        return ruleset == CompetitionRuleset.Regional && RegionalConfiguration != null;
     }
 
     #endregion
 
     public class Model
     {
-        public Country[] Countries { get; set; } = [];  
+        public Country[] Countries { get; set; } = [];
         public Country? SelectedCountry { get; set; }
         public DetectionMode DetectionMode { get; set; }
         public SnapshotType RfidSnapshotType { get; set; }

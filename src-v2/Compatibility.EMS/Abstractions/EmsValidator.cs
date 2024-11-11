@@ -1,6 +1,7 @@
 ﻿namespace NTS.Compatibility.EMS.Abstractions;
 
-public class EmsValidator<T> where T : EmsDomainExceptionBase, new()
+public class EmsValidator<T>
+    where T : EmsDomainExceptionBase, new()
 {
     public TValue IsRequired<TValue>(TValue obj, string property)
     {
@@ -13,11 +14,15 @@ public class EmsValidator<T> where T : EmsDomainExceptionBase, new()
 
     public string IsFullName(string name)
     {
-        this.IsRequired(name, "Name");
+        IsRequired(name, "Name");
         var parts = name.Split(" ", StringSplitOptions.RemoveEmptyEntries);
         var firstName = parts.FirstOrDefault();
         var lastName = parts.LastOrDefault();
-        if (parts.Length < 2 || string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName))
+        if (
+            parts.Length < 2
+            || string.IsNullOrWhiteSpace(firstName)
+            || string.IsNullOrWhiteSpace(lastName)
+        )
         {
             throw EmsHelper.Create<T>("Invalid full name {1}", name);
         }
@@ -28,7 +33,12 @@ public class EmsValidator<T> where T : EmsDomainExceptionBase, new()
     {
         if (value <= compareTo)
         {
-            throw EmsHelper.Create<T>("Date has to be lated than {1}, {2}, {3}", name, value, compareTo);
+            throw EmsHelper.Create<T>(
+                "Date has to be lated than {1}, {2}, {3}",
+                name,
+                value,
+                compareTo
+            );
         }
     }
 }

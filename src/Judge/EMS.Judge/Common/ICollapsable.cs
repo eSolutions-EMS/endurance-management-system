@@ -1,5 +1,5 @@
-﻿using Prism.Commands;
-using System.Windows;
+﻿using System.Windows;
+using Prism.Commands;
 
 namespace EMS.Judge.Common;
 

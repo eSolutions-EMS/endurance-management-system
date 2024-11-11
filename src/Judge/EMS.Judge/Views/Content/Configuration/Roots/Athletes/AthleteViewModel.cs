@@ -1,20 +1,20 @@
-﻿using EMS.Judge.Common.Components.Templates.SimpleListItem;
-using EMS.Judge.Services;
-using EMS.Judge.Views.Content.Configuration.Core;
-using EMS.Judge.Application.Common;
-using EMS.Judge.Application.Common.Models;
-using Core.Mappings;
-using Core.Models;
+﻿using System.Collections.ObjectModel;
+using System.Linq;
 using Core.Domain.AggregateRoots.Configuration;
 using Core.Domain.Common.Models;
-using Core.Domain.State.Athletes;
 using Core.Domain.Enums;
+using Core.Domain.State.Athletes;
 using Core.Domain.State.Countries;
-using Prism.Regions;
-using System.Collections.ObjectModel;
-using System.Linq;
-using static Core.Localization.LocalizationConstants;
+using Core.Mappings;
+using Core.Models;
+using EMS.Judge.Application.Common;
+using EMS.Judge.Application.Common.Models;
 using EMS.Judge.Application.Hardware;
+using EMS.Judge.Common.Components.Templates.SimpleListItem;
+using EMS.Judge.Services;
+using EMS.Judge.Views.Content.Configuration.Core;
+using Prism.Regions;
+using static Core.Localization.LocalizationConstants;
 
 namespace EMS.Judge.Views.Content.Configuration.Roots.Athletes;
 
@@ -27,7 +27,9 @@ public class AthleteViewModel : ConfigurationBase<AthleteView, Athlete>, IAthlet
     private AthleteViewModel(
         IExecutor<ConfigurationRoot> executor,
         IQueries<Country> countries,
-        IQueries<Athlete> athletes) : base(athletes)
+        IQueries<Athlete> athletes
+    )
+        : base(athletes)
     {
         this.executor = executor;
         this.countries = countries;
@@ -35,9 +37,10 @@ public class AthleteViewModel : ConfigurationBase<AthleteView, Athlete>, IAthlet
         this.CategoryId = (int)Category.Seniors;
     }
 
-    public System.Collections.ObjectModel.ObservableCollection<SimpleListItemViewModel> CategoryItems { get; }
-        = new(SimpleListItemViewModel.FromEnum<Category>());
-    public System.Collections.ObjectModel.ObservableCollection<ListItemModel> CountryItems { get; } = new();
+    public System.Collections.ObjectModel.ObservableCollection<SimpleListItemViewModel> CategoryItems { get; } =
+        new(SimpleListItemViewModel.FromEnum<Category>());
+    public System.Collections.ObjectModel.ObservableCollection<ListItemModel> CountryItems { get; } =
+        new();
 
     private string feiId;
     private string firstName;
@@ -51,18 +54,22 @@ public class AthleteViewModel : ConfigurationBase<AthleteView, Athlete>, IAthlet
         base.OnNavigatedTo(context);
         this.LoadCountries();
     }
+
     protected override void Load(int id)
     {
         var athlete = this.athletes.GetOne(id);
         this.MapFrom(athlete);
     }
+
     protected override IDomain Persist()
     {
         var result = this.executor.Execute(
             config => config.Athletes.Save(this, this.CountryId),
-            true);
+            true
+        );
         return result;
     }
+
     private void LoadCountries()
     {
         var countries = this.countries.GetAll();
@@ -71,9 +78,7 @@ public class AthleteViewModel : ConfigurationBase<AthleteView, Athlete>, IAthlet
         this.CountryItems.AddRange(listItems);
         if (this.countryId == default)
         {
-            this.CountryId = countries
-                .First(x => x.IsoCode == DEFAULT_COUNTRY_CODE)
-                .Id;
+            this.CountryId = countries.First(x => x.IsoCode == DEFAULT_COUNTRY_CODE).Id;
         }
     }
 

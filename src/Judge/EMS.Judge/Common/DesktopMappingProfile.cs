@@ -1,5 +1,5 @@
-using Core.Mappings;
 using System.Reflection;
+using Core.Mappings;
 
 namespace EMS.Judge.Common;
 

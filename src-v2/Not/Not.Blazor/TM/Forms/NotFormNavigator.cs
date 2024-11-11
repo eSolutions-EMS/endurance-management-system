@@ -1,6 +1,6 @@
 ﻿using Not.Blazor.Navigation;
-using Not.Blazor.TM.Forms.Components;
 using Not.Blazor.TM.Dialogs;
+using Not.Blazor.TM.Forms.Components;
 
 namespace Not.Blazor.TM.Forms;
 
@@ -8,8 +8,8 @@ public class FormManager<T, TForm>
     where T : new()
     where TForm : FormTM<T>
 {
-    private readonly DialogTM<T, TForm> _dialog;
-    private readonly ICrumbsNavigator _navigator;
+    readonly DialogTM<T, TForm> _dialog;
+    readonly ICrumbsNavigator _navigator;
 
     public FormManager(DialogTM<T, TForm> dialog, ICrumbsNavigator navigator)
     {

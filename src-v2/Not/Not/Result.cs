@@ -2,26 +2,32 @@
 
 public class Result : ResultBase
 {
-    internal Result()
+    public static Result Success()
     {
-    }
-    internal Result(IEnumerable<string> errors) : base(errors)
-    {
+        return new();
     }
 
-    public static Result Success()
-        => new();
     public static Result<T> Success<T>(T data)
-        => new(data);
+    {
+        return new(data);
+    }
+
     public static Result Failure(params string[] errors)
-        => new(errors);
+    {
+        return new(errors);
+    }
+
+    internal Result() { }
+
+    internal Result(IEnumerable<string> errors)
+        : base(errors) { }
 }
 
 public class Result<T> : ResultBase
 {
     internal Result(T data)
     {
-        this.Data = data;
+        Data = data;
     }
 
     public T? Data { get; }
@@ -29,14 +35,13 @@ public class Result<T> : ResultBase
 
 public abstract class ResultBase
 {
-    protected ResultBase()
-    {
-    }
+    protected ResultBase() { }
+
     protected ResultBase(IEnumerable<string> errors)
     {
-        this.Errors = errors.ToArray();
+        Errors = errors.ToArray();
     }
 
-    public bool IsError => this.Errors.Any();
+    public bool IsError => Errors.Any();
     public string[] Errors { get; } = Array.Empty<string>();
 }

@@ -1,15 +1,16 @@
-﻿using Core.Application.Services;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Core.Application.Services;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace EMS.Judge.Api.Services;
 
 public class NetworkBroadcastService : BackgroundService
 {
     private readonly INetworkBroadcastService networkService;
+
     public NetworkBroadcastService(INetworkBroadcastService networkService)
     {
         this.networkService = networkService;

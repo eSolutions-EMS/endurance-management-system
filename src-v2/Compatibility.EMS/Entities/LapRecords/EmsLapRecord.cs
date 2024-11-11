@@ -1,67 +1,64 @@
-﻿using NTS.Compatibility.EMS.Abstractions;
+﻿using System.ComponentModel;
+using NTS.Compatibility.EMS.Abstractions;
 using NTS.Compatibility.EMS.Entities.Laps;
 using NTS.Compatibility.EMS.Entities.Participants;
 using NTS.Compatibility.EMS.Entities.Results;
-using System.ComponentModel;
 
 namespace NTS.Compatibility.EMS.Entities.LapRecords;
 
 public class EmsLapRecord : EmsDomainBase<EmsLapRecordException>
 {
+    DateTime? arrivalTime;
+    DateTime? inspectionTime;
+    DateTime? reInspectionTime;
+
     [Newtonsoft.Json.JsonConstructor]
-    public EmsLapRecord() {}
-    public EmsLapRecord(DateTime startTime, EmsLap lap) : base(GENERATE_ID)
+    public EmsLapRecord() { }
+
+    public EmsLapRecord(DateTime startTime, EmsLap lap)
+        : base(GENERATE_ID)
     {
-        this.StartTime = startTime;
-        this.Lap = lap;
+        StartTime = startTime;
+        Lap = lap;
     }
 
-    private DateTime? arrivalTime;
-    private DateTime? inspectionTime;
-    private DateTime? reInspectionTime;
-
+    public event PropertyChangedEventHandler PropertyChanged;
     public EmsLap Lap { get; private set; }
     public DateTime StartTime { get; set; } // TODO: set to private/internal after testing
     public DateTime? ArrivalTime
     {
-        get => this.arrivalTime;
-        set => this.SetProperty(ref this.arrivalTime, value, nameof(this.ArrivalTime)); // TODO: set to private/internal after testing
+        get => arrivalTime;
+        set => SetProperty(ref this.arrivalTime, value, nameof(this.ArrivalTime)); // TODO: set to private/internal after testing
     }
     public DateTime? InspectionTime
     {
-        get => this.inspectionTime;
-        set => this.SetProperty(ref this.inspectionTime, value, nameof(this.InspectionTime)); // TODO: set to private/internal after testing
+        get => inspectionTime;
+        set => SetProperty(ref this.inspectionTime, value, nameof(this.InspectionTime)); // TODO: set to private/internal after testing
     }
     public DateTime? ReInspectionTime
     {
-        get => this.reInspectionTime;
-        set => this.SetProperty(ref this.reInspectionTime, value, nameof(this.ReInspectionTime)); // TODO: set to private/internal after testing
+        get => reInspectionTime;
+        set => SetProperty(ref this.reInspectionTime, value, nameof(this.ReInspectionTime)); // TODO: set to private/internal after testing
     }
     public bool IsReinspectionRequired { get; internal set; }
     public bool IsRequiredInspectionRequired { get; internal set; }
     public EmsResult Result { get; internal set; }
-
-    public DateTime? VetGateTime
-        => this.ReInspectionTime ?? this.InspectionTime;
-    public DateTime? NextStarTime
-        => this.Lap.IsFinal
-            ? null
-            : this.VetGateTime?.AddMinutes(this.Lap.RestTimeInMins);
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    public Dictionary<WitnessEventType, EmsRfidTag> Detected { get; private set; } = new();
+    public DateTime? VetGateTime => ReInspectionTime ?? InspectionTime;
+    public DateTime? NextStarTime =>
+        Lap.IsFinal ? null : VetGateTime?.AddMinutes(Lap.RestTimeInMins);
+    public Dictionary<WitnessEventType, EmsRfidTag> Detected { get; private set; } = [];
 
     protected virtual void RaisePropertyChanged(string propertyName = null)
     {
-        this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 
-    private void SetProperty<T>(ref T property, T value, string name)
+    void SetProperty<T>(ref T property, T value, string name)
     {
         if (!value.Equals(property))
         {
             property = value;
-            this.RaisePropertyChanged(name);
+            RaisePropertyChanged(name);
         }
     }
 }

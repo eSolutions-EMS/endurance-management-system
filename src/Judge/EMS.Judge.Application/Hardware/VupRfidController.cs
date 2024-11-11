@@ -24,15 +24,19 @@ public class VupRfidController
 
     public bool IsConnected { get; private set; }
     public event EventHandler<RfidTags> ReadEvent;
+
     public void RaiseRead(RfidTags tags)
     {
         this.ReadEvent!.Invoke(this, tags);
     }
+
     public event EventHandler<string> MessageEvent;
+
     public void RaiseMessage(string message)
     {
         this.MessageEvent!.Invoke(this, message);
     }
+
     public bool IsPolling { get; private set; }
 
     public void Connect()
@@ -41,8 +45,8 @@ public class VupRfidController
         if (!connectionResult.Success)
         {
             var message = string.IsNullOrEmpty(connectionResult.Message)
-                ? $"Unable to connect to VUP reader on IP '{this.ipAddress}'." +
-                    $" Make sure it's connected to the network and use 'Reconnect Hardware'"
+                ? $"Unable to connect to VUP reader on IP '{this.ipAddress}'."
+                    + $" Make sure it's connected to the network and use 'Reconnect Hardware'"
                 : connectionResult.Message;
             this.RaiseMessage(message);
             this.cannotConnect = true;
@@ -52,9 +56,13 @@ public class VupRfidController
         this.cannotConnect = false;
         this.SetPower(MAX_POWER);
         this.RaiseMessage($"Connected!");
-        Console.WriteLine("==========================================================================================");
+        Console.WriteLine(
+            "=========================================================================================="
+        );
         Console.WriteLine("= Vup Reader connection established");
-        Console.WriteLine("==========================================================================================");
+        Console.WriteLine(
+            "=========================================================================================="
+        );
     }
 
     public async Task StartPolling()
@@ -120,6 +128,7 @@ public class VupRfidController
     }
 
     private DateTime? disconnectedMessageTime;
+
     private RfidTags ReadTags(IEnumerable<int> antennaIndices)
     {
         var timer = new Stopwatch();
@@ -132,11 +141,14 @@ public class VupRfidController
                 memory_bank.memory_bank_epc,
                 0,
                 12,
-                Convert.FromHexString("00000000"));
+                Convert.FromHexString("00000000")
+            );
 
             timer.Stop();
-            if (this.disconnectedMessageTime == null
-                || DateTime.Now - this.disconnectedMessageTime > TimeSpan.FromMinutes(1))
+            if (
+                this.disconnectedMessageTime == null
+                || DateTime.Now - this.disconnectedMessageTime > TimeSpan.FromMinutes(1)
+            )
             {
                 if (timer.ElapsedMilliseconds is > 1000 or < 5)
                 {
@@ -146,8 +158,10 @@ public class VupRfidController
                 {
                     this.slowReadTimeMs.Clear();
                     this.disconnectedMessageTime = DateTime.Now;
-                    this.RaiseMessage("RFID tag read responses indicate the Vup " +
-                        "Reader might be disconnected. Look for VUP console logs.");
+                    this.RaiseMessage(
+                        "RFID tag read responses indicate the Vup "
+                            + "Reader might be disconnected. Look for VUP console logs."
+                    );
                 }
             }
 
@@ -163,9 +177,9 @@ public class VupRfidController
 
 public class RfidTags
 {
-    public RfidTags() : this(0, Enumerable.Empty<string>())
-    {
-    }
+    public RfidTags()
+        : this(0, Enumerable.Empty<string>()) { }
+
     public RfidTags(int antenna, IEnumerable<string> hexes)
     {
         Antenna = antenna;

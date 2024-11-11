@@ -1,11 +1,11 @@
-using Core.Domain.Common.Models;
-using Core.Domain.Enums;
-using Core.Domain.State.LapRecords;
-using Core.Domain.State.Participations;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Core.Domain.Common.Models;
+using Core.Domain.Enums;
+using Core.Domain.State.LapRecords;
+using Core.Domain.State.Participations;
 
 namespace Core.Domain.AggregateRoots.Ranking.Aggregates;
 
@@ -25,7 +25,10 @@ public class RanklistAggregate : List<Participation>, IAggregate
 
     public Category Category { get; }
 
-    private IEnumerable<Participation> Rank(Category category, IEnumerable<Participation> participants)
+    private IEnumerable<Participation> Rank(
+        Category category,
+        IEnumerable<Participation> participants
+    )
     {
         if (category == Category.Children)
         {
@@ -43,8 +46,8 @@ public class RanklistAggregate : List<Participation>, IAggregate
         throw new Exception($"Invalid category {category}");
     }
 
-    private IEnumerable<Participation> RankJuniors(IEnumerable<Participation> participations)
-        => participations
+    private IEnumerable<Participation> RankJuniors(IEnumerable<Participation> participations) =>
+        participations
             .Where(x => x.Participant.Athlete.Category == Category.JuniorOrYoungAdults)
             .Select(this.CalculateTotalRecovery)
             .OrderBy(x => this.IsNotQualifiedPredicate(x.Item2))
@@ -52,8 +55,8 @@ public class RanklistAggregate : List<Participation>, IAggregate
             .Select(x => x.Item2)
             .ToList();
 
-    private IEnumerable<Participation> RankKids(IEnumerable<Participation> participations)
-        => participations
+    private IEnumerable<Participation> RankKids(IEnumerable<Participation> participations) =>
+        participations
             .Where(x => x.Participant.Athlete.Category == Category.Children)
             .Select(this.CalculateTotalRecovery)
             .OrderBy(x => this.IsNotQualifiedPredicate(x.Item2))
@@ -61,29 +64,26 @@ public class RanklistAggregate : List<Participation>, IAggregate
             .Select(x => x.Item2)
             .ToList();
 
-    private IEnumerable<Participation> RankAdults(IEnumerable<Participation> participations)
-        => participations
+    private IEnumerable<Participation> RankAdults(IEnumerable<Participation> participations) =>
+        participations
             .Where(x => x.Participant.Athlete.Category == Category.Seniors)
             .OrderBy(this.IsNotQualifiedPredicate)
             .ThenBy(x => x.Participant.Unranked)
-            .ThenBy(participation => participation.Participant
-                .LapRecords
-                .LastOrDefault()
-                ?.ArrivalTime);
+            .ThenBy(participation =>
+                participation.Participant.LapRecords.LastOrDefault()?.ArrivalTime
+            );
 
-    private Func<Participation, bool> IsNotQualifiedPredicate
-        => participation => participation.Participant
-            .LapRecords
-            .Any(performance => performance.Result?.IsNotQualified ?? true);
+    private Func<Participation, bool> IsNotQualifiedPredicate =>
+        participation =>
+            participation.Participant.LapRecords.Any(performance =>
+                performance.Result?.IsNotQualified ?? true
+            );
 
     private (TimeSpan, Participation) CalculateTotalRecovery(Participation participation)
     {
-        var totalRecovery = participation.Participant
-            .LapRecords
-            .Where(rec => rec.Result != null)
-            .Aggregate(
-                TimeSpan.Zero,
-                (total, rec) => total + this.GetRecoveryTime(rec));
+        var totalRecovery = participation
+            .Participant.LapRecords.Where(rec => rec.Result != null)
+            .Aggregate(TimeSpan.Zero, (total, rec) => total + this.GetRecoveryTime(rec));
 
         return (totalRecovery, participation);
     }

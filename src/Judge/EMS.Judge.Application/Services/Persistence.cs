@@ -1,13 +1,13 @@
-﻿using Core.ConventionalServices;
-using Core.Events;
-using Core.Services;
+﻿using System;
+using System.Collections.Generic;
+using Core.ConventionalServices;
 using Core.Domain.AggregateRoots.Manager.WitnessEvents;
 using Core.Domain.State;
+using Core.Events;
+using Core.Services;
 using EMS.Judge.Application.Common.Services;
 using EMS.Judge.Application.Models;
 using EMS.Judge.Application.State;
-using System;
-using System.Collections.Generic;
 
 namespace EMS.Judge.Application.Services;
 
@@ -28,7 +28,8 @@ public class Persistence : IPersistence
         IStateContext context,
         IStateSetter stateSetter,
         IFileService file,
-        IJsonSerializationService serialization)
+        IJsonSerializationService serialization
+    )
     {
         this.settings = settings;
         this.stateSetter = stateSetter;
@@ -95,23 +96,19 @@ public class Persistence : IPersistence
         CoreEvents.RaiseStateLoaded();
     }
 
-    private string BuildStorageFilePath()
-        => this.settings.IsSandboxMode
-            ? this.GetSandBoxFilePath()
-            : this.GetFilePath();
+    private string BuildStorageFilePath() =>
+        this.settings.IsSandboxMode ? this.GetSandBoxFilePath() : this.GetFilePath();
 
-    private string GetSandBoxFilePath()
-        => $"{this.StateDirectoryPath}\\{SANDBOX_STORAGE_FILE_NAME}";
+    private string GetSandBoxFilePath() =>
+        $"{this.StateDirectoryPath}\\{SANDBOX_STORAGE_FILE_NAME}";
 
-    private string GetFilePath()
-        => $"{this.StateDirectoryPath}\\{STORAGE_FILE_NAME}";
+    private string GetFilePath() => $"{this.StateDirectoryPath}\\{STORAGE_FILE_NAME}";
 }
-
 
 public interface IPersistence : ISingletonService
 {
-	string StateDirectoryPath { get; }
-	void SaveState();
+    string StateDirectoryPath { get; }
+    void SaveState();
     void LogStatistics(string text);
     string LogError(string message, string stackTrace);
     PersistenceResult Configure(string directoryPath);

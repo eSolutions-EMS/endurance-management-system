@@ -1,28 +1,29 @@
-﻿using EMS.Judge.Application.Services;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using EMS.Judge.Application.Services;
 using Vup.reader;
 
 namespace EMS.Judge.Application.Hardware;
 
 public class VupVF747pController : RfidController
-{ 
+{
     private const int MAX_POWER = 27;
     private NetVupReader reader;
     private readonly string ipAddress;
-	private readonly ILogger logger;
+    private readonly ILogger logger;
 
     protected override string Device => "VF747p";
 
-    public VupVF747pController(string ipAddress, ILogger logger, TimeSpan? throttle = null) : base(throttle)
+    public VupVF747pController(string ipAddress, ILogger logger, TimeSpan? throttle = null)
+        : base(throttle)
     {
         this.ipAddress = ipAddress;
-		this.logger = logger;
-		this.reader = new NetVupReader(ipAddress, 1969, transport_protocol.tcp);
+        this.logger = logger;
+        this.reader = new NetVupReader(ipAddress, 1969, transport_protocol.tcp);
     }
 
     public override void Connect()
@@ -31,8 +32,8 @@ public class VupVF747pController : RfidController
         if (!connectionResult.Success)
         {
             var message = string.IsNullOrEmpty(connectionResult.Message)
-                ? $"Unable to connect to VUP reader on IP '{this.ipAddress}'." +
-                    $" Make sure it's connected to the network and use 'Reconnect Hardware'"
+                ? $"Unable to connect to VUP reader on IP '{this.ipAddress}'."
+                    + $" Make sure it's connected to the network and use 'Reconnect Hardware'"
                 : connectionResult.Message;
             this.RaiseError(message);
             return;
@@ -109,7 +110,7 @@ public class VupVF747pController : RfidController
     private int _oneCount = 0;
     private int _twoCount = 0;
     private int _threeCount = 0;
-    
+
     private IEnumerable<string> ReadTags(IEnumerable<int> antennaIndices)
     {
         var readTimer = new Stopwatch();
@@ -117,21 +118,24 @@ public class VupVF747pController : RfidController
         foreach (var i in antennaIndices)
         {
             this.reader.SetWorkAnt(i);
-            
+
             readTimer.Start();
             var tagsBytes = this.reader.List6C(
                 memory_bank.memory_bank_epc,
                 TAG_READ_START_INDEX,
                 TAG_DATA_LENGTH,
-                Convert.FromHexString("00000000"));
+                Convert.FromHexString("00000000")
+            );
             readTimer.Stop();
-            
+
             if (readTimer.ElapsedMilliseconds is < 5)
             {
                 reconnectTimer.Start();
                 var sb = new StringBuilder();
-                sb.AppendLine($"VF747p reader response indicates a disconnect. Response time: '{readTimer.ElapsedMilliseconds}'");
-				this.RaiseError(sb.ToString());
+                sb.AppendLine(
+                    $"VF747p reader response indicates a disconnect. Response time: '{readTimer.ElapsedMilliseconds}'"
+                );
+                this.RaiseError(sb.ToString());
                 this.Reconnect();
                 reconnectTimer.Stop();
                 sb.AppendLine($"Reconnected after '{reconnectTimer.ElapsedMilliseconds}'");
@@ -147,12 +151,14 @@ public class VupVF747pController : RfidController
                 if (i == 3)
                     _threeCount++;
 
-				var tags = tagsBytes.Result.Select(x => this.ConvertToString(x.Id));
+                var tags = tagsBytes.Result.Select(x => this.ConvertToString(x.Id));
                 foreach (var tag in tags)
                 {
-					Console.WriteLine($"Detected: {tag} antenna: {i} one:{_oneCount}, two:{_twoCount}, three :{_threeCount}");
-				}
-				return tags;
+                    Console.WriteLine(
+                        $"Detected: {tag} antenna: {i} one:{_oneCount}, two:{_twoCount}, three :{_threeCount}"
+                    );
+                }
+                return tags;
             }
         }
         return Enumerable.Empty<string>();
@@ -161,8 +167,8 @@ public class VupVF747pController : RfidController
     private void Reconnect()
     {
         this.Disconnect();
-		this.reader = new NetVupReader(ipAddress, 1969, transport_protocol.tcp);
-		var counter = 0;
+        this.reader = new NetVupReader(ipAddress, 1969, transport_protocol.tcp);
+        var counter = 0;
         var before = DateTime.Now;
         do
         {
@@ -170,9 +176,10 @@ public class VupVF747pController : RfidController
             this.Connect();
             Thread.Sleep(TimeSpan.FromSeconds(1));
             counter++;
-        }
-        while (!this.IsConnected);
+        } while (!this.IsConnected);
         var after = DateTime.Now;
-        Console.WriteLine($"Reconnected after '{counter}' attempts and '{(after - before).TotalSeconds}' seconds");
+        Console.WriteLine(
+            $"Reconnected after '{counter}' attempts and '{(after - before).TotalSeconds}' seconds"
+        );
     }
 }

@@ -1,10 +1,10 @@
-﻿using Core.Domain.Common.Exceptions;
+﻿using Core.Domain.AggregateRoots.Configuration.Extensions;
+using Core.Domain.Common.Exceptions;
+using Core.Domain.Common.Extensions;
 using Core.Domain.Common.Models;
 using Core.Domain.State;
 using Core.Domain.State.Athletes;
 using Core.Domain.Validation;
-using Core.Domain.AggregateRoots.Configuration.Extensions;
-using Core.Domain.Common.Extensions;
 using static Core.Localization.Strings;
 
 namespace Core.Domain.AggregateRoots.Configuration.Aggregates;

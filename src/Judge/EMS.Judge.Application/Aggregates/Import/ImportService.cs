@@ -1,6 +1,6 @@
 ﻿using Core.ConventionalServices;
-using Core.Services;
 using Core.Domain.AggregateRoots.Import;
+using Core.Services;
 using EMS.Judge.Application.Aggregates.Import.Readers;
 using EMS.Judge.Application.Common.Exceptions;
 using EMS.Judge.Application.Services;
@@ -19,7 +19,8 @@ public class ImportService : IImportService
         IPersistence persistence,
         IFileService file,
         IInternationalReader internationalReader,
-        INationalReader nationalReader)
+        INationalReader nationalReader
+    )
     {
         this.persistence = persistence;
         this.file = file;
@@ -30,13 +31,16 @@ public class ImportService : IImportService
     public void Import(string filePath)
     {
         var fileExtension = this.file.GetExtension(filePath);
-        if (fileExtension != ApplicationConstants.FileExtensions.Xml
-            && fileExtension != ApplicationConstants.FileExtensions.SupportedExcel)
+        if (
+            fileExtension != ApplicationConstants.FileExtensions.Xml
+            && fileExtension != ApplicationConstants.FileExtensions.SupportedExcel
+        )
         {
             var message = string.Format(
                 UNSUPPORTED_IMPORT_FILE_MESSAGE,
                 ApplicationConstants.FileExtensions.Xml,
-                ApplicationConstants.FileExtensions.SupportedExcel);
+                ApplicationConstants.FileExtensions.SupportedExcel
+            );
 
             throw new AppException(message);
         }

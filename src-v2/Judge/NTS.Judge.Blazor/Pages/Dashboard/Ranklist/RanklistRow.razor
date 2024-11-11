@@ -73,8 +73,6 @@
 
     [Parameter]
     public RankingEntry Entry { get; set; } = default!;
-    [Parameter]
-    public int Index { get; set; } = default!;
 
     protected override void OnParametersSet()
     {
@@ -84,6 +82,7 @@
         _eliminated = participation.Eliminated;
         _total = participation.GetTotal();
         _totalInterval = _total?.RideInterval + _total?.RecoveryIntervalWithoutFinal;
+        _rank = Entry.Rank?.ToString();
 
         if (Entry.IsNotRanked)
         {
@@ -95,7 +94,6 @@
             _rank = null;
             return;
         }
-        _rank = (Index + 1).ToString();
     }
 
     private void Toggle()

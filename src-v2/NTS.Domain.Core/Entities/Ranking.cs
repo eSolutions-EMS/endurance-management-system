@@ -1,13 +1,19 @@
-﻿using Newtonsoft.Json;
+﻿using System.Collections.ObjectModel;
+using Newtonsoft.Json;
 using NTS.Domain.Core.Entities.ParticipationAggregate;
-using System.Collections.ObjectModel;
 
 namespace NTS.Domain.Core.Entities;
 
 public class Ranking : DomainEntity, IAggregateRoot
 {
     [JsonConstructor]
-    private Ranking(int id, string name, CompetitionRuleset ruleset, AthleteCategory category, ReadOnlyCollection<RankingEntry> entries)
+    Ranking(
+        int id,
+        string name,
+        CompetitionRuleset ruleset,
+        AthleteCategory category,
+        ReadOnlyCollection<RankingEntry> entries
+    )
         : base(id)
     {
         Name = name;
@@ -15,15 +21,14 @@ public class Ranking : DomainEntity, IAggregateRoot
         Category = category;
         Entries = entries;
     }
-    public Ranking(Competition competition, AthleteCategory category, IEnumerable<RankingEntry> entries)
-        : this(
-            GenerateId(),
-            competition.Name,
-            competition.Ruleset,
-            category,
-            new(entries.ToList()))
-    {
-    }
+
+    public Ranking(
+        Competition competition,
+        AthleteCategory category,
+        IEnumerable<RankingEntry> entries
+    )
+        : this(GenerateId(), competition.Name, competition.Ruleset, category, new(entries.ToList()))
+    { }
 
     public string Name { get; }
     public CompetitionRuleset Ruleset { get; }

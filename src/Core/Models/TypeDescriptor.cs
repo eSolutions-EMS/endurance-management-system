@@ -15,8 +15,11 @@ public class TypeDescriptor<T>
             throw new InvalidOperationException($"Cannot instantiate type '{type.FullName}'");
         }
 
-        this.Instance = obj as T
-            ?? throw new InvalidOperationException($"Cannot convert object '{obj}' to type '{type.FullName}'");
+        this.Instance =
+            obj as T
+            ?? throw new InvalidOperationException(
+                $"Cannot convert object '{obj}' to type '{type.FullName}'"
+            );
     }
 
     public TypeDescriptor(Type type, T instance)

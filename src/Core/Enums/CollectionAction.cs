@@ -2,6 +2,6 @@
 
 public enum CollectionAction
 {
-	AddOrUpdate = 1,
-	Remove = 2
+    AddOrUpdate = 1,
+    Remove = 2,
 }

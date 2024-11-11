@@ -5,12 +5,16 @@ using NTS.Domain.Setup.Entities;
 
 namespace NTS.Judge.Contexts;
 
-public class CompetitionParentContext(IRepository<Competition> entities) : BehindContext<Competition>(entities),
-    IParentContext<Phase>,
-    IParentContext<Participation>
+public class CompetitionParentContext
+    : BehindContext<Competition>,
+        IParentContext<Phase>,
+        IParentContext<Participation>
 {
     readonly ObservableList<Phase> _phases = new();
     readonly ObservableList<Participation> _participations = new();
+
+    public CompetitionParentContext(IRepository<Competition> competitionRepository)
+        : base(competitionRepository) { }
 
     ObservableList<Phase> IParentContext<Phase>.Children => _phases;
     ObservableList<Participation> IParentContext<Participation>.Children => _participations;
@@ -30,10 +34,12 @@ public class CompetitionParentContext(IRepository<Competition> entities) : Behin
     {
         Entity!.Add(child);
     }
+
     public void Update(Phase child)
     {
         Entity!.Update(child);
     }
+
     public void Remove(Phase child)
     {
         Entity!.Remove(child);
@@ -43,10 +49,12 @@ public class CompetitionParentContext(IRepository<Competition> entities) : Behin
     {
         Entity!.Add(child);
     }
+
     public void Update(Participation child)
     {
         Entity!.Update(child);
     }
+
     public void Remove(Participation child)
     {
         Entity!.Remove(child);

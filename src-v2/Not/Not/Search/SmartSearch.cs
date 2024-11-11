@@ -2,7 +2,7 @@
 
 public class SmartSearch<T>
 {
-    private readonly List<SearchBase<T>> _searches = new();
+    readonly List<SearchBase<T>> _searches = [];
 
     public SmartSearch(IEnumerable<SearchBase<T>> searches)
     {

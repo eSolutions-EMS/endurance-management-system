@@ -1,24 +1,24 @@
-using Core.Domain.AggregateRoots.Ranking.Aggregates;
-using Core.Domain.Common.Models;
-using Core.Domain.State;
-using Core.Domain.Common.Extensions;
-using System.Collections.Generic;
-using System.Linq;
-using Core.Domain.AggregateRoots.Ranking.Models;
 using System;
-using Core.Domain.Common.Exceptions;
-using Core.Domain.State.EnduranceEvents;
-using Core.Domain.AggregateRoots.Common.Performances;
-using Core.Domain.State.Participations;
-using Core.Domain.State.Competitions;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Xml.Serialization;
+using Core.Domain.AggregateRoots.Common.Performances;
+using Core.Domain.AggregateRoots.Ranking.Aggregates;
+using Core.Domain.AggregateRoots.Ranking.Models;
+using Core.Domain.Common.Exceptions;
+using Core.Domain.Common.Extensions;
+using Core.Domain.Common.Models;
 using Core.Domain.Enums;
+using Core.Domain.State;
+using Core.Domain.State.Athletes;
+using Core.Domain.State.Competitions;
+using Core.Domain.State.EnduranceEvents;
+using Core.Domain.State.Participants;
+using Core.Domain.State.Participations;
 using Core.Domain.State.Results;
 using JsonNet.PrivatePropertySetterResolver;
-using Core.Domain.State.Athletes;
-using Core.Domain.State.Participants;
 
 namespace Core.Domain.AggregateRoots.Ranking;
 
@@ -34,15 +34,15 @@ public class RankingRoot : IAggregateRoot
         {
             return;
         }
-        var competitionsIds = state.Participations
-            .SelectMany(x => x.CompetitionsIds)
+        var competitionsIds = state
+            .Participations.SelectMany(x => x.CompetitionsIds)
             .Distinct()
             .ToList();
         foreach (var id in competitionsIds)
         {
             var competition = state.Event.Competitions.FindDomain(id);
-            var participations = state.Participations
-                .Where(x => x.CompetitionsIds.Contains(competition.Id))
+            var participations = state
+                .Participations.Where(x => x.CompetitionsIds.Contains(competition.Id))
                 .ToList();
             var listing = new CompetitionResultAggregate(state.Event, competition, participations);
             this._competitions.Add(listing);
@@ -63,7 +63,9 @@ public class RankingRoot : IAggregateRoot
         {
             throw Helper.Create<EnduranceEventException>("Event has not started yet");
         }
-        var participant = _stateContext.State.Participations.First(x => x.CompetitionsIds.Contains(competitionId)).Participant;
+        var participant = _stateContext
+            .State.Participations.First(x => x.CompetitionsIds.Contains(competitionId))
+            .Participant;
         var category = participant.Athlete.Category;
         var competition = @event.Competitions.FindDomain(competitionId);
         var ctEnduranceCompetitions = CreateCompetitions(competition, @event.ShowFeiId, category);
@@ -75,14 +77,20 @@ public class RankingRoot : IAggregateRoot
         return xml;
     }
 
-    public static (TimeSpan loop, TimeSpan rec, TimeSpan phase, double? speed) CalculateTotalValues(Participation participation)
+    public static (TimeSpan loop, TimeSpan rec, TimeSpan phase, double? speed) CalculateTotalValues(
+        Participation participation
+    )
     {
         var performances = Performance.GetAll(participation).ToArray();
         var totalLenght = participation.Participant.LapRecords.Sum(x => x.Lap.LengthInKm);
 
         var loopTIme = performances
             .Where(x => x.ArrivalTime.HasValue)
-            .Aggregate(TimeSpan.Zero, (result, x) => result + Performance.TruncateToSeconds(x.ArrivalTime.Value - x.StartTime).Value);
+            .Aggregate(
+                TimeSpan.Zero,
+                (result, x) =>
+                    result + Performance.TruncateToSeconds(x.ArrivalTime.Value - x.StartTime).Value
+            );
         var phaseTime = performances
             .Where(x => x.Time.HasValue)
             .Aggregate(TimeSpan.Zero, (result, x) => result + x.Time.Value);
@@ -94,14 +102,21 @@ public class RankingRoot : IAggregateRoot
         return (loopTIme, recTime, phaseTime, avrageTotalPhaseSpeed);
     }
 
-    public IReadOnlyList<CompetitionResultAggregate> Competitions => this._competitions.AsReadOnly();
+    public IReadOnlyList<CompetitionResultAggregate> Competitions =>
+        this._competitions.AsReadOnly();
 
-    private ctEnduranceCompetition CreateCompetitions(Competition competition, string showFeiId, Category category)
+    private ctEnduranceCompetition CreateCompetitions(
+        Competition competition,
+        string showFeiId,
+        Category category
+    )
     {
-        var categoryString = category == Category.Seniors
-            ? "S"
-            : category == Category.Children ? "C" : "YJ";
-        var competitionFeiId = $"{showFeiId}_E_{categoryString}_{competition.FeiCategoryEventNumber}_{competition.FeiScheduleNumber}";
+        var categoryString =
+            category == Category.Seniors ? "S"
+            : category == Category.Children ? "C"
+            : "YJ";
+        var competitionFeiId =
+            $"{showFeiId}_E_{categoryString}_{competition.FeiCategoryEventNumber}_{competition.FeiScheduleNumber}";
         var ctCompetition = new ctEnduranceCompetition
         {
             FEIID = competitionFeiId,
@@ -110,30 +125,41 @@ public class RankingRoot : IAggregateRoot
             Name = competition.Name,
             StartDate = competition.StartTime,
             Team = false,
-            ParticipationList = new ctEnduranceParticipations()
+            ParticipationList = new ctEnduranceParticipations(),
         };
 
         var ctParticipations = CreateParticipations(competition);
 
         // .. Necessary to order here, because Ranklist implementation is terrible
-        ctCompetition.ParticipationList.Participation = ctParticipations.OrderBy(x => x.Position.Rank).ToArray();
+        ctCompetition.ParticipationList.Participation = ctParticipations
+            .OrderBy(x => x.Position.Rank)
+            .ToArray();
         return ctCompetition;
     }
 
     private IEnumerable<ctEnduranceIndivResult> CreateParticipations(Competition competition)
     {
         var competitionResult = _competitions.First(x => x.Id == competition.Id);
-        var participations = _stateContext.State.Participations.Where(x => x.CompetitionsIds.Contains(competition.Id));
-        var withoutFeiId = participations.Where(x => string.IsNullOrWhiteSpace(x.Participant.Athlete.FeiId));
+        var participations = _stateContext.State.Participations.Where(x =>
+            x.CompetitionsIds.Contains(competition.Id)
+        );
+        var withoutFeiId = participations.Where(x =>
+            string.IsNullOrWhiteSpace(x.Participant.Athlete.FeiId)
+        );
         if (withoutFeiId.Any())
         {
             var numbers = string.Join(", ", withoutFeiId.Select(x => x.Participant.Number));
-            throw new DomainException(nameof(Participant), $"Participants '{numbers}' are not configured with Athlete FEIID");
+            throw new DomainException(
+                nameof(Participant),
+                $"Participants '{numbers}' are not configured with Athlete FEIID"
+            );
         }
         foreach (var participation in participations)
         {
             var ranklist = competitionResult.Rank(participation.Participant.Athlete.Category);
-            var result = ranklist.FirstOrDefault(x => x.Participant.Number == participation.Participant.Number);
+            var result = ranklist.FirstOrDefault(x =>
+                x.Participant.Number == participation.Participant.Number
+            );
             var athlete = participation.Participant.Athlete;
             var horse = participation.Participant.Horse;
 
@@ -147,15 +173,8 @@ public class RankingRoot : IAggregateRoot
                     FamilyName = athlete.LastName,
                     CompetingFor = athlete.Country.IsoCode,
                 },
-                Horse = new ctHorse
-                {
-                    FEIID = horse.FeiId,
-                    Name = horse.Name
-                },
-                Complement = new ctEnduranceComplement
-                {
-                    BestCondition = false,
-                },
+                Horse = new ctHorse { FEIID = horse.FeiId, Name = horse.Name },
+                Complement = new ctEnduranceComplement { BestCondition = false },
                 Position = new ctPositionIndiv
                 {
                     Status = result.Participant.LapRecords.Last().Result.TypeCode,
@@ -166,7 +185,11 @@ public class RankingRoot : IAggregateRoot
             var ctDays = CreateDaysAndPhases(participation, competition);
             ctParticipation.Phases = ctDays.ToArray();
 
-            if (participation.Participant.LapRecords.All(x => x.Result.Type == ResultType.Successful))
+            if (
+                participation.Participant.LapRecords.All(x =>
+                    x.Result.Type == ResultType.Successful
+                )
+            )
             {
                 ctParticipation.Total = CreateTotal(participation);
             }
@@ -178,14 +201,13 @@ public class RankingRoot : IAggregateRoot
     private ctEnduranceTotal CreateTotal(Participation participation)
     {
         var (loop, rec, phase, speed) = CalculateTotalValues(participation);
-        return new ctEnduranceTotal
-        {
-            AverageSpeed = Round(speed.Value),
-            Time = FormatTime(phase),
-        };
+        return new ctEnduranceTotal { AverageSpeed = Round(speed.Value), Time = FormatTime(phase) };
     }
 
-    private IEnumerable<ctEnduranceDayResult> CreateDaysAndPhases(Participation participation, Competition competition)
+    private IEnumerable<ctEnduranceDayResult> CreateDaysAndPhases(
+        Participation participation,
+        Competition competition
+    )
     {
         var days = new List<ctEnduranceDayResult>();
         var day = new ctEnduranceDayResult() { Number = 1 };
@@ -205,9 +227,10 @@ public class RankingRoot : IAggregateRoot
             };
             if (record.Result.Type != ResultType.Successful)
             {
-                var eliminationCode = record.Result.TypeCode == "RET"
-                    ? record.Result.TypeCode
-                    : $"{record.Result.TypeCode} {record.Result.Code}";
+                var eliminationCode =
+                    record.Result.TypeCode == "RET"
+                        ? record.Result.TypeCode
+                        : $"{record.Result.TypeCode} {record.Result.Code}";
                 phase.VetInspection = new ctEnduranceVetInspection
                 {
                     Type = stEnduranceVetTypeCode.Standard,
@@ -216,9 +239,11 @@ public class RankingRoot : IAggregateRoot
             }
             if (lastDate == default || lastDate == record.StartTime.Date)
             {
-                var list = new List<ctEndurancePhaseResult>(day.Phase ?? Enumerable.Empty<ctEndurancePhaseResult>())
+                var list = new List<ctEndurancePhaseResult>(
+                    day.Phase ?? Enumerable.Empty<ctEndurancePhaseResult>()
+                )
                 {
-                    phase
+                    phase,
                 };
                 day.Phase = list.ToArray();
             }
@@ -228,7 +253,7 @@ public class RankingRoot : IAggregateRoot
                 day = new ctEnduranceDayResult()
                 {
                     Phase = new List<ctEndurancePhaseResult> { phase }.ToArray(),
-                    Number = day.Number + 1
+                    Number = day.Number + 1,
                 };
             }
             lastDate = record.StartTime.Date;
@@ -237,7 +262,12 @@ public class RankingRoot : IAggregateRoot
         return days;
     }
 
-    private HorseSport CreateHorseSport(EnduranceEvent @event, ctEnduranceCompetition ctEnduranceCompetition, Category category, Competition competition)
+    private HorseSport CreateHorseSport(
+        EnduranceEvent @event,
+        ctEnduranceCompetition ctEnduranceCompetition,
+        Category category,
+        Competition competition
+    )
     {
         if (string.IsNullOrWhiteSpace(@event.ShowFeiId))
         {
@@ -268,10 +298,12 @@ public class RankingRoot : IAggregateRoot
             throw new DomainException(nameof(Competition), "Missing FEI Event Code");
         }
 
-        var categoryString = category == Category.Seniors
-            ? "S"
-            : category == Category.Children ? "C" : "YJ";
-        var competitionFeiId = $"{@event.ShowFeiId}_E_{categoryString}_{competition.FeiCategoryEventNumber}";
+        var categoryString =
+            category == Category.Seniors ? "S"
+            : category == Category.Children ? "C"
+            : "YJ";
+        var competitionFeiId =
+            $"{@event.ShowFeiId}_E_{categoryString}_{competition.FeiCategoryEventNumber}";
         var ctEnduranceEvent = new ctEnduranceEvent
         {
             FEIID = competitionFeiId,
@@ -279,7 +311,7 @@ public class RankingRoot : IAggregateRoot
             StartDate = @event.Competitions.OrderBy(x => x.StartTime).First().StartTime,
             EndDate = DateTime.UtcNow,
             NF = @event.Country.IsoCode,
-            Competitions = [ ctEnduranceCompetition ],
+            Competitions = [ctEnduranceCompetition],
         };
         var horseSport = new HorseSport()
         {
@@ -299,11 +331,14 @@ public class RankingRoot : IAggregateRoot
                         Country = @event.Country.IsoCode,
                     },
                     EnduranceEvent = new List<ctEnduranceEvent> { ctEnduranceEvent }.ToArray(),
-                    StartDate = @event.Competitions.OrderBy(x => x.StartTime).First().StartTime.Date,
+                    StartDate = @event
+                        .Competitions.OrderBy(x => x.StartTime)
+                        .First()
+                        .StartTime.Date,
                     EndDate = DateTime.UtcNow.Date,
                     FEIID = @event.ShowFeiId,
-                }
-            }
+                },
+            },
         };
         return horseSport;
     }
@@ -318,9 +353,13 @@ public class RankingRoot : IAggregateRoot
 
     private string InsertGeneratedDate(string xml)
     {
-        return xml.Replace("<Generated Software", $"<Generated Date=\"{DateTime.UtcNow.ToString("s", CultureInfo.InvariantCulture)}+00:00\" Software");
+        return xml.Replace(
+            "<Generated Software",
+            $"<Generated Date=\"{DateTime.UtcNow.ToString("s", CultureInfo.InvariantCulture)}+00:00\" Software"
+        );
     }
 
     private decimal Round(double value) => (decimal)Math.Round(value, 2);
+
     private string FormatTime(TimeSpan? value) => value?.ToString(@"hh\:mm\:ss");
 }

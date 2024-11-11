@@ -1,7 +1,7 @@
-﻿using EMS.Judge.Common;
-using EMS.Judge.Common.Services;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using System.Windows.Input;
+using EMS.Judge.Common;
+using EMS.Judge.Common.Services;
 
 namespace EMS.Judge.Views.Content.Configuration.Roots.Participants;
 
@@ -14,7 +14,8 @@ public partial class ParticipantView : UserControl, IView
         InitializeComponent();
     }
 
-    public ParticipantView(IInputHandler inputInput) : this()
+    public ParticipantView(IInputHandler inputInput)
+        : this()
     {
         this.inputInput = inputInput;
     }

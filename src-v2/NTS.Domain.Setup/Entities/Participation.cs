@@ -9,14 +9,35 @@ public class Participation : DomainEntity, ISummarizable
     const double MIN_SPEED = 10;
     const double MAX_SPEED = 16;
 
-    public static Participation Create(DateTimeOffset? newStart, bool isUnranked, Combination? combination, double? maxSpeedOverride)
-        => new(newStart, isUnranked, combination, maxSpeedOverride);
+    public static Participation Create(
+        DateTimeOffset? newStart,
+        bool isUnranked,
+        Combination? combination,
+        double? maxSpeedOverride
+    )
+    {
+        return new(newStart, isUnranked, combination, maxSpeedOverride);
+    }
 
-    public static Participation Update(int id, DateTimeOffset? newStart, bool isUnranked, Combination? combination, double? maxSpeedOverride)
-        => new(id, newStart, isUnranked, combination, maxSpeedOverride);
-    
+    public static Participation Update(
+        int id,
+        DateTimeOffset? newStart,
+        bool isUnranked,
+        Combination? combination,
+        double? maxSpeedOverride
+    )
+    {
+        return new(id, newStart, isUnranked, combination, maxSpeedOverride);
+    }
+
     [JsonConstructor]
-    private Participation(int id, DateTimeOffset? startTimeOverride, bool isUnranked, Combination? combination, double? maxSpeedOverride)
+    Participation(
+        int id,
+        DateTimeOffset? startTimeOverride,
+        bool isUnranked,
+        Combination? combination,
+        double? maxSpeedOverride
+    )
         : base(id)
     {
         StartTimeOverride = startTimeOverride;
@@ -25,23 +46,19 @@ public class Participation : DomainEntity, ISummarizable
         MaxSpeedOverride = maxSpeedOverride;
     }
 
-    private Participation(DateTimeOffset? startTimeOverride, bool isUnranked, Combination? combination, double? maxSpeedOverride) : this(
-        GenerateId(),
-        IsFutureTime(startTimeOverride),
-        isUnranked,
-        combination,
-        maxSpeedOverride)
-    {
-    }
-
-    static DateTimeOffset? IsFutureTime(DateTimeOffset? startTimeOverride)
-    {
-        if (startTimeOverride != null && startTimeOverride.Value <= DateTimeOffset.Now)
-        {
-            throw new DomainException(nameof(StartTimeOverride), "Please select future time");
-        }
-        return startTimeOverride;
-    }
+    Participation(
+        DateTimeOffset? startTimeOverride,
+        bool isUnranked,
+        Combination? combination,
+        double? maxSpeedOverride
+    )
+        : this(
+            GenerateId(),
+            IsFutureTime(startTimeOverride),
+            isUnranked,
+            combination,
+            maxSpeedOverride
+        ) { }
 
     public Combination Combination { get; }
     public bool IsNotRanked { get; }
@@ -80,12 +97,20 @@ public class Participation : DomainEntity, ISummarizable
 
     public override string ToString()
     {
-        var startTimeMessage = StartTimeOverride != null 
-            ? $"start: {StartTimeOverride.Value.ToLocalTime().TimeOfDay} "
-            : null;
-        var isUnrankedMessage = IsNotRanked
-            ? "not-ranked"
-            : null;
+        var startTimeMessage =
+            StartTimeOverride != null
+                ? $"start: {StartTimeOverride.Value.ToLocalTime().TimeOfDay} "
+                : null;
+        var isUnrankedMessage = IsNotRanked ? "not-ranked" : null;
         return Combine(Combination, startTimeMessage, isUnrankedMessage);
+    }
+
+    static DateTimeOffset? IsFutureTime(DateTimeOffset? startTimeOverride)
+    {
+        if (startTimeOverride != null && startTimeOverride.Value <= DateTimeOffset.Now)
+        {
+            throw new DomainException(nameof(StartTimeOverride), "Please select future time");
+        }
+        return startTimeOverride;
     }
 }

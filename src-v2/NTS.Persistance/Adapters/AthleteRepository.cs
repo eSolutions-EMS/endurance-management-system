@@ -1,8 +1,10 @@
 ﻿using NTS.Domain.Setup.Entities;
-using NTS.Persistence.Setup;
+using NTS.Persistence.States;
 
 namespace NTS.Persistence.Adapters;
 
-public class AthleteRepository(IStore<SetupState> store) : SetRepository<Athlete, SetupState>(store)
+public class AthleteRepository : SetRepository<Athlete, SetupState>
 {
+    public AthleteRepository(IStore<SetupState> store)
+        : base(store) { }
 }

@@ -1,5 +1,5 @@
-﻿using Prism.Regions;
-using System;
+﻿using System;
+using Prism.Regions;
 
 namespace EMS.Judge.Common.Services.Implementations;
 
@@ -14,7 +14,8 @@ public abstract class NavigationServiceBase
         this.regionManager = regionManager;
     }
 
-    protected void ChangeTo<T>(string regionName) where T : IView
+    protected void ChangeTo<T>(string regionName)
+        where T : IView
     {
         this.ChangeTo(regionName, typeof(T), null);
     }
@@ -28,7 +29,9 @@ public abstract class NavigationServiceBase
 
         if (!ViewType.IsAssignableFrom(view))
         {
-            throw new InvalidOperationException($"Type '{view?.Name}' does not implement '{ViewType}'");
+            throw new InvalidOperationException(
+                $"Type '{view?.Name}' does not implement '{ViewType}'"
+            );
         }
 
         var viewName = view.Name;

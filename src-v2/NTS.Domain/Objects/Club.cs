@@ -1,8 +1,6 @@
-﻿using Not.Domain;
+﻿namespace NTS.Domain.Objects;
 
-namespace NTS.Domain.Objects;
-
-public record Club(string Name) : DomainObject
+public record Club : DomainObject
 {
     public static Club? Create(string? name)
     {
@@ -13,8 +11,15 @@ public record Club(string Name) : DomainObject
         return new Club(name);
     }
 
-	public override string ToString()
-	{
-		return Name;
-	}
+    public Club(string name)
+    {
+        Name = name;
+    }
+
+    public string Name { get; }
+
+    public override string ToString()
+    {
+        return Name;
+    }
 }

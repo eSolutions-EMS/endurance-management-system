@@ -1,5 +1,5 @@
-using Core.Utilities;
 using System.Reflection;
+using Core.Utilities;
 
 namespace EMS.Judge;
 
@@ -10,8 +10,9 @@ public static class DesktopConstants
     public const string TIME_SPAN_FORMAT = @"hh\:mm\:ss";
     public const string DOUBLE_FORMAT = "0.000";
     public const string DATE_ONLY_FORMAT = "dd.MM.yyyy";
-    public const string UNEXPECTED_ERROR_MESSAGE = "Unexpected error occured. Log file '{0}' created. Please contact developer";
-    
+    public const string UNEXPECTED_ERROR_MESSAGE =
+        "Unexpected error occured. Log file '{0}' created. Please contact developer";
+
     public static Assembly[] Assemblies
     {
         get

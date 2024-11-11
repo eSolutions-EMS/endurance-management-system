@@ -8,14 +8,14 @@ namespace NTS.Persistence.Converters;
 public class EntityReferenceEqualityGuardConverter<T> : JsonConverterBase
     where T : DomainEntity
 {
-    private static readonly string DOMAIN_ID_PROPERTY = nameof(DomainEntity.Id);
-    private const string DOMAIN_REF_PROPERTY = "$domainRef";
-    private readonly object _lock = new();
-    private readonly Type _type = typeof(T);
+    const string DOMAIN_REF_PROPERTY = "$domainRef";
+    static readonly string DOMAIN_ID_PROPERTY = nameof(DomainEntity.Id);
 
-    private Dictionary<int, T> _instancesById = [];
-    private bool _canWrite = true;
-    private bool _canRead = true;
+    readonly object _lock = new();
+    readonly Type _type = typeof(T);
+    Dictionary<int, T> _instancesById = [];
+    bool _canWrite = true;
+    bool _canRead = true;
 
     public override bool CanWrite => _canWrite;
     public override bool CanRead => _canRead;
@@ -27,7 +27,11 @@ public class EntityReferenceEqualityGuardConverter<T> : JsonConverterBase
 
     public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
     {
-        var entity = value as T ?? throw new JsonSerializationException($"Unexpected value when converting: {value?.GetType().Name}");
+        var entity =
+            value as T
+            ?? throw new JsonSerializationException(
+                $"Unexpected value when converting: {value?.GetType().Name}"
+            );
 
         if (_instancesById.ContainsKey(entity.Id))
         {
@@ -50,7 +54,12 @@ public class EntityReferenceEqualityGuardConverter<T> : JsonConverterBase
         }
     }
 
-    public override object ReadJson(JsonReader reader, Type objectType, object? existingValue, JsonSerializer serializer)
+    public override object ReadJson(
+        JsonReader reader,
+        Type objectType,
+        object? existingValue,
+        JsonSerializer serializer
+    )
     {
         lock (_lock)
         {
@@ -62,14 +71,16 @@ public class EntityReferenceEqualityGuardConverter<T> : JsonConverterBase
                 var id = GetIdValue(jObject, DOMAIN_REF_PROPERTY);
                 if (!_instancesById.TryGetValue(id, out var existingEntity))
                 {
-                    throw new JsonSerializationException($"Unresolved domain reference value '{id}'");
+                    throw new JsonSerializationException(
+                        $"Unresolved domain reference value '{id}'"
+                    );
                 }
                 return existingEntity;
             }
 
             if (jObject.ContainsKey(DOMAIN_ID_PROPERTY))
             {
-                int id = GetIdValue(jObject, DOMAIN_ID_PROPERTY);
+                var id = GetIdValue(jObject, DOMAIN_ID_PROPERTY);
                 var entity = jObject.ToObject<T>(serializer)!;
                 _canRead = true;
                 _instancesById[id] = entity;
@@ -80,7 +91,15 @@ public class EntityReferenceEqualityGuardConverter<T> : JsonConverterBase
         throw new JsonSerializationException("Expected Id or DomainId in serialized JSON.");
     }
 
-    private int GetIdValue(JObject jObject, string jsonProperty)
+    // Has to reset after each call to serialize / deserialize completes, because otherwise
+    // the dictionary will be full with all instances and will always serialize every object as
+    // a domain reference, which in turn will result in failure during deserialization after app restart
+    public override void Reset()
+    {
+        _instancesById = [];
+    }
+
+    int GetIdValue(JObject jObject, string jsonProperty)
     {
         var result = jObject[jsonProperty];
         if (result == null)
@@ -88,13 +107,5 @@ public class EntityReferenceEqualityGuardConverter<T> : JsonConverterBase
             throw new JsonSerializationException($"Value for '{jsonProperty}' cannot be null");
         }
         return result.Value<int>();
-    }
-    
-    // Has to reset after each call to serialize / deserialize completes, because otherwise
-    // the dictionary will be full with all instances and will always serialize every object as 
-    // a domain reference, which in turn will result in failure during deserialization after app restart
-    public override void Reset()
-    {
-        _instancesById = [];
     }
 }

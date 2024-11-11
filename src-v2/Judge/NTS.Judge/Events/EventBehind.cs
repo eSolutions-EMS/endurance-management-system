@@ -1,26 +1,27 @@
-﻿using NTS.Domain.Setup.Entities;
+﻿using Not.Application.Adapters.Behinds;
+using Not.Application.Contexts;
 using Not.Application.Ports.CRUD;
 using Not.Safe;
+using NTS.Domain.Setup.Entities;
 using NTS.Judge.Blazor.Pages.Setup.Ports;
 using NTS.Judge.Blazor.Setup.Events;
 using NTS.Judge.Contexts;
-using Not.Application.Adapters.Behinds;
-using Not.Application.Contexts;
 
 namespace NTS.Judge.Events;
 
 public class EventBehind : ObservableBehind, IEnduranceEventBehind
 {
-    private readonly IRepository<EnduranceEvent> _events;
-    private readonly EventParentContext _context;
-    private readonly IParentContext<Competition> _competitionParent;
-    private readonly IParentContext<Official> _officialParent;
+    readonly IRepository<EnduranceEvent> _events;
+    readonly EventParentContext _context;
+    readonly IParentContext<Competition> _competitionParent;
+    readonly IParentContext<Official> _officialParent;
 
     public EventBehind(
-        IRepository<EnduranceEvent> events, 
-        EventParentContext context, 
+        IRepository<EnduranceEvent> events,
+        EventParentContext context,
         IParentContext<Competition> compeitionParent,
-        IParentContext<Official> officialParent)
+        IParentContext<Official> officialParent
+    )
     {
         _events = events;
         _context = context;
@@ -42,40 +43,16 @@ public class EventBehind : ObservableBehind, IEnduranceEventBehind
         return false;
     }
 
-    async Task<EnduranceEventFormModel> SafeCreate(EnduranceEventFormModel model)
+    public async Task Create(EnduranceEventFormModel enduranceEvent)
     {
-        _context.Entity = EnduranceEvent.Create(model.Place, model.Country);
-        await _events.Create(_context.Entity);
-        Model = model;
-        EmitChange();
-        return model;
+        Task action() => SafeCreate(enduranceEvent);
+        await SafeHelper.Run(action);
     }
 
-    async Task<EnduranceEventFormModel> SafeUpdate(EnduranceEventFormModel model)
+    public async Task Update(EnduranceEventFormModel enduranceEvent)
     {
-        _context.Entity = EnduranceEvent.Update(
-            model.Id,
-            model.Place,
-            model.Country,
-            _competitionParent.Children,
-            _officialParent.Children);
-        await _events.Update(_context.Entity);
-
-        Model = model;
-        EmitChange();
-        return model;
-    }
-
-    #region SafePattern 
-
-    public async Task<EnduranceEventFormModel> Create(EnduranceEventFormModel enduranceEvent)
-    {
-        return await SafeHelper.Run(() => SafeCreate(enduranceEvent)) ?? enduranceEvent;
-    }
-
-    public async Task<EnduranceEventFormModel> Update(EnduranceEventFormModel enduranceEvent)
-    {
-        return await SafeHelper.Run(() => SafeUpdate(enduranceEvent)) ?? enduranceEvent;
+        Task action() => SafeUpdate(enduranceEvent);
+        await SafeHelper.Run(action);
     }
 
     public Task<EnduranceEvent> Delete(EnduranceEvent enduranceEvent)
@@ -83,5 +60,26 @@ public class EventBehind : ObservableBehind, IEnduranceEventBehind
         throw new NotImplementedException("Endurance event cannot be deleted");
     }
 
-    #endregion
+    async Task SafeCreate(EnduranceEventFormModel model)
+    {
+        _context.Entity = EnduranceEvent.Create(model.Place, model.Country);
+        await _events.Create(_context.Entity);
+        Model = model;
+        EmitChange();
+    }
+
+    async Task SafeUpdate(EnduranceEventFormModel model)
+    {
+        _context.Entity = EnduranceEvent.Update(
+            model.Id,
+            model.Place,
+            model.Country,
+            _competitionParent.Children,
+            _officialParent.Children
+        );
+        await _events.Update(_context.Entity);
+
+        Model = model;
+        EmitChange();
+    }
 }

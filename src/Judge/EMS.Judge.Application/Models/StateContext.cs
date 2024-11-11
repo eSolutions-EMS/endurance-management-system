@@ -8,6 +8,6 @@ public class StateContext : IStateContext
     {
         this.State = state;
     }
-    
+
     public IState State { get; }
 }

@@ -1,5 +1,5 @@
-﻿using Not.Reflection;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
+using Not.Reflection;
 
 namespace Not.Exceptions;
 
@@ -9,11 +9,11 @@ namespace Not.Exceptions;
 public static class GuardHelper
 {
     /// <summary>
-    /// Mainly used in order to prevent nullable warnings and guard against default values  
+    /// Mainly used in order to prevent nullable warnings and guard against default values
     /// </summary>
     /// <exception cref="GuardException"></exception>
-    [DoesNotReturn]
-    public static void ThrowIfDefault<T>(T value)
+    // [DoesNotReturn]
+    public static void ThrowIfDefault<T>([NotNull] T value)
     {
         if (value?.Equals(default(T)) ?? true)
         {

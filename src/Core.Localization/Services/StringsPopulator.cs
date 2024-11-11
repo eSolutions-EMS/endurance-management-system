@@ -1,8 +1,8 @@
-﻿using Core.ConventionalServices;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Core.ConventionalServices;
 
 namespace Core.Localization.Services;
 
@@ -14,8 +14,7 @@ public class StringsPopulator : IStringsPopulator
         {
             throw new Exception("Translation values are empty");
         }
-        var fields = type
-            .GetProperties(BindingFlags.Public | BindingFlags.Static)
+        var fields = type.GetProperties(BindingFlags.Public | BindingFlags.Static)
             .OrderByDescending(x => x.Name.EndsWith("ENTITY"))
             .ThenByDescending(x => x.Name.EndsWith("TERM"));
         foreach (var info in fields)

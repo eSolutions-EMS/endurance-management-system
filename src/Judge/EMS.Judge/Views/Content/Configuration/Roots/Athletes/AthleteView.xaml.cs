@@ -1,18 +1,21 @@
-﻿using EMS.Judge.Common;
-using EMS.Judge.Common.Services;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using System.Windows.Input;
+using EMS.Judge.Common;
+using EMS.Judge.Common.Services;
 
 namespace EMS.Judge.Views.Content.Configuration.Roots.Athletes;
 
 public partial class AthleteView : UserControl, IView
 {
     private readonly IInputHandler inputHandler;
-    public AthleteView(IInputHandler inputHandler) : this()
+
+    public AthleteView(IInputHandler inputHandler)
+        : this()
     {
         this.inputHandler = inputHandler;
         this.inputHandler = inputHandler;
     }
+
     public AthleteView()
     {
         InitializeComponent();

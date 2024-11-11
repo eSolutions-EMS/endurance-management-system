@@ -1,61 +1,74 @@
 ﻿using Not.Notifier;
-using NTS.Domain;
 using NTS.Domain.Core.Configuration;
 using NTS.Domain.Enums;
 using NTS.Domain.Objects;
+using NTS.Judge.ACL.RFID;
 using NTS.Judge.Blazor.Ports;
-using NTS.Judge.HardwareControllers;
 
 namespace NTS.Judge.Adapters.Behinds;
 
 public class RfidReaderBehind : IRfidReaderBehind
 {
-    private readonly ISnapshotProcessor _snapshotProcessor;
-    private VupVF747pController VF747PController;
-    private Dictionary<int, Timestamp> _deduplication = [];
+    readonly ISnapshotProcessor _snapshotProcessor;
+    VupVF747pController _vF747PController;
+    Dictionary<int, Timestamp> _deduplication = [];
 
     public RfidReaderBehind(ISnapshotProcessor snapshotProcessor)
     {
-        VF747PController = new VupVF747pController("192.168.68.128", TimeSpan.FromMilliseconds(10));
+        _vF747PController = new VupVF747pController(
+            "192.168.68.128",
+            TimeSpan.FromMilliseconds(10)
+        );
         _snapshotProcessor = snapshotProcessor;
     }
 
     public void StartReading()
     {
-        if(!VF747PController.IsConnected || !VF747PController.IsReading)
+        if (!_vF747PController.IsConnected || !_vF747PController.IsReading)
         {
-            Task.Run(VF747PController.StartReading);
-            VF747PController.OnRead += OnRead;
+            Task.Run(_vF747PController.StartReading);
+            _vF747PController.OnRead += OnRead;
         }
     }
+
     public void StopReading()
     {
-        VF747PController.StopReading();
-        VF747PController.OnRead -= OnRead;
+        _vF747PController.StopReading();
+        _vF747PController.OnRead -= OnRead;
     }
 
-    public async void OnRead(object? sender, (DateTime timestamp, string data) e)
+    public void OnRead(object? sender, (DateTime timestamp, string data) e)
     {
-        var number = int.Parse(e.data.Substring(0, 3));
+        var s = e.data.Substring(0, 3);
+        var number = int.Parse(s);
         var timestamp = new Timestamp(e.timestamp);
 
-        if (_deduplication.ContainsKey(number) && _deduplication[number] + TimeSpan.FromSeconds(30) < DateTimeOffset.Now)
+        if (
+            _deduplication.ContainsKey(number)
+            && _deduplication[number] + TimeSpan.FromSeconds(30) < DateTimeOffset.Now
+        )
         {
             return;
         }
         _deduplication[number] = timestamp;
-        var snapshot = new Snapshot(number, StaticOptions.GetRfidSnapshotType(), SnapshotMethod.RFID, timestamp);
+        var snapshot = new Snapshot(
+            number,
+            StaticOptions.GetRfidSnapshotType(),
+            SnapshotMethod.RFID,
+            timestamp
+        );
         Process(snapshot);
+    }
+
+    public bool IsConnected()
+    {
+        return _vF747PController.IsReading && _vF747PController.IsConnected;
     }
 
     async void Process(Snapshot snapshot)
     {
         await _snapshotProcessor.Process(snapshot);
-        NotifyHelper.Inform("Processed: " + snapshot.ToString());
-    }
-
-    public bool IsConnected()
-    {
-        return VF747PController.IsReading && VF747PController.IsConnected;
+        var message = "Processed: " + snapshot.ToString();
+        NotifyHelper.Inform(message);
     }
 }

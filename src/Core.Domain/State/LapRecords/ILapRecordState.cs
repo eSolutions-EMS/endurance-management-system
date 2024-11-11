@@ -1,5 +1,5 @@
-﻿using Core.Models;
-using System;
+﻿using System;
+using Core.Models;
 
 namespace Core.Domain.State.LapRecords;
 

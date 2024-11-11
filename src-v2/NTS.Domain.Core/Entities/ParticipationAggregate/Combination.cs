@@ -6,10 +6,10 @@ namespace NTS.Domain.Core.Entities.ParticipationAggregate;
 // TODO: probably shoudl be a record
 public class Combination : DomainEntity
 {
-    private decimal _distance;
+    decimal _distance;
 
     [JsonConstructor]
-    private Combination(
+    Combination(
         int id,
         int number,
         Person name,
@@ -18,7 +18,9 @@ public class Combination : DomainEntity
         Country? country,
         Club? club,
         Speed? minAverageSpeed,
-        Speed? maxAverageSpeed) : base(id)
+        Speed? maxAverageSpeed
+    )
+        : base(id)
     {
         Number = number;
         Name = name;
@@ -29,6 +31,7 @@ public class Combination : DomainEntity
         MinAverageSpeed = minAverageSpeed;
         MaxAverageSpeed = maxAverageSpeed;
     }
+
     public Combination(
         int number,
         Person name,
@@ -37,7 +40,9 @@ public class Combination : DomainEntity
         Country? country,
         Club? club,
         double? minAverageSpeedlimit,
-        double? maxAverageSpeedLimit) : this(
+        double? maxAverageSpeedLimit
+    )
+        : this(
             GenerateId(),
             number,
             name,
@@ -46,7 +51,8 @@ public class Combination : DomainEntity
             country,
             club,
             Speed.Create(minAverageSpeedlimit),
-            Speed.Create(maxAverageSpeedLimit))
+            Speed.Create(maxAverageSpeedLimit)
+        )
     {
         _distance = distance;
     }

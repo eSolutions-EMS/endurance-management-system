@@ -11,8 +11,8 @@ namespace EMS.Witness.Services;
 
 public class ParticipantsService : IParticipantsService
 {
-	private readonly IPersistenceService _persistence;
-	private readonly IWitnessState state;
+    private readonly IPersistenceService _persistence;
+    private readonly IWitnessState state;
     private readonly IWitnessContext context;
     private readonly IParticipantsClient participantsClient;
     private readonly IToaster toaster;
@@ -24,10 +24,11 @@ public class ParticipantsService : IParticipantsService
         IWitnessContext context,
         IParticipantsClient arrivelistClient,
         IToaster toaster,
-        IDateService dateService)
+        IDateService dateService
+    )
     {
-		_persistence = persistence;
-		this.state = state;
+        _persistence = persistence;
+        this.state = state;
         this.context = context;
         this.participantsClient = arrivelistClient;
         this.toaster = toaster;
@@ -44,7 +45,11 @@ public class ParticipantsService : IParticipantsService
         var entry = this.Snapshots.FirstOrDefault(x => x.Number == number);
         if (entry is null)
         {
-            this.toaster.Add("Not found", $"Entry with number '{number}' not found.", UiColor.Warning);
+            this.toaster.Add(
+                "Not found",
+                $"Entry with number '{number}' not found.",
+                UiColor.Warning
+            );
             return;
         }
         entry.ArriveTime = time;
@@ -62,14 +67,14 @@ public class ParticipantsService : IParticipantsService
             {
                 return;
             }
-			this.Participants.Clear();
-			this.Participants.AddRange(participants!);
+            this.Participants.Clear();
+            this.Participants.AddRange(participants!);
             if (!state.EventId.HasValue)
             {
                 state.EventId = eventId;
                 await _persistence.RestoreIfAny(eventId);
             }
-		}
+        }
     }
 
     public void Sort(bool byNumber = false, bool byDistance = false, bool byName = false)
@@ -110,12 +115,18 @@ public class ParticipantsService : IParticipantsService
             this.Snapshots.Clear();
         }
     }
+
     public async Task Resend(ParticipantsBatch batch, WitnessEventType type)
     {
         var result = await this.participantsClient.Send(batch.Participants, type);
         if (result.IsSuccessful)
         {
-            this.toaster.Add($"{nameof(this.Resend)} Successful", $"Resent '{batch.Participants.Count}' entries", UiColor.Success, 3);
+            this.toaster.Add(
+                $"{nameof(this.Resend)} Successful",
+                $"Resent '{batch.Participants.Count}' entries",
+                UiColor.Success,
+                3
+            );
         }
     }
 

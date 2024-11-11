@@ -1,14 +1,17 @@
-﻿namespace NTS.Domain;
+﻿namespace NTS.Domain.LocalizationDemo;
 
 public class LocalizationTest : DomainEntity
 {
-    public LocalizationTest() : base(GenerateId())
-    {
-    }
+    public LocalizationTest()
+        : base(GenerateId()) { }
 
     public string Success()
-        => "My dick Yanko";
+    {
+        return "My dick Yanko";
+    }
 
     public string Invalid()
-        => throw new DomainException("Kur {0}", "debel");
+    {
+        throw new DomainException("Kur {0}", "debel");
+    }
 }

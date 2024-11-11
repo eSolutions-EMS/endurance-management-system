@@ -1,6 +1,6 @@
-﻿using Not.Blazor.Ports;
+﻿using System.Globalization;
+using Not.Blazor.Ports;
 using NTS.Domain.Core.Entities.ParticipationAggregate;
-using System.Globalization;
 
 namespace NTS.Judge.Blazor.Pages.Dashboard.Phases;
 
@@ -8,9 +8,8 @@ public class PhaseUpdateModel : IPhaseState, IFormModel<Phase>
 {
     public const string TIME_MASK = "00:00:00";
 
-    public PhaseUpdateModel()
-    {
-    }
+    public PhaseUpdateModel() { }
+
     public PhaseUpdateModel(Phase phase)
     {
         FromEntity(phase);
@@ -20,17 +19,16 @@ public class PhaseUpdateModel : IPhaseState, IFormModel<Phase>
     public string? ArriveTimeInput { get; set; }
     public string? PresentTimeInput { get; set; }
     public string? RepresentTimeInput { get; set; }
-
     public int Id { get; private set; }
-    public DateTimeOffset? StartTime 
+    public DateTimeOffset? StartTime
     {
         get => Parse(StartTimeInput);
         set => StartTimeInput = ToInputString(value);
     }
-    public DateTimeOffset? ArriveTime 
-    { 
-        get => Parse(ArriveTimeInput); 
-        set => ArriveTimeInput = ToInputString(value); 
+    public DateTimeOffset? ArriveTime
+    {
+        get => Parse(ArriveTimeInput);
+        set => ArriveTimeInput = ToInputString(value);
     }
     public DateTimeOffset? PresentTime
     {

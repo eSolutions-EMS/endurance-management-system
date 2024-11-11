@@ -1,17 +1,19 @@
-﻿using EMS.Judge.Services;
-using EMS.Judge.Views.Content.Configuration.Core;
-using EMS.Judge.Application.Common;
-using Core.Models;
-using Core.Domain.AggregateRoots.Configuration;
+﻿using Core.Domain.AggregateRoots.Configuration;
 using Core.Domain.Common.Models;
 using Core.Domain.State.Horses;
+using Core.Models;
+using EMS.Judge.Application.Common;
+using EMS.Judge.Services;
+using EMS.Judge.Views.Content.Configuration.Core;
 
 namespace EMS.Judge.Views.Content.Configuration.Roots.Horses;
 
 public class HorseViewModel : ConfigurationBase<HorseView, Horse>, IHorseState, IListable
 {
     private readonly IExecutor<ConfigurationRoot> executor;
-    private HorseViewModel(IExecutor<ConfigurationRoot> executor, IQueries<Horse> horses) : base(horses)
+
+    private HorseViewModel(IExecutor<ConfigurationRoot> executor, IQueries<Horse> horses)
+        : base(horses)
     {
         this.executor = executor;
     }
@@ -27,9 +29,7 @@ public class HorseViewModel : ConfigurationBase<HorseView, Horse>, IHorseState, 
 
     protected override IDomain Persist()
     {
-        var result = this.executor.Execute(
-            config => config.Horses.Save(this),
-            true);
+        var result = this.executor.Execute(config => config.Horses.Save(this), true);
         return result;
     }
 

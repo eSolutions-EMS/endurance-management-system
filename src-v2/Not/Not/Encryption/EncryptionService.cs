@@ -1,15 +1,14 @@
 ﻿using Not.Injection;
-using System;
 
 namespace Not.Encryption;
 
 public class EncryptionService : IEncryptionService
 {
-    private readonly IEncryptionSettings settings;
+    readonly IEncryptionSettings _settings;
 
     public EncryptionService(IEncryptionSettings settings)
     {
-        this.settings = settings;
+        _settings = settings;
     }
 
     public string Encrypt(string content)

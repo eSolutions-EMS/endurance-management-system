@@ -1,5 +1,5 @@
-using Core.ConventionalServices;
 using System;
+using Core.ConventionalServices;
 
 namespace Core.Services;
 
@@ -7,9 +7,7 @@ public class EncryptionService : IEncryptionService
 {
     private const string KEY = "E546C8DF278CD5931069B522E695D4F2";
 
-    public EncryptionService()
-    {
-    }
+    public EncryptionService() { }
 
     public string Encrypt(string content)
     {

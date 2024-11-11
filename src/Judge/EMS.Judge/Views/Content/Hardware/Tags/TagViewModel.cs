@@ -1,10 +1,10 @@
-﻿using Prism.Mvvm;
-using System;
+﻿using System;
 using System.Media;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Windows.Threading;
+using Prism.Mvvm;
 
 namespace EMS.Judge.Views.Content.Hardware.Tags;
 
@@ -44,16 +44,24 @@ public class TagViewModel : BindableBase
         Task.Run(async () =>
         {
             await Task.Delay(TimeSpan.FromSeconds(5));
-            ThreadPool.QueueUserWorkItem(delegate
-            {
-                SynchronizationContext.SetSynchronizationContext(new
-                    DispatcherSynchronizationContext(System.Windows.Application.Current.Dispatcher));
-
-                SynchronizationContext.Current!.Post(_ =>
+            ThreadPool.QueueUserWorkItem(
+                delegate
                 {
-                    this.Color = new SolidColorBrush(Colors.White);
-                }, null);
-            });
+                    SynchronizationContext.SetSynchronizationContext(
+                        new DispatcherSynchronizationContext(
+                            System.Windows.Application.Current.Dispatcher
+                        )
+                    );
+
+                    SynchronizationContext.Current!.Post(
+                        _ =>
+                        {
+                            this.Color = new SolidColorBrush(Colors.White);
+                        },
+                        null
+                    );
+                }
+            );
         });
     }
 }

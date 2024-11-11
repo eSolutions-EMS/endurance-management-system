@@ -1,11 +1,12 @@
-﻿using Not.Localization;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
+using Not.Localization;
 
 namespace NTS.Domain.Core.Entities.ParticipationAggregate;
 
 public class PhaseCollection : ReadOnlyCollection<Phase>
 {
-    public PhaseCollection(IEnumerable<Phase> phases) : base(phases.ToList())
+    public PhaseCollection(IEnumerable<Phase> phases)
+        : base(phases.ToList())
     {
         var distanceSoFar = 0d;
         foreach (var phase in phases)
@@ -20,18 +21,15 @@ public class PhaseCollection : ReadOnlyCollection<Phase>
     public Phase Current { get; private set; }
     public double Distance => this.Sum(x => x.Length);
 
-    public override string ToString()
-    {
-        var completed = this.Count(x => x.IsComplete());
-        return $"{Distance}{"km".Localize()}: {completed}/{Count}";
-    }
-
     internal SnapshotResult Process(Snapshot snapshot)
     {
         var isComplete = Current.IsComplete();
         if (isComplete && Current.IsFinal)
         {
-            return SnapshotResult.NotApplied(snapshot, SnapshotResultType.NotAppliedDueToParticipationComplete);
+            return SnapshotResult.NotApplied(
+                snapshot,
+                SnapshotResultType.NotAppliedDueToParticipationComplete
+            );
         }
         var notProcessingWindow = TimeSpan.FromMinutes(30); // TODO settings: use settings?
         if (isComplete && snapshot.Timestamp > Current.GetOutTime() + notProcessingWindow)
@@ -65,7 +63,13 @@ public class PhaseCollection : ReadOnlyCollection<Phase>
         return true;
     }
 
-    private Phase GetNext()
+    public override string ToString()
+    {
+        var completed = this.Count(x => x.IsComplete());
+        return $"{Distance}{"km".Localize()}: {completed}/{Count}";
+    }
+
+    Phase GetNext()
     {
         var currentIndex = IndexOf(Current);
         return this[++currentIndex];

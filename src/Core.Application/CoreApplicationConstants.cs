@@ -1,5 +1,5 @@
-using Core.Utilities;
 using System.Reflection;
+using Core.Utilities;
 
 namespace Core.Application;
 
@@ -23,6 +23,5 @@ public static class CoreApplicationConstants
         public const string STARTLIST_ENTRY = "ReceiveStartlistEntry";
     }
 
-    public static Assembly[] Assemblies
-        => ReflectionUtilities.GetAssemblies("Core.Application");
+    public static Assembly[] Assemblies => ReflectionUtilities.GetAssemblies("Core.Application");
 }

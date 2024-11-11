@@ -1,12 +1,12 @@
-﻿using EMS.Judge.Views.Dialogs.Confirmation;
+﻿using System;
+using Core.Application.Services;
+using Core.ConventionalServices;
+using EMS.Judge.Common.Extensions;
+using EMS.Judge.Common.Objects;
+using EMS.Judge.Views.Dialogs.Confirmation;
 using EMS.Judge.Views.Dialogs.Message;
 using EMS.Judge.Views.Dialogs.Startlists;
-using Core.ConventionalServices;
-using EMS.Judge.Common.Objects;
-using EMS.Judge.Common.Extensions;
 using Prism.Services.Dialogs;
-using System;
-using Core.Application.Services;
 
 namespace EMS.Judge.Common.Services;
 
@@ -37,8 +37,7 @@ public class PopupService : IPopupService, INotificationService
 
     public void RenderConfirmation(string message, Action action)
     {
-        var parameters = new DialogParameters()
-            .SetMessage(message);
+        var parameters = new DialogParameters().SetMessage(message);
         Action<IDialogResult> dialogAction = dialog =>
         {
             if (dialog.Result == ButtonResult.Yes)
@@ -48,6 +47,7 @@ public class PopupService : IPopupService, INotificationService
         };
         this.RenderDialog(nameof(ConfirmationDialog), parameters, dialogAction);
     }
+
     public void RenderStartList()
     {
         this.RenderDialog(nameof(StartlistDialog), new DialogParameters());
@@ -59,7 +59,11 @@ public class PopupService : IPopupService, INotificationService
         this.RenderDialog(nameof(MessageDialog), parameters);
     }
 
-    private void RenderDialog(string name, IDialogParameters parameters, Action<IDialogResult> action = null)
+    private void RenderDialog(
+        string name,
+        IDialogParameters parameters,
+        Action<IDialogResult> action = null
+    )
     {
         action ??= _ => { };
         this.dialogService.ShowDialog(name, parameters, action);

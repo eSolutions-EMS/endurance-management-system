@@ -1,39 +1,44 @@
-﻿using EMS.Judge.Common.Components.Templates.SimpleListItem;
-using EMS.Judge.Services;
-using EMS.Judge.Views.Content.Configuration.Core;
-using EMS.Judge.Application.Common;
-using Core.Mappings;
+﻿using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows;
 using Core.Domain.AggregateRoots.Configuration;
 using Core.Domain.Common.Models;
 using Core.Domain.State.Athletes;
 using Core.Domain.State.Horses;
 using Core.Domain.State.Participants;
+using Core.Mappings;
+using EMS.Judge.Application.Common;
+using EMS.Judge.Application.Common.Exceptions;
+using EMS.Judge.Application.Services;
+using EMS.Judge.Common.Components.Templates.SimpleListItem;
+using EMS.Judge.Services;
+using EMS.Judge.Views.Content.Configuration.Core;
 using Prism.Commands;
 using Prism.Regions;
-using System.Collections.ObjectModel;
-using System.Windows;
-using EMS.Judge.Application.Services;
-using System.Linq;
-using EMS.Judge.Application.Common.Exceptions;
 
 namespace EMS.Judge.Views.Content.Configuration.Roots.Participants;
 
-public class ParticipantViewModel : ConfigurationBase<ParticipantView, Participant>,
-    IParticipantState,
-    IMapFrom<Participant>
+public class ParticipantViewModel
+    : ConfigurationBase<ParticipantView, Participant>,
+        IParticipantState,
+        IMapFrom<Participant>
 {
     private readonly IExecutor<IRfidService> rfidServiceExecutor;
     private readonly IExecutor<ConfigurationRoot> executor;
     private readonly IQueries<Athlete> athletes;
     private readonly IQueries<Horse> horses;
 
-    private ParticipantViewModel() : base(null) {}
+    private ParticipantViewModel()
+        : base(null) { }
+
     public ParticipantViewModel(
         IExecutor<IRfidService> rfidServiceExecutor,
         IExecutor<ConfigurationRoot> executor,
         IQueries<Athlete> athletes,
         IQueries<Horse> horses,
-        IQueries<Participant> participants) : base(participants)
+        IQueries<Participant> participants
+    )
+        : base(participants)
     {
         this.rfidServiceExecutor = rfidServiceExecutor;
         this.executor = executor;
@@ -41,7 +46,8 @@ public class ParticipantViewModel : ConfigurationBase<ParticipantView, Participa
         this.horses = horses;
         this.WriteTag = new DelegateCommand(this.WriteTagAction);
         this.ToggleIsAverageSpeedInKmPhVisibility = new DelegateCommand(
-            this.ToggleIsAverageSpeedInKmPhVisibilityAction);
+            this.ToggleIsAverageSpeedInKmPhVisibilityAction
+        );
         this.RemoveTags = new DelegateCommand(this.RemoveTagsAction);
     }
 
@@ -71,14 +77,11 @@ public class ParticipantViewModel : ConfigurationBase<ParticipantView, Participa
         set => this.SetProperty(ref this.isWriteTagEnabled, value);
     }
 
-    public ObservableCollection<SimpleListItemViewModel> PositionItems { get; } = new() 
-    { 
-       new(0, "left"),
-       new(1, "right")
-    };
+    public ObservableCollection<SimpleListItemViewModel> PositionItems { get; } =
+        new() { new(0, "left"), new(1, "right") };
 
     public int PositionId
-    { 
+    {
         get => this.positionid;
         set => this.SetProperty(ref this.positionid, value);
     }
@@ -102,49 +105,56 @@ public class ParticipantViewModel : ConfigurationBase<ParticipantView, Participa
         }
         var result = this.executor.Execute(
             config => config.Participants.Save(this, this.AthleteId, this.HorseId),
-            true);
+            true
+        );
         return result;
     }
 
     private void RemoveTagsAction()
     {
-        this.rfidServiceExecutor.Execute(x =>
-        {
-            var participant = this.Queries.GetOne(y => y.Number == this.Number);
-            participant.RfidTags.Clear();
-            this.RfidTags.Clear();
-        },
-        true);
+        this.rfidServiceExecutor.Execute(
+            x =>
+            {
+                var participant = this.Queries.GetOne(y => y.Number == this.Number);
+                participant.RfidTags.Clear();
+                this.RfidTags.Clear();
+            },
+            true
+        );
     }
 
     private void WriteTagAction()
     {
         this.IsWriteTagEnababled = false;
-        this.rfidServiceExecutor.Execute(x =>
-        {
-            var position = this.PositionItems.First(x => x.Id == this.PositionId).Name;
-            var tag = x.Write(position, this.Number);
-            var existingParticipant = this.Queries.GetOne(x => x.RfidTags.Contains(tag));
-            if (existingParticipant != null)
+        this.rfidServiceExecutor.Execute(
+            x =>
             {
-                throw new AppException($"Tag '{tag.Id}' is assigned to participant '{existingParticipant.Number}'");
-            }
-            var participant = this.Queries.GetOne(y => y.Number == this.Number);
-            var existing = participant.RfidTags.FirstOrDefault(x => x.Id == tag.Id);
-            if (existing != null)
-            {
-                participant.RfidTags.Remove(existing);
-                this.RfidTags.Remove(existing);
-            }
-            if (participant.RfidTags.Count == 2)
-            {
-                participant.RfidTags.RemoveAt(0);
-                this.RfidTags.RemoveAt(0);
-            }
-            participant.RfidTags.Add(tag);
-            this.RfidTags.Add(tag);
-        },
-        true);
+                var position = this.PositionItems.First(x => x.Id == this.PositionId).Name;
+                var tag = x.Write(position, this.Number);
+                var existingParticipant = this.Queries.GetOne(x => x.RfidTags.Contains(tag));
+                if (existingParticipant != null)
+                {
+                    throw new AppException(
+                        $"Tag '{tag.Id}' is assigned to participant '{existingParticipant.Number}'"
+                    );
+                }
+                var participant = this.Queries.GetOne(y => y.Number == this.Number);
+                var existing = participant.RfidTags.FirstOrDefault(x => x.Id == tag.Id);
+                if (existing != null)
+                {
+                    participant.RfidTags.Remove(existing);
+                    this.RfidTags.Remove(existing);
+                }
+                if (participant.RfidTags.Count == 2)
+                {
+                    participant.RfidTags.RemoveAt(0);
+                    this.RfidTags.RemoveAt(0);
+                }
+                participant.RfidTags.Add(tag);
+                this.RfidTags.Add(tag);
+            },
+            true
+        );
         this.IsWriteTagEnababled = true;
     }
 
@@ -155,6 +165,7 @@ public class ParticipantViewModel : ConfigurationBase<ParticipantView, Participa
         this.AthleteItems.Clear();
         this.AthleteItems.AddRange(viewModels);
     }
+
     private void LoadHorses()
     {
         var horses = this.horses.GetAll();
@@ -174,15 +185,18 @@ public class ParticipantViewModel : ConfigurationBase<ParticipantView, Participa
             this.RemoveMaxAverageSpeedInKmPh();
         }
     }
+
     private void ShowMaxAverageSpeedInKmPh()
     {
         this.MaxAverageSpeedInKmPhVisibility = Visibility.Visible;
     }
+
     private void RemoveMaxAverageSpeedInKmPh()
     {
         this.MaxAverageSpeedInKmPhVisibility = Visibility.Hidden;
         this.MaxAverageSpeedInKmPh = null;
     }
+
     public Visibility MaxAverageSpeedInKmPhVisibility
     {
         get => this.maxAverageSpeedInKmPhVisibility;

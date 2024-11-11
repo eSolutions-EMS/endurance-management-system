@@ -1,9 +1,9 @@
-﻿using EMS.Judge.Common.ViewModels;
+﻿using System;
 using EMS.Judge.Common.Extensions;
-using static Core.Localization.Strings;
+using EMS.Judge.Common.ViewModels;
 using Prism.Commands;
 using Prism.Services.Dialogs;
-using System;
+using static Core.Localization.Strings;
 
 namespace EMS.Judge.Views.Dialogs.Confirmation;
 

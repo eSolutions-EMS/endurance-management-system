@@ -1,15 +1,18 @@
-﻿using AngleSharp.Dom;
-using Not.Application.Ports.CRUD;
+﻿using Not.Application.Ports.CRUD;
 using Not.Domain;
 using Not.Exceptions;
 
 namespace Not.Application.Contexts;
 
-public abstract class BehindContext<T>(IRepository<T> entities)
+public abstract class BehindContext<T>
     where T : DomainEntity
 {
-    protected IRepository<T> Repository { get; } = entities;
+    protected BehindContext(IRepository<T> repository)
+    {
+        Repository = repository;
+    }
 
+    protected IRepository<T> Repository { get; }
     public T? Entity { get; set; }
 
     public bool HasLoaded()

@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_config", "_config", "{F272
 		..\.gitignore = ..\.gitignore
 		Directory.Build.props = Directory.Build.props
 		..\global.json = ..\global.json
+		NuGet.config = NuGet.config
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
@@ -50,7 +51,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NTS.Persistence", "NTS.Pers
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_EMS", "_EMS", "{60852EE2-A5B6-47A7-BE86-89CAA47DD8AC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NTS.Compabitility.EMS", "Compatibility.EMS\NTS.Compabitility.EMS.csproj", "{AEEE20E5-A226-40CE-B4B2-804FF44CE8F7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NTS.Compatibility.EMS", "Compatibility.EMS\NTS.Compatibility.EMS.csproj", "{AEEE20E5-A226-40CE-B4B2-804FF44CE8F7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

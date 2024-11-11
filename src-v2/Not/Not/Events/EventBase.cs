@@ -1,4 +1,5 @@
 ﻿namespace Not.Events;
+
 public abstract class EventBase<T>
 {
     readonly Dictionary<Guid, T> _handlersByGuid = [];
@@ -33,5 +34,13 @@ public abstract class EventBase<T>
             return;
         }
         RemoveHandler(handler);
+    }
+
+    public void UnsubscribeAll()
+    {
+        foreach (var handler in _handlersByGuid.Values)
+        {
+            RemoveHandler(handler);
+        }
     }
 }

@@ -7,9 +7,8 @@ namespace NTS.Judge.Events;
 
 public class HorseBehind : CrudBehind<Horse, HorseFormModel>
 {
-    public HorseBehind(IRepository<Horse> repository) : base(repository)
-    {
-    }
+    public HorseBehind(IRepository<Horse> repository)
+        : base(repository) { }
 
     protected override Horse CreateEntity(HorseFormModel model)
     {

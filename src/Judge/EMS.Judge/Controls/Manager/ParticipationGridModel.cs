@@ -1,18 +1,18 @@
-﻿using Accessibility;
-using EMS.Judge.Print.Performances;
-using EMS.Judge.Services;
-using Core.Utilities;
-using Core.Domain.AggregateRoots.Common.Performances;
-using Core.Domain.AggregateRoots.Manager.Aggregates;
-using Core.Domain.State.Participants;
-using Core.Domain.State.Participations;
-using Prism.Commands;
-using Prism.Mvvm;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Windows.Media;
+using Accessibility;
+using Core.Domain.AggregateRoots.Common.Performances;
+using Core.Domain.AggregateRoots.Manager.Aggregates;
+using Core.Domain.State.Participants;
+using Core.Domain.State.Participations;
+using Core.Utilities;
+using EMS.Judge.Print.Performances;
+using EMS.Judge.Services;
+using Prism.Commands;
+using Prism.Mvvm;
 
 namespace EMS.Judge.Controls.Manager;
 
@@ -20,6 +20,7 @@ public class ParticipationGridModel : BindableBase
 {
     private bool isReadonly;
     private readonly IExecutor executor;
+
     public ParticipationGridModel(Participation participation, bool isReadonly)
     {
         this.IsReadonly = isReadonly;
@@ -28,11 +29,12 @@ public class ParticipationGridModel : BindableBase
         this.Number = this.Participant.Number;
         this.Distance = $"({participation.CompetitionConstraint.Laps.Sum(x => x.LengthInKm)})";
         var completedLaps = participation.Participant.LapRecords.Count(x => x.Result != null);
-        this.IsComplete = completedLaps == participation.CompetitionConstraint.Laps.Count
+        this.IsComplete =
+            completedLaps == participation.CompetitionConstraint.Laps.Count
             || participation.Participant.LapRecords.Any(x => x.Result?.IsNotQualified ?? false);
 
         this.CreatePerformanceColumns(participation);
-        var notifyCollectionChanged = (INotifyCollectionChanged) this.Participant.LapRecords;
+        var notifyCollectionChanged = (INotifyCollectionChanged)this.Participant.LapRecords;
         notifyCollectionChanged.CollectionChanged += (sender, args) =>
         {
             this.CreatePerformanceColumns(participation);
@@ -40,13 +42,15 @@ public class ParticipationGridModel : BindableBase
 
         Participation.UpdateEvent += (_, x) =>
         {
-            App.Current.Dispatcher.Invoke(delegate
-            {
-                if (x.Id == participation.Id)
+            App.Current.Dispatcher.Invoke(
+                delegate
                 {
-                    this.CheckColor(x);
+                    if (x.Id == participation.Id)
+                    {
+                        this.CheckColor(x);
+                    }
                 }
-            });
+            );
         };
         CheckColor(participation);
         this.Print = new DelegateCommand(this.PrintAction);
@@ -88,11 +92,13 @@ public class ParticipationGridModel : BindableBase
             var model = new PerformanceColumnModel(performances[i], i + 1, this.IsReadonly);
             columnModels.Add(model);
         }
-        App.Current.Dispatcher.Invoke(delegate
-        {
-            this.Performances.Clear();
-            this.Performances.AddRange(columnModels);
-        });
+        App.Current.Dispatcher.Invoke(
+            delegate
+            {
+                this.Performances.Clear();
+                this.Performances.AddRange(columnModels);
+            }
+        );
         this.RaisePropertyChanged(nameof(Performances));
     }
 
@@ -113,10 +119,15 @@ public class ParticipationGridModel : BindableBase
         private set => this.SetProperty(ref this.color, value);
     }
     public ObservableCollection<PerformanceColumnModel> Performances { get; private set; } = new();
+
     public void PrintAction()
     {
         this.executor.Execute(
-            () => { new ParticipationPrinter(this).PrintDocument(); },
-            false);
+            () =>
+            {
+                new ParticipationPrinter(this).PrintDocument();
+            },
+            false
+        );
     }
 }

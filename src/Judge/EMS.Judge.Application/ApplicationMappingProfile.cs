@@ -1,7 +1,7 @@
-﻿using Core.Mappings;
+﻿using System.Reflection;
 using Core.Domain.State;
+using Core.Mappings;
 using EMS.Judge.Application.State;
-using System.Reflection;
 
 namespace EMS.Judge.Application;
 
@@ -11,6 +11,6 @@ public class ApplicationMappingProfile : MappingProfile
     {
         this.CreateMap<IState, StateModel>();
     }
-    
+
     protected override Assembly[] Assemblies => ApplicationConstants.Assemblies;
 }

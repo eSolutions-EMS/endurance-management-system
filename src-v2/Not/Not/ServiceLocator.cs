@@ -7,20 +7,20 @@ namespace Not;
 
 public class ServiceLocator : IStartupInitializer, ITransientService
 {
-	private static IServiceProvider? _provider;
+    public static T Get<T>()
+        where T : class
+    {
+        GuardHelper.ThrowIfDefault(_provider);
 
-	public ServiceLocator(IServiceProvider provider)
-	{
-        _provider ??= provider;
+        return _provider.GetRequiredService<T>();
     }
 
-	public static T Get<T>()
-		where T : class
-	{
-		GuardHelper.ThrowIfDefault(_provider);
+    static IServiceProvider? _provider;
 
-		return _provider.GetRequiredService<T>();
-	}
+    public ServiceLocator(IServiceProvider provider)
+    {
+        _provider ??= provider;
+    }
 
     public void RunAtStartup()
     {

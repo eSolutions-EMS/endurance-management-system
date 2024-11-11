@@ -7,9 +7,8 @@ namespace NTS.Judge.Events;
 
 public class AthleteBehind : CrudBehind<Athlete, AthleteFormModel>
 {
-    public AthleteBehind(IRepository<Athlete> repository) : base(repository)
-    {
-    }
+    public AthleteBehind(IRepository<Athlete> repository)
+        : base(repository) { }
 
     protected override Athlete CreateEntity(AthleteFormModel model)
     {
@@ -18,6 +17,13 @@ public class AthleteBehind : CrudBehind<Athlete, AthleteFormModel>
 
     protected override Athlete UpdateEntity(AthleteFormModel model)
     {
-        return Athlete.Update(model.Id, model.Name, model.FeiId, model.Country, model.Club, model.Category);
+        return Athlete.Update(
+            model.Id,
+            model.Name,
+            model.FeiId,
+            model.Country,
+            model.Club,
+            model.Category
+        );
     }
 }

@@ -8,7 +8,10 @@ namespace Not.Blazor.Injection;
 
 public static class BlazorServiceCollectionExtensions
 {
-    public static IServiceCollection AddNotBlazor(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddNotBlazor(
+        this IServiceCollection services,
+        IConfiguration configuration
+    )
     {
         return services
             .AddNotMudBlazor()

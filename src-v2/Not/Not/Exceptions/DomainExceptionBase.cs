@@ -6,11 +6,11 @@
 /// </summary>
 public abstract class DomainExceptionBase : ApplicationException
 {
-    protected DomainExceptionBase(string message) : base(message)
-    {
-    }
+    protected DomainExceptionBase(string message)
+        : base(message) { }
 
-    protected DomainExceptionBase(string property, string message) : this(message)
+    protected DomainExceptionBase(string property, string message)
+        : this(message)
     {
         Property = property;
     }

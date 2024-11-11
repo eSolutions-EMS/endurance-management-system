@@ -5,9 +5,10 @@ namespace Not.Storage.Concurrency;
 
 internal class ConcurrencySynchronizer
 {
-    private readonly static SemaphoreSlim _semaphore = new(1);
-    private readonly TimeSpan _timout;
-    private Guid? _lockId;
+    static readonly SemaphoreSlim _semaphore = new(1);
+
+    readonly TimeSpan _timout;
+    Guid? _lockId;
 
     public ConcurrencySynchronizer(TimeSpan? timout = null)
     {
@@ -34,7 +35,7 @@ internal class ConcurrencySynchronizer
         Release();
     }
 
-    private async Task Timeout(Guid id, string callerFile, string callerMember)
+    async Task Timeout(Guid id, string callerFile, string callerMember)
     {
         await Task.Delay(_timout);
         if (_lockId != id || _semaphore.IsOpen())
@@ -45,14 +46,14 @@ internal class ConcurrencySynchronizer
         Release();
     }
 
-    private async Task<Guid> Lock()
+    async Task<Guid> Lock()
     {
         await _semaphore.WaitAsync();
         _lockId = Guid.NewGuid();
         return _lockId.Value;
     }
 
-    private void Release()
+    void Release()
     {
         _lockId = null;
         _semaphore.Release();

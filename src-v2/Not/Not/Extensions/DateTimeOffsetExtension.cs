@@ -8,6 +8,7 @@ public static class DateTimeOffsetExtension
         DateTimeOffset offsetTime = timeWithSpecifiedKind;
         return offsetTime;
     }
+
     public static DateTimeOffset ToDateTimeOffset(this TimeSpan timeToBeAdded)
     {
         var today = DateTime.Today;

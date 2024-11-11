@@ -1,9 +1,9 @@
-﻿using Core.ConventionalServices;
-using Microsoft.AspNetCore.SignalR.Client;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Core.ConventionalServices;
+using Microsoft.AspNetCore.SignalR.Client;
 using static Core.Application.CoreApplicationConstants;
 
 namespace Core.Application.Rpc;
@@ -16,7 +16,6 @@ public class SignalRSocket : IRpcSocket, IAsyncDisposable, ISingletonService
     public event EventHandler<RpcError>? Error;
     private System.Timers.Timer? _reconnectionTimer;
     private int _connectionClosedReconnectAttempts;
-
 
     public bool IsConnected => this.Connection?.State == HubConnectionState.Connected;
 
@@ -31,7 +30,7 @@ public class SignalRSocket : IRpcSocket, IAsyncDisposable, ISingletonService
         _name = GetType().Name;
     }
 
-    // Necessary because this.Connection instance is not intialized 
+    // Necessary because this.Connection instance is not intialized
     // when procedures are reigstered in the child constructor
     internal List<Action<HubConnection>> Procedures { get; } = new();
     internal HubConnection? Connection { get; private set; }
@@ -102,9 +101,7 @@ public class SignalRSocket : IRpcSocket, IAsyncDisposable, ISingletonService
     private void ConfigureConnection(string host)
     {
         _context.Host = host;
-        this.Connection = new HubConnectionBuilder()
-            .WithUrl(this._context.Url)
-            .Build();
+        this.Connection = new HubConnectionBuilder().WithUrl(this._context.Url).Build();
         this.Connection.Reconnected += HandleReconnected;
         this.Connection.Reconnecting += HandleReconnecting;
         this.Connection.Closed += HandleClosed;
@@ -141,13 +138,23 @@ public class SignalRSocket : IRpcSocket, IAsyncDisposable, ISingletonService
         }
         else
         {
-            BeginReconnecting(this.reconnectTokenSource!.Token, exception, () => { _connectionClosedReconnectAttempts = 0; });
-
+            BeginReconnecting(
+                this.reconnectTokenSource!.Token,
+                exception,
+                () =>
+                {
+                    _connectionClosedReconnectAttempts = 0;
+                }
+            );
         }
         return Task.CompletedTask;
     }
 
-    private void BeginReconnecting(CancellationToken cancellationToken, Exception? error, Action onSuccess)
+    private void BeginReconnecting(
+        CancellationToken cancellationToken,
+        Exception? error,
+        Action onSuccess
+    )
     {
         this.RaiseDisconnected(error);
         RaiseConnecting();
@@ -157,7 +164,10 @@ public class SignalRSocket : IRpcSocket, IAsyncDisposable, ISingletonService
         {
             if (cancellationToken.IsCancellationRequested)
             {
-                ServerConnectionInfo?.Invoke(this, "Reconecting stopped due to cancelation request");
+                ServerConnectionInfo?.Invoke(
+                    this,
+                    "Reconecting stopped due to cancelation request"
+                );
                 _reconnectionTimer.Stop();
                 _reconnectionTimer.Dispose();
             }
@@ -180,7 +190,11 @@ public class SignalRSocket : IRpcSocket, IAsyncDisposable, ISingletonService
             {
                 if (HasReachedReconnectionAttemptLimit(++reconnectAttempts))
                 {
-                    RaiseDisconnected(new Exception("Automatic reconnection reached attempt limits. Try to reconnect manually"));
+                    RaiseDisconnected(
+                        new Exception(
+                            "Automatic reconnection reached attempt limits. Try to reconnect manually"
+                        )
+                    );
                     _reconnectionTimer.Stop();
                     _reconnectionTimer.Dispose();
                 }
@@ -193,11 +207,13 @@ public class SignalRSocket : IRpcSocket, IAsyncDisposable, ISingletonService
     {
         return attempts >= AUTOMATIC_RECONNECT_ATTEMPTS;
     }
+
     internal void RaiseError(Exception exception, string? procedure, params object?[] arguments)
     {
-        var message = procedure == null
-            ? $"RpcClient error : {exception.Message}"
-            : $"RpcClient error in '{procedure}': {exception.Message}";
+        var message =
+            procedure == null
+                ? $"RpcClient error : {exception.Message}"
+                : $"RpcClient error in '{procedure}': {exception.Message}";
         Console.WriteLine(message);
         var error = new RpcError(exception, procedure, arguments);
         this.Error?.Invoke(this, error);
@@ -214,15 +230,18 @@ public class SignalRSocket : IRpcSocket, IAsyncDisposable, ISingletonService
         ServerConnectionChanged?.Invoke(_name, RpcConnectionStatus.Connecting);
         ServerConnectionInfo?.Invoke(_name, $"{ex.Message}. Attempting to reconnect");
     }
+
     private void RaiseReconnecting(string message)
     {
         ServerConnectionChanged?.Invoke(_name, RpcConnectionStatus.Connecting);
         ServerConnectionInfo?.Invoke(_name, $"{message}. Attempting to reconnect");
     }
+
     private void RaiseConnecting()
     {
         ServerConnectionChanged?.Invoke(_name, RpcConnectionStatus.Connecting);
     }
+
     private void RaiseConnected(string? message = null)
     {
         ServerConnectionChanged?.Invoke(_name, RpcConnectionStatus.Connected);

@@ -8,7 +8,12 @@
 @* //TODO: probably extract this chipset into NotChipGroup component or something similar. Also used in DashboardComponent *@
 @if (_behind.Ranklist != null)
 {
-    <MudChipSet T="int" SelectedValue="_behind.Ranklist.RankingId" SelectedValueChanged="_behind.SelectRanking">
+    <MudChipSet T="int" 
+        SelectedValue="_behind.Ranklist.RankingId" 
+        SelectedValueChanged="_behind.SelectRanking" 
+        Class="@Class" 
+        Style="@Style">
+
         @foreach (var tuple in _rankingsByDistance)
         {
             <TextDividerTM Text="@tuple.Name" />
@@ -22,7 +27,6 @@
 
 
 @code {
-    private MudChip<int>? _selectedChip;
     private List<(string Name, IOrderedEnumerable<Ranking> ranking)> _rankingsByDistance = [];
 
     [Inject]
