@@ -1,4 +1,4 @@
-﻿using Not;
+﻿using Not.Structures;
 using NTS.Domain.Core.Entities;
 using NTS.Domain.Core.Entities.ParticipationAggregate;
 

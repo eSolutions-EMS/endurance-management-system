@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Not.Random;
+using Not.Structures;
 
 namespace Not.Domain;
 

@@ -1,4 +1,4 @@
-﻿namespace Core.Models;
+﻿namespace Not.Structures;
 
 public class Result : ResultBase
 {

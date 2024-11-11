@@ -1,4 +1,4 @@
-﻿namespace Not;
+﻿namespace Not.Structures;
 
 public interface IIdentifiable
 {

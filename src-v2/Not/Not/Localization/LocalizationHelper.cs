@@ -1,4 +1,6 @@
-﻿namespace Not.Localization;
+﻿using Not.Injection;
+
+namespace Not.Localization;
 
 public static class LocalizationHelper
 {
