@@ -226,7 +226,7 @@ public class EmsToCoreImporter : IEmsToCoreImporter
     }
 }
 
-public interface IEmsToCoreImporter : ITransientService
+public interface IEmsToCoreImporter : ITransient
 {
     Task Import(string filePath, bool adjustTime = true);
 }

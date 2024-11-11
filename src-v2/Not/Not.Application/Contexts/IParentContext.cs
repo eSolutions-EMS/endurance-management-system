@@ -4,7 +4,7 @@ using Not.Structures;
 
 namespace Not.Application.Contexts;
 
-public interface IParentContext<T> : ISingletonService
+public interface IParentContext<T> : ISingleton
     where T : IIdentifiable
 {
     bool HasLoaded();

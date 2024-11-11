@@ -103,12 +103,12 @@ public class JudgeHandshakeService : INetworkBroadcastService, IHandshakeService
     }
 }
 
-public interface INetworkBroadcastService : ITransientService
+public interface INetworkBroadcastService : ITransient
 {
     Task StartBroadcasting(CancellationToken token);
 }
 
-public interface IHandshakeService : ITransientService
+public interface IHandshakeService : ITransient
 {
     Task<IPAddress> Handshake(string app, CancellationToken token);
 }

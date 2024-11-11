@@ -4,7 +4,7 @@ using Not.Startup;
 
 namespace NTS.Domain.Core.Configuration;
 
-public class StaticOptions : IStartupInitializer, ISingletonService
+public class StaticOptions : IStartupInitializer, ISingleton
 {
     public static bool IsRfidDetectionEnabled()
     {

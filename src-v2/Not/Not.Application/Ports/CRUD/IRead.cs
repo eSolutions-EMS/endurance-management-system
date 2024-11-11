@@ -3,7 +3,7 @@ using Not.Injection;
 
 namespace Not.Application.Ports.CRUD;
 
-public interface IRead<T> : ITransientService
+public interface IRead<T> : ITransient
     where T : DomainEntity
 {
     Task<T?> Read(int id);

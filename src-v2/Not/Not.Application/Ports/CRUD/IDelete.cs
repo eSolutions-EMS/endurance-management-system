@@ -3,7 +3,7 @@ using Not.Injection;
 
 namespace Not.Application.Ports.CRUD;
 
-public interface IDelete<T> : ITransientService
+public interface IDelete<T> : ITransient
     where T : DomainEntity
 {
     Task Delete(T entity);

@@ -5,7 +5,7 @@ using NTS.Persistence.Converters;
 
 namespace NTS.Persistence.Startup;
 
-public class EntitySerializationInitializer : IStartupInitializer, ITransientService
+public class EntitySerializationInitializer : IStartupInitializer, ITransient
 {
     public void RunAtStartup()
     {

@@ -4,12 +4,12 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Not.Injection;
 
-public static class ConventionExtensions
+public static class InectionExtensions
 {
     const string NOT_PREFIX = "Not.";
-    static readonly Type _transientType = typeof(ITransientService);
-    static readonly Type _scopedType = typeof(IScopedService);
-    static readonly Type _singletonType = typeof(ISingletonService);
+    static readonly Type _transientType = typeof(ITransient);
+    static readonly Type _scopedType = typeof(IScoped);
+    static readonly Type _singletonType = typeof(ISingleton);
 
     public static (
         IServiceCollection services,
@@ -35,91 +35,78 @@ public static class ConventionExtensions
             .ToList();
         foreach (var implementation in classes)
         {
-            var interfaces = implementation
-                .GetInterfaces()
-                .Where(x =>
-                    x.IsAssignableFrom(implementation)
-                    && x != _transientType
-                    && x != _scopedType
-                    && x != _singletonType
-                )
-                .ToList();
-            if (implementation.IsSingleton() && implementation.IsTransient())
-            {
-                throw new Exception(
-                    $"Service '{implementation}' cannot both both Singleton and Transient"
-                );
-            }
-            if (implementation.IsScoped() && implementation.IsTransient())
-            {
-                throw new Exception(
-                    $"Service '{implementation}' cannot both both Scoped and Transient"
-                );
-            }
-            if (implementation.IsSingleton() && implementation.IsScoped())
-            {
-                throw new Exception(
-                    $"Service '{implementation}' cannot both both Singleton and Scoped"
-                );
-            }
-
-            if (interfaces.Any(x => x.IsSingleton()))
-            {
-                AddSingleInstance(services, interfaces, implementation, isSingleton: true);
-                continue;
-            }
-
-            if (interfaces.Any(x => x.IsScoped()))
-            {
-                AddSingleInstance(services, interfaces, implementation, isSingleton: false);
-                continue;
-            }
-
-            foreach (var i in interfaces)
-            {
-                Add(services, i, implementation);
-            }
+            RegisterImplemenationByConvention(implementation, services);
         }
         return services;
     }
 
-    static void AddSingleInstance(
+    static void RegisterImplemenationByConvention(Type implementation, IServiceCollection services)
+    {
+        var interfaces = implementation
+            .GetInterfaces()
+            .Where(x =>
+                x.IsAssignableFrom(implementation)
+                && x != _transientType
+                && x != _scopedType
+                && x != _singletonType
+            )
+            .ToList();
+        
+        PreventInvalidConventialService(implementation);
+
+        if (interfaces.Any(x => x.IsSingleton()))
+        {
+            AddAsSelfWithInterfaces(services, interfaces, implementation, ServiceLifetime.Singleton);
+            return;
+        }
+        if (interfaces.Any(x => x.IsScoped()))
+        {
+            AddAsSelfWithInterfaces(services, interfaces, implementation, ServiceLifetime.Scoped);
+            return;
+        }
+        foreach (var i in interfaces)
+        {
+            Add(services, i, implementation);
+        }
+    }
+
+    static void PreventInvalidConventialService(Type implementation)
+    {
+        if (implementation.IsSingleton() && implementation.IsTransient())
+        {
+            throw new Exception(
+                $"Service '{implementation}' cannot both both Singleton and Transient"
+            );
+        }
+        if (implementation.IsScoped() && implementation.IsTransient())
+        {
+            throw new Exception(
+                $"Service '{implementation}' cannot both both Scoped and Transient"
+            );
+        }
+        if (implementation.IsSingleton() && implementation.IsScoped())
+        {
+            throw new Exception(
+                $"Service '{implementation}' cannot both both Singleton and Scoped"
+            );
+        }
+    }
+
+    static void AddAsSelfWithInterfaces(
         IServiceCollection services,
         IEnumerable<Type> interfaces,
         Type implementation,
-        bool isSingleton
+        ServiceLifetime lifetime
     )
     {
-        ThrowIfInvalidPolymorphicService(implementation);
+        PreventInvalidPolymorphicService(implementation);
 
-        // Commented code uses interface convention and generic type definition in order to select a privary interface
-        // to be used in GetRequiredService in order for all services to resolve a single implementation instance.
-        // Otherwize if for example 'INotBehind' is selected then GetRequiredService may fail to resove the instance
-        // (if more than 1 INotBehind implementations are registered).
-        // The code is commented because it is probably unnecessary since we can simply register the implementation as itself
-        // and then use that for all interfaces, instead of having to determine a primary interface. Will be deleted later on if this
-        // method passes the trial of time
-        //var primaryInterface = interfaces
-        //    .OrderByDescending(x => x.Name == $"I{implementation.Name}") //
-        //    .ThenByDescending(x => x.IsGenericTypeDefinition)
-        //    .FirstOrDefault();
-        //if (primaryInterface == null)
-        //{
-        //    var interfaceNames = string.Join(", ", interfaces.Select(x => x.Name));
-        //    throw new Exception($"Cannot register service '{implementation.FullName}' as singleton, " +
-        //        $"because there is no interface with matching name: '{string.Join(",", interfaces)}'");
-        //}
+        // Register as self and use self to fetch the instace for all interfaces
         Add(services, implementation, implementation);
         foreach (var @interface in interfaces)
         {
-            if (isSingleton)
-            {
-                services.AddSingleton(@interface, x => x.GetRequiredService(implementation));
-            }
-            else
-            {
-                services.AddScoped(@interface, x => x.GetRequiredService(implementation));
-            }
+            var descriptor = new ServiceDescriptor(@interface, x => x.GetRequiredService(implementation), lifetime);
+            services.Add(descriptor);
         }
     }
 
@@ -129,17 +116,6 @@ public static class ConventionExtensions
             @interface.IsGenericType && implementation.IsGenericType
                 ? @interface.GetGenericTypeDefinition()
                 : @interface;
-
-        if (
-            service.IsTransient() && (implementation.IsScoped() || implementation.IsSingleton())
-            || service.IsScoped() && (implementation.IsTransient() || implementation.IsSingleton())
-            || service.IsSingleton() && (implementation.IsTransient() || implementation.IsScoped())
-        )
-        {
-            throw new Exception(
-                $"Conflicting lifecycles detected for service '{service.FullName}' and implementation '{implementation.FullName}'"
-            );
-        }
 
         if (implementation.IsTransient())
         {
@@ -161,7 +137,7 @@ public static class ConventionExtensions
         }
     }
 
-    static void ThrowIfInvalidPolymorphicService(Type implementation)
+    static void PreventInvalidPolymorphicService(Type implementation)
     {
         if (
             implementation.BaseType != null

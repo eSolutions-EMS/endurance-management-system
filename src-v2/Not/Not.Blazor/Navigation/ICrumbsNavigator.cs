@@ -2,7 +2,7 @@
 
 namespace Not.Blazor.Navigation;
 
-public interface ICrumbsNavigator : ITransientService
+public interface ICrumbsNavigator : ITransient
 {
     void NavigateTo(string endpoint);
     void NavigateTo<T>(string endpoint, T parameter);

@@ -3,7 +3,7 @@ using NTS.Domain.Objects;
 
 namespace NTS.Judge.Blazor.Ports;
 
-public interface IManualProcessor : ISingletonService
+public interface IManualProcessor : ISingleton
 {
     Task Process(Timestamp timestamp);
 }

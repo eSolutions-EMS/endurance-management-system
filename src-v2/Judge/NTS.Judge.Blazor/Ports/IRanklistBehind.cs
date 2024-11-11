@@ -5,7 +5,7 @@ using NTS.Domain.Core.Objects;
 
 namespace NTS.Judge.Blazor.Ports;
 
-public interface IRanklistBehind : IObservableBehind, ISingletonService
+public interface IRanklistBehind : IObservableBehind, ISingleton
 {
     Ranklist? Ranklist { get; }
     Task<IEnumerable<Ranking>> GetRankings();

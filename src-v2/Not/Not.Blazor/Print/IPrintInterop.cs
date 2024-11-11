@@ -2,7 +2,7 @@
 
 namespace Not.Blazor.Print;
 
-public interface IPrintInterop : ITransientService
+public interface IPrintInterop : ITransient
 {
     Task OpenPrintDialog();
 }

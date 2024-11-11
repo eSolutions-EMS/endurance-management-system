@@ -54,7 +54,7 @@ public class HandshakeValidatorService : IHandshakeValidatorService
     }
 }
 
-public interface IHandshakeValidatorService : ITransientService
+public interface IHandshakeValidatorService : ITransient
 {
     byte[] CreatePayload(string thisApp);
     bool ValidatePayload(byte[] payload, string remoteApp);

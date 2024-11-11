@@ -20,7 +20,7 @@ public class CountriesContext : ICountriesContext
     }
 }
 
-public interface ICountriesContext : ISingletonService
+public interface ICountriesContext : ISingleton
 {
     Task<IEnumerable<Country>> Search(string partialName);
 }

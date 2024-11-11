@@ -4,7 +4,7 @@ using NTS.Domain.Objects;
 
 namespace NTS.Judge.Blazor.Ports;
 
-public interface IRfidReaderBehind : ISingletonService
+public interface IRfidReaderBehind : ISingleton
 {
     void StartReading();
     void StopReading();

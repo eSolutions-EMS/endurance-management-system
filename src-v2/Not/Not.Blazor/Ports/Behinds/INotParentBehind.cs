@@ -8,7 +8,7 @@ namespace Not.Blazor.Ports.Behinds;
 /// (see <seealso cref="IParent{T}"/> for more). Details regarding it's parent entity are responsiblity of the implementation
 /// </summary>
 /// <typeparam name="T">Type of parent entity</typeparam>
-public interface INotParentBehind<T> : ISingletonService
+public interface INotParentBehind<T> : ISingleton
 {
     Task<T?> Initialize(int id);
 }

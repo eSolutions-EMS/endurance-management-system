@@ -19,7 +19,7 @@ public abstract class LocalizerBase : ILocalizer
     }
 }
 
-public interface ILocalizer : ISingletonService
+public interface ILocalizer : ISingleton
 {
     string Get(params object[] args);
 }

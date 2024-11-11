@@ -6,7 +6,7 @@ using NTS.Domain.Core.Objects;
 
 namespace NTS.Judge.Blazor.Ports;
 
-public interface IHandoutsBehind : IStartupInitializer, IObservableBehind, ISingletonService
+public interface IHandoutsBehind : IStartupInitializer, IObservableBehind, ISingleton
 {
     IReadOnlyList<HandoutDocument> Documents { get; }
     Task Delete(IEnumerable<HandoutDocument> documents);

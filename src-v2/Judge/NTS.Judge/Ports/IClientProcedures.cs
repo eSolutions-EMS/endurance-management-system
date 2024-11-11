@@ -3,7 +3,7 @@ using NTS.Domain.Core.Objects.Payloads;
 
 namespace NTS.Judge.Ports;
 
-public interface IClientProcedures : ITransientService
+public interface IClientProcedures : ITransient
 {
     Task SendStartCreated(PhaseCompleted phaseCompleted);
     Task SendParticipationEliminated(ParticipationEliminated revoked);

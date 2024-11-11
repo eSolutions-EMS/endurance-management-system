@@ -15,7 +15,7 @@ public class LocalizationTestService : ILocalizationTestService
     }
 }
 
-public interface ILocalizationTestService : ITransientService
+public interface ILocalizationTestService : ITransient
 {
     string Polite();
     string Rude();

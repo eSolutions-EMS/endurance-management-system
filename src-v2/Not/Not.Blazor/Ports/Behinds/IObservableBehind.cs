@@ -2,7 +2,7 @@
 
 namespace Not.Blazor.Ports.Behinds;
 
-public interface IObservableBehind : INotBehind, ISingletonService
+public interface IObservableBehind : INotBehind, ISingleton
 {
     Task Initialize(params IEnumerable<object> arguments);
     void Subscribe(Func<Task> action);

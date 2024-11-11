@@ -5,7 +5,7 @@ using Not.Startup;
 
 namespace Not;
 
-public class ServiceLocator : IStartupInitializer, ITransientService
+public class ServiceLocator : IStartupInitializer, ITransient
 {
     public static T Get<T>()
         where T : class
