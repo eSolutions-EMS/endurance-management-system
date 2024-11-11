@@ -10,7 +10,7 @@ public static class BlazorInjectionExtensions
 {
     public static IServiceCollection AddNotBlazor(
         this IServiceCollection services,
-        IConfiguration configuration
+        IConfiguration _
     )
     {
         return services
