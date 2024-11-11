@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-using System.Reflection;
-using Not.Exceptions;
+﻿using System.Reflection;
 
 namespace Not.Reflection;
 
@@ -30,7 +28,10 @@ public static class ReflectionHelper
     {
         var stringValue = instance.ToString();
         if (stringValue == null)
+        {
             return null;
+        }
+
         return type.GetField(stringValue);
     }
 

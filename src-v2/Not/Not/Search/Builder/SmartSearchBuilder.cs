@@ -1,4 +1,6 @@
-﻿namespace Not.Search;
+﻿using Not.SmartSearch.Property;
+
+namespace Not.SmartSearch.Builder;
 
 public class SmartSearchBuilder<T>
 {

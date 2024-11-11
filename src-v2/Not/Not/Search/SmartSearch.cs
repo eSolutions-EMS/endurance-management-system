@@ -1,4 +1,4 @@
-﻿namespace Not.Search;
+﻿namespace Not.SmartSearch;
 
 public class SmartSearch<T>
 {

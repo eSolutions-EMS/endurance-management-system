@@ -1,4 +1,4 @@
-﻿namespace Not.Search;
+﻿namespace Not.SmartSearch.Property;
 
 internal abstract class PropertySearch<T, TValue> : SearchBase<T>
 {
@@ -35,42 +35,9 @@ internal abstract class PropertySearch<T, TValue> : SearchBase<T>
             }
             return result;
         }
-        catch (PropertyTermException)
+        catch (InvalidSearchTermException)
         {
             return Enumerable.Empty<T>();
         }
-    }
-}
-
-internal class StringPropertySearch<T> : PropertySearch<T, string>
-{
-    public StringPropertySearch(Func<T, string> selector)
-        : base(selector) { }
-
-    protected override string ConvertTerm(string value)
-    {
-        return value;
-    }
-
-    protected override bool IsMatch(string? selected, string term)
-    {
-        return selected?.Contains(term) ?? false;
-    }
-}
-
-internal class IntPropertySearch<T> : PropertySearch<T, int>
-{
-    public IntPropertySearch(Func<T, int> selector)
-        : base(selector) { }
-
-    protected override int ConvertTerm(string value)
-    {
-        if (!int.TryParse(value, out int search))
-        {
-            throw new PropertyTermException(
-                $"Search term '{value}' cannot be parsed to a valid integer"
-            );
-        }
-        return search;
     }
 }
