@@ -1,4 +1,4 @@
-﻿namespace Not.Blazor.Ports;
+﻿namespace Not.Blazor.CRUD.Forms.Ports;
 
 public interface IFormModel<T>
 {

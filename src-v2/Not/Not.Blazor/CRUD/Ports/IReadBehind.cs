@@ -1,7 +1,7 @@
 ﻿using Not.Domain;
 using Not.Injection;
 
-namespace Not.Blazor.Ports.Behinds;
+namespace Not.Blazor.CRUD.Ports;
 
 public interface IReadBehind<T> : ISingleton
 {

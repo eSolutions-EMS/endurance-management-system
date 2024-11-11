@@ -1,6 +1,6 @@
 ﻿using Not.Injection;
 
-namespace Not.Blazor.Ports.Behinds;
+namespace Not.Blazor.CRUD.Ports;
 
 public interface ICreateBehind<T> : ISingleton
 {

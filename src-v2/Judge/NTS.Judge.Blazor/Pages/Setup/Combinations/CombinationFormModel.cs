@@ -1,4 +1,4 @@
-﻿using Not.Blazor.Ports;
+﻿using Not.Blazor.CRUD.Forms.Ports;
 using NTS.Domain.Setup.Entities;
 
 namespace NTS.Judge.Blazor.Pages.Setup.Combinations;

@@ -17,4 +17,8 @@
     <ProjectReference Include="..\Not\Not.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Forms\" />
+  </ItemGroup>
+
 </Project>

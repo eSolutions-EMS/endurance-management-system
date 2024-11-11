@@ -1,6 +1,6 @@
 ﻿using Not.Application.Behinds.Adapters;
 using Not.Application.CRUD.Ports;
-using Not.Blazor.Ports.Behinds;
+using Not.Blazor.CRUD.Ports;
 using Not.Exceptions;
 using Not.Safe;
 using NTS.Domain.Core.Entities;
