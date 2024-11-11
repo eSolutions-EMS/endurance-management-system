@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Not.Events;
 using NTS.Domain.Core.Entities.ParticipationAggregate;
+using NTS.Domain.Core.Objects;
 using NTS.Domain.Core.Objects.Payloads;
 using static NTS.Domain.Core.Entities.SnapshotResultType;
 
@@ -159,6 +160,8 @@ public class Participation : DomainEntity, IAggregateRoot
             var phaseCompleted = new PhaseCompleted(this);
             PhaseCompletedEvent.Emit(phaseCompleted);
             Phases.StartIfNext();
+            var newStart = new Start(Combination.Name, Combination.Number, Phases.IndexOf(phase) + 1, phase.Length, Phases.Distance, Phases.Current.StartTime!);
+            //Startlist.Add(newStart);
         }
     }
 

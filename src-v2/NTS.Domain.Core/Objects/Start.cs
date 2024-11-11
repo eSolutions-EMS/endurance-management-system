@@ -1,4 +1,5 @@
 ﻿using Not.Localization;
+using NTS.Domain.Core.Entities;
 
 namespace NTS.Domain.Core.Objects;
 
@@ -36,7 +37,7 @@ public record Start : DomainObject
 
     public override string ToString()
     {
-        var result = Combine(Number, Athlete, "#".Localize()+PhaseNumber+":"+Distance+"km".Localize(), StartAt);
+        var result = Combine(Number, Athlete, Distance+"km".Localize(), StartAt);
         return result;
     }
 }
