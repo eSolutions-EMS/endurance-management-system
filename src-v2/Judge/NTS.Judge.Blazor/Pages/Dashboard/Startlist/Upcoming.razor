@@ -7,7 +7,7 @@
 
 @inherits NotComponent
 
-<MudTabs @ref="@Tabs" PanelClass="px-4 py-6" Elevation="4" Rounded ApplyEffectsToContainer>
+<MudTabs @ref="@Tabs" PanelClass="px-4 py-6" Elevation="4" Rounded ApplyEffectsToContainer Class="@Class">
     @foreach (var tab in UserTabs)
     {
         <MudTabPanel ID="@tab.Id" Text="@tab.Header">
@@ -29,9 +29,6 @@
     string [] _tableHeadings = { "Number", "Athlete", "Loop", "Start Time", "Start In" };
     MudTabs Tabs = default!;
     List<TabModel> UserTabs = new();
-    int UserIndex;
-
-    Color color = Color.Primary;
 
     protected override void OnParametersSet()
     {

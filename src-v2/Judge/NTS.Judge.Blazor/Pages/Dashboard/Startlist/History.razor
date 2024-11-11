@@ -17,7 +17,7 @@
         <MudTabPanel ID="@tab.Id" Text="@tab.Header">
             <ChildContent>
                 <NotSimpleTable T="Start" Headings="_tableHeadings"
-                                Items="Starts.Where(s=>tab.Header.Contains(s.TotalDistance.ToString())).OrderBy(s=>s.PhaseNumber)" />
+                                Items="Starts.Where(s=>tab.Header.Contains(s.PhaseNumber.ToString()))" />
             </ChildContent>
         </MudTabPanel>
     }
@@ -30,14 +30,13 @@
     string[] _tableHeadings = { "Number", "Athlete", "Loop", "Start Time" };
     MudTabs Tabs = default!;
     List<TabModel> UserTabs = new();
-    int UserIndex;
 
     protected override void OnParametersSet()
     {
         foreach (var start in Starts)
         {
             TabModel tab = new TabModel();
-            tab.Header = $"{start.TotalDistance} {@Localizer.Get("KM")}";
+            tab.Header = $"{@Localizer.Get("Gate")} {start.PhaseNumber}";
             tab.Key = start.TotalDistance;
             tab.Id = Guid.NewGuid();
             if (!UserTabs.Any(t => t.Header == tab.Header))
