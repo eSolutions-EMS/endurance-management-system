@@ -2,9 +2,9 @@
 
 namespace Not.Notify;
 
-public abstract class NotifyEvent
+public abstract class NotifyPayloads
 {
-    protected NotifyEvent(string message)
+    protected NotifyPayloads(string message)
     {
         Message = message;
     }
@@ -12,25 +12,25 @@ public abstract class NotifyEvent
     public string Message { get; }
 }
 
-public class Information : NotifyEvent
+public class Information : NotifyPayloads
 {
     public Information(string message)
         : base(message.Localize()) { }
 }
 
-public class Warning : NotifyEvent
+public class Warning : NotifyPayloads
 {
     public Warning(string message)
         : base(message.Localize()) { }
 }
 
-public class Success : NotifyEvent
+public class Success : NotifyPayloads
 {
     public Success(string message)
         : base(message.Localize()) { }
 }
 
-public class Failure : NotifyEvent
+public class Failure : NotifyPayloads
 {
     public Failure(string message)
         : base(message.Localize()) { }
