@@ -1,20 +1,20 @@
 @using NTS.Judge.Blazor.Pages.EnduranceEventState
 @using Not.Blazor.Navigation
-@using Not.Blazor.TM.Navigation
+@using Not.Blazor.Navigation.Components
 
 @inherits NotComponent
 
 <MudNavMenu>
     <MudNavGroup Title="@Localizer.Get("Setup")" Expanded="true">
-        <NotNavLink Endpoint="@ENDURANCE_EVENT_PAGE" Text="Endurance Event" Match="NavLinkMatch.All" />
-        <NotNavLink Endpoint="@ATHLETES_HORSES_PAGE" Text="Athletes & Horses" />
-        <NotNavLink Endpoint="@COMBINATIONS_PAGE" Text="Combinations" />
-        <NotNavLink Endpoint="@LOOPS_PAGE" Text="Loops" />
+        <NNavLink Endpoint="@ENDURANCE_EVENT_PAGE" Text="Endurance Event" Match="NavLinkMatch.All" />
+        <NNavLink Endpoint="@ATHLETES_HORSES_PAGE" Text="Athletes & Horses" />
+        <NNavLink Endpoint="@COMBINATIONS_PAGE" Text="Combinations" />
+        <NNavLink Endpoint="@LOOPS_PAGE" Text="Loops" />
     </MudNavGroup>
     <MudNavGroup Title="@Localizer.Get("Dashboard")" Expanded="true">
-        <NotNavLink Endpoint="@DASHBOARD_PAGE" Text="Dashboard" />
-        <NotNavLink Endpoint="@RANKLIST_PAGE" Text="Ranklist" />
-        <NotNavLink Endpoint="@HANDOUTS_PAGE" Text="Handouts" />
+        <NNavLink Endpoint="@DASHBOARD_PAGE" Text="Dashboard" />
+        <NNavLink Endpoint="@RANKLIST_PAGE" Text="Ranklist" />
+        <NNavLink Endpoint="@HANDOUTS_PAGE" Text="Handouts" />
     </MudNavGroup>
     <MudNavGroup Title="Demos">
         <MudNavLink Href="/localization-demo" Match="NavLinkMatch.Prefix">Localization</MudNavLink>

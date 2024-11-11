@@ -6,7 +6,7 @@ using Not.Blazor.TM.Forms;
 
 namespace Not.Blazor.Injection;
 
-public static class BlazorServiceCollectionExtensions
+public static class BlazorInjectionExtensions
 {
     public static IServiceCollection AddNotBlazor(
         this IServiceCollection services,
