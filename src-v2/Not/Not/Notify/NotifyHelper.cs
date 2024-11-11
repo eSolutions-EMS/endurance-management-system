@@ -7,17 +7,17 @@ public static class NotifyHelper
 {
     public static void Inform(string message)
     {
-        NotificationEvents.Informed.Emit(new Informed(message));
+        NotificationEvents.Informed.Emit(new Information(message));
     }
 
     public static void Success(string message)
     {
-        Succeded.Emit(new Succeeded(message));
+        Succeded.Emit(new Success(message));
     }
 
     public static void Warn(string message)
     {
-        NotificationEvents.Warned.Emit(new Warned(message));
+        NotificationEvents.Warned.Emit(new Warning(message));
     }
 
     public static void Warn(DomainExceptionBase validation)
@@ -28,7 +28,7 @@ public static class NotifyHelper
     public static void Error(Exception exception)
     {
         NotificationEvents.Failed.Emit(
-            new Failed(exception.Message + Environment.NewLine + exception.StackTrace)
+            new Failure(exception.Message + Environment.NewLine + exception.StackTrace)
         );
     }
 }

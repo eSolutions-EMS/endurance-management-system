@@ -12,26 +12,26 @@ public abstract class NotifyEvent
     public string Message { get; }
 }
 
-public class Informed : NotifyEvent
+public class Information : NotifyEvent
 {
-    public Informed(string message)
+    public Information(string message)
         : base(message.Localize()) { }
 }
 
-public class Warned : NotifyEvent
+public class Warning : NotifyEvent
 {
-    public Warned(string message)
+    public Warning(string message)
         : base(message.Localize()) { }
 }
 
-public class Succeeded : NotifyEvent
+public class Success : NotifyEvent
 {
-    public Succeeded(string message)
+    public Success(string message)
         : base(message.Localize()) { }
 }
 
-public class Failed : NotifyEvent
+public class Failure : NotifyEvent
 {
-    public Failed(string message)
+    public Failure(string message)
         : base(message.Localize()) { }
 }

@@ -19,17 +19,17 @@ public class BlazorNotifier : ComponentBase
     [Inject]
     ISnackbar Snackbar { get; set; } = default!;
 
-    void AddSnack(Informed informed)
+    void AddSnack(Information informed)
     {
         Snackbar.Add(informed.Message, Severity.Info);
     }
 
-    void AddSnack(Warned warned)
+    void AddSnack(Warning warned)
     {
         Snackbar.Add(warned.Message, Severity.Warning);
     }
 
-    void AddSnack(Failed failed)
+    void AddSnack(Failure failed)
     {
         Snackbar.Add(
             failed.Message,
@@ -38,7 +38,7 @@ public class BlazorNotifier : ComponentBase
         );
     }
 
-    void AddSnack(Succeeded succeeded)
+    void AddSnack(Success succeeded)
     {
         Snackbar.Add(succeeded.Message, Severity.Success);
     }
