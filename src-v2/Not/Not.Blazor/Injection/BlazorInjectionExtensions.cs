@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Not.Blazor.CRUD.Forms;
+using Not.Blazor.Dialogs;
 using Not.Blazor.Mud.Extensions;
-using Not.Blazor.TM.Dialogs;
-using Not.Blazor.TM.Forms;
 
 namespace Not.Blazor.Injection;
 

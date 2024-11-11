@@ -1,7 +1,7 @@
 ﻿using Not.Blazor.Observable.Ports;
 using Not.Localization;
 
-namespace Not.Blazor.Components;
+namespace Not.Blazor.Components.Base;
 
 public class NotComponent : ComponentBase
 {

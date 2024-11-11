@@ -1,7 +1,7 @@
 ﻿
 using MudBlazor;
 
-namespace Not.Blazor.TM.Forms;
+namespace Not.Blazor.CRUD.Forms.Validation;
 
 public interface IMudBaseInputWrapper<T>
 {

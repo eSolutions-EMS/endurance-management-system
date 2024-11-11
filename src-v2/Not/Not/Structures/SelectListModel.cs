@@ -2,6 +2,7 @@
 
 namespace Not.Structures;
 
+// TODO combine with NotListModel
 public class SelectListModel
 {
     public static IEnumerable<SelectListModel<T>> FromEnum<T>()

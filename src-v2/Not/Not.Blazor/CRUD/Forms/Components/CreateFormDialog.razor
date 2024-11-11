@@ -1,48 +1,41 @@
-﻿@using Not.Blazor.CRUD.Ports
-@using Not.Blazor.CRUD.Forms.Components
-@using Not.Blazor.Components
-@using Not.Blazor.TM.Forms
-@using Not.Blazor.TM
+﻿@using Not.Blazor.CRUD.Forms.Components
+@using Not.Blazor.CRUD.Ports
+@using Not.Blazor.Components.N
 @using Not.Safe
+@using Not.Blazor.Components;
+@using Not.Blazor.Components.Base
     
 @inherits NotComponent
-@typeparam T where T : new();
+@typeparam T where T : new()
 @typeparam TForm where TForm : FormTM<T>
 
 <MudDialog>
     <DialogContent>
-        <NotDynamic T="T" TForm="TForm" @ref="_dynamicForm" Model="Model" />
+        <NotDynamic T="T" TForm="TForm" @ref="_dynamicForm" Model="_model" />
     </DialogContent>
 
     <DialogActions>
-        <NotButtonUpdate OnClick="Update" />
+        <NotButtonCreate OnClick="Create" />
     </DialogActions>
 </MudDialog>
 
 @code {
+    T _model = new T();
     NotDynamic<T, TForm>? _dynamicForm;
-
     [Inject]
-    IUpdateBehind<T> _behind { get; set; } = default!;
+    ICreateBehind<T> _behind { get; set; } = default!;
 
-    [Parameter, EditorRequired]
-    public T Model { get; set; } = default!;
     [CascadingParameter]
     protected MudDialogInstance Dialog { get; set; } = default!;
 
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-    }
-
-    async Task Update()
+    async Task Create()
     {
         await SafeHelper.Run(Submit, InjectValidation);
     }
 
     async Task Submit()
     {
-        await _behind.Update(Model);
+        await _behind.Create(_model);
         Dialog.Close(DialogResult.Ok(true));
     }
 

@@ -1,10 +1,9 @@
 ﻿using MudBlazor;
 using Not.Blazor.CRUD.Forms.Components;
-using Not.Blazor.TM.Forms.Components;
 using Not.Localization;
 using Not.Reflection;
 
-namespace Not.Blazor.TM.Dialogs;
+namespace Not.Blazor.Dialogs;
 
 public class DialogTM<T, TForm>
     where T : new()

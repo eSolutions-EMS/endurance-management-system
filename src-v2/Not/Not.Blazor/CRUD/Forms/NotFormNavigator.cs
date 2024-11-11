@@ -1,8 +1,8 @@
 ﻿using Not.Blazor.CRUD.Forms.Components;
+using Not.Blazor.Dialogs;
 using Not.Blazor.Navigation;
-using Not.Blazor.TM.Dialogs;
 
-namespace Not.Blazor.TM.Forms;
+namespace Not.Blazor.CRUD.Forms;
 
 public class FormManager<T, TForm>
     where T : new()

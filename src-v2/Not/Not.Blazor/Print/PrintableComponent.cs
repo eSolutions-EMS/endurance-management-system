@@ -1,4 +1,4 @@
-﻿using Not.Blazor.Components;
+﻿using Not.Blazor.Components.Base;
 using Not.Events;
 
 namespace Not.Blazor.Print;

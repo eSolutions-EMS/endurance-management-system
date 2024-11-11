@@ -1,14 +1,15 @@
 ﻿using System.Reflection;
 using MudBlazor;
+using Not.Blazor.Components.N;
 using Not.Reflection;
 
-namespace Not.Blazor.TM.Forms;
+namespace Not.Blazor.CRUD.Forms.Validation;
 
 // Breaks Not* convention, because this is a workaround until
 // event-driven validation is implemented for MudBaseInput<T>
 public class MudValidationInjector
 {
-    static readonly Type LIST_OF_STRING_TYPE = typeof(List<string>);
+    static readonly Type _listOfStringType = typeof(List<string>);
 
     public static MudValidationInjector Create<T>(Func<MudFormComponent<T, string>> getter)
     {
@@ -45,7 +46,7 @@ public class MudValidationInjector
         ErrorProperty = mudInputType.Property("Error");
         ErrorTextProperty = mudInputType.Property("ErrorText");
         ValidationErrorsProperty = mudInputType.Property("ValidationErrors");
-        AddValidationErrorMethod = LIST_OF_STRING_TYPE.Method(nameof(List<string>.Add));
+        AddValidationErrorMethod = _listOfStringType.Method(nameof(List<string>.Add));
     }
 
     protected Func<object> InstanceGetter { get; }

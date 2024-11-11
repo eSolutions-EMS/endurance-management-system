@@ -1,6 +1,6 @@
 ﻿using Not.Extensions;
 
-namespace Not.Blazor.TM.Models;
+namespace Not.Structures;
 
 public class NotListModel
 {

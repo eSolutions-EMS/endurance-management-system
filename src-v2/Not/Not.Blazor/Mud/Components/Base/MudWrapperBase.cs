@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Not.Blazor.Components;
+using Not.Blazor.Components.Base;
 
 namespace Not.Blazor.Mud.Components.Base;
 

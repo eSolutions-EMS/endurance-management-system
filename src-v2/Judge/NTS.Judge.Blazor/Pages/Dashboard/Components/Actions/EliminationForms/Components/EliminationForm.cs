@@ -1,4 +1,4 @@
-﻿using Not.Blazor.Components;
+﻿using Not.Blazor.Components.Base;
 using NTS.Judge.Blazor.Ports;
 
 namespace NTS.Judge.Blazor.Pages.Dashboard.Components.Actions.EliminationForms.Components;
