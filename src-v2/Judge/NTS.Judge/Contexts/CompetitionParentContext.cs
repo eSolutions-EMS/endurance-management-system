@@ -1,5 +1,5 @@
 ﻿using Not.Application.Contexts;
-using Not.Application.Ports.CRUD;
+using Not.Application.CRUD.Ports;
 using Not.Structures;
 using NTS.Domain.Setup.Entities;
 

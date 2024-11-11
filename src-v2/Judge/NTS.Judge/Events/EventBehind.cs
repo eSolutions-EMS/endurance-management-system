@@ -1,6 +1,6 @@
 ﻿using Not.Application.Adapters.Behinds;
 using Not.Application.Contexts;
-using Not.Application.Ports.CRUD;
+using Not.Application.CRUD.Ports;
 using Not.Safe;
 using NTS.Domain.Setup.Entities;
 using NTS.Judge.Blazor.Pages.Setup.Ports;

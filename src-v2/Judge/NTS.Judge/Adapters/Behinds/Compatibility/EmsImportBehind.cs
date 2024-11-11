@@ -1,4 +1,4 @@
-﻿using Not.Application.Ports.CRUD;
+﻿using Not.Application.CRUD.Ports;
 using Not.Extensions;
 using Not.Safe;
 using Not.Serialization;

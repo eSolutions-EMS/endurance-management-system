@@ -1,5 +1,5 @@
 ﻿using Not.Application.Contexts;
-using Not.Application.Ports.CRUD;
+using Not.Application.CRUD.Ports;
 using Not.Blazor.Ports.Behinds;
 using Not.Domain;
 using Not.Exceptions;

@@ -1,4 +1,4 @@
-﻿using Not.Application.Ports.CRUD;
+﻿using Not.Application.CRUD.Ports;
 using Not.Domain;
 using NTS.Domain.Core.Entities;
 using NTS.Domain.Core.Entities.ParticipationAggregate;

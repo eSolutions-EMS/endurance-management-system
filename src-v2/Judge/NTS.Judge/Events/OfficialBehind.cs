@@ -1,6 +1,6 @@
 ﻿using AngleSharp.Io;
 using Not.Application.Adapters.Behinds;
-using Not.Application.Ports.CRUD;
+using Not.Application.CRUD.Ports;
 using NTS.Domain.Setup.Entities;
 using NTS.Judge.Blazor.Setup.Officials;
 using NTS.Judge.Contexts;

@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR;
-using Not.Application.Ports.CRUD;
+using Not.Application.CRUD.Ports;
 using Not.Concurrency;
 using Not.Safe;
 using Not.Startup;

@@ -1,5 +1,5 @@
 ﻿using Not.Application.Adapters.Behinds;
-using Not.Application.Ports.CRUD;
+using Not.Application.CRUD.Ports;
 using Not.Extensions;
 using NTS.Domain.Setup.Entities;
 using NTS.Judge.Blazor.Pages.Setup.Contestants;

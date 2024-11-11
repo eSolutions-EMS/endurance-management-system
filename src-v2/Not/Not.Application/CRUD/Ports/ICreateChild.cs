@@ -1,7 +1,7 @@
 ﻿using Not.Domain;
 using Not.Injection;
 
-namespace Not.Application.Ports.CRUD;
+namespace Not.Application.CRUD.Ports;
 
 public interface ICreateChild<T> : ITransient
     where T : DomainEntity

@@ -1,4 +1,4 @@
-﻿using Not.Application.Ports.CRUD;
+﻿using Not.Application.CRUD.Ports;
 using Not.Injection;
 using Not.Serialization;
 using NTS.Compatibility.EMS;
