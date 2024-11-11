@@ -11,6 +11,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_config", "_config", "{F272
 		..\global.json = ..\global.json
 		NuGet.config = NuGet.config
 		..\README.md = ..\README.md
+		..\.gitattributes = ..\.gitattributes
+		..\.csharpierignore = ..\.csharpierignore
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Judge", "Judge", "{35F61047-DE3E-46D3-B125-DCE4AF783A33}"
