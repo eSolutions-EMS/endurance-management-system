@@ -9,10 +9,10 @@ public abstract class PrintableComponent : NotComponent, IDisposable
 
     public static void OnToggle(Action handler)
     {
-        TOGGLE_EVENT.Subscribe(handler);
+        _toggleEvent.Subscribe(handler);
     }
 
-    static Event TOGGLE_EVENT = new();
+    static Event _toggleEvent = new();
 
     [Inject]
     IPrintInterop PrintInterop { get; set; } = default!;
@@ -21,7 +21,7 @@ public abstract class PrintableComponent : NotComponent, IDisposable
 
     protected override void OnInitialized()
     {
-        TOGGLE_EVENT.Subscribe(VisibilityToggleHook);
+        _toggleEvent.Subscribe(VisibilityToggleHook);
     }
 
     protected async Task OpenPrintDialog()
@@ -38,11 +38,11 @@ public abstract class PrintableComponent : NotComponent, IDisposable
 
     public void Dispose()
     {
-        TOGGLE_EVENT.UnsubscribeAll();
+        _toggleEvent.UnsubscribeAll();
     }
 
     void InvokeToggle()
     {
-        TOGGLE_EVENT.Emit();
+        _toggleEvent.Emit();
     }
 }

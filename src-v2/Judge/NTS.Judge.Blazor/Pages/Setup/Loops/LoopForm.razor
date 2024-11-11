@@ -1,9 +1,10 @@
 ﻿@using NTS.Domain.Setup.Entities
 @using NTS.Judge.Setup.Competitions
+@using Not.Blazor.CRUD.Forms.Components
 @using Not.Blazor.TM.Forms;
-@using Not.Blazor.TM.Forms.Components;
+@using Not.Blazor.TM.Forms.Components
 
-@inherits FormTM<LoopFormModel>;
+@inherits FormTM<LoopFormModel>
 
 <EditForm Model="Model">
     <MudNumericField @ref="_distanceField" @bind-Value="Model.Distance" Label="Loop" />

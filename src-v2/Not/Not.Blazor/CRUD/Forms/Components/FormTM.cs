@@ -1,8 +1,10 @@
 ﻿using MudBlazor;
 using Not.Blazor.Components;
+using Not.Blazor.TM;
+using Not.Blazor.TM.Forms;
 using Not.Notify;
 
-namespace Not.Blazor.TM.Forms.Components;
+namespace Not.Blazor.CRUD.Forms.Components;
 
 public abstract class FormTM<T> : NotComponent
 {
