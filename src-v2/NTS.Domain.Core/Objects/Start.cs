@@ -30,7 +30,10 @@ public record Start : DomainObject
 
     public string StartIn()
     {
-        if (StartAt == null) { return string.Empty; }
+        if (StartAt == null)
+        {
+            return string.Empty;
+        }
         if (StartAt > Timestamp.Now())
         {
             return (StartAt - Timestamp.Now())!.ToString();

@@ -24,7 +24,11 @@ public class StartlistBehind : ObservableBehind, IStartlistBehind
         _participationRepository = participations;
         var startlist = new StartList();
         Startlist = startlist;
-        _timer = TimerFactory.CreateTimer(TIMER_TICK_IN_MILLISECONDS, upcomingStartExpire, () => true);
+        _timer = TimerFactory.CreateTimer(
+            TIMER_TICK_IN_MILLISECONDS,
+            upcomingStartExpire,
+            () => true
+        );
     }
 
     public StartList Startlist { get; set; }
@@ -45,7 +49,10 @@ public class StartlistBehind : ObservableBehind, IStartlistBehind
         foreach (var start in Upcoming.ToList())
         {
             var now = new Timestamp(DateTime.Now);
-            if (now - start.StartAt > TimeSpan.FromMinutes(EXPIRATION_TIME_OF_PREVIOUS_STARTS_IN_MINUTES))
+            if (
+                now - start.StartAt
+                > TimeSpan.FromMinutes(EXPIRATION_TIME_OF_PREVIOUS_STARTS_IN_MINUTES)
+            )
             {
                 Startlist.Expire(start);
                 Startlist.OrderHistoryByAscending();
