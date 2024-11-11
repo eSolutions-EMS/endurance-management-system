@@ -1,4 +1,4 @@
-﻿using Not.Application.Adapters.Behinds;
+﻿using Not.Application.Behinds.Adapters;
 using Not.Application.CRUD.Ports;
 using Not.Extensions;
 using NTS.Domain.Setup.Entities;

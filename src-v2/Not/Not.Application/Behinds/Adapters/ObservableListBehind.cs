@@ -1,6 +1,6 @@
 ﻿using Not.Structures;
 
-namespace Not.Application.Adapters.Behinds;
+namespace Not.Application.Behinds.Adapters;
 
 public abstract class ObservableListBehind<T> : ObservableBehind, IDisposable
     where T : IIdentifiable

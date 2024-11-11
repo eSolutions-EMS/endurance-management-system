@@ -1,12 +1,11 @@
-﻿using Not.Application.Contexts;
-using Not.Application.CRUD.Ports;
+﻿using Not.Application.CRUD.Ports;
 using Not.Blazor.Ports.Behinds;
 using Not.Domain;
 using Not.Exceptions;
 using Not.Reflection;
 using Not.Safe;
 
-namespace Not.Application.Adapters.Behinds;
+namespace Not.Application.Behinds.Adapters;
 
 public abstract class CrudBehind<T, TModel>
     : ObservableListBehind<T>,

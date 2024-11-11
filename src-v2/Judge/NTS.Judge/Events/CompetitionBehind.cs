@@ -1,5 +1,5 @@
-﻿using Not.Application.Adapters.Behinds;
-using Not.Application.Contexts;
+﻿using Not.Application.Behinds;
+using Not.Application.Behinds.Adapters;
 using Not.Application.CRUD.Ports;
 using NTS.Domain.Setup.Entities;
 using NTS.Judge.Contexts;

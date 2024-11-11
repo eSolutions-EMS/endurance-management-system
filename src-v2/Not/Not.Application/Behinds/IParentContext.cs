@@ -1,8 +1,7 @@
-﻿using Not.Blazor.Ports.Behinds;
-using Not.Injection;
+﻿using Not.Injection;
 using Not.Structures;
 
-namespace Not.Application.Contexts;
+namespace Not.Application.Behinds;
 
 public interface IParentContext<T> : ISingleton
     where T : IIdentifiable

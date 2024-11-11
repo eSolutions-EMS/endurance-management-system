@@ -2,7 +2,7 @@
 using Not.Domain;
 using Not.Exceptions;
 
-namespace Not.Application.Contexts;
+namespace Not.Application.Behinds;
 
 public abstract class BehindContext<T>
     where T : DomainEntity

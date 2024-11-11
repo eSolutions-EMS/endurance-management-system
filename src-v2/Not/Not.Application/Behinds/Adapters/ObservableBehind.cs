@@ -2,7 +2,7 @@
 using Not.Events;
 using Not.Safe;
 
-namespace Not.Application.Adapters.Behinds;
+namespace Not.Application.Behinds.Adapters;
 
 // TODO: Probably rename to EventBehind. However we need to rename the Domain entity Event
 // To EnduranceEvent to avoid name conflicts
