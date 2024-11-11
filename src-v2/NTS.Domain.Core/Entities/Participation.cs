@@ -9,12 +9,12 @@ namespace NTS.Domain.Core.Entities;
 
 public class Participation : DomainEntity, IAggregateRoot
 {
-    static readonly TimeSpan NOT_SNAPSHOTABLE_WINDOW = TimeSpan.FromMinutes(30);
+    //static readonly TimeSpan NOT_SNAPSHOTABLE_WINDOW = TimeSpan.FromMinutes(30);
     static readonly FailedToQualify OUT_OF_TIME = new([FtqCode.OT]);
     static readonly FailedToQualify SPEED_RESTRICTION = new([FtqCode.SP]);
-    public static readonly Event<PhaseCompleted> PhaseCompletedEvent = new();
-    public static readonly Event<ParticipationEliminated> EliminatedEvent = new();
-    public static readonly Event<ParticipationRestored> RestoredEvent = new();
+    public static readonly Event<PhaseCompleted> PHASE_COMPLETED_EVENT = new();
+    public static readonly Event<ParticipationEliminated> ELIMINATED_EVENT = new();
+    public static readonly Event<ParticipationRestored> RESTORED_EVENT = new();
 
     [JsonConstructor]
     Participation(
@@ -149,7 +149,7 @@ public class Participation : DomainEntity, IAggregateRoot
     {
         Eliminated = null;
         var qualificationRestored = new ParticipationRestored(this);
-        RestoredEvent.Emit(qualificationRestored);
+        RESTORED_EVENT.Emit(qualificationRestored);
     }
 
     void EvaluatePhase(Phase phase)
@@ -173,9 +173,9 @@ public class Participation : DomainEntity, IAggregateRoot
         if (phase.IsComplete())
         {
             var phaseCompleted = new PhaseCompleted(this);
-            PhaseCompletedEvent.Emit(phaseCompleted);
+            PHASE_COMPLETED_EVENT.Emit(phaseCompleted);
             Phases.StartIfNext();
-            var newStart = new Start(Combination.Name, Combination.Number, Phases.IndexOf(phase) + 1, phase.Length, Phases.Distance, Phases.Current.StartTime!);
+            //var newStart = new Start(Combination.Name, Combination.Number, Phases.IndexOf(phase) + 1, phase.Length, Phases.Distance, Phases.Current.StartTime!);
             //Startlist.Add(newStart);
         }
     }
@@ -184,6 +184,6 @@ public class Participation : DomainEntity, IAggregateRoot
     {
         Eliminated = notQualified;
         var qualificationRevoked = new ParticipationEliminated(this);
-        EliminatedEvent.Emit(qualificationRevoked);
+        ELIMINATED_EVENT.Emit(qualificationRevoked);
     }
 }

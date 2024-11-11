@@ -54,7 +54,7 @@ public class HandoutsBehind : ObservableListBehind<HandoutDocument>, IHandoutsBe
     public void RunAtStartup()
     {
         // TODO: subscribe to updates for Event, Official
-        Participation.PhaseCompletedEvent.SubscribeAsync(PhaseCompletedHandler);
+        Participation.PHASE_COMPLETED_EVENT.SubscribeAsync(PhaseCompletedHandler);
     }
 
     public async Task Delete(IEnumerable<HandoutDocument> documents)

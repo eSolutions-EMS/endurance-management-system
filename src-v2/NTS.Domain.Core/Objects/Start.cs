@@ -1,5 +1,4 @@
 ﻿using Not.Localization;
-using NTS.Domain.Core.Entities;
 
 namespace NTS.Domain.Core.Objects;
 
@@ -24,20 +23,21 @@ public record Start : DomainObject
 
     public string StartIn()
     {
-        if(StartAt == null) return string.Empty;
+        if (StartAt == null) { return string.Empty; }
         if (StartAt > Timestamp.Now())
         {
-            return (StartAt - Timestamp.Now()).ToString();
+            return (StartAt - Timestamp.Now())!.ToString();
         }
         else
         {
-            return "-" + (StartAt - Timestamp.Now()).ToString();
+            return "-" + (StartAt - Timestamp.Now())!.ToString();
         }
     }
 
     public override string ToString()
     {
-        var result = Combine(Number, Athlete, Distance+"km".Localize(), StartAt);
+        var distance = Distance + "km".Localize();
+        var result = Combine(Number, Athlete, distance, StartAt);
         return result;
     }
 }

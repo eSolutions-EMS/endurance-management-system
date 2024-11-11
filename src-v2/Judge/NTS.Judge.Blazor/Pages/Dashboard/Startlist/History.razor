@@ -35,10 +35,9 @@
     {
         foreach (var start in Starts)
         {
-            TabModel tab = new TabModel();
-            tab.Header = $"{@Localizer.Get("Gate")} {start.PhaseNumber}";
-            tab.Key = start.TotalDistance;
-            tab.Id = Guid.NewGuid();
+            var tabId = Guid.NewGuid();
+            var tabHeader = $"{@Localizer.Get("Gate")} {start.PhaseNumber}";
+            TabModel tab = new TabModel(tabId, tabHeader);
             if (!UserTabs.Any(t => t.Header == tab.Header))
             {
                 UserTabs.Add(tab);

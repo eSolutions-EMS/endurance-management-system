@@ -2,7 +2,7 @@
 
 namespace NTS.Domain.Objects;
 
-public class Person : IComparable<Person>
+public class Person
 {
     public static Person? Create(string? names)
     {
