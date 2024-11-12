@@ -5,42 +5,23 @@
 @using Not.Blazor.TM.Models
 @using Not.Extensions
 
-@inherits NotComponent
+@inherits StartlistTable
 
-<MudTabs @ref="@Tabs" PanelClass="px-4 py-6" Elevation="4" Rounded ApplyEffectsToContainer Class="@Class">
-    @foreach (var tab in UserTabs)
+<MudTabs @ref="@_tabs" PanelClass="px-4 py-6" Elevation="4" Rounded ApplyEffectsToContainer Class="@Class">
+    @foreach (var tab in _userTabs)
     {
         <MudTabPanel ID="@tab.Id" Text="@tab.Header">
             <ChildContent>
-                <NotSimpleTable T="Start" Headings="@_tableHeadings" Items="Starts.Where(s => tab.Header.Contains(s.TotalDistance.ToString()))">
-                    <CustomCellComponent>
-                        <NotTimer StartTime="@context.StartIn()" StopTimerAtTime="-15" />
-                    </CustomCellComponent>
+                <NotSimpleTable T="Start" Headings="@_tableHeadings" Items="Starts.Where(s=>tab.Header.Contains(s.PhaseNumber.ToString()))">
+                    <CustomCell>
+                        <StartlistTimer StartTime="@context.StartAt" StopTimerAtTime="-15" />
+                    </CustomCell>
                 </NotSimpleTable>
                 </ChildContent>
         </MudTabPanel>
     }
 </MudTabs>
 
-@code {
-    [Parameter]
-    public IEnumerable<Start> Starts { get; set; } = new List<Start>();
-
-    string [] _tableHeadings = { "Number", "Athlete", "Loop", "Start Time", "Start In" };
-    MudTabs Tabs = default!;
-    List<TabModel> UserTabs = new();
-
-    protected override void OnParametersSet()
-    {
-        foreach (var start in Starts)
-        {
-            var tabId = Guid.NewGuid();
-            var tabHeader = $"{@Localizer.Get("Gate")} {start.PhaseNumber}";
-            TabModel tab = new TabModel(tabId, tabHeader);
-            if (!UserTabs.Any(t => t.Header == tab.Header))
-            {
-                UserTabs.Add(tab);
-            }
-        }
-    }
+@code{
+    protected string[] _tableHeadings = { "Number", "Athlete", "Loop", "Start Time", "Start In" };
 }
