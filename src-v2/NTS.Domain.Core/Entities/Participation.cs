@@ -172,11 +172,9 @@ public class Participation : DomainEntity, IAggregateRoot
         }
         if (phase.IsComplete())
         {
+            Phases.StartIfNext();
             var phaseCompleted = new PhaseCompleted(this);
             PHASE_COMPLETED_EVENT.Emit(phaseCompleted);
-            Phases.StartIfNext();
-            //var newStart = new Start(Combination.Name, Combination.Number, Phases.IndexOf(phase) + 1, phase.Length, Phases.Distance, Phases.Current.StartTime!);
-            //Startlist.Add(newStart);
         }
     }
 
