@@ -28,10 +28,10 @@ public record Start : DomainObject
         Athlete = participation.Combination.Name;
         Number = participation.Combination.Number;
         var phaseIndex = participation.Phases.IndexOf(participation.Phases.Current);
-        PhaseNumber = phaseIndex+2;
+        PhaseNumber = phaseIndex + 2;
         Distance = participation.Phases[phaseIndex].Length;
         TotalDistance = participation.Phases.Distance;
-        StartAt = participation.Phases[phaseIndex+1].StartTime!.DateTime.TimeOfDay;
+        StartAt = participation.Phases[phaseIndex + 1].StartTime!.DateTime.TimeOfDay;
     }
 
     public Person Athlete { get; private set; }

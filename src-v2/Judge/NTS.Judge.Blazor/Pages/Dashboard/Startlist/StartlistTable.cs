@@ -10,10 +10,12 @@ using Not.Services;
 using NTS.Domain.Core.Objects;
 
 namespace NTS.Judge.Blazor.Pages.Dashboard.Startlist;
+
 public abstract class StartlistTable : NotComponent
-{ 
+{
     protected MudTabs _tabs = default!;
     protected List<TabModel> _userTabs = [];
+
     [Parameter]
     public IEnumerable<Start> Starts { get; set; } = [];
 

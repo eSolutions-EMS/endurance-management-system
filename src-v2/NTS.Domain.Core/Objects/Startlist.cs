@@ -7,18 +7,18 @@ public class StartList
 {
     static readonly TimeSpan START_EXPIRY_TIME = TimeSpan.FromMinutes(15);
 
-    public StartList(){ }
+    public StartList() { }
 
     public List<Start> Starts { get; set; } = [];
 
     public List<Start> History
     {
-        get 
+        get
         {
             var now = DateTime.Now.TimeOfDay;
             return Starts
-                .Where(s=> now - s.StartAt > START_EXPIRY_TIME)
-                .OrderBy(s=>s.StartAt)
+                .Where(s => now - s.StartAt > START_EXPIRY_TIME)
+                .OrderBy(s => s.StartAt)
                 .ToList();
         }
     }
@@ -29,7 +29,7 @@ public class StartList
         {
             var now = DateTime.Now.TimeOfDay;
             return Starts
-                .Where(s=> now - s.StartAt <= START_EXPIRY_TIME)
+                .Where(s => now - s.StartAt <= START_EXPIRY_TIME)
                 .OrderBy(s => s.StartAt)
                 .ToList();
         }
@@ -61,7 +61,7 @@ public class StartList
     }
 
     public void Add(Start start)
-    {   
+    {
         Starts.Add(start);
     }
 }
