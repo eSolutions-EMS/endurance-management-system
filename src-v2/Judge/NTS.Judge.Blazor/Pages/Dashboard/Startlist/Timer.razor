@@ -1,4 +1,5 @@
 ﻿@using System.Timers
+@using System.Diagnostics
 @inherits NotComponent
 @implements IDisposable
 
@@ -8,11 +9,11 @@
 
 @code {
     [Parameter]
-    public string StartTime { get; set; } = default!;
+    public TimeSpan StartTime { get; set; } = default!;
     [Parameter]
     public double StopTimerAtTime { get; set; } = default!;
 
-    const int TimerRefreshInMilliseconds = 1000;
+    TimeSpan TimerRefreshTime = TimeSpan.FromSeconds(1);
 
     private Timer _timer = default!;
     private MudTheme _theme = new MudTheme();
@@ -22,33 +23,47 @@
 
     protected override void OnInitialized()
     {
-        _timer = new Timer(TimerRefreshInMilliseconds);
+        _timer = new Timer(TimerRefreshTime);
+        _timer.Elapsed += OnTimerElapsed;
+        _timer.AutoReset = (_time > TimeSpan.FromMinutes(StopTimerAtTime));
     }
 
     protected override void OnParametersSet()
     {
-        _time = TimeSpan.Parse(StartTime);
+        var now = DateTime.Now.TimeOfDay;
+        _time = StartTime - now;
         FormatTime();
-        _timer.Elapsed += OnTimerElapsed;
-        _timer.AutoReset = (_time > TimeSpan.FromMinutes(StopTimerAtTime));
         _timer.Enabled = _time > TimeSpan.FromMinutes(StopTimerAtTime);
     }
 
     private async void OnTimerElapsed(object? sender, System.Timers.ElapsedEventArgs e)
     {
-        _time = _time.Subtract(TimeSpan.FromSeconds(1));
+        _time = _time.Subtract(TimerRefreshTime);
         FormatTime();
         if (_time <= TimeSpan.FromMinutes(StopTimerAtTime))
         {
             _timer.Enabled = false;
         }
-        _displayTime = _time.ToString().Replace("-", " - ");
         await Render();
     }
 
-    public void FormatTime()
-    {
-        _displayTime = _time.ToString().Replace("-", " - ");
+    private void FormatTime()
+    {        
+        var day = DateOnly.FromDateTime(DateTime.Now);
+        if (_time >= TimeSpan.Zero)
+        {
+            var time = TimeOnly.FromTimeSpan(_time);
+            _displayTime = new DateTime(day, time).ToString("HH:mm:ss");
+        }
+        else
+        {
+            var positiveSignedTime = _time.Negate();
+            var time = TimeOnly.FromTimeSpan(positiveSignedTime);
+            _displayTime = new DateTime(day, time).ToString("HH:mm:ss");
+            if(_time <= TimeSpan.FromSeconds(-1)){
+                _displayTime = " - " + _displayTime;
+            }
+        }
         if (_time > TimeSpan.FromMinutes(5))
         {
             _color = _theme.PaletteLight.Success.Value;
