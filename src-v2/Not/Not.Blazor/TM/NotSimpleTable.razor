@@ -22,10 +22,10 @@
                 {
                     <td>@cellValue</td>
                 }
-                @if (CustomCellComponent != default)
+                @if ( CustomCell != default)
                 {
                     <td>
-                        @CustomCellComponent.Invoke(item)
+                        @CustomCell.Invoke(item)
                     </td>
                 }                   
             </tr>
@@ -41,5 +41,5 @@
     [Parameter]
     public string EmptyMessage { get; set; } = "This table is still empty";
     [Parameter]
-    public RenderFragment<T> CustomCellComponent { get; set; } = default!;
+    public RenderFragment<T>  CustomCell { get; set; } = default!;
 }
