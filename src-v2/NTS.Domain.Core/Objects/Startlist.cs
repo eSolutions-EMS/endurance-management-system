@@ -5,49 +5,38 @@ namespace NTS.Domain.Core.Objects;
 
 public class StartList
 {
-    public StartList() { }
+    static readonly TimeSpan START_EXPIRY_TIME = TimeSpan.FromMinutes(15);
 
-    public List<Start> Upcoming { get; set; } = new List<Start>();
-    public List<Start> History { get; set; } = new List<Start>();
+    public StartList(){ }
 
-    public void OrderHistoryByAscending()
+    public List<Start> Starts { get; set; } = [];
+
+    public List<Start> History
     {
-        History = History.OrderBy(s => s.StartAt).ToList();
-    }
-
-    public void Replace(Start start)
-    {
-        if (History.Contains(start))
+        get 
         {
-            History.Remove(start);
-            History.Add(start);
-            OrderHistoryByAscending();
-        }
-        if (Upcoming.Contains(start))
-        {
-            Upcoming.Remove(start);
-            Upcoming.Add(start);
+            var now = DateTime.Now.TimeOfDay;
+            return Starts
+                .Where(s=> now - s.StartAt > START_EXPIRY_TIME)
+                .OrderBy(s=>s.StartAt)
+                .ToList();
         }
     }
 
-    public void Add(Start start)
+    public List<Start> Upcoming
     {
-        Upcoming.Add(start);
-    }
-
-    public void Expire(Start start)
-    {
-        if (!History.Contains(start))
+        get
         {
-            Upcoming.Remove(start);
-            History.Add(start);
-            OrderHistoryByAscending();
+            var now = DateTime.Now.TimeOfDay;
+            return Starts
+                .Where(s=> now - s.StartAt <= START_EXPIRY_TIME)
+                .OrderBy(s => s.StartAt)
+                .ToList();
         }
     }
 
     public void AssignStarts(IEnumerable<Participation> participations)
     {
-        const int expireUpcomingInMinutes = 15;
         foreach (var participation in participations)
         {
             if (!participation.IsEliminated())
@@ -63,21 +52,16 @@ public class StartList
                         phaseIndex + 1,
                         phases[phaseIndex].Length,
                         participation.Phases.Distance,
-                        phase.StartTime!
+                        phase.StartTime!.DateTime.TimeOfDay
                     );
-                    if (now - phase.StartTime > TimeSpan.FromMinutes(expireUpcomingInMinutes))
-                    {
-                        if (!History.Contains(start))
-                            History.Add(start);
-                    }
-                    else
-                    {
-                        if (!Upcoming.Contains(start))
-                            Upcoming.Add(start);
-                    }
+                    Starts.Add(start);
                 }
             }
         }
-        History = History.OrderBy(s => s.StartAt).ToList();
+    }
+
+    public void Add(Start start)
+    {   
+        Starts.Add(start);
     }
 }
