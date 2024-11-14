@@ -1,6 +1,7 @@
 ﻿using System;
 using Not.Localization;
 using NTS.Domain.Core.Entities;
+using NTS.Domain.Extensions;
 
 namespace NTS.Domain.Core.Objects;
 
@@ -19,7 +20,7 @@ public record Start : DomainObject
         Number = number;
         PhaseNumber = loopNumber;
         Distance = distance;
-        TotalDistance = totalDistance.RoundWholeNumberToTens();
+        TotalDistance = totalDistance.RoundNumberToTens();
         StartAt = startAt;
     }
 
