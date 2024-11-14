@@ -13,7 +13,7 @@ public record Start : DomainObject
         int loopNumber,
         double distance,
         double totalDistance,
-        TimeSpan startAt
+        DateTime startAt
     )
     {
         Athlete = athlete;
@@ -21,18 +21,19 @@ public record Start : DomainObject
         PhaseNumber = loopNumber;
         Distance = distance;
         TotalDistance = totalDistance.RoundNumberToTens();
-        StartAt = startAt;
+        Time = startAt;
     }
 
     public Start(Participation participation)
     {
         Athlete = participation.Combination.Name;
         Number = participation.Combination.Number;
-        var phaseIndex = participation.Phases.IndexOf(participation.Phases.Current);
-        PhaseNumber = phaseIndex + 2;
+        var phaseIndex = participation.Phases.NumberOf(participation.Phases.Current);
+        var nextPhaseIndex = phaseIndex + 1;
+        PhaseNumber = nextPhaseIndex;
         Distance = participation.Phases[phaseIndex].Length;
         TotalDistance = participation.Phases.Distance;
-        StartAt = participation.Phases[phaseIndex + 1].StartTime!.DateTime.TimeOfDay;
+        Time = participation.Phases[phaseIndex].StartTime!.DateTime.DateTime;
     }
 
     public Person Athlete { get; private set; }
@@ -40,12 +41,12 @@ public record Start : DomainObject
     public int PhaseNumber { get; private set; }
     public double Distance { get; private set; }
     public double TotalDistance { get; private set; }
-    public TimeSpan StartAt { get; private set; }
+    public DateTime Time { get; private set; }
 
     public override string ToString()
     {
         var distance = Distance + "km".Localize();
-        var result = Combine(Number, Athlete, distance, StartAt);
+        var result = Combine(Number, Athlete, distance, Time);
         return result;
     }
 }

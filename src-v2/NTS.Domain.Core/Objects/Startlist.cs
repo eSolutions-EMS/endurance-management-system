@@ -11,26 +11,26 @@ public class StartList
 
     public List<Start> Starts { get; set; } = [];
 
-    public List<Start> History
+    public IReadOnlyList<Start> History
     {
         get
         {
             var now = DateTime.Now.TimeOfDay;
             return Starts
-                .Where(s => now - s.StartAt > START_EXPIRY_TIME)
-                .OrderBy(s => s.StartAt)
+                .Where(s => now - s.Time.TimeOfDay > START_EXPIRY_TIME)
+                .OrderBy(s => s.Time)
                 .ToList();
         }
     }
 
-    public List<Start> Upcoming
+    public IReadOnlyList<Start> Upcoming
     {
         get
         {
             var now = DateTime.Now.TimeOfDay;
             return Starts
-                .Where(s => now - s.StartAt <= START_EXPIRY_TIME)
-                .OrderBy(s => s.StartAt)
+                .Where(s => now - s.Time.TimeOfDay <= START_EXPIRY_TIME)
+                .OrderBy(s => s.Time)
                 .ToList();
         }
     }
@@ -42,17 +42,21 @@ public class StartList
             if (!participation.IsEliminated())
             {
                 var phases = participation.Phases;
-                var now = new Timestamp(DateTime.Now);
-                foreach (var phase in phases.Where(p => p.StartTime != null))
+                foreach (var phase in phases)
                 {
-                    var phaseIndex = phases.IndexOf(phase);
+                    if (phase.StartTime == null)
+                    {
+                        continue;
+                    }
+                    var zeroBasedPhaseIndex = phases.IndexOf(phase);
+                    var phaseIndex = zeroBasedPhaseIndex + 1;
                     var start = new Start(
                         participation.Combination.Name,
                         participation.Combination.Number,
-                        phaseIndex + 1,
-                        phases[phaseIndex].Length,
+                        phaseIndex,
+                        phases[zeroBasedPhaseIndex].Length,
                         participation.Phases.Distance,
-                        phase.StartTime!.DateTime.TimeOfDay
+                        phase.StartTime.DateTime.DateTime
                     );
                     Starts.Add(start);
                 }
