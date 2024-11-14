@@ -20,15 +20,15 @@ public class StartlistBehind : ObservableBehind, IStartupInitializer, IStartlist
         Startlist = startlist;
     }
 
-    public StartList Startlist { get; set; }
-    public List<Start> Upcoming => Startlist.Upcoming;
-    public List<Start> History => Startlist.History;
+    StartList Startlist { get; set; }
+    public IReadOnlyList<Start> Upcoming => Startlist.Upcoming;
+    public IReadOnlyList<Start> History => Startlist.History;
 
     protected override async Task<bool> PerformInitialization(params IEnumerable<object> arguments)
     {
         var participations = await _participationRepository.ReadAll();
         Startlist.AssignStarts(participations);
-        return Upcoming.Any() && History.Any();
+        return Startlist.Starts.Any();
     }
 
     public void RunAtStartup()
