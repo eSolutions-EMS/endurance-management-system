@@ -14,7 +14,7 @@
             <ChildContent>
                 <NotSimpleTable T="Start" Headings="@_tableHeadings" Items="Starts.Where(s=>tabHeader.Contains(s.PhaseNumber.ToString()))">
                     <CustomCell>
-                        <StartlistTimer StartTime="@context.StartAt" StopTimerAtTime="-15" />
+                        <StartlistTimer StartTime="@context.Time" StopTimerAtTime="-15" />
                     </CustomCell>
                 </NotSimpleTable>
                 </ChildContent>
