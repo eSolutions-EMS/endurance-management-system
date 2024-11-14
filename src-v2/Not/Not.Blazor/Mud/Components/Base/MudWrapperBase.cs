@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Components;
-using Not.Blazor.Components.Base;
+﻿using Not.Blazor.Components;
 
 namespace Not.Blazor.Mud.Components.Base;
 
-public class MudWrapperBase : NotComponent
+public class MudWrapperBase : NComponent
 {
     [Parameter]
     public RenderFragment? ChildContent { get; set; }

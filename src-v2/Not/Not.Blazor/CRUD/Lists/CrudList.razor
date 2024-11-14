@@ -3,11 +3,10 @@
 @using Not.Blazor.CRUD.Lists.Ports
 @using Not.Blazor.CRUD.Forms
 @using Not.Blazor.Components
-@using Not.Blazor.Components.Base
 @using Not.Blazor.Mud.Components
 @using Not.Blazor.Navigation
 
-@inherits NotComponent
+@inherits NComponent
 @typeparam T where T : DomainEntity
 @typeparam TModel where TModel : IFormModel<T>, new()
 @typeparam TForm where TForm : FormTM<TModel>

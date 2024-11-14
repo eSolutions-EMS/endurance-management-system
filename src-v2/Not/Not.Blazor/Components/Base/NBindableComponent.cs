@@ -1,13 +1,13 @@
-﻿namespace Not.Blazor.Components.Base;
+﻿namespace Not.Blazor.Components;
 
-public class BindableValueComponent<T> : NotComponent
+public class NBindableComponent<T> : NComponent
 {
     T? _value;
 
     [Parameter]
 #pragma warning disable BL0007 // Component parameters should be auto properties
     public T? Value
-#pragma warning restore BL0007 
+#pragma warning restore BL0007 // Component parameters should be auto properties
     {
         get => _value;
         set

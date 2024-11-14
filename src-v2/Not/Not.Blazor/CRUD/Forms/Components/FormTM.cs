@@ -1,12 +1,11 @@
 ﻿using MudBlazor;
-using Not.Blazor.Components.Base;
-using Not.Blazor.Components.N;
+using Not.Blazor.Components;
 using Not.Blazor.CRUD.Forms.Validation;
 using Not.Notify;
 
 namespace Not.Blazor.CRUD.Forms.Components;
 
-public abstract class FormTM<T> : NotComponent
+public abstract class FormTM<T> : NComponent
 {
     public abstract void RegisterValidationInjectors();
 

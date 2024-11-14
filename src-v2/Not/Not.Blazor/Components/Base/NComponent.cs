@@ -1,9 +1,9 @@
 ﻿using Not.Blazor.Observable.Ports;
 using Not.Localization;
 
-namespace Not.Blazor.Components.Base;
+namespace Not.Blazor.Components;
 
-public class NotComponent : ComponentBase
+public class NComponent : ComponentBase
 {
     [Inject]
     protected ILocalizer Localizer { get; set; } = default!;

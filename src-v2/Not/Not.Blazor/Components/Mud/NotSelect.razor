@@ -1,10 +1,9 @@
 ﻿@using Not.Blazor.CRUD.Forms.Validation
-@using Not.Blazor.Components
-@using Not.Blazor.Components.Base
 @using Not.Structures;
 
+@namespace Not.Blazor.Components
 @typeparam T
-@inherits BindableValueComponent<T>
+@inherits NBindableComponent<T>
 @implements IMudBaseInputWrapper<T>
 
 <MudSelect @bind-Value="Value" @ref="MudBaseInput" Placeholder="@Localizer.Get(Placeholder)" Label="@Localizer.Get(Label)">

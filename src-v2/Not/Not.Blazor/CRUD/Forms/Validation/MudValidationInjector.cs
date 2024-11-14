@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 using MudBlazor;
-using Not.Blazor.Components.N;
+using Not.Blazor.Components;
 using Not.Reflection;
 
 namespace Not.Blazor.CRUD.Forms.Validation;

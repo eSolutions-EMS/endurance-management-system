@@ -1,10 +1,8 @@
 ﻿@using NTS.Domain.Core.Entities.ParticipationAggregate
 @using NTS.Judge.Blazor.Ports
-@using Not.Blazor.Components.Base
 @using Not.Notify
-@using Not.Blazor.Components.N
 
-@inherits NotComponent
+@inherits NComponent
 
 <NotAutocomplete @bind-value="_combination" Search="Search" Style="@Style" Class="@Class" />
 
@@ -24,9 +22,9 @@
             return;
         }
         await _behind.Create(_combination.Number);
-    }
 
-    async Task<IEnumerable<Combination>> Search(string term)
+    }
+    async Task<IEnumerable<Combination?>> Search(string term)
     {
         var combinations = await _behind.GetCombinations();
         if (string.IsNullOrEmpty(term))

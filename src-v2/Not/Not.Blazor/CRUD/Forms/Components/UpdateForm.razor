@@ -1,15 +1,13 @@
 ﻿@using Not.Blazor.CRUD.Ports
-@using Not.Blazor.Components.Base
-@using Not.Blazor.Components.N
 @using Not.Blazor.Mud.Components
 @using Not.Blazor.Navigation
 @using Not.Blazor.CRUD.Forms.Components
 @using Not.Blazor.Components
 @using Not.Safe
 
-@inherits NotComponent
-@typeparam T;
-@typeparam TForm where TForm : FormTM<T>;
+@inherits NComponent
+@typeparam T
+@typeparam TForm where TForm : FormTM<T>
 
 <MudContainer Class="not-page-mid-width">
     <NotDynamic @ref="_form" T="T" TForm="TForm" Model="Model" />

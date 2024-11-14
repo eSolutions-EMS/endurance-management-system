@@ -6,9 +6,9 @@
 using System.Diagnostics.CodeAnalysis;
 
 [assembly: SuppressMessage(
-    "Usage",
-    "BL0007:Component parameters should be auto properties",
-    Justification = "<Pending>",
-    Scope = "member",
-    Target = "~P:Not.Blazor.Components.BindableValueComponent`1.Value"
+    "Style",
+    "IDE0130:Namespace does not match folder structure",
+    Justification = "Compress the number of usings in razor files, since these components are widely used",
+    Scope = "namespace",
+    Target = "~N:Not.Blazor.Components"
 )]

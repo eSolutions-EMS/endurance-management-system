@@ -1,9 +1,9 @@
 ﻿@using Not.Blazor.Components
 @using Not.Blazor.CRUD.Forms.Validation
-@using Not.Blazor.Components.Base
 
-@typeparam T;
-@inherits BindableValueComponent<T>;
+@namespace Not.Blazor.Components
+@typeparam T
+@inherits NBindableComponent<T>
 @implements IMudBaseInputWrapper<T>
 
 <MudAutocomplete T="T"
@@ -16,7 +16,7 @@
                  Label="@Localizer.Get(Label)" />
 
 @code {
-    [Parameter]
+    [Parameter, EditorRequired]
     public Func<string, Task<IEnumerable<T>>> Search { get; set; } = default!;
     [Parameter]
     public bool ResetValueOnClick { get; set; } = true;

@@ -1,9 +1,9 @@
-﻿using Not.Blazor.Components.Base;
+﻿using Not.Blazor.Components;
 using Not.Events;
 
 namespace Not.Blazor.Print;
 
-public abstract class PrintableComponent : NotComponent, IDisposable
+public abstract class PrintableComponent : NComponent, IDisposable
 {
     public delegate void ToggleVisibility();
 

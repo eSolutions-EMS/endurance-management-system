@@ -5,11 +5,9 @@
 @using NTS.Judge.Blazor.Ports
 @using Not.Events
 @using Not.Notify
-@using Not.Blazor.Components.Base
-@using Not.Blazor.Components.N
 
 @attribute [Route(DASHBOARD_PAGE)]
-@inherits NotComponent
+@inherits NComponent
 
 <NotPage Title="Dashboard" HasContent="_participationBehind.Participations.Any()" EmptyMessage="No participations">
     
