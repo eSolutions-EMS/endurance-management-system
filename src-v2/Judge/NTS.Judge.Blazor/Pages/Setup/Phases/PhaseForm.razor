@@ -9,7 +9,7 @@
 @inherits FormTM<PhaseFormModel>
 
 <EditForm Model="Model">
-    <NotSelect @ref="_loopField" T="Loop" Label="Loop distance" Placeholder="Select a loop" Items="_loops" @bind-Value="Model.Loop" />
+    <NSelect @ref="_loopField" T="Loop" Label="Loop distance" Placeholder="Select a loop" Items="_loops" @bind-Value="Model.Loop" />
 
     <MudNumericField T="int" @ref="_recoveryField" @bind-Value="Model.Recovery" Min="0" Label="Recovery Time" />
 
@@ -17,7 +17,7 @@
 </EditForm>
 
 @code {
-    NotSelect<Loop> _loopField = default!;
+    NSelect<Loop> _loopField = default!;
     MudNumericField<int> _recoveryField = default!;
     MudNumericField<int?> _restField = default!;
     List<NotListModel<Loop>> _loops = new();

@@ -11,19 +11,19 @@
 @inherits FormTM<ParticipationFormModel>;
 
 <EditForm Model="Model">
-    <NotAutocomplete @ref="_combinaionField" T="Combination" Label="Combination" @bind-Value="Model.Combination"
+    <NAutocomplete @ref="_combinaionField" T="Combination" Label="Combination" @bind-Value="Model.Combination"
         Search="SearchCombinations" />
 
-    <NotSwitch @ref="_isNotRankedField" @bind-Value="Model.IsNotRanked" Label="Unranked" />
+    <NSwitch @ref="_isNotRankedField" @bind-Value="Model.IsNotRanked" Label="Unranked" />
 
-    <NotSwitch @bind-Value="_overrideStartTime" Label="Override Start Time"/>
+    <NSwitch @bind-Value="_overrideStartTime" Label="Override Start Time"/>
 
     @if (_overrideStartTime)
     {
         <MudTimePicker @ref="_timeField" @bind-Time="Model.StartTimeOverride" ShowToolbar="false" Label="Start Time" />
     }
 
-    <NotSwitch @bind-Value="_overrideMaxSpeed" Label="Override Max Speed" />
+    <NSwitch @bind-Value="_overrideMaxSpeed" Label="Override Max Speed" />
 
     @if (_overrideMaxSpeed)
     {
@@ -32,8 +32,8 @@
 </EditForm>
 
 @code {
-    NotAutocomplete<Combination> _combinaionField = default!;
-    NotSwitch _isNotRankedField = default!;
+    NAutocomplete<Combination> _combinaionField = default!;
+    NSwitch _isNotRankedField = default!;
     MudPicker<TimeSpan?> _timeField = default!;
     MudNumericField<double?> _maxSpeedOverrideField = default!;
     

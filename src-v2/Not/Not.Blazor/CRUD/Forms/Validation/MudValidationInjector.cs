@@ -24,9 +24,9 @@ public class MudValidationInjector
         );
     }
 
-    public static MudValidationInjector Create<T, TInternal>(Func<NotSwitch> wrapperGetter)
+    public static MudValidationInjector Create<T, TInternal>(Func<NSwitch> wrapperGetter)
     {
-        return new MudValidationInjector(typeof(NotSwitch), () => wrapperGetter());
+        return new MudValidationInjector(typeof(NSwitch), () => wrapperGetter());
     }
 
     public static MudValidationInjector Create<T>(Func<IMudBaseInputWrapper<T>> wrapperGetter)

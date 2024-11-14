@@ -10,9 +10,9 @@
 <EditForm Model="Model">
     <MudNumericField @ref="_numberField" @bind-Value="Model.Number" T="int" Min="0" Label="@Localizer.Get("Combination Number")" />
 
-    <NotAutocomplete @ref="_athleteField" @bind-Value="Model.Athlete" Label="Athlete" Search="SearchAthletes" />
+    <NAutocomplete @ref="_athleteField" @bind-Value="Model.Athlete" Label="Athlete" Search="SearchAthletes" />
 
-    <NotAutocomplete @ref="_horseField" @bind-Value="Model.Horse" Label="Horse" Search="SearchHorses"/>
+    <NAutocomplete @ref="_horseField" @bind-Value="Model.Horse" Label="Horse" Search="SearchHorses"/>
 
     @if (StaticOptions.IsRfidDetectionEnabled())
     {
@@ -22,8 +22,8 @@
 
 @code {
     MudNumericField<int> _numberField = default!;
-    NotAutocomplete<Athlete?> _athleteField = default!;
-    NotAutocomplete<Horse?> _horseField = default!;
+    NAutocomplete<Athlete?> _athleteField = default!;
+    NAutocomplete<Horse?> _horseField = default!;
     List<NotListModel<Athlete>> _athletes = [];
     List<NotListModel<Horse>> _horses = [];
 

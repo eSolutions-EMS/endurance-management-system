@@ -14,7 +14,7 @@
 <NotPage Title="Configure Competition" HasContent="_competition != null" EmptyMessage="Competition does not exist">
 
     <Main>
-        <NotGrid Spacing="8">
+        <NGrid Spacing="8">
             
             <MudItem xs="12">
                 <UpdateForm T="CompetitionFormModel" TForm="CompetitionForm" Model="_competition" />
@@ -31,7 +31,7 @@
                     UpdateRoute="@PARTICIPATION_UPDATE" ParentId="_competition!.Id" />
             </MudItem>
 
-        </NotGrid>
+        </NGrid>
     </Main>
 
 </NotPage>

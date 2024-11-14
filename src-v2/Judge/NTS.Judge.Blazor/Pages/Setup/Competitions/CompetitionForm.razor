@@ -10,15 +10,15 @@
 <EditForm Model="Model">
     <MudTextField @ref="_nameField" @bind-Value="Model.Name" Label="@Localizer.Get("Name")" />
 
-    <NotSelect @ref="_rulesetField" Label="Ruleset" @bind-Value="Model.Ruleset" Items="_competitionRules" />
+    <NSelect @ref="_rulesetField" Label="Ruleset" @bind-Value="Model.Ruleset" Items="_competitionRules" />
 
-    <NotSelect @ref="_typeField" Label="Type" @bind-Value="Model.Type" Items="_competitionTypes" />
+    <NSelect @ref="_typeField" Label="Type" @bind-Value="Model.Type" Items="_competitionTypes" />
 
     <MudDatePicker @ref="_dayField" @bind-Date="Model.Day" Label="@Localizer.Get("Date")" />
 
     <MudTimePicker @ref="_timeField" @bind-Time="Model.Time" Label="@Localizer.Get("Time")" />
 
-    <NotSwitch @bind-Value="Model.UseCompulsoryThreshold" Label="Use automatic CRI" />
+    <NSwitch @bind-Value="Model.UseCompulsoryThreshold" Label="Use automatic CRI" />
 
     @if (Model.UseCompulsoryThreshold)
     {
@@ -29,8 +29,8 @@
 @code {
     MudNumericField<int?> _requiredInspectionCompulsoryThreshold = default!;
     MudTextField<string?> _nameField = default!;
-    NotSelect<CompetitionType> _typeField = default!;
-    NotSelect<CompetitionRuleset> _rulesetField = default!;
+    NSelect<CompetitionType> _typeField = default!;
+    NSelect<CompetitionRuleset> _rulesetField = default!;
     MudPicker<DateTime?> _dayField = default!;
     MudPicker<TimeSpan?> _timeField = default!;
 

@@ -10,12 +10,12 @@
 <EditForm Model="Model">
     <MudTextField @ref="_nameField" @bind-Value="Model.Name" Label="@Localizer.Get("Name")" />
 
-    <NotSelect @ref="_roleField" Items="_roles" @bind-Value="Model.Role" Label="Official Role" Placeholder="Select a role"/>
+    <NSelect @ref="_roleField" Items="_roles" @bind-Value="Model.Role" Label="Official Role" Placeholder="Select a role"/>
 </EditForm>
 
 @code {
     private MudTextField<string?> _nameField = default!;
-    private NotSelect<OfficialRole> _roleField = default!;
+    private NSelect<OfficialRole> _roleField = default!;
 
     private List<NotListModel<OfficialRole>> _roles = NotListModel.FromEnum<OfficialRole>().ToList();
 

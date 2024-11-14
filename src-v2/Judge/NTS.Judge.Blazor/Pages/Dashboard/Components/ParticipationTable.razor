@@ -41,28 +41,28 @@
                     <MudButton Variant="Variant.Text" OnClick="() => ShowUpdate(phase)">@phase.Gate</MudButton>
                 </MudTooltip>
 
-                <TableData Value="@phase.StartTime" />
-                <TableData Value="@phase.ArriveTime" />
-                <TableData Value="@phase.PresentTime" />
+                <NTd Value="@phase.StartTime" />
+                <NTd Value="@phase.ArriveTime" />
+                <NTd Value="@phase.PresentTime" />
 
                 @if (_anyRepresentation)
                 {
-                    <TableData Value="@phase.RepresentTime" />
+                    <NTd Value="@phase.RepresentTime" />
                 }
                 @if (_anyRequiredInspection)
                 {
-                    <TableData Value="@(phase.IsRequiredInspectionRequested ? phase.GetRequiredInspectionTime() : null)" />
+                    <NTd Value="@(phase.IsRequiredInspectionRequested ? phase.GetRequiredInspectionTime() : null)" />
                 }
                 @if (_anyCompulsoryRequiredInspection)
                 {
-                    <TableData Value="@(phase.IsRequiredInspectionCompulsory ? phase.GetRequiredInspectionTime() : null)" />
+                    <NTd Value="@(phase.IsRequiredInspectionCompulsory ? phase.GetRequiredInspectionTime() : null)" />
                 }
 
-                <TableData Value="@phase.GetRecoverySpan()" />
-                <TableData Value="@phase.GetLoopSpan()" />
-                <TableData Value="@phase.GetPhaseSpan()" />
-                <TableData Value="@phase.GetAverageLoopSpeed()" />
-                <TableData Value="@phase.GetAveragePhaseSpeed()" />
+                <NTd Value="@phase.GetRecoverySpan()" />
+                <NTd Value="@phase.GetLoopSpan()" />
+                <NTd Value="@phase.GetPhaseSpan()" />
+                <NTd Value="@phase.GetAverageLoopSpeed()" />
+                <NTd Value="@phase.GetAveragePhaseSpeed()" />
             </tr>
         }
     </tbody>

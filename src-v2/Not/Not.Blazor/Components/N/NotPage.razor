@@ -10,9 +10,9 @@
 }
 else
 {
-    <NotGrid Spacing="4" Class="@("not-page " + Class)">
+    <NGrid Spacing="4" Class="@("not-page " + Class)">
         <MudItem xs="12">
-            <NotTitle Content="@Title" />
+            <NTitle Content="@Title" />
         </MudItem>
 
         @if (!HasContent)
@@ -48,7 +48,7 @@ else
                 @Rightbar
             </MudItem>
         }
-    </NotGrid>
+    </NGrid>
 }
 
 @code {

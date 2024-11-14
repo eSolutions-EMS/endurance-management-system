@@ -51,7 +51,7 @@ public abstract class FormTM<T> : NComponent
         AddInjector(field, injector);
     }
 
-    protected void RegisterInjector(string field, Func<NotSwitch> mudInputInstanceGetter)
+    protected void RegisterInjector(string field, Func<NSwitch> mudInputInstanceGetter)
     {
         var injector = MudValidationInjector.Create<bool, bool>(mudInputInstanceGetter);
         AddInjector(field, injector);
