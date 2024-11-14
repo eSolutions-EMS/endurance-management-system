@@ -3,7 +3,6 @@
 @using Not.Blazor.CRUD.Lists.Ports
 @using Not.Blazor.CRUD.Forms
 @using Not.Blazor.Components
-@using Not.Blazor.Mud.Components
 @using Not.Blazor.Navigation
 
 @inherits NComponent
@@ -18,7 +17,7 @@
 
         <MudSpacer />
 
-        <NotButtonCreate Variant="Variant.Outlined" OnClick="CreateHandler" />
+        <NButtonCreate Variant="Variant.Outlined" OnClick="CreateHandler" />
     </MudStack>
 
     @if (_behind.Items.Count == 0)
@@ -34,9 +33,9 @@
 
                 <MudSpacer />
 
-                <NotIconButtonUpdate OnClick="() => _formNavigator.Update(UpdateRoute, CreateModel(entity))" />
+                <NIconUpdate OnClick="() => _formNavigator.Update(UpdateRoute, CreateModel(entity))" />
 
-                <NotIconButtonDelete OnClick="() => DeleteHandler(entity)" />
+                <NIconDelete OnClick="() => DeleteHandler(entity)" />
             </MudStack>
 
             <MudDivider />

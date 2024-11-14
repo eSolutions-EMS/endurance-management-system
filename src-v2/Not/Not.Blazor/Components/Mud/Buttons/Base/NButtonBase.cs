@@ -1,9 +1,9 @@
 ﻿using MudBlazor;
 using Not.Localization;
 
-namespace Not.Blazor.Mud.Components.Base;
+namespace Not.Blazor.Components;
 
-public class NotButtonBase : MudButton
+public abstract class NButtonBase : MudButton
 {
     [Inject]
     ILocalizer Localizer { get; set; } = default!;

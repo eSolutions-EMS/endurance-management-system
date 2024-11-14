@@ -1,7 +1,7 @@
 ﻿using MudBlazor;
-using Not.Blazor.Mud.Components.Base;
+using Not.Blazor.Components.Base;
 
-namespace Not.Blazor.Mud.Components;
+namespace Not.Blazor.Components;
 
 public class NotH1 : NotHeadlineBase
 {

@@ -1,10 +1,10 @@
 ﻿using MudBlazor;
 
-namespace Not.Blazor.Mud.Components;
+namespace Not.Blazor.Components;
 
-public class NotButtonBack : NotButtonSecondary
+public class NButtonBack : NButtonSecondary
 {
-    public NotButtonBack()
+    public NButtonBack()
     {
         StartIcon = Icons.Material.Outlined.ArrowBackIos;
         Text = "Back";

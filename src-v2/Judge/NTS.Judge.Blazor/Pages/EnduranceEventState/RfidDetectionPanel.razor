@@ -2,11 +2,11 @@
 
 @if (_readerBehind.IsConnected())
 {
-    <NotButtonPrimary OnClick="StopDetecting" Text="Stop Detecting" />
+    <NButtonPrimary OnClick="StopDetecting" Text="Stop Detecting" />
 }
 else
 {
-    <NotButtonPrimary OnClick="Reconnect" Text="Reconnect" />
+    <NButtonPrimary OnClick="Reconnect" Text="Reconnect" />
 }
 @code {
     [Inject]

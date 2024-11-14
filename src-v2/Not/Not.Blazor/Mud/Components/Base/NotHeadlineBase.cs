@@ -1,7 +1,9 @@
 ﻿using MudBlazor;
 using Not.Localization;
 
-namespace Not.Blazor.Mud.Components.Base;
+#pragma warning disable IDE0130 // Namespace does not match folder structure
+namespace Not.Blazor.Components.Base;
+#pragma warning restore IDE0130 // Namespace does not match folder structure
 
 // TODO: figure out if it is possible to internally localize the contents here
 public abstract class NotHeadlineBase : MudText

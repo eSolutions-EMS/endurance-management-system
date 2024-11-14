@@ -1,8 +1,7 @@
 ﻿@using Not.Blazor.CRUD.Ports
-@using Not.Blazor.Mud.Components
+@using Not.Blazor.Components
 @using Not.Blazor.Navigation
 @using Not.Blazor.CRUD.Forms.Components
-@using Not.Blazor.Components
 @using Not.Safe
 
 @inherits NComponent
@@ -13,11 +12,11 @@
     <NDynamic @ref="_form" T="T" TForm="TForm" Model="Model" />
     
     <MudStack Row="true" Class="mt-4">
-        <NotButtonUpdate OnClick="Update" />
+        <NButtonUpdate OnClick="Update" />
 
         @if (_navigator.CanNavigateBack())
         {
-            <NotButtonBack OnClick="NavigateBack" />
+            <NButtonBack OnClick="NavigateBack" />
         }
     </MudStack>
 </MudContainer>

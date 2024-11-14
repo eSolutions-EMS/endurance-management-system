@@ -1,10 +1,10 @@
 ﻿using MudBlazor;
 
-namespace Not.Blazor.Mud.Components;
+namespace Not.Blazor.Components;
 
-public class NotIconButtonDelete : MudIconButton
+public class NIconDelete : MudIconButton
 {
-    public NotIconButtonDelete()
+    public NIconDelete()
     {
         Icon = Icons.Material.Outlined.Delete;
         Color = Color.Error;

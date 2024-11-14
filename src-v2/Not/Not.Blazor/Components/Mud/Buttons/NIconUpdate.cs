@@ -1,10 +1,10 @@
 ﻿using MudBlazor;
 
-namespace Not.Blazor.Mud.Components;
+namespace Not.Blazor.Components;
 
-public class NotIconButtonUpdate : MudIconButton
+public class NIconUpdate : MudIconButton
 {
-    public NotIconButtonUpdate()
+    public NIconUpdate()
     {
         Icon = Icons.Material.Outlined.Create;
         Color = Color.Primary;

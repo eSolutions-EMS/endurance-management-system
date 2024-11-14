@@ -1,11 +1,11 @@
 ﻿using MudBlazor;
-using Not.Blazor.Mud.Components.Base;
+using Not.Blazor.Components.Base;
 
-namespace Not.Blazor.Mud.Components;
+namespace Not.Blazor.Components;
 
-public class NotButtonDanger : NotButtonBase
+public class NButtonDanger : NButtonBase
 {
-    public NotButtonDanger()
+    public NButtonDanger()
     {
         Size = Size.Medium;
         Color = Color.Error;
