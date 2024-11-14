@@ -8,11 +8,11 @@
 @inherits StartlistTable
 
 <MudTabs @ref="@_tabs" PanelClass="px-4 py-6" Elevation="4" Rounded ApplyEffectsToContainer Class="@Class">
-    @foreach (var tab in _userTabs)
+    @foreach (var tabHeader in _tabHeaders)
     {
-        <MudTabPanel ID="@tab.Id" Text="@tab.Header">
+        <MudTabPanel Text="@tabHeader">
             <ChildContent>
-                <NotSimpleTable T="Start" Headings="@_tableHeadings" Items="Starts.Where(s=>tab.Header.Contains(s.PhaseNumber.ToString()))">
+                <NotSimpleTable T="Start" Headings="@_tableHeadings" Items="Starts.Where(s=>tabHeader.Contains(s.PhaseNumber.ToString()))">
                     <CustomCell>
                         <StartlistTimer StartTime="@context.StartAt" StopTimerAtTime="-15" />
                     </CustomCell>
