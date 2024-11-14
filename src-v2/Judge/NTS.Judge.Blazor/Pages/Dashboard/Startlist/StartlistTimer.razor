@@ -3,27 +3,29 @@
 @inherits NotComponent
 @implements IDisposable
 
-<div style="@($"color:{@_color};")">
-   @_displayTime
-</div>
+<MudText Color="_color">
+    @_displayTime
+</MudText>
 
 @code {
     [Parameter]
-    public TimeSpan StartTime { get; set; } = default!;
+    public DateTime StartTime { get; set; } = default!;
     [Parameter]
     public double StopTimerAtTime { get; set; } = default!;
 
-    TimeSpan TimerRefreshTime = TimeSpan.FromSeconds(1);
+    TimeSpan TimerInterval = TimeSpan.FromSeconds(1);
+    TimeSpan NegativeSecond = TimeSpan.FromSeconds(-1);
+    TimeSpan FiveMinutes = TimeSpan.FromMinutes(5);
 
     private Timer _timer = default!;
     private MudTheme _theme = new MudTheme();
     private TimeSpan _time = default!;
     private string _displayTime = default!;
-    private string _color = default!;
+    private Color _color = default!;
 
     protected override void OnInitialized()
     {
-        _timer = new Timer(TimerRefreshTime);
+        _timer = new Timer(TimerInterval);
         _timer.Elapsed += OnTimerElapsed;
         _timer.AutoReset = (_time > TimeSpan.FromMinutes(StopTimerAtTime));
     }
@@ -31,14 +33,14 @@
     protected override void OnParametersSet()
     {
         var now = DateTime.Now.TimeOfDay;
-        _time = StartTime - now;
+        _time = StartTime.TimeOfDay - now;
         FormatTime();
         _timer.Enabled = _time > TimeSpan.FromMinutes(StopTimerAtTime);
     }
 
     private async void OnTimerElapsed(object? sender, System.Timers.ElapsedEventArgs e)
     {
-        _time = _time.Subtract(TimerRefreshTime);
+        _time = _time.Subtract(TimerInterval);
         FormatTime();
         if (_time <= TimeSpan.FromMinutes(StopTimerAtTime))
         {
@@ -49,32 +51,29 @@
 
     private void FormatTime()
     {        
-        var day = DateOnly.FromDateTime(DateTime.Now);
         if (_time >= TimeSpan.Zero)
         {
-            var time = TimeOnly.FromTimeSpan(_time);
-            _displayTime = new DateTime(day, time).ToString("HH:mm:ss");
+            _displayTime = $"{_time:hh\\:mm\\:ss}";
         }
         else
         {
-            var positiveSignedTime = _time.Negate();
-            var time = TimeOnly.FromTimeSpan(positiveSignedTime);
-            _displayTime = new DateTime(day, time).ToString("HH:mm:ss");
-            if(_time <= TimeSpan.FromSeconds(-1)){
-                _displayTime = " - " + _displayTime;
-            }
+            var positiveSignedTime = _time.Negate();            
+            var isTrulyNegativeTime = _time <= NegativeSecond;
+            _displayTime = isTrulyNegativeTime 
+            ? " - " + $"{positiveSignedTime:hh\\:mm\\:ss}" 
+            : $"{positiveSignedTime:hh\\:mm\\:ss}";
         }
-        if (_time > TimeSpan.FromMinutes(5))
+        if (_time > FiveMinutes)
         {
-            _color = _theme.PaletteLight.Success.Value;
+            _color = Color.Success;
         }
-        else if (_time > TimeSpan.FromMinutes(0))
+        else if (_time >= TimeSpan.Zero)
         {
-            _color = _theme.PaletteLight.Warning.Value;
+            _color = Color.Warning;
         }
         else
         {
-            _color = _theme.PaletteLight.Error.Value;
+            _color = Color.Error;
         }
     }
 
