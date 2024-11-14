@@ -1,4 +1,4 @@
-﻿@typeparam T
+﻿@typeparam T where T : class
 @inherits MudSimpleTable
 
 <MudSimpleTable Style="overflow-x: auto;">
@@ -18,11 +18,11 @@
         @foreach (var item in Items)
         {
             <tr>
-                @foreach (var cellValue in item!.ToString()!.Split("|"))
+                @foreach (var cellValue in item.ToString()!.Split("|"))
                 {
                     <td>@cellValue</td>
                 }
-                @if ( CustomCell != default)
+                @if (CustomCell != default)
                 {
                     <td>
                         @CustomCell.Invoke(item)
