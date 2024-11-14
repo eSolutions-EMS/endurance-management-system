@@ -11,7 +11,7 @@
 @attribute [Route(COMPETITION_UPDATE)]
 @inherits NComponent
 
-<NotPage Title="Configure Competition" HasContent="_competition != null" EmptyMessage="Competition does not exist">
+<NContent Title="Configure Competition" HasContent="_competition != null" EmptyMessage="Competition does not exist">
 
     <Main>
         <NGrid Spacing="8">
@@ -34,7 +34,7 @@
         </NGrid>
     </Main>
 
-</NotPage>
+</NContent>
 
 @code {
     CompetitionFormModel? _competition { get; set; } = default!;

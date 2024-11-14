@@ -9,13 +9,13 @@
 @attribute [Route(PARTICIPATION_UPDATE)]
 @inherits NComponent
 
-<NotPage Title="Configure Participation">
+<NContent Title="Configure Participation">
 
     <Main>
         <UpdateForm T="ParticipationFormModel" TForm="ParticipationForm" Model="_navigator.ConsumeParameter<ParticipationFormModel>()" />
     </Main>
 
-</NotPage>
+</NContent>
 
 @code {
     [Inject]

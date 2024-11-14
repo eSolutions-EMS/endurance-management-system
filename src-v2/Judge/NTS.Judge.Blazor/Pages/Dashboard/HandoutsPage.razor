@@ -6,21 +6,21 @@
 @attribute [Route(HANDOUTS_PAGE)]
 @inherits PrintableComponent
 
-<NotPage Title="Handouts" HasContent="@_behind.Documents.Any()" EmptyMessage="No handouts to print :)" RightBarXS="2">
+<NContent Title="Handouts" HasContent="@_behind.Documents.Any()" EmptyMessage="No handouts to print :)" RightBarXS="2">
 
     <Main>
         <HandoutsList Documents="_behind.Documents" />
     </Main>
 
     <Rightbar>
-        <TextDividerTM Text="Export" />
+        <NTextDivider Text="Export" />
         <NotButtonPrint Text="Print Preview" OnClick="OpenPrintPreview" />
 
-        <TextDividerTM Text="Manual handout" Class="mt-4" />
+        <NTextDivider Text="Manual handout" Class="mt-4" />
         <HandoutForm />
     </Rightbar>
 
-</NotPage>
+</NContent>
 
 @code {
     [Inject]

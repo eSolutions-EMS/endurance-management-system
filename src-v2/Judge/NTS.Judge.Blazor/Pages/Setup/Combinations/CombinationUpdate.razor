@@ -6,13 +6,13 @@
 @attribute [Route(COMBINATION_UPDATE)]
 @inherits NComponent
 
-<NotPage Title="Configure Combination">
+<NContent Title="Configure Combination">
 
     <Main>
         <UpdateForm T="CombinationFormModel" TForm="CombinationForm" Model="_navigator.ConsumeParameter<CombinationFormModel>()" />
     </Main>
 
-</NotPage>
+</NContent>
 
 @code {
     [Inject]

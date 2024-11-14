@@ -5,7 +5,7 @@
 @attribute [Route(RANKLIST_PAGE)]
 @inherits PrintableComponent
 
-<NotPage Title="Ranklist" HasContent="_behind.Ranklist != null" EmptyMessage="The Event isn't started yet :)">
+<NContent Title="Ranklist" HasContent="_behind.Ranklist != null" EmptyMessage="The Event isn't started yet :)">
     @* // TODO: Add Start button in EmptyContent *@
 
     <Main>
@@ -20,7 +20,7 @@
     </Main>
 
     <Rightbar>
-        <TextDividerTM Text="Export" />
+        <NTextDivider Text="Export" />
 
         <MudButtonGroup OverrideStyles="false" Variant="Variant.Outlined" Class="align-center">
             <MudMenu 
@@ -41,7 +41,7 @@
         <RankingMenu Class="mt-4" />
     </Rightbar>
 
-</NotPage>
+</NContent>
 
 @code {
     bool _showProtocol;

@@ -9,7 +9,7 @@
 @attribute [Route(DASHBOARD_PAGE)]
 @inherits NComponent
 
-<NotPage Title="Dashboard" HasContent="_participationBehind.Participations.Any()" EmptyMessage="No participations">
+<NContent Title="Dashboard" HasContent="_participationBehind.Participations.Any()" EmptyMessage="No participations">
     
     <EmptyContent>
         <InputFile OnChange="ImportEmsData" />
@@ -27,7 +27,7 @@
         <EliminationsPanel Class="mb-2" />
     </Rightbar>
 
-</NotPage>
+</NContent>
 
 @code {
     [Inject]

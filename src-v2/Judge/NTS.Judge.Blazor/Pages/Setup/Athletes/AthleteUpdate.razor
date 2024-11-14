@@ -6,13 +6,13 @@
 @attribute [Route(ATHLETE_UPDATE)]
 @inherits NComponent
 
-<NotPage Title="Configure Athlete">
+<NContent Title="Configure Athlete">
 
     <Main>
         <UpdateForm T="AthleteFormModel" TForm="AthleteForm" Model="_navigator.ConsumeParameter<AthleteFormModel>()" />
     </Main>
 
-</NotPage>
+</NContent>
 
 @code {
     [Inject]

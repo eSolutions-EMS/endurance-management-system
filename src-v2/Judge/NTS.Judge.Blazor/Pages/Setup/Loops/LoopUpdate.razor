@@ -7,13 +7,13 @@
 @attribute [Route(LOOP_UPDATE)]
 @inherits NComponent
 
-<NotPage Title="Configure Loop">
+<NContent Title="Configure Loop">
 
     <Main>
         <UpdateForm T="LoopFormModel" TForm="LoopForm" Model="_navigator.ConsumeParameter<LoopFormModel>()" />
     </Main>
 
-</NotPage>
+</NContent>
 
 @code {
     [Inject]

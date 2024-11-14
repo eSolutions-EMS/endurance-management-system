@@ -11,7 +11,7 @@
 
 <MudDialog>
     <DialogContent>
-        <NotDynamic T="T" TForm="TForm" @ref="_dynamicForm" Model="_model" />
+        <NDynamic T="T" TForm="TForm" @ref="_dynamicForm" Model="_model" />
     </DialogContent>
 
     <DialogActions>
@@ -21,7 +21,7 @@
 
 @code {
     T _model = new T();
-    NotDynamic<T, TForm>? _dynamicForm;
+    NDynamic<T, TForm>? _dynamicForm;
     [Inject]
     ICreateBehind<T> _behind { get; set; } = default!;
 

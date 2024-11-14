@@ -15,7 +15,7 @@
 
         @foreach (var tuple in _rankingsByDistance)
         {
-            <TextDividerTM Text="@tuple.Name" />
+            <NTextDivider Text="@tuple.Name" />
             @foreach (var ranking in tuple.ranking)
             {
                 <MudChip Text="@ranking.Category.ToString()" Value="@ranking.Id" Color="Color.Primary" Style="min-width: 1rem" />

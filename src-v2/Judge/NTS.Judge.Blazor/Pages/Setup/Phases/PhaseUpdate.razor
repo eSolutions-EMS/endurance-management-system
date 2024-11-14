@@ -7,13 +7,13 @@
 @attribute [Route(PHASE_UPDATE)]
 @inherits NComponent
 
-<NotPage Title="Configure Phase">
+<NContent Title="Configure Phase">
 
     <Main>
         <UpdateForm T="PhaseFormModel" TForm="PhaseForm" Model="_navigator.ConsumeParameter<PhaseFormModel>()" />
     </Main>
 
-</NotPage>
+</NContent>
 
 @code {
     [Inject]

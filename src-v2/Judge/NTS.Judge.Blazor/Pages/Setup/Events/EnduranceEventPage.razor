@@ -15,7 +15,7 @@
 @attribute [Route(ENDURANCE_EVENT_PAGE)]
 @inherits NComponent
 
-<NotPage Title="Configure Endurance Event" HasContent="_behind.Model != null" EmptyMessage="Endurance Event is not created yet :)">
+<NContent Title="Configure Endurance Event" HasContent="_behind.Model != null" EmptyMessage="Endurance Event is not created yet :)">
 
     <EmptyContent>
         <NotButtonCreate OnClick="OpenCreateForm" />
@@ -39,7 +39,7 @@
         </NGrid>
     </Main2>
 
-</NotPage>
+</NContent>
 
 @code {
     [Inject]

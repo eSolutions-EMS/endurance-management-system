@@ -8,13 +8,13 @@
 @attribute [Route(OFFICIAL_UPDATE)]
 @inherits NComponent
 
-<NotPage Title="Configure Official">
+<NContent Title="Configure Official">
 
     <Main>
         <UpdateForm T="OfficialFormModel" TForm="OfficialForm" Model="_navigator.ConsumeParameter<OfficialFormModel>()" />
     </Main>
 
-</NotPage>
+</NContent>
 
 @code {
     [Inject]
