@@ -1,5 +1,7 @@
 ﻿@using System.Timers
 @using System.Diagnostics
+@using Not.Formatting
+
 @inherits NotComponent
 @implements IDisposable
 
@@ -9,7 +11,7 @@
 
 @code {
     [Parameter]
-    public DateTime StartTime { get; set; } = default!;
+    public DateTimeOffset StartTime { get; set; } = default!;
     [Parameter]
     public double StopTimerAtTime { get; set; } = default!;
 
@@ -19,7 +21,7 @@
 
     private Timer _timer = default!;
     private MudTheme _theme = new MudTheme();
-    private TimeSpan _time = default!;
+    private TimeSpan _timeInterval = default!;
     private string _displayTime = default!;
     private Color _color = default!;
 
@@ -27,22 +29,22 @@
     {
         _timer = new Timer(TimerInterval);
         _timer.Elapsed += OnTimerElapsed;
-        _timer.AutoReset = (_time > TimeSpan.FromMinutes(StopTimerAtTime));
+        _timer.AutoReset = (_timeInterval > TimeSpan.FromMinutes(StopTimerAtTime));
     }
 
     protected override void OnParametersSet()
     {
         var now = DateTime.Now.TimeOfDay;
-        _time = StartTime.TimeOfDay - now;
+        _timeInterval = StartTime.TimeOfDay - now;
         FormatTime();
-        _timer.Enabled = _time > TimeSpan.FromMinutes(StopTimerAtTime);
+        _timer.Enabled = _timeInterval > TimeSpan.FromMinutes(StopTimerAtTime);
     }
 
     private async void OnTimerElapsed(object? sender, System.Timers.ElapsedEventArgs e)
     {
-        _time = _time.Subtract(TimerInterval);
+        _timeInterval = _timeInterval.Subtract(TimerInterval);
         FormatTime();
-        if (_time <= TimeSpan.FromMinutes(StopTimerAtTime))
+        if (_timeInterval <= TimeSpan.FromMinutes(StopTimerAtTime))
         {
             _timer.Enabled = false;
         }
@@ -50,24 +52,21 @@
     }
 
     private void FormatTime()
-    {        
-        if (_time >= TimeSpan.Zero)
+    {
+        if (_timeInterval > NegativeSecond)
         {
-            _displayTime = $"{_time:hh\\:mm\\:ss}";
+            _displayTime = FormattingHelper.TimeSpanFormat(_timeInterval);
         }
         else
         {
-            var positiveSignedTime = _time.Negate();            
-            var isTrulyNegativeTime = _time <= NegativeSecond;
-            _displayTime = isTrulyNegativeTime 
-            ? " - " + $"{positiveSignedTime:hh\\:mm\\:ss}" 
-            : $"{positiveSignedTime:hh\\:mm\\:ss}";
+            var positiveSignedTime = _timeInterval.Negate();
+            _displayTime = " - " + FormattingHelper.TimeSpanFormat(positiveSignedTime);
         }
-        if (_time > FiveMinutes)
+        if (_timeInterval > FiveMinutes)
         {
             _color = Color.Success;
         }
-        else if (_time >= TimeSpan.Zero)
+        else if (_timeInterval >= TimeSpan.Zero)
         {
             _color = Color.Warning;
         }
