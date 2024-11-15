@@ -12,12 +12,12 @@
     {
         <MudTabPanel Text="@tabHeader">
             <ChildContent>
-                <NotSimpleTable T="Start" Headings="@_tableHeadings" Items="Starts.Where(s=>tabHeader.Contains(s.PhaseNumber.ToString()))">
+                <StartlistTable Headings="@_tableHeadings" Items="StartlistByStage[tabHeader]">
                     <CustomCell>
                         <StartlistTimer StartTime="@context.Time" StopTimerAtTime="-15" />
                     </CustomCell>
-                </NotSimpleTable>
-                </ChildContent>
+                </StartlistTable>
+            </ChildContent>
         </MudTabPanel>
     }
 </MudTabs>
