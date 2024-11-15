@@ -7,21 +7,24 @@
 @using Not.Blazor.TM.Models
 @using Not.Extensions
 
-@inherits StartlistTable
+@inherits StartlistTabs
 
-<NotTrueCenterText Typo="Typo.h5" Content="History" Class="mb-4" />
+@if (Starts.Count() != 0)
+{
+    <NotTrueCenterText Typo="Typo.h5" Content="History" Class="mb-4" />
+    <MudTabs @ref="@_tabs" PanelClass="px-4 py-6" Elevation="0" Rounded ApplyEffectsToContainer>
+        @foreach (var tabHeader in _tabHeaders)
+        {
 
-<MudTabs @ref="@_tabs" PanelClass="px-4 py-6" Elevation="4" Rounded ApplyEffectsToContainer>
-    @foreach (var tabHeader in _tabHeaders)
-    {
-        <MudTabPanel Text="@tabHeader">
-            <ChildContent>
-                <StartlistTable Headings="_tableHeadings" Items="StartlistByStage[tabHeader]" />
-            </ChildContent>
-        </MudTabPanel>
-    }
-</MudTabs>
+            <MudTabPanel Text="@tabHeader">
+                <ChildContent>
+                    <NSimpleTable T="Start" Headings="_tableHeadings" Items="StartlistByStage[tabHeader]" />
+                </ChildContent>
+            </MudTabPanel>
+        }
+    </MudTabs>
+}
 
 @code{
-    protected string[] _tableHeadings = { "Number", "Athlete", "Loop", "Start Time" };
+    string[] _tableHeadings = { "Number", "Athlete", "Loop", "Start Time" };
 }

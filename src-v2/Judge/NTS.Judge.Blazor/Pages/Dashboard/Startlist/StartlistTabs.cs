@@ -5,12 +5,10 @@ using NTS.Domain.Core.Objects;
 
 namespace NTS.Judge.Blazor.Pages.Dashboard.Startlist;
 
-public class StartlistTable : NSimpleTable<Start>
+public class StartlistTabs : NotComponent
 {
     protected MudTabs _tabs = default!;
     protected List<string> _tabHeaders = [];
-    [Inject]
-    ILocalizer Localizer { get; set; } = default!;
     [Parameter]
     public IEnumerable<Start> Starts { get; set; } = [];
     public Dictionary<string, List<Start>> StartlistByStage { get; set; } = [];
@@ -25,7 +23,10 @@ public class StartlistTable : NSimpleTable<Start>
                 _tabHeaders.Add(tabHeader);
                 StartlistByStage.Add(tabHeader, []);
             }
-            StartlistByStage[tabHeader].Add(start);
+            if(!StartlistByStage[tabHeader].Any(s => s == start))
+            {
+                StartlistByStage[tabHeader].Add(start);
+            }
         }
     }
 }

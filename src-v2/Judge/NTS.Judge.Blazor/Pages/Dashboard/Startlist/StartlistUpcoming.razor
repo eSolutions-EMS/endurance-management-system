@@ -5,23 +5,26 @@
 @using Not.Blazor.TM.Models
 @using Not.Extensions
 
-@inherits StartlistTable
+@inherits StartlistTabs
 
-<MudTabs @ref="@_tabs" PanelClass="px-4 py-6" Elevation="4" Rounded ApplyEffectsToContainer Class="@Class">
-    @foreach (var tabHeader in _tabHeaders)
-    {
-        <MudTabPanel Text="@tabHeader">
-            <ChildContent>
-                <StartlistTable Headings="@_tableHeadings" Items="StartlistByStage[tabHeader]">
-                    <CustomCell>
-                        <StartlistTimer StartTime="@context.Time" StopTimerAtTime="-15" />
-                    </CustomCell>
-                </StartlistTable>
-            </ChildContent>
-        </MudTabPanel>
-    }
-</MudTabs>
+@if (Starts.Count()!=0)
+{
+    <MudTabs @ref="@_tabs" PanelClass="px-4 py-6" Elevation="0" Rounded ApplyEffectsToContainer Class="@Class">
+        @foreach (var tabHeader in _tabHeaders)
+        {
+            <MudTabPanel Text="@tabHeader">
+                <ChildContent>
+                    <NSimpleTable T="Start" Headings="@_tableHeadings" Items="StartlistByStage[tabHeader]">
+                        <CustomCell>
+                            <StartlistTimer StartTime="@context.Time" StopTimerAtTime="-15" />
+                        </CustomCell>
+                    </NSimpleTable>
+                </ChildContent>
+            </MudTabPanel>
+        }
+    </MudTabs>
+}
 
 @code{
-    protected string[] _tableHeadings = { "Number", "Athlete", "Loop", "Start Time", "Start In" };
+    string[] _tableHeadings = { "Number", "Athlete", "Loop", "Start Time", "Start In" };
 }
