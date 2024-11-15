@@ -1,6 +1,4 @@
-﻿using Serilog;
-
-namespace Not.Formatting;
+﻿namespace Not.Formatting;
 
 public static class FormattingHelper
 {
