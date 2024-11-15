@@ -7,20 +7,16 @@
 @attribute [Route(STARTLIST_PAGE)]
 @inherits NotComponent
 
-<NotPage Title="Startlist" Elevation="0" HideMain="@_hideMainFlag" HideMain2="@_hideMain2Flag">
+<NotPage Title="Startlist">
     <Main>
         <StartlistUpcoming Starts="_behind.Upcoming"/>
+        <StartlistHistory Starts="_behind.History" />
     </Main>
-    <Main2>
-        <StartlistHistory Starts="_behind.History"/>
-    </Main2>
 </NotPage>
 
 @code{
     [Inject]
     private IStartlistBehind _behind { get; set; } = default!;
-    bool _hideMainFlag => !_behind.Upcoming.Any();
-    bool _hideMain2Flag => !_behind.History.Any();
 
     protected override async Task OnInitializedAsync()
     {

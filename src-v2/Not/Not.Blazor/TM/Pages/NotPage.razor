@@ -19,7 +19,7 @@ else
         @if (!HasContent)
         {
             <MudItem xs="@mainXs">
-                <MudPaper Elevation="Elevation" Class="not-mid-height pa-12">
+                <MudPaper Elevation="3" Class="not-mid-height pa-12">
                     <NotTrueCenterText Typo="Typo.h5" Content="@EmptyMessage" />
 
                     @if (EmptyContent != null)
@@ -31,17 +31,14 @@ else
         }
         else
         {
-            if (!HideMain)
-            {
-                <MudItem xs="@mainXs" Class="not-page-content">
-                    <MudPaper Elevation="Elevation" Class="pa-4">@Main</MudPaper>
-                </MudItem>
-            }
+            <MudItem xs="@mainXs" Class="not-page-content">
+                <MudPaper Elevation="3" Class="pa-4">@Main</MudPaper>
+            </MudItem>
 
-            if (Main2 != null && !HideMain2)
+            if (Main2 != null)
             {
                 <MudItem xs="@mainXs" Class="not-page-content">
-                    <MudPaper Elevation="Elevation" Class="pa-4">@Main2</MudPaper>
+                    <MudPaper Elevation="3" Class="pa-4">@Main2</MudPaper>
                 </MudItem>
             }
         }
@@ -57,7 +54,6 @@ else
 
 @code {
     const int GRID_MAX_WIDTH = 12;
-    const int DEFAULT_ELEVATION = 3;
 
     bool _showOnlyMain;
     int mainXs => Rightbar == null
@@ -80,12 +76,6 @@ else
     public string EmptyMessage { get; set; } = "Page is empty :)";
     [Parameter]
     public RenderFragment? EmptyContent { get; set; }
-    [Parameter]
-    public int Elevation { get; set; } = DEFAULT_ELEVATION;
-    [Parameter]
-    public bool HideMain { get; set; } = false;
-    [Parameter]
-    public bool HideMain2 { get; set; } = false;
 
     protected override void OnInitialized()
     {
