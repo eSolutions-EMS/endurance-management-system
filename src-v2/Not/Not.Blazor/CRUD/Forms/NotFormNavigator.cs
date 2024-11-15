@@ -8,10 +8,10 @@ public class FormManager<T, TForm>
     where T : new()
     where TForm : FormTM<T>
 {
-    readonly DialogTM<T, TForm> _dialog;
+    readonly Dialog<T, TForm> _dialog;
     readonly ICrumbsNavigator _navigator;
 
-    public FormManager(DialogTM<T, TForm> dialog, ICrumbsNavigator navigator)
+    public FormManager(Dialog<T, TForm> dialog, ICrumbsNavigator navigator)
     {
         _dialog = dialog;
         _navigator = navigator;

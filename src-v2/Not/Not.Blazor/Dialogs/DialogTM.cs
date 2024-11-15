@@ -5,7 +5,7 @@ using Not.Reflection;
 
 namespace Not.Blazor.Dialogs;
 
-public class DialogTM<T, TForm>
+public class Dialog<T, TForm>
     where T : new()
     where TForm : FormTM<T>
 {
@@ -13,7 +13,7 @@ public class DialogTM<T, TForm>
     readonly ILocalizer _localizer;
     readonly DialogOptions _options = new() { BackdropClick = false };
 
-    public DialogTM(IDialogService mudDialogService, ILocalizer localizer)
+    public Dialog(IDialogService mudDialogService, ILocalizer localizer)
     {
         _mudDialogService = mudDialogService;
         _localizer = localizer;

@@ -17,7 +17,7 @@ public static class BlazorInjectionExtensions
     {
         return services
             .AddNotMudBlazor()
-            .AddTransient(typeof(DialogTM<,>))
+            .AddTransient(typeof(Dialog<,>))
             .AddTransient(typeof(FormManager<,>));
     }
     

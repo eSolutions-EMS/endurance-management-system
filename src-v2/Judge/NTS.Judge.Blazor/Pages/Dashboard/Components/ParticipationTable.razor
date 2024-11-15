@@ -76,7 +76,7 @@
     bool _anyCompulsoryRequiredInspection;
 
     [Inject]
-    DialogTM<PhaseUpdateModel, PhaseForm> _dialog { get; set; } = default!;
+    Dialog<PhaseUpdateModel, PhaseForm> _dialog { get; set; } = default!;
 
     [Parameter, EditorRequired]
     public int Number { get; set; }
