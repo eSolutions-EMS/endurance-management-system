@@ -11,27 +11,22 @@ public class StartList
 
     public List<Start> Starts { get; set; } = [];
 
-    public IReadOnlyList<Start> History
+    public IReadOnlyList<Start> History 
     {
         get
         {
-            var now = DateTime.Now.TimeOfDay;
-            return Starts
-                .Where(s => now - s.Time.TimeOfDay > START_EXPIRY_TIME)
-                .OrderBy(s => s.Time)
-                .ToList();
+            var history = Starts.Where(s => CurrentTime() - s.Time.TimeOfDay > START_EXPIRY_TIME);
+            return OrderByTime(history);
         }
     }
+ 
 
     public IReadOnlyList<Start> Upcoming
     {
         get
         {
-            var now = DateTime.Now.TimeOfDay;
-            return Starts
-                .Where(s => now - s.Time.TimeOfDay <= START_EXPIRY_TIME)
-                .OrderBy(s => s.Time)
-                .ToList();
+            var upcoming = Starts.Where(s => CurrentTime() - s.Time.TimeOfDay <= START_EXPIRY_TIME);
+            return OrderByTime(upcoming);
         }
     }
 
@@ -48,13 +43,13 @@ public class StartList
                     {
                         continue;
                     }
-                    var zeroBasedPhaseIndex = phases.IndexOf(phase);
-                    var phaseIndex = zeroBasedPhaseIndex + 1;
+                    var phaseIndex = phases.IndexOf(phase);
+                    var phaseNumber = phaseIndex + 1;
                     var start = new Start(
                         participation.Combination.Name,
                         participation.Combination.Number,
-                        phaseIndex,
-                        phases[zeroBasedPhaseIndex].Length,
+                        phaseNumber,
+                        phases[phaseIndex].Length,
                         participation.Phases.Distance,
                         phase.StartTime.DateTime.DateTime
                     );
@@ -67,5 +62,15 @@ public class StartList
     public void Add(Start start)
     {
         Starts.Add(start);
+    }
+
+    TimeSpan CurrentTime()
+    {
+        return DateTimeOffset.Now.TimeOfDay;
+    }
+
+    List<Start> OrderByTime(IEnumerable<Start> starts)
+    {
+        return starts.OrderBy(s => s.Time).ToList();
     }
 }

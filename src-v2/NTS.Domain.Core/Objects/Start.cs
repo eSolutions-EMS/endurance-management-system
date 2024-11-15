@@ -28,12 +28,12 @@ public record Start : DomainObject
     {
         Athlete = participation.Combination.Name;
         Number = participation.Combination.Number;
-        var phaseIndex = participation.Phases.NumberOf(participation.Phases.Current);
-        var nextPhaseIndex = phaseIndex + 1;
-        PhaseNumber = nextPhaseIndex;
-        Distance = participation.Phases[phaseIndex].Length;
+        var currentIndex = participation.Phases.IndexOf(participation.Phases.Current);
+        var nextPhase = participation.Phases[currentIndex+1];
+        PhaseNumber = participation.Phases.NumberOf(nextPhase);
+        Distance = nextPhase.Length;
         TotalDistance = participation.Phases.Distance;
-        Time = participation.Phases[phaseIndex].StartTime!.DateTime.DateTime;
+        Time = nextPhase.StartTime!.DateTime;
     }
 
     public Person Athlete { get; private set; }
@@ -41,7 +41,7 @@ public record Start : DomainObject
     public int PhaseNumber { get; private set; }
     public double Distance { get; private set; }
     public double TotalDistance { get; private set; }
-    public DateTime Time { get; private set; }
+    public DateTimeOffset Time { get; private set; }
 
     public override string ToString()
     {
