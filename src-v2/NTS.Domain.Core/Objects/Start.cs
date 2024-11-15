@@ -29,7 +29,7 @@ public record Start : DomainObject
         Athlete = participation.Combination.Name;
         Number = participation.Combination.Number;
         var currentIndex = participation.Phases.IndexOf(participation.Phases.Current);
-        var nextPhase = participation.Phases[currentIndex+1];
+        var nextPhase = participation.Phases[currentIndex + 1];
         PhaseNumber = participation.Phases.NumberOf(nextPhase);
         Distance = nextPhase.Length;
         TotalDistance = participation.Phases.Distance;

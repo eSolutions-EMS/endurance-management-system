@@ -16,8 +16,7 @@ public class StartList
     Action ChangeHandler { get; set; }
     public List<Start> Starts { get; set; } = [];
 
-
-    public IReadOnlyList<Start> History 
+    public IReadOnlyList<Start> History
     {
         get
         {
@@ -25,7 +24,6 @@ public class StartList
             return OrderByTime(history);
         }
     }
- 
 
     public IReadOnlyList<Start> Upcoming
     {
