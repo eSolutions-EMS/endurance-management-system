@@ -17,8 +17,10 @@
         }
         @foreach (var item in Items)
         {
+            var itemToString = item.ToString();
+            GuardHelper.ThrowIfDefault(itemToString);
             <tr>
-                @foreach (var cellValue in item.ToString()!.Split("|"))
+                @foreach (var cellValue in itemToString.Split("|"))
                 {
                     <td>@cellValue</td>
                 }
