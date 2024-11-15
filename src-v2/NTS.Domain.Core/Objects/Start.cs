@@ -1,7 +1,7 @@
-﻿using System;
-using Not.Localization;
+﻿using Not.Localization;
 using NTS.Domain.Core.Entities;
 using NTS.Domain.Extensions;
+using static NTS.Domain.Extensions.DomainExtensions;
 
 namespace NTS.Domain.Core.Objects;
 

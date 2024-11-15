@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using NTS.Domain.Core.Entities;
+﻿using NTS.Domain.Core.Entities;
 using NTS.Domain.Core.Objects.Payloads;
 
 namespace NTS.Domain.Core.Objects;

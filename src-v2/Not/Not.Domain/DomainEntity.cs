@@ -23,12 +23,6 @@ public abstract class DomainEntity : IEquatable<DomainEntity>, IIdentifiable
     // TODO: use DomainObject for ID, do private set
     public int Id { get; }
 
-    protected string Combine(params object?[] values)
-    {
-        var sections = values.Where(x => x != null);
-        return string.Join(" | ", sections);
-    }
-
     protected static int GenerateId()
     {
         return RandomHelper.GenerateUniqueInteger();
