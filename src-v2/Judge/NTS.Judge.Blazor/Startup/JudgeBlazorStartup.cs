@@ -1,7 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Not.Blazor.Injection;
-using Not.Blazor.Mud.Extensions;
 
 namespace NTS.Judge.Blazor.Startup;
 

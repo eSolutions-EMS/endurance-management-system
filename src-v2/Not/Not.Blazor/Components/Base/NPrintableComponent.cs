@@ -1,7 +1,7 @@
-﻿using Not.Blazor.Components;
+﻿using Not.Blazor.Ports;
 using Not.Events;
 
-namespace Not.Blazor.Print;
+namespace Not.Blazor.Components;
 
 public abstract class PrintableComponent : NComponent, IDisposable
 {

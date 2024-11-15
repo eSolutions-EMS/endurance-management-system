@@ -1,6 +1,6 @@
 ﻿using Not.Injection;
 
-namespace Not.Blazor.Observable.Ports;
+namespace Not.Blazor.Ports;
 
 public interface IObservableBehind : ISingleton
 {

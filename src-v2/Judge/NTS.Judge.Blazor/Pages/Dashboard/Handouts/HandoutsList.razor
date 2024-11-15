@@ -14,9 +14,9 @@
                 <MudItem Class="mr-4">
                     <MudStack Style="height:100%; max-width:300px">
                         
-                        <NotH2>@header.Title</NotH2>
+                        <NHeadline2 Content="@header.Title" />
                         
-                        <NotH3>@($"{header.PopulatedPlace} {header.EventSpan}")</NotH3>
+                        <NHeadline3 Content="@($"{header.PopulatedPlace} {header.EventSpan}")" />
                         
                         <MudDivider Style="flex-grow:0;" />
                         @* //TODO: fix role display for officials*@

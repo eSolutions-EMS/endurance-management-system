@@ -1,11 +1,10 @@
 ﻿using MudBlazor;
-using Not.Blazor.Components.Base;
 
 namespace Not.Blazor.Components;
 
-public class NotH2 : NotHeadlineBase
+public class NHeadline2 : NTextBase
 {
-    public NotH2()
+    public NHeadline2()
     {
         Typo = Typo.h5;
     }

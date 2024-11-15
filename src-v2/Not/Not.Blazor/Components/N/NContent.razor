@@ -1,7 +1,4 @@
-﻿@using Not.Blazor.Print
-@using static Not.Blazor.Print.PrintableComponent
-
-@namespace Not.Blazor.Components
+﻿@namespace Not.Blazor.Components
 @inherits NComponent
 
 @if (_showOnlyMain)
@@ -12,14 +9,14 @@ else
 {
     <NGrid Spacing="4" Class="@("not-page " + Class)">
         <MudItem xs="12">
-            <NTitle Content="@Title" />
+            <NHeadline Content="@Title" IsAbsoluteCenter />
         </MudItem>
 
         @if (!HasContent)
         {
             <MudItem xs="@mainXs">
                 <MudPaper Elevation="3" Class="not-mid-height pa-12">
-                    <NAbsoluteCenterText Typo="Typo.h5" Content="@EmptyMessage" />
+                    <NHeadline2 Content="@EmptyMessage" IsAbsoluteCenter />
 
                     @if (EmptyContent != null)
                     {

@@ -1,4 +1,4 @@
-﻿using Not.Blazor.Observable.Ports;
+﻿using Not.Blazor.Ports;
 using Not.Localization;
 
 namespace Not.Blazor.Components;

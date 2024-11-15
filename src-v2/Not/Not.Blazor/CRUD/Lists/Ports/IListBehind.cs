@@ -1,5 +1,5 @@
 ﻿using Not.Blazor.CRUD.Ports;
-using Not.Blazor.Observable.Ports;
+using Not.Blazor.Ports;
 
 namespace Not.Blazor.CRUD.Lists.Ports;
 
