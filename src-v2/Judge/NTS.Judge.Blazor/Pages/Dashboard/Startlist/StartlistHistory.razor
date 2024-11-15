@@ -15,7 +15,6 @@
     <MudTabs @ref="@_tabs" PanelClass="px-4 py-6" Elevation="0" Rounded ApplyEffectsToContainer>
         @foreach (var tabHeader in _tabHeaders)
         {
-
             <MudTabPanel Text="@tabHeader">
                 <ChildContent>
                     <NSimpleTable T="Start" Headings="_tableHeadings" Items="StartlistByStage[tabHeader]" />

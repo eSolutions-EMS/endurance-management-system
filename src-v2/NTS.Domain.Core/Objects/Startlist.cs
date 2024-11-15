@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using NTS.Domain.Core.Entities;
+using NTS.Domain.Core.Objects.Payloads;
 
 namespace NTS.Domain.Core.Objects;
 
@@ -7,9 +8,15 @@ public class StartList
 {
     static readonly TimeSpan START_EXPIRY_TIME = TimeSpan.FromMinutes(15);
 
-    public StartList() { }
+    public StartList(Action action)
+    {
+        Participation.PHASE_COMPLETED_EVENT.Subscribe(PhaseCompletedHandler);
+        ChangeHandler = action;
+    }
 
+    Action ChangeHandler { get; set; }
     public List<Start> Starts { get; set; } = [];
+
 
     public IReadOnlyList<Start> History 
     {
@@ -59,9 +66,11 @@ public class StartList
         }
     }
 
-    public void Add(Start start)
+    void PhaseCompletedHandler(PhaseCompleted phaseCompleted)
     {
-        Starts.Add(start);
+        var newStart = new Start(phaseCompleted.Participation);
+        Starts.Add(newStart);
+        ChangeHandler();
     }
 
     TimeSpan CurrentTime()

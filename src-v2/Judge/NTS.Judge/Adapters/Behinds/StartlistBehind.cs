@@ -9,14 +9,14 @@ using NTS.Judge.Blazor.Ports;
 
 namespace NTS.Judge.Adapters.Behinds;
 
-public class StartlistBehind : ObservableBehind, IStartupInitializer, IStartlistBehind
+public class StartlistBehind : ObservableBehind, IStartlistBehind
 {
     readonly IRepository<Participation> _participationRepository;
 
     public StartlistBehind(IRepository<Participation> participationRepository)
     {
         _participationRepository = participationRepository;
-        var startlist = new StartList();
+        var startlist = new StartList(EmitChange);
         Startlist = startlist;
     }
 
@@ -29,17 +29,5 @@ public class StartlistBehind : ObservableBehind, IStartupInitializer, IStartlist
         var participations = await _participationRepository.ReadAll();
         Startlist.AssignStarts(participations);
         return Startlist.Starts.Any();
-    }
-
-    public void RunAtStartup()
-    {
-        Participation.PHASE_COMPLETED_EVENT.Subscribe(PhaseCompletedHandler);
-    }
-
-    void PhaseCompletedHandler(PhaseCompleted phaseCompleted)
-    {
-        var newStart = new Start(phaseCompleted.Participation);
-        Startlist.Add(newStart);
-        EmitChange();
     }
 }

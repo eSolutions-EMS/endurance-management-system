@@ -46,7 +46,7 @@ public record Start : DomainObject
     public override string ToString()
     {
         var distance = Distance + "km".Localize();
-        var result = Combine(Number, Athlete, distance, Time);
+        var result = Combine(Number, Athlete, distance, Time.TimeOfDay);
         return result;
     }
 }
