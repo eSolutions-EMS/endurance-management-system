@@ -5,7 +5,7 @@
 @using Not.Blazor.CRUD.Forms.Components
 
 
-@inherits FormTM<EnduranceEventFormModel>;
+@inherits NForm<EnduranceEventFormModel>;
 
 <EditForm Model="Model">
     <MudTextField @ref="_placeField" @bind-Value="Model.Place" Label="@Localizer.Get(nameof(EnduranceEvent.Place))" />

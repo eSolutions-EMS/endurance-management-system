@@ -6,7 +6,7 @@ namespace Not.Blazor.CRUD.Forms;
 
 public class FormManager<T, TForm>
     where T : new()
-    where TForm : FormTM<T>
+    where TForm : NForm<T>
 {
     readonly Dialog<T, TForm> _dialog;
     readonly ICrumbsNavigator _navigator;

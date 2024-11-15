@@ -3,7 +3,7 @@
 
 @namespace Not.Blazor.Components
 @typeparam T
-@typeparam TForm where TForm : FormTM<T>
+@typeparam TForm where TForm : NForm<T>
 
 @if (Model == null)
 {
@@ -28,7 +28,7 @@ else
         {
             return;
         }
-        var key = nameof(FormTM<T>.Model);
+        var key = nameof(NForm<T>.Model);
         if (_parameters.ContainsKey(key))
         {
             _parameters[key] = Model;

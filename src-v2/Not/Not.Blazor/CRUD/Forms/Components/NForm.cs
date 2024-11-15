@@ -5,7 +5,7 @@ using Not.Notify;
 
 namespace Not.Blazor.CRUD.Forms.Components;
 
-public abstract class FormTM<T> : NComponent
+public abstract class NForm<T> : NComponent
 {
     public abstract void RegisterValidationInjectors();
 
@@ -67,7 +67,7 @@ public abstract class FormTM<T> : NComponent
         if (!ValidationInjectors.TryGetValue(field, out var injectors))
         {
             throw GuardHelper.Exception(
-                $"Key '{field}' not found in {nameof(FormTM<T>)}.{nameof(ValidationInjectors)}. "
+                $"Key '{field}' not found in {nameof(NForm<T>)}.{nameof(ValidationInjectors)}. "
                     + $"Make sure all field components have a ref pointer in there."
             );
         }

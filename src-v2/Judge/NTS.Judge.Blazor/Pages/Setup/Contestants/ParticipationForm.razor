@@ -8,7 +8,7 @@
 @using Not.Extensions
 @using NTS.Judge.Blazor.Pages.Setup.Combinations
 
-@inherits FormTM<ParticipationFormModel>;
+@inherits NForm<ParticipationFormModel>;
 
 <EditForm Model="Model">
     <NAutocomplete @ref="_combinaionField" T="Combination" Label="Combination" @bind-Value="Model.Combination"

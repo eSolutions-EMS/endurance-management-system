@@ -6,7 +6,7 @@
 
 @inherits NComponent
 @typeparam T
-@typeparam TForm where TForm : FormTM<T>
+@typeparam TForm where TForm : NForm<T>
 
 <MudContainer Class="not-page-mid-width">
     <NDynamic @ref="_form" T="T" TForm="TForm" Model="Model" />

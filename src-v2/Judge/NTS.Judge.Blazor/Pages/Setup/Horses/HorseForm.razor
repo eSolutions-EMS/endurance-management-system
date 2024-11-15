@@ -2,7 +2,7 @@
 @using NTS.Judge.Setup.Competitions
 @using Not.Blazor.CRUD.Forms.Components
 
-@inherits FormTM<HorseFormModel>;
+@inherits NForm<HorseFormModel>;
 
 <EditForm Model="Model">
     <MudTextField @ref="_nameField" @bind-Value="Model.Name" Label="Horse Name" Variant="Variant.Text" Margin="Margin.Dense" />

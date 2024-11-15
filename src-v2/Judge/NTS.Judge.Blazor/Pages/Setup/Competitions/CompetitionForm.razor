@@ -5,7 +5,7 @@
 
 @using Not.Structures
 
-@inherits FormTM<CompetitionFormModel>;
+@inherits NForm<CompetitionFormModel>;
 
 <EditForm Model="Model">
     <MudTextField @ref="_nameField" @bind-Value="Model.Name" Label="@Localizer.Get("Name")" />

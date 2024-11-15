@@ -8,7 +8,7 @@
 @inherits NComponent
 @typeparam T where T : DomainEntity
 @typeparam TModel where TModel : IFormModel<T>, new()
-@typeparam TForm where TForm : FormTM<TModel>
+@typeparam TForm where TForm : NForm<TModel>
 
 <MudPaper Elevation="0" Class="@("pa-4 " + Class)" Style="@Style">
 

@@ -7,7 +7,7 @@ namespace Not.Blazor.Dialogs;
 
 public class Dialog<T, TForm>
     where T : new()
-    where TForm : FormTM<T>
+    where TForm : NForm<T>
 {
     readonly IDialogService _mudDialogService;
     readonly ILocalizer _localizer;
@@ -21,12 +21,12 @@ public class Dialog<T, TForm>
 
     public async Task RenderCreate()
     {
-        await Show<CreateFormDialog<T, TForm>>("Create", []);
+        await Show<FormCreateDialog<T, TForm>>("Create", []);
     }
 
     public async Task RenderUpdate(T model)
     {
-        var parameters = new DialogParameters<UpdateFormDialog<T, TForm>>
+        var parameters = new DialogParameters<FormUpdateDialog<T, TForm>>
         {
             { x => x.Model, model },
         };
