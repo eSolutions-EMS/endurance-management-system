@@ -1,14 +1,14 @@
 ﻿using Not.Filesystem;
 using Not.Serialization;
 
-namespace Not.Storage.Stores;
+namespace Not.Storage.Stores.Files;
 
-public abstract class JsonStore<T>
+public abstract class JsonFileStore<T>
     where T : class, new()
 {
     readonly string _path;
 
-    protected JsonStore(string path)
+    protected JsonFileStore(string path)
     {
         _path = path;
     }

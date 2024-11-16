@@ -1,16 +1,16 @@
 ﻿using System.Runtime.CompilerServices;
 using Not.Concurrency;
-using Not.Storage.Ports;
-using Not.Storage.Ports.States;
+using Not.Storage.States;
+using Not.Storage.Stores.Files.Ports;
 
-namespace Not.Storage.Stores;
+namespace Not.Storage.Stores.Files;
 
-public class JsonFileStore<T> : JsonStore<T>, IStore<T>
+public class LockingJsonFileStore<T> : JsonFileStore<T>, IStore<T>
     where T : class, IState, new()
 {
     readonly TimeoutLockSemaphore _timeoutLock;
 
-    public JsonFileStore(IFileStorageConfiguration configuration)
+    public LockingJsonFileStore(IFileStorageConfiguration configuration)
         : base(Path.Combine(configuration.Path, $"{typeof(T).Name}.json"))
     {
         _timeoutLock = new TimeoutLockSemaphore();

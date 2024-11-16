@@ -1,4 +1,4 @@
-﻿namespace Not.Storage.Ports.States;
+﻿namespace Not.Storage.States;
 
 public interface IState
 {

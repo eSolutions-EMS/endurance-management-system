@@ -1,9 +1,10 @@
-﻿using NTS.Domain.Core.Entities;
+﻿using Not.Storage.States;
+using NTS.Domain.Core.Entities;
 
 namespace NTS.Persistence.States;
 
 public class CoreState
-    : NotState,
+    : NState,
         ITreeState<EnduranceEvent>,
         ISetState<Official>,
         ISetState<Participation>,

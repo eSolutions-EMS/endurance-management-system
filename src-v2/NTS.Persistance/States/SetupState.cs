@@ -1,9 +1,10 @@
-﻿using NTS.Domain.Setup.Entities;
+﻿using Not.Storage.States;
+using NTS.Domain.Setup.Entities;
 
 namespace NTS.Persistence.States;
 
 public class SetupState
-    : NotState,
+    : NState,
         ITreeState<EnduranceEvent>,
         ISetState<Loop>,
         ISetState<Horse>,

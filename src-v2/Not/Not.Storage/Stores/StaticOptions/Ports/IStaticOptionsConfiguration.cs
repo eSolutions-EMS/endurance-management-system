@@ -1,4 +1,4 @@
-﻿namespace Not.Storage.StaticOptions;
+﻿namespace Not.Storage.Stores.StaticOptions.Ports;
 
 public interface IStaticOptionsConfiguration
 {

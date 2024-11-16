@@ -1,7 +1,7 @@
 ﻿using Not.Filesystem;
 using Not.Logging.Filesystem;
-using Not.Storage.Ports;
-using Not.Storage.StaticOptions;
+using Not.Storage.Stores.Files.Ports;
+using Not.Storage.Stores.StaticOptions.Ports;
 
 namespace NTS.Judge.Startup;
 

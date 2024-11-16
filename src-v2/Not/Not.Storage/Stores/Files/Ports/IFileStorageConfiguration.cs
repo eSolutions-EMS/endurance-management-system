@@ -1,4 +1,4 @@
-﻿namespace Not.Storage.Ports;
+﻿namespace Not.Storage.Stores.Files.Ports;
 
 public interface IFileStorageConfiguration
 {

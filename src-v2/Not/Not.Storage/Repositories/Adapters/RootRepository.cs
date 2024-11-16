@@ -1,6 +1,6 @@
 ﻿using Not.Application.CRUD.Ports;
 using Not.Domain.Base;
-using Not.Storage.Ports.States;
+using Not.Storage.States;
 
 namespace Not.Storage.Repositories.Adapters;
 
