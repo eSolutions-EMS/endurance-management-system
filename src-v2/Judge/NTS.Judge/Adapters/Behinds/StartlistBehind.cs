@@ -9,7 +9,7 @@ using NTS.Judge.Blazor.Ports;
 
 namespace NTS.Judge.Adapters.Behinds;
 
-public class StartlistBehind : ObservableBehind, IStartlistBehind
+public class StartlistBehind : ObservableBehind, IStartlistUpcoming, IStartlistHistory
 {
     readonly IRepository<Participation> _participationRepository;
 

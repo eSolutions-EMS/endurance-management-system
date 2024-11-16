@@ -12,8 +12,8 @@
 @if (Starts.Count() != 0)
 {
     <NotTrueCenterText Typo="Typo.h5" Content="History" Class="mb-4" />
-    <MudTabs @ref="@_tabs" PanelClass="px-4 py-6" Elevation="0" Rounded ApplyEffectsToContainer>
-        @foreach (var tabHeader in _tabHeaders)
+    <MudTabs PanelClass="px-4 py-6" Elevation="0" Rounded ApplyEffectsToContainer>
+        @foreach (var tabHeader in StartlistByStage.Keys)
         {
             <MudTabPanel Text="@tabHeader">
                 <ChildContent>
@@ -25,5 +25,21 @@
 }
 
 @code{
+    [Inject]
+    public IStartlistHistory _behind { get; set; } = default!;
+
+    public override IEnumerable<Start> Starts => _behind.History;
+
     string[] _tableHeadings = { "Number", "Athlete", "Loop", "Start Time" };
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Observe(_behind);
+        CreateHeadersAndGroupByStage();
+    }
+
+    protected override void OnBeforeRender()
+    {
+        CreateHeadersAndGroupByStage();
+    }
 }

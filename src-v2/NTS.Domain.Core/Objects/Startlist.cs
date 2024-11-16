@@ -21,7 +21,7 @@ public class StartList
         get
         {
             var history = Starts.Where(s => CurrentTime() - s.Time.TimeOfDay > START_EXPIRY_TIME);
-            return OrderByTime(history);
+            return OrderByTimeAndPhase(history);
         }
     }
 
@@ -30,7 +30,7 @@ public class StartList
         get
         {
             var upcoming = Starts.Where(s => CurrentTime() - s.Time.TimeOfDay <= START_EXPIRY_TIME);
-            return OrderByTime(upcoming);
+            return OrderByTimeAndPhase(upcoming);
         }
     }
 
@@ -75,8 +75,8 @@ public class StartList
         return DateTimeOffset.Now.TimeOfDay;
     }
 
-    List<Start> OrderByTime(IEnumerable<Start> starts)
+    List<Start> OrderByTimeAndPhase(IEnumerable<Start> starts)
     {
-        return starts.OrderBy(s => s.Time).ToList();
+        return starts.OrderBy(s => s.Time).OrderBy(s => s.PhaseNumber).ToList();
     }
 }

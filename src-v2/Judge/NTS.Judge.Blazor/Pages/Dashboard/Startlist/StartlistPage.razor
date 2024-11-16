@@ -9,17 +9,7 @@
 
 <NotPage Title="Startlist">
     <Main>
-        <StartlistUpcoming Starts="_behind.Upcoming"/>
-        <StartlistHistory Starts="_behind.History" />
+        <StartlistUpcoming/>
+        <StartlistHistory/>
     </Main>
 </NotPage>
-
-@code{
-    [Inject]
-    private IStartlistBehind _behind { get; set; } = default!;
-
-    protected override async Task OnInitializedAsync()
-    {
-        await Observe(_behind);
-    }
-}

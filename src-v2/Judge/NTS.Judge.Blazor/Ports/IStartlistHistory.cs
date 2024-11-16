@@ -5,8 +5,8 @@ using NTS.Domain.Core.Objects;
 
 namespace NTS.Judge.Blazor.Ports;
 
-public interface IStartlistBehind : IObservableBehind, ISingletonService
+public interface IStartlistHistory : IObservableBehind, ISingletonService
 {
-    IReadOnlyList<Start> Upcoming { get; }
     IReadOnlyList<Start> History { get; }
 }
+

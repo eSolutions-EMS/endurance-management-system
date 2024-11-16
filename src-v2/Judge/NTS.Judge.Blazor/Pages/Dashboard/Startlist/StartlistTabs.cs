@@ -5,26 +5,20 @@ using NTS.Domain.Core.Objects;
 
 namespace NTS.Judge.Blazor.Pages.Dashboard.Startlist;
 
-public class StartlistTabs : NotComponent
+public abstract class StartlistTabs : NotComponent
 {
-    protected MudTabs _tabs = default!;
-    protected List<string> _tabHeaders = [];
-
-    [Parameter]
-    public IEnumerable<Start> Starts { get; set; } = [];
+    public abstract IEnumerable<Start> Starts { get; }
     public Dictionary<string, List<Start>> StartlistByStage { get; set; } = [];
-
-    protected override void OnParametersSet()
+    protected void CreateHeadersAndGroupByStage()
     {
         foreach (var start in Starts)
         {
             var tabHeader = $"{@Localizer.Get("Stage")} {start.PhaseNumber}";
-            if (!_tabHeaders.Any(t => t == tabHeader))
+            if (!StartlistByStage.Keys.Any(t => t == tabHeader))
             {
-                _tabHeaders.Add(tabHeader);
                 StartlistByStage.Add(tabHeader, []);
             }
-            if (!StartlistByStage[tabHeader].Any(s => s == start))
+            if (!StartlistByStage[tabHeader].Any(s => s.Number == start.Number))
             {
                 StartlistByStage[tabHeader].Add(start);
             }
