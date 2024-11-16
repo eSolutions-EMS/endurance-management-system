@@ -7,20 +7,20 @@ namespace NTS.Judge.Blazor.Pages.Dashboard.Startlist;
 
 public abstract class StartlistTabs : NotComponent
 {
-    public abstract IEnumerable<Start> Starts { get; }
-    public Dictionary<string, List<Start>> StartlistByStage { get; set; } = [];
+    protected abstract IEnumerable<Start> _starts { get; }
+    protected Dictionary<string, List<Start>> _startlistByStage { get; set; } = [];
     protected void CreateHeadersAndGroupByStage()
     {
-        foreach (var start in Starts)
+        foreach (var start in _starts)
         {
             var tabHeader = $"{@Localizer.Get("Stage")} {start.PhaseNumber}";
-            if (!StartlistByStage.Keys.Any(t => t == tabHeader))
+            if (!_startlistByStage.Keys.Any(t => t == tabHeader))
             {
-                StartlistByStage.Add(tabHeader, []);
+                _startlistByStage.Add(tabHeader, []);
             }
-            if (!StartlistByStage[tabHeader].Any(s => s.Number == start.Number))
+            if (!_startlistByStage[tabHeader].Any(s => s.Number == start.Number))
             {
-                StartlistByStage[tabHeader].Add(start);
+                _startlistByStage[tabHeader].Add(start);
             }
         }
     }

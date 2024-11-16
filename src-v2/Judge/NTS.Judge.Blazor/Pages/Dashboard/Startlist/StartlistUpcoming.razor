@@ -7,14 +7,14 @@
 
 @inherits StartlistTabs
 
-@if (Starts.Count()!=0)
+@if (_starts.Count() != 0)
 {
     <MudTabs PanelClass="px-4 py-6" Elevation="0" Rounded ApplyEffectsToContainer Class="@Class">
-        @foreach (var tabHeader in StartlistByStage.Keys)
+        @foreach (var tabHeader in _startlistByStage.Keys)
         {
             <MudTabPanel Text="@tabHeader">
                 <ChildContent>
-                    <NSimpleTable T="Start" Headings="@_tableHeadings" Items="StartlistByStage[tabHeader]">
+                    <NSimpleTable T="Start" Headings="@_tableHeadings" Items="_startlistByStage[tabHeader]">
                         <CustomCell>
                             <StartlistTimer StartTime="@context.Time" StopTimerAtTime="-15" />
                         </CustomCell>
@@ -29,9 +29,9 @@
     [Inject]
     public IStartlistUpcoming _behind { get; set; } = default!;
 
-    public override IEnumerable<Start> Starts => _behind.Upcoming;
-
     string[] _tableHeadings = { "Number", "Athlete", "Loop", "Start Time", "Start In" };
+
+    protected override IEnumerable<Start> _starts => _behind.Upcoming;
 
     protected override async Task OnInitializedAsync()
     {

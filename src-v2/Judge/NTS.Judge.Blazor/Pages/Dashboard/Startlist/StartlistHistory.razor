@@ -9,15 +9,15 @@
 
 @inherits StartlistTabs
 
-@if (Starts.Count() != 0)
+@if (_starts.Count() != 0)
 {
     <NotTrueCenterText Typo="Typo.h5" Content="History" Class="mb-4" />
     <MudTabs PanelClass="px-4 py-6" Elevation="0" Rounded ApplyEffectsToContainer>
-        @foreach (var tabHeader in StartlistByStage.Keys)
+        @foreach (var tabHeader in _startlistByStage.Keys)
         {
             <MudTabPanel Text="@tabHeader">
                 <ChildContent>
-                    <NSimpleTable T="Start" Headings="_tableHeadings" Items="StartlistByStage[tabHeader]" />
+                    <NSimpleTable T="Start" Headings="_tableHeadings" Items="_startlistByStage[tabHeader]"/>
                 </ChildContent>
             </MudTabPanel>
         }
@@ -28,7 +28,7 @@
     [Inject]
     public IStartlistHistory _behind { get; set; } = default!;
 
-    public override IEnumerable<Start> Starts => _behind.History;
+    protected override IEnumerable<Start> _starts => _behind.History;
 
     string[] _tableHeadings = { "Number", "Athlete", "Loop", "Start Time" };
 

@@ -12,7 +12,6 @@ public record Start : DomainObject
         int number,
         int loopNumber,
         double distance,
-        double totalDistance,
         DateTime startAt
     )
     {
@@ -20,7 +19,6 @@ public record Start : DomainObject
         Number = number;
         PhaseNumber = loopNumber;
         Distance = distance;
-        TotalDistance = totalDistance.RoundNumberToTens();
         Time = startAt;
     }
 
@@ -32,7 +30,6 @@ public record Start : DomainObject
         var nextPhase = participation.Phases[currentIndex + 1];
         PhaseNumber = participation.Phases.NumberOf(nextPhase);
         Distance = nextPhase.Length;
-        TotalDistance = participation.Phases.Distance;
         Time = nextPhase.StartTime!.DateTime;
     }
 
@@ -40,7 +37,6 @@ public record Start : DomainObject
     public int Number { get; private set; }
     public int PhaseNumber { get; private set; }
     public double Distance { get; private set; }
-    public double TotalDistance { get; private set; }
     public DateTimeOffset Time { get; private set; }
 
     public override string ToString()

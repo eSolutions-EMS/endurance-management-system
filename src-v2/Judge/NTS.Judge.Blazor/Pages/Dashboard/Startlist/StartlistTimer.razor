@@ -20,7 +20,6 @@
     TimeSpan FiveMinutes = TimeSpan.FromMinutes(5);
 
     private Timer _timer = default!;
-    private MudTheme _theme = new MudTheme();
     private TimeSpan _timeInterval = default!;
     private string _displayTime = default!;
     private Color _color = default!;
@@ -78,6 +77,6 @@
 
     public void Dispose()
     {
-        _timer?.Dispose();
+        _timer.Dispose();
     }
 }
