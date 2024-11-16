@@ -54,8 +54,7 @@ public class StartList
                         participation.Combination.Number,
                         phaseNumber,
                         phases[phaseIndex].Length,
-                        participation.Phases.Distance,
-                        phase.StartTime.DateTime.DateTime
+                        phase.StartTime.DateTime
                     );
                     Starts.Add(start);
                 }

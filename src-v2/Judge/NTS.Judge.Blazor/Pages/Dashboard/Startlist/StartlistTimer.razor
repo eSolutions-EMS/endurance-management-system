@@ -33,7 +33,7 @@
 
     protected override void OnParametersSet()
     {
-        var now = DateTime.Now.TimeOfDay;
+        var now = DateTimeOffset.Now.TimeOfDay;
         _timeInterval = StartTime.TimeOfDay - now;
         FormatTime();
         _timer.Enabled = _timeInterval > TimeSpan.FromMinutes(StopTimerAtTime);
