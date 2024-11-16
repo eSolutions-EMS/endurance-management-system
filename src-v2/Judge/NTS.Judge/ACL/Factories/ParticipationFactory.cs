@@ -35,11 +35,11 @@ public class ParticipationFactory
             {
                 break;
             }
-            var emsRecord = new EmsLapRecord(phase.StartTime.DateTime.DateTime, emsLap)
+            var emsRecord = new EmsLapRecord(phase.StartTime.ToDateTime(), emsLap)
             {
-                ArrivalTime = phase.ArriveTime?.DateTime.DateTime,
-                InspectionTime = phase.PresentTime?.DateTime.DateTime,
-                ReInspectionTime = phase.RepresentTime?.DateTime.DateTime,
+                ArrivalTime = phase.ArriveTime?.ToDateTime(),
+                InspectionTime = phase.PresentTime?.ToDateTime(),
+                ReInspectionTime = phase.RepresentTime?.ToDateTime(),
             };
             emsParticipant.Add(emsRecord);
         }
@@ -87,8 +87,8 @@ public class ParticipationFactory
                 {
                     // Adjusting isnt necessary since it's already done in the previous iteration
                     var outTime = phases.Last().GetOutTime()!;
-                    previousTime = outTime.DateTime;
-                    startTimestamp = new Timestamp(outTime);
+                    previousTime = outTime.ToDateTimeOffset();
+                    startTimestamp = Timestamp.Copy(outTime);
                 }
                 else
                 {

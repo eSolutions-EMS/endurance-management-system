@@ -31,7 +31,7 @@ public class Phase : DomainEntity
             competitionType,
             isFinal,
             compulsoryThreshold,
-            startTimestamp.DateTime
+            startTimestamp.ToDateTimeOffset()
         )
         {
             StartTime = startTimestamp,

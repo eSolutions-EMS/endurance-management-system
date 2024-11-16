@@ -5,7 +5,7 @@ namespace Not.Serialization;
 
 public static class SerializationExtensions
 {
-    static readonly JsonSerializerSettings _settings =
+    static readonly JsonSerializerSettings SETTINGS =
         new()
         {
             ContractResolver = new PrivatePropertySetterResolver(),
@@ -19,12 +19,12 @@ public static class SerializationExtensions
         where T : JsonConverterBase
     {
         _converters.Add(converter);
-        _settings.Converters.Add(converter);
+        SETTINGS.Converters.Add(converter);
     }
 
     public static string ToJson(this object obj)
     {
-        var result = JsonConvert.SerializeObject(obj, _settings);
+        var result = JsonConvert.SerializeObject(obj, SETTINGS);
         ResetConverters();
         return result;
     }
@@ -32,7 +32,7 @@ public static class SerializationExtensions
     public static T FromJson<T>(this string json)
         where T : class
     {
-        var result = JsonConvert.DeserializeObject<T>(json, _settings);
+        var result = JsonConvert.DeserializeObject<T>(json, SETTINGS);
         if (result == default)
         {
             throw new Exception($"Cannot serialize '{json}' to type of '{typeof(T)}'");

@@ -6,7 +6,7 @@ public record TimeInterval : DomainObject, IComparable<TimeInterval>
 {
     public static implicit operator TimeSpan?(TimeInterval? interval)
     {
-        return interval?.Span;
+        return interval?.ToTimeSpan();
     }
 
     public static TimeInterval? operator +(TimeInterval? one, TimeInterval? two)
@@ -15,7 +15,7 @@ public record TimeInterval : DomainObject, IComparable<TimeInterval>
         {
             return null;
         }
-        return new TimeInterval(one!.Span + two!.Span);
+        return new TimeInterval(one!._interval + two!._interval);
     }
 
     public static TimeInterval? operator -(TimeInterval? one, TimeInterval? two)
@@ -24,7 +24,7 @@ public record TimeInterval : DomainObject, IComparable<TimeInterval>
         {
             return null;
         }
-        return new TimeInterval(one!.Span - two!.Span);
+        return new TimeInterval(one!._interval - two!._interval);
     }
 
     public static Speed? operator /(double num, TimeInterval? interval)
@@ -40,25 +40,32 @@ public record TimeInterval : DomainObject, IComparable<TimeInterval>
 
     public TimeInterval(TimeSpan timeSpan)
     {
-        Span = timeSpan;
+        _interval = timeSpan;
     }
+#pragma warning disable IDE1006 // TODO: serialize internal propety using custom JsonConverter<TimeInterval> 
+    TimeSpan _interval { get; set; }
+#pragma warning restore IDE1006 // Naming Styles
 
     public static TimeInterval Zero => new(TimeSpan.Zero);
-    public TimeSpan Span { get; private set; }
 
     public double ToTotalHours()
     {
-        return Span.TotalHours;
+        return _interval.TotalHours;
+    }
+
+    public TimeSpan ToTimeSpan()
+    {
+        return _interval;
     }
 
     public override string ToString()
     {
         // TODO: use FormattingHelper from Startlist PR
-        return Span.ToString(Span.TotalDays > 1 ? @"dd\.hh\:mm\:ss" : @"hh\:mm\:ss");
+        return _interval.ToString(_interval.TotalDays > 1 ? @"dd\.hh\:mm\:ss" : @"hh\:mm\:ss");
     }
 
     public int CompareTo(TimeInterval? other)
     {
-        return Span.CompareTo(other?.Span);
+        return _interval.CompareTo(other?._interval);
     }
 }

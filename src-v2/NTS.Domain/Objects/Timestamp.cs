@@ -1,4 +1,5 @@
-﻿using Not.Domain.Base;
+﻿using Newtonsoft.Json;
+using Not.Domain.Base;
 
 namespace NTS.Domain.Objects;
 
@@ -18,34 +19,39 @@ public record Timestamp : DomainObject, IComparable<Timestamp>
         return new Timestamp(dateTime.Value);
     }
 
+    public static Timestamp Copy(Timestamp timestamp)
+    {
+        return new Timestamp(timestamp);
+    }
+
     public static bool operator <(Timestamp? left, Timestamp? right)
     {
-        return left?.DateTime < right?.DateTime;
+        return left?._stamp < right?._stamp;
     }
 
     public static bool operator >(Timestamp? left, Timestamp? right)
     {
-        return left?.DateTime > right?.DateTime;
+        return left?._stamp > right?._stamp;
     }
 
     public static bool operator <=(Timestamp? left, Timestamp? right)
     {
-        return left?.DateTime <= right?.DateTime;
+        return left?._stamp <= right?._stamp;
     }
 
     public static bool operator >=(Timestamp? left, Timestamp? right)
     {
-        return left?.DateTime > right?.DateTime;
+        return left?._stamp > right?._stamp;
     }
 
     public static bool operator <(Timestamp? left, DateTimeOffset? right)
     {
-        return left?.DateTime < right;
+        return left?._stamp < right;
     }
 
     public static bool operator >(Timestamp? left, DateTimeOffset? right)
     {
-        return left?.DateTime > right;
+        return left?._stamp > right;
     }
 
     public static TimeInterval? operator -(Timestamp? left, Timestamp? right)
@@ -54,51 +60,62 @@ public record Timestamp : DomainObject, IComparable<Timestamp>
         {
             return null;
         }
-        return new TimeInterval(left!.DateTime - right!.DateTime);
+        return new TimeInterval(left!._stamp - right!._stamp);
     }
 
     public static Timestamp? operator +(Timestamp? left, TimeSpan? right)
     {
-        return left == null ? null : new Timestamp(left!.DateTime + (right ?? TimeSpan.Zero));
+        return left == null ? null : new Timestamp(left!._stamp + (right ?? TimeSpan.Zero));
     }
 
-    Timestamp() { }
-
-    Timestamp(DateTimeOffset dateTime)
+    protected Timestamp(Timestamp timestamp)
+        : base(timestamp)
     {
-        DateTime = dateTime;
+        _stamp = timestamp._stamp;
     }
 
     public Timestamp(DateTime dateTime)
     {
-        DateTime = dateTime;
+        _stamp = dateTime;
     }
 
-    public Timestamp(Timestamp timestamp)
-        : base(timestamp)
+    public Timestamp(DateTimeOffset stamp)
     {
-        DateTime = timestamp.DateTime;
+        _stamp = stamp;
     }
 
-    public DateTimeOffset DateTime { get; private set; }
+    [JsonProperty]
+#pragma warning disable IDE1006 // TODO: serialize private setter using custom JsonConverter<Timestamp>
+    public DateTimeOffset _stamp { get; set; }
+#pragma warning restore IDE1006 // Naming Styles
 
     public Timestamp Add(TimeSpan span)
     {
-        return new Timestamp(DateTime.Add(span));
+        return new Timestamp(_stamp.Add(span));
     }
 
     public string ToString(string format, IFormatProvider formatProvider)
     {
-        return DateTime.LocalDateTime.ToString(format, formatProvider);
+        return _stamp.LocalDateTime.ToString(format, formatProvider);
     }
 
     public override string ToString()
     {
-        return DateTime.LocalDateTime.ToString("HH:mm:ss");
+        return _stamp.LocalDateTime.ToString("HH:mm:ss");
     }
 
     public int CompareTo(Timestamp? other)
     {
-        return DateTime.CompareTo(other?.DateTime ?? DateTimeOffset.MinValue);
+        return _stamp.CompareTo(other?._stamp ?? DateTimeOffset.MinValue);
+    }
+
+    public DateTimeOffset ToDateTimeOffset()
+    {
+        return _stamp; //TODO: test reference modification
+    }
+
+    public DateTime ToDateTime()
+    {
+        return _stamp.DateTime;
     }
 }

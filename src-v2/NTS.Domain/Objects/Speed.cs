@@ -41,8 +41,9 @@ public record Speed : DomainObject
         _speed = distance / interval.ToTotalHours();
     }
 
-    // TODO: implement serialization of private fields and change to field
+#pragma warning disable IDE1006 // TODO: serialize internal property using a custom JsonConverter<Speed>
     public double _speed { get; private set; }
+#pragma warning restore IDE1006 // Naming Styles
 
     public override string ToString()
     {

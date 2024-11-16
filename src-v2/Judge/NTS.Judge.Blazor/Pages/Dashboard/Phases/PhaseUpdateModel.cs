@@ -44,10 +44,10 @@ public class PhaseUpdateModel : IPhaseState, IFormModel<Phase>
     public void FromEntity(Phase entity)
     {
         Id = entity.Id;
-        StartTime = entity.StartTime?.DateTime;
-        ArriveTime = entity.ArriveTime?.DateTime;
-        PresentTime = entity.PresentTime?.DateTime;
-        RepresentTime = entity.RepresentTime?.DateTime;
+        StartTime = entity.StartTime?.ToDateTimeOffset();
+        ArriveTime = entity.ArriveTime?.ToDateTimeOffset();
+        PresentTime = entity.PresentTime?.ToDateTimeOffset();
+        RepresentTime = entity.RepresentTime?.ToDateTimeOffset();
     }
 
     DateTimeOffset? Parse(string? input)
