@@ -1,7 +1,5 @@
 ﻿using Not.Localization;
 using NTS.Domain.Core.Entities;
-using NTS.Domain.Extensions;
-using static NTS.Domain.Extensions.DomainExtensions;
 
 namespace NTS.Domain.Core.Objects;
 
@@ -33,11 +31,11 @@ public record Start : DomainObject
         Time = nextPhase.StartTime!.DateTime;
     }
 
-    public Person Athlete { get; private set; }
-    public int Number { get; private set; }
-    public int PhaseNumber { get; private set; }
-    public double Distance { get; private set; }
-    public DateTimeOffset Time { get; private set; }
+    public Person Athlete { get; }
+    public int Number { get; }
+    public int PhaseNumber { get; }
+    public double Distance { get; }
+    public DateTimeOffset Time { get; }
 
     public override string ToString()
     {

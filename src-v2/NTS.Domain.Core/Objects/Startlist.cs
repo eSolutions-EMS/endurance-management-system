@@ -1,4 +1,5 @@
-﻿using NTS.Domain.Core.Entities;
+﻿using System.Runtime.CompilerServices;
+using NTS.Domain.Core.Entities;
 using NTS.Domain.Core.Objects.Payloads;
 
 namespace NTS.Domain.Core.Objects;
@@ -7,35 +8,11 @@ public class StartList
 {
     static readonly TimeSpan START_EXPIRY_TIME = TimeSpan.FromMinutes(15);
 
-    public StartList(Action action)
-    {
-        Participation.PHASE_COMPLETED_EVENT.Subscribe(PhaseCompletedHandler);
-        ChangeHandler = action;
-    }
+    List<Start> _starts;
 
-    Action ChangeHandler { get; set; }
-    public List<Start> Starts { get; set; } = [];
-
-    public IReadOnlyList<Start> History
+    public StartList(IEnumerable<Participation> participations, Action action)
     {
-        get
-        {
-            var history = Starts.Where(s => CurrentTime() - s.Time.TimeOfDay > START_EXPIRY_TIME);
-            return OrderByTimeAndPhase(history);
-        }
-    }
-
-    public IReadOnlyList<Start> Upcoming
-    {
-        get
-        {
-            var upcoming = Starts.Where(s => CurrentTime() - s.Time.TimeOfDay <= START_EXPIRY_TIME);
-            return OrderByTimeAndPhase(upcoming);
-        }
-    }
-
-    public void AssignStarts(IEnumerable<Participation> participations)
-    {
+        _starts = [];
         foreach (var participation in participations)
         {
             if (!participation.IsEliminated())
@@ -56,16 +33,43 @@ public class StartList
                         phases[phaseIndex].Length,
                         phase.StartTime.DateTime
                     );
-                    Starts.Add(start);
+                    _starts.Add(start);
                 }
             }
         }
+        Participation.PHASE_COMPLETED_EVENT.Subscribe(PhaseCompletedHandler);
+        ChangeHandler = action;
+    }
+
+    Action ChangeHandler { get; set; }
+
+    public IReadOnlyList<Start> History
+    {
+        get
+        {
+            var history = _starts.Where(s => CurrentTime() - s.Time.TimeOfDay > START_EXPIRY_TIME);
+            return OrderByTimeAndPhase(history);
+        }
+    }
+
+    public IReadOnlyList<Start> Upcoming
+    {
+        get
+        {
+            var upcoming = _starts.Where(s => CurrentTime() - s.Time.TimeOfDay <= START_EXPIRY_TIME);
+            return OrderByTimeAndPhase(upcoming);
+        }
+    }
+
+    public bool Any()
+    {
+        return _starts.Any();
     }
 
     void PhaseCompletedHandler(PhaseCompleted phaseCompleted)
     {
         var newStart = new Start(phaseCompleted.Participation);
-        Starts.Add(newStart);
+        _starts.Add(newStart);
         ChangeHandler();
     }
 
@@ -76,6 +80,6 @@ public class StartList
 
     List<Start> OrderByTimeAndPhase(IEnumerable<Start> starts)
     {
-        return starts.OrderBy(s => s.Time).OrderBy(s => s.PhaseNumber).ToList();
+        return starts.OrderBy(s => s.Time).ThenBy(s => s.PhaseNumber).ToList();
     }
 }

@@ -12,22 +12,20 @@ namespace NTS.Judge.Adapters.Behinds;
 public class StartlistBehind : ObservableBehind, IStartlistUpcoming, IStartlistHistory
 {
     readonly IRepository<Participation> _participationRepository;
+    StartList? _startlist;
 
     public StartlistBehind(IRepository<Participation> participationRepository)
     {
         _participationRepository = participationRepository;
-        var startlist = new StartList(EmitChange);
-        Startlist = startlist;
     }
-
-    StartList Startlist { get; set; }
-    public IReadOnlyList<Start> Upcoming => Startlist.Upcoming;
-    public IReadOnlyList<Start> History => Startlist.History;
+    public IReadOnlyList<Start> Upcoming => _startlist?.Upcoming == null ? [] : _startlist.Upcoming;
+    public IReadOnlyList<Start> History => _startlist?.History == null? [] : _startlist.History;
 
     protected override async Task<bool> PerformInitialization(params IEnumerable<object> arguments)
     {
         var participations = await _participationRepository.ReadAll();
-        Startlist.AssignStarts(participations);
-        return Startlist.Starts.Any();
+        var startlist = new StartList(participations, EmitChange);
+        _startlist = startlist;
+        return _startlist.Any();
     }
 }

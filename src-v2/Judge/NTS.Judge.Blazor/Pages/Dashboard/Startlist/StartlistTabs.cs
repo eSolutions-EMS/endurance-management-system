@@ -6,15 +6,14 @@ using NTS.Domain.Core.Objects;
 namespace NTS.Judge.Blazor.Pages.Dashboard.Startlist;
 
 public abstract class StartlistTabs : NotComponent
-{
-    protected abstract IEnumerable<Start> _starts { get; }
+{ 
     protected Dictionary<string, List<Start>> _startlistByStage { get; set; } = [];
 
-    protected void CreateHeadersAndGroupByStage()
+    protected void CreateStartlistByStage(IEnumerable<Start> starts)
     {
-        foreach (var start in _starts)
+        foreach (var start in starts)
         {
-            var tabHeader = $"{@Localizer.Get("Stage")} {start.PhaseNumber}";
+            var tabHeader = $"{Localizer.Get("Stage")} {start.PhaseNumber}";
             if (!_startlistByStage.Keys.Any(t => t == tabHeader))
             {
                 _startlistByStage.Add(tabHeader, []);

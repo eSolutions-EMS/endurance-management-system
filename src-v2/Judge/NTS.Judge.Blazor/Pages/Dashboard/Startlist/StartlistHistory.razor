@@ -9,7 +9,7 @@
 
 @inherits StartlistTabs
 
-@if (_starts.Count() != 0)
+@if (_behind.History.Count() != 0)
 {
     <NotTrueCenterText Typo="Typo.h5" Content="History" Class="mb-4" />
     <MudTabs PanelClass="px-4 py-6" Elevation="0" Rounded ApplyEffectsToContainer>
@@ -28,18 +28,16 @@
     [Inject]
     public IStartlistHistory _behind { get; set; } = default!;
 
-    protected override IEnumerable<Start> _starts => _behind.History;
-
     string[] _tableHeadings = { "Number", "Athlete", "Loop", "Start Time" };
 
     protected override async Task OnInitializedAsync()
     {
         await Observe(_behind);
-        CreateHeadersAndGroupByStage();
+        CreateStartlistByStage(_behind.History);
     }
 
     protected override void OnBeforeRender()
     {
-        CreateHeadersAndGroupByStage();
+        CreateStartlistByStage(_behind.History);
     }
 }

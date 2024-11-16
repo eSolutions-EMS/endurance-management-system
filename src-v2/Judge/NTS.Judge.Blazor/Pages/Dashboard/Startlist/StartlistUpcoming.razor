@@ -7,7 +7,7 @@
 
 @inherits StartlistTabs
 
-@if (_starts.Count() != 0)
+@if (_behind.Upcoming.Count() != 0)
 {
     <MudTabs PanelClass="px-4 py-6" Elevation="0" Rounded ApplyEffectsToContainer Class="@Class">
         @foreach (var tabHeader in _startlistByStage.Keys)
@@ -31,16 +31,14 @@
 
     string[] _tableHeadings = { "Number", "Athlete", "Loop", "Start Time", "Start In" };
 
-    protected override IEnumerable<Start> _starts => _behind.Upcoming;
-
     protected override async Task OnInitializedAsync()
     {
         await Observe(_behind);
-        CreateHeadersAndGroupByStage();
+        CreateStartlistByStage(_behind.Upcoming);
     }
 
     protected override void OnBeforeRender()
     {
-        CreateHeadersAndGroupByStage();
+        CreateStartlistByStage(_behind.Upcoming);
     }
 }

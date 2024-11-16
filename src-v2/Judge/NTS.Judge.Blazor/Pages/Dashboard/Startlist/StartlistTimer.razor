@@ -54,12 +54,12 @@
     {
         if (_timeInterval > NegativeSecond)
         {
-            _displayTime = FormattingHelper.TimeSpanFormat(_timeInterval);
+            _displayTime = FormattingHelper.Format(_timeInterval);
         }
         else
         {
             var positiveSignedTime = _timeInterval.Negate();
-            _displayTime = " - " + FormattingHelper.TimeSpanFormat(positiveSignedTime);
+            _displayTime = " - " + FormattingHelper.Format(positiveSignedTime);
         }
         if (_timeInterval > FiveMinutes)
         {
