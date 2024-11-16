@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using Not.Random;
 using Not.Extensions;
+using Not.Random;
 
 namespace Not.Domain;
 

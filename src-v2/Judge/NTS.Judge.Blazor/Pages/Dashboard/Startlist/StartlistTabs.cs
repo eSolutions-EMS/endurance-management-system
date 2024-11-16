@@ -6,7 +6,7 @@ using NTS.Domain.Core.Objects;
 namespace NTS.Judge.Blazor.Pages.Dashboard.Startlist;
 
 public abstract class StartlistTabs : NotComponent
-{ 
+{
     protected Dictionary<string, List<Start>> _startlistByStage { get; set; } = [];
 
     protected void CreateStartlistByStage(IEnumerable<Start> starts)

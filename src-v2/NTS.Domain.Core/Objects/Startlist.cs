@@ -56,7 +56,9 @@ public class StartList
     {
         get
         {
-            var upcoming = _starts.Where(s => CurrentTime() - s.Time.TimeOfDay <= START_EXPIRY_TIME);
+            var upcoming = _starts.Where(s =>
+                CurrentTime() - s.Time.TimeOfDay <= START_EXPIRY_TIME
+            );
             return OrderByTimeAndPhase(upcoming);
         }
     }
