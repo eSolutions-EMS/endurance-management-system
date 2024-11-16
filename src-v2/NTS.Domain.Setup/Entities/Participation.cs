@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using static NTS.Domain.Extensions.DomainExtensions;
 
 namespace NTS.Domain.Setup.Entities;
 

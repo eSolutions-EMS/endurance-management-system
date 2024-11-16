@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Not.Random;
+using Not.Extensions;
 
 namespace Not.Domain;
 
@@ -22,6 +23,11 @@ public abstract class DomainEntity : IEquatable<DomainEntity>, IIdentifiable
 
     // TODO: use DomainObject for ID, do private set
     public int Id { get; }
+
+    protected string Combine(params object?[] values)
+    {
+        return DomainModelHelper.Combine(values);
+    }
 
     protected static int GenerateId()
     {

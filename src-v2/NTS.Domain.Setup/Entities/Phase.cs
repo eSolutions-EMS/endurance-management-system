@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using NTS.Domain.Setup.Import;
-using static NTS.Domain.Extensions.DomainExtensions;
 
 namespace NTS.Domain.Setup.Entities;
 

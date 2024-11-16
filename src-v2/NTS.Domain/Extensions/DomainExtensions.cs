@@ -9,10 +9,4 @@ public static class DomainExtensions
         collection.Remove(entity);
         collection.Insert(index, entity);
     }
-
-    public static string Combine(params object?[] values)
-    {
-        var sections = values.Where(x => x != null);
-        return string.Join(" | ", sections);
-    }
 }
