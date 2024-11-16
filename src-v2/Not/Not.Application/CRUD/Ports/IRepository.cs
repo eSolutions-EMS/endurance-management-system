@@ -1,4 +1,4 @@
-﻿using Not.Domain;
+﻿using Not.Domain.Base;
 
 namespace Not.Application.CRUD.Ports;
 

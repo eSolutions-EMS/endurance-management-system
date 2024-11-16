@@ -1,4 +1,6 @@
-﻿namespace NTS.Domain.Extensions;
+﻿using Not.Domain.Base;
+
+namespace NTS.Domain.Extensions;
 
 public static class DomainExtensions
 {

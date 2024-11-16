@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Not.Domain;
+using Not.Domain.Base;
 using Not.Serialization;
 
 namespace NTS.Persistence.Converters;

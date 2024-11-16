@@ -1,9 +1,11 @@
 ﻿using Newtonsoft.Json;
+using Not.Domain.Base;
+using Not.Domain.Exceptions;
 using NTS.Domain.Setup.Import;
 
 namespace NTS.Domain.Setup.Entities;
 
-public class Phase : DomainEntity, ISummarizable, IImportable
+public class Phase : DomainEntity, IImportable
 {
     public static Phase Create(Loop? loop, int recovery, int? rest)
     {

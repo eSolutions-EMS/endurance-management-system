@@ -1,4 +1,5 @@
-﻿using NTS.Domain.Core.Entities;
+﻿using Not.Domain.Base;
+using NTS.Domain.Core.Entities;
 
 namespace NTS.Domain.Core.Objects;
 

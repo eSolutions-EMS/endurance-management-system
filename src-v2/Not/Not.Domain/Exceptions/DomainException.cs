@@ -1,6 +1,6 @@
 ﻿using Not.Exceptions;
 
-namespace Not.Domain;
+namespace Not.Domain.Exceptions;
 
 //TODO: Create AggregateDomainException and modify domains to batch their validation exceptions before throwing
 public class DomainException : DomainExceptionBase

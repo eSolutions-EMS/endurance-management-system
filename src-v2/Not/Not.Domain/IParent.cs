@@ -1,4 +1,6 @@
-﻿namespace Not.Domain;
+﻿using Not.Domain.Base;
+
+namespace Not.Domain;
 
 public interface IParent<T> : IParent
     where T : DomainEntity

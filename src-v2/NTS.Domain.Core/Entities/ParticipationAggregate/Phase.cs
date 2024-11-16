@@ -1,5 +1,6 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using Not.Domain.Base;
+using Not.Domain.Exceptions;
 using NTS.Domain.Core.Configuration;
 using static NTS.Domain.Core.Entities.SnapshotResultType;
 

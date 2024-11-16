@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Not.Domain.Base;
 using Not.Events;
 using NTS.Domain.Core.Entities.ParticipationAggregate;
 using NTS.Domain.Core.Objects.Payloads;

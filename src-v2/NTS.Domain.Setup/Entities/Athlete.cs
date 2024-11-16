@@ -1,9 +1,10 @@
 ﻿using Newtonsoft.Json;
+using Not.Domain.Base;
 using NTS.Domain.Setup.Import;
 
 namespace NTS.Domain.Setup.Entities;
 
-public class Athlete : DomainEntity, ISummarizable, IImportable
+public class Athlete : DomainEntity, IImportable
 {
     public static Athlete Create(
         string? name,

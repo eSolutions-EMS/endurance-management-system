@@ -1,4 +1,6 @@
-﻿namespace NTS.Domain.Core.Entities.ParticipationAggregate;
+﻿using Not.Domain.Base;
+
+namespace NTS.Domain.Core.Entities.ParticipationAggregate;
 
 public record Competition : DomainObject
 {

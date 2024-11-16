@@ -1,4 +1,6 @@
-﻿namespace NTS.Domain.Core.Objects;
+﻿using Not.Domain.Base;
+
+namespace NTS.Domain.Core.Objects;
 
 public record Document : DomainObject
 {

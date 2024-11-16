@@ -1,4 +1,5 @@
 ﻿using Not.Application.CRUD.Ports;
+using Not.Domain.Base;
 using Not.Storage.Ports.States;
 
 namespace Not.Storage.Adapters.Repositories;

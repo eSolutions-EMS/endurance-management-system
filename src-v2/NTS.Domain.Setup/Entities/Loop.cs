@@ -1,4 +1,6 @@
 ﻿using Newtonsoft.Json;
+using Not.Domain.Base;
+using Not.Domain.Exceptions;
 
 namespace NTS.Domain.Setup.Entities;
 

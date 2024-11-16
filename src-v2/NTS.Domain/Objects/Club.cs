@@ -1,4 +1,6 @@
-﻿namespace NTS.Domain.Objects;
+﻿using Not.Domain.Base;
+
+namespace NTS.Domain.Objects;
 
 public record Club : DomainObject
 {

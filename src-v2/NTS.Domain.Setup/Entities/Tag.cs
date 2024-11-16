@@ -1,6 +1,8 @@
-﻿namespace NTS.Domain.Setup.Entities;
+﻿using Not.Domain.Base;
 
-public class Tag : DomainEntity, ISummarizable
+namespace NTS.Domain.Setup.Entities;
+
+public class Tag : DomainEntity
 {
     public Tag(string tagId, int number)
         : base(GenerateId())

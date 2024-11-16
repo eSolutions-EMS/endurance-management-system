@@ -1,9 +1,10 @@
 ﻿using Newtonsoft.Json;
+using Not.Domain.Base;
 using NTS.Domain.Setup.Import;
 
 namespace NTS.Domain.Setup.Entities;
 
-public class Horse : DomainEntity, ISummarizable, IImportable
+public class Horse : DomainEntity, IImportable
 {
     public static Horse Create(string? name, string? feiId)
     {

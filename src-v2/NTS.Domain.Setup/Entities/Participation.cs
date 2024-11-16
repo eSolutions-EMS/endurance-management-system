@@ -1,8 +1,10 @@
 ﻿using Newtonsoft.Json;
+using Not.Domain.Base;
+using Not.Domain.Exceptions;
 
 namespace NTS.Domain.Setup.Entities;
 
-public class Participation : DomainEntity, ISummarizable
+public class Participation : DomainEntity
 {
     const double CHILDREN_MIN_SPEED = 8;
     const double CHILDREN_MAX_SPEED = 12;
@@ -87,12 +89,6 @@ public class Participation : DomainEntity, ISummarizable
         {
             MaxAverageSpeed = MaxSpeedOverride;
         }
-    }
-
-    public string Summarize()
-    {
-        var summary = new Summarizer(this);
-        return summary.ToString();
     }
 
     public override string ToString()

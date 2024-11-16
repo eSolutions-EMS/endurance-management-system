@@ -1,4 +1,6 @@
 ﻿using Newtonsoft.Json;
+using Not.Domain.Base;
+using Not.Domain.Exceptions;
 using NTS.Domain.Extensions;
 using NTS.Domain.Setup.Import;
 
@@ -6,7 +8,6 @@ namespace NTS.Domain.Setup.Entities;
 
 public class EnduranceEvent
     : DomainEntity,
-        ISummarizable,
         IImportable,
         IParent<Official>,
         IParent<Competition>
@@ -86,18 +87,7 @@ public class EnduranceEvent
     {
         _officials.Remove(official);
     }
-
-    public string Summarize()
-    {
-        var officials = nameof(Officials).Localize();
-        var competitions = nameof(Competitions).Localize();
-
-        var summary = new Summarizer(this);
-        summary.Add(officials, Officials);
-        summary.Add(competitions, Competitions);
-        return summary.ToString();
-    }
-
+    
     public override string ToString()
     {
         return Combine(Place, Country);

@@ -1,4 +1,5 @@
-﻿using NTS.Domain.Enums;
+﻿using Not.Domain.Base;
+using NTS.Domain.Enums;
 
 namespace NTS.Domain.Objects;
 

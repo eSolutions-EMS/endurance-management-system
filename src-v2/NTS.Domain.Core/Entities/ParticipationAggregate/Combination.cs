@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Not.Domain.Base;
 using Not.Localization;
 
 namespace NTS.Domain.Core.Entities.ParticipationAggregate;

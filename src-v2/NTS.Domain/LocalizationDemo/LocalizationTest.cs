@@ -1,4 +1,7 @@
-﻿namespace NTS.Domain.LocalizationDemo;
+﻿using Not.Domain.Base;
+using Not.Domain.Exceptions;
+
+namespace NTS.Domain.LocalizationDemo;
 
 public class LocalizationTest : DomainEntity
 {

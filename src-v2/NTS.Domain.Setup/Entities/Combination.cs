@@ -1,9 +1,10 @@
 ﻿using Newtonsoft.Json;
+using Not.Domain.Base;
 using NTS.Domain.Setup.Import;
 
 namespace NTS.Domain.Setup.Entities;
 
-public class Combination : DomainEntity, ISummarizable, IImportable, IParent
+public class Combination : DomainEntity, IImportable, IParent
 {
     public static Combination Create(int number, Athlete? athlete, Horse? horse, Tag? tag)
     {
@@ -32,12 +33,6 @@ public class Combination : DomainEntity, ISummarizable, IImportable, IParent
     public Athlete Athlete { get; }
     public Horse Horse { get; }
     public Tag? Tag { get; }
-
-    public string Summarize()
-    {
-        var summary = new Summarizer(this);
-        return summary.ToString();
-    }
 
     public override string ToString()
     {

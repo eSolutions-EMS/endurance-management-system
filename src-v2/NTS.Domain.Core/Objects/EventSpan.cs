@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using Not.Domain.Base;
 
 namespace NTS.Domain.Core.Objects;
 

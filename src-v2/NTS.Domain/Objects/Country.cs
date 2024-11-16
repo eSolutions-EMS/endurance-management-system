@@ -1,8 +1,8 @@
-﻿using Not.Domain.Summary;
+﻿using Not.Domain.Base;
 
 namespace NTS.Domain.Objects;
 
-public record Country : DomainObject, ISummarizable
+public record Country : DomainObject
 {
     public Country(string isoCode, string nfCode, string name)
     {
@@ -14,11 +14,6 @@ public record Country : DomainObject, ISummarizable
     public string IsoCode { get; }
     public string NfCode { get; }
     public string Name { get; }
-
-    public string Summarize()
-    {
-        return $"{Name}, {IsoCode}";
-    }
 
     public override string ToString()
     {

@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel;
 using Newtonsoft.Json;
+using Not.Domain.Base;
+using Not.Domain.Exceptions;
 
 namespace NTS.Domain.Core.Entities.ParticipationAggregate;
 

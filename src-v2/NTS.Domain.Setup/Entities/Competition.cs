@@ -1,8 +1,10 @@
 using Newtonsoft.Json;
+using Not.Domain.Base;
+using Not.Domain.Exceptions;
 
 namespace NTS.Domain.Setup.Entities;
 
-public class Competition : DomainEntity, ISummarizable, IParent<Participation>, IParent<Phase>
+public class Competition : DomainEntity, IParent<Participation>, IParent<Phase>
 {
     public static Competition Create(
         string? name,
@@ -88,16 +90,6 @@ public class Competition : DomainEntity, ISummarizable, IParent<Participation>, 
     public TimeSpan? CompulsoryThresholdSpan { get; }
     public IReadOnlyList<Phase> Phases => _phases.AsReadOnly();
     public IReadOnlyList<Participation> Participations => _participations.AsReadOnly();
-
-    public string Summarize()
-    {
-        var phases = "phases".Localize();
-        var participations = "participations".Localize();
-        var summary = new Summarizer(this);
-        summary.Add(phases, _phases);
-        summary.Add(participations, _participations);
-        return summary.ToString();
-    }
 
     public override string ToString()
     {

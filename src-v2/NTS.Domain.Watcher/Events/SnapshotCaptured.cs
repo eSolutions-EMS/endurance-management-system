@@ -1,4 +1,4 @@
-﻿using Not.Domain;
+﻿using Not.Domain.Base;
 using NTS.Domain.Objects;
 
 namespace NTS.Domain.Watcher.Events;

@@ -2,7 +2,7 @@
 using Not.Blazor.CRUD.Forms.Ports;
 using Not.Blazor.CRUD.Lists.Ports;
 using Not.Blazor.Ports;
-using Not.Domain;
+using Not.Domain.Base;
 using Not.Exceptions;
 using Not.Reflection;
 using Not.Safe;

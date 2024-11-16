@@ -1,8 +1,9 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using Not.Domain.Exceptions;
 using Not.Random;
 using Not.Structures;
 
-namespace Not.Domain;
+namespace Not.Domain.Base;
 
 public abstract class DomainEntity : IEquatable<DomainEntity>, IIdentifiable
 {

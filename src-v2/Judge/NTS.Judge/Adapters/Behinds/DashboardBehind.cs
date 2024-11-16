@@ -1,5 +1,6 @@
 ﻿using Not.Application.CRUD.Ports;
 using Not.Domain;
+using Not.Domain.Exceptions;
 using Not.Safe;
 using NTS.Domain.Core.Entities;
 using NTS.Domain.Core.Entities.ParticipationAggregate;

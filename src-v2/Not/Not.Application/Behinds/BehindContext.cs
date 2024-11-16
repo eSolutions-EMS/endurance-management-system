@@ -1,5 +1,5 @@
 ﻿using Not.Application.CRUD.Ports;
-using Not.Domain;
+using Not.Domain.Base;
 using Not.Exceptions;
 
 namespace Not.Application.Behinds;
