@@ -1,6 +1,6 @@
-﻿namespace Not.Concurrency;
+﻿namespace Not.Concurrency.Extensions;
 
-public static class SemaphoreSlimExtensions
+public static class SemaphoreExtensions
 {
     public static bool IsOpen(this SemaphoreSlim semaphore)
     {

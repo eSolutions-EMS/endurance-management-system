@@ -7,10 +7,9 @@ namespace NTS.Domain.Core.Objects;
 
 public class Ranklist : IReadOnlyList<RankingEntry>
 {
-    static readonly FeiRanker _feiRanker = new();
-    static readonly Ranker[] _regionalRankers = [new BulgariaRanker()];
-
     readonly Ranking _ranking;
+    static FeiRanker _feiRanker = new();
+    static Ranker[] _regionalRankers = [new BulgariaRanker()];
     List<RankingEntry> _entries;
 
     public Ranklist(Ranking ranking)

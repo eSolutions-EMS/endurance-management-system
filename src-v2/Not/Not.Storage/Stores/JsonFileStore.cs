@@ -1,5 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
-using Not.Storage.Concurrency;
+using Not.Concurrency;
 using Not.Storage.Ports;
 using Not.Storage.Ports.States;
 
@@ -8,12 +8,12 @@ namespace Not.Storage.Stores;
 public class JsonFileStore<T> : JsonStore<T>, IStore<T>
     where T : class, IState, new()
 {
-    readonly ConcurrencySynchronizer _synchronizer;
+    readonly TimeoutLockSemaphore _timeoutLock;
 
     public JsonFileStore(IFileStorageConfiguration configuration)
         : base(Path.Combine(configuration.Path, $"{typeof(T).Name}.json"))
     {
-        _synchronizer = new ConcurrencySynchronizer();
+        _timeoutLock = new TimeoutLockSemaphore();
     }
 
     public async Task<T> Readonly(
@@ -22,9 +22,9 @@ public class JsonFileStore<T> : JsonStore<T>, IStore<T>
     )
     {
         // TODO: figure out better way? Maybe cache the contents and update the cache on Commit?
-        var transactionId = await _synchronizer.Wait(callerPath, callerMember);
+        var transactionId = await _timeoutLock.Wait(callerPath, callerMember);
         var state = await DeserializeAsync();
-        _synchronizer.Release(transactionId);
+        _timeoutLock.Release(transactionId);
         return state;
     }
 
@@ -33,7 +33,7 @@ public class JsonFileStore<T> : JsonStore<T>, IStore<T>
         [CallerMemberName] string callerMember = default!
     )
     {
-        var transactionId = await _synchronizer.Wait(callerPath, callerMember);
+        var transactionId = await _timeoutLock.Wait(callerPath, callerMember);
 
         var state = await DeserializeAsync();
         state.TransactionId = transactionId;
@@ -50,6 +50,6 @@ public class JsonFileStore<T> : JsonStore<T>, IStore<T>
         }
 
         await SerializeAsync(state);
-        _synchronizer.Release(state.TransactionId.Value);
+        _timeoutLock.Release(state.TransactionId.Value);
     }
 }

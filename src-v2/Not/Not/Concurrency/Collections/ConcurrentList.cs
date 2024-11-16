@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.ObjectModel;
 
-namespace Not.Concurrency;
+namespace Not.Concurrency.Collections;
 
 public class ConcurrentList<T> : IList<T>
 {

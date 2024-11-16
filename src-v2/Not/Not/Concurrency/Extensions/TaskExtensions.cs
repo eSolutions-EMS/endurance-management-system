@@ -1,4 +1,6 @@
-﻿namespace Not.Concurrency;
+﻿using Not.Concurrency.Extensions;
+
+namespace Not.Concurrency.Extensions;
 
 // TODO: This should be in its own namespace. Something like Not.Async or Not.Tasks
 public static class TaskExtensions

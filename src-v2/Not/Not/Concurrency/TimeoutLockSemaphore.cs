@@ -1,16 +1,15 @@
-﻿using Not.Concurrency;
+﻿using Not.Concurrency.Extensions;
 using Not.Logging;
 
-namespace Not.Storage.Concurrency;
+namespace Not.Concurrency;
 
-internal class ConcurrencySynchronizer
+public class TimeoutLockSemaphore
 {
-    static readonly SemaphoreSlim _semaphore = new(1);
-
+    readonly SemaphoreSlim _semaphore = new(1);
     readonly TimeSpan _timout;
     Guid? _lockId;
 
-    public ConcurrencySynchronizer(TimeSpan? timout = null)
+    public TimeoutLockSemaphore(TimeSpan? timout = null)
     {
 #if DEBUG
         _timout = TimeSpan.FromMinutes(1);
