@@ -9,4 +9,3 @@ public interface IStartlistUpcoming : IObservableBehind, ISingletonService
 {
     IReadOnlyList<Start> Upcoming { get; }
 }
-

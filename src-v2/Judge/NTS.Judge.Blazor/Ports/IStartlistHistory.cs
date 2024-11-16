@@ -9,4 +9,3 @@ public interface IStartlistHistory : IObservableBehind, ISingletonService
 {
     IReadOnlyList<Start> History { get; }
 }
-

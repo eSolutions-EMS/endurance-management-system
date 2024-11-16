@@ -7,13 +7,7 @@ namespace NTS.Domain.Core.Objects;
 
 public record Start : DomainObject
 {
-    public Start(
-        Person athlete,
-        int number,
-        int loopNumber,
-        double distance,
-        DateTime startAt
-    )
+    public Start(Person athlete, int number, int loopNumber, double distance, DateTime startAt)
     {
         Athlete = athlete;
         Number = number;

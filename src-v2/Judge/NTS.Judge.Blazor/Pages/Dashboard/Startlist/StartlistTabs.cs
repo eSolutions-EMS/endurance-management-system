@@ -9,6 +9,7 @@ public abstract class StartlistTabs : NotComponent
 {
     protected abstract IEnumerable<Start> _starts { get; }
     protected Dictionary<string, List<Start>> _startlistByStage { get; set; } = [];
+
     protected void CreateHeadersAndGroupByStage()
     {
         foreach (var start in _starts)
