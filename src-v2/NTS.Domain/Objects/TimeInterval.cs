@@ -53,6 +53,7 @@ public record TimeInterval : DomainObject, IComparable<TimeInterval>
 
     public override string ToString()
     {
+        // TODO: use FormattingHelper from Startlist PR
         return Span.ToString(Span.TotalDays > 1 ? @"dd\.hh\:mm\:ss" : @"hh\:mm\:ss");
     }
 

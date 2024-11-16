@@ -3,7 +3,7 @@ using NTS.Domain.Enums;
 
 namespace NTS.Domain.Objects;
 
-public record Snapshot : DomainObject, ISnapshot
+public record Snapshot : DomainObject
 {
     public Snapshot(int number, SnapshotType type, SnapshotMethod method, Timestamp timestamp)
     {
