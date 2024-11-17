@@ -7,6 +7,7 @@ using NTS.Judge.Startup;
 using NTS.Persistence.Startup;
 using Not.Logging.Builder;
 using Not.Storage.Stores.Extensions;
+using NTS.Persistence.Injection;
 
 namespace NTS.Judge.MAUI;
 
@@ -49,7 +50,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddInversedDependencies(this IServiceCollection services)
     {
         services
-            .AddPersistence()
+            .AddStorage()
             .AddJudge()
             .GetConventionalAssemblies()
             .RegisterConventionalServices();

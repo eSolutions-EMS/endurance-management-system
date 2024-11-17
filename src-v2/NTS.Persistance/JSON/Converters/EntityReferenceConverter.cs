@@ -3,9 +3,9 @@ using Newtonsoft.Json.Linq;
 using Not.Domain.Base;
 using Not.Serialization;
 
-namespace NTS.Persistence.Converters;
+namespace NTS.Persistence.JSON.Converters;
 
-public class EntityReferenceEqualityGuardConverter<T> : JsonConverterBase
+public class EntityReferenceConverter<T> : JsonConverterBase
     where T : DomainEntity
 {
     const string DOMAIN_REF_PROPERTY = "$domainRef";

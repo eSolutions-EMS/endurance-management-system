@@ -1,7 +1,6 @@
 ﻿using NTS.Domain.Core.Entities;
-using NTS.Persistence.States;
 
-namespace NTS.Persistence.Adapters;
+namespace NTS.Persistence.Boundaries.Core.Repositories;
 
 public class SnapshotResultRepository : SetRepository<SnapshotResult, CoreState>
 {

@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace NTS.Persistence.Startup;
+namespace NTS.Persistence.Injection;
 
-public static class PersistenceStartup
+public static class StorageInjection
 {
     /// <summary>
     /// Necessary to be called directly from UI project, otherwise the runtime treeshakes this
@@ -10,7 +10,7 @@ public static class PersistenceStartup
     /// </summary>
     /// <param name="services"></param>
     /// <returns></returns>
-    public static IServiceCollection AddPersistence(this IServiceCollection services)
+    public static IServiceCollection AddStorage(this IServiceCollection services)
     {
         return services;
     }

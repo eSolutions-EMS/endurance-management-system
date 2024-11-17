@@ -1,7 +1,6 @@
 ﻿using NTS.Domain.Setup.Entities;
-using NTS.Persistence.States;
 
-namespace NTS.Persistence.Adapters;
+namespace NTS.Persistence.Boundaries.Setup.Repositories;
 
 public class HorseRepository : SetRepository<Horse, SetupState>
 {

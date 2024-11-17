@@ -1,7 +1,7 @@
 ﻿using Not.Storage.States;
 using NTS.Domain.Core.Entities;
 
-namespace NTS.Persistence.States;
+namespace NTS.Persistence.Boundaries.Core;
 
 public class CoreState
     : NState,
