@@ -11,13 +11,11 @@
         @foreach (var tabHeader in StartlistsByStage.Keys)
         {
             <MudTabPanel Text="@tabHeader">
-                <ChildContent>
-                    <NSimpleTable T="Start" Headings="@TableHeaders" Items="StartlistsByStage[tabHeader]">
-                        <CustomCell>
-                            <StartlistTimer StartTime="@context.Time" StopTimerAtTime="-15" />
-                        </CustomCell>
-                    </NSimpleTable>
-                </ChildContent>
+                <NSimpleTable T="Start" Headings="@TableHeaders" Items="StartlistsByStage[tabHeader]">
+                    <CustomCell>
+                        <StartlistTimer StartTime="@context.Time" StopTimerAtTime="-15" />
+                    </CustomCell>
+                </NSimpleTable>
             </MudTabPanel>
         }
     </MudTabs>

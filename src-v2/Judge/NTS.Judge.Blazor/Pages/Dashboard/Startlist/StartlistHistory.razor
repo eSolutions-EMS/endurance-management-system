@@ -12,9 +12,7 @@
         @foreach (var tabHeader in StartlistsByStage.Keys)
         {
             <MudTabPanel Text="@tabHeader">
-                <ChildContent>
-                    <NSimpleTable T="Start" Headings="TableHeaders" Items="StartlistsByStage[tabHeader]" />
-                </ChildContent>
+                <NSimpleTable T="Start" Headings="TableHeaders" Items="StartlistsByStage[tabHeader]" />
             </MudTabPanel>
         }
     </MudTabs>
