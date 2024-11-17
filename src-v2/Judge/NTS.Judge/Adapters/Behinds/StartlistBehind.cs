@@ -22,7 +22,8 @@ public class StartlistBehind : ObservableBehind, IStartlistUpcoming, IStartlistH
     protected override async Task<bool> PerformInitialization(params IEnumerable<object> arguments)
     {
         var participations = await _participationRepository.ReadAll();
-        _startlist = new StartList(participations, EmitChange); ;
+        _startlist = new StartList(participations, EmitChange);
+        ;
         return _startlist.Any();
     }
 }
