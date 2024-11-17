@@ -49,8 +49,8 @@ public class Ranklist : IReadOnlyList<RankingEntry>
 
     static List<RankingEntry> Rank(Ranking ranking)
     {
-        var ranker = StaticOptions.ShouldUseRegionalRanker(ranking.Ruleset)
-            ? GetRanker(StaticOptions.RegionalConfiguration)
+        var ranker = StaticOption.ShouldUseRegionalRanker(ranking.Ruleset)
+            ? GetRanker(StaticOption.RegionalConfiguration)
             : _feiRanker;
         var ranked = ranker.Rank(ranking);
         var rank = 0;

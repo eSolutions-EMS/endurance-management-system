@@ -4,7 +4,7 @@ using Not.Startup;
 
 namespace NTS.Domain.Core.Configuration;
 
-public class StaticOptions : IStartupInitializer, ISingleton
+public class StaticOption : IStartupInitializer, ISingleton
 {
     public static bool IsRfidDetectionEnabled()
     {
@@ -50,7 +50,7 @@ public class StaticOptions : IStartupInitializer, ISingleton
     readonly IStaticOptionsProvider<Model> _provider;
     static Model? OPTIONS;
 
-    public StaticOptions(IStaticOptionsProvider<Model> provider)
+    public StaticOption(IStaticOptionsProvider<Model> provider)
     {
         _provider = provider;
     }

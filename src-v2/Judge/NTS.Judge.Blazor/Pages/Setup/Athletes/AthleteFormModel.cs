@@ -13,7 +13,7 @@ public class AthleteFormModel : IFormModel<Athlete>
         Name = "Gucci Petrov";
         Club = "Конярче ООД";
 #endif
-        Country = StaticOptions.SelectedCountry;
+        Country = StaticOption.SelectedCountry;
     }
 
     public int Id { get; set; }

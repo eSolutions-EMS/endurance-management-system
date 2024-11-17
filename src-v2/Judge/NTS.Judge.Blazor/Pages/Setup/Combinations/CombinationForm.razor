@@ -14,7 +14,7 @@
 
     <NAutocomplete @ref="_horseField" @bind-Value="Model.Horse" Label="Horse" Search="SearchHorses"/>
 
-    @if (StaticOptions.IsRfidDetectionEnabled())
+    @if (StaticOption.IsRfidDetectionEnabled())
     {
         <RfidTagWriter CombinationNumber="Model.Number" @bind-Value="Model.Tag" />
     }

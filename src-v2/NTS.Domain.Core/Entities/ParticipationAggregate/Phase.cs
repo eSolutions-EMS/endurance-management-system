@@ -278,7 +278,7 @@ public class Phase : DomainEntity
 
     public Speed? GetAverageSpeed()
     {
-        if (StaticOptions.ShouldOnlyUseAverageLoopSpeed(Ruleset))
+        if (StaticOption.ShouldOnlyUseAverageLoopSpeed(Ruleset))
         {
             return GetAverageLoopSpeed();
         }

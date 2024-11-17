@@ -53,7 +53,7 @@ public class RfidReaderBehind : IRfidReaderBehind
         _deduplication[number] = timestamp;
         var snapshot = new Snapshot(
             number,
-            StaticOptions.GetRfidSnapshotType(),
+            StaticOption.GetRfidSnapshotType(),
             SnapshotMethod.RFID,
             timestamp
         );

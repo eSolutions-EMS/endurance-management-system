@@ -10,10 +10,10 @@ public class CountriesContext : ICountriesContext
     {
         if (string.IsNullOrWhiteSpace(term))
         {
-            var countries = StaticOptions.Countries.AsEnumerable();
+            var countries = StaticOption.Countries.AsEnumerable();
             return Task.FromResult(countries);
         }
-        var result = StaticOptions.Countries.Where(x =>
+        var result = StaticOption.Countries.Where(x =>
             x.Name.Contains(term, StringComparison.InvariantCultureIgnoreCase)
         );
         return Task.FromResult(result);
