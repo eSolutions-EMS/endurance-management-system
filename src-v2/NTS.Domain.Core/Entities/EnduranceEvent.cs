@@ -4,7 +4,7 @@ using NTS.Domain.Core.Objects;
 
 namespace NTS.Domain.Core.Entities;
 
-public class EnduranceEvent : DomainEntity
+public class EnduranceEvent : DomainEntity, IAggregateRoot
 {
     [JsonConstructor]
     EnduranceEvent(

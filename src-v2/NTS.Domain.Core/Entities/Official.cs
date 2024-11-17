@@ -3,7 +3,7 @@ using Not.Domain.Base;
 
 namespace NTS.Domain.Core.Entities;
 
-public class Official : DomainEntity
+public class Official : DomainEntity, IAggregateRoot
 {
     [JsonConstructor]
     Official(int id, Person? person, OfficialRole? role)

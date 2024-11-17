@@ -4,7 +4,7 @@ using Not.Localization;
 
 namespace NTS.Domain.Core.Entities;
 
-public class RankingEntry : DomainEntity
+public class RankingEntry : DomainEntity, IAggregateRoot
 {
     [JsonConstructor]
     RankingEntry(int id, Participation participation, bool isNotRanked)

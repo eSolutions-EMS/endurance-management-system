@@ -3,7 +3,7 @@ using Not.Domain.Base;
 
 namespace NTS.Domain.Core.Entities;
 
-public class Handout : DomainEntity
+public class Handout : DomainEntity, IAggregateRoot
 {
     [JsonConstructor]
     Handout(int id, Participation participation)

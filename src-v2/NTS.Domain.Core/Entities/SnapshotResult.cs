@@ -3,7 +3,7 @@ using Not.Domain.Base;
 
 namespace NTS.Domain.Core.Entities;
 
-public class SnapshotResult : DomainEntity
+public class SnapshotResult : DomainEntity, IAggregateRoot
 {
     public static SnapshotResult Applied(Snapshot snapshot)
     {
