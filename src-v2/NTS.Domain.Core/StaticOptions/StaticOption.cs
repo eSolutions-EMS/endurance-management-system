@@ -32,7 +32,7 @@ public class StaticOption : IStartupInitializer, ISingleton
     {
         if (!ShouldUseRegionalConfiguration(ruleset))
         {
-            return RegionalConfiguration!.ShouldOnlyUseAverageLoopSpeed;
+            return Regional!.ShouldOnlyUseAverageLoopSpeed;
         }
         return false;
     }
@@ -56,7 +56,7 @@ public class StaticOption : IStartupInitializer, ISingleton
         _provider = provider;
     }
 
-    public static IRegionalConfiguration? RegionalConfiguration { get; private set; }
+    public static IRegionalOption? Regional { get; private set; }
     public static Country[] Countries { get; private set; } = [];
     public static Country? SelectedCountry { get; private set; }
     public static DetectionMode? Detection { get; private set; }
@@ -66,13 +66,13 @@ public class StaticOption : IStartupInitializer, ISingleton
         _options = _provider.Get();
         SelectedCountry = _options.SelectedCountry;
         Countries = _options.Countries;
-        RegionalConfiguration = RegionalConfigurationProvider.Get(_options.SelectedCountry);
+        Regional = RegionalOptionProvider.Get(_options.SelectedCountry);
         Detection = _options.DetectionMode;
     }
 
     static bool ShouldUseRegionalConfiguration(CompetitionRuleset ruleset)
     {
-        return ruleset == CompetitionRuleset.Regional && RegionalConfiguration != null;
+        return ruleset == CompetitionRuleset.Regional && Regional != null;
     }
 
     #endregion

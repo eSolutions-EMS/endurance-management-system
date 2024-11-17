@@ -2,9 +2,9 @@
 
 namespace NTS.Domain.Core.StaticOptions.Regional;
 
-public class BulgarianConfiguration : RegionalConfiguration
+public class BulgariaOption : RegionalOption
 {
-    public BulgarianConfiguration()
+    public BulgariaOption()
         : base("BGR") // TODO: figure out country infra
     {
         ShouldOnlyUseAverageLoopSpeed = true;

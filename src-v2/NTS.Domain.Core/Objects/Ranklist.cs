@@ -50,7 +50,7 @@ public class Ranklist : IReadOnlyList<RankingEntry>
     static List<RankingEntry> Rank(Ranking ranking)
     {
         var ranker = StaticOption.ShouldUseRegionalRanker(ranking.Ruleset)
-            ? GetRanker(StaticOption.RegionalConfiguration)
+            ? GetRanker(StaticOption.Regional)
             : _feiRanker;
         var ranked = ranker.Rank(ranking);
         var rank = 0;
@@ -61,7 +61,7 @@ public class Ranklist : IReadOnlyList<RankingEntry>
         return ranked;
     }
 
-    static Ranker GetRanker(IRegionalConfiguration? configuration)
+    static Ranker GetRanker(IRegionalOption? configuration)
     {
         return _regionalRankers.FirstOrDefault(x =>
                 x.CountryIsoCode == configuration?.CountryIsoCode

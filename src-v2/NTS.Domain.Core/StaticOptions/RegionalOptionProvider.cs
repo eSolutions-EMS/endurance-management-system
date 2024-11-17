@@ -3,12 +3,12 @@ using NTS.Domain.Core.StaticOptions.Regional.Base;
 
 namespace NTS.Domain.Core.StaticOptions;
 
-internal class RegionalConfigurationProvider
+internal class RegionalOptionProvider
 {
-    public static IRegionalConfiguration? Get(Country? country)
+    public static IRegionalOption? Get(Country? country)
     {
         return _configurations.FirstOrDefault(x => x.CountryIsoCode == country?.IsoCode);
     }
 
-    static RegionalConfiguration[] _configurations = [new BulgarianConfiguration()];
+    static RegionalOption[] _configurations = [new BulgariaOption()];
 }

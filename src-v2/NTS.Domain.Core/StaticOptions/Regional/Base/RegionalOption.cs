@@ -1,8 +1,8 @@
 ﻿namespace NTS.Domain.Core.StaticOptions.Regional.Base;
 
-public abstract class RegionalConfiguration : IRegionalConfiguration
+public abstract class RegionalOption : IRegionalOption
 {
-    protected RegionalConfiguration(string countryIsoCode)
+    protected RegionalOption(string countryIsoCode)
     {
         CountryIsoCode = countryIsoCode;
     }
