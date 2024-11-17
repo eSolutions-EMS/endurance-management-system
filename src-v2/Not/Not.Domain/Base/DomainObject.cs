@@ -1,3 +1,12 @@
-﻿namespace Not.Domain.Base;
+using Not.Extensions;
 
-public abstract record DomainObject { }
+namespace Not.Domain.Base;
+
+// TODO: use same validation as in DomainEntity. Maybe drop DomainObject being a record entirely?
+public abstract record DomainObject
+{
+    protected string Combine(params object?[] values)
+    {
+        return DomainModelHelper.Combine(values);
+    }
+}

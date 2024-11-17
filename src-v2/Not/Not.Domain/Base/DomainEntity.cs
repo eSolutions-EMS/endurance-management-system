@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Not.Domain.Exceptions;
+using Not.Extensions;
 using Not.Random;
 using Not.Structures;
 
@@ -27,8 +28,7 @@ public abstract class DomainEntity : IEquatable<DomainEntity>, IIdentifiable
 
     protected string Combine(params object?[] values)
     {
-        var sections = values.Where(x => x != null);
-        return string.Join(" | ", sections);
+        return DomainModelHelper.Combine(values);
     }
 
     protected static int GenerateId()

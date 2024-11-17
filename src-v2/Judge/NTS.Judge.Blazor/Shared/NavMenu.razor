@@ -1,7 +1,5 @@
 @using NTS.Judge.Blazor.Pages.EnduranceEventState
-
 @using Not.Blazor.Navigation
-
 
 @inherits NComponent
 
@@ -14,6 +12,7 @@
     </MudNavGroup>
     <MudNavGroup Title="@Localizer.Get("Dashboard")" Expanded="true">
         <NNavLink Endpoint="@DASHBOARD_PAGE" Text="Dashboard" />
+        <NNavLink Endpoint="@STARTLIST_PAGE" Text="Startlist"/>
         <NNavLink Endpoint="@RANKLIST_PAGE" Text="Ranklist" />
         <NNavLink Endpoint="@HANDOUTS_PAGE" Text="Handouts" />
     </MudNavGroup>

@@ -26,6 +26,7 @@ public abstract class ObservableBehind : IObservableBehind
 
     public async Task Initialize(params IEnumerable<object> arguments)
     {
+        // TODO: move locking at start because currently concurrent executions can occur simulaneously. Then test
         if (_isInitialized)
         {
             return;

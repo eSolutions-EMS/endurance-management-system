@@ -1,0 +1,38 @@
+﻿@using NTS.Domain.Core.Objects
+@using NTS.Domain.Setup.Entities
+@using NTS.Judge.Blazor.Ports
+@using Not.Blazor.Components
+
+@inherits StartlistTabs
+
+@if (Behind.History.Count() != 0)
+{
+    <NHeadline2 Content="History" IsAbsoluteCenter Class="mb-4" />
+    <MudTabs PanelClass="px-4 py-6" Elevation="0" Rounded ApplyEffectsToContainer>
+        @foreach (var tabHeader in StartlistsByStage.Keys)
+        {
+            <MudTabPanel Text="@tabHeader">
+                <ChildContent>
+                    <NSimpleTable T="Start" Headings="TableHeaders" Items="StartlistsByStage[tabHeader]" />
+                </ChildContent>
+            </MudTabPanel>
+        }
+    </MudTabs>
+}
+
+@code{
+
+    [Inject]
+    public IStartlistHistory Behind { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Observe(Behind);
+        CreateStartlistsByStage(Behind.History);
+    }
+
+    protected override void OnBeforeRender()
+    {
+        CreateStartlistsByStage(Behind.History);
+    }
+}

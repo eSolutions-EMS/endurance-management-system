@@ -1,5 +1,6 @@
 ﻿@using NTS.Domain.Core.Entities
-@using NTS.Judge.Blazor.Pages.Dashboard
+@using NTS.Domain.Extensions
+@using NTS.Judge.Blazor.Pages.Dashboard;
 @using NTS.Judge.Blazor.Ports
 @using Not.Concurrency
 @using Not.Events
@@ -14,7 +15,7 @@
         <MudChipSet @bind-SelectedValue="_behind.SelectedParticipation" SelectionMode="SelectionMode.SingleSelection">
             @foreach (var grouping in _behind.Participations.GroupBy(x => x.Phases.Distance)) // TODO: move grouping in field
             {
-                <MudText Class="pl-4"><strong>@($"{grouping.Key} {@Localizer.Get("KM")}")</strong></MudText>
+                <MudText Class="pl-4"><strong>@($"{grouping.Key.RoundNumberToTens()} {@Localizer.Get("KM")}")</strong></MudText>
                 <MudDivider /> 
                 @foreach (var participation in grouping.OrderBy(x => x.Combination.Number))
                 {
