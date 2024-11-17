@@ -3,7 +3,7 @@ using Newtonsoft.Json.Linq;
 using Not.Domain.Base;
 using Not.Serialization;
 
-namespace NTS.Persistence.JSON.Converters;
+namespace NTS.Storage.JSON.Converters;
 
 public class EntityReferenceConverter<T> : JsonConverterBase
     where T : DomainEntity

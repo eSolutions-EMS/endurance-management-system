@@ -2,7 +2,7 @@
 using Not.Logging;
 using NTS.Judge.Startup;
 
-namespace NTS.Persistence.Startup;
+namespace NTS.Storage.Startup;
 
 public static class JudgeStartup
 {

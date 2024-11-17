@@ -1,7 +1,7 @@
 ﻿using Not.Storage.States;
 using NTS.Domain.Setup.Entities;
 
-namespace NTS.Persistence.Boundaries.Setup;
+namespace NTS.Storage.Boundaries.Setup;
 
 public class SetupState
     : NState,

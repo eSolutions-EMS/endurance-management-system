@@ -1,6 +1,7 @@
 ﻿using NTS.Domain.Core.Entities;
+using NTS.Storage.Boundaries.Core;
 
-namespace NTS.Persistence.Boundaries.Core.Repositories;
+namespace NTS.Storage.Boundaries.Core.Repositories;
 
 public class ParticipationRepository : SetRepository<Participation, CoreState>
 {

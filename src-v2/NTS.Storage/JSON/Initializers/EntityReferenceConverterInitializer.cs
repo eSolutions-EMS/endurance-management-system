@@ -1,9 +1,9 @@
 ﻿using Not.Injection;
 using Not.Serialization;
 using Not.Startup;
-using NTS.Persistence.JSON.Converters;
+using NTS.Storage.JSON.Converters;
 
-namespace NTS.Persistence.JSON.Initializers;
+namespace NTS.Storage.JSON.Initializers;
 
 public class EntityReferenceConverterInitializer : IStartupInitializer, ITransient
 {

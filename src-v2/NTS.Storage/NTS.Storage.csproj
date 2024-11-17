@@ -15,8 +15,4 @@
     <ProjectReference Include="..\NTS.Domain\NTS.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Adapters\" />
-  </ItemGroup>
-
 </Project>

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace NTS.Persistence.Injection;
+namespace NTS.Storage.Injection;
 
 public static class StorageInjection
 {
