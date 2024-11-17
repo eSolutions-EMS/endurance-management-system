@@ -1,10 +1,10 @@
 ﻿
 @inherits MudText
 
-<MudText Align="Align.Center" Typo="Typo" Color="Color" Class="Class" Style="@(Style + "position: absolute; left: 0; width: 100%")">
+<MudText Align="Align.Center" Typo="Typo" Color="Color" Class="@Class" Style="@(Style + "position: absolute; left: 0; width: 100%")">
     @Content
 </MudText>
-<MudText Align="Align.Center" Typo="Typo" Color="Color" Class="Class" Style="@(Style + "visibility:hidden")">
+<MudText Align="Align.Center" Typo="Typo" Color="Color" Class="@Class" Style="@(Style + "visibility:hidden")">
     @Content
 </MudText>
 

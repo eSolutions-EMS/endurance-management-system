@@ -16,9 +16,9 @@ public class RanklistBehind : ObservableBehind, IRanklistBehind
     public RanklistBehind(IRepository<Ranking> rankings)
     {
         _rankings = rankings;
-        Participation.PhaseCompletedEvent.Subscribe(UpdateRanklist);
-        Participation.EliminatedEvent.Subscribe(UpdateRanklist);
-        Participation.RestoredEvent.Subscribe(UpdateRanklist);
+        Participation.PHASE_COMPLETED_EVENT.Subscribe(UpdateRanklist);
+        Participation.ELIMINATED_EVENT.Subscribe(UpdateRanklist);
+        Participation.RESTORED_EVENT.Subscribe(UpdateRanklist);
     }
 
     public Ranklist? Ranklist { get; private set; }

@@ -8,7 +8,7 @@ public class CombinationFormModel : IFormModel<Combination>
     public CombinationFormModel()
     {
 #if DEBUG
-        Number = 1337;
+        Number = 37;
 #endif
     }
 
