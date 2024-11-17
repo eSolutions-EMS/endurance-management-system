@@ -16,8 +16,8 @@ public class StartlistBehind : ObservableBehind, IStartlistUpcoming, IStartlistH
         _participationRepository = participationRepository;
     }
 
-    public IReadOnlyList<Start> Upcoming => _startlist?.Upcoming == null ? [] : _startlist.Upcoming;
-    public IReadOnlyList<Start> History => _startlist?.History == null ? [] : _startlist.History;
+    public IReadOnlyList<Start> Upcoming => _startlist?.Upcoming ?? [];
+    public IReadOnlyList<Start> History => _startlist?.History ?? [];
 
     protected override async Task<bool> PerformInitialization(params IEnumerable<object> arguments)
     {

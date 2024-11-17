@@ -7,14 +7,14 @@
 
 @inherits StartlistTabs
 
-@if (_behind.Upcoming.Count() != 0)
+@if (Behind.Upcoming.Count() != 0)
 {
     <MudTabs PanelClass="px-4 py-6" Elevation="0" Rounded ApplyEffectsToContainer Class="@Class">
-        @foreach (var tabHeader in _startlistByStage.Keys)
+        @foreach (var tabHeader in StartlistsByStage.Keys)
         {
             <MudTabPanel Text="@tabHeader">
                 <ChildContent>
-                    <NSimpleTable T="Start" Headings="@_tableHeadings" Items="_startlistByStage[tabHeader]">
+                    <NSimpleTable T="Start" Headings="@TableHeaders" Items="StartlistsByStage[tabHeader]">
                         <CustomCell>
                             <StartlistTimer StartTime="@context.Time" StopTimerAtTime="-15" />
                         </CustomCell>
@@ -27,18 +27,18 @@
 
 @code{
     [Inject]
-    public IStartlistUpcoming _behind { get; set; } = default!;
+    public IStartlistUpcoming Behind { get; set; } = default!;
 
-    string[] _tableHeadings = { "Number", "Athlete", "Loop", "Start Time", "Start In" };
+    protected override string[] TableHeaders => [.. base.TableHeaders, "Start In"];
 
     protected override async Task OnInitializedAsync()
     {
-        await Observe(_behind);
-        CreateStartlistByStage(_behind.Upcoming);
+        await Observe(Behind);
+        CreateStartlistsByStage(Behind.Upcoming);
     }
 
     protected override void OnBeforeRender()
     {
-        CreateStartlistByStage(_behind.Upcoming);
+        CreateStartlistsByStage(Behind.Upcoming);
     }
 }

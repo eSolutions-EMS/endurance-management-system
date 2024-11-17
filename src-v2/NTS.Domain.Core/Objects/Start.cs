@@ -35,7 +35,8 @@ public record Start : DomainObject
     public int Number { get; }
     public int PhaseNumber { get; }
     public double Distance { get; }
-    public DateTimeOffset Time { get; }
+    // TODO: Use Timestamp instead and use TimeOfDay internally in Timestamp in order to discard Day differences. Should make testing a bit more easier with actual data
+    public DateTimeOffset Time { get; } 
 
     public override string ToString()
     {

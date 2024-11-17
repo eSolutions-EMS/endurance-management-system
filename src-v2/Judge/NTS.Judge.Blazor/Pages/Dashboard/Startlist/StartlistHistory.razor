@@ -13,11 +13,11 @@
 {
     <NotTrueCenterText Typo="Typo.h5" Content="History" Class="mb-4" />
     <MudTabs PanelClass="px-4 py-6" Elevation="0" Rounded ApplyEffectsToContainer>
-        @foreach (var tabHeader in _startlistByStage.Keys)
+        @foreach (var tabHeader in StartlistsByStage.Keys)
         {
             <MudTabPanel Text="@tabHeader">
                 <ChildContent>
-                    <NSimpleTable T="Start" Headings="_tableHeadings" Items="_startlistByStage[tabHeader]"/>
+                    <NSimpleTable T="Start" Headings="TableHeaders" Items="StartlistsByStage[tabHeader]" />
                 </ChildContent>
             </MudTabPanel>
         }
@@ -25,19 +25,18 @@
 }
 
 @code{
+
     [Inject]
     public IStartlistHistory _behind { get; set; } = default!;
-
-    string[] _tableHeadings = { "Number", "Athlete", "Loop", "Start Time" };
 
     protected override async Task OnInitializedAsync()
     {
         await Observe(_behind);
-        CreateStartlistByStage(_behind.History);
+        CreateStartlistsByStage(_behind.History);
     }
 
     protected override void OnBeforeRender()
     {
-        CreateStartlistByStage(_behind.History);
+        CreateStartlistsByStage(_behind.History);
     }
 }
