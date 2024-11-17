@@ -1,10 +1,7 @@
 ﻿using Not.Application.Adapters.Behinds;
 using Not.Application.Ports.CRUD;
-using Not.Exceptions;
-using Not.Startup;
 using NTS.Domain.Core.Entities;
 using NTS.Domain.Core.Objects;
-using NTS.Domain.Core.Objects.Payloads;
 using NTS.Judge.Blazor.Ports;
 
 namespace NTS.Judge.Adapters.Behinds;
@@ -25,8 +22,7 @@ public class StartlistBehind : ObservableBehind, IStartlistUpcoming, IStartlistH
     protected override async Task<bool> PerformInitialization(params IEnumerable<object> arguments)
     {
         var participations = await _participationRepository.ReadAll();
-        var startlist = new StartList(participations, EmitChange);
-        _startlist = startlist;
+        _startlist = new StartList(participations, EmitChange); ;
         return _startlist.Any();
     }
 }
