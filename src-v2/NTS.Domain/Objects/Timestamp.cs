@@ -68,6 +68,8 @@ public record Timestamp : DomainObject, IComparable<Timestamp>
         return left == null ? null : new Timestamp(left!._stamp + (right ?? TimeSpan.Zero));
     }
 
+    Timestamp() { }
+
     protected Timestamp(Timestamp timestamp)
         : base(timestamp)
     {
