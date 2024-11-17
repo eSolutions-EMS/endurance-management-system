@@ -2,7 +2,7 @@
 
 namespace NTS.Domain.Setup.Entities;
 
-public class Tag : DomainEntity
+public class Tag : DomainEntity, IAggregateRoot
 {
     public Tag(string tagId, int number)
         : base(GenerateId())

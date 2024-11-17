@@ -1,10 +1,9 @@
 ﻿using Newtonsoft.Json;
 using Not.Domain.Base;
-using NTS.Domain.Setup.Import;
 
 namespace NTS.Domain.Setup.Entities;
 
-public class Combination : DomainEntity, IImportable, IParent
+public class Combination : DomainEntity, IParent, IAggregateRoot
 {
     public static Combination Create(int number, Athlete? athlete, Horse? horse, Tag? tag)
     {

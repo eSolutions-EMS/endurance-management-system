@@ -4,7 +4,7 @@ using Not.Domain.Exceptions;
 
 namespace NTS.Domain.Setup.Entities;
 
-public class Loop : DomainEntity
+public class Loop : DomainEntity, IAggregateRoot
 {
     public static Loop Create(double distance)
     {

@@ -4,7 +4,7 @@ using Not.Domain.Exceptions;
 
 namespace NTS.Domain.Setup.Entities;
 
-public class Participation : DomainEntity
+public class Participation : DomainEntity, IAggregateRoot
 {
     const double CHILDREN_MIN_SPEED = 8;
     const double CHILDREN_MAX_SPEED = 12;

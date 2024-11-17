@@ -1,12 +1,10 @@
 ﻿using Newtonsoft.Json;
 using Not.Domain.Base;
-using NTS.Domain.Setup.Import;
 using static NTS.Domain.Enums.OfficialRole;
-using static NTS.Domain.Extensions.DomainExtensions;
 
 namespace NTS.Domain.Setup.Entities;
 
-public class Official : DomainEntity, IImportable
+public class Official : DomainEntity, IAggregateRoot
 {
     public static Official Create(string? names, OfficialRole? role)
     {

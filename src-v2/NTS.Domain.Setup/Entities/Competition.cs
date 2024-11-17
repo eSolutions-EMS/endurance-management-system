@@ -4,7 +4,7 @@ using Not.Domain.Exceptions;
 
 namespace NTS.Domain.Setup.Entities;
 
-public class Competition : DomainEntity, IParent<Participation>, IParent<Phase>
+public class Competition : DomainEntity, IParent<Participation>, IParent<Phase>, IAggregateRoot
 {
     public static Competition Create(
         string? name,

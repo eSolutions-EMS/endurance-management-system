@@ -2,15 +2,14 @@
 using Not.Domain.Base;
 using Not.Domain.Exceptions;
 using NTS.Domain.Extensions;
-using NTS.Domain.Setup.Import;
 
 namespace NTS.Domain.Setup.Entities;
 
 public class EnduranceEvent
     : DomainEntity,
-        IImportable,
         IParent<Official>,
-        IParent<Competition>
+        IParent<Competition>,
+        IAggregateRoot
 {
     public static EnduranceEvent Create(string? place, Country? country)
     {
