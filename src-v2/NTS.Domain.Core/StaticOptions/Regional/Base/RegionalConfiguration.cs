@@ -1,4 +1,4 @@
-﻿namespace NTS.Domain.Core.Configuration;
+﻿namespace NTS.Domain.Core.StaticOptions.Regional.Base;
 
 public abstract class RegionalConfiguration : IRegionalConfiguration
 {
@@ -9,10 +9,4 @@ public abstract class RegionalConfiguration : IRegionalConfiguration
 
     public string CountryIsoCode { get; set; }
     public bool ShouldOnlyUseAverageLoopSpeed { get; set; }
-}
-
-public interface IRegionalConfiguration
-{
-    string CountryIsoCode { get; }
-    bool ShouldOnlyUseAverageLoopSpeed { get; }
 }

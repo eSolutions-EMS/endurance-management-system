@@ -1,7 +1,7 @@
 ﻿using System.Collections;
-using NTS.Domain.Core.Configuration;
 using NTS.Domain.Core.Entities;
 using NTS.Domain.Core.Objects.Regional;
+using NTS.Domain.Core.StaticOptions;
 
 namespace NTS.Domain.Core.Objects;
 

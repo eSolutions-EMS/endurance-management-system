@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Not.Domain.Base;
 using Not.Domain.Exceptions;
-using NTS.Domain.Core.Configuration;
+using NTS.Domain.Core.StaticOptions;
 using static NTS.Domain.Core.Entities.SnapshotResultType;
 
 namespace NTS.Domain.Core.Entities.ParticipationAggregate;

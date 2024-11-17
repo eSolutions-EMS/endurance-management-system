@@ -12,8 +12,4 @@
     <ProjectReference Include="..\NTS.Domain\NTS.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="StaticOptions\" />
-  </ItemGroup>
-
 </Project>

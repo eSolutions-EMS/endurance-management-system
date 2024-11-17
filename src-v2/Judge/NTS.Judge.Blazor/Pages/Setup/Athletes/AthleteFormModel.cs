@@ -1,5 +1,5 @@
 ﻿using Not.Blazor.CRUD.Forms.Ports;
-using NTS.Domain.Core.Configuration;
+using NTS.Domain.Core.StaticOptions;
 using NTS.Domain.Objects;
 using NTS.Domain.Setup.Entities;
 

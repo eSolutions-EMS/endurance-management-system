@@ -1,5 +1,5 @@
 ﻿using Not.Notify;
-using NTS.Domain.Core.Configuration;
+using NTS.Domain.Core.StaticOptions;
 using NTS.Domain.Enums;
 using NTS.Domain.Objects;
 using NTS.Judge.ACL.RFID;

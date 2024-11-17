@@ -1,8 +1,9 @@
 ﻿using Not.Domain.Ports;
 using Not.Injection;
 using Not.Startup;
+using NTS.Domain.Core.StaticOptions.Regional.Base;
 
-namespace NTS.Domain.Core.Configuration;
+namespace NTS.Domain.Core.StaticOptions;
 
 public class StaticOption : IStartupInitializer, ISingleton
 {
@@ -13,13 +14,13 @@ public class StaticOption : IStartupInitializer, ISingleton
 
     public static SnapshotType GetRfidSnapshotType()
     {
-        if (OPTIONS == null)
+        if (_options == null)
         {
             throw new GuardException(
                 "Internal options property was not found. Check if static-options.json is configured."
             );
         }
-        return OPTIONS.RfidSnapshotType;
+        return _options.RfidSnapshotType;
     }
 
     public static bool IsVisionDetectionEnabled()
@@ -48,7 +49,7 @@ public class StaticOption : IStartupInitializer, ISingleton
     #region Instance is used in order to be initialized on Startup
 
     readonly IStaticOptionsProvider<Model> _provider;
-    static Model? OPTIONS;
+    static Model? _options;
 
     public StaticOption(IStaticOptionsProvider<Model> provider)
     {
@@ -62,11 +63,11 @@ public class StaticOption : IStartupInitializer, ISingleton
 
     public void RunAtStartup()
     {
-        OPTIONS = _provider.Get();
-        SelectedCountry = OPTIONS.SelectedCountry;
-        Countries = OPTIONS.Countries;
-        RegionalConfiguration = RegionalConfigurationProvider.Get(OPTIONS.SelectedCountry);
-        Detection = OPTIONS.DetectionMode;
+        _options = _provider.Get();
+        SelectedCountry = _options.SelectedCountry;
+        Countries = _options.Countries;
+        RegionalConfiguration = RegionalConfigurationProvider.Get(_options.SelectedCountry);
+        Detection = _options.DetectionMode;
     }
 
     static bool ShouldUseRegionalConfiguration(CompetitionRuleset ruleset)

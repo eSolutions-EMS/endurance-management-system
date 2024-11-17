@@ -1,5 +1,5 @@
 ﻿using Not.Injection;
-using NTS.Domain.Core.Configuration;
+using NTS.Domain.Core.StaticOptions;
 using NTS.Domain.Objects;
 
 namespace NTS.Judge.Blazor.Contexts;
