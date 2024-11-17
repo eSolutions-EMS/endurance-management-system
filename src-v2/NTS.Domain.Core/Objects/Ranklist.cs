@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using NTS.Domain.Core.Entities;
-using NTS.Domain.Core.Objects.Regional;
+using NTS.Domain.Core.Objects.Rankers;
 using NTS.Domain.Core.StaticOptions;
 
 namespace NTS.Domain.Core.Objects;
@@ -61,7 +61,7 @@ public class Ranklist : IReadOnlyList<RankingEntry>
         return ranked;
     }
 
-    static Ranker GetRanker(IRegionalOption? configuration)
+    static Ranker GetRanker(IRegionOption? configuration)
     {
         return _regionalRankers.FirstOrDefault(x =>
                 x.CountryIsoCode == configuration?.CountryIsoCode

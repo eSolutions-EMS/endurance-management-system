@@ -1,8 +1,8 @@
 ﻿using Not.Domain.Base;
 
-namespace NTS.Domain.Core.Objects;
+namespace NTS.Domain.Core.Objects.Documents.Base;
 
-public record Document : DomainObject
+public abstract record Document : DomainObject
 {
     public Document(DocumentHeader header)
     {

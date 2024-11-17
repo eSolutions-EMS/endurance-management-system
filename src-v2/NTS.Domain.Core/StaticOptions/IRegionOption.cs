@@ -1,6 +1,6 @@
 ﻿namespace NTS.Domain.Core.StaticOptions;
 
-public interface IRegionalOption
+public interface IRegionOption
 {
     string CountryIsoCode { get; }
     bool ShouldOnlyUseAverageLoopSpeed { get; }

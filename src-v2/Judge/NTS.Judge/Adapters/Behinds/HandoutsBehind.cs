@@ -5,7 +5,7 @@ using Not.Exceptions;
 using Not.Safe;
 using NTS.Domain.Core.Entities;
 using NTS.Domain.Core.Entities.ParticipationAggregate;
-using NTS.Domain.Core.Objects;
+using NTS.Domain.Core.Objects.Documents;
 using NTS.Domain.Core.Objects.Payloads;
 using NTS.Judge.Blazor.Ports;
 

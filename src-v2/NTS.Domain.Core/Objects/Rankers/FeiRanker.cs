@@ -1,6 +1,6 @@
 ﻿using NTS.Domain.Core.Entities;
 
-namespace NTS.Domain.Core.Objects.Regional;
+namespace NTS.Domain.Core.Objects.Rankers;
 
 internal class FeiRanker : Ranker
 {

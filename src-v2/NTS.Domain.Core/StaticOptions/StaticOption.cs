@@ -1,7 +1,6 @@
 ﻿using Not.Domain.Ports;
 using Not.Injection;
 using Not.Startup;
-using NTS.Domain.Core.StaticOptions.Regional.Base;
 
 namespace NTS.Domain.Core.StaticOptions;
 
@@ -56,7 +55,7 @@ public class StaticOption : IStartupInitializer, ISingleton
         _provider = provider;
     }
 
-    public static IRegionalOption? Regional { get; private set; }
+    public static IRegionOption? Regional { get; private set; }
     public static Country[] Countries { get; private set; } = [];
     public static Country? SelectedCountry { get; private set; }
     public static DetectionMode? Detection { get; private set; }
@@ -66,7 +65,7 @@ public class StaticOption : IStartupInitializer, ISingleton
         _options = _provider.Get();
         SelectedCountry = _options.SelectedCountry;
         Countries = _options.Countries;
-        Regional = RegionalOptionProvider.Get(_options.SelectedCountry);
+        Regional = RegionOptionProvider.Get(_options.SelectedCountry);
         Detection = _options.DetectionMode;
     }
 

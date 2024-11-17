@@ -1,8 +1,9 @@
 ﻿using Not.Structures;
 using NTS.Domain.Core.Entities;
 using NTS.Domain.Core.Entities.ParticipationAggregate;
+using NTS.Domain.Core.Objects.Documents.Base;
 
-namespace NTS.Domain.Core.Objects;
+namespace NTS.Domain.Core.Objects.Documents;
 
 public record HandoutDocument : Document, IIdentifiable
 {

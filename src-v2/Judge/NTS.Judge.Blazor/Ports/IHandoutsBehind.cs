@@ -2,7 +2,7 @@
 using Not.Injection;
 using Not.Startup;
 using NTS.Domain.Core.Entities.ParticipationAggregate;
-using NTS.Domain.Core.Objects;
+using NTS.Domain.Core.Objects.Documents;
 
 namespace NTS.Judge.Blazor.Ports;
 
