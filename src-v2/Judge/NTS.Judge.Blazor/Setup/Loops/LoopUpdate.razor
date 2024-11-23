@@ -1,0 +1,19 @@
+﻿@using NTS.Domain.Setup.Entities
+@using Not.Blazor.CRUD.Forms.Components
+@using Not.Blazor.Navigation;
+
+@attribute [Route(LOOP_UPDATE)]
+@inherits NComponent
+
+<NContent Title="Configure Loop">
+
+    <Main>
+        <NUpdateContainer T="LoopFormModel" TForm="LoopForm" Model="_navigator.ConsumeParameter<LoopFormModel>()" />
+    </Main>
+
+</NContent>
+
+@code {
+    [Inject]
+    private ICrumbsNavigator _navigator { get; set; } = default!;
+}

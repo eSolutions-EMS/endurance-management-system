@@ -2,7 +2,7 @@
 using Not.Application.CRUD.Ports;
 using NTS.Domain.Core.Entities;
 using NTS.Domain.Core.Objects;
-using NTS.Judge.Blazor.Ports;
+using NTS.Judge.Blazor.Core.Ports;
 
 namespace NTS.Judge.Core.Behinds.Adapters;
 

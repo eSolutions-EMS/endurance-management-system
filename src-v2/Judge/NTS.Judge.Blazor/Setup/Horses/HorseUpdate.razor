@@ -1,0 +1,18 @@
+﻿@using Not.Blazor.CRUD.Forms.Components
+@using Not.Blazor.Navigation
+
+@attribute [Route(HORSE_UPDATE)]
+@inherits NComponent
+
+<NContent Title="Configure Horse">
+
+    <Main>
+        <NUpdateContainer T="HorseFormModel" TForm="HorseForm" Model="_navigator.ConsumeParameter<HorseFormModel>()" />
+    </Main>
+
+</NContent>
+
+@code{
+    [Inject]
+    ICrumbsNavigator _navigator { get; set; } = default!;
+}

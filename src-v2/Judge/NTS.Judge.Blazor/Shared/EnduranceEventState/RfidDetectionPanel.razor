@@ -1,0 +1,40 @@
+@using NTS.Judge.Blazor.Setup.Ports
+
+@if (_readerBehind.IsConnected())
+{
+    <NButtonPrimary OnClick="StopDetecting" Text="Stop Detecting" />
+}
+else
+{
+    <NButtonPrimary OnClick="Reconnect" Text="Reconnect" />
+}
+@code {
+    [Inject]
+    private IRfidReaderBehind _readerBehind { get; set; } = default!;
+    [Parameter]
+    public bool EnduranceEventStarted { get; set; } = default!;
+
+    protected override void OnParametersSet()
+    {
+        if (EnduranceEventStarted)
+        {
+            _readerBehind.StartReading();
+            Thread.Sleep(5000);
+            InvokeAsync(StateHasChanged);
+        }
+    }
+
+    public void Reconnect()
+    {
+        _readerBehind.StartReading();
+        Thread.Sleep(1000);
+        InvokeAsync(StateHasChanged);
+    }
+
+    public void StopDetecting()
+    {
+        _readerBehind.StopReading();
+        Thread.Sleep(1000);
+        InvokeAsync(StateHasChanged);
+    }
+}

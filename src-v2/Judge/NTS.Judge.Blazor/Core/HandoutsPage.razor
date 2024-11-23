@@ -1,0 +1,46 @@
+﻿@using NTS.Judge.Blazor.Core.Handouts
+@using NTS.Judge.Blazor.Core.Ports
+
+@attribute [Route(HANDOUTS_PAGE)]
+@inherits PrintableComponent
+
+<NContent Title="Handouts" HasContent="@_behind.Documents.Any()" EmptyMessage="No handouts to print :)" RightBarXS="2">
+
+    <Main>
+        <HandoutsList Documents="_behind.Documents" />
+    </Main>
+
+    <Rightbar>
+        <NTextDivider Text="Export" />
+        <NotButtonPrint Text="Print Preview" OnClick="OpenPrintPreview" />
+
+        <NTextDivider Text="Manual handout" Class="mt-4" />
+        <HandoutForm />
+    </Rightbar>
+
+</NContent>
+
+@code {
+    [Inject]
+    IHandoutsBehind _behind { get; set; } = default!;
+    [Inject]
+    IDialogService _dialogService { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Observe(_behind);
+    }
+
+    private async Task OpenPrintPreview()
+    {
+        var handouts = _behind.Documents.ToList();
+
+        await OpenPrintDialog();
+        var dialog = await _dialogService.ShowAsync<HandoutsPrintConfirmationDialog>();
+        var result = await dialog.Result;
+        if (!result?.Canceled ?? false)
+        {
+            await _behind.Delete(handouts);
+        }
+    }
+}

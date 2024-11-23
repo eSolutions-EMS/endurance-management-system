@@ -3,7 +3,8 @@ using NTS.Domain.Core.StaticOptions;
 using NTS.Domain.Enums;
 using NTS.Domain.Objects;
 using NTS.Judge.ACL.RFID;
-using NTS.Judge.Blazor.Ports;
+using NTS.Judge.Blazor.Core.Ports;
+using NTS.Judge.Blazor.Setup.Ports;
 
 namespace NTS.Judge.Core.Behinds.Adapters;
 

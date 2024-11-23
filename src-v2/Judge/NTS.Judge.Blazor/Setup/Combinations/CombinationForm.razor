@@ -1,0 +1,71 @@
+﻿@using NTS.Domain.Core.StaticOptions
+@using NTS.Domain.Setup.Entities
+@using NTS.Judge.Blazor.Setup.RfidTags
+@using Not.Blazor.CRUD.Forms.Components
+@using Not.Blazor.CRUD.Lists.Ports
+@using Not.Structures
+
+@inherits NForm<CombinationFormModel>
+
+<EditForm Model="Model">
+    <MudNumericField @ref="_numberField" @bind-Value="Model.Number" T="int" Min="0" Label="@Localizer.Get("Combination Number")" />
+
+    <NAutocomplete @ref="_athleteField" @bind-Value="Model.Athlete" Label="Athlete" Search="SearchAthletes" />
+
+    <NAutocomplete @ref="_horseField" @bind-Value="Model.Horse" Label="Horse" Search="SearchHorses"/>
+
+    @if (StaticOption.IsRfidDetectionEnabled())
+    {
+        <RfidTagWriter CombinationNumber="Model.Number" @bind-Value="Model.Tag" />
+    }
+</EditForm>
+
+@code {
+    MudNumericField<int> _numberField = default!;
+    NAutocomplete<Athlete?> _athleteField = default!;
+    NAutocomplete<Horse?> _horseField = default!;
+    List<NotListModel<Athlete>> _athletes = [];
+    List<NotListModel<Horse>> _horses = [];
+
+    [Inject]
+    IListBehind<Athlete> AthletesBehind { get; set; } = default!;
+    [Inject]
+    IListBehind<Horse> HorsesBehind { get; set; } = default!;
+
+    protected async override Task OnInitializedAsync()
+    {
+        await Observe(AthletesBehind);
+        await Observe(HorsesBehind);
+        _athletes = NotListModel.FromEntity<Athlete>(AthletesBehind.Items).ToList();
+        _horses = NotListModel.FromEntity<Horse>(HorsesBehind.Items).ToList();
+    }
+
+    public override void RegisterValidationInjectors()
+    {
+        RegisterInjector(nameof(Combination.Number), () => _numberField);
+        RegisterInjector(nameof(Combination.Athlete), () => _athleteField);
+        RegisterInjector(nameof(Combination.Horse), () => _horseField);
+    }
+
+    Task<IEnumerable<Athlete?>> SearchAthletes(string term)
+    {
+        var result = Search(AthletesBehind.Items, term);
+        return Task.FromResult(result);
+    }
+
+    Task<IEnumerable<Horse?>> SearchHorses(string term)
+    {
+        var result = Search(HorsesBehind.Items, term);
+        return Task.FromResult(result);
+    }
+
+    // TODO: extract search functionality somehow, because ToString() should be identical (maybe ToString should be configurable)
+    IEnumerable<T?> Search<T>(IEnumerable<T> values, string term)
+    {
+        if (string.IsNullOrWhiteSpace(term))
+        {
+            return values;
+        }
+        return values.Where(x => x != null && x.ToString()!.Contains(term, StringComparison.InvariantCultureIgnoreCase));
+    }
+}

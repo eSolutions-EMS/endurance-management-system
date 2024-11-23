@@ -3,8 +3,8 @@ using Not.Application.Behinds.Adapters;
 using Not.Application.CRUD.Ports;
 using Not.Safe;
 using NTS.Domain.Setup.Entities;
-using NTS.Judge.Blazor.Pages.Setup.Ports;
 using NTS.Judge.Blazor.Setup.Events;
+using NTS.Judge.Blazor.Setup.Ports;
 using NTS.Judge.Core.Behinds;
 
 namespace NTS.Judge.Setup.Adapters;

@@ -1,0 +1,34 @@
+﻿@using NTS.Domain.Core.Entities.ParticipationAggregate
+@using System.Diagnostics
+@using NTS.Judge.Blazor.Core.Dash.Actions.EliminationForms.Shared
+@using Not.Notify
+
+@inherits EliminationForm
+
+<MudPaper Elevation="1" Class="pa-2">
+    <EliminationFormReason @bind-Value="_reason" />
+
+    <EliminationFormActions Form="this" />
+</MudPaper>
+
+@code {
+    string? _reason;
+
+    [Parameter]
+    public FinishedNotRanked? FinishedNotRanked { get; set; } = default!;
+
+    protected override void OnParametersSet()
+    {
+        _reason = FinishedNotRanked?.Complement;
+    }
+
+    internal override async Task Eliminate()
+    {
+        if (_reason == null)
+        {
+            NotifyHelper.Warn("Reason is required");
+            return;
+        }
+        await ParticipationBehind.FinishNotRanked(_reason);
+    }
+}

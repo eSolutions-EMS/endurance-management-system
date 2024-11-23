@@ -4,7 +4,7 @@ using Not.Safe;
 using NTS.Domain.Core.Entities;
 using NTS.Domain.Core.Entities.ParticipationAggregate;
 using NTS.Domain.Enums;
-using NTS.Judge.Blazor.Ports;
+using NTS.Judge.Blazor.Core.Ports;
 using NTS.Judge.Core;
 
 namespace NTS.Judge.Core.Behinds.Adapters;

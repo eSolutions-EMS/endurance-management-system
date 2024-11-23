@@ -17,7 +17,7 @@ public static class BlazorInjectionExtensions
     {
         return services
             .AddNotMudBlazor()
-            .AddTransient(typeof(Dialog<,>))
+            .AddTransient(typeof(Dialog<,>)) // TODO: Use ITransiend marker, it should be resolved and if not - adjust Injection logic
             .AddTransient(typeof(FormManager<,>));
     }
     

@@ -7,7 +7,7 @@ using NTS.Domain.Core.Entities;
 using NTS.Domain.Core.Entities.ParticipationAggregate;
 using NTS.Domain.Core.Objects.Documents;
 using NTS.Domain.Core.Objects.Payloads;
-using NTS.Judge.Blazor.Ports;
+using NTS.Judge.Blazor.Core.Ports;
 
 namespace NTS.Judge.Core.Behinds.Adapters;
 

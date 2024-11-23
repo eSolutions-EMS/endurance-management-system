@@ -17,8 +17,4 @@
     <ProjectReference Include="..\Not\Not.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Observable\" />
-  </ItemGroup>
-
 </Project>

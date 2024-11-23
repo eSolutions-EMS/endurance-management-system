@@ -1,0 +1,35 @@
+﻿@using NTS.Domain.Objects
+@using NTS.Judge.Blazor.Core.Ports
+@using Not.Notify
+
+@inherits NComponent
+
+<MudStack Class="ma-6">
+    @if (!_enduranceEventStarted)
+    {
+        <EnduranceEventStartButton StartMethod="Start"></EnduranceEventStartButton>
+    }
+    else
+    {
+        <RfidDetectionPanel EnduranceEventStarted="_enduranceEventStarted"></RfidDetectionPanel>
+    }
+</MudStack>
+
+@code {
+    [Inject]
+    private IDashboardBehind DashboardBehind { get; set; } = default!;
+    bool _enduranceEventStarted;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _enduranceEventStarted = await DashboardBehind.IsEnduranceEventStarted();
+    }
+
+    public async void Start()
+    {
+        // TODO make sure that DashboardPage, RanklistPage and HandoutsPage rerender if active
+        await DashboardBehind.Start();
+        _enduranceEventStarted = await DashboardBehind.IsEnduranceEventStarted();
+        await InvokeAsync(StateHasChanged);
+    }
+}

@@ -1,0 +1,33 @@
+﻿@using NTS.Domain.Core.Entities.ParticipationAggregate
+@using NTS.Judge.Blazor.Core.Dash.Actions.EliminationForms.Shared
+@using Not.Notify
+
+@inherits EliminationForm
+
+<MudPaper Elevation="1" Class="pa-2">
+    <EliminationFormReason @bind-Value="Reason" />
+
+    <EliminationFormActions Form="this" />
+</MudPaper>
+
+@code {
+    string? Reason { get; set; }
+
+    [Parameter]
+    public Disqualified? Disqualified { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        Reason = Disqualified?.Complement;
+    }
+
+    internal override async Task Eliminate()
+    {
+        if (Reason == null)
+        {
+            NotifyHelper.Warn("Reason is required");
+            return;
+        }
+        await ParticipationBehind.Disqualify(Reason);
+    }
+}

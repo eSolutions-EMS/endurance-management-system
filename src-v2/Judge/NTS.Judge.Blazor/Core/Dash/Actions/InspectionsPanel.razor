@@ -1,0 +1,36 @@
+﻿@using NTS.Domain.Core.Entities
+@using NTS.Domain.Core.Entities.ParticipationAggregate
+@using NTS.Judge.Blazor.Core.Ports
+
+@inherits NComponent
+
+<MudStack Class="@Class">
+    <NSwitch Label="Representation" Value="_represent" ValueChanged="ToggleReinspection" />
+
+    <NSwitch Label="Required Inspection" Value="_requireInspection" ValueChanged="ToggleRequiredInspection" />
+</MudStack>
+
+@code {
+    [Inject]
+    IParticipationBehind _participationBehind { get; set; } = default!;
+
+    Participation? _selectedParticipation => _participationBehind.SelectedParticipation;
+    Phase? _currentPhase => _selectedParticipation?.Phases.Current;
+    bool _represent => _currentPhase?.IsReinspectionRequested ?? false;
+    bool _requireInspection => _currentPhase?.IsRequiredInspectionRequested ?? false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Observe(_participationBehind);
+    }
+
+    async Task ToggleReinspection(bool value)
+    {
+        await _participationBehind.RequestRepresent(value);
+    }
+
+    async Task ToggleRequiredInspection(bool value)
+    {
+        await _participationBehind.RequireInspection(value);
+    }
+}

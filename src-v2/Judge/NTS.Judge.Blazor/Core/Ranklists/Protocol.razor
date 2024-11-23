@@ -1,0 +1,17 @@
+﻿@using NTS.Domain.Core.Objects;
+
+@inherits NComponent
+
+<NHeadline2 Content="@Ranklist.Title" Class="printable mb-4" />
+
+@foreach (var entry in Ranklist)
+{
+    <ProtocolRow Entry="entry" />
+
+    <MudDivider Class="printable" />
+}
+
+@code {
+    [Parameter, EditorRequired]
+    public Ranklist Ranklist { get; set; } = default!;
+}

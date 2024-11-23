@@ -1,0 +1,36 @@
+﻿@using NTS.Domain.Core.Entities.ParticipationAggregate
+@using NTS.Judge.Blazor.Core.Ports
+@using Not.Notify
+
+@inherits NComponent
+
+<NAutocomplete @bind-value="_combination" Search="Search" Style="@Style" Class="@Class" />
+
+<NButtonCreate OnClick="Create" Class="mt-2" />
+
+@code {
+    Combination? _combination;
+
+    [Inject]
+    ICreateHandout _behind { get; set; } = default!;
+
+    async Task Create()
+    {
+        if (_combination == null)
+        {
+            NotifyHelper.Warn("Please select the combination");
+            return;
+        }
+        await _behind.Create(_combination.Number);
+
+    }
+    async Task<IEnumerable<Combination?>> Search(string term)
+    {
+        var combinations = await _behind.GetCombinations();
+        if (string.IsNullOrEmpty(term))
+        {
+            return combinations;
+        }
+        return combinations.Where(x => x.ToString().Contains(term, StringComparison.InvariantCultureIgnoreCase));
+    }
+}

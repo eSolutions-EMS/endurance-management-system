@@ -1,0 +1,40 @@
+﻿@using NTS.Domain.Core.Objects
+@using NTS.Judge.Blazor.Core.Ports
+@using System.Collections
+@using Not.Extensions
+
+@inherits StartlistTabs
+
+@if (Behind.Upcoming.Count() != 0)
+{
+    <MudTabs PanelClass="px-4 py-6" Elevation="0" Rounded ApplyEffectsToContainer Class="@Class">
+        @foreach (var tabHeader in StartlistsByStage.Keys)
+        {
+            <MudTabPanel Text="@tabHeader">
+                <NSimpleTable T="Start" Headings="@TableHeaders" Items="StartlistsByStage[tabHeader]">
+                    <CustomCell>
+                        <StartlistTimer StartTime="@context.Time" StopTimerAtTime="-15" />
+                    </CustomCell>
+                </NSimpleTable>
+            </MudTabPanel>
+        }
+    </MudTabs>
+}
+
+@code{
+    [Inject]
+    public IStartlistUpcoming Behind { get; set; } = default!;
+
+    protected override string[] TableHeaders => [.. base.TableHeaders, "Start In"];
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Observe(Behind);
+        CreateStartlistsByStage(Behind.Upcoming);
+    }
+
+    protected override void OnBeforeRender()
+    {
+        CreateStartlistsByStage(Behind.Upcoming);
+    }
+}
