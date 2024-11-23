@@ -3,11 +3,10 @@ using Not.Injection;
 using Not.MAUI.Logging;
 using NTS.Judge.Blazor.Startup;
 using NTS.Judge.MAUI.Server;
-using NTS.Judge.Startup;
-using NTS.Storage.Startup;
 using Not.Logging.Builder;
 using Not.Storage.Stores.Extensions;
 using NTS.Storage.Injection;
+using NTS.Judge.Shared;
 
 namespace NTS.Judge.MAUI;
 
