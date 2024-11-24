@@ -1,7 +1,7 @@
 ﻿using Not.Blazor.CRUD.Forms.Ports;
 using NTS.Domain.Setup.Entities;
 
-namespace NTS.Judge.Blazor.Setup.Combinations;
+namespace NTS.Judge.Blazor.Setup.Combinations.Dot;
 
 public class CombinationFormModel : IFormModel<Combination>
 {

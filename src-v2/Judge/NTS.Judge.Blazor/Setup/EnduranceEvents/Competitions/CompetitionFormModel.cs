@@ -2,7 +2,7 @@
 using Not.Extensions;
 using NTS.Domain.Setup.Entities;
 
-namespace NTS.Judge.Blazor.Setup.Competitions;
+namespace NTS.Judge.Blazor.Setup.EnduranceEvents.Competitions;
 
 public class CompetitionFormModel : IFormModel<Competition>
 {

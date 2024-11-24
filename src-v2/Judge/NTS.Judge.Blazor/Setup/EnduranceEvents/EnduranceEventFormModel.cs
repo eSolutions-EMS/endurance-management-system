@@ -2,7 +2,7 @@
 using NTS.Domain.Objects;
 using NTS.Domain.Setup.Entities;
 
-namespace NTS.Judge.Blazor.Setup.Events;
+namespace NTS.Judge.Blazor.Setup.EnduranceEvents;
 
 public class EnduranceEventFormModel : IFormModel<EnduranceEvent>
 {

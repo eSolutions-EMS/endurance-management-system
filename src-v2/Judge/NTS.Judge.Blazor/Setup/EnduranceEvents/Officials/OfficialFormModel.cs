@@ -1,7 +1,7 @@
 ﻿using Not.Blazor.CRUD.Forms.Ports;
 using NTS.Domain.Setup.Entities;
 
-namespace NTS.Judge.Blazor.Setup.Officials;
+namespace NTS.Judge.Blazor.Setup.EnduranceEvents.Officials;
 
 public class OfficialFormModel : IFormModel<Official>
 {

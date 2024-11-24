@@ -1,7 +1,7 @@
 ﻿using Not.Blazor.CRUD.Forms.Ports;
 using NTS.Domain.Setup.Entities;
 
-namespace NTS.Judge.Blazor.Setup.Horses;
+namespace NTS.Judge.Blazor.Setup.AthletesHorses.Horses;
 
 public class HorseFormModel : IFormModel<Horse>
 {

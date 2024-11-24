@@ -1,7 +1,7 @@
 ﻿using Not.Blazor.CRUD.Forms.Ports;
 using NTS.Domain.Setup.Entities;
 
-namespace NTS.Judge.Blazor.Setup.Loops;
+namespace NTS.Judge.Blazor.Setup.Loops.Dot;
 
 public class LoopFormModel : IFormModel<Loop>
 {

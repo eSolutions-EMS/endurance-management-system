@@ -1,7 +1,7 @@
 ﻿using Not.Blazor.CRUD.Forms.Ports;
 using NTS.Domain.Setup.Entities;
 
-namespace NTS.Judge.Blazor.Setup.Phases;
+namespace NTS.Judge.Blazor.Setup.EnduranceEvents.Phases;
 
 public class PhaseFormModel : IFormModel<Phase>
 {

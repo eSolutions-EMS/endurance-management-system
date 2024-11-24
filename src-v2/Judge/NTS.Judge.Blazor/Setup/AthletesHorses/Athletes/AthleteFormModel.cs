@@ -3,7 +3,7 @@ using NTS.Domain.Core.StaticOptions;
 using NTS.Domain.Objects;
 using NTS.Domain.Setup.Entities;
 
-namespace NTS.Judge.Blazor.Setup.Athletes;
+namespace NTS.Judge.Blazor.Setup.AthletesHorses.Athletes;
 
 public class AthleteFormModel : IFormModel<Athlete>
 {

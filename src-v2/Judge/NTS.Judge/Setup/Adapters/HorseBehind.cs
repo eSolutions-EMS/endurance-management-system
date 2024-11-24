@@ -1,7 +1,7 @@
 ﻿using Not.Application.Behinds.Adapters;
 using Not.Application.CRUD.Ports;
 using NTS.Domain.Setup.Entities;
-using NTS.Judge.Blazor.Setup.Horses;
+using NTS.Judge.Blazor.Setup.AthletesHorses.Horses;
 
 namespace NTS.Judge.Setup.Adapters;
 
