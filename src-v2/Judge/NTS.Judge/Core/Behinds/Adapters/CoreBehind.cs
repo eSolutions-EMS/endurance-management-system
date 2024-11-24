@@ -5,7 +5,7 @@ using NTS.Domain.Core.Entities;
 using NTS.Domain.Core.Entities.ParticipationAggregate;
 using NTS.Domain.Enums;
 using NTS.Judge.ACL.Adapters;
-using NTS.Judge.Blazor.Shared.EnduranceEventState;
+using NTS.Judge.Blazor.Shared.Components.SidePanels;
 
 namespace NTS.Judge.Core.Behinds.Adapters;
 
@@ -35,7 +35,7 @@ public class CoreBehind : ICoreBehind
         _rankingRepository = rankingRepository;
     }
 
-    public Task Start()
+    public Task<bool> Start()
     {
         return SafeHelper.Run(SafeStart);
     }
@@ -55,7 +55,7 @@ public class CoreBehind : ICoreBehind
         return _emsImporter.ImportCore(contents);
     }
 
-    async Task SafeStart()
+    async Task<bool> SafeStart()
     {
         var setupEvent = await _setupRepository.Read(0);
         if (setupEvent == null)
@@ -66,6 +66,7 @@ public class CoreBehind : ICoreBehind
         await CreateEvent(setupEvent);
         await CreateOfficials(setupEvent.Officials);
         await CreateParticipationsAndRankings(setupEvent);
+        return await SafeIsEnduranceEventStarted();
     }
 
     async Task<bool> SafeIsEnduranceEventStarted()

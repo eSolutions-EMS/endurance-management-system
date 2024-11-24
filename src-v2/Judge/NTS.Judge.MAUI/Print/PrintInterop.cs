@@ -1,7 +1,7 @@
 ﻿using Microsoft.JSInterop;
 using Not.Blazor.Ports;
 
-namespace NTS.Judge.MAUI.Demo;
+namespace NTS.Judge.MAUI.Print;
 
 public class PrintInterop : IPrintInterop
 {

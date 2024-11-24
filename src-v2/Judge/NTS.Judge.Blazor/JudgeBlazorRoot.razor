@@ -1,5 +1,6 @@
 ﻿@using NTS.Judge.Blazor.Shared;
 @using System.Reflection;
+@using NTS.Judge.Blazor.Shared.Components
 
 <ExceptionHandler T="Strings" @ref="this.exceptionHandler">
     <ChildContent>
@@ -28,7 +29,7 @@
 </ExceptionHandler>
 
 @code {
-    private IEnumerable<Assembly> _routeAssemblies = new List<Assembly> { typeof(JudgeMain).Assembly };
+    private IEnumerable<Assembly> _routeAssemblies = new List<Assembly> { typeof(JudgeBlazorRoot).Assembly };
     private ExceptionHandler<Strings> exceptionHandler = default!;
 
     [Parameter]
