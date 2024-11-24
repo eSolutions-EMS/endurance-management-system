@@ -9,7 +9,7 @@ using NTS.Judge.Blazor.Core.Ports;
 
 namespace NTS.Judge.Core.Behinds.Adapters;
 
-public class DashboardBehind : IDashboardBehind, ICoreBehind
+public class DashboardBehind : ICoreBehind
 {
     readonly IEmsImporter _emsImporter;
     readonly IRepository<Domain.Setup.Entities.EnduranceEvent> _setupRepository;

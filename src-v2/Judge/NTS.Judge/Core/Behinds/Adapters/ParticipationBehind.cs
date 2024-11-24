@@ -17,6 +17,7 @@ public class ParticipationBehind
         ISelectedParticipationBehind,
         IInspectionsBehind,
         IEliminationBehind,
+        IDashboardBehind,
         IUpdateBehind<PhaseUpdateModel>,
         ISnapshotProcessor,
         IManualProcessor
