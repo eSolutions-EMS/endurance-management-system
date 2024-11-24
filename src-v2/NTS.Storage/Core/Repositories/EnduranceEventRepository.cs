@@ -1,4 +1,4 @@
-﻿using Not.Storage.Repositories.Adapters;
+﻿using Not.Storage.Repositories;
 using NTS.Domain.Core.Aggregates;
 
 namespace NTS.Storage.Core.Repositories;

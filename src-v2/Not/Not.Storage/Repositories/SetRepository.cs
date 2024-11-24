@@ -2,7 +2,7 @@
 using Not.Domain.Base;
 using Not.Storage.States;
 
-namespace Not.Storage.Adapters.Repositories;
+namespace Not.Storage.Repositories;
 
 public abstract class SetRepository<T, TState> : IRepository<T>
     where T : AggregateRoot

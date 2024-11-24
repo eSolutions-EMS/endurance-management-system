@@ -2,7 +2,7 @@
 using Not.Domain.Base;
 using Not.Storage.States;
 
-namespace Not.Storage.Repositories.Adapters;
+namespace Not.Storage.Repositories;
 
 /// <summary>
 /// Represent a set of operations for root-level entiries in a Tree-like data structure.
