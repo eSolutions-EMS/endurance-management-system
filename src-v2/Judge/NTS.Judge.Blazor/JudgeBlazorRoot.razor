@@ -1,14 +1,17 @@
-﻿@using NTS.Judge.Blazor.Shared;
-@using System.Reflection;
+﻿@using NTS.Judge.Blazor.Shared
+@using System.Reflection
 @using NTS.Judge.Blazor.Shared.Components
+@using Not.Blazor.Components
 
-<ExceptionHandler T="Strings" @ref="this.exceptionHandler">
+<NErrorBoundary @ref="this._errorBoundary">
     <ChildContent>
         <Router AppAssembly="Assembly" AdditionalAssemblies="_routeAssemblies">
+
             <Found Context="routeData">
                 <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
                 <FocusOnNavigate RouteData="@routeData" Selector="h1" />
             </Found>
+
             <NotFound>
                 <LayoutView Layout="@typeof(MainLayout)">
                     <p role="alert">Sorry, there's nothing at this address.</p>
@@ -21,16 +24,17 @@
         <br />
         <br />
         <div class="container">
-            <pre>@this.exceptionHandler.Message</pre>
-            <pre>@this.exceptionHandler.StackTrace</pre>
+            <pre>@context.Message</pre>
+            <pre>@context.StackTrace</pre>
         </div>
-        <button class="btn btn-primary" @onclick="_ => this.exceptionHandler.Recover()">Back</button>
+
+        <button class="btn btn-primary" @onclick="_ => this._errorBoundary.Recover()">Back</button>
     </ErrorContent>
-</ExceptionHandler>
+</NErrorBoundary>
 
 @code {
-    private IEnumerable<Assembly> _routeAssemblies = new List<Assembly> { typeof(JudgeBlazorRoot).Assembly };
-    private ExceptionHandler<Strings> exceptionHandler = default!;
+    IEnumerable<Assembly> _routeAssemblies = new List<Assembly> { typeof(JudgeBlazorRoot).Assembly };
+    NErrorBoundary _errorBoundary = default!;
 
     [Parameter]
     public Assembly Assembly { get; set; } = default!;
