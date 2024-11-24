@@ -17,10 +17,13 @@
     [Inject]
     ICoreBehind CoreBehind { get; set; } = default!;
 
+    protected override async Task OnInitializedAsync()
+    {
+        await Observe(CoreBehind);
+    }
+
     public async void Start()
     {
-        // TODO make sure that DashboardPage, RanklistPage and HandoutsPage rerender if active
         await CoreBehind.Start();
-        await Render();
     }
 }

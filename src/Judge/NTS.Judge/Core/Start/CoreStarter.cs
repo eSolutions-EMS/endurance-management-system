@@ -1,5 +1,6 @@
 ﻿using Not.Application.CRUD.Ports;
 using Not.Domain.Exceptions;
+using Not.Injection;
 using NTS.Domain.Core.Aggregates;
 using NTS.Domain.Core.Aggregates.Participations;
 using NTS.Domain.Enums;
@@ -89,7 +90,7 @@ public class CoreStarter : ICoreStarter
 }
 
 
-public interface ICoreStarter 
+public interface ICoreStarter : ITransient
 {
     Task<bool> Start();
 }

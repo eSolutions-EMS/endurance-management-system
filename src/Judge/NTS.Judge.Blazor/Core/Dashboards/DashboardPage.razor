@@ -1,8 +1,5 @@
 ﻿@using NTS.Domain.Setup.Aggregates
 @using NTS.Judge.Blazor.Core.Dashboards.Actions
-@using NTS.Judge.Blazor.Core.Dashboards.Actions.Eliminations
-@using NTS.Judge.Blazor.Core.Dashboards.Actions.Inspections
-@using NTS.Judge.Blazor.Core.Dashboards.Actions.Snapshots
 @using NTS.Judge.Blazor.Core.Dashboards.Component
 @using NTS.Judge.Blazor.Shared.Components.SidePanels
 
@@ -10,7 +7,6 @@
 @inherits NComponent
 
 <NContent Title="Dashboard" HasContent="CoreBehind.IsStarted" EmptyMessage="Event isn't started">
-    
     <EmptyContent>
         <InputFile OnChange="ImportEmsData" />
     </EmptyContent>
@@ -22,12 +18,16 @@
     <Rightbar>
         <ActionsMenu />
     </Rightbar>
-
 </NContent>
 
 @code {
     [Inject]
     ICoreBehind CoreBehind { get; set; } = default!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Observe(CoreBehind);
+    }
 
     async Task ImportEmsData(InputFileChangeEventArgs args)
     {
@@ -39,6 +39,5 @@
             return;
         }
         await CoreBehind.Import(contents);
-        @* await Render(); *@
     }
 }
