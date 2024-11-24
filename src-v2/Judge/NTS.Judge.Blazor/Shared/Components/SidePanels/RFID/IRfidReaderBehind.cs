@@ -1,8 +1,6 @@
 ﻿using Not.Injection;
-using Not.Structures;
-using NTS.Domain.Objects;
 
-namespace NTS.Judge.Blazor.Setup.Ports;
+namespace NTS.Judge.Blazor.Shared.Components.SidePanels.RFID;
 
 public interface IRfidReaderBehind : ISingleton
 {

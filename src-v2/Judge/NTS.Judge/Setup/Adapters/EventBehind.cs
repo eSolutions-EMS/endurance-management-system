@@ -4,7 +4,6 @@ using Not.Application.CRUD.Ports;
 using Not.Safe;
 using NTS.Domain.Setup.Entities;
 using NTS.Judge.Blazor.Setup.EnduranceEvents;
-using NTS.Judge.Blazor.Setup.Ports;
 using NTS.Judge.Core.Behinds;
 
 namespace NTS.Judge.Setup.Adapters;
