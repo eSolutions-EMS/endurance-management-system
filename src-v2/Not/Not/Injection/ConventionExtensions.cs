@@ -51,12 +51,17 @@ public static class InectionExtensions
                 && x != _singletonType
             )
             .ToList();
-        
+
         PreventInvalidConventialService(implementation);
 
         if (interfaces.Any(x => x.IsSingleton()))
         {
-            AddAsSelfWithInterfaces(services, interfaces, implementation, ServiceLifetime.Singleton);
+            AddAsSelfWithInterfaces(
+                services,
+                interfaces,
+                implementation,
+                ServiceLifetime.Singleton
+            );
             return;
         }
         if (interfaces.Any(x => x.IsScoped()))
@@ -105,7 +110,11 @@ public static class InectionExtensions
         Add(services, implementation, implementation);
         foreach (var @interface in interfaces)
         {
-            var descriptor = new ServiceDescriptor(@interface, x => x.GetRequiredService(implementation), lifetime);
+            var descriptor = new ServiceDescriptor(
+                @interface,
+                x => x.GetRequiredService(implementation),
+                lifetime
+            );
             services.Add(descriptor);
         }
     }

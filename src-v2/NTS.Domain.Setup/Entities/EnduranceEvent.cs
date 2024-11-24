@@ -5,11 +5,7 @@ using NTS.Domain.Extensions;
 
 namespace NTS.Domain.Setup.Entities;
 
-public class EnduranceEvent
-    : DomainEntity,
-        IParent<Official>,
-        IParent<Competition>,
-        IAggregateRoot
+public class EnduranceEvent : DomainEntity, IParent<Official>, IParent<Competition>, IAggregateRoot
 {
     public static EnduranceEvent Create(string? place, Country? country)
     {
@@ -86,7 +82,7 @@ public class EnduranceEvent
     {
         _officials.Remove(official);
     }
-    
+
     public override string ToString()
     {
         return Combine(Place, Country);

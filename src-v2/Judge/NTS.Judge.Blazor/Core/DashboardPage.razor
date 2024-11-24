@@ -9,14 +9,14 @@
 @attribute [Route(DASHBOARD_PAGE)]
 @inherits NComponent
 
-<NContent Title="Dashboard" HasContent="_participationBehind.Participations.Any()" EmptyMessage="No participations">
+<NContent Title="Dashboard" HasContent="_isStarted" EmptyMessage="Event isn't started">
     
     <EmptyContent>
         <InputFile OnChange="ImportEmsData" />
     </EmptyContent>
 
     <Main>
-        <DashboardComponent />
+        <Dashboard />
     </Main>
 
     <Rightbar>
@@ -30,23 +30,25 @@
 </NContent>
 
 @code {
+    bool _isStarted;
+
     [Inject]
-    private IEmsImportBehind _importBehind { get; set; } = default!;
-    [Inject]
-    private IParticipationBehind _participationBehind { get; set; } = default!;
+    ICoreBehind CoreBehind { get; set; } = default!;
 
     protected override async Task OnInitializedAsync()
     {
-        await _participationBehind.Initialize();
+        _isStarted = await CoreBehind.IsStarted();
     }
 
-    private async Task ImportEmsData(InputFileChangeEventArgs args)
+    async Task ImportEmsData(InputFileChangeEventArgs args)
     {
         using var stream = args.File.OpenReadStream();
         using var stringReader = new StreamReader(stream);
         var contents = await stringReader.ReadToEndAsync();
-        await _importBehind.ImportCore(contents);
-
-        await _participationBehind.Initialize();
+        if (contents == null)
+        {
+            return;
+        }
+        await CoreBehind.Import(contents);
     }
 }

@@ -15,7 +15,7 @@ public static class GuardHelper
     // [DoesNotReturn]
     public static void ThrowIfDefault<T>([NotNull] T value)
     {
-        if (value?.Equals(default(T)) ?? true)  
+        if (value?.Equals(default(T)) ?? true)
         {
             throw new GuardException($"{ReflectionHelper.GetName<T>()} cannot be default");
         }

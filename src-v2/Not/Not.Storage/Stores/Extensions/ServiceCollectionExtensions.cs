@@ -21,7 +21,10 @@ public static class ServiceCollectionExtensions
         where T : class, IStaticOptionsConfiguration, new()
     {
         services.AddSingleton<IStaticOptionsConfiguration, T>();
-        services.AddSingleton(typeof(IStaticOptionsProvider<>), typeof(JsonStaticOptionsProvider<>));
+        services.AddSingleton(
+            typeof(IStaticOptionsProvider<>),
+            typeof(JsonStaticOptionsProvider<>)
+        );
         return services;
     }
 }

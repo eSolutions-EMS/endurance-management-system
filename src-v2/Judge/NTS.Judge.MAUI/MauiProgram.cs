@@ -1,12 +1,12 @@
 ﻿using Microsoft.Extensions.Logging;
 using Not.Injection;
-using Not.MAUI.Logging;
-using NTS.Judge.MAUI.Server;
 using Not.Logging.Builder;
+using Not.MAUI.Logging;
 using Not.Storage.Stores.Extensions;
-using NTS.Storage.Injection;
-using NTS.Judge.Shared;
 using NTS.Judge.Blazor;
+using NTS.Judge.MAUI.Server;
+using NTS.Judge.Shared;
+using NTS.Storage.Injection;
 
 namespace NTS.Judge.MAUI;
 
@@ -48,11 +48,7 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddInversedDependencies(this IServiceCollection services)
     {
-        services
-            .AddStorage()
-            .AddJudge()
-            .GetConventionalAssemblies()
-            .RegisterConventionalServices();
+        services.AddStorage().AddJudge().GetConventionalAssemblies().RegisterConventionalServices();
         return services;
     }
 }

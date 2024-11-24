@@ -9,7 +9,9 @@ internal class IntPropertySearch<T> : PropertySearch<T, int>
     {
         if (!int.TryParse(value, out var search))
         {
-            throw new InvalidSearchTermException($"Search term '{value}' cannot be parsed to a valid integer");
+            throw new InvalidSearchTermException(
+                $"Search term '{value}' cannot be parsed to a valid integer"
+            );
         }
         return search;
     }

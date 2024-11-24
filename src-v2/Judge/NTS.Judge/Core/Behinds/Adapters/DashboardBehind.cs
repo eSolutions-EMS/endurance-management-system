@@ -4,13 +4,14 @@ using Not.Safe;
 using NTS.Domain.Core.Entities;
 using NTS.Domain.Core.Entities.ParticipationAggregate;
 using NTS.Domain.Enums;
+using NTS.Judge.ACL.Adapters;
 using NTS.Judge.Blazor.Core.Ports;
-using NTS.Judge.Core;
 
 namespace NTS.Judge.Core.Behinds.Adapters;
 
-public class DashboardBehind : IDashboardBehind
+public class DashboardBehind : IDashboardBehind, ICoreBehind
 {
+    readonly IEmsImporter _emsImporter;
     readonly IRepository<Domain.Setup.Entities.EnduranceEvent> _setupRepository;
     readonly IRepository<EnduranceEvent> _coreEventRespository;
     readonly IRepository<Official> _coreOfficialRepository;
@@ -18,6 +19,7 @@ public class DashboardBehind : IDashboardBehind
     readonly IRepository<Ranking> _rankingRepository;
 
     public DashboardBehind(
+        IEmsImporter emsImporter,
         IRepository<Domain.Setup.Entities.EnduranceEvent> setupRepository,
         IRepository<EnduranceEvent> coreEventRespository,
         IRepository<Official> coreOfficialRepository,
@@ -25,6 +27,7 @@ public class DashboardBehind : IDashboardBehind
         IRepository<Ranking> rankingRepository
     )
     {
+        _emsImporter = emsImporter;
         _setupRepository = setupRepository;
         _coreEventRespository = coreEventRespository;
         _coreOfficialRepository = coreOfficialRepository;
@@ -42,6 +45,16 @@ public class DashboardBehind : IDashboardBehind
         return SafeHelper.Run(SafeIsEnduranceEventStarted);
     }
 
+    public Task<bool> IsStarted()
+    {
+        return IsEnduranceEventStarted();
+    }
+
+    public Task Import(string contents)
+    {
+        return _emsImporter.ImportCore(contents);
+    }
+
     async Task SafeStart()
     {
         var setupEvent = await _setupRepository.Read(0);
@@ -57,7 +70,8 @@ public class DashboardBehind : IDashboardBehind
 
     async Task<bool> SafeIsEnduranceEventStarted()
     {
-        return await _coreEventRespository.Read(0) != null;
+        var a = await _coreEventRespository.Read(0);
+        return a != null;
     }
 
     async Task CreateEvent(Domain.Setup.Entities.EnduranceEvent setupEvent)

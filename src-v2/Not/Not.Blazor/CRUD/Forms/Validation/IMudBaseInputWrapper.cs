@@ -1,5 +1,4 @@
-﻿
-using MudBlazor;
+﻿using MudBlazor;
 
 namespace Not.Blazor.CRUD.Forms.Validation;
 

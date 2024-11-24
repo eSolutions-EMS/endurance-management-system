@@ -42,7 +42,7 @@ public record TimeInterval : DomainObject, IComparable<TimeInterval>
     {
         _interval = timeSpan;
     }
-#pragma warning disable IDE1006 // TODO: serialize internal propety using custom JsonConverter<TimeInterval> 
+#pragma warning disable IDE1006 // TODO: serialize internal propety using custom JsonConverter<TimeInterval>
     TimeSpan _interval { get; set; }
 #pragma warning restore IDE1006 // Naming Styles
 

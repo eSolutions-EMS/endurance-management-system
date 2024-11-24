@@ -1,5 +1,6 @@
 ﻿using Not.Application.CRUD.Ports;
 using Not.Extensions;
+using Not.Injection;
 using Not.Safe;
 using Not.Serialization;
 using NTS.Compatibility.EMS;
@@ -7,17 +8,16 @@ using NTS.Compatibility.EMS.Entities.EnduranceEvents;
 using NTS.Domain.Enums;
 using NTS.Domain.Objects;
 using NTS.Domain.Setup.Entities;
-using NTS.Judge.Blazor.Core.Ports;
 using static NTS.Domain.Enums.OfficialRole;
 
 namespace NTS.Judge.ACL.Adapters;
 
-public class EmsImportBehind : IEmsImportBehind
+public class EmsImporters : IEmsImporter
 {
     readonly IRepository<EnduranceEvent> _eventRepository;
     readonly IEmsToCoreImporter _emsToCoreImporter;
 
-    public EmsImportBehind(
+    public EmsImporters(
         IRepository<EnduranceEvent> eventRepository,
         IEmsToCoreImporter emsToCoreImporter
     )
@@ -85,8 +85,7 @@ public class EmsImportBehind : IEmsImportBehind
                 return (CompetitionType.Qualification, CompetitionRuleset.Regional);
             }
             else if (
-                emsType
-                == Compatibility.EMS.Entities.Competitions.EmsCompetitionType.International
+                emsType == Compatibility.EMS.Entities.Competitions.EmsCompetitionType.International
             )
             {
                 return (CompetitionType.Star, CompetitionRuleset.FEI);
@@ -118,4 +117,15 @@ public class EmsImportBehind : IEmsImportBehind
         }
         return result;
     }
+}
+
+public interface IEmsImporter : ITransient
+{
+    Task Import(string emsStateFilePath);
+
+    /// <summary>
+    /// Create Core entities directly from EMS data
+    /// </summary>
+    /// <param name="contents">Contents of EMS data file (has to be before "EventStarted = true")</param>
+    Task ImportCore(string contents);
 }

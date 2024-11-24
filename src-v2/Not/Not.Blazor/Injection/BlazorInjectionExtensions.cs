@@ -20,7 +20,7 @@ public static class BlazorInjectionExtensions
             .AddTransient(typeof(Dialog<,>)) // TODO: Use ITransiend marker, it should be resolved and if not - adjust Injection logic
             .AddTransient(typeof(FormManager<,>));
     }
-    
+
     public static IServiceCollection AddNotMudBlazor(
         this IServiceCollection services,
         Action<MudServicesConfiguration>? customConfiguration = null
@@ -37,5 +37,5 @@ public static class BlazorInjectionExtensions
 
             customConfiguration?.Invoke(config);
         });
-    }    
+    }
 }
