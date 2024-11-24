@@ -1,6 +1,6 @@
 ﻿namespace NTS.Judge.MAUI.Server;
 
-public static class DependencyInjection
+public static class Injection
 {
     public static IServiceCollection AddMauiServerServices(this IServiceCollection services)
     {
