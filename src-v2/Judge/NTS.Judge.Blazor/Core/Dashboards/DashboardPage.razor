@@ -1,4 +1,5 @@
 ﻿@using NTS.Domain.Setup.Entities
+@using NTS.Judge.Blazor.Core.Dashboards.Actions
 @using NTS.Judge.Blazor.Core.Dashboards.Actions.Eliminations
 @using NTS.Judge.Blazor.Core.Dashboards.Actions.Inspections
 @using NTS.Judge.Blazor.Core.Dashboards.Actions.Snapshots
@@ -19,11 +20,7 @@
     </Main>
 
     <Rightbar>
-        <SnapshotPanel Class="mb-2" />
-
-        <InspectionsPanel Class="mb-2" />
-
-        <EliminationsPanel Class="mb-2" />
+        <ActionsMenu />
     </Rightbar>
 
 </NContent>
