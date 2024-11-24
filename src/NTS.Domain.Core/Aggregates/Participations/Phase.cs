@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Not.Domain.Base;
 using Not.Domain.Exceptions;
+using Not.Localization;
 using NTS.Domain.Core.StaticOptions;
 using static NTS.Domain.Core.Aggregates.SnapshotResultType;
 
@@ -230,6 +231,14 @@ public class Phase : AggregateRoot
     internal void SetGate(int number, double totalDistanceSoFar)
     {
         Gate = $"GATE{number}/{totalDistanceSoFar:0.##}";
+    }
+
+    public override string ToString()
+    {
+        var arrive = $"{LocalizationHelper.Get("ARR")}:{ArriveTime}";
+        var present = $"{LocalizationHelper.Get("IN")}:{PresentTime}";
+        var complete = IsComplete() ? "complete" : "";
+        return Combine(Gate, arrive, present, complete);
     }
 
     public Timestamp? GetRequiredInspectionTime()
