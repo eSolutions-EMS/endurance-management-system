@@ -2,7 +2,7 @@ using NTS.Domain.Core.Entities.ParticipationAggregate;
 
 namespace NTS.Judge.Blazor.Core.Ports;
 
-public interface IEliminationBehind : IParticipationContext
+public interface IEliminationsBehind : IParticipationContext
 {
     Task Withdraw();
     Task Retire();

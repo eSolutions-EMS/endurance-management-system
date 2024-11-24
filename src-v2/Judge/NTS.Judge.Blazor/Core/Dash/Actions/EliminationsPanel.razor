@@ -48,9 +48,9 @@
 
 @code {
     [Inject]
-    IParticipationContext _participationBehind { get; set; } = default!;
+    IParticipationContext ParticipationContext { get; set; } = default!;
 
-    Eliminated? _eliminated => _participationBehind.SelectedParticipation?.Eliminated;
+    Eliminated? _eliminated => ParticipationContext.SelectedParticipation?.Eliminated;
     string? _toggleValue
     {
         get => _inputValue != null ? _inputValue : _eliminated?.Code;
@@ -60,7 +60,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await Observe(_participationBehind);
+        await Observe(ParticipationContext);
     }
 
     protected override void OnBeforeRender()

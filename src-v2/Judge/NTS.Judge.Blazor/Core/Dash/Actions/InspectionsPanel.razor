@@ -12,25 +12,25 @@
 
 @code {
     [Inject]
-    IInspectionsBehind _participationBehind { get; set; } = default!;
+    IInspectionsBehind Inspections { get; set; } = default!;
 
-    Participation? _selectedParticipation => _participationBehind.SelectedParticipation;
+    Participation? _selectedParticipation => Inspections.SelectedParticipation;
     Phase? _currentPhase => _selectedParticipation?.Phases.Current;
     bool _represent => _currentPhase?.IsReinspectionRequested ?? false;
     bool _requireInspection => _currentPhase?.IsRequiredInspectionRequested ?? false;
 
     protected override async Task OnInitializedAsync()
     {
-        await Observe(_participationBehind);
+        await Observe(Inspections);
     }
 
     async Task ToggleReinspection(bool value)
     {
-        await _participationBehind.RequestRepresent(value);
+        await Inspections.RequestRepresent(value);
     }
 
     async Task ToggleRequiredInspection(bool value)
     {
-        await _participationBehind.RequireInspection(value);
+        await Inspections.RequireInspection(value);
     }
 }
