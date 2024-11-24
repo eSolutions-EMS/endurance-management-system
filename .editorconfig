@@ -45,7 +45,7 @@ dotnet_style_null_propagation = true:warning
 dotnet_style_object_initializer = true:warning
 dotnet_style_operator_placement_when_wrapping = beginning_of_line:warning
 dotnet_style_prefer_compound_assignment = true:warning
-dotnet_style_prefer_conditional_expression_over_assignment = true:warning
+dotnet_style_prefer_conditional_expression_over_assignment = true:none
 dotnet_style_prefer_conditional_expression_over_return = true:none
 dotnet_style_prefer_foreach_explicit_cast_in_source = when_strongly_typed:warning
 dotnet_style_prefer_inferred_anonymous_type_member_names = true:warning
@@ -260,3 +260,6 @@ dotnet_diagnostic.IDE0028.severity = warning
 dotnet_diagnostic.CA1860.severity = none
 
 #<<<<<<<<<<<<<< Severity overrides ##############
+
+# IDE0045: Convert to conditional expression
+dotnet_diagnostic.IDE0045.severity = none
