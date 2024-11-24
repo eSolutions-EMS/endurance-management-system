@@ -1,13 +1,13 @@
 ﻿using Newtonsoft.Json;
 using Not.Domain.Base;
 using Not.Events;
-using NTS.Domain.Core.Entities.ParticipationAggregate;
+using NTS.Domain.Core.Aggregates.Participations;
 using NTS.Domain.Core.Objects.Payloads;
-using static NTS.Domain.Core.Entities.SnapshotResultType;
+using static NTS.Domain.Core.Aggregates.SnapshotResultType;
 
-namespace NTS.Domain.Core.Entities;
+namespace NTS.Domain.Core.Aggregates;
 
-public class Participation : DomainEntity, IAggregateRoot
+public class Participation : AggregateRoot, IAggregateRoot
 {
     //static readonly TimeSpan NOT_SNAPSHOTABLE_WINDOW = TimeSpan.FromMinutes(30);
     static readonly FailedToQualify OUT_OF_TIME = new([FtqCode.OT]);

@@ -1,8 +1,8 @@
 ﻿using Not.Domain.Base;
 
-namespace NTS.Domain.Setup.Entities;
+namespace NTS.Domain.Setup.Aggregates;
 
-public class Tag : DomainEntity, IAggregateRoot
+public class Tag : AggregateRoot, IAggregateRoot
 {
     public Tag(string tagId, int number)
         : base(GenerateId())

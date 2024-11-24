@@ -7,7 +7,7 @@
 @using Not.Domain.Base
 
 @inherits NComponent
-@typeparam T where T : DomainEntity
+@typeparam T where T : AggregateRoot
 @typeparam TModel where TModel : IFormModel<T>, new()
 @typeparam TForm where TForm : NForm<TModel>
 

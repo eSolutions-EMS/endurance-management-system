@@ -2,9 +2,9 @@
 using Not.Domain.Base;
 using Not.Localization;
 
-namespace NTS.Domain.Core.Entities;
+namespace NTS.Domain.Core.Aggregates;
 
-public class RankingEntry : DomainEntity, IAggregateRoot
+public class RankingEntry : AggregateRoot, IAggregateRoot
 {
     [JsonConstructor]
     RankingEntry(int id, Participation participation, bool isNotRanked)

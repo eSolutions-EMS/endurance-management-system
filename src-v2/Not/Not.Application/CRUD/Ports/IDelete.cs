@@ -4,7 +4,7 @@ using Not.Injection;
 namespace Not.Application.CRUD.Ports;
 
 public interface IDelete<T> : ITransient
-    where T : DomainEntity
+    where T : AggregateRoot
 {
     Task Delete(T entity);
     Task Delete(IEnumerable<T> entities);

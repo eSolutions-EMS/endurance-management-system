@@ -1,6 +1,6 @@
 ﻿using Not.Blazor.CRUD.Forms.Ports;
 using NTS.Domain.Objects;
-using NTS.Domain.Setup.Entities;
+using NTS.Domain.Setup.Aggregates;
 
 namespace NTS.Judge.Blazor.Setup.EnduranceEvents;
 

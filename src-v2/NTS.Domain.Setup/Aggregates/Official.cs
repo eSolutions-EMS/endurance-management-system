@@ -2,9 +2,9 @@
 using Not.Domain.Base;
 using static NTS.Domain.Enums.OfficialRole;
 
-namespace NTS.Domain.Setup.Entities;
+namespace NTS.Domain.Setup.Aggregates;
 
-public class Official : DomainEntity, IAggregateRoot
+public class Official : AggregateRoot, IAggregateRoot
 {
     public static Official Create(string? names, OfficialRole? role)
     {

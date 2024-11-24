@@ -2,9 +2,9 @@
 using Not.Domain.Base;
 using Not.Domain.Exceptions;
 
-namespace NTS.Domain.Setup.Entities;
+namespace NTS.Domain.Setup.Aggregates;
 
-public class Participation : DomainEntity, IAggregateRoot
+public class Participation : AggregateRoot, IAggregateRoot
 {
     const double CHILDREN_MIN_SPEED = 8;
     const double CHILDREN_MAX_SPEED = 12;

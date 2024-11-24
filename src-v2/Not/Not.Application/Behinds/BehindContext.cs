@@ -5,7 +5,7 @@ using Not.Exceptions;
 namespace Not.Application.Behinds;
 
 public abstract class BehindContext<T>
-    where T : DomainEntity
+    where T : AggregateRoot
 {
     protected BehindContext(IRepository<T> repository)
     {

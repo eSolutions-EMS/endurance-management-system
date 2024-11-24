@@ -1,5 +1,5 @@
 ﻿using Not.Injection;
-using NTS.Domain.Setup.Entities;
+using NTS.Domain.Setup.Aggregates;
 
 namespace NTS.Judge.Blazor.Setup.Combinations.RFID;
 

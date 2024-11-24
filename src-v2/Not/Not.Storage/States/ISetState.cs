@@ -3,7 +3,7 @@
 namespace Not.Storage.States;
 
 public interface ISetState<T> : IState
-    where T : DomainEntity
+    where T : AggregateRoot
 {
     List<T> EntitySet { get; }
 }

@@ -46,56 +46,56 @@ using System.Diagnostics.CodeAnalysis;
     "CS8618:Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.",
     Justification = "<Pending>",
     Scope = "member",
-    Target = "~M:NTS.Domain.Core.Entities.EnduranceEvent.#ctor(System.Int32)"
+    Target = "~M:NTS.Domain.Core.Aggregates.EnduranceEvent.#ctor(System.Int32)"
 )]
 [assembly: SuppressMessage(
     "CodeQuality",
     "IDE0051:Remove unused private members",
     Justification = "<Pending>",
     Scope = "member",
-    Target = "~M:NTS.Domain.Core.Entities.EnduranceEvent.#ctor(System.Int32)"
+    Target = "~M:NTS.Domain.Core.Aggregates.EnduranceEvent.#ctor(System.Int32)"
 )]
 [assembly: SuppressMessage(
     "CodeQuality",
     "IDE0051:Remove unused private members",
     Justification = "<Pending>",
     Scope = "member",
-    Target = "~M:NTS.Domain.Core.Entities.Handout.#ctor(System.Int32)"
+    Target = "~M:NTS.Domain.Core.Aggregates.Handout.#ctor(System.Int32)"
 )]
 [assembly: SuppressMessage(
     "Compiler",
     "CS8618:Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.",
     Justification = "<Pending>",
     Scope = "member",
-    Target = "~M:NTS.Domain.Core.Entities.Official.#ctor(System.Int32)"
+    Target = "~M:NTS.Domain.Core.Aggregates.Official.#ctor(System.Int32)"
 )]
 [assembly: SuppressMessage(
     "CodeQuality",
     "IDE0051:Remove unused private members",
     Justification = "<Pending>",
     Scope = "member",
-    Target = "~M:NTS.Domain.Core.Entities.Official.#ctor(System.Int32)"
+    Target = "~M:NTS.Domain.Core.Aggregates.Official.#ctor(System.Int32)"
 )]
 [assembly: SuppressMessage(
     "Compiler",
     "CS8618:Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.",
     Justification = "<Pending>",
     Scope = "member",
-    Target = "~M:NTS.Domain.Core.Entities.Ranking.#ctor(System.Int32)"
+    Target = "~M:NTS.Domain.Core.Aggregates.Ranking.#ctor(System.Int32)"
 )]
 [assembly: SuppressMessage(
     "CodeQuality",
     "IDE0051:Remove unused private members",
     Justification = "<Pending>",
     Scope = "member",
-    Target = "~M:NTS.Domain.Core.Entities.Ranking.#ctor(System.Int32)"
+    Target = "~M:NTS.Domain.Core.Aggregates.Ranking.#ctor(System.Int32)"
 )]
 [assembly: SuppressMessage(
     "CodeQuality",
     "IDE0051:Remove unused private members",
     Justification = "<Pending>",
     Scope = "member",
-    Target = "~M:NTS.Domain.Core.Entities.RankingEntry.#ctor(System.Int32)"
+    Target = "~M:NTS.Domain.Core.Aggregates.RankingEntry.#ctor(System.Int32)"
 )]
 [assembly: SuppressMessage(
     "Compiler",

@@ -1,7 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using Not.Localization;
+using NTS.Domain.Core.Aggregates;
 
-namespace NTS.Domain.Core.Entities.ParticipationAggregate;
+namespace NTS.Domain.Core.Aggregates.Participations;
 
 public class PhaseCollection : ReadOnlyCollection<Phase>
 {

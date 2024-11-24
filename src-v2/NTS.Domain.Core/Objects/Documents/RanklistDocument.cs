@@ -1,4 +1,4 @@
-﻿using NTS.Domain.Core.Entities;
+﻿using NTS.Domain.Core.Aggregates;
 using NTS.Domain.Core.Objects.Documents.Base;
 
 namespace NTS.Domain.Core.Objects.Documents;

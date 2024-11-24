@@ -1,5 +1,5 @@
 ﻿using Not.Domain.Base;
-using NTS.Domain.Core.Entities;
+using NTS.Domain.Core.Aggregates;
 
 namespace NTS.Domain.Core.Objects.Documents;
 

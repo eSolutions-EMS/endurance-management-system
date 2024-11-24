@@ -2,9 +2,9 @@
 using Not.Domain.Base;
 using NTS.Domain.Core.Objects;
 
-namespace NTS.Domain.Core.Entities;
+namespace NTS.Domain.Core.Aggregates;
 
-public class EnduranceEvent : DomainEntity, IAggregateRoot
+public class EnduranceEvent : AggregateRoot, IAggregateRoot
 {
     [JsonConstructor]
     EnduranceEvent(
@@ -41,7 +41,8 @@ public class EnduranceEvent : DomainEntity, IAggregateRoot
             feiId,
             feiCode,
             showFeiId
-        ) { }
+        )
+    { }
 
     public PopulatedPlace PopulatedPlace { get; }
     public EventSpan EventSpan { get; }

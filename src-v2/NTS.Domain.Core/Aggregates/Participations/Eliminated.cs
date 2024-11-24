@@ -1,9 +1,8 @@
-﻿using System.ComponentModel;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Not.Domain.Base;
 using Not.Domain.Exceptions;
 
-namespace NTS.Domain.Core.Entities.ParticipationAggregate;
+namespace NTS.Domain.Core.Aggregates.Participations;
 
 public record Withdrawn : Eliminated
 {

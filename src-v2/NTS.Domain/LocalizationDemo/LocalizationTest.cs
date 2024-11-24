@@ -3,7 +3,7 @@ using Not.Domain.Exceptions;
 
 namespace NTS.Domain.LocalizationDemo;
 
-public class LocalizationTest : DomainEntity
+public class LocalizationTest : AggregateRoot
 {
     public LocalizationTest()
         : base(GenerateId()) { }

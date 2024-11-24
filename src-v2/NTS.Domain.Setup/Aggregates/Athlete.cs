@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
 using Not.Domain.Base;
 
-namespace NTS.Domain.Setup.Entities;
+namespace NTS.Domain.Setup.Aggregates;
 
-public class Athlete : DomainEntity, IAggregateRoot
+public class Athlete : AggregateRoot, IAggregateRoot
 {
     public static Athlete Create(
         string? name,

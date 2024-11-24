@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using NTS.Domain.Core.Entities;
+using NTS.Domain.Core.Aggregates;
 using NTS.Domain.Core.Objects.Rankers;
 using NTS.Domain.Core.StaticOptions;
 

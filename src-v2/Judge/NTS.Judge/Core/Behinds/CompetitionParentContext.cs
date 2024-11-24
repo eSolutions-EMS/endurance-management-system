@@ -1,7 +1,7 @@
 ﻿using Not.Application.Behinds;
 using Not.Application.CRUD.Ports;
 using Not.Structures;
-using NTS.Domain.Setup.Entities;
+using NTS.Domain.Setup.Aggregates;
 
 namespace NTS.Judge.Core.Behinds;
 

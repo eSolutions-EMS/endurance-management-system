@@ -2,9 +2,9 @@
 using Not.Domain.Base;
 using Not.Domain.Exceptions;
 
-namespace NTS.Domain.Setup.Entities;
+namespace NTS.Domain.Setup.Aggregates;
 
-public class Loop : DomainEntity, IAggregateRoot
+public class Loop : AggregateRoot, IAggregateRoot
 {
     public static Loop Create(double distance)
     {

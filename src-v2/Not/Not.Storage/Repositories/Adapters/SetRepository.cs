@@ -5,7 +5,7 @@ using Not.Storage.States;
 namespace Not.Storage.Adapters.Repositories;
 
 public abstract class SetRepository<T, TState> : IRepository<T>
-    where T : DomainEntity
+    where T : AggregateRoot
     where TState : class, ISetState<T>, new()
 {
     readonly IStore<TState> _store;

@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Not.Application.CRUD.Ports;
-using Not.Concurrency;
 using Not.Safe;
 using Not.Startup;
 using NTS.Compatibility.EMS.Entities;
 using NTS.Compatibility.EMS.Entities.EMS;
 using NTS.Compatibility.EMS.Enums;
 using NTS.Compatibility.EMS.RPC;
-using NTS.Domain.Core.Entities;
+using NTS.Domain.Core.Aggregates;
 using NTS.Domain.Core.Objects.Payloads;
 using NTS.Domain.Objects;
 using NTS.Judge.ACL.Factories;
@@ -22,14 +21,14 @@ public class EmsRpcHub
         IEmsEmsParticipantstHubProcedures
 {
     readonly IRepository<Participation> _participations;
-    readonly IRepository<Domain.Core.Entities.EnduranceEvent> _events;
+    readonly IRepository<EnduranceEvent> _events;
     readonly ISnapshotProcessor _snapshotProcessor;
 
     public EmsRpcHub(IJudgeServiceProvider judgeProvider)
     {
         _participations = judgeProvider.GetRequiredService<IRepository<Participation>>();
         _events = judgeProvider.GetRequiredService<
-            IRepository<Domain.Core.Entities.EnduranceEvent>
+            IRepository<EnduranceEvent>
         >();
         _snapshotProcessor = judgeProvider.GetRequiredService<ISnapshotProcessor>();
     }
@@ -58,7 +57,7 @@ public class EmsRpcHub
                 {
                     startlists.Add(
                         entry.Stage,
-                        new EmsStartlist(new List<EmsStartlistEntry> { entry })
+                        new EmsStartlist([entry])
                     );
                 }
                 // If record is complete, but is not last -> insert another record for current stage
@@ -81,7 +80,7 @@ public class EmsRpcHub
                     {
                         startlists.Add(
                             nextEntry.Stage,
-                            new EmsStartlist(new List<EmsStartlistEntry> { nextEntry })
+                            new EmsStartlist([nextEntry])
                         );
                     }
                 }

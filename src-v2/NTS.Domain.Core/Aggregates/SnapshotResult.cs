@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
 using Not.Domain.Base;
 
-namespace NTS.Domain.Core.Entities;
+namespace NTS.Domain.Core.Aggregates;
 
-public class SnapshotResult : DomainEntity, IAggregateRoot
+public class SnapshotResult : AggregateRoot, IAggregateRoot
 {
     public static SnapshotResult Applied(Snapshot snapshot)
     {

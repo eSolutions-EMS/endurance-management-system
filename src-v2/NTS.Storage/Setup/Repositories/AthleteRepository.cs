@@ -1,6 +1,6 @@
-﻿using NTS.Domain.Setup.Entities;
+﻿using NTS.Domain.Setup.Aggregates;
 
-namespace NTS.Storage.Boundaries.Setup.Repositories;
+namespace NTS.Storage.Setup.Repositories;
 
 public class AthleteRepository : SetRepository<Athlete, SetupState>
 {

@@ -1,7 +1,7 @@
 ﻿using Not.Storage.Repositories.Adapters;
-using NTS.Domain.Core.Entities;
+using NTS.Domain.Core.Aggregates;
 
-namespace NTS.Storage.Boundaries.Core.Repositories;
+namespace NTS.Storage.Core.Repositories;
 
 public class EnduranceEventRepository : RootRepository<EnduranceEvent, CoreState>
 {

@@ -2,7 +2,7 @@
 using Not.Application.CRUD.Ports;
 using Not.Exceptions;
 using Not.Safe;
-using NTS.Domain.Core.Entities;
+using NTS.Domain.Core.Aggregates;
 using NTS.Domain.Core.Objects;
 using NTS.Domain.Core.Objects.Payloads;
 using NTS.Judge.Blazor.Core.Rankings;

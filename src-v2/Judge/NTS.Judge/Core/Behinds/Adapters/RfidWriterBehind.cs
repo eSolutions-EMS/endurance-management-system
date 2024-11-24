@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using NTS.Domain.Setup.Entities;
+using NTS.Domain.Setup.Aggregates;
 using NTS.Judge.ACL.RFID;
 using NTS.Judge.Blazor.Setup.Combinations.RFID;
 

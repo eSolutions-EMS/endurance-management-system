@@ -2,11 +2,11 @@
 using Not.Domain.Base;
 using Not.Domain.Exceptions;
 using NTS.Domain.Core.StaticOptions;
-using static NTS.Domain.Core.Entities.SnapshotResultType;
+using static NTS.Domain.Core.Aggregates.SnapshotResultType;
 
-namespace NTS.Domain.Core.Entities.ParticipationAggregate;
+namespace NTS.Domain.Core.Aggregates.Participations;
 
-public class Phase : DomainEntity
+public class Phase : AggregateRoot
 {
     public static Phase ImportFromEMS(
         double length,
@@ -51,7 +51,7 @@ public class Phase : DomainEntity
         phase.IsReinspectionRequested = isReinspectionRequested;
         phase.IsRequiredInspectionRequested = isRequiredInspectionRequested;
         phase.IsRequiredInspectionCompulsory = isCompulsoryRequiredInspectionRequested;
-
+         
         return phase;
     }
 
@@ -119,7 +119,8 @@ public class Phase : DomainEntity
             false,
             false,
             false
-        ) { }
+        )
+    { }
 
     Timestamp? VetTime => RepresentTime ?? PresentTime;
 

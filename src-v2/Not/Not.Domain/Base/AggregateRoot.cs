@@ -6,19 +6,19 @@ using Not.Structures;
 
 namespace Not.Domain.Base;
 
-public abstract class DomainEntity : IEquatable<DomainEntity>, IIdentifiable
+public abstract class AggregateRoot : IEquatable<AggregateRoot>, IIdentifiable, IAggregateRoot
 {
-    public static bool operator ==(DomainEntity? left, DomainEntity? right)
+    public static bool operator ==(AggregateRoot? left, AggregateRoot? right)
     {
         return left?.IsEqual(right) ?? right is null;
     }
 
-    public static bool operator !=(DomainEntity? left, DomainEntity? right)
+    public static bool operator !=(AggregateRoot? left, AggregateRoot? right)
     {
         return !(left == right);
     }
 
-    protected DomainEntity(int id)
+    protected AggregateRoot(int id)
     {
         Id = id;
     }
@@ -69,7 +69,7 @@ public abstract class DomainEntity : IEquatable<DomainEntity>, IIdentifiable
         return value;
     }
 
-    public bool Equals(DomainEntity? other)
+    public bool Equals(AggregateRoot? other)
     {
         return IsEqual(other);
     }
@@ -93,7 +93,7 @@ public abstract class DomainEntity : IEquatable<DomainEntity>, IIdentifiable
 
     bool IsEqual(object? other)
     {
-        if (other is null or not DomainEntity)
+        if (other is null or not AggregateRoot)
         {
             return false;
         }

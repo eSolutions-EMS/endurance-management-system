@@ -1,6 +1,6 @@
 ﻿using Not.Structures;
-using NTS.Domain.Core.Entities;
-using NTS.Domain.Core.Entities.ParticipationAggregate;
+using NTS.Domain.Core.Aggregates;
+using NTS.Domain.Core.Aggregates.Participations;
 using NTS.Domain.Core.Objects.Documents.Base;
 
 namespace NTS.Domain.Core.Objects.Documents;

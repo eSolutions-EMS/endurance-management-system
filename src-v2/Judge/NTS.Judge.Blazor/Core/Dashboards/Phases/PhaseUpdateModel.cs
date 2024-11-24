@@ -1,8 +1,8 @@
 ﻿using System.Globalization;
 using Not.Blazor.CRUD.Forms.Ports;
-using NTS.Domain.Core.Entities.ParticipationAggregate;
+using NTS.Domain.Core.Aggregates.Participations;
 
-namespace NTS.Judge.Blazor.Pages.Dashboard.Phases;
+namespace NTS.Judge.Blazor.Core.Dashboards.Phases;
 
 public class PhaseUpdateModel : IPhaseState, IFormModel<Phase>
 {

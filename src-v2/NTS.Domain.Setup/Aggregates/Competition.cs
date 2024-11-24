@@ -2,9 +2,9 @@ using Newtonsoft.Json;
 using Not.Domain.Base;
 using Not.Domain.Exceptions;
 
-namespace NTS.Domain.Setup.Entities;
+namespace NTS.Domain.Setup.Aggregates;
 
-public class Competition : DomainEntity, IParent<Participation>, IParent<Phase>, IAggregateRoot
+public class Competition : AggregateRoot, IParent<Participation>, IParent<Phase>, IAggregateRoot
 {
     public static Competition Create(
         string? name,

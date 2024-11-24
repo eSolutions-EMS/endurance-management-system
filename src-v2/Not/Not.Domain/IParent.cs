@@ -3,7 +3,7 @@
 namespace Not.Domain;
 
 public interface IParent<T> : IParent
-    where T : DomainEntity
+    where T : AggregateRoot
 {
     void Add(T child);
     void Remove(T child);

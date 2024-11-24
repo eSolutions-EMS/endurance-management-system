@@ -3,8 +3,8 @@ using Not.Application.CRUD.Ports;
 using Not.Blazor.CRUD.Ports;
 using Not.Exceptions;
 using Not.Safe;
-using NTS.Domain.Core.Entities;
-using NTS.Domain.Core.Entities.ParticipationAggregate;
+using NTS.Domain.Core.Aggregates.Participations;
+using NTS.Domain.Core.Aggregates;
 using NTS.Domain.Enums;
 using NTS.Domain.Objects;
 using NTS.Judge.Blazor.Core.Dashboards;
@@ -12,7 +12,7 @@ using NTS.Judge.Blazor.Core.Dashboards.Actions.Eliminations;
 using NTS.Judge.Blazor.Core.Dashboards.Actions.Inspections;
 using NTS.Judge.Blazor.Core.Dashboards.Actions.Snapshots;
 using NTS.Judge.Blazor.Core.Dashboards.Component;
-using NTS.Judge.Blazor.Pages.Dashboard.Phases;
+using NTS.Judge.Blazor.Core.Dashboards.Phases;
 
 namespace NTS.Judge.Core.Behinds.Adapters;
 

@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
 using Not.Domain.Base;
 
-namespace NTS.Domain.Setup.Entities;
+namespace NTS.Domain.Setup.Aggregates;
 
-public class Horse : DomainEntity, IAggregateRoot
+public class Horse : AggregateRoot, IAggregateRoot
 {
     public static Horse Create(string? name, string? feiId)
     {

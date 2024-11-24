@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
 using Not.Domain.Base;
 
-namespace NTS.Domain.Core.Entities;
+namespace NTS.Domain.Core.Aggregates;
 
-public class Handout : DomainEntity, IAggregateRoot
+public class Handout : AggregateRoot, IAggregateRoot
 {
     [JsonConstructor]
     Handout(int id, Participation participation)

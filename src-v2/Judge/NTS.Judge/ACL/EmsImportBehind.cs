@@ -7,7 +7,7 @@ using NTS.Compatibility.EMS;
 using NTS.Compatibility.EMS.Entities.EnduranceEvents;
 using NTS.Domain.Enums;
 using NTS.Domain.Objects;
-using NTS.Domain.Setup.Entities;
+using NTS.Domain.Setup.Aggregates;
 using static NTS.Domain.Enums.OfficialRole;
 
 namespace NTS.Judge.ACL.Adapters;

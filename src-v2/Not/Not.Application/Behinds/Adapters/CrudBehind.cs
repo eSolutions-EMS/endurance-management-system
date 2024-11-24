@@ -13,7 +13,7 @@ public abstract class CrudBehind<T, TModel>
     : ObservableListBehind<T>,
         IListBehind<T>,
         IFormBehind<TModel>
-    where T : DomainEntity
+    where T : AggregateRoot
 {
     readonly IParentContext<T>? _parentContext;
     readonly IRepository<T> _repository;

@@ -1,4 +1,4 @@
-﻿using NTS.Domain.Core.Entities;
+﻿using NTS.Domain.Core.Aggregates;
 using NTS.Domain.Core.Objects.Payloads;
 
 namespace NTS.Domain.Core.Objects;

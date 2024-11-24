@@ -1,11 +1,11 @@
 ﻿using System.Collections.ObjectModel;
 using Newtonsoft.Json;
 using Not.Domain.Base;
-using NTS.Domain.Core.Entities.ParticipationAggregate;
+using NTS.Domain.Core.Aggregates.Participations;
 
-namespace NTS.Domain.Core.Entities;
+namespace NTS.Domain.Core.Aggregates;
 
-public class Ranking : DomainEntity, IAggregateRoot
+public class Ranking : AggregateRoot, IAggregateRoot
 {
     [JsonConstructor]
     Ranking(

@@ -1,8 +1,8 @@
 ﻿using Not.Application.CRUD.Ports;
 using Not.Domain.Exceptions;
 using Not.Safe;
-using NTS.Domain.Core.Entities;
-using NTS.Domain.Core.Entities.ParticipationAggregate;
+using NTS.Domain.Core.Aggregates;
+using NTS.Domain.Core.Aggregates.Participations;
 using NTS.Domain.Enums;
 using NTS.Judge.ACL.Adapters;
 using NTS.Judge.Blazor.Shared.Components.SidePanels;
@@ -12,7 +12,7 @@ namespace NTS.Judge.Core.Behinds.Adapters;
 public class CoreBehind : ICoreBehind
 {
     readonly IEmsImporter _emsImporter;
-    readonly IRepository<Domain.Setup.Entities.EnduranceEvent> _setupRepository;
+    readonly IRepository<Domain.Setup.Aggregates.EnduranceEvent> _setupRepository;
     readonly IRepository<EnduranceEvent> _coreEventRespository;
     readonly IRepository<Official> _coreOfficialRepository;
     readonly IRepository<Participation> _participationRepository;
@@ -20,7 +20,7 @@ public class CoreBehind : ICoreBehind
 
     public CoreBehind(
         IEmsImporter emsImporter,
-        IRepository<Domain.Setup.Entities.EnduranceEvent> setupRepository,
+        IRepository<Domain.Setup.Aggregates.EnduranceEvent> setupRepository,
         IRepository<EnduranceEvent> coreEventRespository,
         IRepository<Official> coreOfficialRepository,
         IRepository<Participation> participationRepository,
@@ -75,13 +75,13 @@ public class CoreBehind : ICoreBehind
         return a != null;
     }
 
-    async Task CreateEvent(Domain.Setup.Entities.EnduranceEvent setupEvent)
+    async Task CreateEvent(Domain.Setup.Aggregates.EnduranceEvent setupEvent)
     {
         var @event = CoreFactory.CreateEvent(setupEvent);
         await _coreEventRespository.Create(@event);
     }
 
-    async Task CreateOfficials(IEnumerable<Domain.Setup.Entities.Official> setupOfficials)
+    async Task CreateOfficials(IEnumerable<Domain.Setup.Aggregates.Official> setupOfficials)
     {
         foreach (var setupOfficial in setupOfficials)
         {
@@ -90,7 +90,7 @@ public class CoreBehind : ICoreBehind
         }
     }
 
-    async Task CreateParticipationsAndRankings(Domain.Setup.Entities.EnduranceEvent setupEvent)
+    async Task CreateParticipationsAndRankings(Domain.Setup.Aggregates.EnduranceEvent setupEvent)
     {
         foreach (var competition in setupEvent.Competitions)
         {

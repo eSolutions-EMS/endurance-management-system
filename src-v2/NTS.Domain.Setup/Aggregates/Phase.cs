@@ -2,9 +2,9 @@
 using Not.Domain.Base;
 using Not.Domain.Exceptions;
 
-namespace NTS.Domain.Setup.Entities;
+namespace NTS.Domain.Setup.Aggregates;
 
-public class Phase : DomainEntity, IAggregateRoot
+public class Phase : AggregateRoot, IAggregateRoot
 {
     public static Phase Create(Loop? loop, int recovery, int? rest)
     {

@@ -1,7 +1,7 @@
 ﻿using AngleSharp.Io;
 using Not.Application.Behinds.Adapters;
 using Not.Application.CRUD.Ports;
-using NTS.Domain.Setup.Entities;
+using NTS.Domain.Setup.Aggregates;
 using NTS.Judge.Blazor.Setup.EnduranceEvents.Officials;
 using NTS.Judge.Core.Behinds;
 

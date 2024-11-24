@@ -1,6 +1,6 @@
 ﻿using Not.Domain.Base;
 using Not.Localization;
-using NTS.Domain.Core.Entities;
+using NTS.Domain.Core.Aggregates;
 
 namespace NTS.Domain.Core.Objects;
 

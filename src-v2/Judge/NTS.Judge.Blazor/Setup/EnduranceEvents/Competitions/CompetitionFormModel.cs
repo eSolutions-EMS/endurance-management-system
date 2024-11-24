@@ -1,6 +1,7 @@
-﻿using Not.Blazor.CRUD.Forms.Ports;
+﻿
+using Not.Blazor.CRUD.Forms.Ports;
 using Not.Extensions;
-using NTS.Domain.Setup.Entities;
+using NTS.Domain.Setup.Aggregates;
 
 namespace NTS.Judge.Blazor.Setup.EnduranceEvents.Competitions;
 

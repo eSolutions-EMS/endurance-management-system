@@ -2,10 +2,10 @@
 using Not.Domain.Base;
 using Not.Localization;
 
-namespace NTS.Domain.Core.Entities.ParticipationAggregate;
+namespace NTS.Domain.Core.Aggregates.Participations;
 
 // TODO: probably shoudl be a record
-public class Combination : DomainEntity
+public class Combination : AggregateRoot
 {
     decimal _distance;
 

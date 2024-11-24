@@ -4,7 +4,7 @@ using Not.Injection;
 namespace Not.Application.CRUD.Ports;
 
 public interface IUpdate<T> : ITransient
-    where T : DomainEntity
+    where T : AggregateRoot
 {
     Task Update(T entity);
 }

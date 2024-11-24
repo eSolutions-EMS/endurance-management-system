@@ -1,8 +1,8 @@
 ﻿using NTS.Compatibility.EMS.Entities.LapRecords;
 using NTS.Compatibility.EMS.Entities.Participants;
 using NTS.Compatibility.EMS.Entities.Results;
-using NTS.Domain.Core.Entities;
-using NTS.Domain.Core.Entities.ParticipationAggregate;
+using NTS.Domain.Core.Aggregates.Participations;
+using NTS.Domain.Core.Aggregates;
 using NTS.Domain.Objects;
 using NTS.Judge.ACL.Bridge;
 using EmsCompetition = NTS.Compatibility.EMS.Entities.Competitions.EmsCompetition;

@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
 using Not.Domain.Base;
 
-namespace NTS.Domain.Setup.Entities;
+namespace NTS.Domain.Setup.Aggregates;
 
-public class Combination : DomainEntity, IParent, IAggregateRoot
+public class Combination : AggregateRoot, IParent, IAggregateRoot
 {
     public static Combination Create(int number, Athlete? athlete, Horse? horse, Tag? tag)
     {

@@ -1,6 +1,6 @@
 ﻿using Not.Application.Behinds.Adapters;
 using Not.Application.CRUD.Ports;
-using NTS.Domain.Core.Entities;
+using NTS.Domain.Core.Aggregates;
 using NTS.Domain.Core.Objects;
 using NTS.Judge.Blazor.Core.Startlists.History;
 using NTS.Judge.Blazor.Core.Startlists.Upcoming;

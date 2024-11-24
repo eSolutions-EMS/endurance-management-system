@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
 using Not.Domain.Base;
 
-namespace NTS.Domain.Core.Entities;
+namespace NTS.Domain.Core.Aggregates;
 
-public class Official : DomainEntity, IAggregateRoot
+public class Official : AggregateRoot, IAggregateRoot
 {
     [JsonConstructor]
     Official(int id, Person? person, OfficialRole? role)

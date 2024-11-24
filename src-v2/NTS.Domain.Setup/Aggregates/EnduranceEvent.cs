@@ -3,9 +3,9 @@ using Not.Domain.Base;
 using Not.Domain.Exceptions;
 using NTS.Domain.Extensions;
 
-namespace NTS.Domain.Setup.Entities;
+namespace NTS.Domain.Setup.Aggregates;
 
-public class EnduranceEvent : DomainEntity, IParent<Official>, IParent<Competition>, IAggregateRoot
+public class EnduranceEvent : AggregateRoot, IParent<Official>, IParent<Competition>, IAggregateRoot
 {
     public static EnduranceEvent Create(string? place, Country? country)
     {

@@ -1,4 +1,4 @@
-﻿using NTS.Domain.Core.Entities.ParticipationAggregate;
+﻿using NTS.Domain.Core.Aggregates.Participations;
 
 namespace NTS.Judge.Blazor.Core.Handouts.Form;
 public interface ICreateHandout

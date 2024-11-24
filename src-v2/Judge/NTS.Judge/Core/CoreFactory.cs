@@ -1,15 +1,14 @@
 ﻿using Not.Application.CRUD.Ports;
-using Not.Domain;
 using Not.Domain.Exceptions;
-using NTS.Domain.Core.Entities;
-using NTS.Domain.Core.Entities.ParticipationAggregate;
+using NTS.Domain.Core.Aggregates;
+using NTS.Domain.Core.Aggregates.Participations;
 using NTS.Domain.Enums;
 
 namespace NTS.Judge.Core;
 
 public class CoreFactory
 {
-    public static EnduranceEvent CreateEvent(Domain.Setup.Entities.EnduranceEvent setupEvent)
+    public static EnduranceEvent CreateEvent(Domain.Setup.Aggregates.EnduranceEvent setupEvent)
     {
         if (!setupEvent.Competitions.Any())
         {
@@ -33,7 +32,7 @@ public class CoreFactory
         return enduranceEvent;
     }
 
-    public static Official CreateOfficial(Domain.Setup.Entities.Official official)
+    public static Official CreateOfficial(Domain.Setup.Aggregates.Official official)
     {
         var coreOfficial = new Official(official.Person, official.Role);
         return coreOfficial;
@@ -43,7 +42,7 @@ public class CoreFactory
         List<Participation> Participations,
         Dictionary<AthleteCategory, List<RankingEntry>> RankingEntriesByCategory
     )> CreateParticipationAndRankingEntriesAsync(
-        Domain.Setup.Entities.Competition setupCompetition,
+        Domain.Setup.Aggregates.Competition setupCompetition,
         IRepository<Participation> participationRepository
     )
     {

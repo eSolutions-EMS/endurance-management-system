@@ -1,7 +1,7 @@
 ﻿using NTS.Compatibility.EMS.Entities.Athletes;
 using NTS.Compatibility.EMS.Entities.Countries;
 using NTS.Compatibility.EMS.Enums;
-using NTS.Domain.Core.Entities;
+using NTS.Domain.Core.Aggregates;
 using NTS.Judge.ACL.Models;
 
 namespace NTS.Judge.ACL.Factories;
