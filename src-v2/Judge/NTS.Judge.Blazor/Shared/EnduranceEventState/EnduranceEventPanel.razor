@@ -17,19 +17,19 @@
 
 @code {
     [Inject]
-    private IDashboardBehind DashboardBehind { get; set; } = default!;
+    private ICoreBehind CoreBehind { get; set; } = default!;
     bool _enduranceEventStarted;
 
     protected override async Task OnInitializedAsync()
     {
-        _enduranceEventStarted = await DashboardBehind.IsEnduranceEventStarted();
+        _enduranceEventStarted = await CoreBehind.IsStarted();
     }
 
     public async void Start()
     {
         // TODO make sure that DashboardPage, RanklistPage and HandoutsPage rerender if active
-        await DashboardBehind.Start();
-        _enduranceEventStarted = await DashboardBehind.IsEnduranceEventStarted();
+        await CoreBehind.Start();
+        _enduranceEventStarted = await CoreBehind.IsStarted();
         await InvokeAsync(StateHasChanged);
     }
 }
