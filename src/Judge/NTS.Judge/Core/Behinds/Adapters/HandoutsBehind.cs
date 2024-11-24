@@ -40,7 +40,10 @@ public class HandoutsBehind : ObservableListBehind<HandoutDocument>, IHandoutsBe
         var handouts = await _handoutRepository.ReadAll();
         var enduranceEvent = await _events.Read(0);
         var officials = await _officials.ReadAll();
-        GuardHelper.ThrowIfDefault(enduranceEvent);
+        if (enduranceEvent == null)
+        {
+            return false;
+        }
 
         var documents = handouts.Select(handout => new HandoutDocument(
             handout,
@@ -48,7 +51,6 @@ public class HandoutsBehind : ObservableListBehind<HandoutDocument>, IHandoutsBe
             officials
         ));
         ObservableList.AddRange(documents);
-
         return true;
     }
 
