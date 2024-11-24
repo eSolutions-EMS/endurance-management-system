@@ -1,4 +1,6 @@
-﻿@using NTS.Judge.Blazor.Core.Ranklists
+﻿@using NTS.Judge.Blazor.Core.Rankings.Menu
+@using NTS.Judge.Blazor.Core.Rankings.Protocols
+@using NTS.Judge.Blazor.Core.Rankings.Ranklists
 
 @attribute [Route(RANKLIST_PAGE)]
 @inherits PrintableComponent
@@ -45,7 +47,7 @@
     bool _showProtocol;
 
     [Inject]
-    IRanklistBehind _behind { get; set; } = default!;
+    IRankingBehind _behind { get; set; } = default!;
 
     protected override async Task OnInitializedAsync()
     {

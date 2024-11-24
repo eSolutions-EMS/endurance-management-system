@@ -5,11 +5,11 @@ using Not.Safe;
 using NTS.Domain.Core.Entities;
 using NTS.Domain.Core.Objects;
 using NTS.Domain.Core.Objects.Payloads;
-using NTS.Judge.Blazor.Core.Ranklists;
+using NTS.Judge.Blazor.Core.Rankings;
 
 namespace NTS.Judge.Core.Behinds.Adapters;
 
-public class RanklistBehind : ObservableBehind, IRanklistBehind
+public class RanklistBehind : ObservableBehind, IRankingBehind
 {
     readonly IRepository<Ranking> _rankings;
 

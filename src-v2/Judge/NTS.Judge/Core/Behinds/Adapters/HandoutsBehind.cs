@@ -8,6 +8,7 @@ using NTS.Domain.Core.Entities.ParticipationAggregate;
 using NTS.Domain.Core.Objects.Documents;
 using NTS.Domain.Core.Objects.Payloads;
 using NTS.Judge.Blazor.Core.Handouts;
+using NTS.Judge.Blazor.Core.Handouts.Form;
 
 namespace NTS.Judge.Core.Behinds.Adapters;
 

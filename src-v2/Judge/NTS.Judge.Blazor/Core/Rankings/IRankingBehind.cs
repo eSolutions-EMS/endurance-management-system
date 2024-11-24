@@ -3,9 +3,9 @@ using Not.Injection;
 using NTS.Domain.Core.Entities;
 using NTS.Domain.Core.Objects;
 
-namespace NTS.Judge.Blazor.Core.Ranklists;
+namespace NTS.Judge.Blazor.Core.Rankings;
 
-public interface IRanklistBehind : IObservableBehind, ISingleton
+public interface IRankingBehind : IObservableBehind, ISingleton
 {
     Ranklist? Ranklist { get; }
     Task<IEnumerable<Ranking>> GetRankings();

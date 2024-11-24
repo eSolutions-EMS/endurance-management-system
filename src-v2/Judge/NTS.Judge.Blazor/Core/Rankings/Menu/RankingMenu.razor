@@ -28,7 +28,7 @@
     private List<(string Name, IOrderedEnumerable<Ranking> ranking)> _rankingsByDistance = [];
 
     [Inject]
-    public IRanklistBehind _behind { get; set; } = default!;
+    public IRankingBehind _behind { get; set; } = default!;
 
     protected override async Task OnInitializedAsync()
     {

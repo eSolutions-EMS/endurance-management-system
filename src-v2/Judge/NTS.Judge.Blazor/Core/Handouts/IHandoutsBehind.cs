@@ -12,8 +12,3 @@ public interface IHandoutsBehind : IStartupInitializer, IObservableBehind, ISing
     Task Delete(IEnumerable<HandoutDocument> documents);
 }
 
-public interface ICreateHandout
-{
-    Task Create(int number);
-    Task<IEnumerable<Combination>> GetCombinations();
-}
