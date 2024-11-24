@@ -74,7 +74,8 @@ public class Participation : DomainEntity, IAggregateRoot
         return result;
     }
 
-    public SnapshotResult Process(Snapshot snapshot)
+    //TODO rename to smthing better (including ISnapshotProcessor, IManualProcessor and other mentions..)
+    public SnapshotResult Process(Snapshot snapshot) 
     {
         if (Eliminated != null)
         {
