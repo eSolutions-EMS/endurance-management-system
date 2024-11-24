@@ -8,11 +8,11 @@ public abstract class EliminationForm : NComponent
     internal abstract Task Eliminate();
 
     [Inject]
-    protected IParticipationBehind ParticipationBehind { get; set; } = default!;
-    public bool IsEliminated => ParticipationBehind.SelectedParticipation?.Eliminated != null;
+    protected IEliminationBehind EliminationBehind { get; set; } = default!;
+    public bool IsEliminated => EliminationBehind.SelectedParticipation?.Eliminated != null;
 
     internal async Task Restore()
     {
-        await ParticipationBehind.RestoreQualification();
+        await EliminationBehind.RestoreQualification();
     }
 }
