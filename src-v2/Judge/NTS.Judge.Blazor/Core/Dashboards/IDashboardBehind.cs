@@ -1,6 +1,6 @@
 ﻿using NTS.Domain.Core.Entities;
 
-namespace NTS.Judge.Blazor.Core.Ports;
+namespace NTS.Judge.Blazor.Core.Dashboards;
 
 public interface IDashboardBehind : IParticipationContext
 {

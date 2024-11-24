@@ -1,7 +1,7 @@
 ﻿using Not.Injection;
 using NTS.Domain.Objects;
 
-namespace NTS.Judge.Blazor.Core.Ports;
+namespace NTS.Judge.Blazor.Core.Dashboards.Actions.Snapshots;
 
 public interface IManualProcessor : ISingleton
 {

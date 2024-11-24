@@ -1,6 +1,6 @@
 using Not.Injection;
 
-namespace NTS.Judge.Blazor.Core.Ports;
+namespace NTS.Judge.Blazor.Shared.EnduranceEventState;
 
 public interface ICoreBehind : ITransient
 {

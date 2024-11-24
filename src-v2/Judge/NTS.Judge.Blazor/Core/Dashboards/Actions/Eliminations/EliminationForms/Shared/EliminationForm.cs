@@ -1,7 +1,5 @@
 ﻿using Not.Blazor.Components;
-using NTS.Judge.Blazor.Core.Ports;
-
-namespace NTS.Judge.Blazor.Core.Dashboards.Actions.EliminationForms.Shared;
+namespace NTS.Judge.Blazor.Core.Dashboards.Actions.Eliminations.EliminationForms.Shared;
 
 public abstract class EliminationForm : NComponent
 {

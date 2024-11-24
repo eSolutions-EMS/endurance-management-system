@@ -1,11 +1,13 @@
 ﻿@using System.Collections
+@using NTS.Judge.Blazor.Core.Startlists.History
+@using NTS.Judge.Blazor.Core.Startlists.Upcoming
 
 @attribute [Route(STARTLIST_PAGE)]
 @inherits NComponent
 
 <NContent Title="Startlist">
     <Main>
-        <StartlistUpcoming/>
-        <StartlistHistory/>
+        <StartlistUpcoming />
+        <StartlistHistory />
     </Main>
 </NContent>

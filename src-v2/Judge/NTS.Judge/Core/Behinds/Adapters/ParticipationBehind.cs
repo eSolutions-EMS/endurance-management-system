@@ -7,7 +7,10 @@ using NTS.Domain.Core.Entities;
 using NTS.Domain.Core.Entities.ParticipationAggregate;
 using NTS.Domain.Enums;
 using NTS.Domain.Objects;
-using NTS.Judge.Blazor.Core.Ports;
+using NTS.Judge.Blazor.Core.Dashboards;
+using NTS.Judge.Blazor.Core.Dashboards.Actions.Eliminations;
+using NTS.Judge.Blazor.Core.Dashboards.Actions.Inspections;
+using NTS.Judge.Blazor.Core.Dashboards.Actions.Snapshots;
 using NTS.Judge.Blazor.Pages.Dashboard.Phases;
 
 namespace NTS.Judge.Core.Behinds.Adapters;

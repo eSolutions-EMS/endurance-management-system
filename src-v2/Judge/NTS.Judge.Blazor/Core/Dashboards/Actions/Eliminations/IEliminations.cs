@@ -1,6 +1,6 @@
 using NTS.Domain.Core.Entities.ParticipationAggregate;
 
-namespace NTS.Judge.Blazor.Core.Ports;
+namespace NTS.Judge.Blazor.Core.Dashboards.Actions.Eliminations;
 
 public interface IEliminations : IParticipationContext
 {

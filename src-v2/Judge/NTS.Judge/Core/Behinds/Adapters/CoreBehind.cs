@@ -5,7 +5,7 @@ using NTS.Domain.Core.Entities;
 using NTS.Domain.Core.Entities.ParticipationAggregate;
 using NTS.Domain.Enums;
 using NTS.Judge.ACL.Adapters;
-using NTS.Judge.Blazor.Core.Ports;
+using NTS.Judge.Blazor.Shared.EnduranceEventState;
 
 namespace NTS.Judge.Core.Behinds.Adapters;
 

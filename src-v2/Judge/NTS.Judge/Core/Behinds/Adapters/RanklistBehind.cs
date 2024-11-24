@@ -5,7 +5,7 @@ using Not.Safe;
 using NTS.Domain.Core.Entities;
 using NTS.Domain.Core.Objects;
 using NTS.Domain.Core.Objects.Payloads;
-using NTS.Judge.Blazor.Core.Ports;
+using NTS.Judge.Blazor.Core.Ranklists;
 
 namespace NTS.Judge.Core.Behinds.Adapters;
 

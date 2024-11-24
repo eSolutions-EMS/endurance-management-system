@@ -11,7 +11,7 @@ using NTS.Domain.Core.Entities;
 using NTS.Domain.Core.Objects.Payloads;
 using NTS.Domain.Objects;
 using NTS.Judge.ACL.Factories;
-using NTS.Judge.Blazor.Core.Ports;
+using NTS.Judge.Core;
 using NTS.Judge.Core.Ports;
 
 namespace NTS.Judge.MAUI.Server.ACL;

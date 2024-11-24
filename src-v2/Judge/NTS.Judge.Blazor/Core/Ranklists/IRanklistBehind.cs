@@ -3,7 +3,7 @@ using Not.Injection;
 using NTS.Domain.Core.Entities;
 using NTS.Domain.Core.Objects;
 
-namespace NTS.Judge.Blazor.Core.Ports;
+namespace NTS.Judge.Blazor.Core.Ranklists;
 
 public interface IRanklistBehind : IObservableBehind, ISingleton
 {

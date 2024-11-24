@@ -1,4 +1,4 @@
-﻿namespace NTS.Judge.Blazor.Core.Ports;
+﻿namespace NTS.Judge.Blazor.Core.Dashboards.Actions.Inspections;
 
 public interface IInspections : IParticipationContext
 {

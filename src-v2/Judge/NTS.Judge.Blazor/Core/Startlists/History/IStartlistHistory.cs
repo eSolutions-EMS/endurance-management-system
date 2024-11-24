@@ -2,7 +2,7 @@
 using Not.Injection;
 using NTS.Domain.Core.Objects;
 
-namespace NTS.Judge.Blazor.Core.Ports;
+namespace NTS.Judge.Blazor.Core.Startlists.History;
 
 public interface IStartlistHistory : IObservableBehind, ISingleton
 {
