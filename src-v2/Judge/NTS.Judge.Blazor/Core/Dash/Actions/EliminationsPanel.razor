@@ -48,7 +48,7 @@
 
 @code {
     [Inject]
-    ISelectedParticipationBehind _participationBehind { get; set; } = default!;
+    IParticipationContext _participationBehind { get; set; } = default!;
 
     Eliminated? _eliminated => _participationBehind.SelectedParticipation?.Eliminated;
     string? _toggleValue

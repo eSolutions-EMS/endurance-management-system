@@ -14,7 +14,7 @@ namespace NTS.Judge.Core.Behinds.Adapters;
 
 public class ParticipationBehind
     : ObservableBehind,
-        ISelectedParticipationBehind,
+        IParticipationContext,
         IInspectionsBehind,
         IEliminationBehind,
         IDashboardBehind,

@@ -3,7 +3,7 @@ using NTS.Domain.Core.Entities;
 
 namespace NTS.Judge.Blazor.Core.Ports;
 
-public interface ISelectedParticipationBehind : IObservableBehind
+public interface IParticipationContext : IObservableBehind
 {
     Participation? SelectedParticipation { get; set; }
 }
