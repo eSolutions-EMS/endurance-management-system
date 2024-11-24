@@ -1,5 +1,5 @@
 ﻿@using NTS.Domain.Core.Entities.ParticipationAggregate
-@using NTS.Judge.Blazor.Core.Dash.Actions.EliminationForms.Shared
+@using NTS.Judge.Blazor.Core.Dashboards.Actions.EliminationForms.Shared
 
 @inherits EliminationForm
 
@@ -9,10 +9,10 @@
 
 @code {
     [Parameter]
-    public Retired? Retired { get; set; }
+    public Withdrawn? Withdrawn { get; set; } = default!;
 
     internal override async Task Eliminate()
     {
-        await Eliminations.Retire();
+        await Eliminations.Withdraw();
     }
 }

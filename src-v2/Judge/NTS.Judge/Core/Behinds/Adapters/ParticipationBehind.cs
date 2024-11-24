@@ -12,11 +12,12 @@ using NTS.Judge.Blazor.Pages.Dashboard.Phases;
 
 namespace NTS.Judge.Core.Behinds.Adapters;
 
-public class DashboardBehind
+public class ParticipationBehind
     : ObservableBehind,
+        IParticipationContext,
+        IInspections,
+        IEliminations,
         IDashboardBehind,
-        IInspectionsBehind,
-        IEliminationsBehind,
         IUpdateBehind<PhaseUpdateModel>,
         ISnapshotProcessor,
         IManualProcessor
@@ -26,7 +27,7 @@ public class DashboardBehind
     readonly IRepository<SnapshotResult> _snapshotResultRepository;
     Participation? _selectedParticipation;
 
-    public DashboardBehind(
+    public ParticipationBehind(
         IRepository<Participation> participationRepository,
         IRepository<SnapshotResult> snapshotResultRepository
     )

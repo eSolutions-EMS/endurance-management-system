@@ -12,7 +12,7 @@
 
 @code {
     [Inject]
-    IInspectionsBehind Inspections { get; set; } = default!;
+    IInspections Inspections { get; set; } = default!;
 
     Participation? _selectedParticipation => Inspections.SelectedParticipation;
     Phase? _currentPhase => _selectedParticipation?.Phases.Current;
