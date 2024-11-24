@@ -26,15 +26,13 @@ public abstract class ObservableBehind : IObservableBehind
 
     public async Task Initialize(params IEnumerable<object> arguments)
     {
-        // TODO: move locking at start because currently concurrent executions can occur simulaneously. Then test
-        if (_isInitialized)
-        {
-            return;
-        }
-
         try
         {
             await _semaphore.WaitAsync();
+            if (_isInitialized)
+            {
+                return;
+            }         
             _isInitialized = await SafeHelper.Run(() => PerformInitialization(arguments));
         }
         finally
