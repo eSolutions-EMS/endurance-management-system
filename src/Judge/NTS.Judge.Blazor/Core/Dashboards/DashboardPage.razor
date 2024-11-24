@@ -9,7 +9,7 @@
 @attribute [Route(DASHBOARD_PAGE)]
 @inherits NComponent
 
-<NContent Title="Dashboard" HasContent="_isStarted" EmptyMessage="Event isn't started">
+<NContent Title="Dashboard" HasContent="CoreBehind.IsStarted" EmptyMessage="Event isn't started">
     
     <EmptyContent>
         <InputFile OnChange="ImportEmsData" />
@@ -26,15 +26,8 @@
 </NContent>
 
 @code {
-    bool _isStarted;
-
     [Inject]
     ICoreBehind CoreBehind { get; set; } = default!;
-
-    protected override async Task OnInitializedAsync()
-    {
-        _isStarted = await CoreBehind.IsStarted();
-    }
 
     async Task ImportEmsData(InputFileChangeEventArgs args)
     {
@@ -46,5 +39,6 @@
             return;
         }
         await CoreBehind.Import(contents);
+        @* await Render(); *@
     }
 }

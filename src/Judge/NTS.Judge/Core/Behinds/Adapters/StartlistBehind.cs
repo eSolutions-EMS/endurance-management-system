@@ -1,7 +1,7 @@
 ﻿using Not.Application.Behinds.Adapters;
 using Not.Application.CRUD.Ports;
 using NTS.Domain.Core.Aggregates;
-using NTS.Domain.Core.Objects;
+using NTS.Domain.Core.Objects.Startlists;
 using NTS.Judge.Blazor.Core.Startlists.History;
 using NTS.Judge.Blazor.Core.Startlists.Upcoming;
 
@@ -17,8 +17,8 @@ public class StartlistBehind : ObservableBehind, IStartlistUpcoming, IStartlistH
         _participationRepository = participationRepository;
     }
 
-    public IReadOnlyList<Start> Upcoming => _startlist?.Upcoming ?? [];
-    public IReadOnlyList<Start> History => _startlist?.History ?? [];
+    public IReadOnlyList<StartlistEntry> Upcoming => _startlist?.Upcoming ?? [];
+    public IReadOnlyList<StartlistEntry> History => _startlist?.History ?? [];
 
     protected override async Task<bool> PerformInitialization(params IEnumerable<object> arguments)
     {

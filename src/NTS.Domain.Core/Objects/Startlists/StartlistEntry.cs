@@ -2,11 +2,11 @@
 using Not.Localization;
 using NTS.Domain.Core.Aggregates;
 
-namespace NTS.Domain.Core.Objects;
+namespace NTS.Domain.Core.Objects.Startlists;
 
-public record Start : DomainObject
+public record StartlistEntry : DomainObject
 {
-    public Start(
+    public StartlistEntry(
         Person athlete,
         int number,
         int loopNumber,
@@ -21,7 +21,7 @@ public record Start : DomainObject
         Time = startAt;
     }
 
-    public Start(Participation participation)
+    public StartlistEntry(Participation participation)
     {
         Athlete = participation.Combination.Name;
         Number = participation.Combination.Number;

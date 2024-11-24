@@ -1,47 +1,17 @@
-﻿using Not.Application.CRUD.Ports;
+using Not.Application.CRUD.Ports;
 using Not.Domain.Exceptions;
 using NTS.Domain.Core.Aggregates;
 using NTS.Domain.Core.Aggregates.Participations;
 using NTS.Domain.Enums;
 
-namespace NTS.Judge.Core;
+namespace NTS.Judge.Core.Start.Factories;
 
-public class CoreFactory
+public static class ParticipationAndRankingrFactory
 {
-    public static EnduranceEvent CreateEvent(Domain.Setup.Aggregates.EnduranceEvent setupEvent)
-    {
-        if (!setupEvent.Competitions.Any())
-        {
-            throw new DomainException("Cannot start - Competitions aren't configured");
-        }
-        var competitionStartTimes = setupEvent.Competitions.Select(x => x.Start);
-        var startDate = competitionStartTimes.First();
-        var endDate = competitionStartTimes.Last();
-
-        // TODO: fix city and pla
-        var enduranceEvent = new EnduranceEvent(
-            setupEvent.Country,
-            setupEvent.Place,
-            "",
-            startDate,
-            endDate,
-            null,
-            null,
-            null
-        );
-        return enduranceEvent;
-    }
-
-    public static Official CreateOfficial(Domain.Setup.Aggregates.Official official)
-    {
-        var coreOfficial = new Official(official.Person, official.Role);
-        return coreOfficial;
-    }
-
     public static async Task<(
         List<Participation> Participations,
         Dictionary<AthleteCategory, List<RankingEntry>> RankingEntriesByCategory
-    )> CreateParticipationAndRankingEntriesAsync(
+    )> Create(
         Domain.Setup.Aggregates.Competition setupCompetition,
         IRepository<Participation> participationRepository
     )
@@ -129,15 +99,5 @@ public class CoreFactory
             }
         }
         return (participations, rankingEntriesByCategory);
-    }
-
-    public static Ranking CreateRanking(
-        Competition competition,
-        AthleteCategory athleteCategory,
-        IEnumerable<RankingEntry> rankingEntries
-    )
-    {
-        var ranking = new Ranking(competition, athleteCategory, rankingEntries);
-        return ranking;
     }
 }

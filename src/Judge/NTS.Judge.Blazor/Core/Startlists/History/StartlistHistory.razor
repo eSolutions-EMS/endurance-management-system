@@ -1,4 +1,4 @@
-﻿@using NTS.Domain.Core.Objects
+﻿@using NTS.Domain.Core.Objects.Startlists
 @using NTS.Domain.Setup.Aggregates
 @using Not.Blazor.Components
 
@@ -12,7 +12,7 @@ istTabs
         @foreach (var tabHeader in StartlistsByStage.Keys)
         {
             <MudTabPanel Text="@tabHeader">
-                <NSimpleTable T="Start" Headings="TableHeaders" Items="StartlistsByStage[tabHeader]" />
+                <NSimpleTable T="StartlistEntry" Headings="TableHeaders" Items="StartlistsByStage[tabHeader]" />
             </MudTabPanel>
         }
     </MudTabs>

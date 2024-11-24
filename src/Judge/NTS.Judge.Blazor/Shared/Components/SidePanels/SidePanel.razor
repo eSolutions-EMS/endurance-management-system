@@ -3,30 +3,24 @@
 @inherits NComponent
 
 <MudStack Class="ma-6">
-    @if (!_enduranceEventStarted)
+    @if (!CoreBehind.IsStarted)
     {
         <NButtonPrimary OnClick="Start" Text="Start Endurance Event" />
     }
     else
     {
-        <RfidPanel EnduranceEventStarted="_enduranceEventStarted" />
+        <RfidPanel EnduranceEventStarted="CoreBehind.IsStarted" />
     }
 </MudStack>
 
 @code {
     [Inject]
-    private ICoreBehind CoreBehind { get; set; } = default!;
-    bool _enduranceEventStarted;
-
-    protected override async Task OnInitializedAsync()
-    {
-        _enduranceEventStarted = await CoreBehind.IsStarted();
-    }
+    ICoreBehind CoreBehind { get; set; } = default!;
 
     public async void Start()
     {
         // TODO make sure that DashboardPage, RanklistPage and HandoutsPage rerender if active
-        _enduranceEventStarted = await CoreBehind.Start();
-        await InvokeAsync(StateHasChanged);
+        await CoreBehind.Start();
+        await Render();
     }
 }

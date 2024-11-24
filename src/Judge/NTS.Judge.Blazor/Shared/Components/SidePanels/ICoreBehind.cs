@@ -2,9 +2,9 @@ using Not.Injection;
 
 namespace NTS.Judge.Blazor.Shared.Components.SidePanels;
 
-public interface ICoreBehind : ITransient
+public interface ICoreBehind : ISingleton
 {
-    Task<bool> IsStarted();
+    bool IsStarted { get; }
     Task Import(string contents);
     Task<bool> Start();
 }

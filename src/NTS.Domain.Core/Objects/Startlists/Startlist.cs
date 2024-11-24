@@ -1,13 +1,13 @@
 ﻿using NTS.Domain.Core.Aggregates;
 using NTS.Domain.Core.Objects.Payloads;
 
-namespace NTS.Domain.Core.Objects;
+namespace NTS.Domain.Core.Objects.Startlists;
 
 public class StartList
 {
     static readonly TimeSpan START_EXPIRY_TIME = TimeSpan.FromMinutes(15);
 
-    List<Start> _starts;
+    List<StartlistEntry> _starts;
 
     public StartList(IEnumerable<Participation> participations, Action action)
     {
@@ -25,7 +25,7 @@ public class StartList
                     }
                     var phaseIndex = phases.IndexOf(phase);
                     var phaseNumber = phaseIndex + 1;
-                    var start = new Start(
+                    var start = new StartlistEntry(
                         participation.Combination.Name,
                         participation.Combination.Number,
                         phaseNumber,
@@ -42,7 +42,7 @@ public class StartList
 
     Action ChangeHandler { get; set; }
 
-    public IReadOnlyList<Start> History
+    public IReadOnlyList<StartlistEntry> History
     {
         get
         {
@@ -51,7 +51,7 @@ public class StartList
         }
     }
 
-    public IReadOnlyList<Start> Upcoming
+    public IReadOnlyList<StartlistEntry> Upcoming
     {
         get
         {
@@ -69,7 +69,7 @@ public class StartList
 
     void PhaseCompletedHandler(PhaseCompleted phaseCompleted)
     {
-        var newStart = new Start(phaseCompleted.Participation);
+        var newStart = new StartlistEntry(phaseCompleted.Participation);
         _starts.Add(newStart);
         ChangeHandler();
     }
@@ -79,7 +79,7 @@ public class StartList
         return DateTimeOffset.Now.TimeOfDay;
     }
 
-    List<Start> OrderByTimeAndPhase(IEnumerable<Start> starts)
+    List<StartlistEntry> OrderByTimeAndPhase(IEnumerable<StartlistEntry> starts)
     {
         return starts.OrderBy(s => s.Time).ThenBy(s => s.PhaseNumber).ToList();
     }

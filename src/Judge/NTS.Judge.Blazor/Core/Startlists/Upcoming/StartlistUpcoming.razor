@@ -1,5 +1,6 @@
 ﻿@using NTS.Domain.Core.Objects
 @using System.Collections
+@using NTS.Domain.Core.Objects.Startlists
 @using Not.Extensions
 
 @inherits StartlistTabs
@@ -10,7 +11,7 @@
         @foreach (var tabHeader in StartlistsByStage.Keys)
         {
             <MudTabPanel Text="@tabHeader">
-                <NSimpleTable T="Start" Headings="@TableHeaders" Items="StartlistsByStage[tabHeader]">
+                <NSimpleTable T="StartlistEntry" Headings="@TableHeaders" Items="StartlistsByStage[tabHeader]">
                     <CustomCell>
                         <StartlistTimer StartTime="@context.Time" StopTimerAtTime="-15" />
                     </CustomCell>
