@@ -8,12 +8,7 @@
 <NContent Title="Configure Official">
 
     <Main>
-        <NUpdateContainer T="OfficialFormModel" TForm="OfficialForm" Model="_navigator.ConsumeParameter<OfficialFormModel>()" />
+        <NUpdateContainer T="OfficialFormModel" TForm="OfficialForm" Model="Navigator.ConsumeParameter<OfficialFormModel>()" />
     </Main>
 
 </NContent>
-
-@code {
-    [Inject]
-    private ICrumbsNavigator _navigator { get; set; } = default!;
-}

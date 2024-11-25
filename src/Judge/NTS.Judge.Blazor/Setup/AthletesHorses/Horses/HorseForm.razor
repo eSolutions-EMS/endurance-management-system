@@ -9,14 +9,3 @@
     <MudTextField @ref="_feiIdField" @bind-Value="Model.FeiId" Label="Fei Id" HelperText="@Localizer.Get(OPTIONAL_FEI_ID)"
         Variant="Variant.Text" Margin="Margin.Dense" />
 </EditForm>
-
-@code {
-    private MudTextField<string?> _feiIdField = default!;
-    private MudTextField<string?> _nameField = default!;
-
-    public override void RegisterValidationInjectors()
-    {
-        RegisterInjector(nameof(Horse.FeiId), () => _feiIdField);
-        RegisterInjector(nameof(Horse.Name), () => _nameField);
-    }
-}

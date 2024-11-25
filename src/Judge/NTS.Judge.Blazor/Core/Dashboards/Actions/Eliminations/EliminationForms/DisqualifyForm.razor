@@ -9,25 +9,3 @@
 
     <EliminationFormActions Form="this" />
 </MudPaper>
-
-@code {
-    string? Reason { get; set; }
-
-    [Parameter]
-    public Disqualified? Disqualified { get; set; }
-
-    protected override void OnParametersSet()
-    {
-        Reason = Disqualified?.Complement;
-    }
-
-    internal override async Task Eliminate()
-    {
-        if (Reason == null)
-        {
-            NotifyHelper.Warn("Reason is required");
-            return;
-        }
-        await Eliminations.Disqualify(Reason);
-    }
-}

@@ -4,8 +4,8 @@
 @using Not.Safe
     
 @inherits NComponent
-@typeparam T where T : new();
-@typeparam TForm where TForm : NForm<T>
+@typeparam T
+@typeparam TForm
 
 <MudDialog>
     <DialogContent>
@@ -16,36 +16,3 @@
         <NButtonUpdate OnClick="Update" />
     </DialogActions>
 </MudDialog>
-
-@code {
-    NDynamic<T, TForm>? _dynamicForm;
-
-    [Inject]
-    IUpdateBehind<T> _behind { get; set; } = default!;
-
-    [Parameter, EditorRequired]
-    public T Model { get; set; } = default!;
-    [CascadingParameter]
-    protected MudDialogInstance Dialog { get; set; } = default!;
-
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-    }
-
-    async Task Update()
-    {
-        await SafeHelper.Run(Submit, InjectValidation);
-    }
-
-    async Task Submit()
-    {
-        await _behind.Update(Model);
-        Dialog.Close(DialogResult.Ok(true));
-    }
-
-    async Task InjectValidation(DomainExceptionBase validation)
-    {
-        await _dynamicForm!.Instance.AddValidationError(validation.Property, validation.Message);
-    }
-}

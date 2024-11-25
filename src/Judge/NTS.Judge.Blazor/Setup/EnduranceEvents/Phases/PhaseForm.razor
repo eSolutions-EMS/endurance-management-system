@@ -12,26 +12,3 @@
 
     <MudNumericField @ref="_restField" @bind-Value="Model.Rest" Min="0" Label="Rest Duration" />
 </EditForm>
-
-@code {
-    NSelect<Loop> _loopField = default!;
-    MudNumericField<int> _recoveryField = default!;
-    MudNumericField<int?> _restField = default!;
-    List<NotListModel<Loop>> _loops = new();
-
-    [Inject]
-    IListBehind<Loop> _behind { get; set; } = default!;
-
-    protected async override Task OnInitializedAsync()
-    {
-        await Observe(_behind);
-        _loops = NotListModel.FromEntity<Loop>(_behind.Items).ToList();
-    }
-
-    public override void RegisterValidationInjectors()
-    {
-        RegisterInjector(nameof(Phase.Loop), () => _loopField);
-        RegisterInjector(nameof(Phase.Recovery), () => _recoveryField);
-        RegisterInjector(nameof(Phase.Rest), () => _restField); 
-    }
-}

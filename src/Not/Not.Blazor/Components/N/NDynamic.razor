@@ -2,8 +2,9 @@
 @using Not.Exceptions
 
 @namespace Not.Blazor.Components
+@inherits NComponent
 @typeparam T
-@typeparam TForm where TForm : NForm<T>
+@typeparam TForm
 
 @if (Model == null)
 {
@@ -14,40 +15,3 @@ else
 }
 
 <DynamicComponent Type="typeof(TForm)" @ref="_dynamicComponent" Parameters="_parameters" />
-
-@code {
-    DynamicComponent? _dynamicComponent;
-    Dictionary<string, object> _parameters = [];
-
-    [Parameter, EditorRequired]
-    public T Model { get; set; } = default!;
-
-    protected override void OnParametersSet()
-    {
-        if (Model == null)
-        {
-            return;
-        }
-        var key = nameof(NForm<T>.Model);
-        if (_parameters.ContainsKey(key))
-        {
-            _parameters[key] = Model;
-        }
-        else
-        {
-            _parameters.Add(key, Model);
-        }
-    }
-
-    internal TForm Instance
-    {
-        get
-        {
-            if (_dynamicComponent?.Instance == null)
-            {
-                throw GuardHelper.Exception($"Instance of '{typeof(TForm)}' is null");
-            }
-            return (TForm)_dynamicComponent.Instance;
-        }
-    }
-}

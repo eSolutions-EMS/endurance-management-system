@@ -7,12 +7,7 @@
 <NContent Title="Configure Horse">
 
     <Main>
-        <NUpdateContainer T="HorseFormModel" TForm="HorseForm" Model="_navigator.ConsumeParameter<HorseFormModel>()" />
+        <NUpdateContainer T="HorseFormModel" TForm="HorseForm" Model="Navigator.ConsumeParameter<HorseFormModel>()" />
     </Main>
 
 </NContent>
-
-@code{
-    [Inject]
-    ICrumbsNavigator _navigator { get; set; } = default!;
-}

@@ -44,27 +44,7 @@
     </MudMainContent>
 </MudLayout>
 
-@code {
-    private MudThemeProvider _themeProvider = default!;
-    private bool _hideLayout;
-    private bool _drawerOpen = true;
 
-    protected override void OnInitialized()
-    {
-        PrintableComponent.OnToggle(ToggleLayoutVisibility);
-    }
-
-    void ToggleDrawer()
-    {
-        this._drawerOpen = !this._drawerOpen;
-    }
-
-    async void ToggleLayoutVisibility()
-    {
-        _hideLayout = !_hideLayout;
-        await InvokeAsync(StateHasChanged);
-    }
-}
 
 <style>
     .not-mid-width {

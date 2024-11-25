@@ -16,20 +16,4 @@
 <p>Kaji neshto</p>
 <MudButton @onclick="_ => this.SayPolite()">Polite</MudButton>
 <MudButton @onclick="_ => this.LocalizationTestService.Rude()">Rude</MudButton>
-<p>@this.polite</p>
-
-@code {
-    private string polite = "";
-
-    protected async Task ChangeCulture(string name)
-    {
-        CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo(name);
-        await this.InvokeAsync(this.StateHasChanged);
-    }
-
-    protected async Task SayPolite()
-    {
-        this.polite = this.StringLocalizer[this.LocalizationTestService.Polite()];
-        await this.InvokeAsync(this.StateHasChanged);
-    }
-}
+<p>@this._polite</p>

@@ -10,26 +10,3 @@
 
     <EliminationFormActions Form="this" />
 </MudPaper>
-
-@code {
-    string? _reason;
-
-    [Parameter]
-    public FinishedNotRanked? FinishedNotRanked { get; set; } = default!;
-
-    protected override void OnParametersSet()
-    {
-        _reason = FinishedNotRanked?.Complement;
-    }
-
-    internal override async Task Eliminate()
-    {
-        if (_reason == null)
-        {
-            NotifyHelper.Warn("Reason is required");
-            return;
-        }
-
-        await Eliminations.FinishNotRanked(_reason);
-    }
-}

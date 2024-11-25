@@ -4,11 +4,11 @@
 @inherits NComponent;
 
 @* //TODO: probably extract this chipset into NotChipGroup component or something similar. Also used in DashboardComponent *@
-@if (_behind.Ranklist != null)
+@if (Behind.Ranklist != null)
 {
     <MudChipSet T="int" 
-        SelectedValue="_behind.Ranklist.RankingId" 
-        SelectedValueChanged="_behind.SelectRanking" 
+        SelectedValue="Behind.Ranklist.RankingId" 
+        SelectedValueChanged="Behind.SelectRanking" 
         Class="@Class" 
         Style="@Style">
 
@@ -21,27 +21,4 @@
             }
         }
     </MudChipSet>
-}
-
-
-@code {
-    private List<(string Name, IOrderedEnumerable<Ranking> ranking)> _rankingsByDistance = [];
-
-    [Inject]
-    public IRankingBehind _behind { get; set; } = default!;
-
-    protected override async Task OnInitializedAsync()
-    {
-        await Observe(_behind);
-
-        var rankings = await _behind.GetRankings();
-        // TODO: this is too complicated, probably should be in the behind or better yet in the Domain Model
-        _rankingsByDistance = rankings
-            .GroupBy(x => x.Name)
-            .Select(x => (
-                x.Key, 
-                x.Where(x => x.Entries.Any()).OrderBy(x => x.Category)
-            ))
-            .ToList();
-    }
 }

@@ -11,16 +11,3 @@
 
     <NSelect @ref="_roleField" Items="_roles" @bind-Value="Model.Role" Label="Official Role" Placeholder="Select a role"/>
 </EditForm>
-
-@code {
-    private MudTextField<string?> _nameField = default!;
-    private NSelect<OfficialRole> _roleField = default!;
-
-    private List<NotListModel<OfficialRole>> _roles = NotListModel.FromEnum<OfficialRole>().ToList();
-
-    public override void RegisterValidationInjectors()
-    {
-        RegisterInjector(nameof(Official.Person), () => _nameField);
-        RegisterInjector(nameof(Official.Role), () => _roleField);
-    }
-}

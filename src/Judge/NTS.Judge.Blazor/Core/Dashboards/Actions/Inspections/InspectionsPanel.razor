@@ -4,32 +4,7 @@
 @inherits NComponent
 
 <MudStack Class="@Class">
-    <NSwitch Label="Representation" Value="_represent" ValueChanged="ToggleReinspection" />
+    <NSwitch Label="Representation" Value="Represent" ValueChanged="ToggleReinspection" />
 
-    <NSwitch Label="Required Inspection" Value="_requireInspection" ValueChanged="ToggleRequiredInspection" />
+    <NSwitch Label="Required Inspection" Value="RequireInspection" ValueChanged="ToggleRequiredInspection" />
 </MudStack>
-
-@code {
-    [Inject]
-    IInspections Inspections { get; set; } = default!;
-
-    Participation? _selectedParticipation => Inspections.SelectedParticipation;
-    Phase? _currentPhase => _selectedParticipation?.Phases.Current;
-    bool _represent => _currentPhase?.IsReinspectionRequested ?? false;
-    bool _requireInspection => _currentPhase?.IsRequiredInspectionRequested ?? false;
-
-    protected override async Task OnInitializedAsync()
-    {
-        await Observe(Inspections);
-    }
-
-    async Task ToggleReinspection(bool value)
-    {
-        await Inspections.RequestRepresent(value);
-    }
-
-    async Task ToggleRequiredInspection(bool value)
-    {
-        await Inspections.RequireInspection(value);
-    }
-}

@@ -19,13 +19,3 @@
         <MudNavLink Href="/localization-demo" Match="NavLinkMatch.Prefix">Localization</MudNavLink>
     </MudNavGroup>
 </MudNavMenu>
-
-@code {
-    [Inject]
-    ILandNavigator _landNavigator { get; set; } = default!;
-
-    protected override void OnInitialized()
-    {
-        _landNavigator.Initialize(ENDURANCE_EVENT_PAGE);
-    }
-}

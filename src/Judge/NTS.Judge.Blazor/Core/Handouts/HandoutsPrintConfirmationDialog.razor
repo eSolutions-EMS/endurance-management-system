@@ -12,18 +12,3 @@
         <NButtonSecondary Text="Cancel" OnClick="Cancel" />
     </DialogActions>
 </MudDialog>
-
-@code {
-    [CascadingParameter]
-    MudDialogInstance _mudDialog { get; set; } = default!;
-
-    void Confirm()
-    {
-        _mudDialog.Close(DialogResult.Ok(true));
-    }
-
-    void Cancel()
-    {
-        _mudDialog.Cancel();
-    }
-}

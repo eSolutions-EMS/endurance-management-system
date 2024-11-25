@@ -12,18 +12,3 @@
         <RfidPanel EnduranceEventStarted="CoreBehind.IsStarted" />
     }
 </MudStack>
-
-@code {
-    [Inject]
-    ICoreBehind CoreBehind { get; set; } = default!;
-
-    protected override async Task OnInitializedAsync()
-    {
-        await Observe(CoreBehind);
-    }
-
-    public async void Start()
-    {
-        await CoreBehind.Start();
-    }
-}

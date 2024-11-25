@@ -7,7 +7,7 @@
 <MudStack Class="@Class">
 
     <MudPaper Elevation="1">
-        <MudToggleGroup @bind-Value="_toggleValue" Delimiters="true" Color="Color.Error" SelectionMode="SelectionMode.ToggleSelection">
+        <MudToggleGroup @bind-Value="ToggleValue" Delimiters="true" Color="Color.Error" SelectionMode="SelectionMode.ToggleSelection">
 
             <MudToggleItem Value="Eliminated.WITHDRAWN" />
 
@@ -20,55 +20,27 @@
             <MudToggleItem Value="Eliminated.FAILED_TO_QUALIFY" />
         </MudToggleGroup>
 
-        <MudCollapse Expanded="_toggleValue != null">
-            @if (_toggleValue == Eliminated.WITHDRAWN)
+        <MudCollapse Expanded="ToggleValue != null">
+            @if (ToggleValue == Eliminated.WITHDRAWN)
             {
-                <WithdrawForm Withdrawn="_eliminated as Withdrawn" />
+                <WithdrawForm Withdrawn="Eliminated as Withdrawn" />
             }
-            else if (_toggleValue == Eliminated.RETIRED)
+            else if (ToggleValue == Eliminated.RETIRED)
             {
-                <RetireForm Retired="_eliminated as Retired" />
+                <RetireForm Retired="Eliminated as Retired" />
             }
-            else if (_toggleValue == Eliminated.FINISHED_NOT_RANKED)
+            else if (ToggleValue == Eliminated.FINISHED_NOT_RANKED)
             {
-                <FinishNotRankedForm FinishedNotRanked="_eliminated as FinishedNotRanked" />
+                <FinishNotRankedForm FinishedNotRanked="Eliminated as FinishedNotRanked" />
             }
-            else if (_toggleValue == Eliminated.DISQUALIFIED)
+            else if (ToggleValue == Eliminated.DISQUALIFIED)
             {
-                <DisqualifyForm Disqualified="_eliminated as Disqualified" />
+                <DisqualifyForm Disqualified="Eliminated as Disqualified" />
             }
-            else if (_toggleValue == Eliminated.FAILED_TO_QUALIFY)
+            else if (ToggleValue == Eliminated.FAILED_TO_QUALIFY)
             {
-                <FailedToQualifyForm FailedToQualify="_eliminated as FailedToQualify" />
+                <FailedToQualifyForm FailedToQualify="Eliminated as FailedToQualify" />
             }
         </MudCollapse>
     </MudPaper>
 </MudStack>
-
-@code {
-    [Inject]
-    IParticipationContext ParticipationContext { get; set; } = default!;
-
-    Eliminated? _eliminated => ParticipationContext.SelectedParticipation?.Eliminated;
-    string? _toggleValue
-    {
-        get => _inputValue != null ? _inputValue : _eliminated?.Code;
-        set => _inputValue = value; 
-    }
-    string? _inputValue;
-
-    protected override async Task OnInitializedAsync()
-    {
-        await Observe(ParticipationContext);
-    }
-
-    protected override void OnBeforeRender()
-    {
-        ResetInput();
-    }
-
-    void ResetInput()
-    {
-        _inputValue = null;
-    }
-}

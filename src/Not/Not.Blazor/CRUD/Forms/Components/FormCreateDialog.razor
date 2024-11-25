@@ -1,9 +1,7 @@
 ﻿@using Not.Blazor.CRUD.Forms.Components
 @using Not.Blazor.CRUD.Ports
-
 @using Not.Safe
 @using Not.Blazor.Components;
-
     
 @inherits NComponent
 @typeparam T where T : new()
@@ -18,29 +16,3 @@
         <NButtonCreate OnClick="Create" />
     </DialogActions>
 </MudDialog>
-
-@code {
-    T _model = new T();
-    NDynamic<T, TForm>? _dynamicForm;
-    [Inject]
-    ICreateBehind<T> _behind { get; set; } = default!;
-
-    [CascadingParameter]
-    protected MudDialogInstance Dialog { get; set; } = default!;
-
-    async Task Create()
-    {
-        await SafeHelper.Run(Submit, InjectValidation);
-    }
-
-    async Task Submit()
-    {
-        await _behind.Create(_model);
-        Dialog.Close(DialogResult.Ok(true));
-    }
-
-    async Task InjectValidation(DomainExceptionBase validation)
-    {
-        await _dynamicForm!.Instance.AddValidationError(validation.Property, validation.Message);
-    }
-}

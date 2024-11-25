@@ -11,8 +11,3 @@
     
     <NButtonPrimary Text="Restore" OnClick="Form.Restore" Disabled="!Form.IsEliminated" StartIcon="@Icons.Material.Outlined.SettingsBackupRestore" />
 </MudStack>
-
-@code {
-    [Parameter, EditorRequired]
-    public EliminationForm Form { get; set; } = default!;
-}

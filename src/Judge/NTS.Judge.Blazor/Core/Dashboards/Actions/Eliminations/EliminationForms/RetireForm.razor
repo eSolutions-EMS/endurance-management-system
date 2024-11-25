@@ -6,13 +6,3 @@
 <MudPaper Elevation="1" Class="pa-2">
     <EliminationFormActions Form="this" />
 </MudPaper>
-
-@code {
-    [Parameter]
-    public Retired? Retired { get; set; }
-
-    internal override async Task Eliminate()
-    {
-        await Eliminations.Retire();
-    }
-}

@@ -7,22 +7,3 @@
 <MudNavLink OnClick="Land" Match="Match">
     @Localizer.Get(Text)
 </MudNavLink>
-
-@code {
-    [Inject]
-    ILandNavigator _landNavigator { get; set; } = default!;
-    [Inject]
-    NavigationManager _navigationManager { get; set; } = default!;
-
-    [Parameter, EditorRequired]
-    public string Endpoint { get; set; } = default!;
-    [Parameter, EditorRequired]
-    public string Text { get; set; } = default!;
-    [Parameter]
-    public NavLinkMatch Match { get; set; } = NavLinkMatch.Prefix;
-
-    void Land()
-    {
-        _landNavigator.LandTo(Endpoint);
-    }
-}

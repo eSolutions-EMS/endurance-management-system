@@ -6,17 +6,17 @@
 
 @inherits NComponent
 
-@if (_behind.SelectedParticipation != null)
+@if (Behind.SelectedParticipation != null)
 {
     <NGrid>
         <MudItem xs="12" Class="mb-4">
-            <NAutocomplete T="Participation" @bind-value="_behind.SelectedParticipation" Search="Search" Class="mb-2 dashboard-autocomplete" />
+            <NAutocomplete T="Participation" @bind-value="Behind.SelectedParticipation" Search="Search" Class="mb-2 dashboard-autocomplete" />
         </MudItem>
         
         <MudItem xs="3">
-            <MudChipSet @bind-SelectedValue="_behind.SelectedParticipation" SelectionMode="SelectionMode.SingleSelection">
+            <MudChipSet @bind-SelectedValue="Behind.SelectedParticipation" SelectionMode="SelectionMode.SingleSelection">
                 
-                @foreach (var grouping in _behind.Participations.GroupBy(x => x.Phases.Distance)) // TODO: move grouping in field
+                @foreach (var grouping in Behind.Participations.GroupBy(x => x.Phases.Distance)) // TODO: move grouping in field
                 {
                     <MudText Class="pl-4">
                         <strong>@($"{grouping.Key.RoundNumberToTens()} {@Localizer.Get("KM")}")</strong>
@@ -35,46 +35,9 @@
         </MudItem>
         
         <MudItem xs="9">
-            <ParticipationTable Number="_behind.SelectedParticipation.Combination.Number" Phases="_behind.SelectedParticipation.Phases" />
+            <ParticipationTable Number="Behind.SelectedParticipation.Combination.Number" Phases="Behind.SelectedParticipation.Phases" />
         </MudItem>
     </NGrid>
-}
-
-@code {
-    [Inject]
-    IDashboardBehind _behind { get; set; } = default!;
-
-    protected override async Task OnInitializedAsync()
-    {
-        await Observe(_behind);
-    }
-
-    Task<IEnumerable<Participation>> Search(string term)
-    {
-        if (string.IsNullOrEmpty(term))
-        {
-            return Task.FromResult(_behind.Participations);
-        }
-        var result = _behind.Participations.Where(x => x.ToString().ToLower().Contains(term.ToLower()));
-        return Task.FromResult(result);
-    }
-
-    Color GetColor(Participation participation)
-    {
-        if (_behind.RecentlyProcessed.Contains(participation.Combination.Number))
-        {
-            return Color.Warning;
-        }
-        if (participation.IsEliminated())
-        {
-            return Color.Error;
-        }
-        if (participation.IsComplete())
-        {
-            return Color.Success;
-        }
-        return Color.Primary;
-    }
 }
 
 <style>

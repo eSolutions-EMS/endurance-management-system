@@ -36,14 +36,3 @@
         }
     </tbody>
 </MudSimpleTable>
-
-@code {
-    [Parameter, EditorRequired]
-    public IEnumerable<T> Items { get; set; } = new List<T>();
-    [Parameter, EditorRequired]
-    public string[] Headings { get; set; } = default!;
-    [Parameter]
-    public string EmptyMessage { get; set; } = "This table is still empty";
-    [Parameter]
-    public RenderFragment<T>  CustomCell { get; set; } = default!;
-}

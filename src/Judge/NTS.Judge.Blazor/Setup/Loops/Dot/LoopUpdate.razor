@@ -8,12 +8,7 @@
 <NContent Title="Configure Loop">
 
     <Main>
-        <NUpdateContainer T="LoopFormModel" TForm="LoopForm" Model="_navigator.ConsumeParameter<LoopFormModel>()" />
+        <NUpdateContainer T="LoopFormModel" TForm="LoopForm" Model="Navigator.ConsumeParameter<LoopFormModel>()" />
     </Main>
 
 </NContent>
-
-@code {
-    [Inject]
-    private ICrumbsNavigator _navigator { get; set; } = default!;
-}

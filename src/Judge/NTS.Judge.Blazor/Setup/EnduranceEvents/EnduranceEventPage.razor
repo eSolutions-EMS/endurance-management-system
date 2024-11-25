@@ -8,14 +8,14 @@
 @attribute [Route(ENDURANCE_EVENT_PAGE)]
 @inherits NComponent
 
-<NContent Title="Configure Endurance Event" HasContent="_behind.Model != null" EmptyMessage="Endurance Event is not created yet :)">
+<NContent Title="Configure Endurance Event" HasContent="Behind.Model != null" EmptyMessage="Endurance Event is not created yet :)">
 
     <EmptyContent>
         <NButtonCreate OnClick="OpenCreateForm" />
     </EmptyContent>
 
     <Main>
-        <NUpdateContainer T="EnduranceEventFormModel" TForm="EnduranceEventForm" Model="_behind.Model" />
+        <NUpdateContainer T="EnduranceEventFormModel" TForm="EnduranceEventForm" Model="Behind.Model" />
     </Main>
 
     <Main2>
@@ -33,20 +33,3 @@
     </Main2>
 
 </NContent>
-
-@code {
-    [Inject]
-    IEnduranceEventBehind _behind { get; set; } = default!;
-    [Inject]
-    FormManager<EnduranceEventFormModel, EnduranceEventForm> _form { get; set; } = default!;
-
-    protected override async Task OnInitializedAsync()
-    {
-        await Observe(_behind);
-    }
-
-    private async Task OpenCreateForm()
-    {
-        await _form.Create();
-    }
-}

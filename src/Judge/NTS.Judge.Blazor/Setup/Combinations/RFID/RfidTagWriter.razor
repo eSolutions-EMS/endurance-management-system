@@ -28,24 +28,4 @@
 </MudStack>
 
 
-@code {
-    [Inject]
-    public IRfidWriterBehind _tagBehind { get; set; } = default!;
-    [Parameter]
-    public int CombinationNumber { get; set; }
 
-    private bool _awaitingScan = false;
-
-    public async Task AddTag()
-    {
-        _awaitingScan = true;
-        NotifyHelper.Inform("Waiting for Tag Scan");
-        Value = await _tagBehind.WriteTag(CombinationNumber);
-        _awaitingScan = false;
-    }
-
-    public void RemoveTag()
-    {
-        Value = null;
-    }
-}

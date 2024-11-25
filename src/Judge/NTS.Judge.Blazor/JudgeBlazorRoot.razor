@@ -31,16 +31,3 @@
         <button class="btn btn-primary" @onclick="_ => this._errorBoundary.Recover()">Back</button>
     </ErrorContent>
 </NErrorBoundary>
-
-@code {
-    IEnumerable<Assembly> _routeAssemblies = new List<Assembly> { typeof(JudgeBlazorRoot).Assembly };
-    NErrorBoundary _errorBoundary = default!;
-
-    [Parameter]
-    public Assembly Assembly { get; set; } = default!;
-
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-    }
-}

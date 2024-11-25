@@ -3,7 +3,7 @@
 @namespace Not.Blazor.Components
 @inherits MudText
 
-<MudText Align="Align.Center" Typo="Typo" Color="Color" Class="@Class" Style="@(Style + _absoluteCenterStyle)" >
+<MudText Align="Align.Center" Typo="Typo" Color="Color" Class="@Class" Style="@(Style + AbsoluteCenterStyle)" >
     @Localizer.Get(Content)
 </MudText>
 
@@ -13,18 +13,4 @@
     <MudText Align="Align.Center" Typo="Typo" Color="Color" Class="Class" Style="@(Style + "visibility:hidden")">
         @Localizer.Get(Content)
     </MudText>
-}
-
-@code {
-    string _absoluteCenterStyle => IsAbsoluteCenter
-        ? "position: absolute; left: 0; width: 100%"
-        : "";
-
-    [Inject]
-    ILocalizer Localizer { get; set; } = default!;
-
-    [Parameter, EditorRequired]
-    public string Content { get; set; } = default!;
-    [Parameter]
-    public bool IsAbsoluteCenter { get; set; }
 }

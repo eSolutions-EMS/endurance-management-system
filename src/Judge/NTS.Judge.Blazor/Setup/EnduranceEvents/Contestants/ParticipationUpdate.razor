@@ -9,12 +9,7 @@
 <NContent Title="Configure Participation">
 
     <Main>
-        <NUpdateContainer T="ParticipationFormModel" TForm="ParticipationForm" Model="_navigator.ConsumeParameter<ParticipationFormModel>()" />
+        <NUpdateContainer T="ParticipationFormModel" TForm="ParticipationForm" Model="Navigator.ConsumeParameter<ParticipationFormModel>()" />
     </Main>
 
 </NContent>
-
-@code {
-    [Inject]
-    private ICrumbsNavigator _navigator { get; set; } = default!;
-}

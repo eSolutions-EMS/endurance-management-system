@@ -5,13 +5,13 @@
 @attribute [Route(RANKLIST_PAGE)]
 @inherits PrintableComponent
 
-<NContent Title="Ranklist" HasContent="_behind.Ranklist != null" EmptyMessage="The Event isn't started yet :)">
+<NContent Title="Ranklist" HasContent="Behind.Ranklist != null" EmptyMessage="The Event isn't started yet :)">
     @* // TODO: Add Start button in EmptyContent *@
 
     <Main>
         @if (_showProtocol)
         {
-           <Protocol Ranklist="_behind.Ranklist!" />
+           <Protocol Ranklist="Behind.Ranklist!" />
         }
         else
         {
@@ -42,28 +42,6 @@
     </Rightbar>
 
 </NContent>
-
-@code {
-    bool _showProtocol;
-
-    [Inject]
-    IRankingBehind _behind { get; set; } = default!;
-
-    protected override async Task OnInitializedAsync()
-    {
-        await Observe(_behind);
-    }
-
-    void ShowProtocol()
-    {
-        _showProtocol = true;
-    }
-
-    void ShowRanklist()
-    {
-        _showProtocol = false;
-    }
-}
 
 <style>
     .sidebar-menu-button > button.mud-button-root {
