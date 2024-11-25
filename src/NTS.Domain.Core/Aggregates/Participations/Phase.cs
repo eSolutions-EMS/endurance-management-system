@@ -52,7 +52,7 @@ public class Phase : AggregateRoot
         phase.IsReinspectionRequested = isReinspectionRequested;
         phase.IsRequiredInspectionRequested = isRequiredInspectionRequested;
         phase.IsRequiredInspectionCompulsory = isCompulsoryRequiredInspectionRequested;
-         
+
         return phase;
     }
 
@@ -120,8 +120,7 @@ public class Phase : AggregateRoot
             false,
             false,
             false
-        )
-    { }
+        ) { }
 
     Timestamp? VetTime => RepresentTime ?? PresentTime;
 

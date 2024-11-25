@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Components.Forms;
 using NTS.Judge.Blazor.Shared.Components.SidePanels;
 
 namespace NTS.Judge.Blazor.Core.Dashboards;
+
 public partial class DashboardPage
 {
     [Inject]

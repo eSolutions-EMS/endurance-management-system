@@ -13,6 +13,7 @@ public partial class CombinationForm
 
     [Inject]
     IListBehind<Athlete> AthletesBehind { get; set; } = default!;
+
     [Inject]
     IListBehind<Horse> HorsesBehind { get; set; } = default!;
 
@@ -48,6 +49,8 @@ public partial class CombinationForm
         {
             return values;
         }
-        return values.Where(x => x != null && x.ToString()!.Contains(term, StringComparison.InvariantCultureIgnoreCase));
+        return values.Where(x =>
+            x != null && x.ToString()!.Contains(term, StringComparison.InvariantCultureIgnoreCase)
+        );
     }
 }

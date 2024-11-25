@@ -2,6 +2,7 @@ using Not.Notify;
 using NTS.Domain.Core.Aggregates.Participations;
 
 namespace NTS.Judge.Blazor.Core.Dashboards.Actions.Eliminations.EliminationForms;
+
 public partial class DisqualifyForm
 {
     string? Reason { get; set; }

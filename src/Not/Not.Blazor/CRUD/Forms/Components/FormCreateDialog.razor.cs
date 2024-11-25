@@ -4,12 +4,14 @@ using Not.Blazor.CRUD.Ports;
 using Not.Safe;
 
 namespace Not.Blazor.CRUD.Forms.Components;
+
 public partial class FormCreateDialog<T, TForm>
     where T : new()
-    where TForm : NForm<T> 
+    where TForm : NForm<T>
 {
     T _model = new();
     NDynamic<T, TForm>? _dynamicForm;
+
     [Inject]
     ICreateBehind<T> Behind { get; set; } = default!;
 

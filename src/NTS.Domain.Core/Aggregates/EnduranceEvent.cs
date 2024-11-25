@@ -41,8 +41,7 @@ public class EnduranceEvent : AggregateRoot, IAggregateRoot
             feiId,
             feiCode,
             showFeiId
-        )
-    { }
+        ) { }
 
     public PopulatedPlace PopulatedPlace { get; }
     public EventSpan EventSpan { get; }

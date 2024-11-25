@@ -1,8 +1,10 @@
 namespace NTS.Judge.Blazor.Shared.Components.SidePanels.RFID;
+
 public partial class RfidPanel
 {
     [Inject]
     IRfidReaderBehind ReaderBehind { get; set; } = default!;
+
     [Parameter]
     public bool EnduranceEventStarted { get; set; } = default!;
 

@@ -1,4 +1,5 @@
 ﻿using Not.Blazor.Components;
+
 namespace NTS.Judge.Blazor.Core.Dashboards.Actions.Eliminations.EliminationForms.Shared;
 
 public abstract class EliminationForm : NComponent

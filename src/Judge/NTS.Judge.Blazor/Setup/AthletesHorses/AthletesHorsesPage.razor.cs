@@ -1,5 +1,3 @@
 namespace NTS.Judge.Blazor.Setup.AthletesHorses;
 
-public partial class AthletesHorsesPage
-{
-}
+public partial class AthletesHorsesPage { }

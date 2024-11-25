@@ -2,6 +2,7 @@ using MudBlazor;
 using NTS.Domain.Core.Aggregates;
 
 namespace NTS.Judge.Blazor.Core.Dashboards.Component;
+
 public partial class Dashboard
 {
     [Inject]
@@ -18,7 +19,9 @@ public partial class Dashboard
         {
             return Task.FromResult(Behind.Participations);
         }
-        var result = Behind.Participations.Where(x => x.ToString().ToLower().Contains(term.ToLower()));
+        var result = Behind.Participations.Where(x =>
+            x.ToString().ToLower().Contains(term.ToLower())
+        );
         return Task.FromResult(result);
     }
 

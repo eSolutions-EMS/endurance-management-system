@@ -5,6 +5,7 @@ namespace NTS.Judge.Blazor.Core.Dashboards.Actions.Eliminations;
 public partial class EliminationsPanel
 {
     string? _inputValue;
+
     [Inject]
     IParticipationContext ParticipationContext { get; set; } = default!;
 

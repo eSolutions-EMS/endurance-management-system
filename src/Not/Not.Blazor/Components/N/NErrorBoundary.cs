@@ -2,6 +2,4 @@
 
 namespace Not.Blazor.Components;
 
-public class NErrorBoundary : ErrorBoundary
-{
-}
+public class NErrorBoundary : ErrorBoundary { }

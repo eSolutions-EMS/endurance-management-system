@@ -21,7 +21,8 @@ public class CoreStarter : ICoreStarter
         IRepository<EnduranceEvent> coreEventRespository,
         IRepository<Official> coreOfficialRepository,
         IRepository<Participation> participationRepository,
-        IRepository<Ranking> rankingRepository)
+        IRepository<Ranking> rankingRepository
+    )
     {
         _setupRepository = setupRepository;
         _coreEventRespository = coreEventRespository;
@@ -29,7 +30,7 @@ public class CoreStarter : ICoreStarter
         _participationRepository = participationRepository;
         _rankingRepository = rankingRepository;
     }
-    
+
     public async Task<bool> Start()
     {
         var setupEvent = await _setupRepository.Read(0);
@@ -64,7 +65,7 @@ public class CoreStarter : ICoreStarter
         foreach (var competition in setupEvent.Competitions)
         {
             var (participations, rankingEntriesByCategory) =
-                await ParticipationAndRankingrFactory.Create( competition, _participationRepository);
+                await ParticipationAndRankingrFactory.Create(competition, _participationRepository);
             foreach (var participation in participations)
             {
                 await _participationRepository.Create(participation);
@@ -88,7 +89,6 @@ public class CoreStarter : ICoreStarter
         }
     }
 }
-
 
 public interface ICoreStarter : ITransient
 {

@@ -1,4 +1,5 @@
 namespace NTS.Judge.Blazor.Shared.Components.SidePanels;
+
 public partial class SidePanel
 {
     [Inject]

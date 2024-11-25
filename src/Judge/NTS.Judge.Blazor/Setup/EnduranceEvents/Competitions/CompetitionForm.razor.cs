@@ -13,8 +13,12 @@ public partial class CompetitionForm
     NSelect<CompetitionRuleset> _rulesetField = default!;
     MudPicker<DateTime?> _dayField = default!;
     MudPicker<TimeSpan?> _timeField = default!;
-    List<NotListModel<CompetitionType>> _competitionTypes = NotListModel.FromEnum<CompetitionType>().ToList();
-    List<NotListModel<CompetitionRuleset>> _competitionRules = NotListModel.FromEnum<CompetitionRuleset>().ToList();
+    List<NotListModel<CompetitionType>> _competitionTypes = NotListModel
+        .FromEnum<CompetitionType>()
+        .ToList();
+    List<NotListModel<CompetitionRuleset>> _competitionRules = NotListModel
+        .FromEnum<CompetitionRuleset>()
+        .ToList();
 
     public override void RegisterValidationInjectors()
     {
@@ -23,6 +27,9 @@ public partial class CompetitionForm
         RegisterInjector(nameof(Competition.Start), () => _timeField);
         RegisterInjector(nameof(Competition.Type), () => _typeField);
         RegisterInjector(nameof(Competition.Ruleset), () => _rulesetField);
-        RegisterInjector(nameof(Competition.CompulsoryThresholdSpan), () => _requiredInspectionCompulsoryThreshold);
+        RegisterInjector(
+            nameof(Competition.CompulsoryThresholdSpan),
+            () => _requiredInspectionCompulsoryThreshold
+        );
     }
 }

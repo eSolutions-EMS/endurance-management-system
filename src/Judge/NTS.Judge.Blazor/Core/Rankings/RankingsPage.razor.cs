@@ -1,4 +1,5 @@
 namespace NTS.Judge.Blazor.Core.Rankings;
+
 public partial class RankingsPage
 {
     bool _showProtocol;

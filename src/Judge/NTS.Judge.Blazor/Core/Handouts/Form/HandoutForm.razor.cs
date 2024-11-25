@@ -3,6 +3,7 @@ using Not.Notify;
 using NTS.Domain.Core.Aggregates.Participations;
 
 namespace NTS.Judge.Blazor.Core.Handouts.Form;
+
 public partial class HandoutForm
 {
     Combination? _combination;
@@ -27,6 +28,8 @@ public partial class HandoutForm
         {
             return combinations;
         }
-        return combinations.Where(x => x.ToString().Contains(term, StringComparison.InvariantCultureIgnoreCase));
+        return combinations.Where(x =>
+            x.ToString().Contains(term, StringComparison.InvariantCultureIgnoreCase)
+        );
     }
 }

@@ -7,8 +7,10 @@ public partial class NAutocomplete<T>
 {
     [Parameter, EditorRequired]
     public Func<string, Task<IEnumerable<T>>> Search { get; set; } = default!;
+
     [Parameter]
     public bool ResetValueOnClick { get; set; } = true;
+
     [Parameter]
     public string Label { get; set; } = "";
 

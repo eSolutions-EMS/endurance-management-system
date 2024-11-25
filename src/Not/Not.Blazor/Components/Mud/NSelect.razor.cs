@@ -9,8 +9,10 @@ public partial class NSelect<T>
 
     [Parameter]
     public List<NotListModel<T>> Items { get; set; } = [];
+
     [Parameter]
     public string Label { get; set; } = default!;
+
     [Parameter]
     public string Placeholder { get; set; } = default!;
 

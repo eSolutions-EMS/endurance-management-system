@@ -75,7 +75,7 @@ public class Participation : AggregateRoot, IAggregateRoot
     }
 
     //TODO rename to smthing better (including ISnapshotProcessor, IManualProcessor and other mentions..)
-    public SnapshotResult Process(Snapshot snapshot) 
+    public SnapshotResult Process(Snapshot snapshot)
     {
         if (Eliminated != null)
         {

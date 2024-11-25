@@ -13,6 +13,7 @@ public partial class FormUpdateDialog<T, TForm>
 
     [Inject]
     IUpdateBehind<T> Behind { get; set; } = default!;
+
     [CascadingParameter]
     protected MudDialogInstance Dialog { get; set; } = default!;
 

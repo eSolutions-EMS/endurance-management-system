@@ -5,6 +5,7 @@ using Not.Structures;
 using NTS.Domain.Setup.Aggregates;
 
 namespace NTS.Judge.Blazor.Setup.EnduranceEvents.Phases;
+
 public partial class PhaseForm
 {
     NSelect<Loop> _loopField = default!;

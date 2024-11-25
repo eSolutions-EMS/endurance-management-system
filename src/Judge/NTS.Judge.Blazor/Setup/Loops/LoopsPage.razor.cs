@@ -1,5 +1,3 @@
 namespace NTS.Judge.Blazor.Setup.Loops;
 
-public partial class LoopsPage
-{
-}
+public partial class LoopsPage { }

@@ -2,6 +2,7 @@ using System.Reflection;
 using Not.Blazor.Components;
 
 namespace NTS.Judge.Blazor;
+
 public partial class JudgeBlazorRoot
 {
     IEnumerable<Assembly> _routeAssemblies = [typeof(JudgeBlazorRoot).Assembly];

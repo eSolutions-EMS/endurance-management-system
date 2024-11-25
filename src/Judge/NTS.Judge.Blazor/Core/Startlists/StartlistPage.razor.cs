@@ -1,5 +1,3 @@
 namespace NTS.Judge.Blazor.Core.Startlists;
 
-public partial class StartlistPage
-{
-}
+public partial class StartlistPage { }

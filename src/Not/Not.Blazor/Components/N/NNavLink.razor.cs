@@ -7,13 +7,16 @@ public partial class NNavLink
 {
     [Inject]
     ILandNavigator LandNavigator { get; set; } = default!;
+
     [Inject]
     NavigationManager NavigationManager { get; set; } = default!;
 
     [Parameter, EditorRequired]
     public string Endpoint { get; set; } = default!;
+
     [Parameter, EditorRequired]
     public string Text { get; set; } = default!;
+
     [Parameter]
     public NavLinkMatch Match { get; set; } = NavLinkMatch.Prefix;
 

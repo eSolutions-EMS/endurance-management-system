@@ -13,13 +13,16 @@ public partial class CrudList<T, TModel, TForm>
 {
     [Inject]
     IListBehind<T> Behind { get; set; } = default!;
+
     [Inject]
     FormManager<TModel, TForm> FormNavigator { get; set; } = default!;
 
     [Parameter]
     public int? ParentId { get; set; }
+
     [Parameter]
     public string Name { get; set; } = default!;
+
     [Parameter, EditorRequired]
     public string UpdateRoute { get; set; } = default!;
 

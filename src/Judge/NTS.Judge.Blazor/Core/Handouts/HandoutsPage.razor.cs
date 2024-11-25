@@ -1,10 +1,12 @@
 using MudBlazor;
 
 namespace NTS.Judge.Blazor.Core.Handouts;
+
 public partial class HandoutsPage
 {
     [Inject]
     IHandoutsBehind Behind { get; set; } = default!;
+
     [Inject]
     IDialogService DialogService { get; set; } = default!;
 

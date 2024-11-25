@@ -2,7 +2,6 @@ namespace NTS.Judge.Blazor.Core.Startlists.History;
 
 public partial class StartlistHistory
 {
-
     [Inject]
     public IStartlistHistory Behind { get; set; } = default!;
 

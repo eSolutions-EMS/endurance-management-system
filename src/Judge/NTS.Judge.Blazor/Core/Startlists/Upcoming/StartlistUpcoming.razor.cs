@@ -3,6 +3,7 @@ namespace NTS.Judge.Blazor.Core.Startlists.Upcoming;
 public partial class StartlistUpcoming
 {
     protected override string[] TableHeaders => [.. base.TableHeaders, "Start In"];
+
     [Inject]
     public IStartlistUpcoming Behind { get; set; } = default!;
 

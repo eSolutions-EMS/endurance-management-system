@@ -27,9 +27,7 @@ public class EmsRpcHub
     public EmsRpcHub(IJudgeServiceProvider judgeProvider)
     {
         _participations = judgeProvider.GetRequiredService<IRepository<Participation>>();
-        _events = judgeProvider.GetRequiredService<
-            IRepository<EnduranceEvent>
-        >();
+        _events = judgeProvider.GetRequiredService<IRepository<EnduranceEvent>>();
         _snapshotProcessor = judgeProvider.GetRequiredService<ISnapshotProcessor>();
     }
 
@@ -55,10 +53,7 @@ public class EmsRpcHub
                 }
                 else
                 {
-                    startlists.Add(
-                        entry.Stage,
-                        new EmsStartlist([entry])
-                    );
+                    startlists.Add(entry.Stage, new EmsStartlist([entry]));
                 }
                 // If record is complete, but is not last -> insert another record for current stage
                 // This bullshit happens because "current" stage is not yet created. Its only created at Arrive
@@ -78,10 +73,7 @@ public class EmsRpcHub
                     }
                     else
                     {
-                        startlists.Add(
-                            nextEntry.Stage,
-                            new EmsStartlist([nextEntry])
-                        );
+                        startlists.Add(nextEntry.Stage, new EmsStartlist([nextEntry]));
                     }
                 }
                 toSkip++;

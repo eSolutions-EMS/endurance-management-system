@@ -43,6 +43,8 @@ public partial class ParticipationForm
         {
             return values;
         }
-        return values.Where(x => x != null && x.ToString()!.Contains(term, StringComparison.InvariantCultureIgnoreCase));
+        return values.Where(x =>
+            x != null && x.ToString()!.Contains(term, StringComparison.InvariantCultureIgnoreCase)
+        );
     }
 }

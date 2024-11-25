@@ -2,6 +2,7 @@ using MudBlazor;
 using NTS.Domain.Setup.Aggregates;
 
 namespace NTS.Judge.Blazor.Setup.AthletesHorses.Horses;
+
 public partial class HorseForm
 {
     MudTextField<string?> _feiIdField = default!;

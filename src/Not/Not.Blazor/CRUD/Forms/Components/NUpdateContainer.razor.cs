@@ -4,6 +4,7 @@ using Not.Blazor.Navigation;
 using Not.Safe;
 
 namespace Not.Blazor.CRUD.Forms.Components;
+
 public partial class NUpdateContainer<T, TForm>
     where TForm : NForm<T>
 {
@@ -11,6 +12,7 @@ public partial class NUpdateContainer<T, TForm>
 
     [Inject]
     ICrumbsNavigator Navigator { get; set; } = default!;
+
     [Inject]
     IUpdateBehind<T> Behind { get; set; } = default!;
 

@@ -6,6 +6,7 @@ using NTS.Domain.Setup.Aggregates;
 using NTS.Judge.Blazor.Shared.Contexts;
 
 namespace NTS.Judge.Blazor.Setup.AthletesHorses.Athletes;
+
 public partial class AthleteForm
 {
     // TODO: Introduce NotText variants for consistency
@@ -14,7 +15,9 @@ public partial class AthleteForm
     NAutocomplete<Country?> _countryField = default!;
     MudTextField<string?> _clubField = default!;
     NSelect<AthleteCategory> _categoryField = default!;
-    List<NotListModel<AthleteCategory>> _categories = NotListModel.FromEnum<AthleteCategory>().ToList();
+    List<NotListModel<AthleteCategory>> _categories = NotListModel
+        .FromEnum<AthleteCategory>()
+        .ToList();
 
     [Inject]
     ICountriesContext Countries { get; set; } = default!;

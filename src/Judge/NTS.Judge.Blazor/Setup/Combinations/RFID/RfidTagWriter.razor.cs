@@ -1,11 +1,14 @@
 using Not.Notify;
 
 namespace NTS.Judge.Blazor.Setup.Combinations.RFID;
+
 public partial class RfidTagWriter
 {
     bool _awaitingScan = false;
+
     [Inject]
     public IRfidWriterBehind TagBehind { get; set; } = default!;
+
     [Parameter]
     public int CombinationNumber { get; set; }
 

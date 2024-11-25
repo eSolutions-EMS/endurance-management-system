@@ -32,7 +32,7 @@ public abstract class ObservableBehind : IObservableBehind
             if (_isInitialized)
             {
                 return;
-            }         
+            }
             _isInitialized = await SafeHelper.Run(() => PerformInitialization(arguments));
         }
         finally
