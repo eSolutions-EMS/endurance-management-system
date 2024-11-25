@@ -1,0 +1,14 @@
+﻿@using NTS.Judge.Blazor.Shared.Components.SidePanels.RFID
+
+@inherits NComponent
+
+<MudStack Class="ma-6">
+    @if (!CoreBehind.IsStarted)
+    {
+        <NButtonPrimary OnClick="Start" Text="Start Endurance Event" />
+    }
+    else
+    {
+        <RfidPanel EnduranceEventStarted="CoreBehind.IsStarted" />
+    }
+</MudStack>

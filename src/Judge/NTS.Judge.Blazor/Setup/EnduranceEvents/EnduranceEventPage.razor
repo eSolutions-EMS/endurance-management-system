@@ -1,0 +1,35 @@
+@using NTS.Judge.Blazor.Setup.EnduranceEvents.Competitions
+@using NTS.Judge.Blazor.Setup.EnduranceEvents.Officials
+@using Not.Blazor.CRUD.Forms
+@using NTS.Domain.Setup.Aggregates
+@using Not.Blazor.CRUD.Forms.Components
+@using Not.Blazor.CRUD.Lists
+
+@attribute [Route(ENDURANCE_EVENT_PAGE)]
+@inherits NComponent
+
+<NContent Title="Configure Endurance Event" HasContent="Behind.Model != null" EmptyMessage="Endurance Event is not created yet :)">
+
+    <EmptyContent>
+        <NButtonCreate OnClick="OpenCreateForm" />
+    </EmptyContent>
+
+    <Main>
+        <NUpdateContainer T="EnduranceEventFormModel" TForm="EnduranceEventForm" Model="Behind.Model" />
+    </Main>
+
+    <Main2>
+        <NGrid Spacing="8">
+
+            <MudItem xs="6">
+                <CrudList T="Competition" TModel="CompetitionFormModel" TForm="CompetitionForm" UpdateRoute="@COMPETITION_UPDATE" />
+            </MudItem>
+
+            <MudItem xs="6">
+                <CrudList T="Official" TModel="OfficialFormModel" TForm="OfficialForm" UpdateRoute="@OFFICIAL_UPDATE" />
+            </MudItem>
+
+        </NGrid>
+    </Main2>
+
+</NContent>

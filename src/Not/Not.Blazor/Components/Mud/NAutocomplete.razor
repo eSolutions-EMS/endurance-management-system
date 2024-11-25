@@ -1,0 +1,16 @@
+﻿@using Not.Blazor.Components
+@using Not.Blazor.CRUD.Forms.Validation
+
+@namespace Not.Blazor.Components
+@typeparam T
+@inherits NBindableComponent<T>
+@implements IMudBaseInputWrapper<T>
+
+<MudAutocomplete T="T"
+                 @ref="MudBaseInput"
+                 @bind-Value="Value"
+                 CoerceText="true"
+                 SearchFunc="(a, b) => Search(a)"
+                 @onclick="HandleOnClick"
+                 Class="@Class"
+                 Label="@Localizer.Get(Label)" />

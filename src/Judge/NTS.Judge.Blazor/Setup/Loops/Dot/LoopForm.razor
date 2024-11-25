@@ -1,0 +1,8 @@
+﻿@using NTS.Domain.Setup.Aggregates
+@using Not.Blazor.CRUD.Forms.Components
+
+@inherits NForm<LoopFormModel>
+
+<EditForm Model="Model">
+    <MudNumericField @ref="_distanceField" @bind-Value="Model.Distance" Label="Loop" />
+</EditForm>

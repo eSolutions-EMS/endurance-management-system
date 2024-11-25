@@ -1,0 +1,29 @@
+﻿@using NTS.Domain.Core.Aggregates.Participations
+@using Not.Localization
+@using Not.Structures
+@using NTS.Domain.Objects
+@using NTS.Judge.Blazor.Core.Dashboards.Actions.Eliminations.EliminationForms.Shared
+
+@inherits EliminationForm
+
+<MudPaper Elevation="1" Class="pa-2">
+    <MudSelect @bind-SelectedValues="@Codes" MultiSelection="true" Delimiter="+" Class="mt-4"
+        Label="@Localizer.Get("Failed to Qualify Reason")" Placeholder="@Localizer.Get("Select a reason")">
+    
+        @foreach (var ftqCode in SelectListModel.FromEnum<FtqCode>())
+        {
+             <MudTooltip Text="@ftqCode.Description" Inline="false" RootStyle="width:inherit;">
+                <MudSelectItem Value="@ftqCode.Value">
+                    <MudText Typo="Typo.body1">@ftqCode.Value</MudText>
+                </MudSelectItem>
+            </MudTooltip>
+
+        }
+    </MudSelect>
+
+    <MudCollapse Expanded="Codes.Contains(FtqCode.FTC)">
+        <EliminationFormReason @bind-Value="_reason" />
+    </MudCollapse>
+
+    <EliminationFormActions Form="this" />
+</MudPaper>

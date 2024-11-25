@@ -1,0 +1,38 @@
+﻿
+@namespace Not.Blazor.Components
+@inherits MudSimpleTable
+@typeparam T where T : class
+
+<MudSimpleTable Style="overflow-x: auto;">
+    <thead>
+        <tr>
+            @foreach (var heading in Headings)
+            {
+                <th>@heading</th>
+            }
+        </tr>
+    </thead>
+    <tbody>
+        @if(Items.Count() == 0)
+        {
+            <MudText Typo="Typo.body1">@EmptyMessage</MudText>
+        }
+        @foreach (var item in Items)
+        {
+            var itemToString = item.ToString();
+            GuardHelper.ThrowIfDefault(itemToString);
+            <tr>
+                @foreach (var cellValue in itemToString.Split("|"))
+                {
+                    <td>@cellValue</td>
+                }
+                @if (CustomCell != default)
+                {
+                    <td>
+                        @CustomCell.Invoke(item)
+                    </td>
+                }                   
+            </tr>
+        }
+    </tbody>
+</MudSimpleTable>

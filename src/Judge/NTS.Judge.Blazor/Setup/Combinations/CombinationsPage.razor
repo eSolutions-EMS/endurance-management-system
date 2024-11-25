@@ -1,0 +1,15 @@
+﻿@using NTS.Domain.Setup.Aggregates
+@using NTS.Judge.Blazor.Setup.Combinations
+@using NTS.Judge.Blazor.Setup.Combinations.Dot
+@using Not.Blazor.CRUD.Lists
+
+@attribute [Route(COMBINATIONS_PAGE)]
+@inherits NComponent
+
+<NContent Title="Pair Athletes and Horses" Class="not-mid-width">
+    
+    <Main>
+        <CrudList T="Combination" TForm="CombinationForm" TModel="CombinationFormModel" UpdateRoute="@COMBINATION_UPDATE" />
+    </Main>
+
+</NContent>

@@ -1,0 +1,58 @@
+﻿@namespace Not.Blazor.Components
+@inherits NComponent
+
+@if (_showOnlyMain)
+{
+    @Main
+}
+else
+{
+    <NGrid Spacing="4" Class="@("not-page " + Class)">
+        <MudItem xs="12">
+            <NHeadline Content="@Title" IsAbsoluteCenter />
+        </MudItem>
+
+        @if (!HasContent)
+        {
+            <MudItem xs="@MainXs">
+                <MudPaper Elevation="3" Class="not-mid-height pa-12">
+                    <NHeadline2 Content="@EmptyMessage" IsAbsoluteCenter />
+
+                    @if (EmptyContent != null)
+                    {
+                        @EmptyContent
+                    }
+                </MudPaper>
+            </MudItem>
+        }
+        else
+        {
+            <MudItem xs="@MainXs" Class="not-page-content">
+                <MudPaper Elevation="3" Class="pa-4">@Main</MudPaper>
+            </MudItem>
+
+            if (Main2 != null)
+            {
+                <MudItem xs="@MainXs" Class="not-page-content">
+                    <MudPaper Elevation="3" Class="pa-4">@Main2</MudPaper>
+                </MudItem>
+            }
+        }
+
+        @if (Rightbar != null)
+        {
+            <MudItem xs="@RightBarXS" Class="not-page-rightbar">
+                @Rightbar
+            </MudItem>
+        }
+    </NGrid>
+}
+
+
+
+<style>
+    .not-page .not-page-content > .mud-paper > .mud-grid:first-child > .mud-grid-item,
+    .not-page .not-page-rightbar > .mud-grid:first-child > .mud-grid-item {
+        padding-top:0;
+    }
+</style>

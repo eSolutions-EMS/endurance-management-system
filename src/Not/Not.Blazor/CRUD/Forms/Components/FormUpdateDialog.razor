@@ -1,0 +1,18 @@
+﻿@using Not.Blazor.CRUD.Ports
+@using Not.Blazor.CRUD.Forms.Components
+@using Not.Blazor.Components
+@using Not.Safe
+    
+@inherits NComponent
+@typeparam T
+@typeparam TForm
+
+<MudDialog>
+    <DialogContent>
+        <NDynamic T="T" TForm="TForm" @ref="_dynamicForm" Model="Model" />
+    </DialogContent>
+
+    <DialogActions>
+        <NButtonUpdate OnClick="Update" />
+    </DialogActions>
+</MudDialog>

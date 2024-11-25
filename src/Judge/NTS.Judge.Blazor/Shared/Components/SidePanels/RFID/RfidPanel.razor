@@ -1,0 +1,8 @@
+@if (ReaderBehind.IsConnected())
+{
+    <NButtonPrimary OnClick="StopDetecting" Text="Stop Detecting" />
+}
+else
+{
+    <NButtonPrimary OnClick="Reconnect" Text="Reconnect" />
+}

@@ -1,0 +1,15 @@
+﻿@using NTS.Domain.Setup.Aggregates
+@using Not.Blazor.CRUD.Forms.Components
+@using Not.Blazor.Components
+@using Not.Blazor.Navigation
+
+@attribute [Route(ATHLETE_UPDATE)]
+@inherits NComponent
+
+<NContent Title="Configure Athlete">
+
+    <Main>
+        <NUpdateContainer T="AthleteFormModel" TForm="AthleteForm" Model="Navigator.ConsumeParameter<AthleteFormModel>()" />
+    </Main>
+
+</NContent>

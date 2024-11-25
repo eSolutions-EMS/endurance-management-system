@@ -1,0 +1,50 @@
+﻿@using NTS.Domain.Core.Aggregates
+@using NTS.Domain.Core.Aggregates.Participations
+
+@inherits NComponent
+
+<MudStack Row="true" Class="printable">
+
+    <MudStack>
+        <MudText Typo="Typo.button" Align="Align.Center" Class="mud-button-text">@_rankText</MudText>
+
+        <MudStack Justify="Justify.SpaceEvenly" Style="height:100%; width:140px">
+            <MudText Typo="Typo.body2" Align="Align.Right">@_combination.Name</MudText>
+
+            <MudText Typo="Typo.body2" Align="Align.Right">@_combination.Horse</MudText>
+
+            <MudText Typo="Typo.body2" Align="Align.Right">@_combination.Club</MudText>
+
+            <MudText Typo="Typo.body2" Align="Align.Right">@_combination.Country</MudText>
+        </MudStack>
+    </MudStack>
+
+    <ParticipationTable Number="_combination.Number" Phases="_phases" />
+
+    @if (_total != null)
+    {
+        <MudStack>
+            <MudText Typo="Typo.button" Align="Align.Center" Class="mud-button-text">
+                @Localizer.Get("Total")
+            </MudText>
+
+            <MudStack Justify="Justify.SpaceEvenly" Style="height:100%; width:125px">
+                <MudText Typo="Typo.body2" Align="Align.Center">
+                    @Localizer.Get("Finished at:")
+                    <strong>@_total!.Finish</strong>
+                </MudText>
+
+                <MudText Typo="Typo.body2" Align="Align.Center">
+                    @Localizer.Get("Ride time (hrs):")
+                    <strong>@_total!.RideInterval</strong>
+                </MudText>
+
+                <MudText Typo="Typo.body2" Align="Align.Center">
+                    @Localizer.Get("Recovery (hrs):")
+                    <strong>@_total!.RecoveryIntervalWithoutFinal</strong>
+                </MudText>
+            </MudStack>
+        </MudStack>
+    }
+
+</MudStack>

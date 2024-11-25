@@ -1,0 +1,24 @@
+﻿@using NTS.Domain.Core.Aggregates
+@using Not.Events
+
+@inherits NComponent;
+
+@* //TODO: probably extract this chipset into NotChipGroup component or something similar. Also used in DashboardComponent *@
+@if (Behind.Ranklist != null)
+{
+    <MudChipSet T="int" 
+        SelectedValue="Behind.Ranklist.RankingId" 
+        SelectedValueChanged="Behind.SelectRanking" 
+        Class="@Class" 
+        Style="@Style">
+
+        @foreach (var tuple in _rankingsByDistance)
+        {
+            <NTextDivider Text="@tuple.Name" />
+            @foreach (var ranking in tuple.ranking)
+            {
+                <MudChip Text="@ranking.Category.ToString()" Value="@ranking.Id" Color="Color.Primary" Style="min-width: 1rem" />
+            }
+        }
+    </MudChipSet>
+}

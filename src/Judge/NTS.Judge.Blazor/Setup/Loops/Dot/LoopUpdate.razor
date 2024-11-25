@@ -1,0 +1,14 @@
+﻿@using NTS.Domain.Setup.Aggregates
+@using Not.Blazor.CRUD.Forms.Components
+@using Not.Blazor.Navigation;
+
+@attribute [Route(LOOP_UPDATE)]
+@inherits NComponent
+
+<NContent Title="Configure Loop">
+
+    <Main>
+        <NUpdateContainer T="LoopFormModel" TForm="LoopForm" Model="Navigator.ConsumeParameter<LoopFormModel>()" />
+    </Main>
+
+</NContent>

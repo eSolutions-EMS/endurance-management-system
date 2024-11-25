@@ -10,18 +10,17 @@ root = true
 # C# files
 [*.cs]
 
-#### Core EditorConfig Options ####
 
-# Indentation and spacing
+############### File defaults >>>>>>>>>>>>>>
+
 indent_size = 4
 indent_style = space
-tab_width = 4
-
-# New line preferences
 end_of_line = lf
 insert_final_newline = true
 
-#### .NET Coding Conventions ####
+#<<<<<<<<<<<<<< File defaults ##############
+
+############### Opt-in convention options >>>>>>>>>>>>>>
 
 # Organize usings
 dotnet_sort_system_directives_first = true
@@ -46,7 +45,7 @@ dotnet_style_null_propagation = true:warning
 dotnet_style_object_initializer = true:warning
 dotnet_style_operator_placement_when_wrapping = beginning_of_line:warning
 dotnet_style_prefer_compound_assignment = true:warning
-dotnet_style_prefer_conditional_expression_over_assignment = true:warning
+dotnet_style_prefer_conditional_expression_over_assignment = true:none
 dotnet_style_prefer_conditional_expression_over_return = true:none
 dotnet_style_prefer_foreach_explicit_cast_in_source = when_strongly_typed:warning
 dotnet_style_prefer_inferred_anonymous_type_member_names = true:warning
@@ -151,52 +150,84 @@ csharp_space_between_square_brackets = true:warning
 # Wrapping preferences
 csharp_preserve_single_line_statements = true:warning
 
-#### Naming styles ####
+#<<<<<<<<<<<<<< Opt-in convention options ##############
 
-# Naming rules
-dotnet_naming_rule.interface_should_be_begins_with_i.severity = warning
-dotnet_naming_rule.interface_should_be_begins_with_i.symbols = interface
-dotnet_naming_rule.interface_should_be_begins_with_i.style = begins_with_i
+############## Custom Naming conventions >>>>>>>>>>>>>>
+# See examples: https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/style-rules/naming-rules#rule-order
 
-dotnet_naming_rule.types_should_be_pascal_case.severity = warning
-dotnet_naming_rule.types_should_be_pascal_case.symbols = types
-dotnet_naming_rule.types_should_be_pascal_case.style = pascal_case
+####### const and readonly static fields should be CAPITAL_CASE #######
+# const_fields symbols
+dotnet_naming_symbols.const_fields.applicable_kinds = field
+dotnet_naming_symbols.const_fields.applicable_accessibilities = private
+dotnet_naming_symbols.const_fields.required_modifiers = const
+# static_readonly_fields symbols
+dotnet_naming_symbols.static_readonly_fields.applicable_kinds = field
+dotnet_naming_symbols.static_readonly_fields.required_modifiers = static,readonly
+#capital_case naming style
+dotnet_naming_style.capital_case.capitalization = all_upper
+dotnet_naming_style.capital_case.word_separator = _
+# static_readonly_fields_capital_case naming rule
+dotnet_naming_rule.static_readonly_fields_capital_case.symbols = static_readonly_fields
+dotnet_naming_rule.static_readonly_fields_capital_case.style = capital_case
+dotnet_naming_rule.static_readonly_fields_capital_case.severity = warning
+# const_fields_capital_case naming rule
+dotnet_naming_rule.const_fields_capital_case.symbols = const_fields
+dotnet_naming_rule.const_fields_capital_case.style = capital_case
+dotnet_naming_rule.const_fields_capital_case.severity = warning
 
-dotnet_naming_rule.non_field_members_should_be_pascal_case.severity = warning
-dotnet_naming_rule.non_field_members_should_be_pascal_case.symbols = non_field_members
-dotnet_naming_rule.non_field_members_should_be_pascal_case.style = pascal_case
-
-# Private non-static fields should have underscore prefix
-dotnet_naming_rule.private_fields_should_be_underscore.severity = warning
-dotnet_naming_rule.private_fields_should_be_underscore.symbols = private_fields
-dotnet_naming_rule.private_fields_should_be_underscore.style = underscore_style
-
+####### Private fields should be undrescored #######
+# Define the 'private_fields' symbol group:
 dotnet_naming_symbols.private_fields.applicable_kinds = field
 dotnet_naming_symbols.private_fields.applicable_accessibilities = private
-dotnet_naming_symbols.private_fields.required_modifiers = 
+# Define the 'underscored' naming style
+dotnet_naming_style.underscored.capitalization = camel_case
+dotnet_naming_style.underscored.required_prefix = _
+# Define the 'private_fields_underscored' naming rule
+dotnet_naming_rule.private_fields_underscored.symbols = private_fields
+dotnet_naming_rule.private_fields_underscored.style = underscored
+dotnet_naming_rule.private_fields_underscored.severity = warning
 
-# Constants and static fields should be UPPERCASE
-dotnet_naming_rule.static_fields_should_be_uppercase.severity = warning
-dotnet_naming_rule.static_fields_should_be_uppercase.symbols = static_fields
-dotnet_naming_rule.static_fields_should_be_uppercase.style = constant_style
+####### properties methods and types should be PascalCase #######
+# properties_methods_types symbols
+dotnet_naming_symbols.properties_methods_types.applicable_kinds = property,method,class,struct
+# 'pascal_case' naming style
+dotnet_naming_style.pascal_case.capitalization = pascal_case
+# 'properties_methods_types_pascal_case' naing rule
+dotnet_naming_rule.properties_methods_types_pascal_case.symbols = properties_methods_types
+dotnet_naming_rule.properties_methods_types_pascal_case.style = pascal_case
+dotnet_naming_rule.properties_methods_types_pascal_case.severity = warning
 
-dotnet_naming_symbols.static_fields.applicable_kinds = field
-dotnet_naming_symbols.static_fields.applicable_accessibilities = *
-dotnet_naming_symbols.static_fields.required_modifiers = static
+####### Interface should begin with I and be PascalCase #######
+# properties_methods_types symbols
+dotnet_naming_symbols.interfaces.applicable_kinds = interface
+# 'i_prefix_pascal_case' naming style
+dotnet_naming_style.i_prefix_pascal_case.capitalization = pascal_case
+dotnet_naming_style.i_prefix_pascal_case.required_prefix = I
+# 'properties_methods_types_pascal_case' naing rule
+dotnet_naming_rule.interfaces_i_prefix_pascal_case.symbols = interfaces
+dotnet_naming_rule.interfaces_i_prefix_pascal_case.style = i_prefix_pascal_case
+dotnet_naming_rule.interfaces_i_prefix_pascal_case.severity = warning
 
-dotnet_naming_style.constant_style.capitalization = all_upper
-dotnet_naming_style.constant_style.word_separator = _
+####### Test with following values
+# const string TEST_PRIVATE = "test";
+# const string TEST = "test";
+# const string _TEST = "test";
+# static readonly string TEST_TWO = new('a', 10);
+# static readonly string wrong = new('a', 200);
+# static readonly TimeSpan KURA_MI_QNKO = TimeSpan.FromSeconds(5);
+# static readonly TimeSpan kuraMi_QnkoWrong = TimeSpan.FromSeconds(5);
+# 
+# readonly string _test2 = "test";
+# readonly string wrongNonStatic = "test";
+# string _test = "test";
+# string wrongNonStaticNonReadonly = "test";
 
-dotnet_naming_style.underscore_style.required_prefix = _
-dotnet_naming_style.underscore_style.capitalization = camel_case
+#<<<<<<<<<<<<<< Custom Naming conventions ##############
 
-dotnet_naming_style.constant_style.capitalization = all_upper
-dotnet_naming_style.constant_style.word_separator = _
-
+############## Severity overrides >>>>>>>>>>>>>>
 
 # IDE0046: Convert to conditional expression
 dotnet_diagnostic.IDE0046.severity = none
-
 
 # IDE0058: Expression value is never used - i.e. when method's return value is not used
 dotnet_diagnostic.IDE0058.severity = none
@@ -227,3 +258,8 @@ dotnet_diagnostic.IDE0028.severity = warning
 
 # Prever .Length and .Count over Any
 dotnet_diagnostic.CA1860.severity = none
+
+#<<<<<<<<<<<<<< Severity overrides ##############
+
+# IDE0045: Convert to conditional expression
+dotnet_diagnostic.IDE0045.severity = none

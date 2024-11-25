@@ -1,0 +1,10 @@
+﻿@using NTS.Domain.Core.Aggregates
+@using NTS.Domain.Core.Aggregates.Participations
+
+@inherits NComponent
+
+<MudStack Class="@Class">
+    <NSwitch Label="Representation" Value="Represent" ValueChanged="ToggleReinspection" />
+
+    <NSwitch Label="Required Inspection" Value="RequireInspection" ValueChanged="ToggleRequiredInspection" />
+</MudStack>

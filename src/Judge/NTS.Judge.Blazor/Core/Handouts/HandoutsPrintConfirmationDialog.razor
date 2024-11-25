@@ -1,0 +1,14 @@
+﻿@inherits NComponent
+
+<MudDialog>
+    <TitleContent>@Localizer.Get("Print confirmation")</TitleContent>
+
+    <DialogContent>
+        @Localizer.Get("Are handouts printed successfully? \"YES\" will delete all handouts. This cannot be undone.")
+    </DialogContent>
+
+    <DialogActions>
+        <NButtonDanger Text="Yes" OnClick="Confirm" />
+        <NButtonSecondary Text="Cancel" OnClick="Cancel" />
+    </DialogActions>
+</MudDialog>

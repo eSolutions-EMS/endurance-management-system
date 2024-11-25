@@ -1,0 +1,14 @@
+﻿@using NTS.Domain.Setup.Aggregates
+@using Not.Blazor.CRUD.Forms.Components
+@using Not.Blazor.Navigation;
+
+@attribute [Route(PHASE_UPDATE)]
+@inherits NComponent
+
+<NContent Title="Configure Phase">
+
+    <Main>
+        <NUpdateContainer T="PhaseFormModel" TForm="PhaseForm" Model="Navigator.ConsumeParameter<PhaseFormModel>()" />
+    </Main>
+
+</NContent>

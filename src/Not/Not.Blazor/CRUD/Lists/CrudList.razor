@@ -1,0 +1,41 @@
+﻿@using Not.Blazor.Components
+@using Not.Blazor.Navigation
+@using Not.Domain.Base
+
+@inherits NComponent
+@typeparam T
+@typeparam TModel
+@typeparam TForm
+
+<MudPaper Elevation="0" Class="@("pa-4 " + Class)" Style="@Style">
+
+    <MudStack Row="true" Class="mb-2">
+        <NHeadline2 Content="@Name" Class="pt-1" />
+
+        <MudSpacer />
+
+        <NButtonCreate Variant="Variant.Outlined" OnClick="CreateHandler" />
+    </MudStack>
+
+    @if (Behind.Items.Count == 0)
+    {
+        <MudText Typo="Typo.body1">@EmptyMessage</MudText>
+    }
+    else
+    {
+        @foreach (var entity in Behind.Items)
+        {
+            <MudStack Row="true">
+                <MudText Typo="Typo.body1" Class="pa-4">@entity</MudText>
+
+                <MudSpacer />
+
+                <NIconUpdate OnClick="() => FormNavigator.Update(UpdateRoute, CreateModel(entity))" />
+
+                <NIconDelete OnClick="() => DeleteHandler(entity)" />
+            </MudStack>
+
+            <MudDivider />
+        }        
+    }
+</MudPaper>

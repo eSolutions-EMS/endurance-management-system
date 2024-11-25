@@ -1,0 +1,21 @@
+﻿@using NTS.Judge.Blazor.Core.Handouts.Documents
+@using NTS.Judge.Blazor.Core.Handouts.Form
+
+@attribute [Route(HANDOUTS_PAGE)]
+@inherits PrintableComponent
+
+<NContent Title="Handouts" HasContent="@Behind.Documents.Any()" EmptyMessage="No handouts to print :)" RightBarXS="2">
+
+    <Main>
+        <HandoutsList Documents="Behind.Documents" />
+    </Main>
+
+    <Rightbar>
+        <NTextDivider Text="Export" />
+        <NotButtonPrint Text="Print Preview" OnClick="OpenPrintPreview" />
+
+        <NTextDivider Text="Manual handout" Class="mt-4" />
+        <HandoutForm />
+    </Rightbar>
+
+</NContent>

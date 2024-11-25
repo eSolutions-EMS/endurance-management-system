@@ -1,0 +1,18 @@
+﻿@using Not.Blazor.CRUD.Forms.Validation
+@using Not.Structures;
+
+@namespace Not.Blazor.Components
+@typeparam T
+@inherits NBindableComponent<T>
+@implements IMudBaseInputWrapper<T>
+
+<MudSelect @bind-Value="Value" @ref="MudBaseInput" Placeholder="@Localizer.Get(Placeholder)" Label="@Localizer.Get(Label)">
+    @foreach (var item in Items)
+    {
+        <MudSelectItem Value="@item.Value">@item.Label</MudSelectItem>
+    }
+    @if(!Items.Any())
+    {
+        <MudSelectItem Class="pa-4" Value="_empty.Value">@(new MarkupString(_empty.Label))</MudSelectItem>
+    }
+</MudSelect>

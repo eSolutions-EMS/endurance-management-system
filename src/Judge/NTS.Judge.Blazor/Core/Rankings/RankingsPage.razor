@@ -1,0 +1,51 @@
+﻿@using NTS.Judge.Blazor.Core.Rankings.Menu
+@using NTS.Judge.Blazor.Core.Rankings.Protocols
+@using NTS.Judge.Blazor.Core.Rankings.Ranklists
+
+@attribute [Route(RANKLIST_PAGE)]
+@inherits PrintableComponent
+
+<NContent Title="Ranklist" HasContent="Behind.Ranklist != null" EmptyMessage="The Event isn't started yet :)">
+    @* // TODO: Add Start button in EmptyContent *@
+
+    <Main>
+        @if (_showProtocol)
+        {
+           <Protocol Ranklist="Behind.Ranklist!" />
+        }
+        else
+        {
+            <RanklistTable />
+        }
+    </Main>
+
+    <Rightbar>
+        <NTextDivider Text="Export" />
+
+        <MudButtonGroup OverrideStyles="false" Variant="Variant.Outlined" Class="align-center">
+            <MudMenu 
+                Icon="@Icons.Material.Filled.ArrowDropDown"
+                Color="Color.Primary"
+                Variant="Variant.Outlined" 
+                Class="sidebar-menu-button align-center"
+                Style="align-self:auto">
+
+                <MudMenuItem OnClick="ShowRanklist">@Localizer.Get("Ranklist")</MudMenuItem>
+
+                <MudMenuItem OnClick="ShowProtocol">@Localizer.Get("Protocol")</MudMenuItem>
+            </MudMenu>
+
+            <NotButtonPrint OnClick="OpenPrintDialog" />
+        </MudButtonGroup>
+
+        <RankingMenu Class="mt-4" />
+    </Rightbar>
+
+</NContent>
+
+<style>
+    .sidebar-menu-button > button.mud-button-root {
+        padding-top: 6px !important;
+        padding-bottom: 5px !important;
+    }
+</style>

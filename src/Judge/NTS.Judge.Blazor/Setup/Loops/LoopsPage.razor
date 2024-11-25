@@ -1,0 +1,16 @@
+﻿@using NTS.Domain.Setup.Aggregates
+@using NTS.Judge.Blazor.Setup.Loops.Dot
+@using Not.Blazor.CRUD.Lists
+
+@attribute [Route(LOOPS_PAGE)]
+@inherits NComponent
+
+<NContent Title="Configure Loops" Class="not-mid-width">
+
+    <Main>
+        <CrudList T="Loop" TModel="LoopFormModel" TForm="LoopForm" UpdateRoute="@LOOP_UPDATE" />
+    </Main>
+
+</NContent>
+
+

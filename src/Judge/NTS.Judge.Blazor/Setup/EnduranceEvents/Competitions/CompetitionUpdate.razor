@@ -1,0 +1,34 @@
+﻿@using NTS.Domain.Setup.Aggregates
+@using NTS.Judge.Blazor.Setup.EnduranceEvents.Contestants
+@using NTS.Judge.Blazor.Setup.EnduranceEvents.Phases
+@using Not.Blazor.CRUD.Forms.Components
+@using Not.Blazor.Navigation
+@using Not.Blazor.CRUD.Lists
+
+@attribute [Route(COMPETITION_UPDATE)]
+@inherits NComponent
+
+<NContent Title="Configure Competition" HasContent="_competition != null" EmptyMessage="Competition does not exist">
+
+    <Main>
+        <NGrid Spacing="8">
+            
+            <MudItem xs="12">
+                <NUpdateContainer T="CompetitionFormModel" TForm="CompetitionForm" Model="_competition" />
+            </MudItem>
+
+            <MudItem xs="6">
+                @* //TODO: behind creates multiple phases at once. *@
+                <CrudList T="Phase" TModel="PhaseFormModel" TForm="PhaseForm" UpdateRoute="@PHASE_UPDATE" ParentId="_competition!.Id"/>
+            </MudItem>
+
+            <MudItem xs="6">
+                @* //TODO: behind creates multiple contestants at once. *@
+                <CrudList T="Participation" TModel="ParticipationFormModel" TForm="ParticipationForm" 
+                    UpdateRoute="@PARTICIPATION_UPDATE" ParentId="_competition!.Id" />
+            </MudItem>
+
+        </NGrid>
+    </Main>
+
+</NContent>

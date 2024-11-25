@@ -1,0 +1,53 @@
+﻿@using NTS.Domain.Core.Aggregates
+@using NTS.Domain.Extensions
+@using Not.Concurrency
+@using Not.Events
+@using Not.Blazor.Components
+
+@inherits NComponent
+
+@if (Behind.SelectedParticipation != null)
+{
+    <NGrid>
+        <MudItem xs="12" Class="mb-4">
+            <NAutocomplete T="Participation" @bind-value="Behind.SelectedParticipation" Search="Search" Class="mb-2 dashboard-autocomplete" />
+        </MudItem>
+        
+        <MudItem xs="3">
+            <MudChipSet @bind-SelectedValue="Behind.SelectedParticipation" SelectionMode="SelectionMode.SingleSelection">
+                
+                @foreach (var grouping in Behind.Participations.GroupBy(x => x.Phases.Distance)) // TODO: move grouping in field
+                {
+                    <MudText Class="pl-4">
+                        <strong>@($"{grouping.Key.RoundNumberToTens()} {@Localizer.Get("KM")}")</strong>
+                    </MudText>
+
+                    <MudDivider /> 
+
+                    @foreach (var participation in grouping.OrderBy(x => x.Combination.Number))
+                    {
+                        var number = participation.Combination.Number;
+                        var color = GetColor(participation);
+                        <MudChip Text="@number.ToString()" Value="@participation" Color="@color" Style="min-width: 1rem" />
+                    }
+                }
+            </MudChipSet>
+        </MudItem>
+        
+        <MudItem xs="9">
+            <ParticipationTable Number="Behind.SelectedParticipation.Combination.Number" Phases="Behind.SelectedParticipation.Phases" />
+        </MudItem>
+    </NGrid>
+}
+
+<style>
+    .dashboard-autocomplete .mud-select-input {
+        margin-top: 0 !important;
+    }
+    .dashboard-autocomplete input {
+        font-size: 1.5rem !important;
+    }
+    .dashboard-autocomplete label {
+        font-size: 1.25rem !important;
+    }
+</style>

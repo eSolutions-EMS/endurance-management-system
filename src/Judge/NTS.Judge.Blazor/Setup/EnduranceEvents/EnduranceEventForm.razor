@@ -1,0 +1,12 @@
+@using NTS.Domain.Objects
+@using NTS.Domain.Setup.Aggregates
+@using NTS.Judge.Blazor.Shared.Contexts
+@using Not.Blazor.CRUD.Forms.Components
+
+@inherits NForm<EnduranceEventFormModel>;
+
+<EditForm Model="Model">
+    <MudTextField @ref="_placeField" @bind-Value="Model.Place" Label="@Localizer.Get(nameof(EnduranceEvent.Place))" />
+
+    <NAutocomplete T="Country" @ref="_countryField" @bind-Value="Model.Country" Label="@nameof(Athlete.Country)" Search="Countries.Search" />
+</EditForm>
