@@ -9,4 +9,7 @@ public enum CompetitionType
 
     [Display(Name = "Star Level")]
     Star = 2,
+
+    [Display(Name = "Championship")]
+    Championship = 3,
 }
