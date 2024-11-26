@@ -6,4 +6,5 @@ public enum AthleteCategory
     Children = 2,
     JuniorOrYoungAdult = 3,
     Training = 4,
+    Companion = 5,
 }
