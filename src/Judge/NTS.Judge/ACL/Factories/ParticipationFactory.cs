@@ -162,7 +162,8 @@ public class ParticipationFactory
             phases.Add(phase);
         }
         var ruleset = CompetitionFactory.MapCompetitionRuleset(competition.Type);
-        var participation = new Participation(competition.Name, ruleset, combination, phases);
+        const int defaultNtsCompetitionType = 0;
+        var participation = new Participation(competition.Name, ruleset, defaultNtsCompetitionType, combination, phases);
         if (finalRecord?.Result?.Type == EmsResultType.FailedToQualify)
         {
             participation.FailToQualify([FtqCode.GA], null);

@@ -1,4 +1,5 @@
 ﻿using Not.Application.CRUD.Ports;
+using Not.Extensions;
 using Not.Injection;
 using Not.Serialization;
 using NTS.Compatibility.EMS;
@@ -73,6 +74,7 @@ public class EmsToCoreImporter : IEmsToCoreImporter
             startTime = DateTime.UtcNow.AddHours(-1);
         }
         return new EnduranceEvent(
+            DomainModelHelper.GenerateId(),
             country,
             emsEvent.PopulatedPlace,
             "populated place",
@@ -199,10 +201,12 @@ public class EmsToCoreImporter : IEmsToCoreImporter
         {
             foreach (var (category, tuples) in entriesByCategory)
             {
+                const int defaultNtsCompetitionType = 0;
                 var entries = tuples.Select(x => x.entry);
                 var competition = new Competition(
                     emsCompetition.Name,
-                    CompetitionFactory.MapCompetitionRuleset(emsCompetition.Type)
+                    CompetitionFactory.MapCompetitionRuleset(emsCompetition.Type),
+                    defaultNtsCompetitionType
                 );
                 result.Add(new Ranking(competition, category, entries));
             }

@@ -71,7 +71,7 @@ public class CoreStarter : ICoreStarter
                 await _participationRepository.Create(participation);
             }
             await CreateRankings(
-                new Competition(competition.Name, competition.Ruleset),
+                new Competition(competition.Name, competition.Ruleset, competition.Type),
                 rankingEntriesByCategory
             );
         }
