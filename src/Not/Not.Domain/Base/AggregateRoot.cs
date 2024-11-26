@@ -33,7 +33,7 @@ public abstract class AggregateRoot : IEquatable<AggregateRoot>, IIdentifiable, 
 
     protected static int GenerateId()
     {
-        return RandomHelper.GenerateUniqueInteger();
+        return DomainModelHelper.GenerateId();
     }
 
     protected static T NotDefault<T>(string field, T value)
