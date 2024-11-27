@@ -14,7 +14,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Not.Domain\Not.Domain.csproj" />
-    <ProjectReference Include="..\Not\Not.csproj" />
   </ItemGroup>
 
 </Project>
