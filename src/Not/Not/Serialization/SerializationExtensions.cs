@@ -10,7 +10,7 @@ public static class SerializationExtensions
         ContractResolver = new PrivatePropertySetterResolver(),
         ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
         Formatting = Newtonsoft.Json.Formatting.Indented,
-        TypeNameHandling = TypeNameHandling.All,
+        TypeNameHandling = TypeNameHandling.Auto,
         ReferenceLoopHandling = ReferenceLoopHandling.Serialize,
     };
 
