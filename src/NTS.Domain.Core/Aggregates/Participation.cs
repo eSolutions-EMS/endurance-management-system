@@ -66,12 +66,7 @@ public class Participation : AggregateRoot, IAggregateRoot
 
     public override string ToString()
     {
-        var result = $"{Combination}, {Phases}";
-        if (Eliminated != null)
-        {
-            result += $", {Eliminated}";
-        }
-        return result;
+        return Combine(Combination, Phases, Eliminated);
     }
 
     //TODO rename to smthing better (including ISnapshotProcessor, IManualProcessor and other mentions..)
