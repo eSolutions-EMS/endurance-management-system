@@ -8,7 +8,7 @@ public class JsonStaticOptionsProvider<T> : JsonFileStore<T>, IStaticOptionsProv
     where T : class, new()
 {
     public JsonStaticOptionsProvider(IStaticOptionsConfiguration configuration)
-        : base(Path.Combine(configuration.Path, "static-options.json")) { }
+        : base(Path.Combine(configuration.Path!, "static-options.json")) { }
 
     public T Get()
     {

@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Logging;
+using Not.Contexts;
 using Not.Injection;
 using Not.Logging.Builder;
 using Not.MAUI.Logging;
-using Not.Storage.Stores.Extensions;
 using NTS.Judge.Blazor;
 using NTS.Judge.MAUI.Server;
 using NTS.Judge.Shared;
@@ -33,11 +33,9 @@ public static class ServiceCollectionExtensions
         builder.Logging.AddDebug();
         builder.Services.AddBlazorWebViewDeveloperTools();
 #endif
-        builder.ConfigureLogging().AddFilesystemLogger<JudgeContext>();
+        builder.ConfigureLogging().AddFilesystemLogger(x => x.Path = ContextHelper.GetAppDirectory("logs"));
 
-        builder
-            .Services.AddJsonFileStore<JudgeContext>()
-            .AddStaticOptionsStore<JudgeContext>()
+        builder.Services
             .AddJudgeBlazor(builder.Configuration)
             .AddInversedDependencies();
 

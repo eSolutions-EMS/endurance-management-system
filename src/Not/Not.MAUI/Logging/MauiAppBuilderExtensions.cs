@@ -11,10 +11,10 @@ public static class MauiAppBuilderExtensions
     /// </summary>
     /// <param name="mauiBuilder">MauiAppBuilder instance</param>/param>
     /// <returns>Instance of NotLogBuilder to be used to configure specific loggers</returns>
-    public static NotLogBuilder ConfigureLogging(this MauiAppBuilder mauiBuilder)
+    public static NLogBuilder ConfigureLogging(this MauiAppBuilder mauiBuilder)
     {
         mauiBuilder.Logging.AddSerilog();
         mauiBuilder.Services.AddSerilog();
-        return new NotLogBuilder(mauiBuilder.Services);
+        return new NLogBuilder(mauiBuilder.Services);
     }
 }

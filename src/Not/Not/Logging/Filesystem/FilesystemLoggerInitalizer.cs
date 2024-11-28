@@ -18,7 +18,7 @@ public class FilesystemLoggerInitalizer : IStartupInitializer
 
         Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Information()
-            .WriteTo.File($"{_configuration.Directory}/log.txt")
+            .WriteTo.File($"{_configuration.Path}/log.txt")
             .CreateLogger();
     }
 }

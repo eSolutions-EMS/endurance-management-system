@@ -1,4 +1,5 @@
-﻿using Not.Startup;
+﻿using Not.Contexts;
+using Not.Startup;
 using NTS.Judge.MAUI.Server;
 
 namespace NTS.Judge.MAUI;
@@ -10,6 +11,8 @@ public partial class App : Microsoft.Maui.Controls.Application
         InitializeComponent();
 
         MainPage = new MainPage();
+
+        ContextHelper.SetApplicationName("nts");
 
         foreach (var initializer in initializers)
         {
