@@ -2,9 +2,9 @@
 
 namespace Not.Logging.Builder;
 
-public class NotLogBuilder
+public class NLogBuilder
 {
-    public NotLogBuilder(IServiceCollection services)
+    public NLogBuilder(IServiceCollection services)
     {
         Services = services;
     }

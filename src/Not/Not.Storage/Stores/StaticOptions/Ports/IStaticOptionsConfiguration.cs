@@ -2,5 +2,5 @@
 
 public interface IStaticOptionsConfiguration
 {
-    string Path { get; }
+    string? Path { get; } // TODO: probably shouldn't be nullable as they are required
 }

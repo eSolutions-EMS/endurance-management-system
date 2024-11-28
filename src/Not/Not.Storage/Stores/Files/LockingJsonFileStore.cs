@@ -11,7 +11,7 @@ public class LockingJsonFileStore<T> : JsonFileStore<T>, IStore<T>
     readonly TimeoutLockSemaphore _timeoutLock;
 
     public LockingJsonFileStore(IFileStorageConfiguration configuration)
-        : base(Path.Combine(configuration.Path, $"{typeof(T).Name}.json"))
+        : base(Path.Combine(configuration.Path!, $"{typeof(T).Name}.json"))
     {
         _timeoutLock = new TimeoutLockSemaphore();
     }

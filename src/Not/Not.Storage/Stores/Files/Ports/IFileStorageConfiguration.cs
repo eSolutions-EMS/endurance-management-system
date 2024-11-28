@@ -2,5 +2,5 @@
 
 public interface IFileStorageConfiguration
 {
-    string Path { get; }
+    string? Path { get; }
 }
