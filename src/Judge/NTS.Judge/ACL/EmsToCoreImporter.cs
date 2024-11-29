@@ -201,12 +201,12 @@ public class EmsToCoreImporter : IEmsToCoreImporter
         {
             foreach (var (category, tuples) in entriesByCategory)
             {
-                const int defaultNtsCompetitionType = 0;
+                const int DEFAULT_NTS_COMPETITION_TYPE = 0;
                 var entries = tuples.Select(x => x.entry);
                 var competition = new Competition(
                     emsCompetition.Name,
                     CompetitionFactory.MapCompetitionRuleset(emsCompetition.Type),
-                    defaultNtsCompetitionType
+                    DEFAULT_NTS_COMPETITION_TYPE
                 );
                 result.Add(new Ranking(competition, category, entries));
             }
