@@ -14,7 +14,6 @@ public static class MauiAppBuilderExtensions
     public static NLogBuilder ConfigureLogging(this MauiAppBuilder mauiBuilder)
     {
         mauiBuilder.Logging.AddSerilog();
-        mauiBuilder.Services.AddSerilog();
-        return new NLogBuilder(mauiBuilder.Services);
+        return mauiBuilder.Services.AddNLogging();
     }
 }
