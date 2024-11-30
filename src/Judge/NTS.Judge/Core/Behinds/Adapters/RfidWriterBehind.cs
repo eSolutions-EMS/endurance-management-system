@@ -3,9 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Not.Exceptions;
+using Not.Safe;
 using NTS.Domain.Setup.Aggregates;
 using NTS.Judge.ACL.RFID;
 using NTS.Judge.Blazor.Setup.Combinations.RFID;
+using Vup.reader;
+using Tag = NTS.Domain.Setup.Aggregates.Tag;
 
 namespace NTS.Judge.Core.Behinds.Adapters;
 
@@ -19,6 +23,14 @@ public class RfidWriterBehind : IRfidWriterBehind
     }
 
     public async Task<Tag> WriteTag(int number)
+    {
+        Task<Tag> action() => SafeWriteTag(number);
+        var tagResult = await SafeHelper.Run(action);
+        GuardHelper.ThrowIfDefault(tagResult);
+        return tagResult;
+    }
+
+    async Task<Tag> SafeWriteTag(int number)
     {
         Tag function()
         {
