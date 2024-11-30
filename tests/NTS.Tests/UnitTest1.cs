@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using Not.Application.CRUD.Ports;
 using Not.Blazor.CRUD.Ports;
 using Not.Serialization;
 using NTS.Domain.Objects;
@@ -15,7 +16,7 @@ public class UnitTest1 : JsonFileStoreIntegrationTest
     }
 
     [Fact]
-    public async void Test1()
+    public async Task Test1()
     {
         await Seed("{}");
         
@@ -35,7 +36,31 @@ public class UnitTest1 : JsonFileStoreIntegrationTest
             EnduranceEvent = EnduranceEvent.Update(enduranceEvent.Id, enduranceEvent.Place, enduranceEvent.Country, [], [])
         };
 
-        await AssertState(expectedState.ToJson());
+        await AssertStateEquals(expectedState.ToJson());
+    }
+
+    [Fact]
+    public async Task SeedResourceTest()
+    {
+        await SeedResource("seed-endurance-event.json");
+
+        var expected = """
+            {
+              "EnduranceEvent": {
+                "Place": "Sofia",
+                "Country": {
+                  "IsoCode": "testIso",
+                  "NfCode": "testNf",
+                  "Name": "Test"
+                },
+                "Officials": [],
+                "Competitions": [],
+                "Id": 319178201
+              }
+            }
+            """;
+
+        await AssertStateEquals(expected);
     }
 }
 
