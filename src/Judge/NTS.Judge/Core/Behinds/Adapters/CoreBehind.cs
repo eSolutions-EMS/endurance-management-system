@@ -31,7 +31,7 @@ public class CoreBehind : ObservableBehind, ICoreBehind
     {
         var enduranceEvents = await _enduranceEvents.Read(0);
         IsStarted = enduranceEvents != null;
-        return true;
+        return IsStarted;
     }
 
     public Task Start()
@@ -41,7 +41,13 @@ public class CoreBehind : ObservableBehind, ICoreBehind
 
     public Task Import(string contents)
     {
-        return SafeHelper.Run(() => _emsImporter.ImportCore(contents));
+        return SafeHelper.Run(() => SafeImport(contents));
+    }
+
+    async Task SafeImport(string contents)
+    {
+        await _emsImporter.ImportCore(contents);
+        await Initialize();
     }
 
     async Task SafeStart()
