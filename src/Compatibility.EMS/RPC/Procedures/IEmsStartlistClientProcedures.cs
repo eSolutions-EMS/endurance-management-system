@@ -1,6 +1,6 @@
 ﻿using NTS.Compatibility.EMS.Enums;
 
-namespace NTS.Compatibility.EMS.RPC;
+namespace NTS.Compatibility.EMS.RPC.Procedures;
 
 public interface IEmsStartlistClientProcedures
 {

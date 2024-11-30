@@ -6,6 +6,7 @@ using NTS.Compatibility.EMS.Entities;
 using NTS.Compatibility.EMS.Entities.EMS;
 using NTS.Compatibility.EMS.Enums;
 using NTS.Compatibility.EMS.RPC;
+using NTS.Compatibility.EMS.RPC.Procedures;
 using NTS.Domain.Core.Aggregates;
 using NTS.Domain.Core.Objects.Payloads;
 using NTS.Domain.Objects;

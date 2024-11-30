@@ -39,3 +39,42 @@ dotnet_diagnostic.CS8766.severity = none
 
 # IDE0130: Namespace does not match folder structure
 dotnet_diagnostic.IDE0130.severity = none
+
+# NA0000: Internal analyzer error
+dotnet_diagnostic.NA0000.severity = none
+
+# NA0003: Member ordering rule violation
+dotnet_diagnostic.NA0003.severity = none
+
+# NA0004: Member spacing rule violation
+dotnet_diagnostic.NA0004.severity = none
+
+# NA0001: Avoid using 'private' keyword
+dotnet_diagnostic.NA0001.severity = none
+
+# IDE0028: Simplify collection initialization
+dotnet_diagnostic.IDE0028.severity = none
+
+# IDE0022: Use block body for method
+dotnet_diagnostic.IDE0022.severity = none
+
+# IDE0053: Use expression body for lambda expression
+dotnet_diagnostic.IDE0053.severity = none
+
+# NA0009: Type member method using lambda arrow expression
+dotnet_diagnostic.NA0009.severity = none
+
+# CS8604: Possible null reference argument.
+dotnet_diagnostic.CS8604.severity = none
+
+# NA0005: Unnecessary use of 'this'
+dotnet_diagnostic.NA0005.severity = none
+
+# CS8622: Nullability of reference types in type of parameter doesn't match the target delegate (possibly because of nullability attributes).
+dotnet_diagnostic.CS8622.severity = none
+
+# NA0006: Avoid nested method invocations
+dotnet_diagnostic.NA0006.severity = none
+
+# IDE0060: Remove unused parameter
+dotnet_diagnostic.IDE0060.severity = none
