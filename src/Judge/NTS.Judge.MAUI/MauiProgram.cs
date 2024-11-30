@@ -1,5 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
-using Not.Contexts;
+using Not.Filesystem;
 using Not.Injection;
 using Not.Logging.Builder;
 using Not.MAUI.Logging;
@@ -33,6 +33,7 @@ public static class ServiceCollectionExtensions
         builder.Logging.AddDebug();
         builder.Services.AddBlazorWebViewDeveloperTools();
 #endif
+        FileContextHelper.SetDebugRootDirectory("nts");
         builder.ConfigureLogging().AddFilesystemLogger();
 
         builder.Services

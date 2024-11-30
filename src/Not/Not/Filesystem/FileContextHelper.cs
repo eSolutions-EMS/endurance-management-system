@@ -1,7 +1,7 @@
 ﻿using Not.Exceptions;
 using Not.Injection.Config;
 
-namespace Not.Contexts;
+namespace Not.Filesystem;
 
 public static class FileContextHelper
 {
@@ -17,17 +17,16 @@ public static class FileContextHelper
 
     public static string GetAppDirectory(string subdirectory)
     {
-        GuardHelper.ThrowIfDefault(_applicationName);
-
         var basePath =
 #if DEBUG
             $"C:\\tmp\\{_applicationName}";
+        GuardHelper.ThrowIfDefault(_applicationName);
 #else
         Directory.GetCurrentDirectory();
 #endif
         return Path.Combine(basePath, subdirectory);
     }
-    
+
     public static Func<IServiceProvider, object?, FileContext> CreateFileContextFactory(Action<FileContext>? configure, string defaultDirectoryName)
     {
         return configure == null

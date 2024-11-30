@@ -1,5 +1,4 @@
-﻿using Not.Contexts;
-using Not.Startup;
+﻿using Not.Startup;
 using NTS.Judge.MAUI.Server;
 
 namespace NTS.Judge.MAUI;
@@ -11,8 +10,6 @@ public partial class App : Microsoft.Maui.Controls.Application
         InitializeComponent();
 
         MainPage = new MainPage();
-
-        FileContextHelper.SetDebugRootDirectory("nts");
 
         foreach (var initializer in initializers)
         {

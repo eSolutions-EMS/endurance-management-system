@@ -2,8 +2,15 @@
 
 namespace Not.Logging.Builder;
 
-public class HttpLoggerContext : NConfig
+public class HttpLoggerContext : INConfig
 {
-    protected override string[] RequiredFields => [nameof(Host)];
-    public string? Host { get; set; }
+    public string Host { get; set; } = default!;
+
+    void INConfig.Validate()
+    {
+        if (string.IsNullOrWhiteSpace(Host))
+        {
+            throw new ApplicationException($"'{nameof(HttpLoggerContext)}.{nameof(Host)}' cannot be null or whitespace");
+        }
+    }
 }

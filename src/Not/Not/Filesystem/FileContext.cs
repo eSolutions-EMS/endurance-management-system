@@ -1,17 +1,18 @@
-﻿using Not.Injection.Config;
+﻿using System.Diagnostics.CodeAnalysis;
+using Not.Injection.Config;
 
-namespace Not.Contexts;
+namespace Not.Filesystem;
 
-public class FileContext : NConfig, IFileContext // TODO: move to Filesystem
+public class FileContext : INConfig, IFileContext // TODO: move to Filesystem
 {
-    string _path = default!;
+    public string Path { get; set; } = default!;
 
-    protected override string[] RequiredFields => [nameof(Path)];
-
-    public string Path
+    void INConfig.Validate()
     {
-        get => _path;
-        set => _path = value ?? throw new ArgumentException($"{nameof(IFileContext)}.{nameof(Path)} cannot be null");
+        if (string.IsNullOrWhiteSpace(Path))
+        {
+            throw new ArgumentException($"'{nameof(IFileContext)}.{nameof(Path)}' cannot be null or whitespace");
+        }
     }
 }
 
