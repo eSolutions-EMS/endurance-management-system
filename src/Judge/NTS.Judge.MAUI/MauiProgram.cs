@@ -33,7 +33,7 @@ public static class ServiceCollectionExtensions
         builder.Logging.AddDebug();
         builder.Services.AddBlazorWebViewDeveloperTools();
 #endif
-        builder.ConfigureLogging().AddFilesystemLogger(x => x.Path = ContextHelper.GetAppDirectory("logs"));
+        builder.ConfigureLogging().AddFilesystemLogger();
 
         builder.Services
             .AddJudgeBlazor(builder.Configuration)

@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Not.Contexts;
+using Not.Injection.Config;
 using Not.Logging.Filesystem;
 using Not.Logging.HTTP;
 using Not.Startup;
@@ -9,37 +11,27 @@ public static class NLogExtensions
 {
     public static NLogBuilder AddHttpLogger(this NLogBuilder builder, Action<HttpLoggerContext> configure)
     {
-        var factory = ConfigureContext(configure);
+        var factory = NConfigHelper.CreateConfigFactory(configure);
         builder
-            .Services.AddSingleton<IHttpLoggerConfiguration, HttpLoggerContext>(factory)
+            .Services.AddSingleton(factory)
             .AddSingleton<IStartupInitializer, HttpLoggerInitializer>();
 
         return builder;
     }
 
-    public static NLogBuilder AddFilesystemLogger(this NLogBuilder builder, Action<FilesystemLoggerContext> configure)
+    /// <summary>
+    /// FileContext defaults to <seealso cref="FileContextHelper.GetAppDirectory(string)"/> using 'logs' as subdirectory
+    /// </summary>
+    /// <param name="services"></param>
+    /// <param name="configure">Custom configuration</param>
+    /// <returns></returns>
+    public static NLogBuilder AddFilesystemLogger(this NLogBuilder builder, Action<FileContext>? configure = null)
     {
-        var factory = ConfigureContext(configure);
+        var factory = FileContextHelper.CreateFileContextFactory(configure, "logs");
         builder
-            .Services.AddSingleton<IFilesystemLoggerConfiguration, FilesystemLoggerContext>(factory)
+            .Services.AddKeyedSingleton<IFileContext, FileContext>(NLogBuilder.KEY, factory)
             .AddSingleton<IStartupInitializer, FilesystemLoggerInitalizer>();
 
         return builder;
-    }
-
-    static Func<IServiceProvider, HttpLoggerContext> ConfigureContext(Action<HttpLoggerContext> configure)
-    {
-        var contex = new HttpLoggerContext();
-        configure(contex);
-        contex.Validate();
-        return _ => contex;
-    }
-
-    static Func<IServiceProvider, FilesystemLoggerContext> ConfigureContext(Action<FilesystemLoggerContext> configure)
-    {
-        var contex = new FilesystemLoggerContext();
-        configure(contex);
-        contex.Validate();
-        return _ => contex;
     }
 }

@@ -1,17 +1,9 @@
-﻿using Not.Logging.HTTP;
+﻿using Not.Injection.Config;
 
 namespace Not.Logging.Builder;
 
-public class HttpLoggerContext : IHttpLoggerConfiguration
+public class HttpLoggerContext : NConfig
 {
+    protected override string[] RequiredFields => [nameof(Host)];
     public string? Host { get; set; }
-
-    internal void Validate()
-    {
-        if (Host == null)
-        {
-            // TODO: extract common context and common confugaration in extensions?
-            throw new ApplicationException($"{nameof(HttpLoggerContext)} is not configured: {nameof(Host)} is required");
-        }
-    }
 }

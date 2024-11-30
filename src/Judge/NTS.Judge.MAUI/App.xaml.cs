@@ -12,7 +12,7 @@ public partial class App : Microsoft.Maui.Controls.Application
 
         MainPage = new MainPage();
 
-        ContextHelper.SetApplicationName("nts");
+        FileContextHelper.SetDebugRootDirectory("nts");
 
         foreach (var initializer in initializers)
         {

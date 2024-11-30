@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Not.Contexts;
 using Not.Injection;
-using Not.Storage.Stores.Config;
+using Not.Storage.Stores;
 using NTS.Judge.Shared;
 
 namespace NTS.Judge.Tests;
@@ -28,12 +28,12 @@ public abstract partial class JsonFileStoreIntegrationTest : IDisposable
 
     protected virtual IServiceCollection ConfigureServices(string storagePath)
     {
-        ContextHelper.SetApplicationName("nts");
+        FileContextHelper.SetRootDirectory("nts");
         var services = new ServiceCollection();
         return services
             .AddJudge()
             .AddJsonFileStore(x => x.Path = storagePath)
-            .AddStaticOptionsStore(x => x.Path = ContextHelper.GetAppDirectory("resources"))
+            .AddStaticOptionsStore(x => x.Path = FileContextHelper.GetAppDirectory("resources"))
             .GetConventionalAssemblies()
             .RegisterConventionalServices();
     }
