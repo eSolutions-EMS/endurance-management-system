@@ -67,9 +67,33 @@ public static class SafeHelper
         }
     }
 
+    public static async void Run(
+    Action action,
+    Func<DomainExceptionBase, Task> validationHandler
+)
+    {
+        try
+        {
+            action();
+        }
+        catch (DomainExceptionBase validation)
+        {
+            await validationHandler(validation);
+        }
+        catch (Exception ex)
+        {
+            HandleError(ex);
+        }
+    }
+
     public static Task Run(Func<Task> action)
     {
         return Run(action, DefaultValidationHandler);
+    }
+
+    public static void Run(Action action)
+    {
+        Run(action, DefaultValidationHandler);
     }
 
     public static async Task<T?> Run<T>(
@@ -140,6 +164,8 @@ public static class SafeHelper
         throw ex;
 #else
         NotifyHelper.Error(ex);
+        var logMessage = $"An error {ex.Message} was thrown at {ex.Source} with trace {ex.StackTrace}";
+        LoggingHelper.Error(logMessage);
         WriteToTraceConsole(ex);
 #endif
     }
