@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Text;
 using Not.Exceptions;
+using Not.Logging;
 using Not.Notify;
 
 namespace Not.Safe;
@@ -164,7 +165,7 @@ public static class SafeHelper
         throw ex;
 #else
         NotifyHelper.Error(ex);
-        var logMessage = $"An error {ex.Message} was thrown at {ex.Source} with trace {ex.StackTrace}";
+        var logMessage = $"An error {ex.Message} was thrown at {ex.Source} with trace \n {ex.StackTrace}";
         LoggingHelper.Error(logMessage);
         WriteToTraceConsole(ex);
 #endif
