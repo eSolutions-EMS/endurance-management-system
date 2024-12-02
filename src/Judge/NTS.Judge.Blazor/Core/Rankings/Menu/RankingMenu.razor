@@ -12,10 +12,10 @@
         Class="@Class" 
         Style="@Style">
 
-        @foreach (var tuple in _rankingsByDistance)
+        @foreach (var grouping in _rankingsByDistance)
         {
-            <NTextDivider Text="@tuple.Name" />
-            @foreach (var ranking in tuple.ranking)
+            <NTextDivider Text="@grouping.Key" />
+            @foreach (var ranking in grouping.OrderBy(x => x.Category))
             {
                 <MudChip Text="@ranking.Category.ToString()" Value="@ranking.Id" Color="Color.Primary" Style="min-width: 1rem" />
             }
