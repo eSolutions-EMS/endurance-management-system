@@ -41,12 +41,12 @@ public class RfidReaderBehind : IRfidReaderBehind
 
     public bool IsConnected()
     {
-       return SafeHelper.Run(SafeIsConnected);
+        return SafeHelper.Run(SafeIsConnected);
     }
 
     public async void Process(Snapshot snapshot)
     {
-        Task action() => SafeProcess(snapshot); 
+        Task action() => SafeProcess(snapshot);
         await SafeHelper.RunAsync(action);
     }
 

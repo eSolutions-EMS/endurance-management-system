@@ -5,7 +5,9 @@ namespace NTS.Judge.Blazor.Core.Rankings.Menu;
 
 public partial class RankingMenu
 {
-    IEnumerable<IGrouping<string, Ranking>> _rankingsByDistance = Enumerable.Empty<IGrouping<string, Ranking>>();
+    IEnumerable<IGrouping<string, Ranking>> _rankingsByDistance = Enumerable.Empty<
+        IGrouping<string, Ranking>
+    >();
 
     [Inject]
     public IRankingBehind Behind { get; set; } = default!;

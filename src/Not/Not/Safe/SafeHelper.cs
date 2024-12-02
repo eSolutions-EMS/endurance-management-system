@@ -68,10 +68,7 @@ public static class SafeHelper
         }
     }
 
-    public static async void Run(
-    Action action,
-    Func<DomainExceptionBase, Task> validationHandler
-)
+    public static async void Run(Action action, Func<DomainExceptionBase, Task> validationHandler)
     {
         try
         {
@@ -165,7 +162,8 @@ public static class SafeHelper
         throw ex;
 #else
         NotifyHelper.Error(ex);
-        var logMessage = $"An error {ex.Message} was thrown at {ex.Source} with trace \n {ex.StackTrace}";
+        var logMessage =
+            $"An error {ex.Message} was thrown at {ex.Source} with trace \n {ex.StackTrace}";
         LoggingHelper.Error(logMessage);
         WriteToTraceConsole(ex);
 #endif

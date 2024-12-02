@@ -84,7 +84,7 @@ public class CoreStarter : ICoreStarter
     {
         foreach (var relation in rankingEntriesByCategory)
         {
-            if(relation.Value.Count > 0)
+            if (relation.Value.Count > 0)
             {
                 var ranking = RankingFactory.Create(competition, relation.Key, relation.Value);
                 await _rankingRepository.Create(ranking);

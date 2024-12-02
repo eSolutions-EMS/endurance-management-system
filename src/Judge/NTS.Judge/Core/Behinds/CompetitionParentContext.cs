@@ -66,9 +66,15 @@ public class CompetitionParentContext
 
     void ValidateAthleteCategory(Participation child)
     {
-        if (child.Combination.Athlete.Category == AthleteCategory.JuniorOrYoungAdult && Entity!.Type == CompetitionType.Championship)
+        if (
+            child.Combination.Athlete.Category == AthleteCategory.JuniorOrYoungAdult
+            && Entity!.Type == CompetitionType.Championship
+        )
         {
-            throw new DomainException(nameof(Participation.Combination), "Athletes participating in Championship Competitions must be of Senior category.");
+            throw new DomainException(
+                nameof(Participation.Combination),
+                "Athletes participating in Championship Competitions must be of Senior category."
+            );
         }
     }
 }

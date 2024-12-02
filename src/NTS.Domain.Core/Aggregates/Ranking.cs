@@ -30,8 +30,14 @@ public class Ranking : AggregateRoot, IAggregateRoot
         AthleteCategory category,
         IEnumerable<RankingEntry> entries
     )
-        : this(GenerateId(), competition.Name, competition.Ruleset, competition.Type, category, new(entries.ToList()))
-    { }
+        : this(
+            GenerateId(),
+            competition.Name,
+            competition.Ruleset,
+            competition.Type,
+            category,
+            new(entries.ToList())
+        ) { }
 
     public string Name { get; }
     public CompetitionRuleset Ruleset { get; }
