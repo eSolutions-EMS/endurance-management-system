@@ -134,9 +134,15 @@ public class Competition : AggregateRoot, IParent<Participation>, IParent<Phase>
 
     void ValidateAthleteCategory(Participation child)
     {
-        if (child.Combination.Athlete.Category == AthleteCategory.JuniorOrYoungAdult && Type == CompetitionType.Championship)
+        if (
+            child.Combination.Athlete.Category == AthleteCategory.JuniorOrYoungAdult
+            && Type == CompetitionType.Championship
+        )
         {
-            throw new DomainException(nameof(Participation.Combination), "Athletes participating in Championship Competitions cannot be of JuniorOrYoungAdult category.");
+            throw new DomainException(
+                nameof(Participation.Combination),
+                "Athletes participating in Championship Competitions cannot be of JuniorOrYoungAdult category."
+            );
         }
     }
 
