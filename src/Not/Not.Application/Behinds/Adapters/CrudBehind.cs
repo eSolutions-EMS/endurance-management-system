@@ -76,8 +76,9 @@ public abstract class CrudBehind<T, TModel>
     {
         if (_parentContext != null)
         {
-            // CompetitionBehind assumes it's invoked in a EnduranceEvent tree context. I.e. that EnduranceEvent is already
-            // initialized and _parentContext.Entity is not null. If it can be invoked autonomously then it can be initialized using args
+            // Since it's it's a child it asssumes that it's parent is initiazliaed already. I.e. that EnduranceEvent is already
+            // initialized and _parentContext.Entity is not null for Competitions.
+            // If it can be invoked autonomously then it can be initialized using args
             if (!_parentContext.HasLoaded() && !arguments.Any())
             {
                 var name = this.GetTypeName();
@@ -97,15 +98,13 @@ public abstract class CrudBehind<T, TModel>
                 }
                 await _parentContext.Load(parentId);
             }
-            //ObservableCollection.AddRange(_parentContext.GetChildren());
-            return false; // Has to be false in order to be able to reintialize and update if any children are changed
         }
         else
         {
             var entities = await _repository.ReadAll();
             ObservableList.AddRange(entities);
-            return entities.Any();
         }
+        return false; // Has to be false in order to be able to reintialize and update if any children are changed
     }
 
     public async Task Update(TModel model)
