@@ -20,7 +20,7 @@ public abstract class ObservableBehind : IObservableBehind
     protected abstract Task<bool> PerformInitialization(params IEnumerable<object> arguments);
 
     /// <summary>
-    /// This flag indicates that <seealso cref="PerformInitialization(IEnumerable{object})" /> is always 
+    /// This flag indicates that <seealso cref="PerformInitialization(IEnumerable{object})" /> is always
     /// invoked during OnInitializedAsync />
     /// </summary>
     protected bool ActualizeEveryTime { get; } = false;

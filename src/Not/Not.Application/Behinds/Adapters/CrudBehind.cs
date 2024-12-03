@@ -105,7 +105,7 @@ public abstract class CrudBehind<T, TModel>
             ObservableList.AddRange(entities);
         }
         // Has to be false in order to be able to reintialize and update if any children are changed
-        return ActualizeEveryTime; 
+        return ActualizeEveryTime;
     }
 
     public async Task Update(TModel model)
