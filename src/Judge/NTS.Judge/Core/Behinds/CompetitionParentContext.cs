@@ -49,32 +49,16 @@ public class CompetitionParentContext
 
     public void Add(Participation child)
     {
-        ValidateAthleteCategory(child);
         Entity!.Add(child);
     }
 
     public void Update(Participation child)
     {
-        ValidateAthleteCategory(child);
         Entity!.Update(child);
     }
 
     public void Remove(Participation child)
     {
         Entity!.Remove(child);
-    }
-
-    void ValidateAthleteCategory(Participation child)
-    {
-        if (
-            child.Combination.Athlete.Category == AthleteCategory.JuniorOrYoungAdult
-            && Entity!.Type == CompetitionType.Championship
-        )
-        {
-            throw new DomainException(
-                nameof(Participation.Combination),
-                "Athletes participating in Championship Competitions must be of Senior category."
-            );
-        }
     }
 }

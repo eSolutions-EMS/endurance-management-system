@@ -99,6 +99,7 @@ public class Competition : AggregateRoot, IParent<Participation>, IParent<Phase>
 
     public void Add(Participation child)
     {
+        ValidateAthleteCategory(child);
         child.SetSpeedLimits(Type);
         _participations.Add(child);
     }
@@ -110,6 +111,7 @@ public class Competition : AggregateRoot, IParent<Participation>, IParent<Phase>
 
     public void Update(Participation child)
     {
+        ValidateAthleteCategory(child);
         _participations.Remove(child);
         Add(child);
     }
@@ -128,6 +130,14 @@ public class Competition : AggregateRoot, IParent<Participation>, IParent<Phase>
     {
         _phases.Remove(child);
         Add(child);
+    }
+
+    void ValidateAthleteCategory(Participation child)
+    {
+        if (child.Combination.Athlete.Category == AthleteCategory.JuniorOrYoungAdult && Type == CompetitionType.Championship)
+        {
+            throw new DomainException(nameof(Participation.Combination), "Athletes participating in Championship Competitions cannot be of JuniorOrYoungAdult category.");
+        }
     }
 
     static DateTimeOffset IsFutureTime(string field, DateTimeOffset start)
