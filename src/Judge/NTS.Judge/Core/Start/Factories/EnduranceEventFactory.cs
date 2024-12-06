@@ -17,6 +17,7 @@ public static class EnduranceEventFactory
 
         // TODO: fix city and pla
         var enduranceEvent = new EnduranceEvent(
+            setupEvent.Id,
             setupEvent.Country,
             setupEvent.Place,
             "",

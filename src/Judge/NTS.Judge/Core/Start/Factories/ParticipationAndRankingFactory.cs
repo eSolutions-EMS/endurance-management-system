@@ -72,6 +72,7 @@ public static class ParticipationAndRankingrFactory
             var participation = new Participation(
                 setupCompetition.Name,
                 setupCompetition.Ruleset,
+                setupCompetition.Type,
                 combination,
                 phases
             );

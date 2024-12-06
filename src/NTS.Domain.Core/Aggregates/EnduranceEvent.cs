@@ -25,6 +25,7 @@ public class EnduranceEvent : AggregateRoot, IAggregateRoot
     }
 
     public EnduranceEvent(
+        int id,
         Country country,
         string city,
         string place,
@@ -35,7 +36,7 @@ public class EnduranceEvent : AggregateRoot, IAggregateRoot
         string? showFeiId
     )
         : this(
-            GenerateId(),
+            id,
             new PopulatedPlace(country, city, place),
             new EventSpan(startDate, endDate),
             feiId,

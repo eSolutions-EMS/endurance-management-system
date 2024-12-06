@@ -12,6 +12,7 @@ public class Ranking : AggregateRoot, IAggregateRoot
         int id,
         string name,
         CompetitionRuleset ruleset,
+        CompetitionType type,
         AthleteCategory category,
         ReadOnlyCollection<RankingEntry> entries
     )
@@ -20,6 +21,7 @@ public class Ranking : AggregateRoot, IAggregateRoot
         Name = name;
         Ruleset = ruleset;
         Category = category;
+        Type = type;
         Entries = entries;
     }
 
@@ -28,11 +30,18 @@ public class Ranking : AggregateRoot, IAggregateRoot
         AthleteCategory category,
         IEnumerable<RankingEntry> entries
     )
-        : this(GenerateId(), competition.Name, competition.Ruleset, category, new(entries.ToList()))
-    { }
+        : this(
+            GenerateId(),
+            competition.Name,
+            competition.Ruleset,
+            competition.Type,
+            category,
+            new(entries.ToList())
+        ) { }
 
     public string Name { get; }
     public CompetitionRuleset Ruleset { get; }
+    public CompetitionType Type { get; }
     public AthleteCategory Category { get; }
     public ReadOnlyCollection<RankingEntry> Entries { get; }
 

@@ -71,7 +71,7 @@ public class CoreStarter : ICoreStarter
                 await _participationRepository.Create(participation);
             }
             await CreateRankings(
-                new Competition(competition.Name, competition.Ruleset),
+                new Competition(competition.Name, competition.Ruleset, competition.Type),
                 rankingEntriesByCategory
             );
         }
@@ -84,8 +84,11 @@ public class CoreStarter : ICoreStarter
     {
         foreach (var relation in rankingEntriesByCategory)
         {
-            var ranking = RankingFactory.Create(competition, relation.Key, relation.Value);
-            await _rankingRepository.Create(ranking);
+            if (relation.Value.Count > 0)
+            {
+                var ranking = RankingFactory.Create(competition, relation.Key, relation.Value);
+                await _rankingRepository.Create(ranking);
+            }
         }
     }
 }
