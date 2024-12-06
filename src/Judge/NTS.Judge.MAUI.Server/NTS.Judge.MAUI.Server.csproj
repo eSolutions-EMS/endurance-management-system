@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Compatibility.EMS\NTS.ACL.csproj" />
+    <ProjectReference Include="..\..\NTS.ACL\NTS.ACL.csproj" />
     <ProjectReference Include="..\..\NTS.Application\NTS.Application.csproj" />
     <ProjectReference Include="..\..\NTS.Storage\NTS.Storage.csproj" />
   </ItemGroup>
