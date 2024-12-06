@@ -2,7 +2,7 @@
 using Not.Application.CRUD.Ports;
 using Not.Safe;
 using NTS.Domain.Core.Aggregates;
-using NTS.Judge.ACL.Adapters;
+using NTS.Judge.ACL;
 using NTS.Judge.Blazor.Shared.Components.SidePanels;
 using NTS.Judge.Core.Start;
 

@@ -1,6 +1,6 @@
 ﻿using NTS.Domain.Objects;
 
-namespace NTS.Judge.Core.Ports;
+namespace NTS.Application.RPC.Procedures;
 
 public interface IHubProcedures
 {

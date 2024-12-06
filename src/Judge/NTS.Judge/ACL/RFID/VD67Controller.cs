@@ -6,12 +6,12 @@ public class VupVD67Controller : RfidController
 {
     const int NO_TAG_ERROR_CODE = 24;
 
-    readonly VD67Reader reader = null!;
+    readonly VD67Reader _reader = null!;
 
     public VupVD67Controller(TimeSpan? throttle = null)
         : base(throttle)
     {
-        reader = new VD67Reader();
+        _reader = new VD67Reader();
     }
 
     protected override string Device => "VD67";
@@ -19,8 +19,8 @@ public class VupVD67Controller : RfidController
 
     public override void Connect()
     {
-        var connectionResult = reader.Connect();
-        var setPowerResult = reader.SetAntPower(0, 27);
+        var connectionResult = _reader.Connect();
+        var setPowerResult = _reader.SetAntPower(0, 27);
         if (!connectionResult.Success || !setPowerResult.Success)
         {
             RaiseError(
@@ -35,7 +35,7 @@ public class VupVD67Controller : RfidController
     {
         if (IsConnected)
         {
-            reader.Disconnect();
+            _reader.Disconnect();
             IsConnected = false;
             RaiseMessage("Disconnected!");
         }
@@ -43,19 +43,19 @@ public class VupVD67Controller : RfidController
 
     public string Read()
     {
-        if (!reader.IsConnected)
+        if (!_reader.IsConnected)
         {
             Connect();
         }
         IsWaitingRead = true;
         IsReading = false;
         IsWriting = false;
-        while (IsWaitingRead && reader.IsConnected)
+        while (IsWaitingRead && _reader.IsConnected)
         {
             string data;
             var epc = Array.Empty<byte>();
             var password = Convert.FromHexString("00000000");
-            var result = reader.Read6C(
+            var result = _reader.Read6C(
                 memory_bank.memory_bank_epc,
                 TAG_WRITE_START_INDEX,
                 TAG_DATA_LENGTH,
@@ -81,7 +81,7 @@ public class VupVD67Controller : RfidController
             Thread.Sleep(Throttle);
         }
 
-        return null;
+        return "";
     }
 
     public IEnumerable<string> StartReading()
@@ -91,18 +91,18 @@ public class VupVD67Controller : RfidController
             RaiseError("Cannot start continious reading while waiting on Read.");
             yield break;
         }
-        if (!reader.IsConnected)
+        if (!_reader.IsConnected)
         {
             Connect();
         }
         IsReading = true;
         IsWriting = false;
-        while (IsReading && reader.IsConnected)
+        while (IsReading && _reader.IsConnected)
         {
             string data;
             var epc = Array.Empty<byte>();
             var password = Convert.FromHexString("00000000");
-            var result = reader.Read6C(
+            var result = _reader.Read6C(
                 memory_bank.memory_bank_epc,
                 TAG_WRITE_START_INDEX,
                 TAG_DATA_LENGTH,
@@ -137,27 +137,27 @@ public class VupVD67Controller : RfidController
         if (IsWaitingRead)
         {
             RaiseError("Cannot write while waiting on Read.");
-            return null;
+            return "";
         }
-        if (!reader.IsConnected)
+        if (!_reader.IsConnected)
         {
             Connect();
         }
         if (data.Length != TAG_DATA_LENGTH)
         {
             RaiseError($"Tag data length must be exactly {TAG_DATA_LENGTH} symbols");
-            return null;
+            return "";
         }
         IsReading = false;
         IsWriting = true;
-        while (IsWriting && reader.IsConnected)
+        while (IsWriting && _reader.IsConnected)
         {
             try
             {
                 var bytes = ConvertToByytes(data);
                 var epc = Array.Empty<byte>();
                 var password = Convert.FromHexString("00000000");
-                var result = reader.Write6C(memory_bank.memory_bank_epc, 0, epc, bytes, password);
+                var result = _reader.Write6C(memory_bank.memory_bank_epc, 0, epc, bytes, password);
                 if (!result.Success)
                 {
                     if (result.ErrorCode != NO_TAG_ERROR_CODE)

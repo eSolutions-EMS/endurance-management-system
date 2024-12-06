@@ -4,7 +4,7 @@ using Not.Storage.States;
 
 namespace Not.Storage.Repositories;
 
-public abstract class ReadonlySetRepository<T, TState> : IRead<T>, IReadAll<T>
+public abstract class ReadonlySetRepository<T, TState> : IRead<T>
     where T : AggregateRoot
     where TState : class, ISetState<T>, new()
 {

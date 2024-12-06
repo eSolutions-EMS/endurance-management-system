@@ -2,7 +2,7 @@
 using System.Text;
 using Not.Injection;
 
-namespace NTS.Judge.MAUI.Server.ACL.Handshake;
+namespace NTS.ACL.Handshake;
 
 public class HandshakeValidatorService : IHandshakeValidatorService
 {

@@ -1,4 +1,4 @@
-﻿namespace NTS.Judge.MAUI.Server.ACL.Handshake;
+﻿namespace NTS.Judge.MAUI.Server.ACL;
 
 public class Constants
 {

@@ -18,15 +18,14 @@ public abstract class RfidController
     public abstract void Disconnect();
 
     protected TimeSpan Throttle { get; }
-    public event EventHandler<(DateTime time, string data)> OnRead;
-    public event EventHandler<string> ErrorEvent;
+    public event EventHandler<(DateTime time, string data)>? OnRead;
     public bool IsConnected { get; protected set; }
     public bool IsReading { get; protected set; }
     public bool IsWriting { get; protected set; }
 
     protected virtual void OnReadEvent((DateTime time, string data) e)
     {
-        OnRead.Invoke(this, e);
+        OnRead?.Invoke(this, e);
     }
 
     protected virtual byte[] ConvertToByytes(string data)

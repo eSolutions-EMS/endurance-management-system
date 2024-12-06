@@ -10,7 +10,7 @@ public class VupVF747pController : RfidController
     const int MAX_POWER = 27;
 
     readonly string _ipAddress;
-    NetVupReader reader;
+    NetVupReader _reader;
     int _oneCount = 0;
     int _twoCount = 0;
     int _threeCount = 0;
@@ -19,14 +19,14 @@ public class VupVF747pController : RfidController
         : base(throttle)
     {
         _ipAddress = ipAddress;
-        reader = new NetVupReader(ipAddress, 1969, transport_protocol.tcp);
+        _reader = new NetVupReader(ipAddress, 1969, transport_protocol.tcp);
     }
 
     protected override string Device => "VF747p";
 
     public override void Connect()
     {
-        var connectionResult = reader.Connect();
+        var connectionResult = _reader.Connect();
         if (!connectionResult.Success)
         {
             var message = string.IsNullOrEmpty(connectionResult.Message)
@@ -49,7 +49,7 @@ public class VupVF747pController : RfidController
         }
         var antennaIndices = GetAntennaIndices();
         IsReading = true;
-        while (IsReading && reader.IsConnected)
+        while (IsReading && _reader.IsConnected)
         {
             foreach (var tag in ReadTags(antennaIndices))
             {
@@ -68,7 +68,7 @@ public class VupVF747pController : RfidController
     {
         if (IsConnected)
         {
-            reader.Disconnect();
+            _reader.Disconnect();
             IsConnected = false;
             RaiseMessage("Disconnected!");
         }
@@ -79,7 +79,7 @@ public class VupVF747pController : RfidController
         var antennaIndices = GetAntennaIndices();
         foreach (var i in antennaIndices)
         {
-            var setPowerResult = reader.SetAntPower(i, power);
+            var setPowerResult = _reader.SetAntPower(i, power);
             if (!setPowerResult.Success)
             {
                 var message = $"Error while setting antenna power: {setPowerResult.Message}";
@@ -90,7 +90,7 @@ public class VupVF747pController : RfidController
 
     int[] GetAntennaIndices()
     {
-        var antennaRead = reader.GetAntCount();
+        var antennaRead = _reader.GetAntCount();
         if (!antennaRead.Success)
         {
             var message = $"Error in antenna read: {antennaRead.Message}";
@@ -111,11 +111,11 @@ public class VupVF747pController : RfidController
         var reconnectTimer = new Stopwatch();
         foreach (var i in antennaIndices)
         {
-            reader.SetWorkAnt(i);
+            _reader.SetWorkAnt(i);
 
             readTimer.Start();
             var password = Convert.FromHexString("00000000");
-            var tagsBytes = reader.List6C(
+            var tagsBytes = _reader.List6C(
                 memory_bank.memory_bank_epc,
                 TAG_READ_START_INDEX,
                 TAG_DATA_LENGTH,
@@ -142,11 +142,17 @@ public class VupVF747pController : RfidController
             if (tagsBytes.Success)
             {
                 if (i == 1)
+                {
                     _oneCount++;
+                }
                 if (i == 2)
+                {
                     _twoCount++;
+                }
                 if (i == 3)
+                {
                     _threeCount++;
+                }
 
                 var tags = tagsBytes.Result.Select(x => ConvertToString(x.Id));
                 foreach (var tag in tags)
@@ -164,7 +170,7 @@ public class VupVF747pController : RfidController
     void Reconnect()
     {
         Disconnect();
-        reader = new NetVupReader(_ipAddress, 1969, transport_protocol.tcp);
+        _reader = new NetVupReader(_ipAddress, 1969, transport_protocol.tcp);
         var counter = 0;
         var before = DateTime.Now;
         do

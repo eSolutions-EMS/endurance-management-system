@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <AnalysisLevel>latest</AnalysisLevel>
-    <OutputType>Library</OutputType>
+    <OutputType>Exe</OutputType>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,7 +13,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NTS.Judge\NTS.Judge.csproj" />
+    <ProjectReference Include="..\..\Compatibility.EMS\NTS.ACL.csproj" />
+    <ProjectReference Include="..\..\NTS.Application\NTS.Application.csproj" />
+    <ProjectReference Include="..\..\NTS.Storage\NTS.Storage.csproj" />
   </ItemGroup>
 
 </Project>

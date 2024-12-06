@@ -1,15 +1,15 @@
 ﻿using Core.Application.Services;
-using NTS.Judge.MAUI.Server;
+using Microsoft.Extensions.Hosting;
 
-namespace NTS.Judge.MAUI.Server.ACL.Handshake;
+namespace NTS.ACL.Handshake;
 
 public class NetworkBroadcastService : BackgroundService
 {
-    readonly INetworkBroadcastService networkService;
+    readonly INetworkBroadcastService _networkService;
 
-    public NetworkBroadcastService(IJudgeServiceProvider judgeServiceProvider)
+    public NetworkBroadcastService(INetworkBroadcastService networkBroadcastService)
     {
-        networkService = judgeServiceProvider.GetRequiredService<INetworkBroadcastService>();
+        _networkService = networkBroadcastService;
     }
 
     protected override Task ExecuteAsync(CancellationToken stoppingToken)
@@ -17,7 +17,7 @@ public class NetworkBroadcastService : BackgroundService
         Console.WriteLine("Broadcasting");
         try
         {
-            return networkService.StartBroadcasting(stoppingToken);
+            return _networkService.StartBroadcasting(stoppingToken);
         }
         catch (Exception exception)
         {

@@ -1,10 +1,10 @@
 ﻿using Not.Domain.Ports;
-using Not.Injection;
 using Not.Startup;
 
 namespace NTS.Domain.Core.StaticOptions;
 
-public class StaticOption : IStartupInitializer, ISingleton
+// TODO: StaticOptions needs a redesign as it is too intertwined with infrastructure to be in the Domain layer
+public class StaticOption : IStartupInitializer
 {
     public static bool IsRfidDetectionEnabled()
     {

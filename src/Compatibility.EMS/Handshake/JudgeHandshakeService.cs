@@ -2,8 +2,8 @@
 using System.Net.Sockets;
 using System.Text;
 using Not.Injection;
-using NTS.Judge.MAUI.Server.ACL.Handshake;
-using static NTS.Judge.MAUI.Server.ACL.Handshake.Constants;
+using NTS.ACL.Handshake;
+using static NTS.Judge.MAUI.Server.ACL.Constants;
 
 namespace Core.Application.Services;
 

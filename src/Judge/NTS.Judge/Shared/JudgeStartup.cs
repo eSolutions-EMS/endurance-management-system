@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Not.Startup;
+using NTS.Domain.Core.StaticOptions;
 
 namespace NTS.Judge.Shared;
 
@@ -12,6 +14,7 @@ public static class JudgeStartup
     /// <returns></returns>
     public static IServiceCollection AddJudge(this IServiceCollection services)
     {
-        return services;
+        return services
+            .AddSingleton<IStartupInitializer, StaticOption>();
     }
 }
