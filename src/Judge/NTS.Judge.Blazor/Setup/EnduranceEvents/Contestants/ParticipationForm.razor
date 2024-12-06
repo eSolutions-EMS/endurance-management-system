@@ -7,7 +7,7 @@
 @inherits NForm<ParticipationFormModel>;
 
 <EditForm Model="Model">
-    <NAutocomplete @ref="_combinaionField" T="Combination" Label="Combination" @bind-Value="Model.Combination"
+    <NAutocomplete @ref="_combinationField" T="Combination" Label="Combination" @bind-Value="Model.Combination"
         Search="SearchCombinations" />
 
     <NSwitch @ref="_isNotRankedField" @bind-Value="Model.IsNotRanked" Label="Unranked" />

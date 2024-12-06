@@ -7,7 +7,7 @@ namespace NTS.Judge.Blazor.Setup.EnduranceEvents.Contestants;
 
 public partial class ParticipationForm
 {
-    NAutocomplete<Combination> _combinaionField = default!;
+    NAutocomplete<Combination> _combinationField = default!;
     NSwitch _isNotRankedField = default!;
     MudPicker<TimeSpan?> _timeField = default!;
     MudNumericField<double?> _maxSpeedOverrideField = default!;
@@ -24,7 +24,7 @@ public partial class ParticipationForm
 
     public override void RegisterValidationInjectors()
     {
-        RegisterInjector(nameof(Participation.Combination), () => _combinaionField);
+        RegisterInjector(nameof(Participation.Combination), () => _combinationField);
         RegisterInjector(nameof(Participation.IsNotRanked), () => _isNotRankedField);
         RegisterInjector(nameof(Participation.StartTimeOverride), () => _timeField);
         RegisterInjector(nameof(Participation.MaxSpeedOverride), () => _maxSpeedOverrideField);

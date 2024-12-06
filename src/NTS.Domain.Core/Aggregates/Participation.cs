@@ -35,10 +35,12 @@ public class Participation : AggregateRoot, IAggregateRoot
     public Participation(
         string competitionName,
         CompetitionRuleset ruleset,
+        CompetitionType type,
         Combination combination,
         IEnumerable<Phase> phases
     )
-        : this(GenerateId(), new(competitionName, ruleset), combination, new(phases), null) { }
+        : this(GenerateId(), new(competitionName, ruleset, type), combination, new(phases), null)
+    { }
 
     public Competition Competition { get; }
     public Combination Combination { get; }

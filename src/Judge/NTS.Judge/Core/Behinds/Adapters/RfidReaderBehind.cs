@@ -1,4 +1,5 @@
 ﻿using Not.Notify;
+using Not.Safe;
 using NTS.Domain.Core.StaticOptions;
 using NTS.Domain.Enums;
 using NTS.Domain.Objects;
@@ -24,6 +25,33 @@ public class RfidReaderBehind : IRfidReaderBehind
 
     public void StartReading()
     {
+        SafeHelper.Run(SafeStartReading);
+    }
+
+    public void StopReading()
+    {
+        SafeHelper.Run(SafeStopReading);
+    }
+
+    public void OnRead(object? sender, (DateTime timestamp, string data) e)
+    {
+        void action() => SafeOnRead(e);
+        SafeHelper.Run(action);
+    }
+
+    public bool IsConnected()
+    {
+        return SafeHelper.Run(SafeIsConnected);
+    }
+
+    public async void Process(Snapshot snapshot)
+    {
+        Task action() => SafeProcess(snapshot);
+        await SafeHelper.RunAsync(action);
+    }
+
+    void SafeStartReading()
+    {
         if (!_vF747PController.IsConnected || !_vF747PController.IsReading)
         {
             Task.Run(_vF747PController.StartReading);
@@ -31,13 +59,13 @@ public class RfidReaderBehind : IRfidReaderBehind
         }
     }
 
-    public void StopReading()
+    void SafeStopReading()
     {
         _vF747PController.StopReading();
         _vF747PController.OnRead -= OnRead;
     }
 
-    public void OnRead(object? sender, (DateTime timestamp, string data) e)
+    void SafeOnRead((DateTime timestamp, string data) e)
     {
         var s = e.data.Substring(0, 3);
         var number = int.Parse(s);
@@ -60,12 +88,12 @@ public class RfidReaderBehind : IRfidReaderBehind
         Process(snapshot);
     }
 
-    public bool IsConnected()
+    bool SafeIsConnected()
     {
         return _vF747PController.IsReading && _vF747PController.IsConnected;
     }
 
-    async void Process(Snapshot snapshot)
+    async Task SafeProcess(Snapshot snapshot)
     {
         await _snapshotProcessor.Process(snapshot);
         var message = "Processed: " + snapshot.ToString();
