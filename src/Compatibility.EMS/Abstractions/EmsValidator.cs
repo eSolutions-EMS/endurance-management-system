@@ -1,4 +1,4 @@
-﻿namespace NTS.Compatibility.EMS.Abstractions;
+﻿namespace NTS.ACL.Abstractions;
 
 public class EmsValidator<T>
     where T : EmsDomainExceptionBase, new()

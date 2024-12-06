@@ -1,6 +1,6 @@
-using NTS.Compatibility.EMS.Abstractions;
+using NTS.ACL.Abstractions;
 
-namespace NTS.Compatibility.EMS.Entities.Participants;
+namespace NTS.ACL.Entities.Participants;
 
 public class EmsParticipantException : EmsDomainExceptionBase
 {

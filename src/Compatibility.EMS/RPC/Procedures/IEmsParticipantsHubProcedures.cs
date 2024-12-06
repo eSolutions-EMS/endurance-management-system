@@ -1,7 +1,7 @@
-﻿using NTS.Compatibility.EMS.Entities;
-using NTS.Compatibility.EMS.Entities.EMS;
+﻿using NTS.ACL.Entities;
+using NTS.ACL.Entities.EMS;
 
-namespace NTS.Compatibility.EMS.RPC.Procedures;
+namespace NTS.ACL.RPC.Procedures;
 
 public interface IEmsEmsParticipantstHubProcedures
 {

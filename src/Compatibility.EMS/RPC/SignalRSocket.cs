@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
-using static NTS.Judge.Tests.RPC.CoreApplicationConstants;
+using static NTS.ACL.RPC.CoreApplicationConstants;
 
-namespace NTS.Judge.Tests.RPC;
+namespace NTS.ACL.RPC;
 
 public class SignalRSocket : IRpcSocket, IAsyncDisposable
 {

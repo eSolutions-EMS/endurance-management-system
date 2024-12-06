@@ -1,4 +1,4 @@
-﻿namespace NTS.Compatibility.EMS.Abstractions;
+﻿namespace NTS.ACL.Abstractions;
 
 /// <summary>
 /// Shorthand for DomainExceptionBase

@@ -1,7 +1,7 @@
-﻿using NTS.Compatibility.EMS.Enums;
-using NTS.Compatibility.EMS.RPC;
+﻿using NTS.ACL.Enums;
+using NTS.ACL.RPC;
 
-namespace NTS.Compatibility.EMS.Entities;
+namespace NTS.ACL.Entities;
 
 public class EmsStartlist : StartlistBase<EmsStartlistEntry>
 {

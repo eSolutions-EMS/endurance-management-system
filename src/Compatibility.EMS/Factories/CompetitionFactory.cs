@@ -1,9 +1,9 @@
-﻿using NTS.Compatibility.EMS.Entities.Competitions;
+﻿using NTS.ACL.Entities.Competitions;
 using NTS.Domain.Core.Aggregates;
 using NTS.Domain.Enums;
-using NTS.Judge.ACL.Bridge;
+using NTS.ACL.Models;
 
-namespace NTS.Judge.ACL.Factories;
+namespace NTS.ACL.Factories;
 
 public class CompetitionFactory
 {

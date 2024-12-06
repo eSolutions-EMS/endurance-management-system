@@ -1,10 +1,10 @@
-﻿using NTS.Compatibility.EMS.Entities;
-using NTS.Compatibility.EMS.Entities.EMS;
+﻿using NTS.ACL.Entities;
+using NTS.ACL.Entities.EMS;
 using NTS.Domain;
 using NTS.Domain.Enums;
 using NTS.Domain.Objects;
 
-namespace NTS.Judge.ACL.Factories;
+namespace NTS.ACL.Factories;
 
 public class SnapshotFactory
 {

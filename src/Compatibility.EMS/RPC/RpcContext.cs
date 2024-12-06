@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NTS.Judge.Tests.RPC;
+namespace NTS.ACL.RPC;
 
 public class RpcContext
 {

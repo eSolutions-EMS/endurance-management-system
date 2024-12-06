@@ -1,4 +1,4 @@
-namespace NTS.Judge.Tests.RPC;
+namespace NTS.ACL.RPC;
 
 public static class CoreApplicationConstants
 {

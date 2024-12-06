@@ -1,6 +1,6 @@
-﻿using NTS.Compatibility.EMS.Entities.Participations;
+﻿using NTS.ACL.Entities.Participations;
 
-namespace NTS.Compatibility.EMS.RPC;
+namespace NTS.ACL.RPC;
 
 public class EmsStartlistEntry : IComparable<EmsStartlistEntry>, IEquatable<EmsStartlistEntry>
 {

@@ -1,6 +1,6 @@
-﻿using NTS.Compatibility.EMS.Entities.Horses;
+﻿using NTS.ACL.Entities.Horses;
 
-namespace NTS.Judge.ACL.Bridge;
+namespace NTS.ACL.Models;
 
 public class EmsHorseState : IEmsHorseState
 {

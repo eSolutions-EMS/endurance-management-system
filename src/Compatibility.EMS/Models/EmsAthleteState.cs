@@ -1,5 +1,5 @@
 ﻿using Core.Domain.State.Athletes;
-using NTS.Compatibility.EMS.Enums;
+using NTS.ACL.Enums;
 
 namespace NTS.Judge.ACL.Models;
 

@@ -1,13 +1,13 @@
 ﻿using System.Collections.ObjectModel;
 using System.Text.Json.Serialization;
-using NTS.Compatibility.EMS.Entities.Athletes;
-using NTS.Compatibility.EMS.Entities.Countries;
-using NTS.Compatibility.EMS.Entities.EnduranceEvents;
-using NTS.Compatibility.EMS.Entities.Horses;
-using NTS.Compatibility.EMS.Entities.Participants;
-using NTS.Compatibility.EMS.Entities.Participations;
+using NTS.ACL.Entities.Athletes;
+using NTS.ACL.Entities.Countries;
+using NTS.ACL.Entities.EnduranceEvents;
+using NTS.ACL.Entities.Horses;
+using NTS.ACL.Entities.Participants;
+using NTS.ACL.Entities.Participations;
 
-namespace NTS.Compatibility.EMS;
+namespace NTS.ACL;
 
 public class EmsState
 {

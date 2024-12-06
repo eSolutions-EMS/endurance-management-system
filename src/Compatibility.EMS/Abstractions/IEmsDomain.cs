@@ -1,3 +1,3 @@
-namespace NTS.Compatibility.EMS.Abstractions;
+namespace NTS.ACL.Abstractions;
 
 public interface IEmsDomain { }

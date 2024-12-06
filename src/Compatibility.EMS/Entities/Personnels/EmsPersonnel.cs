@@ -1,6 +1,6 @@
-using NTS.Compatibility.EMS.Abstractions;
+using NTS.ACL.Abstractions;
 
-namespace NTS.Compatibility.EMS.Entities.Personnels;
+namespace NTS.ACL.Entities.Personnels;
 
 public class EmsPersonnel : EmsDomainBase<EmsPersonnelException>, IEmsPersonnelState
 {

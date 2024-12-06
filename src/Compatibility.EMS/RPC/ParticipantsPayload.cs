@@ -1,6 +1,6 @@
-﻿using NTS.Compatibility.EMS.Entities;
+﻿using NTS.ACL.Entities;
 
-namespace NTS.Judge.Tests.RPC;
+namespace NTS.ACL.RPC;
 
 public class ParticipantsPayload
 {

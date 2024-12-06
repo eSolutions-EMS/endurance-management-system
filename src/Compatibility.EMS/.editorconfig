@@ -78,3 +78,6 @@ dotnet_diagnostic.NA0006.severity = none
 
 # IDE0060: Remove unused parameter
 dotnet_diagnostic.IDE0060.severity = none
+
+# CS8600: Converting null literal or possible null value to non-nullable type.
+dotnet_diagnostic.CS8600.severity = none

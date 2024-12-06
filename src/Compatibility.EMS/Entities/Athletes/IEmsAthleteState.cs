@@ -1,5 +1,5 @@
-﻿using NTS.Compatibility.EMS.Abstractions;
-using NTS.Compatibility.EMS.Enums;
+﻿using NTS.ACL.Abstractions;
+using NTS.ACL.Enums;
 
 namespace Core.Domain.State.Athletes;
 

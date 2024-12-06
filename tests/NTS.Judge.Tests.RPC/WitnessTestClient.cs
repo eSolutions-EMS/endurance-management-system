@@ -1,9 +1,9 @@
-﻿using NTS.Compatibility.EMS.Entities;
-using NTS.Compatibility.EMS.Enums;
-using NTS.Compatibility.EMS.RPC;
-using NTS.Compatibility.EMS.RPC.Procedures;
+﻿using NTS.ACL.Entities;
+using NTS.ACL.Enums;
+using NTS.ACL.RPC;
+using NTS.ACL.RPC.Procedures;
 
-namespace NTS.Judge.Tests.RPC;
+namespace NTS.ACL.RPC;
 
 public class WitnessTestClient : RpcClient, IEmsParticipantsClientProcedures, IEmsStartlistClientProcedures
 {

@@ -1,7 +1,7 @@
-﻿using NTS.Compatibility.EMS.Entities;
+﻿using NTS.ACL.Entities;
 using NTS.Domain.Core.Aggregates;
 
-namespace NTS.Judge.ACL.Factories;
+namespace NTS.ACL.Factories;
 
 public class ParticipantEntryFactory
 {

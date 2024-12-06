@@ -1,9 +1,9 @@
-using NTS.Compatibility.EMS.Abstractions;
-using NTS.Compatibility.EMS.Entities.Competitions;
-using NTS.Compatibility.EMS.Entities.Countries;
-using NTS.Compatibility.EMS.Entities.Personnels;
+using NTS.ACL.Abstractions;
+using NTS.ACL.Entities.Competitions;
+using NTS.ACL.Entities.Countries;
+using NTS.ACL.Entities.Personnels;
 
-namespace NTS.Compatibility.EMS.Entities.EnduranceEvents;
+namespace NTS.ACL.Entities.EnduranceEvents;
 
 public class EmsEnduranceEvent : EmsDomainBase<EmsEnduranceEventException>
 {

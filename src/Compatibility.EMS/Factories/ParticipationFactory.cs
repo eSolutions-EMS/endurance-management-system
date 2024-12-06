@@ -1,14 +1,14 @@
-﻿using NTS.Compatibility.EMS.Entities.LapRecords;
-using NTS.Compatibility.EMS.Entities.Participants;
-using NTS.Compatibility.EMS.Entities.Results;
+﻿using NTS.ACL.Entities.LapRecords;
+using NTS.ACL.Entities.Participants;
+using NTS.ACL.Entities.Results;
 using NTS.Domain.Core.Aggregates;
 using NTS.Domain.Core.Aggregates.Participations;
 using NTS.Domain.Objects;
-using NTS.Judge.ACL.Bridge;
-using EmsCompetition = NTS.Compatibility.EMS.Entities.Competitions.EmsCompetition;
-using EmsParticipation = NTS.Compatibility.EMS.Entities.Participations.EmsParticipation;
+using NTS.ACL.Models;
+using EmsCompetition = NTS.ACL.Entities.Competitions.EmsCompetition;
+using EmsParticipation = NTS.ACL.Entities.Participations.EmsParticipation;
 
-namespace NTS.Judge.ACL.Factories;
+namespace NTS.ACL.Factories;
 
 public class ParticipationFactory
 {
@@ -79,7 +79,7 @@ public class ParticipationFactory
 
             var record = emsParticipation.Participant.LapRecords.FirstOrDefault(x => x.Lap == lap);
 
-            Phase phase = null;
+            Phase phase =   null;
             if (record != null)
             {
                 Timestamp? startTimestamp = null;

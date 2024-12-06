@@ -1,8 +1,8 @@
 using System.Data;
-using NTS.Compatibility.EMS.Abstractions;
-using NTS.Compatibility.EMS.Entities.Laps;
+using NTS.ACL.Abstractions;
+using NTS.ACL.Entities.Laps;
 
-namespace NTS.Compatibility.EMS.Entities.Competitions;
+namespace NTS.ACL.Entities.Competitions;
 
 public class EmsCompetition : EmsDomainBase<EmsCompetitionException>
 {

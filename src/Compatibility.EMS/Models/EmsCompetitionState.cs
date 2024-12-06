@@ -1,6 +1,6 @@
-﻿using NTS.Compatibility.EMS.Entities.Competitions;
+﻿using NTS.ACL.Entities.Competitions;
 
-namespace NTS.Judge.ACL.Bridge;
+namespace NTS.ACL.Models;
 
 public class EmsCompetitionState : IEmsCompetitionState
 {

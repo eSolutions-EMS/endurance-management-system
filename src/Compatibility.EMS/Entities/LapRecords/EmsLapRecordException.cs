@@ -1,6 +1,6 @@
-﻿using NTS.Compatibility.EMS.Abstractions;
+﻿using NTS.ACL.Abstractions;
 
-namespace NTS.Compatibility.EMS.Entities.LapRecords;
+namespace NTS.ACL.Entities.LapRecords;
 
 public class EmsLapRecordException : EmsDomainExceptionBase
 {

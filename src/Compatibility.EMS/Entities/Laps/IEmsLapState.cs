@@ -1,6 +1,6 @@
-using NTS.Compatibility.EMS.Abstractions;
+using NTS.ACL.Abstractions;
 
-namespace NTS.Compatibility.EMS.Entities.Laps;
+namespace NTS.ACL.Entities.Laps;
 
 public interface IEmsLapState : IEmsIdentifiable
 {

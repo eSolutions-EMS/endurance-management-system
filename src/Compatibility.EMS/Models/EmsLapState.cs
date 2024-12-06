@@ -1,6 +1,6 @@
-﻿using NTS.Compatibility.EMS.Entities.Laps;
+﻿using NTS.ACL.Entities.Laps;
 
-namespace NTS.Judge.ACL.Bridge;
+namespace NTS.ACL.Models;
 
 public class EmsLapState : IEmsLapState
 {

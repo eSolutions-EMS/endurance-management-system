@@ -1,10 +1,10 @@
 ﻿using System.ComponentModel;
-using NTS.Compatibility.EMS.Abstractions;
-using NTS.Compatibility.EMS.Entities.Laps;
-using NTS.Compatibility.EMS.Entities.Participants;
-using NTS.Compatibility.EMS.Entities.Results;
+using NTS.ACL.Abstractions;
+using NTS.ACL.Entities.Laps;
+using NTS.ACL.Entities.Participants;
+using NTS.ACL.Entities.Results;
 
-namespace NTS.Compatibility.EMS.Entities.LapRecords;
+namespace NTS.ACL.Entities.LapRecords;
 
 public class EmsLapRecord : EmsDomainBase<EmsLapRecordException>
 {

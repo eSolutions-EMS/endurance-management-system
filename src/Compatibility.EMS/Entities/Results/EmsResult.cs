@@ -1,6 +1,6 @@
-using NTS.Compatibility.EMS.Abstractions;
+using NTS.ACL.Abstractions;
 
-namespace NTS.Compatibility.EMS.Entities.Results;
+namespace NTS.ACL.Entities.Results;
 
 public class EmsResult : EmsDomainBase<EmsResultException>, IEmsResultState
 {

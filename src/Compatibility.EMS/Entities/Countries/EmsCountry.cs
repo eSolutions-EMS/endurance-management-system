@@ -1,6 +1,6 @@
-using NTS.Compatibility.EMS.Abstractions;
+using NTS.ACL.Abstractions;
 
-namespace NTS.Compatibility.EMS.Entities.Countries;
+namespace NTS.ACL.Entities.Countries;
 
 public class EmsCountry : EmsDomainBase<EmsCountryException>
 {

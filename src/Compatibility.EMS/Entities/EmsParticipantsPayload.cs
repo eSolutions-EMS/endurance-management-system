@@ -1,6 +1,6 @@
-﻿using NTS.Compatibility.EMS.Entities.EMS;
+﻿using NTS.ACL.Entities.EMS;
 
-namespace NTS.Compatibility.EMS.Entities;
+namespace NTS.ACL.Entities;
 
 public class EmsParticipantsPayload
 {

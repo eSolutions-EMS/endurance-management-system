@@ -1,11 +1,11 @@
 using System.Collections.ObjectModel;
 using Newtonsoft.Json;
-using NTS.Compatibility.EMS.Abstractions;
-using NTS.Compatibility.EMS.Entities.Athletes;
-using NTS.Compatibility.EMS.Entities.Horses;
-using NTS.Compatibility.EMS.Entities.LapRecords;
+using NTS.ACL.Abstractions;
+using NTS.ACL.Entities.Athletes;
+using NTS.ACL.Entities.Horses;
+using NTS.ACL.Entities.LapRecords;
 
-namespace NTS.Compatibility.EMS.Entities.Participants;
+namespace NTS.ACL.Entities.Participants;
 
 public class EmsParticipant : EmsDomainBase<EmsParticipantException>, IEmsParticipantState
 {

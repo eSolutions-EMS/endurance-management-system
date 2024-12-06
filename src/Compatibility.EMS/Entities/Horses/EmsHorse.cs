@@ -1,6 +1,6 @@
-using NTS.Compatibility.EMS.Abstractions;
+using NTS.ACL.Abstractions;
 
-namespace NTS.Compatibility.EMS.Entities.Horses;
+namespace NTS.ACL.Entities.Horses;
 
 public class EmsHorse : EmsDomainBase<EmsHorseException>, IEmsHorseState
 {

@@ -1,9 +1,9 @@
 using Core.Domain.State.Athletes;
-using NTS.Compatibility.EMS.Abstractions;
-using NTS.Compatibility.EMS.Entities.Countries;
-using NTS.Compatibility.EMS.Enums;
+using NTS.ACL.Abstractions;
+using NTS.ACL.Entities.Countries;
+using NTS.ACL.Enums;
 
-namespace NTS.Compatibility.EMS.Entities.Athletes;
+namespace NTS.ACL.Entities.Athletes;
 
 public class EmsAthlete : EmsDomainBase<EmsAthleteException>
 {

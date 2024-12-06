@@ -1,9 +1,9 @@
-﻿using NTS.Compatibility.EMS.Abstractions;
-using NTS.Compatibility.EMS.Entities.Competitions;
-using NTS.Compatibility.EMS.Entities.LapRecords;
-using NTS.Compatibility.EMS.Entities.Participants;
+﻿using NTS.ACL.Abstractions;
+using NTS.ACL.Entities.Competitions;
+using NTS.ACL.Entities.LapRecords;
+using NTS.ACL.Entities.Participants;
 
-namespace NTS.Compatibility.EMS.Entities.Participations;
+namespace NTS.ACL.Entities.Participations;
 
 public class EmsParticipation : EmsDomainBase<EmsParticipationException>
 {

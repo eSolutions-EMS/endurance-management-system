@@ -1,4 +1,4 @@
-﻿namespace NTS.Compatibility.EMS.Entities.Participants;
+﻿namespace NTS.ACL.Entities.Participants;
 
 public class EmsRfidTag : IEquatable<EmsRfidTag>
 {

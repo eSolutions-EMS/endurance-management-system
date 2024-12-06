@@ -1,6 +1,6 @@
-﻿using NTS.Compatibility.EMS.Entities.Participants;
+﻿using NTS.ACL.Entities.Participants;
 
-namespace NTS.Judge.ACL.Bridge;
+namespace NTS.ACL.Models;
 
 public class EmsParticipantState : IEmsParticipantState
 {

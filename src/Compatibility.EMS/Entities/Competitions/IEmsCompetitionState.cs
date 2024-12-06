@@ -1,7 +1,7 @@
-using NTS.Compatibility.EMS.Abstractions;
-using NTS.Compatibility.EMS.Entities.Competitions;
+using NTS.ACL.Abstractions;
+using NTS.ACL.Entities.Competitions;
 
-namespace NTS.Compatibility.EMS.Entities.Competitions;
+namespace NTS.ACL.Entities.Competitions;
 
 public interface IEmsCompetitionState : IEmsIdentifiable
 {

@@ -1,8 +1,8 @@
-﻿using NTS.Compatibility.EMS.Entities.Horses;
+﻿using NTS.ACL.Entities.Horses;
+using NTS.ACL.Models;
 using NTS.Domain.Core.Aggregates;
-using NTS.Judge.ACL.Bridge;
 
-namespace NTS.Judge.ACL.Factories;
+namespace NTS.ACL.Factories;
 
 public class HorseFactory
 {

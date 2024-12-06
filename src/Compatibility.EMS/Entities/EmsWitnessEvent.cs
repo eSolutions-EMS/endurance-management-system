@@ -1,6 +1,6 @@
-﻿using NTS.Compatibility.EMS.Entities.LapRecords;
+﻿using NTS.ACL.Entities.LapRecords;
 
-namespace NTS.Compatibility.EMS.Entities;
+namespace NTS.ACL.Entities;
 
 public class EmsWitnessEvent
 {

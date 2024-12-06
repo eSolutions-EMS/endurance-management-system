@@ -1,4 +1,4 @@
-namespace NTS.Compatibility.EMS.Enums;
+namespace NTS.ACL.Enums;
 
 public enum EmsCategory
 {

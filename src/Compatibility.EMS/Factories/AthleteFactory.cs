@@ -1,10 +1,10 @@
-﻿using NTS.Compatibility.EMS.Entities.Athletes;
-using NTS.Compatibility.EMS.Entities.Countries;
-using NTS.Compatibility.EMS.Enums;
+﻿using NTS.ACL.Entities.Athletes;
+using NTS.ACL.Entities.Countries;
+using NTS.ACL.Enums;
 using NTS.Domain.Core.Aggregates;
 using NTS.Judge.ACL.Models;
 
-namespace NTS.Judge.ACL.Factories;
+namespace NTS.ACL.Factories;
 
 public class AthleteFactory
 {

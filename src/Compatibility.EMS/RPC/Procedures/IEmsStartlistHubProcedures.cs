@@ -1,6 +1,6 @@
-﻿using NTS.Compatibility.EMS.Entities;
+﻿using NTS.ACL.Entities;
 
-namespace NTS.Compatibility.EMS.RPC.Procedures;
+namespace NTS.ACL.RPC.Procedures;
 
 public interface IEmsStartlistHubProcedures
 {

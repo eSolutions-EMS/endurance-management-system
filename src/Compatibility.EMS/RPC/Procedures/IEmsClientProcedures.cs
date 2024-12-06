@@ -1,4 +1,4 @@
-﻿namespace NTS.Compatibility.EMS.RPC.Procedures;
+﻿namespace NTS.ACL.RPC.Procedures;
 
 public interface IEmsClientProcedures
     : IEmsParticipantsClientProcedures,

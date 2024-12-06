@@ -1,6 +1,6 @@
-using NTS.Compatibility.EMS.Abstractions;
+using NTS.ACL.Abstractions;
 
-namespace NTS.Compatibility.EMS.Entities.EnduranceEvents;
+namespace NTS.ACL.Entities.EnduranceEvents;
 
 public class EmsEnduranceEventException : EmsDomainExceptionBase
 {

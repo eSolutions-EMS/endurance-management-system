@@ -1,7 +1,7 @@
 ﻿using Core.Application.Rpc.Procedures;
 using Microsoft.AspNetCore.SignalR.Client;
 
-namespace NTS.Judge.Tests.RPC;
+namespace NTS.ACL.RPC;
 
 public abstract class RpcClient
 {

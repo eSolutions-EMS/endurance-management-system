@@ -1,8 +1,8 @@
-﻿using NTS.Compatibility.EMS.Entities.Laps;
+﻿using NTS.ACL.Entities.Laps;
 using NTS.Domain.Core.Aggregates;
-using NTS.Judge.ACL.Bridge;
+using NTS.ACL.Models;
 
-namespace NTS.Judge.ACL.Factories;
+namespace NTS.ACL.Factories;
 
 public class LapFactory
 {
