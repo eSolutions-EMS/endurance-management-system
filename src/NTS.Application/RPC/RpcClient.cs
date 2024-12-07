@@ -1,14 +1,37 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
+using Not.Reflection;
 
 namespace NTS.Application.RPC;
 
-public abstract class RpcClient
+public abstract class RpcClient : IRpcClient
 {
     readonly SignalRSocket _socket;
 
-    protected RpcClient(string hubPattern)
+    protected RpcClient(IRpcSocket socket)
     {
-        _socket = new SignalRSocket(hubPattern);
+        if (socket is not SignalRSocket signalRSocket)
+        {
+            throw new ApplicationException($"Unsupported socket '{socket?.GetTypeName()}'");
+        }
+        _socket = signalRSocket;
+    }
+
+    public async Task Connect()
+    {
+        if (_socket.IsConnected)
+        {
+            return;
+        }
+        await _socket.Connect();
+    }
+
+    public async Task Disconnect()
+    {
+        if (!_socket.IsConnected)
+        {
+            return;
+        }
+        await _socket.Disconnect();
     }
 
     public void RegisterClientProcedure(string name, Func<Task> action)
@@ -85,9 +108,13 @@ public abstract class RpcClient
 
     public async Task<RpcInvokeResult> InvokeHubProcedure<T>(string name, T parameter)
     {
+        if (!_socket.IsConnected)
+        {
+            return RpcInvokeResult.Error;
+        }
         try
         {
-            await _socket.Connection.InvokeAsync(name, parameter);
+            await _socket.Connection!.InvokeAsync(name, parameter);
             return RpcInvokeResult.Success;
         }
         catch (Exception exception)
@@ -99,9 +126,13 @@ public abstract class RpcClient
 
     public async Task<RpcInvokeResult> InvokeHubProcedure<T1, T2>(string name, T1 parameter1, T2 parameter2)
     {
+        if (!_socket.IsConnected)
+        {
+            return RpcInvokeResult.Error;
+        }
         try
         {
-            await _socket.Connection.InvokeAsync(name, parameter1, parameter2);
+            await _socket.Connection!.InvokeAsync(name, parameter1, parameter2);
             return RpcInvokeResult.Success;
         }
         catch (Exception exception)
@@ -113,9 +144,13 @@ public abstract class RpcClient
 
     public async Task<RpcInvokeResult<T>> InvokeHubProcedure<T>(string name)
     {
+        if (!_socket.IsConnected)
+        {
+            return RpcInvokeResult<T>.Error;
+        }
         try
         {
-            var result = await _socket.Connection.InvokeAsync<T>(name);
+            var result = await _socket.Connection!.InvokeAsync<T>(name);
             return RpcInvokeResult<T>.Success(result);
         }
         catch (Exception exception)
@@ -124,4 +159,10 @@ public abstract class RpcClient
             return RpcInvokeResult<T>.Error;
         }
     }
+}
+
+public interface IRpcClient
+{
+    Task Connect();
+    Task Disconnect();
 }

@@ -2,44 +2,36 @@
 
 public class RpcContext
 {
-    readonly RpcProtocls _protocol;
+    readonly RpcProtocl _protocol;
     readonly int _port;
-    readonly string _endpoint;
-    string? _host;
+    readonly string _hubPattern;
+    string _host;
 
-    public RpcContext(RpcProtocls protocol, int port, string endpoint)
+    public RpcContext(RpcProtocl protocol, string host, int port, string hubPattern)
     {
-        if (endpoint.StartsWith("/"))
-        {
-            endpoint = endpoint[1..];
-        }
         _protocol = protocol;
+        _host = NormalizeHost(host);
         _port = port;
-        _endpoint = endpoint;
+        _hubPattern = NormalizePattern(hubPattern);
     }
 
-    public string? Host
+    public string Url => $"{_protocol.ToString().ToLower()}://{_host}:{_port}/{_hubPattern}";
+
+    string NormalizePattern(string hubPattern)
     {
-        get => _host;
-        internal set
+        if (hubPattern.StartsWith('/'))
         {
-            if (value == null)
-            {
-                throw new ArgumentException("RPC host cannot be null", nameof(Host));
-            }
-            if (value.EndsWith("/") || value.EndsWith(":"))
-            {
-                _host = value[..^1];
-            }
-            else
-            {
-                _host = value;
-            }
+            hubPattern = hubPattern[1..];
         }
+        return hubPattern;
     }
-    
-    public string? Url
-        => Host == null
-            ? null
-            : $"{_protocol.ToString().ToLower()}://{_host}:{_port}/{_endpoint}";
+
+    string NormalizeHost(string host)
+    {
+        if (host.EndsWith('/') || host.EndsWith(':'))
+        {
+            host = host[..^1];
+        }
+        return host;
+    }
 }

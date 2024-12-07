@@ -1,5 +1,5 @@
 ﻿namespace NTS.Application.RPC;
-public class RpcInvokeResult
+public class RpcInvokeResult //TODO: RpcInvokeResult seems kind of pointless. Consider removing
 {
     protected RpcInvokeResult() { }
 

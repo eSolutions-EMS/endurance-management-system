@@ -1,8 +1,6 @@
 ﻿using System.Diagnostics;
-using Microsoft.Extensions.Logging;
-using Not.Filesystem;
-using Not.Injection;
 using NTS.Judge.MAUI.Injection;
+using NTS.Judge.RPC;
 
 namespace NTS.Judge.MAUI;
 
@@ -18,9 +16,16 @@ public static class MauiProgram
 
         var app = builder.Build();
 
-        StartHub();
+        ConnectToHub(app.Services);
 
         return app;
+    }
+
+    static void ConnectToHub(IServiceProvider serviceProvider)
+    {
+        StartHub();
+        var judgeClient = serviceProvider.GetRequiredService<IJudgeRpcClient>();
+        judgeClient.Connect();
     }
 
     static void StartHub()

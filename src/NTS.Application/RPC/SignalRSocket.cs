@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
-using Not.Exceptions;
-using static NTS.Application.NtsApplicationConstants;
 
 namespace NTS.Application.RPC;
 
@@ -14,9 +12,9 @@ public class SignalRSocket : IRpcSocket, IAsyncDisposable
     int _connectionClosedReconnectAttempts;
     CancellationTokenSource? _reconnectTokenSource;
 
-    public SignalRSocket(string hubPattern)
+    internal SignalRSocket(RpcContext? context = null)
     {
-        _context = new RpcContext(RpcProtocls.Http, RPC_PORT, hubPattern);
+        _context = context ?? throw new ApplicationException($"SignalR socket is not configured. Use '{nameof(RpcServiceCollectionExtensions)}' to configure the socket");
         _name = GetType().Name;
     }
 
@@ -43,9 +41,9 @@ public class SignalRSocket : IRpcSocket, IAsyncDisposable
         Error?.Invoke(this, error);
     }
 
-    public virtual async Task Connect(string host)
+    public virtual async Task Connect()
     {
-        await InternalConnect(host, 0);
+        await InternalConnect(0);
     }
 
     public virtual async Task Disconnect()
@@ -76,7 +74,7 @@ public class SignalRSocket : IRpcSocket, IAsyncDisposable
         _reconnectionTimer?.Dispose();
     }
 
-    async Task InternalConnect(string host, int reconnectAttempts)
+    async Task InternalConnect(int reconnectAttempts)
     {
         if (IsConnected)
         {
@@ -86,7 +84,7 @@ public class SignalRSocket : IRpcSocket, IAsyncDisposable
         }
         if (Connection == null)
         {
-            ConfigureConnection(host);
+            ConfigureConnection();
         }
         try
         {
@@ -104,15 +102,12 @@ public class SignalRSocket : IRpcSocket, IAsyncDisposable
             }
             var delay = TimeSpan.FromSeconds(5);
             await Task.Delay(delay);
-            await InternalConnect(host, reconnectAttempts);
+            await InternalConnect(reconnectAttempts);
         }
     }
 
-    void ConfigureConnection(string host)
+    void ConfigureConnection()
     {
-        _context.Host = host;
-        GuardHelper.ThrowIfDefault(_context.Url);
-
         Connection = new HubConnectionBuilder()
             .WithUrl(_context.Url)
             .Build();
@@ -246,7 +241,7 @@ public interface IRpcSocket
     event EventHandler<string>? ServerConnectionInfo;
     event EventHandler<RpcError>? Error;
     bool IsConnected { get; }
-    Task Connect(string host);
+    Task Connect();
     Task Disconnect();
 }
 

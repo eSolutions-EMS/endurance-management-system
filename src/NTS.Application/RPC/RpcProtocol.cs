@@ -1,6 +1,6 @@
 ﻿namespace NTS.Application.RPC;
 
-public enum RpcProtocls
+public enum RpcProtocl
 {
     Http = 1,
     Https = 2,

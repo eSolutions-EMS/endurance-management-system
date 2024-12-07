@@ -188,9 +188,9 @@ public static class InectionExtensions
         var references = assembly
             .GetReferencedAssemblies()
             .Where(x =>
-                x.FullName!.StartsWith(ntsPrefix)
-                || x.FullName!.StartsWith(NOT_PREFIX)
-                || x.FullName!.StartsWith("NTS.")
+                x.FullName!.StartsWith(ntsPrefix, StringComparison.InvariantCulture)
+                || x.FullName!.StartsWith(NOT_PREFIX, StringComparison.InvariantCulture)
+                || x.FullName!.StartsWith("NTS.", StringComparison.InvariantCulture)
             ) // TODO: remove
             .ToList();
         foreach (var reference in references)

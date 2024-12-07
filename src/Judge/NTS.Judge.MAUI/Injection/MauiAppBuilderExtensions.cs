@@ -30,7 +30,7 @@ public static class MauiAppBuilderExtensions
 
     public static IServiceCollection AddInversedDependencies(this IServiceCollection services)
     {
-        services.AddStorage().AddJudge().GetConventionalAssemblies().RegisterConventionalServices();
+        services.AddStorage().AddJudge().GetConventionalAssemblies().RegisterConventionalServices(); //TODO: move AddJuge in JudgeBlazorStartup.cs
         return services;
     }
 }

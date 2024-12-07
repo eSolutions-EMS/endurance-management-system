@@ -1,9 +1,8 @@
-﻿using Not.Injection;
-using NTS.Domain.Core.Objects.Payloads;
+﻿using NTS.Domain.Core.Objects.Payloads;
 
 namespace NTS.Application.RPC.Procedures;
 
-public interface IJudgeHubProcedures : ITransient
+public interface IJudgeHubProcedures
 {
     Task SendStartCreated(PhaseCompleted phaseCompleted);
     Task SendParticipationEliminated(ParticipationEliminated revoked);
