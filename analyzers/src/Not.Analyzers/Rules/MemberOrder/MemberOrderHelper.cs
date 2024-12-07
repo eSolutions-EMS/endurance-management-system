@@ -5,7 +5,7 @@ namespace Not.Analyzers.Rules.MemberOrder;
 
 public static class MemberOrderHelper
 {
-    static readonly ImmutableDictionary<MemberKind, int> _orderByMemberKind;
+    static readonly ImmutableDictionary<MemberKind, int> ORDER_BY_MEMBER_KIND;
 
     static MemberOrderHelper()
     {
@@ -43,6 +43,7 @@ public static class MemberOrderHelper
 
         // Properties
         ordering[MemberKind.PrivateProperty] = order++;
+        ordering[MemberKind.InternalProperty] = order++;
         ordering[MemberKind.ProtectedProperty] = order++;
         ordering[MemberKind.PublicIndexDeclarator] = order++;
         ordering[MemberKind.PublicEvent] = order++;
@@ -58,16 +59,16 @@ public static class MemberOrderHelper
         ordering[MemberKind.InternalClass] = order++;
         ordering[MemberKind.PrivateClass] = order++;
 
-        _orderByMemberKind = ordering.ToImmutableDictionary();
+        ORDER_BY_MEMBER_KIND = ordering.ToImmutableDictionary();
     }
 
     public static int CompareOrder(MemberKind first, MemberKind second)
     {
-        if (!_orderByMemberKind.TryGetValue(first, out var firstOrder))
+        if (!ORDER_BY_MEMBER_KIND.TryGetValue(first, out var firstOrder))
         {
             throw new Exception($"Unknown member kind: {first}");
         }
-        if (!_orderByMemberKind.TryGetValue(second, out var secondOrder))
+        if (!ORDER_BY_MEMBER_KIND.TryGetValue(second, out var secondOrder))
         {
             throw new Exception($"Unknown member kind: {second}");
         }
