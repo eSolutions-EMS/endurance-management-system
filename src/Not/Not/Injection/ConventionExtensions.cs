@@ -4,28 +4,22 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Not.Injection;
 
-public static class InectionExtensions
+public static class InjectionServiceCollectionExtensions
 {
     const string NOT_PREFIX = "Not.";
     static readonly Type TRANSIENT_TYPE = typeof(ITransient);
     static readonly Type SCOPED_TYPE = typeof(IScoped);
     static readonly Type SINGLETON_TYPE = typeof(ISingleton);
 
-    public static (
-        IServiceCollection services,
-        IEnumerable<Assembly> assemblies
-    ) GetConventionalAssemblies(this IServiceCollection services)
+    public static IServiceCollection RegisterConventionalServices(this IServiceCollection services)
     {
         var callingAssembly = Assembly.GetCallingAssembly();
         var assemblies = callingAssembly.RecursiveGetReferencedAssemblies([]);
-        return (services, assemblies);
+        return RegisterConventionalServices(services, assemblies);
     }
 
-    public static IServiceCollection RegisterConventionalServices(
-        this (IServiceCollection services, IEnumerable<Assembly> assemblies) values
-    )
+    static IServiceCollection RegisterConventionalServices(IServiceCollection services, IEnumerable<Assembly> assemblies)
     {
-        var (services, assemblies) = values;
         assemblies = assemblies.Distinct().OrderBy(x => x.FullName).ToList();
         var classes = assemblies
             .SelectMany(x =>

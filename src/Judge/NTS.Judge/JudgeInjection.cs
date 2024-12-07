@@ -2,9 +2,9 @@
 using Not.Startup;
 using NTS.Domain.Core.StaticOptions;
 
-namespace NTS.Judge.Shared;
+namespace NTS.Judge;
 
-public static class JudgeStartup
+public static class JudgeInjection
 {
     /// <summary>
     /// Necessary to be called directly from UI project, otherwise the runtime treeshakes this
@@ -12,7 +12,7 @@ public static class JudgeStartup
     /// </summary>
     /// <param name="services"></param>
     /// <returns></returns>
-    public static IServiceCollection AddJudge(this IServiceCollection services)
+    public static IServiceCollection ConfigureJudge(this IServiceCollection services)
     {
         return services
             .AddSingleton<IStartupInitializer, StaticOption>();

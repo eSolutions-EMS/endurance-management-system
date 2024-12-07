@@ -8,7 +8,7 @@ using NTS.ACL.Factories;
 using NTS.Domain.Core.Aggregates;
 using Not.Application.CRUD.Ports;
 using NTS.Domain.Objects;
-using NTS.Application.RPC.Procedures;
+using NTS.Application.RPC;
 
 namespace NTS.Judge.MAUI.Server.RPC;
 

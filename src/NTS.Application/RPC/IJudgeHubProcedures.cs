@@ -1,6 +1,6 @@
 ﻿using NTS.Domain.Core.Objects.Payloads;
 
-namespace NTS.Application.RPC.Procedures;
+namespace NTS.Application.RPC;
 
 public interface IJudgeHubProcedures
 {

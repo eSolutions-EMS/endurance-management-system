@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
+using Not.Application.RPC.SignalR;
 using Not.Reflection;
 
-namespace NTS.Application.RPC;
+namespace Not.Application.RPC.Clients;
 
 public abstract class RpcClient : IRpcClient
 {

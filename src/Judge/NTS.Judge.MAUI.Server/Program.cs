@@ -1,21 +1,17 @@
-﻿using NTS.ACL.Handshake;
-using NTS.Application;
-using Not.Injection;
+﻿using NTS.Application;
 using NTS.Judge.MAUI.Server.ACL;
-using NTS.Storage.Injection;
 using NTS.Judge.MAUI.Server.RPC;
+using NTS.Judge.MAUI.Server;
 
 var builder = WebApplication.CreateBuilder();
-builder.Services.AddSignalR();
-builder.Services.AddHostedService<NetworkBroadcastService>();
-builder.Services.GetConventionalAssemblies().RegisterConventionalServices();
-builder.Services.AddStorage();
+
+builder.Services.ConfigureHub();
 
 var app = builder.Build();
 
 app.Urls.Add("http://*:11337");
 
-app.MapHub<JudgeRpcHub>(NtsApplicationConstants.JUDGE_HUB);
+app.MapHub<JudgeRpcHub>(ApplicationConstants.JUDGE_HUB);
 app.MapHub<WitnessRpcHub>(Constants.RPC_ENDPOINT); // TODO: change to NtsApplicationConstants.WITNESS_HUB
 
 app.Run();

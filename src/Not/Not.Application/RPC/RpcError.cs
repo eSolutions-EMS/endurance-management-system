@@ -1,4 +1,4 @@
-﻿namespace NTS.Application.RPC;
+﻿namespace Not.Application.RPC;
 
 public class RpcError
 {

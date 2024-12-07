@@ -1,6 +1,6 @@
 ﻿namespace NTS.Application;
 
-public static class NtsApplicationConstants
+public static class ApplicationConstants
 {
     // TODO: change JUDGE_HUB value to ;judge-hub'. It's currently named like that because the
     // legacy Witness app is setup to connect on 'judge-hub', which makes no sense once HUB is separated

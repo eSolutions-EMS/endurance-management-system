@@ -1,4 +1,4 @@
-﻿namespace NTS.Application.RPC.Procedures;
+﻿namespace NTS.Application.RPC;
 
 internal interface IWitnessHubProcedures
 {

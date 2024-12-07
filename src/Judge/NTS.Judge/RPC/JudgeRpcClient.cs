@@ -1,7 +1,8 @@
 ﻿using System.Transactions;
+using Not.Application.RPC.Clients;
+using Not.Application.RPC.SignalR;
 using Not.Injection;
 using NTS.Application.RPC;
-using NTS.Application.RPC.Procedures;
 using NTS.Domain.Core.Objects.Payloads;
 
 namespace NTS.Judge.RPC;

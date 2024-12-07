@@ -1,18 +1,18 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
 
-namespace NTS.Application.RPC;
+namespace Not.Application.RPC.SignalR;
 
 public class SignalRSocket : IRpcSocket, IAsyncDisposable
 {
     const int AUTOMATIC_RECONNECT_ATTEMPTS = 3;
 
-    readonly RpcContext _context;
+    readonly SignalRContext _context;
     readonly string _name;
     System.Timers.Timer? _reconnectionTimer;
     int _connectionClosedReconnectAttempts;
     CancellationTokenSource? _reconnectTokenSource;
 
-    internal SignalRSocket(RpcContext? context = null)
+    internal SignalRSocket(SignalRContext? context = null)
     {
         _context = context ?? throw new ApplicationException($"SignalR socket is not configured. Use '{nameof(RpcServiceCollectionExtensions)}' to configure the socket");
         _name = GetType().Name;

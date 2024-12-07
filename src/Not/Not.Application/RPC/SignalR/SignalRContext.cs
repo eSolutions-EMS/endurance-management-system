@@ -1,13 +1,13 @@
-﻿namespace NTS.Application.RPC;
+﻿namespace Not.Application.RPC.SignalR;
 
-public class RpcContext
+public class SignalRContext
 {
-    readonly RpcProtocl _protocol;
+    readonly RpcProtocol _protocol;
     readonly int _port;
     readonly string _hubPattern;
     string _host;
 
-    public RpcContext(RpcProtocl protocol, string host, int port, string hubPattern)
+    public SignalRContext(RpcProtocol protocol, string host, int port, string hubPattern)
     {
         _protocol = protocol;
         _host = NormalizeHost(host);

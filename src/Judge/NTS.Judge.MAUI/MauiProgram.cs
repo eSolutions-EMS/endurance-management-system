@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using NTS.Judge.MAUI.Injection;
 using NTS.Judge.RPC;
 
 namespace NTS.Judge.MAUI;
@@ -12,7 +11,7 @@ public static class MauiProgram
         builder
             .UseMauiApp<App>()
             .ConfigureFonts(fonts => fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular"))
-            .ConfigureBlazor();
+            .ConfigureJudgeMaui();
 
         var app = builder.Build();
 
@@ -51,6 +50,5 @@ public static class MauiProgram
         {
             Console.WriteLine(ex.Message);
         }
-        
     }
 }
