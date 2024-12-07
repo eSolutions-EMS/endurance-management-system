@@ -1,6 +1,6 @@
 ﻿using Vup.reader;
 
-namespace NTS.Judge.ACL.RFID;
+namespace NTS.Judge.RFID;
 
 public class VupVD67Controller : RfidController
 {

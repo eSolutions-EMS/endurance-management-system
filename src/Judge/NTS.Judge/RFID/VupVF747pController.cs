@@ -3,7 +3,7 @@ using System.Text;
 using Not.Logging;
 using Vup.reader;
 
-namespace NTS.Judge.ACL.RFID;
+namespace NTS.Judge.RFID;
 
 public class VupVF747pController : RfidController
 {

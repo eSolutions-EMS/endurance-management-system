@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace NTS.Judge.ACL.RFID;
+namespace NTS.Judge.RFID;
 
 public abstract class RfidController
 {
