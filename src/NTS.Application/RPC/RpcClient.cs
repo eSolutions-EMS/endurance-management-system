@@ -1,15 +1,14 @@
-﻿using Core.Application.Rpc.Procedures;
-using Microsoft.AspNetCore.SignalR.Client;
+﻿using Microsoft.AspNetCore.SignalR.Client;
 
-namespace NTS.ACL.RPC;
+namespace NTS.Application.RPC;
 
 public abstract class RpcClient
 {
-    private readonly SignalRSocket _socket;
+    readonly SignalRSocket _socket;
 
-    protected RpcClient(SignalRSocket socket)
+    protected RpcClient(string hubPattern)
     {
-        _socket = socket;
+        _socket = new SignalRSocket(hubPattern);
     }
 
     public void RegisterClientProcedure(string name, Func<Task> action)

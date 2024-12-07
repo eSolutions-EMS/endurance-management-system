@@ -7,4 +7,5 @@ public static class NtsApplicationConstants
     // from Judge app.
     public const string JUDGE_HUB = "judge-judge-hub";
     public const string WITNESS_HUB = "witness-hub";
+    public const int RPC_PORT = 11337;
 }

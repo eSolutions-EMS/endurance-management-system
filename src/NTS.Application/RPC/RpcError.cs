@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NTS.ACL.RPC;
+﻿namespace NTS.Application.RPC;
 
 public class RpcError
 {
@@ -13,5 +11,5 @@ public class RpcError
 
     public Exception Exception { get; }
     public string? Procedure { get; }
-    public object?[] Arguments { get; } = Array.Empty<object>();
+    public object?[] Arguments { get; } = [];
 }

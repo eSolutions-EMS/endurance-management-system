@@ -1,13 +1,11 @@
-﻿using System;
-
-namespace NTS.ACL.RPC;
+﻿namespace NTS.Application.RPC;
 
 public class RpcContext
 {
-    private readonly RpcProtocls protocol;
-    private readonly int port;
-    private readonly string endpoint;
-    private string? host;
+    readonly RpcProtocls _protocol;
+    readonly int _port;
+    readonly string _endpoint;
+    string? _host;
 
     public RpcContext(RpcProtocls protocol, int port, string endpoint)
     {
@@ -15,14 +13,14 @@ public class RpcContext
         {
             endpoint = endpoint[1..];
         }
-        this.protocol = protocol;
-        this.port = port;
-        this.endpoint = endpoint;
+        _protocol = protocol;
+        _port = port;
+        _endpoint = endpoint;
     }
 
     public string? Host
     {
-        get => host;
+        get => _host;
         internal set
         {
             if (value == null)
@@ -31,16 +29,17 @@ public class RpcContext
             }
             if (value.EndsWith("/") || value.EndsWith(":"))
             {
-                host = value[..^1];
+                _host = value[..^1];
             }
             else
             {
-                host = value;
+                _host = value;
             }
         }
     }
+    
     public string? Url
         => Host == null
             ? null
-            : $"{protocol.ToString().ToLower()}://{host}:{port}/{endpoint}";
+            : $"{_protocol.ToString().ToLower()}://{_host}:{_port}/{_endpoint}";
 }

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace NTS.ACL.RPC;
+﻿namespace NTS.ACL.RPC;
 
 public struct RpcLog
 {

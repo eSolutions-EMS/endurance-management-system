@@ -264,3 +264,5 @@ dotnet_diagnostic.CA1860.severity = none
 
 # IDE0045: Convert to conditional expression
 dotnet_diagnostic.IDE0045.severity = none
+# IDE0033: prefer expression lambda over curly bracket body
+dotnet_diagnostic.IDE0053.severity = none
