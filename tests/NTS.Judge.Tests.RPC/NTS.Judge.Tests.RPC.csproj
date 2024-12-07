@@ -11,7 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Compatibility.EMS\NTS.ACL.csproj" />
+    <ProjectReference Include="..\..\src\NTS.ACL\NTS.ACL.csproj" />
+    <ProjectReference Include="..\..\src\NTS.Application\NTS.Application.csproj" />
   </ItemGroup>
 
 </Project>
