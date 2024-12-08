@@ -3,7 +3,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Not.Filesystem;
 using Not.Injection;
 using Not.Storage.Stores;
-using NTS.Judge.Shared;
 
 namespace NTS.Judge.Tests;
 
@@ -31,10 +30,9 @@ public abstract partial class JsonFileStoreIntegrationTest : IDisposable
         FileContextHelper.SetDebugRootDirectory("nts");
         var services = new ServiceCollection();
         return services
-            .AddJudge()
+            .ConfigureJudge()
             .AddJsonFileStore(x => x.Path = storagePath)
             .AddStaticOptionsStore(x => x.Path = FileContextHelper.GetAppDirectory("resources"))
-            .GetConventionalAssemblies()
             .RegisterConventionalServices();
     }
 

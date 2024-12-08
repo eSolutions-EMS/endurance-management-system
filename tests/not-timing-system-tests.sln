@@ -37,7 +37,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NTS.Application", "..\src\N
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NTS.ACL", "..\src\NTS.ACL\NTS.ACL.csproj", "{9970F661-AD35-487F-8148-428384209DAB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NTS.Judge.Tests.RPC", "NTS.Judge.Tests.RPC\NTS.Judge.Tests.RPC.csproj", "{9D63A619-1F5D-4E1F-84C0-0C5A0CFECADC}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_confg", "_confg", "{6AAA82B5-6008-4CE4-94F1-D5BE91B3E593}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -101,10 +104,6 @@ Global
 		{9970F661-AD35-487F-8148-428384209DAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9970F661-AD35-487F-8148-428384209DAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9970F661-AD35-487F-8148-428384209DAB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9D63A619-1F5D-4E1F-84C0-0C5A0CFECADC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9D63A619-1F5D-4E1F-84C0-0C5A0CFECADC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9D63A619-1F5D-4E1F-84C0-0C5A0CFECADC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9D63A619-1F5D-4E1F-84C0-0C5A0CFECADC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -123,7 +122,6 @@ Global
 		{0E521A25-A39C-42AD-AC4E-2EDD488BDCE4} = {64D80DF7-A0E2-432B-B360-ADBAC6952CB2}
 		{D54B62EF-80FD-4C24-A0D0-FDE85200DAF2} = {64D80DF7-A0E2-432B-B360-ADBAC6952CB2}
 		{9970F661-AD35-487F-8148-428384209DAB} = {64D80DF7-A0E2-432B-B360-ADBAC6952CB2}
-		{9D63A619-1F5D-4E1F-84C0-0C5A0CFECADC} = {64D80DF7-A0E2-432B-B360-ADBAC6952CB2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FEB58AA8-3F9B-42A1-A7B9-420A5B3B466C}

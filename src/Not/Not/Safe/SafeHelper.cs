@@ -159,8 +159,6 @@ public static class SafeHelper
     static void HandleError(Exception ex)
     {
 #if DEBUG
-        Console.WriteLine(ex.Message);
-        Console.WriteLine(ex.StackTrace);
         throw ex;
 #else
         NotifyHelper.Error(ex);

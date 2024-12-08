@@ -9,9 +9,9 @@ using NTS.Storage.Setup;
 
 namespace NTS.Judge.Tests;
 
-public class UnitTest1 : JsonFileStoreIntegrationTest
+public class StorageTests : JsonFileStoreIntegrationTest
 {
-    public UnitTest1() : base(nameof(SetupState))
+    public StorageTests() : base(nameof(SetupState))
     {
     }
 
