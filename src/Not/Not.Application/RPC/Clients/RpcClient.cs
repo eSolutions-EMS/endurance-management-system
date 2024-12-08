@@ -111,7 +111,7 @@ public abstract class RpcClient : IRpcClient
     {
         if (!_socket.IsConnected)
         {
-            return RpcInvokeResult.Error;
+            await Connect();
         }
         try
         {
@@ -129,7 +129,7 @@ public abstract class RpcClient : IRpcClient
     {
         if (!_socket.IsConnected)
         {
-            return RpcInvokeResult.Error;
+            await Connect();
         }
         try
         {
@@ -147,7 +147,7 @@ public abstract class RpcClient : IRpcClient
     {
         if (!_socket.IsConnected)
         {
-            return RpcInvokeResult<T>.Error;
+            await Connect();
         }
         try
         {

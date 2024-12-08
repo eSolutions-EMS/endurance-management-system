@@ -16,13 +16,13 @@ public static class JudgeMauiInjection
         builder.Logging.AddDebug();
         builder.Services.AddBlazorWebViewDeveloperTools();
 #endif
-        builder.ConfigureLogging().AddFilesystemLogger();
-
         builder.Services
             .ConfigureStorage()
             .ConfigureJudge()
             .ConfigureJudgeBlazor(builder.Configuration)
             .RegisterConventionalServices();
+        
+        builder.ConfigureLogging().AddFilesystemLogger();
 
         return builder;
     }

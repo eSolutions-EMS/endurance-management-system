@@ -8,10 +8,15 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="8.0.10" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson" Version="9.0.0" />
   </ItemGroup>
   
   <ItemGroup>
     <ProjectReference Include="..\Not.Blazor\Not.Blazor.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="NTS.Judge.Tests" />
   </ItemGroup>
 
 </Project>

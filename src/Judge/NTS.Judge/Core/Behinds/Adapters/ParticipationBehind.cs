@@ -3,6 +3,7 @@ using Not.Application.CRUD.Ports;
 using Not.Blazor.CRUD.Ports;
 using Not.Exceptions;
 using Not.Safe;
+using NTS.Application.RPC;
 using NTS.Domain.Core.Aggregates;
 using NTS.Domain.Core.Aggregates.Participations;
 using NTS.Domain.Enums;
@@ -13,6 +14,7 @@ using NTS.Judge.Blazor.Core.Dashboards.Actions.Inspections;
 using NTS.Judge.Blazor.Core.Dashboards.Actions.Snapshots;
 using NTS.Judge.Blazor.Core.Dashboards.Component;
 using NTS.Judge.Blazor.Core.Dashboards.Phases;
+using NTS.Judge.RPC;
 
 namespace NTS.Judge.Core.Behinds.Adapters;
 
@@ -27,15 +29,18 @@ public class ParticipationBehind
         IManualProcessor
 {
     readonly List<int> _recentlyProcessed = [];
+    readonly IJudgeRpcClient _judgeRpcClient;
     readonly IRepository<Participation> _participationRepository;
     readonly IRepository<SnapshotResult> _snapshotResultRepository;
     Participation? _selectedParticipation;
 
     public ParticipationBehind(
+        IJudgeRpcClient judgeRpcClient,
         IRepository<Participation> participationRepository,
         IRepository<SnapshotResult> snapshotResultRepository
     )
     {
+        _judgeRpcClient = judgeRpcClient;
         _participationRepository = participationRepository;
         _snapshotResultRepository = snapshotResultRepository;
     }
@@ -59,6 +64,10 @@ public class ParticipationBehind
 
     protected override async Task<bool> PerformInitialization(params IEnumerable<object> arguments)
     {
+        Participation.PHASE_COMPLETED_EVENT.Subscribe(_judgeRpcClient.SendStartCreated); //TODO: figure out where to subscribe?
+        Participation.ELIMINATED_EVENT.Subscribe(_judgeRpcClient.SendParticipationEliminated); //TODO: figure out where to subscribe?
+        Participation.RESTORED_EVENT.Subscribe(_judgeRpcClient.SendParticipationRestored); //TODO: figure out where to subscribe?
+
         Participations = await _participationRepository.ReadAll();
         SelectedParticipation = Participations.FirstOrDefault();
         return Participations.Any();

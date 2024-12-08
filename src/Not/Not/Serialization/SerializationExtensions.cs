@@ -5,7 +5,7 @@ namespace Not.Serialization;
 
 public static class SerializationExtensions
 {
-    static readonly JsonSerializerSettings SETTINGS = new()
+    public static readonly JsonSerializerSettings SETTINGS = new()
     {
         ContractResolver = new PrivatePropertySetterResolver(),
         ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,

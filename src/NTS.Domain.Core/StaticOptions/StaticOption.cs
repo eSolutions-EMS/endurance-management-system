@@ -29,20 +29,20 @@ public class StaticOption : IStartupInitializer
 
     public static bool ShouldOnlyUseAverageLoopSpeed(CompetitionRuleset ruleset)
     {
-        if (!ShouldUseRegionalConfiguration(ruleset))
+        if (ruleset == CompetitionRuleset.Regional && Regional != null)
         {
-            return Regional!.ShouldOnlyUseAverageLoopSpeed;
+            return Regional.ShouldOnlyUseAverageLoopSpeed;
         }
         return false;
     }
 
     public static bool ShouldUseRegionalRanker(CompetitionRuleset ruleset)
     {
-        if (!ShouldUseRegionalConfiguration(ruleset))
+        if (ruleset == CompetitionRuleset.Regional)
         {
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
     #region Instance is used in order to be initialized on Startup
@@ -67,11 +67,6 @@ public class StaticOption : IStartupInitializer
         Countries = _options.Countries;
         Regional = RegionOptionProvider.Get(_options.SelectedCountry);
         Detection = _options.DetectionMode;
-    }
-
-    static bool ShouldUseRegionalConfiguration(CompetitionRuleset ruleset)
-    {
-        return ruleset == CompetitionRuleset.Regional && Regional != null;
     }
 
     #endregion

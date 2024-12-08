@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.Extensions.DependencyInjection;
+using Not.Serialization;
 
 namespace Not.Application.RPC.SignalR;
 
@@ -109,6 +111,7 @@ public class SignalRSocket : IRpcSocket, IAsyncDisposable
     void ConfigureConnection()
     {
         Connection = new HubConnectionBuilder()
+            .AddNewtonsoftJsonProtocol(x => x.PayloadSerializerSettings = SerializationExtensions.SETTINGS)
             .WithUrl(_context.Url)
             .Build();
         Connection.Reconnected += HandleReconnected;

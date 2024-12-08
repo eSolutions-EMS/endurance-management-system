@@ -95,7 +95,7 @@ public class VupVF747pController : RfidController
         {
             var message = $"Error in antenna read: {antennaRead.Message}";
             RaiseError(message);
-            return Array.Empty<int>();
+            return [];
         }
         var indices = new List<int>();
         for (var i = 1; i <= antennaRead.Result; i++)
@@ -164,7 +164,7 @@ public class VupVF747pController : RfidController
                 return tags;
             }
         }
-        return Enumerable.Empty<string>();
+        return [];
     }
 
     void Reconnect()
