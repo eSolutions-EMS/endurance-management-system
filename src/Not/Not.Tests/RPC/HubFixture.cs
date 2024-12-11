@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
 using Not.Application.RPC;
-using Not.Application.RPC.Clients;
 using Not.Application.RPC.SignalR;
 
 namespace Not.Tests.RPC;

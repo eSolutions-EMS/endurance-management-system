@@ -3,7 +3,6 @@ using Not.Application.RPC;
 using NTS.Application;
 using NTS.Domain.Objects;
 using NTS.Judge.Core;
-using NTS.Judge.Core.Behinds.Adapters;
 using NTS.Storage.Core;
 
 namespace NTS.Judge.Tests.Sample;
@@ -34,15 +33,11 @@ public class RpcIntegrationTest : JudgeIntegrationTest
         var timestamp = new Timestamp(time);
         var snapshot = new Snapshot(55, Domain.Enums.SnapshotType.Vet, Domain.Enums.SnapshotMethod.Manual, timestamp);
 
-        var processor = Provider.GetRequiredService<ISnapshotProcessor>();
+        var processor = await GetBehind<ISnapshotProcessor>();
 
         await AssertRpcInvoked(
             _witnessFIxture, 
-            async () =>
-            {
-                await ((ParticipationBehind)processor).Initialize([]);
-                await processor.Process(snapshot);
-            }, 
+            () => processor.Process(snapshot),
             nameof(WitnessTestClient.ReceiveEntryUpdate));
     }
 }

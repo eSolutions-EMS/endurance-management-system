@@ -1,7 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.DependencyInjection;
-using Not.Application.RPC.Clients;
+using Not.Blazor.Ports;
 using Not.Tests.RPC;
 using Xunit;
 
@@ -36,6 +36,17 @@ public abstract class IntegrationTest : IDisposable
     protected abstract IServiceCollection ConfigureServices(string storagePath);
 
     protected IServiceProvider Provider { get; private set; }
+
+    protected async Task<T> GetBehind<T>()
+        where T : notnull
+    {
+        var behind = Provider.GetRequiredService<T>();
+        if (behind is IObservableBehind observableBehind)
+        {
+            await observableBehind.Initialize([]);
+        }
+        return behind;
+    }
 
     protected async Task Seed([CallerMemberName] string? test = null)
     {
