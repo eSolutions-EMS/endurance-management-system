@@ -1,5 +1,4 @@
 using Microsoft.Extensions.DependencyInjection;
-using Not.Application.CRUD.Ports;
 using Not.Blazor.CRUD.Ports;
 using Not.Serialization;
 using NTS.Domain.Objects;
@@ -7,9 +6,9 @@ using NTS.Domain.Setup.Aggregates;
 using NTS.Judge.Blazor.Setup.EnduranceEvents;
 using NTS.Storage.Setup;
 
-namespace NTS.Judge.Tests;
+namespace NTS.Judge.Tests.Sample;
 
-public class StorageTests : JsonFileStoreIntegrationTest
+public class StorageTests : JudgeIntegrationTest
 {
     public StorageTests() : base(nameof(SetupState))
     {
@@ -18,17 +17,17 @@ public class StorageTests : JsonFileStoreIntegrationTest
     [Fact]
     public async Task Test1()
     {
-        await Seed("{}");
-        
+        await Seed();
+
         var enduranceEventBehind = Provider.GetRequiredService<ICreateBehind<EnduranceEventFormModel>>();
-        
+
         var country = new Country("testIso", "testNf", "Test");
         var enduranceEvent = new EnduranceEventTestModel
         {
             Country = country,
             Place = "Sofia",
         };
-        
+
         await enduranceEventBehind.Create(enduranceEvent);
 
         var expectedState = new SetupState
@@ -42,7 +41,7 @@ public class StorageTests : JsonFileStoreIntegrationTest
     [Fact]
     public async Task SeedResourceTest()
     {
-        await SeedResource("seed-endurance-event.json");
+        await Seed();
 
         var expected = """
             {

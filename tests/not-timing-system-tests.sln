@@ -42,6 +42,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_confg", "_confg", "{6AAA82
 		Directory.Build.props = Directory.Build.props
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Not.Tests", "..\src\Not\Not.Tests\Not.Tests.csproj", "{46969AA7-60B3-4664-99B8-42CA1942CC1C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -104,6 +106,10 @@ Global
 		{9970F661-AD35-487F-8148-428384209DAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9970F661-AD35-487F-8148-428384209DAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9970F661-AD35-487F-8148-428384209DAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46969AA7-60B3-4664-99B8-42CA1942CC1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46969AA7-60B3-4664-99B8-42CA1942CC1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46969AA7-60B3-4664-99B8-42CA1942CC1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46969AA7-60B3-4664-99B8-42CA1942CC1C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -122,6 +128,7 @@ Global
 		{0E521A25-A39C-42AD-AC4E-2EDD488BDCE4} = {64D80DF7-A0E2-432B-B360-ADBAC6952CB2}
 		{D54B62EF-80FD-4C24-A0D0-FDE85200DAF2} = {64D80DF7-A0E2-432B-B360-ADBAC6952CB2}
 		{9970F661-AD35-487F-8148-428384209DAB} = {64D80DF7-A0E2-432B-B360-ADBAC6952CB2}
+		{46969AA7-60B3-4664-99B8-42CA1942CC1C} = {33F6935E-EA68-4CC6-849F-5E42DAABD6DA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FEB58AA8-3F9B-42A1-A7B9-420A5B3B466C}

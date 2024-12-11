@@ -4,18 +4,19 @@ using NTS.Application;
 using NTS.Domain.Objects;
 using NTS.Judge.Core;
 using NTS.Judge.Core.Behinds.Adapters;
+using NTS.Judge.Tests.RPC;
 using NTS.Storage.Core;
 
-namespace NTS.Judge.Tests;
+namespace NTS.Judge.Tests.Sample;
 
-[Collection(nameof(HubFixture))]
-public class RpcIntegrationTest : JsonFileStoreIntegrationTest
+[Collection(nameof(WitnessRpcFixture))]
+public class RpcIntegrationTest : JudgeIntegrationTest
 {
-    private readonly HubFixture _hubFixture;
+    private readonly WitnessRpcFixture _witnessFIxture;
 
-    public RpcIntegrationTest(HubFixture hubFixture) : base(nameof(CoreState))
+    public RpcIntegrationTest(WitnessRpcFixture witnessFixture) : base(nameof(CoreState))
     {
-        _hubFixture = hubFixture;
+        _witnessFIxture = witnessFixture;
     }
 
     protected override IServiceCollection ConfigureServices(string storagePath)
@@ -27,22 +28,22 @@ public class RpcIntegrationTest : JsonFileStoreIntegrationTest
     [Fact]
     public async Task TestEliminatedOnRpcClient()
     {
-        await SeedResource("55-present.json");
+        await Seed();
 
         var now = DateTimeOffset.Now;
         var time = new DateTimeOffset(now.Year, now.Month, now.Day, 22, 17, 31, now.Offset);
         var timestamp = new Timestamp(time);
         var snapshot = new Snapshot(55, Domain.Enums.SnapshotType.Vet, Domain.Enums.SnapshotMethod.Manual, timestamp);
 
-        var client = _hubFixture.GetClient();
         var processor = Provider.GetRequiredService<ISnapshotProcessor>();
 
-        await ((ParticipationBehind)processor).Initialize([]);
-
-        await client.Connect();
-        await processor.Process(snapshot);
-        await Task.Delay(TimeSpan.FromSeconds(5));
-        var isInvoked = client.InvokedMethods.Contains(nameof(client.ReceiveEntryUpdate));
-        Assert.True(isInvoked);
+        await AssertRpcInvoked(
+            _witnessFIxture, 
+            async () =>
+            {
+                await ((ParticipationBehind)processor).Initialize([]);
+                await processor.Process(snapshot);
+            }, 
+            nameof(WitnessTestClient.ReceiveEntryUpdate));
     }
 }

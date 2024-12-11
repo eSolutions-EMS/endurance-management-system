@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <InternalsVisibleTo Include="NTS.Judge.Tests" />
+    <InternalsVisibleTo Include="Not.Tests" />
   </ItemGroup>
 
 </Project>
