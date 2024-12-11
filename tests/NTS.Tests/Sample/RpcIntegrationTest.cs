@@ -17,12 +17,6 @@ public class RpcIntegrationTest : JudgeIntegrationTest
         _witnessFIxture = witnessFixture;
     }
 
-    protected override IServiceCollection ConfigureServices(string storagePath)
-    {
-        return base.ConfigureServices(storagePath)
-            .ConfigureRpc(RpcProtocol.Http, "localhost", ApplicationConstants.RPC_PORT, ApplicationConstants.JUDGE_HUB);
-    }
-
     [Fact]
     public async Task TestEliminatedOnRpcClient()
     {

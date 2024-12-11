@@ -16,7 +16,7 @@ public static class JudgeBlazorInjection
         services
             .AddLocalization(x => x.ResourcesPath = "Resources/Localization")
             .AddNotBlazor(configuration)
-            .ConfigureRpc(RpcProtocol.Http, "localhost", ApplicationConstants.RPC_PORT, ApplicationConstants.JUDGE_HUB);
+            .AddRpcSocket(RpcProtocol.Http, "localhost", ApplicationConstants.RPC_PORT, ApplicationConstants.JUDGE_HUB);
 
         return services;
     }
