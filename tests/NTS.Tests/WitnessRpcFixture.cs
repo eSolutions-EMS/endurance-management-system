@@ -3,7 +3,7 @@ using Not.Application.RPC.SignalR;
 using Not.Tests.RPC;
 using NTS.Application;
 
-namespace NTS.Judge.Tests.RPC;
+namespace NTS.Judge.Tests;
 
 public class WitnessRpcFixture : HubFixture<WitnessTestClient>
 {

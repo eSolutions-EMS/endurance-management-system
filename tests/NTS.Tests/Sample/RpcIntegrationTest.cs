@@ -4,7 +4,6 @@ using NTS.Application;
 using NTS.Domain.Objects;
 using NTS.Judge.Core;
 using NTS.Judge.Core.Behinds.Adapters;
-using NTS.Judge.Tests.RPC;
 using NTS.Storage.Core;
 
 namespace NTS.Judge.Tests.Sample;

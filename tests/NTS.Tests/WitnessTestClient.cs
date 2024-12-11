@@ -6,7 +6,7 @@ using NTS.ACL.Enums;
 using NTS.ACL.RPC;
 using NTS.ACL.RPC.Procedures;
 
-namespace NTS.Judge.Tests.RPC;
+namespace NTS.Judge.Tests;
 
 public class WitnessTestClient : RpcClient, IEmsParticipantsClientProcedures, IEmsStartlistClientProcedures, ITestRpcClient
 {
