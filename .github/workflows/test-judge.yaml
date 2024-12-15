@@ -43,7 +43,4 @@ jobs:
         run: dotnet build ${{ env.TEST_PROJECT_PATH }} -property:SolutionDir="$CURRENT_DIR" --configuration Release --no-restore
 
       - name: Test1
-        run: ls -la tests/NTS.Judge.Tests/bin/Release/net8.0 # && dotnet test ${{ env.TEST_PROJECT_PATH }} -property:SolutionDir="$CURRENT_DIR" --configuration Release --no-build
-
-      - name: Test2
-        run: ls -la tests/NTS.Judge.Tests/bin/Release/net8.0 | grep SERVER # 
+        run: dotnet test ${{ env.TEST_PROJECT_PATH }} -property:SolutionDir="$CURRENT_DIR" --configuration Release --no-build
