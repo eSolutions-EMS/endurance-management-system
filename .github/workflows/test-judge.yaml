@@ -31,8 +31,8 @@ jobs:
 
       # Step 4: Build the solution in Release mode (optional, but recommended)
       - name: Build
-        run: dotnet build ${{ env.TEST_PROJECT_PATH }} -property:SolutionDir='.' --configuration Release --no-restore
+        run: dotnet build ${{ env.TEST_PROJECT_PATH }} -property:SolutionDir='src' --configuration Release --no-restore
 
       # Step 5: Run tests
       - name: Test
-        run: dotnet test ${{ env.TEST_PROJECT_PATH }} -property:SolutionDir='.' --configuration Release --no-build
+        run: dotnet test ${{ env.TEST_PROJECT_PATH }} -property:SolutionDir='src' --configuration Release --no-build
