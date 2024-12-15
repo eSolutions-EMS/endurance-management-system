@@ -7,7 +7,7 @@ namespace NTS.Judge.Tests;
 
 public class WitnessRpcFixture : HubFixture<WitnessTestClient>
 {
-    public WitnessRpcFixture() : base(RpcProtocol.Http, ApplicationConstants.RPC_PORT, ApplicationConstants.WITNESS_HUB, "NTS.Judge.MAUI.Server.exe")
+    public WitnessRpcFixture() : base(RpcProtocol.Http, ApplicationConstants.RPC_PORT, ApplicationConstants.WITNESS_HUB, "NTS.Judge.MAUI.Server")
     {
     }
 
