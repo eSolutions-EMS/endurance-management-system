@@ -22,6 +22,9 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
+      - name: Remove local-cache NuGet source
+        run: dotnet nuget remove source "local-cache" --configfile ./src/NuGet.Config
+
       # Step 3: Restore dependencies for the entire solution/project
       - name: Restore
         run: dotnet restore ${{ env.TEST_PROJECT_PATH }}
