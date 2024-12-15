@@ -20,11 +20,11 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Navigate to test project
-        run: cd tests/NTS.Judge.Tests
+        run: cd tests/NTS.Judge.Tests && ls -la
 
       # Step 3: Restore dependencies for the entire solution/project
       - name: Restore
-        run: dotnet restore
+        run: ls -la && dotnet restore
 
       # Step 4: Build the solution in Release mode (optional, but recommended)
       - name: Build
