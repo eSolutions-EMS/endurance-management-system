@@ -10,6 +10,7 @@ jobs:
 
     env:
       TEST_PROJECT_PATH: ./tests/NTS.Judge.Tests
+      SOURCE_SOLUTION_PATH: "{pwd}/src"
 
     steps:
       # Step 1: Check out the repository code
@@ -27,8 +28,8 @@ jobs:
         run: dotnet nuget remove source "local-cache" --configfile ./src/NuGet.config
 
       # Necessary because SolutionDir parameter, used in Directory.Build.props, which is currently only used for static analyzers
-      - name: Remove Directory.Build.props
-        run: rm -f src/Directory.Build.props
+    #   - name: Remove Directory.Build.props
+    #     run: rm -f src/Directory.Build.props
 
       # Step 3: Restore dependencies for the entire solution/project
       - name: Restore
@@ -36,8 +37,8 @@ jobs:
 
       # Step 4: Build the solution in Release mode (optional, but recommended)
       - name: Build
-        run: ls -la && dotnet build ${{ env.TEST_PROJECT_PATH }} -property:SolutionDir='./src' --configuration Release --no-restore
+        run: ls -la && dotnet build ${{ env.TEST_PROJECT_PATH }} -property:SolutionDir='${{ env.SOURCE_SOLUTION_PATH }}' --configuration Release --no-restore
 
       # Step 5: Run tests
       - name: Test
-        run: dotnet test ${{ env.TEST_PROJECT_PATH }} -property:SolutionDir='./src' --configuration Release --no-build
+        run: dotnet test ${{ env.TEST_PROJECT_PATH }} -property:SolutionDir='${{ env.SOURCE_SOLUTION_PATH }}' --configuration Release --no-build
