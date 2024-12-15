@@ -22,8 +22,13 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
+      # Necessary bacause dotnet restore fails otherwise
       - name: Remove local-cache NuGet source
         run: dotnet nuget remove source "local-cache" --configfile ./src/NuGet.config
+
+      # Necessary because SolutionDir parameter, used in Directory.Build.props, which is currently only used for static analyzers
+      - name: Remove Directory.Build.props
+        run: rm -f src/Directory.Build.props
 
       # Step 3: Restore dependencies for the entire solution/project
       - name: Restore
