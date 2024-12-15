@@ -369,10 +369,3 @@ src/**/judge-settings.json
 
 # VS Code
 .vscode
-
-*Vup.dll
-*rfid.dll
-*rfid_core.dll
-src-v2/Judge/NTS.Judge/rfid_core.dll
-src-v2/Judge/NTS.Judge/rfid.dll
-src-v2/Judge/NTS.Judge/Vup.dll
