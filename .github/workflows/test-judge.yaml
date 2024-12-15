@@ -19,8 +19,8 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
-	  - name: Navigate to test project
-	    run: cd tests/NTS.Judge.Tests
+      - name: Navigate to test project
+        run: cd tests/NTS.Judge.Tests
 
       # Step 3: Restore dependencies for the entire solution/project
       - name: Restore
