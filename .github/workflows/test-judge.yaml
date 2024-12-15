@@ -23,7 +23,7 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: Remove local-cache NuGet source
-        run: dotnet nuget remove source "local-cache" --configfile ./src/NuGet.Config
+        run: dotnet nuget remove source "local-cache" --configfile ./src/NuGet.config
 
       # Step 3: Restore dependencies for the entire solution/project
       - name: Restore
