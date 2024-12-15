@@ -13,6 +13,9 @@ jobs:
       SOURCE_SOLUTION_PATH: "{pwd}/src"
 
     steps:
+      - name: Set current workding directory env
+        run: echo "CURRENT_DIR=$(pwd)" >> $GITHUB_ENV
+
       # Step 1: Check out the repository code
       - name: Check out code
         uses: actions/checkout@v3
@@ -37,8 +40,8 @@ jobs:
 
       # Step 4: Build the solution in Release mode (optional, but recommended)
       - name: Build
-        run: ls -la && dotnet build ${{ env.TEST_PROJECT_PATH }} -property:SolutionDir='${{ env.SOURCE_SOLUTION_PATH }}' --configuration Release --no-restore
+        run: ls -la && dotnet build ${{ env.TEST_PROJECT_PATH }} -property:SolutionDir="$CURRENT_DIR" --configuration Release --no-restore
 
       # Step 5: Run tests
       - name: Test
-        run: dotnet test ${{ env.TEST_PROJECT_PATH }} -property:SolutionDir='${{ env.SOURCE_SOLUTION_PATH }}' --configuration Release --no-build
+        run: dotnet test ${{ env.TEST_PROJECT_PATH }} -property:SolutionDir="$CURRENT_DIR" --configuration Release --no-build
