@@ -1,0 +1,32 @@
+name: Test Judge
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Check out the repository code
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up .NET (adjust version as needed)
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      # Step 3: Restore dependencies for the entire solution/project
+      - name: Restore
+        run: dotnet restore
+
+      # Step 4: Build the solution in Release mode (optional, but recommended)
+      - name: Build
+        run: dotnet build --configuration Release --no-restore
+
+      # Step 5: Run tests within the ./tests/NTS.Judge.Tests project
+      - name: Test
+        run: dotnet test ./tests/NTS.Judge.Tests --configuration Release --no-build
