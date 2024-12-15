@@ -19,6 +19,9 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
+	  - name: Navigate to test project
+	    run: cd tests/NTS.Judge.Tests
+
       # Step 3: Restore dependencies for the entire solution/project
       - name: Restore
         run: dotnet restore
@@ -29,4 +32,4 @@ jobs:
 
       # Step 5: Run tests within the ./tests/NTS.Judge.Tests project
       - name: Test
-        run: dotnet test ./tests/NTS.Judge.Tests --configuration Release --no-build
+        run: dotnet test --configuration Release --no-build
