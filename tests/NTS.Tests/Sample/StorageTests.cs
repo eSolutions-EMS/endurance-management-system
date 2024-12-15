@@ -44,20 +44,20 @@ public class StorageTests : JudgeIntegrationTest
         await Seed();
 
         var expected = """
-            {
-              "EnduranceEvent": {
-                "Place": "Sofia",
-                "Country": {
-                  "IsoCode": "testIso",
-                  "NfCode": "testNf",
-                  "Name": "Test"
-                },
-                "Officials": [],
-                "Competitions": [],
-                "Id": 319178201
-              }
+        {
+            "EnduranceEvent": {
+            "Place": "Sofia",
+            "Country": {
+                "IsoCode": "testIso",
+                "NfCode": "testNf",
+                "Name": "Test"
+            },
+            "Officials": [],
+            "Competitions": [],
+            "Id": 319178201
             }
-            """;
+        }
+        """;
 
         await AssertStateEquals(expected);
     }

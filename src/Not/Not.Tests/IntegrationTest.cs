@@ -9,22 +9,25 @@ namespace Not.Tests;
 
 public abstract class IntegrationTest : IDisposable
 {
+    const string SEED_DIRECTORY = "Seeds";
     const string ID_PATTERN = @"(?:^\s+|,\s+)""Id"": [0-9]+";
     static readonly TimeSpan RPC_DELAY = TimeSpan.FromMilliseconds(100);
     static readonly Regex ID_REGEX = new(ID_PATTERN);
     static readonly SemaphoreSlim SEMAPHORE = new(1);
 
+    string _stateName;
     string _storageFilePath;
     string _storageDirectory;
     string _testClassName;
 
-    protected IntegrationTest(string stateFilename)
+    protected IntegrationTest(string stateName)
     {
         var executionDirectory = Directory.GetCurrentDirectory();
         var tempDirectory = Guid.NewGuid().ToString();
 
+        _stateName = stateName;
         _storageDirectory = Path.Combine(executionDirectory, tempDirectory);
-        _storageFilePath = $"{_storageDirectory}/{stateFilename}.json";
+        _storageFilePath = $"{_storageDirectory}/{stateName}.json";
         _testClassName = GetType().Name;
 
         Directory.CreateDirectory(_storageDirectory);
@@ -51,7 +54,7 @@ public abstract class IntegrationTest : IDisposable
     protected async Task Seed([CallerMemberName] string? test = null)
     {
         var currentDirectory = Directory.GetCurrentDirectory();
-        var path = Path.Combine(currentDirectory, $"Seeds", _testClassName, $"{test}.json");
+        var path = Path.Combine(currentDirectory, SEED_DIRECTORY, _stateName, _testClassName, $"{test}.json");
         var contents = await File.ReadAllTextAsync(path);
         await File.WriteAllTextAsync(_storageFilePath, contents);
     }

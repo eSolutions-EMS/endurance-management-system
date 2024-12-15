@@ -1,7 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Not.Application.RPC;
-using NTS.Application;
-using NTS.Domain.Objects;
+﻿using NTS.Domain.Objects;
 using NTS.Judge.Core;
 using NTS.Storage.Core;
 
@@ -16,6 +13,7 @@ public class RpcIntegrationTest : JudgeIntegrationTest
     {
         _witnessFIxture = witnessFixture;
     }
+
 
     [Fact]
     public async Task TestEliminatedOnRpcClient()
