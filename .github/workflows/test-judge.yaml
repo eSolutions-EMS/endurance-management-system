@@ -42,24 +42,5 @@ jobs:
       - name: Build
         run: dotnet build ${{ env.TEST_PROJECT_PATH }} -property:SolutionDir="$CURRENT_DIR" --configuration Release --no-restore
 
-      # Step 5: Run tests
-      - name: ls 2
-        run: ls -la src/
-      # Step 5: Run tests
-      - name: ls 3
-        run: ls -la src/Judge
-      # Step 5: Run tests
-      - name: ls 4
-        run: ls -la src/Judge/NTS.Judge.Tests
-      # Step 5: Run tests
-      - name: ls 5
-        run: ls -la src/Judge/NTS.Judge.Tests/bin
-      # Step 5: Run tests
-      - name: ls 6
-        run: ls -la src/Judge/NTS.Judge.Tests/bin/Release
-      # Step 5: Run tests
-      - name: ls 7
-        run: ls -la src/Judge/NTS.Judge.Tests/bin/Release/net8.0
-
       - name: Test
-        run: ls -la src/Judge/NTS.Judge/bin/Release/net8.0 #| grep 'SERVER' && dotnet test ${{ env.TEST_PROJECT_PATH }} -property:SolutionDir="$CURRENT_DIR" --configuration Release --no-build
+        run: ls -la tests/Judge/NTS.Judge.Tests/bin/Release/net8.0 | grep 'SERVER' && dotnet test ${{ env.TEST_PROJECT_PATH }} -property:SolutionDir="$CURRENT_DIR" --configuration Release --no-build
