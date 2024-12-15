@@ -40,7 +40,7 @@ jobs:
 
       # Step 4: Build the solution in Release mode (optional, but recommended)
       - name: Build
-        run: ls -la && dotnet build ${{ env.TEST_PROJECT_PATH }} -property:SolutionDir="$CURRENT_DIR" --configuration Release --no-restore
+        run: ls -la src/Judge/NTS.Judge && dotnet build ${{ env.TEST_PROJECT_PATH }} -property:SolutionDir="$CURRENT_DIR" --configuration Release --no-restore
 
       # Step 5: Run tests
       - name: Test
