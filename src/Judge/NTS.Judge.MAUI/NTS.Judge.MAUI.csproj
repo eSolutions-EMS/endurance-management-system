@@ -9,6 +9,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <EnableDefaultCssItems>false</EnableDefaultCssItems>
     <Nullable>enable</Nullable>
+    <LangVersion>preview</LangVersion>
     
     <!-- Display name -->
     <ApplicationTitle>EMS.Judge</ApplicationTitle>
