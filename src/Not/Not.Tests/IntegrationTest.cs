@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Not.Blazor.Ports;
 using Not.Tests.RPC;
 using Xunit;
+using Xunit.Sdk;
 
 namespace Not.Tests;
 
@@ -51,10 +52,26 @@ public abstract class IntegrationTest : IDisposable
         return behind;
     }
 
+    /// <summary>
+    /// Seeds the test store with predefined data. <br />
+    /// The Data is expected at the following path: {state-name}/{test-class-name}/{test-class-name | test-method-name}.json <br/>
+    /// If both files are present {test-method-name} takes precedence
+    /// </summary>
+    /// <param name="test"></param>
+    /// <returns></returns>
+    /// <exception cref="InvalidOperationException"></exception>
     protected async Task Seed([CallerMemberName] string? test = null)
     {
         var currentDirectory = Directory.GetCurrentDirectory();
         var path = Path.Combine(currentDirectory, SEED_DIRECTORY, _stateName, _testClassName, $"{test}.json");
+        if (!File.Exists(path))
+        {
+            path = Path.Combine(currentDirectory, SEED_DIRECTORY, _stateName, _testClassName, $"{_testClassName}.json");
+            if (!File.Exists(path))
+            {
+                throw new InvalidOperationException($"Seed file '{test}.json' or '{_testClassName}.json' not found");
+            }
+        }
         var contents = await File.ReadAllTextAsync(path);
         await File.WriteAllTextAsync(_storageFilePath, contents);
     }
