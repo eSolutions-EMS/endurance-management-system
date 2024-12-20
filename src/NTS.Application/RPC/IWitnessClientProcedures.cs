@@ -1,5 +1,3 @@
 ﻿namespace NTS.Application.RPC;
 
-public interface IWitnessClientProcedures
-{
-}
+public interface IWitnessClientProcedures { }

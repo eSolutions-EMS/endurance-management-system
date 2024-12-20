@@ -9,9 +9,8 @@ namespace NTS.Judge.RPC;
 
 public class JudgeRpcClient : RpcClient, IJudgeRpcClient
 {
-    public JudgeRpcClient(IRpcSocket socket) : base(socket)
-    {
-    }
+    public JudgeRpcClient(IRpcSocket socket)
+        : base(socket) { }
 
     public async Task SendParticipationEliminated(ParticipationEliminated revoked)
     {
@@ -29,6 +28,4 @@ public class JudgeRpcClient : RpcClient, IJudgeRpcClient
     }
 }
 
-public interface IJudgeRpcClient : IJudgeHubProcedures, IRpcClient, ITransient
-{
-}
+public interface IJudgeRpcClient : IJudgeHubProcedures, IRpcClient, ITransient { }

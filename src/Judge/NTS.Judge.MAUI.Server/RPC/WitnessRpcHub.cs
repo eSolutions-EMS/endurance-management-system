@@ -1,27 +1,32 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using Not.Application.CRUD.Ports;
 using Not.Safe;
-using NTS.ACL.Entities.EMS;
 using NTS.ACL.Entities;
+using NTS.ACL.Entities.EMS;
+using NTS.ACL.Factories;
 using NTS.ACL.RPC;
 using NTS.ACL.RPC.Procedures;
-using NTS.ACL.Factories;
-using NTS.Domain.Core.Aggregates;
-using Not.Application.CRUD.Ports;
-using NTS.Domain.Objects;
 using NTS.Application.RPC;
+using NTS.Domain.Core.Aggregates;
+using NTS.Domain.Objects;
 using NTS.Judge.MAUI.Server.RPC.Procedures;
 
 namespace NTS.Judge.MAUI.Server.RPC;
 
-public class WitnessRpcHub : Hub<IClientProcedures>,
-    IEmsStartlistHubProcedures,
-    IEmsEmsParticipantstHubProcedures
+public class WitnessRpcHub
+    : Hub<IClientProcedures>,
+        IEmsStartlistHubProcedures,
+        IEmsEmsParticipantstHubProcedures
 {
     readonly IRead<Participation> _participations;
     readonly IRead<EnduranceEvent> _events;
     readonly IHubContext<JudgeRpcHub, IJudgeClientProcedures> _judgeRelay;
 
-    public WitnessRpcHub(IRead<Participation> participations, IRead<EnduranceEvent> events, IHubContext<JudgeRpcHub, IJudgeClientProcedures> judgeRelay)
+    public WitnessRpcHub(
+        IRead<Participation> participations,
+        IRead<EnduranceEvent> events,
+        IHubContext<JudgeRpcHub, IJudgeClientProcedures> judgeRelay
+    )
     {
         _participations = participations;
         _events = events;

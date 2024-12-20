@@ -9,11 +9,11 @@ public class RpcIntegrationTest : JudgeIntegrationTest
 {
     private readonly WitnessRpcFixture _witnessFIxture;
 
-    public RpcIntegrationTest(WitnessRpcFixture witnessFixture) : base(nameof(CoreState))
+    public RpcIntegrationTest(WitnessRpcFixture witnessFixture)
+        : base(nameof(CoreState))
     {
         _witnessFIxture = witnessFixture;
     }
-
 
     [Fact]
     public async Task TestEliminatedOnRpcClient()
@@ -23,13 +23,19 @@ public class RpcIntegrationTest : JudgeIntegrationTest
         var now = DateTimeOffset.Now;
         var time = new DateTimeOffset(now.Year, now.Month, now.Day, 22, 17, 31, now.Offset);
         var timestamp = new Timestamp(time);
-        var snapshot = new Snapshot(55, Domain.Enums.SnapshotType.Vet, Domain.Enums.SnapshotMethod.Manual, timestamp);
+        var snapshot = new Snapshot(
+            55,
+            Domain.Enums.SnapshotType.Vet,
+            Domain.Enums.SnapshotMethod.Manual,
+            timestamp
+        );
 
         var processor = await GetBehind<ISnapshotProcessor>();
 
         await AssertRpcInvoked(
-            _witnessFIxture, 
+            _witnessFIxture,
             () => processor.Process(snapshot),
-            nameof(WitnessTestClient.ReceiveEntryUpdate));
+            nameof(WitnessTestClient.ReceiveEntryUpdate)
+        );
     }
 }
