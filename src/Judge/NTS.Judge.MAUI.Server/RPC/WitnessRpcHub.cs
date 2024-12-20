@@ -9,14 +9,12 @@ using NTS.ACL.RPC.Procedures;
 using NTS.Application.RPC;
 using NTS.Domain.Core.Aggregates;
 using NTS.Domain.Objects;
-using NTS.Judge.MAUI.Server.RPC.Procedures;
 
 namespace NTS.Judge.MAUI.Server.RPC;
 
-public class WitnessRpcHub
-    : Hub<IClientProcedures>,
-        IEmsStartlistHubProcedures,
-        IEmsEmsParticipantstHubProcedures
+public class WitnessRpcHub : Hub<IEmsClientProcedures>,
+    IEmsStartlistHubProcedures,
+    IEmsParticipantsHubProcedures
 {
     readonly IRead<Participation> _participations;
     readonly IRead<EnduranceEvent> _events;

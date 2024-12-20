@@ -6,33 +6,60 @@ using NTS.ACL.RPC;
 using NTS.ACL.RPC.Procedures;
 using NTS.Application.RPC;
 using NTS.Domain.Core.Objects.Payloads;
-using NTS.Domain.Core.Objects.Startlists;
-using NTS.Judge.MAUI.Server.RPC.Procedures;
+using NTS.Domain.Objects;
+using Not.Application.CRUD.Ports;
+using NTS.Domain.Core.Aggregates;
+using Not.Exceptions;
+using NTS.Domain.Enums;
+using NTS.ACL.Entities.EMS;
 
 namespace NTS.Judge.MAUI.Server.RPC;
 
 public class JudgeRpcHub : Hub<IJudgeClientProcedures>, IJudgeHubProcedures
 {
-    readonly IHubContext<WitnessRpcHub, IClientProcedures> _witnessRelay;
+    readonly IRead<Participation> _participations;
+    readonly IHubContext<WitnessRpcHub, IEmsClientProcedures> _witnessRelay;
 
-    public JudgeRpcHub(IHubContext<WitnessRpcHub, IClientProcedures> witnessRelay)
+    public JudgeRpcHub(IRead<Participation> participations, IHubContext<WitnessRpcHub, IEmsClientProcedures> witnessRelay)
     {
+        _participations = participations;
         _witnessRelay = witnessRelay;
+    }
+
+    public async Task ReceiveSnapshot(Snapshot snapshot)
+    {
+        var entries = new List<EmsParticipantEntry>();
+        var participation = _participations.Read(snapshot.Number).Result;
+        GuardHelper.ThrowIfDefault(participation);
+        var emsParticipation = ParticipationFactory.CreateEms(participation);
+        var entry = new EmsParticipantEntry(emsParticipation);
+        entries.Add(entry);
+        var eventType = (EmsWitnessEventType)snapshot.Type;
+        if (snapshot.Type is SnapshotType.Final or SnapshotType.Automatic)
+        {
+            eventType = EmsWitnessEventType.Arrival;
+        }
+        await _witnessRelay.Clients.All.ReceiveWitnessEvent(entries, eventType);
     }
 
     public async Task SendParticipationEliminated(ParticipationEliminated revoked)
     {
-        await _witnessRelay.Clients.All.ReceiveEntryUpdate(revoked.Participation);
+        var emsParticipation = ParticipationFactory.CreateEms(revoked.Participation);
+        var entry = new EmsParticipantEntry(emsParticipation);
+        await _witnessRelay.Clients.All.ReceiveEntryUpdate(entry, EmsCollectionAction.Remove);
     }
 
     public async Task SendParticipationRestored(ParticipationRestored restored)
     {
-        await _witnessRelay.Clients.All.ReceiveEntryUpdate(restored.Participation);
+        var emsParticipation = ParticipationFactory.CreateEms(restored.Participation);
+        var entry = new EmsParticipantEntry(emsParticipation);
+        await _witnessRelay.Clients.All.ReceiveEntryUpdate(entry, EmsCollectionAction.AddOrUpdate);
     }
 
     public async Task SendStartCreated(PhaseCompleted phaseCompleted)
     {
-        var startlistEntry = new StartlistEntry(phaseCompleted.Participation);
-        await _witnessRelay.Clients.All.ReceiveEntry(startlistEntry);
+        var emsParticipation = ParticipationFactory.CreateEms(phaseCompleted.Participation);
+        var entry = new EmsStartlistEntry(emsParticipation);
+        await _witnessRelay.Clients.All.ReceiveEntry(entry, EmsCollectionAction.AddOrUpdate);
     }
 }
