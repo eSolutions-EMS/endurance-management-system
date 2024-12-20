@@ -6,36 +6,33 @@ using NTS.ACL.RPC.Procedures;
 using NTS.Domain.Core.Objects.Payloads;
 using NTS.ACL.Factories;
 using NTS.Application.RPC;
+using NTS.Judge.MAUI.Server.RPC.Procedures;
+using NTS.Domain.Core.Objects.Startlists;
 
 namespace NTS.Judge.MAUI.Server.RPC;
 
 public class JudgeRpcHub : Hub<IJudgeClientProcedures>, IJudgeHubProcedures
 {
-    readonly IHubContext<WitnessRpcHub, IEmsClientProcedures> _witnessRelay;
+    readonly IHubContext<WitnessRpcHub, IClientProcedures> _witnessRelay;
 
-    public JudgeRpcHub(IHubContext<WitnessRpcHub, IEmsClientProcedures> witnessRelay)
+    public JudgeRpcHub(IHubContext<WitnessRpcHub, IClientProcedures> witnessRelay)
     {
         _witnessRelay = witnessRelay;
     }
 
     public async Task SendParticipationEliminated(ParticipationEliminated revoked)
     {
-        var emsParticipation = ParticipationFactory.CreateEms(revoked.Participation);
-        var entry = new EmsParticipantEntry(emsParticipation);
-        await _witnessRelay.Clients.All.ReceiveEntryUpdate(entry, EmsCollectionAction.Remove);
+        await _witnessRelay.Clients.All.ReceiveEntryUpdate(revoked.Participation);
     }
 
     public async Task SendParticipationRestored(ParticipationRestored restored)
     {
-        var emsParticipation = ParticipationFactory.CreateEms(restored.Participation);
-        var entry = new EmsParticipantEntry(emsParticipation);
-        await _witnessRelay.Clients.All.ReceiveEntryUpdate(entry, EmsCollectionAction.AddOrUpdate);
+        await _witnessRelay.Clients.All.ReceiveEntryUpdate(restored.Participation);
     }
 
     public async Task SendStartCreated(PhaseCompleted phaseCompleted)
     {
-        var emsParticipation = ParticipationFactory.CreateEms(phaseCompleted.Participation);
-        var entry = new EmsStartlistEntry(emsParticipation);
-        await _witnessRelay.Clients.All.ReceiveEntry(entry, EmsCollectionAction.AddOrUpdate);
+        var startlistEntry = new StartlistEntry(phaseCompleted.Participation);
+        await _witnessRelay.Clients.All.ReceiveEntry(startlistEntry);
     }
 }

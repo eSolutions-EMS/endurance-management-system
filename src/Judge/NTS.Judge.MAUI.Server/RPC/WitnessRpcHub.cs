@@ -9,10 +9,11 @@ using NTS.Domain.Core.Aggregates;
 using Not.Application.CRUD.Ports;
 using NTS.Domain.Objects;
 using NTS.Application.RPC;
+using NTS.Judge.MAUI.Server.RPC.Procedures;
 
 namespace NTS.Judge.MAUI.Server.RPC;
 
-public class WitnessRpcHub : Hub<IEmsClientProcedures>,
+public class WitnessRpcHub : Hub<IClientProcedures>,
     IEmsStartlistHubProcedures,
     IEmsEmsParticipantstHubProcedures
 {
