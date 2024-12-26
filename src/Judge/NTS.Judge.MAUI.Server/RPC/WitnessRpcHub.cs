@@ -12,9 +12,7 @@ using NTS.Domain.Objects;
 
 namespace NTS.Judge.MAUI.Server.RPC;
 
-public class WitnessRpcHub : Hub<IEmsClientProcedures>,
-    IEmsStartlistHubProcedures,
-    IEmsParticipantsHubProcedures
+public class WitnessRpcHub : Hub<IWitnessClientProcedures>, IWitnessHubProcedures
 {
     readonly IRead<Participation> _participations;
     readonly IRead<EnduranceEvent> _events;

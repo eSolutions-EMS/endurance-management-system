@@ -1,3 +1,9 @@
-﻿namespace NTS.Application.RPC;
+﻿using NTS.ACL.RPC.Procedures;
 
-internal interface IWitnessHubProcedures { }
+namespace NTS.Application.RPC;
+
+public interface IWitnessHubProcedures 
+    : IEmsStartlistHubProcedures,
+    IEmsParticipantsHubProcedures
+{ }
+

@@ -3,7 +3,6 @@ using NTS.ACL.Entities;
 using NTS.ACL.Enums;
 using NTS.ACL.Factories;
 using NTS.ACL.RPC;
-using NTS.ACL.RPC.Procedures;
 using NTS.Application.RPC;
 using NTS.Domain.Core.Objects.Payloads;
 using NTS.Domain.Objects;
@@ -18,9 +17,9 @@ namespace NTS.Judge.MAUI.Server.RPC;
 public class JudgeRpcHub : Hub<IJudgeClientProcedures>, IJudgeHubProcedures
 {
     readonly IRead<Participation> _participations;
-    readonly IHubContext<WitnessRpcHub, IEmsClientProcedures> _witnessRelay;
+    readonly IHubContext<WitnessRpcHub, IWitnessClientProcedures> _witnessRelay;
 
-    public JudgeRpcHub(IRead<Participation> participations, IHubContext<WitnessRpcHub, IEmsClientProcedures> witnessRelay)
+    public JudgeRpcHub(IRead<Participation> participations, IHubContext<WitnessRpcHub, IWitnessClientProcedures> witnessRelay)
     {
         _participations = participations;
         _witnessRelay = witnessRelay;
