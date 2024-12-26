@@ -5,6 +5,6 @@ namespace NTS.ACL.RPC.Procedures;
 
 public interface IEmsParticipantsHubProcedures
 {
-    EmsParticipantsPayload SendParticipants();
+    Task<EmsParticipantsPayload> SendParticipants();
     Task ReceiveWitnessEvent(IEnumerable<EmsParticipantEntry> entries, EmsWitnessEventType type);
 }

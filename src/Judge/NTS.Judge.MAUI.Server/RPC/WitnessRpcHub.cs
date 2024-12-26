@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using Not.Application.CRUD.Ports;
+using Not.Concurrency.Extensions;
 using Not.Safe;
 using NTS.ACL.Entities;
 using NTS.ACL.Entities.EMS;
 using NTS.ACL.Factories;
 using NTS.ACL.RPC;
-using NTS.ACL.RPC.Procedures;
 using NTS.Application.RPC;
 using NTS.Domain.Core.Aggregates;
 using NTS.Domain.Objects;
@@ -82,12 +82,11 @@ public class WitnessRpcHub : Hub<IEmsClientProcedures>,
         return startlists;
     }
 
-    public EmsParticipantsPayload SendParticipants()
+    public async Task<EmsParticipantsPayload> SendParticipants()
     {
-        var participants = _participations
-            .ReadAll(x => !x.IsEliminated() && !x.IsComplete())
-            .Result.Select(ParticipantEntryFactory.Create);
-        var enduranceEvent = _events.Read(0).Result;
+        var participants = await _participations
+            .ReadAll(x => !x.IsEliminated() && !x.IsComplete()).Select(ParticipantEntryFactory.Create);
+        var enduranceEvent = await _events.Read(0);
         return new EmsParticipantsPayload
         {
             Participants = participants.ToList(),
