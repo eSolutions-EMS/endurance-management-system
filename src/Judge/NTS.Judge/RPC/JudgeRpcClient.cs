@@ -4,13 +4,18 @@ using Not.Application.RPC.SignalR;
 using Not.Injection;
 using NTS.Application.RPC;
 using NTS.Domain.Core.Objects.Payloads;
+using NTS.Domain.Objects;
 
 namespace NTS.Judge.RPC;
 
 public class JudgeRpcClient : RpcClient, IJudgeRpcClient
 {
-    public JudgeRpcClient(IRpcSocket socket) : base(socket)
+    public JudgeRpcClient(IRpcSocket socket)
+        : base(socket) { }
+
+    public async Task ReceiveSnapshot(Snapshot snapshot)
     {
+        await InvokeHubProcedure(nameof(IJudgeHubProcedures.ReceiveSnapshot), snapshot);
     }
 
     public async Task SendParticipationEliminated(ParticipationEliminated revoked)
@@ -29,6 +34,4 @@ public class JudgeRpcClient : RpcClient, IJudgeRpcClient
     }
 }
 
-public interface IJudgeRpcClient : IJudgeHubProcedures, IRpcClient, ITransient
-{
-}
+public interface IJudgeRpcClient : IJudgeHubProcedures, IRpcClient, ITransient { }

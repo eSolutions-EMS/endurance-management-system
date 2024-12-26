@@ -1,26 +1,28 @@
 ﻿using Microsoft.AspNetCore.SignalR;
-using Not.Safe;
-using NTS.ACL.Entities.EMS;
-using NTS.ACL.Entities;
-using NTS.ACL.RPC;
-using NTS.ACL.RPC.Procedures;
-using NTS.ACL.Factories;
-using NTS.Domain.Core.Aggregates;
 using Not.Application.CRUD.Ports;
-using NTS.Domain.Objects;
+using Not.Concurrency.Extensions;
+using Not.Safe;
+using NTS.ACL.Entities;
+using NTS.ACL.Entities.EMS;
+using NTS.ACL.Factories;
+using NTS.ACL.RPC;
 using NTS.Application.RPC;
+using NTS.Domain.Core.Aggregates;
+using NTS.Domain.Objects;
 
 namespace NTS.Judge.MAUI.Server.RPC;
 
-public class WitnessRpcHub : Hub<IEmsClientProcedures>,
-    IEmsStartlistHubProcedures,
-    IEmsEmsParticipantstHubProcedures
+public class WitnessRpcHub : Hub<IWitnessClientProcedures>, IWitnessHubProcedures
 {
     readonly IRead<Participation> _participations;
     readonly IRead<EnduranceEvent> _events;
     readonly IHubContext<JudgeRpcHub, IJudgeClientProcedures> _judgeRelay;
 
-    public WitnessRpcHub(IRead<Participation> participations, IRead<EnduranceEvent> events, IHubContext<JudgeRpcHub, IJudgeClientProcedures> judgeRelay)
+    public WitnessRpcHub(
+        IRead<Participation> participations,
+        IRead<EnduranceEvent> events,
+        IHubContext<JudgeRpcHub, IJudgeClientProcedures> judgeRelay
+    )
     {
         _participations = participations;
         _events = events;
@@ -78,12 +80,11 @@ public class WitnessRpcHub : Hub<IEmsClientProcedures>,
         return startlists;
     }
 
-    public EmsParticipantsPayload SendParticipants()
+    public async Task<EmsParticipantsPayload> SendParticipants()
     {
-        var participants = _participations
-            .ReadAll(x => !x.IsEliminated() && !x.IsComplete())
-            .Result.Select(ParticipantEntryFactory.Create);
-        var enduranceEvent = _events.Read(0).Result;
+        var participants = await _participations
+            .ReadAll(x => !x.IsEliminated() && !x.IsComplete()).Select(ParticipantEntryFactory.Create);
+        var enduranceEvent = await _events.Read(0);
         return new EmsParticipantsPayload
         {
             Participants = participants.ToList(),

@@ -2,5 +2,6 @@
 
 public interface IEmsClientProcedures
     : IEmsParticipantsClientProcedures,
+        IEmsParticipantsHubProcedures,
         IEmsStartlistClientProcedures
 { }

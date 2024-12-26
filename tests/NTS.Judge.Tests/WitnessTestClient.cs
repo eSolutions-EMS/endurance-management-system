@@ -8,14 +8,25 @@ using NTS.ACL.RPC.Procedures;
 
 namespace NTS.Judge.Tests;
 
-public class WitnessTestClient : RpcClient, IEmsParticipantsClientProcedures, IEmsStartlistClientProcedures, ITestRpcClient
+public class WitnessTestClient
+    : RpcClient,
+        IEmsParticipantsClientProcedures,
+        IEmsStartlistClientProcedures,
+        ITestRpcClient
 {
     ITestRpcClient _thisTestClient;
 
-    public WitnessTestClient(IRpcSocket socket) : base(socket)
+    public WitnessTestClient(IRpcSocket socket)
+        : base(socket)
     {
-        RegisterClientProcedure<EmsStartlistEntry, EmsCollectionAction>(nameof(ReceiveEntry), ReceiveEntry);
-        RegisterClientProcedure<EmsParticipantEntry, EmsCollectionAction>(nameof(ReceiveEntryUpdate), ReceiveEntryUpdate);
+        RegisterClientProcedure<EmsStartlistEntry, EmsCollectionAction>(
+            nameof(ReceiveEntry),
+            ReceiveEntry
+        );
+        RegisterClientProcedure<EmsParticipantEntry, EmsCollectionAction>(
+            nameof(ReceiveEntryUpdate),
+            ReceiveEntryUpdate
+        );
         _thisTestClient = this;
     }
 
@@ -33,4 +44,3 @@ public class WitnessTestClient : RpcClient, IEmsParticipantsClientProcedures, IE
         return Task.CompletedTask;
     }
 }
-
