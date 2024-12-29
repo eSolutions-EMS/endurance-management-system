@@ -4,5 +4,4 @@ namespace NTS.Application.RPC;
 
 public interface IHubProcedures
 {
-    Task ReceiveSnapshot(Snapshot snapshot);
 }

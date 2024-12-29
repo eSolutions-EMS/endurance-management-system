@@ -13,9 +13,9 @@ public class JudgeRpcClient : RpcClient, IJudgeRpcClient
     public JudgeRpcClient(IRpcSocket socket)
         : base(socket) { }
 
-    public async Task ReceiveSnapshot(Snapshot snapshot)
+    public async Task ReceiveSnapshots(IEnumerable<Snapshot> snapshots)
     {
-        await InvokeHubProcedure(nameof(IJudgeHubProcedures.ReceiveSnapshot), snapshot);
+        await InvokeHubProcedure(nameof(IJudgeHubProcedures.ReceiveSnapshots), snapshots);
     }
 
     public async Task SendParticipationEliminated(ParticipationEliminated revoked)

@@ -6,39 +6,24 @@ using NTS.ACL.RPC;
 using NTS.Application.RPC;
 using NTS.Domain.Core.Objects.Payloads;
 using NTS.Domain.Objects;
-using Not.Application.CRUD.Ports;
-using NTS.Domain.Core.Aggregates;
-using Not.Exceptions;
-using NTS.Domain.Enums;
-using NTS.ACL.Entities.EMS;
 
 namespace NTS.Judge.MAUI.Server.RPC;
 
 public class JudgeRpcHub : Hub<IJudgeClientProcedures>, IJudgeHubProcedures
 {
-    readonly IRead<Participation> _participations;
     readonly IHubContext<WitnessRpcHub, IWitnessClientProcedures> _witnessRelay;
 
-    public JudgeRpcHub(IRead<Participation> participations, IHubContext<WitnessRpcHub, IWitnessClientProcedures> witnessRelay)
+    public JudgeRpcHub(IHubContext<WitnessRpcHub, IWitnessClientProcedures> witnessRelay)
     {
-        _participations = participations;
         _witnessRelay = witnessRelay;
     }
 
-    public async Task ReceiveSnapshot(Snapshot snapshot)
+    public async Task ReceiveSnapshots(IEnumerable<Snapshot> snapshots)
     {
-        var entries = new List<EmsParticipantEntry>();
-        var participation = _participations.Read(snapshot.Number).Result;
-        GuardHelper.ThrowIfDefault(participation);
-        var emsParticipation = ParticipationFactory.CreateEms(participation);
-        var entry = new EmsParticipantEntry(emsParticipation);
-        entries.Add(entry);
-        var eventType = (EmsWitnessEventType)snapshot.Type;
-        if (snapshot.Type is SnapshotType.Final or SnapshotType.Automatic)
+        foreach (Snapshot snapshot in snapshots)
         {
-            eventType = EmsWitnessEventType.Arrival;
+            //process somehow
         }
-        await _witnessRelay.Clients.All.ReceiveWitnessEvent(entries, eventType);
     }
 
     public async Task SendParticipationEliminated(ParticipationEliminated revoked)

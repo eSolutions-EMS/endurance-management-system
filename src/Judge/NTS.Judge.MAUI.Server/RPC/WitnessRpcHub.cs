@@ -118,7 +118,7 @@ public class WitnessRpcHub : Hub<IWitnessClientProcedures>, IWitnessHubProcedure
                 var snapshot = SnapshotFactory.Create(entry, type, isFinal);
                 snapshots.Add(snapshot);
             }
-            await _judgeRelay.Clients.All.Process(snapshots);
+            await _judgeRelay.Clients.All.ReceiveSnapshots(snapshots);
         });
     }
 }
