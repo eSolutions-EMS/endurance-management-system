@@ -2,6 +2,7 @@
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.DependencyInjection;
 using Not.Blazor.Ports;
+using Not.Startup;
 using Not.Tests.RPC;
 using Xunit;
 using Xunit.Sdk;
@@ -35,6 +36,11 @@ public abstract class IntegrationTest : IDisposable
 
         var services = ConfigureServices(_storageDirectory);
         Provider = services.BuildServiceProvider();
+
+        foreach (var initializer in Provider.GetServices<IStartupInitializer>())
+        {
+            initializer.RunAtStartup();
+        }
     }
 
     protected abstract IServiceCollection ConfigureServices(string storagePath);
