@@ -16,12 +16,7 @@ public abstract class HubFixture<T> : IDisposable
     T? _client;
     Process? _hubProcess;
 
-    public HubFixture(
-        RpcProtocol rpcProtocol,
-        int hubPort,
-        string hubPattern,
-        string hubExecutable
-    )
+    public HubFixture(RpcProtocol rpcProtocol, int hubPort, string hubPattern, string hubExecutable)
     {
         _rpcProtocol = rpcProtocol;
         _hubPort = hubPort;

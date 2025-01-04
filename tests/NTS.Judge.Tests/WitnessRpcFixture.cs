@@ -25,6 +25,5 @@ public class WitnessRpcFixture : HubFixture<WitnessTestClient>
     }
 }
 
-
 [CollectionDefinition(nameof(WitnessRpcFixture), DisableParallelization = true)]
 public class HubFixtureCollection : ICollectionFixture<WitnessRpcFixture> { }
