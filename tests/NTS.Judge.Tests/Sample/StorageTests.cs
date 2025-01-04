@@ -5,13 +5,14 @@ using NTS.Domain.Objects;
 using NTS.Domain.Setup.Aggregates;
 using NTS.Judge.Blazor.Setup.EnduranceEvents;
 using NTS.Storage.Setup;
+using Xunit.Abstractions;
 
 namespace NTS.Judge.Tests.Sample;
 
 public class StorageTests : JudgeIntegrationTest
 {
-    public StorageTests()
-        : base(nameof(SetupState)) { }
+    public StorageTests(ITestOutputHelper testOutputHelper)
+        : base(nameof(SetupState), testOutputHelper) { }
 
     [Fact]
     public async Task Test1()

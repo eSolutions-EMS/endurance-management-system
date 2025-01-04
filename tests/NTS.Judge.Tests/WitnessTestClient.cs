@@ -5,6 +5,7 @@ using NTS.ACL.Entities;
 using NTS.ACL.Enums;
 using NTS.ACL.RPC;
 using NTS.ACL.RPC.Procedures;
+using Xunit.Abstractions;
 
 namespace NTS.Judge.Tests;
 
@@ -14,7 +15,9 @@ public class WitnessTestClient
         IEmsStartlistClientProcedures,
         ITestRpcClient
 {
-    public WitnessTestClient(IRpcSocket socket)
+    private readonly ITestOutputHelper _testOutputHelper;
+
+    public WitnessTestClient(IRpcSocket socket, ITestOutputHelper testOutputHelper)
         : base(socket)
     {
         RegisterClientProcedure<EmsStartlistEntry, EmsCollectionAction>(
@@ -25,6 +28,7 @@ public class WitnessTestClient
             nameof(ReceiveEntryUpdate),
             ReceiveEntryUpdate
         );
+        _testOutputHelper = testOutputHelper;
     }
 
     public int Id { get; }
@@ -38,14 +42,14 @@ public class WitnessTestClient
 
     public Task ReceiveEntry(EmsStartlistEntry entry, EmsCollectionAction action)
     {
-        Console.WriteLine($"-------- RPC --------- Received '{nameof(ReceiveEntry)}'");
+        _testOutputHelper.WriteLine($"-------- RPC --------- Received '{nameof(ReceiveEntry)}'");
         InvokedMethods.Add(nameof(ReceiveEntry));
         return Task.CompletedTask;
     }
 
     public Task ReceiveEntryUpdate(EmsParticipantEntry entry, EmsCollectionAction action)
     {
-        Console.WriteLine($"-------- RPC --------- Received '{nameof(ReceiveEntryUpdate)}'");
+        _testOutputHelper.WriteLine($"-------- RPC --------- Received '{nameof(ReceiveEntryUpdate)}'");
         InvokedMethods.Add(nameof(ReceiveEntryUpdate));
         return Task.CompletedTask;
     }

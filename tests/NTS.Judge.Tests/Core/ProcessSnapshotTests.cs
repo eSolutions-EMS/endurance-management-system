@@ -6,14 +6,15 @@ using NTS.Domain.Objects;
 using NTS.Judge.Core;
 using NTS.Judge.Tests.Helpers;
 using NTS.Storage.Core;
+using Xunit.Abstractions;
 using static NTS.Judge.Tests.Constants;
 
 namespace NTS.Judge.Tests.Core;
 
 public class ProcessSnapshotTests : JudgeIntegrationTest
 {
-    public ProcessSnapshotTests()
-        : base(nameof(CoreState)) { }
+    public ProcessSnapshotTests(ITestOutputHelper testOutputHelper)
+        : base(nameof(CoreState), testOutputHelper) { }
 
     IRepository<Participation> Participations =>
         Provider.GetRequiredService<IRepository<Participation>>();

@@ -6,6 +6,7 @@ using Not.Localization;
 using Not.Startup;
 using Not.Tests.RPC;
 using Xunit;
+using Xunit.Abstractions;
 using Xunit.Sdk;
 
 namespace Not.Tests;
@@ -18,17 +19,19 @@ public abstract class IntegrationTest : IDisposable
     static readonly Regex ID_REGEX = new(ID_PATTERN);
     static readonly SemaphoreSlim SEMAPHORE = new(1);
 
+    readonly ITestOutputHelper _testOutputHelper;
     string _stateName;
     string _storageFilePath;
     string _storageDirectory;
     string _testClassName;
 
-    protected IntegrationTest(string stateName)
+    protected IntegrationTest(string stateName, ITestOutputHelper testOutputHelper)
     {
         var executionDirectory = Directory.GetCurrentDirectory();
         var tempDirectory = Guid.NewGuid().ToString();
 
         _stateName = stateName;
+        _testOutputHelper = testOutputHelper;
         _storageDirectory = Path.Combine(executionDirectory, tempDirectory);
         _storageFilePath = $"{_storageDirectory}/{stateName}.json";
         _testClassName = GetType().Name;
@@ -118,13 +121,13 @@ public abstract class IntegrationTest : IDisposable
         {
             await SEMAPHORE.WaitAsync();
 
-            using var client = fixture.GetClient();
+            using var client = fixture.GetClient(_testOutputHelper);
             await client.Connect();
             await action();
             await Task.Delay(RPC_DELAY); //TODO: a more sophisticated method maybe necessary with a lot of tests
             
             var value = $"-------- RPC --------- client: '{string.Join(", ", client.InvokedMethods)}'";
-            Console.WriteLine(value);
+            _testOutputHelper.WriteLine(value);
             Assert.Contains(rpcName, client.InvokedMethods, EqualityComparer<string>.Default);
         }
         finally

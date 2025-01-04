@@ -3,6 +3,7 @@ using NTS.Domain.Objects;
 using NTS.Judge.Core;
 using NTS.Judge.Tests.Helpers;
 using NTS.Storage.Core;
+using Xunit.Abstractions;
 
 namespace NTS.Judge.Tests.Sample;
 
@@ -11,8 +12,8 @@ public class RpcIntegrationTest : JudgeIntegrationTest
 {
     private readonly WitnessRpcFixture _witnessFIxture;
 
-    public RpcIntegrationTest(WitnessRpcFixture witnessFixture)
-        : base(nameof(CoreState))
+    public RpcIntegrationTest(WitnessRpcFixture witnessFixture, ITestOutputHelper testOutputHelper)
+        : base(nameof(CoreState), testOutputHelper)
     {
         _witnessFIxture = witnessFixture;
     }

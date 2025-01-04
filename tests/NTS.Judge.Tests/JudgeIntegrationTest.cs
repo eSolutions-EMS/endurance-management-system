@@ -5,13 +5,14 @@ using Not.Injection;
 using Not.Storage.Stores;
 using Not.Tests;
 using NTS.Application;
+using Xunit.Abstractions;
 
 namespace NTS.Judge.Tests;
 
 public abstract class JudgeIntegrationTest : IntegrationTest
 {
-    protected JudgeIntegrationTest(string stateFilename)
-        : base(stateFilename) { }
+    protected JudgeIntegrationTest(string stateFilename, ITestOutputHelper testOutputHelper)
+        : base(stateFilename, testOutputHelper) { }
 
     protected override IServiceCollection ConfigureServices(string storagePath)
     {
