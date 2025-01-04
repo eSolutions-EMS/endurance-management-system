@@ -8,8 +8,8 @@
       }
     },
     "EventSpan": {
-      "StartDay": "2024-12-20T18:00:00+02:00",
-      "EndDay": "2024-12-20T18:00:00+02:00"
+      "StartDay": "2024-12-20T16:00:00+00:00",
+      "EndDay": "2024-12-20T16:00:00+00:00"
     },
     "FeiId": null,
     "FeiCode": null,
@@ -58,9 +58,11 @@
           "Ruleset": 2,
           "IsFinal": false,
           "StartTime": {
-            "_stamp": "1337-01-03T18:00:00+00:00"
+            "_stamp": "1337-01-03T16:00:00+00:00"
           },
-          "ArriveTime": null,
+          "ArriveTime": {
+            "_stamp": "1337-01-03T17:00:00+00:00"
+          },
           "PresentTime": null,
           "RepresentTime": null,
           "IsReinspectionRequested": false,

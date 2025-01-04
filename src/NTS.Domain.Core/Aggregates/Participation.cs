@@ -172,6 +172,7 @@ public class Participation : AggregateRoot, IAggregateRoot
         var phaseMessage =
             $"-------- RPC --------- Phase average phase speed: {phase.GetAveragePhaseSpeed()}";
         log?.Invoke(phaseMessage);
+        log?.Invoke($"----------- RPC ---------- Is final: {phase.IsFinal}");
         log?.Invoke($"-------- RPC --------- Violates: {violates}");
 
         log?.Invoke($"-------- RPC --------- Length: {phase.Length}");

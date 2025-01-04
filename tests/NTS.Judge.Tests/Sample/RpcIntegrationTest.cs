@@ -26,8 +26,8 @@ public class RpcIntegrationTest : JudgeIntegrationTest
     {
         await Seed();
 
-        var timestamp = TimestampHelper.Create(hour: 19);
-        var snapshot = new Snapshot(1337, SnapshotType.Stage, SnapshotMethod.Manual, timestamp);
+        var timestamp = TimestampHelper.Create(hour: 19, minute: 10);
+        var snapshot = new Snapshot(1337, SnapshotType.Vet, SnapshotMethod.Manual, timestamp);
 
         var processor = await GetBehind<ISnapshotProcessor>(_testOutputHelper.WriteLine);
 
