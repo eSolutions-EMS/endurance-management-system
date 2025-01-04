@@ -66,7 +66,9 @@ public class ParticipationBehind
     {
         var log = arguments.FirstOrDefault() as Action<string>;
         Participation.PHASE_COMPLETED_EVENT.Subscribe(_judgeRpcClient.SendStartCreated); //TODO: figure out where to subscribe?
-        Participation.ELIMINATED_EVENT.Subscribe((x) => _judgeRpcClient.SendParticipationEliminated(x, log!)); //TODO: figure out where to subscribe?
+        Participation.ELIMINATED_EVENT.Subscribe(
+            (x) => _judgeRpcClient.SendParticipationEliminated(x, log!)
+        ); //TODO: figure out where to subscribe?
         Participation.RESTORED_EVENT.Subscribe(_judgeRpcClient.SendParticipationRestored); //TODO: figure out where to subscribe?
 
         Participations = await _participationRepository.ReadAll();
