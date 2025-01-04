@@ -130,6 +130,7 @@ public abstract class IntegrationTest : IDisposable
 
             using var client = fixture.GetClient(_testOutputHelper);
             await client.Connect();
+            client.RegisterProcedures();
             await action();
             await Task.Delay(RPC_DELAY); //TODO: a more sophisticated method maybe necessary with a lot of tests
             var value =

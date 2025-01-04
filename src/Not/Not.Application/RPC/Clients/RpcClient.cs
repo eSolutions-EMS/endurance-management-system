@@ -85,11 +85,11 @@ public abstract class RpcClient : IRpcClient
         {
             connection.On<T1, T2>(
                 name,
-                (a, b) =>
+                async (a, b) =>
                 {
                     try
                     {
-                        action(a, b);
+                        await action(a, b);
                     }
                     catch (Exception exception)
                     {

@@ -28,11 +28,11 @@ public class SignalRSocket : IRpcSocket, IAsyncDisposable
     // when procedures are reigstered in the child constructor
     internal List<Action<HubConnection>> Procedures { get; } = [];
 
-    internal HubConnection? Connection { get; private set; }
-
     public event EventHandler<RpcConnectionStatus>? ServerConnectionChanged;
     public event EventHandler<string>? ServerConnectionInfo;
     public event EventHandler<RpcError>? Error;
+
+    public HubConnection? Connection { get; private set; }
 
     public bool IsConnected => Connection?.State == HubConnectionState.Connected;
 
@@ -261,6 +261,7 @@ public interface IRpcSocket
     event EventHandler<RpcConnectionStatus>? ServerConnectionChanged;
     event EventHandler<string>? ServerConnectionInfo;
     event EventHandler<RpcError>? Error;
+    HubConnection? Connection { get; }
     bool IsConnected { get; }
     Task Connect();
     Task Disconnect();
