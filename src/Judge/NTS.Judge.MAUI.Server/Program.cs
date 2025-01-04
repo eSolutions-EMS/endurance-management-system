@@ -1,9 +1,9 @@
-﻿using NTS.Application;
+﻿using Microsoft.AspNetCore.SignalR;
+using Not.Startup;
+using NTS.Application;
+using NTS.Judge.MAUI.Server;
 using NTS.Judge.MAUI.Server.ACL;
 using NTS.Judge.MAUI.Server.RPC;
-using NTS.Judge.MAUI.Server;
-using Microsoft.AspNetCore.SignalR;
-using Not.Startup;
 
 var builder = WebApplication.CreateBuilder();
 

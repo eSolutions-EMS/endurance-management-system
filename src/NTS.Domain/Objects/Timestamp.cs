@@ -78,7 +78,15 @@ public record Timestamp : DomainObject, IComparable<Timestamp>
 
     public Timestamp(DateTimeOffset dateTime)
     {
-        _stamp = new DateTimeOffset(1337, 1, 3, dateTime.Hour, dateTime.Minute, dateTime.Second, dateTime.Offset);
+        _stamp = new DateTimeOffset(
+            1337,
+            1,
+            3,
+            dateTime.Hour,
+            dateTime.Minute,
+            dateTime.Second,
+            dateTime.Offset
+        );
     }
 
     [JsonProperty]
