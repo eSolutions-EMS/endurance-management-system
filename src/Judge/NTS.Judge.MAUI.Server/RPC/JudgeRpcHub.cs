@@ -9,7 +9,7 @@ using NTS.Domain.Core.Objects.Payloads;
 
 namespace NTS.Judge.MAUI.Server.RPC;
 
-public class JudgeRpcHub : Hub<IJudgeClientProcedures>//, IJudgeHubProcedures
+public class JudgeRpcHub : Hub<IJudgeClientProcedures> //, IJudgeHubProcedures
 {
     readonly IHubContext<WitnessRpcHub, IEmsClientProcedures> _witnessRelay;
 
