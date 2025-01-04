@@ -58,7 +58,7 @@
           "Ruleset": 2,
           "IsFinal": false,
           "StartTime": {
-            "_stamp": "1337-01-03T18:00:00+02:00"
+            "_stamp": "1337-01-03T18:00:00+00:00"
           },
           "ArriveTime": null,
           "PresentTime": null,
