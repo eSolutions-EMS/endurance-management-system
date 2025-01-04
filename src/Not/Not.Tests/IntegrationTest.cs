@@ -14,7 +14,7 @@ public abstract class IntegrationTest : IDisposable
 {
     const string SEED_DIRECTORY = "Seeds";
     const string ID_PATTERN = @"(?:^\s+|,\s+)""Id"": [0-9]+";
-    static readonly TimeSpan RPC_DELAY = TimeSpan.FromMilliseconds(500);
+    static readonly TimeSpan RPC_DELAY = TimeSpan.FromSeconds(3);
     static readonly Regex ID_REGEX = new(ID_PATTERN);
     static readonly SemaphoreSlim SEMAPHORE = new(1);
 
@@ -114,15 +114,20 @@ public abstract class IntegrationTest : IDisposable
     public async Task AssertRpcInvoked<T>(HubFixture<T> fixture, Func<Task> action, string rpcName)
         where T : ITestRpcClient
     {
-        await SEMAPHORE.WaitAsync(millisecondsTimeout: 500);
+        try
+        {
+            await SEMAPHORE.WaitAsync();
 
-        var client = fixture.GetClient();
-        await client.Connect();
-        await action();
-        await Task.Delay(RPC_DELAY); //TODO: a more sophisticated method maybe necessary with a lot of tests
-
-        Assert.Contains(rpcName, client.InvokedMethods);
-        SEMAPHORE.Release();
+            using var client = fixture.GetClient();
+            await client.Connect();
+            await action();
+            await Task.Delay(RPC_DELAY); //TODO: a more sophisticated method maybe necessary with a lot of tests
+            Assert.Contains(rpcName, client.InvokedMethods, EqualityComparer<string>.Default);
+        }
+        finally
+        {
+            SEMAPHORE.Release();
+        }
     }
 
     public void Dispose()

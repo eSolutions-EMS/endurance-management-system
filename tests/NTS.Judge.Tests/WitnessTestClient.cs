@@ -14,8 +14,6 @@ public class WitnessTestClient
         IEmsStartlistClientProcedures,
         ITestRpcClient
 {
-    ITestRpcClient _thisTestClient;
-
     public WitnessTestClient(IRpcSocket socket)
         : base(socket)
     {
@@ -27,20 +25,26 @@ public class WitnessTestClient
             nameof(ReceiveEntryUpdate),
             ReceiveEntryUpdate
         );
-        _thisTestClient = this;
     }
 
-    List<string> ITestRpcClient.InvokedMethods { get; } = [];
+    public int Id { get; }
+    public List<string> InvokedMethods { get; } = [];
+
+    public void Dispose()
+    {
+        // Reset the invoked methods after each test
+        InvokedMethods.Clear();
+    }
 
     public Task ReceiveEntry(EmsStartlistEntry entry, EmsCollectionAction action)
     {
-        _thisTestClient.InvokedMethods.Add(nameof(ReceiveEntry));
+        InvokedMethods.Add(nameof(ReceiveEntry));
         return Task.CompletedTask;
     }
 
     public Task ReceiveEntryUpdate(EmsParticipantEntry entry, EmsCollectionAction action)
     {
-        _thisTestClient.InvokedMethods.Add(nameof(ReceiveEntryUpdate));
+        InvokedMethods.Add(nameof(ReceiveEntryUpdate));
         return Task.CompletedTask;
     }
 }

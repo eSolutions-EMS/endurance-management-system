@@ -12,6 +12,7 @@ public abstract class HubFixture<T> : IDisposable
     readonly string _hubPattern;
     readonly string _hubExecutable;
     SignalRSocket? _socket;
+    T? _client;
     Process? _hubProcess;
 
     public HubFixture(RpcProtocol rpcProtocol, int hubPort, string hubPattern, string hubExecutable)
@@ -27,8 +28,7 @@ public abstract class HubFixture<T> : IDisposable
 
     public T GetClient()
     {
-        _socket ??= ConfigureRpc();
-        return CreateClient(_socket);
+        return _client ?? CreateClient();
     }
 
     public void Start()
@@ -45,6 +45,12 @@ public abstract class HubFixture<T> : IDisposable
     public void Dispose()
     {
         _hubProcess?.Kill();
+    }
+
+    T CreateClient()
+    {
+        _socket ??= ConfigureRpc();
+        return _client = CreateClient(_socket);
     }
 
     SignalRSocket ConfigureRpc()
