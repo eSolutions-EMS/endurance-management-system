@@ -11,11 +11,13 @@ namespace NTS.Judge.Tests.Sample;
 public class RpcIntegrationTest : JudgeIntegrationTest
 {
     private readonly WitnessRpcFixture _witnessFIxture;
+    private readonly ITestOutputHelper _testOutputHelper;
 
     public RpcIntegrationTest(WitnessRpcFixture witnessFixture, ITestOutputHelper testOutputHelper)
         : base(nameof(CoreState), testOutputHelper)
     {
         _witnessFIxture = witnessFixture;
+        _testOutputHelper = testOutputHelper;
     }
 
     [Fact]
@@ -26,11 +28,11 @@ public class RpcIntegrationTest : JudgeIntegrationTest
         var timestamp = TimestampHelper.Create(hour: 19);
         var snapshot = new Snapshot(1337, SnapshotType.Stage, SnapshotMethod.Manual, timestamp);
 
-        var processor = await GetBehind<ISnapshotProcessor>();
+        var processor = await GetBehind<ISnapshotProcessor>(_testOutputHelper.WriteLine);
 
         await AssertRpcInvoked(
             _witnessFIxture,
-            () => processor.Process(snapshot),
+            () => processor.Process(snapshot, _testOutputHelper.WriteLine),
             nameof(WitnessTestClient.ReceiveEntryUpdate)
         );
     }

@@ -95,7 +95,7 @@ public class RfidReaderBehind : IRfidReaderBehind
 
     async Task SafeProcess(Snapshot snapshot)
     {
-        await _snapshotProcessor.Process(snapshot);
+        await _snapshotProcessor.Process(snapshot, x => { });
         var message = "Processed: " + snapshot.ToString();
         NotifyHelper.Inform(message);
     }

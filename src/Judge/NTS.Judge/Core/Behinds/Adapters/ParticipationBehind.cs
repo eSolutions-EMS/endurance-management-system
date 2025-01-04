@@ -64,8 +64,9 @@ public class ParticipationBehind
 
     protected override async Task<bool> PerformInitialization(params IEnumerable<object> arguments)
     {
+        var log = arguments.FirstOrDefault() as Action<string>;
         Participation.PHASE_COMPLETED_EVENT.Subscribe(_judgeRpcClient.SendStartCreated); //TODO: figure out where to subscribe?
-        Participation.ELIMINATED_EVENT.Subscribe(_judgeRpcClient.SendParticipationEliminated); //TODO: figure out where to subscribe?
+        Participation.ELIMINATED_EVENT.Subscribe((x) => _judgeRpcClient.SendParticipationEliminated(x, log!)); //TODO: figure out where to subscribe?
         Participation.RESTORED_EVENT.Subscribe(_judgeRpcClient.SendParticipationRestored); //TODO: figure out where to subscribe?
 
         Participations = await _participationRepository.ReadAll();
@@ -79,9 +80,9 @@ public class ParticipationBehind
         await SafeHelper.Run(action);
     }
 
-    public async Task Process(Snapshot snapshot)
+    public async Task Process(Snapshot snapshot, Action<string> log)
     {
-        Task action() => SafeProcess(snapshot);
+        Task action() => SafeProcess(snapshot, log);
         await SafeHelper.Run(action);
     }
 
@@ -132,7 +133,7 @@ public class ParticipationBehind
 
     public async Task Process(Timestamp timestamp)
     {
-        Task action() => SafeProcess(timestamp);
+        Task action() => SafeProcess(timestamp, x => { });
         await SafeHelper.Run(action);
     }
 
@@ -162,7 +163,7 @@ public class ParticipationBehind
         EmitChange();
     }
 
-    async Task SafeProcess(Timestamp timestamp)
+    async Task SafeProcess(Timestamp timestamp, Action<string> log)
     {
         var snapshot = new Snapshot(
             SelectedParticipation!.Combination.Number,
@@ -170,10 +171,10 @@ public class ParticipationBehind
             SnapshotMethod.Manual,
             timestamp
         );
-        await SafeProcess(snapshot);
+        await SafeProcess(snapshot, log);
     }
 
-    async Task SafeProcess(Snapshot snapshot)
+    async Task SafeProcess(Snapshot snapshot, Action<string> log)
     {
         var participation = Participations.FirstOrDefault(x =>
             x.Combination.Number == snapshot.Number
@@ -182,7 +183,7 @@ public class ParticipationBehind
         {
             return;
         }
-        var result = participation.Process(snapshot);
+        var result = participation.Process(snapshot, log);
         if (result.Type == SnapshotResultType.Applied)
         {
             await _participationRepository.Update(participation);

@@ -72,7 +72,7 @@ public class Participation : AggregateRoot, IAggregateRoot
     }
 
     //TODO rename to smthing better (including ISnapshotProcessor, IManualProcessor and other mentions..)
-    public SnapshotResult Process(Snapshot snapshot)
+    public SnapshotResult Process(Snapshot snapshot, Action<string> log)
     {
         if (Eliminated != null)
         {
@@ -80,7 +80,7 @@ public class Participation : AggregateRoot, IAggregateRoot
         }
 
         var result = Phases.Process(snapshot);
-        EvaluatePhase(Phases.Current);
+        EvaluatePhase(Phases.Current, log);
 
         return result;
     }
@@ -150,7 +150,7 @@ public class Participation : AggregateRoot, IAggregateRoot
         RESTORED_EVENT.Emit(qualificationRestored);
     }
 
-    void EvaluatePhase(Phase phase)
+    void EvaluatePhase(Phase phase, Action<string>? log = null)
     {
         if (phase.ViolatesRecoveryTime())
         {
@@ -161,7 +161,7 @@ public class Participation : AggregateRoot, IAggregateRoot
             phase.ViolatesSpeedRestriction(Combination.MinAverageSpeed, Combination.MaxAverageSpeed)
         )
         {
-            Eliminate(SPEED_RESTRICTION);
+            Eliminate(SPEED_RESTRICTION, log);
             return;
         }
         if (Eliminated == OUT_OF_TIME || Eliminated == SPEED_RESTRICTION)
@@ -176,10 +176,11 @@ public class Participation : AggregateRoot, IAggregateRoot
         }
     }
 
-    void Eliminate(Eliminated notQualified)
+    void Eliminate(Eliminated notQualified, Action<string>? log = null)
     {
         Eliminated = notQualified;
         var qualificationRevoked = new ParticipationEliminated(this);
         ELIMINATED_EVENT.Emit(qualificationRevoked);
+        log?.Invoke("-------- RPC --------- Eliminated invoked");
     }
 }

@@ -33,9 +33,9 @@ public class ProcessSnapshotTests : JudgeIntegrationTest
             method,
             arriveAt
         );
-        var behind = await GetBehind<ISnapshotProcessor>();
+        var behind = await GetBehind<ISnapshotProcessor>(x => { });
 
-        await behind.Process(snapshot);
+        await behind.Process(snapshot, x => { });
 
         var participation = await Participations.Read(x =>
             x.Combination.Number == DEFAULT_COMBINATION_NUMBER
@@ -57,9 +57,9 @@ public class ProcessSnapshotTests : JudgeIntegrationTest
             method,
             presentAt
         );
-        var behind = await GetBehind<ISnapshotProcessor>();
+        var behind = await GetBehind<ISnapshotProcessor>(x => { });
 
-        await behind.Process(snapshot);
+        await behind.Process(snapshot, x => { });
 
         var participation = await Participations.Read(x =>
             x.Combination.Number == DEFAULT_COMBINATION_NUMBER
