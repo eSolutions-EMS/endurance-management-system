@@ -9,7 +9,7 @@ using NTS.Domain.Core.Objects.Payloads;
 
 namespace NTS.Judge.MAUI.Server.RPC;
 
-public class JudgeRpcHub : Hub<IJudgeClientProcedures>, IJudgeHubProcedures
+public class JudgeRpcHub : Hub<IJudgeClientProcedures>//, IJudgeHubProcedures
 {
     readonly IHubContext<WitnessRpcHub, IEmsClientProcedures> _witnessRelay;
 
@@ -18,12 +18,11 @@ public class JudgeRpcHub : Hub<IJudgeClientProcedures>, IJudgeHubProcedures
         _witnessRelay = witnessRelay;
     }
 
-    public async Task SendParticipationEliminated(ParticipationEliminated revoked, Action<string> log)
+    public async Task SendParticipationEliminated(ParticipationEliminated revoked)
     {
         var emsParticipation = ParticipationFactory.CreateEms(revoked.Participation);
         var entry = new EmsParticipantEntry(emsParticipation);
         await _witnessRelay.Clients.All.ReceiveEntryUpdate(entry, EmsCollectionAction.Remove);
-        log($"-------- RPC --------- Hub invoking '{nameof(IEmsClientProcedures.ReceiveEntryUpdate)}'");
     }
 
     public async Task SendParticipationRestored(ParticipationRestored restored)
