@@ -56,7 +56,9 @@ public class WitnessTestClient
 
     public Task ReceiveEntryUpdate(EmsParticipantEntry entry, EmsCollectionAction action)
     {
-        _testOutputHelper.WriteLine($"-------- RPC --------- Received '{nameof(ReceiveEntryUpdate)}'");
+        _testOutputHelper.WriteLine(
+            $"-------- RPC --------- Received '{nameof(ReceiveEntryUpdate)}'"
+        );
         InvokedMethods.Add(nameof(ReceiveEntryUpdate));
         return Task.CompletedTask;
     }

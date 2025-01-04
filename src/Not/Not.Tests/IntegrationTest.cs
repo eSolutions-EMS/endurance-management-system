@@ -125,7 +125,8 @@ public abstract class IntegrationTest : IDisposable
             await client.Connect();
             await action();
             await Task.Delay(RPC_DELAY); //TODO: a more sophisticated method maybe necessary with a lot of tests
-            var value = $"-------- RPC --------- client: '{string.Join(", ", client.InvokedMethods)}'";
+            var value =
+                $"-------- RPC --------- client: '{string.Join(", ", client.InvokedMethods)}'";
             _testOutputHelper.WriteLine(value);
             Assert.Contains(rpcName, client.InvokedMethods, EqualityComparer<string>.Default);
         }
