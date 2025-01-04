@@ -44,7 +44,9 @@ public class WitnessTestClient
     {
         await base.Connect();
         _testOutputHelper.WriteLine($"-------- RPC ------- Connection: {Socket.IsConnected}");
-        _testOutputHelper.WriteLine($"-------- RPC ------- Procedures: {string.Join(Environment.NewLine, Socket.Procedures)}");
+        _testOutputHelper.WriteLine(
+            $"-------- RPC ------- Procedures: {string.Join(Environment.NewLine, Socket.Procedures)}"
+        );
     }
 
     public Task ReceiveEntry(EmsStartlistEntry entry, EmsCollectionAction action)

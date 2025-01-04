@@ -16,6 +16,7 @@ public abstract class RpcClient : IRpcClient
         }
         _socket = signalRSocket;
     }
+
     protected SignalRSocket Socket => _socket;
 
     public virtual async Task Connect()
