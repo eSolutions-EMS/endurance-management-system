@@ -160,12 +160,17 @@ public class Participation : AggregateRoot, IAggregateRoot
             Eliminate(OUT_OF_TIME);
             return;
         }
-        var violates = phase.ViolatesSpeedRestriction(Combination.MinAverageSpeed, Combination.MaxAverageSpeed);
+        var violates = phase.ViolatesSpeedRestriction(
+            Combination.MinAverageSpeed,
+            Combination.MaxAverageSpeed
+        );
         log?.Invoke($"-------- RPC --------- Min average speed: {Combination.MinAverageSpeed}");
         log?.Invoke($"-------- RPC --------- Max average speed: {Combination.MaxAverageSpeed}");
-        var loopMessage = $"-------- RPC --------- Phase average loop speed: {phase.GetAverageLoopSpeed()}";
+        var loopMessage =
+            $"-------- RPC --------- Phase average loop speed: {phase.GetAverageLoopSpeed()}";
         log?.Invoke(loopMessage);
-        var phaseMessage = $"-------- RPC --------- Phase average phase speed: {phase.GetAveragePhaseSpeed()}";
+        var phaseMessage =
+            $"-------- RPC --------- Phase average phase speed: {phase.GetAveragePhaseSpeed()}";
         log?.Invoke(phaseMessage);
         log?.Invoke($"-------- RPC --------- Violates: {violates}");
         
