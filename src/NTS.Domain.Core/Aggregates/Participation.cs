@@ -79,6 +79,7 @@ public class Participation : AggregateRoot, IAggregateRoot
             return SnapshotResult.NotApplied(snapshot, NotAppliedDueToNotQualified);
         }
 
+        log("-------- RPC -------- Processing..");
         var result = Phases.Process(snapshot);
         EvaluatePhase(Phases.Current, log);
 
@@ -152,8 +153,10 @@ public class Participation : AggregateRoot, IAggregateRoot
 
     void EvaluatePhase(Phase phase, Action<string>? log = null)
     {
+        log?.Invoke("-------- RPC -------- EvaluatingPhase..");
         if (phase.ViolatesRecoveryTime())
         {
+            log?.Invoke("-------- RPC -------- Eliminating (recovery)..");
             Eliminate(OUT_OF_TIME);
             return;
         }
@@ -161,25 +164,32 @@ public class Participation : AggregateRoot, IAggregateRoot
             phase.ViolatesSpeedRestriction(Combination.MinAverageSpeed, Combination.MaxAverageSpeed)
         )
         {
+            log?.Invoke("-------- RPC -------- Eliminating (speed)..");
             Eliminate(SPEED_RESTRICTION, log);
             return;
         }
         if (Eliminated == OUT_OF_TIME || Eliminated == SPEED_RESTRICTION)
         {
+            log?.Invoke("-------- RPC -------- Restoring..");
             Restore();
         }
         if (phase.IsComplete())
         {
+            log?.Invoke("-------- RPC -------- Phase is completed..");
             Phases.StartIfNext();
             var phaseCompleted = new PhaseCompleted(this);
             PHASE_COMPLETED_EVENT.Emit(phaseCompleted);
         }
+        log?.Invoke("-------- RPC -------- End..");
     }
 
     void Eliminate(Eliminated notQualified, Action<string>? log = null)
     {
+        log?.Invoke("-------- RPC --------- Eliminate 2");
         Eliminated = notQualified;
+        log?.Invoke("-------- RPC --------- Eliminate 3");
         var qualificationRevoked = new ParticipationEliminated(this);
+        log?.Invoke("-------- RPC --------- Eliminate 4");
         ELIMINATED_EVENT.Emit(qualificationRevoked);
         log?.Invoke("-------- RPC --------- Eliminated invoked");
     }
