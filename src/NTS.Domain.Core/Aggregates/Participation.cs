@@ -168,6 +168,15 @@ public class Participation : AggregateRoot, IAggregateRoot
         var phaseMessage = $"-------- RPC --------- Phase average phase speed: {phase.GetAveragePhaseSpeed()}";
         log?.Invoke(phaseMessage);
         log?.Invoke($"-------- RPC --------- Violates: {violates}");
+        
+        
+        log?.Invoke($"-------- RPC --------- Length: {phase.Length}");
+        log?.Invoke($"-------- RPC --------- StartTime: {phase.StartTime}");
+        log?.Invoke($"-------- RPC --------- ArriveTime: {phase.ArriveTime}");
+        var obj = $"-------- RPC --------- LoopSpan: {phase.GetLoopSpan()}";
+        log?.Invoke(obj);
+
+
         if (violates)
         {
             log?.Invoke("-------- RPC -------- Eliminating (speed)..");
