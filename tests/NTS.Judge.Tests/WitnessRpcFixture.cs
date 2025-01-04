@@ -8,7 +8,7 @@ namespace NTS.Judge.Tests;
 
 public class WitnessRpcFixture : HubFixture<WitnessTestClient>
 {
-    public WitnessRpcFixture()
+    public WitnessRpcFixture(ITestOutputHelper testOutputHelper)
         : base(
             RpcProtocol.Http,
             ApplicationConstants.RPC_PORT,
