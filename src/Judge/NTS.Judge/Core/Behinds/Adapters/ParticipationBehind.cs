@@ -65,6 +65,7 @@ public class ParticipationBehind
     protected override async Task<bool> PerformInitialization(params IEnumerable<object> arguments)
     {
         var log = arguments.FirstOrDefault() as Action<string>;
+        log?.Invoke("------- RPC ------- Registering events...");
         Participation.PHASE_COMPLETED_EVENT.Subscribe(_judgeRpcClient.SendStartCreated); //TODO: figure out where to subscribe?
         Participation.ELIMINATED_EVENT.Subscribe(
             (x) => _judgeRpcClient.SendParticipationEliminated(x, log!)
