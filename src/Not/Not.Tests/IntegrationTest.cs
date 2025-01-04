@@ -2,6 +2,7 @@
 using System.Text.RegularExpressions;
 using Microsoft.Extensions.DependencyInjection;
 using Not.Blazor.Ports;
+using Not.Localization;
 using Not.Startup;
 using Not.Tests.RPC;
 using Xunit;
@@ -35,6 +36,7 @@ public abstract class IntegrationTest : IDisposable
         Directory.CreateDirectory(_storageDirectory);
 
         var services = ConfigureServices(_storageDirectory);
+        services.AddDummyLocalizer();
         Provider = services.BuildServiceProvider();
 
         foreach (var initializer in Provider.GetServices<IStartupInitializer>())
