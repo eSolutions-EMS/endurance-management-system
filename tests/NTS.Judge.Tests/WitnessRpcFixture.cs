@@ -8,9 +8,8 @@ namespace NTS.Judge.Tests;
 
 public class WitnessRpcFixture : HubFixture<WitnessTestClient>
 {
-    public WitnessRpcFixture(ITestOutputHelper testOutputHelper)
+    public WitnessRpcFixture()
         : base(
-            testOutputHelper,
             RpcProtocol.Http,
             ApplicationConstants.RPC_PORT,
             ApplicationConstants.WITNESS_HUB,
@@ -26,5 +25,6 @@ public class WitnessRpcFixture : HubFixture<WitnessTestClient>
     }
 }
 
-[CollectionDefinition(nameof(WitnessRpcFixture))]
+
+[CollectionDefinition(nameof(WitnessRpcFixture), DisableParallelization = true)]
 public class HubFixtureCollection : ICollectionFixture<WitnessRpcFixture> { }

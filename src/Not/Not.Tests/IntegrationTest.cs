@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using Microsoft.Extensions.DependencyInjection;
 using Not.Blazor.Ports;
 using Not.Localization;
+using Not.Serialization;
 using Not.Startup;
 using Not.Tests.RPC;
 using Xunit;
@@ -120,6 +121,11 @@ public abstract class IntegrationTest : IDisposable
         try
         {
             await SEMAPHORE.WaitAsync();
+
+            var hubProcess = fixture.HubProcess;
+            var shortMessage =
+                $"-------- Process -------- Id: {hubProcess?.Id}, name: {hubProcess?.ProcessName}, exited: {hubProcess?.HasExited}, exitCode: {hubProcess?.ExitCode}";
+            var message = $"-------- Process -------- Serialized: {hubProcess?.ToJson()}";
 
             using var client = fixture.GetClient(_testOutputHelper);
             await client.Connect();
