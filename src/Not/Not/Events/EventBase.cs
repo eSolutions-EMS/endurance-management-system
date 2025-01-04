@@ -35,7 +35,7 @@ public abstract class EventBase<T>
 
     public void Unsubscribe(Guid key)
     {
-        lock ( _lock)
+        lock (_lock)
         {
             if (!_handlersByGuid.TryGetValue(key, out var handler))
             {
