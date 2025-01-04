@@ -16,11 +16,15 @@ public class SignalRSocket : IRpcSocket, IAsyncDisposable
 
     internal SignalRSocket(SignalRContext? context = null)
     {
-        _context = context ?? throw new ApplicationException($"SignalR socket is not configured. Use '{nameof(RpcServiceCollectionExtensions)}' to configure the socket");
+        _context =
+            context
+            ?? throw new ApplicationException(
+                $"SignalR socket is not configured. Use '{nameof(RpcServiceCollectionExtensions)}' to configure the socket"
+            );
         _name = GetType().Name;
     }
 
-    // Necessary because this.Connection instance is not intialized 
+    // Necessary because this.Connection instance is not intialized
     // when procedures are reigstered in the child constructor
     internal List<Action<HubConnection>> Procedures { get; } = [];
 
@@ -30,14 +34,14 @@ public class SignalRSocket : IRpcSocket, IAsyncDisposable
     public event EventHandler<string>? ServerConnectionInfo;
     public event EventHandler<RpcError>? Error;
 
-
     public bool IsConnected => Connection?.State == HubConnectionState.Connected;
 
     internal void RaiseError(Exception exception, string? procedure, params object?[] arguments)
     {
-        var message = procedure == null
-            ? $"RpcClient error : {exception.Message}"
-            : $"RpcClient error in '{procedure}': {exception.Message}";
+        var message =
+            procedure == null
+                ? $"RpcClient error : {exception.Message}"
+                : $"RpcClient error in '{procedure}': {exception.Message}";
         Console.WriteLine(message);
         var error = new RpcError(exception, procedure, arguments);
         Error?.Invoke(this, error);
@@ -111,7 +115,9 @@ public class SignalRSocket : IRpcSocket, IAsyncDisposable
     void ConfigureConnection()
     {
         Connection = new HubConnectionBuilder()
-            .AddNewtonsoftJsonProtocol(x => x.PayloadSerializerSettings = SerializationExtensions.SETTINGS)
+            .AddNewtonsoftJsonProtocol(x =>
+                x.PayloadSerializerSettings = SerializationExtensions.SETTINGS
+            )
             .WithUrl(_context.Url)
             .Build();
         Connection.Reconnected += HandleReconnected;
@@ -131,7 +137,9 @@ public class SignalRSocket : IRpcSocket, IAsyncDisposable
 
     Task HandleReconnecting(Exception? exception)
     {
-        RaiseReconnecting($"SignalR automatic reconnecting: {exception?.Message ?? "something went wrong"}");
+        RaiseReconnecting(
+            $"SignalR automatic reconnecting: {exception?.Message ?? "something went wrong"}"
+        );
         return Task.CompletedTask;
     }
 
@@ -150,8 +158,11 @@ public class SignalRSocket : IRpcSocket, IAsyncDisposable
         }
         else
         {
-            BeginReconnecting(_reconnectTokenSource!.Token, exception, () => _connectionClosedReconnectAttempts = 0);
-
+            BeginReconnecting(
+                _reconnectTokenSource!.Token,
+                exception,
+                () => _connectionClosedReconnectAttempts = 0
+            );
         }
         return Task.CompletedTask;
     }
@@ -166,7 +177,10 @@ public class SignalRSocket : IRpcSocket, IAsyncDisposable
         {
             if (cancellationToken.IsCancellationRequested)
             {
-                ServerConnectionInfo?.Invoke(this, "Reconecting stopped due to cancelation request");
+                ServerConnectionInfo?.Invoke(
+                    this,
+                    "Reconecting stopped due to cancelation request"
+                );
                 _reconnectionTimer.Stop();
                 _reconnectionTimer.Dispose();
             }
@@ -189,7 +203,11 @@ public class SignalRSocket : IRpcSocket, IAsyncDisposable
             {
                 if (HasReachedReconnectionAttemptLimit(++reconnectAttempts))
                 {
-                    RaiseDisconnected(new Exception("Automatic reconnection reached attempt limits. Try to reconnect manually"));
+                    RaiseDisconnected(
+                        new Exception(
+                            "Automatic reconnection reached attempt limits. Try to reconnect manually"
+                        )
+                    );
                     _reconnectionTimer.Stop();
                     _reconnectionTimer.Dispose();
                 }

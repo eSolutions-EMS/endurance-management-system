@@ -11,11 +11,11 @@ public class RpcIntegrationTest : JudgeIntegrationTest
 {
     private readonly WitnessRpcFixture _witnessFIxture;
 
-    public RpcIntegrationTest(WitnessRpcFixture witnessFixture) : base(nameof(CoreState))
+    public RpcIntegrationTest(WitnessRpcFixture witnessFixture)
+        : base(nameof(CoreState))
     {
         _witnessFIxture = witnessFixture;
     }
-
 
     [Fact]
     public async Task TestEliminatedOnRpcClient()
@@ -28,8 +28,9 @@ public class RpcIntegrationTest : JudgeIntegrationTest
         var processor = await GetBehind<ISnapshotProcessor>();
 
         await AssertRpcInvoked(
-            _witnessFIxture, 
+            _witnessFIxture,
             () => processor.Process(snapshot),
-            nameof(WitnessTestClient.ReceiveEntryUpdate));
+            nameof(WitnessTestClient.ReceiveEntryUpdate)
+        );
     }
 }
