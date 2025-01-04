@@ -89,6 +89,19 @@ public static class SafeHelper
         return Run(action, DefaultValidationHandler);
     }
 
+    public static async Task Run(Func<Task> action, Action<string> log)
+    {
+        try
+        {
+            await action();
+        }
+        catch (Exception ex)
+        {
+            log($"------- Event ------ {ex.Message}");
+            log($"------- Event ------ {ex.StackTrace}");
+        }
+    }
+
     public static void Run(Action action)
     {
         Run(action, DefaultValidationHandler);

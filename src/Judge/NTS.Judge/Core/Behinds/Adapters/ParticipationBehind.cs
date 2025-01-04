@@ -3,7 +3,6 @@ using Not.Application.CRUD.Ports;
 using Not.Blazor.CRUD.Ports;
 using Not.Exceptions;
 using Not.Safe;
-using NTS.Application.RPC;
 using NTS.Domain.Core.Aggregates;
 using NTS.Domain.Core.Aggregates.Participations;
 using NTS.Domain.Enums;
@@ -33,6 +32,7 @@ public class ParticipationBehind
     readonly IRepository<Participation> _participationRepository;
     readonly IRepository<SnapshotResult> _snapshotResultRepository;
     Participation? _selectedParticipation;
+    Action<string> _log;
 
     public ParticipationBehind(
         IJudgeRpcClient judgeRpcClient,
@@ -46,7 +46,9 @@ public class ParticipationBehind
     }
 
     public IReadOnlyList<int> RecentlyProcessed => _recentlyProcessed;
+
     public IEnumerable<Participation> Participations { get; private set; } = [];
+
     public Participation? SelectedParticipation
     {
         get => _selectedParticipation;
@@ -64,11 +66,11 @@ public class ParticipationBehind
 
     protected override async Task<bool> PerformInitialization(params IEnumerable<object> arguments)
     {
-        var log = arguments.FirstOrDefault() as Action<string>;
-        log?.Invoke("------- RPC ------- Registering events...");
+        _log = (Action<string>)arguments.First();
+        _log("------- RPC ------- Registering events...");
         Participation.PHASE_COMPLETED_EVENT.Subscribe(_judgeRpcClient.SendStartCreated); //TODO: figure out where to subscribe?
         Participation.ELIMINATED_EVENT.Subscribe(
-            (x) => _judgeRpcClient.SendParticipationEliminated(x, log!)
+            (x) => _judgeRpcClient.SendParticipationEliminated(x, _log)
         ); //TODO: figure out where to subscribe?
         Participation.RESTORED_EVENT.Subscribe(_judgeRpcClient.SendParticipationRestored); //TODO: figure out where to subscribe?
 
@@ -86,7 +88,7 @@ public class ParticipationBehind
     public async Task Process(Snapshot snapshot, Action<string> log)
     {
         Task action() => SafeProcess(snapshot, log);
-        await SafeHelper.Run(action);
+        await SafeHelper.Run(action, log);
     }
 
     public async Task RequestRepresent(bool isRequested)
