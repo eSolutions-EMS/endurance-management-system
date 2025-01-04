@@ -10,6 +10,7 @@ public class WitnessRpcFixture : HubFixture<WitnessTestClient>
 {
     public WitnessRpcFixture(ITestOutputHelper testOutputHelper)
         : base(
+            testOutputHelper,
             RpcProtocol.Http,
             ApplicationConstants.RPC_PORT,
             ApplicationConstants.WITNESS_HUB,
