@@ -75,12 +75,8 @@ public class ParticipationBehind
 
     public async Task Update(PhaseUpdateModel model)
     {
-        var participation = Participations.FirstOrDefault(x => x.Phases.Any(y => y.Id == model.Id));
-        GuardHelper.ThrowIfDefault(participation);
-
-        participation.Update(model);
-        await _participationRepository.Update(participation);
-        EmitChange();
+        Task action() => SafeUpdate(model);
+        await SafeHelper.Run(action);
     }
 
     public async Task Process(Snapshot snapshot)
@@ -138,6 +134,16 @@ public class ParticipationBehind
     {
         Task action() => SafeProcess(timestamp);
         await SafeHelper.Run(action);
+    }
+
+    async Task SafeUpdate(PhaseUpdateModel model)
+    {
+        var participation = Participations.FirstOrDefault(x => x.Phases.Any(y => y.Id == model.Id));
+        GuardHelper.ThrowIfDefault(participation);
+
+        participation.Update(model);
+        await _participationRepository.Update(participation);
+        EmitChange();
     }
 
     async Task SafeRequestReinspection(bool requestFlag)
