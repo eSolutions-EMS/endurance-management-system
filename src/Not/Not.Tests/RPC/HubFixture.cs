@@ -18,7 +18,13 @@ public abstract class HubFixture<T> : IDisposable
     T? _client;
     Process? _hubProcess;
 
-    public HubFixture(ITestOutputHelper testOutputHelper, RpcProtocol rpcProtocol, int hubPort, string hubPattern, string hubExecutable)
+    public HubFixture(
+        ITestOutputHelper testOutputHelper,
+        RpcProtocol rpcProtocol,
+        int hubPort,
+        string hubPattern,
+        string hubExecutable
+    )
     {
         _testOutputHelper = testOutputHelper;
         _rpcProtocol = rpcProtocol;
@@ -44,7 +50,9 @@ public abstract class HubFixture<T> : IDisposable
         };
 
         _hubProcess = Process.Start(info);
-        _testOutputHelper.WriteLine($"-------- Process -------- Id: {_hubProcess?.Id}, name: {_hubProcess?.ProcessName}, exited: {_hubProcess?.HasExited}, exitCode: {_hubProcess?.ExitCode}");
+        _testOutputHelper.WriteLine(
+            $"-------- Process -------- Id: {_hubProcess?.Id}, name: {_hubProcess?.ProcessName}, exited: {_hubProcess?.HasExited}, exitCode: {_hubProcess?.ExitCode}"
+        );
         var message = $"-------- Process -------- Serialized: {_hubProcess?.ToJson()}";
         _testOutputHelper.WriteLine(message);
     }
