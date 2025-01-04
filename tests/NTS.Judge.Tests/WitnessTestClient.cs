@@ -40,6 +40,13 @@ public class WitnessTestClient
         InvokedMethods.Clear();
     }
 
+    public override async Task Connect()
+    {
+        await base.Connect();
+        _testOutputHelper.WriteLine($"-------- RPC ------- Connection: {Socket.IsConnected}");
+        _testOutputHelper.WriteLine($"-------- RPC ------- Procedures: {string.Join(Environment.NewLine, Socket.Procedures)}");
+    }
+
     public Task ReceiveEntry(EmsStartlistEntry entry, EmsCollectionAction action)
     {
         _testOutputHelper.WriteLine($"-------- RPC --------- Received '{nameof(ReceiveEntry)}'");

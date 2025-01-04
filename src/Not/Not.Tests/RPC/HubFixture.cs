@@ -47,7 +47,6 @@ public abstract class HubFixture<T> : IDisposable
         _testOutputHelper.WriteLine($"-------- Process -------- Id: {_hubProcess?.Id}, name: {_hubProcess?.ProcessName}, exited: {_hubProcess?.HasExited}, exitCode: {_hubProcess?.ExitCode}");
         var message = $"-------- Process -------- Serialized: {_hubProcess?.ToJson()}";
         _testOutputHelper.WriteLine(message);
-
     }
 
     public void Dispose()
