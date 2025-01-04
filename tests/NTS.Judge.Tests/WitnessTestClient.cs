@@ -38,12 +38,14 @@ public class WitnessTestClient
 
     public Task ReceiveEntry(EmsStartlistEntry entry, EmsCollectionAction action)
     {
+        Console.WriteLine($"-------- RPC --------- Received '{nameof(ReceiveEntry)}'");
         InvokedMethods.Add(nameof(ReceiveEntry));
         return Task.CompletedTask;
     }
 
     public Task ReceiveEntryUpdate(EmsParticipantEntry entry, EmsCollectionAction action)
     {
+        Console.WriteLine($"-------- RPC --------- Received '{nameof(ReceiveEntryUpdate)}'");
         InvokedMethods.Add(nameof(ReceiveEntryUpdate));
         return Task.CompletedTask;
     }
