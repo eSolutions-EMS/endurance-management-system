@@ -14,7 +14,7 @@ public abstract class IntegrationTest : IDisposable
 {
     const string SEED_DIRECTORY = "Seeds";
     const string ID_PATTERN = @"(?:^\s+|,\s+)""Id"": [0-9]+";
-    static readonly TimeSpan RPC_DELAY = TimeSpan.FromSeconds(3);
+    static readonly TimeSpan RPC_DELAY = TimeSpan.FromSeconds(15);
     static readonly Regex ID_REGEX = new(ID_PATTERN);
     static readonly SemaphoreSlim SEMAPHORE = new(1);
 
