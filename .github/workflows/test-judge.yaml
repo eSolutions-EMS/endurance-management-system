@@ -1,11 +1,11 @@
-name: Test Judge
+name: Test Judge dotnet 8
 
 on:
   pull_request:
-    types: [opened, synchronize]
+    types: [opened, reopened, synchronize, ready_for_review]
 
 jobs:
-  build:
+  test-judge:
     runs-on: ubuntu-latest
 
     env:
