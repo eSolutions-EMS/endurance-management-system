@@ -33,4 +33,38 @@ public class RpcIntegrationTest : JudgeIntegrationTest
             nameof(WitnessTestClient.ReceiveEntryUpdate)
         );
     }
+
+    [Fact]
+    public async Task Rpc2()
+    {
+        await Seed();
+
+        var timestamp = TimestampHelper.Create(hour: 19);
+        var snapshot = new Snapshot(1337, SnapshotType.Stage, SnapshotMethod.Manual, timestamp);
+
+        var processor = await GetBehind<ISnapshotProcessor>();
+
+        await AssertRpcInvoked(
+            _witnessFIxture,
+            () => processor.Process(snapshot),
+            nameof(WitnessTestClient.ReceiveEntryUpdate)
+        );
+    }
+
+    [Fact]
+    public async Task Rpc3()
+    {
+        await Seed();
+
+        var timestamp = TimestampHelper.Create(hour: 19);
+        var snapshot = new Snapshot(1337, SnapshotType.Stage, SnapshotMethod.Manual, timestamp);
+
+        var processor = await GetBehind<ISnapshotProcessor>();
+
+        await AssertRpcInvoked(
+            _witnessFIxture,
+            () => processor.Process(snapshot),
+            nameof(WitnessTestClient.ReceiveEntryUpdate)
+        );
+    }
 }
