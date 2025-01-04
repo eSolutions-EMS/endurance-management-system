@@ -1,5 +1,7 @@
-﻿using NTS.Domain.Objects;
+﻿using NTS.Domain.Enums;
+using NTS.Domain.Objects;
 using NTS.Judge.Core;
+using NTS.Judge.Tests.Helpers;
 using NTS.Storage.Core;
 
 namespace NTS.Judge.Tests.Sample;
@@ -20,10 +22,8 @@ public class RpcIntegrationTest : JudgeIntegrationTest
     {
         await Seed();
 
-        var now = DateTimeOffset.Now;
-        var time = new DateTimeOffset(now.Year, now.Month, now.Day, 22, 17, 31, now.Offset);
-        var timestamp = new Timestamp(time);
-        var snapshot = new Snapshot(55, Domain.Enums.SnapshotType.Vet, Domain.Enums.SnapshotMethod.Manual, timestamp);
+        var timestamp = TimestampHelper.Create(hour: 19);
+        var snapshot = new Snapshot(1337, SnapshotType.Stage, SnapshotMethod.Manual, timestamp);
 
         var processor = await GetBehind<ISnapshotProcessor>();
 
