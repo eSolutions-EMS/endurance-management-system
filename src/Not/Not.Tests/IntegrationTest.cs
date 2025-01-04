@@ -16,7 +16,7 @@ public abstract class IntegrationTest : IDisposable
 {
     const string SEED_DIRECTORY = "Seeds";
     const string ID_PATTERN = @"(?:^\s+|,\s+)""Id"": [0-9]+";
-    static readonly TimeSpan RPC_DELAY = TimeSpan.FromSeconds(15);
+    static readonly TimeSpan RPC_DELAY = TimeSpan.FromSeconds(5);
     static readonly Regex ID_REGEX = new(ID_PATTERN);
     static readonly SemaphoreSlim SEMAPHORE = new(1);
 
@@ -124,8 +124,9 @@ public abstract class IntegrationTest : IDisposable
 
             var hubProcess = fixture.HubProcess;
             var shortMessage =
-                $"-------- Process -------- Id: {hubProcess?.Id}, name: {hubProcess?.ProcessName}, exited: {hubProcess?.HasExited}, exitCode: {hubProcess?.ExitCode}";
-            var message = $"-------- Process -------- Serialized: {hubProcess?.ToJson()}";
+                $"-------- Process -------- Id: {hubProcess?.Id}, name: {hubProcess?.ProcessName}, exited: {hubProcess?.HasExited}";
+            //var message = $"-------- Process -------- Serialized: {hubProcess?.ToJson()}";
+            _testOutputHelper.WriteLine(shortMessage);
 
             using var client = fixture.GetClient(_testOutputHelper);
             await client.Connect();
