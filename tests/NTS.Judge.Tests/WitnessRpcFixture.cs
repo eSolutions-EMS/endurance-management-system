@@ -16,7 +16,10 @@ public class WitnessRpcFixture : HubFixture<WitnessTestClient>
             "NTS.Judge.MAUI.Server"
         ) { }
 
-    protected override WitnessTestClient CreateClient(SignalRSocket socket, ITestOutputHelper testOutputHelper)
+    protected override WitnessTestClient CreateClient(
+        SignalRSocket socket,
+        ITestOutputHelper testOutputHelper
+    )
     {
         return new WitnessTestClient(socket, testOutputHelper);
     }
