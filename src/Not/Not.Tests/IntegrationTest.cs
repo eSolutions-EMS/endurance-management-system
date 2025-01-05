@@ -3,12 +3,10 @@ using System.Text.RegularExpressions;
 using Microsoft.Extensions.DependencyInjection;
 using Not.Blazor.Ports;
 using Not.Localization;
-using Not.Serialization;
 using Not.Startup;
 using Not.Tests.RPC;
 using Xunit;
 using Xunit.Abstractions;
-using Xunit.Sdk;
 
 namespace Not.Tests;
 
@@ -123,19 +121,10 @@ public abstract class IntegrationTest : IDisposable
             await SEMAPHORE.WaitAsync();
 
             var hubProcess = fixture.HubProcess;
-            var shortMessage =
-                $"-------- Process -------- Id: {hubProcess?.Id}, name: {hubProcess?.ProcessName}, exited: {hubProcess?.HasExited}";
-            //var message = $"-------- Process -------- Serialized: {hubProcess?.ToJson()}";
-            _testOutputHelper.WriteLine(shortMessage);
-
             using var client = fixture.GetClient(_testOutputHelper);
             await client.Connect();
-            client.RegisterProcedures();
             await action();
             await Task.Delay(RPC_DELAY); //TODO: a more sophisticated method maybe necessary with a lot of tests
-            var value =
-                $"-------- RPC --------- client: '{string.Join(", ", client.InvokedMethods)}'";
-            _testOutputHelper.WriteLine(value);
             Assert.Contains(rpcName, client.InvokedMethods, EqualityComparer<string>.Default);
         }
         finally

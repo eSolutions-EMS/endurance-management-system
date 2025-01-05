@@ -72,16 +72,15 @@ public class Participation : AggregateRoot, IAggregateRoot
     }
 
     //TODO rename to smthing better (including ISnapshotProcessor, IManualProcessor and other mentions..)
-    public SnapshotResult Process(Snapshot snapshot, Action<string> log)
+    public SnapshotResult Process(Snapshot snapshot)
     {
         if (Eliminated != null)
         {
             return SnapshotResult.NotApplied(snapshot, NotAppliedDueToNotQualified);
         }
 
-        log("-------- RPC -------- Processing..");
         var result = Phases.Process(snapshot);
-        EvaluatePhase(Phases.Current, log);
+        EvaluatePhase(Phases.Current);
 
         return result;
     }
@@ -151,65 +150,34 @@ public class Participation : AggregateRoot, IAggregateRoot
         RESTORED_EVENT.Emit(qualificationRestored);
     }
 
-    void EvaluatePhase(Phase phase, Action<string>? log = null)
+    void EvaluatePhase(Phase phase)
     {
-        log?.Invoke("-------- RPC -------- EvaluatingPhase..");
         if (phase.ViolatesRecoveryTime())
         {
-            log?.Invoke("-------- RPC -------- Eliminating (recovery)..");
             Eliminate(OUT_OF_TIME);
             return;
         }
-        var violates = phase.ViolatesSpeedRestriction(
-            Combination.MinAverageSpeed,
-            Combination.MaxAverageSpeed
-        );
-        log?.Invoke($"-------- RPC --------- Min average speed: {Combination.MinAverageSpeed}");
-        log?.Invoke($"-------- RPC --------- Max average speed: {Combination.MaxAverageSpeed}");
-        var loopMessage =
-            $"-------- RPC --------- Phase average loop speed: {phase.GetAverageLoopSpeed()}";
-        log?.Invoke(loopMessage);
-        var phaseMessage =
-            $"-------- RPC --------- Phase average phase speed: {phase.GetAveragePhaseSpeed()}";
-        log?.Invoke(phaseMessage);
-        log?.Invoke($"----------- RPC ---------- Is final: {phase.IsFinal}");
-        log?.Invoke($"-------- RPC --------- Violates: {violates}");
-
-        log?.Invoke($"-------- RPC --------- Length: {phase.Length}");
-        log?.Invoke($"-------- RPC --------- StartTime: {phase.StartTime}");
-        log?.Invoke($"-------- RPC --------- ArriveTime: {phase.ArriveTime}");
-        var obj = $"-------- RPC --------- LoopSpan: {phase.GetLoopSpan()}";
-        log?.Invoke(obj);
-
-        if (violates)
+        if (phase.ViolatesSpeedRestriction(Combination.MinAverageSpeed, Combination.MaxAverageSpeed))
         {
-            log?.Invoke("-------- RPC -------- Eliminating (speed)..");
-            Eliminate(SPEED_RESTRICTION, log);
+            Eliminate(SPEED_RESTRICTION);
             return;
         }
         if (Eliminated == OUT_OF_TIME || Eliminated == SPEED_RESTRICTION)
         {
-            log?.Invoke("-------- RPC -------- Restoring..");
             Restore();
         }
         if (phase.IsComplete())
         {
-            log?.Invoke("-------- RPC -------- Phase is completed..");
             Phases.StartIfNext();
             var phaseCompleted = new PhaseCompleted(this);
             PHASE_COMPLETED_EVENT.Emit(phaseCompleted);
         }
-        log?.Invoke("-------- RPC -------- End..");
     }
 
-    void Eliminate(Eliminated notQualified, Action<string>? log = null)
+    void Eliminate(Eliminated notQualified)
     {
-        log?.Invoke("-------- RPC --------- Eliminate 2");
         Eliminated = notQualified;
-        log?.Invoke("-------- RPC --------- Eliminate 3");
         var qualificationRevoked = new ParticipationEliminated(this);
-        log?.Invoke("-------- RPC --------- Eliminate 4");
         ELIMINATED_EVENT.Emit(qualificationRevoked);
-        log?.Invoke("-------- RPC --------- Eliminated invoked");
     }
 }

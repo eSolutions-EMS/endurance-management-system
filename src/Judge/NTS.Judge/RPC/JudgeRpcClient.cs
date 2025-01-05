@@ -12,15 +12,9 @@ public class JudgeRpcClient : RpcClient, IJudgeRpcClient
     public JudgeRpcClient(IRpcSocket socket)
         : base(socket) { }
 
-    public async Task SendParticipationEliminated(
-        ParticipationEliminated revoked,
-        Action<string> log
-    )
+    public async Task SendParticipationEliminated(ParticipationEliminated revoked)
     {
         await InvokeHubProcedure(nameof(IJudgeHubProcedures.SendParticipationEliminated), revoked);
-        log(
-            $"---------- RPC -----------  {nameof(IJudgeHubProcedures.SendParticipationEliminated)} invoked"
-        );
     }
 
     public async Task SendParticipationRestored(ParticipationRestored restored)
