@@ -157,7 +157,9 @@ public class Participation : AggregateRoot, IAggregateRoot
             Eliminate(OUT_OF_TIME);
             return;
         }
-        if (phase.ViolatesSpeedRestriction(Combination.MinAverageSpeed, Combination.MaxAverageSpeed))
+        if (
+            phase.ViolatesSpeedRestriction(Combination.MinAverageSpeed, Combination.MaxAverageSpeed)
+        )
         {
             Eliminate(SPEED_RESTRICTION);
             return;
