@@ -32,7 +32,6 @@ public class ParticipationBehind
     readonly IRepository<Participation> _participationRepository;
     readonly IRepository<SnapshotResult> _snapshotResultRepository;
     Participation? _selectedParticipation;
-    Action<string>? _log;
 
     public ParticipationBehind(
         IJudgeRpcClient judgeRpcClient,
