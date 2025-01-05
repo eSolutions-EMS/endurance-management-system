@@ -1,4 +1,4 @@
-name: "Csharpier dotnet 8"
+name: "[net8] Csharpier format"
 on:
   pull_request:
     types: [opened, reopened, synchronize, ready_for_review]
