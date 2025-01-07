@@ -1,15 +1,18 @@
-﻿using Not.Startup;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Not.Filesystem;
+using Not.Logging.Builder;
+using Not.Startup;
 using Serilog;
 
 namespace Not.Logging.Filesystem;
 
 public class FilesystemLoggerInitalizer : IStartupInitializer
 {
-    readonly IFilesystemLoggerConfiguration _configuration;
+    readonly IFileContext _context;
 
-    public FilesystemLoggerInitalizer(IFilesystemLoggerConfiguration configuration)
+    public FilesystemLoggerInitalizer([FromKeyedServices(NLogBuilder.KEY)] IFileContext context)
     {
-        _configuration = configuration;
+        _context = context;
     }
 
     public void RunAtStartup()
@@ -18,7 +21,7 @@ public class FilesystemLoggerInitalizer : IStartupInitializer
 
         Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Information()
-            .WriteTo.File($"{_configuration.Directory}/log.txt")
+            .WriteTo.File($"{_context.Path}/log.txt")
             .CreateLogger();
     }
 }

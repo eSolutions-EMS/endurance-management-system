@@ -4,7 +4,7 @@ using NTS.Domain.Setup.Aggregates;
 
 namespace NTS.Judge.Blazor.Setup.EnduranceEvents;
 
-public class EnduranceEventFormModel : IFormModel<EnduranceEvent>
+public class EnduranceEventFormModel
 {
     public EnduranceEventFormModel()
     {

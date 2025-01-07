@@ -1,3 +1,4 @@
+using Not.Blazor.Components;
 using Not.Blazor.CRUD.Forms;
 using Not.Blazor.CRUD.Forms.Components;
 using Not.Blazor.CRUD.Forms.Ports;
@@ -6,7 +7,7 @@ using Not.Domain.Base;
 
 namespace Not.Blazor.CRUD.Lists;
 
-public partial class CrudList<T, TModel, TForm>
+public partial class CrudList<T, TModel, TForm> : NComponent
     where T : AggregateRoot
     where TModel : IFormModel<T>, new()
     where TForm : NForm<TModel>

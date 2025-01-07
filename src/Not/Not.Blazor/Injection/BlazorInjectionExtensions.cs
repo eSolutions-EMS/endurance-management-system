@@ -5,6 +5,7 @@ using MudBlazor.Services;
 using Not.Blazor.CRUD.Forms;
 using Not.Blazor.Dialogs;
 using Not.Blazor.Mud;
+using Not.Blazor.Navigation;
 
 namespace Not.Blazor.Injection;
 
@@ -17,8 +18,10 @@ public static class BlazorInjectionExtensions
     {
         return services
             .AddNotMudBlazor()
-            .AddTransient(typeof(Dialog<,>)) // TODO: Use ITransiend marker, it should be resolved and if not - adjust Injection logic
-            .AddTransient(typeof(FormManager<,>));
+            .AddTransient(typeof(Dialog<,>))
+            .AddTransient(typeof(FormManager<,>))
+            .AddTransient<ILandNavigator, BlazorCrumbsNavigator>()
+            .AddTransient<ICrumbsNavigator, BlazorCrumbsNavigator>();
     }
 
     public static IServiceCollection AddNotMudBlazor(

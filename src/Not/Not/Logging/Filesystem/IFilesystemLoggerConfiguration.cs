@@ -2,5 +2,5 @@
 
 public interface IFilesystemLoggerConfiguration
 {
-    string Directory { get; }
+    string? Path { get; }
 }

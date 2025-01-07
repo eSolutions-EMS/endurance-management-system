@@ -1,12 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
-using Not.Injection;
-using Not.Logging.Builder;
-using Not.MAUI.Logging;
-using Not.Storage.Stores.Extensions;
-using NTS.Judge.Blazor;
-using NTS.Judge.MAUI.Server;
-using NTS.Judge.Shared;
-using NTS.Storage.Injection;
+﻿using System.Diagnostics;
+using NTS.Judge.RPC;
 
 namespace NTS.Judge.MAUI;
 
@@ -18,37 +11,44 @@ public static class MauiProgram
         builder
             .UseMauiApp<App>()
             .ConfigureFonts(fonts => fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular"))
-            .ConfigureBlazor();
+            .ConfigureJudgeMaui();
 
-        return builder.Build();
-    }
-}
+        var app = builder.Build();
 
-public static class ServiceCollectionExtensions
-{
-    public static MauiAppBuilder ConfigureBlazor(this MauiAppBuilder builder)
-    {
-        builder.Services.AddMauiBlazorWebView();
-#if DEBUG
-        builder.Logging.AddDebug();
-        builder.Services.AddBlazorWebViewDeveloperTools();
-#endif
-        builder.ConfigureLogging().AddFilesystemLogger<JudgeContext>();
+        ConnectToHub(app.Services);
 
-        builder
-            .Services.AddJsonFileStore<JudgeContext>()
-            .AddStaticOptionsStore<JudgeContext>()
-            .AddJudgeBlazor(builder.Configuration)
-            .AddInversedDependencies();
-
-        JudgeMauiServer.ConfigurePrentContainer(builder.Services);
-
-        return builder;
+        return app;
     }
 
-    public static IServiceCollection AddInversedDependencies(this IServiceCollection services)
+    static void ConnectToHub(IServiceProvider serviceProvider)
     {
-        services.AddStorage().AddJudge().GetConventionalAssemblies().RegisterConventionalServices();
-        return services;
+        StartHub();
+        var judgeClient = serviceProvider.GetRequiredService<IJudgeRpcClient>();
+        judgeClient.Connect();
+    }
+
+    static void StartHub()
+    {
+        try
+        {
+            var currentDirectory = Directory.GetCurrentDirectory();
+            var info = new ProcessStartInfo
+            {
+                FileName = Path.Combine(currentDirectory, "NTS.Judge.MAUI.Server.exe"),
+            };
+
+            var hubProcess = Process.Start(info);
+            AppDomain.CurrentDomain.ProcessExit += (s, e) =>
+            {
+                if (hubProcess != null && !hubProcess.HasExited)
+                {
+                    hubProcess.CloseMainWindow();
+                }
+            };
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
     }
 }

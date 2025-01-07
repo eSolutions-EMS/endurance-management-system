@@ -2,15 +2,15 @@
 using Not.Extensions;
 using Not.Injection;
 using Not.Serialization;
-using NTS.Compatibility.EMS;
-using NTS.Compatibility.EMS.Entities.Competitions;
-using NTS.Compatibility.EMS.Entities.EnduranceEvents;
-using NTS.Compatibility.EMS.Enums;
+using NTS.ACL;
+using NTS.ACL.Entities.Competitions;
+using NTS.ACL.Entities.EnduranceEvents;
+using NTS.ACL.Enums;
+using NTS.ACL.Factories;
 using NTS.Domain.Core.Aggregates;
 using NTS.Domain.Core.Aggregates.Participations;
 using NTS.Domain.Enums;
 using NTS.Domain.Objects;
-using NTS.Judge.ACL.Factories;
 using static NTS.Domain.Enums.OfficialRole;
 
 namespace NTS.Judge.ACL;
@@ -37,7 +37,7 @@ public class EmsToCoreImporter : IEmsToCoreImporter
 
     public async Task Import(string emsJson, bool adjustTime = true)
     {
-        var existingEvent = await _events.Read(default);
+        var existingEvent = await _events.Read(0);
         if (existingEvent != null)
         {
             throw new Exception($"Cannot import data as Event already exists: '{existingEvent}'");

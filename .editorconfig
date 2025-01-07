@@ -264,3 +264,11 @@ dotnet_diagnostic.CA1860.severity = none
 
 # IDE0045: Convert to conditional expression
 dotnet_diagnostic.IDE0045.severity = none
+# IDE0033: prefer expression lambda over curly bracket body
+dotnet_diagnostic.IDE0053.severity = none
+# CA1310: Specify StringComparison for correctness
+dotnet_diagnostic.CA1310.severity = warning
+# CA1310: Specify StringComparison for correctness
+dotnet_diagnostic.CA1310.severity = warning
+# CA1865: Use char overload
+dotnet_diagnostic.CA1865.severity = warning

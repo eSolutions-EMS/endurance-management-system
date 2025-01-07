@@ -3,14 +3,15 @@ using Not.Extensions;
 using Not.Injection;
 using Not.Safe;
 using Not.Serialization;
-using NTS.Compatibility.EMS;
-using NTS.Compatibility.EMS.Entities.EnduranceEvents;
+using NTS.ACL;
+using NTS.ACL.Entities.Competitions;
+using NTS.ACL.Entities.EnduranceEvents;
 using NTS.Domain.Enums;
 using NTS.Domain.Objects;
 using NTS.Domain.Setup.Aggregates;
 using static NTS.Domain.Enums.OfficialRole;
 
-namespace NTS.Judge.ACL.Adapters;
+namespace NTS.Judge.ACL;
 
 public class EmsImporters : IEmsImporter
 {
@@ -77,16 +78,14 @@ public class EmsImporters : IEmsImporter
         }
 
         static (CompetitionType type, CompetitionRuleset ruleset) MapRuleset(
-            Compatibility.EMS.Entities.Competitions.EmsCompetitionType emsType
+            EmsCompetitionType emsType
         )
         {
-            if (emsType == Compatibility.EMS.Entities.Competitions.EmsCompetitionType.National)
+            if (emsType == EmsCompetitionType.National)
             {
                 return (CompetitionType.Qualification, CompetitionRuleset.Regional);
             }
-            else if (
-                emsType == Compatibility.EMS.Entities.Competitions.EmsCompetitionType.International
-            )
+            else if (emsType == EmsCompetitionType.International)
             {
                 return (CompetitionType.Star, CompetitionRuleset.FEI);
             }

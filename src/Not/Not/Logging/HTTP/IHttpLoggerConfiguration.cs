@@ -2,5 +2,5 @@
 
 public interface IHttpLoggerConfiguration
 {
-    string Host { get; }
+    string? Host { get; }
 }

@@ -4,6 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>preview</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,7 +15,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Not.Domain\Not.Domain.csproj" />
-    <ProjectReference Include="..\Not\Not.csproj" />
   </ItemGroup>
 
 </Project>

@@ -4,17 +4,21 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <LangVersion>preview</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="8.0.10" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson" Version="9.0.0" />
+  </ItemGroup>
+  
+  <ItemGroup>
     <ProjectReference Include="..\Not.Blazor\Not.Blazor.csproj" />
-    <ProjectReference Include="..\Not.Domain\Not.Domain.csproj" />
-    <ProjectReference Include="..\Not\Not.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="CRUD\" />
-    <Folder Include="CRUD\Ports\" />
+    <InternalsVisibleTo Include="NTS.Judge.Tests" />
+    <InternalsVisibleTo Include="Not.Tests" />
   </ItemGroup>
 
 </Project>

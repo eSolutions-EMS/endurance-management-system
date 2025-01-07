@@ -1,7 +1,8 @@
 ﻿using System.Runtime.CompilerServices;
+using Microsoft.Extensions.DependencyInjection;
 using Not.Concurrency;
+using Not.Filesystem;
 using Not.Storage.States;
-using Not.Storage.Stores.Files.Ports;
 
 namespace Not.Storage.Stores.Files;
 
@@ -10,7 +11,9 @@ public class LockingJsonFileStore<T> : JsonFileStore<T>, IStore<T>
 {
     readonly TimeoutLockSemaphore _timeoutLock;
 
-    public LockingJsonFileStore(IFileStorageConfiguration configuration)
+    public LockingJsonFileStore(
+        [FromKeyedServices(StoreConstants.DATA_KEY)] IFileContext configuration
+    )
         : base(Path.Combine(configuration.Path, $"{typeof(T).Name}.json"))
     {
         _timeoutLock = new TimeoutLockSemaphore();

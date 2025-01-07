@@ -20,7 +20,7 @@ public class HttpLoggerInitializer : IStartupInitializer
         // otherwise Host will always be null
         Log.Logger = new LoggerConfiguration()
             .MinimumLevel.Information()
-            .WriteTo.Http(_configuration.Host, queueLimitBytes: null)
+            .WriteTo.Http(_configuration.Host!, queueLimitBytes: null)
             .CreateLogger();
     }
 }

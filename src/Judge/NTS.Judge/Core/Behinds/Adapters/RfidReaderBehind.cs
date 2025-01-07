@@ -3,8 +3,8 @@ using Not.Safe;
 using NTS.Domain.Core.StaticOptions;
 using NTS.Domain.Enums;
 using NTS.Domain.Objects;
-using NTS.Judge.ACL.RFID;
 using NTS.Judge.Blazor.Shared.Components.SidePanels.RFID;
+using NTS.Judge.RFID;
 
 namespace NTS.Judge.Core.Behinds.Adapters;
 
