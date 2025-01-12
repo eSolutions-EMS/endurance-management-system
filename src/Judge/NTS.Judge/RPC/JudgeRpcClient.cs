@@ -1,21 +1,29 @@
-﻿using System.Transactions;
-using Not.Application.RPC.Clients;
+﻿using Not.Application.RPC.Clients;
 using Not.Application.RPC.SignalR;
 using Not.Injection;
 using NTS.Application.RPC;
 using NTS.Domain.Core.Objects.Payloads;
 using NTS.Domain.Objects;
+using NTS.Judge.Core;
 
 namespace NTS.Judge.RPC;
 
 public class JudgeRpcClient : RpcClient, IJudgeRpcClient
 {
-    public JudgeRpcClient(IRpcSocket socket)
-        : base(socket) { }
+    readonly ISnapshotProcessor _snapshotProcessor;
+
+    public JudgeRpcClient(IRpcSocket socket, ISnapshotProcessor snapshotProcessor)
+        : base(socket)
+    {
+        _snapshotProcessor = snapshotProcessor;
+    }
 
     public async Task ReceiveSnapshots(IEnumerable<Snapshot> snapshots)
     {
-        await InvokeHubProcedure(nameof(IJudgeHubProcedures.ReceiveSnapshots), snapshots);
+        foreach (Snapshot snapshot in snapshots)
+        {
+            await _snapshotProcessor.Process(snapshot);
+        }
     }
 
     public async Task SendParticipationEliminated(ParticipationEliminated revoked)
@@ -34,4 +42,6 @@ public class JudgeRpcClient : RpcClient, IJudgeRpcClient
     }
 }
 
-public interface IJudgeRpcClient : IJudgeHubProcedures, IRpcClient, ITransient { }
+public interface IJudgeRpcClient : IJudgeHubProcedures, IJudgeClientProcedures, IRpcClient, ITransient
+{
+}

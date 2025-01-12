@@ -25,24 +25,23 @@ public class ParticipationBehind
         IEliminations,
         IDashboardBehind,
         IUpdateBehind<PhaseUpdateModel>,
-        ISnapshotProcessor,
         IManualProcessor
 {
     readonly List<int> _recentlyProcessed = [];
+    readonly ISnapshotProcessor _snapshotProcessor;
     readonly IJudgeRpcClient _judgeRpcClient;
     readonly IRepository<Participation> _participationRepository;
-    readonly IRepository<SnapshotResult> _snapshotResultRepository;
     Participation? _selectedParticipation;
 
     public ParticipationBehind(
         IJudgeRpcClient judgeRpcClient,
-        IRepository<Participation> participationRepository,
-        IRepository<SnapshotResult> snapshotResultRepository
+        ISnapshotProcessor snapshotProcessor,
+        IRepository<Participation> participationRepository
     )
     {
         _judgeRpcClient = judgeRpcClient;
+        _snapshotProcessor = snapshotProcessor;
         _participationRepository = participationRepository;
-        _snapshotResultRepository = snapshotResultRepository;
     }
 
     public IReadOnlyList<int> RecentlyProcessed => _recentlyProcessed;
@@ -80,6 +79,10 @@ public class ParticipationBehind
 
         participation.Update(model);
         await _participationRepository.Update(participation);
+        if (participation.Combination.Number == SelectedParticipation?.Combination.Number)
+        {
+            SelectedParticipation = participation;
+        }
         EmitChange();
     }
 
@@ -169,19 +172,11 @@ public class ParticipationBehind
 
     async Task SafeProcess(Snapshot snapshot)
     {
-        var participation = Participations.FirstOrDefault(x =>
-            x.Combination.Number == snapshot.Number
-        );
-        if (participation == null)
+        var participation = await _snapshotProcessor.Process(snapshot);
+        if(participation.Combination.Number == SelectedParticipation?.Combination.Number)
         {
-            return;
+            SelectedParticipation = participation;
         }
-        var result = participation.Process(snapshot);
-        if (result.Type == SnapshotResultType.Applied)
-        {
-            await _participationRepository.Update(participation);
-        }
-        await _snapshotResultRepository.Create(result);
         _recentlyProcessed.Add(participation.Combination.Number);
         EmitChange();
     }

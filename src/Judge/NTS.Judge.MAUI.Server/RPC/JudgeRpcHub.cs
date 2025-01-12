@@ -18,14 +18,6 @@ public class JudgeRpcHub : Hub<IJudgeClientProcedures>, IJudgeHubProcedures
         _witnessRelay = witnessRelay;
     }
 
-    public async Task ReceiveSnapshots(IEnumerable<Snapshot> snapshots)
-    {
-        foreach (Snapshot snapshot in snapshots)
-        {
-            //process somehow
-        }
-    }
-
     public async Task SendParticipationEliminated(ParticipationEliminated revoked)
     {
         var emsParticipation = ParticipationFactory.CreateEms(revoked.Participation);
