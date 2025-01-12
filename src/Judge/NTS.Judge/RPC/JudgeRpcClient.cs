@@ -1,4 +1,5 @@
-﻿using Not.Application.RPC.Clients;
+﻿using System.Collections.Generic;
+using Not.Application.RPC.Clients;
 using Not.Application.RPC.SignalR;
 using Not.Injection;
 using NTS.Application.RPC;
@@ -16,6 +17,7 @@ public class JudgeRpcClient : RpcClient, IJudgeRpcClient
         : base(socket)
     {
         _snapshotProcessor = snapshotProcessor;
+        RegisterClientProcedure<IEnumerable<Snapshot>>(nameof(ISnapshotProcessor.Process), ReceiveSnapshots);
     }
 
     public async Task ReceiveSnapshots(IEnumerable<Snapshot> snapshots)
