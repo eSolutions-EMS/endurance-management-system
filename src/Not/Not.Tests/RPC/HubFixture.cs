@@ -53,3 +53,4 @@ public abstract class HubFixture<T> : IDisposable
         return new SignalRSocket(context);
     }
 }
+

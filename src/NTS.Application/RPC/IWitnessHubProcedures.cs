@@ -6,4 +6,3 @@ public interface IWitnessHubProcedures
     : IEmsStartlistHubProcedures,
     IEmsParticipantsHubProcedures
 { }
-

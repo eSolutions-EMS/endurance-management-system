@@ -39,20 +39,17 @@ public abstract class RpcClient : IRpcClient
     {
         _socket.Procedures.Add(connection =>
         {
-            connection.On(
-                name,
-                () =>
+            connection.On(name, () =>
+            {
+                try
                 {
-                    try
-                    {
-                        action();
-                    }
-                    catch (Exception exception)
-                    {
-                        _socket.RaiseError(exception, name);
-                    }
+                    action();
                 }
-            );
+                catch (Exception exception)
+                {
+                    _socket.RaiseError(exception, name);
+                }
+            });
         });
     }
 
@@ -60,20 +57,17 @@ public abstract class RpcClient : IRpcClient
     {
         _socket.Procedures.Add(connection =>
         {
-            connection.On<T>(
-                name,
-                a =>
+            connection.On<T>(name, a =>
+            {
+                try
                 {
-                    try
-                    {
-                        action(a);
-                    }
-                    catch (Exception exception)
-                    {
-                        _socket.RaiseError(exception, name, a);
-                    }
+                    action(a);
                 }
-            );
+                catch (Exception exception)
+                {
+                    _socket.RaiseError(exception, name, a);
+                }
+            });
         });
     }
 
@@ -81,20 +75,17 @@ public abstract class RpcClient : IRpcClient
     {
         _socket.Procedures.Add(connection =>
         {
-            connection.On<T1, T2>(
-                name,
-                (a, b) =>
+            connection.On<T1, T2>(name, (a, b) =>
+            {
+                try
                 {
-                    try
-                    {
-                        action(a, b);
-                    }
-                    catch (Exception exception)
-                    {
-                        _socket.RaiseError(exception, name, a, b);
-                    }
+                    action(a, b);
                 }
-            );
+                catch (Exception exception)
+                {
+                    _socket.RaiseError(exception, name, a, b);
+                }
+            });
         });
     }
 
@@ -102,20 +93,17 @@ public abstract class RpcClient : IRpcClient
     {
         _socket.Procedures.Add(connection =>
         {
-            connection.On<T1, T2, T3>(
-                name,
-                (a, b, c) =>
+            connection.On<T1, T2, T3>(name, (a, b, c) =>
+            {
+                try
                 {
-                    try
-                    {
-                        action(a, b, c);
-                    }
-                    catch (Exception exception)
-                    {
-                        _socket.RaiseError(exception, name, a, b, c);
-                    }
+                    action(a, b, c);
                 }
-            );
+                catch (Exception exception)
+                {
+                    _socket.RaiseError(exception, name, a, b, c);
+                }
+            });
         });
     }
 
@@ -137,11 +125,7 @@ public abstract class RpcClient : IRpcClient
         }
     }
 
-    public async Task<RpcInvokeResult> InvokeHubProcedure<T1, T2>(
-        string name,
-        T1 parameter1,
-        T2 parameter2
-    )
+    public async Task<RpcInvokeResult> InvokeHubProcedure<T1, T2>(string name, T1 parameter1, T2 parameter2)
     {
         if (!_socket.IsConnected)
         {

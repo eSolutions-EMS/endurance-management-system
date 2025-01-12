@@ -11,7 +11,6 @@ public abstract class ReadonlyRootRepository<T, TState>
     {
         Store = store;
     }
-
     protected IStore<TState> Store { get; }
 
     protected ApplicationException NotImplemented()

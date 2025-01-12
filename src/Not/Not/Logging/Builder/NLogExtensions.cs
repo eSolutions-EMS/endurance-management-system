@@ -9,10 +9,7 @@ namespace Not.Logging.Builder;
 
 public static class NLogExtensions
 {
-    public static NLogBuilder AddHttpLogger(
-        this NLogBuilder builder,
-        Action<HttpLoggerContext> configure
-    )
+    public static NLogBuilder AddHttpLogger(this NLogBuilder builder, Action<HttpLoggerContext> configure)
     {
         var factory = NConfigHelper.CreateConfigFactory(configure);
         builder
@@ -28,10 +25,7 @@ public static class NLogExtensions
     /// <param name="services"></param>
     /// <param name="configure">Custom configuration</param>
     /// <returns></returns>
-    public static NLogBuilder AddFilesystemLogger(
-        this NLogBuilder builder,
-        Action<FileContext>? configure = null
-    )
+    public static NLogBuilder AddFilesystemLogger(this NLogBuilder builder, Action<FileContext>? configure = null)
     {
         var factory = FileContextHelper.CreateFileContextFactory(configure, "logs");
         builder

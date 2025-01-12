@@ -7,6 +7,7 @@ namespace NTS.Judge.MAUI.Server.Storage;
 
 public class ParticipationReadonlyRepository : ReadonlySetRepository<Participation, CoreState>
 {
-    public ParticipationReadonlyRepository(IStore<CoreState> store)
-        : base(store) { }
+    public ParticipationReadonlyRepository(IStore<CoreState> store) : base(store)
+    {
+    }
 }

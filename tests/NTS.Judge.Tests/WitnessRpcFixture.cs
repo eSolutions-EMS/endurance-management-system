@@ -7,13 +7,9 @@ namespace NTS.Judge.Tests;
 
 public class WitnessRpcFixture : HubFixture<WitnessTestClient>
 {
-    public WitnessRpcFixture()
-        : base(
-            RpcProtocol.Http,
-            ApplicationConstants.RPC_PORT,
-            ApplicationConstants.WITNESS_HUB,
-            "NTS.Judge.MAUI.Server"
-        ) { }
+    public WitnessRpcFixture() : base(RpcProtocol.Http, ApplicationConstants.RPC_PORT, ApplicationConstants.WITNESS_HUB, "NTS.Judge.MAUI.Server")
+    {
+    }
 
     protected override WitnessTestClient CreateClient(SignalRSocket socket)
     {
@@ -22,4 +18,7 @@ public class WitnessRpcFixture : HubFixture<WitnessTestClient>
 }
 
 [CollectionDefinition(nameof(WitnessRpcFixture))]
-public class HubFixtureCollection : ICollectionFixture<WitnessRpcFixture> { }
+public class HubFixtureCollection : ICollectionFixture<WitnessRpcFixture>
+{
+}
+

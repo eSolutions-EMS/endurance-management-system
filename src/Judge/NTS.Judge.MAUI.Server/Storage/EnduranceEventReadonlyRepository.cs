@@ -7,6 +7,7 @@ namespace NTS.Judge.MAUI.Server.Storage;
 
 public class EnduranceEventReadonlyRepository : ReadonlyRootRepository<EnduranceEvent, CoreState>
 {
-    public EnduranceEventReadonlyRepository(IStore<CoreState> store)
-        : base(store) { }
+    public EnduranceEventReadonlyRepository(IStore<CoreState> store) : base(store)
+    {
+    }
 }

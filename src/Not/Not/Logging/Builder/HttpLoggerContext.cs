@@ -10,9 +10,7 @@ public class HttpLoggerContext : INConfig
     {
         if (string.IsNullOrWhiteSpace(Host))
         {
-            throw new ApplicationException(
-                $"'{nameof(HttpLoggerContext)}.{nameof(Host)}' cannot be null or whitespace"
-            );
+            throw new ApplicationException($"'{nameof(HttpLoggerContext)}.{nameof(Host)}' cannot be null or whitespace");
         }
     }
 }

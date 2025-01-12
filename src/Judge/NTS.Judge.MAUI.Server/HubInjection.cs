@@ -1,8 +1,8 @@
-﻿using Not.Injection;
-using Not.Localization;
-using Not.Serialization;
-using NTS.ACL.Handshake;
+﻿using NTS.ACL.Handshake;
+using Not.Injection;
 using NTS.Storage;
+using Not.Serialization;
+using Not.Localization;
 
 namespace NTS.Judge.MAUI.Server;
 

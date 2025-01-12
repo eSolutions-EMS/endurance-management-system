@@ -85,7 +85,9 @@ public class EmsImporters : IEmsImporter
             {
                 return (CompetitionType.Qualification, CompetitionRuleset.Regional);
             }
-            else if (emsType == EmsCompetitionType.International)
+            else if (
+                emsType == EmsCompetitionType.International
+            )
             {
                 return (CompetitionType.Star, CompetitionRuleset.FEI);
             }
