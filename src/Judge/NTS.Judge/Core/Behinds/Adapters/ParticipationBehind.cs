@@ -77,13 +77,9 @@ public class ParticipationBehind
         var participation = Participations.FirstOrDefault(x => x.Phases.Any(y => y.Id == model.Id));
         GuardHelper.ThrowIfDefault(participation);
 
-        participation.Update(model);
+        participation.Update(model);        
         await _participationRepository.Update(participation);
-        if (participation.Combination.Number == SelectedParticipation?.Combination.Number)
-        {
-            SelectedParticipation = participation;
-        }
-        EmitChange();
+        UpdateState(participation);
     }
 
     public async Task Process(Snapshot snapshot)
@@ -173,12 +169,9 @@ public class ParticipationBehind
     async Task SafeProcess(Snapshot snapshot)
     {
         var participation = await _snapshotProcessor.Process(snapshot);
-        if(participation.Combination.Number == SelectedParticipation?.Combination.Number)
-        {
-            SelectedParticipation = participation;
-        }
+        
         _recentlyProcessed.Add(participation.Combination.Number);
-        EmitChange();
+        UpdateState(participation);
     }
 
     async Task SafeWithdraw()
@@ -233,6 +226,19 @@ public class ParticipationBehind
         SelectedParticipation.Restore();
         await _participationRepository.Update(SelectedParticipation);
 
+        EmitChange();
+    }
+
+    void UpdateState(Participation participation)
+    {
+        if(participation.Combination.Number == SelectedParticipation?.Combination.Number)
+        {
+            SelectedParticipation = participation;
+        }
+        var participations = Participations.ToList();
+        var index = participations.IndexOf(participation);
+        participations[index] = participation;
+        Participations = participations;
         EmitChange();
     }
 }
